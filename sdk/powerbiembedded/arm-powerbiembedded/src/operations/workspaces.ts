@@ -7,16 +7,16 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { Workspaces } from "../operationsInterfaces";
+import { Workspaces } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { PowerBIEmbeddedManagementClient } from "../powerBIEmbeddedManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { PowerBIEmbeddedManagementClient } from "../powerBIEmbeddedManagementClient.js";
 import {
   Workspace,
   WorkspacesListOptionalParams,
   WorkspacesListResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Workspaces operations. */

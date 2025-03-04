@@ -9,7 +9,7 @@
 import {
   RecommendedSensitivityLabelUpdateList,
   ManagedDatabaseRecommendedSensitivityLabelsUpdateOptionalParams,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a ManagedDatabaseRecommendedSensitivityLabels. */
 export interface ManagedDatabaseRecommendedSensitivityLabels {

@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Deletes the specified private dns zone group.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Deletes the specified private dns zone group.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/PrivateEndpointDnsZoneGroupDelete.json
  */
-async function deletePrivateDnsZoneGroup() {
+async function deletePrivateDnsZoneGroup(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subId";
   const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const privateEndpointName = "testPe";
@@ -35,7 +33,7 @@ async function deletePrivateDnsZoneGroup() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   deletePrivateDnsZoneGroup();
 }
 

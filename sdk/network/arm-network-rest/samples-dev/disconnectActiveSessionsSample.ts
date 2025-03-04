@@ -11,7 +11,7 @@ import "dotenv/config";
  * @summary Returns the list of currently active sessions on the Bastion.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/BastionSessionDelete.json
  */
-async function deletesTheSpecifiedActiveSession() {
+async function deletesTheSpecifiedActiveSession(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

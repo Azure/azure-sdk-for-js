@@ -155,7 +155,7 @@ function setupAbortSignal(request: PipelineRequest): {
   let abortListener: ((event: any) => void) | undefined;
   if (request.abortSignal) {
     if (request.abortSignal.aborted) {
-      throw new AbortError("The operation was aborted.");
+      throw new AbortError("The operation was aborted. Request has already been canceled.");
     }
 
     abortListener = (event: Event) => {

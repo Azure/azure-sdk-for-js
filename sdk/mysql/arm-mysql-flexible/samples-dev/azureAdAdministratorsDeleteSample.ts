@@ -7,9 +7,7 @@
  */
 import { MySQLManagementFlexibleServerClient } from "@azure/arm-mysql-flexible";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Deletes an Azure AD Administrator.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Deletes an Azure AD Administrator.
  * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/AAD/preview/2023-06-01-preview/examples/AzureADAdministratorDelete.json
  */
-async function deleteAnAzureAdAdministrator() {
+async function deleteAnAzureAdAdministrator(): Promise<void> {
   const subscriptionId =
     process.env["MYSQL_SUBSCRIPTION_ID"] || "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const resourceGroupName = process.env["MYSQL_RESOURCE_GROUP"] || "testrg";
@@ -33,7 +31,7 @@ async function deleteAnAzureAdAdministrator() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await deleteAnAzureAdAdministrator();
 }
 

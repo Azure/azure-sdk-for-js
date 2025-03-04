@@ -8,9 +8,7 @@
 import type { ApplicationTypeVersionResource } from "@azure/arm-servicefabricmanagedclusters";
 import { ServiceFabricManagedClustersManagementClient } from "@azure/arm-servicefabricmanagedclusters";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create or update a Service Fabric managed application type version resource with the specified name.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Create or update a Service Fabric managed application type version resource with the specified name.
  * x-ms-original-file: specification/servicefabricmanagedclusters/resource-manager/Microsoft.ServiceFabric/preview/2024-09-01-preview/examples/ApplicationTypeVersionPutOperation_example.json
  */
-async function putAnApplicationTypeVersion() {
+async function putAnApplicationTypeVersion(): Promise<void> {
   const subscriptionId =
     process.env["SERVICEFABRICMANAGEDCLUSTERS_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -42,7 +40,7 @@ async function putAnApplicationTypeVersion() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await putAnApplicationTypeVersion();
 }
 

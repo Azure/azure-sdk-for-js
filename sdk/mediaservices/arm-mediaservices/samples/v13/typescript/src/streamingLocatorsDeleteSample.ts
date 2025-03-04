@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { AzureMediaServices } from "@azure/arm-mediaservices";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Deletes a Streaming Locator in the Media Services account
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Deletes a Streaming Locator in the Media Services account
  * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Metadata/stable/2022-08-01/examples/streaming-locators-delete.json
  */
-async function deleteAStreamingLocator() {
+async function deleteAStreamingLocator(): Promise<void> {
   const subscriptionId =
     process.env["MEDIASERVICES_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -38,7 +36,7 @@ async function deleteAStreamingLocator() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   deleteAStreamingLocator();
 }
 

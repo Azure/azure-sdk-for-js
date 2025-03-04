@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { MySQLManagementFlexibleServerClient } from "@azure/arm-mysql-flexible";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get capabilities at specified location in a given subscription.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Get capabilities at specified location in a given subscription.
  * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/ServiceOperations/stable/2023-12-30/examples/CapabilitiesByLocationList.json
  */
-async function capabilitiesList() {
+async function capabilitiesList(): Promise<void> {
   const subscriptionId =
     process.env["MYSQL_SUBSCRIPTION_ID"] ||
     "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -37,7 +35,7 @@ async function capabilitiesList() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   capabilitiesList();
 }
 

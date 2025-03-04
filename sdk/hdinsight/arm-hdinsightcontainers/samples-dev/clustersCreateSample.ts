@@ -8,9 +8,7 @@
 import type { Cluster } from "@azure/arm-hdinsightcontainers";
 import { HDInsightContainersManagementClient } from "@azure/arm-hdinsightcontainers";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates a cluster.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Creates a cluster.
  * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/HDInsightOnAks/preview/2024-05-01-preview/examples/CreateAutoscaleCluster.json
  */
-async function hdInsightClusterPut() {
+async function hdInsightClusterPut(): Promise<void> {
   const subscriptionId =
     process.env["HDINSIGHT_SUBSCRIPTION_ID"] || "10e32bab-26da-4cc4-a441-52b318f824e6";
   const resourceGroupName = process.env["HDINSIGHT_RESOURCE_GROUP"] || "hiloResourcegroup";
@@ -115,7 +113,7 @@ async function hdInsightClusterPut() {
  * @summary Creates a cluster.
  * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/HDInsightOnAks/preview/2024-05-01-preview/examples/CreateRangerCluster.json
  */
-async function hdInsightRangerClusterPut() {
+async function hdInsightRangerClusterPut(): Promise<void> {
   const subscriptionId =
     process.env["HDINSIGHT_SUBSCRIPTION_ID"] || "10e32bab-26da-4cc4-a441-52b318f824e6";
   const resourceGroupName = process.env["HDINSIGHT_RESOURCE_GROUP"] || "hiloResourcegroup";
@@ -188,7 +186,7 @@ async function hdInsightRangerClusterPut() {
  * @summary Creates a cluster.
  * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/HDInsightOnAks/preview/2024-05-01-preview/examples/CreateSparkCluster.json
  */
-async function hdInsightSparkClusterPut() {
+async function hdInsightSparkClusterPut(): Promise<void> {
   const subscriptionId =
     process.env["HDINSIGHT_SUBSCRIPTION_ID"] || "10e32bab-26da-4cc4-a441-52b318f824e6";
   const resourceGroupName = process.env["HDINSIGHT_RESOURCE_GROUP"] || "hiloResourcegroup";
@@ -279,7 +277,7 @@ async function hdInsightSparkClusterPut() {
  * @summary Creates a cluster.
  * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/HDInsightOnAks/preview/2024-05-01-preview/examples/CreateSparkClusterWithInternalIngress.json
  */
-async function hdInsightSparkClusterPutWithInternalIngress() {
+async function hdInsightSparkClusterPutWithInternalIngress(): Promise<void> {
   const subscriptionId =
     process.env["HDINSIGHT_SUBSCRIPTION_ID"] || "10e32bab-26da-4cc4-a441-52b318f824e6";
   const resourceGroupName = process.env["HDINSIGHT_RESOURCE_GROUP"] || "hiloResourcegroup";
@@ -365,7 +363,7 @@ async function hdInsightSparkClusterPutWithInternalIngress() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await hdInsightClusterPut();
   await hdInsightRangerClusterPut();
   await hdInsightSparkClusterPut();

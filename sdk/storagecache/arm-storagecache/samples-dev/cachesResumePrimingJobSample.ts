@@ -11,9 +11,7 @@ import type {
 } from "@azure/arm-storagecache";
 import { StorageCacheManagementClient } from "@azure/arm-storagecache";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Resumes a paused priming job.
@@ -21,7 +19,7 @@ dotenv.config();
  * @summary Resumes a paused priming job.
  * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2024-03-01/examples/ResumePrimingJob.json
  */
-async function resumePrimingJob() {
+async function resumePrimingJob(): Promise<void> {
   const subscriptionId =
     process.env["STORAGECACHE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = process.env["STORAGECACHE_RESOURCE_GROUP"] || "scgroup";
@@ -40,7 +38,7 @@ async function resumePrimingJob() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await resumePrimingJob();
 }
 

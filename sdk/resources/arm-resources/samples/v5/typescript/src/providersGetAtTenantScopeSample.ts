@@ -6,16 +6,12 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import {
   ProvidersGetAtTenantScopeOptionalParams,
   ResourceManagementClient
 } from "@azure/arm-resources";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets the specified resource provider at the tenant level.
@@ -23,7 +19,7 @@ dotenv.config();
  * @summary Gets the specified resource provider at the tenant level.
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2021-04-01/examples/GetNamedProviderAtTenant.json
  */
-async function getAResourceProviderAtTenantScope() {
+async function getAResourceProviderAtTenantScope(): Promise<void> {
   const subscriptionId =
     process.env["RESOURCES_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -39,7 +35,7 @@ async function getAResourceProviderAtTenantScope() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getAResourceProviderAtTenantScope();
 }
 

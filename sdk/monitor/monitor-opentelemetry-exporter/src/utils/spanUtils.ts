@@ -3,7 +3,7 @@
 
 import type { ReadableSpan, TimedEvent } from "@opentelemetry/sdk-trace-base";
 import { hrTimeToMilliseconds } from "@opentelemetry/core";
-import type { Link, Attributes } from "@opentelemetry/api";
+import type { Link, Attributes, AttributeValue } from "@opentelemetry/api";
 import { diag, SpanKind, SpanStatusCode } from "@opentelemetry/api";
 import {
   DBSYSTEMVALUES_MONGODB,
@@ -20,17 +20,31 @@ import {
   SEMATTRS_EXCEPTION_STACKTRACE,
   SEMATTRS_EXCEPTION_TYPE,
   SEMATTRS_HTTP_CLIENT_IP,
-  SEMATTRS_HTTP_HOST,
   SEMATTRS_HTTP_METHOD,
-  SEMATTRS_HTTP_ROUTE,
   SEMATTRS_HTTP_STATUS_CODE,
   SEMATTRS_HTTP_URL,
   SEMATTRS_HTTP_USER_AGENT,
   SEMATTRS_NET_PEER_IP,
-  SEMATTRS_NET_PEER_NAME,
-  SEMATTRS_PEER_SERVICE,
   SEMATTRS_RPC_GRPC_STATUS_CODE,
   SEMATTRS_RPC_SYSTEM,
+  ATTR_HTTP_REQUEST_METHOD,
+  ATTR_CLIENT_ADDRESS,
+  ATTR_NETWORK_PEER_ADDRESS,
+  ATTR_USER_AGENT_ORIGINAL,
+  ATTR_HTTP_ROUTE,
+  ATTR_URL_FULL,
+  ATTR_HTTP_RESPONSE_STATUS_CODE,
+  SEMATTRS_HTTP_SCHEME,
+  ATTR_URL_SCHEME,
+  SEMATTRS_HTTP_TARGET,
+  ATTR_URL_PATH,
+  ATTR_URL_QUERY,
+  ATTR_SERVER_ADDRESS,
+  SEMATTRS_HTTP_HOST,
+  SEMATTRS_NET_PEER_NAME,
+  ATTR_CLIENT_PORT,
+  ATTR_SERVER_PORT,
+  SEMATTRS_NET_PEER_PORT,
 } from "@opentelemetry/semantic-conventions";
 
 import {
@@ -42,7 +56,7 @@ import {
   serializeAttribute,
 } from "./common.js";
 import type { Tags, Properties, MSLink, Measurements } from "../types.js";
-import { MaxPropertyLengths } from "../types.js";
+import { httpSemanticValues, legacySemanticValues, MaxPropertyLengths } from "../types.js";
 import { parseEventHubSpan } from "./eventhub.js";
 import {
   AzureMonitorSampleRate,
@@ -71,21 +85,20 @@ function createTagsFromSpan(span: ReadableSpan): Tags {
   if (endUserId) {
     tags[KnownContextTagKeys.AiUserId] = String(endUserId);
   }
-  const httpUserAgent = span.attributes[SEMATTRS_HTTP_USER_AGENT];
+  const httpUserAgent = getUserAgent(span.attributes);
   if (httpUserAgent) {
     // TODO: Not exposed in Swagger, need to update def
     tags["ai.user.userAgent"] = String(httpUserAgent);
   }
   if (span.kind === SpanKind.SERVER) {
-    const httpMethod = span.attributes[SEMATTRS_HTTP_METHOD];
-    const httpClientIp = span.attributes[SEMATTRS_HTTP_CLIENT_IP];
-    const netPeerIp = span.attributes[SEMATTRS_NET_PEER_IP];
+    const httpMethod = getHttpMethod(span.attributes);
+    getLocationIp(tags, span.attributes);
     if (httpMethod) {
-      const httpRoute = span.attributes[SEMATTRS_HTTP_ROUTE];
-      const httpUrl = span.attributes[SEMATTRS_HTTP_URL];
+      const httpRoute = span.attributes[ATTR_HTTP_ROUTE];
+      const httpUrl = getHttpUrl(span.attributes);
       tags[KnownContextTagKeys.AiOperationName] = span.name; // Default
       if (httpRoute) {
-        // AiOperationName max lenght is 1024
+        // AiOperationName max length is 1024
         // https://github.com/MohanGsk/ApplicationInsights-Home/blob/master/EndpointSpecs/Schemas/Bond/ContextTagKeys.bond
         tags[KnownContextTagKeys.AiOperationName] = String(
           `${httpMethod as string} ${httpRoute as string}`,
@@ -100,16 +113,8 @@ function createTagsFromSpan(span: ReadableSpan): Tags {
           /* no-op */
         }
       }
-      if (httpClientIp) {
-        tags[KnownContextTagKeys.AiLocationIp] = String(httpClientIp);
-      } else if (netPeerIp) {
-        tags[KnownContextTagKeys.AiLocationIp] = String(netPeerIp);
-      }
     } else {
       tags[KnownContextTagKeys.AiOperationName] = span.name;
-      if (netPeerIp) {
-        tags[KnownContextTagKeys.AiLocationIp] = String(netPeerIp);
-      }
     }
   } else {
     if (span.attributes[KnownContextTagKeys.AiOperationName]) {
@@ -134,24 +139,8 @@ function createPropertiesFromSpanAttributes(attributes?: Attributes): {
         !(
           key.startsWith("_MS.") ||
           key.startsWith("microsoft.") ||
-          key === SEMATTRS_NET_PEER_IP ||
-          key === SEMATTRS_NET_PEER_NAME ||
-          key === SEMATTRS_PEER_SERVICE ||
-          key === SEMATTRS_HTTP_METHOD ||
-          key === SEMATTRS_HTTP_URL ||
-          key === SEMATTRS_HTTP_STATUS_CODE ||
-          key === SEMATTRS_HTTP_ROUTE ||
-          key === SEMATTRS_HTTP_HOST ||
-          key === SEMATTRS_HTTP_URL ||
-          key === SEMATTRS_DB_SYSTEM ||
-          key === SEMATTRS_DB_STATEMENT ||
-          key === SEMATTRS_DB_OPERATION ||
-          key === SEMATTRS_DB_NAME ||
-          key === SEMATTRS_RPC_SYSTEM ||
-          key === SEMATTRS_RPC_GRPC_STATUS_CODE ||
-          key === SEMATTRS_EXCEPTION_TYPE ||
-          key === SEMATTRS_EXCEPTION_MESSAGE ||
-          key === SEMATTRS_EXCEPTION_STACKTRACE ||
+          legacySemanticValues.includes(key) ||
+          httpSemanticValues.includes(key as any) ||
           key === (KnownContextTagKeys.AiOperationName as string)
         )
       ) {
@@ -193,12 +182,12 @@ function createDependencyData(span: ReadableSpan): RemoteDependencyData {
     remoteDependencyData.type = DependencyTypes.InProc;
   }
 
-  const httpMethod = span.attributes[SEMATTRS_HTTP_METHOD];
+  const httpMethod = getHttpMethod(span.attributes);
   const dbSystem = span.attributes[SEMATTRS_DB_SYSTEM];
   const rpcSystem = span.attributes[SEMATTRS_RPC_SYSTEM];
   // HTTP Dependency
   if (httpMethod) {
-    const httpUrl = span.attributes[SEMATTRS_HTTP_URL];
+    const httpUrl = getHttpUrl(span.attributes);
     if (httpUrl) {
       try {
         const dependencyUrl = new URL(String(httpUrl));
@@ -209,7 +198,7 @@ function createDependencyData(span: ReadableSpan): RemoteDependencyData {
     }
     remoteDependencyData.type = DependencyTypes.Http;
     remoteDependencyData.data = getUrl(span.attributes);
-    const httpStatusCode = span.attributes[SEMATTRS_HTTP_STATUS_CODE];
+    const httpStatusCode = getHttpStatusCode(span.attributes);
     if (httpStatusCode) {
       remoteDependencyData.resultCode = String(httpStatusCode);
     }
@@ -293,17 +282,17 @@ function createRequestData(span: ReadableSpan): RequestData {
     id: `${span.spanContext().spanId}`,
     success:
       span.status.code !== SpanStatusCode.ERROR &&
-      (Number(span.attributes[SEMATTRS_HTTP_STATUS_CODE]) || 0) < 400,
+      (Number(getHttpStatusCode(span.attributes)) || 0) < 400,
     responseCode: "0",
     duration: msToTimeSpan(hrTimeToMilliseconds(span.duration)),
     version: 2,
     source: undefined,
   };
-  const httpMethod = span.attributes[SEMATTRS_HTTP_METHOD];
+  const httpMethod = getHttpMethod(span.attributes);
   const grpcStatusCode = span.attributes[SEMATTRS_RPC_GRPC_STATUS_CODE];
   if (httpMethod) {
     requestData.url = getUrl(span.attributes);
-    const httpStatusCode = span.attributes[SEMATTRS_HTTP_STATUS_CODE];
+    const httpStatusCode = getHttpStatusCode(span.attributes);
     if (httpStatusCode) {
       requestData.responseCode = String(httpStatusCode);
     }
@@ -506,4 +495,104 @@ export function spanEventsToEnvelopes(span: ReadableSpan, ikey: string): Envelop
     });
   }
   return envelopes;
+}
+
+export function getPeerIp(attributes: Attributes): AttributeValue | undefined {
+  if (attributes) {
+    return attributes[ATTR_NETWORK_PEER_ADDRESS] || attributes[SEMATTRS_NET_PEER_IP];
+  }
+  return;
+}
+
+export function getLocationIp(tags: Tags, attributes: Attributes): void {
+  if (attributes) {
+    const httpClientIp = getHttpClientIp(attributes);
+    const netPeerIp = getPeerIp(attributes);
+    if (httpClientIp) {
+      tags[KnownContextTagKeys.AiLocationIp] = String(httpClientIp);
+    } else if (netPeerIp) {
+      tags[KnownContextTagKeys.AiLocationIp] = String(netPeerIp);
+    }
+  }
+}
+
+export function getHttpClientIp(attributes: Attributes): AttributeValue | undefined {
+  if (attributes) {
+    return attributes[ATTR_CLIENT_ADDRESS] || attributes[SEMATTRS_HTTP_CLIENT_IP];
+  }
+  return;
+}
+
+export function getUserAgent(attributes: Attributes): AttributeValue | undefined {
+  if (attributes) {
+    return attributes[ATTR_USER_AGENT_ORIGINAL] || attributes[SEMATTRS_HTTP_USER_AGENT];
+  }
+  return;
+}
+
+export function getHttpUrl(attributes: Attributes): AttributeValue | undefined {
+  // Stable sem conv only supports populating url from `url.full`
+  if (attributes) {
+    return attributes[ATTR_URL_FULL] || attributes[SEMATTRS_HTTP_URL];
+  }
+  return;
+}
+
+export function getHttpMethod(attributes: Attributes): AttributeValue | undefined {
+  if (attributes) {
+    return attributes[ATTR_HTTP_REQUEST_METHOD] || attributes[SEMATTRS_HTTP_METHOD];
+  }
+  return;
+}
+
+export function getHttpStatusCode(attributes: Attributes): AttributeValue | undefined {
+  if (attributes) {
+    return attributes[ATTR_HTTP_RESPONSE_STATUS_CODE] || attributes[SEMATTRS_HTTP_STATUS_CODE];
+  }
+  return;
+}
+
+export function getHttpScheme(attributes: Attributes): AttributeValue | undefined {
+  if (attributes) {
+    return attributes[ATTR_URL_SCHEME] || attributes[SEMATTRS_HTTP_SCHEME];
+  }
+  return;
+}
+
+export function getHttpTarget(attributes: Attributes): AttributeValue | undefined {
+  if (attributes) {
+    if (attributes[ATTR_URL_PATH]) {
+      return attributes[ATTR_URL_PATH];
+    }
+    if (attributes[ATTR_URL_QUERY]) {
+      return attributes[ATTR_URL_QUERY];
+    }
+    return attributes[SEMATTRS_HTTP_TARGET];
+  }
+  return;
+}
+
+export function getHttpHost(attributes: Attributes): AttributeValue | undefined {
+  if (attributes) {
+    return attributes[ATTR_SERVER_ADDRESS] || attributes[SEMATTRS_HTTP_HOST];
+  }
+  return;
+}
+
+export function getNetPeerName(attributes: Attributes): AttributeValue | undefined {
+  if (attributes) {
+    return attributes[ATTR_CLIENT_ADDRESS] || attributes[SEMATTRS_NET_PEER_NAME];
+  }
+  return;
+}
+
+export function getNetPeerPort(attributes: Attributes): AttributeValue | undefined {
+  if (attributes) {
+    return (
+      attributes[ATTR_CLIENT_PORT] ||
+      attributes[ATTR_SERVER_PORT] ||
+      attributes[SEMATTRS_NET_PEER_PORT]
+    );
+  }
+  return;
 }

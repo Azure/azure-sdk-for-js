@@ -8,9 +8,7 @@
 import type { ImageTemplateUpdateParameters } from "@azure/arm-imagebuilder";
 import { ImageBuilderClient } from "@azure/arm-imagebuilder";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Update the tags for this Virtual Machine Image Template
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Update the tags for this Virtual Machine Image Template
  * x-ms-original-file: specification/imagebuilder/resource-manager/Microsoft.VirtualMachineImages/stable/2024-02-01/examples/UpdateImageTemplateToRemoveIdentities.json
  */
-async function removeIdentitiesForAnImageTemplate() {
+async function removeIdentitiesForAnImageTemplate(): Promise<void> {
   const subscriptionId = process.env["IMAGEBUILDER_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName = process.env["IMAGEBUILDER_RESOURCE_GROUP"] || "myResourceGroup";
   const imageTemplateName = "myImageTemplate";
@@ -41,7 +39,7 @@ async function removeIdentitiesForAnImageTemplate() {
  * @summary Update the tags for this Virtual Machine Image Template
  * x-ms-original-file: specification/imagebuilder/resource-manager/Microsoft.VirtualMachineImages/stable/2024-02-01/examples/UpdateImageTemplateVmProfile.json
  */
-async function updateParametersForVMProfile() {
+async function updateParametersForVMProfile(): Promise<void> {
   const subscriptionId = process.env["IMAGEBUILDER_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName = process.env["IMAGEBUILDER_RESOURCE_GROUP"] || "myResourceGroup";
   const imageTemplateName = "myImageTemplate";
@@ -74,7 +72,7 @@ async function updateParametersForVMProfile() {
  * @summary Update the tags for this Virtual Machine Image Template
  * x-ms-original-file: specification/imagebuilder/resource-manager/Microsoft.VirtualMachineImages/stable/2024-02-01/examples/UpdateImageTemplateTags.json
  */
-async function updateTheTagsForAnImageTemplate() {
+async function updateTheTagsForAnImageTemplate(): Promise<void> {
   const subscriptionId = process.env["IMAGEBUILDER_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName = process.env["IMAGEBUILDER_RESOURCE_GROUP"] || "myResourceGroup";
   const imageTemplateName = "myImageTemplate";
@@ -91,7 +89,7 @@ async function updateTheTagsForAnImageTemplate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await removeIdentitiesForAnImageTemplate();
   await updateParametersForVMProfile();
   await updateTheTagsForAnImageTemplate();

@@ -11,7 +11,7 @@ import "dotenv/config";
  * @summary Initiate troubleshooting on a specified resource.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/NetworkWatcherTroubleshootGet.json
  */
-async function getTroubleshooting() {
+async function getTroubleshooting(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

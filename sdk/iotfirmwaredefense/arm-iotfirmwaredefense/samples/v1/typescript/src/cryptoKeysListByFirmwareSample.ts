@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { IoTFirmwareDefenseClient } from "@azure/arm-iotfirmwaredefense";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists cryptographic key analysis results found in a firmware.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Lists cryptographic key analysis results found in a firmware.
  * x-ms-original-file: specification/fist/resource-manager/Microsoft.IoTFirmwareDefense/stable/2024-01-10/examples/CryptoKeys_ListByFirmware_MaximumSet_Gen.json
  */
-async function cryptoKeysListByFirmwareMaximumSetGen() {
+async function cryptoKeysListByFirmwareMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["IOTFIRMWAREDEFENSE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -47,7 +45,7 @@ async function cryptoKeysListByFirmwareMaximumSetGen() {
  * @summary Lists cryptographic key analysis results found in a firmware.
  * x-ms-original-file: specification/fist/resource-manager/Microsoft.IoTFirmwareDefense/stable/2024-01-10/examples/CryptoKeys_ListByFirmware_MinimumSet_Gen.json
  */
-async function cryptoKeysListByFirmwareMinimumSetGen() {
+async function cryptoKeysListByFirmwareMinimumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["IOTFIRMWAREDEFENSE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -68,7 +66,7 @@ async function cryptoKeysListByFirmwareMinimumSetGen() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   cryptoKeysListByFirmwareMaximumSetGen();
   cryptoKeysListByFirmwareMinimumSetGen();
 }

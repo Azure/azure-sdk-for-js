@@ -8,9 +8,7 @@
 import type { AzureDevOpsConnector } from "@azure/arm-securitydevops";
 import { MicrosoftSecurityDevOps } from "@azure/arm-securitydevops";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates or updates an Azure DevOps Connector.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Creates or updates an Azure DevOps Connector.
  * x-ms-original-file: specification/securitydevops/resource-manager/Microsoft.SecurityDevOps/preview/2022-09-01-preview/examples/AzureDevOpsConnectorCreateOrUpdate.json
  */
-async function azureDevOpsConnectorCreateOrUpdate() {
+async function azureDevOpsConnectorCreateOrUpdate(): Promise<void> {
   const subscriptionId =
     process.env["SECURITYDEVOPS_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = process.env["SECURITYDEVOPS_RESOURCE_GROUP"] || "westusrg";
@@ -45,7 +43,7 @@ async function azureDevOpsConnectorCreateOrUpdate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await azureDevOpsConnectorCreateOrUpdate();
 }
 

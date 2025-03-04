@@ -20,7 +20,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary API to register a new Kubernetes cluster and create a tracked resource in Azure Resource Manager (ARM).
  * x-ms-original-file: specification/hybridkubernetes/resource-manager/Microsoft.Kubernetes/stable/2021-10-01/examples/CreateClusterExample.json
  */
-async function createClusterExample() {
+async function createClusterExample(): Promise<void> {
   const subscriptionId = "1bfbb5d0-917e-4346-9026-1d3b344417f5";
   const resourceGroupName = "k8sc-rg";
   const clusterName = "testCluster";

@@ -7,9 +7,7 @@
  */
 import { SearchManagementClient } from "@azure/arm-search";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists all of the available REST API operations of the Microsoft.Search provider.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Lists all of the available REST API operations of the Microsoft.Search provider.
  * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/preview/2024-06-01-preview/examples/SearchListOperations.json
  */
-async function searchListOperations() {
+async function searchListOperations(): Promise<void> {
   const subscriptionId =
     process.env["SEARCH_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
@@ -29,7 +27,7 @@ async function searchListOperations() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await searchListOperations();
 }
 

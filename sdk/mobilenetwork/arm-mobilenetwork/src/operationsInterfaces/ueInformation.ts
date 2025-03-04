@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { UeInfo, UeInformationListOptionalParams } from "../models";
+import { UeInfo, UeInformationListOptionalParams } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a UeInformation. */

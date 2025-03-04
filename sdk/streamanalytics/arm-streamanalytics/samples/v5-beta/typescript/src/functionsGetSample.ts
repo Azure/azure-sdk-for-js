@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { StreamAnalyticsManagementClient } from "@azure/arm-streamanalytics";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets details about the specified function.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Gets details about the specified function.
  * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/preview/2021-10-01-preview/examples/Function_Get_JavaScript.json
  */
-async function getAJavaScriptFunction() {
+async function getAJavaScriptFunction(): Promise<void> {
   const subscriptionId =
     process.env["STREAMANALYTICS_SUBSCRIPTION_ID"] ||
     "56b5e0a9-b645-407d-99b0-c64f86013e3d";
@@ -47,7 +45,7 @@ async function getAJavaScriptFunction() {
  * @summary Gets details about the specified function.
  * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/preview/2021-10-01-preview/examples/Function_Get_AzureML.json
  */
-async function getAnAzureMlFunction() {
+async function getAnAzureMlFunction(): Promise<void> {
   const subscriptionId =
     process.env["STREAMANALYTICS_SUBSCRIPTION_ID"] ||
     "56b5e0a9-b645-407d-99b0-c64f86013e3d";
@@ -68,7 +66,7 @@ async function getAnAzureMlFunction() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getAJavaScriptFunction();
   getAnAzureMlFunction();
 }

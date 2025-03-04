@@ -12,7 +12,7 @@ import {
   SubscriptionUsagesListByLocationOptionalParams,
   SubscriptionUsagesGetOptionalParams,
   SubscriptionUsagesGetResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a SubscriptionUsages. */

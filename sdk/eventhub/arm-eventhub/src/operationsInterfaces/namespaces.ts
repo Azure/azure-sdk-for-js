@@ -21,6 +21,9 @@ import {
   NamespacesGetResponse,
   NamespacesUpdateOptionalParams,
   NamespacesUpdateResponse,
+  FailOver,
+  NamespacesFailoverOptionalParams,
+  NamespacesFailoverResponse,
   NetworkRuleSet,
   NamespacesCreateOrUpdateNetworkRuleSetOptionalParams,
   NamespacesCreateOrUpdateNetworkRuleSetResponse,
@@ -155,6 +158,37 @@ export interface Namespaces {
     parameters: EHNamespace,
     options?: NamespacesUpdateOptionalParams,
   ): Promise<NamespacesUpdateResponse>;
+  /**
+   * GeoDR Failover
+   * @param resourceGroupName Name of the resource group within the azure subscription.
+   * @param namespaceName The Namespace name
+   * @param parameters Parameters for updating a namespace resource.
+   * @param options The options parameters.
+   */
+  beginFailover(
+    resourceGroupName: string,
+    namespaceName: string,
+    parameters: FailOver,
+    options?: NamespacesFailoverOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<NamespacesFailoverResponse>,
+      NamespacesFailoverResponse
+    >
+  >;
+  /**
+   * GeoDR Failover
+   * @param resourceGroupName Name of the resource group within the azure subscription.
+   * @param namespaceName The Namespace name
+   * @param parameters Parameters for updating a namespace resource.
+   * @param options The options parameters.
+   */
+  beginFailoverAndWait(
+    resourceGroupName: string,
+    namespaceName: string,
+    parameters: FailOver,
+    options?: NamespacesFailoverOptionalParams,
+  ): Promise<NamespacesFailoverResponse>;
   /**
    * Create or update NetworkRuleSet for a Namespace.
    * @param resourceGroupName Name of the resource group within the azure subscription.

@@ -13,7 +13,7 @@ import "dotenv/config";
  * @summary Lists IKE Security Associations for Vpn Site Link Connection in the specified resource group.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/VpnSiteLinkConnectionGetIkeSas.json
  */
-async function getVpnLinkConnectionIkeSa() {
+async function getVpnLinkConnectionIkeSa(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

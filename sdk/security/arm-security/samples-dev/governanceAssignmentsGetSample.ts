@@ -7,9 +7,7 @@
  */
 import { SecurityCenter } from "@azure/arm-security";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get a specific governanceAssignment for the requested scope by AssignmentKey
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Get a specific governanceAssignment for the requested scope by AssignmentKey
  * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/preview/2022-01-01-preview/examples/GovernanceAssignments/GetGovernanceAssignment_example.json
  */
-async function getGovernanceAssignmentBySpecificGovernanceAssignmentKey() {
+async function getGovernanceAssignmentBySpecificGovernanceAssignmentKey(): Promise<void> {
   const scope =
     "subscriptions/c32e05d9-7207-4e22-bdf4-4f7d9c72e5fd/resourceGroups/compute_servers/providers/Microsoft.Compute/virtualMachines/win2012";
   const assessmentName = "6b9421dd-5555-2251-9b3d-2be58e2f82cd";
@@ -28,7 +26,7 @@ async function getGovernanceAssignmentBySpecificGovernanceAssignmentKey() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await getGovernanceAssignmentBySpecificGovernanceAssignmentKey();
 }
 

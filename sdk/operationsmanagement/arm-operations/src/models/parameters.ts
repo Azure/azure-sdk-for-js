@@ -16,7 +16,7 @@ import {
   SolutionPatch as SolutionPatchMapper,
   ManagementAssociation as ManagementAssociationMapper,
   ManagementConfiguration as ManagementConfigurationMapper
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const contentType: OperationParameter = {
   parameterPath: ["options", "contentType"],

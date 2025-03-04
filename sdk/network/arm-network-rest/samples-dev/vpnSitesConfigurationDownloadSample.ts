@@ -11,7 +11,7 @@ import "dotenv/config";
  * @summary Gives the sas-url to download the configurations for vpn-sites in a resource group.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/VpnSitesConfigurationDownload.json
  */
-async function vpnSitesConfigurationDownload() {
+async function vpnSitesConfigurationDownload(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

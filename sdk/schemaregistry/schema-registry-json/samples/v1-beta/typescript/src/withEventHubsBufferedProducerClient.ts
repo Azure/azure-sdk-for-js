@@ -11,9 +11,7 @@ import { JsonSchemaSerializer } from "@azure/schema-registry-json";
 import { EventHubBufferedProducerClient, createEventDataAdapter } from "@azure/event-hubs";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
-
+import "dotenv/config";
 // The fully qualified namespace for schema registry
 const schemaRegistryFullyQualifiedNamespace =
   process.env["SCHEMA_REGISTRY_ENDPOINT"] || "<endpoint>";
@@ -63,7 +61,7 @@ async function handleError(): Promise<void> {
   console.log("An error occured when sending a message");
 }
 
-export async function main() {
+export async function main(): Promise<void> {
   // Create a new client
   const schemaRegistryClient = new SchemaRegistryClient(
     schemaRegistryFullyQualifiedNamespace,

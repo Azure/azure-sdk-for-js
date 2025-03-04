@@ -7,9 +7,7 @@
  */
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets the specified private endpoint by resource group.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Gets the specified private endpoint by resource group.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/PrivateEndpointGet.json
  */
-async function getPrivateEndpoint() {
+async function getPrivateEndpoint(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subId";
   const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const privateEndpointName = "testPe";
@@ -33,7 +31,7 @@ async function getPrivateEndpoint() {
  * @summary Gets the specified private endpoint by resource group.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/PrivateEndpointGetWithASG.json
  */
-async function getPrivateEndpointWithApplicationSecurityGroups() {
+async function getPrivateEndpointWithApplicationSecurityGroups(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subId";
   const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const privateEndpointName = "testPe";
@@ -49,7 +47,7 @@ async function getPrivateEndpointWithApplicationSecurityGroups() {
  * @summary Gets the specified private endpoint by resource group.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/PrivateEndpointGetForManualApproval.json
  */
-async function getPrivateEndpointWithManualApprovalConnection() {
+async function getPrivateEndpointWithManualApprovalConnection(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subId";
   const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const privateEndpointName = "testPe";
@@ -59,7 +57,7 @@ async function getPrivateEndpointWithManualApprovalConnection() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await getPrivateEndpoint();
   await getPrivateEndpointWithApplicationSecurityGroups();
   await getPrivateEndpointWithManualApprovalConnection();

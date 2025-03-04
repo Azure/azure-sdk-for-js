@@ -14,7 +14,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Returns the properties of the specified access control record name.
  * x-ms-original-file: specification/storsimple1200series/resource-manager/Microsoft.StorSimple/stable/2016-10-01/examples/AccessControlRecordsGet.json
  */
-async function accessControlRecordsGet() {
+async function accessControlRecordsGet(): Promise<void> {
   const subscriptionId = "9eb689cd-7243-43b4-b6f6-5c65cb296641";
   const accessControlRecordName = "AcrForSDKTest";
   const resourceGroupName = "ResourceGroupForSDKTest";

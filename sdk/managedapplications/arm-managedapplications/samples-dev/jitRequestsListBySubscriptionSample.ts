@@ -7,9 +7,7 @@
  */
 import { ApplicationClient } from "@azure/arm-managedapplications";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists all JIT requests within the subscription.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Lists all JIT requests within the subscription.
  * x-ms-original-file: specification/solutions/resource-manager/Microsoft.Solutions/stable/2021-07-01/examples/listJitRequestsByResourceGroup.json
  */
-async function listsAllJitRequestsWithinTheSubscription() {
+async function listsAllJitRequestsWithinTheSubscription(): Promise<void> {
   const subscriptionId = process.env["MANAGEDAPPLICATIONS_SUBSCRIPTION_ID"] || "subid";
   const credential = new DefaultAzureCredential();
   const client = new ApplicationClient(credential, subscriptionId);
@@ -25,7 +23,7 @@ async function listsAllJitRequestsWithinTheSubscription() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await listsAllJitRequestsWithinTheSubscription();
 }
 

@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { AzureQuantumManagementClient } from "@azure/arm-quantum";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get the keys to use with the Quantum APIs. A key is used to authenticate and authorize access to the Quantum REST APIs. Only one key is needed at a time; two are given to provide seamless key regeneration.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Get the keys to use with the Quantum APIs. A key is used to authenticate and authorize access to the Quantum REST APIs. Only one key is needed at a time; two are given to provide seamless key regeneration.
  * x-ms-original-file: specification/quantum/resource-manager/Microsoft.Quantum/preview/2023-11-13-preview/examples/listKeys.json
  */
-async function listKeys() {
+async function listKeys(): Promise<void> {
   const subscriptionId =
     process.env["QUANTUM_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -36,7 +34,7 @@ async function listKeys() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listKeys();
 }
 

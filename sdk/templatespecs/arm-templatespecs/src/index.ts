@@ -7,7 +7,7 @@
  */
 
 /// <reference lib="esnext.asynciterable" />
-export { getContinuationToken } from "./pagingHelper";
-export * from "./models";
-export { TemplateSpecsClient } from "./templateSpecsClient";
-export * from "./operationsInterfaces";
+export { getContinuationToken } from "./pagingHelper.js";
+export * from "./models/index.js";
+export { TemplateSpecsClient } from "./templateSpecsClient.js";
+export * from "./operationsInterfaces/index.js";

@@ -7,9 +7,7 @@
  */
 import { LogicManagementClient } from "@azure/arm-logic";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets an integration service environment.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Gets an integration service environment.
  * x-ms-original-file: specification/logic/resource-manager/Microsoft.Logic/stable/2019-05-01/examples/IntegrationServiceEnvironments_Get.json
  */
-async function getIntegrationServiceEnvironmentByName() {
+async function getIntegrationServiceEnvironmentByName(): Promise<void> {
   const subscriptionId =
     process.env["LOGIC_SUBSCRIPTION_ID"] || "f34b22a3-2202-4fb1-b040-1332bd928c84";
   const resourceGroup = "testResourceGroup";
@@ -31,7 +29,7 @@ async function getIntegrationServiceEnvironmentByName() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await getIntegrationServiceEnvironmentByName();
 }
 

@@ -7,9 +7,7 @@
  */
 import { MobileNetworkManagementClient } from "@azure/arm-mobilenetwork";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets extended information about the specified UE from the packet core.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Gets extended information about the specified UE from the packet core.
  * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/stable/2024-04-01/examples/ExtendedUeInfo4GGet.json
  */
-async function getUeInformation4G() {
+async function getUeInformation4G(): Promise<void> {
   const subscriptionId =
     process.env["MOBILENETWORK_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = process.env["MOBILENETWORK_RESOURCE_GROUP"] || "rg1";
@@ -39,7 +37,7 @@ async function getUeInformation4G() {
  * @summary Gets extended information about the specified UE from the packet core.
  * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/stable/2024-04-01/examples/ExtendedUeInfo5GGet.json
  */
-async function getUeInformation5G() {
+async function getUeInformation5G(): Promise<void> {
   const subscriptionId =
     process.env["MOBILENETWORK_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = process.env["MOBILENETWORK_RESOURCE_GROUP"] || "rg1";
@@ -55,7 +53,7 @@ async function getUeInformation5G() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await getUeInformation4G();
   await getUeInformation5G();
 }

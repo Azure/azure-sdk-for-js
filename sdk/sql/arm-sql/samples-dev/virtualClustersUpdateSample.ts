@@ -8,9 +8,7 @@
 import type { VirtualClusterUpdate } from "@azure/arm-sql";
 import { SqlManagementClient } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Updates an existing virtual cluster.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Updates an existing virtual cluster.
  * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-05-01-preview/examples/VirtualClusterUpdate.json
  */
-async function updateVirtualClusterWithTags() {
+async function updateVirtualClusterWithTags(): Promise<void> {
   const subscriptionId =
     process.env["SQL_SUBSCRIPTION_ID"] || "20d7082a-0fc7-4468-82bd-542694d5042b";
   const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "testrg";
@@ -34,7 +32,7 @@ async function updateVirtualClusterWithTags() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await updateVirtualClusterWithTags();
 }
 

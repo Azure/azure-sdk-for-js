@@ -1,4 +1,4 @@
-// Copyright (c) Microsoft.
+// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
 /**
@@ -7,7 +7,7 @@
 
 import { getModelUri, isValidDtmi } from "@azure/iot-modelsrepository";
 
-function main() {
+async function main(): Promise<void> {
   const dtmi1 = "dtmi:com:example:Thermostat;1";
   const dtmi2 = "dtmi:com:example:Thermostat";
   // returns true

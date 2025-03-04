@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Create or update an Azure Cosmos DB SQL container
  * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-12-01-preview/examples/CosmosDBSqlContainerCreateUpdate.json
  */
-async function cosmosDbSqlContainerCreateUpdate() {
+async function cosmosDbSqlContainerCreateUpdate(): Promise<void> {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";
   const accountName = "ddb1";
@@ -113,7 +113,7 @@ async function cosmosDbSqlContainerCreateUpdate() {
  * @summary Create or update an Azure Cosmos DB SQL container
  * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-12-01-preview/examples/CosmosDBSqlContainerRestore.json
  */
-async function cosmosDbSqlContainerRestore() {
+async function cosmosDbSqlContainerRestore(): Promise<void> {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";
   const accountName = "ddb1";
@@ -153,7 +153,7 @@ async function cosmosDbSqlContainerRestore() {
  * @summary Create or update an Azure Cosmos DB SQL container
  * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-12-01-preview/examples/CosmosDBSqlMaterializedViewCreateUpdate.json
  */
-async function cosmosDbSqlMaterializedViewCreateUpdate() {
+async function cosmosDbSqlMaterializedViewCreateUpdate(): Promise<void> {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";
   const accountName = "ddb1";
@@ -199,7 +199,7 @@ async function cosmosDbSqlMaterializedViewCreateUpdate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   cosmosDbSqlContainerCreateUpdate();
   cosmosDbSqlContainerRestore();
   cosmosDbSqlMaterializedViewCreateUpdate();

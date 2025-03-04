@@ -7,9 +7,7 @@
  */
 import { AzureQuantumManagementClient } from "@azure/arm-quantum";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Returns the list of all provider offerings available for the given location.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Returns the list of all provider offerings available for the given location.
  * x-ms-original-file: specification/quantum/resource-manager/Microsoft.Quantum/preview/2023-11-13-preview/examples/offeringsList.json
  */
-async function offeringsList() {
+async function offeringsList(): Promise<void> {
   const subscriptionId =
     process.env["QUANTUM_SUBSCRIPTION_ID"] || "1C4B2828-7D49-494F-933D-061373BE28C2";
   const locationName = "westus2";
@@ -30,7 +28,7 @@ async function offeringsList() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await offeringsList();
 }
 

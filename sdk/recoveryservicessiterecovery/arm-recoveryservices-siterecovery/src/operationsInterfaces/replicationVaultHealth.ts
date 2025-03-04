@@ -12,7 +12,7 @@ import {
   ReplicationVaultHealthGetResponse,
   ReplicationVaultHealthRefreshOptionalParams,
   ReplicationVaultHealthRefreshResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a ReplicationVaultHealth. */
 export interface ReplicationVaultHealth {

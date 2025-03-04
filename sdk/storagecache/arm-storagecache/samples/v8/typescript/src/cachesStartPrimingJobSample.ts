@@ -14,9 +14,7 @@ import {
   StorageCacheManagementClient,
 } from "@azure/arm-storagecache";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create a priming job. This operation is only allowed when the cache is healthy.
@@ -24,7 +22,7 @@ dotenv.config();
  * @summary Create a priming job. This operation is only allowed when the cache is healthy.
  * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2024-03-01/examples/StartPrimingJob.json
  */
-async function startPrimingJob() {
+async function startPrimingJob(): Promise<void> {
   const subscriptionId =
     process.env["STORAGECACHE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -47,7 +45,7 @@ async function startPrimingJob() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   startPrimingJob();
 }
 

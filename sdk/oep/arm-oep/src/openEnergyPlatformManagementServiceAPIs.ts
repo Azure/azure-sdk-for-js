@@ -18,9 +18,9 @@ import {
   LocationsImpl,
   EnergyServicesImpl,
   OperationsImpl
-} from "./operations";
-import { Locations, EnergyServices, Operations } from "./operationsInterfaces";
-import { OpenEnergyPlatformManagementServiceAPIsOptionalParams } from "./models";
+} from "./operations/index.js";
+import { Locations, EnergyServices, Operations } from "./operationsInterfaces/index.js";
+import { OpenEnergyPlatformManagementServiceAPIsOptionalParams } from "./models/index.js";
 
 export class OpenEnergyPlatformManagementServiceAPIs extends coreClient.ServiceClient {
   $host: string;

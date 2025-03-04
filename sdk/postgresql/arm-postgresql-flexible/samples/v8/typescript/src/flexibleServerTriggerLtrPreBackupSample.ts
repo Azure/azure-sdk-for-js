@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary PreBackup operation performs all the checks that are needed for the subsequent long term retention backup operation to succeed.
  * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2024-08-01/examples/LongTermRetentionPreBackup.json
  */
-async function samplePrebackup() {
+async function samplePrebackup(): Promise<void> {
   const subscriptionId =
     process.env["POSTGRESQL_SUBSCRIPTION_ID"] ||
     "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -41,7 +41,7 @@ async function samplePrebackup() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   samplePrebackup();
 }
 

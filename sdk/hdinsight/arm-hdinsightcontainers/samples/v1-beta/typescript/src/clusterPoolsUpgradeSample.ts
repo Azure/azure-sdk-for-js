@@ -13,9 +13,7 @@ import {
   HDInsightContainersManagementClient,
 } from "@azure/arm-hdinsightcontainers";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Upgrade a cluster pool.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Upgrade a cluster pool.
  * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/HDInsightOnAks/preview/2024-05-01-preview/examples/UpgradeAKSPatchVersionForClusterPool.json
  */
-async function clusterPoolsUpgradeAksPatchVersion() {
+async function clusterPoolsUpgradeAksPatchVersion(): Promise<void> {
   const subscriptionId =
     process.env["HDINSIGHT_SUBSCRIPTION_ID"] ||
     "10e32bab-26da-4cc4-a441-52b318f824e6";
@@ -56,7 +54,7 @@ async function clusterPoolsUpgradeAksPatchVersion() {
  * @summary Upgrade a cluster pool.
  * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/HDInsightOnAks/preview/2024-05-01-preview/examples/UpgradeNodeOsForClusterPool.json
  */
-async function clusterPoolsUpgradeNodeOS() {
+async function clusterPoolsUpgradeNodeOS(): Promise<void> {
   const subscriptionId =
     process.env["HDINSIGHT_SUBSCRIPTION_ID"] ||
     "10e32bab-26da-4cc4-a441-52b318f824e6";
@@ -79,7 +77,7 @@ async function clusterPoolsUpgradeNodeOS() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   clusterPoolsUpgradeAksPatchVersion();
   clusterPoolsUpgradeNodeOS();
 }

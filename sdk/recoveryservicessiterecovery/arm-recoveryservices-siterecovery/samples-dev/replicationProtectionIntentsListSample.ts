@@ -7,9 +7,7 @@
  */
 import { SiteRecoveryManagementClient } from "@azure/arm-recoveryservices-siterecovery";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets the list of ASR replication protection intent objects in the vault.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Gets the list of ASR replication protection intent objects in the vault.
  * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationProtectionIntents_List.json
  */
-async function getsTheListOfReplicationProtectionIntentObjects() {
+async function getsTheListOfReplicationProtectionIntentObjects(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICESSITERECOVERY_SUBSCRIPTION_ID"] ||
     "509099b2-9d2c-4636-b43e-bd5cafb6be69";
@@ -36,7 +34,7 @@ async function getsTheListOfReplicationProtectionIntentObjects() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await getsTheListOfReplicationProtectionIntentObjects();
 }
 

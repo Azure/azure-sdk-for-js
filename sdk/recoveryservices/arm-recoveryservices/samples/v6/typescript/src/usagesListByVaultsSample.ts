@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { RecoveryServicesClient } from "@azure/arm-recoveryservices";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Fetches the usages of the vault.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Fetches the usages of the vault.
  * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/ListUsages.json
  */
-async function getsVaultUsages() {
+async function getsVaultUsages(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICES_SUBSCRIPTION_ID"] ||
     "77777777-b0c6-47a2-b37c-d8e65a629c18";
@@ -40,7 +38,7 @@ async function getsVaultUsages() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getsVaultUsages();
 }
 

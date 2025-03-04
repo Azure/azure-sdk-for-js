@@ -17,6 +17,7 @@ import {
   SimpleSpanProcessor,
 } from "@opentelemetry/sdk-trace-node";
 import { createAzureSdkInstrumentation } from "@azure/opentelemetry-instrumentation-azure-sdk";
+import { createRestError } from "@azure-rest/core-client";
 
 // Load the .env file if it exists
 import "dotenv/config";
@@ -64,7 +65,7 @@ const getWeatherFunc = (location: string, unit: string): string => {
   return `The temperature in ${location} is 72 degrees ${unit}`;
 };
 
-const updateToolCalls = (toolCallArray: Array<any>, functionArray: Array<any>) => {
+const updateToolCalls = (toolCallArray: Array<any>, functionArray: Array<any>): void => {
   const dummyFunction = { name: "", arguments: "", id: "" };
   while (functionArray.length < toolCallArray.length) {
     functionArray.push(dummyFunction);
@@ -85,7 +86,14 @@ const updateToolCalls = (toolCallArray: Array<any>, functionArray: Array<any>) =
   }
 };
 
-const handleToolCalls = (functionArray: Array<any>) => {
+const handleToolCalls = (
+  functionArray: Array<any>,
+): {
+  role: string;
+  content: string;
+  tool_call_id: any;
+  name: any;
+}[] => {
   const messageArray = [];
   for (const func of functionArray) {
     const funcArgs = JSON.parse(func.arguments);
@@ -111,7 +119,8 @@ const handleToolCalls = (functionArray: Array<any>) => {
 };
 
 // any import such as ai-inference has core-tracing as dependency must be imported after the instrumentation is registered
-import ModelClient, { ChatRequestMessage, isUnexpected } from "@azure-rest/ai-inference";
+import type { ChatRequestMessage } from "@azure-rest/ai-inference";
+import ModelClient, { isUnexpected } from "@azure-rest/ai-inference";
 import { AzureKeyCredential } from "@azure/core-auth";
 
 export async function main(): Promise<void> {
@@ -143,7 +152,7 @@ export async function main(): Promise<void> {
       });
 
       if (isUnexpected(response)) {
-        throw response.body.error;
+        throw createRestError(response);
       }
 
       const stream = response.body;
@@ -168,11 +177,11 @@ export async function main(): Promise<void> {
           }
           updateToolCalls(toolCallArray, functionArray);
         }
-        if (choice.finish_reason == "tool_calls") {
+        if (choice.finish_reason === "tool_calls") {
           const messageArray = handleToolCalls(functionArray);
           messages.push(...messageArray);
         } else {
-          if (choice.message?.content && choice.message.content != "") {
+          if (choice.message?.content && choice.message.content !== "") {
             toolCallAnswer += choice.message?.content;
             awaitingToolCallAnswer = false;
           }
@@ -190,7 +199,7 @@ export async function main(): Promise<void> {
 /*
  * This function creates a model client.
  */
-function createModelClient() {
+function createModelClient(): ModelClient {
   // auth scope for AOAI resources is currently https://cognitiveservices.azure.com/.default
   // auth scope for MaaS and MaaP is currently https://ml.azure.com
   // (Do not use for Serverless API or Managed Computer Endpoints)

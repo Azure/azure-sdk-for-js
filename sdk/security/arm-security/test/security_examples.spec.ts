@@ -6,22 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import {
-  env,
-  Recorder,
-  RecorderStartOptions,
-  delay,
-  isPlaybackMode,
-} from "@azure-tools/test-recorder";
+import { env, Recorder, RecorderStartOptions, isPlaybackMode } from "@azure-tools/test-recorder";
 import { NoOpCredential } from "@azure-tools/test-credential";
-import { assert } from "chai";
-import { Context } from "mocha";
-import { SecurityCenter } from "../src/securityCenter";
-import { SecurityContact } from "../src/models";
+import { SecurityCenter } from "../src/securityCenter.js";
+import { SecurityContact } from "../src/models/index.js";
 import { DefaultAzureCredential } from "@azure/identity";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 const replaceableVariables: Record<string, string> = {
-  SUBSCRIPTION_ID: "azure_subscription_id"
+  SUBSCRIPTION_ID: "azure_subscription_id",
 };
 
 const recorderOptions: RecorderStartOptions = {
@@ -37,79 +30,66 @@ export const testPollingOptions = {
 };
 
 export function createTestCredential() {
-  return isPlaybackMode()
-    ? new NoOpCredential()
-    : new
-      DefaultAzureCredential()
-    ;
+  return isPlaybackMode() ? new NoOpCredential() : new DefaultAzureCredential();
 }
 
 describe("security test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: SecurityCenter;
-  let location: string;
-  let resourceGroup: string;
   let securityContactName: string;
   let securityContact: SecurityContact;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async (ctx) => {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderOptions);
-    subscriptionId = env.SUBSCRIPTION_ID || '';
+    subscriptionId = env.SUBSCRIPTION_ID || "";
     // This is an example of how the environment variables are used
     const credential = createTestCredential();
     client = new SecurityCenter(credential, subscriptionId, recorder.configureClientOptions({}));
-    location = "eastus";
-    resourceGroup = "myjstest";
     securityContactName = "default";
     securityContact = {
       notificationsSources: [
         {
           minimalSeverity: "Low",
-          sourceType: "Alert"
-        }
+          sourceType: "Alert",
+        },
       ],
       emails: "john@contoso.com;jane@contoso.com",
       notificationsByRole: { roles: ["Owner"], state: "On" },
-      phone: "+214-2754038"
+      phone: "+214-2754038",
     };
-  })
+  });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
-  it("SecurityContact create test", async function () {
-    const res = await client.securityContacts.create(
-      securityContactName,
-      securityContact
-    );
+  it("SecurityContact create test", async () => {
+    const res = await client.securityContacts.create(securityContactName, securityContact);
     assert.equal(res.name, securityContactName);
   });
 
-  it("SecurityContact get test", async function () {
-    const res = await client.securityContacts.get(
-      securityContactName
-    );
+  it("SecurityContact get test", async () => {
+    const res = await client.securityContacts.get(securityContactName);
     assert.equal(res.name, securityContactName);
   });
 
-  it("SecurityContact list test", async function () {
+  it("SecurityContact list test", async () => {
     const resArray = new Array();
-    const res = client.securityContacts.list()
+    const res = client.securityContacts.list();
     for await (let item of res.byPage()) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 1);
   });
 
-  it("SecurityContact delete test", async function () {
+  it("SecurityContact delete test", async () => {
     const resArray = new Array();
-    const res = await client.securityContacts.delete(securityContactName)
+    await client.securityContacts.delete(securityContactName);
     for await (let item of client.securityContacts.list()) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 0);
   });
-})
+});

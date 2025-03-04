@@ -14,7 +14,7 @@
 import { MicrosoftStorageSync } from "@azure/arm-storagesync";
 import { DefaultAzureCredential } from "@azure/identity";
 
-async function workflowsGet() {
+async function workflowsGet(): Promise<void> {
   const subscriptionId = "52b8da2f-61e0-4a1f-8dde-336911f367fb";
   const locationName = "westus";
   const operationId =

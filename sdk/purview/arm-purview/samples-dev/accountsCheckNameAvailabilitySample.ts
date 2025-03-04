@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Checks if account name is available.
  * x-ms-original-file: specification/purview/resource-manager/Microsoft.Purview/stable/2021-07-01/examples/Accounts_CheckNameAvailability.json
  */
-async function accountsCheckNameAvailability() {
+async function accountsCheckNameAvailability(): Promise<void> {
   const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
   const checkNameAvailabilityRequest: CheckNameAvailabilityRequest = {
     name: "account1",

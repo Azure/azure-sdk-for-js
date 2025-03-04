@@ -20,7 +20,7 @@ import {
   PeeringServicesUpdateOptionalParams,
   PeeringServicesUpdateResponse,
   PeeringServicesInitializeConnectionMonitorOptionalParams
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a PeeringServices. */

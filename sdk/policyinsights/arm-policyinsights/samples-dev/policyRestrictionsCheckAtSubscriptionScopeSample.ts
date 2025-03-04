@@ -16,7 +16,7 @@ import "dotenv/config";
  * @summary Checks what restrictions Azure Policy will place on a resource within a subscription.
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2024-10-01/examples/PolicyRestrictions_CheckAtSubscriptionScope.json
  */
-async function checkPolicyRestrictionsAtSubscriptionScope() {
+async function checkPolicyRestrictionsAtSubscriptionScope(): Promise<void> {
   const subscriptionId =
     process.env["POLICYINSIGHTS_SUBSCRIPTION_ID"] || "35ee058e-5fa0-414c-8145-3ebb8d09b6e2";
   const parameters: CheckRestrictionsRequest = {
@@ -48,7 +48,7 @@ async function checkPolicyRestrictionsAtSubscriptionScope() {
  * @summary Checks what restrictions Azure Policy will place on a resource within a subscription.
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2024-10-01/examples/PolicyRestrictions_CheckAtSubscriptionScopeIncludeAuditEffect.json
  */
-async function checkPolicyRestrictionsAtSubscriptionScopeIncludingAuditEffect() {
+async function checkPolicyRestrictionsAtSubscriptionScopeIncludingAuditEffect(): Promise<void> {
   const subscriptionId =
     process.env["POLICYINSIGHTS_SUBSCRIPTION_ID"] || "35ee058e-5fa0-414c-8145-3ebb8d09b6e2";
   const parameters: CheckRestrictionsRequest = {
@@ -75,7 +75,7 @@ async function checkPolicyRestrictionsAtSubscriptionScopeIncludingAuditEffect() 
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await checkPolicyRestrictionsAtSubscriptionScope();
   await checkPolicyRestrictionsAtSubscriptionScopeIncludingAuditEffect();
 }

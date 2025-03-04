@@ -7,9 +7,7 @@
  */
 import { ServiceLinkerManagementClient } from "@azure/arm-servicelinker";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to list source configurations for a Linker.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary list source configurations for a Linker.
  * x-ms-original-file: specification/servicelinker/resource-manager/Microsoft.ServiceLinker/preview/2024-07-01-preview/examples/GetConfigurations.json
  */
-async function getConfiguration() {
+async function getConfiguration(): Promise<void> {
   const resourceUri =
     "subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/test-rg/providers/Microsoft.App/containerApps/test-app";
   const linkerName = "linkName";
@@ -27,7 +25,7 @@ async function getConfiguration() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await getConfiguration();
 }
 

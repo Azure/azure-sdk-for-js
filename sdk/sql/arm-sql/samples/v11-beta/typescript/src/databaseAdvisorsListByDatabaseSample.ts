@@ -13,9 +13,7 @@ import {
   SqlManagementClient,
 } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets a list of database advisors.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Gets a list of database advisors.
  * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/DatabaseAdvisorList.json
  */
-async function listOfDatabaseAdvisors() {
+async function listOfDatabaseAdvisors(): Promise<void> {
   const subscriptionId =
     process.env["SQL_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -47,7 +45,7 @@ async function listOfDatabaseAdvisors() {
  * @summary Gets a list of database advisors.
  * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/DatabaseRecommendedActionListExpand.json
  */
-async function listOfDatabaseRecommendedActionsForAllAdvisors() {
+async function listOfDatabaseRecommendedActionsForAllAdvisors(): Promise<void> {
   const subscriptionId =
     process.env["SQL_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -68,7 +66,7 @@ async function listOfDatabaseRecommendedActionsForAllAdvisors() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listOfDatabaseAdvisors();
   listOfDatabaseRecommendedActionsForAllAdvisors();
 }

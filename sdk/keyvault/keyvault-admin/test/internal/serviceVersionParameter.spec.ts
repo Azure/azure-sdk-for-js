@@ -60,7 +60,7 @@ describe("The keyvault-admin clients should set the serviceVersion", () => {
       spy = vi.spyOn(mockHttpClient, "sendRequest");
     });
 
-    it("it should default to the latest API version", async function () {
+    it("it should default to the latest API version", async () => {
       const client = new KeyVaultAccessControlClient(baseUrl, credential, {
         httpClient: mockHttpClient,
       });
@@ -71,7 +71,7 @@ describe("The keyvault-admin clients should set the serviceVersion", () => {
       expect(params.searchParams.get("api-version")).toEqual(LATEST_API_VERSION);
     });
 
-    it("it should allow us to specify an API version from a specific set of versions", async function () {
+    it("it should allow us to specify an API version from a specific set of versions", async () => {
       const serviceVersion = "7.2";
       const client = new KeyVaultAccessControlClient(baseUrl, credential, {
         serviceVersion: serviceVersion as ApiVersions,
@@ -91,7 +91,7 @@ describe("The keyvault-admin clients should set the serviceVersion", () => {
       spy = vi.spyOn(mockHttpClient, "sendRequest");
     });
 
-    it("it should default to the latest API version", async function () {
+    it("it should default to the latest API version", async () => {
       const client = new KeyVaultBackupClient(baseUrl, credential, {
         httpClient: mockHttpClient,
       });
@@ -102,7 +102,7 @@ describe("The keyvault-admin clients should set the serviceVersion", () => {
       expect(params.searchParams.get("api-version")).toEqual(LATEST_API_VERSION);
     });
 
-    it("it should allow us to specify an API version from a specific set of versions", async function () {
+    it("it should allow us to specify an API version from a specific set of versions", async () => {
       const serviceVersion = "7.2";
       const client = new KeyVaultBackupClient(baseUrl, credential, {
         serviceVersion: serviceVersion as ApiVersions,

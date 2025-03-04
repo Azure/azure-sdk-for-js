@@ -5,7 +5,7 @@ import { KeyVaultAccessControlClient, SDK_VERSION } from "../../src/index.js";
 import { describe, it, expect } from "vitest";
 
 describe("Key Vault Admin's user agent", function () {
-  it("SDK_VERSION and user-agent should match", async function () {
+  it("SDK_VERSION and user-agent should match", async () => {
     let userAgent: string | undefined;
     const client = new KeyVaultAccessControlClient(
       "https://myvault.vault.azure.net",

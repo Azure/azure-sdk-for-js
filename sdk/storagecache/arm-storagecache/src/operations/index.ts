@@ -6,13 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./amlFilesystems";
-export * from "./importJobs";
-export * from "./operations";
-export * from "./skus";
-export * from "./usageModels";
-export * from "./ascOperations";
-export * from "./ascUsages";
-export * from "./caches";
-export * from "./storageTargets";
-export * from "./storageTargetOperations";
+export * from "./amlFilesystems.js";
+export * from "./importJobs.js";
+export * from "./operations.js";
+export * from "./skus.js";
+export * from "./usageModels.js";
+export * from "./ascOperations.js";
+export * from "./ascUsages.js";
+export * from "./caches.js";
+export * from "./storageTargets.js";
+export * from "./storageTargetOperations.js";

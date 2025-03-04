@@ -19,7 +19,7 @@ import "dotenv/config";
  * @summary Updates the properties of an existing Azure Cosmos DB Throughput Pool.
  * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-12-01-preview/examples/throughputPool/CosmosDBThroughputPoolUpdate.json
  */
-async function cosmosDbThroughputPoolUpdate() {
+async function cosmosDbThroughputPoolUpdate(): Promise<void> {
   const subscriptionId =
     process.env["COSMOSDB_SUBSCRIPTION_ID"] ||
     "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -37,7 +37,7 @@ async function cosmosDbThroughputPoolUpdate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   cosmosDbThroughputPoolUpdate();
 }
 

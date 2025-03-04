@@ -6,17 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { GuestConfigurationHcrpAssignmentReports } from "../operationsInterfaces";
+import { GuestConfigurationHcrpAssignmentReports } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { GuestConfigurationClient } from "../guestConfigurationClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { GuestConfigurationClient } from "../guestConfigurationClient.js";
 import {
   GuestConfigurationHcrpAssignmentReportsListOptionalParams,
   GuestConfigurationHcrpAssignmentReportsListResponse,
   GuestConfigurationHcrpAssignmentReportsGetOptionalParams,
   GuestConfigurationHcrpAssignmentReportsGetResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Class containing GuestConfigurationHcrpAssignmentReports operations. */
 export class GuestConfigurationHcrpAssignmentReportsImpl

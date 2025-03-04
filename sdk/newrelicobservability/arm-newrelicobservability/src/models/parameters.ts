@@ -22,7 +22,7 @@ import {
   TagRule as TagRuleMapper,
   TagRuleUpdate as TagRuleUpdateMapper,
   MonitoredSubscriptionProperties as MonitoredSubscriptionPropertiesMapper,
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",

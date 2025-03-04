@@ -13,7 +13,7 @@ import "dotenv/config";
  * @summary Create or updates a route table in a specified resource group.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/RouteTableCreate.json
  */
-async function createRouteTable() {
+async function createRouteTable(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -43,7 +43,7 @@ createRouteTable().catch(console.error);
  * @summary Create or updates a route table in a specified resource group.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/RouteTableCreateWithRoute.json
  */
-async function createRouteTableWithRoute() {
+async function createRouteTableWithRoute(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

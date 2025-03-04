@@ -8,9 +8,7 @@
 import type { LinkerPatch } from "@azure/arm-servicelinker";
 import { ServiceLinkerManagementClient } from "@azure/arm-servicelinker";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Operation to update an existing Connector.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Operation to update an existing Connector.
  * x-ms-original-file: specification/servicelinker/resource-manager/Microsoft.ServiceLinker/preview/2024-07-01-preview/examples/PatchConnector.json
  */
-async function patchConnector() {
+async function patchConnector(): Promise<void> {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = process.env["SERVICELINKER_RESOURCE_GROUP"] || "test-rg";
   const location = "westus";
@@ -47,7 +45,7 @@ async function patchConnector() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await patchConnector();
 }
 

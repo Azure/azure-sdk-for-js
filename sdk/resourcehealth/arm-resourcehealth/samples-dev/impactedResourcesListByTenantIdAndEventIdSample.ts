@@ -8,9 +8,7 @@
 import type { ImpactedResourcesListByTenantIdAndEventIdOptionalParams } from "@azure/arm-resourcehealth";
 import { MicrosoftResourceHealth } from "@azure/arm-resourcehealth";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists impacted resources in the tenant by an event.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Lists impacted resources in the tenant by an event.
  * x-ms-original-file: specification/resourcehealth/resource-manager/Microsoft.ResourceHealth/preview/2023-10-01-preview/examples/ImpactedResources_ListByTenantId_ListByEventId.json
  */
-async function listEventsByTenantId() {
+async function listEventsByTenantId(): Promise<void> {
   const eventTrackingId = "BC_1-FXZ";
   const filter = "targetRegion eq 'westus'";
   const options: ImpactedResourcesListByTenantIdAndEventIdOptionalParams = {
@@ -36,7 +34,7 @@ async function listEventsByTenantId() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await listEventsByTenantId();
 }
 

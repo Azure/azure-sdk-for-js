@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { Agent, StorageMoverClient } from "@azure/arm-storagemover";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates or updates an Agent resource, which references a hybrid compute machine that can run jobs.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Creates or updates an Agent resource, which references a hybrid compute machine that can run jobs.
  * x-ms-original-file: specification/storagemover/resource-manager/Microsoft.StorageMover/stable/2024-07-01/examples/Agents_CreateOrUpdate_MaximumSet.json
  */
-async function agentsCreateOrUpdateMaximumSet() {
+async function agentsCreateOrUpdateMaximumSet(): Promise<void> {
   const subscriptionId =
     process.env["STORAGEMOVER_SUBSCRIPTION_ID"] ||
     "60bcfc77-6589-4da2-b7fd-f9ec9322cf95";
@@ -61,7 +59,7 @@ async function agentsCreateOrUpdateMaximumSet() {
  * @summary Creates or updates an Agent resource, which references a hybrid compute machine that can run jobs.
  * x-ms-original-file: specification/storagemover/resource-manager/Microsoft.StorageMover/stable/2024-07-01/examples/Agents_CreateOrUpdate_MinimumSet.json
  */
-async function agentsCreateOrUpdateMinimumSet() {
+async function agentsCreateOrUpdateMinimumSet(): Promise<void> {
   const subscriptionId =
     process.env["STORAGEMOVER_SUBSCRIPTION_ID"] ||
     "60bcfc77-6589-4da2-b7fd-f9ec9322cf95";
@@ -91,7 +89,7 @@ async function agentsCreateOrUpdateMinimumSet() {
  * @summary Creates or updates an Agent resource, which references a hybrid compute machine that can run jobs.
  * x-ms-original-file: specification/storagemover/resource-manager/Microsoft.StorageMover/stable/2024-07-01/examples/Agents_CreateOrUpdate_UploadLimitSchedule_Overnight.json
  */
-async function agentsCreateOrUpdateWithOvernightUploadLimitSchedule() {
+async function agentsCreateOrUpdateWithOvernightUploadLimitSchedule(): Promise<void> {
   const subscriptionId =
     process.env["STORAGEMOVER_SUBSCRIPTION_ID"] ||
     "60bcfc77-6589-4da2-b7fd-f9ec9322cf95";
@@ -147,7 +145,7 @@ async function agentsCreateOrUpdateWithOvernightUploadLimitSchedule() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   agentsCreateOrUpdateMaximumSet();
   agentsCreateOrUpdateMinimumSet();
   agentsCreateOrUpdateWithOvernightUploadLimitSchedule();

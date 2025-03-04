@@ -7,9 +7,7 @@
  */
 import { AzureMachineLearningServicesManagementClient } from "@azure/arm-machinelearning";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Resync all the keys associated with this workspace. This includes keys for the storage account, app insights and password for container registry
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Resync all the keys associated with this workspace. This includes keys for the storage account, app insights and password for container registry
  * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2024-04-01/examples/Workspace/resyncKeys.json
  */
-async function resyncWorkspaceKeys() {
+async function resyncWorkspaceKeys(): Promise<void> {
   const subscriptionId =
     process.env["MACHINELEARNING_SUBSCRIPTION_ID"] || "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee";
   const resourceGroupName = process.env["MACHINELEARNING_RESOURCE_GROUP"] || "testrg123";
@@ -28,7 +26,7 @@ async function resyncWorkspaceKeys() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await resyncWorkspaceKeys();
 }
 

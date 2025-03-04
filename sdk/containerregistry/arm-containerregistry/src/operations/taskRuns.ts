@@ -16,7 +16,7 @@ import { ContainerRegistryManagementClient } from "../containerRegistryManagemen
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
@@ -34,7 +34,7 @@ import {
   TaskRunsUpdateResponse,
   TaskRunsGetDetailsOptionalParams,
   TaskRunsGetDetailsResponse,
-  TaskRunsListNextResponse
+  TaskRunsListNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -59,7 +59,7 @@ export class TaskRunsImpl implements TaskRuns {
   public list(
     resourceGroupName: string,
     registryName: string,
-    options?: TaskRunsListOptionalParams
+    options?: TaskRunsListOptionalParams,
   ): PagedAsyncIterableIterator<TaskRun> {
     const iter = this.listPagingAll(resourceGroupName, registryName, options);
     return {
@@ -77,9 +77,9 @@ export class TaskRunsImpl implements TaskRuns {
           resourceGroupName,
           registryName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -87,7 +87,7 @@ export class TaskRunsImpl implements TaskRuns {
     resourceGroupName: string,
     registryName: string,
     options?: TaskRunsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<TaskRun[]> {
     let result: TaskRunsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -103,7 +103,7 @@ export class TaskRunsImpl implements TaskRuns {
         resourceGroupName,
         registryName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -115,12 +115,12 @@ export class TaskRunsImpl implements TaskRuns {
   private async *listPagingAll(
     resourceGroupName: string,
     registryName: string,
-    options?: TaskRunsListOptionalParams
+    options?: TaskRunsListOptionalParams,
   ): AsyncIterableIterator<TaskRun> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       registryName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -137,11 +137,11 @@ export class TaskRunsImpl implements TaskRuns {
     resourceGroupName: string,
     registryName: string,
     taskRunName: string,
-    options?: TaskRunsGetOptionalParams
+    options?: TaskRunsGetOptionalParams,
   ): Promise<TaskRunsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, registryName, taskRunName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -158,7 +158,7 @@ export class TaskRunsImpl implements TaskRuns {
     registryName: string,
     taskRunName: string,
     taskRun: TaskRun,
-    options?: TaskRunsCreateOptionalParams
+    options?: TaskRunsCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<TaskRunsCreateResponse>,
@@ -167,21 +167,20 @@ export class TaskRunsImpl implements TaskRuns {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<TaskRunsCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -190,8 +189,8 @@ export class TaskRunsImpl implements TaskRuns {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -199,22 +198,22 @@ export class TaskRunsImpl implements TaskRuns {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, registryName, taskRunName, taskRun, options },
-      spec: createOperationSpec
+      spec: createOperationSpec,
     });
     const poller = await createHttpPoller<
       TaskRunsCreateResponse,
       OperationState<TaskRunsCreateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -233,14 +232,14 @@ export class TaskRunsImpl implements TaskRuns {
     registryName: string,
     taskRunName: string,
     taskRun: TaskRun,
-    options?: TaskRunsCreateOptionalParams
+    options?: TaskRunsCreateOptionalParams,
   ): Promise<TaskRunsCreateResponse> {
     const poller = await this.beginCreate(
       resourceGroupName,
       registryName,
       taskRunName,
       taskRun,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -256,25 +255,24 @@ export class TaskRunsImpl implements TaskRuns {
     resourceGroupName: string,
     registryName: string,
     taskRunName: string,
-    options?: TaskRunsDeleteOptionalParams
+    options?: TaskRunsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -283,8 +281,8 @@ export class TaskRunsImpl implements TaskRuns {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -292,19 +290,19 @@ export class TaskRunsImpl implements TaskRuns {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, registryName, taskRunName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -321,13 +319,13 @@ export class TaskRunsImpl implements TaskRuns {
     resourceGroupName: string,
     registryName: string,
     taskRunName: string,
-    options?: TaskRunsDeleteOptionalParams
+    options?: TaskRunsDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       registryName,
       taskRunName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -345,7 +343,7 @@ export class TaskRunsImpl implements TaskRuns {
     registryName: string,
     taskRunName: string,
     updateParameters: TaskRunUpdateParameters,
-    options?: TaskRunsUpdateOptionalParams
+    options?: TaskRunsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<TaskRunsUpdateResponse>,
@@ -354,21 +352,20 @@ export class TaskRunsImpl implements TaskRuns {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<TaskRunsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -377,8 +374,8 @@ export class TaskRunsImpl implements TaskRuns {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -386,8 +383,8 @@ export class TaskRunsImpl implements TaskRuns {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -398,16 +395,16 @@ export class TaskRunsImpl implements TaskRuns {
         registryName,
         taskRunName,
         updateParameters,
-        options
+        options,
       },
-      spec: updateOperationSpec
+      spec: updateOperationSpec,
     });
     const poller = await createHttpPoller<
       TaskRunsUpdateResponse,
       OperationState<TaskRunsUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -426,14 +423,14 @@ export class TaskRunsImpl implements TaskRuns {
     registryName: string,
     taskRunName: string,
     updateParameters: TaskRunUpdateParameters,
-    options?: TaskRunsUpdateOptionalParams
+    options?: TaskRunsUpdateOptionalParams,
   ): Promise<TaskRunsUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
       registryName,
       taskRunName,
       updateParameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -449,11 +446,11 @@ export class TaskRunsImpl implements TaskRuns {
     resourceGroupName: string,
     registryName: string,
     taskRunName: string,
-    options?: TaskRunsGetDetailsOptionalParams
+    options?: TaskRunsGetDetailsOptionalParams,
   ): Promise<TaskRunsGetDetailsResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, registryName, taskRunName, options },
-      getDetailsOperationSpec
+      getDetailsOperationSpec,
     );
   }
 
@@ -466,11 +463,11 @@ export class TaskRunsImpl implements TaskRuns {
   private _list(
     resourceGroupName: string,
     registryName: string,
-    options?: TaskRunsListOptionalParams
+    options?: TaskRunsListOptionalParams,
   ): Promise<TaskRunsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, registryName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -485,11 +482,11 @@ export class TaskRunsImpl implements TaskRuns {
     resourceGroupName: string,
     registryName: string,
     nextLink: string,
-    options?: TaskRunsListNextOptionalParams
+    options?: TaskRunsListNextOptionalParams,
   ): Promise<TaskRunsListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, registryName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -497,16 +494,15 @@ export class TaskRunsImpl implements TaskRuns {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/taskRuns/{taskRunName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/taskRuns/{taskRunName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.TaskRun
+      bodyMapper: Mappers.TaskRun,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponseForContainerRegistry
-    }
+      bodyMapper: Mappers.ErrorResponseForContainerRegistry,
+    },
   },
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [
@@ -514,31 +510,30 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.registryName,
     Parameters.resourceGroupName1,
-    Parameters.taskRunName
+    Parameters.taskRunName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/taskRuns/{taskRunName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/taskRuns/{taskRunName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.TaskRun
+      bodyMapper: Mappers.TaskRun,
     },
     201: {
-      bodyMapper: Mappers.TaskRun
+      bodyMapper: Mappers.TaskRun,
     },
     202: {
-      bodyMapper: Mappers.TaskRun
+      bodyMapper: Mappers.TaskRun,
     },
     204: {
-      bodyMapper: Mappers.TaskRun
+      bodyMapper: Mappers.TaskRun,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponseForContainerRegistry
-    }
+      bodyMapper: Mappers.ErrorResponseForContainerRegistry,
+    },
   },
   requestBody: Parameters.taskRun,
   queryParameters: [Parameters.apiVersion1],
@@ -547,15 +542,14 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.registryName,
     Parameters.resourceGroupName1,
-    Parameters.taskRunName
+    Parameters.taskRunName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/taskRuns/{taskRunName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/taskRuns/{taskRunName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -563,8 +557,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponseForContainerRegistry
-    }
+      bodyMapper: Mappers.ErrorResponseForContainerRegistry,
+    },
   },
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [
@@ -572,31 +566,30 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.registryName,
     Parameters.resourceGroupName1,
-    Parameters.taskRunName
+    Parameters.taskRunName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/taskRuns/{taskRunName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/taskRuns/{taskRunName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.TaskRun
+      bodyMapper: Mappers.TaskRun,
     },
     201: {
-      bodyMapper: Mappers.TaskRun
+      bodyMapper: Mappers.TaskRun,
     },
     202: {
-      bodyMapper: Mappers.TaskRun
+      bodyMapper: Mappers.TaskRun,
     },
     204: {
-      bodyMapper: Mappers.TaskRun
+      bodyMapper: Mappers.TaskRun,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponseForContainerRegistry
-    }
+      bodyMapper: Mappers.ErrorResponseForContainerRegistry,
+    },
   },
   requestBody: Parameters.updateParameters1,
   queryParameters: [Parameters.apiVersion1],
@@ -605,23 +598,22 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.registryName,
     Parameters.resourceGroupName1,
-    Parameters.taskRunName
+    Parameters.taskRunName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getDetailsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/taskRuns/{taskRunName}/listDetails",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/taskRuns/{taskRunName}/listDetails",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.TaskRun
+      bodyMapper: Mappers.TaskRun,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponseForContainerRegistry
-    }
+      bodyMapper: Mappers.ErrorResponseForContainerRegistry,
+    },
   },
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [
@@ -629,51 +621,50 @@ const getDetailsOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.registryName,
     Parameters.resourceGroupName1,
-    Parameters.taskRunName
+    Parameters.taskRunName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/taskRuns",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/taskRuns",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.TaskRunListResult
+      bodyMapper: Mappers.TaskRunListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponseForContainerRegistry
-    }
+      bodyMapper: Mappers.ErrorResponseForContainerRegistry,
+    },
   },
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.registryName,
-    Parameters.resourceGroupName1
+    Parameters.resourceGroupName1,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.TaskRunListResult
+      bodyMapper: Mappers.TaskRunListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponseForContainerRegistry
-    }
+      bodyMapper: Mappers.ErrorResponseForContainerRegistry,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.registryName,
     Parameters.nextLink,
-    Parameters.resourceGroupName1
+    Parameters.resourceGroupName1,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

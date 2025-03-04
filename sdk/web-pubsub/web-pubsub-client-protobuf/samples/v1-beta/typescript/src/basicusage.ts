@@ -29,7 +29,7 @@ const fetchClientAccessUrl = async (_: GetClientAccessUrlOptions) => {
   ).url;
 };
 
-async function main() {
+async function main(): Promise<void> {
   let client = new WebPubSubClient(
     {
       getClientAccessUrl: fetchClientAccessUrl,

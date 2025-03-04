@@ -14,9 +14,7 @@ import {
   PaloAltoNetworksCloudngfw
 } from "@azure/arm-paloaltonetworksngfw";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Log Profile for Firewall
@@ -24,7 +22,7 @@ dotenv.config();
  * @summary Log Profile for Firewall
  * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/Firewalls_saveLogProfile_MaximumSet_Gen.json
  */
-async function firewallsSaveLogProfileMaximumSetGen() {
+async function firewallsSaveLogProfileMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["PALOALTONETWORKSNGFW_SUBSCRIPTION_ID"] ||
     "2bf4a339-294d-4c25-b0b2-ef649e9f5c27";
@@ -137,7 +135,7 @@ async function firewallsSaveLogProfileMaximumSetGen() {
  * @summary Log Profile for Firewall
  * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/Firewalls_saveLogProfile_MinimumSet_Gen.json
  */
-async function firewallsSaveLogProfileMinimumSetGen() {
+async function firewallsSaveLogProfileMinimumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["PALOALTONETWORKSNGFW_SUBSCRIPTION_ID"] ||
     "2bf4a339-294d-4c25-b0b2-ef649e9f5c27";
@@ -153,7 +151,7 @@ async function firewallsSaveLogProfileMinimumSetGen() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   firewallsSaveLogProfileMaximumSetGen();
   firewallsSaveLogProfileMinimumSetGen();
 }

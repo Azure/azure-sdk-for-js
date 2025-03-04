@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { SiteRecoveryManagementClient } from "@azure/arm-recoveryservices-siterecovery";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get the details of specified recovery point.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Get the details of specified recovery point.
  * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/RecoveryPoints_Get.json
  */
-async function getsARecoveryPoint() {
+async function getsARecoveryPoint(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICESSITERECOVERY_SUBSCRIPTION_ID"] ||
     "c183865e-6077-46f2-a3b1-deb0f4f4650a";
@@ -45,7 +43,7 @@ async function getsARecoveryPoint() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getsARecoveryPoint();
 }
 

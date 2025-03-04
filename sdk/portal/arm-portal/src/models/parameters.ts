@@ -15,7 +15,7 @@ import {
   Dashboard as DashboardMapper,
   PatchableDashboard as PatchableDashboardMapper,
   Configuration as ConfigurationMapper
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",

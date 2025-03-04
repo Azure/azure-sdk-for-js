@@ -7,9 +7,7 @@
  */
 import { HybridComputeManagementClient } from "@azure/arm-hybridcompute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Deletes a Azure Arc PrivateLinkScope.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Deletes a Azure Arc PrivateLinkScope.
  * x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2024-07-31-preview/examples/privateLinkScope/PrivateLinkScopes_Delete.json
  */
-async function privateLinkScopesDelete() {
+async function privateLinkScopesDelete(): Promise<void> {
   const subscriptionId =
     process.env["HYBRIDCOMPUTE_SUBSCRIPTION_ID"] || "86dc51d3-92ed-4d7e-947a-775ea79b4919";
   const resourceGroupName = process.env["HYBRIDCOMPUTE_RESOURCE_GROUP"] || "my-resource-group";
@@ -28,7 +26,7 @@ async function privateLinkScopesDelete() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await privateLinkScopesDelete();
 }
 

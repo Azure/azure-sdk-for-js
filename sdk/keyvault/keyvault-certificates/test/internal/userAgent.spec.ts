@@ -6,7 +6,7 @@ import { SDK_VERSION } from "../../src/constants.js";
 import { describe, it, assert } from "vitest";
 
 describe("Certificates client's user agent (only in Node, because of fs)", () => {
-  it("SDK_VERSION and user-agent should match", async function () {
+  it("SDK_VERSION and user-agent should match", async () => {
     let userAgent: string | undefined;
     const client = new CertificateClient(
       "https://myvault.vault.azure.net",

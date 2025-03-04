@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { DefaultAzureCredential } from "@azure/identity";
-import { createWriteStream } from "fs";
+import { createWriteStream } from "node:fs";
 import MapsRender, { positionToTileXY } from "@azure-rest/maps-render";
 
 /**

@@ -17,7 +17,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Returns the public encryption key of the device.
  * x-ms-original-file: specification/storsimple8000series/resource-manager/Microsoft.StorSimple/stable/2017-06-01/examples/ManagersGetDevicePublicEncryptionKey.json
  */
-async function managersGetDevicePublicEncryptionKey() {
+async function managersGetDevicePublicEncryptionKey(): Promise<void> {
   const subscriptionId = "d3ebfe71-b7a9-4c57-92b9-68a2afde4de5";
   const deviceName = "sca01forsdktest";
   const resourceGroupName = "ResourceGroupForSDKTest";

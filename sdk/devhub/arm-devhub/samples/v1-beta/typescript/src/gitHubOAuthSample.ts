@@ -19,7 +19,7 @@ import "dotenv/config";
  * @summary Gets GitHubOAuth info used to authenticate users with the Developer Hub GitHub App.
  * x-ms-original-file: specification/developerhub/resource-manager/Microsoft.DevHub/preview/2022-10-11-preview/examples/GitHubOAuth.json
  */
-async function gitHubOAuth() {
+async function gitHubOAuth(): Promise<void> {
   const subscriptionId =
     process.env["DEVHUB_SUBSCRIPTION_ID"] || "subscriptionId1";
   const location = "eastus2euap";
@@ -33,7 +33,7 @@ async function gitHubOAuth() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   gitHubOAuth();
 }
 

@@ -5,13 +5,10 @@
  *  @summary This sample demonstrates querying methods related to metric.
  */
 
-// Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
-
+import "dotenv/config";
 import { MetricsAdvisorKeyCredential, MetricsAdvisorClient } from "@azure/ai-metrics-advisor";
 
-export async function main() {
+export async function main(): Promise<void> {
   // You will need to set these environment variables or edit the following values
   const endpoint = process.env["METRICS_ADVISOR_ENDPOINT"] || "<service endpoint>";
   const subscriptionKey = process.env["METRICS_ADVISOR_SUBSCRIPTION_KEY"] || "<subscription key>";
@@ -27,7 +24,10 @@ export async function main() {
   await listEnrichmentStatus(client, metricId);
 }
 
-async function listMetricSeriesDefinitions(client: MetricsAdvisorClient, metricId: string) {
+async function listMetricSeriesDefinitions(
+  client: MetricsAdvisorClient,
+  metricId: string,
+): Promise<void> {
   console.log("Listing metric series definitions...");
   console.log("  with for-await-of loop");
   const listIterator = client.listMetricSeriesDefinitions(metricId, new Date("08/05/2020"));
@@ -55,12 +55,12 @@ async function listMetricSeriesDefinitions(client: MetricsAdvisorClient, metricI
   }
 }
 
-async function listEnrichmentStatus(client: MetricsAdvisorClient, metricId: string) {
+async function listEnrichmentStatus(client: MetricsAdvisorClient, metricId: string): Promise<void> {
   console.log("Listing metric enrichment status...");
   const listIterator = client.listMetricEnrichmentStatus(
     metricId,
     new Date("10/22/2020"),
-    new Date("10/24/2020")
+    new Date("10/24/2020"),
   );
   for await (const status of listIterator) {
     console.log("  Enrichment status");
@@ -70,7 +70,10 @@ async function listEnrichmentStatus(client: MetricsAdvisorClient, metricId: stri
   }
 }
 
-async function listMetricDimensionValues(client: MetricsAdvisorClient, metricId: string) {
+async function listMetricDimensionValues(
+  client: MetricsAdvisorClient,
+  metricId: string,
+): Promise<void> {
   console.log("Listing metric dimension values...");
   const listIterator = client.listMetricDimensionValues(metricId, "city");
   for await (const dv of listIterator) {

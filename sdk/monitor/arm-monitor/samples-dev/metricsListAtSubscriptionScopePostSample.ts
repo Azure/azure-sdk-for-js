@@ -11,9 +11,7 @@ import type {
 } from "@azure/arm-monitor";
 import { MonitorClient } from "@azure/arm-monitor";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to **Lists the metric data for a subscription**. Parameters can be specified on either query params or the body.
@@ -21,7 +19,7 @@ dotenv.config();
  * @summary **Lists the metric data for a subscription**. Parameters can be specified on either query params or the body.
  * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2024-02-01/examples/GetMultiResourceMetric.json
  */
-async function postRequestForSubscriptionLevelMetricData() {
+async function postRequestForSubscriptionLevelMetricData(): Promise<void> {
   const subscriptionId =
     process.env["MONITOR_SUBSCRIPTION_ID"] || "92d2a2d8-b514-432d-8cc9-a5f9272630d5";
   const region = "westus2";
@@ -59,7 +57,7 @@ async function postRequestForSubscriptionLevelMetricData() {
  * @summary **Lists the metric data for a subscription**. Parameters can be specified on either query params or the body.
  * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2024-02-01/examples/PostMultiResourceMetricBody.json
  */
-async function postRequestForSubscriptionLevelMetricDataUsingBodyParams() {
+async function postRequestForSubscriptionLevelMetricDataUsingBodyParams(): Promise<void> {
   const subscriptionId =
     process.env["MONITOR_SUBSCRIPTION_ID"] || "92d2a2d8-b514-432d-8cc9-a5f9272630d5";
   const region = "westus2";
@@ -89,7 +87,7 @@ async function postRequestForSubscriptionLevelMetricDataUsingBodyParams() {
  * @summary **Lists the metric data for a subscription**. Parameters can be specified on either query params or the body.
  * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2024-02-01/examples/GetMultiResourceMetricMetadata.json
  */
-async function postRequestForSubscriptionLevelMetricMetadata() {
+async function postRequestForSubscriptionLevelMetricMetadata(): Promise<void> {
   const subscriptionId =
     process.env["MONITOR_SUBSCRIPTION_ID"] || "92d2a2d8-b514-432d-8cc9-a5f9272630d5";
   const region = "westus2";
@@ -109,7 +107,7 @@ async function postRequestForSubscriptionLevelMetricMetadata() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await postRequestForSubscriptionLevelMetricData();
   await postRequestForSubscriptionLevelMetricDataUsingBodyParams();
   await postRequestForSubscriptionLevelMetricMetadata();

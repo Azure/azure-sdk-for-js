@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { AzureMapsManagementClient } from "@azure/arm-maps";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Delete a Maps Account.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Delete a Maps Account.
  * x-ms-original-file: specification/maps/resource-manager/Microsoft.Maps/stable/2023-06-01/examples/DeleteAccount.json
  */
-async function deleteAccount() {
+async function deleteAccount(): Promise<void> {
   const subscriptionId =
     process.env["MAPS_SUBSCRIPTION_ID"] ||
     "21a9967a-e8a9-4656-a70b-96ff1c4d05a0";
@@ -33,7 +31,7 @@ async function deleteAccount() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   deleteAccount();
 }
 

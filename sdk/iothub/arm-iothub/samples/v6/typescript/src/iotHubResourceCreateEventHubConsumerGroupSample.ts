@@ -13,9 +13,7 @@ import {
   IotHubClient
 } from "@azure/arm-iothub";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Add a consumer group to an Event Hub-compatible endpoint in an IoT hub.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Add a consumer group to an Event Hub-compatible endpoint in an IoT hub.
  * x-ms-original-file: specification/iothub/resource-manager/Microsoft.Devices/stable/2023-06-30/examples/iothub_createconsumergroup.json
  */
-async function iotHubResourceCreateEventHubConsumerGroup() {
+async function iotHubResourceCreateEventHubConsumerGroup(): Promise<void> {
   const subscriptionId =
     process.env["IOTHUB_SUBSCRIPTION_ID"] ||
     "91d12660-3dec-467a-be2a-213b5544ddc0";
@@ -47,7 +45,7 @@ async function iotHubResourceCreateEventHubConsumerGroup() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   iotHubResourceCreateEventHubConsumerGroup();
 }
 

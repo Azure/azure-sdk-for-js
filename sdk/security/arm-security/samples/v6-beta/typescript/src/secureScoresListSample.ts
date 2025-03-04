@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { SecurityCenter } from "@azure/arm-security";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to List secure scores for all your Microsoft Defender for Cloud initiatives within your current scope.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary List secure scores for all your Microsoft Defender for Cloud initiatives within your current scope.
  * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/stable/2020-01-01/examples/secureScores/ListSecureScores_example.json
  */
-async function listSecureScores() {
+async function listSecureScores(): Promise<void> {
   const subscriptionId =
     process.env["SECURITY_SUBSCRIPTION_ID"] ||
     "20ff7fc3-e762-44dd-bd96-b71116dcdc23";
@@ -33,7 +31,7 @@ async function listSecureScores() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listSecureScores();
 }
 

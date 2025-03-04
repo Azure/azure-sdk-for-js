@@ -6,15 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { ServiceTags } from "../operationsInterfaces";
+import { ServiceTags } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { NetworkManagementClient } from "../networkManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { NetworkManagementClient } from "../networkManagementClient.js";
 import {
   ServiceTagsListOptionalParams,
   ServiceTagsListResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Class containing ServiceTags operations. */
 export class ServiceTagsImpl implements ServiceTags {

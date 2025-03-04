@@ -7,9 +7,7 @@
  */
 import { MicrosoftSupport } from "@azure/arm-support";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets details for a specific support ticket. Support ticket data is available for 18 months after ticket creation. If a ticket was created more than 18 months ago, a request for data might cause an error.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Gets details for a specific support ticket. Support ticket data is available for 18 months after ticket creation. If a ticket was created more than 18 months ago, a request for data might cause an error.
  * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/stable/2024-04-01/examples/GetSupportTicketDetails.json
  */
-async function getDetailsOfATicket() {
+async function getDetailsOfATicket(): Promise<void> {
   const supportTicketName = "testticket";
   const credential = new DefaultAzureCredential();
   const client = new MicrosoftSupport(credential);
@@ -25,7 +23,7 @@ async function getDetailsOfATicket() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await getDetailsOfATicket();
 }
 

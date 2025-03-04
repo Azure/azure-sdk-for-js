@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Get capabilities at specified location in a given subscription.
  * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2024-08-01/examples/CapabilitiesByLocation.json
  */
-async function capabilitiesList() {
+async function capabilitiesList(): Promise<void> {
   const subscriptionId =
     process.env["POSTGRESQL_SUBSCRIPTION_ID"] ||
     "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -34,7 +34,7 @@ async function capabilitiesList() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   capabilitiesList();
 }
 

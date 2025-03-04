@@ -42,12 +42,12 @@ describe("Can handle user event", function () {
   let req: IncomingMessage;
   let res: ServerResponse;
 
-  beforeEach(function () {
+  beforeEach(async () => {
     req = new IncomingMessage(new Socket());
     res = new ServerResponse(req);
   });
 
-  it("Should not handle the request if request is not cloud events", async function () {
+  it("Should not handle the request if request is not cloud events", async () => {
     const endSpy = vi.spyOn(res, "end");
     const dispatcher = new CloudEventsDispatcher("hub1");
     const result = await dispatcher.handleRequest(req, res);
@@ -55,7 +55,7 @@ describe("Can handle user event", function () {
     expect(endSpy).not.toBeCalled();
   });
 
-  it("Should not handle the request if hub does not match", async function () {
+  it("Should not handle the request if hub does not match", async () => {
     const endSpy = vi.spyOn(res, "end");
     buildRequest(req, "hub", "conn1");
 
@@ -65,7 +65,7 @@ describe("Can handle user event", function () {
     expect(endSpy).not.toBeCalled();
   });
 
-  it("Should handle number requests", async function () {
+  it("Should handle number requests", async () => {
     const endSpy = vi.spyOn(res, "end");
     buildRequest(req, "hub", "conn1");
 
@@ -86,7 +86,7 @@ describe("Can handle user event", function () {
     expect(endSpy).toBeCalledTimes(1);
   });
 
-  it("Should handle boolean requests", async function () {
+  it("Should handle boolean requests", async () => {
     const endSpy = vi.spyOn(res, "end");
     buildRequest(req, "hub", "conn1");
 
@@ -107,7 +107,7 @@ describe("Can handle user event", function () {
     expect(endSpy).toBeCalledTimes(1);
   });
 
-  it("Should handle complex object requests", async function () {
+  it("Should handle complex object requests", async () => {
     const endSpy = vi.spyOn(res, "end");
     buildRequest(req, "hub", "conn1");
 
@@ -127,7 +127,7 @@ describe("Can handle user event", function () {
     expect(endSpy).toBeCalledTimes(1);
   });
 
-  it("Should handle complex array requests", async function () {
+  it("Should handle complex array requests", async () => {
     const endSpy = vi.spyOn(res, "end");
     buildRequest(req, "hub", "conn1");
 
@@ -148,7 +148,7 @@ describe("Can handle user event", function () {
     expect(endSpy).toBeCalledTimes(1);
   });
 
-  it("Should handle binary requests", async function () {
+  it("Should handle binary requests", async () => {
     const endSpy = vi.spyOn(res, "end");
     buildRequest(req, "hub", "conn1", "user1", "application/octet-stream");
 
@@ -173,7 +173,7 @@ describe("Can handle user event", function () {
     expect(endSpy).toBeCalledTimes(1);
   });
 
-  it("Should handle text requests", async function () {
+  it("Should handle text requests", async () => {
     const endSpy = vi.spyOn(res, "end");
     buildRequest(req, "hub", "conn1", "user1", "text/plain");
 
@@ -194,7 +194,7 @@ describe("Can handle user event", function () {
     expect(endSpy).toBeCalledTimes(1);
   });
 
-  it("Should handle text requests with charset", async function () {
+  it("Should handle text requests with charset", async () => {
     const endSpy = vi.spyOn(res, "end");
     buildRequest(req, "hub", "conn1", "user1", "text/plain; charset=UTF-8;");
 
@@ -215,7 +215,7 @@ describe("Can handle user event", function () {
     expect(endSpy).toBeCalledTimes(1);
   });
 
-  it("Should response with 200 when option is not specified", async function () {
+  it("Should response with 200 when option is not specified", async () => {
     const endSpy = vi.spyOn(res, "end");
     buildRequest(req, "hub", "conn1");
 
@@ -226,7 +226,7 @@ describe("Can handle user event", function () {
     assert.equal(200, res.statusCode, "should be 200");
   });
 
-  it("Should response with 200 when handler is not specified", async function () {
+  it("Should response with 200 when handler is not specified", async () => {
     const endSpy = vi.spyOn(res, "end");
     buildRequest(req, "hub", "conn1");
 
@@ -237,7 +237,7 @@ describe("Can handle user event", function () {
     assert.equal(200, res.statusCode, "should be 200");
   });
 
-  it("Should response with error when handler returns error", async function () {
+  it("Should response with error when handler returns error", async () => {
     const endSpy = vi.spyOn(res, "end");
     buildRequest(req, "hub", "conn1");
 
@@ -254,7 +254,7 @@ describe("Can handle user event", function () {
     assert.equal(500, res.statusCode, "should be error");
   });
 
-  it("Should response with success when handler returns success", async function () {
+  it("Should response with success when handler returns success", async () => {
     const endSpy = vi.spyOn(res, "end");
     buildRequest(req, "hub", "conn1");
 
@@ -271,7 +271,7 @@ describe("Can handle user event", function () {
     assert.equal(200, res.statusCode, "should be success");
   });
 
-  it("Should response with success when returns success binary", async function () {
+  it("Should response with success when returns success binary", async () => {
     const endSpy = vi.spyOn(res, "end");
     buildRequest(req, "hub", "conn1");
 
@@ -289,7 +289,7 @@ describe("Can handle user event", function () {
     assert.equal("application/octet-stream", res.getHeader("content-type"), "should be binary");
   });
 
-  it("Should response with success when returns success text", async function () {
+  it("Should response with success when returns success text", async () => {
     const endSpy = vi.spyOn(res, "end");
     buildRequest(req, "hub", "conn1");
 
@@ -307,7 +307,7 @@ describe("Can handle user event", function () {
     assert.equal("text/plain; charset=utf-8", res.getHeader("content-type"), "should be text");
   });
 
-  it("Should response with success when returns success json", async function () {
+  it("Should response with success when returns success json", async () => {
     const endSpy = vi.spyOn(res, "end");
     buildRequest(req, "hub", "conn1");
 
@@ -329,7 +329,7 @@ describe("Can handle user event", function () {
     );
   });
 
-  it("Should be able to set connection state", async function () {
+  it("Should be able to set connection state", async () => {
     const endSpy = vi.spyOn(res, "end");
     buildRequest(req, "hub", "conn1");
 

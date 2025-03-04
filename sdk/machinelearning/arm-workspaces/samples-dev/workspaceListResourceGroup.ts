@@ -14,7 +14,7 @@
 import { MachineLearningWorkspacesManagementClient } from "@azure/arm-workspaces";
 import { DefaultAzureCredential } from "@azure/identity";
 
-async function workspaceListResourceGroup() {
+async function workspaceListResourceGroup(): Promise<void> {
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const resourceGroupName = "myResourceGroup";
   const credential = new DefaultAzureCredential();

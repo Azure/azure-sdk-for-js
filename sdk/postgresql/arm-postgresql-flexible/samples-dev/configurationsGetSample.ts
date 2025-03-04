@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Gets information about a configuration of server.
  * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2024-08-01/examples/ConfigurationGet.json
  */
-async function configurationGet() {
+async function configurationGet(): Promise<void> {
   const subscriptionId =
     process.env["POSTGRESQL_SUBSCRIPTION_ID"] || "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const resourceGroupName = process.env["POSTGRESQL_RESOURCE_GROUP"] || "testrg";
@@ -27,7 +27,7 @@ async function configurationGet() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await configurationGet();
 }
 

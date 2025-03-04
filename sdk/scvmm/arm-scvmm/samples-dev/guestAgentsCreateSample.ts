@@ -8,9 +8,7 @@
 import type { GuestAgent } from "@azure/arm-scvmm";
 import { ScVmm } from "@azure/arm-scvmm";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create Or Update GuestAgent.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Create Or Update GuestAgent.
  * x-ms-original-file: specification/scvmm/resource-manager/Microsoft.ScVmm/stable/2023-10-07/examples/GuestAgents_Create_MaximumSet_Gen.json
  */
-async function guestAgentsCreateMaximumSet() {
+async function guestAgentsCreateMaximumSet(): Promise<void> {
   const resourceUri = "gtgclehcbsyave";
   const resource: GuestAgent = {
     properties: {
@@ -42,7 +40,7 @@ async function guestAgentsCreateMaximumSet() {
  * @summary Create Or Update GuestAgent.
  * x-ms-original-file: specification/scvmm/resource-manager/Microsoft.ScVmm/stable/2023-10-07/examples/GuestAgents_Create_MinimumSet_Gen.json
  */
-async function guestAgentsCreateMinimumSet() {
+async function guestAgentsCreateMinimumSet(): Promise<void> {
   const resourceUri = "gtgclehcbsyave";
   const resource: GuestAgent = {};
   const credential = new DefaultAzureCredential();
@@ -51,7 +49,7 @@ async function guestAgentsCreateMinimumSet() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await guestAgentsCreateMaximumSet();
   await guestAgentsCreateMinimumSet();
 }

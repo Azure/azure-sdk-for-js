@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { SignalRManagementClient } from "@azure/arm-signalr";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Operation to restart a resource.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Operation to restart a resource.
  * x-ms-original-file: specification/signalr/resource-manager/Microsoft.SignalRService/preview/2023-08-01-preview/examples/SignalR_Restart.json
  */
-async function signalRRestart() {
+async function signalRRestart(): Promise<void> {
   const subscriptionId =
     process.env["SIGNALR_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -36,7 +34,7 @@ async function signalRRestart() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   signalRRestart();
 }
 

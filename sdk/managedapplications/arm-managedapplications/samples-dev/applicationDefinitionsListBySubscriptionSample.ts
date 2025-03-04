@@ -7,9 +7,7 @@
  */
 import { ApplicationClient } from "@azure/arm-managedapplications";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists all the application definitions within a subscription.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Lists all the application definitions within a subscription.
  * x-ms-original-file: specification/solutions/resource-manager/Microsoft.Solutions/stable/2021-07-01/examples/listApplicationDefinitionsBySubscription.json
  */
-async function listsAllTheApplicationDefinitionsWithinASubscription() {
+async function listsAllTheApplicationDefinitionsWithinASubscription(): Promise<void> {
   const subscriptionId = process.env["MANAGEDAPPLICATIONS_SUBSCRIPTION_ID"] || "subid";
   const credential = new DefaultAzureCredential();
   const client = new ApplicationClient(credential, subscriptionId);
@@ -28,7 +26,7 @@ async function listsAllTheApplicationDefinitionsWithinASubscription() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await listsAllTheApplicationDefinitionsWithinASubscription();
 }
 

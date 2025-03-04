@@ -7,9 +7,7 @@
  */
 import { ServiceBusManagementClient } from "@azure/arm-servicebus";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to This operation Completes Migration of entities by pointing the connection strings to Premium namespace and any entities created after the operation will be under Premium Namespace. CompleteMigration operation will fail when entity migration is in-progress.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary This operation Completes Migration of entities by pointing the connection strings to Premium namespace and any entities created after the operation will be under Premium Namespace. CompleteMigration operation will fail when entity migration is in-progress.
  * x-ms-original-file: specification/servicebus/resource-manager/Microsoft.ServiceBus/preview/2022-10-01-preview/examples/Migrationconfigurations/SBMigrationconfigurationCompleteMigration.json
  */
-async function migrationConfigurationsCompleteMigration() {
+async function migrationConfigurationsCompleteMigration(): Promise<void> {
   const subscriptionId = process.env["SERVICEBUS_SUBSCRIPTION_ID"] || "SubscriptionId";
   const resourceGroupName = process.env["SERVICEBUS_RESOURCE_GROUP"] || "ResourceGroup";
   const namespaceName = "sdk-Namespace-41";
@@ -32,7 +30,7 @@ async function migrationConfigurationsCompleteMigration() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await migrationConfigurationsCompleteMigration();
 }
 

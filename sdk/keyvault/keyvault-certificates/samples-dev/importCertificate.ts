@@ -5,14 +5,10 @@
  * @summary Imports a PFX and PEM certificate and then deletes them.
  */
 
-// Load the .env file if it exists
-import * as dotenv from "dotenv";
-
 import { CertificateClient, WellKnownIssuer } from "@azure/keyvault-certificates";
-
 import { DefaultAzureCredential } from "@azure/identity";
-
-dotenv.config();
+// Load the .env file if it exists
+import "dotenv/config";
 
 // For convenience in this sample we'll use some self-signed test certificates
 // that were generated using openssl

@@ -6,15 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { NetworkProfileOperations } from "../operationsInterfaces";
+import { NetworkProfileOperations } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { HybridComputeManagementClient } from "../hybridComputeManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { HybridComputeManagementClient } from "../hybridComputeManagementClient.js";
 import {
   NetworkProfileGetOptionalParams,
   NetworkProfileGetResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Class containing NetworkProfileOperations operations. */
 export class NetworkProfileOperationsImpl implements NetworkProfileOperations {

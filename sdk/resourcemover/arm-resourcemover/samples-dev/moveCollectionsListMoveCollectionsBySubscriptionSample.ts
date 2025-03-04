@@ -7,9 +7,7 @@
  */
 import { ResourceMoverServiceAPI } from "@azure/arm-resourcemover";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get all the Move Collections in the subscription.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Get all the Move Collections in the subscription.
  * x-ms-original-file: specification/resourcemover/resource-manager/Microsoft.Migrate/stable/2023-08-01/examples/MoveCollections_ListMoveCollectionsBySubscription.json
  */
-async function moveCollectionsListMoveCollectionsBySubscription() {
+async function moveCollectionsListMoveCollectionsBySubscription(): Promise<void> {
   const subscriptionId = process.env["RESOURCEMOVER_SUBSCRIPTION_ID"] || "subid";
   const credential = new DefaultAzureCredential();
   const client = new ResourceMoverServiceAPI(credential, subscriptionId);
@@ -28,7 +26,7 @@ async function moveCollectionsListMoveCollectionsBySubscription() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await moveCollectionsListMoveCollectionsBySubscription();
 }
 

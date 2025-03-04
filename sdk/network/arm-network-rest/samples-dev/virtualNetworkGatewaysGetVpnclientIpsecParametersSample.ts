@@ -11,7 +11,7 @@ import "dotenv/config";
  * @summary The Get VpnclientIpsecParameters operation retrieves information about the vpnclient ipsec policy for P2S client of virtual network gateway in the specified resource group through Network resource provider.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/VirtualNetworkGatewayGetVpnClientIpsecParameters.json
  */
-async function getVirtualNetworkGatewayVpnClientIpsecParameters() {
+async function getVirtualNetworkGatewayVpnClientIpsecParameters(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

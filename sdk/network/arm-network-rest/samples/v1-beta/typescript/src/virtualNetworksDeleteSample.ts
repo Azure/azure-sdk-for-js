@@ -13,7 +13,7 @@ import "dotenv/config";
  * @summary Deletes the specified virtual network.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/VirtualNetworkDelete.json
  */
-async function deleteVirtualNetwork() {
+async function deleteVirtualNetwork(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

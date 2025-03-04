@@ -274,6 +274,7 @@ describe("StreamingReceiver unit tests", () => {
       () => wrappedMessageHandlers.processMessage({} as ServiceBusReceivedMessage),
       {
         message: "processMessage",
+        name: "Error",
       },
     );
 

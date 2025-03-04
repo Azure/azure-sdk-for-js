@@ -16,7 +16,7 @@ import {
   DatabasesDeleteOptionalParams,
   DatabasesGetOptionalParams,
   DatabasesGetResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Databases. */

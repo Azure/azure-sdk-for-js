@@ -12,7 +12,7 @@ import "dotenv/config";
  * @summary Updates public IP prefix tags.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/PublicIpPrefixUpdateTags.json
  */
-async function updatePublicIPPrefixTags() {
+async function updatePublicIPPrefixTags(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

@@ -7,14 +7,14 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { EnergyServices } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { EnergyServices } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { OpenEnergyPlatformManagementServiceAPIs } from "../openEnergyPlatformManagementServiceAPIs";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { OpenEnergyPlatformManagementServiceAPIs } from "../openEnergyPlatformManagementServiceAPIs.js";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import { LroImpl } from "../lroImpl.js";
 import {
   EnergyService,
   EnergyServicesListByResourceGroupNextOptionalParams,
@@ -32,7 +32,7 @@ import {
   EnergyServicesDeleteOptionalParams,
   EnergyServicesListByResourceGroupNextResponse,
   EnergyServicesListBySubscriptionNextResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing EnergyServices operations. */

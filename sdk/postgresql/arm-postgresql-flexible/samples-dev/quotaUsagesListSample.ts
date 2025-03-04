@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Get quota usages at specified location in a given subscription.
  * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-12-01-preview/examples/QuotaUsagesForFlexibleServers.json
  */
-async function listOfQuotaUsagesForFlexibleServers() {
+async function listOfQuotaUsagesForFlexibleServers(): Promise<void> {
   const subscriptionId =
     process.env["POSTGRESQL_SUBSCRIPTION_ID"] || "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const locationName = "westus";
@@ -28,7 +28,7 @@ async function listOfQuotaUsagesForFlexibleServers() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await listOfQuotaUsagesForFlexibleServers();
 }
 

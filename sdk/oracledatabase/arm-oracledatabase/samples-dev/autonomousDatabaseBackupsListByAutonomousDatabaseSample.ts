@@ -7,9 +7,7 @@
  */
 import { OracleDatabaseManagementClient } from "@azure/arm-oracledatabase";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to List AutonomousDatabaseBackup resources by AutonomousDatabase
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary List AutonomousDatabaseBackup resources by AutonomousDatabase
  * x-ms-original-file: specification/oracle/resource-manager/Oracle.Database/stable/2023-09-01/examples/autonomousDatabaseBackup_listByParent.json
  */
-async function autonomousDatabaseBackupsListByAutonomousDatabase() {
+async function autonomousDatabaseBackupsListByAutonomousDatabase(): Promise<void> {
   const subscriptionId =
     process.env["ORACLEDATABASE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = process.env["ORACLEDATABASE_RESOURCE_GROUP"] || "rg000";
@@ -40,7 +38,7 @@ async function autonomousDatabaseBackupsListByAutonomousDatabase() {
  * @summary List AutonomousDatabaseBackup resources by AutonomousDatabase
  * x-ms-original-file: specification/oracle/resource-manager/Oracle.Database/stable/2023-09-01/examples/autonomousDatabaseBackup_listByParent.json
  */
-async function listAutonomousDatabaseBackupsByAutonomousDatabase() {
+async function listAutonomousDatabaseBackupsByAutonomousDatabase(): Promise<void> {
   const subscriptionId =
     process.env["ORACLEDATABASE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = process.env["ORACLEDATABASE_RESOURCE_GROUP"] || "rg000";
@@ -57,7 +55,7 @@ async function listAutonomousDatabaseBackupsByAutonomousDatabase() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await autonomousDatabaseBackupsListByAutonomousDatabase();
   await listAutonomousDatabaseBackupsByAutonomousDatabase();
 }

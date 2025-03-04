@@ -8,9 +8,7 @@
 import type { AccountSasParameters } from "@azure/arm-maps";
 import { AzureMapsManagementClient } from "@azure/arm-maps";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create and list an account shared access signature token. Use this SAS token for authentication to Azure Maps REST APIs through various Azure Maps SDKs. As prerequisite to create a SAS Token. 
@@ -26,7 +24,7 @@ Prerequisites:
 2. Create or update an Azure Map account with the same Azure region as the User Assigned Managed Identity is placed.
  * x-ms-original-file: specification/maps/resource-manager/Microsoft.Maps/stable/2023-06-01/examples/AccountListSAS.json
  */
-async function listAccountSas() {
+async function listAccountSas(): Promise<void> {
   const subscriptionId =
     process.env["MAPS_SUBSCRIPTION_ID"] || "21a9967a-e8a9-4656-a70b-96ff1c4d05a0";
   const resourceGroupName = process.env["MAPS_RESOURCE_GROUP"] || "myResourceGroup";
@@ -49,7 +47,7 @@ async function listAccountSas() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await listAccountSas();
 }
 

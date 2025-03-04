@@ -7,9 +7,7 @@
  */
 import { MonitorClient } from "@azure/arm-monitor";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Returns the specified Azure Monitor Workspace
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Returns the specified Azure Monitor Workspace
  * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Monitor/stable/2023-04-03/examples/AzureMonitorWorkspacesGet.json
  */
-async function getAzureMonitorWorkspace() {
+async function getAzureMonitorWorkspace(): Promise<void> {
   const subscriptionId =
     process.env["MONITOR_SUBSCRIPTION_ID"] || "703362b3-f278-4e4b-9179-c76eaf41ffc2";
   const resourceGroupName = process.env["MONITOR_RESOURCE_GROUP"] || "myResourceGroup";
@@ -31,7 +29,7 @@ async function getAzureMonitorWorkspace() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await getAzureMonitorWorkspace();
 }
 

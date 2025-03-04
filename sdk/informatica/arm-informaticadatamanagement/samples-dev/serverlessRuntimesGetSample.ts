@@ -7,9 +7,7 @@
  */
 import { InformaticaDataManagement } from "@azure/arm-informaticadatamanagement";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get a InformaticaServerlessRuntimeResource
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Get a InformaticaServerlessRuntimeResource
  * x-ms-original-file: specification/informatica/resource-manager/Informatica.DataManagement/stable/2024-05-08/examples/ServerlessRuntimes_Get_MaximumSet_Gen.json
  */
-async function serverlessRuntimesGet() {
+async function serverlessRuntimesGet(): Promise<void> {
   const subscriptionId =
     process.env["INFORMATICA_SUBSCRIPTION_ID"] || "3599DA28-E346-4D9F-811E-189C0445F0FE";
   const resourceGroupName = process.env["INFORMATICA_RESOURCE_GROUP"] || "rgopenapi";
@@ -39,7 +37,7 @@ async function serverlessRuntimesGet() {
  * @summary Get a InformaticaServerlessRuntimeResource
  * x-ms-original-file: specification/informatica/resource-manager/Informatica.DataManagement/stable/2024-05-08/examples/ServerlessRuntimes_Get_MinimumSet_Gen.json
  */
-async function serverlessRuntimesGetMin() {
+async function serverlessRuntimesGetMin(): Promise<void> {
   const subscriptionId =
     process.env["INFORMATICA_SUBSCRIPTION_ID"] || "3599DA28-E346-4D9F-811E-189C0445F0FE";
   const resourceGroupName = process.env["INFORMATICA_RESOURCE_GROUP"] || "rgopenapi";
@@ -55,7 +53,7 @@ async function serverlessRuntimesGetMin() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await serverlessRuntimesGet();
   await serverlessRuntimesGetMin();
 }

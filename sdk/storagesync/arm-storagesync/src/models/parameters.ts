@@ -27,7 +27,7 @@ import {
   RecallActionParameters as RecallActionParametersMapper,
   RegisteredServerCreateParameters as RegisteredServerCreateParametersMapper,
   TriggerRolloverRequest as TriggerRolloverRequestMapper
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",

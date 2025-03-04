@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary List all the servers in a given resource group.
  * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2024-08-01/examples/VirtualEndpointsListByServer.json
  */
-async function virtualEndpointListByServer() {
+async function virtualEndpointListByServer(): Promise<void> {
   const subscriptionId =
     process.env["POSTGRESQL_SUBSCRIPTION_ID"] ||
     "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -37,7 +37,7 @@ async function virtualEndpointListByServer() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   virtualEndpointListByServer();
 }
 

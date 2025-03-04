@@ -7,9 +7,7 @@
  */
 import { AzureMigrateV2 } from "@azure/arm-migrate";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get all the projects in the subscription.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Get all the projects in the subscription.
  * x-ms-original-file: specification/migrate/resource-manager/Microsoft.Migrate/stable/2019-10-01/examples/ProjectsInSubscription_List.json
  */
-async function projectsList() {
+async function projectsList(): Promise<void> {
   const subscriptionId =
     process.env["MIGRATE_SUBSCRIPTION_ID"] || "6393a73f-8d55-47ef-b6dd-179b3e0c7910";
   const credential = new DefaultAzureCredential();
@@ -29,7 +27,7 @@ async function projectsList() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await projectsList();
 }
 

@@ -22,7 +22,7 @@ import { DefaultAzureCredential } from "@azure/identity";
 
  * x-ms-original-file: specification/managementgroups/resource-manager/Microsoft.Management/stable/2021-04-01/examples/ListManagementGroups.json
  */
-async function listManagementGroups() {
+async function listManagementGroups(): Promise<void> {
   const cacheControl = "no-cache";
   const options: ManagementGroupsListOptionalParams = { cacheControl };
   const credential = new DefaultAzureCredential();

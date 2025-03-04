@@ -418,27 +418,8 @@ export function createMsalClient(
     options: GetTokenOptions = {},
   ): Promise<msal.AuthenticationResult> {
     if (state.cachedAccount === null) {
-      state.logger.getToken.info(
-        "No cached account found in local state, attempting to load it from MSAL cache.",
-      );
-      const cache = app.getTokenCache();
-      const accounts = await cache.getAllAccounts();
-
-      if (accounts === undefined || accounts.length === 0) {
-        throw new AuthenticationRequiredError({ scopes });
-      }
-
-      if (accounts.length > 1) {
-        state.logger
-          .info(`More than one account was found authenticated for this Client ID and Tenant ID.
-However, no "authenticationRecord" has been provided for this credential,
-therefore we're unable to pick between these accounts.
-A new login attempt will be requested, to ensure the correct account is picked.
-To work with multiple accounts for the same Client ID and Tenant ID, please provide an "authenticationRecord" when initializing a credential to prevent this from happening.`);
-        throw new AuthenticationRequiredError({ scopes });
-      }
-
-      state.cachedAccount = accounts[0];
+      state.logger.getToken.info("No cached account found in local state.");
+      throw new AuthenticationRequiredError({ scopes });
     }
 
     // Keep track and reuse the claims we received across challenges
@@ -466,7 +447,11 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
       silentRequest.resourceRequestUri = options.proofOfPossessionOptions.resourceRequestUrl;
     }
     state.logger.getToken.info("Attempting to acquire token silently");
-    return app.acquireTokenSilent(silentRequest);
+    try {
+      return await app.acquireTokenSilent(silentRequest);
+    } catch (err: any) {
+      throw handleMsalError(scopes, err, options);
+    }
   }
 
   /**
@@ -835,6 +820,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
         loginHint: options?.loginHint,
         errorTemplate: options?.browserCustomizationOptions?.errorMessage,
         successTemplate: options?.browserCustomizationOptions?.successMessage,
+        prompt: options?.loginHint ? "login" : "select_account",
       };
     }
 

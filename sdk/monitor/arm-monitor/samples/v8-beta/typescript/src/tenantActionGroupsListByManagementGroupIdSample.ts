@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { MonitorClient } from "@azure/arm-monitor";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get a list of all tenant action groups in a management group.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Get a list of all tenant action groups in a management group.
  * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/preview/2023-05-01-preview/examples/listTenantActionGroups.json
  */
-async function listTenantActionGroupsAtManagementGroupLevel() {
+async function listTenantActionGroupsAtManagementGroupLevel(): Promise<void> {
   const managementGroupId = "72f988bf-86f1-41af-91ab-2d7cd011db47";
   const xMsClientTenantId = "72f988bf-86f1-41af-91ab-2d7cd011db47";
   const credential = new DefaultAzureCredential();
@@ -35,7 +33,7 @@ async function listTenantActionGroupsAtManagementGroupLevel() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listTenantActionGroupsAtManagementGroupLevel();
 }
 

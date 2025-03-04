@@ -7,9 +7,7 @@
  */
 import { HDInsightContainersManagementClient } from "@azure/arm-hdinsightcontainers";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists the lists of instance views
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Lists the lists of instance views
  * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/HDInsightOnAks/preview/2024-05-01-preview/examples/ListClusterInstanceViews.json
  */
-async function hdInsightClusterGetInstanceViews() {
+async function hdInsightClusterGetInstanceViews(): Promise<void> {
   const subscriptionId =
     process.env["HDINSIGHT_SUBSCRIPTION_ID"] || "10e32bab-26da-4cc4-a441-52b318f824e6";
   const resourceGroupName = process.env["HDINSIGHT_RESOURCE_GROUP"] || "rg1";
@@ -36,7 +34,7 @@ async function hdInsightClusterGetInstanceViews() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await hdInsightClusterGetInstanceViews();
 }
 

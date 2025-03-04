@@ -59,7 +59,7 @@ describe("internal crypto tests", () => {
     });
 
     describe("checkKeyValidity", () => {
-      it("Checking that the key's notBefore is respected", async function () {
+      it("Checking that the key's notBefore is respected", async () => {
         const notBefore = new Date(Date.now() + 60 * 1000 * 60 * 24); // Now + 24h
         key.properties.notBefore = notBefore;
         const cryptoClient = new CryptographyClient(key, tokenCredential);
@@ -68,7 +68,7 @@ describe("internal crypto tests", () => {
         );
       });
 
-      it("Checking that the key's expires is respected", async function () {
+      it("Checking that the key's expires is respected", async () => {
         const expiresOn = new Date(Date.now() - 60 * 1000 * 60 * 24); // Now - 24h
         key.properties.expiresOn = expiresOn;
         const cryptoClient = new CryptographyClient(key, tokenCredential);
@@ -209,7 +209,7 @@ describe("internal crypto tests", () => {
   });
 
   describe("RSA local cryptography tests", function () {
-    it("throws a validation error when the key is invalid", function () {
+    it("throws a validation error when the key is invalid", () => {
       const rsaProvider = new RsaCryptographyProvider({ kty: "AES", keyOps: ["encrypt"] });
       assert.throws(
         () => rsaProvider.encrypt({ algorithm: "RSA1_5", plaintext: stringToUint8Array("foo") }),
@@ -271,7 +271,7 @@ describe("internal crypto tests", () => {
       });
 
       describe("when creating the client with an identifier", function () {
-        it("falls back to the remote provider when the key cannot be fetched due to permissions", async function () {
+        it("falls back to the remote provider when the key cannot be fetched due to permissions", async () => {
           const sendSignRequest: SendRequest = (request) =>
             Promise.resolve({
               status: 200,
@@ -306,7 +306,7 @@ describe("internal crypto tests", () => {
       });
 
       describe("when a local provider errors", function () {
-        it("remotes the encrypt operation", async function () {
+        it("remotes the encrypt operation", async () => {
           const remoteStub = vi
             .spyOn(remoteProvider, "encrypt")
             .mockResolvedValue({ algorithm: "", result: new Uint8Array(0) });
@@ -320,7 +320,7 @@ describe("internal crypto tests", () => {
           expect(remoteStub).toHaveBeenCalledWith(parameters, expect.anything());
         });
 
-        it("remotes the decrypt operation", async function () {
+        it("remotes the decrypt operation", async () => {
           const remoteStub = vi
             .spyOn(remoteProvider, "decrypt")
             .mockResolvedValue({ algorithm: "", result: new Uint8Array(0) });
@@ -333,7 +333,7 @@ describe("internal crypto tests", () => {
           expect(remoteStub).toHaveBeenCalledWith(parameters, expect.anything());
         });
 
-        it("remotes the wrapKey operation", async function () {
+        it("remotes the wrapKey operation", async () => {
           const remoteStub = vi
             .spyOn(remoteProvider, "wrapKey")
             .mockResolvedValue({ algorithm: "A128KW", result: new Uint8Array(0) });
@@ -343,7 +343,7 @@ describe("internal crypto tests", () => {
           expect(remoteStub).toHaveBeenCalledWith("RSA-OAEP", keyToWrap, expect.anything());
         });
 
-        it("remotes the unwrapKey operation", async function () {
+        it("remotes the unwrapKey operation", async () => {
           const remoteStub = vi
             .spyOn(remoteProvider, "unwrapKey")
             .mockResolvedValue({ algorithm: "A128KW", result: new Uint8Array(0) });
@@ -353,7 +353,7 @@ describe("internal crypto tests", () => {
           expect(remoteStub).toHaveBeenCalledWith("RSA-OAEP", wrappedKey, expect.anything());
         });
 
-        it("remotes the sign operation", async function () {
+        it("remotes the sign operation", async () => {
           const remoteStub = vi
             .spyOn(remoteProvider, "sign")
             .mockResolvedValue({ algorithm: "PS256", result: new Uint8Array(0) });
@@ -363,7 +363,7 @@ describe("internal crypto tests", () => {
           expect(remoteStub).toHaveBeenCalledWith("PS256", data, expect.anything());
         });
 
-        it("remotes the signData operation", async function () {
+        it("remotes the signData operation", async () => {
           const remoteStub = vi
             .spyOn(remoteProvider, "signData")
             .mockResolvedValue({ algorithm: "PS256", result: new Uint8Array(0) });
@@ -373,7 +373,7 @@ describe("internal crypto tests", () => {
           expect(remoteStub).toHaveBeenCalledWith("PS256", data, expect.anything());
         });
 
-        it("remotes the verify operation", async function () {
+        it("remotes the verify operation", async () => {
           const remoteStub = vi.spyOn(remoteProvider, "verify").mockResolvedValue({ result: true });
 
           const data = stringToUint8Array("myKey");
@@ -382,7 +382,7 @@ describe("internal crypto tests", () => {
           expect(remoteStub).toHaveBeenCalledWith("PS256", data, sig, expect.anything());
         });
 
-        it("remotes the verifyData operation", async function () {
+        it("remotes the verifyData operation", async () => {
           const remoteStub = vi
             .spyOn(remoteProvider, "verifyData")
             .mockResolvedValue({ result: true });
@@ -408,43 +408,43 @@ describe("internal crypto tests", () => {
       });
 
       describe("when a local provider errors", function () {
-        it("throws the original encrypt exception", async function () {
+        it("throws the original encrypt exception", async () => {
           await expect(
             cryptoClient.encrypt({ algorithm: "RSA-OAEP", plaintext: stringToUint8Array("text") }),
           ).rejects.toThrow();
         });
 
-        it("throws the original decrypt exception", async function () {
+        it("throws the original decrypt exception", async () => {
           await expect(
             cryptoClient.decrypt({ algorithm: "RSA-OAEP", ciphertext: stringToUint8Array("text") }),
           ).rejects.toThrow();
         });
 
-        it("throws the original wrapKey exception", async function () {
+        it("throws the original wrapKey exception", async () => {
           await expect(
             cryptoClient.wrapKey("RSA-OAEP", stringToUint8Array("myKey")),
           ).rejects.toThrow();
         });
 
-        it("throws the original unwrapKey exception", async function () {
+        it("throws the original unwrapKey exception", async () => {
           await expect(
             cryptoClient.unwrapKey("RSA-OAEP", stringToUint8Array("myKey")),
           ).rejects.toThrow();
         });
-        it("throws the original sign exception", async function () {
+        it("throws the original sign exception", async () => {
           await expect(cryptoClient.sign("PS256", stringToUint8Array("data"))).rejects.toThrow();
         });
-        it("throws the original signData exception", async function () {
+        it("throws the original signData exception", async () => {
           await expect(
             cryptoClient.signData("PS256", stringToUint8Array("data")),
           ).rejects.toThrow();
         });
-        it("throws the original verify exception", async function () {
+        it("throws the original verify exception", async () => {
           await expect(
             cryptoClient.verify("PS256", stringToUint8Array("data"), stringToUint8Array("sig")),
           ).rejects.toThrow();
         });
-        it("throws the original verifyData exception", async function () {
+        it("throws the original verifyData exception", async () => {
           await expect(
             cryptoClient.verifyData("PS256", stringToUint8Array("data"), stringToUint8Array("sig")),
           ).rejects.toThrow();

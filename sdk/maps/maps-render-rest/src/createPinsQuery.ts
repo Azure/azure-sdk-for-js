@@ -69,31 +69,50 @@ export interface PinSet {
  * Create a pin query string for _get map static image_
  *
  * @example
- * ```ts
+ * ```ts snippet:ReadmeSampleCreatePinsQuery
+ * import { DefaultAzureCredential } from "@azure/identity";
+ * import MapsRender, { PinSet, createPinsQuery } from "@azure-rest/maps-render";
+ * import { createWriteStream } from "node:fs";
  *
- * const pins = {
- *  pins: [
- *    { coordinate: [52.577, 13.35], label: "Label start" },
- *    { coordinate: [52.6, 13.2988], label: "Label end" },
- *  ],
- *  pinImage: "<image source url || default || none>"
- *  options: {
- *    scale: 0.9,
- *    pinColor: "FF0000",
- *    labelColor: "0000FF",
- *    labelSizeInPixels: 18,
- *  }
- * );
- * const res = await client
- *  .path("/map/static/{format}", "png")
- *  .get({
- *    queryParameters: {
- *      bbox: [13.228, 52.4559, 13.5794, 52.62],
- *      zoom: 10,
- *      pins: pins,
- *    },
- *    skipUrlEncoding: true,
- *  })
+ * const credential = new DefaultAzureCredential();
+ * const client = MapsRender(credential, "<maps-account-client-id>");
+ *
+ * const pins: PinSet[] = [
+ *   {
+ *     pins: [
+ *       { coordinate: [52.577, 13.35], label: "Label start" },
+ *       { coordinate: [52.6, 13.2988], label: "Label end" },
+ *     ],
+ *     pinImage: "default",
+ *     options: {
+ *       scale: 0.9,
+ *       pinColor: "FF0000",
+ *       labelColor: "0000FF",
+ *       labelSizeInPixels: 18,
+ *     },
+ *   },
+ * ];
+ *
+ * const path = createPinsQuery(pins);
+ *
+ * const response = await client
+ *   .path("/map/static")
+ *   .get({
+ *     queryParameters: {
+ *       bbox: [13.228, 52.4559, 13.5794, 52.62],
+ *       zoom: 10,
+ *       path,
+ *     },
+ *     skipUrlEncoding: true,
+ *   })
+ *   .asNodeStream();
+ *
+ * // Handle the error.
+ * if (!response.body) {
+ *   throw Error("No response body");
+ * }
+ *
+ * response.body.pipe(createWriteStream("pin.png"));
  * ```
  *
  * @param pins - An array of {@link Pin} that specify the positions and label text of each pin.

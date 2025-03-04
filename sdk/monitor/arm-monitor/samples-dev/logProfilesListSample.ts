@@ -7,9 +7,7 @@
  */
 import { MonitorClient } from "@azure/arm-monitor";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to List the log profiles.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary List the log profiles.
  * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2016-03-01/examples/listLogProfile.json
  */
-async function listLogProfiles() {
+async function listLogProfiles(): Promise<void> {
   const subscriptionId =
     process.env["MONITOR_SUBSCRIPTION_ID"] || "df602c9c-7aa0-407d-a6fb-eb20c8bd1192";
   const credential = new DefaultAzureCredential();
@@ -29,7 +27,7 @@ async function listLogProfiles() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await listLogProfiles();
 }
 

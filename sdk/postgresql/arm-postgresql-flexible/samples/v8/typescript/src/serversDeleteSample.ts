@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Deletes a server.
  * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2024-08-01/examples/ServerDelete.json
  */
-async function serverDelete() {
+async function serverDelete(): Promise<void> {
   const subscriptionId =
     process.env["POSTGRESQL_SUBSCRIPTION_ID"] ||
     "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -34,7 +34,7 @@ async function serverDelete() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   serverDelete();
 }
 

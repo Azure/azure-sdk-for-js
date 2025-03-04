@@ -20,7 +20,7 @@ import {
   MonitoredSubscriptionsUpdateResponse,
   MonitoredSubscriptionsDeleteOptionalParams,
   MonitoredSubscriptionsDeleteResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a MonitoredSubscriptions. */

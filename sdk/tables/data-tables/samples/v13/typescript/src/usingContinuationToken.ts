@@ -9,13 +9,11 @@
 import { TableClient, AzureSASCredential, TransactionAction } from "@azure/data-tables";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
-
+import "dotenv/config";
 const tablesUrl = process.env["TABLES_URL"] || "";
 const sasToken = process.env["SAS_TOKEN"] || "";
 
-async function usingContinuationToken() {
+async function usingContinuationToken(): Promise<void> {
   const tableName = `manualListByPage`;
 
   // See authenticationMethods sample for other options of creating a new client

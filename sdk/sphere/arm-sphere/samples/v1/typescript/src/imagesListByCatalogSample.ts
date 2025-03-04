@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { AzureSphereManagementClient } from "@azure/arm-sphere";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to List Image resources by Catalog
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary List Image resources by Catalog
  * x-ms-original-file: specification/sphere/resource-manager/Microsoft.AzureSphere/stable/2024-04-01/examples/GetImages.json
  */
-async function imagesListByCatalog() {
+async function imagesListByCatalog(): Promise<void> {
   const subscriptionId =
     process.env["SPHERE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -39,7 +37,7 @@ async function imagesListByCatalog() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   imagesListByCatalog();
 }
 

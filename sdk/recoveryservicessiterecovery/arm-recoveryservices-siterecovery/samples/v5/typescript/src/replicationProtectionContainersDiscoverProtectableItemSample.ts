@@ -13,9 +13,7 @@ import {
   SiteRecoveryManagementClient,
 } from "@azure/arm-recoveryservices-siterecovery";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to The operation to a add a protectable item to a protection container(Add physical server).
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary The operation to a add a protectable item to a protection container(Add physical server).
  * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationProtectionContainers_DiscoverProtectableItem.json
  */
-async function addsAProtectableItemToTheReplicationProtectionContainer() {
+async function addsAProtectableItemToTheReplicationProtectionContainer(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICESSITERECOVERY_SUBSCRIPTION_ID"] ||
     "7c943c1b-5122-4097-90c8-861411bdd574";
@@ -52,7 +50,7 @@ async function addsAProtectableItemToTheReplicationProtectionContainer() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   addsAProtectableItemToTheReplicationProtectionContainer();
 }
 

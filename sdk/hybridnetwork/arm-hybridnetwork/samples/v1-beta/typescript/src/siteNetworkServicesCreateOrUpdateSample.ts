@@ -13,9 +13,7 @@ import {
   HybridNetworkManagementClient
 } from "@azure/arm-hybridnetwork";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates or updates a network site.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Creates or updates a network site.
  * x-ms-original-file: specification/hybridnetwork/resource-manager/Microsoft.HybridNetwork/stable/2023-09-01/examples/SiteNetworkServiceFirstPartyCreate.json
  */
-async function createFirstPartySiteNetworkService() {
+async function createFirstPartySiteNetworkService(): Promise<void> {
   const subscriptionId =
     process.env["HYBRIDNETWORK_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -66,7 +64,7 @@ async function createFirstPartySiteNetworkService() {
  * @summary Creates or updates a network site.
  * x-ms-original-file: specification/hybridnetwork/resource-manager/Microsoft.HybridNetwork/stable/2023-09-01/examples/SiteNetworkServiceCreate.json
  */
-async function createSiteNetworkService() {
+async function createSiteNetworkService(): Promise<void> {
   const subscriptionId =
     process.env["HYBRIDNETWORK_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -103,7 +101,7 @@ async function createSiteNetworkService() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createFirstPartySiteNetworkService();
   createSiteNetworkService();
 }

@@ -8,10 +8,8 @@
 import { KeyVaultBackupClient } from "@azure/keyvault-admin";
 import { KeyClient } from "@azure/keyvault-keys";
 import { DefaultAzureCredential } from "@azure/identity";
-
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
 export async function main(): Promise<void> {
   // This sample uses DefaultAzureCredential, which supports a number of authentication mechanisms.
@@ -54,7 +52,7 @@ export async function main(): Promise<void> {
 /**
  * Helper function to construct a valid blob container URI from its parts.
  */
-function buildBlobContainerUri() {
+function buildBlobContainerUri(): string {
   const blobStorageUri = process.env["BLOB_STORAGE_URI"];
   if (!blobStorageUri) {
     throw new Error("Missing environment variable BLOB_STORAGE_URI.");

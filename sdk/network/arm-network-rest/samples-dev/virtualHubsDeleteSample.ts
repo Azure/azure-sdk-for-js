@@ -11,7 +11,7 @@ import "dotenv/config";
  * @summary Deletes a VirtualHub.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/VirtualHubDelete.json
  */
-async function virtualHubDelete() {
+async function virtualHubDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

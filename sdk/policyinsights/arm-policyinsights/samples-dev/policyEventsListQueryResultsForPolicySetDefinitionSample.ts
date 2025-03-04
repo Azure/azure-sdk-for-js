@@ -16,7 +16,7 @@ import "dotenv/config";
  * @summary Queries policy events for the subscription level policy set definition.
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2024-10-01/examples/PolicyEvents_QuerySubscriptionLevelPolicySetDefinitionScope.json
  */
-async function queryAtSubscriptionLevelPolicySetDefinitionScope() {
+async function queryAtSubscriptionLevelPolicySetDefinitionScope(): Promise<void> {
   const policyEventsResource = "default";
   const subscriptionId = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
   const policySetDefinitionName = "3e3807c1-65c9-49e0-a406-82d8ae3e338c";
@@ -39,7 +39,7 @@ async function queryAtSubscriptionLevelPolicySetDefinitionScope() {
  * @summary Queries policy events for the subscription level policy set definition.
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2024-10-01/examples/PolicyEvents_QuerySubscriptionLevelPolicySetDefinitionScopeNextLink.json
  */
-async function queryAtSubscriptionLevelPolicySetDefinitionScopeWithNextLink() {
+async function queryAtSubscriptionLevelPolicySetDefinitionScopeWithNextLink(): Promise<void> {
   const policyEventsResource = "default";
   const subscriptionId = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
   const policySetDefinitionName = "3e3807c1-65c9-49e0-a406-82d8ae3e338c";
@@ -59,7 +59,7 @@ async function queryAtSubscriptionLevelPolicySetDefinitionScopeWithNextLink() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await queryAtSubscriptionLevelPolicySetDefinitionScope();
   await queryAtSubscriptionLevelPolicySetDefinitionScopeWithNextLink();
 }

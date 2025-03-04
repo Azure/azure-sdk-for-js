@@ -8,9 +8,7 @@
 import type { Cluster } from "@azure/arm-streamanalytics";
 import { StreamAnalyticsManagementClient } from "@azure/arm-streamanalytics";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates a Stream Analytics Cluster or replaces an already existing cluster.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Creates a Stream Analytics Cluster or replaces an already existing cluster.
  * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/preview/2020-03-01-preview/examples/Cluster_Create.json
  */
-async function createANewCluster() {
+async function createANewCluster(): Promise<void> {
   const subscriptionId =
     process.env["STREAMANALYTICS_SUBSCRIPTION_ID"] || "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
   const resourceGroupName = process.env["STREAMANALYTICS_RESOURCE_GROUP"] || "sjrg";
@@ -38,7 +36,7 @@ async function createANewCluster() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await createANewCluster();
 }
 

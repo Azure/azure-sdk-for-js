@@ -13,7 +13,7 @@ import {
   ManagedIdentitySqlControlSettingsModel,
   WorkspaceManagedIdentitySqlControlSettingsCreateOrUpdateOptionalParams,
   WorkspaceManagedIdentitySqlControlSettingsCreateOrUpdateResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a WorkspaceManagedIdentitySqlControlSettings. */
 export interface WorkspaceManagedIdentitySqlControlSettings {

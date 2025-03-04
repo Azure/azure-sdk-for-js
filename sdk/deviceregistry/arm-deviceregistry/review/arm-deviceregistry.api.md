@@ -292,203 +292,14 @@ export class DeviceRegistryManagementClient {
     readonly assetEndpointProfiles: AssetEndpointProfilesOperations;
     readonly assets: AssetsOperations;
     readonly billingContainers: BillingContainersOperations;
-    readonly discoveredAssetEndpointProfiles: DiscoveredAssetEndpointProfilesOperations;
-    readonly discoveredAssets: DiscoveredAssetsOperations;
     readonly operations: OperationsOperations;
     readonly operationStatus: OperationStatusOperations;
     readonly pipeline: Pipeline;
-    readonly schemaRegistries: SchemaRegistriesOperations;
-    readonly schemas: SchemasOperations;
-    readonly schemaVersions: SchemaVersionsOperations;
 }
 
 // @public
 export interface DeviceRegistryManagementClientOptionalParams extends ClientOptions {
     apiVersion?: string;
-}
-
-// @public
-export interface DiscoveredAsset extends TrackedResource {
-    extendedLocation: ExtendedLocation;
-    properties?: DiscoveredAssetProperties;
-}
-
-// @public
-export interface DiscoveredAssetEndpointProfile extends TrackedResource {
-    extendedLocation: ExtendedLocation;
-    properties?: DiscoveredAssetEndpointProfileProperties;
-}
-
-// @public
-export interface DiscoveredAssetEndpointProfileProperties {
-    additionalConfiguration?: string;
-    discoveryId: string;
-    endpointProfileType: string;
-    readonly provisioningState?: ProvisioningState;
-    supportedAuthenticationMethods?: AuthenticationMethod[];
-    targetAddress: string;
-    version: number;
-}
-
-// @public
-export interface DiscoveredAssetEndpointProfilesCreateOrReplaceOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface DiscoveredAssetEndpointProfilesDeleteOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface DiscoveredAssetEndpointProfilesGetOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface DiscoveredAssetEndpointProfilesListByResourceGroupOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface DiscoveredAssetEndpointProfilesListBySubscriptionOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface DiscoveredAssetEndpointProfilesOperations {
-    createOrReplace: (resourceGroupName: string, discoveredAssetEndpointProfileName: string, resource: DiscoveredAssetEndpointProfile, options?: DiscoveredAssetEndpointProfilesCreateOrReplaceOptionalParams) => PollerLike<OperationState<DiscoveredAssetEndpointProfile>, DiscoveredAssetEndpointProfile>;
-    delete: (resourceGroupName: string, discoveredAssetEndpointProfileName: string, options?: DiscoveredAssetEndpointProfilesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    get: (resourceGroupName: string, discoveredAssetEndpointProfileName: string, options?: DiscoveredAssetEndpointProfilesGetOptionalParams) => Promise<DiscoveredAssetEndpointProfile>;
-    listByResourceGroup: (resourceGroupName: string, options?: DiscoveredAssetEndpointProfilesListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<DiscoveredAssetEndpointProfile>;
-    listBySubscription: (options?: DiscoveredAssetEndpointProfilesListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<DiscoveredAssetEndpointProfile>;
-    update: (resourceGroupName: string, discoveredAssetEndpointProfileName: string, properties: DiscoveredAssetEndpointProfileUpdate, options?: DiscoveredAssetEndpointProfilesUpdateOptionalParams) => PollerLike<OperationState<DiscoveredAssetEndpointProfile>, DiscoveredAssetEndpointProfile>;
-}
-
-// @public
-export interface DiscoveredAssetEndpointProfilesUpdateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface DiscoveredAssetEndpointProfileUpdate {
-    properties?: DiscoveredAssetEndpointProfileUpdateProperties;
-    tags?: Record<string, string>;
-}
-
-// @public
-export interface DiscoveredAssetEndpointProfileUpdateProperties {
-    additionalConfiguration?: string;
-    discoveryId?: string;
-    endpointProfileType?: string;
-    supportedAuthenticationMethods?: AuthenticationMethod[];
-    targetAddress?: string;
-    version?: number;
-}
-
-// @public
-export interface DiscoveredAssetProperties {
-    assetEndpointProfileRef: string;
-    datasets?: DiscoveredDataset[];
-    defaultDatasetsConfiguration?: string;
-    defaultEventsConfiguration?: string;
-    defaultTopic?: Topic;
-    discoveryId: string;
-    documentationUri?: string;
-    events?: DiscoveredEvent[];
-    hardwareRevision?: string;
-    manufacturer?: string;
-    manufacturerUri?: string;
-    model?: string;
-    productCode?: string;
-    readonly provisioningState?: ProvisioningState;
-    serialNumber?: string;
-    softwareRevision?: string;
-    version: number;
-}
-
-// @public
-export interface DiscoveredAssetsCreateOrReplaceOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface DiscoveredAssetsDeleteOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface DiscoveredAssetsGetOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface DiscoveredAssetsListByResourceGroupOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface DiscoveredAssetsListBySubscriptionOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface DiscoveredAssetsOperations {
-    createOrReplace: (resourceGroupName: string, discoveredAssetName: string, resource: DiscoveredAsset, options?: DiscoveredAssetsCreateOrReplaceOptionalParams) => PollerLike<OperationState<DiscoveredAsset>, DiscoveredAsset>;
-    delete: (resourceGroupName: string, discoveredAssetName: string, options?: DiscoveredAssetsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    get: (resourceGroupName: string, discoveredAssetName: string, options?: DiscoveredAssetsGetOptionalParams) => Promise<DiscoveredAsset>;
-    listByResourceGroup: (resourceGroupName: string, options?: DiscoveredAssetsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<DiscoveredAsset>;
-    listBySubscription: (options?: DiscoveredAssetsListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<DiscoveredAsset>;
-    update: (resourceGroupName: string, discoveredAssetName: string, properties: DiscoveredAssetUpdate, options?: DiscoveredAssetsUpdateOptionalParams) => PollerLike<OperationState<DiscoveredAsset>, DiscoveredAsset>;
-}
-
-// @public
-export interface DiscoveredAssetsUpdateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface DiscoveredAssetUpdate {
-    properties?: DiscoveredAssetUpdateProperties;
-    tags?: Record<string, string>;
-}
-
-// @public
-export interface DiscoveredAssetUpdateProperties {
-    datasets?: DiscoveredDataset[];
-    defaultDatasetsConfiguration?: string;
-    defaultEventsConfiguration?: string;
-    defaultTopic?: Topic;
-    discoveryId?: string;
-    documentationUri?: string;
-    events?: DiscoveredEvent[];
-    hardwareRevision?: string;
-    manufacturer?: string;
-    manufacturerUri?: string;
-    model?: string;
-    productCode?: string;
-    serialNumber?: string;
-    softwareRevision?: string;
-    version?: number;
-}
-
-// @public
-export interface DiscoveredDataPoint {
-    dataPointConfiguration?: string;
-    dataSource: string;
-    lastUpdatedOn?: Date;
-    name: string;
-}
-
-// @public
-export interface DiscoveredDataset {
-    dataPoints?: DiscoveredDataPoint[];
-    datasetConfiguration?: string;
-    name: string;
-    topic?: Topic;
-}
-
-// @public
-export interface DiscoveredEvent {
-    eventConfiguration?: string;
-    eventNotifier: string;
-    lastUpdatedOn?: Date;
-    name: string;
-    topic?: Topic;
 }
 
 // @public
@@ -504,6 +315,11 @@ export interface ErrorDetail {
     readonly details?: ErrorDetail[];
     readonly message?: string;
     readonly target?: string;
+}
+
+// @public
+export interface ErrorResponse {
+    error?: ErrorDetail;
 }
 
 // @public
@@ -528,9 +344,6 @@ export interface ExtendedLocation {
     name: string;
     type: string;
 }
-
-// @public
-export type Format = string;
 
 // @public
 export enum KnownActionType {
@@ -568,12 +381,6 @@ export enum KnownEventObservabilityMode {
 }
 
 // @public
-export enum KnownFormat {
-    Delta_1_0 = "Delta/1.0",
-    JsonSchemaDraft7 = "JsonSchema/draft-07"
-}
-
-// @public
 export enum KnownOrigin {
     System = "system",
     User = "user",
@@ -590,17 +397,6 @@ export enum KnownProvisioningState {
 }
 
 // @public
-export enum KnownSchemaType {
-    MessageSchema = "MessageSchema"
-}
-
-// @public
-export enum KnownSystemAssignedServiceIdentityType {
-    None = "None",
-    SystemAssigned = "SystemAssigned"
-}
-
-// @public
 export enum KnownTopicRetainType {
     Keep = "Keep",
     Never = "Never"
@@ -608,8 +404,7 @@ export enum KnownTopicRetainType {
 
 // @public
 export enum KnownVersions {
-    V2023_11_01_Preview = "2023-11-01-preview",
-    V2024_09_01_Preview = "2024-09-01-preview"
+    V20241101 = "2024-11-01"
 }
 
 // @public
@@ -621,8 +416,8 @@ export interface MessageSchemaReference {
 
 // @public
 export interface Operation {
-    actionType?: ActionType;
-    readonly display?: OperationDisplay;
+    readonly actionType?: ActionType;
+    display?: OperationDisplay;
     readonly isDataAction?: boolean;
     readonly name?: string;
     readonly origin?: Origin;
@@ -662,6 +457,7 @@ export interface OperationStatusResult {
     name?: string;
     operations?: OperationStatusResult[];
     percentComplete?: number;
+    readonly resourceId?: string;
     startTime?: Date;
     status: string;
 }
@@ -705,163 +501,6 @@ export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedRe
     processResponseBody?: (result: TResponse) => Promise<TResult>;
     updateIntervalInMs?: number;
 }
-
-// @public
-export interface Schema extends ProxyResource {
-    properties?: SchemaProperties;
-}
-
-// @public
-export interface SchemaProperties {
-    description?: string;
-    displayName?: string;
-    format: Format;
-    readonly provisioningState?: ProvisioningState;
-    schemaType: SchemaType;
-    tags?: Record<string, string>;
-    readonly uuid?: string;
-}
-
-// @public
-export interface SchemaRegistriesCreateOrReplaceOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface SchemaRegistriesDeleteOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface SchemaRegistriesGetOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface SchemaRegistriesListByResourceGroupOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface SchemaRegistriesListBySubscriptionOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface SchemaRegistriesOperations {
-    createOrReplace: (resourceGroupName: string, schemaRegistryName: string, resource: SchemaRegistry, options?: SchemaRegistriesCreateOrReplaceOptionalParams) => PollerLike<OperationState<SchemaRegistry>, SchemaRegistry>;
-    delete: (resourceGroupName: string, schemaRegistryName: string, options?: SchemaRegistriesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    get: (resourceGroupName: string, schemaRegistryName: string, options?: SchemaRegistriesGetOptionalParams) => Promise<SchemaRegistry>;
-    listByResourceGroup: (resourceGroupName: string, options?: SchemaRegistriesListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<SchemaRegistry>;
-    listBySubscription: (options?: SchemaRegistriesListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<SchemaRegistry>;
-    update: (resourceGroupName: string, schemaRegistryName: string, properties: SchemaRegistryUpdate, options?: SchemaRegistriesUpdateOptionalParams) => PollerLike<OperationState<SchemaRegistry>, SchemaRegistry>;
-}
-
-// @public
-export interface SchemaRegistriesUpdateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface SchemaRegistry extends TrackedResource {
-    identity?: SystemAssignedServiceIdentity;
-    properties?: SchemaRegistryProperties;
-}
-
-// @public
-export interface SchemaRegistryProperties {
-    description?: string;
-    displayName?: string;
-    namespace: string;
-    readonly provisioningState?: ProvisioningState;
-    storageAccountContainerUrl: string;
-    readonly uuid?: string;
-}
-
-// @public
-export interface SchemaRegistryUpdate {
-    identity?: SystemAssignedServiceIdentity;
-    properties?: SchemaRegistryUpdateProperties;
-    tags?: Record<string, string>;
-}
-
-// @public
-export interface SchemaRegistryUpdateProperties {
-    description?: string;
-    displayName?: string;
-}
-
-// @public
-export interface SchemasCreateOrReplaceOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface SchemasDeleteOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface SchemasGetOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface SchemasListBySchemaRegistryOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface SchemasOperations {
-    createOrReplace: (resourceGroupName: string, schemaRegistryName: string, schemaName: string, resource: Schema, options?: SchemasCreateOrReplaceOptionalParams) => Promise<Schema>;
-    delete: (resourceGroupName: string, schemaRegistryName: string, schemaName: string, options?: SchemasDeleteOptionalParams) => Promise<void>;
-    get: (resourceGroupName: string, schemaRegistryName: string, schemaName: string, options?: SchemasGetOptionalParams) => Promise<Schema>;
-    listBySchemaRegistry: (resourceGroupName: string, schemaRegistryName: string, options?: SchemasListBySchemaRegistryOptionalParams) => PagedAsyncIterableIterator<Schema>;
-}
-
-// @public
-export type SchemaType = string;
-
-// @public
-export interface SchemaVersion extends ProxyResource {
-    properties?: SchemaVersionProperties;
-}
-
-// @public
-export interface SchemaVersionProperties {
-    description?: string;
-    readonly hash?: string;
-    readonly provisioningState?: ProvisioningState;
-    schemaContent: string;
-    readonly uuid?: string;
-}
-
-// @public
-export interface SchemaVersionsCreateOrReplaceOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface SchemaVersionsDeleteOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface SchemaVersionsGetOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface SchemaVersionsListBySchemaOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface SchemaVersionsOperations {
-    createOrReplace: (resourceGroupName: string, schemaRegistryName: string, schemaName: string, schemaVersionName: string, resource: SchemaVersion, options?: SchemaVersionsCreateOrReplaceOptionalParams) => Promise<SchemaVersion>;
-    delete: (resourceGroupName: string, schemaRegistryName: string, schemaName: string, schemaVersionName: string, options?: SchemaVersionsDeleteOptionalParams) => Promise<void>;
-    get: (resourceGroupName: string, schemaRegistryName: string, schemaName: string, schemaVersionName: string, options?: SchemaVersionsGetOptionalParams) => Promise<SchemaVersion>;
-    listBySchema: (resourceGroupName: string, schemaRegistryName: string, schemaName: string, options?: SchemaVersionsListBySchemaOptionalParams) => PagedAsyncIterableIterator<SchemaVersion>;
-}
-
-// @public
-export interface SystemAssignedServiceIdentity {
-    readonly principalId?: string;
-    readonly tenantId?: string;
-    type: SystemAssignedServiceIdentityType;
-}
-
-// @public
-export type SystemAssignedServiceIdentityType = string;
 
 // @public
 export interface SystemData {

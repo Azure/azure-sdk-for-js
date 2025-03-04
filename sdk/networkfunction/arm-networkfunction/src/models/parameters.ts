@@ -15,7 +15,7 @@ import {
   AzureTrafficCollector as AzureTrafficCollectorMapper,
   TagsObject as TagsObjectMapper,
   CollectorPolicy as CollectorPolicyMapper
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",

@@ -8,9 +8,7 @@
 import type { CreateNetworkMappingInput } from "@azure/arm-recoveryservices-siterecovery";
 import { SiteRecoveryManagementClient } from "@azure/arm-recoveryservices-siterecovery";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to The operation to create an ASR network mapping.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary The operation to create an ASR network mapping.
  * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationNetworkMappings_Create.json
  */
-async function createsNetworkMapping() {
+async function createsNetworkMapping(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICESSITERECOVERY_SUBSCRIPTION_ID"] ||
     "9112a37f-0f3e-46ec-9c00-060c6edca071";
@@ -49,7 +47,7 @@ async function createsNetworkMapping() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await createsNetworkMapping();
 }
 

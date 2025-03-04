@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { InformaticaDataManagement } from "@azure/arm-informaticadatamanagement";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets Metadata of the serverless runtime environment.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Gets Metadata of the serverless runtime environment.
  * x-ms-original-file: specification/informatica/resource-manager/Informatica.DataManagement/stable/2024-05-08/examples/Organizations_GetServerlessMetadata_MaximumSet_Gen.json
  */
-async function organizationsGetServerlessMetadata() {
+async function organizationsGetServerlessMetadata(): Promise<void> {
   const subscriptionId =
     process.env["INFORMATICA_SUBSCRIPTION_ID"] ||
     "3599DA28-E346-4D9F-811E-189C0445F0FE";
@@ -42,7 +40,7 @@ async function organizationsGetServerlessMetadata() {
  * @summary Gets Metadata of the serverless runtime environment.
  * x-ms-original-file: specification/informatica/resource-manager/Informatica.DataManagement/stable/2024-05-08/examples/Organizations_GetServerlessMetadata_MinimumSet_Gen.json
  */
-async function organizationsGetServerlessMetadataMin() {
+async function organizationsGetServerlessMetadataMin(): Promise<void> {
   const subscriptionId =
     process.env["INFORMATICA_SUBSCRIPTION_ID"] ||
     "3599DA28-E346-4D9F-811E-189C0445F0FE";
@@ -58,7 +56,7 @@ async function organizationsGetServerlessMetadataMin() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   organizationsGetServerlessMetadata();
   organizationsGetServerlessMetadataMin();
 }

@@ -7,9 +7,7 @@
  */
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets the specified Azure Web Category.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Gets the specified Azure Web Category.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/AzureWebCategoryGet.json
  */
-async function getAzureWebCategoryByName() {
+async function getAzureWebCategoryByName(): Promise<void> {
   const subscriptionId =
     process.env["NETWORK_SUBSCRIPTION_ID"] || "4de8428a-4a92-4cea-90ff-b47128b8cab8";
   const name = "Arts";
@@ -27,7 +25,7 @@ async function getAzureWebCategoryByName() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await getAzureWebCategoryByName();
 }
 

@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { ConnectionMonitor, NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create or update a connection monitor.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Create or update a connection monitor.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/NetworkWatcherConnectionMonitorCreate.json
  */
-async function createConnectionMonitorV1() {
+async function createConnectionMonitorV1(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const networkWatcherName = "nw1";
@@ -69,7 +67,7 @@ async function createConnectionMonitorV1() {
  * @summary Create or update a connection monitor.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/NetworkWatcherConnectionMonitorV2Create.json
  */
-async function createConnectionMonitorV2() {
+async function createConnectionMonitorV2(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const networkWatcherName = "nw1";
@@ -129,7 +127,7 @@ async function createConnectionMonitorV2() {
  * @summary Create or update a connection monitor.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/NetworkWatcherConnectionMonitorCreateWithArcNetwork.json
  */
-async function createConnectionMonitorWithArcNetwork() {
+async function createConnectionMonitorWithArcNetwork(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const networkWatcherName = "nw1";
@@ -182,7 +180,7 @@ async function createConnectionMonitorWithArcNetwork() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createConnectionMonitorV1();
   createConnectionMonitorV2();
   createConnectionMonitorWithArcNetwork();

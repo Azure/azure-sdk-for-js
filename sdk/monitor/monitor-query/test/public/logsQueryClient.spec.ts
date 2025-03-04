@@ -20,7 +20,7 @@ describe("LogsQueryClient live tests", function () {
 
   let testRunId: string;
 
-  beforeEach(async function (ctx) {
+  beforeEach(async (ctx) => {
     loggerForTest.verbose(`Recorder: starting...`);
     recorder = new Recorder(ctx);
     const recordedClient: RecorderAndLogsClient = await createRecorderAndLogsClient(recorder);
@@ -28,7 +28,7 @@ describe("LogsQueryClient live tests", function () {
     monitorWorkspaceId = getMonitorWorkspaceId();
     logsClient = recordedClient.client;
   });
-  afterEach(async function () {
+  afterEach(async () => {
     if (recorder) {
       loggerForTest.verbose("Recorder: stopping");
       await recorder.stop();
@@ -508,7 +508,7 @@ describe("LogsQueryClient live tests - server timeout", function () {
   let logsClient: LogsQueryClient;
   let recorder: Recorder;
 
-  beforeEach(async function (ctx) {
+  beforeEach(async (ctx) => {
     setLogLevel("verbose");
     loggerForTest.verbose(`Recorder: starting...`);
     recorder = new Recorder(ctx);
@@ -521,7 +521,7 @@ describe("LogsQueryClient live tests - server timeout", function () {
     recorder = recordedClient.recorder;
     monitorWorkspaceId = getMonitorWorkspaceId();
   });
-  afterEach(async function () {
+  afterEach(async () => {
     loggerForTest.verbose("Recorder: stopping");
     await recorder.stop();
   });

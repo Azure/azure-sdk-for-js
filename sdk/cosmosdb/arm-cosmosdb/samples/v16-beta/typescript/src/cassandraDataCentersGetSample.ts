@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Get the properties of a managed Cassandra data center.
  * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-12-01-preview/examples/CosmosDBManagedCassandraDataCenterGet.json
  */
-async function cosmosDbManagedCassandraDataCenterGet() {
+async function cosmosDbManagedCassandraDataCenterGet(): Promise<void> {
   const subscriptionId =
     process.env["COSMOSDB_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -33,7 +33,7 @@ async function cosmosDbManagedCassandraDataCenterGet() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   cosmosDbManagedCassandraDataCenterGet();
 }
 

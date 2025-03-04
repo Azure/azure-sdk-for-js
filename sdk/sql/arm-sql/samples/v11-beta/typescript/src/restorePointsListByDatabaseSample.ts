@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { SqlManagementClient } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets a list of database restore points.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Gets a list of database restore points.
  * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/DatabaseRestorePointsListByDatabase.json
  */
-async function listDatabaseRestorePoints() {
+async function listDatabaseRestorePoints(): Promise<void> {
   const subscriptionId =
     process.env["SQL_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -47,7 +45,7 @@ async function listDatabaseRestorePoints() {
  * @summary Gets a list of database restore points.
  * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/DataWarehouseRestorePointsListByDatabase.json
  */
-async function listDatawarehouseDatabaseRestorePoints() {
+async function listDatawarehouseDatabaseRestorePoints(): Promise<void> {
   const subscriptionId =
     process.env["SQL_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -68,7 +66,7 @@ async function listDatawarehouseDatabaseRestorePoints() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listDatabaseRestorePoints();
   listDatawarehouseDatabaseRestorePoints();
 }

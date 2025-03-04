@@ -11,9 +11,7 @@ import type {
 } from "@azure/arm-recoveryservicesdatareplication";
 import { AzureSiteRecoveryManagementServiceAPI } from "@azure/arm-recoveryservicesdatareplication";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Performs update on the fabric.
@@ -21,7 +19,7 @@ dotenv.config();
  * @summary Performs update on the fabric.
  * x-ms-original-file: specification/recoveryservicesdatareplication/resource-manager/Microsoft.DataReplication/preview/2021-02-16-preview/examples/Fabric_Update.json
  */
-async function fabricUpdate() {
+async function fabricUpdate(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICESDATAREPLICATION_SUBSCRIPTION_ID"] ||
     "930CEC23-4430-4513-B855-DBA237E2F3BF";
@@ -42,7 +40,7 @@ async function fabricUpdate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await fabricUpdate();
 }
 

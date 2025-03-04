@@ -13,9 +13,7 @@ import {
   PaloAltoNetworksCloudngfw
 } from "@azure/arm-paloaltonetworksngfw";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to List predefined URL categories for rulestack
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary List predefined URL categories for rulestack
  * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/GlobalRulestack_listPredefinedUrlCategories_MaximumSet_Gen.json
  */
-async function globalRulestackListPredefinedUrlCategoriesMaximumSetGen() {
+async function globalRulestackListPredefinedUrlCategoriesMaximumSetGen(): Promise<void> {
   const globalRulestackName = "praval";
   const skip = "a6a321";
   const top = 20;
@@ -46,7 +44,7 @@ async function globalRulestackListPredefinedUrlCategoriesMaximumSetGen() {
  * @summary List predefined URL categories for rulestack
  * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/GlobalRulestack_listPredefinedUrlCategories_MinimumSet_Gen.json
  */
-async function globalRulestackListPredefinedUrlCategoriesMinimumSetGen() {
+async function globalRulestackListPredefinedUrlCategoriesMinimumSetGen(): Promise<void> {
   const globalRulestackName = "praval";
   const credential = new DefaultAzureCredential();
   const client = new PaloAltoNetworksCloudngfw(credential);
@@ -56,7 +54,7 @@ async function globalRulestackListPredefinedUrlCategoriesMinimumSetGen() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   globalRulestackListPredefinedUrlCategoriesMaximumSetGen();
   globalRulestackListPredefinedUrlCategoriesMinimumSetGen();
 }

@@ -17,7 +17,7 @@
 import { ConnectedKubernetesClient } from "@azure/arm-hybridkubernetes";
 import { DefaultAzureCredential } from "@azure/identity";
 
-async function getClustersExample() {
+async function getClustersExample(): Promise<void> {
   const subscriptionId = "1bfbb5d0-917e-4346-9026-1d3b344417f5";
   const credential = new DefaultAzureCredential();
   const client = new ConnectedKubernetesClient(credential, subscriptionId);

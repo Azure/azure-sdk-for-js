@@ -185,116 +185,6 @@ export interface Dataset {
 }
 
 // @public
-export interface DiscoveredAsset extends TrackedResource {
-    extendedLocation: ExtendedLocation;
-    properties?: DiscoveredAssetProperties;
-}
-
-// @public
-export interface DiscoveredAssetEndpointProfile extends TrackedResource {
-    extendedLocation: ExtendedLocation;
-    properties?: DiscoveredAssetEndpointProfileProperties;
-}
-
-// @public
-export interface DiscoveredAssetEndpointProfileProperties {
-    additionalConfiguration?: string;
-    discoveryId: string;
-    endpointProfileType: string;
-    readonly provisioningState?: ProvisioningState;
-    supportedAuthenticationMethods?: AuthenticationMethod[];
-    targetAddress: string;
-    version: number;
-}
-
-// @public
-export interface DiscoveredAssetEndpointProfileUpdate {
-    properties?: DiscoveredAssetEndpointProfileUpdateProperties;
-    tags?: Record<string, string>;
-}
-
-// @public
-export interface DiscoveredAssetEndpointProfileUpdateProperties {
-    additionalConfiguration?: string;
-    discoveryId?: string;
-    endpointProfileType?: string;
-    supportedAuthenticationMethods?: AuthenticationMethod[];
-    targetAddress?: string;
-    version?: number;
-}
-
-// @public
-export interface DiscoveredAssetProperties {
-    assetEndpointProfileRef: string;
-    datasets?: DiscoveredDataset[];
-    defaultDatasetsConfiguration?: string;
-    defaultEventsConfiguration?: string;
-    defaultTopic?: Topic;
-    discoveryId: string;
-    documentationUri?: string;
-    events?: DiscoveredEvent[];
-    hardwareRevision?: string;
-    manufacturer?: string;
-    manufacturerUri?: string;
-    model?: string;
-    productCode?: string;
-    readonly provisioningState?: ProvisioningState;
-    serialNumber?: string;
-    softwareRevision?: string;
-    version: number;
-}
-
-// @public
-export interface DiscoveredAssetUpdate {
-    properties?: DiscoveredAssetUpdateProperties;
-    tags?: Record<string, string>;
-}
-
-// @public
-export interface DiscoveredAssetUpdateProperties {
-    datasets?: DiscoveredDataset[];
-    defaultDatasetsConfiguration?: string;
-    defaultEventsConfiguration?: string;
-    defaultTopic?: Topic;
-    discoveryId?: string;
-    documentationUri?: string;
-    events?: DiscoveredEvent[];
-    hardwareRevision?: string;
-    manufacturer?: string;
-    manufacturerUri?: string;
-    model?: string;
-    productCode?: string;
-    serialNumber?: string;
-    softwareRevision?: string;
-    version?: number;
-}
-
-// @public
-export interface DiscoveredDataPoint {
-    dataPointConfiguration?: string;
-    dataSource: string;
-    lastUpdatedOn?: Date;
-    name: string;
-}
-
-// @public
-export interface DiscoveredDataset {
-    dataPoints?: DiscoveredDataPoint[];
-    datasetConfiguration?: string;
-    name: string;
-    topic?: Topic;
-}
-
-// @public
-export interface DiscoveredEvent {
-    eventConfiguration?: string;
-    eventNotifier: string;
-    lastUpdatedOn?: Date;
-    name: string;
-    topic?: Topic;
-}
-
-// @public
 export interface ErrorAdditionalInfo {
     readonly info?: Record<string, any>;
     readonly type?: string;
@@ -307,6 +197,11 @@ export interface ErrorDetail {
     readonly details?: ErrorDetail[];
     readonly message?: string;
     readonly target?: string;
+}
+
+// @public
+export interface ErrorResponse {
+    error?: ErrorDetail;
 }
 
 // @public
@@ -331,9 +226,6 @@ export interface ExtendedLocation {
     name: string;
     type: string;
 }
-
-// @public
-export type Format = string;
 
 // @public
 export enum KnownActionType {
@@ -371,12 +263,6 @@ export enum KnownEventObservabilityMode {
 }
 
 // @public
-export enum KnownFormat {
-    Delta_1_0 = "Delta/1.0",
-    JsonSchemaDraft7 = "JsonSchema/draft-07"
-}
-
-// @public
 export enum KnownOrigin {
     System = "system",
     User = "user",
@@ -393,17 +279,6 @@ export enum KnownProvisioningState {
 }
 
 // @public
-export enum KnownSchemaType {
-    MessageSchema = "MessageSchema"
-}
-
-// @public
-export enum KnownSystemAssignedServiceIdentityType {
-    None = "None",
-    SystemAssigned = "SystemAssigned"
-}
-
-// @public
 export enum KnownTopicRetainType {
     Keep = "Keep",
     Never = "Never"
@@ -411,8 +286,7 @@ export enum KnownTopicRetainType {
 
 // @public
 export enum KnownVersions {
-    V2023_11_01_Preview = "2023-11-01-preview",
-    V2024_09_01_Preview = "2024-09-01-preview"
+    V20241101 = "2024-11-01"
 }
 
 // @public
@@ -424,8 +298,8 @@ export interface MessageSchemaReference {
 
 // @public
 export interface Operation {
-    actionType?: ActionType;
-    readonly display?: OperationDisplay;
+    readonly actionType?: ActionType;
+    display?: OperationDisplay;
     readonly isDataAction?: boolean;
     readonly name?: string;
     readonly origin?: Origin;
@@ -447,6 +321,7 @@ export interface OperationStatusResult {
     name?: string;
     operations?: OperationStatusResult[];
     percentComplete?: number;
+    readonly resourceId?: string;
     startTime?: Date;
     status: string;
 }
@@ -468,78 +343,6 @@ export interface Resource {
     readonly systemData?: SystemData;
     readonly type?: string;
 }
-
-// @public
-export interface Schema extends ProxyResource {
-    properties?: SchemaProperties;
-}
-
-// @public
-export interface SchemaProperties {
-    description?: string;
-    displayName?: string;
-    format: Format;
-    readonly provisioningState?: ProvisioningState;
-    schemaType: SchemaType;
-    tags?: Record<string, string>;
-    readonly uuid?: string;
-}
-
-// @public
-export interface SchemaRegistry extends TrackedResource {
-    identity?: SystemAssignedServiceIdentity;
-    properties?: SchemaRegistryProperties;
-}
-
-// @public
-export interface SchemaRegistryProperties {
-    description?: string;
-    displayName?: string;
-    namespace: string;
-    readonly provisioningState?: ProvisioningState;
-    storageAccountContainerUrl: string;
-    readonly uuid?: string;
-}
-
-// @public
-export interface SchemaRegistryUpdate {
-    identity?: SystemAssignedServiceIdentity;
-    properties?: SchemaRegistryUpdateProperties;
-    tags?: Record<string, string>;
-}
-
-// @public
-export interface SchemaRegistryUpdateProperties {
-    description?: string;
-    displayName?: string;
-}
-
-// @public
-export type SchemaType = string;
-
-// @public
-export interface SchemaVersion extends ProxyResource {
-    properties?: SchemaVersionProperties;
-}
-
-// @public
-export interface SchemaVersionProperties {
-    description?: string;
-    readonly hash?: string;
-    readonly provisioningState?: ProvisioningState;
-    schemaContent: string;
-    readonly uuid?: string;
-}
-
-// @public
-export interface SystemAssignedServiceIdentity {
-    readonly principalId?: string;
-    readonly tenantId?: string;
-    type: SystemAssignedServiceIdentityType;
-}
-
-// @public
-export type SystemAssignedServiceIdentityType = string;
 
 // @public
 export interface SystemData {

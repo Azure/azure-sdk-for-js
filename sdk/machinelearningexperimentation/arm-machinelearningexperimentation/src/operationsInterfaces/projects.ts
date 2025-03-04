@@ -18,7 +18,7 @@ import {
   ProjectUpdateParameters,
   ProjectsUpdateOptionalParams,
   ProjectsUpdateResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Projects. */

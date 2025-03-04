@@ -2,7 +2,7 @@
   "name": "@azure-rest/arm-appservice",
   "sdk-type": "mgmt",
   "author": "Microsoft Corporation",
-  "version": "1.0.0-beta.2",
+  "version": "1.0.0-beta.3",
   "description": "",
   "keywords": [
     "node",

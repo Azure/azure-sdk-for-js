@@ -11,7 +11,7 @@ import "dotenv/config";
  * @summary Gets a list of service tag information resources with pagination.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/ServiceTagInformationListResult.json
  */
-async function getListOfServiceTags() {
+async function getListOfServiceTags(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -41,7 +41,7 @@ getListOfServiceTags().catch(console.error);
  * @summary Gets a list of service tag information resources with pagination.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/ServiceTagInformationListResultWithNoAddressPrefixes.json
  */
-async function getListOfServiceTagsWithNoAddressPrefixes() {
+async function getListOfServiceTagsWithNoAddressPrefixes(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -71,7 +71,7 @@ getListOfServiceTagsWithNoAddressPrefixes().catch(console.error);
  * @summary Gets a list of service tag information resources with pagination.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/ServiceTagInformationListResultWithTagname.json
  */
-async function getListOfServiceTagsWithTagName() {
+async function getListOfServiceTagsWithTagName(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

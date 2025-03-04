@@ -11,9 +11,7 @@ import type {
 } from "@azure/arm-streamanalytics";
 import { StreamAnalyticsManagementClient } from "@azure/arm-streamanalytics";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Starts a streaming job. Once a job is started it will start processing input events and produce output.
@@ -21,7 +19,7 @@ dotenv.config();
  * @summary Starts a streaming job. Once a job is started it will start processing input events and produce output.
  * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/preview/2021-10-01-preview/examples/StreamingJob_Start_CustomTime.json
  */
-async function startAStreamingJobWithCustomTimeOutputStartMode() {
+async function startAStreamingJobWithCustomTimeOutputStartMode(): Promise<void> {
   const subscriptionId =
     process.env["STREAMANALYTICS_SUBSCRIPTION_ID"] || "56b5e0a9-b645-407d-99b0-c64f86013e3d";
   const resourceGroupName = process.env["STREAMANALYTICS_RESOURCE_GROUP"] || "sjrg6936";
@@ -43,7 +41,7 @@ async function startAStreamingJobWithCustomTimeOutputStartMode() {
  * @summary Starts a streaming job. Once a job is started it will start processing input events and produce output.
  * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/preview/2021-10-01-preview/examples/StreamingJob_Start_JobStartTime.json
  */
-async function startAStreamingJobWithJobStartTimeOutputStartMode() {
+async function startAStreamingJobWithJobStartTimeOutputStartMode(): Promise<void> {
   const subscriptionId =
     process.env["STREAMANALYTICS_SUBSCRIPTION_ID"] || "56b5e0a9-b645-407d-99b0-c64f86013e3d";
   const resourceGroupName = process.env["STREAMANALYTICS_RESOURCE_GROUP"] || "sjrg6936";
@@ -64,7 +62,7 @@ async function startAStreamingJobWithJobStartTimeOutputStartMode() {
  * @summary Starts a streaming job. Once a job is started it will start processing input events and produce output.
  * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/preview/2021-10-01-preview/examples/StreamingJob_Start_LastOutputEventTime.json
  */
-async function startAStreamingJobWithLastOutputEventTimeOutputStartMode() {
+async function startAStreamingJobWithLastOutputEventTimeOutputStartMode(): Promise<void> {
   const subscriptionId =
     process.env["STREAMANALYTICS_SUBSCRIPTION_ID"] || "56b5e0a9-b645-407d-99b0-c64f86013e3d";
   const resourceGroupName = process.env["STREAMANALYTICS_RESOURCE_GROUP"] || "sjrg6936";
@@ -79,7 +77,7 @@ async function startAStreamingJobWithLastOutputEventTimeOutputStartMode() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await startAStreamingJobWithCustomTimeOutputStartMode();
   await startAStreamingJobWithJobStartTimeOutputStartMode();
   await startAStreamingJobWithLastOutputEventTimeOutputStartMode();

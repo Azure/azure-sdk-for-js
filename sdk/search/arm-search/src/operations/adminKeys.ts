@@ -6,18 +6,18 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { AdminKeys } from "../operationsInterfaces";
+import { AdminKeys } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { SearchManagementClient } from "../searchManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { SearchManagementClient } from "../searchManagementClient.js";
 import {
   AdminKeysGetOptionalParams,
   AdminKeysGetResponse,
   AdminKeyKind,
   AdminKeysRegenerateOptionalParams,
   AdminKeysRegenerateResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Class containing AdminKeys operations. */
 export class AdminKeysImpl implements AdminKeys {

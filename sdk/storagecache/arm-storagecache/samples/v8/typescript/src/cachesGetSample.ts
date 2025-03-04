@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { StorageCacheManagementClient } from "@azure/arm-storagecache";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Returns a cache.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Returns a cache.
  * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2024-03-01/examples/Caches_Get.json
  */
-async function cachesGet() {
+async function cachesGet(): Promise<void> {
   const subscriptionId =
     process.env["STORAGECACHE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -33,7 +31,7 @@ async function cachesGet() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   cachesGet();
 }
 

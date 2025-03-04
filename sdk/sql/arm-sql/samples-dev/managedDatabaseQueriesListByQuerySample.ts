@@ -8,9 +8,7 @@
 import type { ManagedDatabaseQueriesListByQueryOptionalParams } from "@azure/arm-sql";
 import { SqlManagementClient } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get query execution statistics by query id.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Get query execution statistics by query id.
  * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/ManagedInstanceQueryStatisticsList.json
  */
-async function obtainQueryExecutionStatistics() {
+async function obtainQueryExecutionStatistics(): Promise<void> {
   const subscriptionId =
     process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
   const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "sqlcrudtest-7398";
@@ -45,7 +43,7 @@ async function obtainQueryExecutionStatistics() {
  * @summary Get query execution statistics by query id.
  * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/ManagedInstanceQueryStatisticsListMax.json
  */
-async function obtainQueryExecutionStatisticsExampleWithAllRequestParameters() {
+async function obtainQueryExecutionStatisticsExampleWithAllRequestParameters(): Promise<void> {
   const subscriptionId =
     process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
   const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "sqlcrudtest-7398";
@@ -81,7 +79,7 @@ async function obtainQueryExecutionStatisticsExampleWithAllRequestParameters() {
  * @summary Get query execution statistics by query id.
  * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/ManagedInstanceQueryStatisticsListMin.json
  */
-async function obtainQueryExecutionStatisticsMinimalExampleWithOnlyMandatoryRequestParameters() {
+async function obtainQueryExecutionStatisticsMinimalExampleWithOnlyMandatoryRequestParameters(): Promise<void> {
   const subscriptionId =
     process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
   const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "sqlcrudtest-7398";
@@ -105,7 +103,7 @@ async function obtainQueryExecutionStatisticsMinimalExampleWithOnlyMandatoryRequ
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await obtainQueryExecutionStatistics();
   await obtainQueryExecutionStatisticsExampleWithAllRequestParameters();
   await obtainQueryExecutionStatisticsMinimalExampleWithOnlyMandatoryRequestParameters();

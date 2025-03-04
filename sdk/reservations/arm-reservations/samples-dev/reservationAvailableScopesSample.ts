@@ -8,9 +8,7 @@
 import type { AvailableScopeRequest } from "@azure/arm-reservations";
 import { AzureReservationAPI } from "@azure/arm-reservations";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Check whether the scopes from request is valid for `Reservation`.
@@ -20,7 +18,7 @@ dotenv.config();
 
  * x-ms-original-file: specification/reservations/resource-manager/Microsoft.Capacity/stable/2022-11-01/examples/GetAvailableScope.json
  */
-async function availableScopes() {
+async function availableScopes(): Promise<void> {
   const reservationOrderId = "276e7ae4-84d0-4da6-ab4b-d6b94f3557da";
   const reservationId = "356e7ae4-84d0-4da6-ab4b-d6b94f3557da";
   const body: AvailableScopeRequest = {
@@ -38,7 +36,7 @@ async function availableScopes() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await availableScopes();
 }
 

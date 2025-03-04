@@ -7,18 +7,18 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { IotHubResource } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { IotHubResource } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { IotHubClient } from "../iotHubClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { IotHubClient } from "../iotHubClient.js";
 import {
   SimplePollerLike,
   OperationState,
   createHttpPoller
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl";
+import { createLroSpec } from "../lroImpl.js";
 import {
   IotHubDescription,
   IotHubResourceListBySubscriptionNextOptionalParams,
@@ -95,7 +95,7 @@ import {
   IotHubResourceGetQuotaMetricsNextResponse,
   IotHubResourceGetEndpointHealthNextResponse,
   IotHubResourceListKeysNextResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing IotHubResource operations. */

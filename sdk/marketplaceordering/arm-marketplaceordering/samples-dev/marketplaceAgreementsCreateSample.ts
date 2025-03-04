@@ -8,9 +8,7 @@
 import type { AgreementTerms } from "@azure/arm-marketplaceordering";
 import { MarketplaceOrderingAgreements } from "@azure/arm-marketplaceordering";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Save marketplace terms.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Save marketplace terms.
  * x-ms-original-file: specification/marketplaceordering/resource-manager/Microsoft.MarketplaceOrdering/stable/2021-01-01/examples/SetMarketplaceTerms.json
  */
-async function setMarketplaceTerms() {
+async function setMarketplaceTerms(): Promise<void> {
   const subscriptionId = process.env["MARKETPLACEORDERING_SUBSCRIPTION_ID"] || "subid";
   const offerType = "virtualmachine";
   const publisherId = "pubid";
@@ -47,7 +45,7 @@ async function setMarketplaceTerms() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await setMarketplaceTerms();
 }
 

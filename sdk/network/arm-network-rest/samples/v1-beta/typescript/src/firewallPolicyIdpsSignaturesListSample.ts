@@ -12,7 +12,7 @@ import "dotenv/config";
  * @summary Retrieves the current status of IDPS signatures for the relevant policy
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/FirewallPolicyQuerySignatureOverrides.json
  */
-async function querySignatureOverrides() {
+async function querySignatureOverrides(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

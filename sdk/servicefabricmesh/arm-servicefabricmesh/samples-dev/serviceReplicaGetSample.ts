@@ -7,9 +7,7 @@
  */
 import { ServiceFabricMeshManagementClient } from "@azure/arm-servicefabricmesh";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets the information about the service replica with the given name. The information include the description and other properties of the service replica.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Gets the information about the service replica with the given name. The information include the description and other properties of the service replica.
  * x-ms-original-file: specification/servicefabricmesh/resource-manager/Microsoft.ServiceFabricMesh/preview/2018-09-01-preview/examples/applications/services/replicas/get.json
  */
-async function replicaGet() {
+async function replicaGet(): Promise<void> {
   const subscriptionId =
     process.env["SERVICEFABRICMESH_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = process.env["SERVICEFABRICMESH_RESOURCE_GROUP"] || "sbz_demo";
@@ -35,7 +33,7 @@ async function replicaGet() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await replicaGet();
 }
 

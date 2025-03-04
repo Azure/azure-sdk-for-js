@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary This operation retrieves a list of all the built-in policy set definitions that match the optional given $filter. If $filter='category -eq {value}' is provided, the returned list only includes all built-in policy set definitions whose category match the {value}.
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Authorization/stable/2021-06-01/examples/listBuiltInPolicySetDefinitions.json
  */
-async function listBuiltInPolicySetDefinitions() {
+async function listBuiltInPolicySetDefinitions(): Promise<void> {
   const subscriptionId =
     process.env["POLICY_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -28,7 +28,7 @@ async function listBuiltInPolicySetDefinitions() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listBuiltInPolicySetDefinitions();
 }
 

@@ -7,9 +7,7 @@
  */
 import { ServiceLinkerManagementClient } from "@azure/arm-servicelinker";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to list dryrun jobs
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary list dryrun jobs
  * x-ms-original-file: specification/servicelinker/resource-manager/Microsoft.ServiceLinker/preview/2024-07-01-preview/examples/ConnectorDryrunList.json
  */
-async function connectorDryrunList() {
+async function connectorDryrunList(): Promise<void> {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = process.env["SERVICELINKER_RESOURCE_GROUP"] || "test-rg";
   const location = "westus";
@@ -34,7 +32,7 @@ async function connectorDryrunList() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await connectorDryrunList();
 }
 

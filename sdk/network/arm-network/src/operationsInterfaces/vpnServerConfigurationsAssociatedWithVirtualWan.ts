@@ -10,7 +10,7 @@ import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   VpnServerConfigurationsAssociatedWithVirtualWanListOptionalParams,
   VpnServerConfigurationsAssociatedWithVirtualWanListResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a VpnServerConfigurationsAssociatedWithVirtualWan. */
 export interface VpnServerConfigurationsAssociatedWithVirtualWan {

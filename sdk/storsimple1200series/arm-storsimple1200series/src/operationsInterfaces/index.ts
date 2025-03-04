@@ -6,18 +6,18 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./managers";
-export * from "./availableProviderOperationsOperations";
-export * from "./accessControlRecords";
-export * from "./alerts";
-export * from "./backups";
-export * from "./devices";
-export * from "./backupScheduleGroups";
-export * from "./chapSettingsOperations";
-export * from "./iscsiDisks";
-export * from "./fileServers";
-export * from "./fileShares";
-export * from "./iscsiServers";
-export * from "./jobs";
-export * from "./storageAccountCredentials";
-export * from "./storageDomains";
+export * from "./managers.js";
+export * from "./availableProviderOperationsOperations.js";
+export * from "./accessControlRecords.js";
+export * from "./alerts.js";
+export * from "./backups.js";
+export * from "./devices.js";
+export * from "./backupScheduleGroups.js";
+export * from "./chapSettingsOperations.js";
+export * from "./iscsiDisks.js";
+export * from "./fileServers.js";
+export * from "./fileShares.js";
+export * from "./iscsiServers.js";
+export * from "./jobs.js";
+export * from "./storageAccountCredentials.js";
+export * from "./storageDomains.js";

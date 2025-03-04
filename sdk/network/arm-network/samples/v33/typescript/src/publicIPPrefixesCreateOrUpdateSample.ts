@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { PublicIPPrefix, NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates or updates a static or dynamic public IP prefix.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Creates or updates a static or dynamic public IP prefix.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/PublicIpPrefixCreateCustomizedValues.json
  */
-async function createPublicIPPrefixAllocationMethod() {
+async function createPublicIPPrefixAllocationMethod(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const publicIpPrefixName = "test-ipprefix";
@@ -46,7 +44,7 @@ async function createPublicIPPrefixAllocationMethod() {
  * @summary Creates or updates a static or dynamic public IP prefix.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/PublicIpPrefixCreateDefaults.json
  */
-async function createPublicIPPrefixDefaults() {
+async function createPublicIPPrefixDefaults(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const publicIpPrefixName = "test-ipprefix";
@@ -65,7 +63,7 @@ async function createPublicIPPrefixDefaults() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createPublicIPPrefixAllocationMethod();
   createPublicIPPrefixDefaults();
 }

@@ -2,7 +2,7 @@
 
 Azure Maps Timezone Client
 
-**If you are not familiar with our REST client, please spend 5 minutes to take a look at our [REST client docs](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/rest-clients.md) to use this library. The REST client provides a lightweight and developer-friendly way to call Azure REST APIs.
+\*\*If you are not familiar with our REST client, please spend 5 minutes to take a look at our [REST client docs](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/rest-clients.md) to use this library. The REST client provides a lightweight and developer-friendly way to call Azure REST APIs.
 
 Key links:
 
@@ -43,12 +43,12 @@ After setup, you can choose which type of [credential](https://github.com/Azure/
 Set the values of the client ID, tenant ID, and client secret of the Microsoft Entra ID application as environment variables:
 `AZURE_CLIENT_ID`, `AZURE_TENANT_ID`, `AZURE_CLIENT_SECRET`.
 
-```javascript
-const MapsTimeZone = require("@azure-rest/maps-timezone").default;
-const { DefaultAzureCredential } = require("@azure/identity");
+```ts snippet:ReadmeSampleCreateClient_TokenCredential
+import { DefaultAzureCredential } from "@azure/identity";
+import MapsTimeZone from "@azure-rest/maps-timezone";
 
 const credential = new DefaultAzureCredential();
-const client = MapsTimeZone(credential);
+const client = MapsTimeZone(credential, "<maps-account-client-id>");
 ```
 
 #### Using a Subscription Key Credential
@@ -59,9 +59,9 @@ You can authenticate with your Azure Maps Subscription Key. Please install the `
 npm install @azure/core-auth
 ```
 
-```javascript
-const MapsTimeZone = require("@azure-rest/maps-timezone").default;
-const { AzureKeyCredential } = require("@azure/core-auth");
+```ts snippet:ReadmeSampleCreateClient_SubscriptionKey
+import { AzureKeyCredential } from "@azure/core-auth";
+import MapsTimeZone from "@azure-rest/maps-timezone";
 
 const credential = new AzureKeyCredential("<subscription-key>");
 const client = MapsTimeZone(credential);
@@ -77,22 +77,23 @@ Second, follow [Managed identities for Azure Maps](https://techcommunity.microso
 
 Finally, you can use the SAS token to authenticate the client:
 
-```javascript
-const MapsTimeZone = require("@azure-rest/maps-timezone").default;
-const { AzureSASCredential } = require("@azure/core-auth");
-const { DefaultAzureCredential } = require("@azure/identity");
-const { AzureMapsManagementClient } = require("@azure/arm-maps");
+```ts snippet:ReadmeSampleCreateClient_SAS
+import { DefaultAzureCredential } from "@azure/identity";
+import { AzureMapsManagementClient } from "@azure/arm-maps";
+import { AzureSASCredential } from "@azure/core-auth";
+import MapsTimeZone from "@azure-rest/maps-timezone";
 
 const subscriptionId = "<subscription ID of the map account>";
 const resourceGroupName = "<resource group name of the map account>";
 const accountName = "<name of the map account>";
 const mapsAccountSasParameters = {
-  start: "<start time in ISO format>", // e.g., "2023-11-24T03:51:53.161Z"
+  start: "<start time in ISO format>", // e.g. "2023-11-24T03:51:53.161Z"
   expiry: "<expiry time in ISO format>", // maximum value to start + 1 day
   maxRatePerSecond: 500,
-  principalId: "<principal ID (object ID) of the managed identity>",
+  principalId: "<principle ID (object ID) of the managed identity>",
   signingKey: "primaryKey",
 };
+
 const credential = new DefaultAzureCredential();
 const managementClient = new AzureMapsManagementClient(credential, subscriptionId);
 const { accountSasToken } = await managementClient.accounts.listSas(
@@ -100,9 +101,11 @@ const { accountSasToken } = await managementClient.accounts.listSas(
   accountName,
   mapsAccountSasParameters,
 );
+
 if (accountSasToken === undefined) {
   throw new Error("No accountSasToken was found for the Maps Account.");
 }
+
 const sasCredential = new AzureSASCredential(accountSasToken);
 const client = MapsTimeZone(sasCredential);
 ```
@@ -128,95 +131,141 @@ The following sections provide several code snippets covering some of the most c
 
 You can get timezone information for a specific IANA time zone ID.
 
-```javascript
+```ts snippet:ReadmeSampleGetTimezoneById
+import { DefaultAzureCredential } from "@azure/identity";
+import MapsTimeZone, { isUnexpected } from "@azure-rest/maps-timezone";
+
+const credential = new DefaultAzureCredential();
+const client = MapsTimeZone(credential, "<maps-account-client-id>");
+
 const response = await client.path("/timezone/byId/{format}", "json").get({
-    queryParameters: {
-        query: "America/New_York"
-    },
+  queryParameters: {
+    query: "America/New_York",
+  },
 });
 
 if (isUnexpected(response)) {
-    throw response.body.error;
+  throw response.body.error;
 }
 
-console.log(response.body);
+const { ReferenceUtcTimestamp, TimeZones, Version } = response.body;
+console.log(`Reference UTC Timestamp: ${ReferenceUtcTimestamp}`);
+console.log(`Time Zones: ${TimeZones}`);
+console.log(`Version: ${Version}`);
 ```
 
 ### Get timezone by coordinates
 
 You can get timezone information for a specific latitude-longitude pair.
 
-```javascript
+```ts snippet:ReadmeSampleGetTimezoneByCoordinates
+import { DefaultAzureCredential } from "@azure/identity";
+import MapsTimeZone, { isUnexpected } from "@azure-rest/maps-timezone";
+
+const credential = new DefaultAzureCredential();
+const client = MapsTimeZone(credential, "<maps-account-client-id>");
+
 const response = await client.path("/timezone/byCoordinates/{format}", "json").get({
-    queryParameters: {
-        query: [40.7128, -74.0060]
-    },
+  queryParameters: {
+    query: [40.7128, -74.006],
+  },
 });
 
 if (isUnexpected(response)) {
-    throw response.body.error;
+  throw response.body.error;
 }
 
-console.log(response.body);
+const { ReferenceUtcTimestamp, TimeZones, Version } = response.body;
+console.log(`Reference UTC Timestamp: ${ReferenceUtcTimestamp}`);
+console.log(`Time Zones: ${TimeZones}`);
+console.log(`Version: ${Version}`);
 ```
 
 ### Get Windows timezone IDs
 
 You can get a list of Windows timezone IDs.
 
-```javascript
+```ts snippet:ReadmeSampleGetWindowsTimezoneIds
+import { DefaultAzureCredential } from "@azure/identity";
+import MapsTimeZone, { isUnexpected } from "@azure-rest/maps-timezone";
+
+const credential = new DefaultAzureCredential();
+const client = MapsTimeZone(credential, "<maps-account-client-id>");
+
 const response = await client.path("/timezone/enumWindows/{format}", "json").get();
 
 if (isUnexpected(response)) {
-    throw response.body.error;
+  throw response.body.error;
 }
 
-console.log(response.body);
+for (const timezone of response.body) {
+  console.log(`Timezone: ${timezone}`);
+}
 ```
 
 ### Get IANA timezone IDs
 
 You can get a list of IANA timezone IDs.
 
-```javascript
+```ts snippet:ReadmeSampleGetIanaTimezoneIds
+import { DefaultAzureCredential } from "@azure/identity";
+import MapsTimeZone, { isUnexpected } from "@azure-rest/maps-timezone";
+
+const credential = new DefaultAzureCredential();
+const client = MapsTimeZone(credential, "<maps-account-client-id>");
+
 const response = await client.path("/timezone/enumIana/{format}", "json").get();
 
 if (isUnexpected(response)) {
-    throw response.body.error;
+  throw response.body.error;
 }
 
-console.log(response.body);
+for (const timezone of response.body) {
+  console.log(`Timezone: ${timezone}`);
+}
 ```
 
 ### Get IANA version
 
 You can get the current IANA version number.
 
-```javascript
+```ts snippet:ReadmeSampleGetIanaVersion
+import { DefaultAzureCredential } from "@azure/identity";
+import MapsTimeZone, { isUnexpected } from "@azure-rest/maps-timezone";
+
+const credential = new DefaultAzureCredential();
+const client = MapsTimeZone(credential, "<maps-account-client-id>");
+
 const response = await client.path("/timezone/ianaVersion/{format}", "json").get();
 
 if (isUnexpected(response)) {
-    throw response.body.error;
+  throw response.body.error;
 }
 
-console.log(response.body.Version);
+console.log(`IANA Version: ${response.body.Version}`);
 ```
 
 ### Convert Windows timezone to IANA
 
 You can convert a Windows timezone ID to a corresponding IANA ID.
 
-```javascript
+```ts snippet:ReadmeSampleConvertWindowsTimezoneToIana
+import { DefaultAzureCredential } from "@azure/identity";
+import MapsTimeZone, { isUnexpected } from "@azure-rest/maps-timezone";
+
+const credential = new DefaultAzureCredential();
+const client = MapsTimeZone(credential, "<maps-account-client-id>");
+
 const response = await client.path("/timezone/windowsToIana/{format}", "json").get({
-    queryParameters: { query: "Eastern Standard Time" },
+  queryParameters: { query: "Eastern Standard Time" },
 });
 
 if (isUnexpected(response)) {
-    throw response.body.error;
+  throw response.body.error;
 } else if (response.body) {
-    console.log(response.body.map((ianaId) => ianaId).join(", "));
+  console.log(`IANA Timezones: ${response.body}`);
 } else {
-    console.error("No data returned");
+  console.error("No data returned");
 }
 ```
 
@@ -226,8 +275,8 @@ if (isUnexpected(response)) {
 
 Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
 
-```javascript
-const { setLogLevel } = require("@azure/logger");
+```ts snippet:SetLogLevel
+import { setLogLevel } from "@azure/logger";
 
 setLogLevel("info");
 ```

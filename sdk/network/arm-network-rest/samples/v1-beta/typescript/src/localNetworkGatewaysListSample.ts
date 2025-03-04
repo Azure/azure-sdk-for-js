@@ -13,7 +13,7 @@ import "dotenv/config";
  * @summary Gets all the local network gateways in a resource group.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/LocalNetworkGatewayList.json
  */
-async function listLocalNetworkGateways() {
+async function listLocalNetworkGateways(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

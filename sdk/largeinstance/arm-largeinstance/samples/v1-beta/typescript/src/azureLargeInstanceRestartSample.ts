@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { LargeInstanceManagementClient } from "@azure/arm-largeinstance";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to The operation to restart an Azure Large Instance (only for compute instances)
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary The operation to restart an Azure Large Instance (only for compute instances)
  * x-ms-original-file: specification/azurelargeinstance/resource-manager/Microsoft.AzureLargeInstance/preview/2023-07-20-preview/examples/AzureLargeInstance_Restart.json
  */
-async function azureLargeInstanceRestart() {
+async function azureLargeInstanceRestart(): Promise<void> {
   const subscriptionId =
     process.env["LARGEINSTANCE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -36,7 +34,7 @@ async function azureLargeInstanceRestart() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   azureLargeInstanceRestart();
 }
 

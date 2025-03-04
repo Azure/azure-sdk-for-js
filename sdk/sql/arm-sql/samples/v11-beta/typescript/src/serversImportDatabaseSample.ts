@@ -13,9 +13,7 @@ import {
   SqlManagementClient,
 } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Imports a bacpac into a new database.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Imports a bacpac into a new database.
  * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-05-01-preview/examples/ImportNewDatabaseWithNetworkIsolation.json
  */
-async function importsToANewDatabaseUsingPrivateLinkForTheSqlServerAndStorageAccount() {
+async function importsToANewDatabaseUsingPrivateLinkForTheSqlServerAndStorageAccount(): Promise<void> {
   const subscriptionId =
     process.env["SQL_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -62,7 +60,7 @@ async function importsToANewDatabaseUsingPrivateLinkForTheSqlServerAndStorageAcc
  * @summary Imports a bacpac into a new database.
  * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-05-01-preview/examples/ImportNewDatabase.json
  */
-async function importsToANewDatabase() {
+async function importsToANewDatabase(): Promise<void> {
   const subscriptionId =
     process.env["SQL_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -89,7 +87,7 @@ async function importsToANewDatabase() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   importsToANewDatabaseUsingPrivateLinkForTheSqlServerAndStorageAccount();
   importsToANewDatabase();
 }

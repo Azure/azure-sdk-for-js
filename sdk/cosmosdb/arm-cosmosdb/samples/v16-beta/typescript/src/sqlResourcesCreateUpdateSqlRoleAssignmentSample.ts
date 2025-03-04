@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Creates or updates an Azure Cosmos DB SQL Role Assignment.
  * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-12-01-preview/examples/CosmosDBSqlRoleAssignmentCreateUpdate.json
  */
-async function cosmosDbSqlRoleAssignmentCreateUpdate() {
+async function cosmosDbSqlRoleAssignmentCreateUpdate(): Promise<void> {
   const subscriptionId =
     process.env["COSMOSDB_SUBSCRIPTION_ID"] || "mySubscriptionId";
   const roleAssignmentId = "myRoleAssignmentId";
@@ -45,7 +45,7 @@ async function cosmosDbSqlRoleAssignmentCreateUpdate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   cosmosDbSqlRoleAssignmentCreateUpdate();
 }
 

@@ -8,9 +8,7 @@
 import type { ForceLinkParameters } from "@azure/arm-redisenterprisecache";
 import { RedisEnterpriseManagementClient } from "@azure/arm-redisenterprisecache";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Forcibly recreates an existing database on the specified cluster, and rejoins it to an existing replication group. **IMPORTANT NOTE:** All data in this database will be discarded, and the database will temporarily be unavailable while rejoining the replication group.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Forcibly recreates an existing database on the specified cluster, and rejoins it to an existing replication group. **IMPORTANT NOTE:** All data in this database will be discarded, and the database will temporarily be unavailable while rejoining the replication group.
  * x-ms-original-file: specification/redisenterprise/resource-manager/Microsoft.Cache/preview/2024-09-01-preview/examples/RedisEnterpriseDatabasesForceLink.json
  */
-async function howToRelinkADatabaseAfterARegionalOutage() {
+async function howToRelinkADatabaseAfterARegionalOutage(): Promise<void> {
   const subscriptionId =
     process.env["REDISENTERPRISE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = process.env["REDISENTERPRISE_RESOURCE_GROUP"] || "rg1";
@@ -46,7 +44,7 @@ async function howToRelinkADatabaseAfterARegionalOutage() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await howToRelinkADatabaseAfterARegionalOutage();
 }
 

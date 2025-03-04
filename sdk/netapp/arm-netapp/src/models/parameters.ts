@@ -51,7 +51,7 @@ import {
   BackupVaultPatch as BackupVaultPatchMapper,
   BackupRestoreFiles as BackupRestoreFilesMapper,
   BackupsMigrationRequest as BackupsMigrationRequestMapper,
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",
@@ -80,7 +80,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2024-07-01-preview",
+    defaultValue: "2024-09-01",
     isConstant: true,
     serializedName: "api-version",
     type: {

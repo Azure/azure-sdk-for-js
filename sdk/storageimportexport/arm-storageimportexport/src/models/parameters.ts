@@ -14,7 +14,7 @@ import {
 import {
   UpdateJobParameters as UpdateJobParametersMapper,
   PutJobParameters as PutJobParametersMapper
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",

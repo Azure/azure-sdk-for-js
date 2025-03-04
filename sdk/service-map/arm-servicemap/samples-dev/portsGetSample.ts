@@ -8,9 +8,7 @@
 import type { PortsGetOptionalParams } from "@azure/arm-servicemap";
 import { ServiceMap } from "@azure/arm-servicemap";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Returns the specified port. The port must be live during the specified time interval. If the port is not live during the interval, status 404 (Not Found) is returned.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Returns the specified port. The port must be live during the specified time interval. If the port is not live during the interval, status 404 (Not Found) is returned.
  * x-ms-original-file: specification/service-map/resource-manager/Microsoft.OperationalInsights/preview/2015-11-01-preview/examples/Machines/Ports/SMMachinesPortsGetGet.json
  */
-async function smMachinesPortsGet() {
+async function smMachinesPortsGet(): Promise<void> {
   const subscriptionId =
     process.env["SERVICE-MAP_SUBSCRIPTION_ID"] || "63BE4E24-FDF0-4E9C-9342-6A5D5A359722";
   const resourceGroupName = process.env["SERVICE-MAP_RESOURCE_GROUP"] || "rg-sm";
@@ -40,7 +38,7 @@ async function smMachinesPortsGet() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await smMachinesPortsGet();
 }
 

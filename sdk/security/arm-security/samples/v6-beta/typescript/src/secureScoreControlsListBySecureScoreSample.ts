@@ -13,9 +13,7 @@ import {
   SecurityCenter,
 } from "@azure/arm-security";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get all security controls for a specific initiative within a scope
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Get all security controls for a specific initiative within a scope
  * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/stable/2020-01-01/examples/secureScores/ListSecureScoreControlsForName_builtin_example.json
  */
-async function getSecurityControlsAndTheirCurrentScoreForTheSpecifiedInitiative() {
+async function getSecurityControlsAndTheirCurrentScoreForTheSpecifiedInitiative(): Promise<void> {
   const subscriptionId =
     process.env["SECURITY_SUBSCRIPTION_ID"] ||
     "20ff7fc3-e762-44dd-bd96-b71116dcdc23";
@@ -45,7 +43,7 @@ async function getSecurityControlsAndTheirCurrentScoreForTheSpecifiedInitiative(
  * @summary Get all security controls for a specific initiative within a scope
  * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/stable/2020-01-01/examples/secureScores/ListSecureScoreControlsForNameWithExpand_builtin_example.json
  */
-async function getSecurityControlsAndTheirCurrentScoreForTheSpecifiedInitiativeWithTheExpandParameter() {
+async function getSecurityControlsAndTheirCurrentScoreForTheSpecifiedInitiativeWithTheExpandParameter(): Promise<void> {
   const subscriptionId =
     process.env["SECURITY_SUBSCRIPTION_ID"] ||
     "20ff7fc3-e762-44dd-bd96-b71116dcdc23";
@@ -66,7 +64,7 @@ async function getSecurityControlsAndTheirCurrentScoreForTheSpecifiedInitiativeW
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getSecurityControlsAndTheirCurrentScoreForTheSpecifiedInitiative();
   getSecurityControlsAndTheirCurrentScoreForTheSpecifiedInitiativeWithTheExpandParameter();
 }

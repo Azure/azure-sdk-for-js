@@ -7,9 +7,7 @@
  */
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Deletes the specified virtual network peering.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Deletes the specified virtual network peering.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/VirtualNetworkPeeringDelete.json
  */
-async function deletePeering() {
+async function deletePeering(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "peerTest";
   const virtualNetworkName = "vnet1";
@@ -32,7 +30,7 @@ async function deletePeering() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await deletePeering();
 }
 

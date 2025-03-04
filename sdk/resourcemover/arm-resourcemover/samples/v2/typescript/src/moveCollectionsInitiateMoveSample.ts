@@ -14,9 +14,7 @@ import {
   ResourceMoverServiceAPI
 } from "@azure/arm-resourcemover";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Moves the set of resources included in the request body. The move operation is triggered after the moveResources are in the moveState 'MovePending' or 'MoveFailed', on a successful completion the moveResource moveState do a transition to CommitPending. To aid the user to prerequisite the operation the client can call operation with validateOnly property set to true.
@@ -24,7 +22,7 @@ dotenv.config();
  * @summary Moves the set of resources included in the request body. The move operation is triggered after the moveResources are in the moveState 'MovePending' or 'MoveFailed', on a successful completion the moveResource moveState do a transition to CommitPending. To aid the user to prerequisite the operation the client can call operation with validateOnly property set to true.
  * x-ms-original-file: specification/resourcemover/resource-manager/Microsoft.Migrate/stable/2023-08-01/examples/MoveCollections_InitiateMove.json
  */
-async function moveCollectionsInitiateMove() {
+async function moveCollectionsInitiateMove(): Promise<void> {
   const subscriptionId =
     process.env["RESOURCEMOVER_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -47,7 +45,7 @@ async function moveCollectionsInitiateMove() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   moveCollectionsInitiateMove();
 }
 

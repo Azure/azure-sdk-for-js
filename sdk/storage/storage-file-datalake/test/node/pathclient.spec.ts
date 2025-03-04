@@ -1338,7 +1338,7 @@ describe("DataLakePathClient setAccessControlRecursive Node.js only", () => {
       assert.equal(err.innerError.name, "AbortError");
       assert.equal(
         err.innerError.message,
-        "The operation was aborted.",
+        "The operation was aborted. Request has already been canceled.",
         "Unexpected error caught: " + err,
       );
     }

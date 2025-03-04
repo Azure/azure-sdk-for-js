@@ -11,7 +11,7 @@ import "dotenv/config";
  * @summary Updates express route gateway tags.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/ExpressRouteGatewayUpdateTags.json
  */
-async function expressRouteGatewayUpdate() {
+async function expressRouteGatewayUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

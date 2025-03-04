@@ -5,19 +5,11 @@
  * @summary Uses a CertificateClient in various ways to read a certificate as well as update a certificate's tags.
  */
 
-// Load the .env file if it exists
-import * as dotenv from "dotenv";
-
-import {
-  CertificateClient,
-  CertificatePolicy,
-  DefaultCertificatePolicy,
-  UpdateCertificateOptions,
-} from "@azure/keyvault-certificates";
-
+import type { CertificatePolicy, UpdateCertificateOptions } from "@azure/keyvault-certificates";
+import { CertificateClient, DefaultCertificatePolicy } from "@azure/keyvault-certificates";
 import { DefaultAzureCredential } from "@azure/identity";
-
-dotenv.config();
+// Load the .env file if it exists
+import "dotenv/config";
 
 export async function main(): Promise<void> {
   // This sample uses DefaultAzureCredential, which supports a number of authentication mechanisms.

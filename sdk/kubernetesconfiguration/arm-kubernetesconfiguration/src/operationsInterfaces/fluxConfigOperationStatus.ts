@@ -9,7 +9,7 @@
 import {
   FluxConfigOperationStatusGetOptionalParams,
   FluxConfigOperationStatusGetResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a FluxConfigOperationStatus. */
 export interface FluxConfigOperationStatus {

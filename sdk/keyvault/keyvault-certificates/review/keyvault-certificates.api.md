@@ -87,7 +87,7 @@ export class CertificateClient {
 // @public
 export interface CertificateClientOptions extends ExtendedCommonClientOptions {
     disableChallengeResourceVerification?: boolean;
-    serviceVersion?: "7.0" | "7.1" | "7.2" | "7.3" | "7.4" | "7.5";
+    serviceVersion?: "7.0" | "7.1" | "7.2" | "7.3" | "7.4" | "7.5" | "7.6-preview.2";
 }
 
 // @public
@@ -189,6 +189,7 @@ export interface CertificateProperties {
     readonly id?: string;
     readonly name?: string;
     notBefore?: Date;
+    preserveCertificateOrder?: boolean;
     recoverableDays?: number;
     readonly recoveryLevel?: DeletionRecoveryLevel;
     tags?: CertificateTags;
@@ -291,6 +292,7 @@ export interface ImportCertificateOptions extends coreClient.OperationOptions {
     enabled?: boolean;
     password?: string;
     policy?: ImportCertificatePolicy;
+    preserveCertificateOrder?: boolean;
     tags?: CertificateTags;
 }
 

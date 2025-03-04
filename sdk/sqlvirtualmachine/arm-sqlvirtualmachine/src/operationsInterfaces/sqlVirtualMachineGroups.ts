@@ -20,7 +20,7 @@ import {
   SqlVirtualMachineGroupUpdate,
   SqlVirtualMachineGroupsUpdateOptionalParams,
   SqlVirtualMachineGroupsUpdateResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a SqlVirtualMachineGroups. */

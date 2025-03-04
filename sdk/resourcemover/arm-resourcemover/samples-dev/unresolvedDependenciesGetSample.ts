@@ -7,9 +7,7 @@
  */
 import { ResourceMoverServiceAPI } from "@azure/arm-resourcemover";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets a list of unresolved dependencies.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Gets a list of unresolved dependencies.
  * x-ms-original-file: specification/resourcemover/resource-manager/Microsoft.Migrate/stable/2023-08-01/examples/UnresolvedDependencies_Get.json
  */
-async function unresolvedDependenciesGet() {
+async function unresolvedDependenciesGet(): Promise<void> {
   const subscriptionId = process.env["RESOURCEMOVER_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["RESOURCEMOVER_RESOURCE_GROUP"] || "rg1";
   const moveCollectionName = "movecollection1";
@@ -33,7 +31,7 @@ async function unresolvedDependenciesGet() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await unresolvedDependenciesGet();
 }
 

@@ -14,7 +14,7 @@
 import { OpenEnergyPlatformManagementServiceAPIs } from "@azure/arm-oep";
 import { DefaultAzureCredential } from "@azure/identity";
 
-async function oepResourceListBySubscriptionId() {
+async function oepResourceListBySubscriptionId(): Promise<void> {
   const subscriptionId = "0000000-0000-0000-0000-000000000001";
   const credential = new DefaultAzureCredential();
   const client = new OpenEnergyPlatformManagementServiceAPIs(credential, subscriptionId);

@@ -7,9 +7,7 @@
  */
 import { MySQLManagementFlexibleServerClient } from "@azure/arm-mysql-flexible";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Validates if backup can be performed for given server.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Validates if backup can be performed for given server.
  * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/Backups/preview/2023-10-01-preview/examples/ValidateBackup.json
  */
-async function validateBackup() {
+async function validateBackup(): Promise<void> {
   const subscriptionId =
     process.env["MYSQL_SUBSCRIPTION_ID"] || "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const resourceGroupName = process.env["MYSQL_RESOURCE_GROUP"] || "TestGroup";
@@ -28,7 +26,7 @@ async function validateBackup() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await validateBackup();
 }
 

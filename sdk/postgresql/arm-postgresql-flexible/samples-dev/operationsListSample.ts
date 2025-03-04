@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Lists all of the available REST API operations.
  * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2024-08-01/examples/OperationList.json
  */
-async function operationList() {
+async function operationList(): Promise<void> {
   const subscriptionId =
     process.env["POSTGRESQL_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
@@ -24,7 +24,7 @@ async function operationList() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await operationList();
 }
 

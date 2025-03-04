@@ -16,7 +16,7 @@ import {
   EntityQueriesCreateOrUpdateOptionalParams,
   EntityQueriesCreateOrUpdateResponse,
   EntityQueriesDeleteOptionalParams
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a EntityQueries. */

@@ -7,9 +7,7 @@
  */
 import { IoTFirmwareDefenseClient } from "@azure/arm-iotfirmwaredefense";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists cryptographic certificate analysis results found in a firmware.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Lists cryptographic certificate analysis results found in a firmware.
  * x-ms-original-file: specification/fist/resource-manager/Microsoft.IoTFirmwareDefense/stable/2024-01-10/examples/CryptoCertificates_ListByFirmware_MaximumSet_Gen.json
  */
-async function cryptoCertificatesListByFirmwareMaximumSetGen() {
+async function cryptoCertificatesListByFirmwareMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["IOTFIRMWAREDEFENSE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const resourceGroupName =
@@ -43,7 +41,7 @@ async function cryptoCertificatesListByFirmwareMaximumSetGen() {
  * @summary Lists cryptographic certificate analysis results found in a firmware.
  * x-ms-original-file: specification/fist/resource-manager/Microsoft.IoTFirmwareDefense/stable/2024-01-10/examples/CryptoCertificates_ListByFirmware_MinimumSet_Gen.json
  */
-async function cryptoCertificatesListByFirmwareMinimumSetGen() {
+async function cryptoCertificatesListByFirmwareMinimumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["IOTFIRMWAREDEFENSE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const resourceGroupName =
@@ -63,7 +61,7 @@ async function cryptoCertificatesListByFirmwareMinimumSetGen() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await cryptoCertificatesListByFirmwareMaximumSetGen();
   await cryptoCertificatesListByFirmwareMinimumSetGen();
 }

@@ -7,9 +7,7 @@
  */
 import { SynapseManagementClient } from "@azure/arm-synapse";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get all PrivateEndpointConnections in the PrivateLinkHub
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Get all PrivateEndpointConnections in the PrivateLinkHub
  * x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/stable/2021-06-01/examples/PrivateEndpointConnectionsPrivateLinkHub_List.json
  */
-async function getAPrivateLinkHub() {
+async function getAPrivateLinkHub(): Promise<void> {
   const subscriptionId =
     process.env["SYNAPSE_SUBSCRIPTION_ID"] || "48b08652-d7a1-4d52-b13f-5a2471dce57b";
   const resourceGroupName = process.env["SYNAPSE_RESOURCE_GROUP"] || "gh-res-grp";
@@ -34,7 +32,7 @@ async function getAPrivateLinkHub() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await getAPrivateLinkHub();
 }
 

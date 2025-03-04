@@ -11,9 +11,7 @@ import type {
 } from "@azure/arm-selfhelp";
 import { HelpRP } from "@azure/arm-selfhelp";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to This API is used to check the uniqueness of a resource name used for a diagnostic, troubleshooter or solutions
@@ -21,7 +19,7 @@ dotenv.config();
  * @summary This API is used to check the uniqueness of a resource name used for a diagnostic, troubleshooter or solutions
  * x-ms-original-file: specification/help/resource-manager/Microsoft.Help/preview/2024-03-01-preview/examples/CheckNameAvailabilityForDiagnosticWhenNameIsAvailable.json
  */
-async function exampleWhenNameIsAvailableForADiagnosticResource() {
+async function exampleWhenNameIsAvailableForADiagnosticResource(): Promise<void> {
   const scope = "subscriptions/0d0fcd2e-c4fd-4349-8497-200edb3923c6";
   const checkNameAvailabilityRequest: CheckNameAvailabilityRequest = {
     name: "sampleName",
@@ -42,7 +40,7 @@ async function exampleWhenNameIsAvailableForADiagnosticResource() {
  * @summary This API is used to check the uniqueness of a resource name used for a diagnostic, troubleshooter or solutions
  * x-ms-original-file: specification/help/resource-manager/Microsoft.Help/preview/2024-03-01-preview/examples/CheckNameAvailabilityForDiagnosticWhenNameIsNotAvailable.json
  */
-async function exampleWhenNameIsNotAvailableForADiagnosticResource() {
+async function exampleWhenNameIsNotAvailableForADiagnosticResource(): Promise<void> {
   const scope = "subscriptions/0d0fcd2e-c4fd-4349-8497-200edb3923c6";
   const checkNameAvailabilityRequest: CheckNameAvailabilityRequest = {
     name: "sampleName",
@@ -57,7 +55,7 @@ async function exampleWhenNameIsNotAvailableForADiagnosticResource() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await exampleWhenNameIsAvailableForADiagnosticResource();
   await exampleWhenNameIsNotAvailableForADiagnosticResource();
 }

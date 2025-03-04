@@ -16,7 +16,7 @@ import {
   AcceptOwnershipRequest as AcceptOwnershipRequestMapper,
   PutAliasRequest as PutAliasRequestMapper,
   PutTenantPolicyRequestProperties as PutTenantPolicyRequestPropertiesMapper
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",

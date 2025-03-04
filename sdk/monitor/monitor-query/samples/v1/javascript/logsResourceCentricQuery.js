@@ -7,8 +7,7 @@
 
 const { DefaultAzureCredential } = require("@azure/identity");
 const { Durations, LogsQueryClient, LogsQueryResultStatus } = require("@azure/monitor-query");
-require("dotenv").config();
-
+require("dotenv/config");
 const logsResourceId = process.env.LOGS_RESOURCE_ID;
 
 async function main() {

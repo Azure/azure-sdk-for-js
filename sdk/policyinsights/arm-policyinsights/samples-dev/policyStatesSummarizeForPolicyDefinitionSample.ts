@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Summarizes policy states for the subscription level policy definition.
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2024-10-01/examples/PolicyStates_SummarizeSubscriptionLevelPolicyDefinitionScope.json
  */
-async function summarizeAtPolicyDefinitionScope() {
+async function summarizeAtPolicyDefinitionScope(): Promise<void> {
   const policyStatesSummaryResource = "latest";
   const subscriptionId = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
   const policyDefinitionName = "24813039-7534-408a-9842-eb99f45721b1";
@@ -29,7 +29,7 @@ async function summarizeAtPolicyDefinitionScope() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await summarizeAtPolicyDefinitionScope();
 }
 

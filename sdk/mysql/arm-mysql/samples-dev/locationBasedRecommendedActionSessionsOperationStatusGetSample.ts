@@ -14,7 +14,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Recommendation action session operation status.
  * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/stable/2018-06-01/examples/RecommendedActionSessionOperationStatus.json
  */
-async function recommendedActionSessionOperationStatus() {
+async function recommendedActionSessionOperationStatus(): Promise<void> {
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const locationName = "WestUS";
   const operationId = "aaaabbbb-cccc-dddd-0000-111122223333";

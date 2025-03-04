@@ -33,7 +33,7 @@ import {
   Site as SiteMapper,
   SiteDeletePacketCore as SiteDeletePacketCoreMapper,
   Slice as SliceMapper,
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",

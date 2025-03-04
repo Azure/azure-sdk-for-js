@@ -7,9 +7,7 @@
  */
 import { SqlManagementClient } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets a certificate used on the endpoint with the given id.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Gets a certificate used on the endpoint with the given id.
  * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2021-11-01-preview/examples/EndpointCertificatesGet.json
  */
-async function getsAnEndpointCertificate() {
+async function getsAnEndpointCertificate(): Promise<void> {
   const subscriptionId =
     process.env["SQL_SUBSCRIPTION_ID"] || "38e0dc56-907f-45ba-a97c-74233baad471";
   const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "testrg";
@@ -33,7 +31,7 @@ async function getsAnEndpointCertificate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await getsAnEndpointCertificate();
 }
 

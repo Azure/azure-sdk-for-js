@@ -259,7 +259,11 @@ describe("Highlevel Node.js only", () => {
         chunkSize: 4 * MB,
       });
     } catch (err: any) {
-      assert.equal(err.message, "The operation was aborted.", "Unexpected error caught: " + err);
+      assert.equal(
+        err.message,
+        "The operation was aborted. Request has already been canceled.",
+        "Unexpected error caught: " + err,
+      );
     }
     assert.ok(eventTriggered);
   });
@@ -284,7 +288,11 @@ describe("Highlevel Node.js only", () => {
         singleUploadThreshold: 8 * MB,
       });
     } catch (err: any) {
-      assert.equal(err.message, "The operation was aborted.", "Unexpected error caught: " + err);
+      assert.equal(
+        err.message,
+        "The operation was aborted. Rejecting from abort signal callback while making request.",
+        "Unexpected error caught: " + err,
+      );
     }
     assert.ok(eventTriggered);
   });
@@ -599,7 +607,11 @@ describe("Highlevel Node.js only", () => {
         },
       });
     } catch (err: any) {
-      assert.equal(err.message, "The operation was aborted.", "Unexpected error caught: " + err);
+      assert.equal(
+        err.message,
+        "The operation was aborted. Rejecting from abort signal callback while making request.",
+        "Unexpected error caught: " + err,
+      );
     }
     assert.ok(eventTriggered);
   });
@@ -623,7 +635,11 @@ describe("Highlevel Node.js only", () => {
         singleUploadThreshold: 8 * MB,
       });
     } catch (err: any) {
-      assert.equal(err.message, "The operation was aborted.", "Unexpected error caught: " + err);
+      assert.equal(
+        err.message,
+        "The operation was aborted. Rejecting from abort signal callback while making request.",
+        "Unexpected error caught: " + err,
+      );
     }
     assert.ok(eventTriggered);
   });
@@ -798,7 +814,11 @@ describe("Highlevel Node.js only", () => {
         },
       });
     } catch (err: any) {
-      assert.equal(err.message, "The operation was aborted.", "Unexpected error caught: " + err);
+      assert.equal(
+        err.message,
+        "The operation was aborted. Request has already been canceled.",
+        "Unexpected error caught: " + err,
+      );
     }
     assert.ok(eventTriggered);
   });

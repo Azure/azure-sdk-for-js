@@ -8,9 +8,7 @@
 import type { UpdateReplicationProtectedItemInput } from "@azure/arm-recoveryservices-siterecovery";
 import { SiteRecoveryManagementClient } from "@azure/arm-recoveryservices-siterecovery";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to The operation to update the recovery settings of an ASR replication protected item.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary The operation to update the recovery settings of an ASR replication protected item.
  * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationProtectedItems_Update.json
  */
-async function updatesTheReplicationProtectedItemSettings() {
+async function updatesTheReplicationProtectedItemSettings(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICESSITERECOVERY_SUBSCRIPTION_ID"] ||
     "c183865e-6077-46f2-a3b1-deb0f4f4650a";
@@ -66,7 +64,7 @@ async function updatesTheReplicationProtectedItemSettings() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await updatesTheReplicationProtectedItemSettings();
 }
 

@@ -397,15 +397,17 @@ describe("HubClient", () => {
       );
       const res = await dacClient.getClientAccessToken({
         userId: "brian",
-        groups: ["group1"],
         clientProtocol: "socketio",
       });
       const url = new URL(res.url);
       const tokenPayload = parseJwt(res.token!);
       assert.ok(url.searchParams.has("access_token"));
-      assert.equal(url.host, new URL(client.endpoint).host);
-      assert.equal(url.pathname, `/clients/socketio/hubs/${client.hubName}`);
-      assert.equal(tokenPayload.aud, client.endpoint + `clients/socketio/hubs/${client.hubName}`);
+      assert.equal(url.host, new URL(dacClient.endpoint).host);
+      assert.equal(url.pathname, `/clients/socketio/hubs/${dacClient.hubName}`);
+      assert.equal(
+        tokenPayload.aud,
+        dacClient.endpoint + `/clients/socketio/hubs/${dacClient.hubName}`,
+      );
     });
   });
 });

@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Update the state of specified private endpoint connection associated with the storage sync service.
  * x-ms-original-file: specification/storagesync/resource-manager/Microsoft.StorageSync/stable/2020-09-01/examples/PrivateEndpointConnections_Create.json
  */
-async function privateEndpointConnectionsCreate() {
+async function privateEndpointConnectionsCreate(): Promise<void> {
   const subscriptionId = "{subscription-id}";
   const resourceGroupName = "res7687";
   const storageSyncServiceName = "sss2527";

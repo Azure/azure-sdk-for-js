@@ -11,7 +11,7 @@ import "dotenv/config";
  * @summary Create or update a flow log for the specified network security group.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/NetworkWatcherFlowLogCreate.json
  */
-async function createOrUpdateFlowLog() {
+async function createOrUpdateFlowLog(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

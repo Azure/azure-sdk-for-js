@@ -17,7 +17,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Delete a management lock by scope.
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Authorization/stable/2020-05-01/examples/ManagementLocks_DeleteAtScope.json
  */
-async function deleteManagementLockAtScope() {
+async function deleteManagementLockAtScope(): Promise<void> {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const scope = "subscriptions/subscriptionId";
   const lockName = "testlock";

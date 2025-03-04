@@ -9,7 +9,7 @@
 import {
   AscOperationsGetOptionalParams,
   AscOperationsGetResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a AscOperations. */
 export interface AscOperations {

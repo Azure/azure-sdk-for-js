@@ -1,3 +1,5 @@
+<!-- dev-tool snippets ignore -->
+
 # Release History
 
 ## 2.1.0-beta.1 (Unreleased)
@@ -71,17 +73,18 @@ This release adds types for Azure features supported in Azure OpenAI Service API
 - Adds a new property `logprobs` in `ChatChoice` to support log probabilities for this chat choice
 - Adds new properties `logprobs` and `topLogprobs` in `ChatCompletionsOptions` class to support log probabilities for chat completions
 - Adds `dimensions` in `GetEmbeddingsOptions`.
-when using Azure OpenAI, specifies the input type to use for embedding search.
+  when using Azure OpenAI, specifies the input type to use for embedding search.
 - Updates the default service API version to `2024-03-01-preview`
 - Returns content filter results and prompt filter results for image generations through `contentFilterResults` and `promptFilterResults` properties
 
 ### Breaking Changes
 
 - `AzureChatExtensionConfiguration`, `OnYourDataAuthenticationOptions`, `OnYourDataVectorizationSource`, `OnYourDataVectorizationSourceType`, `ChatCompletionsNamedToolSelection`, `ChatCompletionsToolDefinition`, `ChatCompletionsToolCall`, `ChatMessageContentItem`, `ChatRequestMessage`, `ChatFinishDetails` are renamed with `Union` postfix.
-- `AzureCognitiveSearchQueryType`, `ChatMessageImageDetailLevel`, `ElasticsearchQueryType`, `FunctionCallPreset`, `ImageGenerationQuality`, `ImageGenerationResponseFormat`, `ImageSize`, `ImageGenerationStyle`, `OnYourDataAuthenticationType`, `OnYourDataVectorizationSourceType`  union types no longer have fixed values.
+- `AzureCognitiveSearchQueryType`, `ChatMessageImageDetailLevel`, `ElasticsearchQueryType`, `FunctionCallPreset`, `ImageGenerationQuality`, `ImageGenerationResponseFormat`, `ImageSize`, `ImageGenerationStyle`, `OnYourDataAuthenticationType`, `OnYourDataVectorizationSourceType` union types no longer have fixed values.
 - `prompFilterResults` property in `ChatCompletions`, `prompFilterResults` property in `Choice`, `toolCalls` in `ChatResponseMessage` are now optional
 
 Changes to "bring your own data" features:
+
 - Introduces a new type: `AzureChatExtensionDataSourceResponseCitation`
 - For `AzureChatExtensionsMessageContext`, replaced `messages` property with `citations` and added `intent` as a string
 - Rename `AzureCognitiveSearch` to `AzureSearch`
@@ -118,10 +121,10 @@ Changes to "bring your own data" features:
 - `listChatCompletions` and `listCompletions` are renamed to `streamChatCompletions` and `streamCompletions` respectively and their return types are updated to be a `ReadableStream`. For example, `streamChatCompletions` can be used as follows:
 
 ```js
-  const events = await client.streamChatCompletions(deploymentId, messages);
-  for await (const event of events) {
-    // use event ...
-  }
+const events = await client.streamChatCompletions(deploymentId, messages);
+for await (const event of events) {
+  // use event ...
+}
 ```
 
 ## 1.0.0-beta.8 (2023-12-07)
@@ -142,18 +145,18 @@ features and changes to the client library.
 `ChatMessage` changes:
 
 - The singular `ChatMessage` type has been replaced by `ChatRequestMessage` and `ChatResponseMessage`, the former of
-    which is a union of special message structures such as `ChatRequestSystemMessage` and
-    `ChatRequestUserMessage`.
+  which is a union of special message structures such as `ChatRequestSystemMessage` and
+  `ChatRequestUserMessage`.
 
 Dall-e-3:
 
 - Azure OpenAI now uses `dall-e-3` model deployments for its image generation API and such a valid deployment must
-    be provided to the `GetImageGenerations` method.
+  be provided to the `GetImageGenerations` method.
 
 On Your Data:
 
 - The `AzureExtensionChatConfiguration` type has been updated to inline the parameters of the extension into the
-    configuration object itself.
+  configuration object itself.
 
 ## 1.0.0-beta.7 (2023-10-25)
 
@@ -194,7 +197,7 @@ On Your Data:
 
 ### Breaking Changes
 
-- Remove `beginAzureBatchImageGeneration` and `getAzureBatchImageGenerationOperationStatus` methods. 
+- Remove `beginAzureBatchImageGeneration` and `getAzureBatchImageGenerationOperationStatus` methods.
 - `getImages` has been updated to return the image URLs/payloads directly, rather than requiring the user to call `getAzureBatchImageGenerationOperationStatus` to retrieve them.
 
 ## 1.0.0-beta.4 (2023-08-09)

@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { SecurityCenter } from "@azure/arm-security";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Details of the information protection policy.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Details of the information protection policy.
  * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/preview/2017-08-01-preview/examples/InformationProtectionPolicies/GetCustomInformationProtectionPolicy_example.json
  */
-async function getTheCustomizedInformationProtectionPolicyForAManagementGroup() {
+async function getTheCustomizedInformationProtectionPolicyForAManagementGroup(): Promise<void> {
   const scope =
     "providers/Microsoft.Management/managementGroups/148059f7-faf3-49a6-ba35-85122112291e";
   const informationProtectionPolicyName = "custom";
@@ -39,7 +37,7 @@ async function getTheCustomizedInformationProtectionPolicyForAManagementGroup() 
  * @summary Details of the information protection policy.
  * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/preview/2017-08-01-preview/examples/InformationProtectionPolicies/GetEffectiveInformationProtectionPolicy_example.json
  */
-async function getTheEffectiveInformationProtectionPolicyForAManagementGroup() {
+async function getTheEffectiveInformationProtectionPolicyForAManagementGroup(): Promise<void> {
   const scope =
     "providers/Microsoft.Management/managementGroups/148059f7-faf3-49a6-ba35-85122112291e";
   const informationProtectionPolicyName = "effective";
@@ -52,7 +50,7 @@ async function getTheEffectiveInformationProtectionPolicyForAManagementGroup() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getTheCustomizedInformationProtectionPolicyForAManagementGroup();
   getTheEffectiveInformationProtectionPolicyForAManagementGroup();
 }

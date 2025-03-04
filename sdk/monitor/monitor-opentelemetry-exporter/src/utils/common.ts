@@ -16,15 +16,6 @@ import {
   DBSYSTEMVALUES_SQLITE,
   DBSYSTEMVALUES_OTHER_SQL,
   DBSYSTEMVALUES_HSQLDB,
-  DBSYSTEMVALUES_H2,
-  SEMATTRS_HTTP_METHOD,
-  SEMATTRS_HTTP_URL,
-  SEMATTRS_HTTP_SCHEME,
-  SEMATTRS_HTTP_TARGET,
-  SEMATTRS_HTTP_HOST,
-  SEMATTRS_NET_PEER_PORT,
-  SEMATTRS_NET_PEER_NAME,
-  SEMATTRS_NET_PEER_IP,
   SEMATTRS_PEER_SERVICE,
   SEMRESATTRS_SERVICE_NAME,
   SEMRESATTRS_SERVICE_NAMESPACE,
@@ -37,6 +28,7 @@ import {
   ATTR_TELEMETRY_SDK_VERSION,
   ATTR_TELEMETRY_SDK_LANGUAGE,
   ATTR_TELEMETRY_SDK_NAME,
+  DBSYSTEMVALUES_H2,
 } from "@opentelemetry/semantic-conventions";
 import type { Tags } from "../types.js";
 import { getInstance } from "../platform/index.js";
@@ -47,6 +39,16 @@ import type { Attributes, HrTime } from "@opentelemetry/api";
 import { hrTimeToNanoseconds } from "@opentelemetry/core";
 import type { AnyValue } from "@opentelemetry/api-logs";
 import { ENV_OPENTELEMETRY_RESOURCE_METRIC_DISABLED } from "../Declarations/Constants.js";
+import {
+  getHttpHost,
+  getHttpMethod,
+  getHttpScheme,
+  getHttpTarget,
+  getHttpUrl,
+  getNetPeerName,
+  getNetPeerPort,
+  getPeerIp,
+} from "./spanUtils.js";
 
 export function hrTimeToDate(hrTime: HrTime): Date {
   return new Date(hrTimeToNanoseconds(hrTime) / 1000000);
@@ -158,26 +160,26 @@ export function getUrl(attributes: Attributes): string {
   if (!attributes) {
     return "";
   }
-  const httpMethod = attributes[SEMATTRS_HTTP_METHOD];
+  const httpMethod = getHttpMethod(attributes);
   if (httpMethod) {
-    const httpUrl = attributes[SEMATTRS_HTTP_URL];
+    const httpUrl = getHttpUrl(attributes);
     if (httpUrl) {
       return String(httpUrl);
     } else {
-      const httpScheme = attributes[SEMATTRS_HTTP_SCHEME];
-      const httpTarget = attributes[SEMATTRS_HTTP_TARGET];
+      const httpScheme = getHttpScheme(attributes);
+      const httpTarget = getHttpTarget(attributes);
       if (httpScheme && httpTarget) {
-        const httpHost = attributes[SEMATTRS_HTTP_HOST];
+        const httpHost = getHttpHost(attributes);
         if (httpHost) {
           return `${httpScheme}://${httpHost}${httpTarget}`;
         } else {
-          const netPeerPort = attributes[SEMATTRS_NET_PEER_PORT];
+          const netPeerPort = getNetPeerPort(attributes);
           if (netPeerPort) {
-            const netPeerName = attributes[SEMATTRS_NET_PEER_NAME];
+            const netPeerName = getNetPeerName(attributes);
             if (netPeerName) {
               return `${httpScheme}://${netPeerName}:${netPeerPort}${httpTarget}`;
             } else {
-              const netPeerIp = attributes[SEMATTRS_NET_PEER_IP];
+              const netPeerIp = getPeerIp(attributes);
               if (netPeerIp) {
                 return `${httpScheme}://${netPeerIp}:${netPeerPort}${httpTarget}`;
               }
@@ -195,10 +197,10 @@ export function getDependencyTarget(attributes: Attributes): string {
     return "";
   }
   const peerService = attributes[SEMATTRS_PEER_SERVICE];
-  const httpHost = attributes[SEMATTRS_HTTP_HOST];
-  const httpUrl = attributes[SEMATTRS_HTTP_URL];
-  const netPeerName = attributes[SEMATTRS_NET_PEER_NAME];
-  const netPeerIp = attributes[SEMATTRS_NET_PEER_IP];
+  const httpHost = getHttpHost(attributes);
+  const httpUrl = getHttpUrl(attributes);
+  const netPeerName = getNetPeerName(attributes);
+  const netPeerIp = getPeerIp(attributes);
   if (peerService) {
     return String(peerService);
   } else if (httpHost) {

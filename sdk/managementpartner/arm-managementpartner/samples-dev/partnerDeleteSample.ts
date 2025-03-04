@@ -7,9 +7,7 @@
  */
 import { ACEProvisioningManagementPartnerAPI } from "@azure/arm-managementpartner";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Delete the management partner for the objectId and tenantId.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Delete the management partner for the objectId and tenantId.
  * x-ms-original-file: specification/managementpartner/resource-manager/Microsoft.ManagementPartner/preview/2018-02-01/examples/DeletePartnerDetails.json
  */
-async function deletePartnerDetails() {
+async function deletePartnerDetails(): Promise<void> {
   const partnerId = "123456";
   const credential = new DefaultAzureCredential();
   const client = new ACEProvisioningManagementPartnerAPI(credential);
@@ -25,7 +23,7 @@ async function deletePartnerDetails() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await deletePartnerDetails();
 }
 

@@ -8,9 +8,7 @@
 import type { GlobalRulestackResource } from "@azure/arm-paloaltonetworksngfw";
 import { PaloAltoNetworksCloudngfw } from "@azure/arm-paloaltonetworksngfw";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create a GlobalRulestackResource
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Create a GlobalRulestackResource
  * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/GlobalRulestack_CreateOrUpdate_MaximumSet_Gen.json
  */
-async function globalRulestackCreateOrUpdateMaximumSetGen() {
+async function globalRulestackCreateOrUpdateMaximumSetGen(): Promise<void> {
   const globalRulestackName = "praval";
   const resource: GlobalRulestackResource = {
     description: "global rulestacks",
@@ -62,7 +60,7 @@ async function globalRulestackCreateOrUpdateMaximumSetGen() {
  * @summary Create a GlobalRulestackResource
  * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/GlobalRulestack_CreateOrUpdate_MinimumSet_Gen.json
  */
-async function globalRulestackCreateOrUpdateMinimumSetGen() {
+async function globalRulestackCreateOrUpdateMinimumSetGen(): Promise<void> {
   const globalRulestackName = "praval";
   const resource: GlobalRulestackResource = { location: "eastus" };
   const credential = new DefaultAzureCredential();
@@ -74,7 +72,7 @@ async function globalRulestackCreateOrUpdateMinimumSetGen() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await globalRulestackCreateOrUpdateMaximumSetGen();
   await globalRulestackCreateOrUpdateMinimumSetGen();
 }

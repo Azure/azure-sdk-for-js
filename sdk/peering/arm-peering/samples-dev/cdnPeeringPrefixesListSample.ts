@@ -14,7 +14,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Lists all of the advertised prefixes for the specified peering location
  * x-ms-original-file: specification/peering/resource-manager/Microsoft.Peering/stable/2021-06-01/examples/ListCdnPeeringPrefixes.json
  */
-async function listAllTheCdnPeeringPrefixesAdvertisedAtAParticularPeeringLocation() {
+async function listAllTheCdnPeeringPrefixesAdvertisedAtAParticularPeeringLocation(): Promise<void> {
   const subscriptionId = "subId";
   const peeringLocation = "peeringLocation0";
   const credential = new DefaultAzureCredential();

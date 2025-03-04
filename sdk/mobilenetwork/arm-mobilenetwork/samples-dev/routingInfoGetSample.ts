@@ -7,9 +7,7 @@
  */
 import { MobileNetworkManagementClient } from "@azure/arm-mobilenetwork";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get the routing information for the packet core.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Get the routing information for the packet core.
  * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/stable/2024-04-01/examples/RoutingInfoPacketCoreControlPlane.json
  */
-async function getRoutingInformationForThePacketCore() {
+async function getRoutingInformationForThePacketCore(): Promise<void> {
   const subscriptionId =
     process.env["MOBILENETWORK_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = process.env["MOBILENETWORK_RESOURCE_GROUP"] || "rg1";
@@ -28,7 +26,7 @@ async function getRoutingInformationForThePacketCore() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await getRoutingInformationForThePacketCore();
 }
 

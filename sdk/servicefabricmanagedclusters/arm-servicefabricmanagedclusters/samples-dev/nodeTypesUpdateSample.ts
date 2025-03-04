@@ -8,9 +8,7 @@
 import type { NodeTypeUpdateParameters } from "@azure/arm-servicefabricmanagedclusters";
 import { ServiceFabricManagedClustersManagementClient } from "@azure/arm-servicefabricmanagedclusters";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Update the configuration of a node type of a given managed cluster, only updating tags.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Update the configuration of a node type of a given managed cluster, only updating tags.
  * x-ms-original-file: specification/servicefabricmanagedclusters/resource-manager/Microsoft.ServiceFabric/preview/2024-09-01-preview/examples/NodeTypePatchOperation_example.json
  */
-async function patchANodeType() {
+async function patchANodeType(): Promise<void> {
   const subscriptionId =
     process.env["SERVICEFABRICMANAGEDCLUSTERS_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -43,7 +41,7 @@ async function patchANodeType() {
  * @summary Update the configuration of a node type of a given managed cluster, only updating tags.
  * x-ms-original-file: specification/servicefabricmanagedclusters/resource-manager/Microsoft.ServiceFabric/preview/2024-09-01-preview/examples/NodeTypePatchOperationAutoScale_example.json
  */
-async function patchANodeTypeWhileAutoScaling() {
+async function patchANodeTypeWhileAutoScaling(): Promise<void> {
   const subscriptionId =
     process.env["SERVICEFABRICMANAGEDCLUSTERS_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -65,7 +63,7 @@ async function patchANodeTypeWhileAutoScaling() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await patchANodeType();
   await patchANodeTypeWhileAutoScaling();
 }

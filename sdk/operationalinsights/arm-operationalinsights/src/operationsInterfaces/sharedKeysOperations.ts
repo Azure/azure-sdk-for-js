@@ -11,7 +11,7 @@ import {
   SharedKeysGetSharedKeysResponse,
   SharedKeysRegenerateOptionalParams,
   SharedKeysRegenerateResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a SharedKeysOperations. */
 export interface SharedKeysOperations {

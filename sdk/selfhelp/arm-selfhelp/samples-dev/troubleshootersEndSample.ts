@@ -7,9 +7,7 @@
  */
 import { HelpRP } from "@azure/arm-selfhelp";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Ends the troubleshooter action
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Ends the troubleshooter action
  * x-ms-original-file: specification/help/resource-manager/Microsoft.Help/preview/2024-03-01-preview/examples/Troubleshooter_End.json
  */
-async function troubleshootersEnd() {
+async function troubleshootersEnd(): Promise<void> {
   const scope =
     "subscriptions/mySubscription/resourcegroups/myresourceGroup/providers/Microsoft.KeyVault/vaults/test-keyvault-rp";
   const troubleshooterName = "abf168ed-1b54-454a-86f6-e4b62253d3b1";
@@ -27,7 +25,7 @@ async function troubleshootersEnd() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await troubleshootersEnd();
 }
 

@@ -7,9 +7,7 @@
  */
 import { NewRelicObservability } from "@azure/arm-newrelicobservability";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to List all the existing accounts
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary List all the existing accounts
  * x-ms-original-file: specification/newrelic/resource-manager/NewRelic.Observability/stable/2024-01-01/examples/Accounts_List_MaximumSet_Gen.json
  */
-async function accountsListMaximumSetGen() {
+async function accountsListMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["NEWRELICOBSERVABILITY_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const userEmail = "ruxvg@xqkmdhrnoo.hlmbpm";
@@ -37,7 +35,7 @@ async function accountsListMaximumSetGen() {
  * @summary List all the existing accounts
  * x-ms-original-file: specification/newrelic/resource-manager/NewRelic.Observability/stable/2024-01-01/examples/Accounts_List_MinimumSet_Gen.json
  */
-async function accountsListMinimumSetGen() {
+async function accountsListMinimumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["NEWRELICOBSERVABILITY_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const userEmail = "ruxvg@xqkmdhrnoo.hlmbpm";
@@ -51,7 +49,7 @@ async function accountsListMinimumSetGen() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await accountsListMaximumSetGen();
   await accountsListMinimumSetGen();
 }

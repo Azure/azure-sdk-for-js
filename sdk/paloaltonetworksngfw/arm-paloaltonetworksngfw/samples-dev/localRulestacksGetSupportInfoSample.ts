@@ -8,9 +8,7 @@
 import type { LocalRulestacksGetSupportInfoOptionalParams } from "@azure/arm-paloaltonetworksngfw";
 import { PaloAltoNetworksCloudngfw } from "@azure/arm-paloaltonetworksngfw";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to support info for rulestack.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary support info for rulestack.
  * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/LocalRulestacks_getSupportInfo_MaximumSet_Gen.json
  */
-async function localRulestacksGetSupportInfoMaximumSetGen() {
+async function localRulestacksGetSupportInfoMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["PALOALTONETWORKSNGFW_SUBSCRIPTION_ID"] || "2bf4a339-294d-4c25-b0b2-ef649e9f5c27";
   const resourceGroupName = process.env["PALOALTONETWORKSNGFW_RESOURCE_GROUP"] || "rgopenapi";
@@ -41,7 +39,7 @@ async function localRulestacksGetSupportInfoMaximumSetGen() {
  * @summary support info for rulestack.
  * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/LocalRulestacks_getSupportInfo_MinimumSet_Gen.json
  */
-async function localRulestacksGetSupportInfoMinimumSetGen() {
+async function localRulestacksGetSupportInfoMinimumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["PALOALTONETWORKSNGFW_SUBSCRIPTION_ID"] || "2bf4a339-294d-4c25-b0b2-ef649e9f5c27";
   const resourceGroupName = process.env["PALOALTONETWORKSNGFW_RESOURCE_GROUP"] || "rgopenapi";
@@ -52,7 +50,7 @@ async function localRulestacksGetSupportInfoMinimumSetGen() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await localRulestacksGetSupportInfoMaximumSetGen();
   await localRulestacksGetSupportInfoMinimumSetGen();
 }

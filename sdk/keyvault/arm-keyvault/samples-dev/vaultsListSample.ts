@@ -8,9 +8,7 @@
 import type { VaultsListOptionalParams } from "@azure/arm-keyvault";
 import { KeyVaultManagementClient } from "@azure/arm-keyvault";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to The List operation gets information about the vaults associated with the subscription.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary The List operation gets information about the vaults associated with the subscription.
  * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2023-07-01/examples/listVault.json
  */
-async function listVaultsInTheSpecifiedSubscription() {
+async function listVaultsInTheSpecifiedSubscription(): Promise<void> {
   const subscriptionId =
     process.env["KEYVAULT_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const top = 1;
@@ -32,7 +30,7 @@ async function listVaultsInTheSpecifiedSubscription() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await listVaultsInTheSpecifiedSubscription();
 }
 

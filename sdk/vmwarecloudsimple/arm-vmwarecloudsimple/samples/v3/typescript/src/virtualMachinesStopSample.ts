@@ -14,9 +14,7 @@ import {
   VMwareCloudSimple
 } from "@azure/arm-vmwarecloudsimple";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Power off virtual machine, options: shutdown, poweroff, and suspend
@@ -24,7 +22,7 @@ dotenv.config();
  * @summary Power off virtual machine, options: shutdown, poweroff, and suspend
  * x-ms-original-file: specification/vmwarecloudsimple/resource-manager/Microsoft.VMwareCloudSimple/stable/2019-04-01/examples/StopInBodyVirtualMachine.json
  */
-async function stopInBodyVirtualMachine() {
+async function stopInBodyVirtualMachine(): Promise<void> {
   const subscriptionId =
     process.env["VMWARECLOUDSIMPLE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -50,7 +48,7 @@ async function stopInBodyVirtualMachine() {
  * @summary Power off virtual machine, options: shutdown, poweroff, and suspend
  * x-ms-original-file: specification/vmwarecloudsimple/resource-manager/Microsoft.VMwareCloudSimple/stable/2019-04-01/examples/StopInQueryVirtualMachine.json
  */
-async function stopInQueryVirtualMachine() {
+async function stopInQueryVirtualMachine(): Promise<void> {
   const subscriptionId =
     process.env["VMWARECLOUDSIMPLE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -70,7 +68,7 @@ async function stopInQueryVirtualMachine() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   stopInBodyVirtualMachine();
   stopInQueryVirtualMachine();
 }

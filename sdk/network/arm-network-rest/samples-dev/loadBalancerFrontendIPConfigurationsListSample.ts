@@ -11,7 +11,7 @@ import "dotenv/config";
  * @summary Gets all the load balancer frontend IP configurations.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/LoadBalancerFrontendIPConfigurationList.json
  */
-async function loadBalancerFrontendIPConfigurationList() {
+async function loadBalancerFrontendIPConfigurationList(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

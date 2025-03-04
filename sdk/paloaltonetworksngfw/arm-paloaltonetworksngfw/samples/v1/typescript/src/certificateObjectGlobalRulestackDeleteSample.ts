@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { PaloAltoNetworksCloudngfw } from "@azure/arm-paloaltonetworksngfw";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Delete a CertificateObjectGlobalRulestackResource
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Delete a CertificateObjectGlobalRulestackResource
  * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/CertificateObjectGlobalRulestack_Delete_MaximumSet_Gen.json
  */
-async function certificateObjectGlobalRulestackDeleteMaximumSetGen() {
+async function certificateObjectGlobalRulestackDeleteMaximumSetGen(): Promise<void> {
   const globalRulestackName = "praval";
   const name = "armid1";
   const credential = new DefaultAzureCredential();
@@ -38,7 +36,7 @@ async function certificateObjectGlobalRulestackDeleteMaximumSetGen() {
  * @summary Delete a CertificateObjectGlobalRulestackResource
  * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/CertificateObjectGlobalRulestack_Delete_MinimumSet_Gen.json
  */
-async function certificateObjectGlobalRulestackDeleteMinimumSetGen() {
+async function certificateObjectGlobalRulestackDeleteMinimumSetGen(): Promise<void> {
   const globalRulestackName = "praval";
   const name = "armid1";
   const credential = new DefaultAzureCredential();
@@ -50,7 +48,7 @@ async function certificateObjectGlobalRulestackDeleteMinimumSetGen() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   certificateObjectGlobalRulestackDeleteMaximumSetGen();
   certificateObjectGlobalRulestackDeleteMinimumSetGen();
 }

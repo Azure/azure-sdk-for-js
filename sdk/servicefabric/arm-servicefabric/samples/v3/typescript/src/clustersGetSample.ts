@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { ServiceFabricManagementClient } from "@azure/arm-servicefabric";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get a Service Fabric cluster resource created or in the process of being created in the specified resource group.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Get a Service Fabric cluster resource created or in the process of being created in the specified resource group.
  * x-ms-original-file: specification/servicefabric/resource-manager/Microsoft.ServiceFabric/stable/2021-06-01/examples/ClusterGetOperation_example.json
  */
-async function getACluster() {
+async function getACluster(): Promise<void> {
   const subscriptionId =
     process.env["SERVICEFABRIC_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -33,7 +31,7 @@ async function getACluster() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getACluster();
 }
 

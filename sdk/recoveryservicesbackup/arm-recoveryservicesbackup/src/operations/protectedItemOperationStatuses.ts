@@ -6,15 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { ProtectedItemOperationStatuses } from "../operationsInterfaces";
+import { ProtectedItemOperationStatuses } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { RecoveryServicesBackupClient } from "../recoveryServicesBackupClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { RecoveryServicesBackupClient } from "../recoveryServicesBackupClient.js";
 import {
   ProtectedItemOperationStatusesGetOptionalParams,
   ProtectedItemOperationStatusesGetResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Class containing ProtectedItemOperationStatuses operations. */
 export class ProtectedItemOperationStatusesImpl

@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { MicrosoftSecurityDevOps } from "@azure/arm-securitydevops";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Returns a monitored AzureDevOps Project resource for a given ID.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Returns a monitored AzureDevOps Project resource for a given ID.
  * x-ms-original-file: specification/securitydevops/resource-manager/Microsoft.SecurityDevOps/preview/2022-09-01-preview/examples/AzureDevOpsRepoGet.json
  */
-async function azureDevOpsRepoGet() {
+async function azureDevOpsRepoGet(): Promise<void> {
   const subscriptionId =
     process.env["SECURITYDEVOPS_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -42,7 +40,7 @@ async function azureDevOpsRepoGet() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   azureDevOpsRepoGet();
 }
 

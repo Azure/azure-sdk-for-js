@@ -23,7 +23,7 @@ import {
   CloudHsmClusterRestoreStatusImpl,
   DedicatedHsmOperationsImpl,
   OperationsImpl,
-} from "./operations";
+} from "./operations/index.js";
 import {
   CloudHsmClusters,
   CloudHsmClusterPrivateLinkResources,
@@ -33,8 +33,8 @@ import {
   CloudHsmClusterRestoreStatus,
   DedicatedHsmOperations,
   Operations,
-} from "./operationsInterfaces";
-import { AzureHSMResourceProviderOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { AzureHSMResourceProviderOptionalParams } from "./models/index.js";
 
 export class AzureHSMResourceProvider extends coreClient.ServiceClient {
   $host: string;

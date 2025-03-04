@@ -7,9 +7,7 @@
  */
 import { AzureNetworkFabricManagementServiceAPI } from "@azure/arm-managednetworkfabric";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to List all the Network Fabric resources in the given resource group.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary List all the Network Fabric resources in the given resource group.
  * x-ms-original-file: specification/managednetworkfabric/resource-manager/Microsoft.ManagedNetworkFabric/stable/2023-06-15/examples/NetworkFabrics_ListByResourceGroup_MaximumSet_Gen.json
  */
-async function networkFabricsListByResourceGroupMaximumSetGen() {
+async function networkFabricsListByResourceGroupMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["MANAGEDNETWORKFABRIC_SUBSCRIPTION_ID"] || "1234ABCD-0A1B-1234-5678-123456ABCDEF";
   const resourceGroupName = process.env["MANAGEDNETWORKFABRIC_RESOURCE_GROUP"] || "example-rg";
@@ -30,7 +28,7 @@ async function networkFabricsListByResourceGroupMaximumSetGen() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await networkFabricsListByResourceGroupMaximumSetGen();
 }
 

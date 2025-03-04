@@ -14,12 +14,12 @@ import {
   SendRequest
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
-import { AuthorizationOperationsImpl, ManagementLocksImpl } from "./operations";
+import { AuthorizationOperationsImpl, ManagementLocksImpl } from "./operations/index.js";
 import {
   AuthorizationOperations,
   ManagementLocks
-} from "./operationsInterfaces";
-import { ManagementLockClientOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { ManagementLockClientOptionalParams } from "./models/index.js";
 
 export class ManagementLockClient extends coreClient.ServiceClient {
   $host: string;

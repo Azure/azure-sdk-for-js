@@ -6,13 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { Solutions } from "../operationsInterfaces";
+import { Solutions } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { OperationsManagementClient } from "../operationsManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { OperationsManagementClient } from "../operationsManagementClient.js";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import { LroImpl } from "../lroImpl.js";
 import {
   Solution,
   SolutionsCreateOrUpdateOptionalParams,
@@ -27,7 +27,7 @@ import {
   SolutionsListByResourceGroupResponse,
   SolutionsListBySubscriptionOptionalParams,
   SolutionsListBySubscriptionResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Class containing Solutions operations. */
 export class SolutionsImpl implements Solutions {

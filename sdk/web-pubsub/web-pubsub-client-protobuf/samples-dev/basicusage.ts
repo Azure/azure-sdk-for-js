@@ -5,13 +5,13 @@
  * @summary Basic usage of web-pubsub-client
  */
 
-import {
-  WebPubSubClient,
+import type {
   WebPubSubClientCredential,
   SendToGroupOptions,
   GetClientAccessUrlOptions,
   WebPubSubClientOptions,
 } from "@azure/web-pubsub-client";
+import { WebPubSubClient } from "@azure/web-pubsub-client";
 import { WebPubSubProtobufReliableProtocol } from "@azure/web-pubsub-client-protobuf";
 import { WebPubSubServiceClient } from "@azure/web-pubsub";
 import "dotenv/config";

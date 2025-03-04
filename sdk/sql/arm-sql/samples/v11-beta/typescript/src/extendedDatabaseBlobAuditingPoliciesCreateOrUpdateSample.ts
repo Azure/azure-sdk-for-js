@@ -13,9 +13,7 @@ import {
   SqlManagementClient,
 } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates or updates an extended database's blob auditing policy.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Creates or updates an extended database's blob auditing policy.
  * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2021-11-01-preview/examples/ExtendedDatabaseAzureMonitorAuditingCreateMin.json
  */
-async function createOrUpdateAnExtendedDatabaseAzureMonitorAuditingPolicyWithMinimalParameters() {
+async function createOrUpdateAnExtendedDatabaseAzureMonitorAuditingPolicyWithMinimalParameters(): Promise<void> {
   const subscriptionId =
     process.env["SQL_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -53,7 +51,7 @@ async function createOrUpdateAnExtendedDatabaseAzureMonitorAuditingPolicyWithMin
  * @summary Creates or updates an extended database's blob auditing policy.
  * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2021-11-01-preview/examples/ExtendedDatabaseBlobAuditingCreateMax.json
  */
-async function createOrUpdateAnExtendedDatabaseBlobAuditingPolicyWithAllParameters() {
+async function createOrUpdateAnExtendedDatabaseBlobAuditingPolicyWithAllParameters(): Promise<void> {
   const subscriptionId =
     process.env["SQL_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -96,7 +94,7 @@ async function createOrUpdateAnExtendedDatabaseBlobAuditingPolicyWithAllParamete
  * @summary Creates or updates an extended database's blob auditing policy.
  * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2021-11-01-preview/examples/ExtendedDatabaseBlobAuditingCreateMin.json
  */
-async function createOrUpdateAnExtendedDatabaseBlobAuditingPolicyWithMinimalParameters() {
+async function createOrUpdateAnExtendedDatabaseBlobAuditingPolicyWithMinimalParameters(): Promise<void> {
   const subscriptionId =
     process.env["SQL_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -122,7 +120,7 @@ async function createOrUpdateAnExtendedDatabaseBlobAuditingPolicyWithMinimalPara
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createOrUpdateAnExtendedDatabaseAzureMonitorAuditingPolicyWithMinimalParameters();
   createOrUpdateAnExtendedDatabaseBlobAuditingPolicyWithAllParameters();
   createOrUpdateAnExtendedDatabaseBlobAuditingPolicyWithMinimalParameters();

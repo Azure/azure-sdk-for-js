@@ -7,9 +7,7 @@
  */
 import { SecurityCenter } from "@azure/arm-security";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get the Defender plans pricing configurations of the selected scope (valid scopes are resource id or a subscription id). At the resource level, supported resource types are 'VirtualMachines, VMSS and ARC Machines'.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Get the Defender plans pricing configurations of the selected scope (valid scopes are resource id or a subscription id). At the resource level, supported resource types are 'VirtualMachines, VMSS and ARC Machines'.
  * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/stable/2024-01-01/examples/Pricings/GetResourcePricingByNameVirtualMachines_example.json
  */
-async function getPricingsOnResourceVirtualMachinesPlan() {
+async function getPricingsOnResourceVirtualMachinesPlan(): Promise<void> {
   const scopeId =
     "subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourceGroups/DEMO/providers/Microsoft.Compute/virtualMachines/VM-1";
   const pricingName = "VirtualMachines";
@@ -33,7 +31,7 @@ async function getPricingsOnResourceVirtualMachinesPlan() {
  * @summary Get the Defender plans pricing configurations of the selected scope (valid scopes are resource id or a subscription id). At the resource level, supported resource types are 'VirtualMachines, VMSS and ARC Machines'.
  * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/stable/2024-01-01/examples/Pricings/GetPricingByNameCloudPosture_example.json
  */
-async function getPricingsOnSubscriptionCloudPosturePlan() {
+async function getPricingsOnSubscriptionCloudPosturePlan(): Promise<void> {
   const scopeId = "subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23";
   const pricingName = "CloudPosture";
   const credential = new DefaultAzureCredential();
@@ -48,7 +46,7 @@ async function getPricingsOnSubscriptionCloudPosturePlan() {
  * @summary Get the Defender plans pricing configurations of the selected scope (valid scopes are resource id or a subscription id). At the resource level, supported resource types are 'VirtualMachines, VMSS and ARC Machines'.
  * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/stable/2024-01-01/examples/Pricings/GetPricingByNameContainers_example.json
  */
-async function getPricingsOnSubscriptionContainersPlan() {
+async function getPricingsOnSubscriptionContainersPlan(): Promise<void> {
   const scopeId = "subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23";
   const pricingName = "Containers";
   const credential = new DefaultAzureCredential();
@@ -63,7 +61,7 @@ async function getPricingsOnSubscriptionContainersPlan() {
  * @summary Get the Defender plans pricing configurations of the selected scope (valid scopes are resource id or a subscription id). At the resource level, supported resource types are 'VirtualMachines, VMSS and ARC Machines'.
  * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/stable/2024-01-01/examples/Pricings/GetPricingByNameDns_example.json
  */
-async function getPricingsOnSubscriptionDnsPlan() {
+async function getPricingsOnSubscriptionDnsPlan(): Promise<void> {
   const scopeId = "subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23";
   const pricingName = "Dns";
   const credential = new DefaultAzureCredential();
@@ -78,7 +76,7 @@ async function getPricingsOnSubscriptionDnsPlan() {
  * @summary Get the Defender plans pricing configurations of the selected scope (valid scopes are resource id or a subscription id). At the resource level, supported resource types are 'VirtualMachines, VMSS and ARC Machines'.
  * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/stable/2024-01-01/examples/Pricings/GetPricingByNameStorageAccounts_example.json
  */
-async function getPricingsOnSubscriptionStorageAccountsPlan() {
+async function getPricingsOnSubscriptionStorageAccountsPlan(): Promise<void> {
   const scopeId = "subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23";
   const pricingName = "StorageAccounts";
   const credential = new DefaultAzureCredential();
@@ -93,7 +91,7 @@ async function getPricingsOnSubscriptionStorageAccountsPlan() {
  * @summary Get the Defender plans pricing configurations of the selected scope (valid scopes are resource id or a subscription id). At the resource level, supported resource types are 'VirtualMachines, VMSS and ARC Machines'.
  * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/stable/2024-01-01/examples/Pricings/GetPricingByNameVirtualMachines_example.json
  */
-async function getPricingsOnSubscriptionVirtualMachinesPlan() {
+async function getPricingsOnSubscriptionVirtualMachinesPlan(): Promise<void> {
   const scopeId = "subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23";
   const pricingName = "VirtualMachines";
   const credential = new DefaultAzureCredential();
@@ -102,7 +100,7 @@ async function getPricingsOnSubscriptionVirtualMachinesPlan() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await getPricingsOnResourceVirtualMachinesPlan();
   await getPricingsOnSubscriptionCloudPosturePlan();
   await getPricingsOnSubscriptionContainersPlan();

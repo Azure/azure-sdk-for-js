@@ -17,7 +17,7 @@ import {
   HybridIdentityMetadataGetResponse,
   HybridIdentityMetadataDeleteOptionalParams,
   HybridIdentityMetadataDeleteResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a HybridIdentityMetadataOperations. */

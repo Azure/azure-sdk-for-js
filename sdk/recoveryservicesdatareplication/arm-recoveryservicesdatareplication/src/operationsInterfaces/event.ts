@@ -12,7 +12,7 @@ import {
   EventListOptionalParams,
   EventGetOptionalParams,
   EventGetResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Event. */

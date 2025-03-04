@@ -4,7 +4,7 @@
 import { describe, it, assert, expect, vi, beforeEach } from "vitest";
 import { CloudEventsDispatcher } from "../src/cloudEventsDispatcher.js";
 import { IncomingMessage, ServerResponse } from "node:http";
-import { Socket } from "net";
+import { Socket } from "node:net";
 import { toBase64JsonString } from "../src/utils.js";
 import { MqttV311ConnectReturnCode } from "../src/index.js";
 
@@ -115,12 +115,12 @@ describe("Can handle connect event", function () {
   let req: IncomingMessage;
   let res: ServerResponse;
 
-  beforeEach(function () {
+  beforeEach(async () => {
     req = new IncomingMessage(new Socket());
     res = new ServerResponse(req);
   });
 
-  it("Should not handle the request if request is not cloud events", async function () {
+  it("Should not handle the request if request is not cloud events", async () => {
     const endSpy = vi.spyOn(res, "end");
 
     const dispatcher = new CloudEventsDispatcher("hub1");
@@ -129,7 +129,7 @@ describe("Can handle connect event", function () {
     expect(endSpy).not.toBeCalled();
   });
 
-  it("Should not handle the request if hub does not match", async function () {
+  it("Should not handle the request if hub does not match", async () => {
     const endSpy = vi.spyOn(res, "end");
     buildRequest(req, "hub", "conn1");
 
@@ -139,7 +139,7 @@ describe("Can handle connect event", function () {
     expect(endSpy).not.toBeCalled();
   });
 
-  it("Should response with 200 when option is not specified", async function () {
+  it("Should response with 200 when option is not specified", async () => {
     const endSpy = vi.spyOn(res, "end");
     buildRequest(req, "hub", "conn1");
 
@@ -150,7 +150,7 @@ describe("Can handle connect event", function () {
     assert.equal(200, res.statusCode, "should be 200");
   });
 
-  it("Should response with 204 when handler is not specified for an mqtt request", async function () {
+  it("Should response with 204 when handler is not specified for an mqtt request", async () => {
     const endSpy = vi.spyOn(res, "end");
     buildMqttRequest(req, "hub", "conn1", "physicalConnectionId");
 
@@ -161,7 +161,7 @@ describe("Can handle connect event", function () {
     assert.equal(204, res.statusCode, "should be 204");
   });
 
-  it("Should response with 200 when handler is not specified", async function () {
+  it("Should response with 200 when handler is not specified", async () => {
     const endSpy = vi.spyOn(res, "end");
     buildRequest(req, "hub", "conn1");
 
@@ -172,7 +172,7 @@ describe("Can handle connect event", function () {
     assert.equal(200, res.statusCode, "should be 200");
   });
 
-  it("Should response with error when handler returns error", async function () {
+  it("Should response with error when handler returns error", async () => {
     const endSpy = vi.spyOn(res, "end");
     buildRequest(req, "hub", "conn1");
 
@@ -189,7 +189,7 @@ describe("Can handle connect event", function () {
     assert.equal(400, res.statusCode, "should be error");
   });
 
-  it("Should response with mqtt error when handler returns error and request is mqtt", async function () {
+  it("Should response with mqtt error when handler returns error and request is mqtt", async () => {
     const endSpy = vi.spyOn(res, "end");
     buildMqttRequest(req, "hub", "conn1", "physicalConnectionId");
 
@@ -208,7 +208,7 @@ describe("Can handle connect event", function () {
     assert.equal(400, res.statusCode, "should be error");
   });
 
-  it("Should response with correct status code and body when handler returns mqtt error", async function () {
+  it("Should response with correct status code and body when handler returns mqtt error", async () => {
     const endSpy = vi.spyOn(res, "end");
     buildMqttRequest(req, "hub", "conn1", "physicalConnectionId");
 
@@ -232,7 +232,7 @@ describe("Can handle connect event", function () {
     assert.equal(401, res.statusCode, "should be error");
   });
 
-  it("Should respond with correct mqtt response and body when handler returns default error but request is mqtt", async function () {
+  it("Should respond with correct mqtt response and body when handler returns default error but request is mqtt", async () => {
     const endSpy = vi.spyOn(res, "end");
     buildMqttRequest(req, "hub", "conn1", "physicalConnectionId");
 
@@ -251,7 +251,7 @@ describe("Can handle connect event", function () {
     assert.equal(401, res.statusCode, "should be error");
   });
 
-  it("Should response with success when handler returns success", async function () {
+  it("Should response with success when handler returns success", async () => {
     const endSpy = vi.spyOn(res, "end");
     buildRequest(req, "hub", "conn1");
 
@@ -268,7 +268,7 @@ describe("Can handle connect event", function () {
     assert.equal(200, res.statusCode, "should be success");
   });
 
-  it("Should response with correct body when handler returns success for an mqtt request", async function () {
+  it("Should response with correct body when handler returns success for an mqtt request", async () => {
     const endSpy = vi.spyOn(res, "end");
     buildMqttRequest(req, "hub", "conn1", "physicalConnectionId");
     const dispatcher = new CloudEventsDispatcher("hub", {
@@ -298,7 +298,7 @@ describe("Can handle connect event", function () {
     assert.equal(200, res.statusCode, "should be success");
   });
 
-  it("Should response with success when handler returns success value", async function () {
+  it("Should response with success when handler returns success value", async () => {
     const endSpy = vi.spyOn(res, "end");
     buildRequest(req, "hub", "conn1");
 
@@ -315,7 +315,7 @@ describe("Can handle connect event", function () {
     assert.equal(200, res.statusCode, "should be success");
   });
 
-  it("Should be able to set connection state", async function () {
+  it("Should be able to set connection state", async () => {
     const endSpy = vi.spyOn(res, "end");
     buildRequest(req, "hub", "conn1");
 
@@ -344,7 +344,7 @@ describe("Can handle connect event", function () {
     );
   });
 
-  it("Should be able to get the connection states if it exists in the header", async function () {
+  it("Should be able to get the connection states if it exists in the header", async () => {
     const endSpy = vi.spyOn(res, "end");
     const states = toBase64JsonString({
       key1: ["val3"],
@@ -368,7 +368,7 @@ describe("Can handle connect event", function () {
     assert.equal(204, res.statusCode, "should be success");
   });
 
-  it("Invalid state header gets ignored", async function () {
+  it("Invalid state header gets ignored", async () => {
     const endSpy = vi.spyOn(res, "end");
     buildRequest(req, "hub1", "conn1", undefined, "");
     const dispatcher = new CloudEventsDispatcher("hub1", {

@@ -14,9 +14,9 @@ import {
   SendRequest
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
-import { MarketplaceAgreementsImpl, OperationsImpl } from "./operations";
-import { MarketplaceAgreements, Operations } from "./operationsInterfaces";
-import { MarketplaceOrderingAgreementsOptionalParams } from "./models";
+import { MarketplaceAgreementsImpl, OperationsImpl } from "./operations/index.js";
+import { MarketplaceAgreements, Operations } from "./operationsInterfaces/index.js";
+import { MarketplaceOrderingAgreementsOptionalParams } from "./models/index.js";
 
 export class MarketplaceOrderingAgreements extends coreClient.ServiceClient {
   $host: string;

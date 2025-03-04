@@ -7,9 +7,7 @@
  */
 import { ServiceBusManagementClient } from "@azure/arm-servicebus";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets the primary and secondary connection strings for the namespace.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Gets the primary and secondary connection strings for the namespace.
  * x-ms-original-file: specification/servicebus/resource-manager/Microsoft.ServiceBus/preview/2022-10-01-preview/examples/disasterRecoveryConfigs/SBAliasAuthorizationRuleListKey.json
  */
-async function disasterRecoveryConfigsAuthorizationRuleListKey() {
+async function disasterRecoveryConfigsAuthorizationRuleListKey(): Promise<void> {
   const subscriptionId = process.env["SERVICEBUS_SUBSCRIPTION_ID"] || "exampleSubscriptionId";
   const resourceGroupName = process.env["SERVICEBUS_RESOURCE_GROUP"] || "exampleResourceGroup";
   const namespaceName = "sdk-Namespace-2702";
@@ -34,7 +32,7 @@ async function disasterRecoveryConfigsAuthorizationRuleListKey() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await disasterRecoveryConfigsAuthorizationRuleListKey();
 }
 

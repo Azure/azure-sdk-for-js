@@ -6,17 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { NginxManagementClient } = require("@azure/arm-nginx");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to List the NGINX configuration of given NGINX deployment.
  *
  * @summary List the NGINX configuration of given NGINX deployment.
- * x-ms-original-file: specification/nginx/resource-manager/NGINX.NGINXPLUS/preview/2024-01-01-preview/examples/Configurations_List.json
+ * x-ms-original-file: specification/nginx/resource-manager/NGINX.NGINXPLUS/preview/2024-11-01-preview/examples/Configurations_List.json
  */
 async function configurationsList() {
   const subscriptionId =
@@ -33,7 +31,7 @@ async function configurationsList() {
 }
 
 async function main() {
-  configurationsList();
+  await configurationsList();
 }
 
 main().catch(console.error);

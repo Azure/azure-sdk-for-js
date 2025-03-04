@@ -190,9 +190,7 @@ const { ShareServiceClient } = require("@azure/storage-file-share");
 const account = "<account name>";
 const sas = "<service Shared Access Signature Token>";
 
-const serviceClientWithSAS = new ShareServiceClient(
-  `https://${account}.file.core.windows.net${sas}`,
-);
+const serviceClientWithSAS = new ShareServiceClient(`https://${account}.file.core.windows.net?${sas}`);
 ```
 
 ### List shares in the account
@@ -453,7 +451,7 @@ const sas = "<service Shared Access Signature Token>";
 const shareName = "<share name>";
 const fileName = "<file name>";
 
-const serviceClient = new ShareServiceClient(`https://${account}.file.core.windows.net${sas}`);
+const serviceClient = new ShareServiceClient(`https://${account}.file.core.windows.net?${sas}`);
 
 async function main() {
   const fileClient = serviceClient
@@ -508,5 +506,3 @@ More code samples
 If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md) to learn more about how to build and test the code.
 
 Also refer to [Storage specific guide](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/storage/CONTRIBUTING.md) for additional information on setting up the test environment for storage libraries.
-
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fstorage%2Fstorage-file-share%2FREADME.png)

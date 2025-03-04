@@ -13,7 +13,7 @@ import "dotenv/config";
  * @summary Resets the VPN client shared key of the virtual network gateway in the specified resource group.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/VirtualNetworkGatewayResetVpnClientSharedKey.json
  */
-async function resetVpnClientSharedKey() {
+async function resetVpnClientSharedKey(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

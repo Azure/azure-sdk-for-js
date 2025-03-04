@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { SecurityInsights } from "@azure/arm-securityinsight";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets all bookmark relations.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Gets all bookmark relations.
  * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/bookmarks/relations/GetAllBookmarkRelations.json
  */
-async function getAllBookmarkRelations() {
+async function getAllBookmarkRelations(): Promise<void> {
   const subscriptionId =
     process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] ||
     "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
@@ -41,7 +39,7 @@ async function getAllBookmarkRelations() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getAllBookmarkRelations();
 }
 

@@ -16,7 +16,7 @@ import "dotenv/config";
  * @summary Checks what restrictions Azure Policy will place on resources within a management group.
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2024-10-01/examples/PolicyRestrictions_CheckAtManagementGroupScope.json
  */
-async function checkPolicyRestrictionsAtManagementGroupScope() {
+async function checkPolicyRestrictionsAtManagementGroupScope(): Promise<void> {
   const managementGroupId = "financeMg";
   const parameters: CheckManagementGroupRestrictionsRequest = {
     pendingFields: [{ field: "type" }],
@@ -30,7 +30,7 @@ async function checkPolicyRestrictionsAtManagementGroupScope() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await checkPolicyRestrictionsAtManagementGroupScope();
 }
 

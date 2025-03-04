@@ -8,6 +8,7 @@ import type { ChangeFeedPolicy } from "../ChangeFeed/ChangeFeedPolicy";
 import type { ComputedProperty } from "../../documents/ComputedProperty";
 import type { VectorEmbeddingPolicy } from "../../documents/VectorEmbeddingPolicy";
 import type { FullTextPolicy } from "../../documents/FullTextPolicy";
+import { ClientEncryptionPolicy } from "../../encryption";
 
 export interface ContainerDefinition {
   /** The id of the container. */
@@ -34,4 +35,6 @@ export interface ContainerDefinition {
   vectorEmbeddingPolicy?: VectorEmbeddingPolicy;
   /** The full text policy information for storing items in a container. */
   fullTextPolicy?: FullTextPolicy;
+  /** Encryption policy for the container, contains path that needs to be encrypted */
+  clientEncryptionPolicy?: ClientEncryptionPolicy;
 }

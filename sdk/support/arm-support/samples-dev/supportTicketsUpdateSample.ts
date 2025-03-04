@@ -8,9 +8,7 @@
 import type { UpdateSupportTicket } from "@azure/arm-support";
 import { MicrosoftSupport } from "@azure/arm-support";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to This API allows you to update the severity level, ticket status, advanced diagnostic consent and your contact information in the support ticket.<br/><br/>Note: The severity levels cannot be changed if a support ticket is actively being worked upon by an Azure support engineer. In such a case, contact your support engineer to request severity update by adding a new communication using the Communications API.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary This API allows you to update the severity level, ticket status, advanced diagnostic consent and your contact information in the support ticket.<br/><br/>Note: The severity levels cannot be changed if a support ticket is actively being worked upon by an Azure support engineer. In such a case, contact your support engineer to request severity update by adding a new communication using the Communications API.
  * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/stable/2024-04-01/examples/UpdateAdvancedDiagnosticConsentOfSupportTicketForSubscription.json
  */
-async function updateAdvancedDiagnosticConsentOfASubscriptionSupportTicket() {
+async function updateAdvancedDiagnosticConsentOfASubscriptionSupportTicket(): Promise<void> {
   const subscriptionId =
     process.env["SUPPORT_SUBSCRIPTION_ID"] || "132d901f-189d-4381-9214-fe68e27e05a1";
   const supportTicketName = "testticket";
@@ -37,7 +35,7 @@ async function updateAdvancedDiagnosticConsentOfASubscriptionSupportTicket() {
  * @summary This API allows you to update the severity level, ticket status, advanced diagnostic consent and your contact information in the support ticket.<br/><br/>Note: The severity levels cannot be changed if a support ticket is actively being worked upon by an Azure support engineer. In such a case, contact your support engineer to request severity update by adding a new communication using the Communications API.
  * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/stable/2024-04-01/examples/UpdateContactDetailsOfSupportTicketForSubscription.json
  */
-async function updateContactDetailsOfASubscriptionSupportTicket() {
+async function updateContactDetailsOfASubscriptionSupportTicket(): Promise<void> {
   const subscriptionId =
     process.env["SUPPORT_SUBSCRIPTION_ID"] || "132d901f-189d-4381-9214-fe68e27e05a1";
   const supportTicketName = "testticket";
@@ -66,7 +64,7 @@ async function updateContactDetailsOfASubscriptionSupportTicket() {
  * @summary This API allows you to update the severity level, ticket status, advanced diagnostic consent and your contact information in the support ticket.<br/><br/>Note: The severity levels cannot be changed if a support ticket is actively being worked upon by an Azure support engineer. In such a case, contact your support engineer to request severity update by adding a new communication using the Communications API.
  * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/stable/2024-04-01/examples/UpdateSeverityOfSupportTicketForSubscription.json
  */
-async function updateSeverityOfASubscriptionSupportTicket() {
+async function updateSeverityOfASubscriptionSupportTicket(): Promise<void> {
   const subscriptionId =
     process.env["SUPPORT_SUBSCRIPTION_ID"] || "132d901f-189d-4381-9214-fe68e27e05a1";
   const supportTicketName = "testticket";
@@ -83,7 +81,7 @@ async function updateSeverityOfASubscriptionSupportTicket() {
  * @summary This API allows you to update the severity level, ticket status, advanced diagnostic consent and your contact information in the support ticket.<br/><br/>Note: The severity levels cannot be changed if a support ticket is actively being worked upon by an Azure support engineer. In such a case, contact your support engineer to request severity update by adding a new communication using the Communications API.
  * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/stable/2024-04-01/examples/UpdateStatusOfSupportTicketForSubscription.json
  */
-async function updateStatusOfASubscriptionSupportTicket() {
+async function updateStatusOfASubscriptionSupportTicket(): Promise<void> {
   const subscriptionId =
     process.env["SUPPORT_SUBSCRIPTION_ID"] || "132d901f-189d-4381-9214-fe68e27e05a1";
   const supportTicketName = "testticket";
@@ -94,7 +92,7 @@ async function updateStatusOfASubscriptionSupportTicket() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await updateAdvancedDiagnosticConsentOfASubscriptionSupportTicket();
   await updateContactDetailsOfASubscriptionSupportTicket();
   await updateSeverityOfASubscriptionSupportTicket();

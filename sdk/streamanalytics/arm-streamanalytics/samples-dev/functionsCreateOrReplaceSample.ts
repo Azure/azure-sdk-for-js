@@ -8,9 +8,7 @@
 import type { FunctionModel } from "@azure/arm-streamanalytics";
 import { StreamAnalyticsManagementClient } from "@azure/arm-streamanalytics";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates a function or replaces an already existing function under an existing streaming job.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Creates a function or replaces an already existing function under an existing streaming job.
  * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/preview/2021-10-01-preview/examples/Function_Create_CSharp.json
  */
-async function createAClrUdfFunction() {
+async function createAClrUdfFunction(): Promise<void> {
   const subscriptionId =
     process.env["STREAMANALYTICS_SUBSCRIPTION_ID"] || "56b5e0a9-b645-407d-99b0-c64f86013e3d";
   const resourceGroupName = process.env["STREAMANALYTICS_RESOURCE_GROUP"] || "sjrg";
@@ -55,7 +53,7 @@ async function createAClrUdfFunction() {
  * @summary Creates a function or replaces an already existing function under an existing streaming job.
  * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/preview/2021-10-01-preview/examples/Function_Create_JavaScript.json
  */
-async function createAJavaScriptFunction() {
+async function createAJavaScriptFunction(): Promise<void> {
   const subscriptionId =
     process.env["STREAMANALYTICS_SUBSCRIPTION_ID"] || "56b5e0a9-b645-407d-99b0-c64f86013e3d";
   const resourceGroupName = process.env["STREAMANALYTICS_RESOURCE_GROUP"] || "sjrg1637";
@@ -89,7 +87,7 @@ async function createAJavaScriptFunction() {
  * @summary Creates a function or replaces an already existing function under an existing streaming job.
  * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/preview/2021-10-01-preview/examples/Function_Create_AzureMLService.json
  */
-async function createAnAzureMlServiceFunction() {
+async function createAnAzureMlServiceFunction(): Promise<void> {
   const subscriptionId =
     process.env["STREAMANALYTICS_SUBSCRIPTION_ID"] || "56b5e0a9-b645-407d-99b0-c64f86013e3d";
   const resourceGroupName = process.env["STREAMANALYTICS_RESOURCE_GROUP"] || "sjrg";
@@ -130,7 +128,7 @@ async function createAnAzureMlServiceFunction() {
  * @summary Creates a function or replaces an already existing function under an existing streaming job.
  * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/preview/2021-10-01-preview/examples/Function_Create_AzureML.json
  */
-async function createAnAzureMlFunction() {
+async function createAnAzureMlFunction(): Promise<void> {
   const subscriptionId =
     process.env["STREAMANALYTICS_SUBSCRIPTION_ID"] || "56b5e0a9-b645-407d-99b0-c64f86013e3d";
   const resourceGroupName = process.env["STREAMANALYTICS_RESOURCE_GROUP"] || "sjrg7";
@@ -165,7 +163,7 @@ async function createAnAzureMlFunction() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await createAClrUdfFunction();
   await createAJavaScriptFunction();
   await createAnAzureMlServiceFunction();

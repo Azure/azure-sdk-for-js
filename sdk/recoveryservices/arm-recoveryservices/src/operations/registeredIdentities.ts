@@ -6,12 +6,12 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { RegisteredIdentities } from "../operationsInterfaces";
+import { RegisteredIdentities } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { RecoveryServicesClient } from "../recoveryServicesClient";
-import { RegisteredIdentitiesDeleteOptionalParams } from "../models";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { RecoveryServicesClient } from "../recoveryServicesClient.js";
+import { RegisteredIdentitiesDeleteOptionalParams } from "../models/index.js";
 
 /** Class containing RegisteredIdentities operations. */
 export class RegisteredIdentitiesImpl implements RegisteredIdentities {

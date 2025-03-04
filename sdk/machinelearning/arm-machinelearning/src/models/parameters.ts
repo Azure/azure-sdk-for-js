@@ -57,7 +57,7 @@ import {
   ServerlessEndpoint as ServerlessEndpointMapper,
   PartialRegistryPartialTrackedResource as PartialRegistryPartialTrackedResourceMapper,
   Registry as RegistryMapper,
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",

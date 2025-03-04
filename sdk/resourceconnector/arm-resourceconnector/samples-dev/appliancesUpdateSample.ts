@@ -8,9 +8,7 @@
 import type { AppliancesUpdateOptionalParams } from "@azure/arm-resourceconnector";
 import { ResourceConnectorManagementClient } from "@azure/arm-resourceconnector";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Updates an Appliance with the specified Resource Name in the specified Resource Group and Subscription.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Updates an Appliance with the specified Resource Name in the specified Resource Group and Subscription.
  * x-ms-original-file: specification/resourceconnector/resource-manager/Microsoft.ResourceConnector/stable/2022-10-27/examples/AppliancesPatch.json
  */
-async function updateAppliance() {
+async function updateAppliance(): Promise<void> {
   const subscriptionId =
     process.env["RESOURCECONNECTOR_SUBSCRIPTION_ID"] || "11111111-2222-3333-4444-555555555555";
   const resourceGroupName = process.env["RESOURCECONNECTOR_RESOURCE_GROUP"] || "testresourcegroup";
@@ -31,7 +29,7 @@ async function updateAppliance() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await updateAppliance();
 }
 

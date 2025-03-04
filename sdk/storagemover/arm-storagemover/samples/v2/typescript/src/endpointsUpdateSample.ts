@@ -13,9 +13,7 @@ import {
   StorageMoverClient,
 } from "@azure/arm-storagemover";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Updates properties for an Endpoint resource. Properties not specified in the request body will be unchanged.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Updates properties for an Endpoint resource. Properties not specified in the request body will be unchanged.
  * x-ms-original-file: specification/storagemover/resource-manager/Microsoft.StorageMover/stable/2024-07-01/examples/Endpoints_Update_AzureStorageBlobContainer.json
  */
-async function endpointsUpdateAzureStorageBlobContainer() {
+async function endpointsUpdateAzureStorageBlobContainer(): Promise<void> {
   const subscriptionId =
     process.env["STORAGEMOVER_SUBSCRIPTION_ID"] ||
     "60bcfc77-6589-4da2-b7fd-f9ec9322cf95";
@@ -54,7 +52,7 @@ async function endpointsUpdateAzureStorageBlobContainer() {
  * @summary Updates properties for an Endpoint resource. Properties not specified in the request body will be unchanged.
  * x-ms-original-file: specification/storagemover/resource-manager/Microsoft.StorageMover/stable/2024-07-01/examples/Endpoints_Update_AzureStorageSmbFileShare.json
  */
-async function endpointsUpdateAzureStorageSmbFileShare() {
+async function endpointsUpdateAzureStorageSmbFileShare(): Promise<void> {
   const subscriptionId =
     process.env["STORAGEMOVER_SUBSCRIPTION_ID"] ||
     "60bcfc77-6589-4da2-b7fd-f9ec9322cf95";
@@ -85,7 +83,7 @@ async function endpointsUpdateAzureStorageSmbFileShare() {
  * @summary Updates properties for an Endpoint resource. Properties not specified in the request body will be unchanged.
  * x-ms-original-file: specification/storagemover/resource-manager/Microsoft.StorageMover/stable/2024-07-01/examples/Endpoints_Update_NfsMount.json
  */
-async function endpointsUpdateNfsMount() {
+async function endpointsUpdateNfsMount(): Promise<void> {
   const subscriptionId =
     process.env["STORAGEMOVER_SUBSCRIPTION_ID"] ||
     "60bcfc77-6589-4da2-b7fd-f9ec9322cf95";
@@ -116,7 +114,7 @@ async function endpointsUpdateNfsMount() {
  * @summary Updates properties for an Endpoint resource. Properties not specified in the request body will be unchanged.
  * x-ms-original-file: specification/storagemover/resource-manager/Microsoft.StorageMover/stable/2024-07-01/examples/Endpoints_Update_SmbMount.json
  */
-async function endpointsUpdateSmbMount() {
+async function endpointsUpdateSmbMount(): Promise<void> {
   const subscriptionId =
     process.env["STORAGEMOVER_SUBSCRIPTION_ID"] ||
     "60bcfc77-6589-4da2-b7fd-f9ec9322cf95";
@@ -148,7 +146,7 @@ async function endpointsUpdateSmbMount() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   endpointsUpdateAzureStorageBlobContainer();
   endpointsUpdateAzureStorageSmbFileShare();
   endpointsUpdateNfsMount();

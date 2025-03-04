@@ -12,7 +12,7 @@ import {
   AutonomousDatabaseCharacterSetsListByLocationOptionalParams,
   AutonomousDatabaseCharacterSetsGetOptionalParams,
   AutonomousDatabaseCharacterSetsGetResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a AutonomousDatabaseCharacterSets. */

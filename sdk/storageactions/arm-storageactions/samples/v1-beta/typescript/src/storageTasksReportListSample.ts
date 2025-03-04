@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { StorageActionsManagementClient } from "@azure/arm-storageactions";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Fetch the storage tasks run report summary for each assignment.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Fetch the storage tasks run report summary for each assignment.
  * x-ms-original-file: specification/storageactions/resource-manager/Microsoft.StorageActions/stable/2023-01-01/examples/storageTasksList/ListStorageTasksRunReportSummary.json
  */
-async function listStorageTasksByResourceGroup() {
+async function listStorageTasksByResourceGroup(): Promise<void> {
   const subscriptionId =
     process.env["STORAGEACTIONS_SUBSCRIPTION_ID"] ||
     "1f31ba14-ce16-4281-b9b4-3e78da6e1616";
@@ -39,7 +37,7 @@ async function listStorageTasksByResourceGroup() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listStorageTasksByResourceGroup();
 }
 

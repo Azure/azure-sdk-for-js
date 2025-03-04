@@ -7,9 +7,7 @@
  */
 import { HelpRP } from "@azure/arm-selfhelp";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Warm up the solution resource by preloading asynchronous diagnostics results into cache
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Warm up the solution resource by preloading asynchronous diagnostics results into cache
  * x-ms-original-file: specification/help/resource-manager/Microsoft.Help/preview/2024-03-01-preview/examples/Solution_WarmUp.json
  */
-async function solutionWarmUp() {
+async function solutionWarmUp(): Promise<void> {
   const scope =
     "subscriptions/mySubscription/resourcegroups/myresourceGroup/providers/Microsoft.KeyVault/vaults/test-keyvault-rp";
   const solutionResourceName = "SolutionResourceName1";
@@ -27,7 +25,7 @@ async function solutionWarmUp() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await solutionWarmUp();
 }
 

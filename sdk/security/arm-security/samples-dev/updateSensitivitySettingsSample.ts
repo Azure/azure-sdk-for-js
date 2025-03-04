@@ -8,9 +8,7 @@
 import type { UpdateSensitivitySettingsRequest } from "@azure/arm-security";
 import { SecurityCenter } from "@azure/arm-security";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Updates data sensitivity settings for sensitive data discovery
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Updates data sensitivity settings for sensitive data discovery
  * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/preview/2023-02-15-preview/examples/SensitivitySettings/PutSensitivitySettings_example.json
  */
-async function updateSensitivitySettings() {
+async function updateSensitivitySettings(): Promise<void> {
   const sensitivitySettings: UpdateSensitivitySettingsRequest = {
     sensitiveInfoTypesIds: [
       "f2f8a7a1-28c0-404b-9ab4-30a0a7af18cb",
@@ -34,7 +32,7 @@ async function updateSensitivitySettings() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await updateSensitivitySettings();
 }
 

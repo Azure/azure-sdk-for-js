@@ -8,9 +8,7 @@
 import type { AzureDevOpsRepository } from "@azure/arm-security";
 import { SecurityCenter } from "@azure/arm-security";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Updates a monitored Azure DevOps repository resource.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Updates a monitored Azure DevOps repository resource.
  * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/preview/2023-09-01-preview/examples/SecurityConnectorsDevOps/UpdateAzureDevOpsRepos_example.json
  */
-async function updateAzureDevOpsRepos() {
+async function updateAzureDevOpsRepos(): Promise<void> {
   const subscriptionId =
     process.env["SECURITY_SUBSCRIPTION_ID"] || "0806e1cd-cfda-4ff8-b99c-2b0af42cffd3";
   const resourceGroupName = process.env["SECURITY_RESOURCE_GROUP"] || "myRg";
@@ -45,7 +43,7 @@ async function updateAzureDevOpsRepos() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await updateAzureDevOpsRepos();
 }
 

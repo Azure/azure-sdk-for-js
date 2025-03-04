@@ -1,7 +1,7 @@
 /**
  * This is the main configuration file for Rush.
  * For full documentation, please see https://rushjs.io
- */ {
+ */{
   "$schema": "https://developer.microsoft.com/json-schemas/rush/v5/rush.schema.json",
   /**
    * (Required) This specifies the version of the Rush engine to be used in this repo.
@@ -291,11 +291,6 @@
       "versionPolicyName": "client"
     },
     {
-      "packageName": "@azure-rest/purview-catalog",
-      "projectFolder": "sdk/purview/purview-catalog-rest",
-      "versionPolicyName": "client"
-    },
-    {
       "packageName": "@azure-rest/purview-datamap",
       "projectFolder": "sdk/purview/purview-datamap-rest",
       "versionPolicyName": "client"
@@ -565,7 +560,9 @@
       "projectFolder": "common/tools/dev-tool",
       "versionPolicyName": "utility",
       // Add Identity to decoupledLocalDependencies so that dev-tool uses the package from npm, avoiding a cyclic dependency.
-      "decoupledLocalDependencies": ["@azure/identity"]
+      "decoupledLocalDependencies": [
+        "@azure/identity"
+      ]
     },
     {
       "packageName": "@azure/eventgrid",
@@ -578,8 +575,8 @@
       "versionPolicyName": "client"
     },
     {
-      "packageName": "@azure/eventgrid-system-events",
-      "projectFolder": "sdk/eventgrid/eventgrid-system-events",
+      "packageName": "@azure/eventgrid-systemevents",
+      "projectFolder": "sdk/eventgrid/eventgrid-systemevents",
       "versionPolicyName": "client"
     },
     {
@@ -605,7 +602,9 @@
     {
       "packageName": "@azure/identity",
       "projectFolder": "sdk/identity/identity",
-      "decoupledLocalDependencies": ["@azure/keyvault-keys"],
+      "decoupledLocalDependencies": [
+        "@azure/keyvault-keys"
+      ],
       "versionPolicyName": "client"
     },
     {
@@ -2149,11 +2148,6 @@
       "versionPolicyName": "management"
     },
     {
-      "packageName": "@azure/arm-networkanalytics",
-      "projectFolder": "sdk/networkanalytics/arm-networkanalytics",
-      "versionPolicyName": "management"
-    },
-    {
       "packageName": "@azure/arm-workloadssapvirtualinstance",
       "projectFolder": "sdk/workloads/arm-workloadssapvirtualinstance",
       "versionPolicyName": "management"
@@ -2322,6 +2316,21 @@
       "packageName": "@azure/ai-projects",
       "projectFolder": "sdk/ai/ai-projects",
       "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/arm-impactreporting",
+      "projectFolder": "sdk/impactreporting/arm-impactreporting",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-pineconevectordb",
+      "projectFolder": "sdk/pineconevectordb/arm-pineconevectordb",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-databasewatcher",
+      "projectFolder": "sdk/databasewatcher/arm-databasewatcher",
+      "versionPolicyName": "management"
     }
   ]
 }

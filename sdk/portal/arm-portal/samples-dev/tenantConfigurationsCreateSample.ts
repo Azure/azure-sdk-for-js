@@ -8,9 +8,7 @@
 import type { Configuration } from "@azure/arm-portal";
 import { Portal } from "@azure/arm-portal";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create the tenant configuration. If configuration already exists - update it. User has to be a Tenant Admin for this operation.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Create the tenant configuration. If configuration already exists - update it. User has to be a Tenant Admin for this operation.
  * x-ms-original-file: specification/portal/resource-manager/Microsoft.Portal/preview/2020-09-01-preview/examples/TenantConfiguration/CreateOrUpdateTenantConfiguration.json
  */
-async function createOrUpdateTenantConfiguration() {
+async function createOrUpdateTenantConfiguration(): Promise<void> {
   const subscriptionId =
     process.env["PORTAL_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const configurationName = "default";
@@ -31,7 +29,7 @@ async function createOrUpdateTenantConfiguration() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await createOrUpdateTenantConfiguration();
 }
 

@@ -21,7 +21,7 @@ import {
   ApplicationResourceUpdate as ApplicationResourceUpdateMapper,
   ServiceResource as ServiceResourceMapper,
   ServiceResourceUpdate as ServiceResourceUpdateMapper
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",

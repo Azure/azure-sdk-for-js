@@ -13,9 +13,7 @@ import {
   AzureMachineLearningServicesManagementClient,
 } from "@azure/arm-machinelearning";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create or update registry
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Create or update registry
  * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2024-04-01/examples/Registries/createOrUpdate-SystemCreated.json
  */
-async function createOrUpdateRegistryWithSystemCreatedAccounts() {
+async function createOrUpdateRegistryWithSystemCreatedAccounts(): Promise<void> {
   const subscriptionId =
     process.env["MACHINELEARNING_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -106,7 +104,7 @@ async function createOrUpdateRegistryWithSystemCreatedAccounts() {
  * @summary Create or update registry
  * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2024-04-01/examples/Registries/createOrUpdate-UserCreated.json
  */
-async function createOrUpdateRegistryWithUserCreatedAccounts() {
+async function createOrUpdateRegistryWithUserCreatedAccounts(): Promise<void> {
   const subscriptionId =
     process.env["MACHINELEARNING_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -175,7 +173,7 @@ async function createOrUpdateRegistryWithUserCreatedAccounts() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createOrUpdateRegistryWithSystemCreatedAccounts();
   createOrUpdateRegistryWithUserCreatedAccounts();
 }

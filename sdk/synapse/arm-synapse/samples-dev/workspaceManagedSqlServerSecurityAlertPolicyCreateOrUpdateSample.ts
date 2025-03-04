@@ -8,9 +8,7 @@
 import type { ServerSecurityAlertPolicy } from "@azure/arm-synapse";
 import { SynapseManagementClient } from "@azure/arm-synapse";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create or Update a workspace managed sql server's threat detection policy.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Create or Update a workspace managed sql server's threat detection policy.
  * x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/stable/2021-06-01/examples/WorkspaceManagedSqlServerSecurityAlertWithAllParameters.json
  */
-async function updateAWorkspaceManagedSqlServerThreatDetectionPolicyWithAllParameters() {
+async function updateAWorkspaceManagedSqlServerThreatDetectionPolicyWithAllParameters(): Promise<void> {
   const subscriptionId =
     process.env["SYNAPSE_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
   const resourceGroupName = process.env["SYNAPSE_RESOURCE_GROUP"] || "wsg-7398";
@@ -52,7 +50,7 @@ async function updateAWorkspaceManagedSqlServerThreatDetectionPolicyWithAllParam
  * @summary Create or Update a workspace managed sql server's threat detection policy.
  * x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/stable/2021-06-01/examples/WorkspaceManagedSqlServerSecurityAlertCreateWithMinParameters.json
  */
-async function updateAWorkspaceManagedSqlServerThreatDetectionPolicyWithMinimalParameters() {
+async function updateAWorkspaceManagedSqlServerThreatDetectionPolicyWithMinimalParameters(): Promise<void> {
   const subscriptionId =
     process.env["SYNAPSE_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
   const resourceGroupName = process.env["SYNAPSE_RESOURCE_GROUP"] || "wsg-7398";
@@ -77,7 +75,7 @@ async function updateAWorkspaceManagedSqlServerThreatDetectionPolicyWithMinimalP
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await updateAWorkspaceManagedSqlServerThreatDetectionPolicyWithAllParameters();
   await updateAWorkspaceManagedSqlServerThreatDetectionPolicyWithMinimalParameters();
 }

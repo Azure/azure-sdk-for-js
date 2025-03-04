@@ -19,7 +19,7 @@ import {
   GitHubConnector as GitHubConnectorMapper,
   GitHubRepo as GitHubRepoMapper,
   GitHubOwner as GitHubOwnerMapper
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",

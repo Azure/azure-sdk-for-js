@@ -11,7 +11,7 @@ import "dotenv/config";
  * @summary List what values of endpoint services are available for use.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/EndpointServicesList.json
  */
-async function endpointServicesList() {
+async function endpointServicesList(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

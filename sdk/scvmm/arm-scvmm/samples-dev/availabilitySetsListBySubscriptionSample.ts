@@ -7,9 +7,7 @@
  */
 import { ScVmm } from "@azure/arm-scvmm";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to List of AvailabilitySets in a subscription.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary List of AvailabilitySets in a subscription.
  * x-ms-original-file: specification/scvmm/resource-manager/Microsoft.ScVmm/stable/2023-10-07/examples/AvailabilitySets_ListBySubscription_MaximumSet_Gen.json
  */
-async function availabilitySetsListBySubscriptionMaximumSet() {
+async function availabilitySetsListBySubscriptionMaximumSet(): Promise<void> {
   const subscriptionId =
     process.env["SCVMM_SUBSCRIPTION_ID"] || "79332E5A-630B-480F-A266-A941C015AB19";
   const credential = new DefaultAzureCredential();
@@ -35,7 +33,7 @@ async function availabilitySetsListBySubscriptionMaximumSet() {
  * @summary List of AvailabilitySets in a subscription.
  * x-ms-original-file: specification/scvmm/resource-manager/Microsoft.ScVmm/stable/2023-10-07/examples/AvailabilitySets_ListBySubscription_MinimumSet_Gen.json
  */
-async function availabilitySetsListBySubscriptionMinimumSet() {
+async function availabilitySetsListBySubscriptionMinimumSet(): Promise<void> {
   const subscriptionId =
     process.env["SCVMM_SUBSCRIPTION_ID"] || "79332E5A-630B-480F-A266-A941C015AB19";
   const credential = new DefaultAzureCredential();
@@ -47,7 +45,7 @@ async function availabilitySetsListBySubscriptionMinimumSet() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await availabilitySetsListBySubscriptionMaximumSet();
   await availabilitySetsListBySubscriptionMinimumSet();
 }

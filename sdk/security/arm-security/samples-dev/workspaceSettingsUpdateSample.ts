@@ -8,9 +8,7 @@
 import type { WorkspaceSetting } from "@azure/arm-security";
 import { SecurityCenter } from "@azure/arm-security";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Settings about where we should store your security data and logs
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Settings about where we should store your security data and logs
  * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/preview/2017-08-01-preview/examples/WorkspaceSettings/UpdateWorkspaceSetting_example.json
  */
-async function updateAWorkspaceSettingDataForSubscription() {
+async function updateAWorkspaceSettingDataForSubscription(): Promise<void> {
   const subscriptionId =
     process.env["SECURITY_SUBSCRIPTION_ID"] || "20ff7fc3-e762-44dd-bd96-b71116dcdc23";
   const workspaceSettingName = "default";
@@ -35,7 +33,7 @@ async function updateAWorkspaceSettingDataForSubscription() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await updateAWorkspaceSettingDataForSubscription();
 }
 

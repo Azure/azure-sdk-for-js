@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Queries component policy states for the subscription level policy assignment.
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2024-10-01/examples/ComponentPolicyStates_QuerySubscriptionLevelPolicyAssignmentScope.json
  */
-async function queryLatestAtSubscriptionLevelPolicyAssignmentScope() {
+async function queryLatestAtSubscriptionLevelPolicyAssignmentScope(): Promise<void> {
   const subscriptionId = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
   const policyAssignmentName = "ec8f9645-8ecb-4abb-9c0b-5292f19d4003";
   const componentPolicyStatesResource = "latest";
@@ -30,7 +30,7 @@ async function queryLatestAtSubscriptionLevelPolicyAssignmentScope() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await queryLatestAtSubscriptionLevelPolicyAssignmentScope();
 }
 

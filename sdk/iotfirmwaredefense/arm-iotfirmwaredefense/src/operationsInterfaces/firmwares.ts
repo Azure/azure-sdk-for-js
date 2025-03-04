@@ -22,7 +22,7 @@ import {
   FirmwaresGenerateDownloadUrlResponse,
   FirmwaresGenerateFilesystemDownloadUrlOptionalParams,
   FirmwaresGenerateFilesystemDownloadUrlResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Firmwares. */

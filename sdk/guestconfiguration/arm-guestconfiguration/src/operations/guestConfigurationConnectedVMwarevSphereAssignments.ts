@@ -7,11 +7,11 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { GuestConfigurationConnectedVMwarevSphereAssignments } from "../operationsInterfaces";
+import { GuestConfigurationConnectedVMwarevSphereAssignments } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { GuestConfigurationClient } from "../guestConfigurationClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { GuestConfigurationClient } from "../guestConfigurationClient.js";
 import {
   GuestConfigurationAssignment,
   GuestConfigurationConnectedVMwarevSphereAssignmentsListOptionalParams,
@@ -21,7 +21,7 @@ import {
   GuestConfigurationConnectedVMwarevSphereAssignmentsGetOptionalParams,
   GuestConfigurationConnectedVMwarevSphereAssignmentsGetResponse,
   GuestConfigurationConnectedVMwarevSphereAssignmentsDeleteOptionalParams,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing GuestConfigurationConnectedVMwarevSphereAssignments operations. */

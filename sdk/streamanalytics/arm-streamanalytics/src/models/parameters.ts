@@ -27,7 +27,7 @@ import {
   Transformation as TransformationMapper,
   Cluster as ClusterMapper,
   PrivateEndpoint as PrivateEndpointMapper,
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const contentType: OperationParameter = {
   parameterPath: ["options", "contentType"],

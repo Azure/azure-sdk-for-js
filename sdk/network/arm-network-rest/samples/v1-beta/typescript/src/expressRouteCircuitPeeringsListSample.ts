@@ -13,7 +13,7 @@ import "dotenv/config";
  * @summary Gets all peerings in a specified express route circuit.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/ExpressRouteCircuitPeeringList.json
  */
-async function listExpressRouteCircuitPeerings() {
+async function listExpressRouteCircuitPeerings(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

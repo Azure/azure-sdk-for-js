@@ -7,9 +7,7 @@
  */
 import { SqlManagementClient } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists the long term retention backups for a given location based on resource group.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Lists the long term retention backups for a given location based on resource group.
  * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-05-01-preview/examples/ResourceGroupBasedLongTermRetentionBackupListByLocation.json
  */
-async function getAllLongTermRetentionBackupsUnderTheLocationBasedOnResourceGroup() {
+async function getAllLongTermRetentionBackupsUnderTheLocationBasedOnResourceGroup(): Promise<void> {
   const subscriptionId =
     process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
   const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "testResourceGroup";
@@ -34,7 +32,7 @@ async function getAllLongTermRetentionBackupsUnderTheLocationBasedOnResourceGrou
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await getAllLongTermRetentionBackupsUnderTheLocationBasedOnResourceGroup();
 }
 

@@ -13,7 +13,7 @@ import "dotenv/config";
  * @summary Creates or updates the specified FirewallPolicyRuleCollectionGroup.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/FirewallPolicyNatRuleCollectionGroupPut.json
  */
-async function createFirewallPolicyNatRuleCollectionGroup() {
+async function createFirewallPolicyNatRuleCollectionGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -70,7 +70,7 @@ createFirewallPolicyNatRuleCollectionGroup().catch(console.error);
  * @summary Creates or updates the specified FirewallPolicyRuleCollectionGroup.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/FirewallPolicyRuleCollectionGroupPut.json
  */
-async function createFirewallPolicyRuleCollectionGroup() {
+async function createFirewallPolicyRuleCollectionGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -124,7 +124,7 @@ createFirewallPolicyRuleCollectionGroup().catch(console.error);
  * @summary Creates or updates the specified FirewallPolicyRuleCollectionGroup.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/FirewallPolicyRuleCollectionGroupWithIpGroupsPut.json
  */
-async function createFirewallPolicyRuleCollectionGroupWithIPGroups() {
+async function createFirewallPolicyRuleCollectionGroupWithIPGroups(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -181,7 +181,7 @@ createFirewallPolicyRuleCollectionGroupWithIPGroups().catch(console.error);
  * @summary Creates or updates the specified FirewallPolicyRuleCollectionGroup.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/FirewallPolicyRuleCollectionGroupWithWebCategoriesPut.json
  */
-async function createFirewallPolicyRuleCollectionGroupWithWebCategories() {
+async function createFirewallPolicyRuleCollectionGroupWithWebCategories(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

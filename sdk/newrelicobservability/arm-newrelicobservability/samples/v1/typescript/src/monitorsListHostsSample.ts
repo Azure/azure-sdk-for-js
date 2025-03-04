@@ -13,9 +13,7 @@ import {
   NewRelicObservability,
 } from "@azure/arm-newrelicobservability";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to List the compute vm resources currently being monitored by the NewRelic resource.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary List the compute vm resources currently being monitored by the NewRelic resource.
  * x-ms-original-file: specification/newrelic/resource-manager/NewRelic.Observability/stable/2024-01-01/examples/Monitors_ListHosts_MaximumSet_Gen.json
  */
-async function monitorsListHostsMaximumSetGen() {
+async function monitorsListHostsMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["NEWRELICOBSERVABILITY_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -53,7 +51,7 @@ async function monitorsListHostsMaximumSetGen() {
  * @summary List the compute vm resources currently being monitored by the NewRelic resource.
  * x-ms-original-file: specification/newrelic/resource-manager/NewRelic.Observability/stable/2024-01-01/examples/Monitors_ListHosts_MinimumSet_Gen.json
  */
-async function monitorsListHostsMinimumSetGen() {
+async function monitorsListHostsMinimumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["NEWRELICOBSERVABILITY_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -77,7 +75,7 @@ async function monitorsListHostsMinimumSetGen() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   monitorsListHostsMaximumSetGen();
   monitorsListHostsMinimumSetGen();
 }

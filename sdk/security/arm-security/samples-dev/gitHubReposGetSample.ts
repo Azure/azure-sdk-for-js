@@ -7,9 +7,7 @@
  */
 import { SecurityCenter } from "@azure/arm-security";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Returns a monitored GitHub repository.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Returns a monitored GitHub repository.
  * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/preview/2023-09-01-preview/examples/SecurityConnectorsDevOps/GetGitHubRepos_example.json
  */
-async function getGitHubRepos() {
+async function getGitHubRepos(): Promise<void> {
   const subscriptionId =
     process.env["SECURITY_SUBSCRIPTION_ID"] || "0806e1cd-cfda-4ff8-b99c-2b0af42cffd3";
   const resourceGroupName = process.env["SECURITY_RESOURCE_GROUP"] || "myRg";
@@ -35,7 +33,7 @@ async function getGitHubRepos() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await getGitHubRepos();
 }
 

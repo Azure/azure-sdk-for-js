@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { SecurityCenter } from "@azure/arm-security";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Use this method to get the list of aggregated security analytics recommendations of yours IoT Security solution.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Use this method to get the list of aggregated security analytics recommendations of yours IoT Security solution.
  * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/stable/2019-08-01/examples/IoTSecuritySolutionsAnalytics/GetIoTSecuritySolutionsSecurityRecommendationList.json
  */
-async function getTheListOfAggregatedSecurityAnalyticsRecommendationsOfYoursIoTSecuritySolution() {
+async function getTheListOfAggregatedSecurityAnalyticsRecommendationsOfYoursIoTSecuritySolution(): Promise<void> {
   const subscriptionId =
     process.env["SECURITY_SUBSCRIPTION_ID"] ||
     "075423e9-7d33-4166-8bdf-3920b04e3735";
@@ -39,7 +37,7 @@ async function getTheListOfAggregatedSecurityAnalyticsRecommendationsOfYoursIoTS
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getTheListOfAggregatedSecurityAnalyticsRecommendationsOfYoursIoTSecuritySolution();
 }
 

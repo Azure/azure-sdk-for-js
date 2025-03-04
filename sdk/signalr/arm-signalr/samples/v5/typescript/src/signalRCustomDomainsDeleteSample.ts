@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { SignalRManagementClient } from "@azure/arm-signalr";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Delete a custom domain.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Delete a custom domain.
  * x-ms-original-file: specification/signalr/resource-manager/Microsoft.SignalRService/stable/2023-02-01/examples/SignalRCustomDomains_Delete.json
  */
-async function signalRCustomDomainsDelete() {
+async function signalRCustomDomainsDelete(): Promise<void> {
   const subscriptionId =
     process.env["SIGNALR_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -38,7 +36,7 @@ async function signalRCustomDomainsDelete() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   signalRCustomDomainsDelete();
 }
 

@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary list all the mongo clusters in a given subscription.
  * x-ms-original-file: 2024-07-01/MongoClusters_List.json
  */
-async function listsTheMongoClusterResourcesInASubscription() {
+async function listsTheMongoClusterResourcesInASubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new MongoClusterManagementClient(credential, subscriptionId);
@@ -22,7 +22,7 @@ async function listsTheMongoClusterResourcesInASubscription() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await listsTheMongoClusterResourcesInASubscription();
 }
 

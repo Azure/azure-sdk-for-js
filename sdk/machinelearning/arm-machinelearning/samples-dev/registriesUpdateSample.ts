@@ -8,9 +8,7 @@
 import type { PartialRegistryPartialTrackedResource } from "@azure/arm-machinelearning";
 import { AzureMachineLearningServicesManagementClient } from "@azure/arm-machinelearning";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Update tags
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Update tags
  * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2024-04-01/examples/Registries/update-SystemCreated.json
  */
-async function updateRegistryWithSystemCreatedAccounts() {
+async function updateRegistryWithSystemCreatedAccounts(): Promise<void> {
   const subscriptionId =
     process.env["MACHINELEARNING_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
   const resourceGroupName = process.env["MACHINELEARNING_RESOURCE_GROUP"] || "test-rg";
@@ -49,7 +47,7 @@ async function updateRegistryWithSystemCreatedAccounts() {
  * @summary Update tags
  * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2024-04-01/examples/Registries/update-UserCreated.json
  */
-async function updateRegistryWithUserCreatedAccounts() {
+async function updateRegistryWithUserCreatedAccounts(): Promise<void> {
   const subscriptionId =
     process.env["MACHINELEARNING_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
   const resourceGroupName = process.env["MACHINELEARNING_RESOURCE_GROUP"] || "test-rg";
@@ -71,7 +69,7 @@ async function updateRegistryWithUserCreatedAccounts() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await updateRegistryWithSystemCreatedAccounts();
   await updateRegistryWithUserCreatedAccounts();
 }

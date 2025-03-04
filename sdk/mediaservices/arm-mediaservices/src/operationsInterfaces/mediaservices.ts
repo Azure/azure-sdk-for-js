@@ -25,7 +25,7 @@ import {
   ListEdgePoliciesInput,
   MediaservicesListEdgePoliciesOptionalParams,
   MediaservicesListEdgePoliciesResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Mediaservices. */

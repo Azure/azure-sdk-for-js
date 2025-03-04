@@ -13,9 +13,7 @@ import {
   ServiceLinkerManagementClient,
 } from "@azure/arm-servicelinker";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to update a dryrun job to do necessary check before actual creation
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary update a dryrun job to do necessary check before actual creation
  * x-ms-original-file: specification/servicelinker/resource-manager/Microsoft.ServiceLinker/preview/2024-07-01-preview/examples/ConnectorDryrunUpdate.json
  */
-async function connectorDryrunUpdate() {
+async function connectorDryrunUpdate(): Promise<void> {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const resourceGroupName =
     process.env["SERVICELINKER_RESOURCE_GROUP"] || "test-rg";
@@ -55,7 +53,7 @@ async function connectorDryrunUpdate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   connectorDryrunUpdate();
 }
 

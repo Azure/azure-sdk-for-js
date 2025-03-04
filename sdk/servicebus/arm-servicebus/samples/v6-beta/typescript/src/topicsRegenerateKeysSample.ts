@@ -13,9 +13,7 @@ import {
   ServiceBusManagementClient
 } from "@azure/arm-servicebus";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Regenerates primary or secondary connection strings for the topic.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Regenerates primary or secondary connection strings for the topic.
  * x-ms-original-file: specification/servicebus/resource-manager/Microsoft.ServiceBus/preview/2022-10-01-preview/examples/Topics/SBTopicAuthorizationRuleRegenerateKey.json
  */
-async function topicAuthorizationRuleRegenerateKey() {
+async function topicAuthorizationRuleRegenerateKey(): Promise<void> {
   const subscriptionId =
     process.env["SERVICEBUS_SUBSCRIPTION_ID"] ||
     "e2f361f0-3b27-4503-a9cc-21cfba380093";
@@ -45,7 +43,7 @@ async function topicAuthorizationRuleRegenerateKey() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   topicAuthorizationRuleRegenerateKey();
 }
 

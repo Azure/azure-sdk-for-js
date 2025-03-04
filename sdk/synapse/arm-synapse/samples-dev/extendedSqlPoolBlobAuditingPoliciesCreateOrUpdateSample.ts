@@ -8,9 +8,7 @@
 import type { ExtendedSqlPoolBlobAuditingPolicy } from "@azure/arm-synapse";
 import { SynapseManagementClient } from "@azure/arm-synapse";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates or updates an extended Sql pool's blob auditing policy.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Creates or updates an extended Sql pool's blob auditing policy.
  * x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/stable/2021-06-01/examples/ExtendedSqlPoolAzureMonitorAuditingCreateMin.json
  */
-async function createOrUpdateAnExtendedSqlPoolAzureMonitorAuditingPolicyWithMinimalParameters() {
+async function createOrUpdateAnExtendedSqlPoolAzureMonitorAuditingPolicyWithMinimalParameters(): Promise<void> {
   const subscriptionId =
     process.env["SYNAPSE_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
   const resourceGroupName = process.env["SYNAPSE_RESOURCE_GROUP"] || "blobauditingtest-4799";
@@ -45,7 +43,7 @@ async function createOrUpdateAnExtendedSqlPoolAzureMonitorAuditingPolicyWithMini
  * @summary Creates or updates an extended Sql pool's blob auditing policy.
  * x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/stable/2021-06-01/examples/ExtendedSqlPoolBlobAuditingCreateMax.json
  */
-async function createOrUpdateAnExtendedSqlPoolBlobAuditingPolicyWithAllParameters() {
+async function createOrUpdateAnExtendedSqlPoolBlobAuditingPolicyWithAllParameters(): Promise<void> {
   const subscriptionId =
     process.env["SYNAPSE_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
   const resourceGroupName = process.env["SYNAPSE_RESOURCE_GROUP"] || "blobauditingtest-4799";
@@ -84,7 +82,7 @@ async function createOrUpdateAnExtendedSqlPoolBlobAuditingPolicyWithAllParameter
  * @summary Creates or updates an extended Sql pool's blob auditing policy.
  * x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/stable/2021-06-01/examples/ExtendedSqlPoolBlobAuditingCreateMin.json
  */
-async function createOrUpdateAnExtendedSqlPoolBlobAuditingPolicyWithMinimalParameters() {
+async function createOrUpdateAnExtendedSqlPoolBlobAuditingPolicyWithMinimalParameters(): Promise<void> {
   const subscriptionId =
     process.env["SYNAPSE_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
   const resourceGroupName = process.env["SYNAPSE_RESOURCE_GROUP"] || "blobauditingtest-4799";
@@ -107,7 +105,7 @@ async function createOrUpdateAnExtendedSqlPoolBlobAuditingPolicyWithMinimalParam
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await createOrUpdateAnExtendedSqlPoolAzureMonitorAuditingPolicyWithMinimalParameters();
   await createOrUpdateAnExtendedSqlPoolBlobAuditingPolicyWithAllParameters();
   await createOrUpdateAnExtendedSqlPoolBlobAuditingPolicyWithMinimalParameters();

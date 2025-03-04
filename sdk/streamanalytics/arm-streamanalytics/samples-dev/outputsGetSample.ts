@@ -7,9 +7,7 @@
  */
 import { StreamAnalyticsManagementClient } from "@azure/arm-streamanalytics";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets details about the specified output.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Gets details about the specified output.
  * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/preview/2021-10-01-preview/examples/Output_Get_DeltaLake.json
  */
-async function getADeltaLakeOutput() {
+async function getADeltaLakeOutput(): Promise<void> {
   const subscriptionId =
     process.env["STREAMANALYTICS_SUBSCRIPTION_ID"] || "56b5e0a9-b645-407d-99b0-c64f86013e3d";
   const resourceGroupName = process.env["STREAMANALYTICS_RESOURCE_GROUP"] || "sjrg";
@@ -35,7 +33,7 @@ async function getADeltaLakeOutput() {
  * @summary Gets details about the specified output.
  * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/preview/2021-10-01-preview/examples/Output_Get_DocumentDB.json
  */
-async function getADocumentDbOutput() {
+async function getADocumentDbOutput(): Promise<void> {
   const subscriptionId =
     process.env["STREAMANALYTICS_SUBSCRIPTION_ID"] || "56b5e0a9-b645-407d-99b0-c64f86013e3d";
   const resourceGroupName = process.env["STREAMANALYTICS_RESOURCE_GROUP"] || "sjrg7983";
@@ -53,7 +51,7 @@ async function getADocumentDbOutput() {
  * @summary Gets details about the specified output.
  * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/preview/2021-10-01-preview/examples/Output_Get_PowerBI.json
  */
-async function getAPowerBiOutput() {
+async function getAPowerBiOutput(): Promise<void> {
   const subscriptionId =
     process.env["STREAMANALYTICS_SUBSCRIPTION_ID"] || "56b5e0a9-b645-407d-99b0-c64f86013e3d";
   const resourceGroupName = process.env["STREAMANALYTICS_RESOURCE_GROUP"] || "sjrg7983";
@@ -71,7 +69,7 @@ async function getAPowerBiOutput() {
  * @summary Gets details about the specified output.
  * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/preview/2021-10-01-preview/examples/Output_Get_ServiceBusQueue_Avro.json
  */
-async function getAServiceBusQueueOutputWithAvroSerialization() {
+async function getAServiceBusQueueOutputWithAvroSerialization(): Promise<void> {
   const subscriptionId =
     process.env["STREAMANALYTICS_SUBSCRIPTION_ID"] || "56b5e0a9-b645-407d-99b0-c64f86013e3d";
   const resourceGroupName = process.env["STREAMANALYTICS_RESOURCE_GROUP"] || "sjrg3410";
@@ -89,7 +87,7 @@ async function getAServiceBusQueueOutputWithAvroSerialization() {
  * @summary Gets details about the specified output.
  * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/preview/2021-10-01-preview/examples/Output_Get_ServiceBusTopic_CSV.json
  */
-async function getAServiceBusTopicOutputWithCsvSerialization() {
+async function getAServiceBusTopicOutputWithCsvSerialization(): Promise<void> {
   const subscriptionId =
     process.env["STREAMANALYTICS_SUBSCRIPTION_ID"] || "56b5e0a9-b645-407d-99b0-c64f86013e3d";
   const resourceGroupName = process.env["STREAMANALYTICS_RESOURCE_GROUP"] || "sjrg6450";
@@ -107,7 +105,7 @@ async function getAServiceBusTopicOutputWithCsvSerialization() {
  * @summary Gets details about the specified output.
  * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/preview/2021-10-01-preview/examples/Output_Get_Blob_CSV.json
  */
-async function getABlobOutputWithCsvSerialization() {
+async function getABlobOutputWithCsvSerialization(): Promise<void> {
   const subscriptionId =
     process.env["STREAMANALYTICS_SUBSCRIPTION_ID"] || "56b5e0a9-b645-407d-99b0-c64f86013e3d";
   const resourceGroupName = process.env["STREAMANALYTICS_RESOURCE_GROUP"] || "sjrg5023";
@@ -125,7 +123,7 @@ async function getABlobOutputWithCsvSerialization() {
  * @summary Gets details about the specified output.
  * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/preview/2021-10-01-preview/examples/Output_Get_AzureDataLakeStore_JSON.json
  */
-async function getAnAzureDataLakeStoreOutputWithJsonSerialization() {
+async function getAnAzureDataLakeStoreOutputWithJsonSerialization(): Promise<void> {
   const subscriptionId =
     process.env["STREAMANALYTICS_SUBSCRIPTION_ID"] || "56b5e0a9-b645-407d-99b0-c64f86013e3d";
   const resourceGroupName = process.env["STREAMANALYTICS_RESOURCE_GROUP"] || "sjrg6912";
@@ -143,7 +141,7 @@ async function getAnAzureDataLakeStoreOutputWithJsonSerialization() {
  * @summary Gets details about the specified output.
  * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/preview/2021-10-01-preview/examples/Output_Get_DataWarehouse.json
  */
-async function getAnAzureDataWarehouseOutput() {
+async function getAnAzureDataWarehouseOutput(): Promise<void> {
   const subscriptionId =
     process.env["STREAMANALYTICS_SUBSCRIPTION_ID"] || "56b5e0a9-b645-407d-99b0-c64f86013e3d";
   const resourceGroupName = process.env["STREAMANALYTICS_RESOURCE_GROUP"] || "sjrg";
@@ -161,7 +159,7 @@ async function getAnAzureDataWarehouseOutput() {
  * @summary Gets details about the specified output.
  * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/preview/2021-10-01-preview/examples/Output_Get_AzureFunction.json
  */
-async function getAnAzureFunctionOutput() {
+async function getAnAzureFunctionOutput(): Promise<void> {
   const subscriptionId =
     process.env["STREAMANALYTICS_SUBSCRIPTION_ID"] || "56b5e0a9-b645-407d-99b0-c64f86013e3d";
   const resourceGroupName = process.env["STREAMANALYTICS_RESOURCE_GROUP"] || "sjrg";
@@ -179,7 +177,7 @@ async function getAnAzureFunctionOutput() {
  * @summary Gets details about the specified output.
  * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/preview/2021-10-01-preview/examples/Output_Get_AzureSQL.json
  */
-async function getAnAzureSqlDatabaseOutput() {
+async function getAnAzureSqlDatabaseOutput(): Promise<void> {
   const subscriptionId =
     process.env["STREAMANALYTICS_SUBSCRIPTION_ID"] || "56b5e0a9-b645-407d-99b0-c64f86013e3d";
   const resourceGroupName = process.env["STREAMANALYTICS_RESOURCE_GROUP"] || "sjrg2157";
@@ -197,7 +195,7 @@ async function getAnAzureSqlDatabaseOutput() {
  * @summary Gets details about the specified output.
  * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/preview/2021-10-01-preview/examples/Output_Get_AzureTable.json
  */
-async function getAnAzureTableOutput() {
+async function getAnAzureTableOutput(): Promise<void> {
   const subscriptionId =
     process.env["STREAMANALYTICS_SUBSCRIPTION_ID"] || "56b5e0a9-b645-407d-99b0-c64f86013e3d";
   const resourceGroupName = process.env["STREAMANALYTICS_RESOURCE_GROUP"] || "sjrg5176";
@@ -215,7 +213,7 @@ async function getAnAzureTableOutput() {
  * @summary Gets details about the specified output.
  * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/preview/2021-10-01-preview/examples/Output_Get_EventHub_JSON.json
  */
-async function getAnEventHubOutputWithJsonSerialization() {
+async function getAnEventHubOutputWithJsonSerialization(): Promise<void> {
   const subscriptionId =
     process.env["STREAMANALYTICS_SUBSCRIPTION_ID"] || "56b5e0a9-b645-407d-99b0-c64f86013e3d";
   const resourceGroupName = process.env["STREAMANALYTICS_RESOURCE_GROUP"] || "sjrg6912";
@@ -227,7 +225,7 @@ async function getAnEventHubOutputWithJsonSerialization() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await getADeltaLakeOutput();
   await getADocumentDbOutput();
   await getAPowerBiOutput();

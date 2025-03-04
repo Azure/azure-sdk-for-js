@@ -17,7 +17,7 @@
 import { PeerAsn, PeeringManagementClient } from "@azure/arm-peering";
 import { DefaultAzureCredential } from "@azure/identity";
 
-async function createAPeerAsn() {
+async function createAPeerAsn(): Promise<void> {
   const subscriptionId = "subId";
   const peerAsnName = "peerAsnName";
   const peerAsn: PeerAsn = {

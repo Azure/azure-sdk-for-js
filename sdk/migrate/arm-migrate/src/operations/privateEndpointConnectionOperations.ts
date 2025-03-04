@@ -6,11 +6,11 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PrivateEndpointConnectionOperations } from "../operationsInterfaces";
+import { PrivateEndpointConnectionOperations } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { AzureMigrateV2 } from "../azureMigrateV2";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { AzureMigrateV2 } from "../azureMigrateV2.js";
 import {
   PrivateEndpointConnectionListByProjectOptionalParams,
   PrivateEndpointConnectionListByProjectResponse,
@@ -20,7 +20,7 @@ import {
   PrivateEndpointConnectionUpdateResponse,
   PrivateEndpointConnectionDeleteOptionalParams,
   PrivateEndpointConnectionDeleteResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Class containing PrivateEndpointConnectionOperations operations. */
 export class PrivateEndpointConnectionOperationsImpl

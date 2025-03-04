@@ -8,9 +8,7 @@
 import type { ManagementLockObject } from "@azure/arm-locks-profile-2020-09-01-hybrid";
 import { ManagementLockClient } from "@azure/arm-locks-profile-2020-09-01-hybrid";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to When you apply a lock at a parent scope, all child resources inherit the same lock. To create management locks, you must have access to Microsoft.Authorization/* or Microsoft.Authorization/locks/* actions. Of the built-in roles, only Owner and User Access Administrator are granted those actions.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary When you apply a lock at a parent scope, all child resources inherit the same lock. To create management locks, you must have access to Microsoft.Authorization/* or Microsoft.Authorization/locks/* actions. Of the built-in roles, only Owner and User Access Administrator are granted those actions.
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Authorization/stable/2016-09-01/examples/ManagementLocks_CreateOrUpdateAtSubscriptionLevel.json
  */
-async function createManagementLockAtSubscriptionLevel() {
+async function createManagementLockAtSubscriptionLevel(): Promise<void> {
   const subscriptionId = process.env["LOCKS_SUBSCRIPTION_ID"] || "subscriptionId";
   const lockName = "testlock";
   const parameters: ManagementLockObject = { level: "ReadOnly" };
@@ -31,7 +29,7 @@ async function createManagementLockAtSubscriptionLevel() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await createManagementLockAtSubscriptionLevel();
 }
 

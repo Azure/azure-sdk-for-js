@@ -13,9 +13,7 @@ import {
   SignalRManagementClient
 } from "@azure/arm-signalr";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Checks that the resource name is valid and is not already in use.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Checks that the resource name is valid and is not already in use.
  * x-ms-original-file: specification/signalr/resource-manager/Microsoft.SignalRService/stable/2023-02-01/examples/SignalR_CheckNameAvailability.json
  */
-async function signalRCheckNameAvailability() {
+async function signalRCheckNameAvailability(): Promise<void> {
   const subscriptionId =
     process.env["SIGNALR_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -41,7 +39,7 @@ async function signalRCheckNameAvailability() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   signalRCheckNameAvailability();
 }
 

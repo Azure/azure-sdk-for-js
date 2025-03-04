@@ -8,9 +8,7 @@
 import type { DevOpsConfiguration } from "@azure/arm-security";
 import { SecurityCenter } from "@azure/arm-security";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates or updates a DevOps Configuration.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Creates or updates a DevOps Configuration.
  * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/preview/2023-09-01-preview/examples/SecurityConnectorsDevOps/CreateOrUpdateDevOpsConfigurationsOnboardCurrentAndFuture_example.json
  */
-async function createOrUpdateDevOpsConfigurationsOnboardCurrentAndFuture() {
+async function createOrUpdateDevOpsConfigurationsOnboardCurrentAndFuture(): Promise<void> {
   const subscriptionId =
     process.env["SECURITY_SUBSCRIPTION_ID"] || "0806e1cd-cfda-4ff8-b99c-2b0af42cffd3";
   const resourceGroupName = process.env["SECURITY_RESOURCE_GROUP"] || "myRg";
@@ -45,7 +43,7 @@ async function createOrUpdateDevOpsConfigurationsOnboardCurrentAndFuture() {
  * @summary Creates or updates a DevOps Configuration.
  * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/preview/2023-09-01-preview/examples/SecurityConnectorsDevOps/CreateOrUpdateDevOpsConfigurationsOnboardCurrentOnly_example.json
  */
-async function createOrUpdateDevOpsConfigurationsOnboardCurrentOnly() {
+async function createOrUpdateDevOpsConfigurationsOnboardCurrentOnly(): Promise<void> {
   const subscriptionId =
     process.env["SECURITY_SUBSCRIPTION_ID"] || "0806e1cd-cfda-4ff8-b99c-2b0af42cffd3";
   const resourceGroupName = process.env["SECURITY_RESOURCE_GROUP"] || "myRg";
@@ -72,7 +70,7 @@ async function createOrUpdateDevOpsConfigurationsOnboardCurrentOnly() {
  * @summary Creates or updates a DevOps Configuration.
  * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/preview/2023-09-01-preview/examples/SecurityConnectorsDevOps/CreateOrUpdateDevOpsConfigurationsOnboardSelected_example.json
  */
-async function createOrUpdateDevOpsConfigurationsOnboardSelected() {
+async function createOrUpdateDevOpsConfigurationsOnboardSelected(): Promise<void> {
   const subscriptionId =
     process.env["SECURITY_SUBSCRIPTION_ID"] || "0806e1cd-cfda-4ff8-b99c-2b0af42cffd3";
   const resourceGroupName = process.env["SECURITY_RESOURCE_GROUP"] || "myRg";
@@ -94,7 +92,7 @@ async function createOrUpdateDevOpsConfigurationsOnboardSelected() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await createOrUpdateDevOpsConfigurationsOnboardCurrentAndFuture();
   await createOrUpdateDevOpsConfigurationsOnboardCurrentOnly();
   await createOrUpdateDevOpsConfigurationsOnboardSelected();

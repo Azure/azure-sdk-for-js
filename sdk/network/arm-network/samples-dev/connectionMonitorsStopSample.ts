@@ -7,9 +7,7 @@
  */
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Stops the specified connection monitor.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Stops the specified connection monitor.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/NetworkWatcherConnectionMonitorStop.json
  */
-async function stopConnectionMonitor() {
+async function stopConnectionMonitor(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const networkWatcherName = "nw1";
@@ -32,7 +30,7 @@ async function stopConnectionMonitor() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await stopConnectionMonitor();
 }
 

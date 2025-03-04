@@ -10,7 +10,7 @@ import {
   FeatureSupportRequestUnion,
   FeatureSupportValidateOptionalParams,
   FeatureSupportValidateResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a FeatureSupport. */
 export interface FeatureSupport {

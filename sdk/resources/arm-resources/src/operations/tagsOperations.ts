@@ -7,12 +7,18 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { TagsOperations } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { TagsOperations } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { ResourceManagementClient } from "../resourceManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { ResourceManagementClient } from "../resourceManagementClient.js";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller,
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl.js";
 import {
   TagDetails,
   TagsListNextOptionalParams,
@@ -33,8 +39,8 @@ import {
   TagsGetAtScopeOptionalParams,
   TagsGetAtScopeResponse,
   TagsDeleteAtScopeOptionalParams,
-  TagsListNextResponse
-} from "../models";
+  TagsListNextResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing TagsOperations operations. */
@@ -57,7 +63,7 @@ export class TagsOperationsImpl implements TagsOperations {
    * @param options The options parameters.
    */
   public list(
-    options?: TagsListOptionalParams
+    options?: TagsListOptionalParams,
   ): PagedAsyncIterableIterator<TagDetails> {
     const iter = this.listPagingAll(options);
     return {
@@ -72,13 +78,13 @@ export class TagsOperationsImpl implements TagsOperations {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     options?: TagsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<TagDetails[]> {
     let result: TagsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -99,7 +105,7 @@ export class TagsOperationsImpl implements TagsOperations {
   }
 
   private async *listPagingAll(
-    options?: TagsListOptionalParams
+    options?: TagsListOptionalParams,
   ): AsyncIterableIterator<TagDetails> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
@@ -117,11 +123,11 @@ export class TagsOperationsImpl implements TagsOperations {
   deleteValue(
     tagName: string,
     tagValue: string,
-    options?: TagsDeleteValueOptionalParams
+    options?: TagsDeleteValueOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { tagName, tagValue, options },
-      deleteValueOperationSpec
+      deleteValueOperationSpec,
     );
   }
 
@@ -135,11 +141,11 @@ export class TagsOperationsImpl implements TagsOperations {
   createOrUpdateValue(
     tagName: string,
     tagValue: string,
-    options?: TagsCreateOrUpdateValueOptionalParams
+    options?: TagsCreateOrUpdateValueOptionalParams,
   ): Promise<TagsCreateOrUpdateValueResponse> {
     return this.client.sendOperationRequest(
       { tagName, tagValue, options },
-      createOrUpdateValueOperationSpec
+      createOrUpdateValueOperationSpec,
     );
   }
 
@@ -152,11 +158,11 @@ export class TagsOperationsImpl implements TagsOperations {
    */
   createOrUpdate(
     tagName: string,
-    options?: TagsCreateOrUpdateOptionalParams
+    options?: TagsCreateOrUpdateOptionalParams,
   ): Promise<TagsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       { tagName, options },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -170,7 +176,7 @@ export class TagsOperationsImpl implements TagsOperations {
   delete(tagName: string, options?: TagsDeleteOptionalParams): Promise<void> {
     return this.client.sendOperationRequest(
       { tagName, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -192,15 +198,88 @@ export class TagsOperationsImpl implements TagsOperations {
    * @param parameters Wrapper resource for tags API requests and responses.
    * @param options The options parameters.
    */
-  createOrUpdateAtScope(
+  async beginCreateOrUpdateAtScope(
     scope: string,
     parameters: TagsResource,
-    options?: TagsCreateOrUpdateAtScopeOptionalParams
+    options?: TagsCreateOrUpdateAtScopeOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<TagsCreateOrUpdateAtScopeResponse>,
+      TagsCreateOrUpdateAtScopeResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<TagsCreateOrUpdateAtScopeResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { scope, parameters, options },
+      spec: createOrUpdateAtScopeOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      TagsCreateOrUpdateAtScopeResponse,
+      OperationState<TagsCreateOrUpdateAtScopeResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * This operation allows adding or replacing the entire set of tags on the specified resource or
+   * subscription. The specified entity can have a maximum of 50 tags.
+   * @param scope The resource scope.
+   * @param parameters Wrapper resource for tags API requests and responses.
+   * @param options The options parameters.
+   */
+  async beginCreateOrUpdateAtScopeAndWait(
+    scope: string,
+    parameters: TagsResource,
+    options?: TagsCreateOrUpdateAtScopeOptionalParams,
   ): Promise<TagsCreateOrUpdateAtScopeResponse> {
-    return this.client.sendOperationRequest(
-      { scope, parameters, options },
-      createOrUpdateAtScopeOperationSpec
+    const poller = await this.beginCreateOrUpdateAtScope(
+      scope,
+      parameters,
+      options,
     );
+    return poller.pollUntilDone();
   }
 
   /**
@@ -213,15 +292,87 @@ export class TagsOperationsImpl implements TagsOperations {
    * @param parameters Wrapper resource for tags patch API request only.
    * @param options The options parameters.
    */
-  updateAtScope(
+  async beginUpdateAtScope(
     scope: string,
     parameters: TagsPatchResource,
-    options?: TagsUpdateAtScopeOptionalParams
+    options?: TagsUpdateAtScopeOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<TagsUpdateAtScopeResponse>,
+      TagsUpdateAtScopeResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<TagsUpdateAtScopeResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { scope, parameters, options },
+      spec: updateAtScopeOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      TagsUpdateAtScopeResponse,
+      OperationState<TagsUpdateAtScopeResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * This operation allows replacing, merging or selectively deleting tags on the specified resource or
+   * subscription. The specified entity can have a maximum of 50 tags at the end of the operation. The
+   * 'replace' option replaces the entire set of existing tags with a new set. The 'merge' option allows
+   * adding tags with new names and updating the values of tags with existing names. The 'delete' option
+   * allows selectively deleting tags based on given names or name/value pairs.
+   * @param scope The resource scope.
+   * @param parameters Wrapper resource for tags patch API request only.
+   * @param options The options parameters.
+   */
+  async beginUpdateAtScopeAndWait(
+    scope: string,
+    parameters: TagsPatchResource,
+    options?: TagsUpdateAtScopeOptionalParams,
   ): Promise<TagsUpdateAtScopeResponse> {
-    return this.client.sendOperationRequest(
-      { scope, parameters, options },
-      updateAtScopeOperationSpec
-    );
+    const poller = await this.beginUpdateAtScope(scope, parameters, options);
+    return poller.pollUntilDone();
   }
 
   /**
@@ -231,11 +382,11 @@ export class TagsOperationsImpl implements TagsOperations {
    */
   getAtScope(
     scope: string,
-    options?: TagsGetAtScopeOptionalParams
+    options?: TagsGetAtScopeOptionalParams,
   ): Promise<TagsGetAtScopeResponse> {
     return this.client.sendOperationRequest(
       { scope, options },
-      getAtScopeOperationSpec
+      getAtScopeOperationSpec,
     );
   }
 
@@ -244,14 +395,72 @@ export class TagsOperationsImpl implements TagsOperations {
    * @param scope The resource scope.
    * @param options The options parameters.
    */
-  deleteAtScope(
+  async beginDeleteAtScope(
     scope: string,
-    options?: TagsDeleteAtScopeOptionalParams
+    options?: TagsDeleteAtScopeOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<void> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { scope, options },
+      spec: deleteAtScopeOperationSpec,
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Deletes the entire set of tags on a resource or subscription.
+   * @param scope The resource scope.
+   * @param options The options parameters.
+   */
+  async beginDeleteAtScopeAndWait(
+    scope: string,
+    options?: TagsDeleteAtScopeOptionalParams,
   ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { scope, options },
-      deleteAtScopeOperationSpec
-    );
+    const poller = await this.beginDeleteAtScope(scope, options);
+    return poller.pollUntilDone();
   }
 
   /**
@@ -261,11 +470,11 @@ export class TagsOperationsImpl implements TagsOperations {
    */
   private _listNext(
     nextLink: string,
-    options?: TagsListNextOptionalParams
+    options?: TagsListNextOptionalParams,
   ): Promise<TagsListNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -273,73 +482,71 @@ export class TagsOperationsImpl implements TagsOperations {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const deleteValueOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/tagNames/{tagName}/tagValues/{tagValue}",
+  path: "/subscriptions/{subscriptionId}/tagNames/{tagName}/tagValues/{tagValue}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.tagName,
-    Parameters.tagValue
+    Parameters.tagValue,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateValueOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/tagNames/{tagName}/tagValues/{tagValue}",
+  path: "/subscriptions/{subscriptionId}/tagNames/{tagName}/tagValues/{tagValue}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.TagValue
+      bodyMapper: Mappers.TagValue,
     },
     201: {
-      bodyMapper: Mappers.TagValue
+      bodyMapper: Mappers.TagValue,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.tagName,
-    Parameters.tagValue
+    Parameters.tagValue,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/tagNames/{tagName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.TagDetails
+      bodyMapper: Mappers.TagDetails,
     },
     201: {
-      bodyMapper: Mappers.TagDetails
+      bodyMapper: Mappers.TagDetails,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.tagName
+    Parameters.tagName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/tagNames/{tagName}",
@@ -348,116 +555,137 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.tagName
+    Parameters.tagName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/tagNames",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.TagsListResult
+      bodyMapper: Mappers.TagsListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateAtScopeOperationSpec: coreClient.OperationSpec = {
   path: "/{scope}/providers/Microsoft.Resources/tags/default",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.TagsResource
+      bodyMapper: Mappers.TagsResource,
+    },
+    201: {
+      bodyMapper: Mappers.TagsResource,
+    },
+    202: {
+      bodyMapper: Mappers.TagsResource,
+    },
+    204: {
+      bodyMapper: Mappers.TagsResource,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.parameters9,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.scope],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateAtScopeOperationSpec: coreClient.OperationSpec = {
   path: "/{scope}/providers/Microsoft.Resources/tags/default",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.TagsResource
+      bodyMapper: Mappers.TagsResource,
+    },
+    201: {
+      bodyMapper: Mappers.TagsResource,
+    },
+    202: {
+      bodyMapper: Mappers.TagsResource,
+    },
+    204: {
+      bodyMapper: Mappers.TagsResource,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.parameters10,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.scope],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getAtScopeOperationSpec: coreClient.OperationSpec = {
   path: "/{scope}/providers/Microsoft.Resources/tags/default",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.TagsResource
+      bodyMapper: Mappers.TagsResource,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.scope],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const deleteAtScopeOperationSpec: coreClient.OperationSpec = {
   path: "/{scope}/providers/Microsoft.Resources/tags/default",
   httpMethod: "DELETE",
   responses: {
     200: {},
+    201: {},
+    202: {},
+    204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.scope],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.TagsListResult
+      bodyMapper: Mappers.TagsListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

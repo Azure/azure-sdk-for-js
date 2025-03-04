@@ -329,10 +329,10 @@ export class WebPubSubServiceClient {
    * Creates an instance of a WebPubSubServiceClient for sending messages and managing groups, connections, and users.
    *
    * Example usage:
-   * ```ts
+   * ```ts snippet:ReadmeSampleCreateClient_ConnectionString
    * import { WebPubSubServiceClient } from "@azure/web-pubsub";
-   * const connectionString = process.env['WEB_PUBSUB_CONNECTION_STRING'];
-   * const client = new WebPubSubServiceClient(connectionString, 'chat');
+   *
+   * const serviceClient = new WebPubSubServiceClient("<ConnectionString>", "<hubName>");
    * ```
    *
    * @param connectionString - The connection string
@@ -345,11 +345,11 @@ export class WebPubSubServiceClient {
    * Creates an instance of a WebPubSubServiceClient for sending messages and managing groups, connections, and users.
    *
    * Example usage:
-   * ```ts
-   * import { WebPubSubServiceClient, AzureKeyCredential } from "@azure/web-pubsub";
-   * const cred = new AzureKeyCredential("<your web pubsub api key>");
-   * const endpoint = "https://xxxx.webpubsubdev.azure.com"
-   * const client = new WebPubSubServiceClient(endpoint, cred, 'chat');
+   * ```ts snippet:ReadmeSampleCreateClient_KeyCredential
+   * import { AzureKeyCredential, WebPubSubServiceClient } from "@azure/web-pubsub";
+   *
+   * const key = new AzureKeyCredential("<Key>");
+   * const serviceClient = new WebPubSubServiceClient("<Endpoint>", key, "<hubName>");
    * ```
    *
    * @param endpoint - The endpoint to connect to

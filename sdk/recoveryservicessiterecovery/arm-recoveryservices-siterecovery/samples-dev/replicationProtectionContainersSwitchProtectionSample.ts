@@ -8,9 +8,7 @@
 import type { SwitchProtectionInput } from "@azure/arm-recoveryservices-siterecovery";
 import { SiteRecoveryManagementClient } from "@azure/arm-recoveryservices-siterecovery";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Operation to switch protection from one container to another or one replication provider to another.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Operation to switch protection from one container to another or one replication provider to another.
  * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationProtectionContainers_SwitchProtection.json
  */
-async function switchesProtectionFromOneContainerToAnotherOrOneReplicationProviderToAnother() {
+async function switchesProtectionFromOneContainerToAnotherOrOneReplicationProviderToAnother(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICESSITERECOVERY_SUBSCRIPTION_ID"] ||
     "42195872-7e70-4f8a-837f-84b28ecbb78b";
@@ -45,7 +43,7 @@ async function switchesProtectionFromOneContainerToAnotherOrOneReplicationProvid
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await switchesProtectionFromOneContainerToAnotherOrOneReplicationProviderToAnother();
 }
 

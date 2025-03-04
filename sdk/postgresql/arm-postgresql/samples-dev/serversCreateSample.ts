@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Creates a new server, or will overwrite an existing server.
  * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2017-12-01/examples/ServerCreatePointInTimeRestore.json
  */
-async function createADatabaseAsAPointInTimeRestore() {
+async function createADatabaseAsAPointInTimeRestore(): Promise<void> {
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const resourceGroupName = "TargetResourceGroup";
   const serverName = "targetserver";
@@ -44,7 +44,7 @@ createADatabaseAsAPointInTimeRestore().catch(console.error);
  * @summary Creates a new server, or will overwrite an existing server.
  * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2017-12-01/examples/ServerCreate.json
  */
-async function createANewServer() {
+async function createANewServer(): Promise<void> {
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const resourceGroupName = "TestGroup";
   const serverName = "pgtestsvc4";
@@ -79,7 +79,7 @@ createANewServer().catch(console.error);
  * @summary Creates a new server, or will overwrite an existing server.
  * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2017-12-01/examples/ServerCreateReplicaMode.json
  */
-async function createAReplicaServer() {
+async function createAReplicaServer(): Promise<void> {
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const resourceGroupName = "TestGroup_WestCentralUS";
   const serverName = "testserver-replica1";
@@ -111,7 +111,7 @@ createAReplicaServer().catch(console.error);
  * @summary Creates a new server, or will overwrite an existing server.
  * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2017-12-01/examples/ServerCreateGeoRestoreMode.json
  */
-async function createAServerAsAGeoRestore() {
+async function createAServerAsAGeoRestore(): Promise<void> {
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const resourceGroupName = "TargetResourceGroup";
   const serverName = "targetserver";

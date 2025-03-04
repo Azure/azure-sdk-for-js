@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { AzureDevOpsOrg, SecurityCenter } from "@azure/arm-security";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates or updates monitored Azure DevOps organization details.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Creates or updates monitored Azure DevOps organization details.
  * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/preview/2023-09-01-preview/examples/SecurityConnectorsDevOps/CreateOrUpdateAzureDevOpsOrgs_example.json
  */
-async function createOrUpdateAzureDevOpsOrgs() {
+async function createOrUpdateAzureDevOpsOrgs(): Promise<void> {
   const subscriptionId =
     process.env["SECURITY_SUBSCRIPTION_ID"] ||
     "0806e1cd-cfda-4ff8-b99c-2b0af42cffd3";
@@ -44,7 +42,7 @@ async function createOrUpdateAzureDevOpsOrgs() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createOrUpdateAzureDevOpsOrgs();
 }
 

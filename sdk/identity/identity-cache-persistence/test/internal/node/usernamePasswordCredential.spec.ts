@@ -29,7 +29,7 @@ describe("UsernamePasswordCredential (internal)", () => {
     doGetTokenSpy = vi.spyOn(PublicClientApplication.prototype, "acquireTokenByUsernamePassword");
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await cleanup();
   });
 

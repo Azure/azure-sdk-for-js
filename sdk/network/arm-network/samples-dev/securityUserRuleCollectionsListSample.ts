@@ -7,9 +7,7 @@
  */
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists all the security user rule collections in a security configuration, in a paginated format.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Lists all the security user rule collections in a security configuration, in a paginated format.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/NetworkManagerSecurityUserRuleCollectionList.json
  */
-async function listRuleCollectionsInASecurityConfiguration() {
+async function listRuleCollectionsInASecurityConfiguration(): Promise<void> {
   const subscriptionId =
     process.env["NETWORK_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
@@ -36,7 +34,7 @@ async function listRuleCollectionsInASecurityConfiguration() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await listRuleCollectionsInASecurityConfiguration();
 }
 

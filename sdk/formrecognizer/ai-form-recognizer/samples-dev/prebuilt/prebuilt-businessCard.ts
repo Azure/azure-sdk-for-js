@@ -135,7 +135,7 @@ export interface BusinessCardContactNamesElement {
 /**
  * The raw model schema.
  */
-function modelInfo() {
+function modelInfo(): any {
   return {
     modelId: "prebuilt-businessCard",
     description: "Extract key information from business cards.",

@@ -26,7 +26,7 @@ import {
   NodeTypeActionParameters as NodeTypeActionParametersMapper,
   NodeType as NodeTypeMapper,
   NodeTypeUpdateParameters as NodeTypeUpdateParametersMapper,
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",

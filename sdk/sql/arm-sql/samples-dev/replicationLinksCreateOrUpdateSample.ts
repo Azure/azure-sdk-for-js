@@ -8,9 +8,7 @@
 import type { ReplicationLink } from "@azure/arm-sql";
 import { SqlManagementClient } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Updates the replication link type.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Updates the replication link type.
  * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-05-01-preview/examples/ReplicationLinkCreateOrUpdate.json
  */
-async function updatesReplicationLink() {
+async function updatesReplicationLink(): Promise<void> {
   const subscriptionId =
     process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
   const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "Default";
@@ -38,7 +36,7 @@ async function updatesReplicationLink() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await updatesReplicationLink();
 }
 

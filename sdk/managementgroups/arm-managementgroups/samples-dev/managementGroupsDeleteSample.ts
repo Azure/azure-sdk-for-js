@@ -19,7 +19,7 @@ If a management group contains child resources, the request will fail.
 
  * x-ms-original-file: specification/managementgroups/resource-manager/Microsoft.Management/stable/2021-04-01/examples/DeleteManagementGroup.json
  */
-async function deleteManagementGroup() {
+async function deleteManagementGroup(): Promise<void> {
   const groupId = "GroupToDelete";
   const cacheControl = "no-cache";
   const options: ManagementGroupsDeleteOptionalParams = { cacheControl };

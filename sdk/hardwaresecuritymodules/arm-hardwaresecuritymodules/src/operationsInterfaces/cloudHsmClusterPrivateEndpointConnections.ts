@@ -15,7 +15,7 @@ import {
   CloudHsmClusterPrivateEndpointConnectionsDeleteResponse,
   CloudHsmClusterPrivateEndpointConnectionsGetOptionalParams,
   CloudHsmClusterPrivateEndpointConnectionsGetResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a CloudHsmClusterPrivateEndpointConnections. */
 export interface CloudHsmClusterPrivateEndpointConnections {

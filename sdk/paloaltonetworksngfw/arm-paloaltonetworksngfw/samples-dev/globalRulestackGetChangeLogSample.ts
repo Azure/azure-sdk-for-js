@@ -7,9 +7,7 @@
  */
 import { PaloAltoNetworksCloudngfw } from "@azure/arm-paloaltonetworksngfw";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get changelog
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Get changelog
  * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/GlobalRulestack_getChangeLog_MaximumSet_Gen.json
  */
-async function globalRulestackGetChangeLogMaximumSetGen() {
+async function globalRulestackGetChangeLogMaximumSetGen(): Promise<void> {
   const globalRulestackName = "praval";
   const credential = new DefaultAzureCredential();
   const client = new PaloAltoNetworksCloudngfw(credential);
@@ -31,7 +29,7 @@ async function globalRulestackGetChangeLogMaximumSetGen() {
  * @summary Get changelog
  * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/GlobalRulestack_getChangeLog_MinimumSet_Gen.json
  */
-async function globalRulestackGetChangeLogMinimumSetGen() {
+async function globalRulestackGetChangeLogMinimumSetGen(): Promise<void> {
   const globalRulestackName = "praval";
   const credential = new DefaultAzureCredential();
   const client = new PaloAltoNetworksCloudngfw(credential);
@@ -39,7 +37,7 @@ async function globalRulestackGetChangeLogMinimumSetGen() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await globalRulestackGetChangeLogMaximumSetGen();
   await globalRulestackGetChangeLogMinimumSetGen();
 }

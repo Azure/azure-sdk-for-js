@@ -8,9 +8,7 @@
 import type { DeviceGroupUpdate } from "@azure/arm-sphere";
 import { AzureSphereManagementClient } from "@azure/arm-sphere";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Update a DeviceGroup. '.default' and '.unassigned' are system defined values and cannot be used for product or device group name.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Update a DeviceGroup. '.default' and '.unassigned' are system defined values and cannot be used for product or device group name.
  * x-ms-original-file: specification/sphere/resource-manager/Microsoft.AzureSphere/stable/2024-04-01/examples/PatchDeviceGroup.json
  */
-async function deviceGroupsUpdate() {
+async function deviceGroupsUpdate(): Promise<void> {
   const subscriptionId =
     process.env["SPHERE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = process.env["SPHERE_RESOURCE_GROUP"] || "MyResourceGroup1";
@@ -38,7 +36,7 @@ async function deviceGroupsUpdate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await deviceGroupsUpdate();
 }
 

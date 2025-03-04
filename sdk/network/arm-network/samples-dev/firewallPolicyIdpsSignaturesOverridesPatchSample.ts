@@ -8,9 +8,7 @@
 import type { SignaturesOverrides } from "@azure/arm-network";
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Will update the status of policy's signature overrides for IDPS
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Will update the status of policy's signature overrides for IDPS
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/FirewallPolicySignatureOverridesPatch.json
  */
-async function patchSignatureOverrides() {
+async function patchSignatureOverrides(): Promise<void> {
   const subscriptionId =
     process.env["NETWORK_SUBSCRIPTION_ID"] || "e747cc13-97d4-4a79-b463-42d7f4e558f2";
   const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
@@ -39,7 +37,7 @@ async function patchSignatureOverrides() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await patchSignatureOverrides();
 }
 

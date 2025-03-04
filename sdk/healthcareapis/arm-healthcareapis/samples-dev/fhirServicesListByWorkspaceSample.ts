@@ -7,9 +7,7 @@
  */
 import { HealthcareApisManagementClient } from "@azure/arm-healthcareapis";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists all FHIR Services for the given workspace
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Lists all FHIR Services for the given workspace
  * x-ms-original-file: specification/healthcareapis/resource-manager/Microsoft.HealthcareApis/stable/2024-03-31/examples/fhirservices/FhirServices_List.json
  */
-async function listFhirservices() {
+async function listFhirservices(): Promise<void> {
   const subscriptionId = process.env["HEALTHCAREAPIS_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["HEALTHCAREAPIS_RESOURCE_GROUP"] || "testRG";
   const workspaceName = "workspace1";
@@ -30,7 +28,7 @@ async function listFhirservices() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await listFhirservices();
 }
 

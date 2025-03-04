@@ -25,6 +25,7 @@ This troubleshooting guide covers the following areas of the Azure Identity clie
 - [Troubleshoot managed identity authentication issues](#troubleshoot-managed-identity-authentication-issues)
   - [Azure Virtual Machine managed identity](#azure-virtual-machine-managed-identity)
   - [Azure App Service and Azure Functions managed identity](#azure-app-service-and-azure-functions-managed-identity)
+  - [Azure Service Fabric managed identity](#azure-service-fabric-managed-identity)
 - [Troubleshoot Visual Studio Code authentication issues](#troubleshoot-visual-studio-code-authentication-issues)
 - [Troubleshoot Azure CLI authentication issues](#troubleshoot-azure-cli-authentication-issues)
 - [Troubleshoot AzureDeveloperCliCredential authentication issues](#troubleshoot-azuredeveloperclicredential-authentication-issues)
@@ -301,7 +302,7 @@ The `ManagedIdentityCredential` is designed to work on a variety of Azure hosts 
 | Azure App Service and Azure Functions | [Configuration](https://learn.microsoft.com/azure/app-service/overview-managed-identity)                                                       | [Troubleshooting](#azure-app-service-and-azure-functions-managed-identity) |
 | Azure Arc                             | [Configuration](https://learn.microsoft.com/azure/azure-arc/servers/security-overview#using-a-managed-identity-with-azure-arc-enabled-servers) | Not Available                                                              |
 | Azure Kubernetes Service              | [Configuration](https://learn.microsoft.com/azure/aks/use-managed-identity)                                                                    | Not Available                                                              |
-| Azure Service Fabric                  | [Configuration](https://learn.microsoft.com/azure/service-fabric/configure-existing-cluster-enable-managed-identity-token-service)             | Not Available                                                              |
+| Azure Service Fabric                  | [Configuration](https://learn.microsoft.com/azure/service-fabric/configure-existing-cluster-enable-managed-identity-token-service)             | [Troubleshooting](#azure-service-fabric-managed-identity)                               |
 | Azure Virtual Machines and Scale Sets | [Configuration](https://learn.microsoft.com/entra/identity/managed-identities-azure-resources/qs-configure-portal-windows-vm)                  | [Troubleshooting](#azure-virtual-machine-managed-identity)                 |
 
 ### Azure Virtual Machine managed identity
@@ -342,6 +343,14 @@ curl 'http://169.254.169.254/metadata/identity/oauth2/token?resource=https://man
 ```
 
 > Note that the output of this command will contain a valid access token, and SHOULD NOT BE SHARED to avoid compromising account security.
+
+### Azure Service Fabric managed identity
+
+### CredentialUnavailableError
+
+| Error Message                           | Description                                                                  | Mitigation                                                                                                                                                                                                                                                                                                                                  |
+| --------------------------------------- | ---------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| ManagedIdentityCredential authentication failed.	                 | Specifying a clientId or resourceId is not supported by the Service Fabric managed identity environment. The managed identity configuration is determined by the Service Fabric cluster resource configuration. See https://aka.ms/servicefabricmi for more information.                          | <ul><li>Ensure that the managed identity is properly configured on the Service Fabric cluster. Instructions for configuring the managed identity can be found [here](https://learn.microsoft.com/azure/service-fabric/configure-existing-cluster-enable-managed-identity-token-service).</li><li>Verify that `clientId` and `resourceId` is not supplemented in the Managed Identity Credential and Service Fabric environment is properly configured.</li></ul> 
 
 ## Troubleshoot Visual Studio Code authentication issues
 

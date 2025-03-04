@@ -11,26 +11,21 @@
  * will be mapped to specific models contained in the repository location that the user wishes to get.
  *
  * @example
- * Inline code:
- * ```typescript
- * import lib
- * import {ModelsRepositoryClient} from "../../../src";
+ * ```ts snippet:ReadmeSampleGetModels
+ * import { ModelsRepositoryClient } from "@azure/iot-modelsrepository";
  *
- * const repositoryEndpoint = "devicemodels.azure.com";
- * const dtmi = process.argv[2] || "dtmi:azure:DeviceManagement:DeviceInformation;1";
+ * // Global endpoint client
+ * const client = new ModelsRepositoryClient();
  *
- * console.log(repositoryEndpoint, dtmi);
+ * // The output of getModels() will include at least the definition for the target dtmi.
+ * // If the model dependency resolution configuration is not disabled, then models in which the
+ * // target dtmi depends on will also be included in the returned object (mapping dtmis to model objects).
+ * const dtmi = "dtmi:com:example:TemperatureController;1";
+ * const models = await client.getModels(dtmi, { dependencyResolution: "tryFromExpanded" });
  *
- * async function main() {
- *   const client = new ModelsRepositoryClient({repositoryLocation: repositoryEndpoint});
- *   const result = await client.getModels(dtmi, {dependencyResolution: 'tryFromExpanded'});
- *   console.log(result);
- * }
- *
- * main().catch((err) => {
- *   console.error("The sample encountered an error:", err);
- * });
- *
+ * // In this case the above dtmi has 2 model dependencies.
+ * // dtmi:com:example:Thermostat;1 and dtmi:azure:DeviceManagement:DeviceInformation;1
+ * console.log(`${dtmi} resolved in ${Object.keys(models).length} interfaces.`);
  * ```
  *
  * @packageDocumentation

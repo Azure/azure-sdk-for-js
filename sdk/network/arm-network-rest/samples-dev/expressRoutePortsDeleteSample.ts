@@ -11,7 +11,7 @@ import "dotenv/config";
  * @summary Deletes the specified ExpressRoutePort resource.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/ExpressRoutePortDelete.json
  */
-async function expressRoutePortDelete() {
+async function expressRoutePortDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

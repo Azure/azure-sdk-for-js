@@ -13,7 +13,7 @@ import {
   QueryKeysCreateOptionalParams,
   QueryKeysCreateResponse,
   QueryKeysDeleteOptionalParams,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a QueryKeys. */

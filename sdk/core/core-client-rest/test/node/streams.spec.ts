@@ -92,6 +92,28 @@ describe("[Node] Streams", () => {
       assert.equal(e.message, "ExpectedException");
     }
   });
+
+  it("should throw when attempting to use browser streams", async () => {
+    vi.mocked(https.request).mockImplementation((_url, cb) => {
+      const response = createResponse(200, JSON.stringify({ foo: "foo" }));
+      const callback = cb as (res: IncomingMessage) => void;
+      callback(response);
+      return createRequest();
+    });
+
+    const { getClient } = await import("../../src/getClient.js");
+    const client = getClient(mockBaseUrl);
+
+    try {
+      await client.pathUnchecked("/foo").get().asBrowserStream();
+      assert.fail("Expected error was not thrown");
+    } catch (e: any) {
+      assert.equal(
+        e.message,
+        "`asBrowserStream` is supported only in the browser environment. Use `asNodeStream` instead to obtain the response body stream. If you require a Web stream of the response in Node, consider using `Readable.toWeb` on the result of `asNodeStream`.",
+      );
+    }
+  });
 });
 
 function createRequest(): ClientRequest {

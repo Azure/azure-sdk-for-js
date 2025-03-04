@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { DeploymentStacksClient } from "@azure/arm-resourcesdeploymentstacks";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Exports the template used to create the Deployment stack at Management Group scope.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Exports the template used to create the Deployment stack at Management Group scope.
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2024-03-01/examples/DeploymentStackManagementGroupExportTemplate.json
  */
-async function deploymentStacksManagementGroupExportTemplate() {
+async function deploymentStacksManagementGroupExportTemplate(): Promise<void> {
   const managementGroupId = "myMg";
   const deploymentStackName = "simpleDeploymentStack";
   const credential = new DefaultAzureCredential();
@@ -32,7 +30,7 @@ async function deploymentStacksManagementGroupExportTemplate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   deploymentStacksManagementGroupExportTemplate();
 }
 

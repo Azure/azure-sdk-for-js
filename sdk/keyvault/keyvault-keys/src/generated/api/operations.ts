@@ -10,6 +10,7 @@ import {
   EncryptOptionalParams,
   GetDeletedKeyOptionalParams,
   GetDeletedKeysOptionalParams,
+  GetKeyAttestationOptionalParams,
   GetKeyOptionalParams,
   GetKeyRotationPolicyOptionalParams,
   GetKeysOptionalParams,
@@ -82,6 +83,53 @@ import {
   createRestError,
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";
+
+export function _getKeyAttestationSend(
+  context: Client,
+  keyName: string,
+  keyVersion: string,
+  options: GetKeyAttestationOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  return context
+    .path("/keys/{key-name}/{key-version}/attestation", keyName, keyVersion)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      queryParameters: { "api-version": context.apiVersion },
+    });
+}
+
+export async function _getKeyAttestationDeserialize(
+  result: PathUncheckedResponse,
+): Promise<KeyBundle> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = keyVaultErrorDeserializer(result.body);
+    throw error;
+  }
+
+  return keyBundleDeserializer(result.body);
+}
+
+/** The get key attestation operation returns the key along with its attestation blob. This operation requires the keys/get permission. */
+export async function getKeyAttestation(
+  context: Client,
+  keyName: string,
+  keyVersion: string,
+  options: GetKeyAttestationOptionalParams = { requestOptions: {} },
+): Promise<KeyBundle> {
+  const result = await _getKeyAttestationSend(
+    context,
+    keyName,
+    keyVersion,
+    options,
+  );
+  return _getKeyAttestationDeserialize(result);
+}
 
 export function _getRandomBytesSend(
   context: Client,

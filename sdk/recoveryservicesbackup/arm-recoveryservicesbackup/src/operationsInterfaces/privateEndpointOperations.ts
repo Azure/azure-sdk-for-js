@@ -9,7 +9,7 @@
 import {
   PrivateEndpointGetOperationStatusOptionalParams,
   PrivateEndpointGetOperationStatusResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a PrivateEndpointOperations. */
 export interface PrivateEndpointOperations {

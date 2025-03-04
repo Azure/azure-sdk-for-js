@@ -13,9 +13,7 @@ import {
   MySQLManagementFlexibleServerClient,
 } from "@azure/arm-mysql-flexible";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates a new database or updates an existing database.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Creates a new database or updates an existing database.
  * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/Databases/preview/2023-06-01-preview/examples/DatabaseCreate.json
  */
-async function createADatabase() {
+async function createADatabase(): Promise<void> {
   const subscriptionId =
     process.env["MYSQL_SUBSCRIPTION_ID"] ||
     "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -48,7 +46,7 @@ async function createADatabase() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createADatabase();
 }
 

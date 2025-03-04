@@ -16,7 +16,7 @@ import "dotenv/config";
  * @summary Queries policy states for the resource.
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2024-10-01/examples/PolicyStates_QueryNestedResourceScope.json
  */
-async function queryAllPolicyStatesAtNestedResourceScope() {
+async function queryAllPolicyStatesAtNestedResourceScope(): Promise<void> {
   const policyStatesResource = "default";
   const resourceId =
     "subscriptions/fff10b27-fff3-fff5-fff8-fffbe01e86a5/resourceGroups/myResourceGroup/providers/Microsoft.ServiceFabric/clusters/myCluster/applications/myApplication";
@@ -38,7 +38,7 @@ async function queryAllPolicyStatesAtNestedResourceScope() {
  * @summary Queries policy states for the resource.
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2024-10-01/examples/PolicyStates_QueryResourceScope.json
  */
-async function queryAllPolicyStatesAtResourceScope() {
+async function queryAllPolicyStatesAtResourceScope(): Promise<void> {
   const policyStatesResource = "default";
   const resourceId =
     "subscriptions/fff10b27-fff3-fff5-fff8-fffbe01e86a5/resourceGroups/myResourceGroup/providers/Microsoft.ClassicCompute/domainNames/myDomainName";
@@ -60,7 +60,7 @@ async function queryAllPolicyStatesAtResourceScope() {
  * @summary Queries policy states for the resource.
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2024-10-01/examples/PolicyStates_QueryResourceScopeExpandPolicyEvaluationDetails.json
  */
-async function queryAllPolicyStatesAtResourceScopeAndExpandPolicyEvaluationDetails() {
+async function queryAllPolicyStatesAtResourceScopeAndExpandPolicyEvaluationDetails(): Promise<void> {
   const policyStatesResource = "latest";
   const resourceId =
     "subscriptions/fff10b27-fff3-fff5-fff8-fffbe01e86a5/resourceGroups/myResourceGroup/providers/Microsoft.ClassicCompute/domainNames/myDomainName";
@@ -87,7 +87,7 @@ async function queryAllPolicyStatesAtResourceScopeAndExpandPolicyEvaluationDetai
  * @summary Queries policy states for the resource.
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2024-10-01/examples/PolicyStates_QueryResourceScopeNextLink.json
  */
-async function queryAllPolicyStatesAtResourceScopeWithNextLink() {
+async function queryAllPolicyStatesAtResourceScopeWithNextLink(): Promise<void> {
   const policyStatesResource = "default";
   const resourceId =
     "subscriptions/fff10b27-fff3-fff5-fff8-fffbe01e86a5/resourceGroups/myResourceGroup/providers/Microsoft.ClassicCompute/domainNames/myDomainName";
@@ -114,7 +114,7 @@ async function queryAllPolicyStatesAtResourceScopeWithNextLink() {
  * @summary Queries policy states for the resource.
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2024-10-01/examples/PolicyStates_QuerySubscriptionLevelNestedResourceScope.json
  */
-async function queryAllPolicyStatesAtSubscriptionLevelNestedResourceScope() {
+async function queryAllPolicyStatesAtSubscriptionLevelNestedResourceScope(): Promise<void> {
   const policyStatesResource = "default";
   const resourceId =
     "subscriptions/fff10b27-fff3-fff5-fff8-fffbe01e86a5/providers/Microsoft.SomeNamespace/someResourceType/someResource/someNestedResourceType/someNestedResource";
@@ -136,7 +136,7 @@ async function queryAllPolicyStatesAtSubscriptionLevelNestedResourceScope() {
  * @summary Queries policy states for the resource.
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2024-10-01/examples/PolicyStates_QuerySubscriptionLevelResourceScope.json
  */
-async function queryAllPolicyStatesAtSubscriptionLevelResourceScope() {
+async function queryAllPolicyStatesAtSubscriptionLevelResourceScope(): Promise<void> {
   const policyStatesResource = "default";
   const resourceId =
     "subscriptions/fff10b27-fff3-fff5-fff8-fffbe01e86a5/providers/Microsoft.SomeNamespace/someResourceType/someResourceName";
@@ -158,7 +158,7 @@ async function queryAllPolicyStatesAtSubscriptionLevelResourceScope() {
  * @summary Queries policy states for the resource.
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2024-10-01/examples/PolicyStates_QueryResourceScopeExpandComponents.json
  */
-async function queryComponentPolicyComplianceStateAtResourceScopeFilteredByGivenAssignment() {
+async function queryComponentPolicyComplianceStateAtResourceScopeFilteredByGivenAssignment(): Promise<void> {
   const policyStatesResource = "latest";
   const resourceId =
     "subscriptions/e78961ba-36fe-4739-9212-e3031b4c8db7/resourceGroups/myResourceGroup/providers/Microsoft.KeyVault/Vaults/myKVName";
@@ -189,7 +189,7 @@ async function queryComponentPolicyComplianceStateAtResourceScopeFilteredByGiven
  * @summary Queries policy states for the resource.
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2024-10-01/examples/PolicyStates_QueryResourceScopeExpandComponentsGroupByWithAggregate.json
  */
-async function queryComponentPolicyComplianceStateCountGroupedByStateTypeAtResourceScopeFilteredByGivenAssignment() {
+async function queryComponentPolicyComplianceStateCountGroupedByStateTypeAtResourceScopeFilteredByGivenAssignment(): Promise<void> {
   const policyStatesResource = "latest";
   const resourceId =
     "subscriptions/e78961ba-36fe-4739-9212-e3031b4c8db7/resourceGroups/myResourceGroup/providers/Microsoft.KeyVault/Vaults/myKVName";
@@ -214,7 +214,7 @@ async function queryComponentPolicyComplianceStateCountGroupedByStateTypeAtResou
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await queryAllPolicyStatesAtNestedResourceScope();
   await queryAllPolicyStatesAtResourceScope();
   await queryAllPolicyStatesAtResourceScopeAndExpandPolicyEvaluationDetails();

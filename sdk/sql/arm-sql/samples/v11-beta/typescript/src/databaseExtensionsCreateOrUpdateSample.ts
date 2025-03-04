@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { DatabaseExtensions, SqlManagementClient } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Perform a database extension operation, like polybase import
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Perform a database extension operation, like polybase import
  * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2021-02-01-preview/examples/CreateOrUpdateDatabaseExtensions.json
  */
-async function createOrUpdateDatabaseExtensions() {
+async function createOrUpdateDatabaseExtensions(): Promise<void> {
   const subscriptionId =
     process.env["SQL_SUBSCRIPTION_ID"] ||
     "a1c0814d-3c18-4e1e-a247-c128c12b1677";
@@ -51,7 +49,7 @@ async function createOrUpdateDatabaseExtensions() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createOrUpdateDatabaseExtensions();
 }
 

@@ -21,7 +21,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Updates Template Spec Version tags with specified values.
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2021-05-01/examples/TemplateSpecVersionsPatch.json
  */
-async function templateSpecsPatch() {
+async function templateSpecsPatch(): Promise<void> {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = "templateSpecRG";
   const templateSpecName = "simpleTemplateSpec";

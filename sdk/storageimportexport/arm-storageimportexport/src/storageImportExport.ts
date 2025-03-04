@@ -19,14 +19,14 @@ import {
   JobsImpl,
   BitLockerKeysImpl,
   OperationsImpl
-} from "./operations";
+} from "./operations/index.js";
 import {
   Locations,
   Jobs,
   BitLockerKeys,
   Operations
-} from "./operationsInterfaces";
-import { StorageImportExportOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { StorageImportExportOptionalParams } from "./models/index.js";
 
 export class StorageImportExport extends coreClient.ServiceClient {
   $host: string;

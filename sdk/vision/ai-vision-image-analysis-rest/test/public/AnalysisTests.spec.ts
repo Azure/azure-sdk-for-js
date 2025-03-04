@@ -54,7 +54,7 @@ describe("Analyze Tests", () => {
         return new Uint8Array(buffer);
       }
 
-      it("Analyze from URL", async function () {
+      it("Analyze from URL", async () => {
         const allFeatures: string[] = [
           "Caption",
           "DenseCaptions",
@@ -90,7 +90,7 @@ describe("Analyze Tests", () => {
         }
       });
 
-      it("Analyze from Stream", async function () {
+      it("Analyze from Stream", async () => {
         const allFeatures: string[] = [
           "Caption",
           "DenseCaptions",

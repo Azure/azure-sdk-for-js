@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { SqlManagementClient } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets a list of server keys.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Gets a list of server keys.
  * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/ServerKeyList.json
  */
-async function listTheServerKeysByServer() {
+async function listTheServerKeysByServer(): Promise<void> {
   const subscriptionId =
     process.env["SQL_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -39,7 +37,7 @@ async function listTheServerKeysByServer() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listTheServerKeysByServer();
 }
 

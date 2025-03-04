@@ -8,9 +8,7 @@
 import type { IotSecuritySolutionListBySubscriptionOptionalParams } from "@azure/arm-security";
 import { SecurityCenter } from "@azure/arm-security";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Use this method to get the list of IoT Security solutions by subscription.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Use this method to get the list of IoT Security solutions by subscription.
  * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/stable/2019-08-01/examples/IoTSecuritySolutions/GetIoTSecuritySolutionsListByIotHub.json
  */
-async function listIoTSecuritySolutionsByIoTHub() {
+async function listIoTSecuritySolutionsByIoTHub(): Promise<void> {
   const subscriptionId =
     process.env["SECURITY_SUBSCRIPTION_ID"] || "20ff7fc3-e762-44dd-bd96-b71116dcdc23";
   const filter =
@@ -41,7 +39,7 @@ async function listIoTSecuritySolutionsByIoTHub() {
  * @summary Use this method to get the list of IoT Security solutions by subscription.
  * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/stable/2019-08-01/examples/IoTSecuritySolutions/GetIoTSecuritySolutionsList.json
  */
-async function listIoTSecuritySolutionsBySubscription() {
+async function listIoTSecuritySolutionsBySubscription(): Promise<void> {
   const subscriptionId =
     process.env["SECURITY_SUBSCRIPTION_ID"] || "20ff7fc3-e762-44dd-bd96-b71116dcdc23";
   const credential = new DefaultAzureCredential();
@@ -53,7 +51,7 @@ async function listIoTSecuritySolutionsBySubscription() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await listIoTSecuritySolutionsByIoTHub();
   await listIoTSecuritySolutionsBySubscription();
 }

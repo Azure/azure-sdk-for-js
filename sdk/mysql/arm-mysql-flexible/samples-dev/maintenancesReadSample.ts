@@ -7,9 +7,7 @@
  */
 import { MySQLManagementFlexibleServerClient } from "@azure/arm-mysql-flexible";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Read maintenance.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Read maintenance.
  * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/Maintenance/preview/2023-10-01-preview/examples/MaintenanceRead.json
  */
-async function readAMaintenance() {
+async function readAMaintenance(): Promise<void> {
   const subscriptionId =
     process.env["MYSQL_SUBSCRIPTION_ID"] || "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const resourceGroupName = process.env["MYSQL_RESOURCE_GROUP"] || "TestGroup";
@@ -29,7 +27,7 @@ async function readAMaintenance() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await readAMaintenance();
 }
 

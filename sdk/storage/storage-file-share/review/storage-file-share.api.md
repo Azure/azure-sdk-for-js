@@ -196,10 +196,14 @@ export interface DirectoryCreateHeaders {
     fileCreatedOn?: Date;
     fileId?: string;
     fileLastWriteOn?: Date;
+    fileMode?: NfsFileMode;
     fileParentId?: string;
     filePermissionKey?: string;
+    group?: string;
     isServerEncrypted?: boolean;
     lastModified?: Date;
+    nfsFileType?: NfsFileType;
+    owner?: string;
     requestId?: string;
     version?: string;
 }
@@ -279,13 +283,17 @@ export interface DirectoryGetPropertiesHeaders {
     fileCreatedOn?: Date;
     fileId?: string;
     fileLastWriteOn?: Date;
+    fileMode?: NfsFileMode;
     fileParentId?: string;
     filePermissionKey?: string;
+    group?: string;
     isServerEncrypted?: boolean;
     lastModified?: Date;
     metadata?: {
         [propertyName: string]: string;
     };
+    nfsFileType?: NfsFileType;
+    owner?: string;
     requestId?: string;
     version?: string;
 }
@@ -431,10 +439,13 @@ export interface DirectorySetPropertiesHeaders {
     fileCreatedOn?: Date;
     fileId?: string;
     fileLastWriteOn?: Date;
+    fileMode?: NfsFileMode;
     fileParentId?: string;
     filePermissionKey?: string;
+    group?: string;
     isServerEncrypted?: boolean;
     lastModified?: Date;
+    owner?: string;
     requestId?: string;
     version?: string;
 }
@@ -468,6 +479,7 @@ export interface FileAndDirectoryCreateCommonOptions {
     filePermissionFormat?: FilePermissionFormat;
     filePermissionKey?: string;
     lastWriteTime?: Date | TimeNowType;
+    posixProperties?: FilePosixProperties;
 }
 
 // @public (undocumented)
@@ -479,6 +491,7 @@ export interface FileAndDirectorySetPropertiesCommonOptions {
     filePermissionFormat?: FilePermissionFormat;
     filePermissionKey?: string;
     lastWriteTime?: Date | TimeNowType | TimePreserveType;
+    posixProperties?: FilePosixProperties;
 }
 
 // @public
@@ -500,6 +513,35 @@ export interface FileCloseHandlesHeaders {
 }
 
 // @public
+export interface FileCreateHardLinkHeaders {
+    clientRequestId?: string;
+    date?: Date;
+    etag?: string;
+    fileChangeTime?: Date;
+    fileCreationTime?: Date;
+    fileId?: string;
+    fileLastWriteTime?: Date;
+    fileMode?: NfsFileMode;
+    fileParentId?: string;
+    group?: string;
+    lastModified?: Date;
+    linkCount?: number;
+    nfsFileType?: NfsFileType;
+    owner?: string;
+    requestId?: string;
+    version?: string;
+}
+
+// @public
+export interface FileCreateHardLinkOptions extends CommonOptions {
+    abortSignal?: AbortSignalLike;
+    leaseAccessConditions?: LeaseAccessConditions;
+}
+
+// @public
+export type FileCreateHardLinkResponse = WithResponse<FileCreateHardLinkHeaders, FileCreateHardLinkHeaders>;
+
+// @public
 export interface FileCreateHeaders {
     date?: Date;
     errorCode?: string;
@@ -509,10 +551,14 @@ export interface FileCreateHeaders {
     fileCreatedOn?: Date;
     fileId?: string;
     fileLastWriteOn?: Date;
+    fileMode?: NfsFileMode;
     fileParentId?: string;
     filePermissionKey?: string;
+    group?: string;
     isServerEncrypted?: boolean;
     lastModified?: Date;
+    nfsFileType?: NfsFileType;
+    owner?: string;
     requestId?: string;
     version?: string;
 }
@@ -532,6 +578,7 @@ export type FileCreateResponse = WithResponse<FileCreateHeaders, FileCreateHeade
 export interface FileDeleteHeaders {
     date?: Date;
     errorCode?: string;
+    linkCount?: number;
     requestId?: string;
     version?: string;
 }
@@ -576,16 +623,20 @@ export interface FileDownloadHeaders {
     fileCreatedOn?: Date;
     fileId?: string;
     fileLastWriteOn?: Date;
+    fileMode?: NfsFileMode;
     fileParentId?: string;
     filePermissionKey?: string;
+    group?: string;
     isServerEncrypted?: boolean;
     lastModified?: Date;
     leaseDuration?: LeaseDurationType;
     leaseState?: LeaseStateType;
     leaseStatus?: LeaseStatusType;
+    linkCount?: number;
     metadata?: {
         [propertyName: string]: string;
     };
+    owner?: string;
     requestId?: string;
     version?: string;
 }
@@ -674,17 +725,22 @@ export interface FileGetPropertiesHeaders {
     fileCreatedOn?: Date;
     fileId?: string;
     fileLastWriteOn?: Date;
+    fileMode?: NfsFileMode;
     fileParentId?: string;
     filePermissionKey?: string;
     fileType?: string;
+    group?: string;
     isServerEncrypted?: boolean;
     lastModified?: Date;
     leaseDuration?: LeaseDurationType;
     leaseState?: LeaseStateType;
     leaseStatus?: LeaseStatusType;
+    linkCount?: number;
     metadata?: {
         [propertyName: string]: string;
     };
+    nfsFileType?: NfsFileType;
+    owner?: string;
     requestId?: string;
     version?: string;
 }
@@ -793,6 +849,14 @@ export type FilePermissionInheritType = "inherit";
 
 // @public
 export type FilePermissionPreserveType = "preserve";
+
+// @public
+export interface FilePosixProperties {
+    fileMode?: NfsFileMode;
+    fileType?: NfsFileType;
+    group?: string;
+    owner?: string;
+}
 
 // @public (undocumented)
 export interface FileProperties extends FileAndDirectorySetPropertiesCommonOptions, CommonOptions {
@@ -914,10 +978,14 @@ export interface FileSetHTTPHeadersHeaders {
     fileCreatedOn?: Date;
     fileId?: string;
     fileLastWriteOn?: Date;
+    fileMode?: NfsFileMode;
     fileParentId?: string;
     filePermissionKey?: string;
+    group?: string;
     isServerEncrypted?: boolean;
     lastModified?: Date;
+    linkCount?: number;
+    owner?: string;
     requestId?: string;
     version?: string;
 }
@@ -966,11 +1034,14 @@ export interface FileStartCopyHeaders {
 export interface FileStartCopyOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     copyFileSmbInfo?: CopyFileSmbInfo;
+    fileModeCopyMode?: ModeCopyMode;
+    fileOwnerCopyMode?: OwnerCopyMode;
     filePermission?: string;
     filePermissionFormat?: FilePermissionFormat;
     filePermissionKey?: string;
     leaseAccessConditions?: LeaseAccessConditions;
     metadata?: Metadata;
+    posixProperties?: FilePosixProperties;
 }
 
 // @public
@@ -1238,7 +1309,32 @@ export interface Metrics {
 }
 
 // @public
+export type ModeCopyMode = "source" | "override";
+
+// @public
 export function newPipeline(credential?: Credential_2 | TokenCredential, pipelineOptions?: StoragePipelineOptions): Pipeline;
+
+// @public
+export interface NfsFileMode {
+    effectiveGroupIdentity: boolean;
+    effectiveUserIdentity: boolean;
+    group: PosixRolePermissions;
+    other: PosixRolePermissions;
+    owner: PosixRolePermissions;
+    stickyBit: boolean;
+}
+
+// @public
+export type NfsFileType = string;
+
+// @public
+export type OwnerCopyMode = "source" | "override";
+
+// @public
+export function parseOctalFileMode(input?: string): NfsFileMode | undefined;
+
+// @public
+export function parseSymbolicFileMode(input?: string): NfsFileMode | undefined;
 
 // @public
 export type PermissionCopyModeType = "source" | "override";
@@ -1262,6 +1358,13 @@ export interface PipelineLike {
 export interface PipelineOptions {
     httpClient?: RequestPolicy;
     shareTokenIntent?: ShareTokenIntent;
+}
+
+// @public
+export interface PosixRolePermissions {
+    execute: boolean;
+    read: boolean;
+    write: boolean;
 }
 
 // @public
@@ -1639,6 +1742,7 @@ export class ShareFileClient extends StorageClient {
     abortCopyFromURL(copyId: string, options?: FileAbortCopyFromURLOptions): Promise<FileAbortCopyResponse>;
     clearRange(offset: number, contentLength: number, options?: FileClearRangeOptions): Promise<FileUploadRangeResponse>;
     create(size: number, options?: FileCreateOptions): Promise<FileCreateResponse>;
+    createHardLink(targetFile: string, options?: FileCreateHardLinkOptions): Promise<FileCreateHardLinkResponse>;
     delete(options?: FileDeleteOptions): Promise<FileDeleteResponse>;
     deleteIfExists(options?: FileDeleteOptions): Promise<FileDeleteIfExistsResponse>;
     download(offset?: number, count?: number, options?: FileDownloadOptions): Promise<FileDownloadResponseModel>;
@@ -2162,6 +2266,12 @@ export type TimeNowType = "now";
 
 // @public
 export type TimePreserveType = "preserve";
+
+// @public
+export function toOctalFileMode(input?: NfsFileMode): string | undefined;
+
+// @public
+export function toSymbolicFileMode(input?: NfsFileMode): string | undefined;
 
 export { WebResource }
 

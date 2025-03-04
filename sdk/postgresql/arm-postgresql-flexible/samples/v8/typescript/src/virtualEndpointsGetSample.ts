@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Gets information about a virtual endpoint.
  * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2024-08-01/examples/VirtualEndpointsGet.json
  */
-async function getAVirtualEndpoint() {
+async function getAVirtualEndpoint(): Promise<void> {
   const subscriptionId =
     process.env["POSTGRESQL_SUBSCRIPTION_ID"] ||
     "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -36,7 +36,7 @@ async function getAVirtualEndpoint() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getAVirtualEndpoint();
 }
 

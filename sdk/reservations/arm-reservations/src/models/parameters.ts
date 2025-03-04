@@ -23,7 +23,7 @@ import {
   CalculateExchangeRequest as CalculateExchangeRequestMapper,
   ExchangeRequest as ExchangeRequestMapper,
   CurrentQuotaLimitBase as CurrentQuotaLimitBaseMapper
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const contentType: OperationParameter = {
   parameterPath: ["options", "contentType"],

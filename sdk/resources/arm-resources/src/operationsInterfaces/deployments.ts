@@ -88,8 +88,8 @@ import {
   DeploymentsExportTemplateOptionalParams,
   DeploymentsExportTemplateResponse,
   DeploymentsCalculateTemplateHashOptionalParams,
-  DeploymentsCalculateTemplateHashResponse
-} from "../models";
+  DeploymentsCalculateTemplateHashResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Deployments. */
@@ -101,14 +101,14 @@ export interface Deployments {
    */
   listAtScope(
     scope: string,
-    options?: DeploymentsListAtScopeOptionalParams
+    options?: DeploymentsListAtScopeOptionalParams,
   ): PagedAsyncIterableIterator<DeploymentExtended>;
   /**
    * Get all the deployments at the tenant scope.
    * @param options The options parameters.
    */
   listAtTenantScope(
-    options?: DeploymentsListAtTenantScopeOptionalParams
+    options?: DeploymentsListAtTenantScopeOptionalParams,
   ): PagedAsyncIterableIterator<DeploymentExtended>;
   /**
    * Get all the deployments for a management group.
@@ -117,14 +117,14 @@ export interface Deployments {
    */
   listAtManagementGroupScope(
     groupId: string,
-    options?: DeploymentsListAtManagementGroupScopeOptionalParams
+    options?: DeploymentsListAtManagementGroupScopeOptionalParams,
   ): PagedAsyncIterableIterator<DeploymentExtended>;
   /**
    * Get all the deployments for a subscription.
    * @param options The options parameters.
    */
   listAtSubscriptionScope(
-    options?: DeploymentsListAtSubscriptionScopeOptionalParams
+    options?: DeploymentsListAtSubscriptionScopeOptionalParams,
   ): PagedAsyncIterableIterator<DeploymentExtended>;
   /**
    * Get all the deployments for a resource group.
@@ -134,7 +134,7 @@ export interface Deployments {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: DeploymentsListByResourceGroupOptionalParams
+    options?: DeploymentsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<DeploymentExtended>;
   /**
    * A template deployment that is currently running cannot be deleted. Deleting a template deployment
@@ -151,7 +151,7 @@ export interface Deployments {
   beginDeleteAtScope(
     scope: string,
     deploymentName: string,
-    options?: DeploymentsDeleteAtScopeOptionalParams
+    options?: DeploymentsDeleteAtScopeOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * A template deployment that is currently running cannot be deleted. Deleting a template deployment
@@ -168,7 +168,7 @@ export interface Deployments {
   beginDeleteAtScopeAndWait(
     scope: string,
     deploymentName: string,
-    options?: DeploymentsDeleteAtScopeOptionalParams
+    options?: DeploymentsDeleteAtScopeOptionalParams,
   ): Promise<void>;
   /**
    * Checks whether the deployment exists.
@@ -179,7 +179,7 @@ export interface Deployments {
   checkExistenceAtScope(
     scope: string,
     deploymentName: string,
-    options?: DeploymentsCheckExistenceAtScopeOptionalParams
+    options?: DeploymentsCheckExistenceAtScopeOptionalParams,
   ): Promise<DeploymentsCheckExistenceAtScopeResponse>;
   /**
    * You can provide the template and parameters directly in the request or link to JSON files.
@@ -192,7 +192,7 @@ export interface Deployments {
     scope: string,
     deploymentName: string,
     parameters: Deployment,
-    options?: DeploymentsCreateOrUpdateAtScopeOptionalParams
+    options?: DeploymentsCreateOrUpdateAtScopeOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<DeploymentsCreateOrUpdateAtScopeResponse>,
@@ -210,7 +210,7 @@ export interface Deployments {
     scope: string,
     deploymentName: string,
     parameters: Deployment,
-    options?: DeploymentsCreateOrUpdateAtScopeOptionalParams
+    options?: DeploymentsCreateOrUpdateAtScopeOptionalParams,
   ): Promise<DeploymentsCreateOrUpdateAtScopeResponse>;
   /**
    * Gets a deployment.
@@ -221,7 +221,7 @@ export interface Deployments {
   getAtScope(
     scope: string,
     deploymentName: string,
-    options?: DeploymentsGetAtScopeOptionalParams
+    options?: DeploymentsGetAtScopeOptionalParams,
   ): Promise<DeploymentsGetAtScopeResponse>;
   /**
    * You can cancel a deployment only if the provisioningState is Accepted or Running. After the
@@ -234,7 +234,7 @@ export interface Deployments {
   cancelAtScope(
     scope: string,
     deploymentName: string,
-    options?: DeploymentsCancelAtScopeOptionalParams
+    options?: DeploymentsCancelAtScopeOptionalParams,
   ): Promise<void>;
   /**
    * Validates whether the specified template is syntactically correct and will be accepted by Azure
@@ -248,7 +248,7 @@ export interface Deployments {
     scope: string,
     deploymentName: string,
     parameters: Deployment,
-    options?: DeploymentsValidateAtScopeOptionalParams
+    options?: DeploymentsValidateAtScopeOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<DeploymentsValidateAtScopeResponse>,
@@ -267,7 +267,7 @@ export interface Deployments {
     scope: string,
     deploymentName: string,
     parameters: Deployment,
-    options?: DeploymentsValidateAtScopeOptionalParams
+    options?: DeploymentsValidateAtScopeOptionalParams,
   ): Promise<DeploymentsValidateAtScopeResponse>;
   /**
    * Exports the template used for specified deployment.
@@ -278,7 +278,7 @@ export interface Deployments {
   exportTemplateAtScope(
     scope: string,
     deploymentName: string,
-    options?: DeploymentsExportTemplateAtScopeOptionalParams
+    options?: DeploymentsExportTemplateAtScopeOptionalParams,
   ): Promise<DeploymentsExportTemplateAtScopeResponse>;
   /**
    * A template deployment that is currently running cannot be deleted. Deleting a template deployment
@@ -293,7 +293,7 @@ export interface Deployments {
    */
   beginDeleteAtTenantScope(
     deploymentName: string,
-    options?: DeploymentsDeleteAtTenantScopeOptionalParams
+    options?: DeploymentsDeleteAtTenantScopeOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * A template deployment that is currently running cannot be deleted. Deleting a template deployment
@@ -308,7 +308,7 @@ export interface Deployments {
    */
   beginDeleteAtTenantScopeAndWait(
     deploymentName: string,
-    options?: DeploymentsDeleteAtTenantScopeOptionalParams
+    options?: DeploymentsDeleteAtTenantScopeOptionalParams,
   ): Promise<void>;
   /**
    * Checks whether the deployment exists.
@@ -317,7 +317,7 @@ export interface Deployments {
    */
   checkExistenceAtTenantScope(
     deploymentName: string,
-    options?: DeploymentsCheckExistenceAtTenantScopeOptionalParams
+    options?: DeploymentsCheckExistenceAtTenantScopeOptionalParams,
   ): Promise<DeploymentsCheckExistenceAtTenantScopeResponse>;
   /**
    * You can provide the template and parameters directly in the request or link to JSON files.
@@ -328,7 +328,7 @@ export interface Deployments {
   beginCreateOrUpdateAtTenantScope(
     deploymentName: string,
     parameters: ScopedDeployment,
-    options?: DeploymentsCreateOrUpdateAtTenantScopeOptionalParams
+    options?: DeploymentsCreateOrUpdateAtTenantScopeOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<DeploymentsCreateOrUpdateAtTenantScopeResponse>,
@@ -344,7 +344,7 @@ export interface Deployments {
   beginCreateOrUpdateAtTenantScopeAndWait(
     deploymentName: string,
     parameters: ScopedDeployment,
-    options?: DeploymentsCreateOrUpdateAtTenantScopeOptionalParams
+    options?: DeploymentsCreateOrUpdateAtTenantScopeOptionalParams,
   ): Promise<DeploymentsCreateOrUpdateAtTenantScopeResponse>;
   /**
    * Gets a deployment.
@@ -353,7 +353,7 @@ export interface Deployments {
    */
   getAtTenantScope(
     deploymentName: string,
-    options?: DeploymentsGetAtTenantScopeOptionalParams
+    options?: DeploymentsGetAtTenantScopeOptionalParams,
   ): Promise<DeploymentsGetAtTenantScopeResponse>;
   /**
    * You can cancel a deployment only if the provisioningState is Accepted or Running. After the
@@ -364,7 +364,7 @@ export interface Deployments {
    */
   cancelAtTenantScope(
     deploymentName: string,
-    options?: DeploymentsCancelAtTenantScopeOptionalParams
+    options?: DeploymentsCancelAtTenantScopeOptionalParams,
   ): Promise<void>;
   /**
    * Validates whether the specified template is syntactically correct and will be accepted by Azure
@@ -376,7 +376,7 @@ export interface Deployments {
   beginValidateAtTenantScope(
     deploymentName: string,
     parameters: ScopedDeployment,
-    options?: DeploymentsValidateAtTenantScopeOptionalParams
+    options?: DeploymentsValidateAtTenantScopeOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<DeploymentsValidateAtTenantScopeResponse>,
@@ -393,7 +393,7 @@ export interface Deployments {
   beginValidateAtTenantScopeAndWait(
     deploymentName: string,
     parameters: ScopedDeployment,
-    options?: DeploymentsValidateAtTenantScopeOptionalParams
+    options?: DeploymentsValidateAtTenantScopeOptionalParams,
   ): Promise<DeploymentsValidateAtTenantScopeResponse>;
   /**
    * Returns changes that will be made by the deployment if executed at the scope of the tenant group.
@@ -404,7 +404,7 @@ export interface Deployments {
   beginWhatIfAtTenantScope(
     deploymentName: string,
     parameters: ScopedDeploymentWhatIf,
-    options?: DeploymentsWhatIfAtTenantScopeOptionalParams
+    options?: DeploymentsWhatIfAtTenantScopeOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<DeploymentsWhatIfAtTenantScopeResponse>,
@@ -420,7 +420,7 @@ export interface Deployments {
   beginWhatIfAtTenantScopeAndWait(
     deploymentName: string,
     parameters: ScopedDeploymentWhatIf,
-    options?: DeploymentsWhatIfAtTenantScopeOptionalParams
+    options?: DeploymentsWhatIfAtTenantScopeOptionalParams,
   ): Promise<DeploymentsWhatIfAtTenantScopeResponse>;
   /**
    * Exports the template used for specified deployment.
@@ -429,7 +429,7 @@ export interface Deployments {
    */
   exportTemplateAtTenantScope(
     deploymentName: string,
-    options?: DeploymentsExportTemplateAtTenantScopeOptionalParams
+    options?: DeploymentsExportTemplateAtTenantScopeOptionalParams,
   ): Promise<DeploymentsExportTemplateAtTenantScopeResponse>;
   /**
    * A template deployment that is currently running cannot be deleted. Deleting a template deployment
@@ -446,7 +446,7 @@ export interface Deployments {
   beginDeleteAtManagementGroupScope(
     groupId: string,
     deploymentName: string,
-    options?: DeploymentsDeleteAtManagementGroupScopeOptionalParams
+    options?: DeploymentsDeleteAtManagementGroupScopeOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * A template deployment that is currently running cannot be deleted. Deleting a template deployment
@@ -463,7 +463,7 @@ export interface Deployments {
   beginDeleteAtManagementGroupScopeAndWait(
     groupId: string,
     deploymentName: string,
-    options?: DeploymentsDeleteAtManagementGroupScopeOptionalParams
+    options?: DeploymentsDeleteAtManagementGroupScopeOptionalParams,
   ): Promise<void>;
   /**
    * Checks whether the deployment exists.
@@ -474,7 +474,7 @@ export interface Deployments {
   checkExistenceAtManagementGroupScope(
     groupId: string,
     deploymentName: string,
-    options?: DeploymentsCheckExistenceAtManagementGroupScopeOptionalParams
+    options?: DeploymentsCheckExistenceAtManagementGroupScopeOptionalParams,
   ): Promise<DeploymentsCheckExistenceAtManagementGroupScopeResponse>;
   /**
    * You can provide the template and parameters directly in the request or link to JSON files.
@@ -487,7 +487,7 @@ export interface Deployments {
     groupId: string,
     deploymentName: string,
     parameters: ScopedDeployment,
-    options?: DeploymentsCreateOrUpdateAtManagementGroupScopeOptionalParams
+    options?: DeploymentsCreateOrUpdateAtManagementGroupScopeOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<DeploymentsCreateOrUpdateAtManagementGroupScopeResponse>,
@@ -505,7 +505,7 @@ export interface Deployments {
     groupId: string,
     deploymentName: string,
     parameters: ScopedDeployment,
-    options?: DeploymentsCreateOrUpdateAtManagementGroupScopeOptionalParams
+    options?: DeploymentsCreateOrUpdateAtManagementGroupScopeOptionalParams,
   ): Promise<DeploymentsCreateOrUpdateAtManagementGroupScopeResponse>;
   /**
    * Gets a deployment.
@@ -516,7 +516,7 @@ export interface Deployments {
   getAtManagementGroupScope(
     groupId: string,
     deploymentName: string,
-    options?: DeploymentsGetAtManagementGroupScopeOptionalParams
+    options?: DeploymentsGetAtManagementGroupScopeOptionalParams,
   ): Promise<DeploymentsGetAtManagementGroupScopeResponse>;
   /**
    * You can cancel a deployment only if the provisioningState is Accepted or Running. After the
@@ -529,7 +529,7 @@ export interface Deployments {
   cancelAtManagementGroupScope(
     groupId: string,
     deploymentName: string,
-    options?: DeploymentsCancelAtManagementGroupScopeOptionalParams
+    options?: DeploymentsCancelAtManagementGroupScopeOptionalParams,
   ): Promise<void>;
   /**
    * Validates whether the specified template is syntactically correct and will be accepted by Azure
@@ -543,7 +543,7 @@ export interface Deployments {
     groupId: string,
     deploymentName: string,
     parameters: ScopedDeployment,
-    options?: DeploymentsValidateAtManagementGroupScopeOptionalParams
+    options?: DeploymentsValidateAtManagementGroupScopeOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<DeploymentsValidateAtManagementGroupScopeResponse>,
@@ -562,7 +562,7 @@ export interface Deployments {
     groupId: string,
     deploymentName: string,
     parameters: ScopedDeployment,
-    options?: DeploymentsValidateAtManagementGroupScopeOptionalParams
+    options?: DeploymentsValidateAtManagementGroupScopeOptionalParams,
   ): Promise<DeploymentsValidateAtManagementGroupScopeResponse>;
   /**
    * Returns changes that will be made by the deployment if executed at the scope of the management
@@ -576,7 +576,7 @@ export interface Deployments {
     groupId: string,
     deploymentName: string,
     parameters: ScopedDeploymentWhatIf,
-    options?: DeploymentsWhatIfAtManagementGroupScopeOptionalParams
+    options?: DeploymentsWhatIfAtManagementGroupScopeOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<DeploymentsWhatIfAtManagementGroupScopeResponse>,
@@ -595,7 +595,7 @@ export interface Deployments {
     groupId: string,
     deploymentName: string,
     parameters: ScopedDeploymentWhatIf,
-    options?: DeploymentsWhatIfAtManagementGroupScopeOptionalParams
+    options?: DeploymentsWhatIfAtManagementGroupScopeOptionalParams,
   ): Promise<DeploymentsWhatIfAtManagementGroupScopeResponse>;
   /**
    * Exports the template used for specified deployment.
@@ -606,7 +606,7 @@ export interface Deployments {
   exportTemplateAtManagementGroupScope(
     groupId: string,
     deploymentName: string,
-    options?: DeploymentsExportTemplateAtManagementGroupScopeOptionalParams
+    options?: DeploymentsExportTemplateAtManagementGroupScopeOptionalParams,
   ): Promise<DeploymentsExportTemplateAtManagementGroupScopeResponse>;
   /**
    * A template deployment that is currently running cannot be deleted. Deleting a template deployment
@@ -621,7 +621,7 @@ export interface Deployments {
    */
   beginDeleteAtSubscriptionScope(
     deploymentName: string,
-    options?: DeploymentsDeleteAtSubscriptionScopeOptionalParams
+    options?: DeploymentsDeleteAtSubscriptionScopeOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * A template deployment that is currently running cannot be deleted. Deleting a template deployment
@@ -636,7 +636,7 @@ export interface Deployments {
    */
   beginDeleteAtSubscriptionScopeAndWait(
     deploymentName: string,
-    options?: DeploymentsDeleteAtSubscriptionScopeOptionalParams
+    options?: DeploymentsDeleteAtSubscriptionScopeOptionalParams,
   ): Promise<void>;
   /**
    * Checks whether the deployment exists.
@@ -645,7 +645,7 @@ export interface Deployments {
    */
   checkExistenceAtSubscriptionScope(
     deploymentName: string,
-    options?: DeploymentsCheckExistenceAtSubscriptionScopeOptionalParams
+    options?: DeploymentsCheckExistenceAtSubscriptionScopeOptionalParams,
   ): Promise<DeploymentsCheckExistenceAtSubscriptionScopeResponse>;
   /**
    * You can provide the template and parameters directly in the request or link to JSON files.
@@ -656,7 +656,7 @@ export interface Deployments {
   beginCreateOrUpdateAtSubscriptionScope(
     deploymentName: string,
     parameters: Deployment,
-    options?: DeploymentsCreateOrUpdateAtSubscriptionScopeOptionalParams
+    options?: DeploymentsCreateOrUpdateAtSubscriptionScopeOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<DeploymentsCreateOrUpdateAtSubscriptionScopeResponse>,
@@ -672,7 +672,7 @@ export interface Deployments {
   beginCreateOrUpdateAtSubscriptionScopeAndWait(
     deploymentName: string,
     parameters: Deployment,
-    options?: DeploymentsCreateOrUpdateAtSubscriptionScopeOptionalParams
+    options?: DeploymentsCreateOrUpdateAtSubscriptionScopeOptionalParams,
   ): Promise<DeploymentsCreateOrUpdateAtSubscriptionScopeResponse>;
   /**
    * Gets a deployment.
@@ -681,7 +681,7 @@ export interface Deployments {
    */
   getAtSubscriptionScope(
     deploymentName: string,
-    options?: DeploymentsGetAtSubscriptionScopeOptionalParams
+    options?: DeploymentsGetAtSubscriptionScopeOptionalParams,
   ): Promise<DeploymentsGetAtSubscriptionScopeResponse>;
   /**
    * You can cancel a deployment only if the provisioningState is Accepted or Running. After the
@@ -692,7 +692,7 @@ export interface Deployments {
    */
   cancelAtSubscriptionScope(
     deploymentName: string,
-    options?: DeploymentsCancelAtSubscriptionScopeOptionalParams
+    options?: DeploymentsCancelAtSubscriptionScopeOptionalParams,
   ): Promise<void>;
   /**
    * Validates whether the specified template is syntactically correct and will be accepted by Azure
@@ -704,7 +704,7 @@ export interface Deployments {
   beginValidateAtSubscriptionScope(
     deploymentName: string,
     parameters: Deployment,
-    options?: DeploymentsValidateAtSubscriptionScopeOptionalParams
+    options?: DeploymentsValidateAtSubscriptionScopeOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<DeploymentsValidateAtSubscriptionScopeResponse>,
@@ -721,7 +721,7 @@ export interface Deployments {
   beginValidateAtSubscriptionScopeAndWait(
     deploymentName: string,
     parameters: Deployment,
-    options?: DeploymentsValidateAtSubscriptionScopeOptionalParams
+    options?: DeploymentsValidateAtSubscriptionScopeOptionalParams,
   ): Promise<DeploymentsValidateAtSubscriptionScopeResponse>;
   /**
    * Returns changes that will be made by the deployment if executed at the scope of the subscription.
@@ -732,7 +732,7 @@ export interface Deployments {
   beginWhatIfAtSubscriptionScope(
     deploymentName: string,
     parameters: DeploymentWhatIf,
-    options?: DeploymentsWhatIfAtSubscriptionScopeOptionalParams
+    options?: DeploymentsWhatIfAtSubscriptionScopeOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<DeploymentsWhatIfAtSubscriptionScopeResponse>,
@@ -748,7 +748,7 @@ export interface Deployments {
   beginWhatIfAtSubscriptionScopeAndWait(
     deploymentName: string,
     parameters: DeploymentWhatIf,
-    options?: DeploymentsWhatIfAtSubscriptionScopeOptionalParams
+    options?: DeploymentsWhatIfAtSubscriptionScopeOptionalParams,
   ): Promise<DeploymentsWhatIfAtSubscriptionScopeResponse>;
   /**
    * Exports the template used for specified deployment.
@@ -757,7 +757,7 @@ export interface Deployments {
    */
   exportTemplateAtSubscriptionScope(
     deploymentName: string,
-    options?: DeploymentsExportTemplateAtSubscriptionScopeOptionalParams
+    options?: DeploymentsExportTemplateAtSubscriptionScopeOptionalParams,
   ): Promise<DeploymentsExportTemplateAtSubscriptionScopeResponse>;
   /**
    * A template deployment that is currently running cannot be deleted. Deleting a template deployment
@@ -776,7 +776,7 @@ export interface Deployments {
   beginDelete(
     resourceGroupName: string,
     deploymentName: string,
-    options?: DeploymentsDeleteOptionalParams
+    options?: DeploymentsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * A template deployment that is currently running cannot be deleted. Deleting a template deployment
@@ -795,7 +795,7 @@ export interface Deployments {
   beginDeleteAndWait(
     resourceGroupName: string,
     deploymentName: string,
-    options?: DeploymentsDeleteOptionalParams
+    options?: DeploymentsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Checks whether the deployment exists.
@@ -807,7 +807,7 @@ export interface Deployments {
   checkExistence(
     resourceGroupName: string,
     deploymentName: string,
-    options?: DeploymentsCheckExistenceOptionalParams
+    options?: DeploymentsCheckExistenceOptionalParams,
   ): Promise<DeploymentsCheckExistenceResponse>;
   /**
    * You can provide the template and parameters directly in the request or link to JSON files.
@@ -821,7 +821,7 @@ export interface Deployments {
     resourceGroupName: string,
     deploymentName: string,
     parameters: Deployment,
-    options?: DeploymentsCreateOrUpdateOptionalParams
+    options?: DeploymentsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<DeploymentsCreateOrUpdateResponse>,
@@ -840,7 +840,7 @@ export interface Deployments {
     resourceGroupName: string,
     deploymentName: string,
     parameters: Deployment,
-    options?: DeploymentsCreateOrUpdateOptionalParams
+    options?: DeploymentsCreateOrUpdateOptionalParams,
   ): Promise<DeploymentsCreateOrUpdateResponse>;
   /**
    * Gets a deployment.
@@ -851,7 +851,7 @@ export interface Deployments {
   get(
     resourceGroupName: string,
     deploymentName: string,
-    options?: DeploymentsGetOptionalParams
+    options?: DeploymentsGetOptionalParams,
   ): Promise<DeploymentsGetResponse>;
   /**
    * You can cancel a deployment only if the provisioningState is Accepted or Running. After the
@@ -864,7 +864,7 @@ export interface Deployments {
   cancel(
     resourceGroupName: string,
     deploymentName: string,
-    options?: DeploymentsCancelOptionalParams
+    options?: DeploymentsCancelOptionalParams,
   ): Promise<void>;
   /**
    * Validates whether the specified template is syntactically correct and will be accepted by Azure
@@ -879,7 +879,7 @@ export interface Deployments {
     resourceGroupName: string,
     deploymentName: string,
     parameters: Deployment,
-    options?: DeploymentsValidateOptionalParams
+    options?: DeploymentsValidateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<DeploymentsValidateResponse>,
@@ -899,7 +899,7 @@ export interface Deployments {
     resourceGroupName: string,
     deploymentName: string,
     parameters: Deployment,
-    options?: DeploymentsValidateOptionalParams
+    options?: DeploymentsValidateOptionalParams,
   ): Promise<DeploymentsValidateResponse>;
   /**
    * Returns changes that will be made by the deployment if executed at the scope of the resource group.
@@ -913,7 +913,7 @@ export interface Deployments {
     resourceGroupName: string,
     deploymentName: string,
     parameters: DeploymentWhatIf,
-    options?: DeploymentsWhatIfOptionalParams
+    options?: DeploymentsWhatIfOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<DeploymentsWhatIfResponse>,
@@ -932,7 +932,7 @@ export interface Deployments {
     resourceGroupName: string,
     deploymentName: string,
     parameters: DeploymentWhatIf,
-    options?: DeploymentsWhatIfOptionalParams
+    options?: DeploymentsWhatIfOptionalParams,
   ): Promise<DeploymentsWhatIfResponse>;
   /**
    * Exports the template used for specified deployment.
@@ -943,7 +943,7 @@ export interface Deployments {
   exportTemplate(
     resourceGroupName: string,
     deploymentName: string,
-    options?: DeploymentsExportTemplateOptionalParams
+    options?: DeploymentsExportTemplateOptionalParams,
   ): Promise<DeploymentsExportTemplateResponse>;
   /**
    * Calculate the hash of the given template.
@@ -952,6 +952,6 @@ export interface Deployments {
    */
   calculateTemplateHash(
     template: Record<string, unknown>,
-    options?: DeploymentsCalculateTemplateHashOptionalParams
+    options?: DeploymentsCalculateTemplateHashOptionalParams,
   ): Promise<DeploymentsCalculateTemplateHashResponse>;
 }

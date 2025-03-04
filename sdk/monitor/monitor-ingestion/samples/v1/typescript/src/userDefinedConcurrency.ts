@@ -10,7 +10,7 @@ import { isAggregateLogsUploadError, LogsIngestionClient } from "@azure/monitor-
 
 require("dotenv").config();
 
-async function main() {
+async function main(): Promise<void> {
   const logsIngestionEndpoint = process.env.LOGS_INGESTION_ENDPOINT || "logs_ingestion_endpoint";
   const ruleId = process.env.DATA_COLLECTION_RULE_ID || "data_collection_rule_id";
   const streamName = process.env.STREAM_NAME || "data_stream_name";

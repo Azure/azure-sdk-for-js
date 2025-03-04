@@ -7,9 +7,7 @@
  */
 import { StreamAnalyticsManagementClient } from "@azure/arm-streamanalytics";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Deletes a streaming job.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Deletes a streaming job.
  * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/preview/2021-10-01-preview/examples/StreamingJob_Delete.json
  */
-async function deleteAStreamingJob() {
+async function deleteAStreamingJob(): Promise<void> {
   const subscriptionId =
     process.env["STREAMANALYTICS_SUBSCRIPTION_ID"] || "56b5e0a9-b645-407d-99b0-c64f86013e3d";
   const resourceGroupName = process.env["STREAMANALYTICS_RESOURCE_GROUP"] || "sjrg6936";
@@ -28,7 +26,7 @@ async function deleteAStreamingJob() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await deleteAStreamingJob();
 }
 

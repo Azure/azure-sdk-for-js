@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary create a BrokerListenerResource
  * x-ms-original-file: 2024-11-01/BrokerListener_CreateOrUpdate_Complex.json
  */
-async function brokerListenerCreateOrUpdateComplex() {
+async function brokerListenerCreateOrUpdateComplex(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "F8C729F9-DF9C-4743-848F-96EE433D8E53";
   const client = new IoTOperationsClient(credential, subscriptionId);
@@ -66,7 +66,7 @@ async function brokerListenerCreateOrUpdateComplex() {
  * @summary create a BrokerListenerResource
  * x-ms-original-file: 2024-11-01/BrokerListener_CreateOrUpdate_MaximumSet_Gen.json
  */
-async function brokerListenerCreateOrUpdate() {
+async function brokerListenerCreateOrUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "F8C729F9-DF9C-4743-848F-96EE433D8E53";
   const client = new IoTOperationsClient(credential, subscriptionId);
@@ -123,7 +123,7 @@ async function brokerListenerCreateOrUpdate() {
  * @summary create a BrokerListenerResource
  * x-ms-original-file: 2024-11-01/BrokerListener_CreateOrUpdate_Simple.json
  */
-async function brokerListenerCreateOrUpdateSimple() {
+async function brokerListenerCreateOrUpdateSimple(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "F8C729F9-DF9C-4743-848F-96EE433D8E53";
   const client = new IoTOperationsClient(credential, subscriptionId);
@@ -143,7 +143,7 @@ async function brokerListenerCreateOrUpdateSimple() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   brokerListenerCreateOrUpdateComplex();
   brokerListenerCreateOrUpdate();
   brokerListenerCreateOrUpdateSimple();

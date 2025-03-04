@@ -6,22 +6,22 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { CalculateExchange } from "../operationsInterfaces";
+import { CalculateExchange } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { AzureReservationAPI } from "../azureReservationAPI";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { AzureReservationAPI } from "../azureReservationAPI.js";
 import {
   SimplePollerLike,
   OperationState,
   createHttpPoller
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl";
+import { createLroSpec } from "../lroImpl.js";
 import {
   CalculateExchangeRequest,
   CalculateExchangePostOptionalParams,
   CalculateExchangePostResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Class containing CalculateExchange operations. */
 export class CalculateExchangeImpl implements CalculateExchange {

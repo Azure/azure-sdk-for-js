@@ -10,13 +10,13 @@
 // Licensed under the MIT License.
 const { ContainerRegistryManagementClient } = require("@azure/arm-containerregistry");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Creates a credential set for a container registry with the specified parameters.
  *
  * @summary Creates a credential set for a container registry with the specified parameters.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2023-11-01-preview/examples/CredentialSetCreate.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2024-11-01-preview/examples/CredentialSetCreate.json
  */
 async function credentialSetCreate() {
   const subscriptionId =
@@ -41,13 +41,13 @@ async function credentialSetCreate() {
     resourceGroupName,
     registryName,
     credentialSetName,
-    credentialSetCreateParameters
+    credentialSetCreateParameters,
   );
   console.log(result);
 }
 
 async function main() {
-  credentialSetCreate();
+  await credentialSetCreate();
 }
 
 main().catch(console.error);

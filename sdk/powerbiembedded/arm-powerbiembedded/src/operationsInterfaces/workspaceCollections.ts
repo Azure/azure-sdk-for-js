@@ -31,7 +31,7 @@ import {
   WorkspaceCollectionsRegenerateKeyResponse,
   MigrateWorkspaceCollectionRequest,
   WorkspaceCollectionsMigrateOptionalParams
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a WorkspaceCollections. */

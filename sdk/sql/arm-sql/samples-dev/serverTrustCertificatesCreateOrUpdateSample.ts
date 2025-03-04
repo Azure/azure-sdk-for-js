@@ -8,9 +8,7 @@
 import type { ServerTrustCertificate } from "@azure/arm-sql";
 import { SqlManagementClient } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Uploads a server trust certificate from box to Sql Managed Instance.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Uploads a server trust certificate from box to Sql Managed Instance.
  * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2021-11-01-preview/examples/ServerTrustCertificatesCreate.json
  */
-async function createServerTrustCertificate() {
+async function createServerTrustCertificate(): Promise<void> {
   const subscriptionId =
     process.env["SQL_SUBSCRIPTION_ID"] || "0574222d-5c7f-489c-a172-b3013eafab53";
   const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "testrg";
@@ -38,7 +36,7 @@ async function createServerTrustCertificate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await createServerTrustCertificate();
 }
 

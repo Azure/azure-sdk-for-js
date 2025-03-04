@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Deletes a virtual endpoint.
  * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2024-08-01/examples/VirtualEndpointDelete.json
  */
-async function deleteAVirtualEndpoint() {
+async function deleteAVirtualEndpoint(): Promise<void> {
   const subscriptionId =
     process.env["POSTGRESQL_SUBSCRIPTION_ID"] || "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const resourceGroupName = process.env["POSTGRESQL_RESOURCE_GROUP"] || "testrg";
@@ -31,7 +31,7 @@ async function deleteAVirtualEndpoint() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await deleteAVirtualEndpoint();
 }
 

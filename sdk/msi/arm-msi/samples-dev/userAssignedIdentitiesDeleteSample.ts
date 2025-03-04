@@ -7,9 +7,7 @@
  */
 import { ManagedServiceIdentityClient } from "@azure/arm-msi";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Deletes the identity.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Deletes the identity.
  * x-ms-original-file: specification/msi/resource-manager/Microsoft.ManagedIdentity/stable/2023-01-31/examples/IdentityDelete.json
  */
-async function identityDelete() {
+async function identityDelete(): Promise<void> {
   const subscriptionId = process.env["MSI_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["MSI_RESOURCE_GROUP"] || "rgName";
   const resourceName = "resourceName";
@@ -27,7 +25,7 @@ async function identityDelete() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await identityDelete();
 }
 

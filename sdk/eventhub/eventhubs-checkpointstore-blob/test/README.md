@@ -24,5 +24,3 @@ The live tests in this project will create and delete containers in the storage 
 - In the Azure portal, go to your Azure Storage account and assign **Storage Blob Data Contributor** role to your user or managed identity.
 - This can be done from `Role assignment` section of `Access control (IAM)` tab (in the left-side-navbar of your Storage account in the azure-portal)
 - For more information on Azure Storage RBAC setup: [Learn more](https://learn.microsoft.com/azure/storage/blobs/assign-azure-role-data-access)
-
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%eventhub%2Feventhubs-checkpointstore-blob%2Ftest%2FREADME.png)

@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { HDInsightManagementClient } from "@azure/arm-hdinsight";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists the HDInsight clusters hosts
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Lists the HDInsight clusters hosts
  * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2024-08-01-preview/examples/GetClusterVirtualMachines.json
  */
-async function getAllHostsInTheCluster() {
+async function getAllHostsInTheCluster(): Promise<void> {
   const subscriptionId = process.env["HDINSIGHT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["HDINSIGHT_RESOURCE_GROUP"] || "rg1";
   const clusterName = "cluster1";
@@ -33,7 +31,7 @@ async function getAllHostsInTheCluster() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getAllHostsInTheCluster();
 }
 

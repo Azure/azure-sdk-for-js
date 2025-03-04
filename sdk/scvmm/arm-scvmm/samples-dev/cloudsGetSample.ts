@@ -7,9 +7,7 @@
  */
 import { ScVmm } from "@azure/arm-scvmm";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Implements Cloud GET method.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Implements Cloud GET method.
  * x-ms-original-file: specification/scvmm/resource-manager/Microsoft.ScVmm/stable/2023-10-07/examples/Clouds_Get_MaximumSet_Gen.json
  */
-async function cloudsGetMaximumSet() {
+async function cloudsGetMaximumSet(): Promise<void> {
   const subscriptionId =
     process.env["SCVMM_SUBSCRIPTION_ID"] || "79332E5A-630B-480F-A266-A941C015AB19";
   const resourceGroupName = process.env["SCVMM_RESOURCE_GROUP"] || "rgscvmm";
@@ -34,7 +32,7 @@ async function cloudsGetMaximumSet() {
  * @summary Implements Cloud GET method.
  * x-ms-original-file: specification/scvmm/resource-manager/Microsoft.ScVmm/stable/2023-10-07/examples/Clouds_Get_MinimumSet_Gen.json
  */
-async function cloudsGetMinimumSet() {
+async function cloudsGetMinimumSet(): Promise<void> {
   const subscriptionId =
     process.env["SCVMM_SUBSCRIPTION_ID"] || "79332E5A-630B-480F-A266-A941C015AB19";
   const resourceGroupName = process.env["SCVMM_RESOURCE_GROUP"] || "rgscvmm";
@@ -45,7 +43,7 @@ async function cloudsGetMinimumSet() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await cloudsGetMaximumSet();
   await cloudsGetMinimumSet();
 }

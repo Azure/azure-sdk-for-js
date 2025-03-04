@@ -8,9 +8,7 @@
 import type { PartialMinimalTrackedResourceWithSku } from "@azure/arm-machinelearning";
 import { AzureMachineLearningServicesManagementClient } from "@azure/arm-machinelearning";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Update Online Deployment (asynchronous).
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Update Online Deployment (asynchronous).
  * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2024-04-01/examples/OnlineDeployment/KubernetesOnlineDeployment/update.json
  */
-async function updateKubernetesOnlineDeployment() {
+async function updateKubernetesOnlineDeployment(): Promise<void> {
   const subscriptionId =
     process.env["MACHINELEARNING_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
   const resourceGroupName = process.env["MACHINELEARNING_RESOURCE_GROUP"] || "test-rg";
@@ -53,7 +51,7 @@ async function updateKubernetesOnlineDeployment() {
  * @summary Update Online Deployment (asynchronous).
  * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2024-04-01/examples/OnlineDeployment/ManagedOnlineDeployment/update.json
  */
-async function updateManagedOnlineDeployment() {
+async function updateManagedOnlineDeployment(): Promise<void> {
   const subscriptionId =
     process.env["MACHINELEARNING_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
   const resourceGroupName = process.env["MACHINELEARNING_RESOURCE_GROUP"] || "test-rg";
@@ -82,7 +80,7 @@ async function updateManagedOnlineDeployment() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await updateKubernetesOnlineDeployment();
   await updateManagedOnlineDeployment();
 }

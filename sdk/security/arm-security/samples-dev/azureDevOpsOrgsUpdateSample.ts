@@ -8,9 +8,7 @@
 import type { AzureDevOpsOrg } from "@azure/arm-security";
 import { SecurityCenter } from "@azure/arm-security";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Updates monitored Azure DevOps organization details.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Updates monitored Azure DevOps organization details.
  * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/preview/2023-09-01-preview/examples/SecurityConnectorsDevOps/UpdateAzureDevOpsOrgs_example.json
  */
-async function updateAzureDevOpsOrgs() {
+async function updateAzureDevOpsOrgs(): Promise<void> {
   const subscriptionId =
     process.env["SECURITY_SUBSCRIPTION_ID"] || "0806e1cd-cfda-4ff8-b99c-2b0af42cffd3";
   const resourceGroupName = process.env["SECURITY_RESOURCE_GROUP"] || "myRg";
@@ -41,7 +39,7 @@ async function updateAzureDevOpsOrgs() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await updateAzureDevOpsOrgs();
 }
 

@@ -238,7 +238,7 @@ export const registrationDescriptionParser: RegistrationDescriptionParser = {
       admRegistrationId: getString(
         rawRegistrationDescription["AdmRegistrationId"],
         "admRegistrationId",
-      ),
+      ).trim(),
       ...createRegistrationDescription(rawRegistrationDescription),
       kind: "Adm",
     };
@@ -266,7 +266,7 @@ export const registrationDescriptionParser: RegistrationDescriptionParser = {
     rawRegistrationDescription: Record<string, any>,
   ): AppleRegistrationDescription {
     return {
-      deviceToken: getString(rawRegistrationDescription["DeviceToken"], "deviceToken"),
+      deviceToken: getString(rawRegistrationDescription["DeviceToken"], "deviceToken").trim(),
       ...createRegistrationDescription(rawRegistrationDescription),
       kind: "Apple",
     };
@@ -280,7 +280,7 @@ export const registrationDescriptionParser: RegistrationDescriptionParser = {
     rawRegistrationDescription: Record<string, any>,
   ): AppleTemplateRegistrationDescription {
     return {
-      priority: getStringOrUndefined(rawRegistrationDescription["Priority"]) as "10" | "5",
+      priority: getStringOrUndefined(rawRegistrationDescription["Priority"])?.trim() as "10" | "5",
       apnsHeaders: getHeadersOrUndefined(rawRegistrationDescription["ApnsHeaders"]?.["ApnsHeader"]),
       ...this.createAppleRegistrationDescription(rawRegistrationDescription),
       ...createTemplateRegistrationDescription(rawRegistrationDescription),
@@ -296,8 +296,11 @@ export const registrationDescriptionParser: RegistrationDescriptionParser = {
     rawRegistrationDescription: Record<string, any>,
   ): BaiduRegistrationDescription {
     return {
-      baiduChannelId: getString(rawRegistrationDescription["BaiduChannelId"], "baiduChannelId"),
-      baiduUserId: getString(rawRegistrationDescription["BaiduUserId"], "baiduUserId"),
+      baiduChannelId: getString(
+        rawRegistrationDescription["BaiduChannelId"],
+        "baiduChannelId",
+      ).trim(),
+      baiduUserId: getString(rawRegistrationDescription["BaiduUserId"], "baiduUserId").trim(),
       ...createRegistrationDescription(rawRegistrationDescription),
       kind: "Baidu",
     };
@@ -325,9 +328,9 @@ export const registrationDescriptionParser: RegistrationDescriptionParser = {
     rawRegistrationDescription: Record<string, any>,
   ): BrowserRegistrationDescription {
     return {
-      endpoint: getString(rawRegistrationDescription["Endpoint"], "endpoint"),
-      p256dh: getString(rawRegistrationDescription["P256DH"], "p256dh"),
-      auth: getString(rawRegistrationDescription["Auth"], "auth"),
+      endpoint: getString(rawRegistrationDescription["Endpoint"], "endpoint").trim(),
+      p256dh: getString(rawRegistrationDescription["P256DH"], "p256dh").trim(),
+      auth: getString(rawRegistrationDescription["Auth"], "auth").trim(),
       ...createRegistrationDescription(rawRegistrationDescription),
       kind: "Browser",
     };
@@ -357,7 +360,7 @@ export const registrationDescriptionParser: RegistrationDescriptionParser = {
       fcmV1RegistrationId: getString(
         rawRegistrationDescription["FcmV1RegistrationId"],
         "fcmV1RegistrationId",
-      ),
+      ).trim(),
       ...createRegistrationDescription(rawRegistrationDescription),
       kind: "FcmV1",
     };
@@ -388,7 +391,7 @@ export const registrationDescriptionParser: RegistrationDescriptionParser = {
       gcmRegistrationId: getString(
         rawRegistrationDescription["GcmRegistrationId"],
         "gcmRegistrationId",
-      ),
+      ).trim(),
       ...createRegistrationDescription(rawRegistrationDescription),
       kind: "Gcm",
     };
@@ -416,7 +419,7 @@ export const registrationDescriptionParser: RegistrationDescriptionParser = {
     rawRegistrationDescription: Record<string, any>,
   ): MpnsRegistrationDescription {
     return {
-      channelUri: getString(rawRegistrationDescription["ChannelUri"], "channelUri"),
+      channelUri: getString(rawRegistrationDescription["ChannelUri"], "channelUri").trim(),
       ...createRegistrationDescription(rawRegistrationDescription),
       kind: "Mpns",
     };
@@ -448,7 +451,7 @@ export const registrationDescriptionParser: RegistrationDescriptionParser = {
       xiaomiRegistrationId: getString(
         rawRegistrationDescription["XiaomiRegistrationId"],
         "xiaomiRegistrationId",
-      ),
+      ).trim(),
       ...createRegistrationDescription(rawRegistrationDescription),
       kind: "Xiaomi",
     };
@@ -476,7 +479,7 @@ export const registrationDescriptionParser: RegistrationDescriptionParser = {
     rawRegistrationDescription: Record<string, any>,
   ): WindowsRegistrationDescription {
     return {
-      channelUri: getString(rawRegistrationDescription["ChannelUri"], "channelUri"),
+      channelUri: getString(rawRegistrationDescription["ChannelUri"], "channelUri").trim(),
       ...createRegistrationDescription(rawRegistrationDescription),
       kind: "Windows",
     };
@@ -517,15 +520,15 @@ function createRegistrationDescription(
   rawRegistrationDescription: Record<string, any>,
 ): Omit<RegistrationDescriptionCommon, "kind"> {
   let pushVariables: Record<string, string> | undefined;
-  const unparsed = getStringOrUndefined(rawRegistrationDescription["PushVariables"]);
+  const unparsed = getStringOrUndefined(rawRegistrationDescription["PushVariables"])?.trim();
   if (unparsed) {
     pushVariables = JSON.parse(unparsed) as Record<string, string>;
   }
 
   return {
-    registrationId: getStringOrUndefined(rawRegistrationDescription["RegistrationId"]),
+    registrationId: getStringOrUndefined(rawRegistrationDescription["RegistrationId"])?.trim(),
     expirationTime: getDateOrUndefined(rawRegistrationDescription["ExpirationTime"]),
-    etag: getStringOrUndefined(rawRegistrationDescription["ETag"]),
+    etag: getStringOrUndefined(rawRegistrationDescription["ETag"])?.trim(),
     tags: getTagsOrUndefined(rawRegistrationDescription["Tags"]),
     pushVariables: pushVariables,
   };
@@ -535,8 +538,8 @@ function createTemplateRegistrationDescription(
   rawRegistrationDescription: Record<string, any>,
 ): TemplateRegistrationDescription {
   return {
-    bodyTemplate: getString(rawRegistrationDescription["BodyTemplate"], "bodyTemplate"),
-    templateName: getStringOrUndefined(rawRegistrationDescription["TemplateName"]),
+    bodyTemplate: getString(rawRegistrationDescription["BodyTemplate"], "bodyTemplate").trim(),
+    templateName: getStringOrUndefined(rawRegistrationDescription["TemplateName"])?.trim(),
     ...createRegistrationDescription(rawRegistrationDescription),
   };
 }
@@ -709,7 +712,7 @@ export const registrationDescriptionSerializer: RegistrationDescriptionSerialize
   ): Record<string, any> {
     return {
       ...serializeRegistrationDescription(description),
-      AdmRegistrationId: getString(description.admRegistrationId, "admRegistrationId"),
+      AdmRegistrationId: getString(description.admRegistrationId, "admRegistrationId").trim(),
     };
   },
 
@@ -735,7 +738,7 @@ export const registrationDescriptionSerializer: RegistrationDescriptionSerialize
   ): Record<string, any> {
     return {
       ...serializeRegistrationDescription(description),
-      DeviceToken: getString(description.deviceToken, "deviceToken"),
+      DeviceToken: getString(description.deviceToken, "deviceToken").trim(),
     };
   },
 
@@ -754,8 +757,8 @@ export const registrationDescriptionSerializer: RegistrationDescriptionSerialize
 
       for (const header of Object.keys(description.apnsHeaders)) {
         apnsHeaders["ApnsHeader"].push({
-          Header: header,
-          Value: description.apnsHeaders[header],
+          Header: header.trim(),
+          Value: description.apnsHeaders[header].trim(),
         });
       }
     }
@@ -763,7 +766,7 @@ export const registrationDescriptionSerializer: RegistrationDescriptionSerialize
     return {
       ...this.serializeAppleRegistrationDescription(description),
       ...serializeTemplateRegistrationDescription(description),
-      Expiry: getStringOrUndefined(description.expiry),
+      Expiry: getStringOrUndefined(description.expiry)?.trim(),
       ApnsHeaders: apnsHeaders,
     };
   },
@@ -777,8 +780,8 @@ export const registrationDescriptionSerializer: RegistrationDescriptionSerialize
   ): Record<string, any> {
     return {
       ...serializeRegistrationDescription(description),
-      BaiduChannelId: getString(description.baiduChannelId, "baiduChannelId"),
-      BaiduUserId: getString(description.baiduUserId, "baiduUserId"),
+      BaiduChannelId: getString(description.baiduChannelId, "baiduChannelId").trim(),
+      BaiduUserId: getString(description.baiduUserId, "baiduUserId").trim(),
     };
   },
 
@@ -832,7 +835,7 @@ export const registrationDescriptionSerializer: RegistrationDescriptionSerialize
   ): Record<string, any> {
     return {
       ...serializeRegistrationDescription(description),
-      FcmV1RegistrationId: getString(description.fcmV1RegistrationId, "fcmRegistrationId"),
+      FcmV1RegistrationId: getString(description.fcmV1RegistrationId, "fcmRegistrationId").trim(),
     };
   },
 
@@ -858,7 +861,7 @@ export const registrationDescriptionSerializer: RegistrationDescriptionSerialize
   ): Record<string, any> {
     return {
       ...serializeRegistrationDescription(description),
-      GcmRegistrationId: getString(description.gcmRegistrationId, "gcmRegistrationId"),
+      GcmRegistrationId: getString(description.gcmRegistrationId, "gcmRegistrationId").trim(),
     };
   },
 
@@ -905,8 +908,8 @@ export const registrationDescriptionSerializer: RegistrationDescriptionSerialize
 
       for (const header of Object.keys(description.mpnsHeaders)) {
         mpnsHeaders["MpnsHeader"].push({
-          Header: header,
-          Value: description.mpnsHeaders[header],
+          Header: header.trim(),
+          Value: description.mpnsHeaders[header].trim(),
         });
       }
     }
@@ -927,7 +930,10 @@ export const registrationDescriptionSerializer: RegistrationDescriptionSerialize
   ): Record<string, any> {
     return {
       ...serializeRegistrationDescription(description),
-      XiaomiRegistrationId: getString(description.xiaomiRegistrationId, "xiaomiRegistrationId"),
+      XiaomiRegistrationId: getString(
+        description.xiaomiRegistrationId,
+        "xiaomiRegistrationId",
+      ).trim(),
     };
   },
 
@@ -972,8 +978,8 @@ export const registrationDescriptionSerializer: RegistrationDescriptionSerialize
 
       for (const header of Object.keys(description.wnsHeaders)) {
         wnsHeaders["WnsHeader"].push({
-          Header: header,
-          Value: description.wnsHeaders[header],
+          Header: header.trim(),
+          Value: description.wnsHeaders[header].trim(),
         });
       }
     }
@@ -1011,6 +1017,6 @@ function serializeTemplateRegistrationDescription(
 ): Record<string, any> {
   return {
     BodyTemplate: { __cdata: description.bodyTemplate },
-    TemplateName: getStringOrUndefined(description.templateName),
+    TemplateName: getStringOrUndefined(description.templateName)?.trim(),
   };
 }

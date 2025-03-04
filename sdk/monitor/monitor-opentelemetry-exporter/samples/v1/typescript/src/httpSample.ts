@@ -26,9 +26,7 @@ import { AzureMonitorTraceExporter } from "@azure/monitor-opentelemetry-exporter
 import { HttpInstrumentation } from "@opentelemetry/instrumentation-http";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
-
+import "dotenv/config";
 /*********************************************************************
  *  OPEN TELEMETRY SETUP
  **********************************************************************/
@@ -37,7 +35,7 @@ let clientTracer: Tracer;
 setupOpenTelemetry();
 
 // Open Telemetry setup need to happen before http library is loaded
-import http from "http";
+import http from "node:http";
 
 /*********************************************************************
  *  HTTP SERVER SETUP

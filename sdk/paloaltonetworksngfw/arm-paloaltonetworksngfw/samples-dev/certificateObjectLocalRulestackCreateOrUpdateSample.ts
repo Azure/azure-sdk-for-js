@@ -8,9 +8,7 @@
 import type { CertificateObjectLocalRulestackResource } from "@azure/arm-paloaltonetworksngfw";
 import { PaloAltoNetworksCloudngfw } from "@azure/arm-paloaltonetworksngfw";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create a CertificateObjectLocalRulestackResource
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Create a CertificateObjectLocalRulestackResource
  * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/CertificateObjectLocalRulestack_CreateOrUpdate_MaximumSet_Gen.json
  */
-async function certificateObjectLocalRulestackCreateOrUpdateMaximumSetGen() {
+async function certificateObjectLocalRulestackCreateOrUpdateMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["PALOALTONETWORKSNGFW_SUBSCRIPTION_ID"] || "2bf4a339-294d-4c25-b0b2-ef649e9f5c27";
   const resourceGroupName = process.env["PALOALTONETWORKSNGFW_RESOURCE_GROUP"] || "rgopenapi";
@@ -49,7 +47,7 @@ async function certificateObjectLocalRulestackCreateOrUpdateMaximumSetGen() {
  * @summary Create a CertificateObjectLocalRulestackResource
  * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/CertificateObjectLocalRulestack_CreateOrUpdate_MinimumSet_Gen.json
  */
-async function certificateObjectLocalRulestackCreateOrUpdateMinimumSetGen() {
+async function certificateObjectLocalRulestackCreateOrUpdateMinimumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["PALOALTONETWORKSNGFW_SUBSCRIPTION_ID"] || "2bf4a339-294d-4c25-b0b2-ef649e9f5c27";
   const resourceGroupName = process.env["PALOALTONETWORKSNGFW_RESOURCE_GROUP"] || "rgopenapi";
@@ -69,7 +67,7 @@ async function certificateObjectLocalRulestackCreateOrUpdateMinimumSetGen() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await certificateObjectLocalRulestackCreateOrUpdateMaximumSetGen();
   await certificateObjectLocalRulestackCreateOrUpdateMinimumSetGen();
 }

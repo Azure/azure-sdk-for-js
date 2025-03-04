@@ -8,9 +8,7 @@
 import type { GuestConfigurationAssignment } from "@azure/arm-guestconfiguration";
 import { GuestConfigurationClient } from "@azure/arm-guestconfiguration";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates an association between a Connected VM Sphere machine and guest configuration
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Creates an association between a Connected VM Sphere machine and guest configuration
  * x-ms-original-file: specification/guestconfiguration/resource-manager/Microsoft.GuestConfiguration/stable/2022-01-25/examples/createOrUpdateGuestConfigurationConnectedVMwarevSphereAssignment.json
  */
-async function createOrUpdateGuestConfigurationAssignment() {
+async function createOrUpdateGuestConfigurationAssignment(): Promise<void> {
   const subscriptionId = process.env["GUESTCONFIGURATION_SUBSCRIPTION_ID"] || "mySubscriptionId";
   const resourceGroupName =
     process.env["GUESTCONFIGURATION_RESOURCE_GROUP"] || "myResourceGroupName";
@@ -55,7 +53,7 @@ async function createOrUpdateGuestConfigurationAssignment() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await createOrUpdateGuestConfigurationAssignment();
 }
 

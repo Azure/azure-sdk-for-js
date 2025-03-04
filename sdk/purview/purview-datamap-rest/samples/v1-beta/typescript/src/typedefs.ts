@@ -9,14 +9,11 @@
 
 import PurviewDataMap from "@azure-rest/purview-datamap";
 import { DefaultAzureCredential } from "@azure/identity";
-import dotenv from "dotenv";
+import "dotenv/config";
 import { isUnexpected } from "@azure-rest/purview-datamap";
-
-dotenv.config();
-
 const endpoint = process.env["ENDPOINT"] || "";
 
-async function main() {
+async function main(): Promise<void> {
   console.log("== Get typedefs sample ==");
   const client = PurviewDataMap(endpoint, new DefaultAzureCredential());
 

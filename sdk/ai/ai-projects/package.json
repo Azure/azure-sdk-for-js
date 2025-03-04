@@ -75,7 +75,7 @@
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure/identity": "^4.3.0",
     "@azure/opentelemetry-instrumentation-azure-sdk": "^1.0.0-beta.7",
-    "@azure/monitor-opentelemetry-exporter": "^1.0.0-beta.28",
+    "@azure/monitor-opentelemetry-exporter": "^1.0.0-beta.29",
     "@azure-tools/test-credential": "^2.0.0",
     "@azure-tools/test-recorder": "^4.1.0",
     "@azure-tools/test-utils-vitest": "^1.0.0",
@@ -93,7 +93,6 @@
     "vitest": "^3.0.3"
   },
   "scripts": {
-    "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
     "build:samples": "echo skipped",
     "build:test": "npm run clean && dev-tool run build-package && dev-tool run build-test",

@@ -8,9 +8,7 @@
 import type { CheckNameAvailabilityParameters } from "@azure/arm-recoveryservices";
 import { RecoveryServicesClient } from "@azure/arm-recoveryservices";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to API to check for resource name availability.
@@ -22,7 +20,7 @@ A name is available if no other resource exists that has the same SubscriptionId
 or if one or more such resources exist, each of these must be GC'd and their time of deletion be more than 24 Hours Ago
  * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/CheckNameAvailability_Available.json
  */
-async function availabilityStatusOfResourceNameWhenNoResourceWithSameNameTypeAndSubscriptionExistsNorHasBeenDeletedWithinLast24Hours() {
+async function availabilityStatusOfResourceNameWhenNoResourceWithSameNameTypeAndSubscriptionExistsNorHasBeenDeletedWithinLast24Hours(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICES_SUBSCRIPTION_ID"] || "77777777-b0c6-47a2-b37c-d8e65a629c18";
   const resourceGroupName = process.env["RECOVERYSERVICES_RESOURCE_GROUP"] || "resGroupFoo";
@@ -51,7 +49,7 @@ A name is available if no other resource exists that has the same SubscriptionId
 or if one or more such resources exist, each of these must be GC'd and their time of deletion be more than 24 Hours Ago
  * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/CheckNameAvailability_NotAvailable.json
  */
-async function availabilityStatusOfResourceNameWhenResourceWithSameNameTypeAndSubscriptionExists() {
+async function availabilityStatusOfResourceNameWhenResourceWithSameNameTypeAndSubscriptionExists(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICES_SUBSCRIPTION_ID"] || "77777777-b0c6-47a2-b37c-d8e65a629c18";
   const resourceGroupName = process.env["RECOVERYSERVICES_RESOURCE_GROUP"] || "resGroupBar";
@@ -70,7 +68,7 @@ async function availabilityStatusOfResourceNameWhenResourceWithSameNameTypeAndSu
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await availabilityStatusOfResourceNameWhenNoResourceWithSameNameTypeAndSubscriptionExistsNorHasBeenDeletedWithinLast24Hours();
   await availabilityStatusOfResourceNameWhenResourceWithSameNameTypeAndSubscriptionExists();
 }

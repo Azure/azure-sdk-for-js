@@ -14,7 +14,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Retrieves the user solution.
  * x-ms-original-file: specification/operationsmanagement/resource-manager/Microsoft.OperationsManagement/preview/2015-11-01-preview/examples/SolutionGet.json
  */
-async function solutionGet() {
+async function solutionGet(): Promise<void> {
   const subscriptionId = "subid";
   const resourceGroupName = "rg1";
   const solutionName = "solution1";

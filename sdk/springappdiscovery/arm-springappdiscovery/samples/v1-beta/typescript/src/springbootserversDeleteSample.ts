@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { SpringAppDiscoveryManagementClient } from "@azure/arm-springappdiscovery";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Delete springbootservers resource.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Delete springbootservers resource.
  * x-ms-original-file: specification/offazurespringboot/resource-manager/Microsoft.OffAzureSpringBoot/preview/2023-01-01-preview/examples/springbootservers_Delete_MaximumSet_Gen.json
  */
-async function springbootserversDeleteMaximumSetGen() {
+async function springbootserversDeleteMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["SPRINGAPPDISCOVERY_SUBSCRIPTION_ID"] || "etmdxomjncqvygm";
   const resourceGroupName =
@@ -46,7 +44,7 @@ async function springbootserversDeleteMaximumSetGen() {
  * @summary Delete springbootservers resource.
  * x-ms-original-file: specification/offazurespringboot/resource-manager/Microsoft.OffAzureSpringBoot/preview/2023-01-01-preview/examples/springbootservers_Delete_MinimumSet_Gen.json
  */
-async function springbootserversDeleteMinimumSetGen() {
+async function springbootserversDeleteMinimumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["SPRINGAPPDISCOVERY_SUBSCRIPTION_ID"] || "etmdxomjncqvygm";
   const resourceGroupName =
@@ -66,7 +64,7 @@ async function springbootserversDeleteMinimumSetGen() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   springbootserversDeleteMaximumSetGen();
   springbootserversDeleteMinimumSetGen();
 }

@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { AzureMediaServices } from "@azure/arm-mediaservices";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get details of a group ID.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Get details of a group ID.
  * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Accounts/stable/2021-11-01/examples/private-link-resources-get-by-name.json
  */
-async function getDetailsOfAGroupId() {
+async function getDetailsOfAGroupId(): Promise<void> {
   const subscriptionId =
     process.env["MEDIASERVICES_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -38,7 +36,7 @@ async function getDetailsOfAGroupId() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getDetailsOfAGroupId();
 }
 

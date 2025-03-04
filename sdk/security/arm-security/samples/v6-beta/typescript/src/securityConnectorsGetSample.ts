@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { SecurityCenter } from "@azure/arm-security";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Retrieves details of a specific security connector
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Retrieves details of a specific security connector
  * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/preview/2023-10-01-preview/examples/SecurityConnectors/GetSecurityConnectorSingleResource_example.json
  */
-async function retrieveASecurityConnector() {
+async function retrieveASecurityConnector(): Promise<void> {
   const subscriptionId =
     process.env["SECURITY_SUBSCRIPTION_ID"] ||
     "a5caac9c-5c04-49af-b3d0-e204f40345d5";
@@ -36,7 +34,7 @@ async function retrieveASecurityConnector() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   retrieveASecurityConnector();
 }
 

@@ -6,17 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { ContainerRegistryManagementClient } = require("@azure/arm-containerregistry");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Creates a cache rule for a container registry with the specified parameters.
  *
  * @summary Creates a cache rule for a container registry with the specified parameters.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2023-11-01-preview/examples/CacheRuleCreate.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2024-11-01-preview/examples/CacheRuleCreate.json
  */
 async function cacheRuleCreate() {
   const subscriptionId =
@@ -36,13 +34,13 @@ async function cacheRuleCreate() {
     resourceGroupName,
     registryName,
     cacheRuleName,
-    cacheRuleCreateParameters
+    cacheRuleCreateParameters,
   );
   console.log(result);
 }
 
 async function main() {
-  cacheRuleCreate();
+  await cacheRuleCreate();
 }
 
 main().catch(console.error);

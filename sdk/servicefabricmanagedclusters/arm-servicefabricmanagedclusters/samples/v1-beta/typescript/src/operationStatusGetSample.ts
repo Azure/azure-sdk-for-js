@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { ServiceFabricManagedClustersManagementClient } from "@azure/arm-servicefabricmanagedclusters";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get long running operation status.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Get long running operation status.
  * x-ms-original-file: specification/servicefabricmanagedclusters/resource-manager/Microsoft.ServiceFabric/preview/2024-09-01-preview/examples/Long_running_operation_status_failed.json
  */
-async function getFailedOperationStatus() {
+async function getFailedOperationStatus(): Promise<void> {
   const subscriptionId =
     process.env["SERVICEFABRICMANAGEDCLUSTERS_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -41,7 +39,7 @@ async function getFailedOperationStatus() {
  * @summary Get long running operation status.
  * x-ms-original-file: specification/servicefabricmanagedclusters/resource-manager/Microsoft.ServiceFabric/preview/2024-09-01-preview/examples/Long_running_operation_status_succeeded.json
  */
-async function getSucceededOperationResult() {
+async function getSucceededOperationResult(): Promise<void> {
   const subscriptionId =
     process.env["SERVICEFABRICMANAGEDCLUSTERS_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -56,7 +54,7 @@ async function getSucceededOperationResult() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getFailedOperationStatus();
   getSucceededOperationResult();
 }

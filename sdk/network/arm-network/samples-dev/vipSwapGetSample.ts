@@ -7,9 +7,7 @@
  */
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets the SwapResource which identifies the slot type for the specified cloud service. The slot type on a cloud service can either be Staging or Production
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Gets the SwapResource which identifies the slot type for the specified cloud service. The slot type on a cloud service can either be Staging or Production
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/CloudServiceSwapGet.json
  */
-async function getSwapResource() {
+async function getSwapResource(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
   const groupName = "rg1";
   const resourceName = "testCloudService";
@@ -27,7 +25,7 @@ async function getSwapResource() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await getSwapResource();
 }
 

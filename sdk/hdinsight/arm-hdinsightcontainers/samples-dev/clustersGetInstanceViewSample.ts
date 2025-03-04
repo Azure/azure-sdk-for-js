@@ -7,9 +7,7 @@
  */
 import { HDInsightContainersManagementClient } from "@azure/arm-hdinsightcontainers";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets the status of a cluster instance.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Gets the status of a cluster instance.
  * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/HDInsightOnAks/preview/2024-05-01-preview/examples/GetClusterInstanceView.json
  */
-async function hdInsightClusterGetInstanceView() {
+async function hdInsightClusterGetInstanceView(): Promise<void> {
   const subscriptionId =
     process.env["HDINSIGHT_SUBSCRIPTION_ID"] || "10e32bab-26da-4cc4-a441-52b318f824e6";
   const resourceGroupName = process.env["HDINSIGHT_RESOURCE_GROUP"] || "rg1";
@@ -33,7 +31,7 @@ async function hdInsightClusterGetInstanceView() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await hdInsightClusterGetInstanceView();
 }
 

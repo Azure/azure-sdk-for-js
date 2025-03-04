@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { ImageBuilderClient } from "@azure/arm-imagebuilder";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Cancel the long running image build based on the image template
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Cancel the long running image build based on the image template
  * x-ms-original-file: specification/imagebuilder/resource-manager/Microsoft.VirtualMachineImages/stable/2024-02-01/examples/CancelImageBuild.json
  */
-async function cancelTheImageBuildBasedOnTheImageTemplate() {
+async function cancelTheImageBuildBasedOnTheImageTemplate(): Promise<void> {
   const subscriptionId =
     process.env["IMAGEBUILDER_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -35,7 +33,7 @@ async function cancelTheImageBuildBasedOnTheImageTemplate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   cancelTheImageBuildBasedOnTheImageTemplate();
 }
 

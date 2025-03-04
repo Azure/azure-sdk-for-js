@@ -7,9 +7,7 @@
  */
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists all FirewallPolicyRuleCollectionGroups in a FirewallPolicy resource.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Lists all FirewallPolicyRuleCollectionGroups in a FirewallPolicy resource.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/FirewallPolicyRuleCollectionGroupWithWebCategoriesList.json
  */
-async function listAllFirewallPolicyRuleCollectionGroupWithWebCategories() {
+async function listAllFirewallPolicyRuleCollectionGroupWithWebCategories(): Promise<void> {
   const subscriptionId =
     process.env["NETWORK_SUBSCRIPTION_ID"] || "e747cc13-97d4-4a79-b463-42d7f4e558f2";
   const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
@@ -40,7 +38,7 @@ async function listAllFirewallPolicyRuleCollectionGroupWithWebCategories() {
  * @summary Lists all FirewallPolicyRuleCollectionGroups in a FirewallPolicy resource.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/FirewallPolicyRuleCollectionGroupList.json
  */
-async function listAllFirewallPolicyRuleCollectionGroupsForAGivenFirewallPolicy() {
+async function listAllFirewallPolicyRuleCollectionGroupsForAGivenFirewallPolicy(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const firewallPolicyName = "firewallPolicy";
@@ -62,7 +60,7 @@ async function listAllFirewallPolicyRuleCollectionGroupsForAGivenFirewallPolicy(
  * @summary Lists all FirewallPolicyRuleCollectionGroups in a FirewallPolicy resource.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/FirewallPolicyRuleCollectionGroupWithIpGroupsList.json
  */
-async function listAllFirewallPolicyRuleCollectionGroupsWithIPGroupsForAGivenFirewallPolicy() {
+async function listAllFirewallPolicyRuleCollectionGroupsWithIPGroupsForAGivenFirewallPolicy(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const firewallPolicyName = "firewallPolicy";
@@ -78,7 +76,7 @@ async function listAllFirewallPolicyRuleCollectionGroupsWithIPGroupsForAGivenFir
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await listAllFirewallPolicyRuleCollectionGroupWithWebCategories();
   await listAllFirewallPolicyRuleCollectionGroupsForAGivenFirewallPolicy();
   await listAllFirewallPolicyRuleCollectionGroupsWithIPGroupsForAGivenFirewallPolicy();

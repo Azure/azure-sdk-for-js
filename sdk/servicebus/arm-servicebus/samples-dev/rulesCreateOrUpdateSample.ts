@@ -8,9 +8,7 @@
 import type { Rule } from "@azure/arm-servicebus";
 import { ServiceBusManagementClient } from "@azure/arm-servicebus";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates a new rule and updates an existing rule
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Creates a new rule and updates an existing rule
  * x-ms-original-file: specification/servicebus/resource-manager/Microsoft.ServiceBus/preview/2022-10-01-preview/examples/Rules/RuleCreate_CorrelationFilter.json
  */
-async function rulesCreateCorrelationFilter() {
+async function rulesCreateCorrelationFilter(): Promise<void> {
   const subscriptionId = process.env["SERVICEBUS_SUBSCRIPTION_ID"] || "subscriptionId";
   const resourceGroupName = process.env["SERVICEBUS_RESOURCE_GROUP"] || "resourceGroupName";
   const namespaceName = "sdk-Namespace-1319";
@@ -48,7 +46,7 @@ async function rulesCreateCorrelationFilter() {
  * @summary Creates a new rule and updates an existing rule
  * x-ms-original-file: specification/servicebus/resource-manager/Microsoft.ServiceBus/preview/2022-10-01-preview/examples/Rules/RuleCreate.json
  */
-async function rulesCreateOrUpdate() {
+async function rulesCreateOrUpdate(): Promise<void> {
   const subscriptionId = process.env["SERVICEBUS_SUBSCRIPTION_ID"] || "subscriptionId";
   const resourceGroupName = process.env["SERVICEBUS_RESOURCE_GROUP"] || "resourceGroupName";
   const namespaceName = "sdk-Namespace-1319";
@@ -75,7 +73,7 @@ async function rulesCreateOrUpdate() {
  * @summary Creates a new rule and updates an existing rule
  * x-ms-original-file: specification/servicebus/resource-manager/Microsoft.ServiceBus/preview/2022-10-01-preview/examples/Rules/RuleCreate_SqlFilter.json
  */
-async function rulesCreateSqlFilter() {
+async function rulesCreateSqlFilter(): Promise<void> {
   const subscriptionId = process.env["SERVICEBUS_SUBSCRIPTION_ID"] || "subscriptionId";
   const resourceGroupName = process.env["SERVICEBUS_RESOURCE_GROUP"] || "resourceGroupName";
   const namespaceName = "sdk-Namespace-1319";
@@ -99,7 +97,7 @@ async function rulesCreateSqlFilter() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await rulesCreateCorrelationFilter();
   await rulesCreateOrUpdate();
   await rulesCreateSqlFilter();

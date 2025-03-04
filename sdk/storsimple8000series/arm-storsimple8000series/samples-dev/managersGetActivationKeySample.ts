@@ -14,7 +14,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Returns the activation key of the manager.
  * x-ms-original-file: specification/storsimple8000series/resource-manager/Microsoft.StorSimple/stable/2017-06-01/examples/ManagersGetActivationKey.json
  */
-async function managersGetActivationKey() {
+async function managersGetActivationKey(): Promise<void> {
   const subscriptionId = "d3ebfe71-b7a9-4c57-92b9-68a2afde4de5";
   const resourceGroupName = "ResourceGroupForSDKTest";
   const managerName = "ManagerForSDKTest1";

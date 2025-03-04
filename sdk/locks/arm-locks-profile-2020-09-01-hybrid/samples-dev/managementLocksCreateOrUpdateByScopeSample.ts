@@ -8,9 +8,7 @@
 import type { ManagementLockObject } from "@azure/arm-locks-profile-2020-09-01-hybrid";
 import { ManagementLockClient } from "@azure/arm-locks-profile-2020-09-01-hybrid";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create or update a management lock by scope.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Create or update a management lock by scope.
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Authorization/stable/2016-09-01/examples/ManagementLocks_CreateOrUpdateAtScope.json
  */
-async function createManagementLockAtScope() {
+async function createManagementLockAtScope(): Promise<void> {
   const subscriptionId =
     process.env["LOCKS_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const scope = "subscriptions/subscriptionId";
@@ -30,7 +28,7 @@ async function createManagementLockAtScope() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await createManagementLockAtScope();
 }
 

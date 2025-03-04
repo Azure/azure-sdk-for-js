@@ -7,9 +7,7 @@
  */
 import { ServiceBusManagementClient } from "@azure/arm-servicebus";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Deletes an existing namespace. This operation also removes all associated resources under the namespace.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Deletes an existing namespace. This operation also removes all associated resources under the namespace.
  * x-ms-original-file: specification/servicebus/resource-manager/Microsoft.ServiceBus/preview/2022-10-01-preview/examples/NameSpaces/SBNameSpaceDelete.json
  */
-async function nameSpaceDelete() {
+async function nameSpaceDelete(): Promise<void> {
   const subscriptionId =
     process.env["SERVICEBUS_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = process.env["SERVICEBUS_RESOURCE_GROUP"] || "ArunMonocle";
@@ -28,7 +26,7 @@ async function nameSpaceDelete() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await nameSpaceDelete();
 }
 

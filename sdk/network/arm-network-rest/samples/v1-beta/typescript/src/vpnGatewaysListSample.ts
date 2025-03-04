@@ -13,7 +13,7 @@ import "dotenv/config";
  * @summary Lists all the VpnGateways in a subscription.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/VpnGatewayList.json
  */
-async function vpnGatewayListBySubscription() {
+async function vpnGatewayListBySubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

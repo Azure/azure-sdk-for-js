@@ -16,7 +16,7 @@ import "dotenv/config";
  * @summary Updates an existing virtual endpoint. The request body can contain one to many of the properties present in the normal virtual endpoint definition.
  * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2024-08-01/examples/VirtualEndpointUpdate.json
  */
-async function updateAVirtualEndpointForAServerToUpdateThe() {
+async function updateAVirtualEndpointForAServerToUpdateThe(): Promise<void> {
   const subscriptionId =
     process.env["POSTGRESQL_SUBSCRIPTION_ID"] || "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const resourceGroupName = process.env["POSTGRESQL_RESOURCE_GROUP"] || "testrg";
@@ -37,7 +37,7 @@ async function updateAVirtualEndpointForAServerToUpdateThe() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await updateAVirtualEndpointForAServerToUpdateThe();
 }
 

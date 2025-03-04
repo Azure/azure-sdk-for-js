@@ -7,9 +7,7 @@
  */
 import { GuestConfigurationClient } from "@azure/arm-guestconfiguration";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to List all guest configuration assignments for a subscription.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary List all guest configuration assignments for a subscription.
  * x-ms-original-file: specification/guestconfiguration/resource-manager/Microsoft.GuestConfiguration/stable/2022-01-25/examples/listSubGuestConfigurationAssignments.json
  */
-async function listAllGuestConfigurationAssignmentsForASubscription() {
+async function listAllGuestConfigurationAssignmentsForASubscription(): Promise<void> {
   const subscriptionId = process.env["GUESTCONFIGURATION_SUBSCRIPTION_ID"] || "mySubscriptionId";
   const credential = new DefaultAzureCredential();
   const client = new GuestConfigurationClient(credential, subscriptionId);
@@ -28,7 +26,7 @@ async function listAllGuestConfigurationAssignmentsForASubscription() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await listAllGuestConfigurationAssignmentsForASubscription();
 }
 

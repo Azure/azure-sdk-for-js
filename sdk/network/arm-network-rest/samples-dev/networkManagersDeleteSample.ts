@@ -11,7 +11,7 @@ import "dotenv/config";
  * @summary Deletes a network manager.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/NetworkManagerDelete.json
  */
-async function networkManagersDelete() {
+async function networkManagersDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

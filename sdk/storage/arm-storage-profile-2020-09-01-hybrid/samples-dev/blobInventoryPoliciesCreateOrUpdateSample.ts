@@ -8,9 +8,7 @@
 import type { BlobInventoryPolicy } from "@azure/arm-storage-profile-2020-09-01-hybrid";
 import { StorageManagementClient } from "@azure/arm-storage-profile-2020-09-01-hybrid";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Sets the blob inventory policy to the specified storage account.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Sets the blob inventory policy to the specified storage account.
  * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2019-06-01/examples/StorageAccountSetBlobInventoryPolicy.json
  */
-async function storageAccountSetBlobInventoryPolicy() {
+async function storageAccountSetBlobInventoryPolicy(): Promise<void> {
   const subscriptionId = process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName = process.env["STORAGE_RESOURCE_GROUP"] || "res7687";
   const accountName = "sto9699";
@@ -55,7 +53,7 @@ async function storageAccountSetBlobInventoryPolicy() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await storageAccountSetBlobInventoryPolicy();
 }
 

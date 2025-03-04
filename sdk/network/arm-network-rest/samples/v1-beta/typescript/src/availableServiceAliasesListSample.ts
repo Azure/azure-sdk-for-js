@@ -13,7 +13,7 @@ import "dotenv/config";
  * @summary Gets all available service aliases for this subscription in this region.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/AvailableServiceAliasesList.json
  */
-async function getAvailableServiceAliases() {
+async function getAvailableServiceAliases(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

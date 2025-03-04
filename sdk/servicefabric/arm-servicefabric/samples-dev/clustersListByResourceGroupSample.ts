@@ -7,9 +7,7 @@
  */
 import { ServiceFabricManagementClient } from "@azure/arm-servicefabric";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets all Service Fabric cluster resources created or in the process of being created in the resource group.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Gets all Service Fabric cluster resources created or in the process of being created in the resource group.
  * x-ms-original-file: specification/servicefabric/resource-manager/Microsoft.ServiceFabric/stable/2021-06-01/examples/ClusterListByResourceGroupOperation_example.json
  */
-async function listClusterByResourceGroup() {
+async function listClusterByResourceGroup(): Promise<void> {
   const subscriptionId =
     process.env["SERVICEFABRIC_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = process.env["SERVICEFABRIC_RESOURCE_GROUP"] || "resRg";
@@ -30,7 +28,7 @@ async function listClusterByResourceGroup() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await listClusterByResourceGroup();
 }
 

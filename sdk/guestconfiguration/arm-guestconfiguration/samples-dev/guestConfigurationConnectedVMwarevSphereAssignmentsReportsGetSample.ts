@@ -7,9 +7,7 @@
  */
 import { GuestConfigurationClient } from "@azure/arm-guestconfiguration";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get a report for the guest configuration assignment, by reportId.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Get a report for the guest configuration assignment, by reportId.
  * x-ms-original-file: specification/guestconfiguration/resource-manager/Microsoft.GuestConfiguration/stable/2022-01-25/examples/getGuestConfigurationConnectedVMwarevSphereAssignmentReportById.json
  */
-async function getAGuestConfigurationAssignmentReportByIdForAVirtualMachine() {
+async function getAGuestConfigurationAssignmentReportByIdForAVirtualMachine(): Promise<void> {
   const subscriptionId = process.env["GUESTCONFIGURATION_SUBSCRIPTION_ID"] || "mySubscriptionid";
   const resourceGroupName =
     process.env["GUESTCONFIGURATION_RESOURCE_GROUP"] || "myResourceGroupName";
@@ -35,7 +33,7 @@ async function getAGuestConfigurationAssignmentReportByIdForAVirtualMachine() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await getAGuestConfigurationAssignmentReportByIdForAVirtualMachine();
 }
 

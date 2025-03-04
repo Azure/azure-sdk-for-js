@@ -16,7 +16,7 @@ import "dotenv/config";
  * @summary Summarizes policy states for the resources under the subscription.
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2024-10-01/examples/PolicyStates_SummarizeSubscriptionScope.json
  */
-async function summarizeAtSubscriptionScope() {
+async function summarizeAtSubscriptionScope(): Promise<void> {
   const policyStatesSummaryResource = "latest";
   const subscriptionId = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
   const top = 5;
@@ -37,7 +37,7 @@ async function summarizeAtSubscriptionScope() {
  * @summary Summarizes policy states for the resources under the subscription.
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2024-10-01/examples/PolicyStates_SummarizeSubscriptionScopeForPolicyGroup.json
  */
-async function summarizeAtSubscriptionScopeForAPolicyDefinitionGroup() {
+async function summarizeAtSubscriptionScopeForAPolicyDefinitionGroup(): Promise<void> {
   const policyStatesSummaryResource = "latest";
   const subscriptionId = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
   const top = 1;
@@ -56,7 +56,7 @@ async function summarizeAtSubscriptionScopeForAPolicyDefinitionGroup() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await summarizeAtSubscriptionScope();
   await summarizeAtSubscriptionScopeForAPolicyDefinitionGroup();
 }

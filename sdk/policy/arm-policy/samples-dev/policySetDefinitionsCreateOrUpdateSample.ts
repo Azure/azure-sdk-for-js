@@ -16,7 +16,7 @@ import "dotenv/config";
  * @summary This operation creates or updates a policy set definition in the given subscription with the given name.
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Authorization/stable/2021-06-01/examples/createOrUpdatePolicySetDefinition.json
  */
-async function createOrUpdateAPolicySetDefinition() {
+async function createOrUpdateAPolicySetDefinition(): Promise<void> {
   const subscriptionId =
     process.env["POLICY_SUBSCRIPTION_ID"] || "ae640e6b-ba3e-4256-9d62-2993eecfa6f2";
   const policySetDefinitionName = "CostManagement";
@@ -66,7 +66,7 @@ async function createOrUpdateAPolicySetDefinition() {
  * @summary This operation creates or updates a policy set definition in the given subscription with the given name.
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Authorization/stable/2021-06-01/examples/createOrUpdatePolicySetDefinitionWithGroups.json
  */
-async function createOrUpdateAPolicySetDefinitionWithGroups() {
+async function createOrUpdateAPolicySetDefinitionWithGroups(): Promise<void> {
   const subscriptionId =
     process.env["POLICY_SUBSCRIPTION_ID"] || "ae640e6b-ba3e-4256-9d62-2993eecfa6f2";
   const policySetDefinitionName = "CostManagement";
@@ -115,7 +115,7 @@ async function createOrUpdateAPolicySetDefinitionWithGroups() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await createOrUpdateAPolicySetDefinition();
   await createOrUpdateAPolicySetDefinitionWithGroups();
 }

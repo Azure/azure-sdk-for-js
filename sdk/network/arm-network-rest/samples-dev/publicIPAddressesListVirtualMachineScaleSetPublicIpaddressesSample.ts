@@ -11,7 +11,7 @@ import "dotenv/config";
  * @summary Gets information about all public IP addresses on a virtual machine scale set level.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/VmssPublicIpListAll.json
  */
-async function listVmssPublicIP() {
+async function listVmssPublicIP(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

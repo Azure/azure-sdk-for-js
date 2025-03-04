@@ -14,7 +14,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Handles requests to list all SerialPort resources in a subscription.
  * x-ms-original-file: specification/serialconsole/resource-manager/Microsoft.SerialConsole/stable/2018-05-01/examples/ListSerialPortSubscription.json
  */
-async function listSerialPortsForSubscription() {
+async function listSerialPortsForSubscription(): Promise<void> {
   const subscriptionId = "00000000-00000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
   const client = new MicrosoftSerialConsoleClient(credential, subscriptionId);

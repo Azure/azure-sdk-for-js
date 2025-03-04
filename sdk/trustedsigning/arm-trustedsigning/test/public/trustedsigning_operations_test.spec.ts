@@ -5,7 +5,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { env, Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
+import type { Recorder } from "@azure-tools/test-recorder";
+import { env, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { assert, beforeEach, afterEach, it, describe } from "vitest";
 import { createRecorder } from "./utils/recordedClient.js";
@@ -35,18 +36,18 @@ describe("CodeSigning test", () => {
     resourcename = "resourcetest";
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
-  it("operations list test", async function () {
+  it("operations list test", async () => {
     const resArray = new Array();
-    for await (let item of client.operations.list()) {
+    for await (const item of client.operations.list()) {
       resArray.push(item);
     }
     assert.notEqual(resArray.length, 0);
   });
 
-  it("codeSigningAccounts create test", async function () {
+  it("codeSigningAccounts create test", async () => {
     const res = await client.codeSigningAccounts.create(
       resourceGroup,
       resourcename,
@@ -61,23 +62,23 @@ describe("CodeSigning test", () => {
     assert.equal(res.name, resourcename);
   });
 
-  it("codeSigningAccounts get test", async function () {
+  it("codeSigningAccounts get test", async () => {
     const res = await client.codeSigningAccounts.get(resourceGroup, resourcename);
     assert.equal(res.name, resourcename);
   });
 
-  it("codeSigningAccounts list test", async function () {
+  it("codeSigningAccounts list test", async () => {
     const resArray = new Array();
-    for await (let item of client.codeSigningAccounts.listByResourceGroup(resourceGroup)) {
+    for await (const item of client.codeSigningAccounts.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 1);
   });
 
-  it("codeSigningAccounts delete test", async function () {
+  it("codeSigningAccounts delete test", async () => {
     const resArray = new Array();
     await client.codeSigningAccounts.delete(resourceGroup, resourcename, testPollingOptions);
-    for await (let item of client.codeSigningAccounts.listByResourceGroup(resourceGroup)) {
+    for await (const item of client.codeSigningAccounts.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 0);

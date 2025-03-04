@@ -20,15 +20,13 @@ import "dotenv/config";
  */
 async function kustoClusterListFollowerDatabasesGet(): Promise<void> {
   const subscriptionId =
-    process.env["KUSTO_SUBSCRIPTION_ID"] ||
-    "12345678-1234-1234-1234-123456789098";
-  const resourceGroupName =
-    process.env["KUSTO_RESOURCE_GROUP"] || "kustorptest";
+    process.env["KUSTO_SUBSCRIPTION_ID"] || "12345678-1234-1234-1234-123456789098";
+  const resourceGroupName = process.env["KUSTO_RESOURCE_GROUP"] || "kustorptest";
   const clusterName = "kustoCluster";
   const credential = new DefaultAzureCredential();
   const client = new KustoManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.clusters.listFollowerDatabasesGet(
+  for await (const item of client.clusters.listFollowerDatabasesGet(
     resourceGroupName,
     clusterName,
   )) {

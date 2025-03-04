@@ -9,7 +9,7 @@
 import {
   IntegrationRuntimeConnectionInfosGetOptionalParams,
   IntegrationRuntimeConnectionInfosGetResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a IntegrationRuntimeConnectionInfos. */
 export interface IntegrationRuntimeConnectionInfos {

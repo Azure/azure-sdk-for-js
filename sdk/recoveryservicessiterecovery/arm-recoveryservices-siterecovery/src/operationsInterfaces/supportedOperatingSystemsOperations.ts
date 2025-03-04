@@ -9,7 +9,7 @@
 import {
   SupportedOperatingSystemsGetOptionalParams,
   SupportedOperatingSystemsGetResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a SupportedOperatingSystemsOperations. */
 export interface SupportedOperatingSystemsOperations {

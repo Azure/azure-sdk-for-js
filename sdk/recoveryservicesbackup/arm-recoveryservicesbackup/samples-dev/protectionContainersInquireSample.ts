@@ -7,9 +7,7 @@
  */
 import { RecoveryServicesBackupClient } from "@azure/arm-recoveryservicesbackup";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to This is an async operation and the results should be tracked using location header or Azure-async-url.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary This is an async operation and the results should be tracked using location header or Azure-async-url.
  * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/AzureStorage/ProtectionContainers_Inquire.json
  */
-async function inquireAzureStorageProtectionContainers() {
+async function inquireAzureStorageProtectionContainers(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICESBACKUP_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const vaultName = "testvault";
@@ -35,7 +33,7 @@ async function inquireAzureStorageProtectionContainers() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await inquireAzureStorageProtectionContainers();
 }
 

@@ -18,13 +18,13 @@ import {
   OperationsImpl,
   OrganizationsImpl,
   ServerlessRuntimesImpl,
-} from "./operations";
+} from "./operations/index.js";
 import {
   Operations,
   Organizations,
   ServerlessRuntimes,
-} from "./operationsInterfaces";
-import { InformaticaDataManagementOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { InformaticaDataManagementOptionalParams } from "./models/index.js";
 
 export class InformaticaDataManagement extends coreClient.ServiceClient {
   $host: string;

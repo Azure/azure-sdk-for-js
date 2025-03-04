@@ -231,14 +231,9 @@ describe("XML serializer", function () {
       assert.deepStrictEqual(json, { fruit: `` });
     });
 
-    it("with atribute namespace", async () => {
+    it("with attribute namespace", async () => {
       const json = await parseXML(
-        `<h:table xmlns:h="http://www.w3.org/TR/html4/">
-          <h:tr>
-            <h:td>Apples</h:td>
-            <h:td>Bananas</h:td>
-          </h:tr>
-        </h:table>`,
+        `<h:table xmlns:h="http://www.w3.org/TR/html4/"><h:tr><h:td>Apples</h:td><h:td>Bananas</h:td></h:tr></h:table>`,
         { includeRoot: true },
       );
 
@@ -525,6 +520,14 @@ describe("XML serializer", function () {
       );
     });
 
+    it("should handling leading and trailing spaces", function () {
+      const xml = stringifyXML({ name: "   leadingspace" });
+      assert.equal(
+        xml,
+        `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><root><name>   leadingspace</name></root>`,
+      );
+    });
+
     it("should handle CDATA sections with default value", function () {
       const xml = stringifyXML(
         {
@@ -602,5 +605,19 @@ describe("XML serializer", function () {
       '<EnumerationResults ServiceEndpoint="https://fakestorageaccount.blob.core.windows.net/" ContainerName="1container-with-dash158018564730401913"><Prefix>汉字. special ~!@#$%^&amp;*()_+`1234567890-={}|[]/:";\'&lt;&gt;?,/\'158018564765001227</Prefix><Blobs><Blob><Name>汉字. special ~!@#$%^&amp;*()_+`1234567890-={}|[]/:";\'&lt;&gt;?,/\'158018564765001227</Name><Properties><Creation-Time>Tue, 28 Jan 2020 04:27:27 GMT</Creation-Time><Last-Modified>Tue, 28 Jan 2020 04:27:27 GMT</Last-Modified><Etag>0x8D7A3AA61F50D6C</Etag><Content-Length>1</Content-Length><Content-Type>application/octet-stream</Content-Type><Content-Encoding /><Content-Language /><Content-CRC64 /><Content-MD5>f8VicOenD6gaWTW3Lqy+KQ==</Content-MD5><Cache-Control /><Content-Disposition /><BlobType>BlockBlob</BlobType><AccessTier>Cool</AccessTier><AccessTierInferred>true</AccessTierInferred><LeaseStatus>unlocked</LeaseStatus><LeaseState>available</LeaseState><ServerEncrypted>true</ServerEncrypted></Properties></Blob></Blobs><NextMarker /></EnumerationResults>';
     const parsed = await parseXML(input);
     assert.isDefined(parsed.Blobs);
+  });
+
+  it("should keep leading spaces", async function () {
+    const input = `<Blob><Name>  leadingspace.txt</Name></Blob>`;
+    const parsed = await parseXML(input);
+    assert.isDefined(parsed.Name);
+    assert.deepEqual(parsed.Name, "  leadingspace.txt");
+  });
+
+  it("should keep trailing spaces", async function () {
+    const input = `<Blob><Name>trailingspace   </Name></Blob>`;
+    const parsed = await parseXML(input);
+    assert.isDefined(parsed.Name);
+    assert.deepEqual(parsed.Name, "trailingspace   ");
   });
 });

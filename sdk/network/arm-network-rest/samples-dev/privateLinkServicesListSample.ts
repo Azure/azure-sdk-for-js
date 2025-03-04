@@ -11,7 +11,7 @@ import "dotenv/config";
  * @summary Gets all private link services in a resource group.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/PrivateLinkServiceList.json
  */
-async function listPrivateLinkServiceInResourceGroup() {
+async function listPrivateLinkServiceInResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

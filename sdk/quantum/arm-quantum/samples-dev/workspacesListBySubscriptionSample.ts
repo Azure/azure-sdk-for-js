@@ -7,9 +7,7 @@
  */
 import { AzureQuantumManagementClient } from "@azure/arm-quantum";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets the list of Workspaces within a Subscription.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Gets the list of Workspaces within a Subscription.
  * x-ms-original-file: specification/quantum/resource-manager/Microsoft.Quantum/preview/2023-11-13-preview/examples/quantumWorkspacesListSubscription.json
  */
-async function quantumWorkspacesListBySubscription() {
+async function quantumWorkspacesListBySubscription(): Promise<void> {
   const subscriptionId =
     process.env["QUANTUM_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
   const credential = new DefaultAzureCredential();
@@ -29,7 +27,7 @@ async function quantumWorkspacesListBySubscription() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await quantumWorkspacesListBySubscription();
 }
 
