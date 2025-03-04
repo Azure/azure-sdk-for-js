@@ -9,9 +9,7 @@ import { useAzureMonitor, AzureMonitorOpenTelemetryOptions } from "@azure/monito
 import { metrics } from "@opentelemetry/api";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
-
+import "dotenv/config";
 const options: AzureMonitorOpenTelemetryOptions = {
   azureMonitorExporterOptions: {
     connectionString:
