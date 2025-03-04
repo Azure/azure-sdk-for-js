@@ -35,8 +35,7 @@ export async function main(): Promise<void> {
   );
   const agents = client.agents;
   class FunctionToolExecutor {
-    /* eslint-disable-next-line @typescript-eslint/no-unsafe-function-type */
-    private functionTools: { func: Function; definition: FunctionToolDefinition }[];
+    private functionTools: { func: any; definition: FunctionToolDefinition }[];
 
     constructor() {
       this.functionTools = [
