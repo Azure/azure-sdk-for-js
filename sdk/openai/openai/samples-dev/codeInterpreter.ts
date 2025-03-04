@@ -12,7 +12,7 @@
 import { AzureOpenAI } from "openai";
 import { getBearerTokenProvider, DefaultAzureCredential } from "@azure/identity";
 
-export async function main() {
+export async function main(): Promise<void> {
   const apiVersion = "2024-11-01-preview";
   // Create AzureOpenAI client with Microsoft Entra ID
   const credential = new DefaultAzureCredential();
@@ -47,7 +47,7 @@ export async function main() {
 
   // Start a new run with instructions
   const instructions = "Please address the user as Jane Doe. The user has a premium account.";
-  let run = await client.beta.threads.runs.createAndPoll(thread.id, {
+  const run = await client.beta.threads.runs.createAndPoll(thread.id, {
     assistant_id: assistant.id,
     instructions,
   });
