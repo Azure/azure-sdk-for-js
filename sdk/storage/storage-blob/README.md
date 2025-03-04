@@ -144,14 +144,14 @@ Blob storage offers three types of resources:
 
 To use the clients, import the package into your file:
 
-```javascript
-const AzureStorageBlob = require("@azure/storage-blob");
+```ts snippet:ignore
+import * as AzureStorageBlob from "@azure/storage-blob";
 ```
 
 Alternatively, selectively import only the types you need:
 
-```javascript
-const { BlobServiceClient, StorageSharedKeyCredential } = require("@azure/storage-blob");
+```ts snippet:ignore
+import { BlobServiceClient, StorageSharedKeyCredential } from "@azure/storage-blob";
 ```
 
 ### Create the blob service client
@@ -179,7 +179,7 @@ Setup : Reference - Authorize access to blobs and queues with Azure Active Direc
   - From the overview page of your AAD Application, note down the `CLIENT ID` and `TENANT ID`. In the "Certificates & Secrets" tab, create a secret and note that down.
   - Make sure you have AZURE_TENANT_ID, AZURE_CLIENT_ID, AZURE_CLIENT_SECRET as environment variables to successfully execute the sample(Can leverage process.env).
 
-```javascript
+```ts snippet:ReadmeSampleCreateClient_DefaultAzureCredential
 const { DefaultAzureCredential } = require("@azure/identity");
 const { BlobServiceClient } = require("@azure/storage-blob");
 
@@ -201,7 +201,7 @@ See the [Azure AD Auth sample](https://github.com/Azure/azure-sdk-for-js/blob/ma
 
 Alternatively, you can instantiate a `BlobServiceClient` using the `fromConnectionString()` static method with the full connection string as the argument. (The connection string can be obtained from the azure portal.) [ONLY AVAILABLE IN NODE.JS RUNTIME]
 
-```javascript
+```ts snippet:ReadmeSampleCreateClient_ConnectionString
 const { BlobServiceClient } = require("@azure/storage-blob");
 
 const connStr = "<connection string>";
@@ -214,7 +214,7 @@ const blobServiceClient = BlobServiceClient.fromConnectionString(connStr);
 Alternatively, you instantiate a `BlobServiceClient` with a `StorageSharedKeyCredential` by passing account-name and account-key as arguments. (The account-name and account-key can be obtained from the azure portal.)
 [ONLY AVAILABLE IN NODE.JS RUNTIME]
 
-```javascript
+```ts snippet:ReadmeSampleCreateClient_StorageSharedKeyCredential
 const { BlobServiceClient, StorageSharedKeyCredential } = require("@azure/storage-blob");
 
 // Enter your storage account name and shared key
@@ -234,7 +234,7 @@ const blobServiceClient = new BlobServiceClient(
 
 Also, You can instantiate a `BlobServiceClient` with a shared access signatures (SAS). You can get the SAS token from the Azure Portal or generate one using `generateAccountSASQueryParameters()`.
 
-```javascript
+```ts snippet:ReadmeSampleCreateClient_SASToken
 const { BlobServiceClient } = require("@azure/storage-blob");
 
 const account = "<account name>";
@@ -247,7 +247,7 @@ const blobServiceClient = new BlobServiceClient(`https://${account}.blob.core.wi
 
 Use `BlobServiceClient.getContainerClient()` to get a container client instance then create a new container resource.
 
-```javascript
+```ts snippet:ReadmeSampleCreateContainer
 const { DefaultAzureCredential } = require("@azure/identity");
 const { BlobServiceClient } = require("@azure/storage-blob");
 
@@ -275,7 +275,7 @@ main();
 Use `BlobServiceClient.listContainers()` function to iterate the containers,
 with the new `for-await-of` syntax:
 
-```javascript
+```ts snippet:ReadmeSampleListContainers
 const { DefaultAzureCredential } = require("@azure/identity");
 const { BlobServiceClient } = require("@azure/storage-blob");
 
@@ -300,7 +300,7 @@ main();
 
 Alternatively without using `for-await-of`:
 
-```javascript
+```ts snippet:ReadmeSampleListContainers_WithoutForAwait
 const { DefaultAzureCredential } = require("@azure/identity");
 const { BlobServiceClient } = require("@azure/storage-blob");
 
@@ -327,7 +327,7 @@ main();
 
 In addition, pagination is supported for listing too via `byPage()`:
 
-```javascript
+```ts snippet:ReadmeSampleListContainers_ByPage
 const { DefaultAzureCredential } = require("@azure/identity");
 const { BlobServiceClient } = require("@azure/storage-blob");
 
@@ -357,7 +357,7 @@ For a complete sample on iterating containers please see [samples/v12/typescript
 
 ### Create a blob by uploading data
 
-```javascript
+```ts snippet:ReadmeSampleCreateBlob
 const { DefaultAzureCredential } = require("@azure/identity");
 const { BlobServiceClient } = require("@azure/storage-blob");
 
@@ -388,7 +388,7 @@ main();
 
 Similar to listing containers.
 
-```javascript
+```ts snippet:ReadmeSampleListBlobs
 const { DefaultAzureCredential } = require("@azure/identity");
 const { BlobServiceClient } = require("@azure/storage-blob");
 
@@ -419,7 +419,7 @@ For a complete sample on iterating blobs please see [samples/v12/typescript/src/
 
 ### Download a blob and convert it to a string (Node.js)
 
-```javascript
+```ts snippet:ReadmeSampleDownloadBlob_Node
 const { DefaultAzureCredential } = require("@azure/identity");
 const { BlobServiceClient } = require("@azure/storage-blob");
 
@@ -468,7 +468,7 @@ main();
 
 Please refer to the [JavaScript Bundle](#javascript-bundle) section for more information on using this library in the browser.
 
-```javascript
+```ts snippet:ReadmeSampleDownloadBlob_Browser
 const { BlobServiceClient } = require("@azure/storage-blob");
 
 const account = "<account name>";
@@ -510,7 +510,7 @@ A complete example of simple scenarios is at [samples/v12/typescript/src/sharedK
 
 Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
 
-```javascript
+```ts snippet:SetLogLevel
 const { setLogLevel } = require("@azure/logger");
 
 setLogLevel("info");
