@@ -35,7 +35,7 @@ export async function main(): Promise<void> {
   );
   const agents = client.agents;
   class FunctionToolExecutor {
-    private functionTools: { func: any; definition: FunctionToolDefinition }[];
+    private functionTools: { func: Function; definition: FunctionToolDefinition }[];
 
     constructor() {
       this.functionTools = [
