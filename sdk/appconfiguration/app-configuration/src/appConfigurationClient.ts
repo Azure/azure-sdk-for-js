@@ -5,7 +5,6 @@
 /// <reference lib="esnext.asynciterable" />
 
 import {
-  KnownAppConfigurationAudience as KnownAppConfigAudience,
   type AddConfigurationSettingOptions,
   type AddConfigurationSettingParam,
   type AddConfigurationSettingResponse,
@@ -75,6 +74,7 @@ import {
   formatFiltersAndSelect,
   formatLabelsFiltersAndSelect,
   formatSnapshotFiltersAndSelect,
+  getScope,
   makeConfigurationSettingEmpty,
   serializeAsConfigurationSettingParam,
   transformKeyValue,
@@ -127,7 +127,6 @@ export class AppConfigurationClient {
 
   /**
    * Initializes a new instance of the AppConfigurationClient class.
-   * @param connectionString - Connection string needed for a client to connect to Azure.
    * @param options - Options for the AppConfigurationClient.
    */
   constructor(connectionString: string, options?: AppConfigurationClientOptions);
@@ -160,23 +159,7 @@ export class AppConfigurationClient {
       appConfigEndpoint = connectionStringOrEndpoint.endsWith("/")
         ? connectionStringOrEndpoint.slice(0, -1)
         : connectionStringOrEndpoint;
-      // Use audience from options if provided
-      // Otherwise, deduct the scope based on the endpoint
-      if (appConfigOptions.audience) {
-        scope = `${appConfigOptions.audience}/.default`;
-      } else if (
-        appConfigEndpoint.endsWith("azconfig.azure.us") ||
-        appConfigEndpoint.endsWith("appconfig.azure.us")
-      ) {
-        scope = `${KnownAppConfigAudience.AzureGovernment}/.default`;
-      } else if (
-        appConfigEndpoint.endsWith("azconfig.azure.cn") ||
-        appConfigEndpoint.endsWith("appconfig.azure.cn")
-      ) {
-        scope = `${KnownAppConfigAudience.AzureChina}/.default`;
-      } else {
-        scope = `${KnownAppConfigAudience.AzurePublicCloud}/.default`;
-      }
+      scope = getScope(appConfigEndpoint, appConfigOptions.audience);
       authPolicy = bearerTokenAuthenticationPolicy({
         scopes: scope,
         credential: appConfigCredential,

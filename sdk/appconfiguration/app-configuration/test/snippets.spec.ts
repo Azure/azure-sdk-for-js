@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 import { describe, it } from "vitest";
-import { AzureAuthorityHosts, DefaultAzureCredential } from "@azure/identity";
-import { AppConfigurationClient, KnownAppConfigurationAudience } from "@azure/app-configuration";
+import { DefaultAzureCredential } from "@azure/identity";
+import { AppConfigurationClient, KnownAppConfigAudience } from "@azure/app-configuration";
 import { setLogLevel } from "@azure/logger";
 
 describe("snippets", () => {
@@ -19,7 +19,7 @@ describe("snippets", () => {
     const endpoint = "https://example.azconfig.azure.cn";
     // Create an AppConfigurationClient that will authenticate through AAD in the China cloud
     const client = new AppConfigurationClient(endpoint, new DefaultAzureCredential(), {
-      audience: KnownAppConfigurationAudience.AzureChina,
+      audience: KnownAppConfigAudience.AzureChina,
     });
   });
 

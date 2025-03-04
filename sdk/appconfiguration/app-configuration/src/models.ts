@@ -25,7 +25,7 @@ export interface AppConfigurationClientOptions extends CommonClientOptions {
 
   /**
    * The Audience to use for authentication with Azure Active Directory (AAD).
-   * {@link KnownAppConfigurationAudience} can be used interchangeably with audience.
+   * {@link KnownAppConfigAudience} can be used interchangeably with audience.
    * If not specified, the default audience will be set to Azure Public Cloud.
    */
   audience?: string;
@@ -34,7 +34,7 @@ export interface AppConfigurationClientOptions extends CommonClientOptions {
 /**
  * Known values for Azure App Configuration Audience
  */
-export enum KnownAppConfigurationAudience {
+export enum KnownAppConfigAudience {
   /**
    * Audience for Azure China
    */

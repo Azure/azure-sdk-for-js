@@ -93,7 +93,7 @@ const client = new AppConfigurationClient(
 );
 ```
 
-Note: When `audience` property is not defined, the SDK will check the resource endpoint to determine the correct audience.
+Note: When `audience` property is not defined, the SDK will default to Azure Public Cloud.
 
 #### Authenticating with a connection string
 

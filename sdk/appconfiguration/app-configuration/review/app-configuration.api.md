@@ -199,7 +199,7 @@ export function isFeatureFlag(setting: ConfigurationSetting): setting is Configu
 export function isSecretReference(setting: ConfigurationSetting): setting is ConfigurationSetting & Required<Pick<ConfigurationSetting, "value">>;
 
 // @public
-export enum KnownAppConfigurationAudience {
+export enum KnownAppConfigAudience {
     AzureChina = "https://appconfig.azure.cn",
     AzureGovernment = "https://appconfig.azure.us",
     AzurePublicCloud = "https://appconfig.azure.com"
