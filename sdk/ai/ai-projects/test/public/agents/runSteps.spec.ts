@@ -12,15 +12,15 @@ describe("Agents - run steps", () => {
   let projectsClient: AIProjectsClient;
   let agents: AgentsOperations;
 
-  beforeEach(async function (context: VitestTestContext) {
-    recorder = await createRecorder(context);
-    projectsClient = createProjectsClient(recorder);
-    agents = projectsClient.agents;
-  });
+  beforeEach(async (context: VitestTestContext) => {
+      recorder = await createRecorder(context);
+      projectsClient = createProjectsClient(recorder);
+      agents = projectsClient.agents;
+    });
 
-  afterEach(async function () {
-    await recorder.stop();
-  });
+  afterEach(async () => {
+      await recorder.stop();
+    });
 
   it("should list run steps", async function () {
     // Create agent

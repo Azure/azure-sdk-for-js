@@ -11,15 +11,15 @@ describe("AI Projects - Telemetry", () => {
   let projectsClient: AIProjectsClient;
   let telemetry: TelemetryOperations;
 
-  beforeEach(async function (context: VitestTestContext) {
-    recorder = await createRecorder(context);
-    projectsClient = createProjectsClient(recorder);
-    telemetry = projectsClient.telemetry;
-  });
+  beforeEach(async (context: VitestTestContext) => {
+      recorder = await createRecorder(context);
+      projectsClient = createProjectsClient(recorder);
+      telemetry = projectsClient.telemetry;
+    });
 
-  afterEach(async function () {
-    await recorder.stop();
-  });
+  afterEach(async () => {
+      await recorder.stop();
+    });
   it("client and connection operations are accessible", async function () {
     assert.isNotNull(projectsClient);
     assert.isNotNull(telemetry);

@@ -50,22 +50,22 @@ describe("Agent Tracing", () => {
   let agents: AgentsOperations;
   let response: any = {};
   let status = 200;
-  beforeEach(async function () {
-    instrumenter = new ExtendedMockInstrumenter();
-    useInstrumenter(instrumenter);
+  beforeEach(async () => {
+      instrumenter = new ExtendedMockInstrumenter();
+      useInstrumenter(instrumenter);
 
-    projectsClient = createMockProjectsClient(() => {
-      return { bodyAsText: JSON.stringify(response), status: status };
+      projectsClient = createMockProjectsClient(() => {
+        return { bodyAsText: JSON.stringify(response), status: status };
+      });
+      agents = projectsClient.agents;
     });
-    agents = projectsClient.agents;
-  });
 
-  afterEach(async function () {
-    (instrumenter as MockInstrumenter).reset();
-    vi.clearAllMocks();
-    response = {};
-    status = 200;
-  });
+  afterEach(async () => {
+      (instrumenter as MockInstrumenter).reset();
+      vi.clearAllMocks();
+      response = {};
+      status = 200;
+    });
 
   it("create agent", async function () {
     const agentResponse: Partial<AgentOutput> = { id: "agentId", object: "assistant" };

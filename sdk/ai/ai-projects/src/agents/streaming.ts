@@ -19,7 +19,7 @@ import {
 import type { EventMessage, EventMessageStream } from "@azure/core-sse";
 import { createSseStream } from "@azure/core-sse";
 import { isNodeLike } from "@azure/core-util";
-import type { IncomingMessage } from "http";
+import type { IncomingMessage } from "node:http";
 import {
   validateMessages,
   validateMetadata,

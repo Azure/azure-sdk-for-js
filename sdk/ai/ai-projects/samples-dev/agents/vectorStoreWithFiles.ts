@@ -10,10 +10,8 @@
 
 import { AIProjectsClient } from "@azure/ai-projects";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-import { Readable } from "stream";
-dotenv.config();
-
+import "dotenv/config";
+import { Readable } from "node:stream";
 const connectionString =
   process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] || "<project connection string>";
 
