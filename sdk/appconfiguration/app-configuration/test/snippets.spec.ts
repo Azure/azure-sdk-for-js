@@ -18,13 +18,9 @@ describe("snippets", () => {
     // The endpoint for your App Configuration resource
     const endpoint = "https://example.azconfig.azure.cn";
     // Create an AppConfigurationClient that will authenticate through AAD in the China cloud
-    const client = new AppConfigurationClient(
-      endpoint,
-      new DefaultAzureCredential(),
-      {
-        audience: KnownAppConfigurationAudience.AzureChina
-      }
-    );
+    const client = new AppConfigurationClient(endpoint, new DefaultAzureCredential(), {
+      audience: KnownAppConfigurationAudience.AzureChina,
+    });
   });
 
   it("ReadmeSampleCreateClientWithConnectionString", async () => {
