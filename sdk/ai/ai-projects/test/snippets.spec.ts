@@ -26,7 +26,11 @@ import { DefaultAzureCredential } from "@azure/identity";
 import { setLogLevel } from "@azure/logger";
 import { describe, it } from "vitest";
 import { createReadStream, writeFileSync } from "node:fs";
-import { ConsoleSpanExporter, NodeTracerProvider, SimpleSpanProcessor } from "@opentelemetry/sdk-trace-node";
+import {
+  ConsoleSpanExporter,
+  NodeTracerProvider,
+  SimpleSpanProcessor,
+} from "@opentelemetry/sdk-trace-node";
 import { context, trace } from "@opentelemetry/api";
 import { AzureMonitorTraceExporter } from "@azure/monitor-opentelemetry-exporter";
 import { registerInstrumentations } from "@opentelemetry/instrumentation";
@@ -625,7 +629,7 @@ describe("snippets", () => {
 
   it("ReadmeSampleTracingSetup", async () => {
     const exporter = new AzureMonitorTraceExporter({
-      connectionString: "<connectionString>"
+      connectionString: "<connectionString>",
     });
     // @ts-preserve-whitespace
     const provider = new NodeTracerProvider({
@@ -653,29 +657,29 @@ describe("snippets", () => {
     // @ts-preserve-whitespace
     await tracer.startActiveSpan("main", async (span) => {
       client.telemetry.updateSettings({ enableContentRecording: true });
-       // @ts-preserve-whitespace
+      // @ts-preserve-whitespace
       const agent = await client.agents.createAgent("gpt-4o", {
         name: "my-agent",
         instructions: "You are helpful agent",
         tracingOptions: { tracingContext: context.active() },
       });
-       // @ts-preserve-whitespace
+      // @ts-preserve-whitespace
       console.log(`Created agent, agent ID : ${agent.id}`);
-       // @ts-preserve-whitespace
+      // @ts-preserve-whitespace
       const thread = await client.agents.createThread();
       console.log(`Created Thread, thread ID:  ${thread.id}`);
-       // @ts-preserve-whitespace
+      // @ts-preserve-whitespace
       // Create message
       const message = await client.agents.createMessage(thread.id, {
         role: "user",
         content: "Hello, tell me a joke",
       });
       console.log(`Created message, message ID ${message.id}`);
-       // @ts-preserve-whitespace
+      // @ts-preserve-whitespace
       // Create run
       let run = await client.agents.createRun(thread.id, agent.id);
       console.log(`Created Run, Run ID:  ${run.id}`);
-  
+
       while (["queued", "in_progress", "requires_action"].includes(run.status)) {
         await new Promise((resolve) => setTimeout(resolve, 1000));
         run = await client.agents.getRun(thread.id, run.id);
