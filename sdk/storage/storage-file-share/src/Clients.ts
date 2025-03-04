@@ -104,6 +104,7 @@ import type {
 } from "./generatedModels.js";
 import type {
   FileRenameHeaders,
+  FileUploadRangeOptionalParams,
   ListFilesAndDirectoriesSegmentResponse as GeneratedListFilesAndDirectoriesSegmentResponse,
   ListHandlesResponse as GeneratedListHandlesResponse,
 } from "./generated/src/models/index.js";
@@ -136,6 +137,7 @@ import {
   asSharePermission,
   parseOctalFileMode,
   toOctalFileMode,
+  setUploadChecksumParameters,
 } from "./utils/utils.common.js";
 import { Credential } from "@azure/storage-blob";
 import { StorageSharedKeyCredential } from "@azure/storage-blob";
@@ -147,7 +149,7 @@ import type { PageSettings, PagedAsyncIterableIterator } from "@azure/core-pagin
 import { FileDownloadResponse } from "./FileDownloadResponse.js";
 import type { Range } from "./Range.js";
 import { rangeToString } from "./Range.js";
-import type {
+import {
   CloseHandlesInfo,
   FileAndDirectoryCreateCommonOptions,
   FileAndDirectorySetPropertiesCommonOptions,
@@ -159,6 +161,7 @@ import type {
   ShareClientConfig,
   FilePosixProperties,
   TimeNowType,
+  StorageChecksumAlgorithm,
 } from "./models.js";
 import {
   fileAttributesToString,
@@ -189,6 +192,7 @@ import type { SASProtocol } from "./SASQueryParameters.js";
 import type { SasIPRange } from "./SasIPRange.js";
 import type { FileSASPermissions } from "./FileSASPermissions.js";
 import type { ListFilesIncludeType } from "./generated/src/index.js";
+import { StorageCRC64Calculator, structuredMessageDecodingBrowser, structuredMessageDecodingStream } from "@azure/storage-common";
 
 export { ShareClientOptions, ShareClientConfig } from "./models.js";
 
@@ -3098,6 +3102,11 @@ export interface FileDownloadOptions extends CommonOptions {
   rangeGetContentMD5?: boolean;
 
   /**
+   * 
+   */
+  contentChecksumAlgorithm?: StorageChecksumAlgorithm;
+
+  /**
    * Download progress updating event handler.
    */
   onProgress?: (progress: TransferProgressEvent) => void;
@@ -3142,6 +3151,10 @@ export interface FileUploadRangeOptions extends CommonOptions {
    * By default, the value will be set as Now.
    */
   fileLastWrittenMode?: FileLastWrittenMode;
+  /**
+   * 
+   */
+  contentChecksumAlgorithm?: StorageChecksumAlgorithm;
 }
 
 /**
@@ -4144,6 +4157,15 @@ export class ShareFileClient extends StorageClient {
     options: FileDownloadOptions = {},
   ): Promise<FileDownloadResponseModel> {
     return tracingClient.withSpan("ShareFileClient-download", options, async (updatedOptions) => {
+      let contentChecksumAlgorithm = options.contentChecksumAlgorithm ?? this.shareClientConfig?.downloadContentChecksumAlgorithm;
+      if ((contentChecksumAlgorithm === undefined)
+        || (contentChecksumAlgorithm === StorageChecksumAlgorithm.Auto)) {
+        contentChecksumAlgorithm = StorageChecksumAlgorithm.Customized;
+      }
+
+      if (contentChecksumAlgorithm === StorageChecksumAlgorithm.StorageCrc64) {
+        await StorageCRC64Calculator.init();
+      }
       if (updatedOptions.rangeGetContentMD5 && offset === 0 && count === undefined) {
         throw new RangeError(`rangeGetContentMD5 only works with partial data downloading`);
       }
@@ -4155,7 +4177,8 @@ export class ShareFileClient extends StorageClient {
           onDownloadProgress: isNodeLike ? undefined : updatedOptions.onProgress, // for Node.js, progress is reported by RetriableReadableStream
         },
         range: downloadFullFile ? undefined : rangeToString({ offset, count }),
-        ...this.shareClientConfig,
+        ...this.shareClientConfig,        
+        structuredBodyType: contentChecksumAlgorithm === StorageChecksumAlgorithm.StorageCrc64 ? "XSM/1.0; properties=crc64" : undefined,
       });
 
       const res = assertResponse<RawFileDownloadResponse, FileDownloadHeaders>({
@@ -4171,6 +4194,7 @@ export class ShareFileClient extends StorageClient {
 
       // Return browser response immediately
       if (!isNodeLike) {
+        res.blobBody = structuredMessageDecodingBrowser(await res.blobBody!);
         return res;
       }
 
@@ -4209,12 +4233,17 @@ export class ShareFileClient extends StorageClient {
             ...updatedOptions,
             ...updatedDownloadOptions,
             ...this.shareClientConfig, // TODO: confirm whether this is needed
+            structuredBodyType: contentChecksumAlgorithm === StorageChecksumAlgorithm.StorageCrc64 ? "XSM/1.0; properties=crc64" : undefined,
           });
 
           if (!(downloadRes.etag === res.etag)) {
             throw new Error("File has been modified concurrently");
-          }
-          return downloadRes.readableStreamBody!;
+          }          
+          
+          return structuredMessageDecodingStream(
+            downloadRes.readableStreamBody!,
+            {},
+          );
         },
         offset,
         res.contentLength!,
@@ -4589,20 +4618,26 @@ export class ShareFileClient extends StorageClient {
         if (contentLength > FILE_RANGE_MAX_SIZE_BYTES) {
           throw new RangeError(`offset must be < ${FILE_RANGE_MAX_SIZE_BYTES} bytes`);
         }
-
-        return assertResponse<FileUploadRangeHeaders, FileUploadRangeHeaders>(
-          await this.context.uploadRange(
-            rangeToString({ count: contentLength, offset }),
-            "update",
-            contentLength,
+        
+        const parameters : FileUploadRangeOptionalParams = 
             {
               ...updatedOptions,
               requestOptions: {
                 onUploadProgress: updatedOptions.onProgress,
               },
-              body,
               ...this.shareClientConfig,
-            },
+            }
+        const uploadBodyParameters = await setUploadChecksumParameters(body, contentLength, parameters, options, 
+          this.shareClientConfig?.uploadContentChecksumAlgorithm);
+
+        parameters.body = uploadBodyParameters.body;
+
+        return assertResponse<FileUploadRangeHeaders, FileUploadRangeHeaders>(
+          await this.context.uploadRange(
+            rangeToString({ count: contentLength, offset }),
+            "update",
+            uploadBodyParameters.contentLength,
+            parameters,
           ),
         );
       },

@@ -18,6 +18,7 @@ import type {
 import { RetriableReadableStream } from "./utils/RetriableReadableStream.js";
 import type { HttpResponse, WithResponse } from "./utils/utils.common.js";
 import { assertResponse } from "./utils/utils.common.js";
+import { structuredMessageDecodingStream } from "@azure/storage-common";
 
 /**
  * ONLY AVAILABLE IN NODE.JS RUNTIME.
@@ -388,6 +389,14 @@ export class FileDownloadResponse implements FileDownloadResponseModel {
     return this.originalResponse.posixProperties;
   }
 
+  public get structuredBodyType(): string | undefined{
+    return this.originalResponse.structuredBodyType;
+  }
+
+  public get structuredContentLength(): number | undefined{
+    return this.originalResponse.structuredContentLength;
+  }
+
   /**
    * The response body as a node.js Readable stream.
    * Always undefined in the browser.
@@ -429,7 +438,7 @@ export class FileDownloadResponse implements FileDownloadResponseModel {
       originalResponse,
     );
     this.fileDownloadStream = new RetriableReadableStream(
-      this.originalResponse.readableStreamBody!,
+      structuredMessageDecodingStream(this.originalResponse.readableStreamBody!, {}),
       getter,
       offset,
       count,

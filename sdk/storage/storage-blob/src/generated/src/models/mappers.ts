@@ -4217,6 +4217,20 @@ export const BlobDownloadHeaders: coreClient.CompositeMapper = {
           name: "Boolean",
         },
       },
+      structuredBodyType: {
+        serializedName: "x-ms-structured-body",
+        xmlName: "x-ms-structured-body",
+        type: {
+          name: "String",
+        },
+      },
+      structuredContentLength: {
+        serializedName: "x-ms-structured-content-length",
+        xmlName: "x-ms-structured-content-length",
+        type: {
+          name: "Number",
+        },
+      },
       errorCode: {
         serializedName: "x-ms-error-code",
         xmlName: "x-ms-error-code",
@@ -6714,6 +6728,13 @@ export const PageBlobUploadPagesHeaders: coreClient.CompositeMapper = {
           name: "String",
         },
       },
+      structuredBodyType: {
+        serializedName: "x-ms-structured-body",
+        xmlName: "x-ms-structured-body",
+        type: {
+          name: "String",
+        },
+      },
       errorCode: {
         serializedName: "x-ms-error-code",
         xmlName: "x-ms-error-code",
@@ -7586,6 +7607,13 @@ export const AppendBlobAppendBlockHeaders: coreClient.CompositeMapper = {
           name: "String",
         },
       },
+      structuredBodyType: {
+        serializedName: "x-ms-structured-body",
+        xmlName: "x-ms-structured-body",
+        type: {
+          name: "String",
+        },
+      },
       errorCode: {
         serializedName: "x-ms-error-code",
         xmlName: "x-ms-error-code",
@@ -7893,6 +7921,13 @@ export const BlockBlobUploadHeaders: coreClient.CompositeMapper = {
           name: "String",
         },
       },
+      structuredBodyType: {
+        serializedName: "x-ms-structured-body",
+        xmlName: "x-ms-structured-body",
+        type: {
+          name: "String",
+        },
+      },
       errorCode: {
         serializedName: "x-ms-error-code",
         xmlName: "x-ms-error-code",
@@ -8098,6 +8133,13 @@ export const BlockBlobStageBlockHeaders: coreClient.CompositeMapper = {
       encryptionScope: {
         serializedName: "x-ms-encryption-scope",
         xmlName: "x-ms-encryption-scope",
+        type: {
+          name: "String",
+        },
+      },
+      structuredBodyType: {
+        serializedName: "x-ms-structured-body",
+        xmlName: "x-ms-structured-body",
         type: {
           name: "String",
         },

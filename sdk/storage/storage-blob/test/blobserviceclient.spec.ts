@@ -367,10 +367,10 @@ describe("BlobServiceClient", () => {
 
     const newCORS = {
       allowedHeaders: "*",
-      allowedMethods: "GET",
-      allowedOrigins: "example.com",
+      allowedMethods: "DELETE,GET,HEAD,MERGE,POST,OPTIONS,PUT,PATCH",
+      allowedOrigins: "*",
       exposedHeaders: "*",
-      maxAgeInSeconds: 8888,
+      maxAgeInSeconds: 86400,
     };
     if (!serviceProperties.cors) {
       serviceProperties.cors = [newCORS];

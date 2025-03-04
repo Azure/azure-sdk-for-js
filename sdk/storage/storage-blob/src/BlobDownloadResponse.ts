@@ -18,6 +18,7 @@ import type {
 } from "./utils/RetriableReadableStream.js";
 import { RetriableReadableStream } from "./utils/RetriableReadableStream.js";
 import type { ResponseWithHeaders } from "./utils/utils.common.js";
+import { structuredMessageDecodingStream } from "@azure/storage-common";
 
 /**
  * ONLY AVAILABLE IN NODE.JS RUNTIME.
@@ -481,6 +482,10 @@ export class BlobDownloadResponse implements BlobDownloadResponseParsed {
     return this.originalResponse.legalHold;
   }
 
+  public get structuredBodyType() : string | undefined {
+    return this.originalResponse.structuredBodyType;
+  }
+
   /**
    * The response body as a browser Blob.
    * Always undefined in node.js.
@@ -531,7 +536,7 @@ export class BlobDownloadResponse implements BlobDownloadResponseParsed {
   ) {
     this.originalResponse = originalResponse;
     this.blobDownloadStream = new RetriableReadableStream(
-      this.originalResponse.readableStreamBody!,
+      structuredMessageDecodingStream(this.originalResponse.readableStreamBody!, options),
       getter,
       offset,
       count,

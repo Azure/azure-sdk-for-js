@@ -4184,6 +4184,20 @@ export const FileDownloadHeaders: coreClient.CompositeMapper = {
           allowedValues: ["locked", "unlocked"]
         }
       },
+      structuredBodyType: {
+        serializedName: "x-ms-structured-body",
+        xmlName: "x-ms-structured-body",
+        type: {
+          name: "String"
+        }
+      },
+      structuredContentLength: {
+        serializedName: "x-ms-structured-content-length",
+        xmlName: "x-ms-structured-content-length",
+        type: {
+          name: "Number"
+        }
+      },
       fileMode: {
         serializedName: "x-ms-mode",
         xmlName: "x-ms-mode",
@@ -5179,6 +5193,13 @@ export const FileUploadRangeHeaders: coreClient.CompositeMapper = {
         xmlName: "x-ms-file-last-write-time",
         type: {
           name: "DateTimeRfc1123"
+        }
+      },
+      structuredBodyType: {
+        serializedName: "x-ms-structured-body",
+        xmlName: "x-ms-structured-body",
+        type: {
+          name: "String"
         }
       },
       errorCode: {
