@@ -1,3 +1,12 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+/**
+ * This sample demonstrates how to use agent operations with code interpreter from the Azure Agents service.
+ *
+ * @summary demonstrates how to use agent operations with code interpreter.
+ */
+
 const { AIProjectsClient, isOutputOfType, ToolUtility } = require("@azure/ai-projects");
 const { delay } = require("@azure/core-util");
 const { DefaultAzureCredential } = require("@azure/identity");
@@ -103,7 +112,7 @@ async function main() {
 
   // Iterate through messages and print details for each annotation
   console.log(`Message Details:`);
-  messages.data.forEach((m) => {
+  await messages.data.forEach((m) => {
     console.log(`File Paths:`);
     console.log(`Type: ${m.content[0].type}`);
     if (isOutputOfType(m.content[0], "text")) {

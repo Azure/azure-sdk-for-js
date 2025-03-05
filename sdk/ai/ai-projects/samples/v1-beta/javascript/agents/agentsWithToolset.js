@@ -50,8 +50,8 @@ async function main() {
 
   // Create tool set
   const toolSet = new ToolSet();
-  toolSet.addFileSearchTool([vectorStore.id]);
-  toolSet.addCodeInterpreterTool([codeInterpreterFile.id]);
+  await toolSet.addFileSearchTool([vectorStore.id]);
+  await toolSet.addCodeInterpreterTool([codeInterpreterFile.id]);
 
   // Create agent with tool set
   const agent = await client.agents.createAgent("gpt-4o", {
