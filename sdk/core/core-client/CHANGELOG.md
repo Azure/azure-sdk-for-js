@@ -1,14 +1,10 @@
 # Release History
 
-## 1.9.3 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
+## 1.9.3 (2025-03-06)
 
 ### Other Changes
+
+- Improve RestError code and message in some scenario [PR #33151](https://github.com/Azure/azure-sdk-for-js/pull/33151)
 
 ## 1.9.2 (2024-04-09)
 

@@ -1,16 +1,10 @@
 # Release History
 
-## 4.3.6 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
+## 4.3.6 (2025-03-06)
 
 ### Bugs Fixed
 
 - Designates `EAI_AGAIN` and `EADDRNOTAVAIL` errors as timeout errors to be retryable.
-
-### Other Changes
 
 ## 4.3.5 (2025-02-06)
 
@@ -40,12 +34,6 @@
 ### Bugs Fixed
 
 - Address React-Native regression after ESM migration [Issue #30065](https://github.com/Azure/azure-sdk-for-js/issues/30065)
-
-## 4.4.0-beta.1 (2024-06-06)
-
-### Features Added
-
-- Exports a constant for the geographic replication feature.
 
 ## 4.3.0 (2024-05-20)
 
