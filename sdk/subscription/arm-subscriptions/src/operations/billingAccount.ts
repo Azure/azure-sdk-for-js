@@ -6,15 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { BillingAccount } from "../operationsInterfaces";
+import { BillingAccount } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { SubscriptionClient } from "../subscriptionClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { SubscriptionClient } from "../subscriptionClient.js";
 import {
   BillingAccountGetPolicyOptionalParams,
   BillingAccountGetPolicyResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Class containing BillingAccount operations. */
 export class BillingAccountImpl implements BillingAccount {

@@ -8,10 +8,9 @@
 import { ShortCodesClient } from "@azure-tools/communication-short-codes";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
-export async function main() {
+export async function main(): Promise<void> {
   console.log("\n== Get All Program Briefs and Delete Program Brief Sample ==\n");
 
   // You will need to set this environment variable or edit the following values
@@ -23,11 +22,11 @@ export async function main() {
   const client = new ShortCodesClient(connectionString);
 
   // get all program briefs for a resource
-  var programBriefs = await client.listUSProgramBriefs({
+  const programBriefs = await client.listUSProgramBriefs({
     onResponse:
       (response) =>
       (res = response) => {
-        if (!res || res.status != 200) {
+        if (!res || res.status !== 200) {
           throw new Error(
             `US Program briefs Listing failed.
           Status code: ${res.status}; 

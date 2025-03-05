@@ -11,17 +11,17 @@ const ModelClient = require("@azure-rest/ai-inference").default,
   { isUnexpected } = require("@azure-rest/ai-inference");
 const { AzureKeyCredential } = require("@azure/core-auth");
 const { DefaultAzureCredential } = require("@azure/identity");
+const { createRestError } = require("@azure-rest/core-client");
 
 // Load the .env file if it exists
-require("dotenv").config();
-
+require("dotenv/config");
 // You will need to set these environment variables or edit the following values
 const endpoint = process.env["ENDPOINT"] || "<endpoint>";
 const key = process.env["KEY"];
 const modelName = process.env["MODEL_NAME"];
 
 async function main() {
-  console.log("== Chat Completions Sample ==");
+  console.log("== Text Embeddings Sample ==");
 
   const client = createModelClient();
   const response = await client.path("/embeddings").post({
@@ -32,7 +32,7 @@ async function main() {
   });
 
   if (isUnexpected(response)) {
-    throw response.body.error;
+    throw createRestError(response);
   }
   for (const data of response.body.data) {
     console.log(data);
@@ -53,8 +53,7 @@ function createModelClient() {
     const scopes = [];
     if (endpoint.includes(".models.ai.azure.com")) {
       scopes.push("https://ml.azure.com");
-    }
-    else if (endpoint.includes(".openai.azure.com/openai/deployments/")) {
+    } else if (endpoint.includes(".openai.azure.com/openai/deployments/")) {
       scopes.push("https://cognitiveservices.azure.com");
     }
 

@@ -30,7 +30,7 @@ async function listCommunityGalleryImageVersions() {
       subscriptionId,
       location,
       publicGalleryName,
-      galleryImageName
+      galleryImageName,
     )
     .get(options);
   const pageData = paginate(client, initialResponse);

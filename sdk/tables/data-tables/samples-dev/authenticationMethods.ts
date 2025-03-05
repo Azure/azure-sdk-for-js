@@ -36,7 +36,7 @@ const sasToken = process.env["SAS_TOKEN"] || "";
  */
 async function tableServiceClientWithSasConnectionString(): Promise<void> {
   const client = TableServiceClient.fromConnectionString(sasConnectionString);
-  countTablesWithClient(client);
+  await countTablesWithClient(client);
 }
 
 /**
@@ -49,7 +49,7 @@ async function tableServiceClientWithAAD(): Promise<void> {
   // - AZURE_CLIENT_SECRET: The client secret for the registered application
   const credential = new DefaultAzureCredential();
   const client = new TableServiceClient(tablesUrl, credential);
-  countTablesWithClient(client);
+  await countTablesWithClient(client);
 }
 
 /**
@@ -57,7 +57,7 @@ async function tableServiceClientWithAAD(): Promise<void> {
  */
 async function tableServiceClientWithSasToken(): Promise<void> {
   const client = new TableServiceClient(tablesUrl, new AzureSASCredential(sasToken));
-  countTablesWithClient(client);
+  await countTablesWithClient(client);
 }
 
 /**
@@ -67,7 +67,7 @@ async function tableServiceClientWithSasToken(): Promise<void> {
  */
 async function tableServiceClientWithAccountConnectionString(): Promise<void> {
   const client = TableServiceClient.fromConnectionString(accountConnectionString);
-  countTablesWithClient(client);
+  await countTablesWithClient(client);
 }
 
 /**
@@ -78,7 +78,7 @@ async function tableServiceClientWithAccountConnectionString(): Promise<void> {
 async function tableServiceClientWithAccountKey(): Promise<void> {
   const creds = new AzureNamedKeyCredential(accountName, accountKey);
   const client = new TableServiceClient(tablesUrl, creds);
-  countTablesWithClient(client);
+  await countTablesWithClient(client);
 }
 
 async function countTablesWithClient(client: TableServiceClient): Promise<void> {

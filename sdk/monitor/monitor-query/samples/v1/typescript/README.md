@@ -2,13 +2,13 @@
 
 These sample programs show how to use the TypeScript client libraries for Monitor Query in some common scenarios.
 
-| **File Name**                                                 | **Description**                                                         |
-| ------------------------------------------------------------- | ----------------------------------------------------------------------- |
-| [logsQuery.ts][logsquery]                                     | Demonstrates how to run a query against a Log Analytics workspace, using a workspace ID      |
-| [logsQueryBatch.ts][logsquerybatch]                           | Demonstrates how to run a batch query against a Log Analytics workspace |
-| [logsQueryMultipleWorkspaces.ts][logsquerymultipleworkspaces] | Demonstrates how to run a query against a Log Analytics workspace       |
-| [logsResourceCentricQuery.ts][logsresourcecentricquery]       | Demonstrates how to run a query against a Log Analytics workspace, using an Azure resource ID            |
-| [metricsQuery.ts][metricsquery]                               | Demonstrates how to query metrics using the MetricsClient.              |
+| **File Name**                                                 | **Description**                                                                                |
+| ------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
+| [logsQuery.ts][logsquery]                                     | Demonstrates how to run a query against a Log Analytics workspace                              |
+| [logsQueryBatch.ts][logsquerybatch]                           | Demonstrates how to run a batch query against a Log Analytics workspace                        |
+| [logsQueryMultipleWorkspaces.ts][logsquerymultipleworkspaces] | Demonstrates how to run a query against a Log Analytics workspace                              |
+| [logsResourceCentricQuery.ts][logsresourcecentricquery]       | Demonstrates how to run a query against a Log Analytics workspace, using an Azure resource ID. |
+| [metricsQuery.ts][metricsquery]                               | Demonstrates how to query metrics using the MetricsClient.                                     |
 
 ## Prerequisites
 

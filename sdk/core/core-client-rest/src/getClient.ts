@@ -15,6 +15,7 @@ import type {
 } from "./common.js";
 import { sendRequest } from "./sendRequest.js";
 import { buildRequestUrl } from "./urlHelpers.js";
+import { isNodeLike } from "@azure/core-util";
 
 /**
  * Creates a client with a default pipeline
@@ -176,22 +177,34 @@ function buildOperation(
       ).then(onFulfilled, onrejected);
     },
     async asBrowserStream() {
-      return sendRequest(
-        method,
-        url,
-        pipeline,
-        { ...options, allowInsecureConnection, responseAsStream: true },
-        httpClient,
-      ) as Promise<HttpBrowserStreamResponse>;
+      if (isNodeLike) {
+        throw new Error(
+          "`asBrowserStream` is supported only in the browser environment. Use `asNodeStream` instead to obtain the response body stream. If you require a Web stream of the response in Node, consider using `Readable.toWeb` on the result of `asNodeStream`.",
+        );
+      } else {
+        return sendRequest(
+          method,
+          url,
+          pipeline,
+          { ...options, allowInsecureConnection, responseAsStream: true },
+          httpClient,
+        ) as Promise<HttpBrowserStreamResponse>;
+      }
     },
     async asNodeStream() {
-      return sendRequest(
-        method,
-        url,
-        pipeline,
-        { ...options, allowInsecureConnection, responseAsStream: true },
-        httpClient,
-      ) as Promise<HttpNodeStreamResponse>;
+      if (isNodeLike) {
+        return sendRequest(
+          method,
+          url,
+          pipeline,
+          { ...options, allowInsecureConnection, responseAsStream: true },
+          httpClient,
+        ) as Promise<HttpNodeStreamResponse>;
+      } else {
+        throw new Error(
+          "`isNodeStream` is not supported in the browser environment. Use `asBrowserStream` to obtain the response body stream.",
+        );
+      }
     },
   };
 }

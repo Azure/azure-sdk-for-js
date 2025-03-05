@@ -112,7 +112,7 @@ You will need to add a sample configuration section in your `package.json` file 
     "productName": "A description of your services",
     "productSlugs": ["azure"],
     "disableDocsMs": true,
-    "apiRefLink": "<the-link-to-your-service-on-docs.microsoft.com>"
+    "apiRefLink": "<the-link-to-your-service-on-learn.microsoft.com>"
   }
 ```
 

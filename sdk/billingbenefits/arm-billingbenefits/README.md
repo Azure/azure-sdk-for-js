@@ -48,20 +48,26 @@ Set the values of the client ID, tenant ID, and client secret of the AAD applica
 
 For more information about how to create an Azure AD Application check out [this guide](https://learn.microsoft.com/azure/active-directory/develop/howto-create-service-principal-portal).
 
-```javascript
-const { BillingBenefitsRP } = require("@azure/arm-billingbenefits");
-const { DefaultAzureCredential } = require("@azure/identity");
-// For client-side applications running in the browser, use InteractiveBrowserCredential instead of DefaultAzureCredential. See https://aka.ms/azsdk/js/identity/examples for more details.
+Using Node.js and Node-like environments, you can use the `DefaultAzureCredential` class to authenticate the client.
 
-const subscriptionId = "00000000-0000-0000-0000-000000000000";
-const client = new BillingBenefitsRP(new DefaultAzureCredential(), subscriptionId);
+```ts snippet:ReadmeSampleCreateClient_Node
+import { BillingBenefitsRP } from "@azure/arm-billingbenefits";
+import { DefaultAzureCredential } from "@azure/identity";
 
-// For client-side applications running in the browser, use this code instead:
-// const credential = new InteractiveBrowserCredential({
-//   tenantId: "<YOUR_TENANT_ID>",
-//   clientId: "<YOUR_CLIENT_ID>"
-// });
-// const client = new BillingBenefitsRP(credential, subscriptionId);
+const client = new BillingBenefitsRP(new DefaultAzureCredential());
+```
+
+For browser environments, use the `InteractiveBrowserCredential` from the `@azure/identity` package to authenticate.
+
+```ts snippet:ReadmeSampleCreateClient_Browser
+import { InteractiveBrowserCredential } from "@azure/identity";
+import { BillingBenefitsRP } from "@azure/arm-billingbenefits";
+
+const credential = new InteractiveBrowserCredential({
+  tenantId: "<YOUR_TENANT_ID>",
+  clientId: "<YOUR_CLIENT_ID>",
+});
+const client = new BillingBenefitsRP(credential);
 ```
 
 ### JavaScript Bundle
@@ -80,8 +86,9 @@ To use this client library in the browser, first you need to use a bundler. For 
 
 Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
 
-```javascript
-const { setLogLevel } = require("@azure/logger");
+```ts snippet:SetLogLevel
+import { setLogLevel } from "@azure/logger";
+
 setLogLevel("info");
 ```
 
@@ -99,7 +106,7 @@ If you'd like to contribute to this library, please read the [contributing guide
 
 - [Microsoft Azure SDK for JavaScript](https://github.com/Azure/azure-sdk-for-js)
 
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fbillingbenefits%2Farm-billingbenefits%2FREADME.png)
+
 
 [azure_cli]: https://learn.microsoft.com/cli/azure
 [azure_sub]: https://azure.microsoft.com/free/

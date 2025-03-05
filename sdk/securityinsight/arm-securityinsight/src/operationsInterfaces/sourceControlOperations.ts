@@ -11,7 +11,7 @@ import {
   Repo,
   RepoType,
   SourceControlListRepositoriesOptionalParams
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a SourceControlOperations. */

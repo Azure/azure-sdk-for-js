@@ -49,7 +49,7 @@
       "azure-translator"
     ],
     "requiredResources": {
-      "Azure Cognitive Services instance": "https://docs.microsoft.com/azure/cognitive-services/cognitive-services-apis-create-account"
+      "Azure Cognitive Services instance": "https://learn.microsoft.com/azure/cognitive-services/cognitive-services-apis-create-account"
     }
   },
   "scripts": {
@@ -77,17 +77,17 @@
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
     "unit-test:browser": "npm run clean && dev-tool run build-package && dev-tool run build-test && dev-tool run test:vitest --browser",
     "unit-test:node": "dev-tool run test:vitest",
-    "update-snippets": "echo skipped"
+    "update-snippets": "dev-tool run update-snippets"
   },
   "sideEffects": false,
   "autoPublish": false,
   "dependencies": {
-    "@azure-tools/test-recorder": "^3.0.0",
-    "@azure/core-lro": "^3.0.0",
-    "@azure/abort-controller": "^2.1.2",
     "@azure-rest/core-client": "^2.3.1",
+    "@azure-tools/test-recorder": "^3.0.0",
+    "@azure/abort-controller": "^2.1.2",
     "@azure/core-auth": "^1.9.0",
-    "@azure/core-rest-pipeline": "^1.18.0",
+    "@azure/core-lro": "^3.0.0",
+    "@azure/core-rest-pipeline": "^1.18.2",
     "@azure/logger": "^1.1.4",
     "tslib": "^2.8.1"
   },
@@ -97,18 +97,19 @@
     "@azure-tools/test-utils-vitest": "^1.0.0",
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
-    "@azure/identity": "^4.5.0",
+    "@azure/identity": "^4.6.0",
     "@types/node": "^18.0.0",
-    "@vitest/browser": "^2.1.5",
-    "@vitest/coverage-istanbul": "^2.1.5",
+    "@vitest/browser": "^3.0.3",
+    "@vitest/coverage-istanbul": "^3.0.3",
     "dotenv": "^16.0.0",
     "eslint": "^9.9.0",
-    "playwright": "^1.49.0",
+    "playwright": "^1.50.1",
     "typescript": "~5.7.2",
-    "vitest": "^2.1.5"
+    "vitest": "^3.0.3"
   },
   "type": "module",
   "tshy": {
+    "project": "./tsconfig.src.json",
     "exports": {
       "./package.json": "./package.json",
       ".": "./src/index.ts"
@@ -121,8 +122,7 @@
       "browser",
       "react-native"
     ],
-    "selfLink": false,
-    "project": "./tsconfig.src.json"
+    "selfLink": false
   },
   "browser": "./dist/browser/index.js",
   "exports": {
@@ -145,5 +145,6 @@
         "default": "./dist/commonjs/index.js"
       }
     }
-  }
+  },
+  "react-native": "./dist/react-native/index.js"
 }

@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { MicrosoftSecurityDevOps } from "@azure/arm-securitydevops";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Delete monitored GitHub Connector details.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Delete monitored GitHub Connector details.
  * x-ms-original-file: specification/securitydevops/resource-manager/Microsoft.SecurityDevOps/preview/2022-09-01-preview/examples/GitHubConnectorDelete.json
  */
-async function gitHubConnectorDelete() {
+async function gitHubConnectorDelete(): Promise<void> {
   const subscriptionId =
     process.env["SECURITYDEVOPS_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -36,7 +34,7 @@ async function gitHubConnectorDelete() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   gitHubConnectorDelete();
 }
 

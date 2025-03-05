@@ -9,7 +9,7 @@
 import {
   OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter
+  OperationQueryParameter,
 } from "@azure/core-client";
 import {
   Cluster as ClusterMapper,
@@ -17,6 +17,8 @@ import {
   ClusterMigrateRequest as ClusterMigrateRequestMapper,
   FollowerDatabaseDefinition as FollowerDatabaseDefinitionMapper,
   ClusterCheckNameRequest as ClusterCheckNameRequestMapper,
+  CalloutPoliciesList as CalloutPoliciesListMapper,
+  CalloutPolicyToRemove as CalloutPolicyToRemoveMapper,
   LanguageExtensionsList as LanguageExtensionsListMapper,
   ClusterPrincipalAssignmentCheckNameRequest as ClusterPrincipalAssignmentCheckNameRequestMapper,
   ClusterPrincipalAssignment as ClusterPrincipalAssignmentMapper,
@@ -37,8 +39,8 @@ import {
   PrivateEndpointConnection as PrivateEndpointConnectionMapper,
   DataConnectionValidation as DataConnectionValidationMapper,
   DataConnectionCheckNameRequest as DataConnectionCheckNameRequestMapper,
-  DataConnection as DataConnectionMapper
-} from "../models/mappers";
+  DataConnection as DataConnectionMapper,
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",
@@ -47,9 +49,9 @@ export const accept: OperationParameter = {
     isConstant: true,
     serializedName: "Accept",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const $host: OperationURLParameter = {
@@ -58,10 +60,10 @@ export const $host: OperationURLParameter = {
     serializedName: "$host",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const resourceGroupName: OperationURLParameter = {
@@ -69,54 +71,54 @@ export const resourceGroupName: OperationURLParameter = {
   mapper: {
     constraints: {
       MaxLength: 90,
-      MinLength: 1
+      MinLength: 1,
     },
     serializedName: "resourceGroupName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const clusterName: OperationURLParameter = {
   parameterPath: "clusterName",
   mapper: {
     constraints: {
-      Pattern: new RegExp("^.*$")
+      Pattern: new RegExp("^.*$"),
     },
     serializedName: "clusterName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const subscriptionId: OperationURLParameter = {
   parameterPath: "subscriptionId",
   mapper: {
     constraints: {
-      MinLength: 1
+      MinLength: 1,
     },
     serializedName: "subscriptionId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2023-08-15",
+    defaultValue: "2024-04-13",
     isConstant: true,
     serializedName: "api-version",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const contentType: OperationParameter = {
@@ -126,14 +128,14 @@ export const contentType: OperationParameter = {
     isConstant: true,
     serializedName: "Content-Type",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const parameters: OperationParameter = {
   parameterPath: "parameters",
-  mapper: ClusterMapper
+  mapper: ClusterMapper,
 };
 
 export const ifMatch: OperationParameter = {
@@ -141,9 +143,9 @@ export const ifMatch: OperationParameter = {
   mapper: {
     serializedName: "If-Match",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const ifNoneMatch: OperationParameter = {
@@ -151,53 +153,63 @@ export const ifNoneMatch: OperationParameter = {
   mapper: {
     serializedName: "If-None-Match",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const parameters1: OperationParameter = {
   parameterPath: "parameters",
-  mapper: ClusterUpdateMapper
+  mapper: ClusterUpdateMapper,
 };
 
 export const clusterMigrateRequest: OperationParameter = {
   parameterPath: "clusterMigrateRequest",
-  mapper: ClusterMigrateRequestMapper
+  mapper: ClusterMigrateRequestMapper,
 };
 
 export const followerDatabaseToRemove: OperationParameter = {
   parameterPath: "followerDatabaseToRemove",
-  mapper: FollowerDatabaseDefinitionMapper
+  mapper: FollowerDatabaseDefinitionMapper,
 };
 
 export const clusterName1: OperationParameter = {
   parameterPath: "clusterName",
-  mapper: ClusterCheckNameRequestMapper
+  mapper: ClusterCheckNameRequestMapper,
 };
 
 export const location: OperationURLParameter = {
   parameterPath: "location",
   mapper: {
     constraints: {
-      MinLength: 1
+      MinLength: 1,
     },
     serializedName: "location",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
+};
+
+export const calloutPolicies: OperationParameter = {
+  parameterPath: "calloutPolicies",
+  mapper: CalloutPoliciesListMapper,
+};
+
+export const calloutPolicy: OperationParameter = {
+  parameterPath: "calloutPolicy",
+  mapper: CalloutPolicyToRemoveMapper,
 };
 
 export const languageExtensionsToAdd: OperationParameter = {
   parameterPath: "languageExtensionsToAdd",
-  mapper: LanguageExtensionsListMapper
+  mapper: LanguageExtensionsListMapper,
 };
 
 export const languageExtensionsToRemove: OperationParameter = {
   parameterPath: "languageExtensionsToRemove",
-  mapper: LanguageExtensionsListMapper
+  mapper: LanguageExtensionsListMapper,
 };
 
 export const nextLink: OperationURLParameter = {
@@ -206,39 +218,39 @@ export const nextLink: OperationURLParameter = {
     serializedName: "nextLink",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const principalAssignmentName: OperationParameter = {
   parameterPath: "principalAssignmentName",
-  mapper: ClusterPrincipalAssignmentCheckNameRequestMapper
+  mapper: ClusterPrincipalAssignmentCheckNameRequestMapper,
 };
 
 export const principalAssignmentName1: OperationURLParameter = {
   parameterPath: "principalAssignmentName",
   mapper: {
     constraints: {
-      Pattern: new RegExp("^.*$")
+      Pattern: new RegExp("^.*$"),
     },
     serializedName: "principalAssignmentName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const parameters2: OperationParameter = {
   parameterPath: "parameters",
-  mapper: ClusterPrincipalAssignmentMapper
+  mapper: ClusterPrincipalAssignmentMapper,
 };
 
 export const resourceName: OperationParameter = {
   parameterPath: "resourceName",
-  mapper: CheckNameRequestMapper
+  mapper: CheckNameRequestMapper,
 };
 
 export const top: OperationQueryParameter = {
@@ -246,13 +258,13 @@ export const top: OperationQueryParameter = {
   mapper: {
     constraints: {
       InclusiveMaximum: 1000,
-      InclusiveMinimum: 5
+      InclusiveMinimum: 5,
     },
     serializedName: "$top",
     type: {
-      name: "Number"
-    }
-  }
+      name: "Number",
+    },
+  },
 };
 
 export const skiptoken: OperationQueryParameter = {
@@ -260,28 +272,28 @@ export const skiptoken: OperationQueryParameter = {
   mapper: {
     serializedName: "$skiptoken",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const databaseName: OperationURLParameter = {
   parameterPath: "databaseName",
   mapper: {
     constraints: {
-      Pattern: new RegExp("^.*$")
+      Pattern: new RegExp("^.*$"),
     },
     serializedName: "databaseName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const parameters3: OperationParameter = {
   parameterPath: "parameters",
-  mapper: DatabaseMapper
+  mapper: DatabaseMapper,
 };
 
 export const callerRole: OperationQueryParameter = {
@@ -290,204 +302,204 @@ export const callerRole: OperationQueryParameter = {
     defaultValue: "Admin",
     serializedName: "callerRole",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const databasePrincipalsToAdd: OperationParameter = {
   parameterPath: "databasePrincipalsToAdd",
-  mapper: DatabasePrincipalListRequestMapper
+  mapper: DatabasePrincipalListRequestMapper,
 };
 
 export const databasePrincipalsToRemove: OperationParameter = {
   parameterPath: "databasePrincipalsToRemove",
-  mapper: DatabasePrincipalListRequestMapper
+  mapper: DatabasePrincipalListRequestMapper,
 };
 
 export const resourceName1: OperationParameter = {
   parameterPath: "resourceName",
-  mapper: AttachedDatabaseConfigurationsCheckNameRequestMapper
+  mapper: AttachedDatabaseConfigurationsCheckNameRequestMapper,
 };
 
 export const attachedDatabaseConfigurationName: OperationURLParameter = {
   parameterPath: "attachedDatabaseConfigurationName",
   mapper: {
     constraints: {
-      Pattern: new RegExp("^.*$")
+      Pattern: new RegExp("^.*$"),
     },
     serializedName: "attachedDatabaseConfigurationName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const parameters4: OperationParameter = {
   parameterPath: "parameters",
-  mapper: AttachedDatabaseConfigurationMapper
+  mapper: AttachedDatabaseConfigurationMapper,
 };
 
 export const resourceName2: OperationParameter = {
   parameterPath: "resourceName",
-  mapper: ManagedPrivateEndpointsCheckNameRequestMapper
+  mapper: ManagedPrivateEndpointsCheckNameRequestMapper,
 };
 
 export const managedPrivateEndpointName: OperationURLParameter = {
   parameterPath: "managedPrivateEndpointName",
   mapper: {
     constraints: {
-      Pattern: new RegExp("^.*$")
+      Pattern: new RegExp("^.*$"),
     },
     serializedName: "managedPrivateEndpointName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const parameters5: OperationParameter = {
   parameterPath: "parameters",
-  mapper: ManagedPrivateEndpointMapper
+  mapper: ManagedPrivateEndpointMapper,
 };
 
 export const parameters6: OperationParameter = {
   parameterPath: "parameters",
-  mapper: DatabaseInviteFollowerRequestMapper
+  mapper: DatabaseInviteFollowerRequestMapper,
 };
 
 export const principalAssignmentName2: OperationParameter = {
   parameterPath: "principalAssignmentName",
-  mapper: DatabasePrincipalAssignmentCheckNameRequestMapper
+  mapper: DatabasePrincipalAssignmentCheckNameRequestMapper,
 };
 
 export const parameters7: OperationParameter = {
   parameterPath: "parameters",
-  mapper: DatabasePrincipalAssignmentMapper
+  mapper: DatabasePrincipalAssignmentMapper,
 };
 
 export const scriptName: OperationURLParameter = {
   parameterPath: "scriptName",
   mapper: {
     constraints: {
-      Pattern: new RegExp("^.*$")
+      Pattern: new RegExp("^.*$"),
     },
     serializedName: "scriptName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const parameters8: OperationParameter = {
   parameterPath: "parameters",
-  mapper: ScriptMapper
+  mapper: ScriptMapper,
 };
 
 export const scriptName1: OperationParameter = {
   parameterPath: "scriptName",
-  mapper: ScriptCheckNameRequestMapper
+  mapper: ScriptCheckNameRequestMapper,
 };
 
 export const sandboxCustomImageName: OperationURLParameter = {
   parameterPath: "sandboxCustomImageName",
   mapper: {
     constraints: {
-      Pattern: new RegExp("^.*$")
+      Pattern: new RegExp("^.*$"),
     },
     serializedName: "sandboxCustomImageName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const parameters9: OperationParameter = {
   parameterPath: "parameters",
-  mapper: SandboxCustomImageMapper
+  mapper: SandboxCustomImageMapper,
 };
 
 export const resourceName3: OperationParameter = {
   parameterPath: "resourceName",
-  mapper: SandboxCustomImagesCheckNameRequestMapper
+  mapper: SandboxCustomImagesCheckNameRequestMapper,
 };
 
 export const privateEndpointConnectionName: OperationURLParameter = {
   parameterPath: "privateEndpointConnectionName",
   mapper: {
     constraints: {
-      Pattern: new RegExp("^.*$")
+      Pattern: new RegExp("^.*$"),
     },
     serializedName: "privateEndpointConnectionName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const parameters10: OperationParameter = {
   parameterPath: "parameters",
-  mapper: PrivateEndpointConnectionMapper
+  mapper: PrivateEndpointConnectionMapper,
 };
 
 export const privateLinkResourceName: OperationURLParameter = {
   parameterPath: "privateLinkResourceName",
   mapper: {
     constraints: {
-      Pattern: new RegExp("^.*$")
+      Pattern: new RegExp("^.*$"),
     },
     serializedName: "privateLinkResourceName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const parameters11: OperationParameter = {
   parameterPath: "parameters",
-  mapper: DataConnectionValidationMapper
+  mapper: DataConnectionValidationMapper,
 };
 
 export const dataConnectionName: OperationParameter = {
   parameterPath: "dataConnectionName",
-  mapper: DataConnectionCheckNameRequestMapper
+  mapper: DataConnectionCheckNameRequestMapper,
 };
 
 export const dataConnectionName1: OperationURLParameter = {
   parameterPath: "dataConnectionName",
   mapper: {
     constraints: {
-      Pattern: new RegExp("^.*$")
+      Pattern: new RegExp("^.*$"),
     },
     serializedName: "dataConnectionName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const parameters12: OperationParameter = {
   parameterPath: "parameters",
-  mapper: DataConnectionMapper
+  mapper: DataConnectionMapper,
 };
 
 export const operationId: OperationURLParameter = {
   parameterPath: "operationId",
   mapper: {
     constraints: {
-      MinLength: 1
+      MinLength: 1,
     },
     serializedName: "operationId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };

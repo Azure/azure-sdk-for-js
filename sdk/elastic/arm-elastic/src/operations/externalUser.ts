@@ -6,15 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { ExternalUser } from "../operationsInterfaces";
+import { ExternalUser } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { MicrosoftElastic } from "../microsoftElastic";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { MicrosoftElastic } from "../microsoftElastic.js";
 import {
   ExternalUserCreateOrUpdateOptionalParams,
   ExternalUserCreateOrUpdateResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Class containing ExternalUser operations. */
 export class ExternalUserImpl implements ExternalUser {

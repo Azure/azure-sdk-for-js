@@ -9,7 +9,7 @@
 import {
   SensitivitySettingsListOptionalParams,
   SensitivitySettingsListResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a SensitivitySettings. */
 export interface SensitivitySettings {

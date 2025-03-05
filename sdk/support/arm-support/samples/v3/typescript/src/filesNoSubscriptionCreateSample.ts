@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { FileDetails, MicrosoftSupport } from "@azure/arm-support";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates a new file under a workspace.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Creates a new file under a workspace.
  * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/stable/2024-04-01/examples/CreateFile.json
  */
-async function createAFileWorkspace() {
+async function createAFileWorkspace(): Promise<void> {
   const fileWorkspaceName = "testworkspace";
   const fileName = "test.txt";
   const createFileParameters: FileDetails = {
@@ -38,7 +36,7 @@ async function createAFileWorkspace() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createAFileWorkspace();
 }
 

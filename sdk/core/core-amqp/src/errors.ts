@@ -595,6 +595,8 @@ export enum SystemErrorConditionMapper {
   ENETRESET = "com.microsoft:timeout",
   ENETUNREACH = "com.microsoft:timeout",
   ENONET = "com.microsoft:timeout",
+  EADDRNOTAVAIL = "com.microsoft:timeout",
+  EAI_AGAIN = "com.microsoft:timeout",
   /* eslint-enable @typescript-eslint/no-duplicate-enum-values */
 }
 

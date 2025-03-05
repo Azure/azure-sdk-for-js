@@ -16,7 +16,7 @@ import {
   AzureLargeStorageInstanceTagsUpdate,
   AzureLargeStorageInstanceUpdateOptionalParams,
   AzureLargeStorageInstanceUpdateResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a AzureLargeStorageInstanceOperations. */

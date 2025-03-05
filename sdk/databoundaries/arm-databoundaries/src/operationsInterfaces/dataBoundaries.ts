@@ -15,7 +15,7 @@ import {
   DataBoundariesGetTenantResponse,
   DataBoundariesGetScopeOptionalParams,
   DataBoundariesGetScopeResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a DataBoundaries. */
 export interface DataBoundaries {

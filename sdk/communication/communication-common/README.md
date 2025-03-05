@@ -42,7 +42,9 @@ The tokens supplied to the `AzureCommunicationTokenCredential` either through th
 
 For a short-lived clients, refreshing the token upon expiry is not necessary and the `AzureCommunicationTokenCredential` may be instantiated with a static token.
 
-```typescript
+```ts snippet:ReadmeSampleCredentialStaticToken
+import { AzureCommunicationTokenCredential } from "@azure/communication-common";
+
 const tokenCredential = new AzureCommunicationTokenCredential(
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjM2MDB9.adM-ddBZZlQ1WlN3pdPBOF5G4Wh9iZpxNP_fSvpF4cWs",
 );
@@ -52,7 +54,14 @@ const tokenCredential = new AzureCommunicationTokenCredential(
 
 Here we assume that we have a function `fetchTokenFromMyServerForUser` that makes a network request to retrieve a JWT token string for a user. We pass it into the credential to fetch a token for Bob from our own server. Our server would use the Azure Communication Identity library to issue tokens. It's necessary that the `fetchTokenFromMyServerForUser` function returns a valid token (with an expiration date set in the future) at all times.
 
-```typescript
+```ts snippet:ReadmeSampleCredentialCallback
+import { AzureCommunicationTokenCredential } from "@azure/communication-common";
+
+function fetchTokenFromMyServerForUser(user: string): Promise<string> {
+  // Your custom implementation to fetch a token for the user
+  return Promise.resolve("some-unique-token-for-" + user);
+}
+
 const tokenCredential = new AzureCommunicationTokenCredential({
   tokenRefresher: async () => fetchTokenFromMyServerForUser("bob@contoso.com"),
 });
@@ -62,7 +71,14 @@ const tokenCredential = new AzureCommunicationTokenCredential({
 
 Setting `refreshProactively` to true will call your `tokenRefresher` function when the token is close to expiry.
 
-```typescript
+```ts snippet:ReadmeSampleCredentialProactiveRefresh
+import { AzureCommunicationTokenCredential } from "@azure/communication-common";
+
+function fetchTokenFromMyServerForUser(user: string): Promise<string> {
+  // Your custom implementation to fetch a token for the user
+  return Promise.resolve("some-unique-token-for-" + user);
+}
+
 const tokenCredential = new AzureCommunicationTokenCredential({
   tokenRefresher: async () => fetchTokenFromMyServerForUser("bob@contoso.com"),
   refreshProactively: true,
@@ -73,7 +89,14 @@ const tokenCredential = new AzureCommunicationTokenCredential({
 
 Passing `initialToken` is an optional optimization to skip the first call to `tokenRefresher`. You can use this to separate the boot from your application from subsequent token refresh cycles.
 
-```typescript
+```ts snippet:ReadmeSampleCredentialProactiveRefreshWithInitialToken
+import { AzureCommunicationTokenCredential } from "@azure/communication-common";
+
+function fetchTokenFromMyServerForUser(user: string): Promise<string> {
+  // Your custom implementation to fetch a token for the user
+  return Promise.resolve("some-unique-token-for-" + user);
+}
+
 const tokenCredential = new AzureCommunicationTokenCredential({
   tokenRefresher: async () => fetchTokenFromMyServerForUser("bob@contoso.com"),
   refreshProactively: true,
@@ -85,6 +108,16 @@ const tokenCredential = new AzureCommunicationTokenCredential({
 ## Troubleshooting
 
 - **Invalid token specified**: Make sure the token you are passing to the `AzureCommunicationTokenCredential` constructor or to the `tokenRefresher` callback is a bare JWT token string. E.g. if you're using the [Azure Communication Identity library][invalid_token_sdk] or [REST API][invalid_token_rest] to obtain the token, make sure you're passing just the `token` part of the response object.
+
+### Logging
+
+Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
+
+```ts snippet:SetLogLevel
+import { setLogLevel } from "@azure/logger";
+
+setLogLevel("info");
+```
 
 ## Next steps
 
@@ -104,5 +137,3 @@ If you'd like to contribute to this library, please read the [contributing guide
 [azure_powershell]: https://learn.microsoft.com/powershell/module/az.communication/new-azcommunicationservice
 [invalid_token_sdk]: https://learn.microsoft.com/javascript/api/@azure/communication-identity/communicationaccesstoken#@azure-communication-identity-communicationaccesstoken-token
 [invalid_token_rest]: https://learn.microsoft.com/rest/api/communication/communication-identity/issue-access-token#communicationidentityaccesstoken
-
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fcommunication%2Fcommunication-sms%2FREADME.png)

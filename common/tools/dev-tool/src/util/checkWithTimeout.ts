@@ -24,7 +24,7 @@ export async function checkWithTimeout(
   return false;
 }
 
-async function delay(timeInMs: number) {
+export async function delay(timeInMs: number) {
   return new Promise((resolve) => {
     log.info(`waiting for ${timeInMs}ms`);
     setTimeout(resolve, timeInMs);

@@ -17,7 +17,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Create or update a Maps Account. A Maps Account holds the keys which allow access to the Maps REST APIs.
  * x-ms-original-file: specification/maps/resource-manager/Microsoft.Maps/preview/2021-12-01-preview/examples/CreateAccountManagedIdentity.json
  */
-async function createAccountWithManagedIdentities() {
+async function createAccountWithManagedIdentities(): Promise<void> {
   const subscriptionId = "21a9967a-e8a9-4656-a70b-96ff1c4d05a0";
   const resourceGroupName = "myResourceGroup";
   const accountName = "myMapsAccount";
@@ -66,7 +66,7 @@ createAccountWithManagedIdentities().catch(console.error);
  * @summary Create or update a Maps Account. A Maps Account holds the keys which allow access to the Maps REST APIs.
  * x-ms-original-file: specification/maps/resource-manager/Microsoft.Maps/preview/2021-12-01-preview/examples/CreateAccount.json
  */
-async function createGen1Account() {
+async function createGen1Account(): Promise<void> {
   const subscriptionId = "21a9967a-e8a9-4656-a70b-96ff1c4d05a0";
   const resourceGroupName = "myResourceGroup";
   const accountName = "myMapsAccount";
@@ -107,7 +107,7 @@ createGen1Account().catch(console.error);
  * @summary Create or update a Maps Account. A Maps Account holds the keys which allow access to the Maps REST APIs.
  * x-ms-original-file: specification/maps/resource-manager/Microsoft.Maps/preview/2021-12-01-preview/examples/CreateAccountGen2.json
  */
-async function createGen2Account() {
+async function createGen2Account(): Promise<void> {
   const subscriptionId = "21a9967a-e8a9-4656-a70b-96ff1c4d05a0";
   const resourceGroupName = "myResourceGroup";
   const accountName = "myMapsAccount";

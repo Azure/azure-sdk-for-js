@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { EventGridManagementClient } from "@azure/arm-eventgrid";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get the properties of an extension topic.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Get the properties of an extension topic.
  * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2024-06-01-preview/examples/ExtensionTopics_Get.json
  */
-async function extensionTopicsGet() {
+async function extensionTopicsGet(): Promise<void> {
   const scope =
     "subscriptions/8f6b6269-84f2-4d09-9e31-1127efcd1e40/resourceGroups/examplerg/providers/microsoft.storage/storageaccounts/exampleResourceName/providers/Microsoft.eventgrid/extensionTopics/default";
   const credential = new DefaultAzureCredential();
@@ -29,7 +27,7 @@ async function extensionTopicsGet() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   extensionTopicsGet();
 }
 

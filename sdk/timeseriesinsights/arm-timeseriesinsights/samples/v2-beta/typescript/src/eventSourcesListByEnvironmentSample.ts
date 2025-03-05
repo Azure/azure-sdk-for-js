@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { TimeSeriesInsightsClient } from "@azure/arm-timeseriesinsights";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists all the available event sources associated with the subscription and within the specified resource group and environment.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Lists all the available event sources associated with the subscription and within the specified resource group and environment.
  * x-ms-original-file: specification/timeseriesinsights/resource-manager/Microsoft.TimeSeriesInsights/preview/2021-03-31-preview/examples/EventSourcesListByEnvironment.json
  */
-async function listEventSourcesByEnvironment() {
+async function listEventSourcesByEnvironment(): Promise<void> {
   const subscriptionId =
     process.env["TIMESERIESINSIGHTS_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -35,7 +33,7 @@ async function listEventSourcesByEnvironment() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listEventSourcesByEnvironment();
 }
 

@@ -16,10 +16,8 @@ describe(`EmailClient [Playback/Live]`, () => {
     ({ client, recorder } = await createRecordedEmailClientWithConnectionString(ctx));
   });
 
-  afterEach(async (ctx) => {
-    if (!ctx.task.pending) {
-      await recorder.stop();
-    }
+  afterEach(async () => {
+    await recorder.stop();
   });
 
   it("successfully sends an email to a single recipient", { timeout: 120000 }, async () => {

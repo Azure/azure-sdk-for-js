@@ -12,7 +12,6 @@
 
 import WebSocket from "ws";
 import { HttpsProxyAgent } from "https-proxy-agent";
-
 import { EventHubConsumerClient } from "@azure/event-hubs";
 import { DefaultAzureCredential } from "@azure/identity";
 

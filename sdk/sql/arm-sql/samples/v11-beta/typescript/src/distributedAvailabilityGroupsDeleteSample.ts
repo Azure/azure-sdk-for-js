@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { SqlManagementClient } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Drops a distributed availability group between Sql On-Prem and Sql Managed Instance.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Drops a distributed availability group between Sql On-Prem and Sql Managed Instance.
  * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2021-11-01-preview/examples/DistributedAvailabilityGroupsDelete.json
  */
-async function initiateADistributedAvailabilityGroupDrop() {
+async function initiateADistributedAvailabilityGroupDrop(): Promise<void> {
   const subscriptionId =
     process.env["SQL_SUBSCRIPTION_ID"] ||
     "f2669dff-5f08-45dd-b857-b2a60b72cdc9";
@@ -37,7 +35,7 @@ async function initiateADistributedAvailabilityGroupDrop() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   initiateADistributedAvailabilityGroupDrop();
 }
 

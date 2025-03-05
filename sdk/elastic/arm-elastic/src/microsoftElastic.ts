@@ -39,7 +39,7 @@ import {
   DetachTrafficFilterImpl,
   TrafficFiltersImpl,
   OrganizationsImpl,
-} from "./operations";
+} from "./operations/index.js";
 import {
   Operations,
   Monitors,
@@ -65,8 +65,8 @@ import {
   DetachTrafficFilter,
   TrafficFilters,
   Organizations,
-} from "./operationsInterfaces";
-import { MicrosoftElasticOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { MicrosoftElasticOptionalParams } from "./models/index.js";
 
 export class MicrosoftElastic extends coreClient.ServiceClient {
   $host: string;

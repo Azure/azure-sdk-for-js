@@ -4,6 +4,7 @@
 import type { Context } from "@opentelemetry/api";
 import type { ReadableSpan, Span, SpanProcessor } from "@opentelemetry/sdk-trace-base";
 import type { MetricHandler } from "../metrics";
+import { Logger } from "../shared/logging";
 
 /**
  * Azure Monitor Span Processor.
@@ -25,7 +26,11 @@ export class AzureMonitorSpanProcessor implements SpanProcessor {
   }
 
   onEnd(span: ReadableSpan): void {
-    this._metricHandler.recordSpan(span);
+    try {
+      this._metricHandler.recordSpan(span);
+    } catch (error) {
+      Logger.getInstance().warn("Error while recording span", error);
+    }
   }
 
   shutdown(): Promise<void> {

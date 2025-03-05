@@ -62,6 +62,27 @@ export const LEGACY_ENV_DISABLE_STATSBEAT = "APPLICATION_INSIGHTS_NO_STATSBEAT";
  */
 export const ENV_OPENTELEMETRY_RESOURCE_METRIC_DISABLED =
   "APPLICATIONINSIGHTS_OPENTELEMETRY_RESOURCE_METRIC_DISABLED";
+/**
+ * OTLP Metrics Endpoint.
+ * @internal
+ */
+export const ENV_OTLP_METRICS_ENDPOINT = "OTEL_EXPORTER_OTLP_METRICS_ENDPOINT";
+/**
+ * OTel Metrics Exporter.
+ * @internal
+ */
+export const ENV_OTEL_METRICS_EXPORTER = "OTEL_METRICS_EXPORTER";
+/**
+ * Determine if exporter was initialized in an auto-attach scenario.
+ * @internal
+ */
+export const ENV_AZURE_MONITOR_AUTO_ATTACH = "AZURE_MONITOR_AUTO_ATTACH";
+/**
+ * Determines if custom metrics should be sent to Breeze.
+ * @internal
+ */
+export const ENV_APPLICATIONINSIGHTS_METRICS_TO_LOGANALYTICS_ENABLED =
+  "APPLICATIONINSIGHTS_METRICS_TO_LOGANALYTICS_ENABLED";
 
 /**
  * REST error types for failed requests that can be retried.

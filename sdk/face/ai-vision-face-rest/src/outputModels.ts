@@ -1,40 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/** Long running operation resource for person directory. */
-export interface OperationResultOutput {
-  /** Operation ID of the operation. */
-  readonly operationId: string;
-  /**
-   * Current status of the operation.
-   *
-   * Possible values: "notStarted", "running", "succeeded", "failed"
-   */
-  status: OperationStatusOutput;
-  /** Date and time the operation was created. */
-  createdTime: string;
-  /** Date and time the operation was last updated. */
-  lastActionTime?: string;
-  /** Date and time the operation was finished. */
-  finishedTime?: string;
-  /** Message for the operation. */
-  message?: string;
-}
-
-/** A response containing error details. */
-export interface FaceErrorResponseOutput {
-  /** The error object. */
-  error: FaceErrorOutput;
-}
-
-/** The error object. For comprehensive details on error codes and messages returned by the Face Service, please refer to the following link: https://aka.ms/face-error-codes-and-messages. */
-export interface FaceErrorOutput {
-  /** One of a server-defined set of error codes. */
-  code: string;
-  /** A human-readable representation of the error. */
-  message: string;
-}
-
 /** Response for detect API. */
 export interface FaceDetectionResultOutput {
   /** Unique faceId of the detected face, created by detection API and it will expire 24 hours after the detection call. To return this, it requires 'returnFaceId' parameter to be true. */
@@ -281,6 +247,20 @@ export interface MaskPropertiesOutput {
   type: MaskTypeOutput;
 }
 
+/** A response containing error details. */
+export interface FaceErrorResponseOutput {
+  /** The error object. */
+  error: FaceErrorOutput;
+}
+
+/** The error object. For comprehensive details on error codes and messages returned by the Face Service, please refer to the following link: https://aka.ms/face-error-codes-and-messages. */
+export interface FaceErrorOutput {
+  /** One of a server-defined set of error codes. */
+  code: string;
+  /** A human-readable representation of the error. */
+  message: string;
+}
+
 /** Response body for find similar face operation. */
 export interface FindSimilarResultOutput {
   /** Confidence value of the candidate. The higher confidence, the more similar. Range between [0,1]. */
@@ -491,134 +471,126 @@ export interface LargePersonGroupPersonFaceOutput {
   userData?: string;
 }
 
-/** Response of liveness session creation. */
-export interface CreateLivenessSessionResultOutput {
-  /** The unique session ID of the created session. It will expire 48 hours after it was created or may be deleted sooner using the corresponding Session DELETE operation. */
-  sessionId: string;
-  /** Bearer token to provide authentication for the Vision SDK running on a client application. This Bearer token has limited permissions to perform only the required action and expires after the TTL time. It is also auditable. */
-  authToken: string;
-}
-
 /** Session result of detect liveness. */
 export interface LivenessSessionOutput {
   /** The unique ID to reference this session. */
-  readonly id: string;
-  /** DateTime when this session was created. */
-  createdDateTime: string;
-  /** DateTime when this session was started by the client. */
-  sessionStartDateTime?: string;
-  /** Whether or not the session is expired. */
-  sessionExpired: boolean;
-  /** Unique Guid per each end-user device. This is to provide rate limiting and anti-hammering. If 'deviceCorrelationIdSetInClient' is true in this request, this 'deviceCorrelationId' must be null. */
-  deviceCorrelationId?: string;
-  /** Seconds the session should last for. Range is 60 to 86400 seconds. Default value is 600. */
-  authTokenTimeToLiveInSeconds?: number;
+  readonly sessionId: string;
+  /** Bearer token to provide authentication for the Vision SDK running on a client application. This Bearer token has limited permissions to perform only the required action and expires after the TTL time. It is also auditable. */
+  authToken: string;
   /**
    * The current status of the session.
    *
-   * Possible values: "NotStarted", "Started", "ResultAvailable"
+   * Possible values: "NotStarted", "Running", "Succeeded", "Failed", "Canceled"
    */
-  status: FaceSessionStatusOutput;
-  /** The latest session audit result only populated if status == 'ResultAvailable'. */
-  result?: LivenessSessionAuditEntryOutput;
+  status: OperationStateOutput;
+  /**
+   * The model version used for liveness classification. This is an optional parameter, and if this is not specified, then the latest supported model version will be chosen
+   *
+   * Possible values: "2024-11-15"
+   */
+  modelVersion?: LivenessModelOutput;
+  /** The results of the liveness session. */
+  results: LivenessSessionResultsOutput;
 }
 
-/** Audit entry for a request in session. */
-export interface LivenessSessionAuditEntryOutput {
-  /** The unique id to refer to this audit request. Use this id with the 'start' query parameter to continue on to the next page of audit results. */
-  id: number;
-  /** The unique sessionId of the created session. It will expire 48 hours after it was created or may be deleted sooner using the corresponding session DELETE operation. */
-  sessionId: string;
-  /** The unique requestId that is returned by the service to the client in the 'apim-request-id' header. */
-  requestId: string;
-  /** The unique clientRequestId that is sent by the client in the 'client-request-id' header. */
-  clientRequestId: string;
-  /** The UTC DateTime that the request was received. */
-  receivedDateTime: string;
-  /** The request of this entry. */
-  request: AuditRequestInfoOutput;
-  /** The response of this entry. */
-  response: AuditLivenessResponseInfoOutput;
-  /** The server calculated digest for this request. If the client reported digest differs from the server calculated digest, then the message integrity between the client and service has been compromised and the result should not be trusted. For more information, see how to guides on how to leverage this value to secure your end-to-end solution. */
-  digest: string;
-  /** The image ID of the session request. */
-  sessionImageId?: string;
-  /** The sha256 hash of the verify-image in the request. */
-  verifyImageHash?: string;
+/** The results of the liveness session. */
+export interface LivenessSessionResultsOutput {
+  /** The attempts data of underlying liveness call with the session. */
+  attempts: Array<LivenessSessionAttemptOutput>;
 }
 
-/** Audit entry for a request in the session. */
-export interface AuditRequestInfoOutput {
-  /** The relative URL and query of the liveness request. */
-  url: string;
-  /** The HTTP method of the request (i.e., GET, POST, DELETE). */
-  method: string;
-  /** The length of the request body in bytes. */
-  contentLength?: number;
-  /** The content type of the request. */
-  contentType: string;
-  /** The user agent used to submit the request. */
-  userAgent?: string;
+/** The liveness session attempt. */
+export interface LivenessSessionAttemptOutput {
+  /** The attempt ID, start from 1. */
+  attemptId: number;
+  /**
+   * The status of the attempt.
+   *
+   * Possible values: "NotStarted", "Running", "Succeeded", "Failed", "Canceled"
+   */
+  attemptStatus: OperationStateOutput;
+  /** The result of the liveness call, will be null if there is error. */
+  result?: LivenessResultOutput;
+  /** The error of the liveness call, will be null if there is result. */
+  error?: LivenessErrorOutput;
 }
 
-/** Audit entry for a response in the session. */
-export interface AuditLivenessResponseInfoOutput {
-  /** The response body. The schema of this field will depend on the request.url and request.method used by the client. */
-  body: LivenessResponseBodyOutput;
-  /** The HTTP status code returned to the client. */
-  statusCode: number;
-  /** The server measured latency for this request in milliseconds. */
-  latencyInMilliseconds: number;
-}
-
-/** The response body of detect liveness API call. */
-export interface LivenessResponseBodyOutput extends Record<string, any> {
+/** The results of the liveness classification. */
+export interface LivenessResultOutput {
   /**
    * The liveness classification for the target face.
    *
    * Possible values: "uncertain", "realface", "spoofface"
    */
   livenessDecision?: LivenessDecisionOutput;
-  /** Specific targets used for liveness classification. */
-  target?: LivenessOutputsTargetOutput;
-  /**
-   * The model version used for liveness classification.
-   *
-   * Possible values: "2022-10-15-preview.04", "2023-12-20-preview.06"
-   */
-  modelVersionUsed?: LivenessModelOutput;
-  /** The face verification output. Only available when the request is liveness with verify. */
-  verifyResult?: LivenessWithVerifyOutputsOutput;
+  /** Targets used for liveness classification. */
+  targets: LivenessDecisionTargetsOutput;
+  /** The server calculated digest for this request. If the client reported digest differs from the server calculated digest, then the message integrity between the client and service has been compromised and the result should not be trusted. For more information, see how to guides on how to leverage this value to secure your end-to-end solution. */
+  digest: string;
+  /** The image ID of the session request. */
+  sessionImageId?: string;
 }
 
-/** The liveness classification for target face. */
-export interface LivenessOutputsTargetOutput {
+/** The targets used for liveness classification. */
+export interface LivenessDecisionTargetsOutput {
+  /** The target from color image used for liveness classification. */
+  color: LivenessColorDecisionTargetOutput;
+}
+
+/** The target from color image used for liveness classification. */
+export interface LivenessColorDecisionTargetOutput {
   /** The face region where the liveness classification was made on. */
   faceRectangle: FaceRectangleOutput;
-  /** The file name which contains the face rectangle where the liveness classification was made on. */
-  fileName: string;
-  /** The time offset within the file of the frame which contains the face rectangle where the liveness classification was made on. */
-  timeOffsetWithinFile: number;
+}
+
+/** The error of the liveness classification. */
+export interface LivenessErrorOutput {
+  /** The error code. */
+  code: string;
+  /** The error message. */
+  message: string;
+  /** Targets used for liveness classification. */
+  targets: LivenessDecisionTargetsOutput;
+}
+
+/** Session result of detect liveness with verify. */
+export interface LivenessWithVerifySessionOutput {
+  /** The unique ID to reference this session. */
+  readonly sessionId: string;
+  /** Bearer token to provide authentication for the Vision SDK running on a client application. This Bearer token has limited permissions to perform only the required action and expires after the TTL time. It is also auditable. */
+  authToken: string;
+  /**
+   * The current status of the session.
+   *
+   * Possible values: "NotStarted", "Running", "Succeeded", "Failed", "Canceled"
+   */
+  status: OperationStateOutput;
+  /**
+   * The model version used for liveness classification. This is an optional parameter, and if this is not specified, then the latest supported model version will be chosen
+   *
+   * Possible values: "2024-11-15"
+   */
+  modelVersion?: LivenessModelOutput;
+  /** The results of the liveness with verify session. */
+  results: LivenessWithVerifySessionResultsOutput;
+}
+
+/** The results of the liveness with verify session. */
+export interface LivenessWithVerifySessionResultsOutput {
+  /** The references used for face verification. */
+  verifyReferences: Array<LivenessWithVerifyReferenceOutput>;
+  /** The attempts data of underlying liveness with verify call with the session. */
+  attempts: Array<LivenessWithVerifySessionAttemptOutput>;
+}
+
+/** The detail of face for verification. */
+export interface LivenessWithVerifyReferenceOutput {
   /**
    * The image type which contains the face rectangle where the liveness classification was made on.
    *
    * Possible values: "Color", "Infrared", "Depth"
    */
-  imageType: ImageTypeOutput;
-}
-
-/** The face verification output. */
-export interface LivenessWithVerifyOutputsOutput {
-  /** The detail of face for verification. */
-  verifyImage: LivenessWithVerifyImageOutput;
-  /** The target face liveness face and comparison image face verification confidence. */
-  matchConfidence: number;
-  /** Whether the target liveness face and comparison image face match. */
-  isIdentical: boolean;
-}
-
-/** The detail of face for verification. */
-export interface LivenessWithVerifyImageOutput {
+  referenceType: ImageTypeOutput;
   /** The face region where the comparison image's classification was made. */
   faceRectangle: FaceRectangleOutput;
   /**
@@ -629,106 +601,50 @@ export interface LivenessWithVerifyImageOutput {
   qualityForRecognition: QualityForRecognitionOutput;
 }
 
-/** Session data returned for enumeration. */
-export interface LivenessSessionItemOutput {
-  /** The unique ID to reference this session. */
-  readonly id: string;
-  /** DateTime when this session was created. */
-  createdDateTime: string;
-  /** DateTime when this session was started by the client. */
-  sessionStartDateTime?: string;
-  /** Whether or not the session is expired. */
-  sessionExpired: boolean;
-  /** Unique Guid per each end-user device. This is to provide rate limiting and anti-hammering. If 'deviceCorrelationIdSetInClient' is true in this request, this 'deviceCorrelationId' must be null. */
-  deviceCorrelationId?: string;
-  /** Seconds the session should last for. Range is 60 to 86400 seconds. Default value is 600. */
-  authTokenTimeToLiveInSeconds?: number;
-}
-
-/** Response of liveness session with verify creation with verify image provided. */
-export interface CreateLivenessWithVerifySessionResultOutput {
-  /** The unique session ID of the created session. It will expire 48 hours after it was created or may be deleted sooner using the corresponding Session DELETE operation. */
-  sessionId: string;
-  /** Bearer token to provide authentication for the Vision SDK running on a client application. This Bearer token has limited permissions to perform only the required action and expires after the TTL time. It is also auditable. */
-  authToken: string;
-  /** The detail of face for verification. */
-  verifyImage?: LivenessWithVerifyImageOutput;
-}
-
-/** Session result of detect liveness with verify. */
-export interface LivenessWithVerifySessionOutput {
-  /** The unique ID to reference this session. */
-  readonly id: string;
-  /** DateTime when this session was created. */
-  createdDateTime: string;
-  /** DateTime when this session was started by the client. */
-  sessionStartDateTime?: string;
-  /** Whether or not the session is expired. */
-  sessionExpired: boolean;
-  /** Unique Guid per each end-user device. This is to provide rate limiting and anti-hammering. If 'deviceCorrelationIdSetInClient' is true in this request, this 'deviceCorrelationId' must be null. */
-  deviceCorrelationId?: string;
-  /** Seconds the session should last for. Range is 60 to 86400 seconds. Default value is 600. */
-  authTokenTimeToLiveInSeconds?: number;
+/** The liveness with verify session attempt. */
+export interface LivenessWithVerifySessionAttemptOutput {
+  /** The attempt ID, start from 1. */
+  attemptId: number;
   /**
-   * The current status of the session.
+   * The status of the attempt.
    *
-   * Possible values: "NotStarted", "Started", "ResultAvailable"
+   * Possible values: "NotStarted", "Running", "Succeeded", "Failed", "Canceled"
    */
-  status: FaceSessionStatusOutput;
-  /** The latest session audit result only populated if status == 'ResultAvailable'. */
-  result?: LivenessSessionAuditEntryOutput;
+  attemptStatus: OperationStateOutput;
+  /** The result of the liveness with verify call, will be null if there is error. */
+  result?: LivenessWithVerifyResultOutput;
+  /** The error of the liveness with verify call, will be null if there is result. */
+  error?: LivenessErrorOutput;
 }
 
-/** Person resource for person directory */
-export interface PersonDirectoryPersonOutput {
-  /** Person ID of the person. */
-  readonly personId: string;
-  /** User defined name, maximum length is 128. */
-  name: string;
-  /** Optional user defined data. Length should not exceed 16K. */
-  userData?: string;
+/** The results of the liveness with verify call. */
+export interface LivenessWithVerifyResultOutput {
+  /**
+   * The liveness classification for the target face.
+   *
+   * Possible values: "uncertain", "realface", "spoofface"
+   */
+  livenessDecision?: LivenessDecisionOutput;
+  /** Targets used for liveness classification. */
+  targets: LivenessDecisionTargetsOutput;
+  /** The server calculated digest for this request. If the client reported digest differs from the server calculated digest, then the message integrity between the client and service has been compromised and the result should not be trusted. For more information, see how to guides on how to leverage this value to secure your end-to-end solution. */
+  digest: string;
+  /** The image ID of the session request. */
+  sessionImageId?: string;
+  /** The face verification output. Only available when the request is liveness with verify. */
+  verifyResult?: LivenessWithVerifyOutputsOutput;
+  /** The sha256 hash of the verify-image in the request. */
+  verifyImageHash?: string;
 }
 
-/** Response of list dynamic person group of person. */
-export interface ListGroupReferenceResultOutput {
-  /** Array of PersonDirectory DynamicPersonGroup ids. */
-  dynamicPersonGroupIds: string[];
+/** The face verification output. */
+export interface LivenessWithVerifyOutputsOutput {
+  /** The target face liveness face and comparison image face verification confidence. */
+  matchConfidence: number;
+  /** Whether the target liveness face and comparison image face match. */
+  isIdentical: boolean;
 }
 
-/** Face resource for person directory person. */
-export interface PersonDirectoryFaceOutput {
-  /** Face ID of the face. */
-  readonly persistedFaceId: string;
-  /** User-provided data attached to the face. The length limit is 1K. */
-  userData?: string;
-}
-
-/** Response of list face of person. */
-export interface ListFaceResultOutput {
-  /** Id of person. */
-  personId: string;
-  /** Array of persisted face ids. */
-  persistedFaceIds: string[];
-}
-
-/** A container that references Person Directory "Create Person". */
-export interface DynamicPersonGroupOutput {
-  /** ID of the dynamic person group. */
-  readonly dynamicPersonGroupId: string;
-  /** User defined name, maximum length is 128. */
-  name: string;
-  /** Optional user defined data. Length should not exceed 16K. */
-  userData?: string;
-}
-
-/** Response of list dynamic person group person. */
-export interface ListPersonResultOutput {
-  /** Array of PersonDirectory Person ids. */
-  personIds: string[];
-}
-
-/** Alias for OperationStatusOutput */
-export type OperationStatusOutput = string;
 /** Alias for RecognitionModelOutput */
 export type RecognitionModelOutput = string;
 /** Alias for GlassesTypeOutput */
@@ -747,10 +663,12 @@ export type NoiseLevelOutput = string;
 export type MaskTypeOutput = string;
 /** Alias for QualityForRecognitionOutput */
 export type QualityForRecognitionOutput = string;
+/** Alias for OperationStatusOutput */
+export type OperationStatusOutput = string;
 /** Alias for LivenessModelOutput */
 export type LivenessModelOutput = string;
-/** Alias for FaceSessionStatusOutput */
-export type FaceSessionStatusOutput = string;
+/** Alias for OperationStateOutput */
+export type OperationStateOutput = string;
 /** Alias for LivenessDecisionOutput */
 export type LivenessDecisionOutput = string;
 /** Alias for ImageTypeOutput */

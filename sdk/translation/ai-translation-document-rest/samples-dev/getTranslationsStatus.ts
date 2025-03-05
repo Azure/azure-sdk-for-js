@@ -1,34 +1,28 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * @summary This sample demonstrates how to get the Translations Status of a batch translation operation initiated by a user
- */
-
-import * as dotenv from "dotenv";
-import createClient from "../src/documentTranslationClient";
+import "dotenv/config";
+import createClient from "../src/documentTranslationClient.js";
 import {
   ONE_TEST_DOCUMENTS,
   StartTranslationAndWait,
   createSourceContainer,
   createTargetContainer,
-} from "../test/public/utils/samplesHelper";
+} from "../test/public/utils/samplesHelper.js";
 import {
   createSourceInput,
   createTargetInput,
   createBatchRequest,
   getTranslationOperationID,
-} from "../test/public/utils/testHelper";
-import { isUnexpected } from "../src/isUnexpected";
-dotenv.config();
-
+} from "../test/public/utils/testHelper.js";
+import { isUnexpected } from "../src/isUnexpected.js";
 const endpoint =
   process.env["ENDPOINT"] ||
   "https://<translator-instance>-doctranslation.cognitiveservices.azure.com";
 const apiKey = process.env["DOCUMENT_TRANSLATION_API_KEY"] || "<API_Key>";
 const credentials = { key: apiKey ?? "" };
 
-export async function main() {
+export async function main(): Promise<void> {
   console.log("== Get Translations Status ==");
   const client = createClient(endpoint, credentials);
 
@@ -38,13 +32,13 @@ export async function main() {
   const targetInput = createTargetInput(targetUrl, "fr");
   const batchRequest = createBatchRequest(sourceInput, [targetInput]);
 
-  //Start translation
+  // Start translation
   const batchRequests = { inputs: [batchRequest] };
   const translationResponse = await StartTranslationAndWait(client, batchRequests);
   const operationLocationUrl = translationResponse.headers["operation-location"];
   const operationId = getTranslationOperationID(operationLocationUrl);
 
-  //get Translation Statusby ID filter
+  // get Translation Statusby ID filter
   const queryParams = {
     ids: [operationId],
   };
@@ -63,8 +57,8 @@ export async function main() {
     console.log("Total documents submitted for translation = " + translationStatus.summary.total);
     console.log("Total characters charged = " + translationStatus.summary.totalCharacterCharged);
   }
-
-  main().catch((err) => {
-    console.error(err);
-  });
 }
+
+main().catch((err) => {
+  console.error(err);
+});

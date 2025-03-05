@@ -17,7 +17,7 @@ import "dotenv/config";
 
 const prompt = ["What is Azure OpenAI?"];
 
-export async function main() {
+export async function main(): Promise<void> {
   console.log("== Get completions Sample ==");
 
   const scope = "https://cognitiveservices.azure.com/.default";

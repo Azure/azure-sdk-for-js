@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { Bookmarks } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { Bookmarks } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { SecurityInsights } from "../securityInsights";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { SecurityInsights } from "../securityInsights.js";
 import {
   Bookmark,
   BookmarksListNextOptionalParams,
@@ -24,7 +24,7 @@ import {
   BookmarksCreateOrUpdateResponse,
   BookmarksDeleteOptionalParams,
   BookmarksListNextResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Bookmarks operations. */

@@ -1,15 +1,15 @@
 # Live Test Resource Management
 
 Running and recording live tests often requires first creating some resources
-in Azure. Service directories that include a `test-resources.json` or `test-resources.bicep` 
+in Azure. Service directories that include a `test-resources.json` or `test-resources.bicep`
 file require running [New-TestResources.ps1][] to create these resources and output
 environment variables you must set.
 
 The following scripts can be used both in on your desktop for developer
 scenarios as well as on hosted agents for continuous integration testing.
 
-* [New-TestResources.ps1][] - Creates new test resources for a given service.
-* [Remove-TestResources.ps1][] - Deletes previously created resources.
+- [New-TestResources.ps1][] - Creates new test resources for a given service.
+- [Remove-TestResources.ps1][] - Deletes previously created resources.
 
 ## Prerequisites
 
@@ -19,8 +19,8 @@ scenarios as well as on hosted agents for continuous integration testing.
 ## On the Desktop
 
 To set up your Azure account to run live tests, you'll need to log into Azure,
-and create the resources defined in your `test-resources.json` or `test-resources.bicep` 
-template as shown in the following example using Azure Key Vault. The script will create 
+and create the resources defined in your `test-resources.json` or `test-resources.bicep`
+template as shown in the following example using Azure Key Vault. The script will create
 a service principal automatically, or you may create a service principal that can be reused
 subsequently.
 
@@ -34,8 +34,8 @@ Connect-AzAccount -Subscription 'YOUR SUBSCRIPTION ID'
 eng\common\TestResources\New-TestResources.ps1 keyvault
 ```
 
-The `OutFile` switch will be set by default if you are running this for a .NET project on Windows. 
-This will save test environment settings into a `test-resources.json.env` file next to `test-resources.json` 
+The `OutFile` switch will be set by default if you are running this for a .NET project on Windows.
+This will save test environment settings into a `test-resources.json.env` file next to `test-resources.json`
 or a `test-resources.bicep.env` file next to `test-resources.bicep`. The file is protected via DPAPI.
 The environment file would be scoped to the current repository directory and avoids the need to
 set environment variables or restart your IDE to recognize them.
@@ -88,6 +88,7 @@ Typically the created artifact will need to be passed to `test-resources.json` t
 Below is an example of how `$templateFileParameters` can be used to pass data from the `pre-` script to `test-resources.json`.
 
 **Snippet from `test-resources-pre.ps1`**
+
 ```powershell
 Import-Module -Name ./eng/common/scripts/X509Certificate2
 $cert = New-X509Certificate2 -SubjectName 'E=opensource@microsoft.com, CN=Azure SDK, OU=Azure SDK, O=Microsoft, L=Frisco, S=TX, C=US' -ValidDays 3652
@@ -99,6 +100,7 @@ $templateFileParameters['ConfidentialLedgerPrincipalPEMPK'] = Format-X509Certifi
 **Snippet from the corresponding `test-resources.json`.**
 
 Note that the values present in `$templateFileParameters` will map to parameters of the same name.
+
 ```json
 {
   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
@@ -117,7 +119,7 @@ Note that the values present in `$templateFileParameters` will map to parameters
         "description": "The certificate to configure as a certBasedSecurityPrincipal."
       }
     }
-  },
+  }
 }
 ```
 
@@ -160,7 +162,7 @@ remove-test-resources.yml like in the following examples:
 ```yml
 - template: /eng/common/TestResources/deploy-test-resources.yml
   parameters:
-    ServiceDirectory: '${{ parameters.ServiceDirectory }}'
+    ServiceDirectory: "${{ parameters.ServiceDirectory }}"
 
 # Run tests
 
@@ -184,9 +186,9 @@ After the markdown files are generated, please make sure all "http" URIs use "ht
 
 PowerShell markdown documentation created with [platyPS][].
 
-  [New-TestResources.ps1]: https://aka.ms/azsdk/tools/New-TestResources
-  [Update-TestResources.ps1]: https://aka.ms/azsdk/tools/Update-TestResources
-  [Remove-TestResources.ps1]: https://aka.ms/azsdk/tools/Remove-TestResources
-  [PowerShell]: https://github.com/PowerShell/PowerShell
-  [PowerShellAz]: https://docs.microsoft.com/powershell/azure/install-az-ps
-  [platyPS]: https://github.com/PowerShell/platyPS
+[New-TestResources.ps1]: https://aka.ms/azsdk/tools/New-TestResources
+[Update-TestResources.ps1]: https://aka.ms/azsdk/tools/Update-TestResources
+[Remove-TestResources.ps1]: https://aka.ms/azsdk/tools/Remove-TestResources
+[PowerShell]: https://github.com/PowerShell/PowerShell
+[PowerShellAz]: https://learn.microsoft.com/powershell/azure/install-az-ps
+[platyPS]: https://github.com/PowerShell/platyPS

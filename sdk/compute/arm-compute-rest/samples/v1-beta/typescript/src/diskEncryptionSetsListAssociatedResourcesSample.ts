@@ -1,16 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import createComputeManagementClient, {
   DiskEncryptionSetsListAssociatedResourcesParameters,
-  paginate
+  paginate,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists all resources that are encrypted with this disk encryption set.
@@ -25,14 +20,14 @@ async function listAllResourcesThatAreEncryptedWithThisDiskEncryptionSet() {
   const resourceGroupName = "myResourceGroup";
   const diskEncryptionSetName = "myDiskEncryptionSet";
   const options: DiskEncryptionSetsListAssociatedResourcesParameters = {
-    queryParameters: { "api-version": "2022-07-02" }
+    queryParameters: { "api-version": "2022-07-02" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskEncryptionSets/{diskEncryptionSetName}/associatedResources",
       subscriptionId,
       resourceGroupName,
-      diskEncryptionSetName
+      diskEncryptionSetName,
     )
     .get(options);
   const pageData = paginate(client, initialResponse);
@@ -43,6 +38,4 @@ async function listAllResourcesThatAreEncryptedWithThisDiskEncryptionSet() {
   console.log(result);
 }
 
-listAllResourcesThatAreEncryptedWithThisDiskEncryptionSet().catch(
-  console.error
-);
+listAllResourcesThatAreEncryptedWithThisDiskEncryptionSet().catch(console.error);

@@ -17,7 +17,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Delete Alias.
  * x-ms-original-file: specification/subscription/resource-manager/Microsoft.Subscription/stable/2021-10-01/examples/deleteAlias.json
  */
-async function deleteAlias() {
+async function deleteAlias(): Promise<void> {
   const aliasName = "aliasForNewSub";
   const credential = new DefaultAzureCredential();
   const client = new SubscriptionClient(credential);

@@ -14,7 +14,7 @@
  * For more information about setting up the container for training with
  * labels, see the following service documentation:
  *
- * https://docs.microsoft.com/azure/cognitive-services/form-recognizer/overview#train-with-labels
+ * https://learn.microsoft.com/azure/cognitive-services/form-recognizer/overview#train-with-labels
  *
  * @summary train a custom model with labeled inputs
  */
@@ -22,10 +22,9 @@
 import { FormTrainingClient, AzureKeyCredential } from "@azure/ai-form-recognizer";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
-export async function main() {
+export async function main(): Promise<void> {
   // You will need to set these environment variables or edit the following values
   const endpoint = process.env["FORM_RECOGNIZER_ENDPOINT"] ?? "<cognitive services endpoint>";
   const apiKey = process.env["FORM_RECOGNIZER_API_KEY"] ?? "<api key>";

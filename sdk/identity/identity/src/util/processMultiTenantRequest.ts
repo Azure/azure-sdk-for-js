@@ -35,7 +35,7 @@ export function processMultiTenantRequest(
     !additionallyAllowedTenantIds.includes("*") &&
     !additionallyAllowedTenantIds.some((t) => t.localeCompare(resolvedTenantId!) === 0)
   ) {
-    const message = createConfigurationErrorMessage(tenantId);
+    const message = createConfigurationErrorMessage(resolvedTenantId!);
     logger?.info(message);
     throw new CredentialUnavailableError(message);
   }

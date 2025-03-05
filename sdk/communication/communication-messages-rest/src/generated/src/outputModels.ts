@@ -1,8 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Paged } from "@azure/core-paging";
-
 /** Result of the send message operation. */
 export interface SendMessageResultOutput {
   /** Receipts of the send message operation. */
@@ -15,6 +13,14 @@ export interface MessageReceiptOutput {
   messageId: string;
   /** The native external platform user identifier of the recipient. */
   to: string;
+}
+
+/** Paged collection of MessageTemplateItem items */
+export interface PagedMessageTemplateItemOutput {
+  /** The MessageTemplateItem items on this page */
+  value: Array<MessageTemplateItemOutput>;
+  /** The link to the next page of items */
+  nextLink?: string;
 }
 
 /** The message template as returned from the service. */
@@ -47,8 +53,6 @@ export type MessageTemplateItemOutput =
   | WhatsAppMessageTemplateItemOutput;
 /** Alias for RepeatabilityResultOutput */
 export type RepeatabilityResultOutput = "accepted" | "rejected";
-/** Paged collection of MessageTemplateItem items */
-export type PagedMessageTemplateItemOutput = Paged<MessageTemplateItemOutput>;
 /** Alias for MessageTemplateStatusOutput */
 export type MessageTemplateStatusOutput = string;
 /** Alias for CommunicationMessagesChannelOutput */

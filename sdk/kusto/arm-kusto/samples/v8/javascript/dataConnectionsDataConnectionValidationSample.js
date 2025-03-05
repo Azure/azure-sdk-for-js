@@ -10,13 +10,13 @@
 // Licensed under the MIT License.
 const { KustoManagementClient } = require("@azure/arm-kusto");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Checks that the data connection parameters are valid.
  *
  * @summary Checks that the data connection parameters are valid.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoDataConnectionEventGridValidationAsync.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2024-04-13/examples/KustoDataConnectionEventGridValidationAsync.json
  */
 async function kustoDataConnectionEventGridValidation() {
   const subscriptionId =
@@ -29,7 +29,7 @@ async function kustoDataConnectionEventGridValidation() {
     properties: {
       blobStorageEventType: "Microsoft.Storage.BlobCreated",
       consumerGroup: "$Default",
-      dataFormat: "JSON",
+      dataFormat: "MULTIJSON",
       databaseRouting: "Single",
       eventGridResourceId:
         "/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Storage/storageAccounts/teststorageaccount/providers/Microsoft.EventGrid/eventSubscriptions/eventSubscriptionTest",
@@ -60,7 +60,7 @@ async function kustoDataConnectionEventGridValidation() {
  * This sample demonstrates how to Checks that the data connection parameters are valid.
  *
  * @summary Checks that the data connection parameters are valid.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoDataConnectionValidationAsync.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2024-04-13/examples/KustoDataConnectionValidationAsync.json
  */
 async function kustoDataConnectionValidation() {
   const subscriptionId =
@@ -73,7 +73,7 @@ async function kustoDataConnectionValidation() {
     properties: {
       compression: "None",
       consumerGroup: "testConsumerGroup1",
-      dataFormat: "JSON",
+      dataFormat: "MULTIJSON",
       eventHubResourceId:
         "/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.EventHub/namespaces/eventhubTestns1/eventhubs/eventhubTest1",
       kind: "EventHub",
@@ -95,8 +95,8 @@ async function kustoDataConnectionValidation() {
 }
 
 async function main() {
-  kustoDataConnectionEventGridValidation();
-  kustoDataConnectionValidation();
+  await kustoDataConnectionEventGridValidation();
+  await kustoDataConnectionValidation();
 }
 
 main().catch(console.error);

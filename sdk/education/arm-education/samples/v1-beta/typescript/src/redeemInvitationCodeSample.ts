@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { RedeemRequest, EducationManagementClient } from "@azure/arm-education";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Redeem invite code to join a redeemable lab
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Redeem invite code to join a redeemable lab
  * x-ms-original-file: specification/education/resource-manager/Microsoft.Education/preview/2021-12-01-preview/examples/RedeemCode.json
  */
-async function redeemCode() {
+async function redeemCode(): Promise<void> {
   const parameters: RedeemRequest = {
     firstName: "test",
     lastName: "user",
@@ -32,7 +30,7 @@ async function redeemCode() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   redeemCode();
 }
 

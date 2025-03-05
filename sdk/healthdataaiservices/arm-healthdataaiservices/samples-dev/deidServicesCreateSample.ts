@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary create a DeidService
  * x-ms-original-file: 2024-09-20/DeidServices_Create_MaximumSet_Gen.json
  */
-async function deidServicesCreateGeneratedByMaximumSetRuleStable() {
+async function deidServicesCreateGeneratedByMaximumSetRuleStable(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "F21BB31B-C214-42C0-ACF0-DACCA05D3011";
   const client = new HealthDataAIServicesClient(credential, subscriptionId);
@@ -23,8 +23,8 @@ async function deidServicesCreateGeneratedByMaximumSetRuleStable() {
   console.log(result);
 }
 
-async function main() {
-  deidServicesCreateGeneratedByMaximumSetRuleStable();
+async function main(): Promise<void> {
+  await deidServicesCreateGeneratedByMaximumSetRuleStable();
 }
 
 main().catch(console.error);

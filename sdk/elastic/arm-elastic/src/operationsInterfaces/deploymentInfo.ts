@@ -9,7 +9,7 @@
 import {
   DeploymentInfoListOptionalParams,
   DeploymentInfoListResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a DeploymentInfo. */
 export interface DeploymentInfo {

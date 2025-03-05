@@ -7,19 +7,19 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { LocationBasedCapabilities } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { LocationBasedCapabilities } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { PostgreSQLManagementFlexibleServerClient } from "../postgreSQLManagementFlexibleServerClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { PostgreSQLManagementFlexibleServerClient } from "../postgreSQLManagementFlexibleServerClient.js";
 import {
   FlexibleServerCapability,
   LocationBasedCapabilitiesExecuteNextOptionalParams,
   LocationBasedCapabilitiesExecuteOptionalParams,
   LocationBasedCapabilitiesExecuteResponse,
   LocationBasedCapabilitiesExecuteNextResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing LocationBasedCapabilities operations. */

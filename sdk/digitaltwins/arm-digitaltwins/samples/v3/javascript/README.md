@@ -87,6 +87,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [timeseriesdatabaseconnectionsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/digitaltwins/arm-digitaltwins/samples/v3/javascript/timeSeriesDatabaseConnectionsDeleteSample.js
 [timeseriesdatabaseconnectionsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/digitaltwins/arm-digitaltwins/samples/v3/javascript/timeSeriesDatabaseConnectionsGetSample.js
 [timeseriesdatabaseconnectionslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/digitaltwins/arm-digitaltwins/samples/v3/javascript/timeSeriesDatabaseConnectionsListSample.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-digitaltwins?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-digitaltwins?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/digitaltwins/arm-digitaltwins/README.md

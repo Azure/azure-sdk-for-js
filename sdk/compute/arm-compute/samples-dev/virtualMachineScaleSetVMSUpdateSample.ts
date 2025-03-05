@@ -6,16 +6,10 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import {
-  VirtualMachineScaleSetVM,
-  ComputeManagementClient,
-} from "@azure/arm-compute";
+import type { VirtualMachineScaleSetVM } from "@azure/arm-compute";
+import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Updates a virtual machine of a VM scale set.
@@ -23,11 +17,9 @@ dotenv.config();
  * @summary Updates a virtual machine of a VM scale set.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVM_Update_MaximumSet_Gen.json
  */
-async function virtualMachineScaleSetVMUpdateMaximumSetGen() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
+async function virtualMachineScaleSetVMUpdateMaximumSetGen(): Promise<void> {
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
   const vmScaleSetName = "aaaaaaaaaaaaaa";
   const instanceId = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
   const parameters: VirtualMachineScaleSetVM = {
@@ -276,9 +268,7 @@ async function virtualMachineScaleSetVMUpdateMaximumSetGen() {
                 deleteOption: "Delete",
                 dnsSettings: { domainNameLabel: "aaaaaaaaaaaaaaaaaa" },
                 idleTimeoutInMinutes: 18,
-                ipTags: [
-                  { ipTagType: "aaaaaaa", tag: "aaaaaaaaaaaaaaaaaaaaaaaaaaa" },
-                ],
+                ipTags: [{ ipTagType: "aaaaaaa", tag: "aaaaaaaaaaaaaaaaaaaaaaaaaaa" }],
                 publicIPAddressVersion: "IPv4",
                 publicIPPrefix: {
                   id: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}",
@@ -332,9 +322,7 @@ async function virtualMachineScaleSetVMUpdateMaximumSetGen() {
         provisionVMAgent: true,
         timeZone: "aaaaaaaaaaaaaaaaaaaaaaaaaaa",
         winRM: {
-          listeners: [
-            { certificateUrl: "aaaaaaaaaaaaaaaaaaaaaa", protocol: "Http" },
-          ],
+          listeners: [{ certificateUrl: "aaaaaaaaaaaaaaaaaaaaaa", protocol: "Http" }],
         },
       },
     },
@@ -444,11 +432,9 @@ async function virtualMachineScaleSetVMUpdateMaximumSetGen() {
  * @summary Updates a virtual machine of a VM scale set.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVM_Update_MinimumSet_Gen.json
  */
-async function virtualMachineScaleSetVMUpdateMinimumSetGen() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
+async function virtualMachineScaleSetVMUpdateMinimumSetGen(): Promise<void> {
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
   const vmScaleSetName = "aaaaaaaaaaaaaaaaaa";
   const instanceId = "aaaaaaaaaaaaaaaaaaaa";
   const parameters: VirtualMachineScaleSetVM = { location: "westus" };
@@ -463,9 +449,9 @@ async function virtualMachineScaleSetVMUpdateMinimumSetGen() {
   console.log(result);
 }
 
-async function main() {
-  virtualMachineScaleSetVMUpdateMaximumSetGen();
-  virtualMachineScaleSetVMUpdateMinimumSetGen();
+async function main(): Promise<void> {
+  await virtualMachineScaleSetVMUpdateMaximumSetGen();
+  await virtualMachineScaleSetVMUpdateMinimumSetGen();
 }
 
 main().catch(console.error);

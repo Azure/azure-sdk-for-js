@@ -1,16 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import createNetworkManagementClient, {
-  VirtualNetworkGatewayConnectionsStartPacketCaptureParameters,
-  getLongRunningPoller,
-} from "@azure-rest/arm-network";
+import type { VirtualNetworkGatewayConnectionsStartPacketCaptureParameters } from "@azure-rest/arm-network";
+import createNetworkManagementClient, { getLongRunningPoller } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Starts packet capture on virtual network gateway connection in the specified resource group.
@@ -18,7 +11,7 @@ dotenv.config();
  * @summary Starts packet capture on virtual network gateway connection in the specified resource group.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/VirtualNetworkGatewayConnectionStartPacketCaptureFilterData.json
  */
-async function startPacketCaptureOnVirtualNetworkGatewayConnectionWithFilter() {
+async function startPacketCaptureOnVirtualNetworkGatewayConnectionWithFilter(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -51,7 +44,7 @@ startPacketCaptureOnVirtualNetworkGatewayConnectionWithFilter().catch(console.er
  * @summary Starts packet capture on virtual network gateway connection in the specified resource group.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/VirtualNetworkGatewayConnectionStartPacketCapture.json
  */
-async function startPacketCaptureOnVirtualNetworkGatewayConnectionWithoutFilter() {
+async function startPacketCaptureOnVirtualNetworkGatewayConnectionWithoutFilter(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

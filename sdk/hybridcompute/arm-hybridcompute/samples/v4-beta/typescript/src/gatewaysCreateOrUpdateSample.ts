@@ -13,9 +13,7 @@ import {
   HybridComputeManagementClient,
 } from "@azure/arm-hybridcompute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to The operation to create or update a gateway.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary The operation to create or update a gateway.
  * x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2024-07-31-preview/examples/gateway/Gateway_CreateOrUpdate.json
  */
-async function createOrUpdateAGateway() {
+async function createOrUpdateAGateway(): Promise<void> {
   const subscriptionId =
     process.env["HYBRIDCOMPUTE_SUBSCRIPTION_ID"] ||
     "ffd506c8-3415-42d3-9612-fdb423fb17df";
@@ -45,7 +43,7 @@ async function createOrUpdateAGateway() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createOrUpdateAGateway();
 }
 

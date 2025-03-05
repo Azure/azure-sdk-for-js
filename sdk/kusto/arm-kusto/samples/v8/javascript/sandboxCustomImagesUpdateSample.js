@@ -10,13 +10,13 @@
 // Licensed under the MIT License.
 const { KustoManagementClient } = require("@azure/arm-kusto");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Updates a sandbox custom image.
  *
  * @summary Updates a sandbox custom image.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoSandboxCustomImageUpdate.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2024-04-13/examples/KustoSandboxCustomImageUpdate.json
  */
 async function kustoSandboxCustomImagesUpdate() {
   const subscriptionId =
@@ -41,7 +41,7 @@ async function kustoSandboxCustomImagesUpdate() {
 }
 
 async function main() {
-  kustoSandboxCustomImagesUpdate();
+  await kustoSandboxCustomImagesUpdate();
 }
 
 main().catch(console.error);

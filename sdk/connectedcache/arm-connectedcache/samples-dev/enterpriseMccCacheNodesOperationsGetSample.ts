@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary this api gets ispCacheNode resource information
  * x-ms-original-file: 2023-05-01-preview/EnterpriseMccCacheNodesOperations_Get_MaximumSet_Gen.json
  */
-async function getsEnterpriseMccCacheNodeResourceInformationOfAnEnterpriseMccCustomerParentResourceGeneratedByMaximumSetRule() {
+async function getsEnterpriseMccCacheNodeResourceInformationOfAnEnterpriseMccCustomerParentResourceGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "12345678-1234-1234-1234-123456789098";
   const client = new ConnectedCacheClient(credential, subscriptionId);
@@ -22,8 +22,8 @@ async function getsEnterpriseMccCacheNodeResourceInformationOfAnEnterpriseMccCus
   console.log(result);
 }
 
-async function main() {
-  getsEnterpriseMccCacheNodeResourceInformationOfAnEnterpriseMccCustomerParentResourceGeneratedByMaximumSetRule();
+async function main(): Promise<void> {
+  await getsEnterpriseMccCacheNodeResourceInformationOfAnEnterpriseMccCustomerParentResourceGeneratedByMaximumSetRule();
 }
 
 main().catch(console.error);

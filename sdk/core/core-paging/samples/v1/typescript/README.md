@@ -57,7 +57,7 @@ npx dev-tool run vendored cross-env  node dist/getPagedAsyncIteratorSample.js
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
 [getpagedasynciteratorsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/core-paging/samples/v1/typescript/src/getPagedAsyncIteratorSample.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/core-paging
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/core-paging
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/core-paging/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

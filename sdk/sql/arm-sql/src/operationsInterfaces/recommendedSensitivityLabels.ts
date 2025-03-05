@@ -9,7 +9,7 @@
 import {
   RecommendedSensitivityLabelUpdateList,
   RecommendedSensitivityLabelsUpdateOptionalParams,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a RecommendedSensitivityLabels. */
 export interface RecommendedSensitivityLabels {

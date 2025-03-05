@@ -13,9 +13,7 @@ import {
   SiteRecoveryManagementClient,
 } from "@azure/arm-recoveryservices-siterecovery";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to The operation to move replications from a process server to another process server.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary The operation to move replications from a process server to another process server.
  * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationFabrics_ReassociateGateway.json
  */
-async function performFailoverOfTheProcessServer() {
+async function performFailoverOfTheProcessServer(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICESSITERECOVERY_SUBSCRIPTION_ID"] ||
     "7c943c1b-5122-4097-90c8-861411bdd574";
@@ -51,7 +49,7 @@ async function performFailoverOfTheProcessServer() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   performFailoverOfTheProcessServer();
 }
 

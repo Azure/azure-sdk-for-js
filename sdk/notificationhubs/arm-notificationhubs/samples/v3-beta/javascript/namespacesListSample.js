@@ -6,11 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { NotificationHubsManagementClient } = require("@azure/arm-notificationhubs");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Lists the available namespaces within a resource group.
@@ -25,14 +23,14 @@ async function namespacesList() {
   const credential = new DefaultAzureCredential();
   const client = new NotificationHubsManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.namespaces.list(resourceGroupName)) {
+  for await (const item of client.namespaces.list(resourceGroupName)) {
     resArray.push(item);
   }
   console.log(resArray);
 }
 
 async function main() {
-  namespacesList();
+  await namespacesList();
 }
 
 main().catch(console.error);

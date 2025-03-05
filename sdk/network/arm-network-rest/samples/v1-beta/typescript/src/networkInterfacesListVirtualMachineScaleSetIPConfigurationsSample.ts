@@ -1,16 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import createNetworkManagementClient, {
   NetworkInterfacesListVirtualMachineScaleSetIpConfigurationsParameters,
-  paginate
+  paginate,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get the specified network interface ip configuration in a virtual machine scale set.
@@ -18,7 +13,7 @@ dotenv.config();
  * @summary Get the specified network interface ip configuration in a virtual machine scale set.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/VmssNetworkInterfaceIpConfigList.json
  */
-async function listVirtualMachineScaleSetNetworkInterfaceIPConfigurations() {
+async function listVirtualMachineScaleSetNetworkInterfaceIPConfigurations(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -27,7 +22,7 @@ async function listVirtualMachineScaleSetNetworkInterfaceIPConfigurations() {
   const virtualmachineIndex = "2";
   const networkInterfaceName = "nic1";
   const options: NetworkInterfacesListVirtualMachineScaleSetIpConfigurationsParameters = {
-    queryParameters: { "api-version": "2018-10-01" }
+    queryParameters: { "api-version": "2018-10-01" },
   };
   const initialResponse = await client
     .path(
@@ -36,7 +31,7 @@ async function listVirtualMachineScaleSetNetworkInterfaceIPConfigurations() {
       resourceGroupName,
       virtualMachineScaleSetName,
       virtualmachineIndex,
-      networkInterfaceName
+      networkInterfaceName,
     )
     .get(options);
   const pageData = paginate(client, initialResponse);
@@ -47,6 +42,4 @@ async function listVirtualMachineScaleSetNetworkInterfaceIPConfigurations() {
   console.log(result);
 }
 
-listVirtualMachineScaleSetNetworkInterfaceIPConfigurations().catch(
-  console.error
-);
+listVirtualMachineScaleSetNetworkInterfaceIPConfigurations().catch(console.error);

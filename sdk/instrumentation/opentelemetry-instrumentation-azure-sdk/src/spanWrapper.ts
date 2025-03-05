@@ -5,6 +5,7 @@ import type { Span } from "@opentelemetry/api";
 import { SpanStatusCode } from "@opentelemetry/api";
 import type { SpanStatus, TracingSpan, AddEventOptions } from "@azure/core-tracing";
 import { isAttributeValue, sanitizeAttributes } from "@opentelemetry/core";
+import { logger } from "./logger.js";
 
 export class OpenTelemetrySpanWrapper implements TracingSpan {
   private _span: Span;
@@ -14,7 +15,7 @@ export class OpenTelemetrySpanWrapper implements TracingSpan {
   }
 
   setStatus(status: SpanStatus): void {
-    if (status.status === "error") {
+    if (status.status === "error" && isRecordableError(status.error)) {
       if (status.error) {
         this._span.setStatus({ code: SpanStatusCode.ERROR, message: status.error.toString() });
         this.recordException(status.error);
@@ -22,7 +23,7 @@ export class OpenTelemetrySpanWrapper implements TracingSpan {
         this._span.setStatus({ code: SpanStatusCode.ERROR });
       }
     } else if (status.status === "success") {
-      this._span.setStatus({ code: SpanStatusCode.OK });
+      logger.verbose("Leaving span with status UNSET per OpenTelemetry spec.");
     }
   }
 
@@ -57,4 +58,20 @@ export class OpenTelemetrySpanWrapper implements TracingSpan {
   unwrap(): Span {
     return this._span;
   }
+}
+
+/**
+ * Determines if an error should be recorded on the span.
+ *
+ * By default, all errors will mark the span status as error
+ * except for {@link https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/304} which is expected
+ * when the cached resource is still valid in a conditional request.
+ */
+function isRecordableError(error: string | Error | undefined): boolean {
+  if (error !== null && typeof error === "object" && "statusCode" in error) {
+    return error.statusCode !== 304;
+  }
+
+  // we do not have enough information to determine if this error is recordable so we assume it is
+  return true;
 }

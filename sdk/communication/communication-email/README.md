@@ -24,8 +24,8 @@ npm install @azure/communication-email
 
 Email clients can be authenticated using the connection string acquired from an Azure Communication Resource in the [Azure Portal][azure_portal].
 
-```javascript
-const { EmailClient } = require("@azure/communication-email");
+```ts snippet:ReadmeSampleCreateClient_ConnectionString
+import { EmailClient } from "@azure/communication-email";
 
 const connectionString = `endpoint=https://<resource-name>.communication.azure.com/;accessKey=<Base64-Encoded-Key>`;
 const client = new EmailClient(connectionString);
@@ -40,7 +40,7 @@ npm install @azure/identity
 The [`@azure/identity`][azure_identity] package provides a variety of credential types that your application can use to do this. The README for @azure/identity provides more details and samples to get you started.
 AZURE_CLIENT_SECRET, AZURE_CLIENT_ID and AZURE_TENANT_ID environment variables are needed to create a DefaultAzureCredential object.
 
-```typescript
+```ts snippet:ReadmeSampleCreateClient_AAD
 import { DefaultAzureCredential } from "@azure/identity";
 import { EmailClient } from "@azure/communication-email";
 
@@ -53,7 +53,14 @@ const client = new EmailClient(endpoint, credential);
 
 To send an email message, call the `beginSend` function from the `EmailClient`. This will return a poller. You can use this poller to check on the status of the operation and retrieve the result once it's finished.
 
-```javascript Snippet:Azure_Communication_Email_Send
+```ts snippet:ReadmeSample_SendEmail
+import { DefaultAzureCredential } from "@azure/identity";
+import { EmailClient } from "@azure/communication-email";
+
+const endpoint = "https://<resource-name>.communication.azure.com";
+const credential = new DefaultAzureCredential();
+const client = new EmailClient(endpoint, credential);
+
 const message = {
   senderAddress: "sender@contoso.com",
   content: {
@@ -70,7 +77,7 @@ const message = {
   },
 };
 
-const poller = await emailClient.beginSend(message);
+const poller = await client.beginSend(message);
 const response = await poller.pollUntilDone();
 ```
 
@@ -78,7 +85,14 @@ const response = await poller.pollUntilDone();
 
 To send an email message to multiple recipients, add a object for each recipient type and an object for each recipient.
 
-```javascript Snippet:Azure_Communication_Email_Send_Multiple_Recipients
+```ts snippet:ReadmeSample_SendEmailToMultipleRecipients
+import { DefaultAzureCredential } from "@azure/identity";
+import { EmailClient } from "@azure/communication-email";
+
+const endpoint = "https://<resource-name>.communication.azure.com";
+const credential = new DefaultAzureCredential();
+const client = new EmailClient(endpoint, credential);
+
 const message = {
   senderAddress: "sender@contoso.com",
   content: {
@@ -119,7 +133,7 @@ const message = {
   },
 };
 
-const poller = await emailClient.beginSend(message);
+const poller = await client.beginSend(message);
 const response = await poller.pollUntilDone();
 ```
 
@@ -127,8 +141,17 @@ const response = await poller.pollUntilDone();
 
 Azure Communication Services support sending email with attachments.
 
-```javascript Snippet:Azure_Communication_Email_Send_With_Attachments
-const filePath = "C://readme.txt";
+```ts snippet:ReadmeSample_SendEmailWithAttachments
+import { DefaultAzureCredential } from "@azure/identity";
+import { EmailClient } from "@azure/communication-email";
+import { basename } from "node:path";
+import { readFileSync } from "node:fs";
+
+const endpoint = "https://<resource-name>.communication.azure.com";
+const credential = new DefaultAzureCredential();
+const client = new EmailClient(endpoint, credential);
+
+const filePath = "path/to/readme.txt";
 
 const message = {
   senderAddress: "sender@contoso.com",
@@ -146,14 +169,14 @@ const message = {
   },
   attachments: [
     {
-      name: path.basename(filePath),
+      name: basename(filePath),
       contentType: "text/plain",
       contentInBase64: readFileSync(filePath, "base64"),
     },
   ],
 };
 
-const poller = await emailClient.beginSend(message);
+const poller = await client.beginSend(message);
 const response = await poller.pollUntilDone();
 ```
 
@@ -162,23 +185,36 @@ const response = await poller.pollUntilDone();
 Azure Communication Services support sending email with inline attachments.
 Adding an optional `contentId` parameter to an `attachment` will make it an inline attachment.
 
-```javascript Snippet:Azure_Communication_Email_Send_With_Attachments
-const imageBuffer = await fs.readFile("C:/path/to/my_inline_image.jpg");
+```ts snippet:ReadmeSample_SendEmailWithInlineAttachments
+import { DefaultAzureCredential } from "@azure/identity";
+import { EmailClient } from "@azure/communication-email";
+import { readFileSync } from "node:fs";
+
+const endpoint = "https://<resource-name>.communication.azure.com";
+const credential = new DefaultAzureCredential();
+const client = new EmailClient(endpoint, credential);
+
+const imageBuffer = readFileSync("path/to/my_inline_image.jpg");
 const contentInBase64 = imageBuffer.toString("base64");
 
 const message = {
-  senderAddress: senderAddress,
+  senderAddress: "sender@contoso.com",
   content: {
     subject: "This is the subject",
     plainText: "This is the body",
     html: '<html>This is the body<br /><img src="cid:inline_image" /></html>',
   },
   recipients: {
-    to: [{ address: recipientAddress, displayName: "Customer Name" }],
+    to: [
+      {
+        address: "customer@domain.com",
+        displayName: "Customer Name",
+      },
+    ],
   },
   attachments: [
     {
-      name: "myinlineimage.jpg",
+      name: "my_inline_image.jpg",
       contentType: "image/jpeg",
       contentInBase64: contentInBase64,
       contentId: "inline_image",
@@ -186,8 +222,20 @@ const message = {
   ],
 };
 
-const poller = await emailClient.beginSend(message);
+const poller = await client.beginSend(message);
 const response = await poller.pollUntilDone();
+```
+
+## Troubleshooting
+
+### Logging
+
+Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
+
+```ts snippet:SetLogLevel
+import { setLogLevel } from "@azure/logger";
+
+setLogLevel("info");
 ```
 
 ## Next steps

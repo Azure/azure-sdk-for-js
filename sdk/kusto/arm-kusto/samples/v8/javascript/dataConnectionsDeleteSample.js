@@ -10,13 +10,13 @@
 // Licensed under the MIT License.
 const { KustoManagementClient } = require("@azure/arm-kusto");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Deletes the data connection with the given name.
  *
  * @summary Deletes the data connection with the given name.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoDataConnectionsDelete.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2024-04-13/examples/KustoDataConnectionsDelete.json
  */
 async function kustoDataConnectionsDelete() {
   const subscriptionId =
@@ -37,7 +37,7 @@ async function kustoDataConnectionsDelete() {
 }
 
 async function main() {
-  kustoDataConnectionsDelete();
+  await kustoDataConnectionsDelete();
 }
 
 main().catch(console.error);

@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { VirtualMachineDeleteCheckpoint, ScVmm } from "@azure/arm-scvmm";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Deletes a checkpoint in virtual machine instance.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Deletes a checkpoint in virtual machine instance.
  * x-ms-original-file: specification/scvmm/resource-manager/Microsoft.ScVmm/stable/2023-10-07/examples/VirtualMachineInstances_DeleteCheckpoint_MaximumSet_Gen.json
  */
-async function virtualMachineInstancesDeleteCheckpointMaximumSet() {
+async function virtualMachineInstancesDeleteCheckpointMaximumSet(): Promise<void> {
   const resourceUri = "gtgclehcbsyave";
   const body: VirtualMachineDeleteCheckpoint = {
     id: "eenfflimcbgqfsebdusophahjpk",
@@ -41,7 +39,7 @@ async function virtualMachineInstancesDeleteCheckpointMaximumSet() {
  * @summary Deletes a checkpoint in virtual machine instance.
  * x-ms-original-file: specification/scvmm/resource-manager/Microsoft.ScVmm/stable/2023-10-07/examples/VirtualMachineInstances_DeleteCheckpoint_MinimumSet_Gen.json
  */
-async function virtualMachineInstancesDeleteCheckpointMinimumSet() {
+async function virtualMachineInstancesDeleteCheckpointMinimumSet(): Promise<void> {
   const resourceUri = "gtgclehcbsyave";
   const body: VirtualMachineDeleteCheckpoint = {};
   const credential = new DefaultAzureCredential();
@@ -54,7 +52,7 @@ async function virtualMachineInstancesDeleteCheckpointMinimumSet() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   virtualMachineInstancesDeleteCheckpointMaximumSet();
   virtualMachineInstancesDeleteCheckpointMinimumSet();
 }

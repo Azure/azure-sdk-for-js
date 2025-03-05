@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { SecurityCenter } from "@azure/arm-security";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to List the available security controls, their assessments, and the max score
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary List the available security controls, their assessments, and the max score
  * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/stable/2020-01-01/examples/secureScoreControlDefinitions/ListSecureScoreControlDefinitions_example.json
  */
-async function listSecurityControlsDefinition() {
+async function listSecurityControlsDefinition(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new SecurityCenter(credential);
   const resArray = new Array();
@@ -30,7 +28,7 @@ async function listSecurityControlsDefinition() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listSecurityControlsDefinition();
 }
 

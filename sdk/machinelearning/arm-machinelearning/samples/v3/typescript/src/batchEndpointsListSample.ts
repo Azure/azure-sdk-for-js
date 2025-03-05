@@ -13,9 +13,7 @@ import {
   AzureMachineLearningServicesManagementClient,
 } from "@azure/arm-machinelearning";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists Batch inference endpoint in the workspace.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Lists Batch inference endpoint in the workspace.
  * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2024-04-01/examples/Workspace/BatchEndpoint/list.json
  */
-async function listWorkspaceBatchEndpoint() {
+async function listWorkspaceBatchEndpoint(): Promise<void> {
   const subscriptionId =
     process.env["MACHINELEARNING_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -48,7 +46,7 @@ async function listWorkspaceBatchEndpoint() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listWorkspaceBatchEndpoint();
 }
 

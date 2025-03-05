@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { HybridNetworkManagementClient } from "@azure/arm-hybridnetwork";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets information about a list of network service design versions under a network service design group.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Gets information about a list of network service design versions under a network service design group.
  * x-ms-original-file: specification/hybridnetwork/resource-manager/Microsoft.HybridNetwork/stable/2023-09-01/examples/NetworkServiceDesignVersionListByNetworkServiceDesignGroup.json
  */
-async function getPublisherResource() {
+async function getPublisherResource(): Promise<void> {
   const subscriptionId =
     process.env["HYBRIDNETWORK_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["HYBRIDNETWORK_RESOURCE_GROUP"] || "rg";
@@ -39,7 +37,7 @@ async function getPublisherResource() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getPublisherResource();
 }
 

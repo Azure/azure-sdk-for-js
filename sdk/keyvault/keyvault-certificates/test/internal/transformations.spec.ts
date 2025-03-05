@@ -16,27 +16,27 @@ import { describe, it, assert } from "vitest";
 
 describe("transformations", function () {
   describe("getCertificateOperationFromCoreOperation", function () {
-    it("transforms null error to undefined", function () {
-      const input: CoreCertificateOperation = {
+    it("transforms null error to undefined", () => {
+      const input: any = {
         error: null,
       };
 
-      assert.isUndefined(getCertificateOperationFromCoreOperation("", "", input).error);
+      assert.isUndefined(getCertificateOperationFromCoreOperation("", input).error);
     });
 
-    it("transforms null inner error to undefined", function () {
-      const input: CoreCertificateOperation = {
+    it("transforms null inner error to undefined", () => {
+      const input: any = {
         error: {
           innerError: null,
         },
       };
 
-      const output = getCertificateOperationFromCoreOperation("", "", input);
+      const output = getCertificateOperationFromCoreOperation("", input);
       assert.isDefined(output.error);
       assert.isUndefined(output.error!.innerError);
     });
 
-    it("transforms errors correctly when present", function () {
+    it("transforms errors correctly when present", () => {
       const input: CoreCertificateOperation = {
         error: {
           code: "outer error",
@@ -49,13 +49,13 @@ describe("transformations", function () {
         },
       };
 
-      const output = getCertificateOperationFromCoreOperation("", "", input);
+      const output = getCertificateOperationFromCoreOperation("", input);
       assert.deepNestedInclude(output, input);
     });
   });
 
   describe("x509ThumbprintString", function () {
-    it("is populated by getCertificateFromCertificateBundle", function () {
+    it("is populated by getCertificateFromCertificateBundle", () => {
       const bundle: CertificateBundle = {
         id: "https://myvault.vault.azure.net/certificates/certificateName/version",
         x509Thumbprint: new Uint8Array([0xab, 0xcd, 0xef]),
@@ -64,7 +64,7 @@ describe("transformations", function () {
       assert.equal(result.properties.x509ThumbprintString, "abcdef");
     });
 
-    it("is populated by getCertificateWithPolicyFromCertifiateBundle", function () {
+    it("is populated by getCertificateWithPolicyFromCertifiateBundle", () => {
       const bundle: CertificateBundle = {
         id: "https://myvault.vault.azure.net/certificates/certificateName/version",
         x509Thumbprint: new Uint8Array([0xab, 0xcd, 0xef]),
@@ -74,7 +74,7 @@ describe("transformations", function () {
       assert.equal(result.properties.x509ThumbprintString, "abcdef");
     });
 
-    it("is populated by getDeletedCertificateFromItem", function () {
+    it("is populated by getDeletedCertificateFromItem", () => {
       const item: DeletedCertificateItem = {
         id: "https://myvault.vault.azure.net/certificates/certificateName/version",
         x509Thumbprint: new Uint8Array([0xab, 0xcd, 0xef]),
@@ -83,7 +83,7 @@ describe("transformations", function () {
       assert.equal(result.properties.x509ThumbprintString, "abcdef");
     });
 
-    it("is populated by getPropertiesFromCertificateBundle", function () {
+    it("is populated by getPropertiesFromCertificateBundle", () => {
       const bundle: CertificateBundle = {
         id: "https://myvault.vault.azure.net/certificates/certificateName/version",
         x509Thumbprint: new Uint8Array([0xab, 0xcd, 0xef]),

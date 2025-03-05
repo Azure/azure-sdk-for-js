@@ -14,7 +14,7 @@ import {
   NON_EU_CONNECTION_STRING,
   StatsbeatResourceProvider,
 } from "./types.js";
-import * as os from "os";
+import * as os from "node:os";
 
 export class StatsbeatMetrics {
   protected resourceProvider: string = StatsbeatResourceProvider.unknown;

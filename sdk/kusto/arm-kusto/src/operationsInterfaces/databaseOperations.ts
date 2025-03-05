@@ -9,8 +9,8 @@
 import {
   DatabaseInviteFollowerRequest,
   DatabaseInviteFollowerOptionalParams,
-  DatabaseInviteFollowerResponse
-} from "../models";
+  DatabaseInviteFollowerResponse,
+} from "../models/index.js";
 
 /** Interface representing a DatabaseOperations. */
 export interface DatabaseOperations {
@@ -27,6 +27,6 @@ export interface DatabaseOperations {
     clusterName: string,
     databaseName: string,
     parameters: DatabaseInviteFollowerRequest,
-    options?: DatabaseInviteFollowerOptionalParams
+    options?: DatabaseInviteFollowerOptionalParams,
   ): Promise<DatabaseInviteFollowerResponse>;
 }

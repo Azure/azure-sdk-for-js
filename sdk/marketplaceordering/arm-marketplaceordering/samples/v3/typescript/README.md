@@ -67,7 +67,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [marketplaceagreementsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/marketplaceordering/arm-marketplaceordering/samples/v3/typescript/src/marketplaceAgreementsGetSample.ts
 [marketplaceagreementslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/marketplaceordering/arm-marketplaceordering/samples/v3/typescript/src/marketplaceAgreementsListSample.ts
 [marketplaceagreementssignsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/marketplaceordering/arm-marketplaceordering/samples/v3/typescript/src/marketplaceAgreementsSignSample.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-marketplaceordering?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-marketplaceordering?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/marketplaceordering/arm-marketplaceordering/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

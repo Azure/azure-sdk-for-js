@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { PaloAltoNetworksCloudngfw } from "@azure/arm-paloaltonetworksngfw";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get a LocalRulesResource
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Get a LocalRulesResource
  * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/LocalRules_Get_MaximumSet_Gen.json
  */
-async function localRulesGetMaximumSetGen() {
+async function localRulesGetMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["PALOALTONETWORKSNGFW_SUBSCRIPTION_ID"] ||
     "2bf4a339-294d-4c25-b0b2-ef649e9f5c27";
@@ -44,7 +42,7 @@ async function localRulesGetMaximumSetGen() {
  * @summary Get a LocalRulesResource
  * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/LocalRules_Get_MinimumSet_Gen.json
  */
-async function localRulesGetMinimumSetGen() {
+async function localRulesGetMinimumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["PALOALTONETWORKSNGFW_SUBSCRIPTION_ID"] ||
     "2bf4a339-294d-4c25-b0b2-ef649e9f5c27";
@@ -62,7 +60,7 @@ async function localRulesGetMinimumSetGen() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   localRulesGetMaximumSetGen();
   localRulesGetMinimumSetGen();
 }

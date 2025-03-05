@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { SourceControlOperations } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { SourceControlOperations } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { SecurityInsights } from "../securityInsights";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { SecurityInsights } from "../securityInsights.js";
 import {
   Repo,
   RepoType,
@@ -20,7 +20,7 @@ import {
   SourceControlListRepositoriesOptionalParams,
   SourceControlListRepositoriesResponse,
   SourceControlListRepositoriesNextResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing SourceControlOperations operations. */

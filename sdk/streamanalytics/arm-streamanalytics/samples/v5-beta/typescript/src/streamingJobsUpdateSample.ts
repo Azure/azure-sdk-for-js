@@ -13,9 +13,7 @@ import {
   StreamAnalyticsManagementClient,
 } from "@azure/arm-streamanalytics";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Updates an existing streaming job. This can be used to partially update (ie. update one or two properties) a streaming job without affecting the rest the job definition.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Updates an existing streaming job. This can be used to partially update (ie. update one or two properties) a streaming job without affecting the rest the job definition.
  * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/preview/2021-10-01-preview/examples/StreamingJob_Update.json
  */
-async function updateAStreamingJob() {
+async function updateAStreamingJob(): Promise<void> {
   const subscriptionId =
     process.env["STREAMANALYTICS_SUBSCRIPTION_ID"] ||
     "56b5e0a9-b645-407d-99b0-c64f86013e3d";
@@ -47,7 +45,7 @@ async function updateAStreamingJob() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   updateAStreamingJob();
 }
 

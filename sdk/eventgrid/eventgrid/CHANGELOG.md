@@ -1,6 +1,6 @@
 # Release History
 
-## 5.9.1 (Unreleased)
+## 5.11.1 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,31 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 5.11.0 (2025-02-21)
+
+### Features Added
+
+- properties added to `AcsMessageMediaContent`
+  - `animated`
+- properties added to `AcsMessageReceivedEventData`
+  - `messageId`
+  - `messageType`
+  - `reaction`
+
+## 5.10.0 (2025-01-21)
+
+### Features Added
+
+- Added `internetMessageId` property to `AcsEmailDeliveryReportReceivedEventData`.
+- Added `recipientMailServerHostName` property to `AcsEmailDeliveryReportStatusDetails`.
+- For `AcsSmsReceivedEventData`:
+  - Added `segmentCount` property
+
+### Bugs Fixed
+
+- For `AcsSmsReceivedEventData`:
+  - Made `message` & `receivedTimestamp` properties optional.
 
 ## 5.9.0 (2024-12-02)
 

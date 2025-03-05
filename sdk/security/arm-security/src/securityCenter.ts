@@ -80,7 +80,7 @@ import {
   ServerVulnerabilityAssessmentsSettingsImpl,
   APICollectionsImpl,
   PricingsImpl,
-} from "./operations";
+} from "./operations/index.js";
 import {
   Locations,
   Operations,
@@ -152,9 +152,9 @@ import {
   ServerVulnerabilityAssessmentsSettings,
   APICollections,
   Pricings,
-} from "./operationsInterfaces";
-import * as Parameters from "./models/parameters";
-import * as Mappers from "./models/mappers";
+} from "./operationsInterfaces/index.js";
+import * as Parameters from "./models/parameters.js";
+import * as Mappers from "./models/mappers.js";
 import {
   SecurityCenterOptionalParams,
   UpdateSensitivitySettingsRequest,
@@ -162,7 +162,7 @@ import {
   UpdateSensitivitySettingsResponse,
   GetSensitivitySettingsOptionalParams,
   GetSensitivitySettingsOperationResponse,
-} from "./models";
+} from "./models/index.js";
 
 export class SecurityCenter extends coreClient.ServiceClient {
   $host: string;

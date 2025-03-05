@@ -1,6 +1,6 @@
 # Release History
 
-## 1.1.1 (Unreleased)
+## 1.2.1 (Unreleased)
 
 ### Features Added
 
@@ -10,7 +10,12 @@
 
 ### Other Changes
 
+## 1.2.0 (2025-02-18)
+
+### Other Changes
+
 - Native ESM support has been added, and this package will now emit both CommonJS and ESM. [#31647](https://github.com/Azure/azure-sdk-for-js/pull/31647)
+- Updated `@azure/msal-node` to the version `^3.2.2`
 
 ## 1.1.0 (2024-10-15)
 

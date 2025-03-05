@@ -1,16 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import createNetworkManagementClient, {
-  VirtualRouterPeeringsDeleteParameters,
-  getLongRunningPoller,
-} from "@azure-rest/arm-network";
+import type { VirtualRouterPeeringsDeleteParameters } from "@azure-rest/arm-network";
+import createNetworkManagementClient, { getLongRunningPoller } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Deletes the specified peering from a Virtual Router.
@@ -18,7 +11,7 @@ dotenv.config();
  * @summary Deletes the specified peering from a Virtual Router.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/VirtualRouterPeeringDelete.json
  */
-async function deleteVirtualRouterPeering() {
+async function deleteVirtualRouterPeering(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

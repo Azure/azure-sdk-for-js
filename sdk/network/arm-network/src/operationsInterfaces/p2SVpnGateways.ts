@@ -32,7 +32,7 @@ import {
   P2SVpnGatewaysGetP2SVpnConnectionHealthDetailedResponse,
   P2SVpnConnectionRequest,
   P2SVpnGatewaysDisconnectP2SVpnConnectionsOptionalParams,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a P2SVpnGateways. */

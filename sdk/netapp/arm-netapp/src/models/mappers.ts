@@ -1214,12 +1214,6 @@ export const EncryptionIdentity: coreClient.CompositeMapper = {
           name: "String",
         },
       },
-      federatedClientId: {
-        serializedName: "federatedClientId",
-        type: {
-          name: "String",
-        },
-      },
     },
   },
 };
@@ -1366,25 +1360,6 @@ export const NetAppAccountPatch: coreClient.CompositeMapper = {
           name: "Boolean",
         },
       },
-      nfsV4IDDomain: {
-        constraints: {
-          Pattern: new RegExp("^[a-zA-Z0-9][a-zA-Z0-9.-]{0,253}[a-zA-Z0-9]$"),
-          MaxLength: 255,
-        },
-        serializedName: "properties.nfsV4IDDomain",
-        nullable: true,
-        type: {
-          name: "String",
-        },
-      },
-      isMultiAdEnabled: {
-        serializedName: "properties.isMultiAdEnabled",
-        readOnly: true,
-        nullable: true,
-        type: {
-          name: "Boolean",
-        },
-      },
     },
   },
 };
@@ -1404,6 +1379,66 @@ export const EncryptionTransitionRequest: coreClient.CompositeMapper = {
       privateEndpointId: {
         serializedName: "privateEndpointId",
         required: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const GetKeyVaultStatusResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "GetKeyVaultStatusResponse",
+    modelProperties: {
+      keyVaultUri: {
+        serializedName: "properties.keyVaultUri",
+        type: {
+          name: "String",
+        },
+      },
+      keyName: {
+        serializedName: "properties.keyName",
+        type: {
+          name: "String",
+        },
+      },
+      keyVaultResourceId: {
+        serializedName: "properties.keyVaultResourceId",
+        type: {
+          name: "String",
+        },
+      },
+      keyVaultPrivateEndpoints: {
+        serializedName: "properties.keyVaultPrivateEndpoints",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "KeyVaultPrivateEndpoint",
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
+export const KeyVaultPrivateEndpoint: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "KeyVaultPrivateEndpoint",
+    modelProperties: {
+      virtualNetworkId: {
+        serializedName: "virtualNetworkId",
+        type: {
+          name: "String",
+        },
+      },
+      privateEndpointId: {
+        serializedName: "privateEndpointId",
         type: {
           name: "String",
         },
@@ -1448,27 +1483,6 @@ export const ChangeKeyVault: coreClient.CompositeMapper = {
               className: "KeyVaultPrivateEndpoint",
             },
           },
-        },
-      },
-    },
-  },
-};
-
-export const KeyVaultPrivateEndpoint: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "KeyVaultPrivateEndpoint",
-    modelProperties: {
-      virtualNetworkId: {
-        serializedName: "virtualNetworkId",
-        type: {
-          name: "String",
-        },
-      },
-      privateEndpointId: {
-        serializedName: "privateEndpointId",
-        type: {
-          name: "String",
         },
       },
     },
@@ -1558,13 +1572,6 @@ export const CapacityPoolPatch: coreClient.CompositeMapper = {
         serializedName: "properties.coolAccess",
         type: {
           name: "Boolean",
-        },
-      },
-      customThroughputMibps: {
-        serializedName: "properties.customThroughputMibps",
-        nullable: true,
-        type: {
-          name: "Number",
         },
       },
     },
@@ -1883,19 +1890,6 @@ export const ReplicationObject: coreClient.CompositeMapper = {
           name: "String",
         },
       },
-      destinationReplications: {
-        serializedName: "destinationReplications",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "DestinationReplication",
-            },
-          },
-        },
-      },
     },
   },
 };
@@ -1922,39 +1916,6 @@ export const RemotePath: coreClient.CompositeMapper = {
       volumeName: {
         serializedName: "volumeName",
         required: true,
-        type: {
-          name: "String",
-        },
-      },
-    },
-  },
-};
-
-export const DestinationReplication: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "DestinationReplication",
-    modelProperties: {
-      resourceId: {
-        serializedName: "resourceId",
-        type: {
-          name: "String",
-        },
-      },
-      replicationType: {
-        serializedName: "replicationType",
-        type: {
-          name: "String",
-        },
-      },
-      region: {
-        serializedName: "region",
-        type: {
-          name: "String",
-        },
-      },
-      zone: {
-        serializedName: "zone",
         type: {
           name: "String",
         },
@@ -2165,6 +2126,12 @@ export const VolumePatch: coreClient.CompositeMapper = {
           name: "String",
         },
       },
+      coolAccessTieringPolicy: {
+        serializedName: "properties.coolAccessTieringPolicy",
+        type: {
+          name: "String",
+        },
+      },
       snapshotDirectoryVisible: {
         serializedName: "properties.snapshotDirectoryVisible",
         type: {
@@ -2308,78 +2275,6 @@ export const GetGroupIdListForLdapUserResponse: coreClient.CompositeMapper = {
               name: "String",
             },
           },
-        },
-      },
-    },
-  },
-};
-
-export const ListQuotaReportResponse: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ListQuotaReportResponse",
-    modelProperties: {
-      value: {
-        serializedName: "value",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "QuotaReport",
-            },
-          },
-        },
-      },
-      nextLink: {
-        serializedName: "nextLink",
-        type: {
-          name: "String",
-        },
-      },
-    },
-  },
-};
-
-export const QuotaReport: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "QuotaReport",
-    modelProperties: {
-      quotaType: {
-        serializedName: "quotaType",
-        type: {
-          name: "String",
-        },
-      },
-      quotaTarget: {
-        serializedName: "quotaTarget",
-        type: {
-          name: "String",
-        },
-      },
-      quotaLimitUsedInKiBs: {
-        serializedName: "quotaLimitUsedInKiBs",
-        type: {
-          name: "Number",
-        },
-      },
-      quotaLimitTotalInKiBs: {
-        serializedName: "quotaLimitTotalInKiBs",
-        type: {
-          name: "Number",
-        },
-      },
-      percentageUsed: {
-        serializedName: "percentageUsed",
-        type: {
-          name: "Number",
-        },
-      },
-      isDerivedQuota: {
-        serializedName: "isDerivedQuota",
-        type: {
-          name: "Boolean",
         },
       },
     },
@@ -3563,13 +3458,6 @@ export const VolumeGroupVolumeProperties: coreClient.CompositeMapper = {
           className: "VolumePropertiesDataProtection",
         },
       },
-      acceptGrowCapacityPoolForShortTermCloneSplit: {
-        serializedName:
-          "properties.acceptGrowCapacityPoolForShortTermCloneSplit",
-        type: {
-          name: "String",
-        },
-      },
       isRestoring: {
         serializedName: "properties.isRestoring",
         type: {
@@ -3677,6 +3565,12 @@ export const VolumeGroupVolumeProperties: coreClient.CompositeMapper = {
       },
       coolAccessRetrievalPolicy: {
         serializedName: "properties.coolAccessRetrievalPolicy",
+        type: {
+          name: "String",
+        },
+      },
+      coolAccessTieringPolicy: {
+        serializedName: "properties.coolAccessTieringPolicy",
         type: {
           name: "String",
         },
@@ -3831,21 +3725,6 @@ export const VolumeGroupVolumeProperties: coreClient.CompositeMapper = {
       originatingResourceId: {
         serializedName: "properties.originatingResourceId",
         readOnly: true,
-        nullable: true,
-        type: {
-          name: "String",
-        },
-      },
-      inheritedSizeInBytes: {
-        serializedName: "properties.inheritedSizeInBytes",
-        readOnly: true,
-        nullable: true,
-        type: {
-          name: "Number",
-        },
-      },
-      language: {
-        serializedName: "properties.language",
         nullable: true,
         type: {
           name: "String",
@@ -4754,13 +4633,6 @@ export const Backup: coreClient.CompositeMapper = {
           name: "String",
         },
       },
-      isLargeVolume: {
-        serializedName: "properties.isLargeVolume",
-        readOnly: true,
-        type: {
-          name: "Boolean",
-        },
-      },
     },
   },
 };
@@ -4813,25 +4685,6 @@ export const NetAppAccount: coreClient.CompositeMapper = {
       },
       disableShowmount: {
         serializedName: "properties.disableShowmount",
-        readOnly: true,
-        nullable: true,
-        type: {
-          name: "Boolean",
-        },
-      },
-      nfsV4IDDomain: {
-        constraints: {
-          Pattern: new RegExp("^[a-zA-Z0-9][a-zA-Z0-9.-]{0,253}[a-zA-Z0-9]$"),
-          MaxLength: 255,
-        },
-        serializedName: "properties.nfsV4IDDomain",
-        nullable: true,
-        type: {
-          name: "String",
-        },
-      },
-      isMultiAdEnabled: {
-        serializedName: "properties.isMultiAdEnabled",
         readOnly: true,
         nullable: true,
         type: {
@@ -4902,13 +4755,6 @@ export const CapacityPool: coreClient.CompositeMapper = {
       utilizedThroughputMibps: {
         serializedName: "properties.utilizedThroughputMibps",
         readOnly: true,
-        type: {
-          name: "Number",
-        },
-      },
-      customThroughputMibps: {
-        serializedName: "properties.customThroughputMibps",
-        nullable: true,
         type: {
           name: "Number",
         },
@@ -5132,13 +4978,6 @@ export const Volume: coreClient.CompositeMapper = {
           className: "VolumePropertiesDataProtection",
         },
       },
-      acceptGrowCapacityPoolForShortTermCloneSplit: {
-        serializedName:
-          "properties.acceptGrowCapacityPoolForShortTermCloneSplit",
-        type: {
-          name: "String",
-        },
-      },
       isRestoring: {
         serializedName: "properties.isRestoring",
         type: {
@@ -5246,6 +5085,12 @@ export const Volume: coreClient.CompositeMapper = {
       },
       coolAccessRetrievalPolicy: {
         serializedName: "properties.coolAccessRetrievalPolicy",
+        type: {
+          name: "String",
+        },
+      },
+      coolAccessTieringPolicy: {
+        serializedName: "properties.coolAccessTieringPolicy",
         type: {
           name: "String",
         },
@@ -5400,21 +5245,6 @@ export const Volume: coreClient.CompositeMapper = {
       originatingResourceId: {
         serializedName: "properties.originatingResourceId",
         readOnly: true,
-        nullable: true,
-        type: {
-          name: "String",
-        },
-      },
-      inheritedSizeInBytes: {
-        serializedName: "properties.inheritedSizeInBytes",
-        readOnly: true,
-        nullable: true,
-        type: {
-          name: "Number",
-        },
-      },
-      language: {
-        serializedName: "properties.language",
         nullable: true,
         type: {
           name: "String",
@@ -5711,21 +5541,6 @@ export const VolumesResetCifsPasswordHeaders: coreClient.CompositeMapper = {
   },
 };
 
-export const VolumesSplitCloneFromParentHeaders: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "VolumesSplitCloneFromParentHeaders",
-    modelProperties: {
-      location: {
-        serializedName: "location",
-        type: {
-          name: "String",
-        },
-      },
-    },
-  },
-};
-
 export const VolumesBreakFileLocksHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -5756,21 +5571,6 @@ export const VolumesListGetGroupIdListForLdapUserHeaders: coreClient.CompositeMa
       },
     },
   };
-
-export const VolumesListQuotaReportHeaders: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "VolumesListQuotaReportHeaders",
-    modelProperties: {
-      location: {
-        serializedName: "location",
-        type: {
-          name: "String",
-        },
-      },
-    },
-  },
-};
 
 export const VolumesPeerExternalClusterHeaders: coreClient.CompositeMapper = {
   type: {

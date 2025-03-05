@@ -81,7 +81,7 @@ async function quickStart() {
   await delay(5000);
   // Check offers to a Worker
   // Once the worker has been registered, Router will send an offer to the worker if the worker satisfies requirements
-  // for a job. See Offer flow https://docs.microsoft.com/azure/communication-services/concepts/router/concepts#offer
+  // for a job. See Offer flow https://learn.microsoft.com/azure/communication-services/concepts/router/concepts#offer
   //
   // We should get a RouterWorkerOfferIssued from our EventGrid subscription.
 

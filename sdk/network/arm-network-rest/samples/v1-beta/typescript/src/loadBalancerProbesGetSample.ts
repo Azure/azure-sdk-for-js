@@ -1,15 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import createNetworkManagementClient, {
-  LoadBalancerProbesGetParameters
+  LoadBalancerProbesGetParameters,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets load balancer probe.
@@ -17,7 +12,7 @@ dotenv.config();
  * @summary Gets load balancer probe.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/LoadBalancerProbeGet.json
  */
-async function loadBalancerProbeGet() {
+async function loadBalancerProbeGet(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -25,7 +20,7 @@ async function loadBalancerProbeGet() {
   const loadBalancerName = "lb";
   const probeName = "probe1";
   const options: LoadBalancerProbesGetParameters = {
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const result = await client
     .path(
@@ -33,7 +28,7 @@ async function loadBalancerProbeGet() {
       subscriptionId,
       resourceGroupName,
       loadBalancerName,
-      probeName
+      probeName,
     )
     .get(options);
   console.log(result);

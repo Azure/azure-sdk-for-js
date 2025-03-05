@@ -7,16 +7,16 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { PrivateLinkResources } from "../operationsInterfaces";
+import { PrivateLinkResources } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { TimeSeriesInsightsClient } from "../timeSeriesInsightsClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { TimeSeriesInsightsClient } from "../timeSeriesInsightsClient.js";
 import {
   PrivateLinkResource,
   PrivateLinkResourcesListSupportedOptionalParams,
   PrivateLinkResourcesListSupportedResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing PrivateLinkResources operations. */

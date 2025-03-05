@@ -14,7 +14,7 @@ import {
   TransformationsUpdateResponse,
   TransformationsGetOptionalParams,
   TransformationsGetResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a Transformations. */
 export interface Transformations {

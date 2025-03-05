@@ -13,9 +13,7 @@ import {
   PaloAltoNetworksCloudngfw
 } from "@azure/arm-paloaltonetworksngfw";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Update a GlobalRulestackResource
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Update a GlobalRulestackResource
  * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/GlobalRulestack_Update_MaximumSet_Gen.json
  */
-async function globalRulestackUpdateMaximumSetGen() {
+async function globalRulestackUpdateMaximumSetGen(): Promise<void> {
   const globalRulestackName = "praval";
   const properties: GlobalRulestackResourceUpdate = {
     identity: {
@@ -68,7 +66,7 @@ async function globalRulestackUpdateMaximumSetGen() {
  * @summary Update a GlobalRulestackResource
  * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/GlobalRulestack_Update_MinimumSet_Gen.json
  */
-async function globalRulestackUpdateMinimumSetGen() {
+async function globalRulestackUpdateMinimumSetGen(): Promise<void> {
   const globalRulestackName = "praval";
   const properties: GlobalRulestackResourceUpdate = {};
   const credential = new DefaultAzureCredential();
@@ -80,7 +78,7 @@ async function globalRulestackUpdateMinimumSetGen() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   globalRulestackUpdateMaximumSetGen();
   globalRulestackUpdateMinimumSetGen();
 }

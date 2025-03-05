@@ -199,7 +199,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [resourceguardspatchsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/dataprotection/arm-dataprotection/samples/v2/typescript/src/resourceGuardsPatchSample.ts
 [resourceguardsputsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/dataprotection/arm-dataprotection/samples/v2/typescript/src/resourceGuardsPutSample.ts
 [restorabletimerangesfindsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/dataprotection/arm-dataprotection/samples/v2/typescript/src/restorableTimeRangesFindSample.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-dataprotection?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-dataprotection?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/dataprotection/arm-dataprotection/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

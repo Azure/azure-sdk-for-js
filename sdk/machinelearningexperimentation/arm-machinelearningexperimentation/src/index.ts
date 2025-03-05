@@ -7,7 +7,7 @@
  */
 
 /// <reference lib="esnext.asynciterable" />
-export { getContinuationToken } from "./pagingHelper";
-export * from "./models";
-export { MLTeamAccountManagementClient } from "./mLTeamAccountManagementClient";
-export * from "./operationsInterfaces";
+export { getContinuationToken } from "./pagingHelper.js";
+export * from "./models/index.js";
+export { MLTeamAccountManagementClient } from "./mLTeamAccountManagementClient.js";
+export * from "./operationsInterfaces/index.js";

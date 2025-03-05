@@ -275,7 +275,7 @@
       "words": ["Dicom", "Gcch", "gcch"]
     },
     {
-      "filename": "sdk/eventgrid/eventgrid-system-events/review/**/*.md",
+      "filename": "sdk/eventgrid/eventgrid-systemevents/review/**/*.md",
       "words": ["Dicom", "Gcch", "gcch"]
     },
     {

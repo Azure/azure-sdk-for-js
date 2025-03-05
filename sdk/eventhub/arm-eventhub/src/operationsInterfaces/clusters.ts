@@ -23,7 +23,7 @@ import {
   ClustersDeleteOptionalParams,
   ClustersListNamespacesOptionalParams,
   ClustersListNamespacesResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Clusters. */

@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { MicrosoftElastic } from "@azure/arm-elastic";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to List the resources currently being monitored by the Elastic monitor resource.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary List the resources currently being monitored by the Elastic monitor resource.
  * x-ms-original-file: specification/elastic/resource-manager/Microsoft.Elastic/stable/2024-03-01/examples/MonitoredResources_List.json
  */
-async function monitoredResourcesList() {
+async function monitoredResourcesList(): Promise<void> {
   const subscriptionId =
     process.env["ELASTIC_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -39,7 +37,7 @@ async function monitoredResourcesList() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   monitoredResourcesList();
 }
 

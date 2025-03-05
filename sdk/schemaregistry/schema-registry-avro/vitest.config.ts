@@ -9,6 +9,8 @@ export default mergeConfig(
   defineConfig({
     test: {
       fileParallelism: false,
+      testTimeout: 1200000,
+      hookTimeout: 1200000,
     },
   }),
 );

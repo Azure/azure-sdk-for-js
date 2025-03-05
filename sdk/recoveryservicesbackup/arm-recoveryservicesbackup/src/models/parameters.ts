@@ -35,7 +35,7 @@ import {
   ResourceGuardProxyBaseResource as ResourceGuardProxyBaseResourceMapper,
   UnlockDeleteRequest as UnlockDeleteRequestMapper,
   FetchTieringCostInfoRequest as FetchTieringCostInfoRequestMapper,
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",

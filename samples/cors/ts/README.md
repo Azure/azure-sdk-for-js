@@ -117,9 +117,9 @@ The values for `AZURE_CLIENT_ID`, `AZURE_CLIENT_SECRET`, and `AZURE_TENANT_ID` a
 You can find the value of `AZURE_KEYVAULT_NAME` in the outputs tab of your deployment.
 
 [cors]: https://developer.mozilla.org/docs/Web/HTTP/CORS
-[azureapimanagement]: https://docs.microsoft.com/azure/api-management/api-management-key-concepts
+[azureapimanagement]: https://learn.microsoft.com/azure/api-management/api-management-key-concepts
 [express]: https://expressjs.com/
-[keyvaultsecurity]: https://docs.microsoft.com/azure/key-vault/general/security-overview
+[keyvaultsecurity]: https://learn.microsoft.com/azure/key-vault/general/security-overview
 [asp]: https://dotnet.microsoft.com/apps/aspnet
 [freesub]: https://azure.microsoft.com/free
-[keyvault]: https://docs.microsoft.com/azure/key-vault/
+[keyvault]: https://learn.microsoft.com/azure/key-vault/

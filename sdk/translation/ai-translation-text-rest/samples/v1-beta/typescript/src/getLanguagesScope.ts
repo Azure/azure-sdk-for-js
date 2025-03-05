@@ -10,12 +10,10 @@ import TextTranslationClient, {
   isUnexpected,
 } from "@azure-rest/ai-translation-text";
 
-import * as dotenv from "dotenv";
-dotenv.config();
-
+import "dotenv/config";
 const endpoint = process.env["ENDPOINT"] || "https://api.cognitive.microsofttranslator.com";
 
-export async function main() {
+export async function main(): Promise<void> {
   console.log("== Scoped list supported languages sample ==");
 
   const parameters: GetSupportedLanguagesParameters = {

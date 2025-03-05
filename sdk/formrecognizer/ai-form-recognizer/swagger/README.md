@@ -18,7 +18,8 @@ add-credentials: false
 typescript: true
 package-version: "5.0.0"
 use-extension:
-  "@autorest/typescript": "6.0.0-alpha.20.20220622.1"
+  "@autorest/typescript": "6.0.34"
+module-kind: esm
 ```
 
 ## Customizations for Track 2 Generator

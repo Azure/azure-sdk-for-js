@@ -38,7 +38,7 @@ async function notificationHubsRegenerateKeys(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  notificationHubsRegenerateKeys();
+  await notificationHubsRegenerateKeys();
 }
 
 main().catch(console.error);

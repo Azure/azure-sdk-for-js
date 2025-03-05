@@ -10,7 +10,7 @@ import {
   ValidateOperationRequestResource,
   OperationValidateOptionalParams,
   OperationValidateResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a Operation. */
 export interface Operation {

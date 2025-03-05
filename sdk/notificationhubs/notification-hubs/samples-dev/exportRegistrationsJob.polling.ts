@@ -5,7 +5,7 @@
  * This sample demonstrates how the createNotificationJob() method can be used to export registrations
  * descriptions so that they can be imported into another Azure Notification Hub.
  *
- * See https://docs.microsoft.com/azure/notification-hubs/export-modify-registrations-bulk
+ * See https://learn.microsoft.com/azure/notification-hubs/export-modify-registrations-bulk
  * to learn about Export and Import Registrations in Azure Notification Hubs.
  *
  *

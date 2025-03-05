@@ -6,8 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./dataPolicyManifests";
-export * from "./policyAssignments";
-export * from "./policyDefinitions";
-export * from "./policySetDefinitions";
-export * from "./policyExemptions";
+export * from "./dataPolicyManifests.js";
+export * from "./policyAssignments.js";
+export * from "./policyDefinitions.js";
+export * from "./policySetDefinitions.js";
+export * from "./policyExemptions.js";

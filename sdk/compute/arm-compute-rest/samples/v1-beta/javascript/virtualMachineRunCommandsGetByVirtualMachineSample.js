@@ -29,7 +29,7 @@ async function getARunCommand() {
       subscriptionId,
       resourceGroupName,
       vmName,
-      runCommandName
+      runCommandName,
     )
     .get(options);
   console.log(result);

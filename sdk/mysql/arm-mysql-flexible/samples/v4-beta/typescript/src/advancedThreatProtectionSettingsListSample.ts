@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { MySQLManagementFlexibleServerClient } from "@azure/arm-mysql-flexible";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets a list of server's Advanced Threat Protection states.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Gets a list of server's Advanced Threat Protection states.
  * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/FlexibleServers/stable/2023-12-30/examples/AdvancedThreatProtectionSettingsList.json
  */
-async function getListOfServerAdvancedThreatProtectionSettings() {
+async function getListOfServerAdvancedThreatProtectionSettings(): Promise<void> {
   const subscriptionId =
     process.env["MYSQL_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -42,7 +40,7 @@ async function getListOfServerAdvancedThreatProtectionSettings() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getListOfServerAdvancedThreatProtectionSettings();
 }
 

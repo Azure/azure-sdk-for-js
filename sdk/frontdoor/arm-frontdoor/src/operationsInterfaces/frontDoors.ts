@@ -20,7 +20,7 @@ import {
   ValidateCustomDomainInput,
   FrontDoorsValidateCustomDomainOptionalParams,
   FrontDoorsValidateCustomDomainResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a FrontDoors. */

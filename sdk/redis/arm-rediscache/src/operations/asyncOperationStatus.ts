@@ -6,15 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { AsyncOperationStatus } from "../operationsInterfaces";
+import { AsyncOperationStatus } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { RedisManagementClient } from "../redisManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { RedisManagementClient } from "../redisManagementClient.js";
 import {
   AsyncOperationStatusGetOptionalParams,
   AsyncOperationStatusGetResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Class containing AsyncOperationStatus operations. */
 export class AsyncOperationStatusImpl implements AsyncOperationStatus {

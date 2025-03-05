@@ -91,13 +91,13 @@ function createNotificationHubJob(content: Record<string, any>): NotificationHub
   }
 
   return {
-    jobId: getStringOrUndefined(content["JobId"]),
-    type: getString(content["Type"], "type") as NotificationHubJobType,
-    status: getStringOrUndefined(content["Status"]) as NotificationHubJobStatus,
+    jobId: getStringOrUndefined(content["JobId"])?.trim(),
+    type: getString(content["Type"], "type").trim() as NotificationHubJobType,
+    status: getStringOrUndefined(content["Status"])?.trim() as NotificationHubJobStatus,
     progress: getFloatOrUndefined(content["Progress"]),
-    outputContainerUrl: getString(content["OutputContainerUri"], "outputContainerUrl"),
-    importFileUrl: getStringOrUndefined(content["ImportFileUri"]),
-    failure: getStringOrUndefined(content["Failure"]),
+    outputContainerUrl: getString(content["OutputContainerUri"], "outputContainerUrl").trim(),
+    importFileUrl: getStringOrUndefined(content["ImportFileUri"])?.trim(),
+    failure: getStringOrUndefined(content["Failure"])?.trim(),
     createdAt: getDateOrUndefined(content["CreatedAt"]),
     updatedAt: getDateOrUndefined(content["UpdatedAt"]),
     inputProperties,

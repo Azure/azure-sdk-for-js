@@ -10,13 +10,13 @@
 // Licensed under the MIT License.
 const { RedisManagementClient } = require("@azure/arm-rediscache");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Gets the private link resources that need to be created for a redis cache.
  *
  * @summary Gets the private link resources that need to be created for a redis cache.
- * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2024-03-01/examples/RedisCacheListPrivateLinkResources.json
+ * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2024-11-01/examples/RedisCacheListPrivateLinkResources.json
  */
 async function storageAccountListPrivateLinkResources() {
   const subscriptionId = process.env["REDIS_SUBSCRIPTION_ID"] || "{subscription-id}";
@@ -35,7 +35,7 @@ async function storageAccountListPrivateLinkResources() {
 }
 
 async function main() {
-  storageAccountListPrivateLinkResources();
+  await storageAccountListPrivateLinkResources();
 }
 
 main().catch(console.error);

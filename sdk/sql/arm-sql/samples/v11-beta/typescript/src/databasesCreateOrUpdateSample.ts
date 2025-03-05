@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { Database, SqlManagementClient } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates a new database or updates an existing database.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Creates a new database or updates an existing database.
  * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-02-01-preview/examples/CreateVCoreDatabaseByServiceObjective.json
  */
-async function createsAVCoreDatabaseBySpecifyingServiceObjectiveName() {
+async function createsAVCoreDatabaseBySpecifyingServiceObjectiveName(): Promise<void> {
   const subscriptionId =
     process.env["SQL_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -49,7 +47,7 @@ async function createsAVCoreDatabaseBySpecifyingServiceObjectiveName() {
  * @summary Creates a new database or updates an existing database.
  * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-02-01-preview/examples/CreateVCoreDatabaseBySkuNameCapacity.json
  */
-async function createsAVCoreDatabaseBySpecifyingSkuNameAndCapacity() {
+async function createsAVCoreDatabaseBySpecifyingSkuNameAndCapacity(): Promise<void> {
   const subscriptionId =
     process.env["SQL_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -78,7 +76,7 @@ async function createsAVCoreDatabaseBySpecifyingSkuNameAndCapacity() {
  * @summary Creates a new database or updates an existing database.
  * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-02-01-preview/examples/CreateDwDatabaseCrossSubscriptionRestore.json
  */
-async function createsADataWarehouseDatabaseAsACrossSubscriptionRestoreFromABackupOfADroppedDatabase() {
+async function createsADataWarehouseDatabaseAsACrossSubscriptionRestoreFromABackupOfADroppedDatabase(): Promise<void> {
   const subscriptionId =
     process.env["SQL_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -109,7 +107,7 @@ async function createsADataWarehouseDatabaseAsACrossSubscriptionRestoreFromABack
  * @summary Creates a new database or updates an existing database.
  * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-02-01-preview/examples/CreateDwDatabaseCrossSubscriptionRecovery.json
  */
-async function createsADataWarehouseDatabaseAsACrossSubscriptionRestoreFromAGeoBackup() {
+async function createsADataWarehouseDatabaseAsACrossSubscriptionRestoreFromAGeoBackup(): Promise<void> {
   const subscriptionId =
     process.env["SQL_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -140,7 +138,7 @@ async function createsADataWarehouseDatabaseAsACrossSubscriptionRestoreFromAGeoB
  * @summary Creates a new database or updates an existing database.
  * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-02-01-preview/examples/CreateDwDatabaseCrossSubscriptionPITR.json
  */
-async function createsADataWarehouseDatabaseAsACrossSubscriptionRestoreFromARestorePointOfAnExistingDatabase() {
+async function createsADataWarehouseDatabaseAsACrossSubscriptionRestoreFromARestorePointOfAnExistingDatabase(): Promise<void> {
   const subscriptionId =
     process.env["SQL_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -172,7 +170,7 @@ async function createsADataWarehouseDatabaseAsACrossSubscriptionRestoreFromARest
  * @summary Creates a new database or updates an existing database.
  * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-02-01-preview/examples/CreateDatabaseCopyMode.json
  */
-async function createsADatabaseAsACopy() {
+async function createsADatabaseAsACopy(): Promise<void> {
   const subscriptionId =
     process.env["SQL_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -204,7 +202,7 @@ async function createsADatabaseAsACopy() {
  * @summary Creates a new database or updates an existing database.
  * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-02-01-preview/examples/CreateDatabaseStandbyMode.json
  */
-async function createsADatabaseAsAStandbySecondary() {
+async function createsADatabaseAsAStandbySecondary(): Promise<void> {
   const subscriptionId =
     process.env["SQL_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -237,7 +235,7 @@ async function createsADatabaseAsAStandbySecondary() {
  * @summary Creates a new database or updates an existing database.
  * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-02-01-preview/examples/CreateDatabaseSecondaryMode.json
  */
-async function createsADatabaseAsAnOnLineSecondary() {
+async function createsADatabaseAsAnOnLineSecondary(): Promise<void> {
   const subscriptionId =
     process.env["SQL_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -270,7 +268,7 @@ async function createsADatabaseAsAnOnLineSecondary() {
  * @summary Creates a new database or updates an existing database.
  * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-02-01-preview/examples/CreateDatabaseNamedReplica.json
  */
-async function createsADatabaseAsNamedReplicaSecondary() {
+async function createsADatabaseAsNamedReplicaSecondary(): Promise<void> {
   const subscriptionId =
     process.env["SQL_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -303,7 +301,7 @@ async function createsADatabaseAsNamedReplicaSecondary() {
  * @summary Creates a new database or updates an existing database.
  * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-02-01-preview/examples/CreateDatabasePITRMode.json
  */
-async function createsADatabaseFromPointInTimeRestore() {
+async function createsADatabaseFromPointInTimeRestore(): Promise<void> {
   const subscriptionId =
     process.env["SQL_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -335,7 +333,7 @@ async function createsADatabaseFromPointInTimeRestore() {
  * @summary Creates a new database or updates an existing database.
  * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-02-01-preview/examples/CreateDatabaseDefaultEnclave.json
  */
-async function createsADatabaseWithDefaultEnclaveType() {
+async function createsADatabaseWithDefaultEnclaveType(): Promise<void> {
   const subscriptionId =
     process.env["SQL_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -364,7 +362,7 @@ async function createsADatabaseWithDefaultEnclaveType() {
  * @summary Creates a new database or updates an existing database.
  * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-02-01-preview/examples/CreateDatabaseVBSEnclave.json
  */
-async function createsADatabaseWithVbsEnclaveType() {
+async function createsADatabaseWithVbsEnclaveType(): Promise<void> {
   const subscriptionId =
     process.env["SQL_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -393,7 +391,7 @@ async function createsADatabaseWithVbsEnclaveType() {
  * @summary Creates a new database or updates an existing database.
  * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-02-01-preview/examples/CreateDatabaseWithAvailabilityZone.json
  */
-async function createsADatabaseWithAvailabilityZoneSpecified() {
+async function createsADatabaseWithAvailabilityZoneSpecified(): Promise<void> {
   const subscriptionId =
     process.env["SQL_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -426,7 +424,7 @@ async function createsADatabaseWithAvailabilityZoneSpecified() {
  * @summary Creates a new database or updates an existing database.
  * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-02-01-preview/examples/CreateDatabaseDefaultModeWithKeysAndEncryptionProtector.json
  */
-async function createsADatabaseWithDatabaseLevelCustomerManagedKeys() {
+async function createsADatabaseWithDatabaseLevelCustomerManagedKeys(): Promise<void> {
   const subscriptionId =
     process.env["SQL_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -471,7 +469,7 @@ async function createsADatabaseWithDatabaseLevelCustomerManagedKeys() {
  * @summary Creates a new database or updates an existing database.
  * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-02-01-preview/examples/CreateDatabaseDefaultMode.json
  */
-async function createsADatabaseWithDefaultMode() {
+async function createsADatabaseWithDefaultMode(): Promise<void> {
   const subscriptionId =
     process.env["SQL_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -503,7 +501,7 @@ async function createsADatabaseWithDefaultMode() {
  * @summary Creates a new database or updates an existing database.
  * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-02-01-preview/examples/CreateDatabaseLedger.json
  */
-async function createsADatabaseWithLedgerOn() {
+async function createsADatabaseWithLedgerOn(): Promise<void> {
   const subscriptionId =
     process.env["SQL_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -529,7 +527,7 @@ async function createsADatabaseWithLedgerOn() {
  * @summary Creates a new database or updates an existing database.
  * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-02-01-preview/examples/CreateDatabaseMin.json
  */
-async function createsADatabaseWithMinimumNumberOfParameters() {
+async function createsADatabaseWithMinimumNumberOfParameters(): Promise<void> {
   const subscriptionId =
     process.env["SQL_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -555,7 +553,7 @@ async function createsADatabaseWithMinimumNumberOfParameters() {
  * @summary Creates a new database or updates an existing database.
  * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-02-01-preview/examples/CreateDatabaseMaintenanceConfiguration.json
  */
-async function createsADatabaseWithPreferredMaintenanceWindow() {
+async function createsADatabaseWithPreferredMaintenanceWindow(): Promise<void> {
   const subscriptionId =
     process.env["SQL_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -589,7 +587,7 @@ async function createsADatabaseWithPreferredMaintenanceWindow() {
  * @summary Creates a new database or updates an existing database.
  * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-02-01-preview/examples/CreateDatabaseConfiguredBackupStorageRedundancy.json
  */
-async function createsADatabaseWithSpecifiedBackupStorageRedundancy() {
+async function createsADatabaseWithSpecifiedBackupStorageRedundancy(): Promise<void> {
   const subscriptionId =
     process.env["SQL_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -618,7 +616,7 @@ async function createsADatabaseWithSpecifiedBackupStorageRedundancy() {
  * @summary Creates a new database or updates an existing database.
  * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-02-01-preview/examples/UpdateDatabaseHyperscaleMigrationWithManualCutover.json
  */
-async function updatesADatabaseToHyperscaleSloWithManualCutover() {
+async function updatesADatabaseToHyperscaleSloWithManualCutover(): Promise<void> {
   const subscriptionId =
     process.env["SQL_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -657,7 +655,7 @@ async function updatesADatabaseToHyperscaleSloWithManualCutover() {
  * @summary Creates a new database or updates an existing database.
  * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-02-01-preview/examples/UpdateDatabaseHyperscaleMigrationPerformCutover.json
  */
-async function updatesADatabaseToHyperscaleTierByTriggeringManualCutoverDuringMigrationWorkflow() {
+async function updatesADatabaseToHyperscaleTierByTriggeringManualCutoverDuringMigrationWorkflow(): Promise<void> {
   const subscriptionId =
     process.env["SQL_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -689,7 +687,7 @@ async function updatesADatabaseToHyperscaleTierByTriggeringManualCutoverDuringMi
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createsAVCoreDatabaseBySpecifyingServiceObjectiveName();
   createsAVCoreDatabaseBySpecifyingSkuNameAndCapacity();
   createsADataWarehouseDatabaseAsACrossSubscriptionRestoreFromABackupOfADroppedDatabase();

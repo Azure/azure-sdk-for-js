@@ -6,7 +6,10 @@
  */
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
-import type { CreateJobParameters, RadiologyInsightsJobOutput } from "@azure-rest/health-insights-radiologyinsights";
+import type {
+  CreateJobParameters,
+  RadiologyInsightsJobOutput,
+} from "@azure-rest/health-insights-radiologyinsights";
 import AzureHealthInsightsClient, {
   ClinicalDocumentTypeEnum,
   getLongRunningPoller,

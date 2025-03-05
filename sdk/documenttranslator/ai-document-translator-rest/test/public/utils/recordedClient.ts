@@ -1,8 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/// <reference lib="esnext.asynciterable" />
-
 import type { DocumentTranslatorClient } from "../../../src/index.js";
 import DocumentTranslator from "../../../src/index.js";
 import type { Recorder } from "@azure-tools/test-recorder";

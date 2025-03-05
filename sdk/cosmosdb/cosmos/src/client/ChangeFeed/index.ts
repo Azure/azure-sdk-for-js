@@ -9,6 +9,7 @@ export { FeedRangeInternal, FeedRange } from "./FeedRange";
 export { ChangeFeedStartFrom } from "./ChangeFeedStartFrom";
 export { ChangeFeedMode } from "./ChangeFeedMode";
 export { buildInternalChangeFeedOptions } from "./changeFeedUtils";
-export { changeFeedIteratorBuilder } from "./changeFeedIteratorBuilder";
+export { buildChangeFeedIterator } from "./buildChangeFeedIterator";
 export { ChangeFeedRetentionTimeSpan } from "./ChangeFeedRetentionTimeSpan";
 export { ChangeFeedPolicy } from "./ChangeFeedPolicy";
+export { ChangeFeedIteratorBuilder } from "./ChangeFeedIteratorBuilder";

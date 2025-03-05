@@ -20,7 +20,7 @@ import type {
 /**
  * Determines if the given output is of the specified type.
  *
- * @template T - The type to check against, which extends one of the possible output parent types.
+ * @typeparam T - The type to check against, which extends one of the possible output parent types.
  * @param output - The action to check, which can be of type `RequiredActionOutput`, `RequiredToolCallOutput`, or `ToolDefinitionOutputParent`.
  * @param type - The type to check the action against.
  * @returns A boolean indicating whether the action is of the specified type.

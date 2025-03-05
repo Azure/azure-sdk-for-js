@@ -6,12 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import {
-  env,
-  Recorder,
-  RecorderStartOptions,
-  isPlaybackMode,
-} from "@azure-tools/test-recorder";
+import type { RecorderStartOptions } from "@azure-tools/test-recorder";
+import { env, Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { AzureVMwareSolutionAPI } from "../src/azureVMwareSolutionAPI.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
@@ -20,7 +16,7 @@ const replaceableVariables: Record<string, string> = {
   AZURE_CLIENT_ID: "azure_client_id",
   AZURE_CLIENT_SECRET: "azure_client_secret",
   AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
-  SUBSCRIPTION_ID: "azure_subscription_id"
+  SUBSCRIPTION_ID: "azure_subscription_id",
 };
 
 const recorderOptions: RecorderStartOptions = {
@@ -43,71 +39,80 @@ describe("avs test", () => {
   let resourceGroup: string;
   let privateCloudName: string;
 
-  beforeEach(async function (ctx) {
+  beforeEach(async (ctx) => {
     recorder = new Recorder(ctx);
     await recorder.start(recorderOptions);
-    subscriptionId = env.SUBSCRIPTION_ID || '';
+    subscriptionId = env.SUBSCRIPTION_ID || "";
     // This is an example of how the environment variables are used
     const credential = createTestCredential();
-    client = new AzureVMwareSolutionAPI(credential, subscriptionId, recorder.configureClientOptions({}));
+    client = new AzureVMwareSolutionAPI(
+      credential,
+      subscriptionId,
+      recorder.configureClientOptions({}),
+    );
     location = "eastasia";
     resourceGroup = "myjstest";
     privateCloudName = "cloud1";
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
-  //skip private clouds curd function because it costs too long.
-  it.skip("privateClouds create test", async function () {
+  // skip private clouds curd function because it costs too long.
+  it.skip("privateClouds create test", async () => {
     const res = await client.privateClouds.beginCreateOrUpdateAndWait(
       resourceGroup,
       privateCloudName,
       {
         availability: {
-          strategy: "SingleZone"
+          strategy: "SingleZone",
         },
         identity: { type: "SystemAssigned" },
         location,
         managementCluster: {
           clusterId: 1,
-          clusterSize: 3
+          clusterSize: 3,
         },
         networkBlock: "192.168.0.0/16",
         sku: { name: "AV36" },
-        tags: {}
+        tags: {},
       },
-      testPollingOptions
+      testPollingOptions,
     );
     assert.equal(res.name, privateCloudName);
-  }).timeout(36000000);
+  });
 
-  it.skip("privateClouds get test", async function () {
+  it.skip("privateClouds get test", async () => {
     const res = await client.privateClouds.get(resourceGroup, privateCloudName);
     assert.equal(res.name, privateCloudName);
   });
 
-  it.skip("privateClouds list test", async function () {
+  it.skip("privateClouds list test", async () => {
     const resArray = new Array();
-    for await (let item of client.privateClouds.listInSubscription()) {
+    for await (const item of client.privateClouds.listInSubscription()) {
       resArray.push(item);
     }
-    assert.equal(resArray.length, 1);//should be 1,but when testing this test there's 2 resources on portal
+    assert.equal(resArray.length, 1); // should be 1,but when testing this test there's 2 resources on portal
   });
 
-  it("operation list test", async function () {
+  it("operation list test", async () => {
     const resArray = new Array();
-    for await (let item of client.operations.list()) {
+    for await (const item of client.operations.list()) {
       resArray.push(item);
     }
   });
 
-  it.skip("privateClouds delete test", async function () {
+  it.skip("privateClouds delete test", async () => {
     const resArray = new Array();
-    for await (let item of client.privateClouds.listInSubscription()) {
+    await client.privateClouds.beginDeleteAndWait(
+      resourceGroup,
+      privateCloudName,
+      testPollingOptions,
+    );
+    for await (const item of client.privateClouds.listInSubscription()) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 0);
   });
-})
+});

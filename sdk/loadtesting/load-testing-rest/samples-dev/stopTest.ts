@@ -60,9 +60,9 @@ async function main(): Promise<void> {
   }
 
   // Checking the test run status
-  const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
+  const sleep = (ms: number): Promise<void> => new Promise((resolve) => setTimeout(resolve, ms));
 
-  sleep(30000);
+  await sleep(30000);
 
   const stopTestRunResult = await client.path("/test-runs/{testRunId}:stop", testRunId).post();
 

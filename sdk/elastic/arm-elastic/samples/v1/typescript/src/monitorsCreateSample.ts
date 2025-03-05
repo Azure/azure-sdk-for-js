@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { MicrosoftElastic } from "@azure/arm-elastic";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create a monitor resource.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Create a monitor resource.
  * x-ms-original-file: specification/elastic/resource-manager/Microsoft.Elastic/stable/2024-03-01/examples/Monitors_Create.json
  */
-async function monitorsCreate() {
+async function monitorsCreate(): Promise<void> {
   const subscriptionId =
     process.env["ELASTIC_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -36,7 +34,7 @@ async function monitorsCreate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   monitorsCreate();
 }
 

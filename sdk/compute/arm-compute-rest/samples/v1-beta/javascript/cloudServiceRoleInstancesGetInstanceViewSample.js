@@ -29,7 +29,7 @@ async function getInstanceViewOfCloudServiceRoleInstance() {
       subscriptionId,
       resourceGroupName,
       cloudServiceName,
-      roleInstanceName
+      roleInstanceName,
     )
     .get(options);
   console.log(result);

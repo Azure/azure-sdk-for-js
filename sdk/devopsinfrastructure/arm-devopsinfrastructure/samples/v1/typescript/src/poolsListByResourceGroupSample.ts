@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary list Pool resources by resource group
  * x-ms-original-file: 2024-10-19/ListPoolsBySubscriptionAndResourceGroup.json
  */
-async function poolsListByResourceGroup() {
+async function poolsListByResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "a2e95d27-c161-4b61-bda4-11512c14c2c2";
   const client = new DevOpsInfrastructureClient(credential, subscriptionId);
@@ -22,7 +22,7 @@ async function poolsListByResourceGroup() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   poolsListByResourceGroup();
 }
 

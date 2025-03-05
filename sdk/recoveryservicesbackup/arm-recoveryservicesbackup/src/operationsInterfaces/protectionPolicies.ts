@@ -14,7 +14,7 @@ import {
   ProtectionPoliciesCreateOrUpdateOptionalParams,
   ProtectionPoliciesCreateOrUpdateResponse,
   ProtectionPoliciesDeleteOptionalParams,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a ProtectionPolicies. */
 export interface ProtectionPolicies {

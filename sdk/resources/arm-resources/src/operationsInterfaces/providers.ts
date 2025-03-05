@@ -21,8 +21,8 @@ import {
   ProvidersGetOptionalParams,
   ProvidersGetResponse,
   ProvidersGetAtTenantScopeOptionalParams,
-  ProvidersGetAtTenantScopeResponse
-} from "../models";
+  ProvidersGetAtTenantScopeResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Providers. */
@@ -32,14 +32,14 @@ export interface Providers {
    * @param options The options parameters.
    */
   list(
-    options?: ProvidersListOptionalParams
+    options?: ProvidersListOptionalParams,
   ): PagedAsyncIterableIterator<Provider>;
   /**
    * Gets all resource providers for the tenant.
    * @param options The options parameters.
    */
   listAtTenantScope(
-    options?: ProvidersListAtTenantScopeOptionalParams
+    options?: ProvidersListAtTenantScopeOptionalParams,
   ): PagedAsyncIterableIterator<Provider>;
   /**
    * Unregisters a subscription from a resource provider.
@@ -48,10 +48,13 @@ export interface Providers {
    */
   unregister(
     resourceProviderNamespace: string,
-    options?: ProvidersUnregisterOptionalParams
+    options?: ProvidersUnregisterOptionalParams,
   ): Promise<ProvidersUnregisterResponse>;
   /**
-   * Registers a management group with a resource provider.
+   * Registers a management group with a resource provider. Use this operation to register a resource
+   * provider with resource types that can be deployed at the management group scope. It does not
+   * recursively register subscriptions within the management group. Instead, you must register
+   * subscriptions individually.
    * @param resourceProviderNamespace The namespace of the resource provider to register.
    * @param groupId The management group ID.
    * @param options The options parameters.
@@ -59,7 +62,7 @@ export interface Providers {
   registerAtManagementGroupScope(
     resourceProviderNamespace: string,
     groupId: string,
-    options?: ProvidersRegisterAtManagementGroupScopeOptionalParams
+    options?: ProvidersRegisterAtManagementGroupScopeOptionalParams,
   ): Promise<void>;
   /**
    * Get the provider permissions.
@@ -68,7 +71,7 @@ export interface Providers {
    */
   providerPermissions(
     resourceProviderNamespace: string,
-    options?: ProvidersProviderPermissionsOptionalParams
+    options?: ProvidersProviderPermissionsOptionalParams,
   ): Promise<ProvidersProviderPermissionsResponse>;
   /**
    * Registers a subscription with a resource provider.
@@ -77,7 +80,7 @@ export interface Providers {
    */
   register(
     resourceProviderNamespace: string,
-    options?: ProvidersRegisterOptionalParams
+    options?: ProvidersRegisterOptionalParams,
   ): Promise<ProvidersRegisterResponse>;
   /**
    * Gets the specified resource provider.
@@ -86,7 +89,7 @@ export interface Providers {
    */
   get(
     resourceProviderNamespace: string,
-    options?: ProvidersGetOptionalParams
+    options?: ProvidersGetOptionalParams,
   ): Promise<ProvidersGetResponse>;
   /**
    * Gets the specified resource provider at the tenant level.
@@ -95,6 +98,6 @@ export interface Providers {
    */
   getAtTenantScope(
     resourceProviderNamespace: string,
-    options?: ProvidersGetAtTenantScopeOptionalParams
+    options?: ProvidersGetAtTenantScopeOptionalParams,
   ): Promise<ProvidersGetAtTenantScopeResponse>;
 }

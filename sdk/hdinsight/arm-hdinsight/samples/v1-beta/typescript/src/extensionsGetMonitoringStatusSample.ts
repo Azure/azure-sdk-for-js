@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { HDInsightManagementClient } from "@azure/arm-hdinsight";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets the status of Operations Management Suite (OMS) on the HDInsight cluster.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Gets the status of Operations Management Suite (OMS) on the HDInsight cluster.
  * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2024-08-01-preview/examples/GetLinuxClusterMonitoringStatus.json
  */
-async function getClusterMonitoringStatus() {
+async function getClusterMonitoringStatus(): Promise<void> {
   const subscriptionId = process.env["HDINSIGHT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["HDINSIGHT_RESOURCE_GROUP"] || "rg1";
   const clusterName = "cluster1";
@@ -33,7 +31,7 @@ async function getClusterMonitoringStatus() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getClusterMonitoringStatus();
 }
 

@@ -13,9 +13,7 @@ import {
   StreamAnalyticsManagementClient,
 } from "@azure/arm-streamanalytics";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Sample the Stream Analytics input data.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Sample the Stream Analytics input data.
  * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/preview/2021-10-01-preview/examples/Subscription_SampleInput.json
  */
-async function sampleTheStreamAnalyticsInputData() {
+async function sampleTheStreamAnalyticsInputData(): Promise<void> {
   const subscriptionId =
     process.env["STREAMANALYTICS_SUBSCRIPTION_ID"] ||
     "56b5e0a9-b645-407d-99b0-c64f86013e3d";
@@ -62,7 +60,7 @@ async function sampleTheStreamAnalyticsInputData() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   sampleTheStreamAnalyticsInputData();
 }
 

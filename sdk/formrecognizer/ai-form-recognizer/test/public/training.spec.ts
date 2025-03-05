@@ -31,7 +31,7 @@ matrix(
     describe(`[${useAad ? "AAD" : "API Key"}] model management`, () => {
       let recorder: Recorder;
 
-      beforeEach(async function (ctx) {
+      beforeEach(async (ctx) => {
         recorder = await createRecorder(ctx);
       });
 
@@ -57,7 +57,7 @@ matrix(
           return (id += 1);
         }
 
-        beforeEach(function () {
+        beforeEach(async () => {
           // Create a client using the current AAD/API Key configuration
           client = new DocumentModelAdministrationClient(
             endpoint(),

@@ -23,7 +23,7 @@ import {
   PartnerTopicEventSubscriptionsGetFullUrlResponse,
   PartnerTopicEventSubscriptionsGetDeliveryAttributesOptionalParams,
   PartnerTopicEventSubscriptionsGetDeliveryAttributesResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a PartnerTopicEventSubscriptions. */

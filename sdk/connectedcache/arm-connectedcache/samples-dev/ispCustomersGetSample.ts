@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary gets the ispCustomer resource information using this get call
  * x-ms-original-file: 2023-05-01-preview/IspCustomers_Get_MaximumSet_Gen.json
  */
-async function ispCustomersGetGeneratedByMaximumSetRule() {
+async function ispCustomersGetGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "12345678-1234-1234-1234-123456789098";
   const client = new ConnectedCacheClient(credential, subscriptionId);
@@ -18,8 +18,8 @@ async function ispCustomersGetGeneratedByMaximumSetRule() {
   console.log(result);
 }
 
-async function main() {
-  ispCustomersGetGeneratedByMaximumSetRule();
+async function main(): Promise<void> {
+  await ispCustomersGetGeneratedByMaximumSetRule();
 }
 
 main().catch(console.error);

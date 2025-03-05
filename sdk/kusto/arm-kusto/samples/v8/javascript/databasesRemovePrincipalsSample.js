@@ -10,13 +10,13 @@
 // Licensed under the MIT License.
 const { KustoManagementClient } = require("@azure/arm-kusto");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Remove Database principals permissions.
  *
  * @summary Remove Database principals permissions.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoDatabaseRemovePrincipals.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2024-04-13/examples/KustoDatabaseRemovePrincipals.json
  */
 async function kustoDatabaseRemovePrincipals() {
   const subscriptionId =
@@ -64,7 +64,7 @@ async function kustoDatabaseRemovePrincipals() {
 }
 
 async function main() {
-  kustoDatabaseRemovePrincipals();
+  await kustoDatabaseRemovePrincipals();
 }
 
 main().catch(console.error);

@@ -23,7 +23,7 @@ import {
   DnsResolverPoliciesDeleteResponse,
   DnsResolverPoliciesGetOptionalParams,
   DnsResolverPoliciesGetResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a DnsResolverPolicies. */

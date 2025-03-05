@@ -16,7 +16,7 @@ import {
   ProtectionContainersUnregisterOptionalParams,
   ProtectionContainersInquireOptionalParams,
   ProtectionContainersRefreshOptionalParams,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a ProtectionContainers. */
 export interface ProtectionContainers {

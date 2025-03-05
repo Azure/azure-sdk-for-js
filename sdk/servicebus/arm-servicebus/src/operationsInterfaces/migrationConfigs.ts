@@ -19,7 +19,7 @@ import {
   MigrationConfigsGetResponse,
   MigrationConfigsCompleteMigrationOptionalParams,
   MigrationConfigsRevertOptionalParams
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a MigrationConfigs. */

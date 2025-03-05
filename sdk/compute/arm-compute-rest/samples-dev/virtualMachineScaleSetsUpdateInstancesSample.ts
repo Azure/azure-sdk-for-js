@@ -1,16 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import createComputeManagementClient, {
-  VirtualMachineScaleSetsUpdateInstancesParameters,
-  getLongRunningPoller,
-} from "@azure-rest/arm-compute";
+import type { VirtualMachineScaleSetsUpdateInstancesParameters } from "@azure-rest/arm-compute";
+import createComputeManagementClient, { getLongRunningPoller } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Upgrades one or more virtual machines to the latest SKU set in the VM scale set model.
@@ -18,7 +12,7 @@ dotenv.config();
  * @summary Upgrades one or more virtual machines to the latest SKU set in the VM scale set model.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSets_UpdateInstances_MaximumSet_Gen.json
  */
-async function virtualMachineScaleSetsUpdateInstancesMaximumSetGen() {
+async function virtualMachineScaleSetsUpdateInstancesMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";
@@ -36,7 +30,7 @@ async function virtualMachineScaleSetsUpdateInstancesMaximumSetGen() {
       vmScaleSetName,
     )
     .post(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -48,7 +42,7 @@ virtualMachineScaleSetsUpdateInstancesMaximumSetGen().catch(console.error);
  * @summary Upgrades one or more virtual machines to the latest SKU set in the VM scale set model.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSets_UpdateInstances_MinimumSet_Gen.json
  */
-async function virtualMachineScaleSetsUpdateInstancesMinimumSetGen() {
+async function virtualMachineScaleSetsUpdateInstancesMinimumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";
@@ -66,7 +60,7 @@ async function virtualMachineScaleSetsUpdateInstancesMinimumSetGen() {
       vmScaleSetName,
     )
     .post(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }

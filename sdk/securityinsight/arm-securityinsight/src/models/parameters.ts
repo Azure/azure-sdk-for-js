@@ -41,7 +41,7 @@ import {
   DataConnector as DataConnectorMapper,
   DataConnectorConnectBody as DataConnectorConnectBodyMapper,
   DataConnectorsCheckRequirements as DataConnectorsCheckRequirementsMapper
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",

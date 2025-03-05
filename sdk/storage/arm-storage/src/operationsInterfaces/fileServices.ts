@@ -6,7 +6,10 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
+  FileServiceUsage,
+  FileServicesListServiceUsagesOptionalParams,
   FileServicesListOptionalParams,
   FileServicesListResponse,
   FileServiceProperties,
@@ -14,10 +17,27 @@ import {
   FileServicesSetServicePropertiesResponse,
   FileServicesGetServicePropertiesOptionalParams,
   FileServicesGetServicePropertiesResponse,
-} from "../models";
+  FileServicesGetServiceUsageOptionalParams,
+  FileServicesGetServiceUsageResponse,
+} from "../models/index.js";
 
+/// <reference lib="esnext.asynciterable" />
 /** Interface representing a FileServices. */
 export interface FileServices {
+  /**
+   * Gets the usages of file service in storage account.
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
+   *                          case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
+   *                    only.
+   * @param options The options parameters.
+   */
+  listServiceUsages(
+    resourceGroupName: string,
+    accountName: string,
+    options?: FileServicesListServiceUsagesOptionalParams,
+  ): PagedAsyncIterableIterator<FileServiceUsage>;
   /**
    * List all file services in storage accounts
    * @param resourceGroupName The name of the resource group within the user's subscription. The name is
@@ -65,4 +85,19 @@ export interface FileServices {
     accountName: string,
     options?: FileServicesGetServicePropertiesOptionalParams,
   ): Promise<FileServicesGetServicePropertiesResponse>;
+  /**
+   * Gets the usage of file service in storage account including account limits, file share limits and
+   * constants used in recommendations and bursting formula.
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
+   *                          case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
+   *                    only.
+   * @param options The options parameters.
+   */
+  getServiceUsage(
+    resourceGroupName: string,
+    accountName: string,
+    options?: FileServicesGetServiceUsageOptionalParams,
+  ): Promise<FileServicesGetServiceUsageResponse>;
 }

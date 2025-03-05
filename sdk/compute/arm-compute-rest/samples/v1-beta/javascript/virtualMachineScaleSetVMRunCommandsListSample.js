@@ -30,7 +30,7 @@ async function listRunCommandsInVmssInstance() {
       subscriptionId,
       resourceGroupName,
       vmScaleSetName,
-      instanceId
+      instanceId,
     )
     .get(options);
   const pageData = paginate(client, initialResponse);

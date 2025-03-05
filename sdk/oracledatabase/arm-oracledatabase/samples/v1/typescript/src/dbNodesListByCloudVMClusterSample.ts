@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { OracleDatabaseManagementClient } from "@azure/arm-oracledatabase";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to List DbNode resources by CloudVmCluster
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary List DbNode resources by CloudVmCluster
  * x-ms-original-file: specification/oracle/resource-manager/Oracle.Database/stable/2023-09-01/examples/dbNodes_listByParent.json
  */
-async function listDbNodesByVMCluster() {
+async function listDbNodesByVMCluster(): Promise<void> {
   const subscriptionId =
     process.env["ORACLEDATABASE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -39,7 +37,7 @@ async function listDbNodesByVMCluster() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listDbNodesByVMCluster();
 }
 

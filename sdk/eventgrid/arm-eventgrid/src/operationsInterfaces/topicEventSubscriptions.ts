@@ -23,7 +23,7 @@ import {
   TopicEventSubscriptionsUpdateResponse,
   TopicEventSubscriptionsGetFullUrlOptionalParams,
   TopicEventSubscriptionsGetFullUrlResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a TopicEventSubscriptions. */

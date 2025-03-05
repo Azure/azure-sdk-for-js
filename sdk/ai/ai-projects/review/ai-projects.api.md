@@ -154,7 +154,7 @@ export interface AgentsOperations {
 }
 
 // @public
-export type AgentStreamEventType = ThreadStreamEvent | RunStreamEvent | RunStepStreamEvent | MessageStreamEvent | ErrorEvent | DoneEvent;
+export type AgentStreamEventType = ThreadStreamEvent | RunStreamEvent | RunStepStreamEvent | MessageStreamEvent | ErrorEvent_2 | DoneEvent;
 
 // @public
 export interface AgentThreadCreationOptions {
@@ -420,9 +420,10 @@ export enum DoneEvent {
 }
 
 // @public
-export enum ErrorEvent {
+enum ErrorEvent_2 {
     Error = "error"
 }
+export { ErrorEvent_2 as ErrorEvent }
 
 // @public
 export interface FileDeletionStatusOutput {

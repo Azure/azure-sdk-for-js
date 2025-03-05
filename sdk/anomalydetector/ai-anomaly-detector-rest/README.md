@@ -89,148 +89,172 @@ The following section provides several code snippets covering some of the most c
 
 ### Batch detection
 
-```typescript
+```ts snippet:batch_detection
+import AnomalyDetector, {
+  TimeSeriesPoint,
+  DetectUnivariateEntireSeriesParameters,
+  isUnexpected,
+} from "@azure-rest/ai-anomaly-detector";
+import { readFileSync } from "node:fs";
+import { parse } from "csv-parse/sync";
+import { AzureKeyCredential } from "@azure/core-auth";
+
 const apiKey = process.env["ANOMALY_DETECTOR_API_KEY"] || "";
 const endpoint = process.env["ANOMALY_DETECTOR_ENDPOINT"] || "";
 const timeSeriesDataPath = "./samples-dev/example-data/request-data.csv";
 
 function read_series_from_file(path: string): Array<TimeSeriesPoint> {
-  let result = Array<TimeSeriesPoint>();
-  let input = fs.readFileSync(path).toString();
-  let parsed = parse(input, { skip_empty_lines: true });
+  const result = Array<TimeSeriesPoint>();
+  const input = readFileSync(path).toString();
+  const parsed = parse(input, { skip_empty_lines: true });
   parsed.forEach(function (e: Array<string>) {
     result.push({ timestamp: new Date(e[0]), value: Number(e[1]) });
   });
   return result;
 }
 
-export async function main() {
-  // create client
-  const credential = new AzureKeyCredential(apiKey);
-  const client = AnomalyDetector(endpoint, credential);
+// create client
+const credential = new AzureKeyCredential(apiKey);
+const client = AnomalyDetector(endpoint, credential);
 
-  // construct request
-  const options: DetectUnivariateEntireSeriesParameters = {
-    body: {
-      granularity: "daily",
-      imputeMode: "auto",
-      maxAnomalyRatio: 0.25,
-      sensitivity: 95,
-      series: read_series_from_file(timeSeriesDataPath),
-    },
-    headers: { "Content-Type": "application/json" },
-  };
+// construct request
+const options: DetectUnivariateEntireSeriesParameters = {
+  body: {
+    granularity: "daily",
+    imputeMode: "auto",
+    maxAnomalyRatio: 0.25,
+    sensitivity: 95,
+    series: read_series_from_file(timeSeriesDataPath),
+  },
+  headers: { "Content-Type": "application/json" },
+};
 
-  // get last detect result
-  const result = await client.path("/timeseries/entire/detect").post(options);
-  if (isUnexpected(result)) {
-    throw result;
-  }
+// get last detect result
+const result = await client.path("/timeseries/entire/detect").post(options);
+if (isUnexpected(result)) {
+  throw result;
+}
 
-  if (result.body.isAnomaly) {
-    result.body.isAnomaly.forEach(function (anomaly, index) {
-      if (anomaly === true) {
-        console.log(index);
-      }
-    });
-  } else {
-    console.log("There is no anomaly detected from the series.");
-  }
+if (result.body.isAnomaly) {
+  result.body.isAnomaly.forEach(function (anomaly, index) {
+    if (anomaly === true) {
+      console.log(index);
+    }
+  });
+} else {
+  console.log("There is no anomaly detected from the series.");
+}
 ```
 
 ### Streaming Detection
 
-```typescript
+```ts snippet:streaming_detection
+import AnomalyDetector, {
+  TimeSeriesPoint,
+  DetectUnivariateLastPointParameters,
+  isUnexpected,
+} from "@azure-rest/ai-anomaly-detector";
+import { readFileSync } from "node:fs";
+import { parse } from "csv-parse/sync";
+import { AzureKeyCredential } from "@azure/core-auth";
+
 const apiKey = process.env["ANOMALY_DETECTOR_API_KEY"] || "";
 const endpoint = process.env["ANOMALY_DETECTOR_ENDPOINT"] || "";
 const timeSeriesDataPath = "./samples-dev/example-data/request-data.csv";
 
 function read_series_from_file(path: string): Array<TimeSeriesPoint> {
-  let result = Array<TimeSeriesPoint>();
-  let input = fs.readFileSync(path).toString();
-  let parsed = parse(input, { skip_empty_lines: true });
+  const result = Array<TimeSeriesPoint>();
+  const input = readFileSync(path).toString();
+  const parsed = parse(input, { skip_empty_lines: true });
   parsed.forEach(function (e: Array<string>) {
     result.push({ timestamp: new Date(e[0]), value: Number(e[1]) });
   });
   return result;
 }
 
-export async function main() {
-  // create client
-  const credential = new AzureKeyCredential(apiKey);
-  const client = AnomalyDetector(endpoint, credential);
+// create client
+const credential = new AzureKeyCredential(apiKey);
+const client = AnomalyDetector(endpoint, credential);
 
-  // construct request
-  const options: DetectUnivariateLastPointParameters = {
-    body: {
-      granularity: "daily",
-      imputeFixedValue: 800,
-      imputeMode: "fixed",
-      maxAnomalyRatio: 0.25,
-      sensitivity: 95,
-      series: read_series_from_file(timeSeriesDataPath),
-    },
-    headers: { "Content-Type": "application/json" },
-  };
+// construct request
+const options: DetectUnivariateLastPointParameters = {
+  body: {
+    granularity: "daily",
+    imputeFixedValue: 800,
+    imputeMode: "fixed",
+    maxAnomalyRatio: 0.25,
+    sensitivity: 95,
+    series: read_series_from_file(timeSeriesDataPath),
+  },
+  headers: { "Content-Type": "application/json" },
+};
 
-  // get last detect result
-  const result = await client.path("/timeseries/last/detect").post(options);
-  if (isUnexpected(result)) {
-    throw result;
-  }
+// get last detect result
+const result = await client.path("/timeseries/last/detect").post(options);
+if (isUnexpected(result)) {
+  throw result;
+}
 
-  if (result.body.isAnomaly) {
-    console.log("The latest point is detected as anomaly.");
-  } else {
-    console.log("The latest point is not detected as anomaly.");
-  }
+if (result.body.isAnomaly) {
+  console.log("The latest point is detected as anomaly.");
+} else {
+  console.log("The latest point is not detected as anomaly.");
+}
 ```
 
 ### Detect change points
 
-```typescript
+```ts snippet:detect_change_points
+import AnomalyDetector, {
+  TimeSeriesPoint,
+  DetectUnivariateChangePointParameters,
+  isUnexpected,
+} from "@azure-rest/ai-anomaly-detector";
+import { readFileSync } from "node:fs";
+import { parse } from "csv-parse/sync";
+import { AzureKeyCredential } from "@azure/core-auth";
+
 const apiKey = process.env["ANOMALY_DETECTOR_API_KEY"] || "";
 const endpoint = process.env["ANOMALY_DETECTOR_ENDPOINT"] || "";
 const timeSeriesDataPath = "./samples-dev/example-data/request-data.csv";
 
 function read_series_from_file(path: string): Array<TimeSeriesPoint> {
-  let result = Array<TimeSeriesPoint>();
-  let input = fs.readFileSync(path).toString();
-  let parsed = parse(input, { skip_empty_lines: true });
+  const result = Array<TimeSeriesPoint>();
+  const input = readFileSync(path).toString();
+  const parsed = parse(input, { skip_empty_lines: true });
   parsed.forEach(function (e: Array<string>) {
     result.push({ timestamp: new Date(e[0]), value: Number(e[1]) });
   });
   return result;
 }
 
-export async function main() {
-  const credential = new AzureKeyCredential(apiKey);
-  const client = AnomalyDetector(endpoint, credential);
-  const options: DetectUnivariateChangePointParameters = {
-    body: {
-      granularity: "daily",
-      series: read_series_from_file(timeSeriesDataPath),
-    },
-    headers: { "Content-Type": "application/json" },
-  };
-  const result = await client.path("/timeseries/changepoint/detect").post(options);
-  if (isUnexpected(result)) {
-    throw result;
-  }
+const credential = new AzureKeyCredential(apiKey);
+const client = AnomalyDetector(endpoint, credential);
+const options: DetectUnivariateChangePointParameters = {
+  body: {
+    granularity: "daily",
+    series: read_series_from_file(timeSeriesDataPath),
+  },
+  headers: { "Content-Type": "application/json" },
+};
+const result = await client.path("/timeseries/changepoint/detect").post(options);
+if (isUnexpected(result)) {
+  throw result;
+}
 
-  if (result.body.isChangePoint === undefined) throw new Error("Empty isChangePoint");
-  if (
-    result.body.isChangePoint.some(function (changePoint) {
-      return changePoint === true;
-    })
-  ) {
-    console.log("Change points were detected from the series at index:");
-    result.body.isChangePoint.forEach(function (changePoint, index) {
-      if (changePoint === true) console.log(index);
-    });
-  } else {
-    console.log("There is no change point detected from the series.");
-  }
+if (result.body.isChangePoint === undefined) throw new Error("Empty isChangePoint");
+if (
+  result.body.isChangePoint.some(function (changePoint) {
+    return changePoint === true;
+  })
+) {
+  console.log("Change points were detected from the series at index:");
+  result.body.isChangePoint.forEach(function (changePoint, index) {
+    if (changePoint === true) console.log(index);
+  });
+} else {
+  console.log("There is no change point detected from the series.");
+}
 ```
 
 ### Multivariate Anomaly Detection Sample
@@ -245,8 +269,8 @@ To see how to use Anomaly Detector library to conduct Multivariate Anomaly Detec
 
 Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
 
-```javascript
-const { setLogLevel } = require("@azure/logger");
+```ts snippet:SetLogLevel
+import { setLogLevel } from "@azure/logger";
 
 setLogLevel("info");
 ```

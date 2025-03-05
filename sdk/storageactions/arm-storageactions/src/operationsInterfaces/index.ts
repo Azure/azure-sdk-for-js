@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./operations";
-export * from "./storageTasks";
-export * from "./storageTaskAssignmentOperations";
-export * from "./storageTasksReport";
+export * from "./operations.js";
+export * from "./storageTasks.js";
+export * from "./storageTaskAssignmentOperations.js";
+export * from "./storageTasksReport.js";

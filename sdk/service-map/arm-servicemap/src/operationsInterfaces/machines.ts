@@ -22,7 +22,7 @@ import {
   MachinesGetResponse,
   MachinesGetLivenessOptionalParams,
   MachinesGetLivenessResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Machines. */

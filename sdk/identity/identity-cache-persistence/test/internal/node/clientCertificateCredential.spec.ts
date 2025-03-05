@@ -35,7 +35,7 @@ describe("ClientCertificateCredential (internal)", () => {
     );
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await cleanup();
   });
 

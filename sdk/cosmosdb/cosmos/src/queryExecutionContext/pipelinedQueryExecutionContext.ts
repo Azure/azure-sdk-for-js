@@ -162,106 +162,54 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
         this.endpoint = new UnorderedDistinctEndpointComponent(this.endpoint);
       }
     }
+    this.fetchBuffer = [];
   }
 
-  public async nextItem(diagnosticNode: DiagnosticNodeInternal): Promise<Response<any>> {
-    return this.endpoint.nextItem(diagnosticNode);
-  }
-
-  // Removed callback here beacuse it wouldn't have ever worked...
   public hasMoreResults(): boolean {
-    return this.endpoint.hasMoreResults();
+    return this.fetchBuffer.length !== 0 || this.endpoint.hasMoreResults();
   }
 
   public async fetchMore(diagnosticNode: DiagnosticNodeInternal): Promise<Response<any>> {
-    // if the wrapped endpoint has different implementation for fetchMore use that
-    // otherwise use the default implementation
-    if (typeof this.endpoint.fetchMore === "function") {
-      return this.endpoint.fetchMore(diagnosticNode);
-    } else {
-      this.fetchBuffer = [];
-      this.fetchMoreRespHeaders = getInitialHeader();
-      return this.nonStreamingOrderBy
-        ? this._nonStreamingFetchMoreImplementation(diagnosticNode)
-        : this._fetchMoreImplementation(diagnosticNode);
-    }
+    this.fetchMoreRespHeaders = getInitialHeader();
+    return this._fetchMoreImplementation(diagnosticNode);
   }
 
   private async _fetchMoreImplementation(
     diagnosticNode: DiagnosticNodeInternal,
   ): Promise<Response<any>> {
     try {
-      const { result: item, headers } = await this.endpoint.nextItem(diagnosticNode);
-      mergeHeaders(this.fetchMoreRespHeaders, headers);
-      if (item === undefined) {
-        // no more results
-        if (this.fetchBuffer.length === 0) {
-          return {
-            result: undefined,
-            headers: this.fetchMoreRespHeaders,
-          };
-        } else {
-          // Just give what we have
-          const temp = this.fetchBuffer;
-          this.fetchBuffer = [];
-          return { result: temp, headers: this.fetchMoreRespHeaders };
-        }
+      if (this.fetchBuffer.length >= this.pageSize) {
+        const temp = this.fetchBuffer.slice(0, this.pageSize);
+        this.fetchBuffer = this.fetchBuffer.slice(this.pageSize);
+        return { result: temp, headers: this.fetchMoreRespHeaders };
       } else {
-        this.fetchBuffer.push(item);
-        if (this.fetchBuffer.length >= this.pageSize) {
-          // fetched enough results
-          const temp = this.fetchBuffer.slice(0, this.pageSize);
-          this.fetchBuffer = this.fetchBuffer.splice(this.pageSize);
-          return { result: temp, headers: this.fetchMoreRespHeaders };
-        } else {
-          // recursively fetch more
-          // TODO: is recursion a good idea?
-          return this._fetchMoreImplementation(diagnosticNode);
+        const response = await this.endpoint.fetchMore(diagnosticNode);
+        mergeHeaders(this.fetchMoreRespHeaders, response.headers);
+        if (response === undefined || response.result === undefined) {
+          if (this.fetchBuffer.length > 0) {
+            const temp = this.fetchBuffer;
+            this.fetchBuffer = [];
+            return { result: temp, headers: this.fetchMoreRespHeaders };
+          } else {
+            return { result: undefined, headers: this.fetchMoreRespHeaders };
+          }
         }
-      }
-    } catch (err: any) {
-      mergeHeaders(this.fetchMoreRespHeaders, err.headers);
-      err.headers = this.fetchMoreRespHeaders;
-      if (err) {
-        throw err;
-      }
-    }
-  }
+        this.fetchBuffer.push(...response.result);
 
-  private async _nonStreamingFetchMoreImplementation(
-    diagnosticNode: DiagnosticNodeInternal,
-  ): Promise<Response<any>> {
-    try {
-      const { result: item, headers } = await this.endpoint.nextItem(diagnosticNode);
-      mergeHeaders(this.fetchMoreRespHeaders, headers);
-      if (item === undefined) {
-        // no more results
-        if (this.fetchBuffer.length === 0) {
-          return {
-            result: undefined,
-            headers: this.fetchMoreRespHeaders,
-          };
-        } else {
-          // Just give what we have
-          const temp = this.fetchBuffer;
-          this.fetchBuffer = [];
-          return { result: temp, headers: this.fetchMoreRespHeaders };
+        if (this.options.enableQueryControl) {
+          if (this.fetchBuffer.length >= this.pageSize) {
+            const temp = this.fetchBuffer.slice(0, this.pageSize);
+            this.fetchBuffer = this.fetchBuffer.slice(this.pageSize);
+            return { result: temp, headers: this.fetchMoreRespHeaders };
+          } else {
+            const temp = this.fetchBuffer;
+            this.fetchBuffer = [];
+            return { result: temp, headers: this.fetchMoreRespHeaders };
+          }
         }
-      } else {
-        // append the result
-        if (typeof item !== "object") {
-          this.fetchBuffer.push(item);
-        } else if (Object.keys(item).length !== 0) {
-          this.fetchBuffer.push(item);
-        }
-        if (this.fetchBuffer.length >= this.pageSize) {
-          // fetched enough results
-          const temp = this.fetchBuffer.slice(0, this.pageSize);
-          this.fetchBuffer = this.fetchBuffer.splice(this.pageSize);
-          return { result: temp, headers: this.fetchMoreRespHeaders };
-        } else {
-          return this._nonStreamingFetchMoreImplementation(diagnosticNode);
-        }
+        // Recursively fetch more results to ensure the pageSize number of results are returned
+        // to maintain compatibility with the previous implementation
+        return this._fetchMoreImplementation(diagnosticNode);
       }
     } catch (err: any) {
       mergeHeaders(this.fetchMoreRespHeaders, err.headers);

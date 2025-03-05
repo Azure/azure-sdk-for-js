@@ -15,7 +15,7 @@ import {
   ApplyUpdate as ApplyUpdateMapper,
   ConfigurationAssignment as ConfigurationAssignmentMapper,
   MaintenanceConfiguration as MaintenanceConfigurationMapper,
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",

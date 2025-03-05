@@ -89,30 +89,10 @@ az cognitiveservices account keys list --name "resource-name" --resource-group "
 
 Once you have an API key and endpoint, you can use the `AzureKeyCredential` class to authenticate the client as follows:
 
-```javascript
-const DocumentTranslator = require("@azure-rest/ai-document-translator");
+```ts snippet:ReadmeSampleCreateClient_APIKey
+import DocumentTranslator from "@azure-rest/ai-document-translator";
 
 const client = DocumentTranslator("<endpoint>", { key: "<API key>" });
-```
-
-#### Using an Azure Active Directory Credential
-
-Client API key authentication is used in most of the examples, but you can also authenticate with Azure Active Directory using the [Azure Identity library][azure_identity]. To use the [DefaultAzureCredential][defaultazurecredential] provider shown below,
-or other credential providers provided with the Azure SDK, please install the `@azure/identity` package:
-
-```bash
-npm install @azure/identity
-```
-
-You will also need to [register a new AAD application][register_aad_app] and grant access to Document Translator by assigning the `"Managed Application Contributor Role"` role to your service principal (note: other roles such as `"Owner"` will not grant the necessary permissions, only `"Managed Application Contributor Role"` will suffice to run the examples and the sample code).
-
-Set the values of the client ID, tenant ID, and client secret of the AAD application as environment variables: `AZURE_CLIENT_ID`, `AZURE_TENANT_ID`, `AZURE_CLIENT_SECRET`.
-
-```javascript
-const DocumentTranslator = require("@azure-rest/ai-document-translator");
-const { DefaultAzureCredential } = require("@azure/identity");
-
-const client = DocumentTranslator("<endpoint>", new DefaultAzureCredential());
 ```
 
 ## Key concepts
@@ -144,9 +124,10 @@ and the target language(s) for translation.
 
 A single source container with documents can be translated to many different languages:
 
-```typescript
-import { BatchSubmissionRequest } from "@azure-rest/ai-document-translator";
-const batchSubmissionRequest: BatchSubmissionRequest = {
+```ts snippet:ReadmeSampleBatchSubmissionRequest
+import { StartTranslationDetails } from "@azure-rest/ai-document-translator";
+
+const batchSubmissionRequest: StartTranslationDetails = {
   inputs: [
     {
       source: { sourceUrl: "<sas_url_to_source>" },
@@ -158,9 +139,10 @@ const batchSubmissionRequest: BatchSubmissionRequest = {
 
 Or multiple different sources can be provided each with their own targets.
 
-```typescript
-import { BatchSubmissionRequest } from "@azure-rest/ai-document-translator";
-const batchSubmissionRequest: BatchSubmissionRequest = {
+```ts snippet:ReadmeSampleBatchSubmissionRequestMultiple
+import { StartTranslationDetails } from "@azure-rest/ai-document-translator";
+
+const batchSubmissionRequest: StartTranslationDetails = {
   inputs: [
     {
       source: { sourceUrl: "<sas_url_to_source_A>" },
@@ -197,7 +179,7 @@ Please refer to the samples folder to see code samples, including:
 
 Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
 
-```ts
+```ts snippet:SetLogLevel
 import { setLogLevel } from "@azure/logger";
 
 setLogLevel("info");
@@ -217,7 +199,7 @@ If you'd like to contribute to this library, please read the [contributing guide
 
 - [Microsoft Azure SDK for JavaScript](https://github.com/Azure/azure-sdk-for-js)
 
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fdocumenttranslator%2Fai-document-translator-rest%2FREADME.png)
+
 
 [azure_cli]: https://learn.microsoft.com/cli/azure
 [azure_sub]: https://azure.microsoft.com/free/

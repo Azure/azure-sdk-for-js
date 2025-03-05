@@ -17,7 +17,7 @@ import {
   LinkerResource as LinkerResourceMapper,
   LinkerPatch as LinkerPatchMapper,
   ConfigurationInfo as ConfigurationInfoMapper,
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",

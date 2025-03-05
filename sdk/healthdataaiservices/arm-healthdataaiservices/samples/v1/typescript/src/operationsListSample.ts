@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary list the operations for the provider
  * x-ms-original-file: 2024-09-20/Operations_List_MaximumSet_Gen.json
  */
-async function operationsListMaximumSetGeneratedByMaximumSetRuleStable() {
+async function operationsListMaximumSetGeneratedByMaximumSetRuleStable(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-00000000000";
   const client = new HealthDataAIServicesClient(credential, subscriptionId);
@@ -28,7 +28,7 @@ async function operationsListMaximumSetGeneratedByMaximumSetRuleStable() {
  * @summary list the operations for the provider
  * x-ms-original-file: 2024-09-20/Operations_List_MinimumSet_Gen.json
  */
-async function operationsListMinimumSetGeneratedByMinimumSetRuleStable() {
+async function operationsListMinimumSetGeneratedByMinimumSetRuleStable(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-00000000000";
   const client = new HealthDataAIServicesClient(credential, subscriptionId);
@@ -40,7 +40,7 @@ async function operationsListMinimumSetGeneratedByMinimumSetRuleStable() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   operationsListMaximumSetGeneratedByMaximumSetRuleStable();
   operationsListMinimumSetGeneratedByMinimumSetRuleStable();
 }

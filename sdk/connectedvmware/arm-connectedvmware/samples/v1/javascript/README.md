@@ -165,6 +165,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [vminstanceguestagentslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/connectedvmware/arm-connectedvmware/samples/v1/javascript/vmInstanceGuestAgentsListSample.js
 [vminstancehybrididentitymetadatagetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/connectedvmware/arm-connectedvmware/samples/v1/javascript/vmInstanceHybridIdentityMetadataGetSample.js
 [vminstancehybrididentitymetadatalistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/connectedvmware/arm-connectedvmware/samples/v1/javascript/vmInstanceHybridIdentityMetadataListSample.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-connectedvmware?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-connectedvmware?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/connectedvmware/arm-connectedvmware/README.md

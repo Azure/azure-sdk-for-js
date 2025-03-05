@@ -8,8 +8,8 @@ import type {
   ChatRequestMessage,
   ChatCompletionsResponseFormat,
   ChatCompletionsToolDefinition,
-  ChatCompletionsToolSelectionPreset,
-  ChatCompletionsNamedToolSelection,
+  ChatCompletionsToolChoicePreset,
+  ChatCompletionsNamedToolChoice,
   EmbeddingEncodingFormat,
   EmbeddingInputType,
   ImageEmbeddingInput,
@@ -38,7 +38,7 @@ export interface GetChatCompletionsBodyParam {
     response_format?: ChatCompletionsResponseFormat;
     stop?: string[];
     tools?: Array<ChatCompletionsToolDefinition>;
-    tool_choice?: ChatCompletionsToolSelectionPreset | ChatCompletionsNamedToolSelection;
+    tool_choice?: ChatCompletionsToolChoicePreset | ChatCompletionsNamedToolChoice;
     seed?: number;
     model?: string;
   };
@@ -94,7 +94,7 @@ export interface GetImageEmbeddingsHeaders {
 }
 
 export interface GetImageEmbeddingsBodyParam {
-  body?: {
+  body: {
     input: Array<ImageEmbeddingInput>;
     dimensions?: number;
     encoding_format?: EmbeddingEncodingFormat;

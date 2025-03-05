@@ -21,7 +21,7 @@ typescript: true
 azure-arm: false
 add-credentials: false
 use-extension:
-  "@autorest/typescript": "latest"
+  "@autorest/typescript": "6.0.34"
 directive:
   - rename-model:
       from: CallParticipant
@@ -188,6 +188,19 @@ directive:
   - rename-model:
       from: PlayResumed
       to: RestPlayResumed
+  - rename-model:
+      from: HoldAudioStarted
+      to: RestHoldAudioStarted
+  - rename-model:
+      from: HoldAudioPaused
+      to: RestHoldAudioPaused
+  - rename-model:
+      from: HoldAudioResumed
+      to: RestHoldAudioResumed
+  - rename-model:
+      from: HoldAudioCompleted
+      to: RestHoldAudioCompleted
+module-kind: esm
 ```
 
 ```yaml

@@ -14,16 +14,14 @@ import createPurviewSharingClient, {
   ShareResourceOutput,
 } from "@azure-rest/purview-sharing";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to get a sent share
  *
  * @summary Get a sent share
  */
-async function getSentShare(client: PurviewSharingClient, sentShareId: string) {
+async function getSentShare(client: PurviewSharingClient, sentShareId: string): Promise<void> {
   const result = await client.path("/sentShares/{sentShareId}", sentShareId).get();
 
   if (isUnexpected(result)) {
@@ -43,7 +41,7 @@ async function getSentShareInvitation(
   client: PurviewSharingClient,
   sentShareId: string,
   sentShareInvitationId: string
-) {
+): Promise<void> {
   const result = await client
     .path(
       "/sentShares/{sentShareId}/sentShareInvitations/{sentShareInvitationId}",
@@ -69,7 +67,7 @@ async function notifyUserSentShareInvitation(
   client: PurviewSharingClient,
   sentShareId: string,
   sentShareInvitationId: string
-) {
+): Promise<void> {
   const result = await client
     .path(
       "/sentShares/{sentShareId}/sentShareInvitations/{sentShareInvitationId}:notify",
@@ -169,7 +167,7 @@ async function getAllSentShares(
  *
  * @summary Get a received share
  */
-async function getReceivedShare(client: PurviewSharingClient, receivedShareId: string) {
+async function getReceivedShare(client: PurviewSharingClient, receivedShareId: string): Promise<void> {
   const result = await client.path("/receivedShares/{receivedShareId}", receivedShareId).get();
 
   if (isUnexpected(result)) {
@@ -212,7 +210,7 @@ async function getAllAttachedReceivedShares(
  *
  * @summary Delete a received share
  */
-async function deleteReceivedShare(client: PurviewSharingClient, receivedShareId: string) {
+async function deleteReceivedShare(client: PurviewSharingClient, receivedShareId: string): Promise<void> {
   const initialResponse = await client
     .path("/receivedShares/{receivedShareId}", receivedShareId)
     .delete();
@@ -236,7 +234,7 @@ async function deleteSentShareInvitation(
   client: PurviewSharingClient,
   sentShareId: string,
   sentShareInvitationId: string
-) {
+): Promise<void> {
   const initialResponse = await client
     .path(
       "/sentShares/{sentShareId}/sentShareInvitations/{sentShareInvitationId}",
@@ -261,7 +259,7 @@ async function deleteSentShareInvitation(
  *
  * @summary Delete a sent share
  */
-async function deleteSentShare(client: PurviewSharingClient, sentShareId: string) {
+async function deleteSentShare(client: PurviewSharingClient, sentShareId: string): Promise<void> {
   const initialResponse = await client.path("/sentShares/{sentShareId}", sentShareId).delete();
 
   const poller = await getLongRunningPoller(client, initialResponse);
@@ -275,7 +273,7 @@ async function deleteSentShare(client: PurviewSharingClient, sentShareId: string
   console.log(operationDetails);
 }
 
-async function main() {
+async function main(): Promise<void> {
   const endpoint = process.env["ENDPOINT"] || "";
   const senderStorageAccountResourceId = process.env["SENDER_STORAGE_ACCOUNT_RESOURCE_ID"] || "";
   const receiverStorageAccountResourceId =

@@ -1,10 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureLogger, createClientLogger } from "@azure/logger";
-import { ClientContext } from "../ClientContext";
-import { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal";
-import {
+import type { AzureLogger } from "@azure/logger";
+import { createClientLogger } from "@azure/logger";
+import type { ClientContext } from "../ClientContext";
+import type { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal";
+import type {
   FeedOptions,
   GlobalStatistics,
   PartitionedQueryExecutionInfo,
@@ -14,8 +15,8 @@ import {
 } from "../request";
 import { HybridSearchQueryResult } from "../request/hybridSearchQueryResult";
 import { GlobalStatisticsAggregator } from "./Aggregators/GlobalStatisticsAggregator";
-import { CosmosHeaders } from "./CosmosHeaders";
-import { ExecutionContext } from "./ExecutionContext";
+import type { CosmosHeaders } from "./CosmosHeaders";
+import type { ExecutionContext } from "./ExecutionContext";
 import { getInitialHeader, mergeHeaders } from "./headerUtils";
 import { ParallelQueryExecutionContext } from "./parallelQueryExecutionContext";
 import { PipelinedQueryExecutionContext } from "./pipelinedQueryExecutionContext";
@@ -42,6 +43,9 @@ export class HybridQueryExecutionContext implements ExecutionContext {
     "documentdb-formattablehybridsearchquery-totaldocumentcount";
   private RRF_CONSTANT = 60; // Constant for RRF score calculation
   private logger: AzureLogger = createClientLogger("HybridQueryExecutionContext");
+  private hybridSearchResult: HybridSearchQueryResult[] = [];
+  private uniqueItems = new Map<string, HybridSearchQueryResult>();
+  private isSingleComponent: boolean = false;
 
   constructor(
     private clientContext: ClientContext,
@@ -119,7 +123,7 @@ export class HybridQueryExecutionContext implements ExecutionContext {
     }
   }
 
-  public async fetchMore(diagnosticNode: DiagnosticNodeInternal): Promise<Response<any>> {
+  public async fetchMore(diagnosticNode?: DiagnosticNodeInternal): Promise<Response<any>> {
     const fetchMoreRespHeaders = getInitialHeader();
     return this.fetchMoreInternal(diagnosticNode, fetchMoreRespHeaders);
   }
@@ -157,12 +161,16 @@ export class HybridQueryExecutionContext implements ExecutionContext {
   ): Promise<void> {
     try {
       while (this.globalStatisticsExecutionContext.hasMoreResults()) {
-        const result = await this.globalStatisticsExecutionContext.nextItem(diagnosticNode);
-        const globalStatistics: GlobalStatistics = result.result;
+        const result = await this.globalStatisticsExecutionContext.fetchMore(diagnosticNode);
         mergeHeaders(fetchMoreRespHeaders, result.headers);
-        if (globalStatistics) {
-          // iterate over the components update placeholders from globalStatistics
-          this.globalStatisticsAggregator.aggregate(globalStatistics);
+        if (result && result.result) {
+          for (const item of result.result) {
+            const globalStatistics: GlobalStatistics = item;
+            if (globalStatistics) {
+              // iterate over the components update placeholders from globalStatistics
+              this.globalStatisticsAggregator.aggregate(globalStatistics);
+            }
+          }
         }
       }
     } catch (error) {
@@ -179,48 +187,75 @@ export class HybridQueryExecutionContext implements ExecutionContext {
     diagnosticNode: DiagnosticNodeInternal,
     fetchMoreRespHeaders: CosmosHeaders,
   ): Promise<void> {
-    if (this.componentsExecutionContext.length === 1) {
+    if (this.isSingleComponent) {
       await this.drainSingleComponent(diagnosticNode, fetchMoreRespHeaders);
       return;
     }
     try {
-      const hybridSearchResult: HybridSearchQueryResult[] = [];
-      const uniqueItems = new Map<string, HybridSearchQueryResult>();
-
-      for (const componentExecutionContext of this.componentsExecutionContext) {
-        while (componentExecutionContext.hasMoreResults()) {
-          const result = await componentExecutionContext.fetchMore(diagnosticNode);
-          const response = result.result;
-          mergeHeaders(fetchMoreRespHeaders, result.headers);
-          if (response) {
-            response.forEach((item: any) => {
-              const hybridItem = HybridSearchQueryResult.create(item);
-              if (!uniqueItems.has(hybridItem.rid)) {
-                uniqueItems.set(hybridItem.rid, hybridItem);
-              }
-            });
+      if (this.options.enableQueryControl) {
+        // track componentExecutionContexts with remaining results and call them in LIFO order
+        if (this.componentsExecutionContext.length > 0) {
+          const componentExecutionContext = this.componentsExecutionContext.pop();
+          if (componentExecutionContext.hasMoreResults()) {
+            const result = await componentExecutionContext.fetchMore(diagnosticNode);
+            const response = result.result;
+            mergeHeaders(fetchMoreRespHeaders, result.headers);
+            if (response) {
+              response.forEach((item: any) => {
+                const hybridItem = HybridSearchQueryResult.create(item);
+                if (!this.uniqueItems.has(hybridItem.rid)) {
+                  this.uniqueItems.set(hybridItem.rid, hybridItem);
+                }
+              });
+            }
+            if (componentExecutionContext.hasMoreResults()) {
+              this.componentsExecutionContext.push(componentExecutionContext);
+            }
           }
         }
+        if (this.componentsExecutionContext.length === 0) {
+          this.processUniqueItems();
+        }
+      } else {
+        for (const componentExecutionContext of this.componentsExecutionContext) {
+          while (componentExecutionContext.hasMoreResults()) {
+            const result = await componentExecutionContext.fetchMore(diagnosticNode);
+            const response = result.result;
+            mergeHeaders(fetchMoreRespHeaders, result.headers);
+            if (response) {
+              response.forEach((item: any) => {
+                const hybridItem = HybridSearchQueryResult.create(item);
+                if (!this.uniqueItems.has(hybridItem.rid)) {
+                  this.uniqueItems.set(hybridItem.rid, hybridItem);
+                }
+              });
+            }
+          }
+        }
+        this.processUniqueItems();
       }
-      uniqueItems.forEach((item) => hybridSearchResult.push(item));
-      if (hybridSearchResult.length === 0 || hybridSearchResult.length === 1) {
-        // return the result as no or one element is present
-        hybridSearchResult.forEach((item) => this.buffer.push(item.data));
-        this.state = HybridQueryExecutionContextBaseStates.draining;
-        return;
-      }
-
-      // Initialize an array to hold ranks for each document
-      const sortedHybridSearchResult = this.sortHybridSearchResultByRRFScore(hybridSearchResult);
-      // store the result to buffer
-      // add only data from the sortedHybridSearchResult in the buffer
-      sortedHybridSearchResult.forEach((item) => this.buffer.push(item.data));
-      this.applySkipAndTakeToBuffer();
-      this.state = HybridQueryExecutionContextBaseStates.draining;
     } catch (error) {
       this.state = HybridQueryExecutionContextBaseStates.done;
       throw error;
     }
+  }
+
+  private processUniqueItems(): void {
+    this.uniqueItems.forEach((item) => this.hybridSearchResult.push(item));
+    if (this.hybridSearchResult.length === 0 || this.hybridSearchResult.length === 1) {
+      // return the result as no or one element is present
+      this.hybridSearchResult.forEach((item) => this.buffer.push(item.data));
+      this.state = HybridQueryExecutionContextBaseStates.draining;
+      return;
+    }
+
+    // Initialize an array to hold ranks for each document
+    const sortedHybridSearchResult = this.sortHybridSearchResultByRRFScore(this.hybridSearchResult);
+    // store the result to buffer
+    // add only data from the sortedHybridSearchResult in the buffer
+    sortedHybridSearchResult.forEach((item) => this.buffer.push(item.data));
+    this.applySkipAndTakeToBuffer();
+    this.state = HybridQueryExecutionContextBaseStates.draining;
   }
 
   private applySkipAndTakeToBuffer(): void {
@@ -342,21 +377,43 @@ export class HybridQueryExecutionContext implements ExecutionContext {
       return;
     }
     try {
-      const componentExecutionContext = this.componentsExecutionContext[0];
-      const hybridSearchResult: HybridSearchQueryResult[] = [];
-      while (componentExecutionContext.hasMoreResults()) {
-        const result = await componentExecutionContext.fetchMore(diagNode);
-        const response = result.result;
-        mergeHeaders(fetchMoreRespHeaders, result.headers);
-        if (response) {
-          response.forEach((item: any) => {
-            hybridSearchResult.push(HybridSearchQueryResult.create(item));
-          });
+      if (this.options.enableQueryControl) {
+        const componentExecutionContext = this.componentsExecutionContext[0];
+        if (componentExecutionContext.hasMoreResults()) {
+          const result = await componentExecutionContext.fetchMore(diagNode);
+          const response = result.result;
+          mergeHeaders(fetchMoreRespHeaders, result.headers);
+          if (response) {
+            response.forEach((item: any) => {
+              this.hybridSearchResult.push(HybridSearchQueryResult.create(item));
+            });
+          }
         }
+        if (!componentExecutionContext.hasMoreResults()) {
+          this.state = HybridQueryExecutionContextBaseStates.draining;
+          this.hybridSearchResult.forEach((item) => this.buffer.push(item.data));
+          this.applySkipAndTakeToBuffer();
+          this.state = HybridQueryExecutionContextBaseStates.draining;
+        }
+        return;
+      } else {
+        const componentExecutionContext = this.componentsExecutionContext[0];
+        const hybridSearchResult: HybridSearchQueryResult[] = [];
+        // add check for enable query control
+        while (componentExecutionContext.hasMoreResults()) {
+          const result = await componentExecutionContext.fetchMore(diagNode);
+          const response = result.result;
+          mergeHeaders(fetchMoreRespHeaders, result.headers);
+          if (response) {
+            response.forEach((item: any) => {
+              hybridSearchResult.push(HybridSearchQueryResult.create(item));
+            });
+          }
+        }
+        hybridSearchResult.forEach((item) => this.buffer.push(item.data));
+        this.applySkipAndTakeToBuffer();
+        this.state = HybridQueryExecutionContextBaseStates.draining;
       }
-      hybridSearchResult.forEach((item) => this.buffer.push(item.data));
-      this.applySkipAndTakeToBuffer();
-      this.state = HybridQueryExecutionContextBaseStates.draining;
     } catch (error) {
       this.state = HybridQueryExecutionContextBaseStates.done;
       throw error;
@@ -380,18 +437,18 @@ export class HybridQueryExecutionContext implements ExecutionContext {
         queryInfo: componentQueryInfo,
         queryRanges: this.partitionedQueryExecutionInfo.queryRanges,
       };
-      this.componentsExecutionContext.push(
-        new PipelinedQueryExecutionContext(
-          this.clientContext,
-          this.collectionLink,
-          componentQueryInfo.rewrittenQuery,
-          this.options,
-          componentPartitionExecutionInfo,
-          this.correlatedActivityId,
-          this.emitRawOrderByPayload,
-        ),
+      const executionContext = new PipelinedQueryExecutionContext(
+        this.clientContext,
+        this.collectionLink,
+        componentQueryInfo.rewrittenQuery,
+        this.options,
+        componentPartitionExecutionInfo,
+        this.correlatedActivityId,
+        this.emitRawOrderByPayload,
       );
+      this.componentsExecutionContext.push(executionContext);
     }
+    this.isSingleComponent = this.componentsExecutionContext.length === 1;
   }
   private processComponentQueries(
     componentQueryInfos: QueryInfo[],

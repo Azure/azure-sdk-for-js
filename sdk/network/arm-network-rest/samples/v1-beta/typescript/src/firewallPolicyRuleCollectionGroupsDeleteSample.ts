@@ -1,16 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import createNetworkManagementClient, {
   FirewallPolicyRuleCollectionGroupsDeleteParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Deletes the specified FirewallPolicyRuleCollectionGroup.
@@ -18,7 +13,7 @@ dotenv.config();
  * @summary Deletes the specified FirewallPolicyRuleCollectionGroup.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/FirewallPolicyRuleCollectionGroupDelete.json
  */
-async function deleteFirewallPolicyRuleCollectionGroup() {
+async function deleteFirewallPolicyRuleCollectionGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -26,7 +21,7 @@ async function deleteFirewallPolicyRuleCollectionGroup() {
   const firewallPolicyName = "firewallPolicy";
   const ruleCollectionGroupName = "ruleCollectionGroup1";
   const options: FirewallPolicyRuleCollectionGroupsDeleteParameters = {
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(
@@ -34,7 +29,7 @@ async function deleteFirewallPolicyRuleCollectionGroup() {
       subscriptionId,
       resourceGroupName,
       firewallPolicyName,
-      ruleCollectionGroupName
+      ruleCollectionGroupName,
     )
     .delete(options);
   const poller = getLongRunningPoller(client, initialResponse);

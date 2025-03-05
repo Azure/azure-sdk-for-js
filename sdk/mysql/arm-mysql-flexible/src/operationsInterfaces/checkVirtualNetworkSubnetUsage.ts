@@ -10,7 +10,7 @@ import {
   VirtualNetworkSubnetUsageParameter,
   CheckVirtualNetworkSubnetUsageExecuteOptionalParams,
   CheckVirtualNetworkSubnetUsageExecuteResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a CheckVirtualNetworkSubnetUsage. */
 export interface CheckVirtualNetworkSubnetUsage {

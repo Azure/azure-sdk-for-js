@@ -10,14 +10,11 @@ import {
   env,
   Recorder,
   RecorderStartOptions,
-  delay,
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { assert } from "chai";
-import { Context } from "mocha";
-import { SynapseManagementClient } from "../src/synapseManagementClient";
-import { apiVersion } from "../src/models/parameters";
+import { SynapseManagementClient } from "../src/synapseManagementClient.js";
+import { describe, it, beforeEach, afterEach, assert } from "vitest";
 
 const replaceableVariables: Record<string, string> = {
   AZURE_CLIENT_ID: "azure_client_id",
@@ -42,30 +39,25 @@ describe("Synapse test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: SynapseManagementClient;
-  let location: string;
-  let resourceGroup: string;
-  let workspaceName: string;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async (ctx) => {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderOptions);
     subscriptionId = env.SUBSCRIPTION_ID || '';
     // This is an example of how the environment variables are used
     const credential = createTestCredential();
     client = new SynapseManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
-    location = "eastus";
-    resourceGroup = "myjstest";
-    workspaceName = "workspace1"
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
-  it("operations checkNameAvailability test", async function () {
+  it("operations checkNameAvailability test", async () => {
     const res = await client.operations.checkNameAvailability({
       name: "workspaceabc",
       type: "Microsoft.Synapse/workspaces"
     });
+    assert.ok(res);
   });
 });

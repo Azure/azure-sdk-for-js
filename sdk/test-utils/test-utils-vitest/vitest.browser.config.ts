@@ -5,14 +5,18 @@ import { defineConfig } from "vitest/config";
 
 export default defineConfig({
   test: {
-    reporters: ["basic", "junit"],
+    reporters: ["verbose", "junit"],
     outputFile: {
       junit: "test-results.browser.xml",
     },
     browser: {
+      instances: [
+        {
+          browser: "chromium",
+        },
+      ],
       enabled: true,
       headless: true,
-      name: "chromium",
       provider: "playwright",
     },
     fakeTimers: {

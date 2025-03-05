@@ -7,7 +7,7 @@
  */
 
 import { SimplePollerLike, OperationState } from "@azure/core-lro";
-import { NetworkSecurityPerimeterConfigurationsCreateOrUpdateOptionalParams } from "../models";
+import { NetworkSecurityPerimeterConfigurationsCreateOrUpdateOptionalParams } from "../models/index.js";
 
 /** Interface representing a NetworkSecurityPerimeterConfigurations. */
 export interface NetworkSecurityPerimeterConfigurations {

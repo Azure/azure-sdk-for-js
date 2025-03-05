@@ -13,9 +13,7 @@ import {
   AzureMachineLearningServicesManagementClient,
 } from "@azure/arm-machinelearning";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Generate a storage location and credential for the client to upload a code asset to.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Generate a storage location and credential for the client to upload a code asset to.
  * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2024-04-01/examples/Registry/CodeVersion/createOrGetStartPendingUpload.json
  */
-async function createOrGetStartPendingUploadRegistryCodeVersion() {
+async function createOrGetStartPendingUploadRegistryCodeVersion(): Promise<void> {
   const subscriptionId =
     process.env["MACHINELEARNING_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -52,7 +50,7 @@ async function createOrGetStartPendingUploadRegistryCodeVersion() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createOrGetStartPendingUploadRegistryCodeVersion();
 }
 

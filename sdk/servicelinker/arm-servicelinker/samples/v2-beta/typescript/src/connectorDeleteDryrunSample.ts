@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { ServiceLinkerManagementClient } from "@azure/arm-servicelinker";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to delete a dryrun job
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary delete a dryrun job
  * x-ms-original-file: specification/servicelinker/resource-manager/Microsoft.ServiceLinker/preview/2024-07-01-preview/examples/ConnectorDryrunDelete.json
  */
-async function connectorDryrunDelete() {
+async function connectorDryrunDelete(): Promise<void> {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const resourceGroupName =
     process.env["SERVICELINKER_RESOURCE_GROUP"] || "test-rg";
@@ -37,7 +35,7 @@ async function connectorDryrunDelete() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   connectorDryrunDelete();
 }
 

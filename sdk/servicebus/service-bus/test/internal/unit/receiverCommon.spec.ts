@@ -165,6 +165,7 @@ describe("shared receiver code", () => {
           ),
         {
           message: MessageAlreadySettled,
+          name: "Error",
         },
       );
     });
@@ -190,6 +191,7 @@ describe("shared receiver code", () => {
           ),
         {
           message: MessageAlreadySettled,
+          name: "Error",
         },
       );
     });
@@ -219,7 +221,7 @@ describe("shared receiver code", () => {
 
       await assertThrows(() => retryForeverPromise, {
         name: "AbortError",
-        message: "Error 0: AbortError: Purposefully abort",
+        message: "Purposefully abort",
       });
 
       assert.notOk(onErrorError?.message);

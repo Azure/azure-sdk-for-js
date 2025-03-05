@@ -9,8 +9,14 @@ import type { ChangeFeedStartFrom } from "./ChangeFeedStartFrom";
 import { ChangeFeedStartFromBeginning } from "./ChangeFeedStartFromBeginning";
 import { Constants } from "../../common";
 import { ChangeFeedStartFromTime } from "./ChangeFeedStartFromTime";
-import type { QueryRange } from "../../routing";
+import { QueryRange } from "../../routing";
 import { FeedRangeInternal } from "./FeedRange";
+import { hashV2PartitionKey } from "../../utils/hashing/v2";
+import { PartitionKeyInternal } from "../../documents/PartitionKeyInternal";
+import { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
+import { EncryptionProcessor } from "../../encryption";
+import { ChangeFeedMode } from "./ChangeFeedMode";
+import { ChangeFeedIteratorResponse } from "./ChangeFeedIteratorResponse";
 
 /**
  * @hidden
@@ -128,4 +134,49 @@ export function fetchStartTime(changeFeedStartFrom: ChangeFeedStartFrom): Date |
  */
 export function isNullOrEmpty(text: string | null | undefined): boolean {
   return text === null || text === undefined || text.trim() === "";
+}
+
+/**
+ * @hidden
+ */
+export async function getEPKRangeForPrefixPartitionKey(
+  internalPartitionKey: PartitionKeyInternal,
+): Promise<QueryRange> {
+  const minEPK = getEffectivePartitionKeyForMultiHashPartitioning(internalPartitionKey);
+  const maxEPK =
+    minEPK + Constants.EffectivePartitionKeyConstants.MaximumExclusiveEffectivePartitionKey;
+  return new QueryRange(minEPK, maxEPK, true, false);
+}
+
+/**
+ * @hidden
+ */
+export function getEffectivePartitionKeyForMultiHashPartitioning(
+  partitionKeyInternal: PartitionKeyInternal,
+): string {
+  const hashArray = partitionKeyInternal.map((item) => hashV2PartitionKey([item]));
+  return hashArray.join("");
+}
+
+/**
+ * @hidden
+ */
+export async function decryptChangeFeedResponse(
+  result: ChangeFeedIteratorResponse<any>,
+  diagnosticNode: DiagnosticNodeInternal,
+  changeFeedMode: ChangeFeedMode,
+  encryptionProcessor: EncryptionProcessor,
+): Promise<void> {
+  for (let item of result.result) {
+    if (changeFeedMode === ChangeFeedMode.AllVersionsAndDeletes) {
+      if ("current" in item && item.current !== null) {
+        item.current = await encryptionProcessor.decrypt(item.current, diagnosticNode);
+      }
+      if ("previous" in item && item.previous !== null) {
+        item.previous = await encryptionProcessor.decrypt(item.previous, diagnosticNode);
+      }
+    } else {
+      item = await encryptionProcessor.decrypt(item, diagnosticNode);
+    }
+  }
 }

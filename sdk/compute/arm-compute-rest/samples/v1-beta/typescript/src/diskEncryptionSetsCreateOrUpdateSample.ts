@@ -1,16 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import createComputeManagementClient, {
   DiskEncryptionSetsCreateOrUpdateParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates or updates a disk encryption set
@@ -30,30 +25,27 @@ async function createADiskEncryptionSetWithKeyVaultFromADifferentSubscription() 
       location: "West US",
       properties: {
         activeKey: {
-          keyUrl:
-            "https://myvaultdifferentsub.vault-int.azure-int.net/keys/{key}"
+          keyUrl: "https://myvaultdifferentsub.vault-int.azure-int.net/keys/{key}",
         },
-        encryptionType: "EncryptionAtRestWithCustomerKey"
-      }
+        encryptionType: "EncryptionAtRestWithCustomerKey",
+      },
     },
-    queryParameters: { "api-version": "2022-07-02" }
+    queryParameters: { "api-version": "2022-07-02" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskEncryptionSets/{diskEncryptionSetName}",
       subscriptionId,
       resourceGroupName,
-      diskEncryptionSetName
+      diskEncryptionSetName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
 
-createADiskEncryptionSetWithKeyVaultFromADifferentSubscription().catch(
-  console.error
-);
+createADiskEncryptionSetWithKeyVaultFromADifferentSubscription().catch(console.error);
 /**
  * This sample demonstrates how to Creates or updates a disk encryption set
  *
@@ -71,30 +63,30 @@ async function createADiskEncryptionSetWithKeyVaultFromADifferentTenant() {
       identity: {
         type: "UserAssigned",
         userAssignedIdentities: {
-          "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}": {}
-        }
+          "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}":
+            {},
+        },
       },
       location: "West US",
       properties: {
         activeKey: {
-          keyUrl:
-            "https://myvaultdifferenttenant.vault-int.azure-int.net/keys/{key}"
+          keyUrl: "https://myvaultdifferenttenant.vault-int.azure-int.net/keys/{key}",
         },
         encryptionType: "EncryptionAtRestWithCustomerKey",
-        federatedClientId: "00000000-0000-0000-0000-000000000000"
-      }
+        federatedClientId: "00000000-0000-0000-0000-000000000000",
+      },
     },
-    queryParameters: { "api-version": "2022-07-02" }
+    queryParameters: { "api-version": "2022-07-02" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskEncryptionSets/{diskEncryptionSetName}",
       subscriptionId,
       resourceGroupName,
-      diskEncryptionSetName
+      diskEncryptionSetName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -120,24 +112,23 @@ async function createADiskEncryptionSet() {
         activeKey: {
           keyUrl: "https://myvmvault.vault-int.azure-int.net/keys/{key}",
           sourceVault: {
-            id:
-              "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.KeyVault/vaults/myVMVault"
-          }
+            id: "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.KeyVault/vaults/myVMVault",
+          },
         },
-        encryptionType: "EncryptionAtRestWithCustomerKey"
-      }
+        encryptionType: "EncryptionAtRestWithCustomerKey",
+      },
     },
-    queryParameters: { "api-version": "2022-07-02" }
+    queryParameters: { "api-version": "2022-07-02" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskEncryptionSets/{diskEncryptionSetName}",
       subscriptionId,
       resourceGroupName,
-      diskEncryptionSetName
+      diskEncryptionSetName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }

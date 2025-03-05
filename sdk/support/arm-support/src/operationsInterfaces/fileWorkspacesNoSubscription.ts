@@ -11,7 +11,7 @@ import {
   FileWorkspacesNoSubscriptionGetResponse,
   FileWorkspacesNoSubscriptionCreateOptionalParams,
   FileWorkspacesNoSubscriptionCreateResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a FileWorkspacesNoSubscription. */
 export interface FileWorkspacesNoSubscription {

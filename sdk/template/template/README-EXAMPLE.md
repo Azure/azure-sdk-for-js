@@ -4,7 +4,7 @@
 
 <!-- dev-tool snippets ignore -->
 
-[Azure App Configuration](https://docs.microsoft.com/azure/azure-app-configuration/overview) is a managed service that helps developers centralize their application and feature settings simply and securely.
+[Azure App Configuration](https://learn.microsoft.com/azure/azure-app-configuration/overview) is a managed service that helps developers centralize their application and feature settings simply and securely.
 
 Use the client library for App Configuration to:
 
@@ -14,8 +14,8 @@ Use the client library for App Configuration to:
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/appconfiguration/app-configuration/) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/app-configuration) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/app-configuration) |
-[Product documentation](https://docs.microsoft.com/azure/azure-app-configuration/) |
+[API reference documentation](https://learn.microsoft.com/javascript/api/@azure/app-configuration) |
+[Product documentation](https://learn.microsoft.com/azure/azure-app-configuration/) |
 [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/appconfiguration/app-configuration/samples)
 
 ## Getting started
@@ -36,11 +36,11 @@ npm install @azure/app-configuration
 ### Prerequisites
 
 - An [Azure Subscription](https://azure.microsoft.com)
-- An [App Configuration](https://docs.microsoft.com/azure/azure-app-configuration/) resource.
+- An [App Configuration](https://learn.microsoft.com/azure/azure-app-configuration/) resource.
 
 ### Create an App Configuration resource
 
-You can use the [Azure Portal](https://portal.azure.com) or the [Azure CLI](https://docs.microsoft.com/cli/azure) to create an Azure App Configuration resource.
+You can use the [Azure Portal](https://portal.azure.com) or the [Azure CLI](https://learn.microsoft.com/cli/azure) to create an Azure App Configuration resource.
 
 Example (Azure CLI):
 
@@ -58,7 +58,7 @@ Authentication via service principal is done by:
 
 - Creating a credential using the `@azure/identity` package.
 - Setting appropriate RBAC rules on your AppConfiguration resource.
-  More information on App Configuration roles can be found [here](https://docs.microsoft.com/azure/azure-app-configuration/concept-enable-rbac#azure-built-in-roles-for-azure-app-configuration).
+  More information on App Configuration roles can be found [here](https://learn.microsoft.com/azure/azure-app-configuration/concept-enable-rbac#azure-built-in-roles-for-azure-app-configuration).
 
 Using [DefaultAzureCredential](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/README.md#defaultazurecredential)
 
@@ -69,7 +69,7 @@ const appConfig = require("@azure/app-configuration");
 const credential = new azureIdentity.DefaultAzureCredential();
 const client = new appConfig.AppConfigurationClient(
   endpoint, // ex: <https://<your appconfig resource>.azconfig.io>
-  credential
+  credential,
 );
 ```
 
@@ -91,18 +91,18 @@ const client = new AppConfigurationClient("<connection string>");
 
 ## Key concepts
 
-The [`AppConfigurationClient`](https://docs.microsoft.com/javascript/api/@azure/app-configuration/appconfigurationclient) has some terminology changes from App Configuration in the portal.
+The [`AppConfigurationClient`](https://learn.microsoft.com/javascript/api/@azure/app-configuration/appconfigurationclient) has some terminology changes from App Configuration in the portal.
 
-- Key/Value pairs are represented as [`ConfigurationSetting`](https://docs.microsoft.com/javascript/api/@azure/app-configuration/configurationsetting) objects
+- Key/Value pairs are represented as [`ConfigurationSetting`](https://learn.microsoft.com/javascript/api/@azure/app-configuration/configurationsetting) objects
 - Locking and unlocking a setting is represented in the `isReadOnly` field, which you can toggle using `setReadOnly`.
 
-The client follows a simple design methodology - [`ConfigurationSetting`](https://docs.microsoft.com/javascript/api/@azure/app-configuration/configurationsetting) can be passed into any method that takes a [`ConfigurationSettingParam`](https://docs.microsoft.com/javascript/api/@azure/app-configuration/configurationsettingparam) or [`ConfigurationSettingId`](https://docs.microsoft.com/javascript/api/@azure/app-configuration/configurationsettingid).
+The client follows a simple design methodology - [`ConfigurationSetting`](https://learn.microsoft.com/javascript/api/@azure/app-configuration/configurationsetting) can be passed into any method that takes a [`ConfigurationSettingParam`](https://learn.microsoft.com/javascript/api/@azure/app-configuration/configurationsettingparam) or [`ConfigurationSettingId`](https://learn.microsoft.com/javascript/api/@azure/app-configuration/configurationsettingid).
 
 This means this pattern works:
 
 ```typescript
 const setting = await client.getConfigurationSetting({
-  key: "hello"
+  key: "hello",
 });
 
 setting.value = "new value!";
@@ -121,7 +121,7 @@ or, for example, re-getting a setting:
 
 ```typescript
 let setting = await client.getConfigurationSetting({
-  key: "hello"
+  key: "hello",
 });
 
 // re-get the setting
@@ -136,7 +136,7 @@ setting = await.getConfigurationSetting(setting);
 const appConfig = require("@azure/app-configuration");
 
 const client = new appConfig.AppConfigurationClient(
-  "<App Configuration connection string goes here>"
+  "<App Configuration connection string goes here>",
 );
 
 async function run() {
@@ -145,13 +145,13 @@ async function run() {
     value: "testvalue",
     // Labels allow you to create variants of a key tailored
     // for specific use-cases like supporting multiple environments.
-    // https://docs.microsoft.com/azure/azure-app-configuration/concept-key-value#label-keys
-    label: "optional-label"
+    // https://learn.microsoft.com/azure/azure-app-configuration/concept-key-value#label-keys
+    label: "optional-label",
   });
 
   let retrievedSetting = await client.getConfigurationSetting({
     key: "testkey",
-    label: "optional-label"
+    label: "optional-label",
   });
 
   console.log("Retrieved value:", retrievedSetting.value);
@@ -192,6 +192,4 @@ folder for more details.
 ## Related projects
 
 - [Microsoft Azure SDK for JavaScript](https://github.com/Azure/azure-sdk-for-js)
-- [Azure App Configuration](https://docs.microsoft.com/azure/azure-app-configuration/overview)
-
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fappconfiguration%2Fapp-configuration%2FREADME.png)
+- [Azure App Configuration](https://learn.microsoft.com/azure/azure-app-configuration/overview)

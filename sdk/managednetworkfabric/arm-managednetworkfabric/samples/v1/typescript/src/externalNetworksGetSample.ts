@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { AzureNetworkFabricManagementServiceAPI } from "@azure/arm-managednetworkfabric";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Implements ExternalNetworks GET method.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Implements ExternalNetworks GET method.
  * x-ms-original-file: specification/managednetworkfabric/resource-manager/Microsoft.ManagedNetworkFabric/stable/2023-06-15/examples/ExternalNetworks_Get_MaximumSet_Gen.json
  */
-async function externalNetworksGetMaximumSetGen() {
+async function externalNetworksGetMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["MANAGEDNETWORKFABRIC_SUBSCRIPTION_ID"] ||
     "42EEDB3B-8E17-46E3-B0B4-B1CD9842D90D";
@@ -42,7 +40,7 @@ async function externalNetworksGetMaximumSetGen() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   externalNetworksGetMaximumSetGen();
 }
 

@@ -13,13 +13,12 @@
  * @azsdk-weight 45
  */
 
-import { ServiceBusMessage, ServiceBusClient } from "@azure/service-bus";
+import type { ServiceBusMessage } from "@azure/service-bus";
+import { ServiceBusClient } from "@azure/service-bus";
 import { DefaultAzureCredential } from "@azure/identity";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
-
+import "dotenv/config";
 // Define connection string and related Service Bus entity names here
 const fqdn = process.env.SERVICEBUS_FQDN || "<your-servicebus-namespace>.servicebus.windows.net";
 const queueName = process.env.QUEUE_NAME || "<queue name>";
@@ -27,7 +26,7 @@ const queueName = process.env.QUEUE_NAME || "<queue name>";
 const credential = new DefaultAzureCredential();
 const sbClient: ServiceBusClient = new ServiceBusClient(fqdn, credential);
 
-export async function main() {
+export async function main(): Promise<void> {
   try {
     await processDeadletterMessageQueue();
   } finally {
@@ -35,7 +34,7 @@ export async function main() {
   }
 }
 
-async function processDeadletterMessageQueue() {
+async function processDeadletterMessageQueue(): Promise<void> {
   // If connecting to a subscription's dead letter queue you can use the createReceiver(topicName, subscriptionName) overload
   const receiver = sbClient.createReceiver(queueName, { subQueueType: "deadLetter" });
 
@@ -57,7 +56,7 @@ async function processDeadletterMessageQueue() {
 }
 
 // Send repaired message back to the current queue / topic
-async function fixAndResendMessage(oldMessage: ServiceBusMessage) {
+async function fixAndResendMessage(oldMessage: ServiceBusMessage): Promise<void> {
   // createSender() can also be used to create a sender for a topic.
   const sender = sbClient.createSender(queueName);
 

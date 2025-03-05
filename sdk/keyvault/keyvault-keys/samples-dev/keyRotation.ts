@@ -7,17 +7,12 @@
 
 import { KeyClient } from "@azure/keyvault-keys";
 import { DefaultAzureCredential } from "@azure/identity";
-import dayjs from "dayjs";
-import duration from "dayjs/plugin/duration.js";
-dayjs.extend(duration);
-
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
 export async function main(): Promise<void> {
   // This sample uses DefaultAzureCredential, which supports a number of authentication mechanisms.
-  // See https://docs.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest for more information
+  // See https://learn.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest for more information
   // about DefaultAzureCredential and the other credentials that are available for use.
   const credential = new DefaultAzureCredential();
 
@@ -45,14 +40,13 @@ export async function main(): Promise<void> {
 
   // Update the key's automated rotation policy to notify 30 days before the key expires.
   // By using the ISO8601 duration standard, interoperability with any 3rd party library that supports Durations is supported.
-  // In this example, we'll use Day.js (documented in https://day.js.org) to create the duration.
   // For more information on the ISO 8601 Duration standard, please refer to the Wikipedia page on Durations:
   // https://wikipedia.org/wiki/ISO_8601#Durations
   const updatedPolicy = await client.updateKeyRotationPolicy(key.name, {
     lifetimeActions: [
       {
         action: "Notify",
-        timeBeforeExpiry: dayjs.duration({ days: 30 }).toISOString(),
+        timeBeforeExpiry: "P30D",
       },
     ],
     expiresIn: "P90D",

@@ -13,9 +13,7 @@ import {
   HDInsightManagementClient,
 } from "@azure/arm-hdinsight";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Patch HDInsight cluster with the specified parameters.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Patch HDInsight cluster with the specified parameters.
  * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2024-08-01-preview/examples/PatchLinuxHadoopCluster.json
  */
-async function patchHdInsightLinuxClusters() {
+async function patchHdInsightLinuxClusters(): Promise<void> {
   const subscriptionId = process.env["HDINSIGHT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["HDINSIGHT_RESOURCE_GROUP"] || "rg1";
   const clusterName = "cluster1";
@@ -46,7 +44,7 @@ async function patchHdInsightLinuxClusters() {
  * @summary Patch HDInsight cluster with the specified parameters.
  * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2024-08-01-preview/examples/PatchLinuxHadoopClusterWithSystemMSI.json
  */
-async function patchHdInsightLinuxClustersWithSystemAssignedMsi() {
+async function patchHdInsightLinuxClustersWithSystemAssignedMsi(): Promise<void> {
   const subscriptionId = process.env["HDINSIGHT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["HDINSIGHT_RESOURCE_GROUP"] || "rg1";
   const clusterName = "cluster1";
@@ -64,7 +62,7 @@ async function patchHdInsightLinuxClustersWithSystemAssignedMsi() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   patchHdInsightLinuxClusters();
   patchHdInsightLinuxClustersWithSystemAssignedMsi();
 }

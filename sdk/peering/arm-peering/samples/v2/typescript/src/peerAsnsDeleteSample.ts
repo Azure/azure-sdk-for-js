@@ -17,7 +17,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Deletes an existing peer ASN with the specified name under the given subscription.
  * x-ms-original-file: specification/peering/resource-manager/Microsoft.Peering/stable/2021-06-01/examples/DeletePeerAsn.json
  */
-async function deleteAPeerAsn() {
+async function deleteAPeerAsn(): Promise<void> {
   const subscriptionId = "subId";
   const peerAsnName = "peerAsnName";
   const credential = new DefaultAzureCredential();

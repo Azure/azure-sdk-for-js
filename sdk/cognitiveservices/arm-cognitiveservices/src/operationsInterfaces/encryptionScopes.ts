@@ -17,7 +17,7 @@ import {
   EncryptionScopesCreateOrUpdateResponse,
   EncryptionScopesDeleteOptionalParams,
   EncryptionScopesDeleteResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a EncryptionScopes. */

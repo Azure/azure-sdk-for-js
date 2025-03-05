@@ -1,15 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import createNetworkManagementClient, {
-  VpnSiteLinkConnectionsGetParameters
+  VpnSiteLinkConnectionsGetParameters,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Retrieves the details of a vpn site link connection.
@@ -17,7 +12,7 @@ dotenv.config();
  * @summary Retrieves the details of a vpn site link connection.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/VpnSiteLinkConnectionGet.json
  */
-async function vpnSiteLinkConnectionGet() {
+async function vpnSiteLinkConnectionGet(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -26,7 +21,7 @@ async function vpnSiteLinkConnectionGet() {
   const connectionName = "vpnConnection1";
   const linkConnectionName = "Connection-Link1";
   const options: VpnSiteLinkConnectionsGetParameters = {
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const result = await client
     .path(
@@ -35,7 +30,7 @@ async function vpnSiteLinkConnectionGet() {
       resourceGroupName,
       gatewayName,
       connectionName,
-      linkConnectionName
+      linkConnectionName,
     )
     .get(options);
   console.log(result);

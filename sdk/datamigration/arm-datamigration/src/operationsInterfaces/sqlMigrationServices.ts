@@ -32,7 +32,7 @@ import {
   SqlMigrationServicesDeleteNodeResponse,
   SqlMigrationServicesListMonitoringDataOptionalParams,
   SqlMigrationServicesListMonitoringDataResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a SqlMigrationServices. */

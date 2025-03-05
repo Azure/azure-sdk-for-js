@@ -7,18 +7,18 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { SignalRReplicas } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { SignalRReplicas } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { SignalRManagementClient } from "../signalRManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { SignalRManagementClient } from "../signalRManagementClient.js";
 import {
   SimplePollerLike,
   OperationState,
   createHttpPoller
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl";
+import { createLroSpec } from "../lroImpl.js";
 import {
   Replica,
   SignalRReplicasListNextOptionalParams,
@@ -34,7 +34,7 @@ import {
   SignalRReplicasRestartOptionalParams,
   SignalRReplicasRestartResponse,
   SignalRReplicasListNextResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing SignalRReplicas operations. */

@@ -83,8 +83,8 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [iothubconnectionstringwebsockets]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventhub/event-hubs/samples/v5-beta/typescript/src/iothubConnectionStringWebsockets.ts
 [usewithiothub]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventhub/event-hubs/samples/v5-beta/typescript/src/useWithIotHub.ts
 [websockets]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventhub/event-hubs/samples/v5-beta/typescript/src/websockets.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/event-hubs
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/event-hubs
 [freesub]: https://azure.microsoft.com/free/
-[createinstance_azureeventhub]: https://docs.microsoft.com/azure/event-hubs/event-hubs-create
+[createinstance_azureeventhub]: https://learn.microsoft.com/azure/event-hubs/event-hubs-create
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/eventhub/event-hubs/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

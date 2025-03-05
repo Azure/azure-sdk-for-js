@@ -32,6 +32,9 @@ tag: release_2022_05_15_preview
 package-version: 1.0.0-beta.1
 modelerfour:
   lenient-model-deduplication: true
+module-kind: esm
+use-extension:
+  "@autorest/typescript": "6.0.34"
 ```
 
 ## Batch Execution

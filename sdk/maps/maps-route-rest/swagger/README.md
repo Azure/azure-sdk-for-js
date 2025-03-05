@@ -24,14 +24,15 @@ license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../
 source-code-folder-path: ./src/generated
 input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/main/specification/maps/data-plane/Route/preview/1.0/route.json
-package-version: 1.0.0-beta.4
+package-version: 1.0.0-beta.5
 rest-level-client: true
 # Although maps-route supports key-credentials and Microsoft Entra ID, maps-route requires header "ms-x-client-id", which is different from the standard Microsoft Entra ID, so we don't generate Microsoft Entra ID code and implement ourselves.
 # For auth configuration, please refer to: https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/RLC-quickstart.md#how-to-configure-authentication
 security: AzureKey
 security-header-name: subscription-key
 use-extension:
-  "@autorest/typescript": "6.0.28"
+  "@autorest/typescript": "6.0.34"
+module-kind: esm
 ```
 
 ## Customization for Track 2 Generator

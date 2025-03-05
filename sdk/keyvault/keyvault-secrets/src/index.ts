@@ -7,18 +7,11 @@ import type { TokenCredential } from "@azure/core-auth";
 import { logger } from "./log.js";
 
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollOperationState, PollerLike } from "@azure/core-lro";
-import type {
-  DeletedSecretBundle,
-  GetSecretsOptionalParams,
-  SecretBundle,
-} from "./generated/models/index.js";
-import { DeletionRecoveryLevel, KnownDeletionRecoveryLevel } from "./generated/models/index.js";
+import type { PollOperationState } from "@azure/core-lro";
+import { PollerLike } from "@azure/core-lro";
+import type { KeyVaultClientOptionalParams } from "./generated/keyVaultClient.js";
 import { KeyVaultClient } from "./generated/keyVaultClient.js";
 import { keyVaultAuthenticationPolicy } from "@azure/keyvault-common";
-
-import { DeleteSecretPoller } from "./lro/delete/poller.js";
-import { RecoverDeletedSecretPoller } from "./lro/recover/poller.js";
 
 import {
   BackupSecretOptions,
@@ -40,9 +33,14 @@ import {
   SetSecretOptions,
   UpdateSecretPropertiesOptions,
 } from "./secretsModels.js";
+import { KnownDeletionRecoveryLevel, DeletionRecoveryLevel } from "./generated/index.js";
 import { KeyVaultSecretIdentifier, parseKeyVaultSecretIdentifier } from "./identifier.js";
-import { getSecretFromSecretBundle } from "./transformations.js";
+import { getSecretFromSecretBundle, mapPagedAsyncIterable } from "./transformations.js";
 import { tracingClient } from "./tracing.js";
+import { bearerTokenAuthenticationPolicyName } from "@azure/core-rest-pipeline";
+import { SDK_VERSION } from "./constants.js";
+import { DeleteSecretPoller } from "./lro/delete/poller.js";
+import { RecoverDeletedSecretPoller } from "./lro/recover/poller.js";
 
 export {
   SecretClientOptions,
@@ -95,14 +93,18 @@ export class SecretClient {
    * Creates an instance of SecretClient.
    *
    * Example usage:
-   * ```ts
-   * import { SecretClient } from "@azure/keyvault-secrets";
+   * ```ts snippet:ReadmeSampleCreateClient
    * import { DefaultAzureCredential } from "@azure/identity";
+   * import { SecretClient } from "@azure/keyvault-secrets";
    *
-   * let vaultUrl = `https://<MY KEYVAULT HERE>.vault.azure.net`;
-   * let credentials = new DefaultAzureCredential();
+   * const credential = new DefaultAzureCredential();
    *
-   * let client = new SecretClient(vaultUrl, credentials);
+   * // Build the URL to reach your key vault
+   * const vaultName = "<YOUR KEYVAULT NAME>";
+   * const url = `https://${vaultName}.vault.azure.net`;
+   *
+   * // Lastly, create our keys client and connect to the service
+   * const client = new SecretClient(url, credential);
    * ```
    * @param vaultUrl - The base URL to the vault. You should validate that this URL references a valid Key Vault resource. See https://aka.ms/azsdk/blog/vault-uri for details.
    * @param credential - An object that implements the `TokenCredential` interface used to authenticate requests to the service. Use the \@azure/identity package to create a credential that suits your needs.
@@ -116,11 +118,15 @@ export class SecretClient {
   ) {
     this.vaultUrl = vaultUrl;
 
-    const internalPipelineOptions = {
+    const internalPipelineOptions: KeyVaultClientOptionalParams = {
       ...pipelineOptions,
+      userAgentOptions: {
+        userAgentPrefix: `${pipelineOptions.userAgentOptions?.userAgentPrefix ?? ""} azsdk-js-keyvault-secrets/${SDK_VERSION}`,
+      },
+      apiVersion: pipelineOptions.serviceVersion || LATEST_API_VERSION,
       loggingOptions: {
         logger: logger.info,
-        allowedHeaderNames: [
+        additionalAllowedHeaderNames: [
           "x-ms-keyvault-region",
           "x-ms-keyvault-network-info",
           "x-ms-keyvault-service-version",
@@ -128,15 +134,21 @@ export class SecretClient {
       },
     };
 
-    this.client = new KeyVaultClient(
-      pipelineOptions.serviceVersion || LATEST_API_VERSION,
-      internalPipelineOptions,
-    );
+    this.client = new KeyVaultClient(this.vaultUrl, credential, internalPipelineOptions);
 
-    // The authentication policy must come after the deserialization policy since the deserialization policy
-    // converts 401 responses to an Error, and we don't want to deal with that.
-    this.client.pipeline.addPolicy(keyVaultAuthenticationPolicy(credential, pipelineOptions), {
-      afterPolicies: ["deserializationPolicy"],
+    // Key vault has its own authentication policy that needs to be added to the pipeline, replacing the default bearerTokenAuthenticationPolicy.
+    this.client.pipeline.removePolicy({ name: bearerTokenAuthenticationPolicyName });
+    this.client.pipeline.addPolicy(keyVaultAuthenticationPolicy(credential, pipelineOptions), {});
+    // Workaround for: https://github.com/Azure/azure-sdk-for-js/issues/31843
+    this.client.pipeline.addPolicy({
+      name: "ContentTypePolicy",
+      sendRequest(request, next) {
+        const contentType = request.headers.get("Content-Type") ?? "";
+        if (contentType.startsWith("application/json")) {
+          request.headers.set("Content-Type", "application/json");
+        }
+        return next(request);
+      },
     });
   }
 
@@ -146,9 +158,21 @@ export class SecretClient {
    * This operation requires the secrets/set permission.
    *
    * Example usage:
-   * ```ts
-   * let client = new SecretClient(url, credentials);
-   * await client.setSecret("MySecretName", "ABC123");
+   * ```ts snippet:ReadmeSampleCreateSecret
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { SecretClient } from "@azure/keyvault-secrets";
+   *
+   * const credential = new DefaultAzureCredential();
+   *
+   * const vaultName = "<YOUR KEYVAULT NAME>";
+   * const url = `https://${vaultName}.vault.azure.net`;
+   *
+   * const client = new SecretClient(url, credential);
+   *
+   * const secretName = "MySecretName";
+   *
+   * const result = await client.setSecret(secretName, "MySecretValue");
+   * console.log("result: ", result);
    * ```
    * Adds a secret in a specified key vault.
    * @param secretName - The name of the secret.
@@ -160,27 +184,15 @@ export class SecretClient {
     value: string,
     options: SetSecretOptions = {},
   ): Promise<KeyVaultSecret> {
-    let unflattenedOptions = {};
+    const { enabled, notBefore, expiresOn: expires, tags, ...remainingOptions } = options;
 
-    if (options) {
-      const { enabled, notBefore, expiresOn: expires, ...remainingOptions } = options;
-      unflattenedOptions = {
-        ...remainingOptions,
-        secretAttributes: {
-          enabled,
-          notBefore,
-          expires,
-        },
-      };
-    }
     return tracingClient.withSpan(
       "SecretClient.setSecret",
-      unflattenedOptions,
+      remainingOptions,
       async (updatedOptions) => {
         const response = await this.client.setSecret(
-          this.vaultUrl,
           secretName,
-          value,
+          { value, secretAttributes: { enabled, notBefore, expires }, tags },
           updatedOptions,
         );
         return getSecretFromSecretBundle(response);
@@ -195,21 +207,20 @@ export class SecretClient {
    * This operation requires the secrets/delete permission.
    *
    * Example usage:
-   * ```ts
-   * const client = new SecretClient(url, credentials);
-   * await client.setSecret("MySecretName", "ABC123");
+   * ```ts snippet:ReadmeSampleDeleteSecret
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { SecretClient } from "@azure/keyvault-secrets";
    *
-   * const deletePoller = await client.beginDeleteSecret("MySecretName");
+   * const credential = new DefaultAzureCredential();
    *
-   * // Serializing the poller
-   * const serialized = deletePoller.toString();
+   * const vaultName = "<YOUR KEYVAULT NAME>";
+   * const url = `https://${vaultName}.vault.azure.net`;
    *
-   * // A new poller can be created with:
-   * // const newPoller = await client.beginDeleteSecret("MySecretName", { resumeFrom: serialized });
+   * const client = new SecretClient(url, credential);
    *
-   * // Waiting until it's done
-   * const deletedSecret = await deletePoller.pollUntilDone();
-   * console.log(deletedSecret);
+   * const secretName = "MySecretName";
+   *
+   * await client.beginDeleteSecret(secretName);
    * ```
    * Deletes a secret from a specified key vault.
    * @param secretName - The name of the secret.
@@ -222,7 +233,6 @@ export class SecretClient {
     const poller = new DeleteSecretPoller({
       name,
       client: this.client,
-      vaultUrl: this.vaultUrl,
       ...options,
       operationOptions: options,
     });
@@ -237,11 +247,21 @@ export class SecretClient {
    * changed. This operation requires the secrets/set permission.
    *
    * Example usage:
-   * ```ts
-   * let secretName = "MySecretName";
-   * let client = new SecretClient(url, credentials);
-   * let secret = await client.getSecret(secretName);
-   * await client.updateSecretProperties(secretName, secret.properties.version, { enabled: false });
+   * ```ts snippet:ReadmeSampleUpdateSecretAttributes
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { SecretClient } from "@azure/keyvault-secrets";
+   *
+   * const credential = new DefaultAzureCredential();
+   *
+   * const vaultName = "<YOUR KEYVAULT NAME>";
+   * const url = `https://${vaultName}.vault.azure.net`;
+   *
+   * const client = new SecretClient(url, credential);
+   *
+   * const secretName = "MySecretName";
+   *
+   * const result = await client.getSecret(secretName);
+   * await client.updateSecretProperties(secretName, result.properties.version, { enabled: false });
    * ```
    * Updates the attributes associated with a specified secret in a given key vault.
    * @param secretName - The name of the secret.
@@ -253,27 +273,16 @@ export class SecretClient {
     secretVersion: string,
     options: UpdateSecretPropertiesOptions = {},
   ): Promise<SecretProperties> {
-    let unflattenedOptions = {};
-    if (options) {
-      const { enabled, notBefore, expiresOn: expires, ...remainingOptions } = options;
-      unflattenedOptions = {
-        ...remainingOptions,
-        secretAttributes: {
-          enabled,
-          notBefore,
-          expires,
-        },
-      };
-    }
+    const { enabled, notBefore, expiresOn: expires, tags, ...remainingOptions } = options;
 
     return tracingClient.withSpan(
       "SecretClient.updateSecretProperties",
-      unflattenedOptions,
+      remainingOptions,
       async (updatedOptions) => {
         const response = await this.client.updateSecret(
-          this.vaultUrl,
           secretName,
           secretVersion,
+          { secretAttributes: { enabled, notBefore, expires }, tags },
           updatedOptions,
         );
         return getSecretFromSecretBundle(response).properties;
@@ -286,9 +295,29 @@ export class SecretClient {
    * the secrets/get permission.
    *
    * Example usage:
-   * ```ts
-   * let client = new SecretClient(url, credentials);
-   * let secret = await client.getSecret("MySecretName");
+   * ```ts snippet:ReadmeSampleGetSecret
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { SecretClient } from "@azure/keyvault-secrets";
+   *
+   * const credential = new DefaultAzureCredential();
+   *
+   * const vaultName = "<YOUR KEYVAULT NAME>";
+   * const url = `https://${vaultName}.vault.azure.net`;
+   *
+   * const client = new SecretClient(url, credential);
+   *
+   * const secretName = "MySecretName";
+   *
+   * const latestSecret = await client.getSecret(secretName);
+   * console.log(`Latest version of the secret ${secretName}: `, latestSecret);
+   *
+   * const specificSecret = await client.getSecret(secretName, {
+   *   version: latestSecret.properties.version!,
+   * });
+   * console.log(
+   *   `The secret ${secretName} at the version ${latestSecret.properties.version!}: `,
+   *   specificSecret,
+   * );
    * ```
    * Get a specified secret from a given key vault.
    * @param secretName - The name of the secret.
@@ -297,7 +326,6 @@ export class SecretClient {
   public getSecret(secretName: string, options: GetSecretOptions = {}): Promise<KeyVaultSecret> {
     return tracingClient.withSpan("SecretClient.getSecret", options, async (updatedOptions) => {
       const response = await this.client.getSecret(
-        this.vaultUrl,
         secretName,
         options && options.version ? options.version : "",
         updatedOptions,
@@ -311,9 +339,20 @@ export class SecretClient {
    * This operation requires the secrets/get permission.
    *
    * Example usage:
-   * ```ts
-   * let client = new SecretClient(url, credentials);
-   * await client.getDeletedSecret("MyDeletedSecret");
+   * ```ts snippet:ReadmeSampleGetDeletedSecret
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { SecretClient } from "@azure/keyvault-secrets";
+   *
+   * const credential = new DefaultAzureCredential();
+   *
+   * const vaultName = "<YOUR KEYVAULT NAME>";
+   * const url = `https://${vaultName}.vault.azure.net`;
+   *
+   * const client = new SecretClient(url, credential);
+   *
+   * const secretName = "MySecretName";
+   *
+   * const result = await client.getDeletedSecret("MyDeletedSecret");
    * ```
    * Gets the specified deleted secret.
    * @param secretName - The name of the secret.
@@ -327,11 +366,7 @@ export class SecretClient {
       "SecretClient.getDeletedSecret",
       options,
       async (updatedOptions) => {
-        const response = await this.client.getDeletedSecret(
-          this.vaultUrl,
-          secretName,
-          updatedOptions,
-        );
+        const response = await this.client.getDeletedSecret(secretName, updatedOptions);
         return getSecretFromSecretBundle(response);
       },
     );
@@ -343,11 +378,23 @@ export class SecretClient {
    * requires the secrets/purge permission.
    *
    * Example usage:
-   * ```ts
-   * const client = new SecretClient(url, credentials);
-   * const deletePoller = await client.beginDeleteSecret("MySecretName");
+   * ```ts snippet:ReadmeSamplePurgeDeletedSecret
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { SecretClient } from "@azure/keyvault-secrets";
+   *
+   * const credential = new DefaultAzureCredential();
+   *
+   * const vaultName = "<YOUR KEYVAULT NAME>";
+   * const url = `https://${vaultName}.vault.azure.net`;
+   *
+   * const client = new SecretClient(url, credential);
+   *
+   * const secretName = "MySecretName";
+   *
+   * const deletePoller = await client.beginDeleteSecret(secretName);
    * await deletePoller.pollUntilDone();
-   * await client.purgeDeletedSecret("MySecretName");
+   *
+   * await client.purgeDeletedSecret(secretName);
    * ```
    * Permanently deletes the specified secret.
    * @param secretName - The name of the secret.
@@ -361,7 +408,7 @@ export class SecretClient {
       "SecretClient.purgeDeletedSecret",
       options,
       async (updatedOptions) => {
-        await this.client.purgeDeletedSecret(this.vaultUrl, secretName, updatedOptions);
+        await this.client.purgeDeletedSecret(secretName, updatedOptions);
       },
     );
   }
@@ -373,22 +420,23 @@ export class SecretClient {
    * This operation requires the secrets/recover permission.
    *
    * Example usage:
-   * ```ts
-   * const client = new SecretClient(url, credentials);
-   * await client.setSecret("MySecretName", "ABC123");
+   * ```ts snippet:ReadmeSampleRecoverDeletedSecret
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { SecretClient } from "@azure/keyvault-secrets";
    *
-   * const deletePoller = await client.beginDeleteSecret("MySecretName");
+   * const credential = new DefaultAzureCredential();
+   *
+   * const vaultName = "<YOUR KEYVAULT NAME>";
+   * const url = `https://${vaultName}.vault.azure.net`;
+   *
+   * const client = new SecretClient(url, credential);
+   *
+   * const secretName = "MySecretName";
+   *
+   * const deletePoller = await client.beginDeleteSecret(secretName);
    * await deletePoller.pollUntilDone();
    *
-   * const recoverPoller = await client.beginRecoverDeletedSecret("MySecretName");
-   *
-   * // Serializing the poller
-   * const serialized = recoverPoller.toString();
-   *
-   * // A new poller can be created with:
-   * // const newPoller = await client.beginRecoverDeletedSecret("MySecretName", { resumeFrom: serialized });
-   *
-   * // Waiting until it's done
+   * const recoverPoller = await client.beginRecoverDeletedSecret(secretName);
    * const deletedSecret = await recoverPoller.pollUntilDone();
    * console.log(deletedSecret);
    * ```
@@ -403,7 +451,6 @@ export class SecretClient {
     const poller = new RecoverDeletedSecretPoller({
       name,
       client: this.client,
-      vaultUrl: this.vaultUrl,
       ...options,
       operationOptions: options,
     });
@@ -418,9 +465,20 @@ export class SecretClient {
    * secret will be downloaded. This operation requires the secrets/backup permission.
    *
    * Example usage:
-   * ```ts
-   * let client = new SecretClient(url, credentials);
-   * let backupResult = await client.backupSecret("MySecretName");
+   * ```ts snippet:ReadmeSampleBackupSecret
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { SecretClient } from "@azure/keyvault-secrets";
+   *
+   * const credential = new DefaultAzureCredential();
+   *
+   * const vaultName = "<YOUR KEYVAULT NAME>";
+   * const url = `https://${vaultName}.vault.azure.net`;
+   *
+   * const client = new SecretClient(url, credential);
+   *
+   * const secretName = "MySecretName";
+   *
+   * const backupResult = await client.backupSecret(secretName);
    * ```
    * Backs up the specified secret.
    * @param secretName - The name of the secret.
@@ -431,7 +489,7 @@ export class SecretClient {
     options: BackupSecretOptions = {},
   ): Promise<Uint8Array | undefined> {
     return tracingClient.withSpan("SecretClient.backupSecret", options, async (updatedOptions) => {
-      const response = await this.client.backupSecret(this.vaultUrl, secretName, updatedOptions);
+      const response = await this.client.backupSecret(secretName, updatedOptions);
 
       return response.value;
     });
@@ -442,11 +500,22 @@ export class SecretClient {
    * secrets/restore permission.
    *
    * Example usage:
-   * ```ts
-   * let client = new SecretClient(url, credentials);
-   * let mySecretBundle = await client.backupSecret("MySecretName");
-   * // ...
-   * await client.restoreSecretBackup(mySecretBundle);
+   * ```ts snippet:ReadmeSampleRestoreSecret
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { SecretClient } from "@azure/keyvault-secrets";
+   *
+   * const credential = new DefaultAzureCredential();
+   *
+   * const vaultName = "<YOUR KEYVAULT NAME>";
+   * const url = `https://${vaultName}.vault.azure.net`;
+   *
+   * const client = new SecretClient(url, credential);
+   *
+   * const secretName = "MySecretName";
+   *
+   * const backupResult = await client.backupSecret(secretName);
+   *
+   * await client.restoreSecretBackup(backupResult);
    * ```
    * Restores a backed up secret to a vault.
    * @param secretBundleBackup - The backup blob associated with a secret bundle.
@@ -460,86 +529,10 @@ export class SecretClient {
       "SecretClient.restoreSecretBackup",
       options,
       async (updatedOptions) => {
-        const response = await this.client.restoreSecret(
-          this.vaultUrl,
-          secretBundleBackup,
-          updatedOptions,
-        );
+        const response = await this.client.restoreSecret({ secretBundleBackup }, updatedOptions);
         return getSecretFromSecretBundle(response).properties;
       },
     );
-  }
-
-  /**
-   * Deals with the pagination of {@link listPropertiesOfSecretVersions}.
-   * @param name - The name of the KeyVault Secret.
-   * @param continuationState - An object that indicates the position of the paginated request.
-   * @param options - Optional parameters for the underlying HTTP request.
-   */
-  private async *listPropertiesOfSecretVersionsPage(
-    secretName: string,
-    continuationState: PageSettings,
-    options: ListPropertiesOfSecretVersionsOptions = {},
-  ): AsyncIterableIterator<SecretProperties[]> {
-    if (continuationState.continuationToken == null) {
-      const optionsComplete: GetSecretsOptionalParams = {
-        maxresults: continuationState.maxPageSize,
-        ...options,
-      };
-      const currentSetResponse = await tracingClient.withSpan(
-        "SecretClient.listPropertiesOfSecretVersionsPage",
-        optionsComplete,
-        (updatedOptions) =>
-          this.client.getSecretVersions(this.vaultUrl, secretName, updatedOptions),
-      );
-      continuationState.continuationToken = currentSetResponse.nextLink;
-      if (currentSetResponse.value) {
-        yield currentSetResponse.value.map(
-          (bundle: SecretBundle | DeletedSecretBundle) =>
-            getSecretFromSecretBundle(bundle).properties,
-        );
-      }
-    }
-    while (continuationState.continuationToken) {
-      const currentSetResponse = await tracingClient.withSpan(
-        "SecretClient.listPropertiesOfSecretVersionsPage",
-        options,
-        (updatedOptions) =>
-          this.client.getSecretVersionsNext(
-            this.vaultUrl,
-            secretName,
-            continuationState.continuationToken!,
-            updatedOptions,
-          ),
-      );
-      continuationState.continuationToken = currentSetResponse.nextLink;
-      if (currentSetResponse.value) {
-        yield currentSetResponse.value.map(
-          (bundle: SecretBundle | DeletedSecretBundle) =>
-            getSecretFromSecretBundle(bundle).properties,
-        );
-      } else {
-        break;
-      }
-    }
-  }
-
-  /**
-   * Deals with the iteration of all the available results of {@link listPropertiesOfSecretVersions}.
-   * @param name - The name of the KeyVault Secret.
-   * @param options - Optional parameters for the underlying HTTP request.
-   */
-  private async *listPropertiesOfSecretVersionsAll(
-    secretName: string,
-    options: ListPropertiesOfSecretVersionsOptions = {},
-  ): AsyncIterableIterator<SecretProperties> {
-    const f = {};
-
-    for await (const page of this.listPropertiesOfSecretVersionsPage(secretName, f, options)) {
-      for (const item of page) {
-        yield item;
-      }
-    }
   }
 
   /**
@@ -547,11 +540,29 @@ export class SecretClient {
    * in the response. No values are returned for the secrets. This operations requires the secrets/list permission.
    *
    * Example usage:
-   * ```ts
-   * let client = new SecretClient(url, credentials);
-   * for await (const secretProperties of client.listPropertiesOfSecretVersions("MySecretName")) {
-   *   const secret = await client.getSecret(secretProperties.name);
-   *   console.log("secret version: ", secret);
+   * ```ts snippet:ReadmeSampleListSecrets
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { SecretClient } from "@azure/keyvault-secrets";
+   *
+   * const credential = new DefaultAzureCredential();
+   *
+   * const vaultName = "<YOUR KEYVAULT NAME>";
+   * const url = `https://${vaultName}.vault.azure.net`;
+   *
+   * const client = new SecretClient(url, credential);
+   *
+   * const secretName = "MySecretName";
+   *
+   * for await (const secretProperties of client.listPropertiesOfSecrets()) {
+   *   console.log("Secret properties: ", secretProperties);
+   * }
+   *
+   * for await (const deletedSecret of client.listDeletedSecrets()) {
+   *   console.log("Deleted secret: ", deletedSecret);
+   * }
+   *
+   * for await (const versionProperties of client.listPropertiesOfSecretVersions(secretName)) {
+   *   console.log("Version properties: ", versionProperties);
    * }
    * ```
    * @param secretName - Name of the secret to fetch versions for.
@@ -561,84 +572,11 @@ export class SecretClient {
     secretName: string,
     options: ListPropertiesOfSecretVersionsOptions = {},
   ): PagedAsyncIterableIterator<SecretProperties> {
-    const iter = this.listPropertiesOfSecretVersionsAll(secretName, options);
-
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: (settings: PageSettings = {}) =>
-        this.listPropertiesOfSecretVersionsPage(secretName, settings, options),
-    };
-  }
-
-  /**
-   * Deals with the pagination of {@link listPropertiesOfSecrets}.
-   * @param continuationState - An object that indicates the position of the paginated request.
-   * @param options - Optional parameters for the underlying HTTP request.
-   */
-  private async *listPropertiesOfSecretsPage(
-    continuationState: PageSettings,
-    options: ListPropertiesOfSecretsOptions = {},
-  ): AsyncIterableIterator<SecretProperties[]> {
-    if (continuationState.continuationToken == null) {
-      const optionsComplete: GetSecretsOptionalParams = {
-        maxresults: continuationState.maxPageSize,
-        ...options,
-      };
-      const currentSetResponse = await tracingClient.withSpan(
-        "SecretClient.listPropertiesOfSecretsPage",
-        optionsComplete,
-        (updatedOptions) => this.client.getSecrets(this.vaultUrl, updatedOptions),
-      );
-      continuationState.continuationToken = currentSetResponse.nextLink;
-      if (currentSetResponse.value) {
-        yield currentSetResponse.value.map(
-          (bundle: SecretBundle | DeletedSecretBundle) =>
-            getSecretFromSecretBundle(bundle).properties,
-        );
-      }
-    }
-    while (continuationState.continuationToken) {
-      const currentSetResponse = await tracingClient.withSpan(
-        "SecretClient.listPropertiesOfSecretsPage",
-        options,
-        (updatedOptions) =>
-          this.client.getSecretsNext(
-            this.vaultUrl,
-            continuationState.continuationToken!,
-            updatedOptions,
-          ),
-      );
-      continuationState.continuationToken = currentSetResponse.nextLink;
-      if (currentSetResponse.value) {
-        yield currentSetResponse.value.map(
-          (bundle: SecretBundle | DeletedSecretBundle) =>
-            getSecretFromSecretBundle(bundle).properties,
-        );
-      } else {
-        break;
-      }
-    }
-  }
-
-  /**
-   * Deals with the iteration of all the available results of {@link listPropertiesOfSecrets}.
-   * @param options - Optional parameters for the underlying HTTP request.
-   */
-  private async *listPropertiesOfSecretsAll(
-    options: ListPropertiesOfSecretsOptions = {},
-  ): AsyncIterableIterator<SecretProperties> {
-    const f = {};
-
-    for await (const page of this.listPropertiesOfSecretsPage(f, options)) {
-      for (const item of page) {
-        yield item;
-      }
-    }
+    return mapPagedAsyncIterable(
+      (updatedOptions) => this.client.getSecretVersions(secretName, updatedOptions),
+      options,
+      (item) => getSecretFromSecretBundle(item).properties,
+    );
   }
 
   /**
@@ -646,11 +584,29 @@ export class SecretClient {
    * in the response. No values are returned for the secrets. This operations requires the secrets/list permission.
    *
    * Example usage:
-   * ```ts
-   * let client = new SecretClient(url, credentials);
+   * ```ts snippet:ReadmeSampleListSecrets
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { SecretClient } from "@azure/keyvault-secrets";
+   *
+   * const credential = new DefaultAzureCredential();
+   *
+   * const vaultName = "<YOUR KEYVAULT NAME>";
+   * const url = `https://${vaultName}.vault.azure.net`;
+   *
+   * const client = new SecretClient(url, credential);
+   *
+   * const secretName = "MySecretName";
+   *
    * for await (const secretProperties of client.listPropertiesOfSecrets()) {
-   *   const secret = await client.getSecret(secretProperties.name);
-   *   console.log("secret: ", secret);
+   *   console.log("Secret properties: ", secretProperties);
+   * }
+   *
+   * for await (const deletedSecret of client.listDeletedSecrets()) {
+   *   console.log("Deleted secret: ", deletedSecret);
+   * }
+   *
+   * for await (const versionProperties of client.listPropertiesOfSecretVersions(secretName)) {
+   *   console.log("Version properties: ", versionProperties);
    * }
    * ```
    * List all secrets in the vault.
@@ -659,81 +615,11 @@ export class SecretClient {
   public listPropertiesOfSecrets(
     options: ListPropertiesOfSecretsOptions = {},
   ): PagedAsyncIterableIterator<SecretProperties> {
-    const iter = this.listPropertiesOfSecretsAll(options);
-
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: (settings: PageSettings = {}) => this.listPropertiesOfSecretsPage(settings, options),
-    };
-  }
-
-  /**
-   * Deals with the pagination of {@link listDeletedSecrets}.
-   * @param continuationState - An object that indicates the position of the paginated request.
-   * @param options - Optional parameters for the underlying HTTP request.
-   */
-  private async *listDeletedSecretsPage(
-    continuationState: PageSettings,
-    options: ListDeletedSecretsOptions = {},
-  ): AsyncIterableIterator<DeletedSecret[]> {
-    if (continuationState.continuationToken == null) {
-      const optionsComplete: GetSecretsOptionalParams = {
-        maxresults: continuationState.maxPageSize,
-        ...options,
-      };
-      const currentSetResponse = await tracingClient.withSpan(
-        "SecretClient.listDeletedSecretsPage",
-        optionsComplete,
-        (updatedOptions) => this.client.getDeletedSecrets(this.vaultUrl, updatedOptions),
-      );
-      continuationState.continuationToken = currentSetResponse.nextLink;
-      if (currentSetResponse.value) {
-        yield currentSetResponse.value.map((bundle: SecretBundle | DeletedSecretBundle) =>
-          getSecretFromSecretBundle(bundle),
-        );
-      }
-    }
-    while (continuationState.continuationToken) {
-      const currentSetResponse = await tracingClient.withSpan(
-        "SecretClient.lisDeletedSecretsPage",
-        options,
-        (updatedOptions) =>
-          this.client.getDeletedSecretsNext(
-            this.vaultUrl,
-            continuationState.continuationToken!,
-            updatedOptions,
-          ),
-      );
-      continuationState.continuationToken = currentSetResponse.nextLink;
-      if (currentSetResponse.value) {
-        yield currentSetResponse.value.map((bundle: SecretBundle | DeletedSecretBundle) =>
-          getSecretFromSecretBundle(bundle),
-        );
-      } else {
-        break;
-      }
-    }
-  }
-
-  /**
-   * Deals with the iteration of all the available results of {@link listDeletedSecrets}.
-   * @param options - Optional parameters for the underlying HTTP request.
-   */
-  private async *listDeletedSecretsAll(
-    options: ListDeletedSecretsOptions = {},
-  ): AsyncIterableIterator<DeletedSecret> {
-    const f = {};
-
-    for await (const page of this.listDeletedSecretsPage(f, options)) {
-      for (const item of page) {
-        yield item;
-      }
-    }
+    return mapPagedAsyncIterable(
+      this.client.getSecrets.bind(this.client),
+      options,
+      (item) => getSecretFromSecretBundle(item).properties,
+    );
   }
 
   /**
@@ -741,10 +627,29 @@ export class SecretClient {
    * in the response. No values are returned for the secrets. This operations requires the secrets/list permission.
    *
    * Example usage:
-   * ```ts
-   * let client = new SecretClient(url, credentials);
+   * ```ts snippet:ReadmeSampleListSecrets
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { SecretClient } from "@azure/keyvault-secrets";
+   *
+   * const credential = new DefaultAzureCredential();
+   *
+   * const vaultName = "<YOUR KEYVAULT NAME>";
+   * const url = `https://${vaultName}.vault.azure.net`;
+   *
+   * const client = new SecretClient(url, credential);
+   *
+   * const secretName = "MySecretName";
+   *
+   * for await (const secretProperties of client.listPropertiesOfSecrets()) {
+   *   console.log("Secret properties: ", secretProperties);
+   * }
+   *
    * for await (const deletedSecret of client.listDeletedSecrets()) {
-   *   console.log("deleted secret: ", deletedSecret);
+   *   console.log("Deleted secret: ", deletedSecret);
+   * }
+   *
+   * for await (const versionProperties of client.listPropertiesOfSecretVersions(secretName)) {
+   *   console.log("Version properties: ", versionProperties);
    * }
    * ```
    * List all secrets in the vault.
@@ -753,16 +658,10 @@ export class SecretClient {
   public listDeletedSecrets(
     options: ListDeletedSecretsOptions = {},
   ): PagedAsyncIterableIterator<DeletedSecret> {
-    const iter = this.listDeletedSecretsAll(options);
-
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: (settings: PageSettings = {}) => this.listDeletedSecretsPage(settings, options),
-    };
+    return mapPagedAsyncIterable(
+      this.client.getDeletedSecrets.bind(this.client),
+      options,
+      getSecretFromSecretBundle,
+    );
   }
 }

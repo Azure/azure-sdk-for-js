@@ -182,7 +182,7 @@ export interface Client {
    * This method will be used to send request that would check the path to provide
    * strong types. When used by the codegen this type gets overridden with the generated
    * types. For example:
-   * ```typescript snippet:path_example
+   * ```typescript snippet:ReadmeSamplePathExample
    * import { Client } from "@typespec/ts-http-runtime";
    *
    * type MyClient = Client & {
@@ -223,7 +223,14 @@ export type HttpBrowserStreamResponse = HttpResponse & {
  * a raw stream
  */
 export type StreamableMethod<TResponse = PathUncheckedResponse> = PromiseLike<TResponse> & {
+  /**
+   * Returns the response body as a NodeJS stream. Only available in Node-like environments.
+   */
   asNodeStream: () => Promise<HttpNodeStreamResponse>;
+  /**
+   * Returns the response body as a browser (Web) stream. Only available in the browser. If you require a Web Stream of the response in Node, consider using the
+   * `Readable.toWeb` Node API on the result of `asNodeStream`.
+   */
   asBrowserStream: () => Promise<HttpBrowserStreamResponse>;
 };
 

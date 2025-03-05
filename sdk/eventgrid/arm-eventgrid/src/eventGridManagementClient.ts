@@ -46,7 +46,7 @@ import {
   TopicSpacesImpl,
   TopicTypesImpl,
   VerifiedPartnersImpl,
-} from "./operations";
+} from "./operations/index.js";
 import {
   CaCertificates,
   Channels,
@@ -79,8 +79,8 @@ import {
   TopicSpaces,
   TopicTypes,
   VerifiedPartners,
-} from "./operationsInterfaces";
-import { EventGridManagementClientOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { EventGridManagementClientOptionalParams } from "./models/index.js";
 
 export class EventGridManagementClient extends coreClient.ServiceClient {
   $host: string;

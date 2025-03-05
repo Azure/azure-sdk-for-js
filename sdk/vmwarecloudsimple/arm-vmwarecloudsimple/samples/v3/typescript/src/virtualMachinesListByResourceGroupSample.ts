@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { VMwareCloudSimple } from "@azure/arm-vmwarecloudsimple";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Returns list of virtual machine within resource group
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Returns list of virtual machine within resource group
  * x-ms-original-file: specification/vmwarecloudsimple/resource-manager/Microsoft.VMwareCloudSimple/stable/2019-04-01/examples/ListRGVirtualMachines.json
  */
-async function listRgVirtualMachines() {
+async function listRgVirtualMachines(): Promise<void> {
   const subscriptionId =
     process.env["VMWARECLOUDSIMPLE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -36,7 +34,7 @@ async function listRgVirtualMachines() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listRgVirtualMachines();
 }
 

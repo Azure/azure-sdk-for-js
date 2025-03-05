@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { MySQLManagementFlexibleServerClient } from "@azure/arm-mysql-flexible";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to List all the replicas for a given server.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary List all the replicas for a given server.
  * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/FlexibleServers/stable/2023-12-30/examples/ReplicasListByServer.json
  */
-async function listReplicasForAServer() {
+async function listReplicasForAServer(): Promise<void> {
   const subscriptionId =
     process.env["MYSQL_SUBSCRIPTION_ID"] ||
     "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -41,7 +39,7 @@ async function listReplicasForAServer() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listReplicasForAServer();
 }
 

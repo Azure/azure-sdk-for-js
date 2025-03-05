@@ -6,12 +6,12 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { ManagedApplyMaintenanceWindow } from "../operationsInterfaces";
+import { ManagedApplyMaintenanceWindow } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { ServiceFabricManagedClustersManagementClient } from "../serviceFabricManagedClustersManagementClient";
-import { ManagedApplyMaintenanceWindowPostOptionalParams } from "../models";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { ServiceFabricManagedClustersManagementClient } from "../serviceFabricManagedClustersManagementClient.js";
+import { ManagedApplyMaintenanceWindowPostOptionalParams } from "../models/index.js";
 
 /** Class containing ManagedApplyMaintenanceWindow operations. */
 export class ManagedApplyMaintenanceWindowImpl

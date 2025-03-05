@@ -19,7 +19,7 @@ import {
   VCentersUpdateOptionalParams,
   VCentersUpdateResponse,
   VCentersDeleteOptionalParams
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a VCenters. */

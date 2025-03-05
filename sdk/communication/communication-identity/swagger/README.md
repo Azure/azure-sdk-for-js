@@ -18,14 +18,13 @@ optional-response-headers: true
 payload-flattening-threshold: 10
 add-credentials: false
 v3: true
-
 use-extension:
-  "@autorest/typescript": "latest"
+  "@autorest/typescript": "6.0.34"
 tracing-info:
   namespace: "Microsoft.Communication"
   packagePrefix: "Azure.Communication"
-
 typescript:
   generate-metadata: false
   azure-arm: false
+module-kind: esm
 ```

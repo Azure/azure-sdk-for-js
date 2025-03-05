@@ -10,8 +10,20 @@ Getting Started: Generate JS SDK with TypeSpec
 
 - [Node.js 18.x LTS](https://nodejs.org/en/download) or later
 - [Git](https://git-scm.com/downloads)
-- [azure-rest-api-specs repo](https://github.com/Azure/azure-rest-api-specs)
-- [azure-sdk-for-js repo](https://github.com/Azure/azure-sdk-for-js/)
+- Local Clone of Rest API Spec Repo Fork
+  - If you don't already have a fork, [Fork](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/fork-a-repo#forking-a-repository) the [Rest API Spec Repo](https://github.com/Azure/azure-rest-api-specs).
+  - Clone your fork of the repo.
+    ```
+      git clone https://github.com/{YOUR_GITHUB_USERNAME}/azure-rest-api-specs.git
+    ```
+- Local Clone of JS Language Repo Fork
+  - If you don't already have a fork, [Fork](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/fork-a-repo#forking-a-repository) the [JS Repo](https://github.com/Azure/azure-sdk-for-js).
+  - Clone your fork of the repo.
+
+    ```
+      git clone https://github.com/{YOUR_GITHUB_USERNAME}/azure-sdk-for-js.git
+    ```
+
 
 # Generate SDK
 
@@ -78,6 +90,8 @@ This command will automatically:
 8. Generate or update `ci.mgmt.yml` or `ci.yml` (if the package is new).
 
 
+After all the steps finished, you can prepare the release for this generation. See [Prepare Release](#prepare-release)
+
 ### Generate Code with tsp-client tool
 > To reduce workload and unnecessary mistakes, it is recommended to use the simple method from the previous section. Only if you are clear about what you are doing and the method from the previous section does not meet your needs, should you consider using the method below.
 
@@ -118,3 +132,9 @@ Here is the example of the config
 #### Build
 
 See [steps-after-generations](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/steps-after-generations.md).
+
+After all the steps finished, you can prepare the release PullRequest for this generation. See [Prepare Release](#prepare-release)
+
+## Prepare Release
+
+Prepare your SDK for release. The necessary approvals, guidance for testing, documentation, and release pipelines is described in your release plan. More information about the Azure SDK Release Tool is [here](https://eng.ms/docs/products/azure-developer-experience/plan/release-plan).

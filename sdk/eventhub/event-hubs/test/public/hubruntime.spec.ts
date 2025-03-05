@@ -14,7 +14,7 @@ type ClientCommonMethods = Pick<
   "close" | "getEventHubProperties" | "getPartitionIds" | "getPartitionProperties"
 >;
 
-describe("RuntimeInformation", function () {
+describe("RuntimeInformation", () => {
   const clientTypes = [
     "EventHubBufferedProducerClient",
     "EventHubConsumerClient",
@@ -23,7 +23,7 @@ describe("RuntimeInformation", function () {
   const clientMap = new Map<(typeof clientTypes)[number], ClientCommonMethods>();
   let eventhubName: string;
 
-  beforeEach(async function () {
+  beforeEach(async () => {
     debug("Creating the clients..");
     const bufferedProducer = createBufferedProducer();
     eventhubName = bufferedProducer.eventhubName;
@@ -32,7 +32,7 @@ describe("RuntimeInformation", function () {
     clientMap.set("EventHubProducerClient", createProducer().producer);
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     for (const client of clientMap.values()) {
       await client.close();
     }
@@ -47,16 +47,16 @@ describe("RuntimeInformation", function () {
   }
 
   clientTypes.forEach((clientType) => {
-    describe(`${clientType}.getPartitionIds`, function () {
-      it("returns an array of partition ids", async function () {
+    describe(`${clientType}.getPartitionIds`, () => {
+      it("returns an array of partition ids", async () => {
         const client = clientMap.get(clientType)!;
         const ids = await client.getPartitionIds({});
         ids.should.have.members(arrayOfIncreasingNumbersFromZero(ids.length));
       });
     });
 
-    describe(`${clientType}.getEventHubProperties`, function () {
-      it("gets the Event Hub runtime information", async function () {
+    describe(`${clientType}.getEventHubProperties`, () => {
+      it("gets the Event Hub runtime information", async () => {
         const client = clientMap.get(clientType)!;
         const hubRuntimeInfo = await client.getEventHubProperties();
         hubRuntimeInfo.name.should.equal(eventhubName);
@@ -68,8 +68,8 @@ describe("RuntimeInformation", function () {
       });
     });
 
-    describe(`${clientType}.getPartitionProperties`, function () {
-      it("gets the partition runtime information with partitionId as a string", async function () {
+    describe(`${clientType}.getPartitionProperties`, () => {
+      it("gets the partition runtime information with partitionId as a string", async () => {
         const client = clientMap.get(clientType)!;
         const partitionRuntimeInfo = await client.getPartitionProperties("0");
         partitionRuntimeInfo.partitionId.should.equal("0");
@@ -79,7 +79,7 @@ describe("RuntimeInformation", function () {
         should.exist(partitionRuntimeInfo.lastEnqueuedOffset);
       });
 
-      it("gets the partition runtime information with partitionId as a number", async function () {
+      it("gets the partition runtime information with partitionId as a number", async () => {
         const client = clientMap.get(clientType)!;
         const partitionRuntimeInfo = await client.getPartitionProperties(0 as any);
         partitionRuntimeInfo.partitionId.should.equal("0");
@@ -89,7 +89,7 @@ describe("RuntimeInformation", function () {
         should.exist(partitionRuntimeInfo.lastEnqueuedOffset);
       });
 
-      it("bubbles up error from service for invalid partitionId", async function () {
+      it("bubbles up error from service for invalid partitionId", async () => {
         try {
           const client = clientMap.get(clientType)!;
           await client.getPartitionProperties("boo");

@@ -6,27 +6,27 @@ import { createBufferedProducer } from "../utils/clients.js";
 import { describe, it, afterEach, vi, beforeEach, beforeAll, afterAll } from "vitest";
 import { assert, expect } from "../utils/chai.js";
 
-describe("EventHubBufferedProducerClient unit tests", function () {
+describe("EventHubBufferedProducerClient unit tests", () => {
   let client: EventHubBufferedProducerClient;
 
-  beforeAll(async function () {
+  beforeAll(async () => {
     vi.useFakeTimers();
   });
 
-  afterAll(async function () {
+  afterAll(async () => {
     vi.restoreAllMocks();
     vi.useRealTimers();
   });
 
-  beforeEach(async function () {
+  beforeEach(async () => {
     client = createBufferedProducer().producer;
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await client.close({ flush: false });
   });
 
-  it("should update partition ids periodically", async function () {
+  it("should update partition ids periodically", async () => {
     const iDs1 = ["0", "1"];
     const iDs2 = ["0", "1", "2"];
     const iDs3 = ["0"];

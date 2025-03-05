@@ -53,14 +53,11 @@ npm install @azure/container-registry
 
 The [Azure Identity library][identity] provides easy Azure Active Directory support for authentication.
 
-```javascript
-const {
-  ContainerRegistryClient,
-  KnownContainerRegistryAudience,
-} = require("@azure/container-registry");
-const { DefaultAzureCredential } = require("@azure/identity");
+```ts snippet:ReadmeSampleCreateClient_Node
+import { ContainerRegistryClient, KnownContainerRegistryAudience } from "@azure/container-registry";
+import { DefaultAzureCredential } from "@azure/identity";
 
-const endpoint = process.env.CONTAINER_REGISTRY_ENDPOINT;
+const endpoint = "https://myregistryname.azurecr.io";
 // Create a ContainerRegistryClient that will authenticate through Active Directory
 const client = new ContainerRegistryClient(endpoint, new DefaultAzureCredential(), {
   audience: KnownContainerRegistryAudience.AzureResourceManagerPublicCloud,
@@ -76,14 +73,11 @@ To authenticate with a registry in a [National Cloud](https://learn.microsoft.co
 - Set the `authorityHost` in the credential options or via the `AZURE_AUTHORITY_HOST` environment variable
 - Set the `audience` in `ContainerRegistryClientOptions`
 
-```javascript
-const {
-  ContainerRegistryClient,
-  KnownContainerRegistryAudience,
-} = require("@azure/container-registry");
-const { DefaultAzureCredential, AzureAuthorityHosts } = require("@azure/identity");
+```ts snippet:ReadmeSampleCreateClient_NationalCloud
+import { ContainerRegistryClient, KnownContainerRegistryAudience } from "@azure/container-registry";
+import { DefaultAzureCredential, AzureAuthorityHosts } from "@azure/identity";
 
-const endpoint = process.env.CONTAINER_REGISTRY_ENDPOINT;
+const endpoint = "https://myregistryname.azurecr.cn";
 // Create a ContainerRegistryClient that will authenticate through AAD in the China national cloud
 const client = new ContainerRegistryClient(
   endpoint,
@@ -110,310 +104,234 @@ For more information please see [Container Registry Concepts](https://learn.micr
 
 Iterate through the collection of repositories in the registry.
 
-```javascript
-const {
-  ContainerRegistryClient,
-  KnownContainerRegistryAudience,
-} = require("@azure/container-registry");
-const { DefaultAzureCredential } = require("@azure/identity");
+```ts snippet:SampleReadmeListRepositories
+import { ContainerRegistryClient, KnownContainerRegistryAudience } from "@azure/container-registry";
+import { DefaultAzureCredential } from "@azure/identity";
 
-async function main() {
-  // endpoint should be in the form of "https://myregistryname.azurecr.io"
-  // where "myregistryname" is the actual name of your registry
-  const endpoint = process.env.CONTAINER_REGISTRY_ENDPOINT || "<endpoint>";
-  const client = new ContainerRegistryClient(endpoint, new DefaultAzureCredential(), {
-    audience: KnownContainerRegistryAudience.AzureResourceManagerPublicCloud,
-  });
-
-  console.log("Listing repositories");
-  const iterator = client.listRepositoryNames();
-  for await (const repository of iterator) {
-    console.log(`  repository: ${repository}`);
-  }
-}
-
-main().catch((err) => {
-  console.error("The sample encountered an error:", err);
+const endpoint = "https://myregistryname.azurecr.io";
+const client = new ContainerRegistryClient(endpoint, new DefaultAzureCredential(), {
+  audience: KnownContainerRegistryAudience.AzureResourceManagerPublicCloud,
 });
+
+const iterator = client.listRepositoryNames();
+for await (const repository of iterator) {
+  console.log(`  repository: ${repository}`);
+}
 ```
 
 #### List tags with anonymous access
 
-```javascript
-const {
-  ContainerRegistryClient,
-  KnownContainerRegistryAudience,
-} = require("@azure/container-registry");
+```ts snippet:SampleReadmeListTagsAnonymous
+import { ContainerRegistryClient, KnownContainerRegistryAudience } from "@azure/container-registry";
 
-async function main() {
-  // Get the service endpoint from the environment
-  const endpoint = process.env.CONTAINER_REGISTRY_ENDPOINT || "<endpoint>";
-
-  // Create a new ContainerRegistryClient for anonymous access
-  const client = new ContainerRegistryClient(endpoint, {
-    audience: KnownContainerRegistryAudience.AzureResourceManagerPublicCloud,
-  });
-
-  // Obtain a RegistryArtifact object to get access to image operations
-  const image = client.getArtifact("library/hello-world", "latest");
-
-  // List the set of tags on the hello_world image tagged as "latest"
-  const tagIterator = image.listTagProperties();
-
-  // Iterate through the image's tags, listing the tagged alias for the image
-  console.log(`${image.fullyQualifiedReference}  has the following aliases:`);
-  for await (const tag of tagIterator) {
-    console.log(`  ${tag.registryLoginServer}/${tag.repositoryName}:${tag.name}`);
-  }
-}
-
-main().catch((err) => {
-  console.error("The sample encountered an error:", err);
+const endpoint = "https://myregistryname.azurecr.io";
+// Create a new ContainerRegistryClient for anonymous access
+const client = new ContainerRegistryClient(endpoint, {
+  audience: KnownContainerRegistryAudience.AzureResourceManagerPublicCloud,
 });
+
+// Obtain a RegistryArtifact object to get access to image operations
+const image = client.getArtifact("library/hello-world", "latest");
+
+// List the set of tags on the hello_world image tagged as "latest"
+const tagIterator = image.listTagProperties();
+
+// Iterate through the image's tags, listing the tagged alias for the image
+console.log(`${image.fullyQualifiedReference}  has the following aliases:`);
+for await (const tag of tagIterator) {
+  console.log(`  ${tag.registryLoginServer}/${tag.repositoryName}:${tag.name}`);
+}
 ```
 
 #### Set artifact properties
 
-```javascript
-const {
-  ContainerRegistryClient,
-  KnownContainerRegistryAudience,
-} = require("@azure/container-registry");
-const { DefaultAzureCredential } = require("@azure/identity");
+```ts snippet:SampleReadmeSetArtifactProperties
+import { ContainerRegistryClient, KnownContainerRegistryAudience } from "@azure/container-registry";
+import { DefaultAzureCredential } from "@azure/identity";
 
-async function main() {
-  // Get the service endpoint from the environment
-  const endpoint = process.env.CONTAINER_REGISTRY_ENDPOINT || "<endpoint>";
-
-  // Create a new ContainerRegistryClient and RegistryArtifact to access image operations
-  const client = new ContainerRegistryClient(endpoint, new DefaultAzureCredential(), {
-    audience: KnownContainerRegistryAudience.AzureResourceManagerPublicCloud,
-  });
-  const image = client.getArtifact("library/hello-world", "v1");
-
-  // Set permissions on the image's "latest" tag
-  await image.updateTagProperties("latest", { canWrite: false, canDelete: false });
-}
-
-main().catch((err) => {
-  console.error("The sample encountered an error:", err);
+const endpoint = "https://myregistryname.azurecr.io";
+const client = new ContainerRegistryClient(endpoint, new DefaultAzureCredential(), {
+  audience: KnownContainerRegistryAudience.AzureResourceManagerPublicCloud,
 });
+
+const image = client.getArtifact("library/hello-world", "v1");
+
+// Set permissions on the image's "latest" tag
+await image.updateTagProperties("latest", { canWrite: false, canDelete: false });
 ```
 
 #### Delete images
 
-```javascript
-const {
-  ContainerRegistryClient,
-  KnownContainerRegistryAudience,
-} = require("@azure/container-registry");
-const { DefaultAzureCredential } = require("@azure/identity");
+```ts snippet:SampleReadmeDeleteImages
+import { ContainerRegistryClient, KnownContainerRegistryAudience } from "@azure/container-registry";
+import { DefaultAzureCredential } from "@azure/identity";
 
-async function main() {
-  // Get the service endpoint from the environment
-  const endpoint = process.env.CONTAINER_REGISTRY_ENDPOINT || "<endpoint>";
-  // Create a new ContainerRegistryClient
-  const client = new ContainerRegistryClient(endpoint, new DefaultAzureCredential(), {
-    audience: KnownContainerRegistryAudience.AzureResourceManagerPublicCloud,
+const endpoint = "https://myregistryname.azurecr.io";
+const client = new ContainerRegistryClient(endpoint, new DefaultAzureCredential(), {
+  audience: KnownContainerRegistryAudience.AzureResourceManagerPublicCloud,
+});
+
+// Iterate through repositories
+const repositoryNames = client.listRepositoryNames();
+for await (const repositoryName of repositoryNames) {
+  const repository = client.getRepository(repositoryName);
+  // Obtain the images ordered from newest to oldest by passing the `order` option
+  const imageManifests = repository.listManifestProperties({
+    order: "LastUpdatedOnDescending",
   });
-
-  // Iterate through repositories
-  const repositoryNames = client.listRepositoryNames();
-  for await (const repositoryName of repositoryNames) {
-    const repository = client.getRepository(repositoryName);
-    // Obtain the images ordered from newest to oldest by passing the `order` option
-    const imageManifests = repository.listManifestProperties({
-      order: "LastUpdatedOnDescending",
-    });
-    const imagesToKeep = 3;
-    let imageCount = 0;
-    // Delete images older than the first three.
-    for await (const manifest of imageManifests) {
-      imageCount++;
-      if (imageCount > imagesToKeep) {
-        const image = repository.getArtifact(manifest.digest);
-        console.log(`Deleting image with digest ${manifest.digest}`);
-        console.log(`  Deleting the following tags from the image:`);
-        for (const tagName of manifest.tags) {
-          console.log(`    ${manifest.repositoryName}:${tagName}`);
-          image.deleteTag(tagName);
-        }
-        await image.delete();
+  const imagesToKeep = 3;
+  let imageCount = 0;
+  // Delete images older than the first three.
+  for await (const manifest of imageManifests) {
+    imageCount++;
+    if (imageCount > imagesToKeep) {
+      const image = repository.getArtifact(manifest.digest);
+      console.log(`Deleting image with digest ${manifest.digest}`);
+      console.log(`  Deleting the following tags from the image:`);
+      for (const tagName of manifest.tags) {
+        console.log(`    ${manifest.repositoryName}:${tagName}`);
+        image.deleteTag(tagName);
       }
+      await image.delete();
     }
   }
 }
-
-main().catch((err) => {
-  console.error("The sample encountered an error:", err);
-});
 ```
 
 ### Blob and manifest operations
 
 #### Upload images
 
-```javascript
-const { ContainerRegistryContentClient } = require("@azure/container-registry");
-const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+```ts snippet:SampleReadmeUploadImages
+import { ContainerRegistryContentClient } from "@azure/container-registry";
+import { DefaultAzureCredential } from "@azure/identity";
 
-async function main() {
-  // endpoint should be in the form of "https://myregistryname.azurecr.io"
-  // where "myregistryname" is the actual name of your registry
-  const endpoint = process.env.CONTAINER_REGISTRY_ENDPOINT || "<endpoint>";
-  const repository = process.env.CONTAINER_REGISTRY_REPOSITORY || "library/hello-world";
-  const client = new ContainerRegistryContentClient(
-    endpoint,
-    repository,
-    new DefaultAzureCredential(),
-  );
+const endpoint = "https://myregistryname.azurecr.io";
+const repository = "library/hello-world";
+const client = new ContainerRegistryContentClient(
+  endpoint,
+  repository,
+  new DefaultAzureCredential(),
+);
 
-  const config = Buffer.from("Sample config");
-  const { digest: configDigest, sizeInBytes: configSize } = await client.uploadBlob(config);
+const config = Buffer.from("Sample config");
+const { digest: configDigest, sizeInBytes: configSize } = await client.uploadBlob(config);
 
-  const layer = Buffer.from("Sample layer");
-  const { digest: layerDigest, sizeInBytes: layerSize } = await client.uploadBlob(layer);
+const layer = Buffer.from("Sample layer");
+const { digest: layerDigest, sizeInBytes: layerSize } = await client.uploadBlob(layer);
 
-  const manifest = {
-    schemaVersion: 2,
-    config: {
-      digest: configDigest,
-      size: configSize,
-      mediaType: "application/vnd.oci.image.config.v1+json",
+const manifest = {
+  schemaVersion: 2,
+  config: {
+    digest: configDigest,
+    size: configSize,
+    mediaType: "application/vnd.oci.image.config.v1+json",
+  },
+  layers: [
+    {
+      digest: layerDigest,
+      size: layerSize,
+      mediaType: "application/vnd.oci.image.layer.v1.tar",
     },
-    layers: [
-      {
-        digest: layerDigest,
-        size: layerSize,
-        mediaType: "application/vnd.oci.image.layer.v1.tar",
-      },
-    ],
-  };
+  ],
+};
 
-  await client.setManifest(manifest, { tag: "demo" });
-}
-
-main().catch((err) => {
-  console.error("The sample encountered an error:", err);
-});
+await client.setManifest(manifest, { tag: "demo" });
 ```
 
 #### Download images
 
-```javascript
-const {
+```ts snippet:SampleReadmeDownloadImages
+import {
   ContainerRegistryContentClient,
   KnownManifestMediaType,
-} = require("@azure/container-registry");
-const { DefaultAzureCredential } = require("@azure/identity");
-const dotenv = require("dotenv");
-const fs = require("fs");
-dotenv.config();
+  OciImageManifest,
+} from "@azure/container-registry";
+import { DefaultAzureCredential } from "@azure/identity";
+import { writeFileSync, createWriteStream } from "node:fs";
 
-function trimSha(digest) {
+const endpoint = "https://myregistryname.azurecr.io";
+const repository = "library/hello-world";
+const client = new ContainerRegistryContentClient(
+  endpoint,
+  repository,
+  new DefaultAzureCredential(),
+);
+
+// Download the manifest to obtain the list of files in the image based on the tag
+const result = await client.getManifest("demo");
+
+if (result.mediaType !== KnownManifestMediaType.OciImageManifest) {
+  throw new Error("Expected an OCI image manifest");
+}
+
+const manifest = result.manifest as OciImageManifest;
+
+// Manifests of all media types have a buffer containing their content; this can be written to a file.
+writeFileSync("manifest.json", result.content);
+
+const configResult = await client.downloadBlob(manifest.config.digest);
+const configFile = createWriteStream("config.json");
+configResult.content.pipe(configFile);
+
+const trimSha = (digest: string): string => {
   const index = digest.indexOf(":");
   return index === -1 ? digest : digest.substring(index);
+};
+
+// Download and write out the layers
+for (const layer of manifest.layers) {
+  const fileName = trimSha(layer.digest);
+  const layerStream = createWriteStream(fileName);
+  const downloadLayerResult = await client.downloadBlob(layer.digest);
+  downloadLayerResult.content.pipe(layerStream);
 }
-
-async function main() {
-  // endpoint should be in the form of "https://myregistryname.azurecr.io"
-  // where "myregistryname" is the actual name of your registry
-  const endpoint = process.env.CONTAINER_REGISTRY_ENDPOINT || "<endpoint>";
-  const repository = process.env.CONTAINER_REGISTRY_REPOSITORY || "library/hello-world";
-  const client = new ContainerRegistryContentClient(
-    endpoint,
-    repository,
-    new DefaultAzureCredential(),
-  );
-
-  // Download the manifest to obtain the list of files in the image based on the tag
-  const result = await client.getManifest("demo");
-
-  if (result.mediaType !== KnownManifestMediaType.OciImageManifest) {
-    throw new Error("Expected an OCI image manifest");
-  }
-
-  const manifest = result.manifest;
-
-  // Manifests of all media types have a buffer containing their content; this can be written to a file.
-  fs.writeFileSync("manifest.json", result.content);
-
-  const configResult = await client.downloadBlob(manifest.config.digest);
-  const configFile = fs.createWriteStream("config.json");
-  configResult.content.pipe(configFile);
-
-  // Download and write out the layers
-  for (const layer of manifest.layers) {
-    const fileName = trimSha(layer.digest);
-    const layerStream = fs.createWriteStream(fileName);
-    const downloadLayerResult = await client.downloadBlob(layer.digest);
-    downloadLayerResult.content.pipe(layerStream);
-  }
-}
-
-main().catch((err) => {
-  console.error("The sample encountered an error:", err);
-});
 ```
 
 #### Delete manifest
 
-```javascript
-const { ContainerRegistryContentClient } = require("@azure/container-registry");
-const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+```ts snippet:SampleReadmeDeleteManifest
+import { ContainerRegistryContentClient } from "@azure/container-registry";
+import { DefaultAzureCredential } from "@azure/identity";
 
-async function main() {
-  // Get the service endpoint from the environment
-  const endpoint = process.env.CONTAINER_REGISTRY_ENDPOINT || "<endpoint>";
-  const repository = process.env.CONTAINER_REGISTRY_REPOSITORY || "library/hello-world";
-  // Create a new ContainerRegistryClient
-  const client = new ContainerRegistryContentClient(
-    endpoint,
-    repository,
-    new DefaultAzureCredential(),
-  );
+const endpoint = "https://myregistryname.azurecr.io";
+const repository = "library/hello-world";
+const client = new ContainerRegistryContentClient(
+  endpoint,
+  repository,
+  new DefaultAzureCredential(),
+);
 
-  const downloadResult = await client.getManifest("latest");
-  await client.deleteManifest(downloadResult.digest);
-}
-
-main().catch((err) => {
-  console.error("The sample encountered an error:", err);
-});
+const downloadResult = await client.getManifest("latest");
+await client.deleteManifest(downloadResult.digest);
 ```
 
 #### Delete blob
 
-```javascript
-const {
+```ts snippet:SampleReadmeDeleteBlob
+import {
   ContainerRegistryContentClient,
   KnownManifestMediaType,
-} = require("@azure/container-registry");
-const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+  OciImageManifest,
+} from "@azure/container-registry";
+import { DefaultAzureCredential } from "@azure/identity";
 
-async function main() {
-  // Get the service endpoint from the environment
-  const endpoint = process.env.CONTAINER_REGISTRY_ENDPOINT || "<endpoint>";
-  const repository = process.env.CONTAINER_REGISTRY_REPOSITORY || "library/hello-world";
-  // Create a new ContainerRegistryClient
-  const client = new ContainerRegistryContentClient(
-    endpoint,
-    repository,
-    new DefaultAzureCredential(),
-  );
+const endpoint = "https://myregistryname.azurecr.io";
+const repository = "library/hello-world";
+const client = new ContainerRegistryContentClient(
+  endpoint,
+  repository,
+  new DefaultAzureCredential(),
+);
 
-  const downloadResult = await client.getManifest("latest");
+const downloadResult = await client.getManifest("latest");
 
-  if (downloadResult.mediaType !== KnownManifestMediaType.OciImageManifest) {
-    throw new Error("Expected an OCI image manifest");
-  }
+if (downloadResult.mediaType !== KnownManifestMediaType.OciImageManifest) {
+  throw new Error("Expected an OCI image manifest");
+}
 
-  for (const layer of downloadResult.manifest.layers) {
-    await client.deleteBlob(layer.digest);
-  }
+for (const layer of (downloadResult.manifest as OciImageManifest).layers) {
+  await client.deleteBlob(layer.digest);
 }
 ```
 
@@ -433,7 +351,7 @@ If you'd like to contribute to this library, please read the [contributing guide
 
 - [Microsoft Azure SDK for Javascript][az_sdk_js]
 
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fcontainerregistry%2Fcontainer-registry%2FREADME.png)
+
 
 [azure_sub]: https://azure.microsoft.com/free/
 [acr_resource]: https://ms.portal.azure.com/#create/Microsoft.ContainerRegistry

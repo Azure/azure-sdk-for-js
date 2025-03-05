@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CommonClientOptions, OperationOptions } from "@azure/core-client";
+import type { ClientOptions, OperationOptions } from "@azure-rest/core-client";
 import type { SUPPORTED_API_VERSIONS } from "./constants.js";
 
 /**
  * The optional parameters accepted by the KeyVaultSettingsClient.
  */
-export interface SettingsClientOptions extends CommonClientOptions {
+export interface SettingsClientOptions extends ClientOptions {
   /**
    * The accepted versions of the Key Vault's service API.
    */

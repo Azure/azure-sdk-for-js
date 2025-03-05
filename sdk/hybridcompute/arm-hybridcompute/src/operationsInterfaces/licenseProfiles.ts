@@ -20,7 +20,7 @@ import {
   LicenseProfilesGetResponse,
   LicenseProfilesDeleteOptionalParams,
   LicenseProfilesDeleteResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a LicenseProfiles. */

@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { dirname } from "path";
-import type { FullConfig } from "../../common/types";
+import type { FullConfig } from "@playwright/test";
 import playwrightServiceEntra from "../playwrightServiceEntra";
 import { loadCustomerGlobalFunction } from "../../common/executor";
 import customerConfig from "../../common/customerConfig";

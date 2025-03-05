@@ -16,7 +16,7 @@ import {
   WebPubSubCustomCertificatesCreateOrUpdateOptionalParams,
   WebPubSubCustomCertificatesCreateOrUpdateResponse,
   WebPubSubCustomCertificatesDeleteOptionalParams,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a WebPubSubCustomCertificates. */

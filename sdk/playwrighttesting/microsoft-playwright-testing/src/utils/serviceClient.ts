@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import type { FullResult } from "@playwright/test/reporter";
-import { Constants } from "../common/constants";
+import { Constants, InternalEnvironmentVariables } from "../common/constants";
 import type { EnvironmentVariables } from "../common/environmentVariables";
 import { HttpService } from "../common/httpService";
 import type { Shard, UploadMetadata } from "../model/shard";
@@ -170,7 +170,7 @@ export class ServiceClient {
   }
 
   private getServiceEndpoint(): string {
-    return process.env["PLAYWRIGHT_SERVICE_REPORTING_URL"]!;
+    return process.env[InternalEnvironmentVariables.MPT_SERVICE_REPORTING_URL]!;
   }
 
   private handleErrorResponse(response: PipelineResponse, action: string): void {

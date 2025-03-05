@@ -9,7 +9,7 @@
 import {
   ExtendedUeInformationGetOptionalParams,
   ExtendedUeInformationGetResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a ExtendedUeInformation. */
 export interface ExtendedUeInformation {

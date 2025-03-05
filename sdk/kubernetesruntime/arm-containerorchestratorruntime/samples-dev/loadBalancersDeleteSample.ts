@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary delete a LoadBalancer
  * x-ms-original-file: 2024-03-01/LoadBalancers_Delete.json
  */
-async function loadBalancersDelete() {
+async function loadBalancersDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new KubernetesRuntimeClient(credential);
   await client.loadBalancers.delete(
@@ -19,8 +19,8 @@ async function loadBalancersDelete() {
   );
 }
 
-async function main() {
-  loadBalancersDelete();
+async function main(): Promise<void> {
+  await loadBalancersDelete();
 }
 
 main().catch(console.error);

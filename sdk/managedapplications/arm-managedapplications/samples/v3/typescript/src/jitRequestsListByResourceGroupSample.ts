@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { ApplicationClient } from "@azure/arm-managedapplications";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists all JIT requests within the resource group.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Lists all JIT requests within the resource group.
  * x-ms-original-file: specification/solutions/resource-manager/Microsoft.Solutions/stable/2021-07-01/examples/listJitRequestsByResourceGroup.json
  */
-async function listsAllJitRequestsWithinTheResourceGroup() {
+async function listsAllJitRequestsWithinTheResourceGroup(): Promise<void> {
   const subscriptionId =
     process.env["MANAGEDAPPLICATIONS_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -33,7 +31,7 @@ async function listsAllJitRequestsWithinTheResourceGroup() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listsAllJitRequestsWithinTheResourceGroup();
 }
 

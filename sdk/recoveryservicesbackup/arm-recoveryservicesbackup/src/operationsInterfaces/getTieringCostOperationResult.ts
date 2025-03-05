@@ -9,7 +9,7 @@
 import {
   GetTieringCostOperationResultGetOptionalParams,
   GetTieringCostOperationResultGetResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a GetTieringCostOperationResult. */
 export interface GetTieringCostOperationResult {

@@ -7,18 +7,18 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { Springbootservers } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { Springbootservers } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { SpringAppDiscoveryManagementClient } from "../springAppDiscoveryManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { SpringAppDiscoveryManagementClient } from "../springAppDiscoveryManagementClient.js";
 import {
   SimplePollerLike,
   OperationState,
   createHttpPoller,
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl";
+import { createLroSpec } from "../lroImpl.js";
 import {
   SpringbootserversModel,
   SpringbootserversListByResourceGroupNextOptionalParams,
@@ -38,7 +38,7 @@ import {
   SpringbootserversUpdateResponse,
   SpringbootserversListByResourceGroupNextResponse,
   SpringbootserversListBySubscriptionNextResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Springbootservers operations. */

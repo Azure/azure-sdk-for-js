@@ -1,7 +1,7 @@
 # Azure Key Vault Secret client library for JavaScript
 
 Azure Key Vault is a service that allows you to encrypt authentication keys, storage account keys, data encryption keys, .pfx files, and passwords by using secured keys.
-If you would like to know more about Azure Key Vault, you may want to review: [What is Azure Key Vault?](https://docs.microsoft.com/azure/key-vault/key-vault-overview)
+If you would like to know more about Azure Key Vault, you may want to review: [What is Azure Key Vault?](https://learn.microsoft.com/azure/key-vault/key-vault-overview)
 
 Azure Key Vault Secrets management allows you to securely store and
 tightly control access to tokens, passwords, certificates, API keys,
@@ -23,7 +23,7 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/keyvault/keyvault-secrets)
 - [Package (npm)](https://www.npmjs.com/package/@azure/keyvault-secrets)
-- [API Reference Documentation](https://docs.microsoft.com/javascript/api/@azure/keyvault-secrets)
+- [API Reference Documentation](https://learn.microsoft.com/javascript/api/@azure/keyvault-secrets)
 - [Product documentation](https://azure.microsoft.com/services/key-vault/)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/keyvault/keyvault-secrets/samples)
 
@@ -36,7 +36,7 @@ Key links:
 ### Prerequisites
 
 - An [Azure subscription](https://azure.microsoft.com/free/)
-- A [Key Vault resource](https://docs.microsoft.com/azure/key-vault/quick-create-portal)
+- A [Key Vault resource](https://learn.microsoft.com/azure/key-vault/quick-create-portal)
 - An existing [Azure Key Vault][azure_keyvault]. If you need to create a key vault, you can do so in the Azure Portal by following the steps in [this document][azure_keyvault_portal]. Alternatively, you can use the Azure CLI by following the steps in [this document][azure_keyvault_cli].
 
 ### Install the package
@@ -74,7 +74,7 @@ You also need to enable `compilerOptions.allowSyntheticDefaultImports` in your t
   query.
 - **Soft delete** allows Key Vaults to support deletion and purging as two
   separate steps, so deleted secrets are not immediately lost. This only happens if the Key Vault
-  has [soft-delete](https://docs.microsoft.com/azure/key-vault/key-vault-ovw-soft-delete)
+  has [soft-delete](https://learn.microsoft.com/azure/key-vault/key-vault-ovw-soft-delete)
   enabled.
 - A **Secret backup** can be generated from any created secret. These backups come as
   binary data, and can only be used to regenerate a previously deleted secret.
@@ -87,18 +87,11 @@ In order to interact with the Azure Key Vault service, you will need to create a
 
 You can find more information on different ways of authenticating and their corresponding credential types in the [Azure Identity documentation][azure_identity].
 
-Here's a quick example. First, import `DefaultAzureCredential` and `SecretClient`:
+Here's a quick example. First, import `DefaultAzureCredential` and `SecretClient`. Once these are imported, we can next connect to the Key Vault service:
 
-```javascript
-const { DefaultAzureCredential } = require("@azure/identity");
-const { SecretClient } = require("@azure/keyvault-secrets");
-```
-
-Once these are imported, we can next connect to the Key Vault service:
-
-```typescript
-const { DefaultAzureCredential } = require("@azure/identity");
-const { SecretClient } = require("@azure/keyvault-secrets");
+```ts snippet:ReadmeSampleCreateClient
+import { DefaultAzureCredential } from "@azure/identity";
+import { SecretClient } from "@azure/keyvault-secrets";
 
 const credential = new DefaultAzureCredential();
 
@@ -106,7 +99,7 @@ const credential = new DefaultAzureCredential();
 const vaultName = "<YOUR KEYVAULT NAME>";
 const url = `https://${vaultName}.vault.azure.net`;
 
-// Lastly, create our secrets client and connect to the service
+// Lastly, create our keys client and connect to the service
 const client = new SecretClient(url, credential);
 ```
 
@@ -114,18 +107,19 @@ const client = new SecretClient(url, credential);
 
 By default, this package uses the latest Azure Key Vault service version which is `7.1`. The only other version that is supported is `7.0`. You can change the service version being used by setting the option `serviceVersion` in the client constructor as shown below:
 
-```typescript
-const { DefaultAzureCredential } = require("@azure/identity");
-const { SecretClient } = require("@azure/keyvault-secrets");
+```ts snippet:ReadmeSampleCreateClientWithVersion
+import { DefaultAzureCredential } from "@azure/identity";
+import { SecretClient } from "@azure/keyvault-secrets";
 
 const credential = new DefaultAzureCredential();
 
+// Build the URL to reach your key vault
 const vaultName = "<YOUR KEYVAULT NAME>";
 const url = `https://${vaultName}.vault.azure.net`;
 
 // Change the Azure Key Vault service API version being used via the `serviceVersion` option
 const client = new SecretClient(url, credential, {
-  serviceVersion: "7.0",
+  serviceVersion: "7.0", // Or 7.1
 });
 ```
 
@@ -145,9 +139,9 @@ tasks using Azure Key Vault Secrets. The scenarios that are covered here consist
 `setSecret` assigns a provided value to the specified secret name. If a secret
 with the same name already exists, then a new version of the secret is created.
 
-```javascript
-const { DefaultAzureCredential } = require("@azure/identity");
-const { SecretClient } = require("@azure/keyvault-secrets");
+```ts snippet:ReadmeSampleCreateSecret
+import { DefaultAzureCredential } from "@azure/identity";
+import { SecretClient } from "@azure/keyvault-secrets";
 
 const credential = new DefaultAzureCredential();
 
@@ -158,12 +152,8 @@ const client = new SecretClient(url, credential);
 
 const secretName = "MySecretName";
 
-async function main() {
-  const result = await client.setSecret(secretName, "MySecretValue");
-  console.log("result: ", result);
-}
-
-main();
+const result = await client.setSecret(secretName, "MySecretValue");
+console.log("result: ", result);
 ```
 
 ### Getting a secret
@@ -173,9 +163,9 @@ name. This will retrieve the most recent version of the secret. You can
 optionally get a different version of the key if you specify it as part of the
 optional parameters.
 
-```javascript
-const { DefaultAzureCredential } = require("@azure/identity");
-const { SecretClient } = require("@azure/keyvault-secrets");
+```ts snippet:ReadmeSampleGetSecret
+import { DefaultAzureCredential } from "@azure/identity";
+import { SecretClient } from "@azure/keyvault-secrets";
 
 const credential = new DefaultAzureCredential();
 
@@ -186,14 +176,16 @@ const client = new SecretClient(url, credential);
 
 const secretName = "MySecretName";
 
-async function main() {
-  const latestSecret = await client.getSecret(secretName);
-  console.log(`Latest version of the secret ${secretName}: `, latestSecret);
-  const specificSecret = await client.getSecret(secretName, { version: latestSecret.properties.version! });
-  console.log(`The secret ${secretName} at the version ${latestSecret.properties.version!}: `, specificSecret);
-}
+const latestSecret = await client.getSecret(secretName);
+console.log(`Latest version of the secret ${secretName}: `, latestSecret);
 
-main();
+const specificSecret = await client.getSecret(secretName, {
+  version: latestSecret.properties.version!,
+});
+console.log(
+  `The secret ${secretName} at the version ${latestSecret.properties.version!}: `,
+  specificSecret,
+);
 ```
 
 ### Creating and updating secrets with attributes
@@ -210,9 +202,9 @@ the following attributes:
 An object with these attributes can be sent as the third parameter of
 `setSecret`, right after the secret's name and value, as follows:
 
-```javascript
-const { DefaultAzureCredential } = require("@azure/identity");
-const { SecretClient } = require("@azure/keyvault-secrets");
+```ts snippet:ReadmeSampleCreateSecretWithAttributes
+import { DefaultAzureCredential } from "@azure/identity";
+import { SecretClient } from "@azure/keyvault-secrets";
 
 const credential = new DefaultAzureCredential();
 
@@ -223,13 +215,9 @@ const client = new SecretClient(url, credential);
 
 const secretName = "MySecretName";
 
-async function main() {
-  const result = await client.setSecret(secretName, "MySecretValue", {
-    enabled: false,
-  });
-}
-
-main();
+const result = await client.setSecret(secretName, "MySecretValue", {
+  enabled: false,
+});
 ```
 
 This will create a new version of the same secret, which will have the latest
@@ -238,9 +226,9 @@ provided attributes.
 Attributes can also be updated to an existing secret version with
 `updateSecretProperties`, as follows:
 
-```javascript
-const { DefaultAzureCredential } = require("@azure/identity");
-const { SecretClient } = require("@azure/keyvault-secrets");
+```ts snippet:ReadmeSampleUpdateSecretAttributes
+import { DefaultAzureCredential } from "@azure/identity";
+import { SecretClient } from "@azure/keyvault-secrets";
 
 const credential = new DefaultAzureCredential();
 
@@ -251,12 +239,8 @@ const client = new SecretClient(url, credential);
 
 const secretName = "MySecretName";
 
-async function main() {
-  const result = await client.getSecret(secretName);
-  await client.updateSecretProperties(secretName, result.properties.version, { enabled: false });
-}
-
-main();
+const result = await client.getSecret(secretName);
+await client.updateSecretProperties(secretName, result.properties.version, { enabled: false });
 ```
 
 ### Deleting a secret
@@ -265,9 +249,9 @@ The `beginDeleteSecret` method starts the deletion of a Secret.
 This process will happen in the background as soon as the necessary resources
 are available.
 
-```javascript
-const { DefaultAzureCredential } = require("@azure/identity");
-const { SecretClient } = require("@azure/keyvault-secrets");
+```ts snippet:ReadmeSampleDeleteSecret
+import { DefaultAzureCredential } from "@azure/identity";
+import { SecretClient } from "@azure/keyvault-secrets";
 
 const credential = new DefaultAzureCredential();
 
@@ -278,21 +262,17 @@ const client = new SecretClient(url, credential);
 
 const secretName = "MySecretName";
 
-async function main() {
-  await client.beginDeleteSecret(secretName);
-}
-
-main();
+await client.beginDeleteSecret(secretName);
 ```
 
-If [soft-delete](https://docs.microsoft.com/azure/key-vault/key-vault-ovw-soft-delete)
+If [soft-delete](https://learn.microsoft.com/azure/key-vault/key-vault-ovw-soft-delete)
 is enabled for the Key Vault, this operation will only label the secret as a
 _deleted_ secret. A deleted secret can't be updated. They can only be either
 read, recovered or purged.
 
-```javascript
-const { DefaultAzureCredential } = require("@azure/identity");
-const { SecretClient } = require("@azure/keyvault-secrets");
+```ts snippet:ReadmeSampleDeleteSecretSoftDelete
+import { DefaultAzureCredential } from "@azure/identity";
+import { SecretClient } from "@azure/keyvault-secrets";
 
 const credential = new DefaultAzureCredential();
 
@@ -303,29 +283,25 @@ const client = new SecretClient(url, credential);
 
 const secretName = "MySecretName";
 
-async function main() {
-  const poller = await client.beginDeleteSecret(secretName);
+const poller = await client.beginDeleteSecret(secretName);
 
-  // You can use the deleted secret immediately:
-  const deletedSecret = poller.getResult();
+// You can use the deleted secret immediately:
+const deletedSecret = poller.getResult();
 
-  // The secret is being deleted. Only wait for it if you want to restore it or purge it.
-  await poller.pollUntilDone();
+// The secret is being deleted. Only wait for it if you want to restore it or purge it.
+await poller.pollUntilDone();
 
-  // You can also get the deleted secret this way:
-  await client.getDeletedSecret(secretName);
+// You can also get the deleted secret this way:
+await client.getDeletedSecret(secretName);
 
-  // Deleted secrets can also be recovered or purged.
+// Deleted secrets can also be recovered or purged.
 
-  // recoverDeletedSecret returns a poller, just like beginDeleteSecret.
-  const recoverPoller = await client.beginRecoverDeletedSecret(secretName);
-  await recoverPoller.pollUntilDone();
+// recoverDeletedSecret returns a poller, just like beginDeleteSecret.
+const recoverPoller = await client.beginRecoverDeletedSecret(secretName);
+await recoverPoller.pollUntilDone();
 
-  // And then, to purge the deleted secret:
-  await client.purgeDeletedSecret(secretName);
-}
-
-main();
+// And then, to purge the deleted secret:
+await client.purgeDeletedSecret(secretName);
 ```
 
 Since Secrets take some time to get fully deleted, `beginDeleteSecret`
@@ -337,9 +313,9 @@ The received poller will allow you to get the deleted secret by calling to `poll
 You can also wait until the deletion finishes, either by running individual service
 calls until the secret is deleted, or by waiting until the process is done:
 
-```typescript
-const { DefaultAzureCredential } = require("@azure/identity");
-const { SecretClient } = require("@azure/keyvault-secrets");
+```ts snippet:ReadmeSampleDeleteSecretWait
+import { DefaultAzureCredential } from "@azure/identity";
+import { SecretClient } from "@azure/keyvault-secrets";
 
 const credential = new DefaultAzureCredential();
 
@@ -350,26 +326,21 @@ const client = new SecretClient(url, credential);
 
 const secretName = "MySecretName";
 
-async function main() {
-  const poller = await client.beginDeleteSecret(secretName);
+const poller = await client.beginDeleteSecret(secretName);
 
-  // You can use the deleted secret immediately:
-  let deletedSecret = poller.getResult();
+// You can use the deleted secret immediately:
+let deletedSecret = poller.getResult();
 
-  // Or you can wait until the secret finishes being deleted:
-  deletedSecret = await poller.pollUntilDone();
-  console.log(deletedSecret);
-}
-
-main();
+// Or you can wait until the secret finishes being deleted:
+deletedSecret = await poller.pollUntilDone();
+console.log(deletedSecret);
 ```
 
 Another way to wait until the secret is fully deleted is to do individual calls, as follows:
 
-```typescript
-const { DefaultAzureCredential } = require("@azure/identity");
-const { SecretClient } = require("@azure/keyvault-secrets");
-const { delay } = require("@azure/core-util");
+```ts snippet:ReadmeSampleDeleteSecretWaitIndividually
+import { DefaultAzureCredential } from "@azure/identity";
+import { SecretClient } from "@azure/keyvault-secrets";
 
 const credential = new DefaultAzureCredential();
 
@@ -380,18 +351,15 @@ const client = new SecretClient(url, credential);
 
 const secretName = "MySecretName";
 
-async function main() {
-  const poller = await client.beginDeleteSecret(secretName);
+const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-  while (!poller.isDone()) {
-    await poller.poll();
-    await delay(5000);
-  }
-
-  console.log(`The secret ${secretName} is fully deleted`);
+const poller = await client.beginDeleteSecret(secretName);
+while (!poller.isDone()) {
+  await poller.poll();
+  await delay(5000);
 }
 
-main();
+console.log(`The secret ${secretName} is fully deleted`);
 ```
 
 ### Iterating lists of secrets
@@ -409,9 +377,9 @@ versions of a specific secret. The following API methods are available:
 
 Which can be used as follows:
 
-```javascript
-const { DefaultAzureCredential } = require("@azure/identity");
-const { SecretClient } = require("@azure/keyvault-secrets");
+```ts snippet:ReadmeSampleListSecrets
+import { DefaultAzureCredential } from "@azure/identity";
+import { SecretClient } from "@azure/keyvault-secrets";
 
 const credential = new DefaultAzureCredential();
 
@@ -422,28 +390,26 @@ const client = new SecretClient(url, credential);
 
 const secretName = "MySecretName";
 
-async function main() {
-  for await (let secretProperties of client.listPropertiesOfSecrets()) {
-    console.log("Secret properties: ", secretProperties);
-  }
-  for await (let deletedSecret of client.listDeletedSecrets()) {
-    console.log("Deleted secret: ", deletedSecret);
-  }
-  for await (let versionProperties of client.listPropertiesOfSecretVersions(secretName)) {
-    console.log("Version properties: ", versionProperties);
-  }
+for await (const secretProperties of client.listPropertiesOfSecrets()) {
+  console.log("Secret properties: ", secretProperties);
 }
 
-main();
+for await (const deletedSecret of client.listDeletedSecrets()) {
+  console.log("Deleted secret: ", deletedSecret);
+}
+
+for await (const versionProperties of client.listPropertiesOfSecretVersions(secretName)) {
+  console.log("Version properties: ", versionProperties);
+}
 ```
 
 All of these methods will return **all of the available results** at once. To
 retrieve them by pages, add `.byPage()` right after invoking the API method you
 want to use, as follows:
 
-```javascript
-const { DefaultAzureCredential } = require("@azure/identity");
-const { SecretClient } = require("@azure/keyvault-secrets");
+```ts snippet:ReadmeSampleListSecretsByPage
+import { DefaultAzureCredential } from "@azure/identity";
+import { SecretClient } from "@azure/keyvault-secrets";
 
 const credential = new DefaultAzureCredential();
 
@@ -454,25 +420,21 @@ const client = new SecretClient(url, credential);
 
 const secretName = "MySecretName";
 
-async function main() {
-  for await (let page of client.listPropertiesOfSecrets().byPage()) {
-    for (let secretProperties of page) {
-      console.log("Secret properties: ", secretProperties);
-    }
-  }
-  for await (let page of client.listDeletedSecrets().byPage()) {
-    for (let deletedSecret of page) {
-      console.log("Deleted secret: ", deletedSecret);
-    }
-  }
-  for await (let page of client.listPropertiesOfSecretVersions(secretName).byPage()) {
-    for (let versionProperties of page) {
-      console.log("Version properties: ", versionProperties);
-    }
+for await (const page of client.listPropertiesOfSecrets().byPage()) {
+  for (const secretProperties of page) {
+    console.log("Secret properties: ", secretProperties);
   }
 }
-
-main();
+for await (const page of client.listDeletedSecrets().byPage()) {
+  for (const deletedSecret of page) {
+    console.log("Deleted secret: ", deletedSecret);
+  }
+}
+for await (const page of client.listPropertiesOfSecretVersions(secretName).byPage()) {
+  for (const versionProperties of page) {
+    console.log("Version properties: ", versionProperties);
+  }
+}
 ```
 
 ## Troubleshooting
@@ -481,7 +443,7 @@ See our [troubleshooting guide](https://github.com/Azure/azure-sdk-for-js/blob/m
 
 Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
 
-```javascript
+```ts snippet:SetLogLevel
 import { setLogLevel } from "@azure/logger";
 
 setLogLevel("info");
@@ -499,11 +461,9 @@ You can find more code samples through the following links:
 
 If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md) to learn more about how to build and test the code.
 
-[azure_keyvault]: https://docs.microsoft.com/azure/key-vault/general/overview
-[azure_keyvault_cli]: https://docs.microsoft.com/azure/key-vault/general/quick-create-cli
-[azure_keyvault_portal]: https://docs.microsoft.com/azure/key-vault/general/quick-create-portal
+[azure_keyvault]: https://learn.microsoft.com/azure/key-vault/general/overview
+[azure_keyvault_cli]: https://learn.microsoft.com/azure/key-vault/general/quick-create-cli
+[azure_keyvault_portal]: https://learn.microsoft.com/azure/key-vault/general/quick-create-portal
 [default_azure_credential]: https://learn.microsoft.com/javascript/api/@azure/identity/defaultazurecredential?view=azure-node-latest
-[managed_identity]: https://docs.microsoft.com/azure/active-directory/managed-identities-azure-resources/overview
+[managed_identity]: https://learn.microsoft.com/azure/active-directory/managed-identities-azure-resources/overview
 [azure_identity]: https://learn.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest
-
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fkeyvault%2Fkeyvault-secrets%2FREADME.png)

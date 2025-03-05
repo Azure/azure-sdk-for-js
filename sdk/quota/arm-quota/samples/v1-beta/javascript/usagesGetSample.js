@@ -6,17 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { AzureQuotaExtensionAPI } = require("@azure/arm-quota");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Get the current usage of a resource.
  *
  * @summary Get the current usage of a resource.
- * x-ms-original-file: specification/quota/resource-manager/Microsoft.Quota/preview/2023-06-01-preview/examples/getComputeOneSkuUsages.json
+ * x-ms-original-file: specification/quota/resource-manager/Microsoft.Quota/preview/2024-12-18-preview/examples/getComputeOneSkuUsages.json
  */
 async function quotasUsagesRequestForCompute() {
   const resourceName = "standardNDSFamily";
@@ -32,7 +30,7 @@ async function quotasUsagesRequestForCompute() {
  * This sample demonstrates how to Get the current usage of a resource.
  *
  * @summary Get the current usage of a resource.
- * x-ms-original-file: specification/quota/resource-manager/Microsoft.Quota/preview/2023-06-01-preview/examples/getNetworkOneSkuUsages.json
+ * x-ms-original-file: specification/quota/resource-manager/Microsoft.Quota/preview/2024-12-18-preview/examples/getNetworkOneSkuUsages.json
  */
 async function quotasUsagesRequestForNetwork() {
   const resourceName = "MinPublicIpInterNetworkPrefixLength";
@@ -45,8 +43,8 @@ async function quotasUsagesRequestForNetwork() {
 }
 
 async function main() {
-  quotasUsagesRequestForCompute();
-  quotasUsagesRequestForNetwork();
+  await quotasUsagesRequestForCompute();
+  await quotasUsagesRequestForNetwork();
 }
 
 main().catch(console.error);

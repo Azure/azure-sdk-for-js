@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 const { ContainerRegistryManagementClient } = require("@azure/arm-containerregistry");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Creates a task for a container registry with the specified parameters.
@@ -77,7 +77,7 @@ async function tasksCreate() {
     resourceGroupName,
     registryName,
     taskName,
-    taskCreateParameters
+    taskCreateParameters,
   );
   console.log(result);
 }
@@ -108,7 +108,7 @@ async function tasksCreateQuickTask() {
     resourceGroupName,
     registryName,
     taskName,
-    taskCreateParameters
+    taskCreateParameters,
   );
   console.log(result);
 }
@@ -184,7 +184,7 @@ async function tasksCreateWithSystemAndUserIdentities() {
     resourceGroupName,
     registryName,
     taskName,
-    taskCreateParameters
+    taskCreateParameters,
   );
   console.log(result);
 }
@@ -262,7 +262,7 @@ async function tasksCreateWithUserIdentities() {
     resourceGroupName,
     registryName,
     taskName,
-    taskCreateParameters
+    taskCreateParameters,
   );
   console.log(result);
 }
@@ -330,17 +330,17 @@ async function tasksCreateWithUserIdentitiesWithSystemIdentity() {
     resourceGroupName,
     registryName,
     taskName,
-    taskCreateParameters
+    taskCreateParameters,
   );
   console.log(result);
 }
 
 async function main() {
-  tasksCreate();
-  tasksCreateQuickTask();
-  tasksCreateWithSystemAndUserIdentities();
-  tasksCreateWithUserIdentities();
-  tasksCreateWithUserIdentitiesWithSystemIdentity();
+  await tasksCreate();
+  await tasksCreateQuickTask();
+  await tasksCreateWithSystemAndUserIdentities();
+  await tasksCreateWithUserIdentities();
+  await tasksCreateWithUserIdentitiesWithSystemIdentity();
 }
 
 main().catch(console.error);

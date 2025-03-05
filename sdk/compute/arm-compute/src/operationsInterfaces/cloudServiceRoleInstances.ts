@@ -21,7 +21,7 @@ import {
   CloudServiceRoleInstancesRebuildOptionalParams,
   CloudServiceRoleInstancesGetRemoteDesktopFileOptionalParams,
   CloudServiceRoleInstancesGetRemoteDesktopFileResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a CloudServiceRoleInstances. */

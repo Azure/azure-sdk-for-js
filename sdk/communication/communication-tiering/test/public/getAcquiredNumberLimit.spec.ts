@@ -11,14 +11,12 @@ describe(`TieringClient - Get Acquired Number Limits`, () => {
   let recorder: Recorder;
   let client: TieringClient;
 
-  beforeEach(async function (ctx) {
+  beforeEach(async (ctx) => {
     ({ client, recorder } = await createRecordedClient(ctx));
   });
 
-  afterEach(async function (ctx) {
-    if (!ctx.task.pending) {
-      await recorder.stop();
-    }
+  afterEach(async () => {
+    await recorder.stop();
   });
 
   it("get acquired number limits", { timeout: 30000 }, async () => {

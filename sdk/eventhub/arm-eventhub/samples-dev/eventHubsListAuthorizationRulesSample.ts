@@ -10,17 +10,15 @@
 // Licensed under the MIT License.
 import { EventHubManagementClient } from "@azure/arm-eventhub";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets the authorization rules for an Event Hub.
  *
  * @summary Gets the authorization rules for an Event Hub.
- * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/stable/2024-01-01/examples/EventHubs/EHEventHubAuthorizationRuleListAll.json
+ * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/preview/2024-05-01-preview/examples/EventHubs/EHEventHubAuthorizationRuleListAll.json
  */
-async function eventHubAuthorizationRuleListAll() {
+async function eventHubAuthorizationRuleListAll(): Promise<void> {
   const subscriptionId =
     process.env["EVENTHUB_SUBSCRIPTION_ID"] ||
     "5f750a97-50d9-4e36-8081-c9ee4c0210d4";
@@ -41,8 +39,8 @@ async function eventHubAuthorizationRuleListAll() {
   console.log(resArray);
 }
 
-async function main() {
-  eventHubAuthorizationRuleListAll();
+async function main(): Promise<void> {
+  await eventHubAuthorizationRuleListAll();
 }
 
 main().catch(console.error);

@@ -7,18 +7,18 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { Volumes } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { Volumes } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { NetAppManagementClient } from "../netAppManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { NetAppManagementClient } from "../netAppManagementClient.js";
 import {
   SimplePollerLike,
   OperationState,
   createHttpPoller,
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl";
+import { createLroSpec } from "../lroImpl.js";
 import {
   Volume,
   VolumesListNextOptionalParams,
@@ -41,14 +41,10 @@ import {
   VolumesRevertOptionalParams,
   VolumesResetCifsPasswordOptionalParams,
   VolumesResetCifsPasswordResponse,
-  VolumesSplitCloneFromParentOptionalParams,
-  VolumesSplitCloneFromParentResponse,
   VolumesBreakFileLocksOptionalParams,
   GetGroupIdListForLdapUserRequest,
   VolumesListGetGroupIdListForLdapUserOptionalParams,
   VolumesListGetGroupIdListForLdapUserResponse,
-  VolumesListQuotaReportOptionalParams,
-  VolumesListQuotaReportResponse,
   VolumesBreakReplicationOptionalParams,
   ReestablishReplicationRequest,
   VolumesReestablishReplicationOptionalParams,
@@ -74,7 +70,7 @@ import {
   VolumesFinalizeRelocationOptionalParams,
   VolumesRevertRelocationOptionalParams,
   VolumesListNextResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Volumes operations. */
@@ -924,106 +920,6 @@ export class VolumesImpl implements Volumes {
   }
 
   /**
-   *  Split operation to convert clone volume to an independent volume.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param accountName The name of the NetApp account
-   * @param poolName The name of the capacity pool
-   * @param volumeName The name of the volume
-   * @param options The options parameters.
-   */
-  async beginSplitCloneFromParent(
-    resourceGroupName: string,
-    accountName: string,
-    poolName: string,
-    volumeName: string,
-    options?: VolumesSplitCloneFromParentOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<VolumesSplitCloneFromParentResponse>,
-      VolumesSplitCloneFromParentResponse
-    >
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ): Promise<VolumesSplitCloneFromParentResponse> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback,
-        },
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: { resourceGroupName, accountName, poolName, volumeName, options },
-      spec: splitCloneFromParentOperationSpec,
-    });
-    const poller = await createHttpPoller<
-      VolumesSplitCloneFromParentResponse,
-      OperationState<VolumesSplitCloneFromParentResponse>
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location",
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   *  Split operation to convert clone volume to an independent volume.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param accountName The name of the NetApp account
-   * @param poolName The name of the capacity pool
-   * @param volumeName The name of the volume
-   * @param options The options parameters.
-   */
-  async beginSplitCloneFromParentAndWait(
-    resourceGroupName: string,
-    accountName: string,
-    poolName: string,
-    volumeName: string,
-    options?: VolumesSplitCloneFromParentOptionalParams,
-  ): Promise<VolumesSplitCloneFromParentResponse> {
-    const poller = await this.beginSplitCloneFromParent(
-      resourceGroupName,
-      accountName,
-      poolName,
-      volumeName,
-      options,
-    );
-    return poller.pollUntilDone();
-  }
-
-  /**
    * Break all the file locks on a volume
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
@@ -1222,106 +1118,6 @@ export class VolumesImpl implements Volumes {
       poolName,
       volumeName,
       body,
-      options,
-    );
-    return poller.pollUntilDone();
-  }
-
-  /**
-   * Returns report of quotas for the volume
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param accountName The name of the NetApp account
-   * @param poolName The name of the capacity pool
-   * @param volumeName The name of the volume
-   * @param options The options parameters.
-   */
-  async beginListQuotaReport(
-    resourceGroupName: string,
-    accountName: string,
-    poolName: string,
-    volumeName: string,
-    options?: VolumesListQuotaReportOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<VolumesListQuotaReportResponse>,
-      VolumesListQuotaReportResponse
-    >
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ): Promise<VolumesListQuotaReportResponse> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback,
-        },
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: { resourceGroupName, accountName, poolName, volumeName, options },
-      spec: listQuotaReportOperationSpec,
-    });
-    const poller = await createHttpPoller<
-      VolumesListQuotaReportResponse,
-      OperationState<VolumesListQuotaReportResponse>
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location",
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Returns report of quotas for the volume
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param accountName The name of the NetApp account
-   * @param poolName The name of the capacity pool
-   * @param volumeName The name of the volume
-   * @param options The options parameters.
-   */
-  async beginListQuotaReportAndWait(
-    resourceGroupName: string,
-    accountName: string,
-    poolName: string,
-    volumeName: string,
-    options?: VolumesListQuotaReportOptionalParams,
-  ): Promise<VolumesListQuotaReportResponse> {
-    const poller = await this.beginListQuotaReport(
-      resourceGroupName,
-      accountName,
-      poolName,
-      volumeName,
       options,
     );
     return poller.pollUntilDone();
@@ -2997,38 +2793,6 @@ const resetCifsPasswordOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const splitCloneFromParentOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/splitCloneFromParent",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      headersMapper: Mappers.VolumesSplitCloneFromParentHeaders,
-    },
-    201: {
-      headersMapper: Mappers.VolumesSplitCloneFromParentHeaders,
-    },
-    202: {
-      headersMapper: Mappers.VolumesSplitCloneFromParentHeaders,
-    },
-    204: {
-      headersMapper: Mappers.VolumesSplitCloneFromParentHeaders,
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.accountName,
-    Parameters.poolName,
-    Parameters.volumeName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
 const breakFileLocksOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/breakFileLocks",
   httpMethod: "POST",
@@ -3087,38 +2851,6 @@ const listGetGroupIdListForLdapUserOperationSpec: coreClient.OperationSpec = {
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer,
-};
-const listQuotaReportOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/listQuotaReport",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ListQuotaReportResponse,
-    },
-    201: {
-      bodyMapper: Mappers.ListQuotaReportResponse,
-    },
-    202: {
-      bodyMapper: Mappers.ListQuotaReportResponse,
-    },
-    204: {
-      bodyMapper: Mappers.ListQuotaReportResponse,
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.accountName,
-    Parameters.poolName,
-    Parameters.volumeName,
-  ],
-  headerParameters: [Parameters.accept],
   serializer,
 };
 const breakReplicationOperationSpec: coreClient.OperationSpec = {

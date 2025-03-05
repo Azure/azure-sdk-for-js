@@ -13,9 +13,7 @@ import {
   DynatraceObservability
 } from "@azure/arm-dynatrace";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets all the Dynatrace environments that a user can link a azure resource to
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Gets all the Dynatrace environments that a user can link a azure resource to
  * x-ms-original-file: specification/dynatrace/resource-manager/Dynatrace.Observability/stable/2023-04-27/examples/Monitors_ListLinkableEnvironments_MaximumSet_Gen.json
  */
-async function monitorsListLinkableEnvironmentsMaximumSetGen() {
+async function monitorsListLinkableEnvironmentsMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["DYNATRACE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -54,7 +52,7 @@ async function monitorsListLinkableEnvironmentsMaximumSetGen() {
  * @summary Gets all the Dynatrace environments that a user can link a azure resource to
  * x-ms-original-file: specification/dynatrace/resource-manager/Dynatrace.Observability/stable/2023-04-27/examples/Monitors_ListLinkableEnvironments_MinimumSet_Gen.json
  */
-async function monitorsListLinkableEnvironmentsMinimumSetGen() {
+async function monitorsListLinkableEnvironmentsMinimumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["DYNATRACE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -79,7 +77,7 @@ async function monitorsListLinkableEnvironmentsMinimumSetGen() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   monitorsListLinkableEnvironmentsMaximumSetGen();
   monitorsListLinkableEnvironmentsMinimumSetGen();
 }

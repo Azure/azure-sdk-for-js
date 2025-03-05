@@ -18,7 +18,7 @@ import {
   TagsResource as TagsResourceMapper,
   OperationInputs as OperationInputsMapper,
   PrivateEndpointConnection as PrivateEndpointConnectionMapper
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",

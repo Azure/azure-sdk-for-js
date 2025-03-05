@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { AzureMachineLearningServicesManagementClient } from "@azure/arm-machinelearning";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get Inference Deployment Deployment.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Get Inference Deployment Deployment.
  * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2024-04-01/examples/OnlineDeployment/KubernetesOnlineDeployment/get.json
  */
-async function getKubernetesOnlineDeployment() {
+async function getKubernetesOnlineDeployment(): Promise<void> {
   const subscriptionId =
     process.env["MACHINELEARNING_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -49,7 +47,7 @@ async function getKubernetesOnlineDeployment() {
  * @summary Get Inference Deployment Deployment.
  * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2024-04-01/examples/OnlineDeployment/ManagedOnlineDeployment/get.json
  */
-async function getManagedOnlineDeployment() {
+async function getManagedOnlineDeployment(): Promise<void> {
   const subscriptionId =
     process.env["MACHINELEARNING_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -72,7 +70,7 @@ async function getManagedOnlineDeployment() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getKubernetesOnlineDeployment();
   getManagedOnlineDeployment();
 }

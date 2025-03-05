@@ -7,18 +7,18 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { RestorableDroppedSqlPools } from "../operationsInterfaces";
+import { RestorableDroppedSqlPools } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { SynapseManagementClient } from "../synapseManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { SynapseManagementClient } from "../synapseManagementClient.js";
 import {
   RestorableDroppedSqlPool,
   RestorableDroppedSqlPoolsListByWorkspaceOptionalParams,
   RestorableDroppedSqlPoolsListByWorkspaceResponse,
   RestorableDroppedSqlPoolsGetOptionalParams,
   RestorableDroppedSqlPoolsGetResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing RestorableDroppedSqlPools operations. */

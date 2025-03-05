@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { QumuloStorage } from "@azure/arm-qumulo";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get a FileSystemResource
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Get a FileSystemResource
  * x-ms-original-file: specification/liftrqumulo/resource-manager/Qumulo.Storage/stable/2024-06-19/examples/FileSystems_Get_MaximumSet_Gen.json
  */
-async function fileSystemsGet() {
+async function fileSystemsGet(): Promise<void> {
   const subscriptionId =
     process.env["LIFTRQUMULO_SUBSCRIPTION_ID"] ||
     "382E8C7A-AC80-4D70-8580-EFE99537B9B7";
@@ -42,7 +40,7 @@ async function fileSystemsGet() {
  * @summary Get a FileSystemResource
  * x-ms-original-file: specification/liftrqumulo/resource-manager/Qumulo.Storage/stable/2024-06-19/examples/FileSystems_Get_MinimumSet_Gen.json
  */
-async function fileSystemsGetMinimumSetGen() {
+async function fileSystemsGetMinimumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["LIFTRQUMULO_SUBSCRIPTION_ID"] || "aaaaaaa";
   const resourceGroupName =
@@ -57,7 +55,7 @@ async function fileSystemsGetMinimumSetGen() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   fileSystemsGet();
   fileSystemsGetMinimumSetGen();
 }

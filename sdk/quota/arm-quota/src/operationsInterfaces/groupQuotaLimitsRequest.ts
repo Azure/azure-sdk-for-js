@@ -11,13 +11,11 @@ import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   SubmittedResourceRequestStatus,
   GroupQuotaLimitsRequestListOptionalParams,
-  GroupQuotaLimitsRequestCreateOrUpdateOptionalParams,
-  GroupQuotaLimitsRequestCreateOrUpdateResponse,
   GroupQuotaLimitsRequestUpdateOptionalParams,
   GroupQuotaLimitsRequestUpdateResponse,
   GroupQuotaLimitsRequestGetOptionalParams,
   GroupQuotaLimitsRequestGetResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a GroupQuotaLimitsRequest. */
@@ -44,9 +42,9 @@ export interface GroupQuotaLimitsRequest {
     options?: GroupQuotaLimitsRequestListOptionalParams,
   ): PagedAsyncIterableIterator<SubmittedResourceRequestStatus>;
   /**
-   * Put the GroupQuota requests for a specific ResourceProvider/Location/Resource. the location and
-   * resourceName ("name": {"value" : "resourceName") properties are specified in the request body. Only
-   * 1 resource quota can be requested.
+   * Create the GroupQuota requests for a specific ResourceProvider/Location/Resource. The resourceName
+   * properties are specified in the request body. Only 1 resource quota can be requested. Please note
+   * that patch request creates a new groupQuota request.
    * Use the polling API - OperationsStatus URI specified in Azure-AsyncOperation header field, with
    * retry-after duration in seconds to check the intermediate status. This API provides the finals
    * status with the request details and status.
@@ -55,63 +53,14 @@ export interface GroupQuotaLimitsRequest {
    *                       tenantId/MgId.
    * @param resourceProviderName The resource provider name, such as - Microsoft.Compute. Currently only
    *                             Microsoft.Compute resource provider supports this API.
-   * @param resourceName Resource name.
-   * @param options The options parameters.
-   */
-  beginCreateOrUpdate(
-    managementGroupId: string,
-    groupQuotaName: string,
-    resourceProviderName: string,
-    resourceName: string,
-    options?: GroupQuotaLimitsRequestCreateOrUpdateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<GroupQuotaLimitsRequestCreateOrUpdateResponse>,
-      GroupQuotaLimitsRequestCreateOrUpdateResponse
-    >
-  >;
-  /**
-   * Put the GroupQuota requests for a specific ResourceProvider/Location/Resource. the location and
-   * resourceName ("name": {"value" : "resourceName") properties are specified in the request body. Only
-   * 1 resource quota can be requested.
-   * Use the polling API - OperationsStatus URI specified in Azure-AsyncOperation header field, with
-   * retry-after duration in seconds to check the intermediate status. This API provides the finals
-   * status with the request details and status.
-   * @param managementGroupId Management Group Id.
-   * @param groupQuotaName The GroupQuota name. The name should be unique for the provided context
-   *                       tenantId/MgId.
-   * @param resourceProviderName The resource provider name, such as - Microsoft.Compute. Currently only
-   *                             Microsoft.Compute resource provider supports this API.
-   * @param resourceName Resource name.
-   * @param options The options parameters.
-   */
-  beginCreateOrUpdateAndWait(
-    managementGroupId: string,
-    groupQuotaName: string,
-    resourceProviderName: string,
-    resourceName: string,
-    options?: GroupQuotaLimitsRequestCreateOrUpdateOptionalParams,
-  ): Promise<GroupQuotaLimitsRequestCreateOrUpdateResponse>;
-  /**
-   * Create the GroupQuota requests for a specific ResourceProvider/Location/Resource. the location and
-   * resourceName properties are specified in the request body. Only 1 resource quota can be requested.
-   * Please note that patch request creates a new groupQuota request.
-   * Use the polling API - OperationsStatus URI specified in Azure-AsyncOperation header field, with
-   * retry-after duration in seconds to check the intermediate status. This API provides the finals
-   * status with the request details and status.
-   * @param managementGroupId Management Group Id.
-   * @param groupQuotaName The GroupQuota name. The name should be unique for the provided context
-   *                       tenantId/MgId.
-   * @param resourceProviderName The resource provider name, such as - Microsoft.Compute. Currently only
-   *                             Microsoft.Compute resource provider supports this API.
-   * @param resourceName Resource name.
+   * @param location The name of the Azure region.
    * @param options The options parameters.
    */
   beginUpdate(
     managementGroupId: string,
     groupQuotaName: string,
     resourceProviderName: string,
-    resourceName: string,
+    location: string,
     options?: GroupQuotaLimitsRequestUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
@@ -120,9 +69,9 @@ export interface GroupQuotaLimitsRequest {
     >
   >;
   /**
-   * Create the GroupQuota requests for a specific ResourceProvider/Location/Resource. the location and
-   * resourceName properties are specified in the request body. Only 1 resource quota can be requested.
-   * Please note that patch request creates a new groupQuota request.
+   * Create the GroupQuota requests for a specific ResourceProvider/Location/Resource. The resourceName
+   * properties are specified in the request body. Only 1 resource quota can be requested. Please note
+   * that patch request creates a new groupQuota request.
    * Use the polling API - OperationsStatus URI specified in Azure-AsyncOperation header field, with
    * retry-after duration in seconds to check the intermediate status. This API provides the finals
    * status with the request details and status.
@@ -131,14 +80,14 @@ export interface GroupQuotaLimitsRequest {
    *                       tenantId/MgId.
    * @param resourceProviderName The resource provider name, such as - Microsoft.Compute. Currently only
    *                             Microsoft.Compute resource provider supports this API.
-   * @param resourceName Resource name.
+   * @param location The name of the Azure region.
    * @param options The options parameters.
    */
   beginUpdateAndWait(
     managementGroupId: string,
     groupQuotaName: string,
     resourceProviderName: string,
-    resourceName: string,
+    location: string,
     options?: GroupQuotaLimitsRequestUpdateOptionalParams,
   ): Promise<GroupQuotaLimitsRequestUpdateResponse>;
   /**

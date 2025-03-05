@@ -10,20 +10,20 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary list DeidService resources by resource group
  * x-ms-original-file: 2024-09-20/DeidServices_ListByResourceGroup_MaximumSet_Gen.json
  */
-async function deidServicesListByResourceGroupGeneratedByMaximumSetRuleStable() {
+async function deidServicesListByResourceGroupGeneratedByMaximumSetRuleStable(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "F21BB31B-C214-42C0-ACF0-DACCA05D3011";
   const client = new HealthDataAIServicesClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.deidServices.listByResourceGroup("rgopenapi")) {
+  for await (const item of client.deidServices.listByResourceGroup("rgopenapi")) {
     resArray.push(item);
   }
 
   console.log(resArray);
 }
 
-async function main() {
-  deidServicesListByResourceGroupGeneratedByMaximumSetRuleStable();
+async function main(): Promise<void> {
+  await deidServicesListByResourceGroupGeneratedByMaximumSetRuleStable();
 }
 
 main().catch(console.error);

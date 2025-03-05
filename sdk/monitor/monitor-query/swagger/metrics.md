@@ -23,7 +23,8 @@ v3: true
 typescript: true
 title: MonitorManagementClient
 use-extension:
-  "@autorest/typescript": "6.0.0-beta.15"
+  "@autorest/typescript": "6.0.34"
+module-kind: esm
 ```
 
 ### Add missing x-ms-parameter-location for SubscriptionIdParameter

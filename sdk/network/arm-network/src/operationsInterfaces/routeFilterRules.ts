@@ -16,7 +16,7 @@ import {
   RouteFilterRulesGetResponse,
   RouteFilterRulesCreateOrUpdateOptionalParams,
   RouteFilterRulesCreateOrUpdateResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a RouteFilterRules. */

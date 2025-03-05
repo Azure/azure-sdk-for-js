@@ -113,6 +113,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [privateendpointconnectionslistgroupidssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/notificationhubs/arm-notificationhubs/samples/v3-beta/javascript/privateEndpointConnectionsListGroupIdsSample.js
 [privateendpointconnectionslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/notificationhubs/arm-notificationhubs/samples/v3-beta/javascript/privateEndpointConnectionsListSample.js
 [privateendpointconnectionsupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/notificationhubs/arm-notificationhubs/samples/v3-beta/javascript/privateEndpointConnectionsUpdateSample.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-notificationhubs?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-notificationhubs?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/notificationhubs/arm-notificationhubs/README.md

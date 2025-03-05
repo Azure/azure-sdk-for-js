@@ -10,14 +10,14 @@ import {
   PipelineRequest,
   PipelineResponse,
   SendRequest,
-} from "@azure/core-rest-pipeline";
+} from "../src/index.js";
 
 describe("snippets", () => {
-  it("send_request", () => {
+  it("ReadmeSampleSendRequest", () => {
     type SendRequest = (request: PipelineRequest) => Promise<PipelineResponse>;
   });
 
-  it("http_request", () => {
+  it("ReadmeSampleHttpRequest", () => {
     interface HttpClient {
       /**
        * The method that makes the request and returns a response.
@@ -26,7 +26,7 @@ describe("snippets", () => {
     }
   });
 
-  it("pipeline_policy", () => {
+  it("ReadmeSamplePipelinePolicy", () => {
     interface PipelinePolicy {
       /**
        * The policy name. Must be a unique string in the pipeline.
@@ -41,7 +41,7 @@ describe("snippets", () => {
     }
   });
 
-  it("custom_policy", () => {
+  it("ReadmeSampleCustomPolicy", () => {
     // @ts-ignore
     const customPolicy = {
       name: "My wonderful policy",
@@ -57,7 +57,7 @@ describe("snippets", () => {
     };
   });
 
-  it("pipeline", () => {
+  it("ReadmeSamplePipeline", () => {
     interface Pipeline {
       addPolicy(policy: PipelinePolicy, options?: AddPipelineOptions): void;
       removePolicy(options: { name?: string; phase?: PipelinePhase }): PipelinePolicy[];
@@ -67,7 +67,7 @@ describe("snippets", () => {
     }
   });
 
-  it("add_policy_options", () => {
+  it("ReadmeSampleAddPipelineOptions", () => {
     interface AddPipelineOptions {
       beforePolicies?: string[];
       afterPolicies?: string[];

@@ -13,9 +13,7 @@ import {
   HDInsightContainersManagementClient,
 } from "@azure/arm-hdinsightcontainers";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Library management operations on HDInsight on AKS cluster.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Library management operations on HDInsight on AKS cluster.
  * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/HDInsightOnAks/preview/2024-05-01-preview/examples/InstallNewClusterLibraries.json
  */
-async function installNewClusterLibraries() {
+async function installNewClusterLibraries(): Promise<void> {
   const subscriptionId =
     process.env["HDINSIGHT_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -75,7 +73,7 @@ async function installNewClusterLibraries() {
  * @summary Library management operations on HDInsight on AKS cluster.
  * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/HDInsightOnAks/preview/2024-05-01-preview/examples/UninstallExistingClusterLibraries.json
  */
-async function uninstallExistingClusterLibraries() {
+async function uninstallExistingClusterLibraries(): Promise<void> {
   const subscriptionId =
     process.env["HDINSIGHT_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -112,7 +110,7 @@ async function uninstallExistingClusterLibraries() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   installNewClusterLibraries();
   uninstallExistingClusterLibraries();
 }

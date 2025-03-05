@@ -1,16 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import createComputeManagementClient, {
   RestorePointsDeleteParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to The operation to delete the restore point.
@@ -26,7 +21,7 @@ async function restorePointsDeleteMaximumSetGen() {
   const restorePointCollectionName = "aaaaaaaaaaaaaaaaaaaaaa";
   const restorePointName = "a";
   const options: RestorePointsDeleteParameters = {
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
@@ -34,10 +29,10 @@ async function restorePointsDeleteMaximumSetGen() {
       subscriptionId,
       resourceGroupName,
       restorePointCollectionName,
-      restorePointName
+      restorePointName,
     )
     .delete(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -57,7 +52,7 @@ async function restorePointsDeleteMinimumSetGen() {
   const restorePointCollectionName = "aaaaaaaaaaaaaaaaa";
   const restorePointName = "aaaaaaaaaaaaaaaaaaaaaaaa";
   const options: RestorePointsDeleteParameters = {
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
@@ -65,10 +60,10 @@ async function restorePointsDeleteMinimumSetGen() {
       subscriptionId,
       resourceGroupName,
       restorePointCollectionName,
-      restorePointName
+      restorePointName,
     )
     .delete(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }

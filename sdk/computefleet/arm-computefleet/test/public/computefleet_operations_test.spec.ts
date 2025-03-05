@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { env, Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
+import type { Recorder } from "@azure-tools/test-recorder";
+import { env, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { assert, beforeEach, afterEach, it, describe } from "vitest";
 import { createRecorder } from "./utils/recordedClient.js";
@@ -36,7 +37,7 @@ describe("AzureFleet test", () => {
     resourcename = "resourcetest";
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     if (recorder?.recordingId) {
       await recorder.stop();
     }
@@ -45,7 +46,7 @@ describe("AzureFleet test", () => {
   // first create a networkSecurityGroups named "testnsg" with eastus2euap on portal
   // second create a virtual network named "czwtestvn" with eastus2euap and config the ip address as 172.16.0.0/16 when creating a vitrual network on portal
   // third create a subnet named "testsub" and before click add button, enable private subnet and link to networkSecurityGroups
-  it("fleets create test", async function () {
+  it("fleets create test", async () => {
     const res = await client.fleets.createOrUpdate(
       resourceGroup,
       resourcename,
@@ -144,31 +145,31 @@ describe("AzureFleet test", () => {
     assert.equal(res.name, resourcename);
   });
 
-  it("fleets get test", async function () {
+  it("fleets get test", async () => {
     const res = await client.fleets.get(resourceGroup, resourcename);
     assert.equal(res.name, resourcename);
   });
 
-  it("fleets list test", async function () {
+  it("fleets list test", async () => {
     const resArray = new Array();
-    for await (let item of client.fleets.listByResourceGroup(resourceGroup)) {
+    for await (const item of client.fleets.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 1);
   });
 
-  it("fleets delete test", async function () {
+  it("fleets delete test", async () => {
     const resArray = new Array();
     await client.fleets.delete(resourceGroup, resourcename);
-    for await (let item of client.fleets.listByResourceGroup(resourceGroup)) {
+    for await (const item of client.fleets.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 0);
   });
 
-  it("operation list test", async function () {
+  it("operation list test", async () => {
     const resArray = new Array();
-    for await (let item of client.operations.list()) {
+    for await (const item of client.operations.list()) {
       resArray.push(item);
     }
     assert.notEqual(resArray.length, 0);

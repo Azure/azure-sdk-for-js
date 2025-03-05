@@ -13,9 +13,7 @@ import {
   NetworkManagementClient,
 } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Sets or auto generates the shared key based on the user input. If users give a shared key value, it does the set operation. If key length is given, the operation creates a random key of the pre-defined length.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Sets or auto generates the shared key based on the user input. If users give a shared key value, it does the set operation. If key length is given, the operation creates a random key of the pre-defined length.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/VpnSiteLinkConnectionDefaultSharedKeyPut.json
  */
-async function vpnSiteLinkConnectionDefaultSharedKeyPut() {
+async function vpnSiteLinkConnectionDefaultSharedKeyPut(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const gatewayName = "gateway1";
@@ -45,7 +43,7 @@ async function vpnSiteLinkConnectionDefaultSharedKeyPut() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   vpnSiteLinkConnectionDefaultSharedKeyPut();
 }
 

@@ -6,15 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { EntityRelations } from "../operationsInterfaces";
+import { EntityRelations } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { SecurityInsights } from "../securityInsights";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { SecurityInsights } from "../securityInsights.js";
 import {
   EntityRelationsGetRelationOptionalParams,
   EntityRelationsGetRelationResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Class containing EntityRelations operations. */
 export class EntityRelationsImpl implements EntityRelations {

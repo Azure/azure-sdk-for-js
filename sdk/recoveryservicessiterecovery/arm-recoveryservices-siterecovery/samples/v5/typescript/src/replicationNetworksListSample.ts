@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { SiteRecoveryManagementClient } from "@azure/arm-recoveryservices-siterecovery";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists the networks available in a vault.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Lists the networks available in a vault.
  * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationNetworks_List.json
  */
-async function getsTheListOfNetworksViewOnlyApi() {
+async function getsTheListOfNetworksViewOnlyApi(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICESSITERECOVERY_SUBSCRIPTION_ID"] ||
     "9112a37f-0f3e-46ec-9c00-060c6edca071";
@@ -40,7 +38,7 @@ async function getsTheListOfNetworksViewOnlyApi() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getsTheListOfNetworksViewOnlyApi();
 }
 

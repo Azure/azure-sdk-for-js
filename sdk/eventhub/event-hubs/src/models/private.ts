@@ -83,7 +83,7 @@ export interface CommonEventProcessorOptions
  * the bytes present in the message body than have the client attempt to parse it.
  *
  * Example usage:
- * ```js
+ * ```ts snippet:ignore
  * {
  *     retryOptions: {
  *         maxRetries: 4

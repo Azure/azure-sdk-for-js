@@ -43,9 +43,9 @@ async function validateConnectionClosedError(promise: Promise<unknown>): Promise
   });
 }
 
-describe("EventHubClient", function () {
-  describe("Create EventHubConsumerClient", function () {
-    it("throws when no EntityPath in connection string", async function () {
+describe("EventHubClient", () => {
+  describe("Create EventHubConsumerClient", () => {
+    it("throws when no EntityPath in connection string", async () => {
       const connectionString = "Endpoint=sb://abc";
       const test = function (): EventHubConsumerClient {
         return createConsumer({ connectionString, eventhubName: "" }).consumer;
@@ -57,7 +57,7 @@ describe("EventHubClient", function () {
       );
     });
 
-    it("throws when EntityPath in connection string doesn't match with event hub name parameter", async function () {
+    it("throws when EntityPath in connection string doesn't match with event hub name parameter", async () => {
       const connectionString =
         "Endpoint=sb://a;SharedAccessKeyName=b;SharedAccessKey=c=;EntityPath=my-event-hub-name";
       const eventhubName = "event-hub-name";
@@ -71,7 +71,7 @@ describe("EventHubClient", function () {
       );
     });
 
-    it("sets eventHubName, fullyQualifiedNamespace properties when created from a connection string", async function () {
+    it("sets eventHubName, fullyQualifiedNamespace properties when created from a connection string", async () => {
       const fqdn = "test.servicebus.windows.net";
       const eventhubName = "my-event-hub-name";
       const connectionString = `Endpoint=sb://${fqdn};SharedAccessKeyName=b;SharedAccessKey=c;EntityPath=${eventhubName}`;
@@ -81,7 +81,7 @@ describe("EventHubClient", function () {
       should.equal(client.fullyQualifiedNamespace, fqdn);
     });
 
-    it("sets eventHubName, fullyQualifiedNamespace properties when created from a connection string and event hub name", async function () {
+    it("sets eventHubName, fullyQualifiedNamespace properties when created from a connection string and event hub name", async () => {
       const fqdn = "test.servicebus.windows.net";
       const eventhubName = "my-event-hub-name";
       const connectionString = `Endpoint=sb://${fqdn};SharedAccessKeyName=b;SharedAccessKey=c`;
@@ -91,7 +91,7 @@ describe("EventHubClient", function () {
       should.equal(client.fullyQualifiedNamespace, fqdn);
     });
 
-    it("sets eventHubName, fullyQualifiedNamespace properties when created from a token credential", async function () {
+    it("sets eventHubName, fullyQualifiedNamespace properties when created from a token credential", async () => {
       const fqdn = "test.servicebus.windows.net";
       const eventhubName = "my-event-hub-name";
       const { consumer: client } = createConsumer({
@@ -104,7 +104,7 @@ describe("EventHubClient", function () {
       should.equal(client.fullyQualifiedNamespace, fqdn);
     });
 
-    it("respects customEndpointAddress when using connection string", async function () {
+    it("respects customEndpointAddress when using connection string", async () => {
       const fqdn = "test.servicebus.windows.net";
       const eventhubName = "my-event-hub-name";
       const connectionString = `Endpoint=sb://${fqdn};SharedAccessKeyName=b;SharedAccessKey=c;EntityPath=${eventhubName}`;
@@ -122,7 +122,7 @@ describe("EventHubClient", function () {
       client["_context"].config.port!.should.equal(port);
     });
 
-    it("respects customEndpointAddress when using credentials", async function () {
+    it("respects customEndpointAddress when using credentials", async () => {
       const fqdn = "test.servicebus.windows.net";
       const eventhubName = "my-event-hub-name";
       const host = "foo.private.bar";
@@ -141,8 +141,8 @@ describe("EventHubClient", function () {
     });
   });
 
-  describe("Create EventHubProducerClient", function () {
-    it("the identifier options can be set", async function () {
+  describe("Create EventHubProducerClient", () => {
+    it("the identifier options can be set", async () => {
       const identifier = "Test1";
       const connectionString =
         "Endpoint=sb://test.servicebus.windows.net;SharedAccessKeyName=b;SharedAccessKey=c";
@@ -155,7 +155,7 @@ describe("EventHubClient", function () {
       client.identifier.should.equal(identifier, "The client identifier wasn't set correctly");
     });
 
-    it("throws when no EntityPath in connection string ", async function () {
+    it("throws when no EntityPath in connection string ", async () => {
       const connectionString = "Endpoint=sb://abc";
       const test = function (): EventHubProducerClient {
         return createProducer({ connectionString, eventhubName: "" }).producer;
@@ -167,7 +167,7 @@ describe("EventHubClient", function () {
       );
     });
 
-    it("throws when EntityPath in connection string doesn't match with event hub name parameter", async function () {
+    it("throws when EntityPath in connection string doesn't match with event hub name parameter", async () => {
       const connectionString =
         "Endpoint=sb://a;SharedAccessKeyName=b;SharedAccessKey=c=;EntityPath=my-event-hub-name";
       const eventhubName = "event-hub-name";
@@ -181,7 +181,7 @@ describe("EventHubClient", function () {
       );
     });
 
-    it("sets eventHubName, fullyQualifiedNamespace properties when created from a connection string", async function () {
+    it("sets eventHubName, fullyQualifiedNamespace properties when created from a connection string", async () => {
       const fqdn = "test.servicebus.windows.net";
       const eventhubName = "my-event-hub-name";
       const connectionString = `Endpoint=sb://${fqdn};SharedAccessKeyName=b;SharedAccessKey=c;EntityPath=${eventhubName}`;
@@ -191,7 +191,7 @@ describe("EventHubClient", function () {
       should.equal(client.fullyQualifiedNamespace, fqdn);
     });
 
-    it("sets eventHubName, fullyQualifiedNamespace properties when created from a connection string and event hub name", async function () {
+    it("sets eventHubName, fullyQualifiedNamespace properties when created from a connection string and event hub name", async () => {
       const fqdn = "test.servicebus.windows.net";
       const eventhubName = "my-event-hub-name";
       const connectionString = `Endpoint=sb://${fqdn};SharedAccessKeyName=b;SharedAccessKey=c`;
@@ -201,7 +201,7 @@ describe("EventHubClient", function () {
       should.equal(client.fullyQualifiedNamespace, fqdn);
     });
 
-    it("sets eventHubName, fullyQualifiedNamespace properties when created from a token credential", async function () {
+    it("sets eventHubName, fullyQualifiedNamespace properties when created from a token credential", async () => {
       const fqdn = "test.servicebus.windows.net";
       const eventhubName = "my-event-hub-name";
       const { producer: client } = createProducer({
@@ -214,7 +214,7 @@ describe("EventHubClient", function () {
       should.equal(client.fullyQualifiedNamespace, fqdn);
     });
 
-    it("respects customEndpointAddress when using connection string", async function () {
+    it("respects customEndpointAddress when using connection string", async () => {
       const fqdn = "test.servicebus.windows.net";
       const eventhubName = "my-event-hub-name";
       const connectionString = `Endpoint=sb://${fqdn};SharedAccessKeyName=b;SharedAccessKey=c;EntityPath=${eventhubName}`;
@@ -232,7 +232,7 @@ describe("EventHubClient", function () {
       client["_context"].config.port!.should.equal(port);
     });
 
-    it("respects customEndpointAddress when using credentials", async function () {
+    it("respects customEndpointAddress when using credentials", async () => {
       const fqdn = "test.servicebus.windows.net";
       const eventhubName = "my-event-hub-name";
       const host = "foo.private.bar";
@@ -251,136 +251,136 @@ describe("EventHubClient", function () {
     });
   });
 
-  describe("EventHubConsumerClient with non existent namespace", function () {
+  describe("EventHubConsumerClient with non existent namespace", () => {
     let client: EventHubConsumerClient;
-    beforeEach(async function () {
+    beforeEach(async () => {
       const connectionString =
         "Endpoint=sb://a;SharedAccessKeyName=b;SharedAccessKey=c;EntityPath=d";
       client = createConsumer({ connectionString, eventhubName: "" }).consumer;
     });
 
-    afterEach(async function () {
+    afterEach(async () => {
       await client.close();
     });
 
-    it("should throw ServiceCommunicationError for getEventHubProperties", async function () {
+    it("should throw ServiceCommunicationError for getEventHubProperties", async () => {
       await validateConnectionError(client.getEventHubProperties());
     });
 
-    it("should throw ServiceCommunicationError for getPartitionProperties", async function () {
+    it("should throw ServiceCommunicationError for getPartitionProperties", async () => {
       await validateConnectionError(client.getPartitionProperties("0"));
     });
 
-    it("should throw ServiceCommunicationError for getPartitionIds", async function () {
+    it("should throw ServiceCommunicationError for getPartitionIds", async () => {
       await validateConnectionError(client.getPartitionIds());
     });
 
-    it("should throw ServiceCommunicationError while subscribe()", async function () {
+    it("should throw ServiceCommunicationError while subscribe()", async () => {
       await validateConnectionError(getSubscriptionPromise(client));
     });
   });
 
-  describe("EventHubProducerClient with non existent namespace", function () {
+  describe("EventHubProducerClient with non existent namespace", () => {
     let client: EventHubProducerClient;
-    beforeEach(async function () {
+    beforeEach(async () => {
       const connectionString =
         "Endpoint=sb://a;SharedAccessKeyName=b;SharedAccessKey=c;EntityPath=d";
       client = createProducer({ connectionString, eventhubName: "" }).producer;
     });
 
-    afterEach(async function () {
+    afterEach(async () => {
       await client.close();
     });
 
-    it("should throw ServiceCommunicationError for getEventHubProperties", async function () {
+    it("should throw ServiceCommunicationError for getEventHubProperties", async () => {
       await validateConnectionError(client.getEventHubProperties());
     });
 
-    it("should throw ServiceCommunicationError for getPartitionProperties", async function () {
+    it("should throw ServiceCommunicationError for getPartitionProperties", async () => {
       await validateConnectionError(client.getPartitionProperties("0"));
     });
 
-    it("should throw ServiceCommunicationError for getPartitionIds", async function () {
+    it("should throw ServiceCommunicationError for getPartitionIds", async () => {
       await validateConnectionError(client.getPartitionIds());
     });
 
-    it("should throw ServiceCommunicationError while sending", async function () {
+    it("should throw ServiceCommunicationError while sending", async () => {
       await validateConnectionError(client.sendBatch([{ body: "Hello World" }]));
     });
 
-    it("should throw ServiceCommunicationError while creating a batch", async function () {
+    it("should throw ServiceCommunicationError while creating a batch", async () => {
       await validateConnectionError(client.createBatch());
     });
   });
 
-  describe("EventHubConsumerClient with non existent event hub", function () {
+  describe("EventHubConsumerClient with non existent event hub", () => {
     let client: EventHubConsumerClient;
 
-    beforeEach(async function () {
+    beforeEach(async () => {
       client = createConsumer({ eventhubName: "bad" }).consumer;
     });
 
-    afterEach(async function () {
+    afterEach(async () => {
       await client.close();
     });
 
-    it("should throw MessagingEntityNotFoundError for getEventHubProperties", async function () {
+    it("should throw MessagingEntityNotFoundError for getEventHubProperties", async () => {
       await validateNotFoundError(client.getEventHubProperties());
     });
 
-    it("should throw MessagingEntityNotFoundError for getPartitionProperties", async function () {
+    it("should throw MessagingEntityNotFoundError for getPartitionProperties", async () => {
       await validateNotFoundError(client.getPartitionProperties("0"));
     });
 
-    it("should throw MessagingEntityNotFoundError for getPartitionIds", async function () {
+    it("should throw MessagingEntityNotFoundError for getPartitionIds", async () => {
       await validateNotFoundError(client.getPartitionIds());
     });
 
-    it("should throw MessagingEntityNotFoundError while subscribe()", async function () {
+    it("should throw MessagingEntityNotFoundError while subscribe()", async () => {
       await validateNotFoundError(getSubscriptionPromise(client));
     });
   });
 
-  describe("EventHubProducerClient with non existent event hub", function () {
+  describe("EventHubProducerClient with non existent event hub", () => {
     let client: EventHubProducerClient;
 
-    beforeEach(async function () {
+    beforeEach(async () => {
       client = createProducer({ eventhubName: "bad" }).producer;
     });
 
-    afterEach(async function () {
+    afterEach(async () => {
       await client.close();
     });
 
-    it("should throw MessagingEntityNotFoundError for getEventHubProperties", async function () {
+    it("should throw MessagingEntityNotFoundError for getEventHubProperties", async () => {
       await validateNotFoundError(client.getEventHubProperties());
     });
 
-    it("should throw MessagingEntityNotFoundError for getPartitionProperties", async function () {
+    it("should throw MessagingEntityNotFoundError for getPartitionProperties", async () => {
       await validateNotFoundError(client.getPartitionProperties("0"));
     });
 
-    it("should throw MessagingEntityNotFoundError for getPartitionIds", async function () {
+    it("should throw MessagingEntityNotFoundError for getPartitionIds", async () => {
       await validateNotFoundError(client.getPartitionIds());
     });
 
-    it("should throw MessagingEntityNotFoundError while sending", async function () {
+    it("should throw MessagingEntityNotFoundError while sending", async () => {
       await validateNotFoundError(client.sendBatch([{ body: "Hello World" }]));
     });
 
-    it("should throw MessagingEntityNotFoundError while creating a batch", async function () {
+    it("should throw MessagingEntityNotFoundError while creating a batch", async () => {
       await validateNotFoundError(client.createBatch());
     });
   });
 
-  describe("EventHubConsumerClient User Agent String", function () {
-    it("should correctly populate the default user agent", async function () {
+  describe("EventHubConsumerClient User Agent String", () => {
+    it("should correctly populate the default user agent", async () => {
       const { consumer } = createConsumer();
       testUserAgentString(consumer["_context"]);
       await consumer.close();
     });
 
-    it("should correctly populate the custom user agent", async function () {
+    it("should correctly populate the custom user agent", async () => {
       const customUserAgent = "boo";
       const { consumer } = createConsumer({ options: { userAgent: customUserAgent } });
       testUserAgentString(consumer["_context"], customUserAgent);
@@ -388,14 +388,14 @@ describe("EventHubClient", function () {
     });
   });
 
-  describe("EventHubProducerClient User Agent String", function () {
-    it("should correctly populate the default user agent", async function () {
+  describe("EventHubProducerClient User Agent String", () => {
+    it("should correctly populate the default user agent", async () => {
       const { producer } = createProducer();
       testUserAgentString(producer["_context"]);
       await producer.close();
     });
 
-    it("should correctly populate the custom user agent", async function () {
+    it("should correctly populate the custom user agent", async () => {
       const customUserAgent = "boo";
       const { producer } = createProducer({ options: { userAgent: customUserAgent } });
       testUserAgentString(producer["_context"], customUserAgent);
@@ -424,60 +424,60 @@ describe("EventHubClient", function () {
     }
   }
 
-  describe("EventHubConsumerClient after close()", function () {
+  describe("EventHubConsumerClient after close()", () => {
     let client: EventHubConsumerClient;
 
-    beforeEach(async function () {
+    beforeEach(async () => {
       client = createConsumer().consumer;
       // Ensure that the connection is opened
       await client.getPartitionIds();
       await client.close();
     });
 
-    it("should throw connection closed error for getEventHubProperties", async function () {
+    it("should throw connection closed error for getEventHubProperties", async () => {
       await validateConnectionClosedError(client.getEventHubProperties());
     });
 
-    it("should throw connection closed error for getPartitionProperties", async function () {
+    it("should throw connection closed error for getPartitionProperties", async () => {
       await validateConnectionClosedError(client.getPartitionProperties("0"));
     });
 
-    it("should throw connection closed error for getPartitionIds", async function () {
+    it("should throw connection closed error for getPartitionIds", async () => {
       await validateConnectionClosedError(client.getPartitionIds());
     });
 
-    it("should throw connection closed error while subscribe()", async function () {
+    it("should throw connection closed error while subscribe()", async () => {
       await validateConnectionClosedError(getSubscriptionPromise(client));
     });
   });
 
-  describe("EventHubProducerClient after close()", function () {
+  describe("EventHubProducerClient after close()", () => {
     let client: EventHubProducerClient;
 
-    beforeEach(async function () {
+    beforeEach(async () => {
       client = createProducer().producer;
       // Ensure that the connection is opened
       await client.getPartitionIds();
       await client.close();
     });
 
-    it("should throw connection closed error for getEventHubProperties", async function () {
+    it("should throw connection closed error for getEventHubProperties", async () => {
       await validateConnectionClosedError(client.getEventHubProperties());
     });
 
-    it("should throw connection closed error for getPartitionProperties", async function () {
+    it("should throw connection closed error for getPartitionProperties", async () => {
       await validateConnectionClosedError(client.getPartitionProperties("0"));
     });
 
-    it("should throw connection closed error for getPartitionIds", async function () {
+    it("should throw connection closed error for getPartitionIds", async () => {
       await validateConnectionClosedError(client.getPartitionIds());
     });
 
-    it("should throw connection closed error while sending", async function () {
+    it("should throw connection closed error while sending", async () => {
       await validateConnectionClosedError(client.sendBatch([{ body: "Hello World" }]));
     });
 
-    it("should throw connection closed error while creating a batch", async function () {
+    it("should throw connection closed error while creating a batch", async () => {
       await validateConnectionClosedError(client.createBatch());
     });
   });

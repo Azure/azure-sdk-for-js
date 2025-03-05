@@ -6,15 +6,16 @@
  */
 
 import { parseConnectionString } from "@azure/communication-common";
-import { SmsClient, SmsSendRequest } from "@azure/communication-sms";
-import { isNode } from "@azure/core-util";
-import { ClientSecretCredential, DefaultAzureCredential, TokenCredential } from "@azure/identity";
+import type { SmsSendRequest } from "@azure/communication-sms";
+import { SmsClient } from "@azure/communication-sms";
+import { isNodeLike } from "@azure/core-util";
+import type { TokenCredential } from "@azure/identity";
+import { ClientSecretCredential, DefaultAzureCredential } from "@azure/identity";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
-export async function main() {
+export async function main(): Promise<void> {
   console.log("== Send SMS Message With AAD Authentication ==");
 
   // You will need to set this environment variable or edit the following values
@@ -35,7 +36,7 @@ export async function main() {
   }
 
   // get credentials
-  const credential: TokenCredential = isNode
+  const credential: TokenCredential = isNodeLike
     ? new DefaultAzureCredential()
     : new ClientSecretCredential(
         process.env.AZURE_TENANT_ID,

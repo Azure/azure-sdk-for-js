@@ -19,7 +19,8 @@ rest-level-client: true
 security: AADToken
 security-scopes: "https://cnt-prod.loadtesting.azure.com/.default"
 use-extension:
-  "@autorest/typescript": "6.0.0-rc.3"
+  "@autorest/typescript": "6.0.34"
 service-versions:
 - '2022-11-01'
+module-kind: esm
 ```

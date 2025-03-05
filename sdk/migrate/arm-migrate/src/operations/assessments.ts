@@ -7,11 +7,11 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { Assessments } from "../operationsInterfaces";
+import { Assessments } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { AzureMigrateV2 } from "../azureMigrateV2";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { AzureMigrateV2 } from "../azureMigrateV2.js";
 import {
   Assessment,
   AssessmentsListByGroupOptionalParams,
@@ -26,7 +26,7 @@ import {
   AssessmentsDeleteResponse,
   AssessmentsGetReportDownloadUrlOptionalParams,
   AssessmentsGetReportDownloadUrlResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Assessments operations. */

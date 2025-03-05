@@ -20,7 +20,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary The Create Domain Service operation creates a new domain service with the specified parameters. If the specific service already exists, then any patchable properties will be updated and any immutable properties will remain unchanged.
  * x-ms-original-file: specification/domainservices/resource-manager/Microsoft.AAD/stable/2021-05-01/examples/CreateDomainService.json
  */
-async function createDomainService() {
+async function createDomainService(): Promise<void> {
   const subscriptionId = "1639790a-76a2-4ac4-98d9-8562f5dfcb4d";
   const resourceGroupName = "TestResourceGroup";
   const domainServiceName = "TestDomainService.com";

@@ -55,6 +55,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [partnergetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/managementpartner/arm-managementpartner/samples/v3/javascript/partnerGetSample.js
 [partnerupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/managementpartner/arm-managementpartner/samples/v3/javascript/partnerUpdateSample.js
 [partnersgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/managementpartner/arm-managementpartner/samples/v3/javascript/partnersGetSample.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-managementpartner?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-managementpartner?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/managementpartner/arm-managementpartner/README.md

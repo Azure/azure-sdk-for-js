@@ -13,7 +13,7 @@ import {
   JobTargetExecutionsListByStepOptionalParams,
   JobTargetExecutionsGetOptionalParams,
   JobTargetExecutionsGetResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a JobTargetExecutions. */

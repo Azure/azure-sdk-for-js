@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { PrivateLinkHub, SynapseManagementClient } from "@azure/arm-synapse";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates or updates a privateLinkHub
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Creates or updates a privateLinkHub
  * x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/stable/2021-06-01/examples/CreateOrUpdatePrivateLinkHub.json
  */
-async function createOrUpdateAPrivateLinkHub() {
+async function createOrUpdateAPrivateLinkHub(): Promise<void> {
   const subscriptionId =
     process.env["SYNAPSE_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -41,7 +39,7 @@ async function createOrUpdateAPrivateLinkHub() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createOrUpdateAPrivateLinkHub();
 }
 

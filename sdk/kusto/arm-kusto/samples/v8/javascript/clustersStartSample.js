@@ -10,13 +10,13 @@
 // Licensed under the MIT License.
 const { KustoManagementClient } = require("@azure/arm-kusto");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Starts a Kusto cluster.
  *
  * @summary Starts a Kusto cluster.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoClustersStart.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2024-04-13/examples/KustoClustersStart.json
  */
 async function kustoClustersStart() {
   const subscriptionId =
@@ -30,7 +30,7 @@ async function kustoClustersStart() {
 }
 
 async function main() {
-  kustoClustersStart();
+  await kustoClustersStart();
 }
 
 main().catch(console.error);

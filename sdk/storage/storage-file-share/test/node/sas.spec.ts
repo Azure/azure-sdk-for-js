@@ -315,7 +315,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
      * When you establish a stored access policy on a share, it may take up to 30 seconds to take effect.
      * During this interval, a shared access signature that is associated with the stored access policy will
      * fail with status code 403 (Forbidden), until the access policy becomes active.
-     * More details: https://docs.microsoft.com/en-us/rest/api/storageservices/set-share-acl
+     * More details: https://learn.microsoft.com/en-us/rest/api/storageservices/set-share-acl
      * Note: delay in recorder module only take effect in live and recording mode.
      */
     await delay(30 * 1000);
@@ -378,7 +378,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
      * When you establish a stored access policy on a share, it may take up to 30 seconds to take effect.
      * During this interval, a shared access signature that is associated with the stored access policy will
      * fail with status code 403 (Forbidden), until the access policy becomes active.
-     * More details: https://docs.microsoft.com/en-us/rest/api/storageservices/set-share-acl
+     * More details: https://learn.microsoft.com/en-us/rest/api/storageservices/set-share-acl
      * Note: delay in recorder module only take effect in live and recording mode.
      */
     await delay(30 * 1000);

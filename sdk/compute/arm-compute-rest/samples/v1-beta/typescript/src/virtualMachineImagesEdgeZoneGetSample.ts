@@ -1,15 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import createComputeManagementClient, {
-  VirtualMachineImagesEdgeZoneGetParameters
+  VirtualMachineImagesEdgeZoneGetParameters,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets a virtual machine image in an edge zone.
@@ -28,7 +23,7 @@ async function virtualMachineImagesEdgeZoneGetMaximumSetGen() {
   const skus = "aaaaaaaaaa";
   const version = "aaaaaaaaaaaaaaaaaaaaaaaaaaa";
   const options: VirtualMachineImagesEdgeZoneGetParameters = {
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const result = await client
     .path(
@@ -39,7 +34,7 @@ async function virtualMachineImagesEdgeZoneGetMaximumSetGen() {
       publisherName,
       offer,
       skus,
-      version
+      version,
     )
     .get(options);
   console.log(result);
@@ -63,7 +58,7 @@ async function virtualMachineImagesEdgeZoneGetMinimumSetGen() {
   const skus = "aaaaaaaaaaaaaaaaaa";
   const version = "aa";
   const options: VirtualMachineImagesEdgeZoneGetParameters = {
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const result = await client
     .path(
@@ -74,7 +69,7 @@ async function virtualMachineImagesEdgeZoneGetMinimumSetGen() {
       publisherName,
       offer,
       skus,
-      version
+      version,
     )
     .get(options);
   console.log(result);

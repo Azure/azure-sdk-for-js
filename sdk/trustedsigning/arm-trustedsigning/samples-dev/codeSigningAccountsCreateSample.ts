@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary create a trusted Signing Account.
  * x-ms-original-file: 2024-02-05-preview/CodeSigningAccounts_Create.json
  */
-async function createATrustedSigningAccount() {
+async function createATrustedSigningAccount(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new CodeSigningClient(credential, subscriptionId);
@@ -21,8 +21,8 @@ async function createATrustedSigningAccount() {
   console.log(result);
 }
 
-async function main() {
-  createATrustedSigningAccount();
+async function main(): Promise<void> {
+  await createATrustedSigningAccount();
 }
 
 main().catch(console.error);

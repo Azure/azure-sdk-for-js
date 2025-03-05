@@ -16,7 +16,7 @@ import {
   TransparentDataEncryptionsGetResponse,
   TransparentDataEncryptionsCreateOrUpdateOptionalParams,
   TransparentDataEncryptionsCreateOrUpdateResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a TransparentDataEncryptions. */

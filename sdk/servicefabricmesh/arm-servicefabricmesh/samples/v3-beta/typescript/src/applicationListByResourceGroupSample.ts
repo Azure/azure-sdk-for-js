@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { ServiceFabricMeshManagementClient } from "@azure/arm-servicefabricmesh";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets the information about all application resources in a given resource group. The information include the description and other properties of the Application.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Gets the information about all application resources in a given resource group. The information include the description and other properties of the Application.
  * x-ms-original-file: specification/servicefabricmesh/resource-manager/Microsoft.ServiceFabricMesh/preview/2018-09-01-preview/examples/applications/list_byResourceGroup.json
  */
-async function listApplicationsByResourceGroup() {
+async function listApplicationsByResourceGroup(): Promise<void> {
   const subscriptionId =
     process.env["SERVICEFABRICMESH_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -40,7 +38,7 @@ async function listApplicationsByResourceGroup() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listApplicationsByResourceGroup();
 }
 

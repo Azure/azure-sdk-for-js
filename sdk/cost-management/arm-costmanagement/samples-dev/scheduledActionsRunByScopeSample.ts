@@ -6,13 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { CostManagementClient } from "@azure/arm-costmanagement";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Runs a shared scheduled action within the given scope.
@@ -20,7 +16,7 @@ dotenv.config();
  * @summary Runs a shared scheduled action within the given scope.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/scheduledActions/scheduledAction-sendNow-shared.json
  */
-async function scheduledActionRunByScope() {
+async function scheduledActionRunByScope(): Promise<void> {
   const scope = "subscriptions/00000000-0000-0000-0000-000000000000";
   const name = "monthlyCostByResource";
   const credential = new DefaultAzureCredential();
@@ -29,8 +25,8 @@ async function scheduledActionRunByScope() {
   console.log(result);
 }
 
-async function main() {
-  scheduledActionRunByScope();
+async function main(): Promise<void> {
+  await scheduledActionRunByScope();
 }
 
 main().catch(console.error);

@@ -2,9 +2,7 @@
   "extends": "../../../tsconfig.samples.base.json",
   "compilerOptions": {
     "paths": {
-      "@azure/arm-databoxedge-profile-2020-09-01-hybrid": [
-        "./dist/esm"
-      ]
+      "@azure/arm-databoxedge-profile-2020-09-01-hybrid": ["./dist/esm"]
     }
   }
 }

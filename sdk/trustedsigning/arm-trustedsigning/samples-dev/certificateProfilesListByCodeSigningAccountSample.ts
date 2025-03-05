@@ -10,12 +10,12 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary list certificate profiles under a trusted signing account.
  * x-ms-original-file: 2024-02-05-preview/CertificateProfiles_ListByCodeSigningAccount.json
  */
-async function listCertificateProfilesUnderATrustedSigningAccount() {
+async function listCertificateProfilesUnderATrustedSigningAccount(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new CodeSigningClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.certificateProfiles.listByCodeSigningAccount(
+  for await (const item of client.certificateProfiles.listByCodeSigningAccount(
     "MyResourceGroup",
     "MyAccount",
   )) {
@@ -25,8 +25,8 @@ async function listCertificateProfilesUnderATrustedSigningAccount() {
   console.log(resArray);
 }
 
-async function main() {
-  listCertificateProfilesUnderATrustedSigningAccount();
+async function main(): Promise<void> {
+  await listCertificateProfilesUnderATrustedSigningAccount();
 }
 
 main().catch(console.error);

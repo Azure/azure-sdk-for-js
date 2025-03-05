@@ -10,7 +10,7 @@ import {
   NameAvailabilityParameters,
   LocationsCheckNameAvailabilityOptionalParams,
   LocationsCheckNameAvailabilityResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a Locations. */
 export interface Locations {

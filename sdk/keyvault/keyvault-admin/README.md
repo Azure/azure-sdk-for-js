@@ -55,26 +55,26 @@ You can find more information on different ways of authenticating and their corr
 
 Once you've authenticated with [the authentication method that suits you best][default_azure_credential], you can create a `KeyVaultAccessControlClient` as follows, substituting in your Managed HSM URL in the constructor:
 
-```javascript
-const { DefaultAzureCredential } = require("@azure/identity");
-const { KeyVaultAccessControlClient } = require("@azure/keyvault-admin");
+```ts snippet:ReadmeSampleCreateAccessControlClient
+import { DefaultAzureCredential } from "@azure/identity";
+import { KeyVaultAccessControlClient } from "@azure/keyvault-admin";
 
+const vaultUrl = `https://<MY KEY VAULT HERE>.vault.azure.net`;
 const credentials = new DefaultAzureCredential();
-
-const client = new KeyVaultAccessControlClient(`<your Managed HSM URL>`, credentials);
+const client = new KeyVaultAccessControlClient(vaultUrl, credentials);
 ```
 
 ### Create KeyVaultBackupClient
 
 Once you've authenticated with [the authentication method that suits you best][default_azure_credential], you can create a `KeyVaultBackupClient` as follows, substituting in your Managed HSM URL in the constructor:
 
-```javascript
-const { DefaultAzureCredential } = require("@azure/identity");
-const { KeyVaultBackupClient } = require("@azure/keyvault-admin");
+```ts snippet:ReadmeSampleCreateBackupClient
+import { DefaultAzureCredential } from "@azure/identity";
+import { KeyVaultBackupClient } from "@azure/keyvault-admin";
 
+const vaultUrl = `https://<MY KEY VAULT HERE>.vault.azure.net`;
 const credentials = new DefaultAzureCredential();
-
-const client = new KeyVaultBackupClient(`<your Managed HSM URL>`, credentials);
+const client = new KeyVaultBackupClient(vaultUrl, credentials);
 ```
 
 ## Key concepts
@@ -122,8 +122,8 @@ See our [troubleshooting guide](https://github.com/Azure/azure-sdk-for-js/blob/m
 
 Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
 
-```javascript
-const { setLogLevel } = require("@azure/logger");
+```ts snippet:SetLogLevel
+import { setLogLevel } from "@azure/logger";
 
 setLogLevel("info");
 ```
@@ -140,21 +140,19 @@ You can find more code samples through the following links:
 
 If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md) to learn more about how to build and test the code.
 
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fkeyvault%2Fkeyvault-admin%2FREADME.png)
-
 <!-- LINKS -->
 
 [compiler-options]: https://www.typescriptlang.org/docs/handbook/compiler-options.html
 [core-lro]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/core-lro
 [docs-service]: https://azure.microsoft.com/services/key-vault/
-[docs]: https://docs.microsoft.com/javascript/api/@azure/keyvault-admin
-[managedhsm]: https://docs.microsoft.com/azure/key-vault/managed-hsm/overview
+[docs]: https://learn.microsoft.com/javascript/api/@azure/keyvault-admin
+[managedhsm]: https://learn.microsoft.com/azure/key-vault/managed-hsm/overview
 [npm]: https://www.npmjs.com/
 [package-gh]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/keyvault/keyvault-admin
 [package-npm]: https://www.npmjs.com/package/@azure/keyvault-admin
 [samples]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/keyvault/keyvault-admin/samples
-[azure_keyvault_mhsm]: https://docs.microsoft.com/azure/key-vault/managed-hsm/overview
-[azure_keyvault_mhsm_cli]: https://docs.microsoft.com/azure/key-vault/managed-hsm/quick-create-cli
+[azure_keyvault_mhsm]: https://learn.microsoft.com/azure/key-vault/managed-hsm/overview
+[azure_keyvault_mhsm_cli]: https://learn.microsoft.com/azure/key-vault/managed-hsm/quick-create-cli
 [default_azure_credential]: https://learn.microsoft.com/javascript/api/@azure/identity/defaultazurecredential?view=azure-node-latest
-[managed_identity]: https://docs.microsoft.com/azure/active-directory/managed-identities-azure-resources/overview
+[managed_identity]: https://learn.microsoft.com/azure/active-directory/managed-identities-azure-resources/overview
 [azure_identity]: https://learn.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest

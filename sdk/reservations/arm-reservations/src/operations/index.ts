@@ -6,12 +6,12 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./reservation";
-export * from "./reservationOrder";
-export * from "./operation";
-export * from "./calculateRefund";
-export * from "./return";
-export * from "./calculateExchange";
-export * from "./exchange";
-export * from "./quota";
-export * from "./quotaRequestStatus";
+export * from "./reservation.js";
+export * from "./reservationOrder.js";
+export * from "./operation.js";
+export * from "./calculateRefund.js";
+export * from "./return.js";
+export * from "./calculateExchange.js";
+export * from "./exchange.js";
+export * from "./quota.js";
+export * from "./quotaRequestStatus.js";

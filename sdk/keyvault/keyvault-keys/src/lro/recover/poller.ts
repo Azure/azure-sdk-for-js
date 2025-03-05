@@ -15,7 +15,7 @@ export class RecoverDeletedKeyPoller extends KeyVaultKeyPoller<
   KeyVaultKey
 > {
   constructor(options: KeyVaultKeyPollerOptions) {
-    const { vaultUrl, client, name, operationOptions, intervalInMs = 2000, resumeFrom } = options;
+    const { client, name, operationOptions, intervalInMs = 2000, resumeFrom } = options;
 
     let state: RecoverDeletedKeyPollOperationState | undefined;
 
@@ -28,7 +28,6 @@ export class RecoverDeletedKeyPoller extends KeyVaultKeyPoller<
         ...state,
         name,
       },
-      vaultUrl,
       client,
       operationOptions,
     );

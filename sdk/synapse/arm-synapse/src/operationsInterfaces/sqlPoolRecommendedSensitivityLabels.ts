@@ -9,7 +9,7 @@
 import {
   RecommendedSensitivityLabelUpdateList,
   SqlPoolRecommendedSensitivityLabelsUpdateOptionalParams
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a SqlPoolRecommendedSensitivityLabels. */
 export interface SqlPoolRecommendedSensitivityLabels {

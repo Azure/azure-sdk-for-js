@@ -6,16 +6,12 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import {
   TaskRun,
-  ContainerRegistryManagementClient
+  ContainerRegistryManagementClient,
 } from "@azure/arm-containerregistry";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates a task run for a container registry with the specified parameters.
@@ -23,7 +19,7 @@ dotenv.config();
  * @summary Creates a task run for a container registry with the specified parameters.
  * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2019-06-01-preview/examples/TaskRunsCreate.json
  */
-async function taskRunsCreate() {
+async function taskRunsCreate(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] ||
     "4385cf00-2d3a-425a-832f-f4285b1c9dce";
@@ -41,25 +37,25 @@ async function taskRunsCreate() {
       encodedValuesContent:
         "Y29tbWFuZDogYmFzaCBlY2hvIHt7LlJ1bi5SZWdpc3RyeX19Cg==",
       platform: { architecture: "amd64", os: "Linux" },
-      values: []
-    }
+      values: [],
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new ContainerRegistryManagementClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const result = await client.taskRuns.beginCreateAndWait(
     resourceGroupName,
     registryName,
     taskRunName,
-    taskRun
+    taskRun,
   );
   console.log(result);
 }
 
-async function main() {
-  taskRunsCreate();
+async function main(): Promise<void> {
+  await taskRunsCreate();
 }
 
 main().catch(console.error);

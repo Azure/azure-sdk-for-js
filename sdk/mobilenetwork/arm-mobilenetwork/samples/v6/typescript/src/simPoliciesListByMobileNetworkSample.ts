@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { MobileNetworkManagementClient } from "@azure/arm-mobilenetwork";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets all the SIM policies in a mobile network.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Gets all the SIM policies in a mobile network.
  * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/stable/2024-04-01/examples/SimPolicyListByMobileNetwork.json
  */
-async function listSimPoliciesInAMobileNetwork() {
+async function listSimPoliciesInAMobileNetwork(): Promise<void> {
   const subscriptionId =
     process.env["MOBILENETWORK_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -39,7 +37,7 @@ async function listSimPoliciesInAMobileNetwork() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listSimPoliciesInAMobileNetwork();
 }
 

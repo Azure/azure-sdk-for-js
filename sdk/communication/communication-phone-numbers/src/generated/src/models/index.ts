@@ -159,10 +159,6 @@ export interface PhoneNumberSearchResult {
   cost: PhoneNumberCost;
   /** The date that this search result expires and phone numbers are no longer on hold. A search result expires in less than 15min, e.g. 2020-11-19T16:31:49.048Z. */
   searchExpiresBy: Date;
-  /** The error code of the search. */
-  errorCode?: number;
-  /** Mapping Error Messages to Codes */
-  error?: PhoneNumberSearchResultError;
 }
 
 /** The phone number search purchase request. */
@@ -269,10 +265,10 @@ export interface OperatorInformation {
 /** Represents metadata describing the operator of a phone number */
 export interface OperatorDetails {
   /** Name of the phone operator */
-  name: string;
-  /** Mobile Network Code */
+  name?: string;
+  /** Mobile Network Code, 2 or 3 decimal digits that identify mobile networks within a country/region */
   mobileNetworkCode?: string;
-  /** Mobile Country Code */
+  /** Mobile Country Code, 3 decimal digits that identify a country/region */
   mobileCountryCode?: string;
 }
 
@@ -336,25 +332,6 @@ export type PhoneNumberCapabilityType =
   | "inbound"
   | "outbound"
   | "inbound+outbound";
-/** Defines values for PhoneNumberSearchResultError. */
-export type PhoneNumberSearchResultError =
-  | "NoError"
-  | "UnknownErrorCode"
-  | "OutOfStock"
-  | "AuthorizationDenied"
-  | "MissingAddress"
-  | "InvalidAddress"
-  | "InvalidOfferModel"
-  | "NotEnoughLicenses"
-  | "NoWallet"
-  | "NotEnoughCredit"
-  | "NumbersPartiallyAcquired"
-  | "AllNumbersNotAcquired"
-  | "ReservationExpired"
-  | "PurchaseFailed"
-  | "BillingUnavailable"
-  | "ProvisioningFailed"
-  | "UnknownSearchError";
 /** Defines values for PhoneNumberOperationType. */
 export type PhoneNumberOperationType =
   | "purchase"

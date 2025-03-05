@@ -1,15 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import createNetworkManagementClient, {
-  VirtualApplianceSitesGetParameters
+  VirtualApplianceSitesGetParameters,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets the specified Virtual Appliance Site.
@@ -17,7 +12,7 @@ dotenv.config();
  * @summary Gets the specified Virtual Appliance Site.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/NetworkVirtualApplianceSiteGet.json
  */
-async function getNetworkVirtualApplianceSite() {
+async function getNetworkVirtualApplianceSite(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -25,7 +20,7 @@ async function getNetworkVirtualApplianceSite() {
   const networkVirtualApplianceName = "nva";
   const siteName = "site1";
   const options: VirtualApplianceSitesGetParameters = {
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const result = await client
     .path(
@@ -33,7 +28,7 @@ async function getNetworkVirtualApplianceSite() {
       subscriptionId,
       resourceGroupName,
       networkVirtualApplianceName,
-      siteName
+      siteName,
     )
     .get(options);
   console.log(result);

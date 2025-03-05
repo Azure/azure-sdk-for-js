@@ -10,13 +10,13 @@
 // Licensed under the MIT License.
 const { ContainerRegistryManagementClient } = require("@azure/arm-containerregistry");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Updates a replication for a container registry with the specified parameters.
  *
  * @summary Updates a replication for a container registry with the specified parameters.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2023-11-01-preview/examples/ReplicationUpdate.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2024-11-01-preview/examples/ReplicationUpdate.json
  */
 async function replicationUpdate() {
   const subscriptionId =
@@ -33,13 +33,13 @@ async function replicationUpdate() {
     resourceGroupName,
     registryName,
     replicationName,
-    replicationUpdateParameters
+    replicationUpdateParameters,
   );
   console.log(result);
 }
 
 async function main() {
-  replicationUpdate();
+  await replicationUpdate();
 }
 
 main().catch(console.error);

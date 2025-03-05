@@ -6,16 +6,16 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { DataProtection } from "../operationsInterfaces";
+import { DataProtection } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { DataProtectionClient } from "../dataProtectionClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { DataProtectionClient } from "../dataProtectionClient.js";
 import {
   FeatureValidationRequestBaseUnion,
   DataProtectionCheckFeatureSupportOptionalParams,
   DataProtectionCheckFeatureSupportResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Class containing DataProtection operations. */
 export class DataProtectionImpl implements DataProtection {

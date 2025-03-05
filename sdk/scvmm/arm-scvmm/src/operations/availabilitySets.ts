@@ -7,18 +7,18 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { AvailabilitySets } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { AvailabilitySets } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { ScVmm } from "../scVmm";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { ScVmm } from "../scVmm.js";
 import {
   SimplePollerLike,
   OperationState,
   createHttpPoller,
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl";
+import { createLroSpec } from "../lroImpl.js";
 import {
   AvailabilitySet,
   AvailabilitySetsListBySubscriptionNextOptionalParams,
@@ -38,7 +38,7 @@ import {
   AvailabilitySetsDeleteResponse,
   AvailabilitySetsListBySubscriptionNextResponse,
   AvailabilitySetsListByResourceGroupNextResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing AvailabilitySets operations. */

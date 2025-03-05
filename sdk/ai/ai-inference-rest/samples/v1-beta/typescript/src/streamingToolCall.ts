@@ -10,13 +10,12 @@
 import ModelClient from "@azure-rest/ai-inference";
 import { AzureKeyCredential } from "@azure/core-auth";
 import { createSseStream } from "@azure/core-sse";
+import { createRestError } from "@azure-rest/core-client";
 import { DefaultAzureCredential } from "@azure/identity";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-import { IncomingMessage } from "http";
-dotenv.config();
-
+import "dotenv/config";
+import type { IncomingMessage } from "node:http";
 // You will need to set these environment variables or edit the following values
 const endpoint = process.env["ENDPOINT"] || "<endpoint>";
 const key = process.env["KEY"];
@@ -25,15 +24,15 @@ const modelName = process.env["MODEL_NAME"];
 interface EventData {
   choices: [
     {
-      content_filter_results: any,
-      delta: any,
-      finish_reason: string | null,
-      index: number,
-      logprobs: any | null,
-    }
-  ],
-  id: string,
-  model: string,
+      content_filter_results: any;
+      delta: any;
+      finish_reason: string | null;
+      index: number;
+      logprobs: any | null;
+    },
+  ];
+  id: string;
+  model: string;
 }
 
 const getCurrentWeather = {
@@ -56,13 +55,13 @@ const getCurrentWeather = {
 };
 
 const getWeatherFunc = (location: string, unit: string): string => {
-  if (unit != "celsius") {
+  if (unit !== "celsius") {
     unit = "fahrenheit";
   }
   return `The temperature in ${location} is 72 degrees ${unit}`;
-}
+};
 
-const updateToolCalls = (toolCallArray: Array<any>, functionArray: Array<any>) => {
+const updateToolCalls = (toolCallArray: Array<any>, functionArray: Array<any>): void => {
   const dummyFunction = { name: "", arguments: "", id: "" };
   while (functionArray.length < toolCallArray.length) {
     functionArray.push(dummyFunction);
@@ -83,21 +82,27 @@ const updateToolCalls = (toolCallArray: Array<any>, functionArray: Array<any>) =
   }
 };
 
-const handleToolCalls = (functionArray: Array<any>) => {
+const handleToolCalls = (
+  functionArray: Array<any>,
+): {
+  role: string;
+  content: string;
+  tool_call_id: any;
+  name: any;
+}[] => {
   const messageArray = [];
   for (const func of functionArray) {
     const funcArgs = JSON.parse(func.arguments);
     let content = "";
 
     switch (func.name) {
-
       case "get_current_weather":
         content = getWeatherFunc(funcArgs.location, funcArgs.unit ?? "fahrenheit");
         messageArray.push({
           role: "tool",
           content,
           tool_call_id: func.id,
-          name: func.name
+          name: func.name,
         });
         break;
 
@@ -107,9 +112,9 @@ const handleToolCalls = (functionArray: Array<any>) => {
     }
   }
   return messageArray;
-}
+};
 
-const streamToString = async (stream: NodeJS.ReadableStream) => {
+const streamToString = async (stream: NodeJS.ReadableStream): Promise<string> => {
   // lets have a ReadableStream as a stream variable
   const chunks = [];
 
@@ -118,10 +123,9 @@ const streamToString = async (stream: NodeJS.ReadableStream) => {
   }
 
   return Buffer.concat(chunks).toString("utf-8");
-}
+};
 
-
-export async function main() {
+export async function main(): Promise<void> {
   const client = createModelClient();
 
   const messages = [{ role: "user", content: "What's the weather like in Boston?" }];
@@ -129,19 +133,22 @@ export async function main() {
   let toolCallAnswer = "";
   let awaitingToolCallAnswer = true;
   while (awaitingToolCallAnswer) {
-    const response = await client.path("/chat/completions").post({
-      body: {
-        messages,
-        tools: [
-          {
-            type: "function",
-            function: getCurrentWeather,
-          },
-        ],
-        model: modelName,
-        stream: true
-      }
-    }).asNodeStream();
+    const response = await client
+      .path("/chat/completions")
+      .post({
+        body: {
+          messages,
+          tools: [
+            {
+              type: "function",
+              function: getCurrentWeather,
+            },
+          ],
+          model: modelName,
+          stream: true,
+        },
+      })
+      .asNodeStream();
 
     const stream = response.body;
     if (!stream) {
@@ -149,14 +156,13 @@ export async function main() {
     }
 
     if (response.status !== "200") {
-      throw new Error(`Failed to get chat completions: ${await streamToString(stream)}`);
+      throw createRestError(response);
     }
 
     const sses = createSseStream(stream as IncomingMessage);
     const functionArray: Array<any> = [];
 
     for await (const event of sses) {
-
       if (event.data === "[DONE]") {
         continue;
       }
@@ -173,11 +179,11 @@ export async function main() {
           }
           updateToolCalls(toolCallArray, functionArray);
         }
-        if (choice.finish_reason == "tool_calls") {
+        if (choice.finish_reason === "tool_calls") {
           const messageArray = handleToolCalls(functionArray);
           messages.push(...messageArray);
         } else {
-          if (choice.delta?.content && choice.delta.content != '') {
+          if (choice.delta?.content && choice.delta.content !== "") {
             toolCallAnswer += choice.delta?.content;
             awaitingToolCallAnswer = false;
           }
@@ -188,13 +194,12 @@ export async function main() {
 
   console.log("Model response after tool call:");
   console.log(toolCallAnswer);
-
 }
 
 /*
-  * This function creates a model client.
-  */
-function createModelClient() {
+ * This function creates a model client.
+ */
+function createModelClient(): ModelClient {
   // auth scope for AOAI resources is currently https://cognitiveservices.azure.com/.default
   // auth scope for MaaS and MaaP is currently https://ml.azure.com
   // (Do not use for Serverless API or Managed Computer Endpoints)
@@ -204,8 +209,7 @@ function createModelClient() {
     const scopes: string[] = [];
     if (endpoint.includes(".models.ai.azure.com")) {
       scopes.push("https://ml.azure.com");
-    }
-    else if (endpoint.includes(".openai.azure.com/openai/deployments/")) {
+    } else if (endpoint.includes(".openai.azure.com/openai/deployments/")) {
       scopes.push("https://cognitiveservices.azure.com");
     }
 

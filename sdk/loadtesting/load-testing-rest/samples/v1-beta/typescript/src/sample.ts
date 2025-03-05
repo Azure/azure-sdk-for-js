@@ -8,14 +8,13 @@
  */
 
 import AzureLoadTesting, { isUnexpected, getLongRunningPoller } from "@azure-rest/load-testing";
-import { AbortController } from "@azure/abort-controller";
 import { DefaultAzureCredential } from "@azure/identity";
-import { createReadStream } from "fs";
+import { createReadStream } from "node:fs";
 import { v4 as uuidv4 } from "uuid";
 
 const readStream = createReadStream("./sample.jmx");
 
-async function main() {
+async function main(): Promise<void> {
   const endpoint = process.env["LOADTESTSERVICE_ENDPOINT"] || "";
   const displayName = "some-load-test";
   const SUBSCRIPTION_ID = process.env["SUBSCRIPTION_ID"] || "";

@@ -5,7 +5,7 @@
  * @summary Uses an Azure Key Vault key to sign/verify, encrypt/decrypt, and wrap/unwrap data.
  */
 
-import { createHash } from "crypto";
+import { createHash } from "node:crypto";
 
 import { CryptographyClient, KeyClient } from "@azure/keyvault-keys";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -16,7 +16,7 @@ dotenv.config();
 
 export async function main(): Promise<void> {
   // This sample uses DefaultAzureCredential, which supports a number of authentication mechanisms.
-  // See https://docs.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest for more information
+  // See https://learn.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest for more information
   // about DefaultAzureCredential and the other credentials that are available for use.
   const credential = new DefaultAzureCredential();
 
@@ -32,7 +32,7 @@ export async function main(): Promise<void> {
 
   const cryptoClient = new CryptographyClient(
     myWorkKey.id!, // You can use either the key or the key Id i.e. its url to create a CryptographyClient.
-    credential
+    credential,
   );
 
   // Sign and Verify
@@ -56,14 +56,17 @@ export async function main(): Promise<void> {
   });
   console.log("encrypt result: ", encrypt);
 
-  const decrypt = await cryptoClient.decrypt({ algorithm: "RSA1_5", ciphertext: encrypt.result });
+  const decrypt = await cryptoClient.decrypt({
+    algorithm: "RSA-OAEP-256",
+    ciphertext: encrypt.result,
+  });
   console.log("decrypt: ", decrypt.result.toString());
 
   // Wrap and unwrap
-  const wrapped = await cryptoClient.wrapKey("RSA-OAEP", Buffer.from("My Message"));
+  const wrapped = await cryptoClient.wrapKey("RSA-OAEP-256", Buffer.from("My Message"));
   console.log("wrap result: ", wrapped);
 
-  const unwrapped = await cryptoClient.unwrapKey("RSA-OAEP", wrapped.result);
+  const unwrapped = await cryptoClient.unwrapKey("RSA-OAEP-256", wrapped.result);
   console.log("unwrap result: ", unwrapped);
 }
 

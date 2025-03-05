@@ -175,6 +175,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [virtualnetworkaddressesdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/oracledatabase/arm-oracledatabase/samples/v1/javascript/virtualNetworkAddressesDeleteSample.js
 [virtualnetworkaddressesgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/oracledatabase/arm-oracledatabase/samples/v1/javascript/virtualNetworkAddressesGetSample.js
 [virtualnetworkaddresseslistbycloudvmclustersample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/oracledatabase/arm-oracledatabase/samples/v1/javascript/virtualNetworkAddressesListByCloudVMClusterSample.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-oracledatabase?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-oracledatabase?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/oracledatabase/arm-oracledatabase/README.md

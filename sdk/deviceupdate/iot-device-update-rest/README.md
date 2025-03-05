@@ -5,6 +5,7 @@ The library provides access to the Device Update for IoT Hub service that enable
 **Please rely heavily on the [service's documentation][device_update_product_documentation] and our [REST client docs][rest_client] to use this library**
 
 Key links:
+
 - [Source code][source_code]
 - [Package (NPM)][npm]
 - [API reference documentation][ref_docs]
@@ -47,13 +48,12 @@ AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET
 
 Use the returned token credential to authenticate the client:
 
-```typescript
+```ts snippet:ReadmeSampleCreateClient_Node
 import DeviceUpdate from "@azure-rest/iot-device-update";
 import { DefaultAzureCredential } from "@azure/identity";
-const client = DeviceUpdate(
-  "https://<my-instance-id>.api.adu.microsoft.com",
-  new DefaultAzureCredential()
-);
+
+const endpoint = "https://<my-instance-id>.api.adu.microsoft.com";
+const client = DeviceUpdate(endpoint, new DefaultAzureCredential());
 ```
 
 ## Key concepts
@@ -68,22 +68,17 @@ The following section shows you how to initialize and authenticate your client, 
 
 - [Get All Devices](#get-all-devices "Get All Devices")
 
-```typescript
+```ts snippet:ReadmeSampleGetAllDevices
 import DeviceUpdate from "@azure-rest/iot-device-update";
 import { DefaultAzureCredential } from "@azure/identity";
 
-async function main() {
-  console.log("== List devices ==");
-  const client = DeviceUpdate(endpoint, new DefaultAzureCredential());
+const endpoint = "https://<my-instance-id>.api.adu.microsoft.com";
+const client = DeviceUpdate(endpoint, new DefaultAzureCredential());
 
-  const result = await client
-    .path("/deviceupdate/{instanceId}/management/devices", instanceId)
-    .get();
+const instanceId = "<my-instance-id>";
+const result = await client.path("/deviceupdate/{instanceId}/management/devices", instanceId).get();
 
-  console.log(result);
-}
-
-main().catch(console.error);
+console.log(result);
 ```
 
 ## Troubleshooting
@@ -92,7 +87,7 @@ main().catch(console.error);
 
 Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
 
-```javascript
+```ts snippet:SetLogLevel
 import { setLogLevel } from "@azure/logger";
 
 setLogLevel("info");
@@ -110,15 +105,15 @@ If you'd like to contribute to this library, please read the [contributing guide
 
 - [Microsoft Azure SDK for JavaScript](https://github.com/Azure/azure-sdk-for-js)
 
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fdeviceupdate%2Fiot-device-update%2FREADME.png)
 
-[device_update_product_documentation]: https://docs.microsoft.com/azure/iot-hub-device-update/
+
+[device_update_product_documentation]: https://learn.microsoft.com/azure/iot-hub-device-update/
 [rest_client]: https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/rest-clients.md
 [source_code]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/deviceupdate/iot-device-update-rest
 [npm]: https://www.npmjs.com/org/azure-rest
 [ref_docs]: https://azure.github.io/azure-sdk-for-js
 [azure_subscription]: https://azure.microsoft.com/free/
-[authenticate_with_token]: https://docs.microsoft.com/azure/cognitive-services/authentication?tabs=powershell#authenticate-with-an-authentication-token
+[authenticate_with_token]: https://learn.microsoft.com/azure/cognitive-services/authentication?tabs=powershell#authenticate-with-an-authentication-token
 [azure_identity_credentials]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#credentials
 [azure_identity_npm]: https://www.npmjs.com/package/@azure/identity
 [default_azure_credential]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#defaultazurecredential

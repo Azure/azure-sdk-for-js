@@ -7,17 +7,17 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { SandboxCustomImages } from "../operationsInterfaces";
+import { SandboxCustomImages } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { KustoManagementClient } from "../kustoManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { KustoManagementClient } from "../kustoManagementClient.js";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl";
+import { createLroSpec } from "../lroImpl.js";
 import {
   SandboxCustomImage,
   SandboxCustomImagesListByClusterOptionalParams,
@@ -31,8 +31,8 @@ import {
   SandboxCustomImagesDeleteOptionalParams,
   SandboxCustomImagesCheckNameRequest,
   SandboxCustomImagesCheckNameAvailabilityOptionalParams,
-  SandboxCustomImagesCheckNameAvailabilityResponse
-} from "../models";
+  SandboxCustomImagesCheckNameAvailabilityResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing SandboxCustomImages operations. */
@@ -56,12 +56,12 @@ export class SandboxCustomImagesImpl implements SandboxCustomImages {
   public listByCluster(
     resourceGroupName: string,
     clusterName: string,
-    options?: SandboxCustomImagesListByClusterOptionalParams
+    options?: SandboxCustomImagesListByClusterOptionalParams,
   ): PagedAsyncIterableIterator<SandboxCustomImage> {
     const iter = this.listByClusterPagingAll(
       resourceGroupName,
       clusterName,
-      options
+      options,
     );
     return {
       next() {
@@ -78,9 +78,9 @@ export class SandboxCustomImagesImpl implements SandboxCustomImages {
           resourceGroupName,
           clusterName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -88,7 +88,7 @@ export class SandboxCustomImagesImpl implements SandboxCustomImages {
     resourceGroupName: string,
     clusterName: string,
     options?: SandboxCustomImagesListByClusterOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<SandboxCustomImage[]> {
     let result: SandboxCustomImagesListByClusterResponse;
     result = await this._listByCluster(resourceGroupName, clusterName, options);
@@ -98,12 +98,12 @@ export class SandboxCustomImagesImpl implements SandboxCustomImages {
   private async *listByClusterPagingAll(
     resourceGroupName: string,
     clusterName: string,
-    options?: SandboxCustomImagesListByClusterOptionalParams
+    options?: SandboxCustomImagesListByClusterOptionalParams,
   ): AsyncIterableIterator<SandboxCustomImage> {
     for await (const page of this.listByClusterPagingPage(
       resourceGroupName,
       clusterName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -118,11 +118,11 @@ export class SandboxCustomImagesImpl implements SandboxCustomImages {
   private _listByCluster(
     resourceGroupName: string,
     clusterName: string,
-    options?: SandboxCustomImagesListByClusterOptionalParams
+    options?: SandboxCustomImagesListByClusterOptionalParams,
   ): Promise<SandboxCustomImagesListByClusterResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, clusterName, options },
-      listByClusterOperationSpec
+      listByClusterOperationSpec,
     );
   }
 
@@ -137,11 +137,11 @@ export class SandboxCustomImagesImpl implements SandboxCustomImages {
     resourceGroupName: string,
     clusterName: string,
     sandboxCustomImageName: string,
-    options?: SandboxCustomImagesGetOptionalParams
+    options?: SandboxCustomImagesGetOptionalParams,
   ): Promise<SandboxCustomImagesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, clusterName, sandboxCustomImageName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -158,7 +158,7 @@ export class SandboxCustomImagesImpl implements SandboxCustomImages {
     clusterName: string,
     sandboxCustomImageName: string,
     parameters: SandboxCustomImage,
-    options?: SandboxCustomImagesCreateOrUpdateOptionalParams
+    options?: SandboxCustomImagesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<SandboxCustomImagesCreateOrUpdateResponse>,
@@ -167,21 +167,20 @@ export class SandboxCustomImagesImpl implements SandboxCustomImages {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<SandboxCustomImagesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -190,8 +189,8 @@ export class SandboxCustomImagesImpl implements SandboxCustomImages {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -199,8 +198,8 @@ export class SandboxCustomImagesImpl implements SandboxCustomImages {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -211,16 +210,16 @@ export class SandboxCustomImagesImpl implements SandboxCustomImages {
         clusterName,
         sandboxCustomImageName,
         parameters,
-        options
+        options,
       },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       SandboxCustomImagesCreateOrUpdateResponse,
       OperationState<SandboxCustomImagesCreateOrUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -239,14 +238,14 @@ export class SandboxCustomImagesImpl implements SandboxCustomImages {
     clusterName: string,
     sandboxCustomImageName: string,
     parameters: SandboxCustomImage,
-    options?: SandboxCustomImagesCreateOrUpdateOptionalParams
+    options?: SandboxCustomImagesCreateOrUpdateOptionalParams,
   ): Promise<SandboxCustomImagesCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       clusterName,
       sandboxCustomImageName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -264,7 +263,7 @@ export class SandboxCustomImagesImpl implements SandboxCustomImages {
     clusterName: string,
     sandboxCustomImageName: string,
     parameters: SandboxCustomImage,
-    options?: SandboxCustomImagesUpdateOptionalParams
+    options?: SandboxCustomImagesUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<SandboxCustomImagesUpdateResponse>,
@@ -273,21 +272,20 @@ export class SandboxCustomImagesImpl implements SandboxCustomImages {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<SandboxCustomImagesUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -296,8 +294,8 @@ export class SandboxCustomImagesImpl implements SandboxCustomImages {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -305,8 +303,8 @@ export class SandboxCustomImagesImpl implements SandboxCustomImages {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -317,16 +315,16 @@ export class SandboxCustomImagesImpl implements SandboxCustomImages {
         clusterName,
         sandboxCustomImageName,
         parameters,
-        options
+        options,
       },
-      spec: updateOperationSpec
+      spec: updateOperationSpec,
     });
     const poller = await createHttpPoller<
       SandboxCustomImagesUpdateResponse,
       OperationState<SandboxCustomImagesUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -345,14 +343,14 @@ export class SandboxCustomImagesImpl implements SandboxCustomImages {
     clusterName: string,
     sandboxCustomImageName: string,
     parameters: SandboxCustomImage,
-    options?: SandboxCustomImagesUpdateOptionalParams
+    options?: SandboxCustomImagesUpdateOptionalParams,
   ): Promise<SandboxCustomImagesUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
       clusterName,
       sandboxCustomImageName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -368,25 +366,24 @@ export class SandboxCustomImagesImpl implements SandboxCustomImages {
     resourceGroupName: string,
     clusterName: string,
     sandboxCustomImageName: string,
-    options?: SandboxCustomImagesDeleteOptionalParams
+    options?: SandboxCustomImagesDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -395,8 +392,8 @@ export class SandboxCustomImagesImpl implements SandboxCustomImages {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -404,19 +401,19 @@ export class SandboxCustomImagesImpl implements SandboxCustomImages {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, clusterName, sandboxCustomImageName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -433,13 +430,13 @@ export class SandboxCustomImagesImpl implements SandboxCustomImages {
     resourceGroupName: string,
     clusterName: string,
     sandboxCustomImageName: string,
-    options?: SandboxCustomImagesDeleteOptionalParams
+    options?: SandboxCustomImagesDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       clusterName,
       sandboxCustomImageName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -455,11 +452,11 @@ export class SandboxCustomImagesImpl implements SandboxCustomImages {
     resourceGroupName: string,
     clusterName: string,
     resourceName: SandboxCustomImagesCheckNameRequest,
-    options?: SandboxCustomImagesCheckNameAvailabilityOptionalParams
+    options?: SandboxCustomImagesCheckNameAvailabilityOptionalParams,
   ): Promise<SandboxCustomImagesCheckNameAvailabilityResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, clusterName, resourceName, options },
-      checkNameAvailabilityOperationSpec
+      checkNameAvailabilityOperationSpec,
     );
   }
 }
@@ -467,38 +464,15 @@ export class SandboxCustomImagesImpl implements SandboxCustomImages {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByClusterOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/sandboxCustomImages",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/sandboxCustomImages",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SandboxCustomImagesListResult
+      bodyMapper: Mappers.SandboxCustomImagesListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.clusterName,
-    Parameters.subscriptionId
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/sandboxCustomImages/{sandboxCustomImageName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.SandboxCustomImage
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -506,31 +480,51 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.clusterName,
     Parameters.subscriptionId,
-    Parameters.sandboxCustomImageName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/sandboxCustomImages/{sandboxCustomImageName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.SandboxCustomImage,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.clusterName,
+    Parameters.subscriptionId,
+    Parameters.sandboxCustomImageName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/sandboxCustomImages/{sandboxCustomImageName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/sandboxCustomImages/{sandboxCustomImageName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.SandboxCustomImage
+      bodyMapper: Mappers.SandboxCustomImage,
     },
     201: {
-      bodyMapper: Mappers.SandboxCustomImage
+      bodyMapper: Mappers.SandboxCustomImage,
     },
     202: {
-      bodyMapper: Mappers.SandboxCustomImage
+      bodyMapper: Mappers.SandboxCustomImage,
     },
     204: {
-      bodyMapper: Mappers.SandboxCustomImage
+      bodyMapper: Mappers.SandboxCustomImage,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters9,
   queryParameters: [Parameters.apiVersion],
@@ -539,32 +533,31 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.clusterName,
     Parameters.subscriptionId,
-    Parameters.sandboxCustomImageName
+    Parameters.sandboxCustomImageName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/sandboxCustomImages/{sandboxCustomImageName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/sandboxCustomImages/{sandboxCustomImageName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.SandboxCustomImage
+      bodyMapper: Mappers.SandboxCustomImage,
     },
     201: {
-      bodyMapper: Mappers.SandboxCustomImage
+      bodyMapper: Mappers.SandboxCustomImage,
     },
     202: {
-      bodyMapper: Mappers.SandboxCustomImage
+      bodyMapper: Mappers.SandboxCustomImage,
     },
     204: {
-      bodyMapper: Mappers.SandboxCustomImage
+      bodyMapper: Mappers.SandboxCustomImage,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters9,
   queryParameters: [Parameters.apiVersion],
@@ -573,15 +566,14 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.clusterName,
     Parameters.subscriptionId,
-    Parameters.sandboxCustomImageName
+    Parameters.sandboxCustomImageName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/sandboxCustomImages/{sandboxCustomImageName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/sandboxCustomImages/{sandboxCustomImageName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -589,8 +581,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -598,22 +590,21 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.clusterName,
     Parameters.subscriptionId,
-    Parameters.sandboxCustomImageName
+    Parameters.sandboxCustomImageName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const checkNameAvailabilityOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/sandboxCustomImagesCheckNameAvailability",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/sandboxCustomImagesCheckNameAvailability",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.CheckNameResult
+      bodyMapper: Mappers.CheckNameResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.resourceName3,
   queryParameters: [Parameters.apiVersion],
@@ -621,9 +612,9 @@ const checkNameAvailabilityOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.clusterName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };

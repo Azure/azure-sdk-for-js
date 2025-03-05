@@ -90,8 +90,10 @@ describe("Partition Splits", () => {
     // results in duplicates by trying to read from two partitions
     assert(resources.length >= documentDefinitions.length);
   });
-
-  it("split errors surface as 503", async () => {
+  // NOTE: This test is skipped because we have updated the contracts to not throw 410s.
+  // Previously, 410s were thrown from the parallelQueryExecutionContextBase constructor,
+  // but now they are handled in the fetchMore method. Therefore, this test is skipped and will be removed after reviews.
+  it.skip("split errors surface as 503", async () => {
     const options: CosmosClientOptions = { endpoint, key: masterKey };
     const plugins: PluginConfig[] = [
       {

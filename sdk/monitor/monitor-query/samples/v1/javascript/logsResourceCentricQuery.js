@@ -7,8 +7,7 @@
 
 const { DefaultAzureCredential } = require("@azure/identity");
 const { Durations, LogsQueryClient, LogsQueryResultStatus } = require("@azure/monitor-query");
-require("dotenv").config();
-
+require("dotenv/config");
 const logsResourceId = process.env.LOGS_RESOURCE_ID;
 
 async function main() {
@@ -24,7 +23,7 @@ async function main() {
   console.log(`Running '${kustoQuery}' over the last One Hour`);
   const queryLogsOptions = {
     // explicitly control the amount of time the server can spend processing the query.
-    serverTimeoutInSeconds: 600,
+    serverTimeoutInSeconds: 600, // sets the timeout to 10 minutes
     // optionally enable returning additional statistics about the query's execution.
     // (by default, this is off)
     includeQueryStatistics: true,
@@ -34,16 +33,14 @@ async function main() {
     logsResourceId,
     kustoQuery,
     { duration: Durations.sevenDays },
-    queryLogsOptions
+    queryLogsOptions,
   );
 
   const executionTime =
     result.statistics && result.statistics.query && result.statistics.query.executionTime;
 
   console.log(
-    `Results for query '${kustoQuery}', execution time: ${
-      executionTime == null ? "unknown" : executionTime
-    }`
+    `Results for query '${kustoQuery}', execution time: ${executionTime == null ? "unknown" : executionTime}`,
   );
 
   if (result.status === LogsQueryResultStatus.Success) {

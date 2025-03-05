@@ -3,7 +3,9 @@
     "allowJs": true,
     "noEmit": true,
     "target": "Es2021",
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "module": "NodeNext",
+    "moduleResolution": "nodenext"
   },
-  "include": ["index.js", "test/**/*.js"]
+  "include": ["index.js", "src/**/*.js", "test/**/*.js"]
 }

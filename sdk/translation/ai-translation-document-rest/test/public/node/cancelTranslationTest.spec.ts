@@ -2,33 +2,32 @@
 // Licensed under the MIT License.
 
 import type { Recorder } from "@azure-tools/test-recorder";
-import { assert } from "chai";
-import type { DocumentTranslationClient } from "../../../src";
-import { isUnexpected } from "../../../src";
-import { createDocumentTranslationClient, startRecorder } from "../utils/recordedClient";
+import type { DocumentTranslationClient } from "../../../src/index.js";
+import { isUnexpected } from "../../../src/index.js";
+import { createDocumentTranslationClient, startRecorder } from "../utils/recordedClient.js";
 import {
   ONE_TEST_DOCUMENTS,
   createSourceContainer,
   createTargetContainer,
-} from "./containerHelper";
-import type { Context } from "mocha";
+} from "./containerHelper.js";
 import {
   createBatchRequest,
   createSourceInput,
   createTargetInput,
   getTranslationOperationID,
-} from "../utils/testHelper";
+} from "../utils/testHelper.js";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("CancelTranslation tests", () => {
   let recorder: Recorder;
   let client: DocumentTranslationClient;
 
-  beforeEach(async function (this: Context) {
-    recorder = await startRecorder(this);
+  beforeEach(async (ctx) => {
+    recorder = await startRecorder(ctx);
     client = await createDocumentTranslationClient({ recorder });
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 

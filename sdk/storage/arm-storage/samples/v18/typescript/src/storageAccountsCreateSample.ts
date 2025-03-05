@@ -6,24 +6,20 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import {
   StorageAccountCreateParameters,
   StorageManagementClient,
 } from "@azure/arm-storage";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Asynchronously creates a new storage account with the specified parameters. If an account is already created and a subsequent create request is issued with different properties, the account properties will be updated. If an account is already created and a subsequent create or update request is issued with the exact same set of properties, the request will succeed.
  *
  * @summary Asynchronously creates a new storage account with the specified parameters. If an account is already created and a subsequent create request is issued with different properties, the account properties will be updated. If an account is already created and a subsequent create or update request is issued with the exact same set of properties, the request will succeed.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/NfsV3AccountCreate.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2024-01-01/examples/NfsV3AccountCreate.json
  */
-async function nfsV3AccountCreate() {
+async function nfsV3AccountCreate(): Promise<void> {
   const subscriptionId =
     process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName = process.env["STORAGE_RESOURCE_GROUP"] || "res9101";
@@ -62,9 +58,9 @@ async function nfsV3AccountCreate() {
  * This sample demonstrates how to Asynchronously creates a new storage account with the specified parameters. If an account is already created and a subsequent create request is issued with different properties, the account properties will be updated. If an account is already created and a subsequent create or update request is issued with the exact same set of properties, the request will succeed.
  *
  * @summary Asynchronously creates a new storage account with the specified parameters. If an account is already created and a subsequent create request is issued with different properties, the account properties will be updated. If an account is already created and a subsequent create or update request is issued with the exact same set of properties, the request will succeed.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/StorageAccountCreate.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2024-01-01/examples/StorageAccountCreate.json
  */
-async function storageAccountCreate() {
+async function storageAccountCreate(): Promise<void> {
   const subscriptionId =
     process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName = process.env["STORAGE_RESOURCE_GROUP"] || "res9101";
@@ -111,9 +107,9 @@ async function storageAccountCreate() {
  * This sample demonstrates how to Asynchronously creates a new storage account with the specified parameters. If an account is already created and a subsequent create request is issued with different properties, the account properties will be updated. If an account is already created and a subsequent create or update request is issued with the exact same set of properties, the request will succeed.
  *
  * @summary Asynchronously creates a new storage account with the specified parameters. If an account is already created and a subsequent create request is issued with different properties, the account properties will be updated. If an account is already created and a subsequent create or update request is issued with the exact same set of properties, the request will succeed.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/StorageAccountCreateAllowedCopyScopeToAAD.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2024-01-01/examples/StorageAccountCreateAllowedCopyScopeToAAD.json
  */
-async function storageAccountCreateAllowedCopyScopeToAad() {
+async function storageAccountCreateAllowedCopyScopeToAad(): Promise<void> {
   const subscriptionId =
     process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName = process.env["STORAGE_RESOURCE_GROUP"] || "res9101";
@@ -158,9 +154,9 @@ async function storageAccountCreateAllowedCopyScopeToAad() {
  * This sample demonstrates how to Asynchronously creates a new storage account with the specified parameters. If an account is already created and a subsequent create request is issued with different properties, the account properties will be updated. If an account is already created and a subsequent create or update request is issued with the exact same set of properties, the request will succeed.
  *
  * @summary Asynchronously creates a new storage account with the specified parameters. If an account is already created and a subsequent create request is issued with different properties, the account properties will be updated. If an account is already created and a subsequent create or update request is issued with the exact same set of properties, the request will succeed.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/StorageAccountCreateAllowedCopyScopeToPrivateLink.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2024-01-01/examples/StorageAccountCreateAllowedCopyScopeToPrivateLink.json
  */
-async function storageAccountCreateAllowedCopyScopeToPrivateLink() {
+async function storageAccountCreateAllowedCopyScopeToPrivateLink(): Promise<void> {
   const subscriptionId =
     process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName = process.env["STORAGE_RESOURCE_GROUP"] || "res9101";
@@ -205,9 +201,9 @@ async function storageAccountCreateAllowedCopyScopeToPrivateLink() {
  * This sample demonstrates how to Asynchronously creates a new storage account with the specified parameters. If an account is already created and a subsequent create request is issued with different properties, the account properties will be updated. If an account is already created and a subsequent create or update request is issued with the exact same set of properties, the request will succeed.
  *
  * @summary Asynchronously creates a new storage account with the specified parameters. If an account is already created and a subsequent create request is issued with different properties, the account properties will be updated. If an account is already created and a subsequent create or update request is issued with the exact same set of properties, the request will succeed.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/StorageAccountCreateDisallowPublicNetworkAccess.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2024-01-01/examples/StorageAccountCreateDisallowPublicNetworkAccess.json
  */
-async function storageAccountCreateDisallowPublicNetworkAccess() {
+async function storageAccountCreateDisallowPublicNetworkAccess(): Promise<void> {
   const subscriptionId =
     process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName = process.env["STORAGE_RESOURCE_GROUP"] || "res9101";
@@ -253,9 +249,9 @@ async function storageAccountCreateDisallowPublicNetworkAccess() {
  * This sample demonstrates how to Asynchronously creates a new storage account with the specified parameters. If an account is already created and a subsequent create request is issued with different properties, the account properties will be updated. If an account is already created and a subsequent create or update request is issued with the exact same set of properties, the request will succeed.
  *
  * @summary Asynchronously creates a new storage account with the specified parameters. If an account is already created and a subsequent create request is issued with different properties, the account properties will be updated. If an account is already created and a subsequent create or update request is issued with the exact same set of properties, the request will succeed.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/StorageAccountCreateDnsEndpointTypeToAzureDnsZone.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2024-01-01/examples/StorageAccountCreateDnsEndpointTypeToAzureDnsZone.json
  */
-async function storageAccountCreateDnsEndpointTypeToAzureDnsZone() {
+async function storageAccountCreateDnsEndpointTypeToAzureDnsZone(): Promise<void> {
   const subscriptionId =
     process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName = process.env["STORAGE_RESOURCE_GROUP"] || "res9101";
@@ -303,9 +299,9 @@ async function storageAccountCreateDnsEndpointTypeToAzureDnsZone() {
  * This sample demonstrates how to Asynchronously creates a new storage account with the specified parameters. If an account is already created and a subsequent create request is issued with different properties, the account properties will be updated. If an account is already created and a subsequent create or update request is issued with the exact same set of properties, the request will succeed.
  *
  * @summary Asynchronously creates a new storage account with the specified parameters. If an account is already created and a subsequent create request is issued with different properties, the account properties will be updated. If an account is already created and a subsequent create or update request is issued with the exact same set of properties, the request will succeed.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/StorageAccountCreateDnsEndpointTypeToStandard.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2024-01-01/examples/StorageAccountCreateDnsEndpointTypeToStandard.json
  */
-async function storageAccountCreateDnsEndpointTypeToStandard() {
+async function storageAccountCreateDnsEndpointTypeToStandard(): Promise<void> {
   const subscriptionId =
     process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName = process.env["STORAGE_RESOURCE_GROUP"] || "res9101";
@@ -353,9 +349,9 @@ async function storageAccountCreateDnsEndpointTypeToStandard() {
  * This sample demonstrates how to Asynchronously creates a new storage account with the specified parameters. If an account is already created and a subsequent create request is issued with different properties, the account properties will be updated. If an account is already created and a subsequent create or update request is issued with the exact same set of properties, the request will succeed.
  *
  * @summary Asynchronously creates a new storage account with the specified parameters. If an account is already created and a subsequent create request is issued with different properties, the account properties will be updated. If an account is already created and a subsequent create or update request is issued with the exact same set of properties, the request will succeed.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/StorageAccountCreateEnablePublicNetworkAccess.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2024-01-01/examples/StorageAccountCreateEnablePublicNetworkAccess.json
  */
-async function storageAccountCreateEnablePublicNetworkAccess() {
+async function storageAccountCreateEnablePublicNetworkAccess(): Promise<void> {
   const subscriptionId =
     process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName = process.env["STORAGE_RESOURCE_GROUP"] || "res9101";
@@ -401,9 +397,9 @@ async function storageAccountCreateEnablePublicNetworkAccess() {
  * This sample demonstrates how to Asynchronously creates a new storage account with the specified parameters. If an account is already created and a subsequent create request is issued with different properties, the account properties will be updated. If an account is already created and a subsequent create or update request is issued with the exact same set of properties, the request will succeed.
  *
  * @summary Asynchronously creates a new storage account with the specified parameters. If an account is already created and a subsequent create request is issued with different properties, the account properties will be updated. If an account is already created and a subsequent create or update request is issued with the exact same set of properties, the request will succeed.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/StorageAccountCreatePremiumBlockBlobStorage.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2024-01-01/examples/StorageAccountCreatePremiumBlockBlobStorage.json
  */
-async function storageAccountCreatePremiumBlockBlobStorage() {
+async function storageAccountCreatePremiumBlockBlobStorage(): Promise<void> {
   const subscriptionId =
     process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName = process.env["STORAGE_RESOURCE_GROUP"] || "res9101";
@@ -438,9 +434,9 @@ async function storageAccountCreatePremiumBlockBlobStorage() {
  * This sample demonstrates how to Asynchronously creates a new storage account with the specified parameters. If an account is already created and a subsequent create request is issued with different properties, the account properties will be updated. If an account is already created and a subsequent create or update request is issued with the exact same set of properties, the request will succeed.
  *
  * @summary Asynchronously creates a new storage account with the specified parameters. If an account is already created and a subsequent create request is issued with different properties, the account properties will be updated. If an account is already created and a subsequent create or update request is issued with the exact same set of properties, the request will succeed.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/StorageAccountCreateUserAssignedEncryptionIdentityWithCMK.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2024-01-01/examples/StorageAccountCreateUserAssignedEncryptionIdentityWithCMK.json
  */
-async function storageAccountCreateUserAssignedEncryptionIdentityWithCmk() {
+async function storageAccountCreateUserAssignedEncryptionIdentityWithCmk(): Promise<void> {
   const subscriptionId =
     process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName = process.env["STORAGE_RESOURCE_GROUP"] || "res9101";
@@ -487,9 +483,9 @@ async function storageAccountCreateUserAssignedEncryptionIdentityWithCmk() {
  * This sample demonstrates how to Asynchronously creates a new storage account with the specified parameters. If an account is already created and a subsequent create request is issued with different properties, the account properties will be updated. If an account is already created and a subsequent create or update request is issued with the exact same set of properties, the request will succeed.
  *
  * @summary Asynchronously creates a new storage account with the specified parameters. If an account is already created and a subsequent create request is issued with different properties, the account properties will be updated. If an account is already created and a subsequent create or update request is issued with the exact same set of properties, the request will succeed.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/StorageAccountCreateUserAssignedIdentityWithFederatedIdentityClientId.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2024-01-01/examples/StorageAccountCreateUserAssignedIdentityWithFederatedIdentityClientId.json
  */
-async function storageAccountCreateUserAssignedIdentityWithFederatedIdentityClientId() {
+async function storageAccountCreateUserAssignedIdentityWithFederatedIdentityClientId(): Promise<void> {
   const subscriptionId =
     process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -539,9 +535,9 @@ async function storageAccountCreateUserAssignedIdentityWithFederatedIdentityClie
  * This sample demonstrates how to Asynchronously creates a new storage account with the specified parameters. If an account is already created and a subsequent create request is issued with different properties, the account properties will be updated. If an account is already created and a subsequent create or update request is issued with the exact same set of properties, the request will succeed.
  *
  * @summary Asynchronously creates a new storage account with the specified parameters. If an account is already created and a subsequent create request is issued with different properties, the account properties will be updated. If an account is already created and a subsequent create or update request is issued with the exact same set of properties, the request will succeed.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/StorageAccountCreateWithImmutabilityPolicy.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2024-01-01/examples/StorageAccountCreateWithImmutabilityPolicy.json
  */
-async function storageAccountCreateWithImmutabilityPolicy() {
+async function storageAccountCreateWithImmutabilityPolicy(): Promise<void> {
   const subscriptionId =
     process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName = process.env["STORAGE_RESOURCE_GROUP"] || "res9101";
@@ -570,19 +566,19 @@ async function storageAccountCreateWithImmutabilityPolicy() {
   console.log(result);
 }
 
-async function main() {
-  nfsV3AccountCreate();
-  storageAccountCreate();
-  storageAccountCreateAllowedCopyScopeToAad();
-  storageAccountCreateAllowedCopyScopeToPrivateLink();
-  storageAccountCreateDisallowPublicNetworkAccess();
-  storageAccountCreateDnsEndpointTypeToAzureDnsZone();
-  storageAccountCreateDnsEndpointTypeToStandard();
-  storageAccountCreateEnablePublicNetworkAccess();
-  storageAccountCreatePremiumBlockBlobStorage();
-  storageAccountCreateUserAssignedEncryptionIdentityWithCmk();
-  storageAccountCreateUserAssignedIdentityWithFederatedIdentityClientId();
-  storageAccountCreateWithImmutabilityPolicy();
+async function main(): Promise<void> {
+  await nfsV3AccountCreate();
+  await storageAccountCreate();
+  await storageAccountCreateAllowedCopyScopeToAad();
+  await storageAccountCreateAllowedCopyScopeToPrivateLink();
+  await storageAccountCreateDisallowPublicNetworkAccess();
+  await storageAccountCreateDnsEndpointTypeToAzureDnsZone();
+  await storageAccountCreateDnsEndpointTypeToStandard();
+  await storageAccountCreateEnablePublicNetworkAccess();
+  await storageAccountCreatePremiumBlockBlobStorage();
+  await storageAccountCreateUserAssignedEncryptionIdentityWithCmk();
+  await storageAccountCreateUserAssignedIdentityWithFederatedIdentityClientId();
+  await storageAccountCreateWithImmutabilityPolicy();
 }
 
 main().catch(console.error);

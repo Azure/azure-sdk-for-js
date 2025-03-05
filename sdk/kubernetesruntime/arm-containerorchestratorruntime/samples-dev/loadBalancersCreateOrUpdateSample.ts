@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary create a LoadBalancer
  * x-ms-original-file: 2024-03-01/LoadBalancers_CreateOrUpdate.json
  */
-async function loadBalancersCreateOrUpdate() {
+async function loadBalancersCreateOrUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new KubernetesRuntimeClient(credential);
   const result = await client.loadBalancers.createOrUpdate(
@@ -27,8 +27,8 @@ async function loadBalancersCreateOrUpdate() {
   console.log(result);
 }
 
-async function main() {
-  loadBalancersCreateOrUpdate();
+async function main(): Promise<void> {
+  await loadBalancersCreateOrUpdate();
 }
 
 main().catch(console.error);

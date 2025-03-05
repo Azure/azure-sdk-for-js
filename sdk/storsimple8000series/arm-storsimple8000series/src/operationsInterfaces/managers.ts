@@ -43,7 +43,7 @@ import {
   ManagersGetPublicEncryptionKeyResponse,
   ManagersRegenerateActivationKeyOptionalParams,
   ManagersRegenerateActivationKeyResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Managers. */

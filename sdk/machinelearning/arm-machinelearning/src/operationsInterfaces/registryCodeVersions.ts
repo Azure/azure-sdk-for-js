@@ -19,7 +19,7 @@ import {
   PendingUploadRequestDto,
   RegistryCodeVersionsCreateOrGetStartPendingUploadOptionalParams,
   RegistryCodeVersionsCreateOrGetStartPendingUploadResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a RegistryCodeVersions. */

@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary list LoadBalancer resources by parent
  * x-ms-original-file: 2024-03-01/LoadBalancers_List.json
  */
-async function loadBalancersList() {
+async function loadBalancersList(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new KubernetesRuntimeClient(credential);
   const resArray = new Array();
@@ -23,7 +23,7 @@ async function loadBalancersList() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   loadBalancersList();
 }
 

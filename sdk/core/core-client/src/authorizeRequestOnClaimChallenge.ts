@@ -33,11 +33,11 @@ export interface CAEChallenge {
 
 /**
  * This function can be used as a callback for the `bearerTokenAuthenticationPolicy` of `@azure/core-rest-pipeline`, to support CAE challenges:
- * [Continuous Access Evaluation](https://docs.microsoft.com/azure/active-directory/conditional-access/concept-continuous-access-evaluation).
+ * [Continuous Access Evaluation](https://learn.microsoft.com/azure/active-directory/conditional-access/concept-continuous-access-evaluation).
  *
  * Call the `bearerTokenAuthenticationPolicy` with the following options:
  *
- * ```ts snippet:authorize_request_on_claim_challenge
+ * ```ts snippet:AuthorizeRequestOnClaimChallenge
  * import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
  * import { authorizeRequestOnClaimChallenge } from "@azure/core-client";
  *

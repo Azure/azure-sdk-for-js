@@ -16,7 +16,7 @@ import {
   RegistryDataContainersGetResponse,
   RegistryDataContainersCreateOrUpdateOptionalParams,
   RegistryDataContainersCreateOrUpdateResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a RegistryDataContainers. */

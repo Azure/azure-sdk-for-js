@@ -6,16 +6,10 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import {
-  VirtualMachinesListAllOptionalParams,
-  ComputeManagementClient,
-} from "@azure/arm-compute";
+import type { VirtualMachinesListAllOptionalParams } from "@azure/arm-compute";
+import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists all of the virtual machines in the specified subscription. Use the nextLink property in the response to get the next page of virtual machines.
@@ -23,16 +17,15 @@ dotenv.config();
  * @summary Lists all of the virtual machines in the specified subscription. Use the nextLink property in the response to get the next page of virtual machines.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_ListAll_MaximumSet_Gen.json
  */
-async function virtualMachineListAllMaximumSetGen() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+async function virtualMachineListAllMaximumSetGen(): Promise<void> {
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const statusOnly = "aaaaaa";
   const filter = "aaaaaaaaaaaaaaaaaaaaaaaaaaaa";
   const options: VirtualMachinesListAllOptionalParams = { statusOnly, filter };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.virtualMachines.listAll(options)) {
+  for await (const item of client.virtualMachines.listAll(options)) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -44,21 +37,20 @@ async function virtualMachineListAllMaximumSetGen() {
  * @summary Lists all of the virtual machines in the specified subscription. Use the nextLink property in the response to get the next page of virtual machines.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_ListAll_MinimumSet_Gen.json
  */
-async function virtualMachineListAllMinimumSetGen() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+async function virtualMachineListAllMinimumSetGen(): Promise<void> {
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.virtualMachines.listAll()) {
+  for await (const item of client.virtualMachines.listAll()) {
     resArray.push(item);
   }
   console.log(resArray);
 }
 
-async function main() {
-  virtualMachineListAllMaximumSetGen();
-  virtualMachineListAllMinimumSetGen();
+async function main(): Promise<void> {
+  await virtualMachineListAllMaximumSetGen();
+  await virtualMachineListAllMinimumSetGen();
 }
 
 main().catch(console.error);

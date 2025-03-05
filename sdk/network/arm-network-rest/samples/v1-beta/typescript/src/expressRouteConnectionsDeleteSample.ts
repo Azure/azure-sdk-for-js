@@ -1,16 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import createNetworkManagementClient, {
   ExpressRouteConnectionsDeleteParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Deletes a connection to a ExpressRoute circuit.
@@ -18,7 +13,7 @@ dotenv.config();
  * @summary Deletes a connection to a ExpressRoute circuit.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/ExpressRouteConnectionDelete.json
  */
-async function expressRouteConnectionDelete() {
+async function expressRouteConnectionDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -26,7 +21,7 @@ async function expressRouteConnectionDelete() {
   const expressRouteGatewayName = "expressRouteGatewayName";
   const connectionName = "connectionName";
   const options: ExpressRouteConnectionsDeleteParameters = {
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(
@@ -34,7 +29,7 @@ async function expressRouteConnectionDelete() {
       subscriptionId,
       resourceGroupName,
       expressRouteGatewayName,
-      connectionName
+      connectionName,
     )
     .delete(options);
   const poller = getLongRunningPoller(client, initialResponse);

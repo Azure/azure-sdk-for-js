@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { OperationInputs, IotHubClient } from "@azure/arm-iothub";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Check if an IoT hub name is available.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Check if an IoT hub name is available.
  * x-ms-original-file: specification/iothub/resource-manager/Microsoft.Devices/stable/2023-06-30/examples/checkNameAvailability.json
  */
-async function iotHubResourceCheckNameAvailability() {
+async function iotHubResourceCheckNameAvailability(): Promise<void> {
   const subscriptionId =
     process.env["IOTHUB_SUBSCRIPTION_ID"] ||
     "91d12660-3dec-467a-be2a-213b5544ddc0";
@@ -33,7 +31,7 @@ async function iotHubResourceCheckNameAvailability() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   iotHubResourceCheckNameAvailability();
 }
 

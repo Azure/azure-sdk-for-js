@@ -5,22 +5,21 @@
  * @summary Issue a new user token.
  */
 
-import {
+import type {
   CommunicationAccessToken,
-  CommunicationIdentityClient,
   TokenScope,
   GetTokenOptions,
 } from "@azure/communication-identity";
+import { CommunicationIdentityClient } from "@azure/communication-identity";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
 // You will need to set this environment variables or edit the following values
 const connectionString =
   process.env["COMMUNICATION_CONNECTION_STRING"] || "<communication service connection string>";
 
-export async function main() {
+export async function main(): Promise<void> {
   console.log("\n== Issue Token Sample ==\n");
 
   const client = new CommunicationIdentityClient(connectionString);

@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { ContentKeyPolicy, AzureMediaServices } from "@azure/arm-mediaservices";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Updates an existing Content Key Policy in the Media Services account
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Updates an existing Content Key Policy in the Media Services account
  * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Metadata/stable/2022-08-01/examples/content-key-policies-update.json
  */
-async function updateAContentKeyPolicy() {
+async function updateAContentKeyPolicy(): Promise<void> {
   const subscriptionId =
     process.env["MEDIASERVICES_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -53,7 +51,7 @@ async function updateAContentKeyPolicy() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   updateAContentKeyPolicy();
 }
 

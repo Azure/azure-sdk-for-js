@@ -12,20 +12,18 @@ import {
   ReadOnlyFollowingDatabase,
   ReadWriteDatabase,
   DatabasesCreateOrUpdateOptionalParams,
-  KustoManagementClient
+  KustoManagementClient,
 } from "@azure/arm-kusto";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates or updates a database.
  *
  * @summary Creates or updates a database.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoDatabaseReadonlyUpdate.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2024-04-13/examples/KustoDatabaseReadonlyUpdate.json
  */
-async function kustoReadOnlyDatabaseUpdate() {
+async function kustoReadOnlyDatabaseUpdate(): Promise<void> {
   const subscriptionId =
     process.env["KUSTO_SUBSCRIPTION_ID"] ||
     "12345678-1234-1234-1234-123456789098";
@@ -36,7 +34,7 @@ async function kustoReadOnlyDatabaseUpdate() {
   const parameters: ReadOnlyFollowingDatabase = {
     hotCachePeriod: "P1D",
     kind: "ReadOnlyFollowing",
-    location: "westus"
+    location: "westus",
   };
   const credential = new DefaultAzureCredential();
   const client = new KustoManagementClient(credential, subscriptionId);
@@ -44,7 +42,7 @@ async function kustoReadOnlyDatabaseUpdate() {
     resourceGroupName,
     clusterName,
     databaseName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -53,9 +51,9 @@ async function kustoReadOnlyDatabaseUpdate() {
  * This sample demonstrates how to Creates or updates a database.
  *
  * @summary Creates or updates a database.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoDatabasesCreateOrUpdate.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2024-04-13/examples/KustoDatabasesCreateOrUpdate.json
  */
-async function kustoReadWriteDatabaseCreateOrUpdate() {
+async function kustoReadWriteDatabaseCreateOrUpdate(): Promise<void> {
   const subscriptionId =
     process.env["KUSTO_SUBSCRIPTION_ID"] ||
     "12345678-1234-1234-1234-123456789098";
@@ -67,7 +65,7 @@ async function kustoReadWriteDatabaseCreateOrUpdate() {
   const parameters: ReadWriteDatabase = {
     kind: "ReadWrite",
     location: "westus",
-    softDeletePeriod: "P1D"
+    softDeletePeriod: "P1D",
   };
   const options: DatabasesCreateOrUpdateOptionalParams = { callerRole };
   const credential = new DefaultAzureCredential();
@@ -77,14 +75,14 @@ async function kustoReadWriteDatabaseCreateOrUpdate() {
     clusterName,
     databaseName,
     parameters,
-    options
+    options,
   );
   console.log(result);
 }
 
-async function main() {
-  kustoReadOnlyDatabaseUpdate();
-  kustoReadWriteDatabaseCreateOrUpdate();
+async function main(): Promise<void> {
+  await kustoReadOnlyDatabaseUpdate();
+  await kustoReadWriteDatabaseCreateOrUpdate();
 }
 
 main().catch(console.error);

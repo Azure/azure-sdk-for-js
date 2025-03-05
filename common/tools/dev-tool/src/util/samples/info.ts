@@ -52,6 +52,10 @@ export const enum OutputKind {
  */
 export interface SampleGenerationInfo extends SampleConfiguration {
   /**
+   * The scope part of the package name. For example, the base part of "@azure/template" is "@azure".
+   */
+  scope?: string;
+  /**
    * The base part of the package name. For example, the base part of "@azure/template" is "template".
    */
   baseName: string;
@@ -154,7 +158,7 @@ export interface ModuleInfo {
  */
 export interface SampleReadmeConfiguration extends SampleGenerationInfo {
   /**
-   * YAML frontmatter used for publication on docs.microsoft.com.
+   * YAML frontmatter used for publication on learn.microsoft.com.
    */
   frontmatter: unknown;
   /**

@@ -9,7 +9,7 @@
 import {
   UpgradableVersionsDetailsOptionalParams,
   UpgradableVersionsDetailsResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a UpgradableVersions. */
 export interface UpgradableVersions {

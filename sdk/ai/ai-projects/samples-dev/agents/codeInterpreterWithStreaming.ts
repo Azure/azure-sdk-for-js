@@ -152,7 +152,7 @@ export async function main(): Promise<void> {
 
   // Iterate through messages and print details for each annotation
   console.log(`Message Details:`);
-  messages.data.forEach((m) => {
+  await messages.data.forEach((m) => {
     console.log(`File Paths:`);
     console.log(`Type: ${m.content[0].type}`);
     if (isOutputOfType<MessageTextContentOutput>(m.content[0], "text")) {

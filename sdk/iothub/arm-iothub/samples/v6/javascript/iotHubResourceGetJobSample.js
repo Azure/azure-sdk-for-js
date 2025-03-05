@@ -13,9 +13,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
 require("dotenv").config();
 
 /**
- * This sample demonstrates how to Get the details of a job from an IoT hub. For more information, see: https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-identity-registry.
+ * This sample demonstrates how to Get the details of a job from an IoT hub. For more information, see: https://learn.microsoft.com/azure/iot-hub/iot-hub-devguide-identity-registry.
  *
- * @summary Get the details of a job from an IoT hub. For more information, see: https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-identity-registry.
+ * @summary Get the details of a job from an IoT hub. For more information, see: https://learn.microsoft.com/azure/iot-hub/iot-hub-devguide-identity-registry.
  * x-ms-original-file: specification/iothub/resource-manager/Microsoft.Devices/stable/2023-06-30/examples/iothub_getjob.json
  */
 async function iotHubResourceGetJob() {

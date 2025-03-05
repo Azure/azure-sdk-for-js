@@ -3,20 +3,19 @@
 /**
  * @summary Exception policy crud
  */
-import JobRouter, {
+import type {
   AzureCommunicationRoutingServiceClient,
-  QueueLengthExceptionTrigger
+  QueueLengthExceptionTrigger,
 } from "@azure-rest/communication-job-router";
-import * as dotenv from "dotenv";
-dotenv.config();
+import JobRouter from "@azure-rest/communication-job-router";
+import "dotenv/config";
 
 const connectionString = process.env["COMMUNICATION_CONNECTION_STRING"] || "";
 
 // Create an exception policy
 async function createExceptionPolicy(): Promise<void> {
   // Create the Router Client
-  const routerClient: AzureCommunicationRoutingServiceClient =
-    JobRouter(connectionString);
+  const routerClient: AzureCommunicationRoutingServiceClient = JobRouter(connectionString);
 
   // define exception trigger for queue over flow
   const queueLengthExceptionTrigger: QueueLengthExceptionTrigger = {
@@ -26,23 +25,29 @@ async function createExceptionPolicy(): Promise<void> {
 
   const id = "exception-policy-123";
 
-  const result = await routerClient.path("/routing/exceptionPolicies/{exceptionPolicyId}", id).patch({
-    contentType: "application/merge-patch+json",
-    body: {
-      name: "test-policy",
-      exceptionRules: [{
-        id: "MaxWaitTimeExceeded",
-        actions: [{
-          kind: "reclassify",
-          classificationPolicyId: "Main",
-          labelsToUpsert: {
-            escalated: true,
+  const result = await routerClient
+    .path("/routing/exceptionPolicies/{exceptionPolicyId}", id)
+    .patch({
+      contentType: "application/merge-patch+json",
+      body: {
+        name: "test-policy",
+        exceptionRules: [
+          {
+            id: "MaxWaitTimeExceeded",
+            actions: [
+              {
+                kind: "reclassify",
+                classificationPolicyId: "Main",
+                labelsToUpsert: {
+                  escalated: true,
+                },
+              },
+            ],
+            trigger: queueLengthExceptionTrigger,
           },
-        }],
-        trigger: queueLengthExceptionTrigger,
-      }]
-    }
-  });
+        ],
+      },
+    });
 
   console.log("exception policy: " + result);
 }

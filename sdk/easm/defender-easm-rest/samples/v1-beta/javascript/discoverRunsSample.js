@@ -34,12 +34,15 @@ async function main() {
   const discovery_group_description = "This is a sample description for a discovery group";
 
   const client = EasmDefender(
-    endpoint,
-    subscription_id,
-    resource_group,
+    endpoint +
+    "/subscriptions/" +
+    subscription_id +
+    "/resourceGroups/" +
+    resource_group +
+    "/workspaces/" +
     workspace_name,
     credential,
-    {}
+    {},
   );
 
   // In order to start discovery runs, we must first create a discovery group, which is a collection of known assets that we can pivot off of.
@@ -55,7 +58,7 @@ async function main() {
     .concat(
       domains.map((domain) => {
         return { name: domain, kind: "domain" };
-      })
+      }),
     );
 
   await client.path("/discoGroups/{groupName}", discovery_group_name).put({
@@ -86,7 +89,7 @@ async function main() {
 
     disco_runs.body.value?.slice(0, 5).forEach((disco_run) => {
       console.log(
-        ` - started: ${disco_run.startedDate}, finished: ${disco_run.completedDate}, assets found: ${disco_run.totalAssetsFoundCount}`
+        ` - started: ${disco_run.startedDate}, finished: ${disco_run.completedDate}, assets found: ${disco_run.totalAssetsFoundCount}`,
       );
     });
   });

@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { SpringAppDiscoveryManagementClient } from "@azure/arm-springappdiscovery";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to List springbootservers resource by resourceGroup
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary List springbootservers resource by resourceGroup
  * x-ms-original-file: specification/offazurespringboot/resource-manager/Microsoft.OffAzureSpringBoot/preview/2023-01-01-preview/examples/springbootservers_ListByResourceGroup_MaximumSet_Gen.json
  */
-async function springbootserversListByResourceGroupMaximumSetGen() {
+async function springbootserversListByResourceGroupMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["SPRINGAPPDISCOVERY_SUBSCRIPTION_ID"] || "etmdxomjncqvygm";
   const resourceGroupName =
@@ -47,7 +45,7 @@ async function springbootserversListByResourceGroupMaximumSetGen() {
  * @summary List springbootservers resource by resourceGroup
  * x-ms-original-file: specification/offazurespringboot/resource-manager/Microsoft.OffAzureSpringBoot/preview/2023-01-01-preview/examples/springbootservers_ListByResourceGroup_MinimumSet_Gen.json
  */
-async function springbootserversListByResourceGroupMinimumSetGen() {
+async function springbootserversListByResourceGroupMinimumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["SPRINGAPPDISCOVERY_SUBSCRIPTION_ID"] || "etmdxomjncqvygm";
   const resourceGroupName =
@@ -68,7 +66,7 @@ async function springbootserversListByResourceGroupMinimumSetGen() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   springbootserversListByResourceGroupMaximumSetGen();
   springbootserversListByResourceGroupMinimumSetGen();
 }

@@ -40,10 +40,8 @@ matrix([[true, false]], async (useAad: boolean) => {
       }
     });
 
-    afterEach(async (ctx) => {
-      if (!ctx.task.pending) {
-        await recorder.stop();
-      }
+    afterEach(async () => {
+      await recorder.stop();
     });
 
     it("successfully creates a user", async () => {

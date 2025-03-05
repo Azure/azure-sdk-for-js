@@ -11,7 +11,7 @@ import {
   RefundRequest,
   ReturnPostOptionalParams,
   ReturnPostResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a Return. */
 export interface Return {

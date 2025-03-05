@@ -17,7 +17,7 @@ async function main(): Promise<void> {
    * In this sample you can populate the three AZURE_CLIENT_ID, AZURE_CLIENT_SECRET & AZURE_TENANT_ID variables for Microsoft Entra ID auth,
    * or put MAPS_SUBSCRIPTION_KEY into .env file to use the shared key authentication.
    *
-   * More info is available at https://docs.microsoft.com/en-us/azure/azure-maps/azure-maps-authentication.
+   * More info is available at https://learn.microsoft.com/en-us/azure/azure-maps/azure-maps-authentication.
    */
   /** Microsoft Entra ID authentication */
   const credential = new DefaultAzureCredential();
@@ -50,7 +50,7 @@ async function main(): Promise<void> {
   if (!response.body) {
     throw Error("No response body");
   }
-  response.body.pipe(createWriteStream("tile.png"));
+  await response.body.pipe(createWriteStream("tile.png"));
 }
 
 main().catch((err) => {

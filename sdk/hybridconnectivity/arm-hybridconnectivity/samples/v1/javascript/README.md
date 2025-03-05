@@ -71,6 +71,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [serviceconfigurationsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/hybridconnectivity/arm-hybridconnectivity/samples/v1/javascript/serviceConfigurationsGetSample.js
 [serviceconfigurationslistbyendpointresourcesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/hybridconnectivity/arm-hybridconnectivity/samples/v1/javascript/serviceConfigurationsListByEndpointResourceSample.js
 [serviceconfigurationsupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/hybridconnectivity/arm-hybridconnectivity/samples/v1/javascript/serviceConfigurationsUpdateSample.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-hybridconnectivity?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-hybridconnectivity?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/hybridconnectivity/arm-hybridconnectivity/README.md

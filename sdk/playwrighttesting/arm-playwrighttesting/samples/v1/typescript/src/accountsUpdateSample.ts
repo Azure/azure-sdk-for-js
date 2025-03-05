@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary update a Account
  * x-ms-original-file: 2024-12-01/Accounts_Update.json
  */
-async function accountsUpdate() {
+async function accountsUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new AzurePlaywrightServiceClient(credential, subscriptionId);
@@ -21,7 +21,7 @@ async function accountsUpdate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   accountsUpdate();
 }
 

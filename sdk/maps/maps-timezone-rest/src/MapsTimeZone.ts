@@ -13,7 +13,8 @@ import createClient from "./generated/mapsTimeZoneClient.js";
  * Creates an instance of MapsTimeZoneClient from a subscription key.
  *
  * @example
- * ```ts
+ * ```ts snippet:ReadmeSampleCreateClient_SubscriptionKey
+ * import { AzureKeyCredential } from "@azure/core-auth";
  * import MapsTimeZone from "@azure-rest/maps-timezone";
  *
  * const credential = new AzureKeyCredential("<subscription-key>");
@@ -31,9 +32,9 @@ export default function MapsTimeZone(
  * Creates an instance of MapsTimeZone from an Azure Identity `TokenCredential`.
  *
  * @example
- * ```ts
- * import MapsTimeZoneClient from "@azure-rest/maps-timezone";
+ * ```ts snippet:ReadmeSampleCreateClient_TokenCredential
  * import { DefaultAzureCredential } from "@azure/identity";
+ * import MapsTimeZone from "@azure-rest/maps-timezone";
  *
  * const credential = new DefaultAzureCredential();
  * const client = MapsTimeZone(credential, "<maps-account-client-id>");
@@ -52,9 +53,9 @@ export default function MapsTimeZone(
  * Creates an instance of MapsTimeZone from an Azure Identity `AzureSASCredential`.
  *
  * @example
- * ```ts
- * import MapsTimeZone from "@azure-rest/maps-timezone";
+ * ```ts snippet:ReadmeSampleCreateClient_SASToken
  * import { AzureSASCredential } from "@azure/core-auth";
+ * import MapsTimeZone from "@azure-rest/maps-timezone";
  *
  * const credential = new AzureSASCredential("<SAS Token>");
  * const client = MapsTimeZone(credential);

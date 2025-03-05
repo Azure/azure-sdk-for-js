@@ -1,34 +1,37 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureKeyCredential, AzureNamedKeyCredential, AzureSASCredential } from "@azure/core-auth";
+import { AzureKeyCredential, AzureNamedKeyCredential, AzureSASCredential } from "../src/index.js";
 import { describe, it } from "vitest";
 
 describe("snippets", () => {
-  it("azure_key_credential", () => {
+  it("ReadmeSampleAzureKeyCredential", () => {
     const credential = new AzureKeyCredential("secret value");
-    // prints: "secret value"
-    console.log(credential.key);
+    // @ts-preserve-whitespace
+    console.log(credential.key); // prints: "secret value"
+    // @ts-preserve-whitespace
     credential.update("other secret value");
-    // prints: "other secret value"
-    console.log(credential.key);
+    // @ts-preserve-whitespace
+    console.log(credential.key); // prints: "other secret value"
   });
 
-  it("azure_named_key_credential", () => {
+  it("ReadmeSampleAzureNamedCredential", () => {
     const credential = new AzureNamedKeyCredential("ManagedPolicy", "secret value");
-    // prints: "ManagedPolicy, secret value"
-    console.log(`${credential.name}, ${credential.key}`);
+    // @ts-preserve-whitespace
+    console.log(`${credential.name}, ${credential.key}`); // prints: "ManagedPolicy, secret value"
+    // @ts-preserve-whitespace
     credential.update("OtherManagedPolicy", "other secret value");
-    // prints: "OtherManagedPolicy, other secret value"
-    console.log(`${credential.name}, ${credential.key}`);
+    // @ts-preserve-whitespace
+    console.log(`${credential.name}, ${credential.key}`); // prints: "OtherManagedPolicy, other secret value"
   });
 
-  it("azure_sas_credential", () => {
+  it("ReadmeSampleSASCredential", () => {
     const credential = new AzureSASCredential("signature1");
-    // prints: "signature1"
-    console.log(credential.signature);
+    // @ts-preserve-whitespace
+    console.log(credential.signature); // prints: "signature1"
+    // @ts-preserve-whitespace
     credential.update("signature2");
-    // prints: "signature2"
-    console.log(credential.signature);
+    // @ts-preserve-whitespace
+    console.log(credential.signature); // prints: "signature2"
   });
 });

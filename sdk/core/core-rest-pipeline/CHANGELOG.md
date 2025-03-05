@@ -1,6 +1,6 @@
 # Release History
 
-## 1.18.2 (Unreleased)
+## 1.19.1 (Unreleased)
 
 ### Features Added
 
@@ -8,9 +8,22 @@
 
 ### Bugs Fixed
 
-- Fixed an issue where tracing spans were incorrectly marked as successful. [PR #32018](https://github.com/Azure/azure-sdk-for-js/pull/32018)
-
 ### Other Changes
+
+- clear the request timeout timer in `NodeHttpClient` after the response is returned [PR #32891](https://github.com/Azure/azure-sdk-for-js/pull/32891)
+
+## 1.19.0 (2025-02-06)
+
+### Features Added
+
+- Add `agent` and `tlsSettings` to `PipelineRequestOptions` [PR #32590](https://github.com/Azure/azure-sdk-for-js/pull/32590)
+- Add `agent` option to `PipelineOptions` [PR #32809](https://github.com/Azure/azure-sdk-for-js/pull/32809)
+
+## 1.18.2 (2025-01-10)
+
+### Bugs Fixed
+
+- Fixed an issue where tracing spans were incorrectly marked as successful. [PR #32018](https://github.com/Azure/azure-sdk-for-js/pull/32018)
 
 ## 1.18.1 (2024-11-26)
 

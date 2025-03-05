@@ -70,14 +70,16 @@ export class TableServiceClient {
    *
    * ### Example using an account name/key:
    *
-   * ```js
-   * const { AzureNamedKeyCredential, TableServiceClient } = require("@azure/data-tables")
-   * const account = "<storage account name>"
-   * const sharedKeyCredential = new AzureNamedKeyCredential(account, "<account key>");
+   * ```ts snippet:ReadmeSampleCreateClient_NamedKeyCredential
+   * import { AzureNamedKeyCredential, TableServiceClient } from "@azure/data-tables";
    *
-   * const tableServiceClient = new TableServiceClient(
+   * const account = "<account>";
+   * const accountKey = "<accountkey>";
+   *
+   * const credential = new AzureNamedKeyCredential(account, accountKey);
+   * const serviceClient = new TableServiceClient(
    *   `https://${account}.table.core.windows.net`,
-   *   sharedKeyCredential
+   *   credential,
    * );
    * ```
    */
@@ -91,14 +93,15 @@ export class TableServiceClient {
    *
    * ### Example using a SAS Token.
    *
-   * ```js
-   * const { AzureSASCredential, TableServiceClient } = require("@azure/data-tables")
-   * const account = "<storage account name>"
-   * const sasCredential = new AzureSASCredential(account, "<account key>");
+   * ```ts snippet:ReadmeSampleCreateClient_SASToken
+   * import { TableServiceClient, AzureSASCredential } from "@azure/data-tables";
    *
-   * const tableServiceClient = new TableServiceClient(
+   * const account = "<account name>";
+   * const sas = "<service Shared Access Signature Token>";
+   *
+   * const serviceClientWithSAS = new TableServiceClient(
    *   `https://${account}.table.core.windows.net`,
-   *   sasCredential
+   *   new AzureSASCredential(sas),
    * );
    * ```
    */
@@ -112,15 +115,20 @@ export class TableServiceClient {
    *
    * ### Example using an Azure Active Directory credential:
    *
-   * ```js
-   * cons { DefaultAzureCredential } = require("@azure/identity");
-   * const { TableServiceClient } = require("@azure/data-tables")
-   * const account = "<storage account name>"
-   * const credential = new DefaultAzureCredential();
+   * ```ts snippet:ReadmeSampleCreateClient_TokenCredential
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { TableServiceClient } from "@azure/data-tables";
    *
-   * const tableServiceClient = new TableServiceClient(
+   * // DefaultAzureCredential expects the following three environment variables:
+   * // - AZURE_TENANT_ID: The tenant ID in Azure Active Directory
+   * // - AZURE_CLIENT_ID: The application (client) ID registered in the AAD tenant
+   * // - AZURE_CLIENT_SECRET: The client secret for the registered application
+   * const credential = new DefaultAzureCredential();
+   * const account = "<account name>";
+   *
+   * const clientWithAAD = new TableServiceClient(
    *   `https://${account}.table.core.windows.net`,
-   *   credential
+   *   credential,
    * );
    * ```
    */
@@ -134,11 +142,14 @@ export class TableServiceClient {
    * @param options - Options to configure the HTTP pipeline.
    * Example appending a SAS token:
    *
-   * ```js
-   * const account = "<storage account name>";
-   * const sasToken = "<SAS token>";
+   * ```ts snippet:ReadmeSampleCreateClient_SASTokenURL
+   * import { TableServiceClient } from "@azure/data-tables";
    *
-   * const tableServiceClient = new TableServiceClient(
+   * const account = "<account name>";
+   * const sasToken = "<SAS token>";
+   * const tableName = "<tableName>";
+   *
+   * const serviceClientWithSASURL = new TableServiceClient(
    *   `https://${account}.table.core.windows.net?${sasToken}`,
    * );
    * ```
@@ -201,7 +212,6 @@ export class TableServiceClient {
    * secondary location endpoint when read-access geo-redundant replication is enabled for the account.
    * @param options - The options parameters.
    */
-  // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
   public async getStatistics(options: OperationOptions = {}): Promise<GetStatisticsResponse> {
     return tracingClient.withSpan("TableServiceClient.getStatistics", options, (updatedOptions) =>
       this.service.getStatistics(injectSecondaryEndpointHeader(updatedOptions)),
@@ -213,7 +223,6 @@ export class TableServiceClient {
    * (Cross-Origin Resource Sharing) rules.
    * @param options - The options parameters.
    */
-  // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
   public getProperties(options: OperationOptions = {}): Promise<GetPropertiesResponse> {
     return tracingClient.withSpan("TableServiceClient.getProperties", options, (updatedOptions) =>
       this.service.getProperties(updatedOptions),
@@ -240,7 +249,6 @@ export class TableServiceClient {
    * @param name - The name of the table.
    * @param options - The options parameters.
    */
-  // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
   public createTable(name: string, options: OperationOptions = {}): Promise<void> {
     return tracingClient.withSpan(
       "TableServiceClient.createTable",
@@ -260,7 +268,6 @@ export class TableServiceClient {
    * @param name - The name of the table.
    * @param options - The options parameters.
    */
-  // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
   public deleteTable(name: string, options: OperationOptions = {}): Promise<void> {
     return tracingClient.withSpan(
       "TableServiceClient.deleteTable",

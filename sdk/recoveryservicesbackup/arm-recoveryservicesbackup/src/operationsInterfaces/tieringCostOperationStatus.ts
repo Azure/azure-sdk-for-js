@@ -9,7 +9,7 @@
 import {
   TieringCostOperationStatusGetOptionalParams,
   TieringCostOperationStatusGetResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a TieringCostOperationStatus. */
 export interface TieringCostOperationStatus {

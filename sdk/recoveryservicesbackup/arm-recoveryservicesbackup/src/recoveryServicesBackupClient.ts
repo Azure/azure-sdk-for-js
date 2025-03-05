@@ -19,7 +19,7 @@ import {
   OperationState,
   createHttpPoller,
 } from "@azure/core-lro";
-import { createLroSpec } from "./lroImpl";
+import { createLroSpec } from "./lroImpl.js";
 import {
   BackupResourceStorageConfigsNonCRRImpl,
   ProtectionIntentOperationsImpl,
@@ -73,7 +73,7 @@ import {
   FetchTieringCostImpl,
   GetTieringCostOperationResultImpl,
   TieringCostOperationStatusImpl,
-} from "./operations";
+} from "./operations/index.js";
 import {
   BackupResourceStorageConfigsNonCRR,
   ProtectionIntentOperations,
@@ -127,9 +127,9 @@ import {
   FetchTieringCost,
   GetTieringCostOperationResult,
   TieringCostOperationStatus,
-} from "./operationsInterfaces";
-import * as Parameters from "./models/parameters";
-import * as Mappers from "./models/mappers";
+} from "./operationsInterfaces/index.js";
+import * as Parameters from "./models/parameters.js";
+import * as Mappers from "./models/mappers.js";
 import {
   RecoveryServicesBackupClientOptionalParams,
   GetOperationStatusOptionalParams,
@@ -140,7 +140,7 @@ import {
   BMSTriggerDataMoveOptionalParams,
   MoveRPAcrossTiersRequest,
   MoveRecoveryPointOptionalParams,
-} from "./models";
+} from "./models/index.js";
 
 export class RecoveryServicesBackupClient extends coreClient.ServiceClient {
   $host: string;

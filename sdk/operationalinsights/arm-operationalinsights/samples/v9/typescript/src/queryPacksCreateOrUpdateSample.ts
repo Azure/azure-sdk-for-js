@@ -13,9 +13,7 @@ import {
   OperationalInsightsManagementClient
 } from "@azure/arm-operationalinsights";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates (or updates) a Log Analytics QueryPack. Note: You cannot specify a different value for InstrumentationKey nor AppId in the Put operation.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Creates (or updates) a Log Analytics QueryPack. Note: You cannot specify a different value for InstrumentationKey nor AppId in the Put operation.
  * x-ms-original-file: specification/operationalinsights/resource-manager/Microsoft.OperationalInsights/stable/2019-09-01/examples/QueryPacksCreate.json
  */
-async function queryPackCreate() {
+async function queryPackCreate(): Promise<void> {
   const subscriptionId =
     process.env["OPERATIONALINSIGHTS_SUBSCRIPTION_ID"] ||
     "86dc51d3-92ed-4d7e-947a-775ea79b4919";
@@ -52,7 +50,7 @@ async function queryPackCreate() {
  * @summary Creates (or updates) a Log Analytics QueryPack. Note: You cannot specify a different value for InstrumentationKey nor AppId in the Put operation.
  * x-ms-original-file: specification/operationalinsights/resource-manager/Microsoft.OperationalInsights/stable/2019-09-01/examples/QueryPacksUpdate.json
  */
-async function queryPackUpdate() {
+async function queryPackUpdate(): Promise<void> {
   const subscriptionId =
     process.env["OPERATIONALINSIGHTS_SUBSCRIPTION_ID"] ||
     "86dc51d3-92ed-4d7e-947a-775ea79b4919";
@@ -76,7 +74,7 @@ async function queryPackUpdate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   queryPackCreate();
   queryPackUpdate();
 }

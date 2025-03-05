@@ -6,13 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./operations";
-export * from "./secret";
-export * from "./secretValueOperations";
-export * from "./volume";
-export * from "./network";
-export * from "./gateway";
-export * from "./application";
-export * from "./service";
-export * from "./serviceReplica";
-export * from "./codePackage";
+export * from "./operations.js";
+export * from "./secret.js";
+export * from "./secretValueOperations.js";
+export * from "./volume.js";
+export * from "./network.js";
+export * from "./gateway.js";
+export * from "./application.js";
+export * from "./service.js";
+export * from "./serviceReplica.js";
+export * from "./codePackage.js";

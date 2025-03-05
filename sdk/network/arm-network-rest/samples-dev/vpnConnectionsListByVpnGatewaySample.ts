@@ -1,16 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import createNetworkManagementClient, {
-  VpnConnectionsListByVpnGatewayParameters,
-  paginate,
-} from "@azure-rest/arm-network";
+import type { VpnConnectionsListByVpnGatewayParameters } from "@azure-rest/arm-network";
+import createNetworkManagementClient, { paginate } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Retrieves all vpn connections for a particular virtual wan vpn gateway.
@@ -18,7 +11,7 @@ dotenv.config();
  * @summary Retrieves all vpn connections for a particular virtual wan vpn gateway.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/VpnConnectionList.json
  */
-async function vpnConnectionList() {
+async function vpnConnectionList(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

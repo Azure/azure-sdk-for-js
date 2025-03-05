@@ -19,7 +19,7 @@ import {
   ApplicationTypeVersionsUpdateOptionalParams,
   ApplicationTypeVersionsUpdateResponse,
   ApplicationTypeVersionsDeleteOptionalParams,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ApplicationTypeVersions. */

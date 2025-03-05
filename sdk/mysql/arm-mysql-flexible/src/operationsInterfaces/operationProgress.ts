@@ -9,7 +9,7 @@
 import {
   OperationProgressGetOptionalParams,
   OperationProgressGetResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a OperationProgress. */
 export interface OperationProgress {

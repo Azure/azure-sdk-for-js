@@ -131,6 +131,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [webpubsubsharedprivatelinkresourcesgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/web-pubsub/arm-webpubsub/samples/v1/javascript/webPubSubSharedPrivateLinkResourcesGetSample.js
 [webpubsubsharedprivatelinkresourceslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/web-pubsub/arm-webpubsub/samples/v1/javascript/webPubSubSharedPrivateLinkResourcesListSample.js
 [webpubsubupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/web-pubsub/arm-webpubsub/samples/v1/javascript/webPubSubUpdateSample.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-webpubsub?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-webpubsub?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/web-pubsub/arm-webpubsub/README.md

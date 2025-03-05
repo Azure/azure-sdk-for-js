@@ -38,7 +38,7 @@ import {
   MonitorsGetMetricStatusResponse,
   MonitorsGetSSODetailsOptionalParams,
   MonitorsGetSSODetailsResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Monitors. */

@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { TagsObject, NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Updates an application security group's tags.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Updates an application security group's tags.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/ApplicationSecurityGroupUpdateTags.json
  */
-async function updateApplicationSecurityGroupTags() {
+async function updateApplicationSecurityGroupTags(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const applicationSecurityGroupName = "test-asg";
@@ -35,7 +33,7 @@ async function updateApplicationSecurityGroupTags() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   updateApplicationSecurityGroupTags();
 }
 

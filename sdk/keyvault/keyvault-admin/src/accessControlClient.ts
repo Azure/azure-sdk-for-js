@@ -13,21 +13,16 @@ import type {
   KeyVaultRoleDefinition,
   KeyVaultRoleScope,
   ListRoleAssignmentsOptions,
-  ListRoleAssignmentsPageSettings,
   ListRoleDefinitionsOptions,
-  ListRoleDefinitionsPageSettings,
   SetRoleDefinitionOptions,
 } from "./accessControlModels.js";
-import { KeyVaultClient } from "./generated/keyVaultClient.js";
-import { LATEST_API_VERSION } from "./constants.js";
+import type { KeyVaultClient } from "./generated/keyVaultClient.js";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
-import type { RoleAssignmentsListForScopeOptionalParams } from "./generated/models/index.js";
 import type { TokenCredential } from "@azure/core-auth";
-import { keyVaultAuthenticationPolicy } from "@azure/keyvault-common";
-import { logger } from "./log.js";
-import { mappings } from "./mappings.js";
+import { mapPagedAsyncIterable, mappings } from "./mappings.js";
 import { tracingClient } from "./tracing.js";
 import { randomUUID } from "@azure/core-util";
+import { createKeyVaultClient } from "./createKeyVaultClient.js";
 
 /**
  * The KeyVaultAccessControlClient provides methods to manage
@@ -49,14 +44,13 @@ export class KeyVaultAccessControlClient {
    * Creates an instance of the KeyVaultAccessControlClient.
    *
    * Example usage:
-   * ```ts
-   * import { KeyVaultAccessControlClient } from "@azure/keyvault-admin";
+   * ```ts snippet:ReadmeSampleCreateAccessControlClient
    * import { DefaultAzureCredential } from "@azure/identity";
+   * import { KeyVaultAccessControlClient } from "@azure/keyvault-admin";
    *
-   * let vaultUrl = `https://<MY KEY VAULT HERE>.vault.azure.net`;
-   * let credentials = new DefaultAzureCredential();
-   *
-   * let client = new KeyVaultAccessControlClient(vaultUrl, credentials);
+   * const vaultUrl = `https://<MY KEY VAULT HERE>.vault.azure.net`;
+   * const credentials = new DefaultAzureCredential();
+   * const client = new KeyVaultAccessControlClient(vaultUrl, credentials);
    * ```
    * @param vaultUrl - the URL of the Key Vault. It should have this shape: `https://${your-key-vault-name}.vault.azure.net`. You should validate that this URL references a valid Key Vault or Managed HSM resource. See https://aka.ms/azsdk/blog/vault-uri for details.
    * @param credential - An object that implements the `TokenCredential` interface used to authenticate requests to the service. Use the \@azure/identity package to create a credential that suits your needs.
@@ -65,42 +59,35 @@ export class KeyVaultAccessControlClient {
   constructor(
     vaultUrl: string,
     credential: TokenCredential,
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options: AccessControlClientOptions = {},
   ) {
     this.vaultUrl = vaultUrl;
 
-    const serviceVersion = options.serviceVersion || LATEST_API_VERSION;
-
-    const clientOptions = {
-      ...options,
-      loggingOptions: {
-        logger: logger.info,
-        additionalAllowedHeaderNames: [
-          "x-ms-keyvault-region",
-          "x-ms-keyvault-network-info",
-          "x-ms-keyvault-service-version",
-        ],
-      },
-    };
-
-    this.client = new KeyVaultClient(serviceVersion, clientOptions);
-
-    // The authentication policy must come after the deserialization policy since the deserialization policy
-    // converts 401 responses to an Error, and we don't want to deal with that.
-    this.client.pipeline.addPolicy(keyVaultAuthenticationPolicy(credential, clientOptions), {
-      afterPolicies: ["deserializationPolicy"],
-    });
+    this.client = createKeyVaultClient(vaultUrl, credential, options);
   }
 
   /**
    * Creates a role assignment in an Azure Key Vault.
    *
    * Example usage:
-   * ```ts
-   * const client = new KeyVaultAccessControlClient(url, credentials);
-   * const roleDefinition = await client.listRoleDefinitions("/").next();
+   * ```ts snippet:ReadmeSampleCreateRoleAssignment
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { KeyVaultAccessControlClient } from "@azure/keyvault-admin";
+   *
+   * const vaultUrl = `https://<MY KEY VAULT HERE>.vault.azure.net`;
+   * const credentials = new DefaultAzureCredential();
+   * const client = new KeyVaultAccessControlClient(vaultUrl, credentials);
+   *
+   * const { value: roleDefinition } = await client.listRoleDefinitions("/").next();
+   *
    * const principalId = "4871f6a6-374f-4b6b-8b0c-f5d84db823f6";
-   * const result = await client.createRoleAssignment("/", "295c179b-9ad3-4117-99cd-b1aa66cf4517", roleDefinition, principalId);
+   * const result = await client.createRoleAssignment(
+   *   "/",
+   *   "295c179b-9ad3-4117-99cd-b1aa66cf4517",
+   *   roleDefinition.id,
+   *   principalId,
+   * );
    * ```
    * Creates a new role assignment.
    * @param roleScope - The scope of the role assignment.
@@ -121,7 +108,6 @@ export class KeyVaultAccessControlClient {
       options,
       async (updatedOptions) => {
         const response = await this.client.roleAssignments.create(
-          this.vaultUrl,
           roleScope,
           name,
           {
@@ -141,10 +127,25 @@ export class KeyVaultAccessControlClient {
    * Deletes role assignments previously created in an Azure Key Vault.
    *
    * Example usage:
-   * ```ts
-   * const client = new KeyVaultAccessControlClient(url, credentials);
-   * const roleAssignment = await client.createRoleAssignment("/", "295c179b-9ad3-4117-99cd-b1aa66cf4517");
-   * await client.deleteRoleAssignment(roleAssignment.properties.roleScope, roleAssignment.name);
+   * ```ts snippet:ReadmeSampleDeleteRoleAssignment
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { KeyVaultAccessControlClient } from "@azure/keyvault-admin";
+   *
+   * const vaultUrl = `https://<MY KEY VAULT HERE>.vault.azure.net`;
+   * const credentials = new DefaultAzureCredential();
+   * const client = new KeyVaultAccessControlClient(vaultUrl, credentials);
+   *
+   * const { value: roleDefinition } = await client.listRoleDefinitions("/").next();
+   * const principalId = "4871f6a6-374f-4b6b-8b0c-f5d84db823f6";
+   *
+   * const roleAssignment = await client.createRoleAssignment(
+   *   "/",
+   *   "295c179b-9ad3-4117-99cd-b1aa66cf4517",
+   *   roleDefinition.id,
+   *   principalId,
+   * );
+   *
+   * await client.deleteRoleAssignment(roleAssignment.properties.scope, roleAssignment.name);
    * ```
    * Deletes an existing role assignment.
    * @param roleScope - The scope of the role assignment.
@@ -160,7 +161,14 @@ export class KeyVaultAccessControlClient {
       "KeyVaultAccessControlClient.deleteRoleAssignment",
       options,
       async (updatedOptions) => {
-        await this.client.roleAssignments.delete(this.vaultUrl, roleScope, name, updatedOptions);
+        try {
+          await this.client.roleAssignments.delete(roleScope, name, updatedOptions);
+        } catch (err: any) {
+          // If the role assignment doesn't exist, we can consider it deleted.
+          if (err.statusCode !== 404) {
+            throw err;
+          }
+        }
       },
     );
   }
@@ -169,10 +177,28 @@ export class KeyVaultAccessControlClient {
    * Gets a role assignments previously created in an Azure Key Vault.
    *
    * Example usage:
-   * ```ts
-   * const client = new KeyVaultAccessControlClient(url, credentials);
-   * let roleAssignment = await client.createRoleAssignment("/", "295c179b-9ad3-4117-99cd-b1aa66cf4517");
-   * roleAssignment = const await client.getRoleAssignment(roleAssignment.properties.roleScope, roleAssignment.name);
+   * ```ts snippet:ReadmeSampleGetRoleAssignment
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { KeyVaultAccessControlClient } from "@azure/keyvault-admin";
+   *
+   * const vaultUrl = `https://<MY KEY VAULT HERE>.vault.azure.net`;
+   * const credentials = new DefaultAzureCredential();
+   * const client = new KeyVaultAccessControlClient(vaultUrl, credentials);
+   *
+   * const { value: roleDefinition } = await client.listRoleDefinitions("/").next();
+   * const principalId = "4871f6a6-374f-4b6b-8b0c-f5d84db823f6";
+   *
+   * let roleAssignment = await client.createRoleAssignment(
+   *   "/",
+   *   "295c179b-9ad3-4117-99cd-b1aa66cf4517",
+   *   roleDefinition.id,
+   *   principalId,
+   * );
+   *
+   * roleAssignment = await client.getRoleAssignment(
+   *   roleAssignment.properties.scope,
+   *   roleAssignment.name,
+   * );
    * console.log(roleAssignment);
    * ```
    * Gets an existing role assignment.
@@ -189,84 +215,24 @@ export class KeyVaultAccessControlClient {
       "KeyVaultAccessControlClient.getRoleAssignment",
       options,
       async (updatedOptions) => {
-        const response = await this.client.roleAssignments.get(
-          this.vaultUrl,
-          roleScope,
-          name,
-          updatedOptions,
-        );
+        const response = await this.client.roleAssignments.get(roleScope, name, updatedOptions);
         return mappings.roleAssignment.generatedToPublic(response);
       },
     );
   }
 
   /**
-   * Deals with the pagination of {@link listRoleAssignments}.
-   * @param roleScope - The scope of the role assignments.
-   * @param continuationState - An object that indicates the position of the paginated request.
-   * @param options - Common options for the iterative endpoints.
-   */
-  private async *listRoleAssignmentsPage(
-    roleScope: KeyVaultRoleScope,
-    continuationState: ListRoleAssignmentsPageSettings,
-    options?: ListRoleAssignmentsOptions,
-  ): AsyncIterableIterator<KeyVaultRoleAssignment[]> {
-    if (!continuationState.continuationToken) {
-      const optionsComplete: RoleAssignmentsListForScopeOptionalParams = options || {};
-      const currentSetResponse = await tracingClient.withSpan(
-        "KeyVaultAccessControlClient.listRoleAssignmentsPage",
-        optionsComplete,
-        async (updatedOptions) => {
-          return this.client.roleAssignments.listForScope(this.vaultUrl, roleScope, updatedOptions);
-        },
-      );
-      continuationState.continuationToken = currentSetResponse.nextLink;
-      if (currentSetResponse.value) {
-        yield currentSetResponse.value.map(mappings.roleAssignment.generatedToPublic, this);
-      }
-    }
-    while (continuationState.continuationToken) {
-      const currentSetResponse = await tracingClient.withSpan(
-        "KeyVaultAccessControlClient.listRoleAssignmentsPage",
-        options || {},
-        async (updatedOptions) => {
-          return this.client.roleAssignments.listForScopeNext(
-            this.vaultUrl,
-            roleScope,
-            continuationState.continuationToken!,
-            updatedOptions,
-          );
-        },
-      );
-      continuationState.continuationToken = currentSetResponse.nextLink;
-      if (currentSetResponse.value) {
-        yield currentSetResponse.value.map(mappings.roleAssignment.generatedToPublic, this);
-      } else {
-        break;
-      }
-    }
-  }
-
-  /**
-   * Deals with the iteration of all the available results of {@link listRoleAssignments}.
-   * @param roleScope - The scope of the role assignments.
-   * @param options - Common options for the iterative endpoints.
-   */
-  private async *listRoleAssignmentsAll(
-    roleScope: KeyVaultRoleScope,
-    options?: ListRoleAssignmentsOptions,
-  ): AsyncIterableIterator<KeyVaultRoleAssignment> {
-    for await (const page of this.listRoleAssignmentsPage(roleScope, {}, options)) {
-      yield* page;
-    }
-  }
-
-  /**
    * Iterates over all of the available role assignments in an Azure Key Vault.
    *
    * Example usage:
-   * ```ts
-   * let client = new KeyVaultAccessControlClient(url, credentials);
+   * ```ts snippet:ReadmeSampleListRoleAssignments
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { KeyVaultAccessControlClient } from "@azure/keyvault-admin";
+   *
+   * const vaultUrl = `https://<MY KEY VAULT HERE>.vault.azure.net`;
+   * const credentials = new DefaultAzureCredential();
+   * const client = new KeyVaultAccessControlClient(vaultUrl, credentials);
+   *
    * for await (const roleAssignment of client.listRoleAssignments("/")) {
    *   console.log("Role assignment: ", roleAssignment);
    * }
@@ -279,85 +245,25 @@ export class KeyVaultAccessControlClient {
     roleScope: KeyVaultRoleScope,
     options: ListRoleAssignmentsOptions = {},
   ): PagedAsyncIterableIterator<KeyVaultRoleAssignment> {
-    const iter = this.listRoleAssignmentsAll(roleScope, options);
-
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: (settings: ListRoleAssignmentsPageSettings = {}) =>
-        this.listRoleAssignmentsPage(roleScope, settings, options),
-    };
-  }
-
-  /**
-   * Deals with the pagination of {@link listRoleDefinitions}.
-   * @param roleScope - The scope of the role definition.
-   * @param continuationState - An object that indicates the position of the paginated request.
-   * @param options - Common options for the iterative endpoints.
-   */
-  private async *listRoleDefinitionsPage(
-    roleScope: KeyVaultRoleScope,
-    continuationState: ListRoleDefinitionsPageSettings,
-    options: ListRoleDefinitionsOptions = {},
-  ): AsyncIterableIterator<KeyVaultRoleDefinition[]> {
-    if (!continuationState.continuationToken) {
-      const optionsComplete: RoleAssignmentsListForScopeOptionalParams = options || {};
-      const currentSetResponse = await tracingClient.withSpan(
-        "KeyVaultAccessControlClient.listRoleDefinitionsPage",
-        optionsComplete,
-        (updatedOptions) =>
-          this.client.roleDefinitions.list(this.vaultUrl, roleScope, updatedOptions),
-      );
-      continuationState.continuationToken = currentSetResponse.nextLink;
-      if (currentSetResponse.value) {
-        yield currentSetResponse.value.map(mappings.roleDefinition.generatedToPublic, this);
-      }
-    }
-    while (continuationState.continuationToken) {
-      const currentSetResponse = await tracingClient.withSpan(
-        "KeyVaultAccessControlClient.listRoleDefinitionsPage",
-        options,
-        (updatedOptions) =>
-          this.client.roleDefinitions.listNext(
-            this.vaultUrl,
-            roleScope,
-            continuationState.continuationToken!,
-            updatedOptions,
-          ),
-      );
-      continuationState.continuationToken = currentSetResponse.nextLink;
-      if (currentSetResponse.value) {
-        yield currentSetResponse.value.map(mappings.roleDefinition.generatedToPublic, this);
-      } else {
-        break;
-      }
-    }
-  }
-
-  /**
-   * Deals with the iteration of all the available results of {@link listRoleDefinitions}.
-   * @param roleScope - The scope of the role definition.
-   * @param options - Common options for the iterative endpoints.
-   */
-  private async *listRoleDefinitionsAll(
-    roleScope: KeyVaultRoleScope,
-    options?: ListRoleDefinitionsOptions,
-  ): AsyncIterableIterator<KeyVaultRoleDefinition> {
-    for await (const page of this.listRoleDefinitionsPage(roleScope, {}, options)) {
-      yield* page;
-    }
+    return mapPagedAsyncIterable(
+      options,
+      (mappedOptions) => this.client.roleAssignments.listForScope(roleScope, mappedOptions),
+      mappings.roleAssignment.generatedToPublic,
+    );
   }
 
   /**
    * Iterates over all of the available role definitions in an Azure Key Vault.
    *
    * Example usage:
-   * ```ts
-   * let client = new KeyVaultAccessControlClient(url, credentials);
+   * ```ts snippet:ReadmeSampleListRoleDefinitions
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { KeyVaultAccessControlClient } from "@azure/keyvault-admin";
+   *
+   * const vaultUrl = `https://<MY KEY VAULT HERE>.vault.azure.net`;
+   * const credentials = new DefaultAzureCredential();
+   * const client = new KeyVaultAccessControlClient(vaultUrl, credentials);
+   *
    * for await (const roleDefinitions of client.listRoleDefinitions("/")) {
    *   console.log("Role definition: ", roleDefinitions);
    * }
@@ -370,26 +276,25 @@ export class KeyVaultAccessControlClient {
     roleScope: KeyVaultRoleScope,
     options: ListRoleDefinitionsOptions = {},
   ): PagedAsyncIterableIterator<KeyVaultRoleDefinition> {
-    const iter = this.listRoleDefinitionsAll(roleScope, options);
-
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: (settings: ListRoleDefinitionsPageSettings = {}) =>
-        this.listRoleDefinitionsPage(roleScope, settings, options),
-    };
+    return mapPagedAsyncIterable(
+      options,
+      (mappedOptions) => this.client.roleDefinitions.list(roleScope, mappedOptions),
+      mappings.roleDefinition.generatedToPublic,
+    );
   }
 
   /**
    * Gets a role definition from Azure Key Vault.
    *
    * Example usage:
-   * ```
-   * const client = new KeyVaultAccessControlClient(url, credentials);
+   * ```ts snippet:ReadmeSampleGetRoleDefinition
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { KeyVaultAccessControlClient } from "@azure/keyvault-admin";
+   *
+   * const vaultUrl = `https://<MY KEY VAULT HERE>.vault.azure.net`;
+   * const credentials = new DefaultAzureCredential();
+   * const client = new KeyVaultAccessControlClient(vaultUrl, credentials);
+   *
    * const roleDefinition = await client.getRoleDefinition("/", "b86a8fe4-44ce-4948-aee5-eccb2c155cd7");
    * console.log(roleDefinition);
    * ```
@@ -406,12 +311,7 @@ export class KeyVaultAccessControlClient {
       "KeyVaultAccessControlClient.getRoleDefinition",
       options,
       async (updatedOptions) => {
-        const response = await this.client.roleDefinitions.get(
-          this.vaultUrl,
-          roleScope,
-          name,
-          updatedOptions,
-        );
+        const response = await this.client.roleDefinitions.get(roleScope, name, updatedOptions);
         return mappings.roleDefinition.generatedToPublic(response);
       },
     );
@@ -421,11 +321,24 @@ export class KeyVaultAccessControlClient {
    * Creates or updates a role definition in an Azure Key Vault.
    *
    * Example usage:
-   * ```ts
-   * const client = new KeyVaultAccessControlClient(url, credentials);
+   * ```ts snippet:ReadmeSampleSetRoleDefinition
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import {
+   *   KeyVaultAccessControlClient,
+   *   KnownKeyVaultDataAction,
+   *   KnownKeyVaultRoleScope,
+   * } from "@azure/keyvault-admin";
+   *
+   * const vaultUrl = `https://<MY KEY VAULT HERE>.vault.azure.net`;
+   * const credentials = new DefaultAzureCredential();
+   * const client = new KeyVaultAccessControlClient(vaultUrl, credentials);
+   *
    * const permissions = [{ dataActions: [KnownKeyVaultDataAction.BackupHsmKeys] }];
    * const roleDefinitionName = "23b8bb1a-39c0-4c89-a85b-dd3c99273a8a";
-   * const roleDefinition = await client.setRoleDefinition(KnownKeyVaultRoleScope.Global, { permissions, roleDefinitionName });
+   * const roleDefinition = await client.setRoleDefinition(KnownKeyVaultRoleScope.Global, {
+   *   permissions,
+   *   roleDefinitionName,
+   * });
    * console.log(roleDefinition);
    * ```
    * @param roleScope - The scope of the role definition.
@@ -440,7 +353,6 @@ export class KeyVaultAccessControlClient {
       options,
       async (updatedOptions) => {
         const response = await this.client.roleDefinitions.createOrUpdate(
-          this.vaultUrl,
           roleScope,
           options.roleDefinitionName || randomUUID(),
           {
@@ -463,9 +375,25 @@ export class KeyVaultAccessControlClient {
    * Deletes a custom role definition previously created in an Azure Key Vault.
    *
    * Example usage:
-   * ```ts
-   * const client = new KeyVaultAccessControlClient(url, credentials);
-   * const roleDefinition = await client.setRoleDefinition("/", "23b8bb1a-39c0-4c89-a85b-dd3c99273a8a", []);
+   * ```ts snippet:ReadmeSampleDeleteRoleDefinition
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import {
+   *   KeyVaultAccessControlClient,
+   *   KnownKeyVaultDataAction,
+   *   KnownKeyVaultRoleScope,
+   * } from "@azure/keyvault-admin";
+   *
+   * const vaultUrl = `https://<MY KEY VAULT HERE>.vault.azure.net`;
+   * const credentials = new DefaultAzureCredential();
+   * const client = new KeyVaultAccessControlClient(vaultUrl, credentials);
+   *
+   * const permissions = [{ dataActions: [KnownKeyVaultDataAction.BackupHsmKeys] }];
+   * const roleDefinitionName = "23b8bb1a-39c0-4c89-a85b-dd3c99273a8a";
+   * const roleDefinition = await client.setRoleDefinition(KnownKeyVaultRoleScope.Global, {
+   *   permissions,
+   *   roleDefinitionName,
+   * });
+   *
    * await client.deleteRoleDefinition("/", roleDefinition.name);
    * ```
    * @param roleScope - The scope of the role definition.
@@ -481,7 +409,14 @@ export class KeyVaultAccessControlClient {
       "KeyVaultAccessControlClient.deleteRoleDefinition",
       options,
       async (updatedOptions) => {
-        await this.client.roleDefinitions.delete(this.vaultUrl, roleScope, name, updatedOptions);
+        try {
+          await this.client.roleDefinitions.delete(roleScope, name, updatedOptions);
+        } catch (err: any) {
+          // If the role definition doesn't exist, we can consider it deleted.
+          if (err.statusCode !== 404) {
+            throw err;
+          }
+        }
       },
     );
   }

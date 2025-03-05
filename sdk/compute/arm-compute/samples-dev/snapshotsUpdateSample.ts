@@ -6,13 +6,10 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import { SnapshotUpdate, ComputeManagementClient } from "@azure/arm-compute";
+import type { SnapshotUpdate } from "@azure/arm-compute";
+import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Updates (patches) a snapshot.
@@ -20,11 +17,9 @@ dotenv.config();
  * @summary Updates (patches) a snapshot.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2024-03-02/examples/snapshotExamples/Snapshot_Update_WithAcceleratedNetwork.json
  */
-async function updateASnapshotWithAcceleratedNetworking() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+async function updateASnapshotWithAcceleratedNetworking(): Promise<void> {
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const snapshotName = "mySnapshot";
   const snapshot: SnapshotUpdate = {
     diskSizeGB: 20,
@@ -47,11 +42,9 @@ async function updateASnapshotWithAcceleratedNetworking() {
  * @summary Updates (patches) a snapshot.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2024-03-02/examples/snapshotExamples/Snapshot_Update.json
  */
-async function updateASnapshot() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+async function updateASnapshot(): Promise<void> {
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const snapshotName = "mySnapshot";
   const snapshot: SnapshotUpdate = {
     diskSizeGB: 20,
@@ -67,9 +60,9 @@ async function updateASnapshot() {
   console.log(result);
 }
 
-async function main() {
-  updateASnapshotWithAcceleratedNetworking();
-  updateASnapshot();
+async function main(): Promise<void> {
+  await updateASnapshotWithAcceleratedNetworking();
+  await updateASnapshot();
 }
 
 main().catch(console.error);

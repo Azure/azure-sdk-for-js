@@ -31,7 +31,7 @@ describe("LinkEntity unit tests", () => {
   let linkEntity: LinkEntity<Receiver>;
   let connectionContext: ConnectionContext;
 
-  beforeEach(function () {
+  beforeEach(async () => {
     connectionContext = createConnectionContextForTests();
     linkEntity = new LinkForTests(
       "some initial name",

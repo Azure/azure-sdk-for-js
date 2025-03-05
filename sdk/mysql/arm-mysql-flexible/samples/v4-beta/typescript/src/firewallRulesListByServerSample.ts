@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { MySQLManagementFlexibleServerClient } from "@azure/arm-mysql-flexible";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to List all the firewall rules in a given server.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary List all the firewall rules in a given server.
  * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/Firewall/preview/2023-06-01-preview/examples/FirewallRulesListByServer.json
  */
-async function listAllFirewallRulesInAServer() {
+async function listAllFirewallRulesInAServer(): Promise<void> {
   const subscriptionId =
     process.env["MYSQL_SUBSCRIPTION_ID"] ||
     "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -41,7 +39,7 @@ async function listAllFirewallRulesInAServer() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listAllFirewallRulesInAServer();
 }
 

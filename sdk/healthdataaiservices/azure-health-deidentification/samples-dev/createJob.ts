@@ -5,13 +5,10 @@
  * @summary This sample demonstrates how to create a job which will deidentify all files within a blob storage container filtering via a prefix.
  */
 
-import createClient, {
-  DeidentificationJob,
-  isUnexpected,
-} from "@azure-rest/health-deidentification";
+import type { DeidentificationJob } from "@azure-rest/health-deidentification";
+import createClient, { isUnexpected } from "@azure-rest/health-deidentification";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
 export async function main(): Promise<void> {
   const credential = new DefaultAzureCredential();

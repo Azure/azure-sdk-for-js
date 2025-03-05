@@ -16,7 +16,7 @@ import {
   CustomHttpsConfiguration,
   FrontendEndpointsEnableHttpsOptionalParams,
   FrontendEndpointsDisableHttpsOptionalParams,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a FrontendEndpoints. */

@@ -18,13 +18,13 @@ import {
   OperationsImpl,
   EndpointsImpl,
   ServiceConfigurationsImpl
-} from "./operations";
+} from "./operations/index.js";
 import {
   Operations,
   Endpoints,
   ServiceConfigurations
-} from "./operationsInterfaces";
-import { HybridConnectivityManagementAPIOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { HybridConnectivityManagementAPIOptionalParams } from "./models/index.js";
 
 export class HybridConnectivityManagementAPI extends coreClient.ServiceClient {
   $host: string;

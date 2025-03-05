@@ -1,15 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import createNetworkManagementClient, {
-  ListNetworkManagerEffectiveConnectivityConfigurationsParameters,
-} from "@azure-rest/arm-network";
+import type { ListNetworkManagerEffectiveConnectivityConfigurationsParameters } from "@azure-rest/arm-network";
+import createNetworkManagementClient from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to List all effective connectivity configurations applied on a virtual network.
@@ -17,7 +11,7 @@ dotenv.config();
  * @summary List all effective connectivity configurations applied on a virtual network.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/NetworkManagerEffectiveConnectivityConfigurationsList.json
  */
-async function listEffectiveConnectivityConfiguration() {
+async function listEffectiveConnectivityConfiguration(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

@@ -12,7 +12,7 @@ import {
   IntegrationRuntimeObjectMetadataRefreshResponse,
   IntegrationRuntimeObjectMetadataGetOptionalParams,
   IntegrationRuntimeObjectMetadataGetResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a IntegrationRuntimeObjectMetadata. */
 export interface IntegrationRuntimeObjectMetadata {

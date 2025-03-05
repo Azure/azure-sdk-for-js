@@ -17,7 +17,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Gets all the preview features in a provider namespace that are available through AFEC for the subscription.
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Features/stable/2021-07-01/examples/listProviderFeatures.json
  */
-async function listProviderFeatures() {
+async function listProviderFeatures(): Promise<void> {
   const subscriptionId = "subid";
   const resourceProviderNamespace = "Resource Provider Namespace";
   const credential = new DefaultAzureCredential();

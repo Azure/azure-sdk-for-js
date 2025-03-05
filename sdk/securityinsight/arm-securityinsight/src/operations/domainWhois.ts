@@ -6,15 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { DomainWhois } from "../operationsInterfaces";
+import { DomainWhois } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { SecurityInsights } from "../securityInsights";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { SecurityInsights } from "../securityInsights.js";
 import {
   DomainWhoisGetOptionalParams,
   DomainWhoisGetResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Class containing DomainWhois operations. */
 export class DomainWhoisImpl implements DomainWhois {

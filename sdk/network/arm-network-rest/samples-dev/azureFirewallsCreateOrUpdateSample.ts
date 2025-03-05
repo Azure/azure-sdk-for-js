@@ -1,16 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import createNetworkManagementClient, {
-  AzureFirewallsCreateOrUpdateParameters,
-  getLongRunningPoller,
-} from "@azure-rest/arm-network";
+import type { AzureFirewallsCreateOrUpdateParameters } from "@azure-rest/arm-network";
+import createNetworkManagementClient, { getLongRunningPoller } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates or updates the specified Azure Firewall.
@@ -18,7 +11,7 @@ dotenv.config();
  * @summary Creates or updates the specified Azure Firewall.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/AzureFirewallPut.json
  */
-async function createAzureFirewall() {
+async function createAzureFirewall(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -133,7 +126,7 @@ async function createAzureFirewall() {
       azureFirewallName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -145,7 +138,7 @@ createAzureFirewall().catch(console.error);
  * @summary Creates or updates the specified Azure Firewall.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/AzureFirewallPutWithAdditionalProperties.json
  */
-async function createAzureFirewallWithAdditionalProperties() {
+async function createAzureFirewallWithAdditionalProperties(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -262,7 +255,7 @@ async function createAzureFirewallWithAdditionalProperties() {
       azureFirewallName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -274,7 +267,7 @@ createAzureFirewallWithAdditionalProperties().catch(console.error);
  * @summary Creates or updates the specified Azure Firewall.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/AzureFirewallPutWithIpGroups.json
  */
-async function createAzureFirewallWithIPGroups() {
+async function createAzureFirewallWithIPGroups(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -389,7 +382,7 @@ async function createAzureFirewallWithIPGroups() {
       azureFirewallName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -401,7 +394,7 @@ createAzureFirewallWithIPGroups().catch(console.error);
  * @summary Creates or updates the specified Azure Firewall.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/AzureFirewallPutWithZones.json
  */
-async function createAzureFirewallWithZones() {
+async function createAzureFirewallWithZones(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -516,7 +509,7 @@ async function createAzureFirewallWithZones() {
       azureFirewallName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -528,7 +521,7 @@ createAzureFirewallWithZones().catch(console.error);
  * @summary Creates or updates the specified Azure Firewall.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/AzureFirewallPutWithMgmtSubnet.json
  */
-async function createAzureFirewallWithManagementSubnet() {
+async function createAzureFirewallWithManagementSubnet(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -654,7 +647,7 @@ async function createAzureFirewallWithManagementSubnet() {
       azureFirewallName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -666,7 +659,7 @@ createAzureFirewallWithManagementSubnet().catch(console.error);
  * @summary Creates or updates the specified Azure Firewall.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/AzureFirewallPutInHub.json
  */
-async function createAzureFirewallInVirtualHub() {
+async function createAzureFirewallInVirtualHub(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -699,7 +692,7 @@ async function createAzureFirewallInVirtualHub() {
       azureFirewallName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }

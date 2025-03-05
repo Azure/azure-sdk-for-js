@@ -23,7 +23,10 @@
     "./dist-esm/src/utils/atob.js": "./dist-esm/src/utils/atob.browser.js",
     "./dist-esm/src/utils/digest.js": "./dist-esm/src/utils/digest.browser.js",
     "./dist-esm/src/utils/hmac.js": "./dist-esm/src/utils/hmac.browser.js",
-    "./dist-esm/src/utils/envUtils.js": "./dist-esm/src/utils/envUtils.browser.js"
+    "./dist-esm/src/utils/envUtils.js": "./dist-esm/src/utils/envUtils.browser.js",
+    "./dist-esm/src/encryption/Cache/ProtectedDataEncryptionKeyCache.js": "./dist-esm/src/encryption/Cache/ProtectedDataEncryptionKeyCache.browser.js",
+    "./dist-esm/src/encryption/EncryptionKey/DataEncryptionKey.js": "./dist-esm/src/encryption/EncryptionKey/DataEncryptionKey.browser.js",
+    "./dist-esm/src/encryption/AeadAes256CbcHmacSha256Algorithm/AeadAes256CbcHmacSha256Algorithm.js": "./dist-esm/src/encryption/AeadAes256CbcHmacSha256Algorithm/AeadAes256CbcHmacSha256Algorithm.browser.js"
   },
   "files": [
     "changelog.md",
@@ -72,7 +75,7 @@
     "test:signoff": "npm run integration-test:node -- --fgrep \"nosignoff\" --invert",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
     "unit-test:browser": "echo skipped",
-    "unit-test:node": "dev-tool run test:node-ts-input -- --timeout 100000 './test/internal/unit/*.spec.ts'",
+    "unit-test:node": "dev-tool run test:node-ts-input -- --timeout 100000 './test/internal/unit/**/*.spec.ts'",
     "update-snippets": "echo skipped"
   },
   "repository": "github:Azure/azure-sdk-for-js",
@@ -93,7 +96,8 @@
     "jsbi": "^4.3.0",
     "priorityqueuejs": "^2.0.0",
     "semaphore": "^1.1.0",
-    "tslib": "^2.6.2"
+    "tslib": "^2.6.2",
+    "@azure/keyvault-keys": "^4.8.0"
   },
   "devDependencies": {
     "@azure/dev-tool": "^1.0.0",
@@ -142,14 +146,15 @@
       "ChangeFeedIteratorAllVersionsAndDeletes.ts",
       "Diagnostics.ts",
       "HierarchicalPartitioning.ts",
-      "FullTextSearch.ts"
+      "FullTextSearch.ts",
+      "ClientSideEncryption.ts"
     ],
     "productName": "Azure Cosmos DB",
     "productSlugs": [
       "azure-cosmos-db"
     ],
     "requiredResources": {
-      "Azure Cosmos DB account": "https://docs.microsoft.com/azure/cosmos-db/how-to-manage-database-account#create-an-account"
+      "Azure Cosmos DB account": "https://learn.microsoft.com/azure/cosmos-db/how-to-manage-database-account#create-an-account"
     },
     "extraFiles": {
       "./samples-dev/Data/Families.json": [

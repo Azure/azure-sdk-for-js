@@ -9,7 +9,7 @@
 import {
   VaultOperationStatusGetOptionalParams,
   VaultOperationStatusGetResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a VaultOperationStatus. */
 export interface VaultOperationStatus {

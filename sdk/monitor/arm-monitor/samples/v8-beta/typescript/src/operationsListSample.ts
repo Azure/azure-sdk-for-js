@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { MonitorClient } from "@azure/arm-monitor";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists all of the available operations from Microsoft.Insights provider.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Lists all of the available operations from Microsoft.Insights provider.
  * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2015-04-01/examples/OperationList.json
  */
-async function getAListOfOperationsForAResourceProvider() {
+async function getAListOfOperationsForAResourceProvider(): Promise<void> {
   const subscriptionId =
     process.env["MONITOR_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -30,7 +28,7 @@ async function getAListOfOperationsForAResourceProvider() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getAListOfOperationsForAResourceProvider();
 }
 

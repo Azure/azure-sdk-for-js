@@ -41,7 +41,7 @@ describe("The Certificates client should set the serviceVersion", () => {
     vi.restoreAllMocks();
   });
 
-  it("it should default to the latest API version", async function () {
+  it("it should default to the latest API version", async () => {
     const client = new CertificateClient(keyVaultUrl, credential, {
       httpClient: mockHttpClient,
     });
@@ -56,7 +56,7 @@ describe("The Certificates client should set the serviceVersion", () => {
   // Adding this to the source would change the public API.
   type ApiVersions = "7.0" | "7.1" | "7.2" | "7.3" | "7.4";
 
-  it("it should allow us to specify an API version from a specific set of versions", async function () {
+  it("it should allow us to specify an API version from a specific set of versions", async () => {
     const versions: ApiVersions[] = ["7.0", "7.1", "7.2", "7.3", "7.4"];
     for (const serviceVersion in versions) {
       const client = new CertificateClient(keyVaultUrl, credential, {

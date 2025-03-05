@@ -18,7 +18,7 @@ import {
   EventSourcesDeleteOptionalParams,
   EventSourcesListByEnvironmentOptionalParams,
   EventSourcesListByEnvironmentResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a EventSources. */
 export interface EventSources {

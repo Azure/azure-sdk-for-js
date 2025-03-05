@@ -7,7 +7,7 @@
  */
 
 /// <reference lib="esnext.asynciterable" />
-export { getContinuationToken } from "./pagingHelper";
-export * from "./models";
-export { ACEProvisioningManagementPartnerAPI } from "./aCEProvisioningManagementPartnerAPI";
-export * from "./operationsInterfaces";
+export { getContinuationToken } from "./pagingHelper.js";
+export * from "./models/index.js";
+export { ACEProvisioningManagementPartnerAPI } from "./aCEProvisioningManagementPartnerAPI.js";
+export * from "./operationsInterfaces/index.js";

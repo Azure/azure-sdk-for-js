@@ -35,7 +35,7 @@ import {
   AgentPoolsImpl,
   KubernetesClusterFeaturesImpl,
   ConsolesImpl,
-} from "./operations";
+} from "./operations/index.js";
 import {
   Operations,
   BareMetalMachines,
@@ -57,8 +57,8 @@ import {
   AgentPools,
   KubernetesClusterFeatures,
   Consoles,
-} from "./operationsInterfaces";
-import { NetworkCloudOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { NetworkCloudOptionalParams } from "./models/index.js";
 
 export class NetworkCloud extends coreClient.ServiceClient {
   $host: string;
@@ -92,7 +92,7 @@ export class NetworkCloud extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-networkcloud/2.0.0-beta.2`;
+    const packageDetails = `azsdk-js-arm-networkcloud/1.1.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -146,7 +146,7 @@ export class NetworkCloud extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2024-06-01-preview";
+    this.apiVersion = options.apiVersion || "2024-07-01";
     this.operations = new OperationsImpl(this);
     this.bareMetalMachines = new BareMetalMachinesImpl(this);
     this.cloudServicesNetworks = new CloudServicesNetworksImpl(this);

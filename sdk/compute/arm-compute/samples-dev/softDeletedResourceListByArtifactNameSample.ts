@@ -6,13 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to List soft-deleted resources of an artifact in the gallery, such as soft-deleted gallery image version of an image.
@@ -20,18 +16,16 @@ dotenv.config();
  * @summary List soft-deleted resources of an artifact in the gallery, such as soft-deleted gallery image version of an image.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2024-03-03/examples/galleryExamples/GallerySoftDeletedResource_ListByArtifactName.json
  */
-async function listSoftDeletedResourcesOfAnArtifactInTheGallery() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+async function listSoftDeletedResourcesOfAnArtifactInTheGallery(): Promise<void> {
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const galleryName = "myGalleryName";
   const artifactType = "images";
   const artifactName = "myGalleryImageName";
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.softDeletedResource.listByArtifactName(
+  for await (const item of client.softDeletedResource.listByArtifactName(
     resourceGroupName,
     galleryName,
     artifactType,
@@ -42,8 +36,8 @@ async function listSoftDeletedResourcesOfAnArtifactInTheGallery() {
   console.log(resArray);
 }
 
-async function main() {
-  listSoftDeletedResourcesOfAnArtifactInTheGallery();
+async function main(): Promise<void> {
+  await listSoftDeletedResourcesOfAnArtifactInTheGallery();
 }
 
 main().catch(console.error);

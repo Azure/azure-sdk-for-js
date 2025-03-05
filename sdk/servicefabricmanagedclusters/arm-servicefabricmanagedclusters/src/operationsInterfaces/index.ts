@@ -6,18 +6,18 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./applicationTypes";
-export * from "./applicationTypeVersions";
-export * from "./applications";
-export * from "./services";
-export * from "./managedClusters";
-export * from "./managedAzResiliencyStatusOperations";
-export * from "./managedMaintenanceWindowStatusOperations";
-export * from "./managedApplyMaintenanceWindow";
-export * from "./managedClusterVersion";
-export * from "./managedUnsupportedVMSizes";
-export * from "./operationStatus";
-export * from "./operationResults";
-export * from "./operations";
-export * from "./nodeTypes";
-export * from "./nodeTypeSkus";
+export * from "./applicationTypes.js";
+export * from "./applicationTypeVersions.js";
+export * from "./applications.js";
+export * from "./services.js";
+export * from "./managedClusters.js";
+export * from "./managedAzResiliencyStatusOperations.js";
+export * from "./managedMaintenanceWindowStatusOperations.js";
+export * from "./managedApplyMaintenanceWindow.js";
+export * from "./managedClusterVersion.js";
+export * from "./managedUnsupportedVMSizes.js";
+export * from "./operationStatus.js";
+export * from "./operationResults.js";
+export * from "./operations.js";
+export * from "./nodeTypes.js";
+export * from "./nodeTypeSkus.js";

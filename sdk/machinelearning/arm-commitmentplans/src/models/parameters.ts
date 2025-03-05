@@ -15,7 +15,7 @@ import {
   MoveCommitmentAssociationRequest as MoveCommitmentAssociationRequestMapper,
   CommitmentPlan as CommitmentPlanMapper,
   CommitmentPlanPatchPayload as CommitmentPlanPatchPayloadMapper
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",

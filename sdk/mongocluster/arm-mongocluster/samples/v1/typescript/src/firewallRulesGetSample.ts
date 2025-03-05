@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary gets information about a mongo cluster firewall rule.
  * x-ms-original-file: 2024-07-01/MongoClusters_FirewallRuleGet.json
  */
-async function getsAFirewallRuleOnAMongoClusterResource() {
+async function getsAFirewallRuleOnAMongoClusterResource(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new MongoClusterManagementClient(credential, subscriptionId);
@@ -18,7 +18,7 @@ async function getsAFirewallRuleOnAMongoClusterResource() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getsAFirewallRuleOnAMongoClusterResource();
 }
 

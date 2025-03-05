@@ -13,16 +13,15 @@
  * @azsdk-skip-javascript
  */
 
+import type { AnalyzeOperationOutput } from "@azure-rest/ai-document-intelligence";
 import DocumentIntelligence, {
-  AnalyzeResultOperationOutput,
   getLongRunningPoller,
   isUnexpected,
 } from "@azure-rest/ai-document-intelligence";
 
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
-async function main() {
+async function main(): Promise<void> {
   const client = DocumentIntelligence(
     process.env["DOCUMENT_INTELLIGENCE_ENDPOINT"] || "<cognitive services endpoint>",
     { key: process.env["DOCUMENT_INTELLIGENCE_API_KEY"] || "<api key>" },
@@ -42,7 +41,7 @@ async function main() {
     throw initialResponse.body.error;
   }
   const poller = getLongRunningPoller(client, initialResponse);
-  const analyzeResult = ((await poller.pollUntilDone()).body as AnalyzeResultOperationOutput)
+  const analyzeResult = ((await poller.pollUntilDone()).body as AnalyzeOperationOutput)
     .analyzeResult;
 
   const documents = analyzeResult?.documents;

@@ -35,14 +35,14 @@ async function exportLogsWhichContainAllThrottledApiRequestsMadeToComputeResourc
     .path(
       "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/logAnalytics/apiAccess/getThrottledRequests",
       subscriptionId,
-      location
+      location,
     )
     .post(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
 
 exportLogsWhichContainAllThrottledApiRequestsMadeToComputeResourceProviderWithinTheGivenTimePeriod().catch(
-  console.error
+  console.error,
 );

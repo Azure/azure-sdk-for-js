@@ -17,7 +17,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Retrieves the ManagementAssociations list.
  * x-ms-original-file: specification/operationsmanagement/resource-manager/Microsoft.OperationsManagement/preview/2015-11-01-preview/examples/ManagementAssociationListForSubscription.json
  */
-async function solutionList() {
+async function solutionList(): Promise<void> {
   const subscriptionId = "subid";
   const credential = new DefaultAzureCredential();
   const client = new OperationsManagementClient(credential, subscriptionId);

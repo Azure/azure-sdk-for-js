@@ -10,20 +10,18 @@
 // Licensed under the MIT License.
 import {
   DatabasePrincipalAssignmentCheckNameRequest,
-  KustoManagementClient
+  KustoManagementClient,
 } from "@azure/arm-kusto";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Checks that the database principal assignment is valid and is not already in use.
  *
  * @summary Checks that the database principal assignment is valid and is not already in use.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoDatabasePrincipalAssignmentsCheckNameAvailability.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2024-04-13/examples/KustoDatabasePrincipalAssignmentsCheckNameAvailability.json
  */
-async function kustoDatabaseCheckNameAvailability() {
+async function kustoDatabaseCheckNameAvailability(): Promise<void> {
   const subscriptionId =
     process.env["KUSTO_SUBSCRIPTION_ID"] ||
     "12345678-1234-1234-1234-123456789098";
@@ -33,21 +31,22 @@ async function kustoDatabaseCheckNameAvailability() {
   const databaseName = "Kustodatabase8";
   const principalAssignmentName: DatabasePrincipalAssignmentCheckNameRequest = {
     name: "kustoprincipal1",
-    type: "Microsoft.Kusto/clusters/databases/principalAssignments"
+    type: "Microsoft.Kusto/clusters/databases/principalAssignments",
   };
   const credential = new DefaultAzureCredential();
   const client = new KustoManagementClient(credential, subscriptionId);
-  const result = await client.databasePrincipalAssignments.checkNameAvailability(
-    resourceGroupName,
-    clusterName,
-    databaseName,
-    principalAssignmentName
-  );
+  const result =
+    await client.databasePrincipalAssignments.checkNameAvailability(
+      resourceGroupName,
+      clusterName,
+      databaseName,
+      principalAssignmentName,
+    );
   console.log(result);
 }
 
-async function main() {
-  kustoDatabaseCheckNameAvailability();
+async function main(): Promise<void> {
+  await kustoDatabaseCheckNameAvailability();
 }
 
 main().catch(console.error);

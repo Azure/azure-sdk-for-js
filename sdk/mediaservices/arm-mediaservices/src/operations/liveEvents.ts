@@ -7,14 +7,14 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { LiveEvents } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { LiveEvents } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { AzureMediaServices } from "../azureMediaServices";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { AzureMediaServices } from "../azureMediaServices.js";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import { LroImpl } from "../lroImpl.js";
 import {
   LiveEvent,
   LiveEventsListNextOptionalParams,
@@ -37,7 +37,7 @@ import {
   LiveEventsOperationLocationOptionalParams,
   LiveEventsOperationLocationResponse,
   LiveEventsListNextResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing LiveEvents operations. */

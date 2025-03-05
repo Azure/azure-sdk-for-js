@@ -18,28 +18,27 @@ export class OrderByEndpointComponent implements ExecutionContext {
     private emitRawOrderByPayload: boolean = false,
   ) {}
   /**
-   * Execute a provided function on the next element in the OrderByEndpointComponent.
-   */
-  public async nextItem(diagnosticNode: DiagnosticNodeInternal): Promise<Response<any>> {
-    const { result: item, headers } = await this.executionContext.nextItem(diagnosticNode);
-    if (this.emitRawOrderByPayload) {
-      return {
-        result: item !== undefined ? item : undefined,
-        headers,
-      };
-    } else {
-      return {
-        result: item !== undefined ? item.payload : undefined,
-        headers,
-      };
-    }
-  }
-
-  /**
    * Determine if there are still remaining resources to processs.
    * @returns true if there is other elements to process in the OrderByEndpointComponent.
    */
   public hasMoreResults(): boolean {
     return this.executionContext.hasMoreResults();
+  }
+
+  public async fetchMore(diagnosticNode?: DiagnosticNodeInternal): Promise<Response<any>> {
+    const buffer: any[] = [];
+    const response = await this.executionContext.fetchMore(diagnosticNode);
+    if (response === undefined || response.result === undefined) {
+      return { result: undefined, headers: response.headers };
+    }
+    for (const item of response.result) {
+      if (this.emitRawOrderByPayload) {
+        buffer.push(item);
+      } else {
+        buffer.push(item.payload);
+      }
+    }
+
+    return { result: buffer, headers: response.headers };
   }
 }

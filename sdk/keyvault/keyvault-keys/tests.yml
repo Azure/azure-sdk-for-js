@@ -6,16 +6,9 @@ extends:
       PackageName: "@azure/keyvault-keys"
       ServiceDirectory: keyvault
       TimeoutInMinutes: 90
-      SupportedClouds: 'Public,UsGov,China'
       CloudConfig:
         Public:
           Location: 'eastus2'
-        UsGov:
-          MatrixFilters:
-            - ArmTemplateParameters=^(?!.*enableHsm.*true)
-        China:
-          MatrixFilters:
-            - ArmTemplateParameters=^(?!.*enableHsm.*true)
       # KV HSM limitation prevents us from running live tests
       # against multiple platforms in parallel (we're limited to a single
       # instance per region per subscription) so we're only running

@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary get a ServiceResource
  * x-ms-original-file: 2024-03-01/Services_Get.json
  */
-async function servicesGet() {
+async function servicesGet(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new KubernetesRuntimeClient(credential);
   const result = await client.services.get(
@@ -20,8 +20,8 @@ async function servicesGet() {
   console.log(result);
 }
 
-async function main() {
-  servicesGet();
+async function main(): Promise<void> {
+  await servicesGet();
 }
 
 main().catch(console.error);

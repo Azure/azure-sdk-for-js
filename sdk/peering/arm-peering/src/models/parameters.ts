@@ -21,7 +21,7 @@ import {
   ConnectionMonitorTest as ConnectionMonitorTestMapper,
   PeeringServicePrefix as PeeringServicePrefixMapper,
   PeeringService as PeeringServiceMapper
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",

@@ -46,44 +46,51 @@ Creating the client also requires your Confidential Ledger's URL and id, which y
 
 Because Confidential Ledgers use self-signed certificates securely generated and stored in an enclave, the signing certificate for each Confidential Ledger must first be retrieved from the Confidential Ledger Identity Service.
 
-```typescript
-import ConfidentialLedger, { getLedgerIdentity } from "../../src";
+```ts snippet:ReadmeSampleCreateClient_Node
+import ConfidentialLedger, { getLedgerIdentity } from "@azure-rest/confidential-ledger";
+import { DefaultAzureCredential } from "@azure/identity";
 
 const { ledgerIdentityCertificate } = await getLedgerIdentity(
-  // for example, test-ledger-name
-  LEDGER_IDENTITY,
-  // for example, https://identity.confidential-ledger.core.azure.com
-  IDENTITY_SERVICE_URL,
+  "test-ledger-name",
+  "https://identity.confidential-ledger.core.azure.com",
 );
 const credential = new DefaultAzureCredential();
 
-// ENDPOINT example: https://test-ledger-name.confidential-ledger.azure.com
-const ledgerClient = ConfidentialLedger(ENDPOINT, ledgerIdentityCertificate, credential);
+const client = ConfidentialLedger(
+  "https://test-ledger-name.confidential-ledger.azure.com",
+  ledgerIdentityCertificate,
+  credential,
+);
 ```
 
 #### Using a client certificate
 
 As an alternative to Azure Active Directory, clients may choose to authenticate with a client certificate in mutual TLS instead of via an Azure Active Directory token. For this kind of authentication, the client needs to be passed a `CertificateCredential` which is composed of a certificate and private key, both in PEM format.
 
-```typescript
+```ts snippet:ReadmeSampleCreateClient_Certificate
 import ConfidentialLedger, { getLedgerIdentity } from "@azure-rest/confidential-ledger";
 
 // Get the signing certificate from the Confidential Ledger Identity Service
 const { ledgerIdentityCertificate } = await getLedgerIdentity(
-  LEDGER_IDENTITY,
-  IDENTITY_SERVICE_URL,
+  "test-ledger-name",
+  "https://identity.confidential-ledger.core.azure.com",
 );
+
 // both cert (certificate key) and key (private key) are in PEM format
-const cert = PUBLIC_KEY;
-const key = PRIVATE_KEY;
+const cert = "<PUBLIC_CERTIFICATE>";
+const key = "<PRIVATE_KEY>";
+
 // Create the Confidential Ledger Client
-// ENDPOINT example: https://test-ledger-name.confidential-ledger.azure.com
-const ledgerClient = ConfidentialLedger(env.ENDPOINT, ledgerIdentityCertificate, {
-  tlsOptions: {
-    cert,
-    key,
+const client = ConfidentialLedger(
+  "https://test-ledger-name.confidential-ledger.azure.com",
+  ledgerIdentityCertificate,
+  {
+    tlsOptions: {
+      cert,
+      key,
+    },
   },
-});
+);
 ```
 
 ## Key concepts
@@ -127,9 +134,28 @@ This section contains code snippets for the following samples:
 
 ### Post Ledger Entry
 
-```typescript
+```ts snippet:ReadmeSamplePostLedgerEntry
+import ConfidentialLedger, {
+  getLedgerIdentity,
+  LedgerEntry,
+  CreateLedgerEntryParameters,
+} from "@azure-rest/confidential-ledger";
+import { DefaultAzureCredential } from "@azure/identity";
+
+const { ledgerIdentityCertificate } = await getLedgerIdentity(
+  "test-ledger-name",
+  "https://identity.confidential-ledger.core.azure.com",
+);
+const credential = new DefaultAzureCredential();
+
+const client = ConfidentialLedger(
+  "https://test-ledger-name.confidential-ledger.azure.com",
+  ledgerIdentityCertificate,
+  credential,
+);
+
 const entry: LedgerEntry = {
-  contents: contentBody,
+  contents: "<content>",
 };
 const ledgerEntry: CreateLedgerEntryParameters = {
   contentType: "application/json",
@@ -140,79 +166,122 @@ const result = await client.path("/app/transactions").post(ledgerEntry);
 
 ### Get a Ledger Entry By Transaction Id
 
-```typescript
+```ts snippet:ReadmeSampleGetLedgerEntry
+import ConfidentialLedger, { getLedgerIdentity } from "@azure-rest/confidential-ledger";
+import { DefaultAzureCredential } from "@azure/identity";
+
+const { ledgerIdentityCertificate } = await getLedgerIdentity(
+  "test-ledger-name",
+  "https://identity.confidential-ledger.core.azure.com",
+);
+const credential = new DefaultAzureCredential();
+
+const client = ConfidentialLedger(
+  "https://test-ledger-name.confidential-ledger.azure.com",
+  ledgerIdentityCertificate,
+  credential,
+);
+
+const transactionId = "<TRANSACTION_ID>";
 const status = await client.path("/app/transactions/{transactionId}/status", transactionId).get();
 ```
 
 ### Get All Ledger Entries
 
-```typescript
+```ts snippet:ReadmeSampleGetAllLedgerEntries
+import ConfidentialLedger, { getLedgerIdentity } from "@azure-rest/confidential-ledger";
+import { DefaultAzureCredential } from "@azure/identity";
+
+const { ledgerIdentityCertificate } = await getLedgerIdentity(
+  "test-ledger-name",
+  "https://identity.confidential-ledger.core.azure.com",
+);
+const credential = new DefaultAzureCredential();
+
+const client = ConfidentialLedger(
+  "https://test-ledger-name.confidential-ledger.azure.com",
+  ledgerIdentityCertificate,
+  credential,
+);
+
 const ledgerEntries = await client.path("/app/transactions");
 ```
 
 ### Get All Collections
 
-```typescript
+```ts snippet:ReadmeSampleGetAllCollections
+import ConfidentialLedger, { getLedgerIdentity } from "@azure-rest/confidential-ledger";
+import { DefaultAzureCredential } from "@azure/identity";
+
+const { ledgerIdentityCertificate } = await getLedgerIdentity(
+  "test-ledger-name",
+  "https://identity.confidential-ledger.core.azure.com",
+);
+const credential = new DefaultAzureCredential();
+
+const client = ConfidentialLedger(
+  "https://test-ledger-name.confidential-ledger.azure.com",
+  ledgerIdentityCertificate,
+  credential,
+);
+
 const result = await client.path("/app/collections").get();
 ```
 
 ### Get Transactions for a Collection
 
-```typescript
+```ts snippet:ReadmeSampleGetTransactionsForCollection
+import ConfidentialLedger, { getLedgerIdentity } from "@azure-rest/confidential-ledger";
+import { DefaultAzureCredential } from "@azure/identity";
+
+const { ledgerIdentityCertificate } = await getLedgerIdentity(
+  "test-ledger-name",
+  "https://identity.confidential-ledger.core.azure.com",
+);
+const credential = new DefaultAzureCredential();
+
+const client = ConfidentialLedger(
+  "https://test-ledger-name.confidential-ledger.azure.com",
+  ledgerIdentityCertificate,
+  credential,
+);
+
 const getLedgerEntriesParams = { queryParameters: { collectionId: "my collection" } };
 const ledgerEntries = await client.path("/app/transactions").get(getLedgerEntriesParams);
 ```
 
 ### List Enclave Quotes
 
-```typescript
+```ts snippet:ReadmeSampleListEnclaveQuotes
+import ConfidentialLedger, {
+  getLedgerIdentity,
+  isUnexpected,
+} from "@azure-rest/confidential-ledger";
+import { DefaultAzureCredential } from "@azure/identity";
+
+const { ledgerIdentityCertificate } = await getLedgerIdentity(
+  "test-ledger-name",
+  "https://identity.confidential-ledger.core.azure.com",
+);
+const credential = new DefaultAzureCredential();
+
+const client = ConfidentialLedger(
+  "https://test-ledger-name.confidential-ledger.azure.com",
+  ledgerIdentityCertificate,
+  credential,
+);
+
 // Get enclave quotes
-const enclaveQuotes = await confidentialLedger.path("/app/enclaveQuotes").get();
+const enclaveQuotes = await client.path("/app/enclaveQuotes").get();
 
 // Check for non-success response
-if (enclaveQuotes.status !== "200") {
-  throw enclaveQuotes.body.error;
+if (isUnexpected(enclaveQuotes)) {
+  throw enclaveQuotes;
 }
 
 // Log all the enclave quotes' nodeId
 Object.keys(enclaveQuotes.body.enclaveQuotes).forEach((key) => {
   console.log(enclaveQuotes.body.enclaveQuotes[key].nodeId);
-});
-```
-
-### Full Example
-
-```typescript
-import ConfidentialLedger, { getLedgerIdentity } from "@azure-rest/confidential-ledger";
-import { DefaultAzureCredential } from "@azure/identity";
-
-export async function main() {
-  // Get the signing certificate from the Confidential Ledger Identity Service
-  const ledgerIdentity = await getLedgerIdentity("<my-ledger-id>");
-
-  // Create the Confidential Ledger Client
-  const confidentialLedger = ConfidentialLedger(
-    "https://<ledger-name>.eastus.cloudapp.azure.com",
-    ledgerIdentity.ledgerIdentityCertificate,
-    new DefaultAzureCredential(),
-  );
-
-  // Get enclave quotes
-  const enclaveQuotes = await confidentialLedger.path("/app/enclaveQuotes").get();
-
-  // Check for non-success response
-  if (enclaveQuotes.status !== "200") {
-    throw enclaveQuotes.body.error;
-  }
-
-  // Log all the enclave quotes' nodeId
-  Object.keys(enclaveQuotes.body.enclaveQuotes).forEach((key) => {
-    console.log(enclaveQuotes.body.enclaveQuotes[key].nodeId);
-  });
-}
-
-main().catch((err) => {
-  console.error(err);
 });
 ```
 
@@ -222,7 +291,7 @@ main().catch((err) => {
 
 Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
 
-```javascript
+```ts snippet:SetLogLevel
 import { setLogLevel } from "@azure/logger";
 
 setLogLevel("info");
@@ -242,7 +311,7 @@ If you'd like to contribute to this library, please read the [contributing guide
 
 - [Microsoft Azure SDK for JavaScript](https://github.com/Azure/azure-sdk-for-js)
 
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fconfidentialledger%2Fconfidential-ledger-rest%2FREADME.png)
+
 
 <!-- LINKS -->
 

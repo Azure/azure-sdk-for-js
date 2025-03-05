@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary create a InstanceResource
  * x-ms-original-file: 2024-11-01/Instance_CreateOrUpdate_MaximumSet_Gen.json
  */
-async function instanceCreateOrUpdate() {
+async function instanceCreateOrUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "F8C729F9-DF9C-4743-848F-96EE433D8E53";
   const client = new IoTOperationsClient(credential, subscriptionId);
@@ -33,8 +33,8 @@ async function instanceCreateOrUpdate() {
   console.log(result);
 }
 
-async function main() {
-  instanceCreateOrUpdate();
+async function main(): Promise<void> {
+  await instanceCreateOrUpdate();
 }
 
 main().catch(console.error);

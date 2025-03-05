@@ -17,7 +17,7 @@ Note that AZURE_LOG_LEVEL, if set, takes precedence over DEBUG. Only use DEBUG w
 
 Install this library using npm as follows
 
-```
+```bash
 npm install @azure/logger
 ```
 
@@ -38,10 +38,10 @@ will be emitted.
 For example, setting the log level to `warning` will cause all logs that have the log
 level `warning` or `error` to be emitted.
 
-
-**NOTE**: When logging requests and responses, we sanitize these objects to make sure things like `Authorization` headers that contain secrets are not logged. 
+**NOTE**: When logging requests and responses, we sanitize these objects to make sure things like `Authorization` headers that contain secrets are not logged.
 
 Request and response bodies are never logged. Headers are redacted by default, unless present in the following list or explicitly allowed by the client SDK:
+
 - "x-ms-client-request-id",
 - "x-ms-return-client-request-id",
 - "x-ms-useragent",
@@ -50,7 +50,7 @@ Request and response bodies are never logged. Headers are redacted by default, u
 - "client-request-id",
 - "ms-cv",
 - "return-client-request-id",
-- "traceparent", 
+- "traceparent",
 - "Access-Control-Allow-Credentials",
 - "Access-Control-Allow-Headers",
 - "Access-Control-Allow-Methods",
@@ -86,7 +86,7 @@ Request and response bodies are never logged. Headers are redacted by default, u
 
 ### Example 1 - basic usage
 
-```ts snippet:basic_usage
+```ts snippet:ReadmeSampleBasicUsage
 import { setLogLevel } from "@azure/logger";
 
 setLogLevel("info");
@@ -94,10 +94,11 @@ setLogLevel("info");
 
 ### Example 2 - redirect log output
 
-```ts snippet:redirect_log_output
+```ts snippet:ReadmeSampleRedirectLog
 import { setLogLevel, AzureLogger } from "@azure/logger";
 
 setLogLevel("verbose");
+
 // override logging to output to console.log (default location is stderr)
 AzureLogger.log = (...args) => {
   console.log(...args);
@@ -119,5 +120,3 @@ If you run into issues while using this library, please feel free to [file an is
 ## Contributing
 
 If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md) to learn more about how to build and test the code.
-
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fcore%2Flogger%2FREADME.png)

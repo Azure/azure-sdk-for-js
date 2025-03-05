@@ -12,7 +12,7 @@ import {
   VirtualMachineTemplatesListOptionalParams,
   VirtualMachineTemplatesGetOptionalParams,
   VirtualMachineTemplatesGetResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a VirtualMachineTemplates. */

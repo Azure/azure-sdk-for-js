@@ -17,7 +17,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Get all Maps Accounts in a Subscription
  * x-ms-original-file: specification/maps/resource-manager/Microsoft.Maps/preview/2021-12-01-preview/examples/ListAccountsBySubscription.json
  */
-async function listAccountsBySubscription() {
+async function listAccountsBySubscription(): Promise<void> {
   const subscriptionId = "21a9967a-e8a9-4656-a70b-96ff1c4d05a0";
   const credential = new DefaultAzureCredential();
   const client = new AzureMapsManagementClient(credential, subscriptionId);

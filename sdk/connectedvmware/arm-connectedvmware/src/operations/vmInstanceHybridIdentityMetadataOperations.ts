@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { VmInstanceHybridIdentityMetadataOperations } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { VmInstanceHybridIdentityMetadataOperations } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { AzureArcVMwareManagementServiceAPI } from "../azureArcVMwareManagementServiceAPI";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { AzureArcVMwareManagementServiceAPI } from "../azureArcVMwareManagementServiceAPI.js";
 import {
   VmInstanceHybridIdentityMetadata,
   VmInstanceHybridIdentityMetadataListNextOptionalParams,
@@ -21,7 +21,7 @@ import {
   VmInstanceHybridIdentityMetadataGetOptionalParams,
   VmInstanceHybridIdentityMetadataGetResponse,
   VmInstanceHybridIdentityMetadataListNextResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing VmInstanceHybridIdentityMetadataOperations operations. */

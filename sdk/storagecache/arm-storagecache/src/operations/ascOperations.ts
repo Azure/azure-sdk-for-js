@@ -6,15 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { AscOperations } from "../operationsInterfaces";
+import { AscOperations } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { StorageCacheManagementClient } from "../storageCacheManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { StorageCacheManagementClient } from "../storageCacheManagementClient.js";
 import {
   AscOperationsGetOptionalParams,
   AscOperationsGetResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Class containing AscOperations operations. */
 export class AscOperationsImpl implements AscOperations {

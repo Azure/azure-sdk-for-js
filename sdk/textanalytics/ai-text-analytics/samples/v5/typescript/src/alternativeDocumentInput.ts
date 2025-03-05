@@ -18,9 +18,7 @@ import {
 } from "@azure/ai-text-analytics";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
-
+import "dotenv/config";
 // You will need to set this environment variables or edit the following values
 const endpoint = process.env["ENDPOINT"] || "<cognitive services endpoint>";
 const apiKey = process.env["TEXT_ANALYTICS_API_KEY"] || "<api key>";
@@ -61,7 +59,7 @@ const textDocumentInputs: TextDocumentInput[] = [
   },
 ];
 
-export async function main() {
+export async function main(): Promise<void> {
   console.log("== Alternative Document Input Objects Sample ==");
 
   const client = new TextAnalyticsClient(endpoint, new AzureKeyCredential(apiKey));

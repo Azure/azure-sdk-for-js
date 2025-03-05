@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { SecurityCenter } from "@azure/arm-security";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets a specific topology component.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Gets a specific topology component.
  * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/stable/2020-01-01/examples/Topology/GetTopology_example.json
  */
-async function getTopology() {
+async function getTopology(): Promise<void> {
   const subscriptionId =
     process.env["SECURITY_SUBSCRIPTION_ID"] ||
     "3eeab341-f466-499c-a8be-85427e154bad";
@@ -38,7 +36,7 @@ async function getTopology() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getTopology();
 }
 

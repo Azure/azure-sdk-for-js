@@ -81,7 +81,7 @@ import type {
   SnapshotRestoreRequest,
   SiteSourceControl,
   VnetInfoResource,
-} from "./models";
+} from "./models.js";
 
 export type AppServiceCertificateOrdersListParameters = RequestParameters;
 

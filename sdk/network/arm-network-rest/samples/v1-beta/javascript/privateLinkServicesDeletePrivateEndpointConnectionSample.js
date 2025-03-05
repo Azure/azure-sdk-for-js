@@ -6,7 +6,7 @@
 const createNetworkManagementClient = require("@azure-rest/arm-network").default,
   { getLongRunningPoller } = require("@azure-rest/arm-network");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Delete private end point connection for a private link service in a subscription.
@@ -30,7 +30,7 @@ async function deletePrivateEndPointConnectionForAPrivateLinkService() {
       subscriptionId,
       resourceGroupName,
       serviceName,
-      peConnectionName
+      peConnectionName,
     )
     .delete(options);
   const poller = getLongRunningPoller(client, initialResponse);

@@ -15,7 +15,10 @@ import type {
   OncoPhenotypeData,
   OncoPhenotypeResultOutput,
 } from "@azure-rest/health-insights-cancerprofiling";
-import CancerProfilingRestClient, { getLongRunningPoller, isUnexpected } from "@azure-rest/health-insights-cancerprofiling";
+import CancerProfilingRestClient, {
+  getLongRunningPoller,
+  isUnexpected,
+} from "@azure-rest/health-insights-cancerprofiling";
 
 // You will need to set this environment variables or edit the following values
 const endpoint = process.env["HEALTH_INSIGHTS_ENDPOINT"] || "";
@@ -203,7 +206,7 @@ export async function main(): Promise<void> {
     throw cancerProfilingResult;
   }
   const resultBody = cancerProfilingResult.body;
-  printResults(resultBody);
+  await printResults(resultBody);
 }
 
 main().catch((err) => {

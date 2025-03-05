@@ -185,6 +185,18 @@ describe("Errors", function () {
         message: "code: ENOTFOUND, errno: ENOTFOUND, syscall: read",
       },
       {
+        code: "EADDRNOTAVAIL",
+        errno: "EADDRNOTAVAIL",
+        syscall: "read",
+        message: "code: EADDRNOTAVAIL, errno: EADDRNOTAVAIL, syscall: read",
+      },
+      {
+        code: "EAI_AGAIN",
+        errno: "EAI_AGAIN",
+        syscall: "read",
+        message: "code: EAI_AGAIN, errno: EAI_AGAIN, syscall: read",
+      },
+      {
         code: "ESOMETHINGRANDOM",
         errno: "ESOMETHINGRANDOM",
         syscall: "read",
@@ -197,7 +209,11 @@ describe("Errors", function () {
           const translatedError = Errors.translate(mapping as any) as Errors.MessagingError;
           assert.equal(translatedError.name, "MessagingError");
           assert.equal(translatedError.code, mapping.code);
-          if (["ECONNRESET", "ECONNREFUSED", "EBUSY"].indexOf(mapping.code) !== -1) {
+          if (
+            ["ECONNRESET", "ECONNREFUSED", "EBUSY", "EAI_AGAIN", "EADDRNOTAVAIL"].indexOf(
+              mapping.code,
+            ) !== -1
+          ) {
             assert.isTrue(translatedError.retryable);
           } else {
             assert.isFalse(translatedError.retryable);

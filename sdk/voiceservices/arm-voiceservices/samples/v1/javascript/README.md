@@ -69,6 +69,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [testlinesgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/voiceservices/arm-voiceservices/samples/v1/javascript/testLinesGetSample.js
 [testlineslistbycommunicationsgatewaysample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/voiceservices/arm-voiceservices/samples/v1/javascript/testLinesListByCommunicationsGatewaySample.js
 [testlinesupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/voiceservices/arm-voiceservices/samples/v1/javascript/testLinesUpdateSample.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-voiceservices?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-voiceservices?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/voiceservices/arm-voiceservices/README.md

@@ -179,6 +179,7 @@ export class NotificationHubsClient {
    */
   deleteRegistration(
     registrationId: string,
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options: EntityOperationOptions = {},
   ): Promise<NotificationHubsResponse> {
     return deleteRegistration(this._client, registrationId, options);
@@ -203,6 +204,7 @@ export class NotificationHubsClient {
    * @returns A paged async iterable containing all of the registrations for the notification hub.
    */
   listRegistrations(
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options: RegistrationQueryLimitOptions = {},
   ): PagedAsyncIterableIterator<RegistrationDescription> {
     return listRegistrationsMethod(this._client, options);
@@ -216,6 +218,7 @@ export class NotificationHubsClient {
    */
   listRegistrationsByChannel(
     channel: RegistrationChannel,
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options: RegistrationQueryLimitOptions = {},
   ): PagedAsyncIterableIterator<RegistrationDescription> {
     return listRegistrationsByChannelMethod(this._client, channel, options);
@@ -229,6 +232,7 @@ export class NotificationHubsClient {
    */
   listRegistrationsByTag(
     tag: string,
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options: RegistrationQueryLimitOptions = {},
   ): PagedAsyncIterableIterator<RegistrationDescription> {
     return listRegistrationsByTagMethod(this._client, tag, options);
@@ -242,6 +246,7 @@ export class NotificationHubsClient {
    */
   sendBroadcastNotification(
     notification: Notification,
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options: BroadcastSendNotificationOptions = {},
   ): Promise<NotificationHubsMessageResponse> {
     return sendBroadcastNotificationMethod(this._client, notification, options);
@@ -350,6 +355,7 @@ export class NotificationHubsClient {
    */
   beginSubmitNotificationHubJob(
     notificationHubJob: NotificationHubJob,
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options: PolledOperationOptions = {},
   ): Promise<NotificationHubJobPoller> {
     return beginSubmitNotificationHubJobMethod(this._client, notificationHubJob, options);

@@ -424,14 +424,21 @@ export class EventHubConsumerClient {
    * Call close() on the returned object to stop receiving events.
    *
    * Example usage:
-   * ```ts
-   * const client = new EventHubConsumerClient(consumerGroup, connectionString, eventHubName);
+   * ```ts snippet:EventHubConsumerClient_Subscribe
+   * import { EventHubConsumerClient, earliestEventPosition } from "@azure/event-hubs";
+   *
+   * const client = new EventHubConsumerClient("my-consumer-group", "connectionString", "eventHubName");
+   *
    * const subscription = client.subscribe(
-   *  {
-   *    processEvents: (events, context) => { console.log("Received event count: ", events.length) },
-   *    processError: (err, context) => { console.log("Error: ", err) }
-   *  },
-   *  { startPosition: earliestEventPosition }
+   *   {
+   *     processEvents: async (events, context) => {
+   *       console.log("Received event count: ", events.length);
+   *     },
+   *     processError: async (err, context) => {
+   *       console.log("Error: ", err);
+   *     },
+   *   },
+   *   { startPosition: earliestEventPosition },
    * );
    * ```
    *
@@ -449,15 +456,24 @@ export class EventHubConsumerClient {
    * Call close() on the returned object to stop receiving events.
    *
    * Example usage:
-   * ```ts
-   * const client = new EventHubConsumerClient(consumerGroup, connectionString, eventHubName);
+   * ```ts snippet:EventHubConsumerClient_SubscribeSinglePartition
+   * import { EventHubConsumerClient, earliestEventPosition } from "@azure/event-hubs";
+   *
+   * const client = new EventHubConsumerClient("my-consumer-group", "connectionString", "eventHubName");
+   *
+   * const partitionIds = await client.getPartitionIds();
+   *
    * const subscription = client.subscribe(
-   *  partitionId,
-   *  {
-   *    processEvents: (events, context) => { console.log("Received event count: ", events.length) },
-   *    processError: (err, context) => { console.log("Error: ", err) }
-   *  },
-   *  { startPosition: earliestEventPosition }
+   *   partitionIds[0],
+   *   {
+   *     processEvents: async (events, context) => {
+   *       console.log("Received event count: ", events.length);
+   *     },
+   *     processError: async (err, context) => {
+   *       console.log("Error: ", err);
+   *     },
+   *   },
+   *   { startPosition: earliestEventPosition },
    * );
    * ```
    *

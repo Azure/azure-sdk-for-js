@@ -4,7 +4,6 @@
 import {
   DefaultConnectOptionsConstants,
   InternalEnvironmentVariables,
-  ServiceEnvironmentVariable,
 } from "../../src/common/constants";
 import { PlaywrightServiceConfig } from "../../src/common/playwrightServiceConfig";
 import { expect } from "@azure-tools/test-utils";
@@ -46,11 +45,11 @@ describe("PlaywrightServiceConfig", () => {
     expect(process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_ID]).to.undefined;
 
     delete process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_ID];
-    delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_OS];
+    delete process.env[InternalEnvironmentVariables.MPT_SERVICE_OS];
   });
 
   it("should set service config object with values from env variables", () => {
-    process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_OS] = "windows";
+    process.env[InternalEnvironmentVariables.MPT_SERVICE_OS] = "windows";
     process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_NAME] = "runName";
     process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_ID] = "runId";
 
@@ -61,7 +60,7 @@ describe("PlaywrightServiceConfig", () => {
     expect(playwrightServiceConfig.runName).to.equal("runName");
 
     delete process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_ID];
-    delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_OS];
+    delete process.env[InternalEnvironmentVariables.MPT_SERVICE_OS];
     delete process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_NAME];
   });
 
@@ -83,11 +82,11 @@ describe("PlaywrightServiceConfig", () => {
     expect(playwrightServiceConfig.timeout).to.equal(200);
     expect(playwrightServiceConfig.exposeNetwork).to.equal("localhost");
     expect(process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_ID]).to.equal("runId");
-    expect(process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_OS]).to.equal("windows");
+    expect(process.env[InternalEnvironmentVariables.MPT_SERVICE_OS]).to.equal("windows");
 
     delete process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_NAME];
     delete process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_ID];
-    delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_OS];
+    delete process.env[InternalEnvironmentVariables.MPT_SERVICE_OS];
   });
 
   it("should not set service config object with options if not provided", () => {
@@ -111,7 +110,7 @@ describe("PlaywrightServiceConfig", () => {
     );
 
     delete process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_NAME];
-    delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_OS];
+    delete process.env[InternalEnvironmentVariables.MPT_SERVICE_OS];
   });
   it("should set runName from options if provided and environment variable is not set", () => {
     const playwrightServiceConfig = new PlaywrightServiceConfig();
@@ -135,7 +134,7 @@ describe("PlaywrightServiceConfig", () => {
     );
     delete process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_NAME];
     delete process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_ID];
-    delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_OS];
+    delete process.env[InternalEnvironmentVariables.MPT_SERVICE_OS];
   });
   it("should set runId from options if provided and environment variable is not set", () => {
     const playwrightServiceConfig = new PlaywrightServiceConfig();

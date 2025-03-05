@@ -56,7 +56,7 @@ import {
   ResizeLabVirtualMachineProperties as ResizeLabVirtualMachinePropertiesMapper,
   VirtualNetwork as VirtualNetworkMapper,
   VirtualNetworkFragment as VirtualNetworkFragmentMapper
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",

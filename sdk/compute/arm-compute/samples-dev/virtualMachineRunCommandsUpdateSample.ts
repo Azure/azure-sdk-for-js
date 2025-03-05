@@ -6,16 +6,10 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import {
-  VirtualMachineRunCommandUpdate,
-  ComputeManagementClient,
-} from "@azure/arm-compute";
+import type { VirtualMachineRunCommandUpdate } from "@azure/arm-compute";
+import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to The operation to update the run command.
@@ -23,11 +17,9 @@ dotenv.config();
  * @summary The operation to update the run command.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/runCommandExamples/VirtualMachineRunCommand_Update.json
  */
-async function updateARunCommand() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+async function updateARunCommand(): Promise<void> {
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmName = "myVM";
   const runCommandName = "myRunCommand";
   const runCommand: VirtualMachineRunCommandUpdate = {
@@ -35,8 +27,7 @@ async function updateARunCommand() {
     errorBlobManagedIdentity: {
       objectId: "4231e4d2-33e4-4e23-96b2-17888afa6072",
     },
-    errorBlobUri:
-      "https://mystorageaccount.blob.core.windows.net/mycontainer/MyScriptError.txt",
+    errorBlobUri: "https://mystorageaccount.blob.core.windows.net/mycontainer/MyScriptError.txt",
     outputBlobUri:
       "https://mystorageaccount.blob.core.windows.net/myscriptoutputcontainer/outputUri",
     parameters: [
@@ -61,8 +52,8 @@ async function updateARunCommand() {
   console.log(result);
 }
 
-async function main() {
-  updateARunCommand();
+async function main(): Promise<void> {
+  await updateARunCommand();
 }
 
 main().catch(console.error);

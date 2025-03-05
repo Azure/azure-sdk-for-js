@@ -16,7 +16,7 @@ import {
   ApplicationGetOptionalParams,
   ApplicationGetResponse,
   ApplicationDeleteOptionalParams
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Application. */

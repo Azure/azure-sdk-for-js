@@ -5,7 +5,7 @@
 // Licensed under the MIT License.
 const createNetworkManagementClient = require("@azure-rest/arm-network").default;
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Fetches the details of a ExpressRoute gateway in a resource group.
@@ -27,7 +27,7 @@ async function expressRouteGatewayGet() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteGateways/{expressRouteGatewayName}",
       subscriptionId,
       resourceGroupName,
-      expressRouteGatewayName
+      expressRouteGatewayName,
     )
     .get(options);
   console.log(result);

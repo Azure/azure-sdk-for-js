@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary get a FabricCapacity
  * x-ms-original-file: 2023-11-01/FabricCapacities_Get.json
  */
-async function getACapacity() {
+async function getACapacity(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "548B7FB7-3B2A-4F46-BB02-66473F1FC22C";
   const client = new FabricClient(credential, subscriptionId);
@@ -18,8 +18,8 @@ async function getACapacity() {
   console.log(result);
 }
 
-async function main() {
-  getACapacity();
+async function main(): Promise<void> {
+  await getACapacity();
 }
 
 main().catch(console.error);

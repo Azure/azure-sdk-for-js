@@ -6,8 +6,8 @@ import type { Recorder } from "@azure-tools/test-recorder";
 import { assert, beforeEach, afterEach, it, describe } from "vitest";
 import type { ModelClient, ChatCompletionsOutput } from "../../../src/index.js";
 import { isUnexpected } from "../../../src/index.js";
-import fs from "fs";
-import path from "path";
+import fs from "node:fs";
+import path from "node:path";
 
 function getImageDataUrl(imageFile: string, imageFormat: string): string {
   try {
@@ -35,7 +35,7 @@ describe("image file test suite", () => {
     await recorder.stop();
   });
 
-  it("chat with image file test", async function () {
+  it("chat with image file test", async () => {
     const response = await client.path("/chat/completions").post({
       body: {
         messages: [

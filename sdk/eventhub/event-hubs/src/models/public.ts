@@ -54,7 +54,7 @@ export interface SendBatchOptions extends OperationOptions {
  * - `abortSignal`  : A signal used to cancel the send operation.
  *
  * Example usage:
- * ```js
+ * ```ts snippet:ignore
  * {
  *     partitionKey: 'foo'
  * }
@@ -107,7 +107,7 @@ export enum CloseReason {
  * A simple usage can be `{ "maxRetries": 4 }`.
  *
  * Example usage:
- * ```js
+ * ```ts snippet:ignore
  * {
  *     retryOptions: {
  *         maxRetries: 4
@@ -167,7 +167,7 @@ export interface EventHubClientOptions {
  * A simple usage can be `{ "maxRetries": 4 }`.
  *
  * Example usage:
- * ```js
+ * ```ts snippet:ignore
  * {
  *     retryOptions: {
  *         maxRetries: 4
@@ -223,7 +223,7 @@ export interface LoadBalancingOptions {
  * - `abortSignal`   : A signal the request to cancel the send operation.
  *
  * Example usage:
- * ```js
+ * ```ts snippet:ignore
  * {
  *     partitionKey: 'foo',
  *     maxSizeInBytes: 1024 * 1024 // 1 MB

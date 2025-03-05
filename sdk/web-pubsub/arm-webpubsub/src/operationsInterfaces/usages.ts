@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { SignalRServiceUsage, UsagesListOptionalParams } from "../models";
+import { SignalRServiceUsage, UsagesListOptionalParams } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Usages. */

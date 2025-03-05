@@ -7,15 +7,17 @@
  * error matches `"AbortError"`.
  *
  * @example
- * ```ts snippet:abort_error
+ * ```ts snippet:AbortErrorSample
  * import { AbortError } from "@azure/abort-controller";
  *
  * async function doAsyncWork(options: { abortSignal: AbortSignal }): Promise<void> {
  *   if (options.abortSignal.aborted) {
  *     throw new AbortError();
  *   }
+ *
  *   // do async work
  * }
+ *
  * const controller = new AbortController();
  * controller.abort();
  * try {

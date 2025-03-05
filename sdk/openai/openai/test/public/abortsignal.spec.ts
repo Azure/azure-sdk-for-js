@@ -3,20 +3,20 @@
 
 import { assert, describe, beforeEach, it } from "vitest";
 import { matrix } from "@azure-tools/test-utils-vitest";
-import type { OpenAI, AzureOpenAI } from "openai";
-import { createClient } from "./utils/createClient.js";
-import { APIMatrix, type APIVersion } from "./utils/utils.js";
+import { createClientsAndDeployments } from "../utils/createClients.js";
+import { APIVersion } from "../utils/utils.js";
+import type { ClientsAndDeploymentsInfo } from "../utils/types.js";
 
 describe("AbortSignal", () => {
-  let client: AzureOpenAI | OpenAI;
+  let clientsAndDeployments: ClientsAndDeploymentsInfo;
 
-  matrix([APIMatrix] as const, async function (apiVersion: APIVersion) {
-    beforeEach(async function () {
-      client = createClient(apiVersion, "completions");
+  matrix([[APIVersion.Stable]] as const, async function (apiVersion: APIVersion) {
+    beforeEach(async () => {
+      clientsAndDeployments = createClientsAndDeployments(apiVersion, { chatCompletion: "true" });
     });
 
     // TODO: Fix the tests for client.chat.completions.create
-    it("Abort signal test for streaming method", async function () {
+    it("Abort signal test for streaming method", async () => {
       const messages = [
         {
           role: "system",
@@ -30,7 +30,9 @@ describe("AbortSignal", () => {
         { role: "user", content: "What's the best way to train a parrot?" } as const,
       ];
 
-      const deploymentName = "gpt-35-turbo";
+      const client = clientsAndDeployments.clientsAndDeployments[0].client;
+      const deploymentName =
+        clientsAndDeployments.clientsAndDeployments[0].deployments[0].deploymentName;
       try {
         const events = client.beta.chat.completions.stream({
           model: deploymentName,

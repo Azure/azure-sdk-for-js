@@ -10,14 +10,12 @@
 import { TableClient, AzureNamedKeyCredential } from "@azure/data-tables";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
-
+import "dotenv/config";
 const tablesUrl = process.env["TABLES_URL"] || "";
 const accountName = process.env["ACCOUNT_NAME"] || "";
 const accountKey = process.env["ACCOUNT_KEY"] || "";
 
-async function workingWithBigint() {
+async function workingWithBigint(): Promise<void> {
   console.log("Working with bigint sample");
   const client = new TableClient(
     tablesUrl,
@@ -43,7 +41,7 @@ async function workingWithBigint() {
   await client.deleteTable();
 }
 
-export async function main() {
+export async function main(): Promise<void> {
   await workingWithBigint();
 }
 

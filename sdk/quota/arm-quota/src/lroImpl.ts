@@ -26,7 +26,10 @@ export function createLroSpec<T>(inputs: {
     requestMethod: spec.httpMethod,
     requestPath: spec.path!,
     sendInitialRequest: () => sendOperationFn(args, spec),
-    sendPollRequest: (path: string, options?: { abortSignal?: AbortSignalLike }) => {
+    sendPollRequest: (
+      path: string,
+      options?: { abortSignal?: AbortSignalLike },
+    ) => {
       const { requestBody, ...restSpec } = spec;
       return sendOperationFn(args, {
         ...restSpec,

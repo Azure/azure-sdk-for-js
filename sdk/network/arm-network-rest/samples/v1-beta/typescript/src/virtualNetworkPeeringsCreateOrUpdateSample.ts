@@ -1,16 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import createNetworkManagementClient, {
   VirtualNetworkPeeringsCreateOrUpdateParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates or updates a peering in the specified virtual network.
@@ -18,7 +13,7 @@ dotenv.config();
  * @summary Creates or updates a peering in the specified virtual network.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/VirtualNetworkPeeringCreate.json
  */
-async function createPeering() {
+async function createPeering(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -32,13 +27,12 @@ async function createPeering() {
         allowGatewayTransit: false,
         allowVirtualNetworkAccess: true,
         remoteVirtualNetwork: {
-          id:
-            "/subscriptions/subid/resourceGroups/peerTest/providers/Microsoft.Network/virtualNetworks/vnet2"
+          id: "/subscriptions/subid/resourceGroups/peerTest/providers/Microsoft.Network/virtualNetworks/vnet2",
         },
-        useRemoteGateways: false
-      }
+        useRemoteGateways: false,
+      },
     },
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(
@@ -46,7 +40,7 @@ async function createPeering() {
       subscriptionId,
       resourceGroupName,
       virtualNetworkName,
-      virtualNetworkPeeringName
+      virtualNetworkPeeringName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -61,7 +55,7 @@ createPeering().catch(console.error);
  * @summary Creates or updates a peering in the specified virtual network.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/VirtualNetworkPeeringCreateWithRemoteVirtualNetworkEncryption.json
  */
-async function createPeeringWithRemoteVirtualNetworkEncryption() {
+async function createPeeringWithRemoteVirtualNetworkEncryption(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -75,13 +69,12 @@ async function createPeeringWithRemoteVirtualNetworkEncryption() {
         allowGatewayTransit: false,
         allowVirtualNetworkAccess: true,
         remoteVirtualNetwork: {
-          id:
-            "/subscriptions/subid/resourceGroups/peerTest/providers/Microsoft.Network/virtualNetworks/vnet2"
+          id: "/subscriptions/subid/resourceGroups/peerTest/providers/Microsoft.Network/virtualNetworks/vnet2",
         },
-        useRemoteGateways: false
-      }
+        useRemoteGateways: false,
+      },
     },
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(
@@ -89,7 +82,7 @@ async function createPeeringWithRemoteVirtualNetworkEncryption() {
       subscriptionId,
       resourceGroupName,
       virtualNetworkName,
-      virtualNetworkPeeringName
+      virtualNetworkPeeringName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -104,7 +97,7 @@ createPeeringWithRemoteVirtualNetworkEncryption().catch(console.error);
  * @summary Creates or updates a peering in the specified virtual network.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/VirtualNetworkPeeringSync.json
  */
-async function syncPeering() {
+async function syncPeering(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -118,16 +111,15 @@ async function syncPeering() {
         allowGatewayTransit: false,
         allowVirtualNetworkAccess: true,
         remoteVirtualNetwork: {
-          id:
-            "/subscriptions/subid/resourceGroups/peerTest/providers/Microsoft.Network/virtualNetworks/vnet2"
+          id: "/subscriptions/subid/resourceGroups/peerTest/providers/Microsoft.Network/virtualNetworks/vnet2",
         },
-        useRemoteGateways: false
-      }
+        useRemoteGateways: false,
+      },
     },
     queryParameters: {
       syncRemoteAddressSpace: "true",
-      "api-version": "2022-05-01"
-    }
+      "api-version": "2022-05-01",
+    },
   };
   const initialResponse = await client
     .path(
@@ -135,7 +127,7 @@ async function syncPeering() {
       subscriptionId,
       resourceGroupName,
       virtualNetworkName,
-      virtualNetworkPeeringName
+      virtualNetworkPeeringName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);

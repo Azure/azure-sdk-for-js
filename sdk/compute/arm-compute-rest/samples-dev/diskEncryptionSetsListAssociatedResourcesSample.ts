@@ -1,16 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import createComputeManagementClient, {
-  DiskEncryptionSetsListAssociatedResourcesParameters,
-  paginate,
-} from "@azure-rest/arm-compute";
+import type { DiskEncryptionSetsListAssociatedResourcesParameters } from "@azure-rest/arm-compute";
+import createComputeManagementClient, { paginate } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists all resources that are encrypted with this disk encryption set.
@@ -18,7 +12,7 @@ dotenv.config();
  * @summary Lists all resources that are encrypted with this disk encryption set.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2022-07-02/examples/diskEncryptionSetExamples/DiskEncryptionSet_ListAssociatedResources.json
  */
-async function listAllResourcesThatAreEncryptedWithThisDiskEncryptionSet() {
+async function listAllResourcesThatAreEncryptedWithThisDiskEncryptionSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";

@@ -7,18 +7,18 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { DbNodes } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { DbNodes } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { OracleDatabaseManagementClient } from "../oracleDatabaseManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { OracleDatabaseManagementClient } from "../oracleDatabaseManagementClient.js";
 import {
   SimplePollerLike,
   OperationState,
   createHttpPoller,
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl";
+import { createLroSpec } from "../lroImpl.js";
 import {
   DbNode,
   DbNodesListByCloudVmClusterNextOptionalParams,
@@ -30,7 +30,7 @@ import {
   DbNodesActionOptionalParams,
   DbNodesActionResponse,
   DbNodesListByCloudVmClusterNextResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing DbNodes operations. */

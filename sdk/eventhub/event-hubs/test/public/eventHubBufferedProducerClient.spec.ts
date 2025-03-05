@@ -18,15 +18,15 @@ type ResultEnqueue = { type: "enqueue"; event: EventData | AmqpAnnotatedMessage 
 type ResultFlush = { type: "flush" };
 type Result = ResultEnqueue | ResultError | ResultSuccess | ResultFlush;
 
-describe("EventHubBufferedProducerClient", function () {
+describe("EventHubBufferedProducerClient", () => {
   let client: EventHubBufferedProducerClient;
 
-  afterEach(async function () {
+  afterEach(async () => {
     await client.close();
   });
 
-  describe("client options", function () {
-    it("the identifier option can be set", async function () {
+  describe("client options", () => {
+    it("the identifier option can be set", async () => {
       const identifier = "Test1";
       client = createBufferedProducer({
         options: {
@@ -41,12 +41,12 @@ describe("EventHubBufferedProducerClient", function () {
     });
   });
 
-  describe("enqueueEvent", function () {
-    afterEach(async function () {
+  describe("enqueueEvent", () => {
+    afterEach(async () => {
       return client.close({ flush: false });
     });
 
-    it("batches events targetting the same partitionId together", async function () {
+    it("batches events targetting the same partitionId together", async () => {
       const results: Result[] = [];
       const expectedEventCount = 10;
       const testEvents: EventData[] = [];
@@ -79,7 +79,7 @@ describe("EventHubBufferedProducerClient", function () {
       assert.deepEqual(resultSuccess, testEvents, "Expected sent events to match test events.");
     });
 
-    it("batches events targetting the same partitionKey together", async function () {
+    it("batches events targetting the same partitionKey together", async () => {
       const results: Result[] = [];
       const expectedEventCount = 10;
       const testEvents: EventData[] = [];
@@ -114,7 +114,7 @@ describe("EventHubBufferedProducerClient", function () {
       assert.deepEqual(resultSuccess, testEvents, "Expected sent events to match test events.");
     });
 
-    it("waits until buffer has space for the event before yielding", async function () {
+    it("waits until buffer has space for the event before yielding", async () => {
       const results: Result[] = [];
       const expectedEventCount = 5;
       const testEvents: EventData[] = [];
@@ -173,7 +173,7 @@ describe("EventHubBufferedProducerClient", function () {
       assert.deepEqual(resultSuccess, testEvents, "Expected sent events to match test events.");
     });
 
-    it("waits until flush is complete to enqueue", async function () {
+    it("waits until flush is complete to enqueue", async () => {
       const results: Result[] = [];
 
       client = createBufferedProducer({
@@ -227,7 +227,7 @@ describe("EventHubBufferedProducerClient", function () {
       assert.deepEqual(resultTypes, ["success", "flush", "success", "flush"]);
     });
 
-    it("passes idempotent publish options to internal producer", async function () {
+    it("passes idempotent publish options to internal producer", async () => {
       const results: Result[] = [];
       client = createBufferedProducer({
         options: {

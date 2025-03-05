@@ -6,16 +6,16 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./operations";
-export * from "./services";
-export * from "./problemClassifications";
-export * from "./supportTickets";
-export * from "./supportTicketsNoSubscription";
-export * from "./communications";
-export * from "./communicationsNoSubscription";
-export * from "./chatTranscripts";
-export * from "./chatTranscriptsNoSubscription";
-export * from "./fileWorkspaces";
-export * from "./fileWorkspacesNoSubscription";
-export * from "./files";
-export * from "./filesNoSubscription";
+export * from "./operations.js";
+export * from "./services.js";
+export * from "./problemClassifications.js";
+export * from "./supportTickets.js";
+export * from "./supportTicketsNoSubscription.js";
+export * from "./communications.js";
+export * from "./communicationsNoSubscription.js";
+export * from "./chatTranscripts.js";
+export * from "./chatTranscriptsNoSubscription.js";
+export * from "./fileWorkspaces.js";
+export * from "./fileWorkspacesNoSubscription.js";
+export * from "./files.js";
+export * from "./filesNoSubscription.js";

@@ -5,7 +5,7 @@ import {
   addServiceBusClientForLiveTesting,
 } from "../public/utils/testutils2.js";
 import type { AmqpAnnotatedMessage } from "@azure/core-amqp";
-import { v4 as generateUuid } from "uuid";
+import { randomUUID } from "@azure/core-util";
 import { TestClientType } from "./utils/testUtils.js";
 import { describe, it } from "vitest";
 import { assert, should } from "./utils/chai.js";
@@ -61,7 +61,7 @@ import { assert, should } from "./utils/chai.js";
           properties: {
             contentEncoding: "application/json; charset=utf-8",
             correlationId: randomTag,
-            messageId: generateUuid(),
+            messageId: randomUUID(),
           },
         };
       }

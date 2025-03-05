@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./domainServiceOperations";
-export * from "./domainServices";
-export * from "./ouContainerOperations";
-export * from "./ouContainerOperationGrp";
+export * from "./domainServiceOperations.js";
+export * from "./domainServices.js";
+export * from "./ouContainerOperations.js";
+export * from "./ouContainerOperationGrp.js";

@@ -16,7 +16,7 @@ import {
   GuestAgentsCreateOptionalParams,
   GuestAgentsCreateResponse,
   GuestAgentsDeleteOptionalParams,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a GuestAgents. */

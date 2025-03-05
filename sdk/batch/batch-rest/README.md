@@ -53,7 +53,7 @@ AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET
 
 To use shared key to authenticate, you must first `npm` install [`@azure/core-auth`](https://www.npmjs.com/package/@azure/core-auth), then provide the account name and account key to construct the an `AzureNamedKeyCredential` credential from `@azure/core-auth`
 
-```typescript
+```ts snippet:ReadmeSampleCreateClient_Node
 import { AzureNamedKeyCredential } from "@azure/core-auth";
 import createClient from "@azure-rest/batch";
 
@@ -67,8 +67,8 @@ const batchClient = createClient("<account endpoint>", credential);
 
 Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
 
-```javascript
-const { setLogLevel } = require("@azure/logger");
+```ts snippet:SetLogLevel
+import { setLogLevel } from "@azure/logger";
 
 setLogLevel("info");
 ```

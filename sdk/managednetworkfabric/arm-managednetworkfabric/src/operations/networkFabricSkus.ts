@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { NetworkFabricSkus } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { NetworkFabricSkus } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { AzureNetworkFabricManagementServiceAPI } from "../azureNetworkFabricManagementServiceAPI";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { AzureNetworkFabricManagementServiceAPI } from "../azureNetworkFabricManagementServiceAPI.js";
 import {
   NetworkFabricSku,
   NetworkFabricSkusListBySubscriptionNextOptionalParams,
@@ -21,7 +21,7 @@ import {
   NetworkFabricSkusGetOptionalParams,
   NetworkFabricSkusGetResponse,
   NetworkFabricSkusListBySubscriptionNextResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing NetworkFabricSkus operations. */

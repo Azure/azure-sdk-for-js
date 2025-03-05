@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { TagsResource, IotHubClient } from "@azure/arm-iothub";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Update an existing IoT Hub tags. to update other fields use the CreateOrUpdate method
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Update an existing IoT Hub tags. to update other fields use the CreateOrUpdate method
  * x-ms-original-file: specification/iothub/resource-manager/Microsoft.Devices/stable/2023-06-30/examples/iothub_patch.json
  */
-async function iotHubResourceUpdate() {
+async function iotHubResourceUpdate(): Promise<void> {
   const subscriptionId =
     process.env["IOTHUB_SUBSCRIPTION_ID"] ||
     "91d12660-3dec-467a-be2a-213b5544ddc0";
@@ -38,7 +36,7 @@ async function iotHubResourceUpdate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   iotHubResourceUpdate();
 }
 

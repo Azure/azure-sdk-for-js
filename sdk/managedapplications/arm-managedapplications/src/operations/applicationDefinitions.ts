@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { ApplicationDefinitions } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { ApplicationDefinitions } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { ApplicationClient } from "../applicationClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { ApplicationClient } from "../applicationClient.js";
 import {
   ApplicationDefinition,
   ApplicationDefinitionsListByResourceGroupNextOptionalParams,
@@ -38,7 +38,7 @@ import {
   ApplicationDefinitionsUpdateByIdResponse,
   ApplicationDefinitionsListByResourceGroupNextResponse,
   ApplicationDefinitionsListBySubscriptionNextResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ApplicationDefinitions operations. */

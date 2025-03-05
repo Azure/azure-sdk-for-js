@@ -6,16 +6,10 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import {
-  CapacityReservationsGetOptionalParams,
-  ComputeManagementClient,
-} from "@azure/arm-compute";
+import type { CapacityReservationsGetOptionalParams } from "@azure/arm-compute";
+import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to The operation that retrieves information about the capacity reservation.
@@ -23,11 +17,9 @@ dotenv.config();
  * @summary The operation that retrieves information about the capacity reservation.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/capacityReservationExamples/CapacityReservation_Get.json
  */
-async function getACapacityReservation() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscriptionId}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+async function getACapacityReservation(): Promise<void> {
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscriptionId}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const capacityReservationGroupName = "myCapacityReservationGroup";
   const capacityReservationName = "myCapacityReservation";
   const expand = "instanceView";
@@ -43,8 +35,8 @@ async function getACapacityReservation() {
   console.log(result);
 }
 
-async function main() {
-  getACapacityReservation();
+async function main(): Promise<void> {
+  await getACapacityReservation();
 }
 
 main().catch(console.error);

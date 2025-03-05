@@ -10,9 +10,7 @@ import { ServiceBusClient } from "@azure/service-bus";
 import { AzureNamedKeyCredential } from "@azure/core-auth";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
-
+import "dotenv/config";
 // Define Service Bus Endpoint here and related entity names here
 const serviceBusEndpoint =
   process.env.SERVICEBUS_FQDN || "<your-servicebus-namespace>.servicebus.windows.net";
@@ -22,7 +20,7 @@ const queueName = process.env.QUEUE_NAME || "<queue name>";
 const sasPolicyName = process.env.SERVICEBUS_SAS_POLICY || "<SAS policy name>";
 const sasKey = process.env.SERVICEBUS_SAS_KEY || "<SAS key>";
 
-export async function main() {
+export async function main(): Promise<void> {
   const namedKeyCred = new AzureNamedKeyCredential(sasPolicyName, sasKey);
   const sbClient = new ServiceBusClient(serviceBusEndpoint, namedKeyCred);
 

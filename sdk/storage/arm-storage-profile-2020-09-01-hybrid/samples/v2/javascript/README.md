@@ -117,6 +117,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [storageaccountsrevokeuserdelegationkeyssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/storage/arm-storage-profile-2020-09-01-hybrid/samples/v2/javascript/storageAccountsRevokeUserDelegationKeysSample.js
 [storageaccountsupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/storage/arm-storage-profile-2020-09-01-hybrid/samples/v2/javascript/storageAccountsUpdateSample.js
 [usageslistbylocationsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/storage/arm-storage-profile-2020-09-01-hybrid/samples/v2/javascript/usagesListByLocationSample.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-storage-profile-2020-09-01-hybrid?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-storage-profile-2020-09-01-hybrid?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/arm-storage-profile-2020-09-01-hybrid/README.md

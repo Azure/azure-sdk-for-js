@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { RequestParameters } from "@azure-rest/core-client";
-import { LedgerEntry, LedgerUser } from "./models.js";
+import type { RequestParameters } from "@azure-rest/core-client";
+import type { Bundle, LedgerEntry, LedgerUser } from "./models.js";
 
 export type GetConstitutionParameters = RequestParameters;
 export type ListConsortiumMembersParameters = RequestParameters;
@@ -89,4 +89,20 @@ export interface CreateOrUpdateUserMediaTypesParam {
 
 export type CreateOrUpdateUserParameters = CreateOrUpdateUserMediaTypesParam &
   CreateOrUpdateUserBodyParam &
+  RequestParameters;
+
+export type GetUserDefinedEndpointParameters = RequestParameters;
+
+export interface CreateUserDefinedEndpointBodyParam {
+  /** bundle parameter description */
+  body: Bundle;
+}
+
+export interface CreateUserDefinedEndpointMediaTypesParam {
+  /** Request content type */
+  contentType?: "application/json";
+}
+
+export type CreateUserDefinedEndpointParameters = CreateUserDefinedEndpointMediaTypesParam &
+  CreateUserDefinedEndpointBodyParam &
   RequestParameters;

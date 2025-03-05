@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary list StandbyContainerGroupPoolRuntimeViewResource resources by StandbyContainerGroupPoolResource
  * x-ms-original-file: 2024-03-01/StandbyContainerGroupPoolRuntimeViews_ListByStandbyPool.json
  */
-async function standbyContainerGroupPoolRuntimeViewsListByStandbyPool() {
+async function standbyContainerGroupPoolRuntimeViewsListByStandbyPool(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000009";
   const client = new StandbyPoolManagementClient(credential, subscriptionId);
@@ -25,7 +25,7 @@ async function standbyContainerGroupPoolRuntimeViewsListByStandbyPool() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   standbyContainerGroupPoolRuntimeViewsListByStandbyPool();
 }
 

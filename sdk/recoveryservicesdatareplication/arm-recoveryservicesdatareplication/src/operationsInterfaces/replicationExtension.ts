@@ -17,7 +17,7 @@ import {
   ReplicationExtensionCreateResponse,
   ReplicationExtensionDeleteOptionalParams,
   ReplicationExtensionDeleteResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ReplicationExtension. */

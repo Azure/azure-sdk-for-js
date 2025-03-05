@@ -1,15 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import createNetworkManagementClient, {
-  ServiceAssociationLinksListParameters
+  ServiceAssociationLinksListParameters,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets a list of service association links for a subnet.
@@ -17,7 +12,7 @@ dotenv.config();
  * @summary Gets a list of service association links for a subnet.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/VirtualNetworkGetServiceAssociationLinks.json
  */
-async function getServiceAssociationLinks() {
+async function getServiceAssociationLinks(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -25,7 +20,7 @@ async function getServiceAssociationLinks() {
   const virtualNetworkName = "vnet";
   const subnetName = "subnet";
   const options: ServiceAssociationLinksListParameters = {
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const result = await client
     .path(
@@ -33,7 +28,7 @@ async function getServiceAssociationLinks() {
       subscriptionId,
       resourceGroupName,
       virtualNetworkName,
-      subnetName
+      subnetName,
     )
     .get(options);
   console.log(result);

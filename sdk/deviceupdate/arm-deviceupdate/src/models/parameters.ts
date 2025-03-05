@@ -20,7 +20,7 @@ import {
   PrivateEndpointConnection as PrivateEndpointConnectionMapper,
   PrivateEndpointConnectionProxy as PrivateEndpointConnectionProxyMapper,
   PrivateEndpointUpdate as PrivateEndpointUpdateMapper
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const contentType: OperationParameter = {
   parameterPath: ["options", "contentType"],

@@ -22,7 +22,7 @@ import {
   FirewallRulesImpl,
   OperationsImpl,
   LocationsImpl
-} from "./operations";
+} from "./operations/index.js";
 import {
   Accounts,
   DataLakeStoreAccounts,
@@ -31,8 +31,8 @@ import {
   FirewallRules,
   Operations,
   Locations
-} from "./operationsInterfaces";
-import { DataLakeAnalyticsAccountManagementClientOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { DataLakeAnalyticsAccountManagementClientOptionalParams } from "./models/index.js";
 
 export class DataLakeAnalyticsAccountManagementClient extends coreClient.ServiceClient {
   $host: string;

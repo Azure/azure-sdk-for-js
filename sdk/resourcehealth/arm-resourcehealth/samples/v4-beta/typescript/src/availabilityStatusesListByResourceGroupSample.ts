@@ -13,9 +13,7 @@ import {
   MicrosoftResourceHealth
 } from "@azure/arm-resourcehealth";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists the current availability status for all the resources in the resource group.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Lists the current availability status for all the resources in the resource group.
  * x-ms-original-file: specification/resourcehealth/resource-manager/Microsoft.ResourceHealth/preview/2023-10-01-preview/examples/AvailabilityStatuses_ListByResourceGroup.json
  */
-async function listByResourceGroup() {
+async function listByResourceGroup(): Promise<void> {
   const subscriptionId =
     process.env["RESOURCEHEALTH_SUBSCRIPTION_ID"] || "subscriptionId";
   const resourceGroupName =
@@ -44,7 +42,7 @@ async function listByResourceGroup() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listByResourceGroup();
 }
 

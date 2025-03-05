@@ -7,18 +7,18 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { DedicatedHosts } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { DedicatedHosts } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { ComputeManagementClient } from "../computeManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { ComputeManagementClient } from "../computeManagementClient.js";
 import {
   SimplePollerLike,
   OperationState,
   createHttpPoller,
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl";
+import { createLroSpec } from "../lroImpl.js";
 import {
   DedicatedHost,
   DedicatedHostsListByHostGroupNextOptionalParams,
@@ -38,7 +38,7 @@ import {
   DedicatedHostsRedeployOptionalParams,
   DedicatedHostsRedeployResponse,
   DedicatedHostsListByHostGroupNextResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing DedicatedHosts operations. */
@@ -538,7 +538,7 @@ export class DedicatedHostsImpl implements DedicatedHosts {
    * Restart the dedicated host. The operation will complete successfully once the dedicated host has
    * restarted and is running. To determine the health of VMs deployed on the dedicated host after the
    * restart check the Resource Health Center in the Azure Portal. Please refer to
-   * https://docs.microsoft.com/azure/service-health/resource-health-overview for more details.
+   * https://learn.microsoft.com/azure/service-health/resource-health-overview for more details.
    * @param resourceGroupName The name of the resource group.
    * @param hostGroupName The name of the dedicated host group.
    * @param hostName The name of the dedicated host.
@@ -605,7 +605,7 @@ export class DedicatedHostsImpl implements DedicatedHosts {
    * Restart the dedicated host. The operation will complete successfully once the dedicated host has
    * restarted and is running. To determine the health of VMs deployed on the dedicated host after the
    * restart check the Resource Health Center in the Azure Portal. Please refer to
-   * https://docs.microsoft.com/azure/service-health/resource-health-overview for more details.
+   * https://learn.microsoft.com/azure/service-health/resource-health-overview for more details.
    * @param resourceGroupName The name of the resource group.
    * @param hostGroupName The name of the dedicated host group.
    * @param hostName The name of the dedicated host.
@@ -630,7 +630,7 @@ export class DedicatedHostsImpl implements DedicatedHosts {
    * Redeploy the dedicated host. The operation will complete successfully once the dedicated host has
    * migrated to a new node and is running. To determine the health of VMs deployed on the dedicated host
    * after the redeploy check the Resource Health Center in the Azure Portal. Please refer to
-   * https://docs.microsoft.com/azure/service-health/resource-health-overview for more details.
+   * https://learn.microsoft.com/azure/service-health/resource-health-overview for more details.
    * @param resourceGroupName The name of the resource group.
    * @param hostGroupName The name of the dedicated host group.
    * @param hostName The name of the dedicated host.
@@ -705,7 +705,7 @@ export class DedicatedHostsImpl implements DedicatedHosts {
    * Redeploy the dedicated host. The operation will complete successfully once the dedicated host has
    * migrated to a new node and is running. To determine the health of VMs deployed on the dedicated host
    * after the redeploy check the Resource Health Center in the Azure Portal. Please refer to
-   * https://docs.microsoft.com/azure/service-health/resource-health-overview for more details.
+   * https://learn.microsoft.com/azure/service-health/resource-health-overview for more details.
    * @param resourceGroupName The name of the resource group.
    * @param hostGroupName The name of the dedicated host group.
    * @param hostName The name of the dedicated host.

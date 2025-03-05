@@ -1,17 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+import type { PutBastionShareableLinkParameters } from "@azure-rest/arm-network";
 import createNetworkManagementClient, {
-  PutBastionShareableLinkParameters,
   // getLongRunningPoller,
   paginate,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates a Bastion Shareable Links for all the VMs specified in the request.
@@ -19,7 +14,7 @@ dotenv.config();
  * @summary Creates a Bastion Shareable Links for all the VMs specified in the request.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/BastionShareableLinkCreate.json
  */
-async function createBastionShareableLinksForTheRequestVMS() {
+async function createBastionShareableLinksForTheRequestVMS(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

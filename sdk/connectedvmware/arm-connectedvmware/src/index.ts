@@ -7,7 +7,7 @@
  */
 
 /// <reference lib="esnext.asynciterable" />
-export { getContinuationToken } from "./pagingHelper";
-export * from "./models";
-export { AzureArcVMwareManagementServiceAPI } from "./azureArcVMwareManagementServiceAPI";
-export * from "./operationsInterfaces";
+export { getContinuationToken } from "./pagingHelper.js";
+export * from "./models/index.js";
+export { AzureArcVMwareManagementServiceAPI } from "./azureArcVMwareManagementServiceAPI.js";
+export * from "./operationsInterfaces/index.js";

@@ -10,13 +10,13 @@
 // Licensed under the MIT License.
 const { KustoManagementClient } = require("@azure/arm-kusto");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Returns the list of attached database configurations of the given Kusto cluster.
  *
  * @summary Returns the list of attached database configurations of the given Kusto cluster.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoAttachedDatabaseConfigurationsListByCluster.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2024-04-13/examples/KustoAttachedDatabaseConfigurationsListByCluster.json
  */
 async function kustoAttachedDatabaseConfigurationsListByCluster() {
   const subscriptionId =
@@ -36,7 +36,7 @@ async function kustoAttachedDatabaseConfigurationsListByCluster() {
 }
 
 async function main() {
-  kustoAttachedDatabaseConfigurationsListByCluster();
+  await kustoAttachedDatabaseConfigurationsListByCluster();
 }
 
 main().catch(console.error);

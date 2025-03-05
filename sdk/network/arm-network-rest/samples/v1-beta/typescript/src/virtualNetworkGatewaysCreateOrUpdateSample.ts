@@ -1,16 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import createNetworkManagementClient, {
   VirtualNetworkGatewaysCreateOrUpdateParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates or updates a virtual network gateway in the specified resource group.
@@ -18,7 +13,7 @@ dotenv.config();
  * @summary Creates or updates a virtual network gateway in the specified resource group.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/VirtualNetworkGatewayUpdate.json
  */
-async function updateVirtualNetworkGateway() {
+async function updateVirtualNetworkGateway(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -32,7 +27,7 @@ async function updateVirtualNetworkGateway() {
         bgpSettings: {
           asn: 65515,
           bgpPeeringAddress: "10.0.1.30",
-          peerWeight: 0
+          peerWeight: 0,
         },
         customRoutes: { addressPrefixes: ["101.168.0.6/32"] },
         disableIPSecReplayProtection: false,
@@ -46,41 +41,37 @@ async function updateVirtualNetworkGateway() {
             properties: {
               privateIPAllocationMethod: "Dynamic",
               publicIPAddress: {
-                id:
-                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPAddresses/gwpip"
+                id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPAddresses/gwpip",
               },
               subnet: {
-                id:
-                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnet1/subnets/GatewaySubnet"
-              }
-            }
-          }
+                id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnet1/subnets/GatewaySubnet",
+              },
+            },
+          },
         ],
         natRules: [
           {
             name: "natRule1",
-            id:
-              "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworkGateways/vpngw/natRules/natRule1",
+            id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworkGateways/vpngw/natRules/natRule1",
             properties: {
               type: "Static",
               externalMappings: [{ addressSpace: "50.0.0.0/24" }],
               internalMappings: [{ addressSpace: "10.10.0.0/24" }],
               ipConfigurationId: "",
-              mode: "EgressSnat"
-            }
+              mode: "EgressSnat",
+            },
           },
           {
             name: "natRule2",
-            id:
-              "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworkGateways/vpngw/natRules/natRule2",
+            id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworkGateways/vpngw/natRules/natRule2",
             properties: {
               type: "Static",
               externalMappings: [{ addressSpace: "30.0.0.0/24" }],
               internalMappings: [{ addressSpace: "20.10.0.0/24" }],
               ipConfigurationId: "",
-              mode: "IngressSnat"
-            }
-          }
+              mode: "IngressSnat",
+            },
+          },
         ],
         sku: { name: "VpnGw1", tier: "VpnGw1" },
         vpnClientConfiguration: {
@@ -88,24 +79,24 @@ async function updateVirtualNetworkGateway() {
             {
               radiusServerAddress: "10.2.0.0",
               radiusServerScore: 20,
-              radiusServerSecret: "radiusServerSecret"
-            }
+              radiusServerSecret: "radiusServerSecret",
+            },
           ],
           vpnClientProtocols: ["OpenVPN"],
           vpnClientRevokedCertificates: [],
-          vpnClientRootCertificates: []
+          vpnClientRootCertificates: [],
         },
-        vpnType: "RouteBased"
-      }
+        vpnType: "RouteBased",
+      },
     },
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}",
       subscriptionId,
       resourceGroupName,
-      virtualNetworkGatewayName
+      virtualNetworkGatewayName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);

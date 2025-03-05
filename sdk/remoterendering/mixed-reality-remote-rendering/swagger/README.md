@@ -17,17 +17,15 @@ add-credentials: false
 package-version: 1.0.0-beta.2
 disable-async-iterators: true
 hide-clients: true
-
 tracing-info:
   namespace: "Microsoft.MixedReality"
   packagePrefix: "Azure.mixed-reality-remote-rendering"
-
 use-extension:
-  "@autorest/typescript": "latest"
-
+  "@autorest/typescript": "6.0.34"
 typescript:
   generate-metadata: false
   azure-arm: false
+module-kind: esm
 ```
 
 ```yaml

@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { MicrosoftResourceHealth } from "@azure/arm-resourcehealth";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets the specific impacted resource in the tenant by an event.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Gets the specific impacted resource in the tenant by an event.
  * x-ms-original-file: specification/resourcehealth/resource-manager/Microsoft.ResourceHealth/stable/2022-10-01/examples/ImpactedResources_GetByTenantId.json
  */
-async function impactedResourcesGet() {
+async function impactedResourcesGet(): Promise<void> {
   const subscriptionId =
     process.env["RESOURCEHEALTH_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -35,7 +33,7 @@ async function impactedResourcesGet() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   impactedResourcesGet();
 }
 

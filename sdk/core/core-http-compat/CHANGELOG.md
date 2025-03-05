@@ -1,6 +1,6 @@
 # Release History
 
-## 2.1.3 (Unreleased)
+## 2.2.1 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,12 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 2.2.0 (2025-02-06)
+
+### Features Added
+
+- Add optional `agent` option to `WebResourceLike` [PR #32590](https://github.com/Azure/azure-sdk-for-js/pull/32590)
 
 ## 2.1.2 (2024-04-09)
 

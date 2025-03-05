@@ -13,7 +13,7 @@ import {
   MetricsListAtSubscriptionScopePostResponse,
   MetricsListOptionalParams,
   MetricsListResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a MetricsOperations. */
 export interface MetricsOperations {

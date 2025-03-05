@@ -33,10 +33,10 @@ function parseRegistrationResults(results?: Record<string, any>): RegistrationRe
 
   for (const result of resultsArray) {
     registrationResults.push({
-      applicationPlatform: getString(result.ApplicationPlatform, "ApplicationPlatform"),
-      registrationId: getString(result.RegistrationId, "RegistrationId"),
-      outcome: getString(result.Outcome, "Outcome"),
-      pnsHandle: getString(result.PnsHandle, "PnsHandle"),
+      applicationPlatform: getString(result.ApplicationPlatform, "ApplicationPlatform").trim(),
+      registrationId: getString(result.RegistrationId, "RegistrationId").trim(),
+      outcome: getString(result.Outcome, "Outcome").trim(),
+      pnsHandle: getString(result.PnsHandle, "PnsHandle").trim(),
     });
   }
 

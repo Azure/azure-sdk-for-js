@@ -9,7 +9,7 @@
 import {
   SparkConfigurationGetOptionalParams,
   SparkConfigurationGetResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a SparkConfiguration. */
 export interface SparkConfiguration {

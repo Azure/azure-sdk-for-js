@@ -19,7 +19,7 @@ import {
   ProjectsUpdateResponse,
   ProjectsGetJobStatusOptionalParams,
   ProjectsGetJobStatusResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a Projects. */
 export interface Projects {

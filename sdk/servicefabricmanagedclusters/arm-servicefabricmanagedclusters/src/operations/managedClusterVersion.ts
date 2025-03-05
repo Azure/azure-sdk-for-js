@@ -6,11 +6,11 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { ManagedClusterVersion } from "../operationsInterfaces";
+import { ManagedClusterVersion } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { ServiceFabricManagedClustersManagementClient } from "../serviceFabricManagedClustersManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { ServiceFabricManagedClustersManagementClient } from "../serviceFabricManagedClustersManagementClient.js";
 import {
   ManagedClusterVersionGetOptionalParams,
   ManagedClusterVersionGetResponse,
@@ -21,7 +21,7 @@ import {
   ManagedClusterVersionListResponse,
   ManagedClusterVersionListByEnvironmentOptionalParams,
   ManagedClusterVersionListByEnvironmentResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Class containing ManagedClusterVersion operations. */
 export class ManagedClusterVersionImpl implements ManagedClusterVersion {

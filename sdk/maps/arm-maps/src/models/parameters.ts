@@ -18,7 +18,7 @@ import {
   MapsKeySpecification as MapsKeySpecificationMapper,
   Creator as CreatorMapper,
   CreatorUpdateParameters as CreatorUpdateParametersMapper
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const contentType: OperationParameter = {
   parameterPath: ["options", "contentType"],

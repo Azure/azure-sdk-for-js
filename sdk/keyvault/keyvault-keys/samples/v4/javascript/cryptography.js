@@ -5,7 +5,7 @@
  * @summary Uses an Azure Key Vault key to sign/verify, encrypt/decrypt, and wrap/unwrap data.
  */
 
-const { createHash } = require("crypto");
+const { createHash } = require("node:crypto");
 
 const { CryptographyClient, KeyClient } = require("@azure/keyvault-keys");
 const { DefaultAzureCredential } = require("@azure/identity");
@@ -15,7 +15,7 @@ require("dotenv").config();
 
 async function main() {
   // This sample uses DefaultAzureCredential, which supports a number of authentication mechanisms.
-  // See https://docs.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest for more information
+  // See https://learn.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest for more information
   // about DefaultAzureCredential and the other credentials that are available for use.
   const credential = new DefaultAzureCredential();
 
@@ -55,14 +55,17 @@ async function main() {
   });
   console.log("encrypt result: ", encrypt);
 
-  const decrypt = await cryptoClient.decrypt({ algorithm: "RSA1_5", ciphertext: encrypt.result });
+  const decrypt = await cryptoClient.decrypt({
+    algorithm: "RSA-OAEP-256",
+    ciphertext: encrypt.result,
+  });
   console.log("decrypt: ", decrypt.result.toString());
 
   // Wrap and unwrap
-  const wrapped = await cryptoClient.wrapKey("RSA-OAEP", Buffer.from("My Message"));
+  const wrapped = await cryptoClient.wrapKey("RSA-OAEP-256", Buffer.from("My Message"));
   console.log("wrap result: ", wrapped);
 
-  const unwrapped = await cryptoClient.unwrapKey("RSA-OAEP", wrapped.result);
+  const unwrapped = await cryptoClient.unwrapKey("RSA-OAEP-256", wrapped.result);
   console.log("unwrap result: ", unwrapped);
 }
 

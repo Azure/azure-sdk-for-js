@@ -47,7 +47,7 @@
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
     "unit-test:browser": "npm run clean && dev-tool run build-package && dev-tool run build-test && dev-tool run test:vitest --browser",
     "unit-test:node": "dev-tool run test:vitest -- --test-timeout 180000",
-    "update-snippets": "echo skipped"
+    "update-snippets": "dev-tool run update-snippets"
   },
   "engines": {
     "node": ">=18.0.0"
@@ -92,14 +92,14 @@
     "@azure/identity": "^4.4.1",
     "@azure/keyvault-secrets": "^4.2.0",
     "@types/node": "^18.0.0",
-    "@vitest/browser": "^2.1.1",
-    "@vitest/coverage-istanbul": "^2.1.1",
+    "@vitest/browser": "^3.0.3",
+    "@vitest/coverage-istanbul": "^3.0.3",
     "dotenv": "^16.0.0",
     "eslint": "^9.9.0",
     "nock": "^13.5.4",
     "playwright": "^1.47.2",
     "typescript": "~5.7.2",
-    "vitest": "^2.1.1"
+    "vitest": "^3.0.3"
   },
   "//sampleConfiguration": {
     "productName": "Azure App Configuration",
@@ -108,7 +108,7 @@
       "azure-app-configuration"
     ],
     "requiredResources": {
-      "Azure App Configuration account": "https://docs.microsoft.com/azure/azure-app-configuration/quickstart-aspnet-core-app?tabs=core5x#create-an-app-configuration-store"
+      "Azure App Configuration account": "https://learn.microsoft.com/azure/azure-app-configuration/quickstart-aspnet-core-app?tabs=core5x#create-an-app-configuration-store"
     },
     "skip": [
       "secretReference.js",

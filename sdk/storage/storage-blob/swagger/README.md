@@ -1534,5 +1534,3 @@ directive:
     transform: >
       delete $["x-ms-structured-body"];
 ```
-
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fstorage%2Fstorage-blob%2Fswagger%2FREADME.png)

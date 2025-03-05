@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { PrivateDnsManagementClient } from "@azure/arm-privatedns";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets a record set.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Gets a record set.
  * x-ms-original-file: specification/privatedns/resource-manager/Microsoft.Network/stable/2024-06-01/examples/RecordSetAGet.json
  */
-async function getPrivateDnsZoneARecordSet() {
+async function getPrivateDnsZoneARecordSet(): Promise<void> {
   const subscriptionId =
     process.env["PRIVATEDNS_SUBSCRIPTION_ID"] || "subscriptionId";
   const resourceGroupName =
@@ -45,7 +43,7 @@ async function getPrivateDnsZoneARecordSet() {
  * @summary Gets a record set.
  * x-ms-original-file: specification/privatedns/resource-manager/Microsoft.Network/stable/2024-06-01/examples/RecordSetAAAAGet.json
  */
-async function getPrivateDnsZoneAaaaRecordSet() {
+async function getPrivateDnsZoneAaaaRecordSet(): Promise<void> {
   const subscriptionId =
     process.env["PRIVATEDNS_SUBSCRIPTION_ID"] || "subscriptionId";
   const resourceGroupName =
@@ -70,7 +68,7 @@ async function getPrivateDnsZoneAaaaRecordSet() {
  * @summary Gets a record set.
  * x-ms-original-file: specification/privatedns/resource-manager/Microsoft.Network/stable/2024-06-01/examples/RecordSetCNAMEGet.json
  */
-async function getPrivateDnsZoneCnameRecordSet() {
+async function getPrivateDnsZoneCnameRecordSet(): Promise<void> {
   const subscriptionId =
     process.env["PRIVATEDNS_SUBSCRIPTION_ID"] || "subscriptionId";
   const resourceGroupName =
@@ -95,7 +93,7 @@ async function getPrivateDnsZoneCnameRecordSet() {
  * @summary Gets a record set.
  * x-ms-original-file: specification/privatedns/resource-manager/Microsoft.Network/stable/2024-06-01/examples/RecordSetMXGet.json
  */
-async function getPrivateDnsZoneMxRecordSet() {
+async function getPrivateDnsZoneMxRecordSet(): Promise<void> {
   const subscriptionId =
     process.env["PRIVATEDNS_SUBSCRIPTION_ID"] || "subscriptionId";
   const resourceGroupName =
@@ -120,7 +118,7 @@ async function getPrivateDnsZoneMxRecordSet() {
  * @summary Gets a record set.
  * x-ms-original-file: specification/privatedns/resource-manager/Microsoft.Network/stable/2024-06-01/examples/RecordSetPTRGet.json
  */
-async function getPrivateDnsZonePtrRecordSet() {
+async function getPrivateDnsZonePtrRecordSet(): Promise<void> {
   const subscriptionId =
     process.env["PRIVATEDNS_SUBSCRIPTION_ID"] || "subscriptionId";
   const resourceGroupName =
@@ -145,7 +143,7 @@ async function getPrivateDnsZonePtrRecordSet() {
  * @summary Gets a record set.
  * x-ms-original-file: specification/privatedns/resource-manager/Microsoft.Network/stable/2024-06-01/examples/RecordSetSOAGet.json
  */
-async function getPrivateDnsZoneSoaRecordSet() {
+async function getPrivateDnsZoneSoaRecordSet(): Promise<void> {
   const subscriptionId =
     process.env["PRIVATEDNS_SUBSCRIPTION_ID"] || "subscriptionId";
   const resourceGroupName =
@@ -170,7 +168,7 @@ async function getPrivateDnsZoneSoaRecordSet() {
  * @summary Gets a record set.
  * x-ms-original-file: specification/privatedns/resource-manager/Microsoft.Network/stable/2024-06-01/examples/RecordSetSRVGet.json
  */
-async function getPrivateDnsZoneSrvRecordSet() {
+async function getPrivateDnsZoneSrvRecordSet(): Promise<void> {
   const subscriptionId =
     process.env["PRIVATEDNS_SUBSCRIPTION_ID"] || "subscriptionId";
   const resourceGroupName =
@@ -195,7 +193,7 @@ async function getPrivateDnsZoneSrvRecordSet() {
  * @summary Gets a record set.
  * x-ms-original-file: specification/privatedns/resource-manager/Microsoft.Network/stable/2024-06-01/examples/RecordSetTXTGet.json
  */
-async function getPrivateDnsZoneTxtRecordSet() {
+async function getPrivateDnsZoneTxtRecordSet(): Promise<void> {
   const subscriptionId =
     process.env["PRIVATEDNS_SUBSCRIPTION_ID"] || "subscriptionId";
   const resourceGroupName =
@@ -214,7 +212,7 @@ async function getPrivateDnsZoneTxtRecordSet() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getPrivateDnsZoneARecordSet();
   getPrivateDnsZoneAaaaRecordSet();
   getPrivateDnsZoneCnameRecordSet();

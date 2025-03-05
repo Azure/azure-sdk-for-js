@@ -19,14 +19,14 @@ import {
   NamespacesImpl,
   HybridConnectionsImpl,
   WCFRelaysImpl
-} from "./operations";
+} from "./operations/index.js";
 import {
   Operations,
   Namespaces,
   HybridConnections,
   WCFRelays
-} from "./operationsInterfaces";
-import { RelayAPIOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { RelayAPIOptionalParams } from "./models/index.js";
 
 export class RelayAPI extends coreClient.ServiceClient {
   $host: string;

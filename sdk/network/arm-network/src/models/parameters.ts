@@ -172,7 +172,7 @@ import {
   HubRouteTable as HubRouteTableMapper,
   RoutingIntent as RoutingIntentMapper,
   WebApplicationFirewallPolicy as WebApplicationFirewallPolicyMapper,
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",

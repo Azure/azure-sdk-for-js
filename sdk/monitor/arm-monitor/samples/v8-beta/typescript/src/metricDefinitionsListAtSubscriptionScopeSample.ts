@@ -13,9 +13,7 @@ import {
   MonitorClient,
 } from "@azure/arm-monitor";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists the metric definitions for the subscription.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Lists the metric definitions for the subscription.
  * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2024-02-01/examples/GetMultiResourceMetricDefinitions.json
  */
-async function getSubscriptionLevelMetricDefinitionsWithoutFilter() {
+async function getSubscriptionLevelMetricDefinitionsWithoutFilter(): Promise<void> {
   const subscriptionId =
     process.env["MONITOR_SUBSCRIPTION_ID"] ||
     "92d2a2d8-b514-432d-8cc9-a5f9272630d5";
@@ -44,7 +42,7 @@ async function getSubscriptionLevelMetricDefinitionsWithoutFilter() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getSubscriptionLevelMetricDefinitionsWithoutFilter();
 }
 

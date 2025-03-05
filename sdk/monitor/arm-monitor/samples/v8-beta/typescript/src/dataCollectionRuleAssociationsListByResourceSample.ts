@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { MonitorClient } from "@azure/arm-monitor";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists associations for the specified resource.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Lists associations for the specified resource.
  * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2022-06-01/examples/DataCollectionRuleAssociationsListByResource.json
  */
-async function listAssociationsForSpecifiedResource() {
+async function listAssociationsForSpecifiedResource(): Promise<void> {
   const resourceUri =
     "subscriptions/703362b3-f278-4e4b-9179-c76eaf41ffc2/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVm";
   const credential = new DefaultAzureCredential();
@@ -34,7 +32,7 @@ async function listAssociationsForSpecifiedResource() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listAssociationsForSpecifiedResource();
 }
 

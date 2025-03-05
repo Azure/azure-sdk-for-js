@@ -25,7 +25,7 @@ async function getContainerServiceOSOptions() {
   const result = await client.path(
     "/subscriptions/{subscriptionId}/providers/Microsoft.ContainerService/locations/{location}/osOptions/default",
     subscriptionId,
-    location
+    location,
   );
   console.log(result);
 }

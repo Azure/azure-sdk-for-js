@@ -32,22 +32,22 @@ You can get a key and/or connection string from your Communication Services reso
 
 ### Using a connection string
 
-```typescript
-import MessageClient, { MessagesServiceClient } from "@azure-rest/communication-messages";
+```ts snippet:ReadmeSampleCreateClient_ConnectionString
+import MessageClient from "@azure-rest/communication-messages";
 
 const connectionString = `endpoint=https://<resource-name>.communication.azure.com/;accessKey=<Base64-Encoded-Key>`;
-const client: MessagesServiceClient = MessageClient(connectionString);
+const client = MessageClient(connectionString);
 ```
 
 ### Using `AzureKeyCredential`
 
-```typescript
+```ts snippet:ReadmeSampleCreateClient_KeyCredential
 import { AzureKeyCredential } from "@azure/core-auth";
-import MessageClient, { MessagesServiceClient } from "@azure-rest/communication-messages";
+import MessageClient from "@azure-rest/communication-messages";
 
 const endpoint = "https://<resource-name>.communication.azure.com";
 const credential = new AzureKeyCredential("<Base64-Encoded-Key>");
-const client: MessagesServiceClient = MessageClient(endpoint, credential);
+const client = MessageClient(endpoint, credential);
 ```
 
 ### Using Azure Active Directory managed identity
@@ -61,13 +61,13 @@ npm install @azure/identity
 The [`@azure/identity`][azure_identity] package provides a variety of credential types that your application can use to do this. The README for @azure/identity provides more details and samples to get you started.
 AZURE_CLIENT_SECRET, AZURE_CLIENT_ID and AZURE_TENANT_ID environment variables are needed to create a DefaultAzureCredential object.
 
-```typescript
+```ts snippet:ReadmeSampleCreateClient_DefaultAzureCredential
 import { DefaultAzureCredential } from "@azure/identity";
-import MessageClient, { MessagesServiceClient } from "@azure-rest/communication-messages";
+import MessageClient from "@azure-rest/communication-messages";
 
 const endpoint = "https://<resource-name>.communication.azure.com";
 const credential = new DefaultAzureCredential();
-const client: MessagesServiceClient = MessageClient(endpoint, credential);
+const client = MessageClient(endpoint, credential);
 ```
 
 ## Send a Template Message with WhatsApp Channel
@@ -86,26 +86,33 @@ To send an Template Message, you need add template to your WhatsApp Bussiness Ac
 
 ```
 
-```typescript
-const nameValue: MessageTemplateValue = {
+```ts snippet:ReadmeSampleSendTemplateMessage
+import { DefaultAzureCredential } from "@azure/identity";
+import MessageClient, { isUnexpected } from "@azure-rest/communication-messages";
+
+const endpoint = "https://<resource-name>.communication.azure.com";
+const credential = new DefaultAzureCredential();
+const client = MessageClient(endpoint, credential);
+
+const nameValue = {
   kind: "text",
   name: "name",
   text: "Arif",
 };
 
-const yesAction: MessageTemplateValue = {
+const yesAction = {
   kind: "quickAction",
   name: "Yes",
   payload: "Yes",
 };
 
-const noAction: MessageTemplateValue = {
+const noAction = {
   kind: "quickAction",
   name: "No",
   payload: "No",
 };
 
-const templateBindings: MessageTemplateBindings = {
+const templateBindings = {
   kind: "whatsApp",
   body: [
     {
@@ -124,7 +131,7 @@ const templateBindings: MessageTemplateBindings = {
   ],
 };
 
-const template: MessageTemplate = {
+const template = {
   name: "sample_issue_resolution",
   language: "en_US",
   bindings: templateBindings,
@@ -140,13 +147,11 @@ const result = await client.path("/messages/notifications:send").post({
     template: template,
   },
 });
-if (result.status === "202") {
-  const response: Send202Response = result as Send202Response;
-  response.body.receipts.forEach((receipt) => {
+
+if (!isUnexpected(result)) {
+  result.body.receipts.forEach((receipt) => {
     console.log("Message sent to:" + receipt.to + " with message id:" + receipt.messageId);
   });
-} else {
-  throw new Error("Failed to send message");
 }
 ```
 
@@ -154,7 +159,14 @@ if (result.status === "202") {
 
 `Note: Business can't start a conversation with a text message. It needs to be user initiated.`
 
-```typescript
+```ts snippet:ReadmeSampleSendTextMessage
+import { DefaultAzureCredential } from "@azure/identity";
+import MessageClient, { isUnexpected } from "@azure-rest/communication-messages";
+
+const endpoint = "https://<resource-name>.communication.azure.com";
+const credential = new DefaultAzureCredential();
+const client = MessageClient(endpoint, credential);
+
 const result = await client.path("/messages/notifications:send").post({
   contentType: "application/json",
   body: {
@@ -162,6 +174,80 @@ const result = await client.path("/messages/notifications:send").post({
     to: ["<to-phone-number-1>"],
     kind: "text",
     content: "Hello World!!",
+  },
+});
+
+if (!isUnexpected(result)) {
+  result.body.receipts.forEach((receipt) => {
+    console.log("Message sent to:" + receipt.to + " with message id:" + receipt.messageId);
+  });
+}
+```
+
+## Send a Media Message with WhatsApp Channel
+
+`Note: Business can't start a conversation with a media message. It needs to be user initiated.`
+
+```ts snippet:ReadmeSampleSendMediaMessage
+import { DefaultAzureCredential } from "@azure/identity";
+import MessageClient, { isUnexpected } from "@azure-rest/communication-messages";
+
+const endpoint = "https://<resource-name>.communication.azure.com";
+const credential = new DefaultAzureCredential();
+const client = MessageClient(endpoint, credential);
+
+const result = await client.path("/messages/notifications:send").post({
+  contentType: "application/json",
+  body: {
+    channelRegistrationId: "<Channel_Registration_Id>",
+    to: ["<to-phone-number-1>"],
+    kind: "image",
+    mediaUri: "https://<your-media-image-file>",
+  },
+});
+
+if (!isUnexpected(result)) {
+  result.body.receipts.forEach((receipt) => {
+    console.log("Message sent to:" + receipt.to + " with message id:" + receipt.messageId);
+  });
+}
+```
+
+## Send a Button Action Interactive Message with WhatsApp Channel
+
+`Note: Business can't start a conversation with a media message. It needs to be user initiated.`
+
+```typescript
+const interactiveMessage: InteractiveMessage = {
+    body: {
+        kind: "text",
+        text: "Do you want to proceed?",
+    },
+    action: {
+        kind: "whatsAppButtonAction",
+        content: {
+            kind: "buttonSet",
+            buttons: [
+                {
+                    id: "yes",
+                    title: "Yes",
+                },
+                {
+                    id: "no",
+                    title: "No",
+                },
+            ]
+        }
+    }
+};
+
+const result = await client.path("/messages/notifications:send").post({
+  contentType: "application/json",
+  body: {
+    channelRegistrationId: "<Channel_Registration_Id>",
+    to: ["<to-phone-number-1>"],
+    kind: "interactive",
+    interactiveMessage: interactiveMessage,
   },
 });
 
@@ -175,18 +261,108 @@ if (result.status === "202") {
 }
 ```
 
-## Send a Media Message with WhatsApp Channel
+## Send a List Action Interactive Message with WhatsApp Channel
 
 `Note: Business can't start a conversation with a media message. It needs to be user initiated.`
 
 ```typescript
+const interactiveMessage: InteractiveMessage = {
+    body: {
+        kind: "text",
+        text: "Which shipping option do you want?",
+    },
+    action: {
+        kind: "whatsAppListAction",
+        content: {
+            kind: "group",
+            title: "Shipping Options",
+            groups:[
+                {
+                    title: "Express Delivery",
+                    items: [
+                        {
+                            id: "priority_mail_express",
+                            title: "Priority Mail Express",
+                            description: "Delivered on same day!",
+                        },
+                        {
+                            id: "priority_mail",
+                            title: "Priority Mail",
+                            description: "Delivered in 1-2 days",
+                        }
+                    ]
+                },
+                {
+                    title: "Normal Delivery",
+                    items: [
+                        {
+                            id: "usps_ground_advantage",
+                            title: "USPS Ground Advantage",
+                            description: "Delivered in 2-5 days",
+                        },
+                        {
+                            id: "usps_mail",
+                            title: "Normal Mail",
+                            description: "Delivered in 5-8 days",
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+};
+
 const result = await client.path("/messages/notifications:send").post({
   contentType: "application/json",
   body: {
     channelRegistrationId: "<Channel_Registration_Id>",
     to: ["<to-phone-number-1>"],
-    kind: "image",
-    mediaUri: "https://<your-media-image-file>",
+    kind: "interactive",
+    interactiveMessage: interactiveMessage,
+  },
+});
+
+if (result.status === "202") {
+  const response: Send202Response = result as Send202Response;
+  response.body.receipts.forEach((receipt) => {
+    console.log("Message sent to:" + receipt.to + " with message id:" + receipt.messageId);
+  });
+} else {
+  throw new Error("Failed to send message");
+}
+```
+
+## Send a Url Action Interactive Message with WhatsApp Channel
+
+`Note: Business can't start a conversation with a media message. It needs to be user initiated.`
+
+```typescript
+const interactiveMessage: InteractiveMessage = {
+    body: {
+        kind: "text",
+        text: "Find more detail in the link.",
+    },
+    action: {
+        kind: "whatsAppUrlAction",
+        content: {
+            kind: "url",
+            title: "link",
+            url: "https://<your-url-link>",
+        }
+    },
+    footer: {
+        kind: "text",
+        text: "This is a footer message",
+    }
+};
+
+const result = await client.path("/messages/notifications:send").post({
+  contentType: "application/json",
+  body: {
+    channelRegistrationId: "<Channel_Registration_Id>",
+    to: ["<to-phone-number-1>"],
+    kind: "interactive",
+    interactiveMessage: interactiveMessage,
   },
 });
 
@@ -206,8 +382,8 @@ if (result.status === "202") {
 
 Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
 
-```javascript
-const { setLogLevel } = require("@azure/logger");
+```ts snippet:SetLogLevel
+import { setLogLevel } from "@azure/logger";
 
 setLogLevel("info");
 ```
@@ -235,5 +411,3 @@ If you'd like to contribute to this library, please read the [contributing guide
 [azure_communication_messaging_qs]: https://learn.microsoft.com/azure/communication-services/concepts/advanced-messaging/whatsapp/whatsapp-overview
 [register_whatsapp_business_account]: https://learn.microsoft.com/azure/communication-services/quickstarts/advanced-messaging/whatsapp/connect-whatsapp-business-account
 [create-manage-whatsapp-template]: https://developers.facebook.com/docs/whatsapp/business-management-api/message-templates/
-
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fcommunication%2Fcommunication-sms%2FREADME.png)

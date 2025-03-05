@@ -11,7 +11,7 @@ import {
   GuestConfigurationHcrpAssignmentReportsListResponse,
   GuestConfigurationHcrpAssignmentReportsGetOptionalParams,
   GuestConfigurationHcrpAssignmentReportsGetResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a GuestConfigurationHcrpAssignmentReports. */
 export interface GuestConfigurationHcrpAssignmentReports {

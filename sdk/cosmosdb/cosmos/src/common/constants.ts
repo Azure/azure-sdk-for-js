@@ -22,6 +22,7 @@ export const Constants = {
     ContentEncoding: "Content-Encoding",
     CharacterSet: "CharacterSet",
     UserAgent: "User-Agent",
+    CustomUserAgent: "x-ms-useragent",
     IfModifiedSince: "If-Modified-Since",
     IfMatch: "If-Match",
     IfNoneMatch: "If-None-Match",
@@ -98,6 +99,7 @@ export const Constants = {
     EnableCrossPartitionQuery: "x-ms-documentdb-query-enablecrosspartition",
     ParallelizeCrossPartitionQuery: "x-ms-documentdb-query-parallelizecrosspartitionquery",
     ResponseContinuationTokenLimitInKB: "x-ms-documentdb-responsecontinuationtokenlimitinkb",
+    SDKSupportedCapabilities: "x-ms-cosmos-sdk-supportedcapabilities",
 
     // QueryMetrics
     // Request header to tell backend to give you query metrics.
@@ -107,7 +109,7 @@ export const Constants = {
 
     // IndexMetrics
     // Request header to tell backend to give you index metrics.
-    PopulateIndexMetrics: "x-ms-cosmos-populateindexmetrics",
+    PopulateIndexMetrics: "x-ms-cosmos-populateindexmetrics-V2",
     // Response header that holds the serialized version of index metrics.
     IndexUtilization: "x-ms-cosmos-index-utilization",
     // Version headers and values
@@ -182,7 +184,20 @@ export const Constants = {
 
     // Priority Based throttling header
     PriorityLevel: "x-ms-cosmos-priority-level",
+
+    // Encryption Headers
+    IsClientEncryptedHeader: "x-ms-cosmos-is-client-encrypted",
+    IntendedCollectionHeader: "x-ms-cosmos-intended-collection-rid",
+    DatabaseRidHeader: "x-ms-cosmos-database-rid",
+    AllowCachedReadsHeader: "x-ms-cosmos-allow-cachedreads",
   },
+  // ThrottledRequests Retry policy default values
+  ThrottledRequestMaxRetryAttemptCount: 9,
+  ThrottledRequestMaxWaitTimeInSeconds: 30,
+  ThrottledRequestFixedRetryIntervalInMs: 0,
+
+  // HttpHeaders Values
+  PREFER_RETURN_MINIMAL: "return=minimal",
 
   // GlobalDB related constants
   WritableLocations: "writableLocations",
@@ -211,6 +226,17 @@ export const Constants = {
 
   // Bulk Operations
   DefaultMaxBulkRequestBodySizeInBytes: 220201,
+
+  // Encryption
+  Encryption: {
+    DiagnosticsDecryptOperation: "Decrypt",
+    DiagnosticsDuration: "Duration in milliseconds",
+    DiagnosticsEncryptionDiagnostics: "EncryptionDiagnostics",
+    DiagnosticsEncryptOperation: "Encrypt",
+    DiagnosticsPropertiesEncryptedCount: "Properties Encrypted Count",
+    DiagnosticsPropertiesDecryptedCount: "Properties Decrypted Count",
+    DiagnosticsStartTime: "Start time",
+  },
 
   Quota: {
     CollectionSize: "collectionSize",
@@ -265,6 +291,10 @@ export const Constants = {
   // Changefeed AllVersionsAndDeletesMode formatting version
   AllVersionsAndDeletesChangeFeedWireFormatVersion: "2021-09-15",
   ChangeFeedIfNoneMatchStartFromNowHeader: "*",
+  // Default TTL for encryption caches in hours
+  DefaultEncryptionCacheTimeToLiveInHours: 2,
+  // Timeout to clear encryption related cache
+  EncryptionCacheRefreshIntervalInMs: 60000, // 1 minute
 };
 
 /**
@@ -284,6 +314,8 @@ export enum ResourceType {
   item = "docs",
   pkranges = "pkranges",
   partitionkey = "partitionKey",
+  /** resource representing client encryption keys to encrypt/decrypt data */
+  clientencryptionkey = "clientencryptionkeys",
 }
 
 /**
@@ -493,4 +525,8 @@ export enum QueryFeature {
   ListAndSetAggregate = "ListAndSetAggregate",
   CountIf = "CountIf",
   HybridSearch = "HybridSearch",
+}
+
+export enum SDKSupportedCapabilities {
+  PartitionMerge = 1,
 }

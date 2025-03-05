@@ -1,16 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import createComputeManagementClient, {
   DisksUpdateParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Updates (patches) a disk.
@@ -26,17 +21,17 @@ async function createOrUpdateABurstingEnabledManagedDisk() {
   const diskName = "myDisk";
   const options: DisksUpdateParameters = {
     body: { properties: { burstingEnabled: true, diskSizeGB: 1024 } },
-    queryParameters: { "api-version": "2022-07-02" }
+    queryParameters: { "api-version": "2022-07-02" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/disks/{diskName}",
       subscriptionId,
       resourceGroupName,
-      diskName
+      diskName,
     )
     .patch(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -56,19 +51,19 @@ async function updateAManagedDiskToAddAcceleratedNetworking() {
   const diskName = "myDisk";
   const options: DisksUpdateParameters = {
     body: {
-      properties: { supportedCapabilities: { acceleratedNetwork: false } }
+      properties: { supportedCapabilities: { acceleratedNetwork: false } },
     },
-    queryParameters: { "api-version": "2022-07-02" }
+    queryParameters: { "api-version": "2022-07-02" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/disks/{diskName}",
       subscriptionId,
       resourceGroupName,
-      diskName
+      diskName,
     )
     .patch(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -88,17 +83,17 @@ async function updateAManagedDiskToAddArchitecture() {
   const diskName = "myDisk";
   const options: DisksUpdateParameters = {
     body: { properties: { supportedCapabilities: { architecture: "Arm64" } } },
-    queryParameters: { "api-version": "2022-07-02" }
+    queryParameters: { "api-version": "2022-07-02" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/disks/{diskName}",
       subscriptionId,
       resourceGroupName,
-      diskName
+      diskName,
     )
     .patch(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -123,21 +118,21 @@ async function updateAManagedDiskToAddPurchasePlan() {
           name: "myPurchasePlanName",
           product: "myPurchasePlanProduct",
           promotionCode: "myPurchasePlanPromotionCode",
-          publisher: "myPurchasePlanPublisher"
-        }
-      }
+          publisher: "myPurchasePlanPublisher",
+        },
+      },
     },
-    queryParameters: { "api-version": "2022-07-02" }
+    queryParameters: { "api-version": "2022-07-02" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/disks/{diskName}",
       subscriptionId,
       resourceGroupName,
-      diskName
+      diskName,
     )
     .patch(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -157,17 +152,17 @@ async function updateAManagedDiskToAddSupportsHibernation() {
   const diskName = "myDisk";
   const options: DisksUpdateParameters = {
     body: { properties: { supportsHibernation: true } },
-    queryParameters: { "api-version": "2022-07-02" }
+    queryParameters: { "api-version": "2022-07-02" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/disks/{diskName}",
       subscriptionId,
       resourceGroupName,
-      diskName
+      diskName,
     )
     .patch(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -187,17 +182,17 @@ async function updateAManagedDiskToChangeTier() {
   const diskName = "myDisk";
   const options: DisksUpdateParameters = {
     body: { properties: { tier: "P30" } },
-    queryParameters: { "api-version": "2022-07-02" }
+    queryParameters: { "api-version": "2022-07-02" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/disks/{diskName}",
       subscriptionId,
       resourceGroupName,
-      diskName
+      diskName,
     )
     .patch(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -217,17 +212,17 @@ async function updateAManagedDiskToDisableBursting() {
   const diskName = "myDisk";
   const options: DisksUpdateParameters = {
     body: { properties: { burstingEnabled: false } },
-    queryParameters: { "api-version": "2022-07-02" }
+    queryParameters: { "api-version": "2022-07-02" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/disks/{diskName}",
       subscriptionId,
       resourceGroupName,
-      diskName
+      diskName,
     )
     .patch(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -247,17 +242,17 @@ async function updateAManagedDiskToDisableOptimizedForFrequentAttach() {
   const diskName = "myDisk";
   const options: DisksUpdateParameters = {
     body: { properties: { optimizedForFrequentAttach: false } },
-    queryParameters: { "api-version": "2022-07-02" }
+    queryParameters: { "api-version": "2022-07-02" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/disks/{diskName}",
       subscriptionId,
       resourceGroupName,
-      diskName
+      diskName,
     )
     .patch(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -277,19 +272,19 @@ async function updateAManagedDiskWithDiskControllerTypes() {
   const diskName = "myDisk";
   const options: DisksUpdateParameters = {
     body: {
-      properties: { supportedCapabilities: { diskControllerTypes: "SCSI" } }
+      properties: { supportedCapabilities: { diskControllerTypes: "SCSI" } },
     },
-    queryParameters: { "api-version": "2022-07-02" }
+    queryParameters: { "api-version": "2022-07-02" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/disks/{diskName}",
       subscriptionId,
       resourceGroupName,
-      diskName
+      diskName,
     )
     .patch(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -309,17 +304,17 @@ async function updateManagedDiskToRemoveDiskAccessResourceAssociation() {
   const diskName = "myDisk";
   const options: DisksUpdateParameters = {
     body: { properties: { networkAccessPolicy: "AllowAll" } },
-    queryParameters: { "api-version": "2022-07-02" }
+    queryParameters: { "api-version": "2022-07-02" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/disks/{diskName}",
       subscriptionId,
       resourceGroupName,
-      diskName
+      diskName,
     )
     .patch(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }

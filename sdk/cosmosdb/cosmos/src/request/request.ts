@@ -1,13 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import { setAuthorizationHeader } from "../auth";
-import { Constants, HTTPMethod, jsonStringifyAndEscapeNonASCII, ResourceType } from "../common";
+import {
+  Constants,
+  HTTPMethod,
+  jsonStringifyAndEscapeNonASCII,
+  ResourceType,
+  SDKSupportedCapabilities,
+} from "../common";
 import type { CosmosClientOptions } from "../CosmosClientOptions";
 import type { PartitionKeyInternal } from "../documents";
 import type { CosmosHeaders } from "../queryExecutionContext";
 import type { FeedOptions, RequestOptions } from "./index";
 import { defaultLogger } from "../common/logger";
 import { ChangeFeedMode } from "../client/ChangeFeed";
+import { OperationType } from "../common/constants";
 // ----------------------------------------------------------------------------
 // Utility methods
 //
@@ -19,6 +26,19 @@ function javaScriptFriendlyJSONStringify(s: unknown): string {
   return JSON.stringify(s)
     .replace(/\u2028/g, "\\u2028")
     .replace(/\u2029/g, "\\u2029");
+}
+
+/** @hidden */
+function isWriteOperation(operationType: OperationType): boolean {
+  return (
+    operationType === OperationType.Create ||
+    operationType === OperationType.Upsert ||
+    operationType === OperationType.Delete ||
+    operationType === OperationType.Replace ||
+    operationType === OperationType.Batch ||
+    operationType === OperationType.Patch ||
+    operationType === OperationType.Execute
+  );
 }
 
 /** @hidden */
@@ -40,6 +60,7 @@ interface GetHeadersOptions {
   resourceId: string;
   resourceType: ResourceType;
   options: RequestOptions & FeedOptions;
+  operationType: OperationType;
   partitionKeyRangeId?: string;
   useMultipleWriteLocations?: boolean;
   partitionKey?: PartitionKeyInternal;
@@ -58,6 +79,7 @@ export async function getHeaders({
   resourceId,
   resourceType,
   options = {},
+  operationType,
   partitionKeyRangeId,
   useMultipleWriteLocations,
   partitionKey,
@@ -67,6 +89,9 @@ export async function getHeaders({
     [Constants.HttpHeaders.EnableCrossPartitionQuery]: true,
     ...defaultHeaders,
   };
+
+  // Adding SDKSupportedCapabilities header to hint that SDK supports partition merge
+  headers[Constants.HttpHeaders.SDKSupportedCapabilities] = SDKSupportedCapabilities.PartitionMerge;
 
   if (useMultipleWriteLocations) {
     headers[Constants.HttpHeaders.ALLOW_MULTIPLE_WRITES] = true;
@@ -222,6 +247,13 @@ export async function getHeaders({
     headers[Constants.HttpHeaders.PopulateIndexMetrics] = options.populateIndexMetrics;
   }
 
+  if (clientOptions.encryptionPolicy?.enableEncryption) {
+    headers[Constants.HttpHeaders.IsClientEncryptedHeader] = true;
+    if (options.containerRid) {
+      headers[Constants.HttpHeaders.IntendedCollectionHeader] = options.containerRid;
+    }
+  }
+
   if (
     clientOptions.key ||
     clientOptions.resourceTokens ||
@@ -229,6 +261,15 @@ export async function getHeaders({
     clientOptions.permissionFeed
   ) {
     await setAuthorizationHeader(clientOptions, verb, path, resourceId, resourceType, headers);
+  }
+
+  if (
+    resourceType === ResourceType.item &&
+    isWriteOperation(operationType) &&
+    Object.prototype.hasOwnProperty.call(options, "contentResponseOnWriteEnabled") &&
+    !options.contentResponseOnWriteEnabled
+  ) {
+    headers[Constants.HttpHeaders.Prefer] = Constants.PREFER_RETURN_MINIMAL;
   }
   return headers;
 }

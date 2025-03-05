@@ -10,7 +10,7 @@ import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   ExportJobsTriggerOptionalParams,
   ExportJobsTriggerResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a ExportJobs. */
 export interface ExportJobs {

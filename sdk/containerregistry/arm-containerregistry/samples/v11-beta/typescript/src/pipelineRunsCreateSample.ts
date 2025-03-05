@@ -10,20 +10,18 @@
 // Licensed under the MIT License.
 import {
   PipelineRun,
-  ContainerRegistryManagementClient
+  ContainerRegistryManagementClient,
 } from "@azure/arm-containerregistry";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates a pipeline run for a container registry with the specified parameters
  *
  * @summary Creates a pipeline run for a container registry with the specified parameters
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2023-11-01-preview/examples/PipelineRunCreate_Export.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2024-11-01-preview/examples/PipelineRunCreate_Export.json
  */
-async function pipelineRunCreateExport() {
+async function pipelineRunCreateExport(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -35,23 +33,23 @@ async function pipelineRunCreateExport() {
     request: {
       artifacts: [
         "sourceRepository/hello-world",
-        "sourceRepository2@sha256:00000000000000000000000000000000000"
+        "sourceRepository2@sha256:00000000000000000000000000000000000",
       ],
       pipelineResourceId:
         "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.ContainerRegistry/registries/myRegistry/exportPipelines/myExportPipeline",
-      target: { name: "myblob.tar.gz", type: "AzureStorageBlob" }
-    }
+      target: { name: "myblob.tar.gz", type: "AzureStorageBlob" },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new ContainerRegistryManagementClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const result = await client.pipelineRuns.beginCreateAndWait(
     resourceGroupName,
     registryName,
     pipelineRunName,
-    pipelineRunCreateParameters
+    pipelineRunCreateParameters,
   );
   console.log(result);
 }
@@ -60,9 +58,9 @@ async function pipelineRunCreateExport() {
  * This sample demonstrates how to Creates a pipeline run for a container registry with the specified parameters
  *
  * @summary Creates a pipeline run for a container registry with the specified parameters
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2023-11-01-preview/examples/PipelineRunCreate_Import.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2024-11-01-preview/examples/PipelineRunCreate_Import.json
  */
-async function pipelineRunCreateImport() {
+async function pipelineRunCreateImport(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -76,26 +74,26 @@ async function pipelineRunCreateImport() {
       catalogDigest: "sha256@",
       pipelineResourceId:
         "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.ContainerRegistry/registries/myRegistry/importPipelines/myImportPipeline",
-      source: { name: "myblob.tar.gz", type: "AzureStorageBlob" }
-    }
+      source: { name: "myblob.tar.gz", type: "AzureStorageBlob" },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new ContainerRegistryManagementClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const result = await client.pipelineRuns.beginCreateAndWait(
     resourceGroupName,
     registryName,
     pipelineRunName,
-    pipelineRunCreateParameters
+    pipelineRunCreateParameters,
   );
   console.log(result);
 }
 
-async function main() {
-  pipelineRunCreateExport();
-  pipelineRunCreateImport();
+async function main(): Promise<void> {
+  await pipelineRunCreateExport();
+  await pipelineRunCreateImport();
 }
 
 main().catch(console.error);

@@ -10,20 +10,20 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary list private links on the given resource
  * x-ms-original-file: 2024-09-20/PrivateLinks_ListByDeidService_MaximumSet_Gen.json
  */
-async function privateLinksListByDeidServiceGeneratedByMaximumSetRuleStable() {
+async function privateLinksListByDeidServiceGeneratedByMaximumSetRuleStable(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "F21BB31B-C214-42C0-ACF0-DACCA05D3011";
   const client = new HealthDataAIServicesClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.privateLinks.listByDeidService("rgopenapi", "deidTest")) {
+  for await (const item of client.privateLinks.listByDeidService("rgopenapi", "deidTest")) {
     resArray.push(item);
   }
 
   console.log(resArray);
 }
 
-async function main() {
-  privateLinksListByDeidServiceGeneratedByMaximumSetRuleStable();
+async function main(): Promise<void> {
+  await privateLinksListByDeidServiceGeneratedByMaximumSetRuleStable();
 }
 
 main().catch(console.error);

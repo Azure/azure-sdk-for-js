@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { GetStreamingJobSkuResult, SkuListOptionalParams } from "../models";
+import { GetStreamingJobSkuResult, SkuListOptionalParams } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a SkuOperations. */

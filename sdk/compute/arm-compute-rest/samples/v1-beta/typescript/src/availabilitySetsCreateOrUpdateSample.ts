@@ -1,15 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import createComputeManagementClient, {
-  AvailabilitySetsCreateOrUpdateParameters
+  AvailabilitySetsCreateOrUpdateParameters,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create or update an availability set.
@@ -26,16 +21,16 @@ async function createAnAvailabilitySet() {
   const options: AvailabilitySetsCreateOrUpdateParameters = {
     body: {
       location: "westus",
-      properties: { platformFaultDomainCount: 2, platformUpdateDomainCount: 20 }
+      properties: { platformFaultDomainCount: 2, platformUpdateDomainCount: 20 },
     },
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const result = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}",
       subscriptionId,
       resourceGroupName,
-      availabilitySetName
+      availabilitySetName,
     )
     .put(options);
   console.log(result);

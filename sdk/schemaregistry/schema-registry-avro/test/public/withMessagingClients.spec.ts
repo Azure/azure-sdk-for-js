@@ -165,7 +165,7 @@ describe("With messaging clients", function () {
         }
       }
 
-      beforeEach(async function (ctx) {
+      beforeEach(async (ctx) => {
         httpClient = createDefaultHttpClient();
         pipeline = createPipelineWithCredential();
         recorder = new Recorder(ctx);
@@ -179,7 +179,7 @@ describe("With messaging clients", function () {
         });
       });
 
-      afterEach(async function () {
+      afterEach(async () => {
         schemaList.push(schemaName);
         await removeSchemas(schemaList, pipeline, httpClient);
       });

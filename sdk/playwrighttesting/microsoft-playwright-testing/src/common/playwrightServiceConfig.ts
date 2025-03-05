@@ -1,11 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  DefaultConnectOptionsConstants,
-  InternalEnvironmentVariables,
-  ServiceEnvironmentVariable,
-} from "./constants";
+import { DefaultConnectOptionsConstants, InternalEnvironmentVariables } from "./constants";
 import type { PlaywrightServiceAdditionalOptions, OsType } from "./types";
 import { getAndSetRunId } from "../utils/utils";
 
@@ -17,7 +13,7 @@ class PlaywrightServiceConfig {
   public exposeNetwork: string;
   public runName: string;
   constructor() {
-    this.serviceOs = (process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_OS] ||
+    this.serviceOs = (process.env[InternalEnvironmentVariables.MPT_SERVICE_OS] ||
       DefaultConnectOptionsConstants.DEFAULT_SERVICE_OS) as OsType;
     this.runName = process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_NAME] || "";
     this.runId = process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_ID] || "";
@@ -44,7 +40,7 @@ class PlaywrightServiceConfig {
     }
     if (options?.os) {
       this.serviceOs = options.os;
-      process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_OS] = this.serviceOs;
+      process.env[InternalEnvironmentVariables.MPT_SERVICE_OS] = this.serviceOs;
     }
     if (options?.slowMo) {
       this.slowMo = options.slowMo;

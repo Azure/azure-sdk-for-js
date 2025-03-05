@@ -1,16 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import createNetworkManagementClient, {
-  VirtualHubRouteTableV2SDeleteParameters,
-  getLongRunningPoller,
-} from "@azure-rest/arm-network";
+import type { VirtualHubRouteTableV2SDeleteParameters } from "@azure-rest/arm-network";
+import createNetworkManagementClient, { getLongRunningPoller } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Deletes a VirtualHubRouteTableV2.
@@ -18,7 +11,7 @@ dotenv.config();
  * @summary Deletes a VirtualHubRouteTableV2.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/VirtualHubRouteTableV2Delete.json
  */
-async function virtualHubRouteTableV2Delete() {
+async function virtualHubRouteTableV2Delete(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
