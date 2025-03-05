@@ -20,6 +20,7 @@ import type {
   ListSipTrunksOptions,
   SipTrunk,
   SipTrunkRoute,
+  TestRoutesWithNumberResponse,
 } from "./models.js";
 import { transformFromRestModel, transformIntoRestModel } from "./mappers.js";
 import type { CommonClientOptions, OperationOptions } from "@azure/core-client";
@@ -299,13 +300,49 @@ export class SipRoutingClient {
     );
   }
 
+  /**
+   * Test routes with number.
+   * @param targetPhoneNumber - target phone number to test routes.
+   * @param routes - sip trunk routes.
+   * @param options - The options parameters for routes.
+   */
+  public async testRoutesWithNumber(
+    targetPhoneNumber: string,
+    routes: SipTrunkRoute[],
+    options: OperationOptions = {},
+  ): Promise<TestRoutesWithNumberResponse> {
+    return tracingClient.withSpan(
+      "SipRoutingClient-testRoutesWithNumber",
+      options,
+      async (updatedOptions) => {
+        return this.testRoutesWithNumberInternal(targetPhoneNumber, routes, updatedOptions);
+      },
+    );
+  }
+
+  private async testRoutesWithNumberInternal(
+    targetPhoneNumber: string,
+    routes: SipTrunkRoute[],
+    options?: OperationOptions,
+  ): Promise<TestRoutesWithNumberResponse> {
+    const optionalParams = {
+      routes: routes,
+      ...options,
+    };
+    return this.client.sipRouting.testRoutesWithNumber(targetPhoneNumber, optionalParams);
+  }
+
   private async getRoutesInternal(options: OperationOptions): Promise<SipTrunkRoute[]> {
     const config = await this.client.sipRouting.get(options);
     return config.routes || [];
   }
 
-  private async getTrunksInternal(options: OperationOptions): Promise<SipTrunk[]> {
-    const config = await this.client.sipRouting.get(options);
+  private async getTrunksInternal(options: ListSipTrunksOptions): Promise<SipTrunk[]> {
+    const optionalParams = {
+      expand: options.expand !== undefined ? options.expand : undefined,
+      ...options,
+    };
+    const config = await this.client.sipRouting.get(optionalParams);
     return transformFromRestModel(config.trunks);
   }
 
@@ -328,7 +365,7 @@ export class SipRoutingClient {
   private async *listTrunksPagingPage(
     options: ListSipTrunksOptions = {},
   ): AsyncIterableIterator<SipTrunk[]> {
-    const apiResult = await this.getTrunksInternal(options as OperationOptions);
+    const apiResult = await this.getTrunksInternal(options);
     yield apiResult;
   }
 

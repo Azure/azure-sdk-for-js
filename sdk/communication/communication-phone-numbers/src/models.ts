@@ -8,6 +8,10 @@ import type {
   PhoneNumbersListAreaCodesOptionalParams,
   PhoneNumberType,
 } from "./generated/src/models/index.js";
+import type {
+  RoutesForNumber,
+  SipRoutingGetOptionalParams,
+} from "./generated/src/siprouting/models/index.js";
 
 /**
  * The result of the phone numbers purchase operation.
@@ -81,7 +85,7 @@ export interface ListSipRoutesOptions extends OperationOptions {}
 /**
  * Additional options that can be passed to list SIP trunks.
  */
-export interface ListSipTrunksOptions extends OperationOptions {}
+export interface ListSipTrunksOptions extends SipRoutingGetOptionalParams {}
 
 /**
  * Additional options that can be passed to the available offerings request.
@@ -114,7 +118,14 @@ export {
   OperatorNumberType,
 } from "./generated/src/models/index.js";
 
-export { SipRoutingError, SipTrunkRoute } from "./generated/src/siprouting/models/index.js";
+export {
+  SipRoutingError,
+  SipTrunkRoute,
+  RoutesForNumber,
+  SipRoutingGetOptionalParams,
+  ExpandEnum,
+  KnownExpandEnum,
+} from "./generated/src/siprouting/models/index.js";
 
 /**
  * Represents a SIP trunk for routing calls. See RFC 4904.
@@ -129,3 +140,10 @@ export interface SipTrunk {
    */
   sipSignalingPort: number;
 }
+
+// export type ExpandEnum = "trunks/health";
+
+/**
+ * Test Routes with number response.
+ */
+export interface TestRoutesWithNumberResponse extends RoutesForNumber {}

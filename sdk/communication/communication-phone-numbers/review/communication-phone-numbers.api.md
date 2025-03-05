@@ -30,7 +30,15 @@ export interface BeginUpdatePhoneNumberCapabilitiesOptions extends OperationOpti
 }
 
 // @public
+export type ExpandEnum = string;
+
+// @public
 export type GetPurchasedPhoneNumberOptions = OperationOptions;
+
+// @public
+export enum KnownExpandEnum {
+    TrunksHealth = "trunks/health"
+}
 
 // @public
 export interface ListAvailableCountriesOptions extends OperationOptions {
@@ -63,7 +71,7 @@ export interface ListSipRoutesOptions extends OperationOptions {
 }
 
 // @public
-export interface ListSipTrunksOptions extends OperationOptions {
+export interface ListSipTrunksOptions extends SipRoutingGetOptionalParams {
 }
 
 // @public
@@ -234,6 +242,11 @@ export interface ReleasePhoneNumberResult {
 }
 
 // @public
+export interface RoutesForNumber {
+    matchingRoutes?: SipTrunkRoute[];
+}
+
+// @public
 export interface SearchAvailablePhoneNumbersRequest extends PhoneNumberSearchRequest {
     countryCode: string;
 }
@@ -256,6 +269,7 @@ export class SipRoutingClient {
     setRoutes(routes: SipTrunkRoute[], options?: OperationOptions): Promise<SipTrunkRoute[]>;
     setTrunk(trunk: SipTrunk, options?: OperationOptions): Promise<SipTrunk>;
     setTrunks(trunks: SipTrunk[], options?: OperationOptions): Promise<SipTrunk[]>;
+    testRoutesWithNumber(targetPhoneNumber: string, routes: SipTrunkRoute[], options?: OperationOptions): Promise<TestRoutesWithNumberResponse>;
 }
 
 // @public
@@ -272,6 +286,11 @@ export interface SipRoutingError {
 }
 
 // @public
+export interface SipRoutingGetOptionalParams extends coreClient.OperationOptions {
+    expand?: ExpandEnum;
+}
+
+// @public
 export interface SipTrunk {
     fqdn: string;
     sipSignalingPort: number;
@@ -279,10 +298,15 @@ export interface SipTrunk {
 
 // @public
 export interface SipTrunkRoute {
+    callerIdOverride?: string;
     description?: string;
     name: string;
     numberPattern: string;
     trunks?: string[];
+}
+
+// @public
+export interface TestRoutesWithNumberResponse extends RoutesForNumber {
 }
 
 // (No @packageDocumentation comment for this package)
