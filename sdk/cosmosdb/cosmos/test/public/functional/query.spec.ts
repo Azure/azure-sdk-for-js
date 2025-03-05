@@ -622,6 +622,17 @@ describe("Queries", function (this: Suite) {
       assert.equal(results.length, 10);
     });
 
+    it("query with offset 5 and limit 10 should fetch correct number of results", async function () {
+      const query = "SELECT DISTINCT c.age FROM c ORDER BY c.age ASC OFFSET 5 LIMIT 10";
+      const options: FeedOptions = {
+        forceQueryPlan: true,
+        maxItemCount: 2,
+      };
+      const queryIterator = container.items.query(query, options);
+      const { resources: results } = await queryIterator.fetchAll();
+      assert.equal(results.length, 5);
+    });
+
     it("query with TOP 10 should fetch correct number of results", async function () {
       const query = "SELECT DISTINCT TOP 10  c.age FROM c ORDER BY c.age ASC";
       const options: FeedOptions = {
