@@ -102,7 +102,7 @@ function assertStatsbeatEnvelope(
 
   assert.strictEqual(envelope.instrumentationKey, "ikey");
 
-  assert.deepStrictEqual(envelope.tags, undefined);
+  assert.deepStrictEqual(Object.keys(envelope.tags || {}).length, 2);
 }
 
 describe("metricUtil.ts", () => {
