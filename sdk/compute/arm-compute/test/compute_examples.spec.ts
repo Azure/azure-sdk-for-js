@@ -47,25 +47,25 @@ describe("Compute test", () => {
   let virtual_machine_name: string;
 
   beforeEach(async (ctx) => {
-      recorder = new Recorder(ctx);
-      await recorder.start(recorderOptions);
-      subscriptionId = env.SUBSCRIPTION_ID || '';
-      // This is an example of how the environment variables are used
-      const credential = createTestCredential();
-      client = new ComputeManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
-      network_client = new NetworkManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
-      location = "eastus2euap";
-      resourceGroupName = "czwjstest";
-      availabilitySetName = "availabilitySets123";
-      network_name = "networknamexx1";
-      subnet_name = "subnetnamexx1";
-      interface_name = "interfacex1";
-      virtual_machine_name = "virtualmachinex1";
-    });
+    recorder = new Recorder(ctx);
+    await recorder.start(recorderOptions);
+    subscriptionId = env.SUBSCRIPTION_ID || '';
+    // This is an example of how the environment variables are used
+    const credential = createTestCredential();
+    client = new ComputeManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
+    network_client = new NetworkManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
+    location = "eastus2euap";
+    resourceGroupName = "czwjstest";
+    availabilitySetName = "availabilitySets123";
+    network_name = "networknamexx1";
+    subnet_name = "subnetnamexx1";
+    interface_name = "interfacex1";
+    virtual_machine_name = "virtualmachinex1";
+  });
 
   afterEach(async () => {
-      await recorder.stop();
-    });
+    await recorder.stop();
+  });
 
   //network_client.virtualNetworks.createOrUpdate
   async function createVirtualNetwork(): Promise<void> {
@@ -139,7 +139,7 @@ describe("Compute test", () => {
     const res = await client.availabilitySets.createOrUpdate(resourceGroupName, availabilitySetName, {
       platformFaultDomainCount: 2,
       platformUpdateDomainCount: 20,
-      location: location,
+      location: "eastus",
     })
     assert.equal(res.name, availabilitySetName);
   });
@@ -163,6 +163,14 @@ describe("Compute test", () => {
       resArray.push(item);
     }
     assert.equal(resArray.length, 1);
+  });
+
+  it.only("availabilitySets list test", async function () {
+    const resArray = new Array();
+    for await (const item of client.availabilitySets.listAvailableSizes(resourceGroupName, availabilitySetName).byPage({ maxPageSize: 5 })) {
+      resArray.push(item);
+    }
+    assert.ok(resArray);
   });
 
   it("availabilitySets delete test", async function () {
