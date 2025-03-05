@@ -30,7 +30,7 @@ import {
   JobsImpl,
   StorageAccountCredentialsImpl,
   StorageDomainsImpl
-} from "./operations";
+} from "./operations/index.js";
 import {
   Managers,
   AvailableProviderOperationsOperations,
@@ -47,8 +47,8 @@ import {
   Jobs,
   StorageAccountCredentials,
   StorageDomains
-} from "./operationsInterfaces";
-import { StorSimpleManagementClientOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { StorSimpleManagementClientOptionalParams } from "./models/index.js";
 
 export class StorSimpleManagementClient extends coreClient.ServiceClient {
   $host: string;

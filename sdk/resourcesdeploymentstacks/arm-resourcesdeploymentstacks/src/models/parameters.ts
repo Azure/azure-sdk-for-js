@@ -11,7 +11,7 @@ import {
   OperationURLParameter,
   OperationQueryParameter,
 } from "@azure/core-client";
-import { DeploymentStack as DeploymentStackMapper } from "../models/mappers";
+import { DeploymentStack as DeploymentStackMapper } from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",

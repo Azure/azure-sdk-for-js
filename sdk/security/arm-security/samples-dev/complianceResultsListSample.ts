@@ -7,9 +7,7 @@
  */
 import { SecurityCenter } from "@azure/arm-security";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Security compliance results in the subscription
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Security compliance results in the subscription
  * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/stable/2017-08-01/examples/ComplianceResults/ListComplianceResults_example.json
  */
-async function getComplianceResultsOnSubscription() {
+async function getComplianceResultsOnSubscription(): Promise<void> {
   const scope = "subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23";
   const credential = new DefaultAzureCredential();
   const client = new SecurityCenter(credential);
@@ -28,7 +26,7 @@ async function getComplianceResultsOnSubscription() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await getComplianceResultsOnSubscription();
 }
 

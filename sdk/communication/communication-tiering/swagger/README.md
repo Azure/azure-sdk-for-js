@@ -19,14 +19,14 @@ skip-enum-validation: true
 v3: true
 title: Tiering Client
 use-extension:
-  "@autorest/typescript": "6.0.0"
+  "@autorest/typescript": "6.0.34"
 tracing-info:
   namespace: "Microsoft.Communication"
   packagePrefix: "Azure.Communication"
-
 typescript:
   generate-metadata: false
   azure-arm: false
+module-kind: esm
 ```
 
 ## Customizations

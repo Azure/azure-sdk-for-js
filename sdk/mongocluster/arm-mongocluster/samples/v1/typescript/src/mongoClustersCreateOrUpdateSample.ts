@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary create or update a mongo cluster. Update overwrites all properties for the resource. To only modify some of the properties, use PATCH.
  * x-ms-original-file: 2024-07-01/MongoClusters_Create.json
  */
-async function createsANewMongoClusterResource() {
+async function createsANewMongoClusterResource(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new MongoClusterManagementClient(credential, subscriptionId);
@@ -34,7 +34,7 @@ async function createsANewMongoClusterResource() {
  * @summary create or update a mongo cluster. Update overwrites all properties for the resource. To only modify some of the properties, use PATCH.
  * x-ms-original-file: 2024-07-01/MongoClusters_CreateGeoReplica.json
  */
-async function createsAReplicaMongoClusterResourceFromASourceResource() {
+async function createsAReplicaMongoClusterResourceFromASourceResource(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new MongoClusterManagementClient(credential, subscriptionId);
@@ -62,7 +62,7 @@ async function createsAReplicaMongoClusterResourceFromASourceResource() {
  * @summary create or update a mongo cluster. Update overwrites all properties for the resource. To only modify some of the properties, use PATCH.
  * x-ms-original-file: 2024-07-01/MongoClusters_CreatePITR.json
  */
-async function createsAMongoClusterResourceFromAPointInTimeRestore() {
+async function createsAMongoClusterResourceFromAPointInTimeRestore(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new MongoClusterManagementClient(credential, subscriptionId);
@@ -80,7 +80,7 @@ async function createsAMongoClusterResourceFromAPointInTimeRestore() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createsANewMongoClusterResource();
   createsAReplicaMongoClusterResourceFromASourceResource();
   createsAMongoClusterResourceFromAPointInTimeRestore();

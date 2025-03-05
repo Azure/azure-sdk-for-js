@@ -7,9 +7,7 @@
  */
 import { ServiceFabricMeshManagementClient } from "@azure/arm-servicefabricmesh";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists the decrypted value of the specified named value of the secret resource. This is a privileged operation.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Lists the decrypted value of the specified named value of the secret resource. This is a privileged operation.
  * x-ms-original-file: specification/servicefabricmesh/resource-manager/Microsoft.ServiceFabricMesh/preview/2018-09-01-preview/examples/secrets/values/list_value.json
  */
-async function listSecretValue() {
+async function listSecretValue(): Promise<void> {
   const subscriptionId =
     process.env["SERVICEFABRICMESH_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = process.env["SERVICEFABRICMESH_RESOURCE_GROUP"] || "sbz_demo";
@@ -33,7 +31,7 @@ async function listSecretValue() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await listSecretValue();
 }
 

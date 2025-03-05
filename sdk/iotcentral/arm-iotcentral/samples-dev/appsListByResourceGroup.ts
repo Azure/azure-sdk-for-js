@@ -14,7 +14,7 @@
 import { IotCentralClient } from "@azure/arm-iotcentral";
 import { DefaultAzureCredential } from "@azure/identity";
 
-async function appsListByResourceGroup() {
+async function appsListByResourceGroup(): Promise<void> {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = "resRg";
   const credential = new DefaultAzureCredential();

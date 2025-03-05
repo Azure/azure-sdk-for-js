@@ -4,8 +4,9 @@
   const PICKER_ELEMENT = document.getElementById("versionPicker");
 
   function currentVersion() {
-    if (WINDOW_CONTENTS.includes("$web") && WINDOW_CONTENTS.length > 6) {
-      return WINDOW_CONTENTS[6];
+    //https://azuresdkdocs.z19.web.core.windows.net/javascript/<package>/<version>
+    if (WINDOW_CONTENTS.includes("azuresdkdocs.z19.web.core.windows.net") && WINDOW_CONTENTS.length > 5) {
+      return WINDOW_CONTENTS[5];
     } else if (WINDOW_CONTENTS.includes("docGen")) {
       return WINDOW_CONTENTS[WINDOW_CONTENTS.indexOf("docGen") + 2];
     } else {
@@ -14,8 +15,9 @@
   }
 
   function currentPackage() {
-    if (WINDOW_CONTENTS.includes("$web") && WINDOW_CONTENTS.length > 5) {
-      return WINDOW_CONTENTS[5];
+    //https://azuresdkdocs.z19.web.core.windows.net/javascript/<package>/<version>
+    if (WINDOW_CONTENTS.includes("azuresdkdocs.z19.web.core.windows.net") && WINDOW_CONTENTS.length > 4) {
+      return WINDOW_CONTENTS[4];
     } else if (WINDOW_CONTENTS.includes("docGen")) {
       return WINDOW_CONTENTS[WINDOW_CONTENTS.indexOf("docGen") + 1];
     } else {
@@ -37,7 +39,7 @@
     }
 
     const versionRequestUrl =
-      `https://azuresdkdocs.blob.core.windows.net/$web/javascript/${currentPackage()}/versioning/versions`;
+      `https://azuresdkdocs.z19.web.core.windows.net/javascript/${currentPackage()}/versioning/versions`;
     const result = await fetch(versionRequestUrl);
     
     if (!result.ok) {

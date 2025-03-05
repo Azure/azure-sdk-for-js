@@ -7,9 +7,7 @@
  */
 import { AzureHSMResourceProvider } from "@azure/arm-hardwaresecuritymodules";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to The List operation gets information about the Cloud HSM Clusters associated with the subscription and within the specified resource group.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary The List operation gets information about the Cloud HSM Clusters associated with the subscription and within the specified resource group.
  * x-ms-original-file: specification/hardwaresecuritymodules/resource-manager/Microsoft.HardwareSecurityModules/preview/2024-06-30-preview/examples/CloudHsmCluster_ListByResourceGroup_MaximumSet_Gen.json
  */
-async function cloudHsmClusterListByResourceGroupMaximumSetGen() {
+async function cloudHsmClusterListByResourceGroupMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["HARDWARESECURITYMODULES_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -31,7 +29,7 @@ async function cloudHsmClusterListByResourceGroupMaximumSetGen() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await cloudHsmClusterListByResourceGroupMaximumSetGen();
 }
 

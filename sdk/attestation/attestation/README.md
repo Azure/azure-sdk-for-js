@@ -456,7 +456,7 @@ section of the project.
 [source_code]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/attestation/attestation
 [azure_identity]: https://learn.microsoft.com/javascript/api/@azure/identity
 [defaultazurecredential]: https://learn.microsoft.com/javascript/api/@azure/identity/defaultazurecredential
-[attestation_policy_result]: https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-attestation/1.0.0-beta.4/interfaces/policyresult.html
+[attestation_policy_result]: https://azuresdkdocs.z19.web.core.windows.net/javascript/azure-attestation/latest/interfaces/policyresult.html
 [attestation_client]: https://learn.microsoft.com/javascript/api/@azure/attestation/attestationclient
 [attestation_admin_client]: https://learn.microsoft.com/javascript/api/@azure/attestation/attestationadministrationclient
 [attestation_response]: https://learn.microsoft.com/javascript/api/@azure/attestation/attestationresponse
@@ -479,5 +479,3 @@ section of the project.
 ## Related projects
 
 - [Microsoft Azure SDK for Javascript](https://github.com/Azure/azure-sdk-for-js)
-
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fattestation%2Fattestation%2FREADME.png)

@@ -11,7 +11,7 @@ import "dotenv/config";
  * @summary Gets the next hop from the specified VM.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/NetworkWatcherNextHopGet.json
  */
-async function getNextHop() {
+async function getNextHop(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

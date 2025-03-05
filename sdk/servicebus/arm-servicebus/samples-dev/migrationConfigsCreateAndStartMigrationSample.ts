@@ -8,9 +8,7 @@
 import type { MigrationConfigProperties } from "@azure/arm-servicebus";
 import { ServiceBusManagementClient } from "@azure/arm-servicebus";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates Migration configuration and starts migration of entities from Standard to Premium namespace
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Creates Migration configuration and starts migration of entities from Standard to Premium namespace
  * x-ms-original-file: specification/servicebus/resource-manager/Microsoft.ServiceBus/preview/2022-10-01-preview/examples/Migrationconfigurations/SBMigrationconfigurationCreateAndStartMigration.json
  */
-async function migrationConfigurationsStartMigration() {
+async function migrationConfigurationsStartMigration(): Promise<void> {
   const subscriptionId = process.env["SERVICEBUS_SUBSCRIPTION_ID"] || "SubscriptionId";
   const resourceGroupName = process.env["SERVICEBUS_RESOURCE_GROUP"] || "ResourceGroup";
   const namespaceName = "sdk-Namespace-41";
@@ -39,7 +37,7 @@ async function migrationConfigurationsStartMigration() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await migrationConfigurationsStartMigration();
 }
 

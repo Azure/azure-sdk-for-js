@@ -1,3 +1,5 @@
+<!-- dev-tool snippets ignore -->
+
 # Troubleshoot Event Hubs issues
 
 This troubleshooting guide covers failure investigation techniques, common errors for the credential types in the Azure Event Hubs JavaScript client library, and mitigation steps to resolve these errors.

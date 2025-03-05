@@ -8,9 +8,7 @@
 import type { NameAvailabilityParameters } from "@azure/arm-hdinsightcontainers";
 import { HDInsightContainersManagementClient } from "@azure/arm-hdinsightcontainers";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Check the availability of the resource name.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Check the availability of the resource name.
  * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/HDInsightOnAks/preview/2024-05-01-preview/examples/LocationsNameAvailability.json
  */
-async function locationsNameAvailability() {
+async function locationsNameAvailability(): Promise<void> {
   const subscriptionId =
     process.env["HDINSIGHT_SUBSCRIPTION_ID"] || "10e32bab-26da-4cc4-a441-52b318f824e6";
   const location = "southeastasia";
@@ -32,7 +30,7 @@ async function locationsNameAvailability() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await locationsNameAvailability();
 }
 

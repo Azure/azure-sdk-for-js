@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Queries policy events for the resource group level policy assignment.
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2024-10-01/examples/PolicyEvents_QueryResourceGroupLevelPolicyAssignmentScope.json
  */
-async function queryAtResourceGroupLevelPolicyAssignmentScope() {
+async function queryAtResourceGroupLevelPolicyAssignmentScope(): Promise<void> {
   const policyEventsResource = "default";
   const subscriptionId = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
   const resourceGroupName =
@@ -47,7 +47,7 @@ async function queryAtResourceGroupLevelPolicyAssignmentScope() {
  * @summary Queries policy events for the resource group level policy assignment.
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2024-10-01/examples/PolicyEvents_QueryResourceGroupLevelPolicyAssignmentScopeNextLink.json
  */
-async function queryAtResourceGroupLevelPolicyAssignmentScopeWithNextLink() {
+async function queryAtResourceGroupLevelPolicyAssignmentScopeWithNextLink(): Promise<void> {
   const policyEventsResource = "default";
   const subscriptionId = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
   const resourceGroupName =
@@ -71,7 +71,7 @@ async function queryAtResourceGroupLevelPolicyAssignmentScopeWithNextLink() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   queryAtResourceGroupLevelPolicyAssignmentScope();
   queryAtResourceGroupLevelPolicyAssignmentScopeWithNextLink();
 }

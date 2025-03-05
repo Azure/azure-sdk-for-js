@@ -8,9 +8,7 @@
 import type { Cache, CachesUpdateOptionalParams } from "@azure/arm-storagecache";
 import { StorageCacheManagementClient } from "@azure/arm-storagecache";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Update a cache instance.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Update a cache instance.
  * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2024-03-01/examples/Caches_Update.json
  */
-async function cachesUpdate() {
+async function cachesUpdate(): Promise<void> {
   const subscriptionId =
     process.env["STORAGECACHE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = process.env["STORAGECACHE_RESOURCE_GROUP"] || "scgroup";
@@ -110,7 +108,7 @@ async function cachesUpdate() {
  * @summary Update a cache instance.
  * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2024-03-01/examples/Caches_Update_ldap_only.json
  */
-async function cachesUpdateLdapOnly() {
+async function cachesUpdateLdapOnly(): Promise<void> {
   const subscriptionId =
     process.env["STORAGECACHE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = process.env["STORAGECACHE_RESOURCE_GROUP"] || "scgroup";
@@ -198,7 +196,7 @@ async function cachesUpdateLdapOnly() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await cachesUpdate();
   await cachesUpdateLdapOnly();
 }

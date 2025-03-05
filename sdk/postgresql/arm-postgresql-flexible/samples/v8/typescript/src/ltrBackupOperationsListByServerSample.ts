@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Gets the result of the give long term retention backup operations for the flexible server.
  * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2024-08-01/examples/LongTermRetentionOperationListByServer.json
  */
-async function sampleListOfLongTernRetentionOperationsByFlexibleServer() {
+async function sampleListOfLongTernRetentionOperationsByFlexibleServer(): Promise<void> {
   const subscriptionId =
     process.env["POSTGRESQL_SUBSCRIPTION_ID"] ||
     "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -37,7 +37,7 @@ async function sampleListOfLongTernRetentionOperationsByFlexibleServer() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   sampleListOfLongTernRetentionOperationsByFlexibleServer();
 }
 

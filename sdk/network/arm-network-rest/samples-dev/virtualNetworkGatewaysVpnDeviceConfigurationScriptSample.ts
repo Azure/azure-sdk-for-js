@@ -11,7 +11,7 @@ import "dotenv/config";
  * @summary Gets a xml format representation for vpn device configuration script.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/VirtualNetworkGatewayVpnDeviceConfigurationScript.json
  */
-async function getVpnDeviceConfigurationScript() {
+async function getVpnDeviceConfigurationScript(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

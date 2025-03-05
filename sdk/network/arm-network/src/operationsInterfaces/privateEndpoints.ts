@@ -17,7 +17,7 @@ import {
   PrivateEndpointsGetResponse,
   PrivateEndpointsCreateOrUpdateOptionalParams,
   PrivateEndpointsCreateOrUpdateResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a PrivateEndpoints. */

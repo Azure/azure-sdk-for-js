@@ -11,7 +11,7 @@ import "dotenv/config";
  * @summary Lists IKE Security Associations for the virtual network gateway connection in the specified resource group.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/VirtualNetworkGatewayConnectionGetIkeSas.json
  */
-async function getVirtualNetworkGatewayConnectionIkeSa() {
+async function getVirtualNetworkGatewayConnectionIkeSa(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

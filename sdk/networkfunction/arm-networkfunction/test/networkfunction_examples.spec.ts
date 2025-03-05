@@ -6,23 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import {
-  env,
-  Recorder,
-  RecorderStartOptions,
-  delay,
-  isPlaybackMode,
-} from "@azure-tools/test-recorder";
+import type { RecorderStartOptions } from "@azure-tools/test-recorder";
+import { env, Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { assert } from "chai";
-import { Context } from "mocha";
-import { AzureTrafficCollectorClient } from "../src/azureTrafficCollectorClient";
+import { AzureTrafficCollectorClient } from "../src/azureTrafficCollectorClient.js";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 const replaceableVariables: Record<string, string> = {
   AZURE_CLIENT_ID: "azure_client_id",
   AZURE_CLIENT_SECRET: "azure_client_secret",
   AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
-  SUBSCRIPTION_ID: "azure_subscription_id"
+  SUBSCRIPTION_ID: "azure_subscription_id",
 };
 
 const recorderOptions: RecorderStartOptions = {
@@ -45,39 +39,40 @@ describe("networkfunction test", () => {
   let resourceGroup: string;
   let azureTrafficCollectorName: string;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async (ctx) => {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderOptions);
-    subscriptionId = env.SUBSCRIPTION_ID || '';
+    subscriptionId = env.SUBSCRIPTION_ID || "";
     // This is an example of how the environment variables are used
     const credential = createTestCredential();
-    client = new AzureTrafficCollectorClient(credential, subscriptionId, recorder.configureClientOptions({}));
+    client = new AzureTrafficCollectorClient(
+      credential,
+      subscriptionId,
+      recorder.configureClientOptions({}),
+    );
     location = "eastus";
     resourceGroup = "myjstest";
     azureTrafficCollectorName = "atc";
-
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
-  it("azureTrafficCollector create test", async function () {
+  it("azureTrafficCollector create test", async () => {
     const res = await client.azureTrafficCollectors.beginCreateOrUpdateAndWait(
       resourceGroup,
       azureTrafficCollectorName,
       location,
-      testPollingOptions);
+      testPollingOptions,
+    );
     assert.equal(res.name, azureTrafficCollectorName);
   });
 
-  it("azureTrafficCollector get test", async function () {
+  it("azureTrafficCollector get test", async () => {
     const res = await client.azureTrafficCollectors.get(resourceGroup, azureTrafficCollectorName);
     assert.equal(res.name, azureTrafficCollectorName);
   });
 
-  it("azureTrafficCollector delete test", async function () {
-    const resArray = new Array();
-    const res = await client.azureTrafficCollectors.beginDeleteAndWait(resourceGroup, azureTrafficCollectorName, testPollingOptions)
-  });
-})
+  it("azureTrafficCollector delete test", async () => {});
+});

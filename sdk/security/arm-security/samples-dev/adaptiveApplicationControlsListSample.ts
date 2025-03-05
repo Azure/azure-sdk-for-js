@@ -8,9 +8,7 @@
 import type { AdaptiveApplicationControlsListOptionalParams } from "@azure/arm-security";
 import { SecurityCenter } from "@azure/arm-security";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets a list of application control machine groups for the subscription.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Gets a list of application control machine groups for the subscription.
  * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/stable/2020-01-01/examples/ApplicationWhitelistings/GetAdaptiveApplicationControlsSubscription_example.json
  */
-async function getsAListOfApplicationControlGroupsOfMachinesForTheSubscription() {
+async function getsAListOfApplicationControlGroupsOfMachinesForTheSubscription(): Promise<void> {
   const subscriptionId =
     process.env["SECURITY_SUBSCRIPTION_ID"] || "20ff7fc3-e762-44dd-bd96-b71116dcdc23";
   const includePathRecommendations = true;
@@ -33,7 +31,7 @@ async function getsAListOfApplicationControlGroupsOfMachinesForTheSubscription()
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await getsAListOfApplicationControlGroupsOfMachinesForTheSubscription();
 }
 

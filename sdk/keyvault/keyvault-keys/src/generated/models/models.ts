@@ -49,15 +49,15 @@ export enum KnownJsonWebKeyType {
   /** Elliptic Curve. */
   EC = "EC",
   /** Elliptic Curve with a private key which is stored in the HSM. */
-  EC_HSM = "EC-HSM",
+  ECHSM = "EC-HSM",
   /** RSA (https://tools.ietf.org/html/rfc3447) */
   RSA = "RSA",
   /** RSA with a private key which is stored in the HSM. */
-  RSA_HSM = "RSA-HSM",
+  RSAHSM = "RSA-HSM",
   /** Octet sequence (used to represent symmetric keys) */
-  oct = "oct",
+  Oct = "oct",
   /** Octet sequence (used to represent symmetric keys) which is stored the HSM. */
-  oct_HSM = "oct-HSM",
+  OctHSM = "oct-HSM",
 }
 
 /**
@@ -130,6 +130,8 @@ export interface KeyAttributes {
   exportable?: boolean;
   /** The underlying HSM Platform. */
   readonly hsmPlatform?: string;
+  /** The key or key version attestation information. */
+  attestation?: KeyAttestation;
 }
 
 export function keyAttributesSerializer(item: KeyAttributes): any {
@@ -142,6 +144,9 @@ export function keyAttributesSerializer(item: KeyAttributes): any {
       ? item["expires"]
       : (item["expires"].getTime() / 1000) | 0,
     exportable: item["exportable"],
+    attestation: !item["attestation"]
+      ? item["attestation"]
+      : keyAttestationSerializer(item["attestation"]),
   };
 }
 
@@ -160,6 +165,9 @@ export function keyAttributesDeserializer(item: any): KeyAttributes {
     recoveryLevel: item["recoveryLevel"],
     exportable: item["exportable"],
     hsmPlatform: item["hsmPlatform"],
+    attestation: !item["attestation"]
+      ? item["attestation"]
+      : keyAttestationDeserializer(item["attestation"]),
   };
 }
 
@@ -196,6 +204,54 @@ export enum KnownDeletionRecoveryLevel {
  */
 export type DeletionRecoveryLevel = string;
 
+/** The key attestation information. */
+export interface KeyAttestation {
+  /** A base64url-encoded string containing certificates in PEM format, used for attestation validation. */
+  certificatePemFile?: Uint8Array;
+  /** The attestation blob bytes encoded as base64url string corresponding to a private key. */
+  privateKeyAttestation?: Uint8Array;
+  /** The attestation blob bytes encoded as base64url string corresponding to a public key in case of asymmetric key. */
+  publicKeyAttestation?: Uint8Array;
+  /** The version of the attestation. */
+  version?: string;
+}
+
+export function keyAttestationSerializer(item: KeyAttestation): any {
+  return {
+    certificatePemFile: !item["certificatePemFile"]
+      ? item["certificatePemFile"]
+      : uint8ArrayToString(item["certificatePemFile"], "base64url"),
+    privateKeyAttestation: !item["privateKeyAttestation"]
+      ? item["privateKeyAttestation"]
+      : uint8ArrayToString(item["privateKeyAttestation"], "base64url"),
+    publicKeyAttestation: !item["publicKeyAttestation"]
+      ? item["publicKeyAttestation"]
+      : uint8ArrayToString(item["publicKeyAttestation"], "base64url"),
+    version: item["version"],
+  };
+}
+
+export function keyAttestationDeserializer(item: any): KeyAttestation {
+  return {
+    certificatePemFile: !item["certificatePemFile"]
+      ? item["certificatePemFile"]
+      : typeof item["certificatePemFile"] === "string"
+        ? stringToUint8Array(item["certificatePemFile"], "base64url")
+        : item["certificatePemFile"],
+    privateKeyAttestation: !item["privateKeyAttestation"]
+      ? item["privateKeyAttestation"]
+      : typeof item["privateKeyAttestation"] === "string"
+        ? stringToUint8Array(item["privateKeyAttestation"], "base64url")
+        : item["privateKeyAttestation"],
+    publicKeyAttestation: !item["publicKeyAttestation"]
+      ? item["publicKeyAttestation"]
+      : typeof item["publicKeyAttestation"] === "string"
+        ? stringToUint8Array(item["publicKeyAttestation"], "base64url")
+        : item["publicKeyAttestation"],
+    version: item["version"],
+  };
+}
+
 /** Elliptic curve name. For valid values, see JsonWebKeyCurveName. */
 export enum KnownJsonWebKeyCurveName {
   /** The NIST P-256 elliptic curve, AKA SECG curve SECP256R1. */
@@ -205,7 +261,7 @@ export enum KnownJsonWebKeyCurveName {
   /** The NIST P-521 elliptic curve, AKA SECG curve SECP521R1. */
   P521 = "P-521",
   /** The SECG SECP256K1 elliptic curve. */
-  P256_K = "P-256K",
+  P256K = "P-256K",
 }
 
 /**
@@ -424,29 +480,47 @@ export interface KeyVaultError {
 
 export function keyVaultErrorDeserializer(item: any): KeyVaultError {
   return {
-    error: !item["error"] ? item["error"] : errorDeserializer(item["error"]),
+    error: !item["error"]
+      ? item["error"]
+      : _keyVaultErrorErrorDeserializer(item["error"]),
   };
 }
 
-/** The key vault server error. */
-export interface ErrorModel {
+/** Alias for ErrorModel */
+export type ErrorModel = {
+  code?: string;
+  message?: string;
+  innerError?: ErrorModel_1;
+} | null;
+
+/** model interface _KeyVaultErrorError */
+export interface _KeyVaultErrorError {
   /** The error code. */
   readonly code?: string;
   /** The error message. */
   readonly message?: string;
   /** The key vault server error. */
-  readonly innerError?: ErrorModel;
+  readonly innerError?: ErrorModel_1;
 }
 
-export function errorDeserializer(item: any): ErrorModel {
+export function _keyVaultErrorErrorDeserializer(
+  item: any,
+): _KeyVaultErrorError {
   return {
     code: item["code"],
     message: item["message"],
     innerError: !item["innererror"]
       ? item["innererror"]
-      : errorDeserializer(item["innererror"]),
+      : _keyVaultErrorErrorDeserializer(item["innererror"]),
   };
 }
+
+/** Alias for ErrorModel */
+export type ErrorModel_1 = {
+  code?: string;
+  message?: string;
+  innerError?: ErrorModel_1;
+} | null;
 
 /** The key import parameters. */
 export interface KeyImportParameters {
@@ -652,40 +726,40 @@ export function keyOperationsParametersSerializer(
 
 /** An algorithm used for encryption and decryption. */
 export enum KnownJsonWebKeyEncryptionAlgorithm {
-  /** RSAES using Optimal Asymmetric Encryption Padding (OAEP), as described in https://tools.ietf.org/html/rfc3447, with the default parameters specified by RFC 3447 in Section A.2.1. Those default parameters are using a hash function of SHA-1 and a mask generation function of MGF1 with SHA-1. */
-  RSA_OAEP = "RSA-OAEP",
+  /** [Not recommended] RSAES using Optimal Asymmetric Encryption Padding (OAEP), as described in https://tools.ietf.org/html/rfc3447, with the default parameters specified by RFC 3447 in Section A.2.1. Those default parameters are using a hash function of SHA-1 and a mask generation function of MGF1 with SHA-1. Microsoft recommends using RSA_OAEP_256 or stronger algorithms for enhanced security. Microsoft does *not* recommend RSA_OAEP, which is included solely for backwards compatibility. RSA_OAEP utilizes SHA1, which has known collision problems. */
+  RSAOaep = "RSA-OAEP",
   /** RSAES using Optimal Asymmetric Encryption Padding with a hash function of SHA-256 and a mask generation function of MGF1 with SHA-256. */
-  RSA_OAEP256 = "RSA-OAEP-256",
-  /** RSAES-PKCS1-V1_5 key encryption, as described in https://tools.ietf.org/html/rfc3447. */
-  RSA1_5 = "RSA1_5",
+  RSAOaep256 = "RSA-OAEP-256",
+  /** [Not recommended] RSAES-PKCS1-V1_5 key encryption, as described in https://tools.ietf.org/html/rfc3447. Microsoft recommends using RSA_OAEP_256 or stronger algorithms for enhanced security. Microsoft does *not* recommend RSA_1_5, which is included solely for backwards compatibility. Cryptographic standards no longer consider RSA with the PKCS#1 v1.5 padding scheme secure for encryption. */
+  RSA15 = "RSA1_5",
   /** 128-bit AES-GCM. */
-  A128_GCM = "A128GCM",
+  A128GCM = "A128GCM",
   /** 192-bit AES-GCM. */
-  A192_GCM = "A192GCM",
+  A192GCM = "A192GCM",
   /** 256-bit AES-GCM. */
-  A256_GCM = "A256GCM",
+  A256GCM = "A256GCM",
   /** 128-bit AES key wrap. */
-  A128_KW = "A128KW",
+  A128KW = "A128KW",
   /** 192-bit AES key wrap. */
-  A192_KW = "A192KW",
+  A192KW = "A192KW",
   /** 256-bit AES key wrap. */
-  A256_KW = "A256KW",
+  A256KW = "A256KW",
   /** 128-bit AES-CBC. */
-  A128_CBC = "A128CBC",
+  A128CBC = "A128CBC",
   /** 192-bit AES-CBC. */
-  A192_CBC = "A192CBC",
+  A192CBC = "A192CBC",
   /** 256-bit AES-CBC. */
-  A256_CBC = "A256CBC",
+  A256CBC = "A256CBC",
   /** 128-bit AES-CBC with PKCS padding. */
-  A128_CBCPAD = "A128CBCPAD",
+  A128Cbcpad = "A128CBCPAD",
   /** 192-bit AES-CBC with PKCS padding. */
-  A192_CBCPAD = "A192CBCPAD",
+  A192Cbcpad = "A192CBCPAD",
   /** 256-bit AES-CBC with PKCS padding. */
-  A256_CBCPAD = "A256CBCPAD",
+  A256Cbcpad = "A256CBCPAD",
   /** CKM AES key wrap. */
-  CKM_AES_KEY_WRAP = "CKM_AES_KEY_WRAP",
+  CkmAesKeyWrap = "CKM_AES_KEY_WRAP",
   /** CKM AES key wrap with padding. */
-  CKM_AES_KEY_WRAP_PAD = "CKM_AES_KEY_WRAP_PAD",
+  CkmAesKeyWrapPad = "CKM_AES_KEY_WRAP_PAD",
 }
 
 /**
@@ -693,9 +767,9 @@ export enum KnownJsonWebKeyEncryptionAlgorithm {
  * {@link KnownJsonWebKeyEncryptionAlgorithm} can be used interchangeably with JsonWebKeyEncryptionAlgorithm,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **RSA-OAEP**: RSAES using Optimal Asymmetric Encryption Padding (OAEP), as described in https:\//tools.ietf.org\/html\/rfc3447, with the default parameters specified by RFC 3447 in Section A.2.1. Those default parameters are using a hash function of SHA-1 and a mask generation function of MGF1 with SHA-1. \
+ * **RSA-OAEP**: [Not recommended] RSAES using Optimal Asymmetric Encryption Padding (OAEP), as described in https:\//tools.ietf.org\/html\/rfc3447, with the default parameters specified by RFC 3447 in Section A.2.1. Those default parameters are using a hash function of SHA-1 and a mask generation function of MGF1 with SHA-1. Microsoft recommends using RSA_OAEP_256 or stronger algorithms for enhanced security. Microsoft does *not* recommend RSA_OAEP, which is included solely for backwards compatibility. RSA_OAEP utilizes SHA1, which has known collision problems. \
  * **RSA-OAEP-256**: RSAES using Optimal Asymmetric Encryption Padding with a hash function of SHA-256 and a mask generation function of MGF1 with SHA-256. \
- * **RSA1_5**: RSAES-PKCS1-V1_5 key encryption, as described in https:\//tools.ietf.org\/html\/rfc3447. \
+ * **RSA1_5**: [Not recommended] RSAES-PKCS1-V1_5 key encryption, as described in https:\//tools.ietf.org\/html\/rfc3447. Microsoft recommends using RSA_OAEP_256 or stronger algorithms for enhanced security. Microsoft does *not* recommend RSA_1_5, which is included solely for backwards compatibility. Cryptographic standards no longer consider RSA with the PKCS#1 v1.5 padding scheme secure for encryption. \
  * **A128GCM**: 128-bit AES-GCM. \
  * **A192GCM**: 192-bit AES-GCM. \
  * **A256GCM**: 256-bit AES-GCM. \
@@ -782,8 +856,14 @@ export enum KnownJsonWebKeySignatureAlgorithm {
   RS384 = "RS384",
   /** RSASSA-PKCS1-v1_5 using SHA-512, as described in https://tools.ietf.org/html/rfc7518 */
   RS512 = "RS512",
+  /** HMAC using SHA-256, as described in  https://tools.ietf.org/html/rfc7518 */
+  HS256 = "HS256",
+  /** HMAC using SHA-384, as described in https://tools.ietf.org/html/rfc7518 */
+  HS384 = "HS384",
+  /** HMAC using SHA-512, as described in https://tools.ietf.org/html/rfc7518 */
+  HS512 = "HS512",
   /** Reserved */
-  RSNULL = "RSNULL",
+  Rsnull = "RSNULL",
   /** ECDSA using P-256 and SHA-256, as described in https://tools.ietf.org/html/rfc7518. */
   ES256 = "ES256",
   /** ECDSA using P-384 and SHA-384, as described in https://tools.ietf.org/html/rfc7518 */
@@ -791,7 +871,7 @@ export enum KnownJsonWebKeySignatureAlgorithm {
   /** ECDSA using P-521 and SHA-512, as described in https://tools.ietf.org/html/rfc7518 */
   ES512 = "ES512",
   /** ECDSA using P-256K and SHA-256, as described in https://tools.ietf.org/html/rfc7518 */
-  ES256_K = "ES256K",
+  ES256K = "ES256K",
 }
 
 /**
@@ -805,6 +885,9 @@ export enum KnownJsonWebKeySignatureAlgorithm {
  * **RS256**: RSASSA-PKCS1-v1_5 using SHA-256, as described in https:\//tools.ietf.org\/html\/rfc7518 \
  * **RS384**: RSASSA-PKCS1-v1_5 using SHA-384, as described in https:\//tools.ietf.org\/html\/rfc7518 \
  * **RS512**: RSASSA-PKCS1-v1_5 using SHA-512, as described in https:\//tools.ietf.org\/html\/rfc7518 \
+ * **HS256**: HMAC using SHA-256, as described in  https:\//tools.ietf.org\/html\/rfc7518 \
+ * **HS384**: HMAC using SHA-384, as described in https:\//tools.ietf.org\/html\/rfc7518 \
+ * **HS512**: HMAC using SHA-512, as described in https:\//tools.ietf.org\/html\/rfc7518 \
  * **RSNULL**: Reserved \
  * **ES256**: ECDSA using P-256 and SHA-256, as described in https:\//tools.ietf.org\/html\/rfc7518. \
  * **ES384**: ECDSA using P-384 and SHA-384, as described in https:\//tools.ietf.org\/html\/rfc7518 \
@@ -866,11 +949,11 @@ export function keyReleaseParametersSerializer(
 /** The encryption algorithm to use to protected the exported key material */
 export enum KnownKeyEncryptionAlgorithm {
   /** The CKM_RSA_AES_KEY_WRAP key wrap mechanism. */
-  CKM_RSA_AES_KEY_WRAP = "CKM_RSA_AES_KEY_WRAP",
+  CkmRsaAesKeyWrap = "CKM_RSA_AES_KEY_WRAP",
   /** The RSA_AES_KEY_WRAP_256 key wrap mechanism. */
-  RSA_AES_KEY_WRAP_256 = "RSA_AES_KEY_WRAP_256",
+  RsaAesKeyWrap256 = "RSA_AES_KEY_WRAP_256",
   /** The RSA_AES_KEY_WRAP_384 key wrap mechanism. */
-  RSA_AES_KEY_WRAP_384 = "RSA_AES_KEY_WRAP_384",
+  RsaAesKeyWrap384 = "RSA_AES_KEY_WRAP_384",
 }
 
 /**
@@ -1146,6 +1229,6 @@ export function randomBytesDeserializer(item: any): RandomBytes {
 export enum KnownVersions {
   /** The 7.5 API version. */
   "v7.5" = "7.5",
-  /** The 7.6-preview.1 API version. */
-  "v7.6_preview.1" = "7.6-preview.1",
+  /** The 7.6-preview.2 API version. */
+  "v7.6_preview.2" = "7.6-preview.2",
 }

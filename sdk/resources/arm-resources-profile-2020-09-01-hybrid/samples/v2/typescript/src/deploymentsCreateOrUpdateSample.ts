@@ -13,9 +13,7 @@ import {
   ResourceManagementClient
 } from "@azure/arm-resources-profile-2020-09-01-hybrid";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to You can provide the template and parameters directly in the request or link to JSON files.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary You can provide the template and parameters directly in the request or link to JSON files.
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2019-10-01/examples/PutDeploymentWithOnErrorDeploymentSpecificDeployment.json
  */
-async function createADeploymentThatWillRedeployAnotherDeploymentOnFailure() {
+async function createADeploymentThatWillRedeployAnotherDeploymentOnFailure(): Promise<void> {
   const subscriptionId =
     process.env["RESOURCES_SUBSCRIPTION_ID"] || "{subscriptionId}";
   const resourceGroupName =
@@ -56,7 +54,7 @@ async function createADeploymentThatWillRedeployAnotherDeploymentOnFailure() {
  * @summary You can provide the template and parameters directly in the request or link to JSON files.
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2019-10-01/examples/PutDeploymentWithOnErrorDeploymentLastSuccessful.json
  */
-async function createADeploymentThatWillRedeployTheLastSuccessfulDeploymentOnFailure() {
+async function createADeploymentThatWillRedeployTheLastSuccessfulDeploymentOnFailure(): Promise<void> {
   const subscriptionId =
     process.env["RESOURCES_SUBSCRIPTION_ID"] || "{subscriptionId}";
   const resourceGroupName =
@@ -80,7 +78,7 @@ async function createADeploymentThatWillRedeployTheLastSuccessfulDeploymentOnFai
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createADeploymentThatWillRedeployAnotherDeploymentOnFailure();
   createADeploymentThatWillRedeployTheLastSuccessfulDeploymentOnFailure();
 }

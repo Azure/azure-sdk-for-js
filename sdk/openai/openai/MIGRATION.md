@@ -1,3 +1,5 @@
+<!-- dev-tool snippets ignore -->
+
 # Migrating to `openai`
 
 **Note ⚠️**: This document is a work-in-progress and may change to reflect updates to the package. We value your feedback, please [create an issue](https://github.com/Azure/azure-sdk-for-js/issues/new/choose) to suggest any improvements or report any problems with this guide or with the package itself.
@@ -70,7 +72,7 @@ Migrated code:
 import { AzureOpenAI } from "openai";
 const deployment = "Your Azure OpenAI deployment";
 const apiVersion = "2024-11-01-preview";
-const options = { azureADTokenProvider, deployment, apiVersion }
+const options = { azureADTokenProvider, deployment, apiVersion };
 const client = new AzureOpenAI(options);
 ```
 
@@ -101,7 +103,7 @@ const result = await client.getChatCompletions(deploymentName, messages, { maxTo
 Migrated code:
 
 ```typescript
-const result = await client.chat.completions.create({ messages, model: '', max_tokens: 100 });
+const result = await client.chat.completions.create({ messages, model: "", max_tokens: 100 });
 ```
 
 Notice the following:
@@ -124,7 +126,12 @@ const stream = await client.streamChatCompletions(deploymentName, messages, { ma
 Migrated code:
 
 ```typescript
-const stream = await client.chat.completions.create({ model: '', messages, max_tokens: 100, stream: true });
+const stream = await client.chat.completions.create({
+  model: "",
+  messages,
+  max_tokens: 100,
+  stream: true,
+});
 ```
 
 ### Azure On Your Data
@@ -136,16 +143,19 @@ Original code:
 ```typescript
 const azureSearchEndpoint = "Your Azure Search resource endpoint";
 const azureSearchIndexName = "Your Azure Search index name";
-const result = await client.getChatCompletions(deploymentName, messages, { azureExtensionOptions: { 
-    data_sources: [{
-      type: "azure_search",
-      endpoint: azureSearchEndpoint,
-      indexName: azureSearchIndexName,
-      authentication: {
-        type: "system_assigned_managed_identity",
-      }
-    }]
-  } 
+const result = await client.getChatCompletions(deploymentName, messages, {
+  azureExtensionOptions: {
+    data_sources: [
+      {
+        type: "azure_search",
+        endpoint: azureSearchEndpoint,
+        indexName: azureSearchIndexName,
+        authentication: {
+          type: "system_assigned_managed_identity",
+        },
+      },
+    ],
+  },
 });
 ```
 
@@ -157,18 +167,20 @@ import "@azure/openai/types";
 const azureSearchEndpoint = "Your Azure Search resource endpoint";
 const azureSearchIndexName = "Your Azure Search index name";
 const result = await client.chat.completions.create({
-  model: '',
+  model: "",
   messages,
-  data_sources: [{
+  data_sources: [
+    {
       type: "azure_search",
       parameters: {
         endpoint: azureSearchEndpoint,
         index_name: azureSearchIndexName,
         authentication: {
           type: "system_assigned_managed_identity",
-        }
-      }
-  }]
+        },
+      },
+    },
+  ],
 });
 ```
 
@@ -199,7 +211,7 @@ Migrated code:
 import { createReadStream } from "fs";
 
 const result = await client.audio.transcriptions.create({
-  model: '',
+  model: "",
   file: createReadStream(audioFilePath),
 });
 ```
@@ -231,7 +243,7 @@ Migrated code:
 import { createReadStream } from "fs";
 
 const result = await client.audio.translations.create({
-  model: '',
+  model: "",
   file: createReadStream(audioFilePath),
 });
 ```
@@ -300,23 +312,16 @@ The following example shows how to migrate the `createMessage` method call.
 Original code:
 
 ```typescript
-const threadResponse = await assistantsClient.createMessage(
-  assistantThread.id,
-  role,
-  message
-);
+const threadResponse = await assistantsClient.createMessage(assistantThread.id, role, message);
 ```
 
 Migration code:
 
 ```typescript
-const threadResponse = await assistantsClient.beta.threads.messages.create(
-  assistantThread.id,
-  {
-    role,
-    content: message,
-  }
-);
+const threadResponse = await assistantsClient.beta.threads.messages.create(assistantThread.id, {
+  role,
+  content: message,
+});
 ```
 
 Notice that:
@@ -356,7 +361,7 @@ const runResponse = await assistantsClient.beta.threads.runs.createAndPoll(
   {
     assistant_id: assistantResponse.id,
   },
-  { pollIntervalMs: 500 }
+  { pollIntervalMs: 500 },
 );
 ```
 
@@ -404,7 +409,7 @@ const embeddings = await client.getEmbeddings(deploymentName, input);
 Migrated code:
 
 ```typescript
-const embeddings = await client.embeddings.create({ input, model: '' });
+const embeddings = await client.embeddings.create({ input, model: "" });
 ```
 
 Notice that:
@@ -426,7 +431,7 @@ const results = await client.getImages(deploymentName, prompt, { n, size });
 Migrated code:
 
 ```typescript
-  const results = await client.images.generate({ prompt, model: '', n, size });
+const results = await client.images.generate({ prompt, model: "", n, size });
 ```
 
 Notice that:

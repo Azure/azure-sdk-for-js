@@ -20,7 +20,7 @@ import {
 } from "@azure/arm-workspaces";
 import { DefaultAzureCredential } from "@azure/identity";
 
-async function workspaceCreate() {
+async function workspaceCreate(): Promise<void> {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = "myResourceGroup";
   const workspaceName = "testworkspace";

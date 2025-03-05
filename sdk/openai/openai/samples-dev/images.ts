@@ -23,7 +23,7 @@ const size = "1024x1024";
 // The number of images to generate
 const n = 1;
 
-export async function main() {
+export async function main(): Promise<void> {
   console.log("== Batch Image Generation ==");
 
   const scope = "https://cognitiveservices.azure.com/.default";

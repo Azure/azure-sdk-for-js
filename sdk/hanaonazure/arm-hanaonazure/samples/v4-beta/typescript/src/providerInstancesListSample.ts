@@ -17,7 +17,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Gets a list of provider instances in the specified SAP monitor. The operations returns various properties of each provider instances.
  * x-ms-original-file: specification/hanaonazure/resource-manager/Microsoft.HanaOnAzure/preview/2020-02-07-preview/examples/ProviderInstances_List.json
  */
-async function listAllSapMonitorsInASubscription() {
+async function listAllSapMonitorsInASubscription(): Promise<void> {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = "myResourceGroup";
   const sapMonitorName = "mySapMonitor";

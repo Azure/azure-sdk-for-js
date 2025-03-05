@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PlanUsageHistory, UsageHistoryListOptionalParams } from "../models";
+import { PlanUsageHistory, UsageHistoryListOptionalParams } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a UsageHistory. */

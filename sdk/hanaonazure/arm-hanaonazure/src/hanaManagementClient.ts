@@ -18,13 +18,13 @@ import {
   OperationsImpl,
   SapMonitorsImpl,
   ProviderInstancesImpl
-} from "./operations";
+} from "./operations/index.js";
 import {
   Operations,
   SapMonitors,
   ProviderInstances
-} from "./operationsInterfaces";
-import { HanaManagementClientOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { HanaManagementClientOptionalParams } from "./models/index.js";
 
 export class HanaManagementClient extends coreClient.ServiceClient {
   $host: string;

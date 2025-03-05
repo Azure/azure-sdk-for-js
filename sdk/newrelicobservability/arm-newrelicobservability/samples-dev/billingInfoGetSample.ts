@@ -7,9 +7,7 @@
  */
 import { NewRelicObservability } from "@azure/arm-newrelicobservability";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get marketplace info mapped to the given monitor.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Get marketplace info mapped to the given monitor.
  * x-ms-original-file: specification/newrelic/resource-manager/NewRelic.Observability/stable/2024-01-01/examples/BillingInfo_Get.json
  */
-async function billingInfoGet() {
+async function billingInfoGet(): Promise<void> {
   const subscriptionId =
     process.env["NEWRELICOBSERVABILITY_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const resourceGroupName =
@@ -29,7 +27,7 @@ async function billingInfoGet() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await billingInfoGet();
 }
 

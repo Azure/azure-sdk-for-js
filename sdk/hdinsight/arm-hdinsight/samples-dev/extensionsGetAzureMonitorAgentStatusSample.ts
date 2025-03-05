@@ -7,9 +7,7 @@
  */
 import { HDInsightManagementClient } from "@azure/arm-hdinsight";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets the status of Azure Monitor Agent on the HDInsight cluster.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Gets the status of Azure Monitor Agent on the HDInsight cluster.
  * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2024-08-01-preview/examples/GetLinuxClusterAzureMonitorAgentStatus.json
  */
-async function getAzureMonitorAgentStatus() {
+async function getAzureMonitorAgentStatus(): Promise<void> {
   const subscriptionId = process.env["HDINSIGHT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["HDINSIGHT_RESOURCE_GROUP"] || "rg1";
   const clusterName = "cluster1";
@@ -27,7 +25,7 @@ async function getAzureMonitorAgentStatus() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await getAzureMonitorAgentStatus();
 }
 

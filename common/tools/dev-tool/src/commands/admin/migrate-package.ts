@@ -64,9 +64,10 @@ export const commandInfo = makeCommandInfo(
 
 async function commitChanges(projectFolder: string, message: string): Promise<void> {
   log.info("Committing changes, message: ", message);
-  await run(["git", "add", "."], { cwd: projectFolder });
+  await run(["git", "add", "."], { cwd: projectFolder, captureOutput: true });
   await run(["git", "commit", "--allow-empty", "-m", `Migration: ${message}`], {
     cwd: projectFolder,
+    captureOutput: true,
   });
 }
 
@@ -88,8 +89,12 @@ export default leafCommand(commandInfo, async ({ "package-name": packageName, br
   await applyCodemods(projectFolder);
 
   log.info("Formatting files");
-  await run(["rushx", "format"], { cwd: projectFolder, shell: isWindows() });
-  await commitChanges(projectFolder, "rushx format");
+  await run(["npm", "run", "format"], {
+    cwd: projectFolder,
+    shell: isWindows(),
+    captureOutput: true,
+  });
+  await commitChanges(projectFolder, "npm run format");
 
   log.info(
     "Done. Please run `rush update`, `rush build -t <project-name>`, and run tests to verify the changes.",
@@ -214,11 +219,13 @@ async function fixApiExtractorConfig(apiExtractorJsonPath: string): Promise<void
   }
   const apiExtractorJson = JSON.parse(await readFile(apiExtractorJsonPath, "utf-8"));
 
-  const oldPath = apiExtractorJson.dtsRollup.publicTrimmedFilePath;
-  const projectName = basename(oldPath, ".d.ts");
+  if (apiExtractorJson.dtsRollup.publicTrimmedFilePath) {
+    const oldPath = apiExtractorJson.dtsRollup.publicTrimmedFilePath;
+    const projectName = basename(oldPath, ".d.ts");
+    apiExtractorJson.dtsRollup.publicTrimmedFilePath = `dist/${projectName}.d.ts`;
+  }
 
   apiExtractorJson.mainEntryPointFilePath = "dist/esm/index.d.ts";
-  apiExtractorJson.dtsRollup.publicTrimmedFilePath = `dist/${projectName}.d.ts`;
 
   // TODO: Clean up the betaTrimmedFilePath
   delete apiExtractorJson.dtsRollup.betaTrimmedFilePath;
@@ -228,7 +235,7 @@ async function fixApiExtractorConfig(apiExtractorJsonPath: string): Promise<void
 
 async function cleanupFiles(projectFolder: string): Promise<void> {
   // Remove the old test files
-  const filesToRemove = ["karma.conf.js", "karma.conf.cjs", ".nycrc"];
+  const filesToRemove = ["karma.conf.js", "karma.conf.cjs", ".nycrc", ".mocharc.json"];
   for (const file of filesToRemove) {
     try {
       await unlink(resolve(projectFolder, file));
@@ -448,12 +455,14 @@ async function addNewPackages(packageJson: any, options: { browser: boolean }): 
     packageJson.devDependencies[newPackage] = `^${latestVersion.replace("\n", "")}`;
   }
 
-  // Freeze these packages until we have a chance to update them
-  packageJson.devDependencies["vitest"] = "^3.0.3";
-  packageJson.devDependencies["@vitest/coverage-istanbul"] = "^3.0.3";
+  // add workaround to fix nmet peer dependencies issue
+  packageJson.devDependencies["vitest"] = "^3.0.6";
+  packageJson.devDependencies["@vitest/coverage-istanbul"] = "^3.0.6";
   if (options.browser) {
-    packageJson.devDependencies["@vitest/browser"] = "^3.0.3";
+    packageJson.devDependencies["@vitest/browser"] = "^3.0.6";
   }
+
+  // Freeze these packages until we have a chance to update them
   const packagesToUpdate = [
     { package: "@azure-tools/test-credential", version: "2.0.0" },
     { package: "@azure-tools/test-recorder", version: "4.1.0" },

@@ -13,9 +13,7 @@ import {
   AzureHSMResourceProvider,
 } from "@azure/arm-hardwaresecuritymodules";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create or Update a dedicated HSM in the specified subscription.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Create or Update a dedicated HSM in the specified subscription.
  * x-ms-original-file: specification/hardwaresecuritymodules/resource-manager/Microsoft.HardwareSecurityModules/preview/2024-06-30-preview/examples/DedicatedHsm_CreateOrUpdate.json
  */
-async function createANewOrUpdateAnExistingDedicatedHsm() {
+async function createANewOrUpdateAnExistingDedicatedHsm(): Promise<void> {
   const subscriptionId =
     process.env["HARDWARESECURITYMODULES_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -59,7 +57,7 @@ async function createANewOrUpdateAnExistingDedicatedHsm() {
  * @summary Create or Update a dedicated HSM in the specified subscription.
  * x-ms-original-file: specification/hardwaresecuritymodules/resource-manager/Microsoft.HardwareSecurityModules/preview/2024-06-30-preview/examples/PaymentHsm_CreateOrUpdate.json
  */
-async function createANewOrUpdateAnExistingPaymentHsm() {
+async function createANewOrUpdateAnExistingPaymentHsm(): Promise<void> {
   const subscriptionId =
     process.env["HARDWARESECURITYMODULES_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -95,7 +93,7 @@ async function createANewOrUpdateAnExistingPaymentHsm() {
  * @summary Create or Update a dedicated HSM in the specified subscription.
  * x-ms-original-file: specification/hardwaresecuritymodules/resource-manager/Microsoft.HardwareSecurityModules/preview/2024-06-30-preview/examples/PaymentHsm_CreateOrUpdate_WithManagementProfile.json
  */
-async function createANewOrUpdateAnExistingPaymentHsmWithManagementProfile() {
+async function createANewOrUpdateAnExistingPaymentHsmWithManagementProfile(): Promise<void> {
   const subscriptionId =
     process.env["HARDWARESECURITYMODULES_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -132,7 +130,7 @@ async function createANewOrUpdateAnExistingPaymentHsmWithManagementProfile() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createANewOrUpdateAnExistingDedicatedHsm();
   createANewOrUpdateAnExistingPaymentHsm();
   createANewOrUpdateAnExistingPaymentHsmWithManagementProfile();

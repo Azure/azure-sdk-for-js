@@ -8,9 +8,7 @@
 import type { IotConnectorPatchResource } from "@azure/arm-healthcareapis";
 import { HealthcareApisManagementClient } from "@azure/arm-healthcareapis";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Patch an IoT Connector.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Patch an IoT Connector.
  * x-ms-original-file: specification/healthcareapis/resource-manager/Microsoft.HealthcareApis/stable/2024-03-31/examples/iotconnectors/iotconnector_Patch.json
  */
-async function patchAnIoTConnector() {
+async function patchAnIoTConnector(): Promise<void> {
   const subscriptionId = process.env["HEALTHCAREAPIS_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["HEALTHCAREAPIS_RESOURCE_GROUP"] || "testRG";
   const iotConnectorName = "blue";
@@ -42,7 +40,7 @@ async function patchAnIoTConnector() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await patchAnIoTConnector();
 }
 

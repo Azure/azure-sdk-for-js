@@ -6,20 +6,18 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import {
-  env,
-  Recorder,
-  RecorderStartOptions,
-  isPlaybackMode,
-} from "@azure-tools/test-recorder";
+import type { RecorderStartOptions } from "@azure-tools/test-recorder";
+import { env, Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { EventHubManagementClient } from "../src/eventHubManagementClient.js";
-import { StorageManagementClient, StorageAccountCreateParameters } from "@azure/arm-storage";
-import { NetworkManagementClient, VirtualNetwork } from "@azure/arm-network";
+import type { StorageAccountCreateParameters } from "@azure/arm-storage";
+import { StorageManagementClient } from "@azure/arm-storage";
+import type { VirtualNetwork } from "@azure/arm-network";
+import { NetworkManagementClient } from "@azure/arm-network";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 const replaceableVariables: Record<string, string> = {
-  SUBSCRIPTION_ID: "azure_subscription_id"
+  SUBSCRIPTION_ID: "azure_subscription_id",
 };
 
 const recorderOptions: RecorderStartOptions = {
@@ -51,12 +49,24 @@ describe("Eventhub test", () => {
   beforeEach(async (ctx) => {
     recorder = new Recorder(ctx);
     await recorder.start(recorderOptions);
-    subscriptionId = env.SUBSCRIPTION_ID || '';
+    subscriptionId = env.SUBSCRIPTION_ID || "";
     // This is an example of how the environment variables are used
     const credential = createTestCredential();
-    client = new EventHubManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
-    storage_client = new StorageManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
-    network_client = new NetworkManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
+    client = new EventHubManagementClient(
+      credential,
+      subscriptionId,
+      recorder.configureClientOptions({}),
+    );
+    storage_client = new StorageManagementClient(
+      credential,
+      subscriptionId,
+      recorder.configureClientOptions({}),
+    );
+    network_client = new NetworkManagementClient(
+      credential,
+      subscriptionId,
+      recorder.configureClientOptions({}),
+    );
     location = "eastus";
     resourceGroupName = "myjstest";
     subnetName = "subnetxxx";
@@ -72,19 +82,30 @@ describe("Eventhub test", () => {
 
   // virtualNetworks.beginCreateOrUpdateAndWait
   // subnets.beginCreateOrUpdateAndWait
-  async function createVirtualNetwork() {
+  async function createVirtualNetwork(): Promise<void> {
     const parameter: VirtualNetwork = {
       location: location,
       addressSpace: {
         addressPrefixes: ["10.0.0.0/16"],
       },
     };
-    await network_client.virtualNetworks.beginCreateOrUpdateAndWait(resourceGroupName, virtualNetworkName, parameter, testPollingOptions);
-    await network_client.subnets.beginCreateOrUpdateAndWait(resourceGroupName, virtualNetworkName, subnetName, { addressPrefix: "10.0.0.0/24" }, testPollingOptions);
+    await network_client.virtualNetworks.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      virtualNetworkName,
+      parameter,
+      testPollingOptions,
+    );
+    await network_client.subnets.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      virtualNetworkName,
+      subnetName,
+      { addressPrefix: "10.0.0.0/24" },
+      testPollingOptions,
+    );
   }
 
-  //storageAccounts.beginCreateAndWait
-  async function storageAccounts_beginCreateAndWait() {
+  // storageAccounts.beginCreateAndWait
+  async function storageAccounts_beginCreateAndWait(): Promise<void> {
     const parameter: StorageAccountCreateParameters = {
       sku: {
         name: "Standard_GRS",
@@ -96,12 +117,12 @@ describe("Eventhub test", () => {
       resourceGroupName,
       storageAccountName,
       parameter,
-      testPollingOptions
+      testPollingOptions,
     );
     console.log(storageaccount);
   }
 
-  it("operations list test", async function () {
+  it("operations list test", async () => {
     const resArray = new Array();
     for await (const item of client.operations.list()) {
       resArray.push(item);
@@ -112,56 +133,66 @@ describe("Eventhub test", () => {
   it.skip("namespaces create test", async function () {
     await createVirtualNetwork();
     await storageAccounts_beginCreateAndWait();
-    const res = await client.namespaces.beginCreateOrUpdateAndWait(resourceGroupName, namespaceName, {
-      sku: {
-        name: "Standard",
-        tier: "Standard",
+    const res = await client.namespaces.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      namespaceName,
+      {
+        sku: {
+          name: "Standard",
+          tier: "Standard",
+        },
+        location: location,
+        tags: {
+          tag1: "value1",
+          tag2: "value2",
+        },
       },
-      location: location,
-      tags: {
-        tag1: "value1",
-        tag2: "value2",
-      }
-    }, testPollingOptions);
+      testPollingOptions,
+    );
     assert.equal(res.name, "mynamespacexxx");
   });
 
-  //skip this case as no data plane write permissions
+  // skip this case as no data plane write permissions
   it.skip("eventHubs create test", async function () {
-    const res = await client.eventHubs.createOrUpdate(resourceGroupName, namespaceName, eventhubName, {
-      messageRetentionInDays: 4,
-      partitionCount: 4,
-      status: "Active",
-      captureDescription: {
-        enabled: true,
-        encoding: "Avro",
-        intervalInSeconds: 120,
-        sizeLimitInBytes: 10485763,
-        destination: {
-          name: "EventHubArchive.AzureBlockBlob",
-          storageAccountResourceId:
-            "/subscriptions/" +
-            subscriptionId +
-            "/resourceGroups/" +
-            resourceGroupName +
-            "/providers/Microsoft.Storage/storageAccounts/" +
-            storageAccountName,
-          blobContainer: "container",
-          archiveNameFormat:
-            "{Namespace}/{EventHub}/{PartitionId}/{Year}/{Month}/{Day}/{Hour}/{Minute}/{Second}",
-        }
-      }
-    });
+    const res = await client.eventHubs.createOrUpdate(
+      resourceGroupName,
+      namespaceName,
+      eventhubName,
+      {
+        messageRetentionInDays: 4,
+        partitionCount: 4,
+        status: "Active",
+        captureDescription: {
+          enabled: true,
+          encoding: "Avro",
+          intervalInSeconds: 120,
+          sizeLimitInBytes: 10485763,
+          destination: {
+            name: "EventHubArchive.AzureBlockBlob",
+            storageAccountResourceId:
+              "/subscriptions/" +
+              subscriptionId +
+              "/resourceGroups/" +
+              resourceGroupName +
+              "/providers/Microsoft.Storage/storageAccounts/" +
+              storageAccountName,
+            blobContainer: "container",
+            archiveNameFormat:
+              "{Namespace}/{EventHub}/{PartitionId}/{Year}/{Month}/{Day}/{Hour}/{Minute}/{Second}",
+          },
+        },
+      },
+    );
     assert.equal(res.name, "myeventhubxxx");
   });
 
-  //skip this case as no data plane write permissions
+  // skip this case as no data plane write permissions
   it.skip("eventHubs get test", async function () {
     const res = await client.eventHubs.get(resourceGroupName, namespaceName, eventhubName);
     console.log(res.type, "Microsoft.EventHub/Namespaces/EventHubs");
   });
 
-  //skip this case as no data plane write permissions
+  // skip this case as no data plane write permissions
   it.skip("eventHubs listByNamespace test", async function () {
     const resArray = new Array();
     for await (const item of client.eventHubs.listByNamespace(resourceGroupName, namespaceName)) {
@@ -169,7 +200,7 @@ describe("Eventhub test", () => {
     }
     assert.equal(resArray.length, 1);
   });
-  //skip this case as no data plane write permissions
+  // skip this case as no data plane write permissions
   it.skip("eventHubs delete test", async function () {
     await client.eventHubs.delete(resourceGroupName, namespaceName, eventhubName);
     const resArray = new Array();
@@ -180,7 +211,11 @@ describe("Eventhub test", () => {
   });
 
   it.skip("namespaces delete test", async function () {
-    await client.namespaces.beginDeleteAndWait(resourceGroupName, namespaceName, testPollingOptions);
+    await client.namespaces.beginDeleteAndWait(
+      resourceGroupName,
+      namespaceName,
+      testPollingOptions,
+    );
     const resArray = new Array();
     for await (const item of client.namespaces.listByResourceGroup(resourceGroupName)) {
       resArray.push(item);

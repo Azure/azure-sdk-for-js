@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Deletes an existing Azure Cosmos DB Mongo User Definition.
  * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-12-01-preview/examples/CosmosDBMongoDBUserDefinitionDelete.json
  */
-async function cosmosDbMongoDbuserDefinitionDelete() {
+async function cosmosDbMongoDbuserDefinitionDelete(): Promise<void> {
   const subscriptionId =
     process.env["COSMOSDB_SUBSCRIPTION_ID"] || "mySubscriptionId";
   const mongoUserDefinitionId = "myMongoUserDefinitionId";
@@ -33,7 +33,7 @@ async function cosmosDbMongoDbuserDefinitionDelete() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   cosmosDbMongoDbuserDefinitionDelete();
 }
 

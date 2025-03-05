@@ -8,9 +8,7 @@
 import type { FileImportsListOptionalParams } from "@azure/arm-securityinsight";
 import { SecurityInsights } from "@azure/arm-securityinsight";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets all file imports.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Gets all file imports.
  * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/fileImports/GetFileImports.json
  */
-async function getAllFileImports() {
+async function getAllFileImports(): Promise<void> {
   const subscriptionId =
     process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] || "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
   const resourceGroupName = process.env["SECURITYINSIGHT_RESOURCE_GROUP"] || "myRg";
@@ -35,7 +33,7 @@ async function getAllFileImports() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await getAllFileImports();
 }
 

@@ -11,7 +11,7 @@ import "dotenv/config";
  * @summary List all the ExpressRoutePort resources in the specified subscription.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/ExpressRoutePortList.json
  */
-async function expressRoutePortList() {
+async function expressRoutePortList(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

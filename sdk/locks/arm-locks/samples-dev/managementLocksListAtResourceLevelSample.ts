@@ -14,7 +14,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Gets all the management locks for a resource or any level below resource.
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Authorization/stable/2020-05-01/examples/ManagementLocks_ListAtResourceLevel.json
  */
-async function listManagementLocksAtResourceLevel() {
+async function listManagementLocksAtResourceLevel(): Promise<void> {
   const subscriptionId = "subscriptionId";
   const resourceGroupName = "resourcegroupname";
   const resourceProviderNamespace = "Microsoft.Storage";

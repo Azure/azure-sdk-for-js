@@ -7,9 +7,7 @@
  */
 import { IoTFirmwareDefenseClient } from "@azure/arm-iotfirmwaredefense";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to The operation to delete a firmware analysis workspace.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary The operation to delete a firmware analysis workspace.
  * x-ms-original-file: specification/fist/resource-manager/Microsoft.IoTFirmwareDefense/stable/2024-01-10/examples/Workspaces_Delete_MaximumSet_Gen.json
  */
-async function workspacesDeleteMaximumSetGen() {
+async function workspacesDeleteMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["IOTFIRMWAREDEFENSE_SUBSCRIPTION_ID"] || "5443A01A-5242-4950-AC1A-2DD362180254";
   const resourceGroupName = process.env["IOTFIRMWAREDEFENSE_RESOURCE_GROUP"] || "rgworkspaces";
@@ -34,7 +32,7 @@ async function workspacesDeleteMaximumSetGen() {
  * @summary The operation to delete a firmware analysis workspace.
  * x-ms-original-file: specification/fist/resource-manager/Microsoft.IoTFirmwareDefense/stable/2024-01-10/examples/Workspaces_Delete_MinimumSet_Gen.json
  */
-async function workspacesDeleteMinimumSetGen() {
+async function workspacesDeleteMinimumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["IOTFIRMWAREDEFENSE_SUBSCRIPTION_ID"] || "5443A01A-5242-4950-AC1A-2DD362180254";
   const resourceGroupName = process.env["IOTFIRMWAREDEFENSE_RESOURCE_GROUP"] || "rgworkspaces";
@@ -45,7 +43,7 @@ async function workspacesDeleteMinimumSetGen() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await workspacesDeleteMaximumSetGen();
   await workspacesDeleteMinimumSetGen();
 }

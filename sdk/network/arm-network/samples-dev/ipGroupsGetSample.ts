@@ -7,9 +7,7 @@
  */
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets the specified ipGroups.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Gets the specified ipGroups.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/IpGroupsGet.json
  */
-async function getIPGroups() {
+async function getIPGroups(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subId";
   const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "myResourceGroup";
   const ipGroupsName = "ipGroups1";
@@ -27,7 +25,7 @@ async function getIPGroups() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await getIPGroups();
 }
 

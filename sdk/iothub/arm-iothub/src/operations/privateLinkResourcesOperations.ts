@@ -6,17 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PrivateLinkResourcesOperations } from "../operationsInterfaces";
+import { PrivateLinkResourcesOperations } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { IotHubClient } from "../iotHubClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { IotHubClient } from "../iotHubClient.js";
 import {
   PrivateLinkResourcesListOptionalParams,
   PrivateLinkResourcesListResponse,
   PrivateLinkResourcesGetOptionalParams,
   PrivateLinkResourcesGetResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Class containing PrivateLinkResourcesOperations operations. */
 export class PrivateLinkResourcesOperationsImpl

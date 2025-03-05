@@ -16,7 +16,7 @@ import "dotenv/config";
  * @summary This operation creates or updates a policy definition in the given subscription with the given name.
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Authorization/stable/2021-06-01/examples/createOrUpdatePolicyDefinition.json
  */
-async function createOrUpdateAPolicyDefinition() {
+async function createOrUpdateAPolicyDefinition(): Promise<void> {
   const subscriptionId =
     process.env["POLICY_SUBSCRIPTION_ID"] || "ae640e6b-ba3e-4256-9d62-2993eecfa6f2";
   const policyDefinitionName = "ResourceNaming";
@@ -57,7 +57,7 @@ async function createOrUpdateAPolicyDefinition() {
  * @summary This operation creates or updates a policy definition in the given subscription with the given name.
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Authorization/stable/2021-06-01/examples/createOrUpdatePolicyDefinitionAdvancedParams.json
  */
-async function createOrUpdateAPolicyDefinitionWithAdvancedParameters() {
+async function createOrUpdateAPolicyDefinitionWithAdvancedParameters(): Promise<void> {
   const subscriptionId =
     process.env["POLICY_SUBSCRIPTION_ID"] || "ae640e6b-ba3e-4256-9d62-2993eecfa6f2";
   const policyDefinitionName = "EventHubDiagnosticLogs";
@@ -106,7 +106,7 @@ async function createOrUpdateAPolicyDefinitionWithAdvancedParameters() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await createOrUpdateAPolicyDefinition();
   await createOrUpdateAPolicyDefinitionWithAdvancedParameters();
 }

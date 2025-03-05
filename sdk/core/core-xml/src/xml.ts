@@ -51,6 +51,7 @@ function getParserOptions(options: XmlOptions = {}): {
   attributeNamePrefix: string;
   stopNodes?: string[];
   processEntities: boolean;
+  trimValues: boolean;
 } {
   return {
     ...getCommonOptions(options),
@@ -59,6 +60,7 @@ function getParserOptions(options: XmlOptions = {}): {
     attributeNamePrefix: "",
     stopNodes: options.stopNodes,
     processEntities: true,
+    trimValues: false,
   };
 }
 /**

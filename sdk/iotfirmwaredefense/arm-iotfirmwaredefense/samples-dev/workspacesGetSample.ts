@@ -7,9 +7,7 @@
  */
 import { IoTFirmwareDefenseClient } from "@azure/arm-iotfirmwaredefense";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get firmware analysis workspace.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Get firmware analysis workspace.
  * x-ms-original-file: specification/fist/resource-manager/Microsoft.IoTFirmwareDefense/stable/2024-01-10/examples/Workspaces_Get_MaximumSet_Gen.json
  */
-async function workspacesGetMaximumSetGen() {
+async function workspacesGetMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["IOTFIRMWAREDEFENSE_SUBSCRIPTION_ID"] || "9781B4B5-0922-472A-80F0-B743D0596694";
   const resourceGroupName = process.env["IOTFIRMWAREDEFENSE_RESOURCE_GROUP"] || "rgworkspaces";
@@ -34,7 +32,7 @@ async function workspacesGetMaximumSetGen() {
  * @summary Get firmware analysis workspace.
  * x-ms-original-file: specification/fist/resource-manager/Microsoft.IoTFirmwareDefense/stable/2024-01-10/examples/Workspaces_Get_MinimumSet_Gen.json
  */
-async function workspacesGetMinimumSetGen() {
+async function workspacesGetMinimumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["IOTFIRMWAREDEFENSE_SUBSCRIPTION_ID"] || "9781B4B5-0922-472A-80F0-B743D0596694";
   const resourceGroupName = process.env["IOTFIRMWAREDEFENSE_RESOURCE_GROUP"] || "rgworkspaces";
@@ -45,7 +43,7 @@ async function workspacesGetMinimumSetGen() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await workspacesGetMaximumSetGen();
   await workspacesGetMinimumSetGen();
 }

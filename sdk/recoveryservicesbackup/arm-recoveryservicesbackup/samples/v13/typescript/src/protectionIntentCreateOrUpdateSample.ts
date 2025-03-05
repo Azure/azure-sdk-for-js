@@ -13,9 +13,7 @@ import {
   RecoveryServicesBackupClient,
 } from "@azure/arm-recoveryservicesbackup";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create Intent for Enabling backup of an item. This is a synchronous operation.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Create Intent for Enabling backup of an item. This is a synchronous operation.
  * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/AzureIaasVm/ProtectionIntent_CreateOrUpdate.json
  */
-async function createOrUpdateAzureVMProtectionIntent() {
+async function createOrUpdateAzureVMProtectionIntent(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICESBACKUP_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -53,7 +51,7 @@ async function createOrUpdateAzureVMProtectionIntent() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createOrUpdateAzureVMProtectionIntent();
 }
 

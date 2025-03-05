@@ -16,7 +16,7 @@ import "dotenv/config";
  * @summary Gets all remediations for the subscription.
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2024-10-01/examples/Remediations_ListSubscriptionScope.json
  */
-async function listRemediationsAtSubscriptionScope() {
+async function listRemediationsAtSubscriptionScope(): Promise<void> {
   const subscriptionId =
     process.env["POLICYINSIGHTS_SUBSCRIPTION_ID"] || "35ee058e-5fa0-414c-8145-3ebb8d09b6e2";
   const credential = new DefaultAzureCredential();
@@ -34,7 +34,7 @@ async function listRemediationsAtSubscriptionScope() {
  * @summary Gets all remediations for the subscription.
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2024-10-01/examples/Remediations_ListSubscriptionScope_WithQuery.json
  */
-async function listRemediationsAtSubscriptionScopeWithQueryParameters() {
+async function listRemediationsAtSubscriptionScopeWithQueryParameters(): Promise<void> {
   const subscriptionId =
     process.env["POLICYINSIGHTS_SUBSCRIPTION_ID"] || "35ee058e-5fa0-414c-8145-3ebb8d09b6e2";
   const top = 1;
@@ -53,7 +53,7 @@ async function listRemediationsAtSubscriptionScopeWithQueryParameters() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await listRemediationsAtSubscriptionScope();
   await listRemediationsAtSubscriptionScopeWithQueryParameters();
 }

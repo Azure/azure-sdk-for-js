@@ -8,9 +8,7 @@
 import type { NetworkServiceDesignVersion } from "@azure/arm-hybridnetwork";
 import { HybridNetworkManagementClient } from "@azure/arm-hybridnetwork";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates or updates a network service design version.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Creates or updates a network service design version.
  * x-ms-original-file: specification/hybridnetwork/resource-manager/Microsoft.HybridNetwork/stable/2023-09-01/examples/NetworkServiceDesignVersionCreate.json
  */
-async function createOrUpdateANetworkServiceDesignVersionResource() {
+async function createOrUpdateANetworkServiceDesignVersionResource(): Promise<void> {
   const subscriptionId = process.env["HYBRIDNETWORK_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["HYBRIDNETWORK_RESOURCE_GROUP"] || "rg";
   const publisherName = "TestPublisher";
@@ -66,7 +64,7 @@ async function createOrUpdateANetworkServiceDesignVersionResource() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await createOrUpdateANetworkServiceDesignVersionResource();
 }
 

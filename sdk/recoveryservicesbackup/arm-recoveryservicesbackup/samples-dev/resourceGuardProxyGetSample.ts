@@ -7,9 +7,7 @@
  */
 import { RecoveryServicesBackupClient } from "@azure/arm-recoveryservicesbackup";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Returns ResourceGuardProxy under vault and with the name referenced in request
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Returns ResourceGuardProxy under vault and with the name referenced in request
  * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/ResourceGuardProxyCRUD/GetResourceGuardProxy.json
  */
-async function getResourceGuardProxy() {
+async function getResourceGuardProxy(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICESBACKUP_SUBSCRIPTION_ID"] || "0b352192-dcac-4cc7-992e-a96190ccc68c";
   const vaultName = "sampleVault";
@@ -34,7 +32,7 @@ async function getResourceGuardProxy() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await getResourceGuardProxy();
 }
 

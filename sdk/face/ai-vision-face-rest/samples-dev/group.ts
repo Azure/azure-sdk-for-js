@@ -1,8 +1,9 @@
-import { readFileSync } from "fs";
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+import { readFileSync } from "node:fs";
 import { AzureKeyCredential } from "@azure/core-auth";
-
 import createFaceClient, { isUnexpected } from "@azure-rest/ai-vision-face";
-
 import "dotenv/config";
 
 /**
@@ -11,7 +12,7 @@ import "dotenv/config";
  * @summary Face grouping.
  */
 
-const main = async () => {
+async function main(): Promise<void> {
   const endpoint = process.env["FACE_ENDPOINT"] ?? "<endpoint>";
   const apikey = process.env["FACE_APIKEY"] ?? "<apikey>";
   const credential = new AzureKeyCredential(apikey);
@@ -45,6 +46,6 @@ const main = async () => {
   }
   console.log("Group:");
   console.log(JSON.stringify(groupResponse.body, null, 2));
-};
+}
 
 main().catch(console.error);

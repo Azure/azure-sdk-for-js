@@ -8,9 +8,7 @@
 import type { AccountUpdateParameters } from "@azure/arm-machinelearningexperimentation";
 import { MLTeamAccountManagementClient } from "@azure/arm-machinelearningexperimentation";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Updates a machine learning team account with the specified parameters.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Updates a machine learning team account with the specified parameters.
  * x-ms-original-file: specification/machinelearningexperimentation/resource-manager/Microsoft.MachineLearningExperimentation/preview/2017-05-01-preview/examples/UpdateAccount.json
  */
-async function accountUpdate() {
+async function accountUpdate(): Promise<void> {
   const subscriptionId =
     process.env["MACHINELEARNINGEXPERIMENTATION_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -35,7 +33,7 @@ async function accountUpdate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await accountUpdate();
 }
 

@@ -82,6 +82,10 @@ export class KeyVaultBackupClient {
     constructor(vaultUrl: string, credential: TokenCredential, options?: KeyVaultBackupClientOptions);
     beginBackup(blobStorageUri: string, sasToken: string, options?: KeyVaultBeginBackupOptions): Promise<PollerLike<KeyVaultBackupOperationState, KeyVaultBackupResult>>;
     beginBackup(blobStorageUri: string, options?: KeyVaultBeginBackupOptions): Promise<PollerLike<KeyVaultBackupOperationState, KeyVaultBackupResult>>;
+    beginPreBackup(blobStorageUri: string, sasToken: string, options?: KeyVaultBeginPreBackupOptions): Promise<PollerLike<KeyVaultBackupOperationState, KeyVaultBackupResult>>;
+    beginPreBackup(blobStorageUri: string, options?: KeyVaultBeginPreBackupOptions): Promise<PollerLike<KeyVaultBackupOperationState, KeyVaultBackupResult>>;
+    beginPreRestore(folderUri: string, sasToken: string, options?: KeyVaultBeginPreRestoreOptions): Promise<PollerLike<KeyVaultRestoreOperationState, KeyVaultRestoreResult>>;
+    beginPreRestore(folderUri: string, options?: KeyVaultBeginPreRestoreOptions): Promise<PollerLike<KeyVaultRestoreOperationState, KeyVaultRestoreResult>>;
     beginRestore(folderUri: string, sasToken: string, options?: KeyVaultBeginRestoreOptions): Promise<PollerLike<KeyVaultRestoreOperationState, KeyVaultRestoreResult>>;
     beginRestore(folderUri: string, options?: KeyVaultBeginRestoreOptions): Promise<PollerLike<KeyVaultRestoreOperationState, KeyVaultRestoreResult>>;
     beginSelectiveKeyRestore(keyName: string, folderUri: string, sasToken: string, options?: KeyVaultBeginSelectiveKeyRestoreOptions): Promise<PollerLike<KeyVaultSelectiveKeyRestoreOperationState, KeyVaultSelectiveKeyRestoreResult>>;
@@ -113,6 +117,14 @@ export interface KeyVaultBackupResult {
 
 // @public
 export interface KeyVaultBeginBackupOptions extends KeyVaultBackupPollerOptions {
+}
+
+// @public
+export interface KeyVaultBeginPreBackupOptions extends KeyVaultBackupPollerOptions {
+}
+
+// @public
+export interface KeyVaultBeginPreRestoreOptions extends KeyVaultBackupPollerOptions {
 }
 
 // @public
@@ -245,7 +257,7 @@ export enum KnownKeyVaultRoleScope {
 }
 
 // @public
-export const LATEST_API_VERSION = "7.5";
+export const LATEST_API_VERSION = "7.6-preview.2";
 
 // @public
 export interface ListRoleAssignmentsOptions extends OperationOptions {
@@ -313,7 +325,7 @@ export interface SettingsClientOptions extends ClientOptions {
 }
 
 // @public
-export type SUPPORTED_API_VERSIONS = "7.2" | "7.3" | "7.4" | "7.5";
+export type SUPPORTED_API_VERSIONS = "7.2" | "7.3" | "7.4" | "7.5" | "7.6-preview.2";
 
 // @public
 export interface UpdateSettingOptions extends OperationOptions {

@@ -7,9 +7,7 @@
  */
 import { MLTeamAccountManagementClient } from "@azure/arm-machinelearningexperimentation";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets the properties of the specified machine learning team account.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Gets the properties of the specified machine learning team account.
  * x-ms-original-file: specification/machinelearningexperimentation/resource-manager/Microsoft.MachineLearningExperimentation/preview/2017-05-01-preview/examples/GetAccount.json
  */
-async function accountGet() {
+async function accountGet(): Promise<void> {
   const subscriptionId =
     process.env["MACHINELEARNINGEXPERIMENTATION_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -30,7 +28,7 @@ async function accountGet() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await accountGet();
 }
 

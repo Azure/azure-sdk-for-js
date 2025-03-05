@@ -7,9 +7,7 @@
  */
 import { SearchManagementClient } from "@azure/arm-search";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get a list of all Azure AI Search quota usages across the subscription.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Get a list of all Azure AI Search quota usages across the subscription.
  * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/preview/2024-06-01-preview/examples/GetQuotaUsagesList.json
  */
-async function getQuotaUsagesList() {
+async function getQuotaUsagesList(): Promise<void> {
   const subscriptionId = process.env["SEARCH_SUBSCRIPTION_ID"] || "subid";
   const location = "westus";
   const credential = new DefaultAzureCredential();
@@ -29,7 +27,7 @@ async function getQuotaUsagesList() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await getQuotaUsagesList();
 }
 

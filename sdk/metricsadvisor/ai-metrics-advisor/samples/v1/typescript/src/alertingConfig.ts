@@ -5,14 +5,11 @@
  * @summary This sample demonstrates Alerting Configuration CRUD operations.
  */
 
-// Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
-
+import "dotenv/config";
 import {
   MetricsAdvisorKeyCredential,
   MetricsAdvisorAdministrationClient,
-  AnomalyAlertConfiguration
+  AnomalyAlertConfiguration,
 } from "@azure/ai-metrics-advisor";
 
 main()
@@ -24,7 +21,7 @@ main()
     console.log(err);
   });
 
-export async function main() {
+export async function main(): Promise<void> {
   // You will need to set these environment variables or edit the following values
   const endpoint = process.env["METRICS_ADVISOR_ENDPOINT"] || "<service endpoint>";
   const subscriptionKey = process.env["METRICS_ADVISOR_SUBSCRIPTION_KEY"] || "<subscription key>";
@@ -48,8 +45,8 @@ export async function main() {
 // create a new alerting configuration
 async function createAlertConfig(
   adminClient: MetricsAdvisorAdministrationClient,
-  detectionConfigId: string
-) {
+  detectionConfigId: string,
+): Promise<void> {
   console.log("Creating a new alerting configuration...");
   const alertConfig: Omit<AnomalyAlertConfiguration, "id"> = {
     name: "js alerting config name " + new Date().getTime().toString(),
@@ -58,19 +55,19 @@ async function createAlertConfig(
       {
         detectionConfigurationId: detectionConfigId,
         alertScope: {
-          scopeType: "All"
-        }
+          scopeType: "All",
+        },
       },
       {
         detectionConfigurationId: detectionConfigId,
         alertScope: {
           scopeType: "Dimension",
-          seriesGroupInScope: { city: "Manila", category: "Handmade" }
-        }
-      }
+          seriesGroupInScope: { city: "Manila", category: "Handmade" },
+        },
+      },
     ],
     hookIds: [],
-    description: "alerting config description"
+    description: "alerting config description",
   };
   const result = await adminClient.createAlertConfig(alertConfig);
   console.log(result);
@@ -82,8 +79,8 @@ async function updateAlertConfig(
   adminClient: MetricsAdvisorAdministrationClient,
   alertConfigId: string,
   detectionConfigId: string,
-  hookIds: string[]
-) {
+  hookIds: string[],
+): Promise<void> {
   const patch: Omit<AnomalyAlertConfiguration, "id"> = {
     name: "new Name",
     //description: "new description",
@@ -93,8 +90,8 @@ async function updateAlertConfig(
       {
         detectionConfigurationId: detectionConfigId,
         alertScope: {
-          scopeType: "All"
-        }
+          scopeType: "All",
+        },
       },
       {
         detectionConfigurationId: detectionConfigId,
@@ -102,11 +99,11 @@ async function updateAlertConfig(
           scopeType: "Dimension",
           seriesGroupInScope: {
             city: "Kolkata",
-            category: "Shoes Handbags & Sunglasses"
-          }
-        }
-      }
-    ]
+            category: "Shoes Handbags & Sunglasses",
+          },
+        },
+      },
+    ],
   };
   console.log(`Updating alerting configuration ${detectionConfigId}`);
   const updated = await adminClient.updateAlertConfig(alertConfigId, patch);
@@ -115,16 +112,16 @@ async function updateAlertConfig(
 
 async function deleteAlertConfig(
   adminClient: MetricsAdvisorAdministrationClient,
-  alertConfigId: string
-) {
+  alertConfigId: string,
+): Promise<void> {
   console.log(`Deleting alerting configuration ${alertConfigId}`);
   await adminClient.deleteAlertConfig(alertConfigId);
 }
 
 async function listAlertConfig(
   adminClient: MetricsAdvisorAdministrationClient,
-  detectdionConfigId: string
-) {
+  detectdionConfigId: string,
+): Promise<void> {
   console.log(`Listing alert configurations for detection configuration ${detectdionConfigId}`);
   let i = 1;
   const iterator = adminClient.listAlertConfigs(detectdionConfigId);

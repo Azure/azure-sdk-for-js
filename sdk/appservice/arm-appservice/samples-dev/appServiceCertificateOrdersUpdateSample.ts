@@ -14,7 +14,7 @@ import "dotenv/config";
  * This sample demonstrates how to Description for Create or update a certificate purchase order.
  *
  * @summary Description for Create or update a certificate purchase order.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.CertificateRegistration/stable/2023-12-01/examples/UpdateAppServiceCertificateOrder.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.CertificateRegistration/stable/2024-04-01/examples/UpdateAppServiceCertificateOrder.json
  */
 async function updateCertificateOrder(): Promise<void> {
   const subscriptionId =

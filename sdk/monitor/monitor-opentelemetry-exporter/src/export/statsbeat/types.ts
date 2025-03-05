@@ -55,6 +55,8 @@ export class NetworkStatsbeat {
 
 export const STATSBEAT_LANGUAGE = "node";
 
+export const AZURE_MONITOR_AUTO_ATTACH = "AZURE_MONITOR_AUTO_ATTACH";
+
 export const MAX_STATSBEAT_FAILURES = 3;
 
 export const StatsbeatResourceProvider = {
@@ -64,6 +66,11 @@ export const StatsbeatResourceProvider = {
   vm: "vm",
   unknown: "unknown",
 };
+
+export enum AttachTypeName {
+  INTEGRATED_AUTO = "IntegratedAuto",
+  MANUAL = "Manual",
+}
 
 export enum StatsbeatCounter {
   SUCCESS_COUNT = "Request_Success_Count",

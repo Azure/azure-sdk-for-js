@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { TimeSeriesInsightsClient } from "@azure/arm-timeseriesinsights";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets the event source with the specified name in the specified environment.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Gets the event source with the specified name in the specified environment.
  * x-ms-original-file: specification/timeseriesinsights/resource-manager/Microsoft.TimeSeriesInsights/preview/2021-03-31-preview/examples/EventSourcesGetEventHub.json
  */
-async function getEventHubEventSource() {
+async function getEventHubEventSource(): Promise<void> {
   const subscriptionId =
     process.env["TIMESERIESINSIGHTS_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -37,7 +35,7 @@ async function getEventHubEventSource() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getEventHubEventSource();
 }
 

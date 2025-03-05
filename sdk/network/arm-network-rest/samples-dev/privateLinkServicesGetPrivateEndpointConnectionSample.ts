@@ -11,7 +11,7 @@ import "dotenv/config";
  * @summary Get the specific private end point connection by specific private link service in the resource group.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/PrivateLinkServiceGetPrivateEndpointConnection.json
  */
-async function getPrivateEndPointConnection() {
+async function getPrivateEndPointConnection(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

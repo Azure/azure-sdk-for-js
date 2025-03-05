@@ -15,7 +15,7 @@ import {
   OperationsGetLocationHeaderResultOptionalParams,
   OperationsGetAzureAsyncHeaderResultOptionalParams,
   OperationsGetAzureAsyncHeaderResultResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a Operations. */
 export interface Operations {

@@ -85,7 +85,7 @@ import {
   KustoPoolPrincipalAssignmentsImpl,
   KustoPoolDatabasePrincipalAssignmentsImpl,
   KustoPoolPrivateLinkResourcesOperationsImpl
-} from "./operations";
+} from "./operations/index.js";
 import {
   AzureADOnlyAuthentications,
   Operations,
@@ -162,8 +162,8 @@ import {
   KustoPoolPrincipalAssignments,
   KustoPoolDatabasePrincipalAssignments,
   KustoPoolPrivateLinkResourcesOperations
-} from "./operationsInterfaces";
-import { SynapseManagementClientOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { SynapseManagementClientOptionalParams } from "./models/index.js";
 
 export class SynapseManagementClient extends coreClient.ServiceClient {
   $host: string;

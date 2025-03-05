@@ -8,9 +8,7 @@
 import type { DataConnectionValidation } from "@azure/arm-synapse";
 import { SynapseManagementClient } from "@azure/arm-synapse";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Checks that the data connection parameters are valid.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Checks that the data connection parameters are valid.
  * x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/preview/2021-06-01-preview/examples/KustoPoolDataConnectionValidation.json
  */
-async function kustoPoolDataConnectionValidation() {
+async function kustoPoolDataConnectionValidation(): Promise<void> {
   const subscriptionId =
     process.env["SYNAPSE_SUBSCRIPTION_ID"] || "12345678-1234-1234-1234-123456789098";
   const resourceGroupName = process.env["SYNAPSE_RESOURCE_GROUP"] || "kustorptest";
@@ -41,7 +39,7 @@ async function kustoPoolDataConnectionValidation() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await kustoPoolDataConnectionValidation();
 }
 

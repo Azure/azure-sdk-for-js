@@ -6,14 +6,11 @@
  */
 
 import * as childProcess from "child_process";
-// Load the .env file if it exists
-import * as dotenv from "dotenv";
 import * as fs from "node:fs";
-
 import { CertificateClient } from "@azure/keyvault-certificates";
 import { DefaultAzureCredential } from "@azure/identity";
-
-dotenv.config();
+// Load the .env file if it exists
+import "dotenv/config";
 
 export async function main(): Promise<void> {
   // This sample uses DefaultAzureCredential, which supports a number of authentication mechanisms.

@@ -7,9 +7,7 @@
  */
 import { ApplicationClient } from "@azure/arm-managedapplications";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Deletes the JIT request.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Deletes the JIT request.
  * x-ms-original-file: specification/solutions/resource-manager/Microsoft.Solutions/stable/2021-07-01/examples/deleteJitRequest.json
  */
-async function deleteJitRequest() {
+async function deleteJitRequest(): Promise<void> {
   const subscriptionId = process.env["MANAGEDAPPLICATIONS_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["MANAGEDAPPLICATIONS_RESOURCE_GROUP"] || "rg";
   const jitRequestName = "myJitRequest";
@@ -27,7 +25,7 @@ async function deleteJitRequest() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await deleteJitRequest();
 }
 

@@ -18,7 +18,7 @@ import {
   JobStepsCreateOrUpdateOptionalParams,
   JobStepsCreateOrUpdateResponse,
   JobStepsDeleteOptionalParams,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a JobSteps. */

@@ -40,7 +40,7 @@
     "execute:samples": "echo skipped",
     "extract-api": "dev-tool run vendored rimraf review && dev-tool run extract-api",
     "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
-    "generate:client": "autorest --typescript swagger/README.md && dev-tool admin migrate-source && npm run format",
+    "generate:client": "autorest --typescript swagger/README.md",
     "integration-test": "echo skipped",
     "integration-test:browser": "echo skipped",
     "integration-test:node": "echo skipped",

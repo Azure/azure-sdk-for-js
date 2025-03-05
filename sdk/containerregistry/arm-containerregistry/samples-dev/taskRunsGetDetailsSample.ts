@@ -18,13 +18,22 @@ import "dotenv/config";
  */
 async function taskRunsGetDetails(): Promise<void> {
   const subscriptionId =
-    process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] || "4385cf00-2d3a-425a-832f-f4285b1c9dce";
-  const resourceGroupName = process.env["CONTAINERREGISTRY_RESOURCE_GROUP"] || "myResourceGroup";
+    process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] ||
+    "4385cf00-2d3a-425a-832f-f4285b1c9dce";
+  const resourceGroupName =
+    process.env["CONTAINERREGISTRY_RESOURCE_GROUP"] || "myResourceGroup";
   const registryName = "myRegistry";
   const taskRunName = "myRun";
   const credential = new DefaultAzureCredential();
-  const client = new ContainerRegistryManagementClient(credential, subscriptionId);
-  const result = await client.taskRuns.getDetails(resourceGroupName, registryName, taskRunName);
+  const client = new ContainerRegistryManagementClient(
+    credential,
+    subscriptionId,
+  );
+  const result = await client.taskRuns.getDetails(
+    resourceGroupName,
+    registryName,
+    taskRunName,
+  );
   console.log(result);
 }
 

@@ -8,7 +8,7 @@
   "types": "./dist/commonjs/index.d.ts",
   "scripts": {
     "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
-    "build:autorest": "autorest --typescript --version=3.0.6267 --v3 ./swagger/README.md && dev-tool admin migrate-source && rushx format",
+    "build:autorest": "autorest --typescript --v3 ./swagger/README.md",
     "build:browser": "dev-tool run build-package && dev-tool run bundle",
     "build:clean": "rush update --recheck && rush rebuild && npm run build",
     "build:node": "dev-tool run build-package && dev-tool run bundle",

@@ -33,7 +33,7 @@ import {
   SignalRRestartResponse,
   SignalRListSkusOptionalParams,
   SignalRListSkusResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a SignalR. */

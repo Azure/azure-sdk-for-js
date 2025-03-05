@@ -26,7 +26,7 @@ import {
   VirtualNetworksImpl,
   UsagesImpl,
   VirtualMachinesImpl
-} from "./operations";
+} from "./operations/index.js";
 import {
   Operations,
   DedicatedCloudNodes,
@@ -39,8 +39,8 @@ import {
   VirtualNetworks,
   Usages,
   VirtualMachines
-} from "./operationsInterfaces";
-import { VMwareCloudSimpleOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { VMwareCloudSimpleOptionalParams } from "./models/index.js";
 
 export class VMwareCloudSimple extends coreClient.ServiceClient {
   $host: string;

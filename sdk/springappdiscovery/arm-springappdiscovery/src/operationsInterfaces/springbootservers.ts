@@ -21,7 +21,7 @@ import {
   SpringbootserversPatch,
   SpringbootserversUpdateOptionalParams,
   SpringbootserversUpdateResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Springbootservers. */

@@ -14,7 +14,7 @@ import {
   RecommendedAction,
   DatabaseRecommendedActionsUpdateOptionalParams,
   DatabaseRecommendedActionsUpdateResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a DatabaseRecommendedActions. */
 export interface DatabaseRecommendedActions {

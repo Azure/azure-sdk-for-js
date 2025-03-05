@@ -15,6 +15,7 @@ These sample programs show how to use the JavaScript client libraries for Azure 
 | ------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
 | [basicTracerNode.js][basictracernode] | use opentelemetry tracing to instrument a Node.js application. Basic use of Tracing in Node.js application.                    |
 | [httpSample.js][httpsample]           | demonstrates OpenTelemetry http Instrumentation. It is about how OpenTelemetry will instrument the Node.js native http module. |
+| [logSample.js][logsample]             | use opentelemetry logs in a Node.js application.                                                                               |
 | [metricsSample.js][metricssample]     | Basic use of Metrics in Node.js application.                                                                                   |
 
 ## Prerequisites
@@ -59,8 +60,9 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 
 [basictracernode]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-opentelemetry-exporter/samples/v1-beta/javascript/basicTracerNode.js
 [httpsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-opentelemetry-exporter/samples/v1-beta/javascript/httpSample.js
+[logsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-opentelemetry-exporter/samples/v1-beta/javascript/logSample.js
 [metricssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-opentelemetry-exporter/samples/v1-beta/javascript/metricsSample.js
-[apiref]: https://learn.microsoft.com/javascript/api/@azure/monitor-opentelemetry-exporter
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/monitor-opentelemetry-exporter?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azureapplicationinsightsworkspaceinstance]: https://learn.microsoft.com/azure/azure-monitor/app/app-insights-overview
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/monitor/monitor-opentelemetry-exporter/README.md

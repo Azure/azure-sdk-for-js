@@ -46,5 +46,3 @@ Once you are logged in, the `DefaultAzureCredential` will use the identity of th
   - This can be done from `Role assignment` section of `Access control (IAM)` tab (in the left-side-navbar of your Cognitive Services resource in the Azure portal)<br>_Doing this will allow anyone with your application or user's credentials and/or access token to utilize the endpoint resources._
 
 After configuring your account's permissions and setting up the authenticated environment, you should be able to run the live tests.
-
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Ftextanalytics%2Fai-text-analytics%2Ftest%2FREADME.png)
