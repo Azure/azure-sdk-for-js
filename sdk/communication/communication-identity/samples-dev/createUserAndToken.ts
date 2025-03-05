@@ -19,22 +19,27 @@ export async function main(): Promise<void> {
   console.log("\n== Create User and Token Sample ==\n");
   const client = new CommunicationIdentityClient(connectionString);
   const scopes: TokenScope[] = ["chat"];
+  const externalId = "alice@contoso.com";
 
   // Create user with default token
   console.log("Creating User and Token");
-  const communicationUserToken = await client.createUserAndToken(scopes);
+  const communicationUserToken = await client.createUserAndToken(scopes, { externalId });
   console.log(`Created user with id: ${communicationUserToken.user.communicationUserId}`);
   console.log(`Issued token: ${communicationUserToken.token}`);
   console.log(`Token expires on: ${communicationUserToken.expiresOn}`);
 
   // Create user with token with custom expiration
   console.log("Creating User and Token with custom expiration.");
-  const userAndTokenOptions: CreateUserAndTokenOptions = { tokenExpiresInMinutes: 60 };
+  const userAndTokenOptions: CreateUserAndTokenOptions = { tokenExpiresInMinutes: 60, externalId: externalId };
   const { user, token, expiresOn } = await client.createUserAndToken(scopes, userAndTokenOptions);
 
   console.log(`Created user with id: ${user.communicationUserId}`);
   console.log(`Issued token with custom expiration: ${token}`);
   console.log(`Token expires on: ${expiresOn}`);
+
+  // Get user
+  const userResult = await client.getUser(user);
+  console.log(`Got user with id: ${userResult.id} externalId: ${userResult.externalId} lastTokenIssuedAt: ${userResult.lastTokenIssuedAt}`);
 }
 
 main().catch((error) => {
