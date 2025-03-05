@@ -317,7 +317,8 @@ describe("CallRecording Live Tests", () => {
     await callerCallAutomationClient.getCallRecording().stop(recordingStateResult.recordingId);
   });
 
-  it(
+  //Skipped for now as recording result is not getting generated.
+  it.skip(
     "Creates a call start and stop recording and get record result then hangs up",
     { timeout: 60000 },
     async function (ctx) {
