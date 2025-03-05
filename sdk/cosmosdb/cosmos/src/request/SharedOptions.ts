@@ -49,6 +49,14 @@ export interface SharedOptions {
    */
   priorityLevel?: PriorityLevel;
 
+  /**
+   * Throughput Bucket for a request.
+   * 
+   * <p>Default value is null. In this case the default bucket with 100% RU is used </p>
+   * For more information, visit [Cosmos DB RU Bucketing](https://aka.ms/cosmsodb-bucketing).
+   */
+  throughputBucket?: number;
+
   /** Consistency level required by the client. */
   consistencyLevel?: string;
 
