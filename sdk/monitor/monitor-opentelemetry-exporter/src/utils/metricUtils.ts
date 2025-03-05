@@ -22,6 +22,7 @@ import {
   ENV_AZURE_MONITOR_AUTO_ATTACH,
   ENV_APPLICATIONINSIGHTS_METRICS_TO_LOGANALYTICS_ENABLED,
 } from "../Declarations/Constants.js";
+import { AttachTypeName, AZURE_MONITOR_AUTO_ATTACH } from "../export/statsbeat/types.js";
 
 const breezePerformanceCountersMap = new Map<string, string>([
   [OTelPerformanceCounterNames.PRIVATE_BYTES, BreezePerformanceCounterNames.PRIVATE_BYTES],
@@ -153,4 +154,11 @@ export function isStandardMetric(
   dataPoint: DataPoint<number> | DataPoint<Histogram> | DataPoint<ExponentialHistogram>,
 ): boolean {
   return dataPoint.attributes?.["_MS.IsAutocollected"] === "True";
+}
+
+export function getAttachType(): AttachTypeName {
+  if (process.env[AZURE_MONITOR_AUTO_ATTACH] === "true") {
+    return AttachTypeName.INTEGRATED_AUTO;
+  }
+  return AttachTypeName.MANUAL;
 }
