@@ -35,6 +35,12 @@
 
 - Address React-Native regression after ESM migration [Issue #30065](https://github.com/Azure/azure-sdk-for-js/issues/30065)
 
+## 4.4.0-beta.1 (2024-06-06)
+
+### Features Added
+
+- Exports a constant for the geographic replication feature.
+
 ## 4.3.0 (2024-05-20)
 
 ### Breaking Changes

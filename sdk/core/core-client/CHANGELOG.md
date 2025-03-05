@@ -4,7 +4,7 @@
 
 ### Other Changes
 
-- Improve RestError code and message in some scenario [PR #33151](https://github.com/Azure/azure-sdk-for-js/pull/33151)
+- Correctly set the code and message fields in `RestError` in a corner case [PR #33151](https://github.com/Azure/azure-sdk-for-js/pull/33151)
 
 ## 1.9.2 (2024-04-09)
 
