@@ -140,6 +140,16 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
           );
         }
       }
+
+      // If distinct then add that to the pipeline
+      const distinctType = partitionedQueryExecutionInfo.queryInfo.distinctType;
+      if (distinctType === "Ordered") {
+        this.endpoint = new OrderedDistinctEndpointComponent(this.endpoint);
+      }
+      if (distinctType === "Unordered") {
+        this.endpoint = new UnorderedDistinctEndpointComponent(this.endpoint);
+      }
+
       // If top then add that to the pipeline. TOP N is effectively OFFSET 0 LIMIT N
       const top = partitionedQueryExecutionInfo.queryInfo.top;
       if (typeof top === "number") {
@@ -151,15 +161,6 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
       const offset = partitionedQueryExecutionInfo.queryInfo.offset;
       if (typeof limit === "number" && typeof offset === "number") {
         this.endpoint = new OffsetLimitEndpointComponent(this.endpoint, offset, limit);
-      }
-
-      // If distinct then add that to the pipeline
-      const distinctType = partitionedQueryExecutionInfo.queryInfo.distinctType;
-      if (distinctType === "Ordered") {
-        this.endpoint = new OrderedDistinctEndpointComponent(this.endpoint);
-      }
-      if (distinctType === "Unordered") {
-        this.endpoint = new UnorderedDistinctEndpointComponent(this.endpoint);
       }
     }
     this.fetchBuffer = [];
