@@ -83,7 +83,7 @@ async function receiveMessages(sbClient) {
 
   console.log(`\nStarting receiver immediately at ${new Date(Date.now())}`);
 
-  queueReceiver.subscribe({
+  await queueReceiver.subscribe({
     processMessage,
     processError,
   });
@@ -96,7 +96,7 @@ async function receiveMessages(sbClient) {
 
   queueReceiver = sbClient.createReceiver(queueName);
 
-  queueReceiver.subscribe({
+  await queueReceiver.subscribe({
     processMessage,
     processError,
   });
