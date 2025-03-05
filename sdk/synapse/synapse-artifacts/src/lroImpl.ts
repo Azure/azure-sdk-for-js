@@ -6,8 +6,11 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import type { AbortSignalLike } from "@azure/abort-controller";
-import type { LongRunningOperation, LroResponse } from "@azure/core-lro";
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+import { AbortSignalLike } from "@azure/abort-controller";
+import { LongRunningOperation, LroResponse } from "@azure/core-lro";
 
 export function createLroSpec<T>(inputs: {
   sendOperationFn: (args: any, spec: any) => Promise<LroResponse<T>>;
@@ -23,7 +26,10 @@ export function createLroSpec<T>(inputs: {
     requestMethod: spec.httpMethod,
     requestPath: spec.path!,
     sendInitialRequest: () => sendOperationFn(args, spec),
-    sendPollRequest: (path: string, options?: { abortSignal?: AbortSignalLike }) => {
+    sendPollRequest: (
+      path: string,
+      options?: { abortSignal?: AbortSignalLike },
+    ) => {
       const { requestBody, ...restSpec } = spec;
       return sendOperationFn(args, {
         ...restSpec,

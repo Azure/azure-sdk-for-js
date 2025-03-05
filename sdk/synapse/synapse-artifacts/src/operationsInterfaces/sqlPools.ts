@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import type {
+import {
   SqlPoolsListOptionalParams,
   SqlPoolsListResponse,
   SqlPoolsGetOptionalParams,
@@ -17,13 +17,16 @@ import type {
 export interface SqlPools {
   /**
    * List Sql Pools
-   * @param options - The options parameters.
+   * @param options The options parameters.
    */
   list(options?: SqlPoolsListOptionalParams): Promise<SqlPoolsListResponse>;
   /**
    * Get Sql Pool
-   * @param sqlPoolName - The Sql Pool name
-   * @param options - The options parameters.
+   * @param sqlPoolName The Sql Pool name
+   * @param options The options parameters.
    */
-  get(sqlPoolName: string, options?: SqlPoolsGetOptionalParams): Promise<SqlPoolsGetResponse>;
+  get(
+    sqlPoolName: string,
+    options?: SqlPoolsGetOptionalParams,
+  ): Promise<SqlPoolsGetResponse>;
 }
