@@ -468,6 +468,11 @@ export interface TlsSettings {
    * Encrypted PFX will be decrypted with object.passphrase if provided, or options.passphrase if it is not.
    */
   pfx?: string | Buffer | Array<string | Buffer | PxfObject> | undefined;
+
+  /**
+   * the value of Server Name Indication extension to be sent to the server. Use empty string '' to disable sending the extension. Default: host name of the target server, unless the target server is specified using an IP address, in which case the default is '' (no extension).
+   */
+  servername?: string;
 }
 
 /**
