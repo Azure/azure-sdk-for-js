@@ -577,7 +577,7 @@ describe("Queries", function (this: Suite) {
     let container: Container;
     before(async function () {
       const containerDefinition = {
-        id: "cont1",
+        id: "conti1",
         partitionKey: { paths: ["/name"], kind: PartitionKeyKind.Hash },
         throughput: 13000,
       };
