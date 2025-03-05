@@ -6,7 +6,7 @@
 
 ### Features Added
 
-- Add `audience` in `AppConfigurationClientOptions` and `KnownAppConfigurationAudience` to support specifying the token credential's Microsoft Entra audience when creating a client. When unspecified, the SDK will default to Azure Public Cloud.
+- Add the `audience` param to `AppConfigurationClientOptions` and `KnownAppConfigurationAudience` to allow specifying the Microsoft Entra audience for the token credential when creating a client. If not specified, the SDK will default to Azure Public Cloud.
 
 ### Breaking Changes
 
