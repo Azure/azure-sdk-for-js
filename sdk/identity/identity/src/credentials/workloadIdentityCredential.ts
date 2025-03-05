@@ -9,6 +9,8 @@ import { CredentialUnavailableError } from "../errors.js";
 import type { WorkloadIdentityCredentialOptions } from "./workloadIdentityCredentialOptions.js";
 import { checkTenantId } from "../util/tenantIdUtils.js";
 import { readFile } from "node:fs/promises";
+import * as forge from "node-forge";
+import { readFileSync } from "node:fs";
 
 const credentialName = "WorkloadIdentityCredential";
 /**
@@ -86,12 +88,37 @@ export class WorkloadIdentityCredential implements TokenCredential {
     logger.info(
       `Invoking ClientAssertionCredential with tenant ID: ${tenantId}, clientId: ${workloadIdentityCredentialOptions.clientId} and federated token path: [REDACTED]`,
     );
+ 
+
+    const sni = process.env.AZURE_KUBERNETES_SNI_NAME;
+    const host = process.env.AZURE_KUBERNETES_TOKEN_ENDPOINT;
+    if (sni && host) {
+      // var aksSNIPolicyCA *x509.CertPool
+      const certPool = forge.pki.createCaStore();
+      //const aksSNIPolicyCAData = forge.pki.certificateToPem(certPool);
+
+      const caFile = process.env.AZURE_KUBERNETES_CA_FILE;
+      const caData = process.env.AZURE_KUBERNETES_CA_DATA;
+      if (caFile && caData) {
+        throw new CredentialUnavailableError(
+          `${credentialName}: is unavailable. Both AZURE_KUBERNETES_CA_FILE and AZURE_KUBERNETES_CA_DATA are provided. Please provide only one of them.`,
+        );
+      }
+      if(caFile) {
+        const caData = readFileSync(caFile);
+        certPool.addCert(forge.pki.certificateFromPem(caData));
+      }
+   
+
+    }
+
     this.client = new ClientAssertionCredential(
       tenantId,
       clientId,
       this.readFileContents.bind(this),
       options,
     );
+  
   }
 
   /**
