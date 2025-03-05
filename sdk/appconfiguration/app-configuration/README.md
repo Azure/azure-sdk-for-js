@@ -2,7 +2,7 @@
 
 [Azure App Configuration](https://learn.microsoft.com/azure/azure-app-configuration/overview) is a managed service that helps developers centralize their application and feature settings simply and securely.
 
-Use the client library for App Configuration to:
+Use this client library for App Configuration to:
 
 - Create, update or delete settings in App Configuration
 - Perform granular reads that operate outside the realm of normal configuration consumption
