@@ -3,6 +3,8 @@
 
 ## 1.2.0 (2025-02-28)
 
+### Features Added
+
 - General Availability version of Rooms Collaborator role
 
 ## 1.1.1 (2024-11-22)
