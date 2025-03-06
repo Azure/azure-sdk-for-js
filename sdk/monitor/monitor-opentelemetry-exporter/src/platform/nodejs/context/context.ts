@@ -40,11 +40,19 @@ export class Context {
     Context.sdkVersion = ai.packageVersion;
 
     const prefix = process.env["AZURE_MONITOR_PREFIX"] ? process.env["AZURE_MONITOR_PREFIX"] : "";
-    const version = process.env["AZURE_MONITOR_DISTRO_VERSION"]
-      ? `ext${process.env["AZURE_MONITOR_DISTRO_VERSION"]}`
-      : `ext${Context.sdkVersion}`;
+    const version = this._getVersion();
     const internalSdkVersion = `${prefix}node${Context.nodeVersion}:otel${Context.opentelemetryVersion}:${version}`;
     this.tags[KnownContextTagKeys.AiInternalSdkVersion] = internalSdkVersion;
+  }
+
+  private _getVersion(): string {
+    if (process.env["APPLICATION_INSIGHTS_SHIM_VERSION"]) {
+      return `sha${process.env["APPLICATION_INSIGHTS_SHIM_VERSION"]}`;
+    } else if (process.env["AZURE_MONITOR_DISTRO_VERSION"]) {
+      return `dst${process.env["AZURE_MONITOR_DISTRO_VERSION"]}`;
+    } else {
+      return `ext${Context.sdkVersion}`;
+    }
   }
 }
 
