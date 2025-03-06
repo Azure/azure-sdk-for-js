@@ -1,12 +1,6 @@
 # Release History
 
-## 1.19.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
+## 1.19.1 (2025-03-06)
 
 ### Other Changes
 

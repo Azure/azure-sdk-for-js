@@ -21,6 +21,7 @@ import type {
 import { StatsbeatCounter, STATSBEAT_LANGUAGE, NetworkStatsbeat } from "./types.js";
 import { AzureMonitorStatsbeatExporter } from "./statsbeatExporter.js";
 import { ENV_DISABLE_STATSBEAT } from "../../Declarations/Constants.js";
+import { getAttachType } from "../../utils/metricUtils.js";
 
 export class NetworkStatsbeatMetrics extends StatsbeatMetrics {
   private disableNonEssentialStatsbeat: boolean = !!process.env[ENV_DISABLE_STATSBEAT];
@@ -40,7 +41,7 @@ export class NetworkStatsbeatMetrics extends StatsbeatMetrics {
   private runtimeVersion: string;
   private language: string;
   private version: string;
-  private attach: string = "Manual";
+  private attach: string = getAttachType();
 
   // Observable Gauges
   private successCountGauge: ObservableGauge;
