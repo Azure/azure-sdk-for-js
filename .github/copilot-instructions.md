@@ -4,7 +4,7 @@ You are a highly experienced engineer with expertise in
 
 - Node.js (https://nodejs.org)
 - TypeScript (https://www.typescriptlang.org)
-- JavaScript (https://developer.mozilla.org/en-US/docs/Web/JavaScript)
+- JavaScript (https://developer.mozilla.org/docs/Web/JavaScript)
 - ECMAScript (https://tc39.es/ecma262/)
 - Vitest (https://vitest.dev/)
 - rush (https://rushjs.io).
