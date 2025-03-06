@@ -38,12 +38,26 @@ export interface Agent {
 }
 
 // @public
+export interface AuthorizationCodeFlow extends BaseOAuth2Flow {
+    authorizationUrl: string;
+    refreshUrl?: string;
+    tokenUrl: string;
+    type: OAuth2FlowType.authorizationCode;
+}
+
+// @public
+export interface BaseOAuth2Flow {
+    scopes?: string[];
+    type: string;
+}
+
+// @public
 export function bearerTokenAuthenticationPolicy(options: BearerTokenAuthenticationPolicyOptions): PipelinePolicy;
 
 // @public
 export interface BearerTokenAuthenticationPolicyOptions {
+    allowInsecureConnection?: boolean;
     credential: TokenCredential;
-    scopes: string[];
 }
 
 // @public
@@ -57,6 +71,13 @@ export interface Client {
     path: Function;
     pathUnchecked: PathUnchecked;
     pipeline: Pipeline;
+}
+
+// @public
+export interface ClientCredentialsFlow extends BaseOAuth2Flow {
+    refreshUrl?: string;
+    tokenUrl: string;
+    type: OAuth2FlowType.clientCredentials;
 }
 
 // @public
@@ -125,6 +146,7 @@ export function getClient(endpoint: string, credentials?: TokenCredential | KeyC
 // @public
 export interface GetTokenOptions {
     abortSignal?: AbortSignal;
+    authFlow?: OAuth2Flow[];
 }
 
 // @public
@@ -195,6 +217,15 @@ export interface LogPolicyOptions {
 export interface MultipartRequestBody {
     boundary?: string;
     parts: BodyPart[];
+}
+
+// @public
+export type OAuth2Flow = AuthorizationCodeFlow | ClientCredentialsFlow | BaseOAuth2Flow;
+
+// @public
+export enum OAuth2FlowType {
+    authorizationCode = "authorizationCode",
+    clientCredentials = "clientCredentials"
 }
 
 // @public
@@ -275,6 +306,7 @@ export interface PipelineRequest {
     abortSignal?: AbortSignal;
     agent?: Agent;
     allowInsecureConnection?: boolean;
+    authFlow?: OAuth2Flow[];
     body?: RequestBodyType;
     disableKeepAlive?: boolean;
     enableBrowserStreams?: boolean;
@@ -444,7 +476,7 @@ export interface TlsSettings {
 
 // @public
 export interface TokenCredential {
-    getToken(scopes: string[], options?: GetTokenOptions): Promise<AccessToken | undefined>;
+    getToken(options?: GetTokenOptions): Promise<AccessToken>;
 }
 
 // @public

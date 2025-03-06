@@ -35,7 +35,6 @@ export interface AddCredentialPipelinePolicyOptions {
  */
 export function addCredentialPipelinePolicy(
   pipeline: Pipeline,
-  endpoint: string,
   options: AddCredentialPipelinePolicyOptions = {},
 ): void {
   const { credential, clientOptions } = options;
@@ -46,7 +45,8 @@ export function addCredentialPipelinePolicy(
   if (isTokenCredential(credential)) {
     const tokenPolicy = bearerTokenAuthenticationPolicy({
       credential,
-      scopes: clientOptions?.credentials?.scopes ?? [`${endpoint}/.default`],
+      allowInsecureConnection: clientOptions?.allowInsecureConnection ?? false,
+      authFlows: clientOptions?.authFlows
     });
     pipeline.addPolicy(tokenPolicy);
   } else if (isKeyCredential(credential)) {
@@ -65,7 +65,6 @@ export function addCredentialPipelinePolicy(
  * Creates a default rest pipeline to re-use accross Rest Level Clients
  */
 export function createDefaultPipeline(
-  endpoint: string,
   credential?: TokenCredential | KeyCredential,
   options: ClientOptions = {},
 ): Pipeline {
@@ -73,7 +72,7 @@ export function createDefaultPipeline(
 
   pipeline.addPolicy(apiVersionPolicy(options));
 
-  addCredentialPipelinePolicy(pipeline, endpoint, { credential, clientOptions: options });
+  addCredentialPipelinePolicy(pipeline, { credential, clientOptions: options });
   return pipeline;
 }
 

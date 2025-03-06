@@ -2,11 +2,11 @@
 // Licensed under the MIT License.
 
 declare global {
-  interface FormData {}
-  interface Blob {}
-  interface File {}
-  interface ReadableStream<R = any> {}
-  interface TransformStream<I = any, O = any> {}
+  interface FormData { }
+  interface Blob { }
+  interface File { }
+  interface ReadableStream<R = any> { }
+  interface TransformStream<I = any, O = any> { }
 }
 
 export { AbortError } from "./abort-controller/AbortError.js";
@@ -45,6 +45,11 @@ export {
   type TokenCredential,
   type GetTokenOptions,
   type AccessToken,
+  type OAuth2Flow,
+  type OAuth2FlowType,
+  type BaseOAuth2Flow,
+  type AuthorizationCodeFlow,
+  type ClientCredentialsFlow,
 } from "./auth/tokenCredential.js";
 export { createPipelineRequest, type PipelineRequestOptions } from "./pipelineRequest.js";
 export type { Pipeline, PipelinePolicy, AddPolicyOptions, PipelinePhase } from "./pipeline.js";

@@ -13,6 +13,7 @@ import type {
 import type { Pipeline, PipelinePolicy } from "../pipeline.js";
 import type { PipelineOptions } from "../createPipelineFromOptions.js";
 import type { LogPolicyOptions } from "../policies/logPolicy.js";
+import { OAuth2Flow } from "../auth/tokenCredential.js";
 
 /**
  * Shape of the default request parameters, this may be overridden by the specific
@@ -340,6 +341,10 @@ export type ClientOptions = PipelineOptions & {
    * Options to configure request/response logging.
    */
   loggingOptions?: LogPolicyOptions;
+  /**
+   * List of OAuth2 flows to be used for authentication.
+   */
+  authFlows?: OAuth2Flow[];
 };
 
 /**

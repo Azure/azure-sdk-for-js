@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { OAuth2Flow } from "./auth/tokenCredential.js";
+
 /**
  * A HttpHeaders collection represented as a simple JSON object.
  */
@@ -57,11 +59,11 @@ export interface BodyPart {
    * The body of this part of the multipart request.
    */
   body:
-    | ((() => ReadableStream<Uint8Array>) | (() => NodeJS.ReadableStream))
-    | ReadableStream<Uint8Array>
-    | NodeJS.ReadableStream
-    | Uint8Array
-    | Blob;
+  | ((() => ReadableStream<Uint8Array>) | (() => NodeJS.ReadableStream))
+  | ReadableStream<Uint8Array>
+  | NodeJS.ReadableStream
+  | Uint8Array
+  | Blob;
 }
 
 /**
@@ -231,6 +233,16 @@ export interface PipelineRequest {
 
   /** Settings for configuring TLS authentication */
   tlsSettings?: TlsSettings;
+
+  /**
+   * List of OAuth2 flows to be used for authentication.
+   */
+  authFlows?: OAuth2Flow[];
+  
+  /**
+   * List of scopes to be used for authentication.
+   */
+  scopes?: string[];
 }
 
 /**
