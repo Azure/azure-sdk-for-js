@@ -385,8 +385,7 @@ describe("DocumentTranslation tests", () => {
     await validateTranslationStatus(response as StartTranslationDefaultResponse, 1);
   });
 
-  // TODO: Re-record test
-  it.skip("Empty Document Error", async () => {
+  it("Empty Document Error", async () => {
     const documents = [createTestDocument("Document1.txt", "")];
     const sourceUrl = await createSourceContainer(recorder, documents);
     const sourceInput = createSourceInput(sourceUrl);
