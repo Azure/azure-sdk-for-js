@@ -44,7 +44,7 @@ export const testPollingOptions = {
 };
 
 // TODO: Re-record test
-describe("DocumentTranslation tests", { skip: true }, () => {
+describe("DocumentTranslation tests", () => {
   const retryCount = 10;
   let recorder: Recorder;
   let client: DocumentTranslationClient;
@@ -58,7 +58,7 @@ describe("DocumentTranslation tests", { skip: true }, () => {
     await recorder.stop();
   });
 
-  it.skip("Client Cannot Authenticate With FakeApiKey", async () => {
+  it("Client Cannot Authenticate With FakeApiKey", async () => {
     const testEndpoint = "https://t7d8641d8f25ec940-doctranslation.cognitiveservices.azure.com";
     const testApiKey = "fakeApiKey";
     const testClient = await createDocumentTranslationClientWithEndpointAndCredentials({
@@ -66,7 +66,13 @@ describe("DocumentTranslation tests", { skip: true }, () => {
       credentials: { key: testApiKey },
     });
 
-    const response = await testClient.path("/document/formats").get();
+    const options = {
+      queryParameters: {
+        type: "",
+      },
+    };
+
+    const response = await testClient.path("/document/formats").get(options);
     if (isUnexpected(response)) {
       assert.equal(response.status, "401");
     }
@@ -84,11 +90,10 @@ describe("DocumentTranslation tests", { skip: true }, () => {
     const response = await StartTranslationAndWait(batchRequests);
 
     // Validate the response
-    validateTranslationStatus(response as StartTranslationDefaultResponse, 1);
+    await validateTranslationStatus(response as StartTranslationDefaultResponse, 1);
   });
 
-  // TODO: Re-record test
-  it.skip("Single Source Multiple Targets", async () => {
+  it("Single Source Multiple Targets", async () => {
     const sourceUrl = await createSourceContainer(recorder, ONE_TEST_DOCUMENTS);
     const sourceInput = createSourceInput(sourceUrl);
 
@@ -115,11 +120,10 @@ describe("DocumentTranslation tests", { skip: true }, () => {
     const response = await StartTranslationAndWait(batchRequests);
 
     // Validate the response
-    validateTranslationStatus(response as StartTranslationDefaultResponse, 3);
+    await validateTranslationStatus(response as StartTranslationDefaultResponse, 3);
   });
 
-  // TODO: Re-record test
-  it.skip("Multiple Sources Single Target", async () => {
+  it("Multiple Sources Single Target", async () => {
     const srcContainerName1 = recorder.variable("sourceContainer1", `source-${getUniqueName()}`);
     const sourceUrl1 = await createSourceContainer(recorder, ONE_TEST_DOCUMENTS, srcContainerName1);
     const sourceInput1 = createSourceInput(sourceUrl1);
@@ -144,11 +148,10 @@ describe("DocumentTranslation tests", { skip: true }, () => {
     const response = await StartTranslationAndWait(batchRequests);
 
     // Validate the response
-    validateTranslationStatus(response, 2);
+    await validateTranslationStatus(response, 2);
   });
 
-  // TODO: Re-record test
-  it.skip("Single Source Single Target With Prefix", async () => {
+  it("Single Source Single Target With Prefix", async () => {
     const documentFilter = {
       prefix: "File",
     };
@@ -164,11 +167,10 @@ describe("DocumentTranslation tests", { skip: true }, () => {
     const response = await StartTranslationAndWait(batchRequests);
 
     // Validate the response
-    validateTranslationStatus(response as StartTranslationDefaultResponse, 1);
+    await validateTranslationStatus(response as StartTranslationDefaultResponse, 1);
   });
 
-  // TODO: Re-record test
-  it.skip("Single Source Single Target With Suffix", async () => {
+  it("Single Source Single Target With Suffix", async () => {
     const documentFilter = {
       suffix: "txt",
     };
@@ -186,11 +188,10 @@ describe("DocumentTranslation tests", { skip: true }, () => {
     const response = await StartTranslationAndWait(batchRequests);
 
     // Validate the response
-    validateTranslationStatus(response as StartTranslationDefaultResponse, 1);
+    await validateTranslationStatus(response as StartTranslationDefaultResponse, 1);
   });
 
-  // TODO: Re-record test
-  it.skip("Single Source Single Target List Documents", async () => {
+  it("Single Source Single Target List Documents", async () => {
     const sourceInput = createSourceInput(
       await createSourceContainer(recorder, ONE_TEST_DOCUMENTS),
     );
@@ -247,8 +248,7 @@ describe("DocumentTranslation tests", { skip: true }, () => {
     }
   });
 
-  // TODO: Re-record test
-  it.skip("Get Document Status", async () => {
+  it("Get Document Status", async () => {
     const sourceInput = createSourceInput(
       await createSourceContainer(recorder, ONE_TEST_DOCUMENTS),
     );
@@ -283,8 +283,7 @@ describe("DocumentTranslation tests", { skip: true }, () => {
     }
   });
 
-  // TODO: Re-record test
-  it.skip("Wrong Source Right Target", async () => {
+  it("Wrong Source Right Target", async () => {
     const sourceInput = createSourceInput("https://idont.ex.ist");
     const targetInput = createTargetInput(await createTargetContainer(recorder), "es");
     const batchRequest = createBatchRequest(sourceInput, [targetInput]);
@@ -323,8 +322,7 @@ describe("DocumentTranslation tests", { skip: true }, () => {
     );
   });
 
-  // TODO: Re-record test
-  it.skip("Right Source Wrong Target", async () => {
+  it("Right Source Wrong Target", async () => {
     const sourceUrl = await createSourceContainer(recorder, ONE_TEST_DOCUMENTS);
     const sourceInput = createSourceInput(sourceUrl);
     const targetInput = createTargetInput("https://idont.ex.ist", "es");
@@ -365,8 +363,7 @@ describe("DocumentTranslation tests", { skip: true }, () => {
     );
   });
 
-  // TODO: Re-record test
-  it.skip("Supported And UnSupported Files", async () => {
+  it("Supported And UnSupported Files", async () => {
     const documents = [
       createTestDocument("Document1.txt", "First english test file"),
       createTestDocument("File2.jpg", "jpg"),
@@ -385,11 +382,10 @@ describe("DocumentTranslation tests", { skip: true }, () => {
     }
 
     // Validate the response
-    validateTranslationStatus(response as StartTranslationDefaultResponse, 1);
+    await validateTranslationStatus(response as StartTranslationDefaultResponse, 1);
   });
 
-  // TODO: Re-record test
-  it.skip("Empty Document Error", async () => {
+  it("Empty Document Error", async () => {
     const documents = [createTestDocument("Document1.txt", "")];
     const sourceUrl = await createSourceContainer(recorder, documents);
     const sourceInput = createSourceInput(sourceUrl);
@@ -420,8 +416,7 @@ describe("DocumentTranslation tests", { skip: true }, () => {
     assert.equal(translationStatusOutput.error?.innerError?.code, "NoTranslatableText");
   });
 
-  // TODO: Re-record test
-  it.skip("Existing File In Target Container", async () => {
+  it("Existing File In Target Container", async () => {
     const sourceUrl = await createSourceContainer(recorder, ONE_TEST_DOCUMENTS);
     const sourceInput = createSourceInput(sourceUrl);
     const targetUrl = await createTargetContainer(recorder, undefined, ONE_TEST_DOCUMENTS);
@@ -462,8 +457,7 @@ describe("DocumentTranslation tests", { skip: true }, () => {
     );
   });
 
-  // TODO: Re-record test
-  it.skip("Invalid Document GUID", async () => {
+  it("Invalid Document GUID", async () => {
     const sourceUrl = await createSourceContainer(recorder, ONE_TEST_DOCUMENTS);
     const sourceInput = createSourceInput(sourceUrl);
     const targetUrl = await createTargetContainer(recorder);
@@ -491,8 +485,7 @@ describe("DocumentTranslation tests", { skip: true }, () => {
     assert.equal(documentResponse.status, "404");
   });
 
-  // TODO: Re-record test
-  it.skip("Document Translation With Glossary", async () => {
+  it("Document Translation With Glossary", async () => {
     const sourceUrl = await createSourceContainer(recorder, ONE_TEST_DOCUMENTS);
     const sourceInput = createSourceInput(sourceUrl);
 
