@@ -23,6 +23,7 @@ import {
   ENV_APPLICATIONINSIGHTS_METRICS_TO_LOGANALYTICS_ENABLED,
 } from "../Declarations/Constants.js";
 import { AttachTypeName, AZURE_MONITOR_AUTO_ATTACH } from "../export/statsbeat/types.js";
+import { getInstance } from "../platform/index.js";
 
 const breezePerformanceCountersMap = new Map<string, string>([
   [OTelPerformanceCounterNames.PRIVATE_BYTES, BreezePerformanceCounterNames.PRIVATE_BYTES],
@@ -62,6 +63,8 @@ export function resourceMetricsToEnvelope(
 
   if (isStatsbeat) {
     envelopeName = "Microsoft.ApplicationInsights.Statsbeat";
+    const context = getInstance();
+    tags = { ...context.tags };
   } else {
     envelopeName = "Microsoft.ApplicationInsights.Metric";
     tags = createTagsFromResource(metrics.resource);

@@ -12,6 +12,7 @@ import nock from "nock";
 import { NetworkStatsbeatMetrics } from "../../src/export/statsbeat/networkStatsbeatMetrics.js";
 import { AZURE_MONITOR_AUTO_ATTACH, StatsbeatCounter } from "../../src/export/statsbeat/types.js";
 import { getInstance } from "../../src/export/statsbeat/longIntervalStatsbeatMetrics.js";
+import { getInstance as getContext } from "../../src/platform/nodejs/context/context.js";
 import { AzureMonitorTraceExporter } from "../../src/export/trace.js";
 import { diag } from "@opentelemetry/api";
 import { describe, it, assert, expect, vi, beforeAll, afterAll } from "vitest";
@@ -151,6 +152,7 @@ describe("#AzureMonitorStatsbeatExporter", () => {
 
         // Ensure network statsbeat attributes are populated
         assert.strictEqual(statsbeat["attach"], "IntegratedAuto");
+        assert.ok(getContext().tags["ai.internal.sdkVersion"]);
         process.env = originalEnv;
       });
 
