@@ -1,13 +1,10 @@
 let secretDisplay: HTMLSpanElement = document.getElementById("secret-display") as HTMLSpanElement;
 
 let subscriptionKey: HTMLInputElement = document.getElementById(
-  "subscription-key"
+  "subscription-key",
 ) as HTMLInputElement;
 
-let azureApiName: HTMLInputElement = document.getElementById(
-  "api-name"
-) as HTMLInputElement;
-
+let azureApiName: HTMLInputElement = document.getElementById("api-name") as HTMLInputElement;
 
 const getSecretFromServer = () => {
   secretDisplay.textContent = "";
@@ -16,7 +13,7 @@ const getSecretFromServer = () => {
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
-      return response.json();
+      return response.text();
     })
     .then((json) => {
       secretDisplay.textContent = json;
@@ -32,16 +29,16 @@ const getSecretFromApiManagement = () => {
   if (!key) {
     alert("Azure API Management subscription key missing.");
   } else {
-    fetch(`https://${azureApiName}.azure-api.net/get-secret`, {
-        headers: {
-          "Ocp-Apim-Subscription-Key": key
-        }
-      })
+    fetch(`https://${azureApiName.value}.azure-api.net/get-secret`, {
+      headers: {
+        "Ocp-Apim-Subscription-Key": key,
+      },
+    })
       .then((response) => {
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
-        return response.json();
+        return response.text();
       })
       .then((json) => {
         secretDisplay.textContent = json;
