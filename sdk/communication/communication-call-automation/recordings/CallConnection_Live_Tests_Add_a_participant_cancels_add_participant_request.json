@@ -1,4 +1,63 @@
 [
+  [
+    {
+      "id": "sanitized",
+      "source": "calling/callConnections/03002680-6b27-4876-bab2-531be811ce87",
+      "type": "Microsoft.Communication.ParticipantsUpdated",
+      "data": {
+        "participants": [
+          {
+            "identifier": {
+              "rawId": "sanitized",
+              "kind": "communicationUser",
+              "communicationUser": {
+                "id": "sanitized"
+              }
+            },
+            "isMuted": false,
+            "isOnHold": false
+          },
+          {
+            "identifier": {
+              "rawId": "sanitized",
+              "kind": "communicationUser",
+              "communicationUser": {
+                "id": "sanitized"
+              }
+            },
+            "isMuted": false,
+            "isOnHold": false
+          },
+          {
+            "identifier": {
+              "rawId": "sanitized",
+              "kind": "communicationUser",
+              "communicationUser": {
+                "id": "sanitized"
+              }
+            },
+            "isMuted": false,
+            "isOnHold": false
+          }
+        ],
+        "sequenceNumber": 12,
+        "resultInformation": {
+          "code": 200,
+          "subCode": 0,
+          "message": ""
+        },
+        "version": "2024-09-01-preview",
+        "callConnectionId": "03002680-6b27-4876-bab2-531be811ce87",
+        "serverCallId": "sanitized",
+        "correlationId": "ae6b2dab-92c4-465a-a364-c7704376c976",
+        "publicEventType": "Microsoft.Communication.ParticipantsUpdated"
+      },
+      "time": "2025-03-05T11:45:15.2073133+00:00",
+      "specversion": "1.0",
+      "datacontenttype": "application/json",
+      "subject": "calling/callConnections/03002680-6b27-4876-bab2-531be811ce87"
+    }
+  ],
   {
     "to": {
       "kind": "communicationUser",
@@ -17,12 +76,12 @@
     "serverCallId": "sanitized",
     "callerDisplayName": "",
     "incomingCallContext": "sanitized",
-    "correlationId": "e4178d1e-1204-42c0-b0c9-05d154d2b0df"
+    "correlationId": "1839aaff-cc98-414a-a2c7-7d15b87177bf"
   },
   [
     {
       "id": "sanitized",
-      "source": "calling/callConnections/22002280-054f-4398-9819-544a42eb6b0d",
+      "source": "calling/callConnections/03002680-bf4a-46c1-8dbc-1b7151825d4b",
       "type": "Microsoft.Communication.ParticipantsUpdated",
       "data": {
         "participants": [
@@ -56,21 +115,21 @@
           "message": ""
         },
         "version": "2024-09-01-preview",
-        "callConnectionId": "22002280-054f-4398-9819-544a42eb6b0d",
+        "callConnectionId": "03002680-bf4a-46c1-8dbc-1b7151825d4b",
         "serverCallId": "sanitized",
-        "correlationId": "e4178d1e-1204-42c0-b0c9-05d154d2b0df",
+        "correlationId": "1839aaff-cc98-414a-a2c7-7d15b87177bf",
         "publicEventType": "Microsoft.Communication.ParticipantsUpdated"
       },
-      "time": "2024-12-20T17:24:23.4815697+00:00",
+      "time": "2025-03-05T11:45:25.3575862+00:00",
       "specversion": "1.0",
       "datacontenttype": "application/json",
-      "subject": "calling/callConnections/22002280-054f-4398-9819-544a42eb6b0d"
+      "subject": "calling/callConnections/03002680-bf4a-46c1-8dbc-1b7151825d4b"
     }
   ],
   [
     {
       "id": "sanitized",
-      "source": "calling/callConnections/22002280-d5e5-4b16-86dc-4d01f1e60e01",
+      "source": "calling/callConnections/03002680-d994-47d8-a85d-d9aea9d89eef",
       "type": "Microsoft.Communication.ParticipantsUpdated",
       "data": {
         "participants": [
@@ -104,21 +163,21 @@
           "message": ""
         },
         "version": "2024-09-01-preview",
-        "callConnectionId": "22002280-d5e5-4b16-86dc-4d01f1e60e01",
+        "callConnectionId": "03002680-d994-47d8-a85d-d9aea9d89eef",
         "serverCallId": "sanitized",
-        "correlationId": "e4178d1e-1204-42c0-b0c9-05d154d2b0df",
+        "correlationId": "1839aaff-cc98-414a-a2c7-7d15b87177bf",
         "publicEventType": "Microsoft.Communication.ParticipantsUpdated"
       },
-      "time": "2024-12-20T17:24:23.5043992+00:00",
+      "time": "2025-03-05T11:45:25.3564122+00:00",
       "specversion": "1.0",
       "datacontenttype": "application/json",
-      "subject": "calling/callConnections/22002280-d5e5-4b16-86dc-4d01f1e60e01"
+      "subject": "calling/callConnections/03002680-d994-47d8-a85d-d9aea9d89eef"
     }
   ],
   [
     {
       "id": "sanitized",
-      "source": "calling/callConnections/22002280-054f-4398-9819-544a42eb6b0d",
+      "source": "calling/callConnections/03002680-bf4a-46c1-8dbc-1b7151825d4b",
       "type": "Microsoft.Communication.CallConnected",
       "data": {
         "version": "2024-09-01-preview",
@@ -128,21 +187,21 @@
           "subCode": 0,
           "message": ""
         },
-        "callConnectionId": "22002280-054f-4398-9819-544a42eb6b0d",
+        "callConnectionId": "03002680-bf4a-46c1-8dbc-1b7151825d4b",
         "serverCallId": "sanitized",
-        "correlationId": "e4178d1e-1204-42c0-b0c9-05d154d2b0df",
+        "correlationId": "1839aaff-cc98-414a-a2c7-7d15b87177bf",
         "publicEventType": "Microsoft.Communication.CallConnected"
       },
-      "time": "2024-12-20T17:24:23.5582549+00:00",
+      "time": "2025-03-05T11:45:25.4497074+00:00",
       "specversion": "1.0",
       "datacontenttype": "application/json",
-      "subject": "calling/callConnections/22002280-054f-4398-9819-544a42eb6b0d"
+      "subject": "calling/callConnections/03002680-bf4a-46c1-8dbc-1b7151825d4b"
     }
   ],
   [
     {
       "id": "sanitized",
-      "source": "calling/callConnections/22002280-d5e5-4b16-86dc-4d01f1e60e01",
+      "source": "calling/callConnections/03002680-d994-47d8-a85d-d9aea9d89eef",
       "type": "Microsoft.Communication.CallConnected",
       "data": {
         "version": "2024-09-01-preview",
@@ -152,21 +211,21 @@
           "subCode": 0,
           "message": ""
         },
-        "callConnectionId": "22002280-d5e5-4b16-86dc-4d01f1e60e01",
+        "callConnectionId": "03002680-d994-47d8-a85d-d9aea9d89eef",
         "serverCallId": "sanitized",
-        "correlationId": "e4178d1e-1204-42c0-b0c9-05d154d2b0df",
+        "correlationId": "1839aaff-cc98-414a-a2c7-7d15b87177bf",
         "publicEventType": "Microsoft.Communication.CallConnected"
       },
-      "time": "2024-12-20T17:24:23.6082+00:00",
+      "time": "2025-03-05T11:45:25.4989192+00:00",
       "specversion": "1.0",
       "datacontenttype": "application/json",
-      "subject": "calling/callConnections/22002280-d5e5-4b16-86dc-4d01f1e60e01"
+      "subject": "calling/callConnections/03002680-d994-47d8-a85d-d9aea9d89eef"
     }
   ],
   [
     {
       "id": "sanitized",
-      "source": "calling/callConnections/22002280-d5e5-4b16-86dc-4d01f1e60e01",
+      "source": "calling/callConnections/03002680-d994-47d8-a85d-d9aea9d89eef",
       "type": "Microsoft.Communication.ParticipantsUpdated",
       "data": {
         "participants": [
@@ -200,21 +259,21 @@
           "message": ""
         },
         "version": "2024-09-01-preview",
-        "callConnectionId": "22002280-d5e5-4b16-86dc-4d01f1e60e01",
+        "callConnectionId": "03002680-d994-47d8-a85d-d9aea9d89eef",
         "serverCallId": "sanitized",
-        "correlationId": "e4178d1e-1204-42c0-b0c9-05d154d2b0df",
+        "correlationId": "1839aaff-cc98-414a-a2c7-7d15b87177bf",
         "publicEventType": "Microsoft.Communication.ParticipantsUpdated"
       },
-      "time": "2024-12-20T17:24:27.4465651+00:00",
+      "time": "2025-03-05T11:45:29.1287679+00:00",
       "specversion": "1.0",
       "datacontenttype": "application/json",
-      "subject": "calling/callConnections/22002280-d5e5-4b16-86dc-4d01f1e60e01"
+      "subject": "calling/callConnections/03002680-d994-47d8-a85d-d9aea9d89eef"
     }
   ],
   [
     {
       "id": "sanitized",
-      "source": "calling/callConnections/22002280-054f-4398-9819-544a42eb6b0d",
+      "source": "calling/callConnections/03002680-bf4a-46c1-8dbc-1b7151825d4b",
       "type": "Microsoft.Communication.ParticipantsUpdated",
       "data": {
         "participants": [
@@ -248,40 +307,40 @@
           "message": ""
         },
         "version": "2024-09-01-preview",
-        "callConnectionId": "22002280-054f-4398-9819-544a42eb6b0d",
+        "callConnectionId": "03002680-bf4a-46c1-8dbc-1b7151825d4b",
         "serverCallId": "sanitized",
-        "correlationId": "e4178d1e-1204-42c0-b0c9-05d154d2b0df",
+        "correlationId": "1839aaff-cc98-414a-a2c7-7d15b87177bf",
         "publicEventType": "Microsoft.Communication.ParticipantsUpdated"
       },
-      "time": "2024-12-20T17:24:27.4178964+00:00",
+      "time": "2025-03-05T11:45:29.1287679+00:00",
       "specversion": "1.0",
       "datacontenttype": "application/json",
-      "subject": "calling/callConnections/22002280-054f-4398-9819-544a42eb6b0d"
+      "subject": "calling/callConnections/03002680-bf4a-46c1-8dbc-1b7151825d4b"
     }
   ],
   [
     {
       "id": "sanitized",
-      "source": "calling/callConnections/22002280-d5e5-4b16-86dc-4d01f1e60e01",
+      "source": "calling/callConnections/03002680-d994-47d8-a85d-d9aea9d89eef",
       "type": "Microsoft.Communication.CancelAddParticipantSucceeded",
       "data": {
-        "invitationId": "c0990619-5e93-41bc-8c25-931cfd220db8",
+        "invitationId": "8414dc29-bd2a-4e20-9976-7928ce7ee772",
         "version": "2024-09-01-preview",
         "operationContext": "cancelOp",
         "resultInformation": {
           "code": 200,
           "subCode": 5300,
-          "message": "addParticipants failed for participant 8:acs:6d889502-3d7a-41a8-befa-d21fd80e8767_00000024-84fa-fdb9-0d8b-08482200a89d. Underlying reason: The conversation has ended. DiagCode: 0#5300.@"
+          "message": "addParticipants failed for participant 8:acs:6d889502-3d7a-41a8-befa-d21fd80e8767_00000026-0601-a4c9-4ff7-343a0d00bf78. Underlying reason: The conversation has ended. DiagCode: 0#5300.@"
         },
-        "callConnectionId": "22002280-d5e5-4b16-86dc-4d01f1e60e01",
+        "callConnectionId": "03002680-d994-47d8-a85d-d9aea9d89eef",
         "serverCallId": "sanitized",
-        "correlationId": "e4178d1e-1204-42c0-b0c9-05d154d2b0df",
+        "correlationId": "1839aaff-cc98-414a-a2c7-7d15b87177bf",
         "publicEventType": "Microsoft.Communication.CancelAddParticipantSucceeded"
       },
-      "time": "2024-12-20T17:24:29.3512458+00:00",
+      "time": "2025-03-05T11:45:31.7007021+00:00",
       "specversion": "1.0",
       "datacontenttype": "application/json",
-      "subject": "calling/callConnections/22002280-d5e5-4b16-86dc-4d01f1e60e01"
+      "subject": "calling/callConnections/03002680-d994-47d8-a85d-d9aea9d89eef"
     }
   ]
 ]
