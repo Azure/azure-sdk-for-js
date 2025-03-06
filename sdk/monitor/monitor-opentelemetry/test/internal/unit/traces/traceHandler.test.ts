@@ -234,7 +234,7 @@ describe("Library/TraceHandler", () => {
       await (
         (trace.getTracerProvider() as ProxyTracerProvider).getDelegate() as NodeTracerProvider
       ).forceFlush();
-      expect(exports).toHaveBeenCalled();
+      expect(exportStub).toHaveBeenCalled();
       const spans = exportStub.mock.calls[0][0];
       assert.deepStrictEqual(spans.length, 1);
       assert.deepStrictEqual(spans[0].kind, 1, "Span Kind"); // Incoming only
