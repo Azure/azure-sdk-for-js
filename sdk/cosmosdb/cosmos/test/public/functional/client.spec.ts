@@ -36,7 +36,7 @@ describe("Client Tests", function (this: Suite) {
         assert.equal(
           err.message,
           "Timeout Error! Request took more than 1 ms",
-          "client should throw exception"
+          "client should throw exception",
         );
       }
     });
@@ -68,7 +68,7 @@ describe("Client Tests", function (this: Suite) {
           "fake-tenant-id",
           "fake-client-id",
           "fakeUsername",
-          "fakePassword"
+          "fakePassword",
         );
         const client = new CosmosClient({
           endpoint,
