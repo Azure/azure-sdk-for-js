@@ -370,7 +370,6 @@ To contribute to this library, read the [contributing guide](https://github.com/
 [azureclilogin_image]: https://raw.githubusercontent.com/Azure/azure-sdk-for-js/main/sdk/identity/identity/images/AzureCliLogin.png
 [azureclilogindevicecode_image]: https://raw.githubusercontent.com/Azure/azure-sdk-for-js/main/sdk/identity/identity/images/AzureCliLoginDeviceCode.png
 [azurepowershelllogin_image]: https://raw.githubusercontent.com/Azure/azure-sdk-for-js/main/sdk/identity/identity/images/AzurePowerShellLogin.png
-[defaultauthflow_image]: https://raw.githubusercontent.com/Azure/azure-sdk-for-js/main/sdk/identity/identity/images/mermaidjs/DefaultAzureCredentialAuthFlow.svg
 [azure_identity_broker]: https://www.npmjs.com/package/@azure/identity-broker
 [azure_identity_broker_readme]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity-broker
 [authority_hosts]: https://learn.microsoft.com/javascript/api/@azure/identity/azureauthorityhosts
