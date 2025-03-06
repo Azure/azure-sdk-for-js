@@ -54,16 +54,16 @@ Always cite the specific sections of documentation you've referenced in your res
 
 In general, whenever a code refers to `@azure/core-*` packages, we will expect copilot to use the in-repository core package. The core packages are listed below along with the path to the package in the repository:
 
+- `@azure/core-amqp`: `sdk/core/core-amqp`
 - `@azure/core-auth`: `sdk/core/core-auth`
+- `@azure/core-client`: `sdk/core/core-client`
 - `@azure/core-client`: `sdk/core/core-client`
 - `@azure/core-lro`: `sdk/core/core-lro`
 - `@azure/core-paging`: `sdk/core/core-paging`
 - `@azure/core-rest-pipeline`: `sdk/core/core-rest-pipeline`
 - `@azure/core-tracing`: `sdk/core/core-tracing`
 - `@azure/core-util`: `sdk/core/core-util`
-- `@azure/core-http`: `sdk/core/core-http`
-- `@azure/core-client`: `sdk/core/core-client`
-- `@azure/core-amqp`: `sdk/core/core-amqp`
+- `@azure/core-xml`: `sdk/core/core-xml`
 - `@azure-rest/core-client`: `sdk/core/core-client-rest`
 
 If a change requires updates to the core packages, you will remind the user to run `rush build -t .` commands.
