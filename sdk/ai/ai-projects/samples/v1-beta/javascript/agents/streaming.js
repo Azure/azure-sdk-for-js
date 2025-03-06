@@ -1,3 +1,12 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+/**
+ * This sample demonstrates how to use agent operations in streaming from the Azure Agents service.
+ *
+ * @summary demonstrates how to use agent operations in streaming.
+ */
+
 const {
   AIProjectsClient,
   DoneEvent,
