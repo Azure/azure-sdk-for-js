@@ -12,14 +12,14 @@ import { Logger } from "../../../../src/shared/logging/index.js";
 import { InternalConfig } from "../../../../src/shared/index.js";
 import { MetricHandler } from "../../../../src/metrics/index.js";
 import { metrics, trace } from "@opentelemetry/api";
-import { vi, describe, it, afterEach, expect, assert, beforeAll } from "vitest";
-import { NodeTracerProvider } from "@opentelemetry/sdk-trace-node";
+import { vi, describe, it, beforeEach, afterEach, expect, assert, beforeAll } from "vitest";
+import { shutdownAzureMonitor, useAzureMonitor } from "../../../../src/index.js";
 
 describe("Library/AzureFunctionsHook", () => {
   let metricHandler: MetricHandler;
   let handler: TraceHandler;
 
-  afterEach(() => {
+  afterEach(async () => {
     if (metricHandler) {
       metricHandler.shutdown();
     }
@@ -29,6 +29,15 @@ describe("Library/AzureFunctionsHook", () => {
     metrics.disable();
     trace.disable();
     vi.restoreAllMocks();
+    await shutdownAzureMonitor();
+  });
+
+  beforeEach(() => {
+    useAzureMonitor({
+      azureMonitorExporterOptions: {
+        connectionString: "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333;",
+      },
+    });
   });
 
   it("Hook not added if not running in Azure Functions", () => {
