@@ -3,7 +3,7 @@
 
 import type { JSONObject } from "../queryExecutionContext";
 import { extractPartitionKeys, undefinedPartitionKey } from "../extractPartitionKey";
-import type { CosmosDiagnostics, RequestOptions } from "..";
+import type { CosmosDiagnostics, DiagnosticNodeInternal, RequestOptions, StatusCode } from "..";
 import type {
   PartitionKey,
   PartitionKeyDefinition,
@@ -15,6 +15,8 @@ import { assertNotUndefined } from "./typeChecks";
 import { bodyFromData } from "../request/request";
 import { Constants } from "../common/constants";
 import { randomUUID } from "@azure/core-util";
+import type { BulkResponse, ItemBulkOperation } from "../bulk";
+import type { ItemOperation } from "../bulk/ItemOperation";
 
 export type Operation =
   | CreateOperation
@@ -33,6 +35,34 @@ export interface Batch {
 }
 
 export type BulkOperationResponse = OperationResponse[] & { diagnostics: CosmosDiagnostics };
+
+/**
+ * response for a specific operation in streamed bulk operation
+ */
+export interface BulkOperationResult extends OperationResponse {
+  /**
+   * details of status of an operation
+   */
+  subStatusCode?: number;
+  /**
+   * activity id related to the operation
+   */
+  activityId?: string;
+  /**
+   * session Token assigned to the result
+   */
+  sessionToken?: string;
+  /**
+   * in case the operation is rate limited, indicates the time post which a retry can be attempted.
+   */
+  retryAfter?: number;
+  /**
+   * represents operation details
+   */
+  operationInput?: ItemOperation;
+  /** diagnostic details associated with operation */
+  diagnostics?: CosmosDiagnostics;
+}
 
 export interface OperationResponse {
   statusCode: number;
@@ -301,4 +331,42 @@ export function decorateBatchOperation(
     }
   }
   return operation as Operation;
+}
+
+export function isSuccessStatusCode(statusCode: StatusCode): boolean {
+  return statusCode >= 200 && statusCode <= 299;
+}
+
+export type ExecuteCallback = (
+  operations: ItemBulkOperation[],
+  diagnosticNode: DiagnosticNodeInternal,
+) => Promise<BulkResponse>;
+export type RetryCallback = (
+  operation: ItemBulkOperation,
+  diagnosticNode: DiagnosticNodeInternal,
+) => Promise<void>;
+
+export class TaskCompletionSource<T> {
+  private readonly promise: Promise<T>;
+  private resolveFn!: (value: T) => void;
+  private rejectFn!: (reason?: any) => void;
+
+  constructor() {
+    this.promise = new Promise<T>((resolve, reject) => {
+      this.resolveFn = resolve;
+      this.rejectFn = reject;
+    });
+  }
+
+  public get task(): Promise<T> {
+    return this.promise;
+  }
+
+  public setResult(value: T): void {
+    this.resolveFn(value);
+  }
+
+  public setException(error: Error): void {
+    this.rejectFn(error);
+  }
 }

@@ -46,6 +46,7 @@ describe("Non Partitioned Container", function () {
   });
 
   after(async () => {
+    await container.database.delete();
     client.dispose();
     legacyClient.dispose();
   });

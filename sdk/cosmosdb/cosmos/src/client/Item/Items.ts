@@ -52,7 +52,7 @@ import { DiagnosticNodeType } from "../../diagnostics/DiagnosticNodeInternal";
 import {
   getEmptyCosmosDiagnostics,
   withDiagnostics,
-  addDignosticChild,
+  addDiagnosticChild,
 } from "../../utils/diagnostics";
 import { randomUUID } from "@azure/core-util";
 import { readPartitionKeyDefinition } from "../ClientUtils";
@@ -63,6 +63,7 @@ import type { Resource } from "../Resource";
 import { TypeMarker } from "../../encryption/enums/TypeMarker";
 import { EncryptionItemQueryIterator } from "../../encryption/EncryptionItemQueryIterator";
 import { ErrorResponse } from "../../request";
+import { BulkStreamer } from "../../bulk/BulkStreamer";
 
 /**
  * @hidden
@@ -394,9 +395,7 @@ export class Items {
       let response: Response<T & Resource>;
       try {
         if (this.clientContext.enableEncryption) {
-          if (!this.container.isEncryptionInitialized) {
-            await this.container.initializeEncryption();
-          }
+          await this.container.checkAndInitializeEncryption();
           // returns copy to avoid encryption of original body passed
           body = copyObject(body);
           body = await this.container.encryptionProcessor.encrypt(body, diagnosticNode);
@@ -508,9 +507,7 @@ export class Items {
           // returns copy to avoid encryption of original body passed
           body = copyObject(body);
           options = options || {};
-          if (!this.container.isEncryptionInitialized) {
-            await this.container.initializeEncryption();
-          }
+          await this.container.checkAndInitializeEncryption();
           options.containerRid = this.container._rid;
           body = await this.container.encryptionProcessor.encrypt(body, diagnosticNode);
           partitionKey = extractPartitionKeys(body, partitionKeyDefinition);
@@ -573,6 +570,40 @@ export class Items {
   }
 
   /**
+   * provides streamer for bulk operations
+   * @param options - used for modifying the request
+   * @returns an instance of bulk streamer
+   * @example
+   * ```typescript
+   * const createOperations: OperationInput[] = [
+   *   {
+   *      operationType: "Create",
+   *      resourceBody: { id: "doc1", name: "sample", key: "A" }
+   *   },
+   *   {
+   *      operationType: "Create",
+   *      resourceBody: { id: "doc2", name: "other", key: "A"
+   *   }
+   * ];
+   * const readOperation: OperationInput = { operationType: "Read", id: "doc1", partitionKey: "A" };
+   *
+   * const bulkStreamer = container.items.getBulkStreamer();
+   * bulkStreamer.add(createOperations);
+   * bulkStreamer.add(readOperation);
+   * const response = await bulkStreamer.endStream();
+   * ```
+   */
+  public getBulkStreamer(options: RequestOptions = {}): BulkStreamer {
+    const bulkStreamer = new BulkStreamer(
+      this.container,
+      this.clientContext,
+      this.partitionKeyRangeCache,
+      options,
+    );
+    return bulkStreamer;
+  }
+
+  /**
    * Execute bulk operations on items.
    *
    * Bulk takes an array of Operations which are typed based on what the operation does.
@@ -619,9 +650,7 @@ export class Items {
         // returns copy to avoid encryption of original operations body passed
         operations = copyObject(operations);
         options = options || {};
-        if (!this.container.isEncryptionInitialized) {
-          await this.container.initializeEncryption();
-        }
+        await this.container.checkAndInitializeEncryption();
         options.containerRid = this.container._rid;
         operations = await this.bulkBatchEncryptionHelper(operations, diagnosticNode);
       }
@@ -676,8 +705,9 @@ export class Items {
       if (batch.operations.length > 100) {
         throw new Error("Cannot run bulk request with more than 100 operations per partition");
       }
+      let response: Response<OperationResponse[]>;
       try {
-        const response = await addDignosticChild(
+        response = await addDiagnosticChild(
           async (childNode: DiagnosticNodeInternal) =>
             this.clientContext.bulk({
               body: batch.operations,
@@ -691,17 +721,6 @@ export class Items {
           diagnosticNode,
           DiagnosticNodeType.BATCH_REQUEST,
         );
-        if (this.clientContext.enableEncryption) {
-          diagnosticNode.beginEncryptionDiagnostics(
-            Constants.Encryption.DiagnosticsDecryptOperation,
-          );
-          for (const result of response.result) {
-            result.resourceBody = await this.container.encryptionProcessor.decrypt(
-              result.resourceBody,
-            );
-          }
-          diagnosticNode.endEncryptionDiagnostics(Constants.Encryption.DiagnosticsDecryptOperation);
-        }
         response.result.forEach((operationResponse: OperationResponse, index: number) => {
           orderedResponses[batch.indexes[index]] = operationResponse;
         });
@@ -758,6 +777,32 @@ export class Items {
         } else {
           throw new Error(`Bulk request errored with: ${err.message}`);
         }
+      }
+      if (response) {
+        try {
+          if (this.clientContext.enableEncryption) {
+            diagnosticNode.beginEncryptionDiagnostics(
+              Constants.Encryption.DiagnosticsDecryptOperation,
+            );
+            for (const result of response.result) {
+              result.resourceBody = await this.container.encryptionProcessor.decrypt(
+                result.resourceBody,
+              );
+            }
+            diagnosticNode.endEncryptionDiagnostics(
+              Constants.Encryption.DiagnosticsDecryptOperation,
+            );
+          }
+        } catch (error) {
+          const decryptionError = new ErrorResponse(
+            `Batch response was received but response decryption failed: + ${error.message}`,
+          );
+          decryptionError.code = StatusCodes.ServiceUnavailable;
+          throw decryptionError;
+        }
+        response.result.forEach((operationResponse: OperationResponse, index: number) => {
+          orderedResponses[batch.indexes[index]] = operationResponse;
+        });
       }
     });
   }
@@ -889,9 +934,7 @@ export class Items {
           // returns copy to avoid encryption of original operations body passed
           operations = copyObject(operations);
           options = options || {};
-          if (!this.container.isEncryptionInitialized) {
-            await this.container.initializeEncryption();
-          }
+          await this.container.checkAndInitializeEncryption();
           options.containerRid = this.container._rid;
           if (partitionKey) {
             const partitionKeyInternal = convertToInternalPartitionKey(partitionKey);
