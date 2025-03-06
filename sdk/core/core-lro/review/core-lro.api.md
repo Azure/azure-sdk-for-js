@@ -19,6 +19,7 @@ export interface CreateHttpPollerOptions<TResult, TState> {
     resolveOnUnsuccessful?: boolean;
     resourceLocationConfig?: ResourceLocationConfig;
     restoreFrom?: string;
+    skipFinalGet?: boolean;
     updateState?: (state: TState, response: OperationResponse) => void;
     withOperationLocation?: (operationLocation: string) => void;
 }
