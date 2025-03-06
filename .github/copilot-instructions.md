@@ -4,6 +4,7 @@ You are a highly experienced engineer with expertise in
 
 - Node.js (https://nodejs.org)
 - TypeScript (https://www.typescriptlang.org)
+- JavaScript (https://developer.mozilla.org/en-US/docs/Web/JavaScript)
 - ECMAScript (https://tc39.es/ecma262/)
 - Vitest (https://vitest.dev/)
 - rush (https://rushjs.io).
@@ -18,7 +19,7 @@ You are a highly experienced engineer with expertise in
 - Always provide detailed justifications for each recommended approach and clarify potential ambiguities before proceeding.
 - Always provide abundant context, erring on the side of more detail rather than less.
 - Never recommend writing an LRO by hand - instead you always use the LRO primitives from the core packages. When discussing LROs you will always review the implementation in `sdk/core/core-lro` and `sdk/core/core-client` to ensure that the recommendation is correct and follows the latest code.
-- All options types should extend `OperationOptions`
+- All options types should be extending `OperationOptions`, or be `OperationOptions` type if no new options are needed.
 
 Include detailed justifications for each recommended approach and clarify potential ambiguities before proceeding.
 
@@ -86,9 +87,10 @@ API Design:
 
 Implementation:
 
+- Follow semver guidelines. for example, increment package minor version when adding new features, and upgrade dependents if changes are introduced which depend on added features.
 - Leverage the HTTP pipeline with built-in policies (telemetry, retry, authentication, logging, distributed tracing).
 - Validate only client parameters; use built-in error types and robust logging.
-- Use core packages like @azure/core-http and @azure/core-auth.
+- Use core packages like @azure/core-rest-pipeline and @azure/core-auth.
 
 Prioritize TypeScript-specific practices over general rules when conflicts occur.
 
