@@ -10,7 +10,7 @@ import type {
   GetTokenOptions,
   TokenScope,
   CreateUserOptions,
-  CommunicationIdentityGetResult,
+  CommunicationIdentity,
 } from "./models.js";
 import type { CommunicationUserIdentifier } from "@azure/communication-common";
 import {
@@ -147,7 +147,7 @@ export class CommunicationIdentityClient {
    * @param user - The user to get.
    * @param options - Additional options for the request.
    */
-    public getUser(user: CommunicationUserIdentifier, options: OperationOptions = {}): Promise<CommunicationIdentityGetResult> {
+    public getUser(user: CommunicationUserIdentifier, options: OperationOptions = {}): Promise<CommunicationIdentity> {
       return tracingClient.withSpan(
         "CommunicationIdentity-getUser",
         options,

@@ -224,7 +224,7 @@ const getOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CommunicationIdentityResult,
+      bodyMapper: Mappers.CommunicationIdentity,
     },
     default: {
       bodyMapper: Mappers.CommunicationErrorResponse,

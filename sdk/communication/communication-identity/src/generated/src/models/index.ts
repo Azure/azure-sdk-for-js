@@ -23,6 +23,8 @@ export interface CommunicationIdentityAccessTokenResult {
   identity: CommunicationIdentity;
   /** An access token. */
   accessToken?: CommunicationIdentityAccessToken;
+  /** Last time a token has been issued for the identity. */
+  lastTokenIssuedAt?: Date;
 }
 
 /** A communication identity. */
@@ -31,6 +33,8 @@ export interface CommunicationIdentity {
   externalId?: string;
   /** Identifier of the identity. */
   id: string;
+  /** Last time a token has been issued for the identity. */
+  lastTokenIssuedAt?: Date;
 }
 
 /** An access token. */
@@ -68,15 +72,6 @@ export interface CommunicationError {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly innerError?: CommunicationError;
-}
-
-export interface CommunicationIdentityResult {
-  /** Identifier of the identity. */
-  id: string;
-  /** The external Id if one has been associated with the identity. */
-  externalId?: string;
-  /** Last time a token has been issued for the identity. */
-  lastTokenIssuedAt?: Date;
 }
 
 export interface TeamsUserExchangeTokenRequest {
@@ -146,7 +141,7 @@ export interface CommunicationIdentityGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type CommunicationIdentityGetResponse = CommunicationIdentityResult;
+export type CommunicationIdentityGetResponse = CommunicationIdentity;
 
 /** Optional parameters. */
 export interface CommunicationIdentityRevokeAccessTokensOptionalParams

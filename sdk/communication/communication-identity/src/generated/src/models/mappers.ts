@@ -69,6 +69,12 @@ export const CommunicationIdentityAccessTokenResult: coreClient.CompositeMapper 
             className: "CommunicationIdentityAccessToken",
           },
         },
+        lastTokenIssuedAt: {
+          serializedName: "lastTokenIssuedAt",
+          type: {
+            name: "DateTime",
+          },
+        },
       },
     },
   };
@@ -89,6 +95,12 @@ export const CommunicationIdentity: coreClient.CompositeMapper = {
         required: true,
         type: {
           name: "String",
+        },
+      },
+      lastTokenIssuedAt: {
+        serializedName: "lastTokenIssuedAt",
+        type: {
+          name: "DateTime",
         },
       },
     },
@@ -178,34 +190,6 @@ export const CommunicationError: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "CommunicationError",
-        },
-      },
-    },
-  },
-};
-
-export const CommunicationIdentityResult: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "CommunicationIdentityResult",
-    modelProperties: {
-      id: {
-        serializedName: "id",
-        required: true,
-        type: {
-          name: "String",
-        },
-      },
-      externalId: {
-        serializedName: "externalId",
-        type: {
-          name: "String",
-        },
-      },
-      lastTokenIssuedAt: {
-        serializedName: "lastTokenIssuedAt",
-        type: {
-          name: "DateTime",
         },
       },
     },

@@ -57,7 +57,7 @@ export class IdentityRestClient extends coreClient.ServiceClient {
     this.endpoint = endpoint;
 
     // Assigning values to Constant parameters
-    this.apiVersion = options.apiVersion || "2025-04-01-preview";
+    this.apiVersion = options.apiVersion || "2025-03-02-preview";
     this.communicationIdentityOperations =
       new CommunicationIdentityOperationsImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);

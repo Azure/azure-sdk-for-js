@@ -39,23 +39,13 @@ export interface CommunicationUserToken extends CommunicationAccessToken {
 }
 
 /** Represents a communication identity. */
-export interface CommunicationIdentityGetResult {
+export interface CommunicationIdentity {
   /** Identifier of the identity. */
   id: string;
   /** The external Id if one has been associated with the identity. */
   externalId?: string;
   /** Last time a token has been issued for the identity. */
   lastTokenIssuedAt?: Date;
-}
-
-/**
- * The issued token and the user it was issued for.
- */
-export interface CommunicationUserToken extends CommunicationAccessToken {
-  /**
-   * Represents the user the token was issued for
-   */
-  user: CommunicationUserIdentifier;
 }
 
 /**
