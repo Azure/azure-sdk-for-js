@@ -17,12 +17,12 @@
     "serverCallId": "sanitized",
     "callerDisplayName": "",
     "incomingCallContext": "sanitized",
-    "correlationId": "2d8a73b8-962e-4426-85f8-e765cf9cd3a2"
+    "correlationId": "bcd392fa-32bd-439c-82dc-f8469ea620b6"
   },
   [
     {
       "id": "sanitized",
-      "source": "calling/callConnections/07002680-bd56-4891-b08f-8e60e366baeb",
+      "source": "calling/callConnections/00002680-97fe-4cdb-ad2a-fbff2efd5a7f",
       "type": "Microsoft.Communication.CallDisconnected",
       "data": {
         "version": "2024-09-01-preview",
@@ -32,21 +32,21 @@
           "subCode": 0,
           "message": "Decline. DiagCode: 603#0.@"
         },
-        "callConnectionId": "07002680-bd56-4891-b08f-8e60e366baeb",
+        "callConnectionId": "00002680-97fe-4cdb-ad2a-fbff2efd5a7f",
         "serverCallId": "sanitized",
-        "correlationId": "2d8a73b8-962e-4426-85f8-e765cf9cd3a2",
+        "correlationId": "bcd392fa-32bd-439c-82dc-f8469ea620b6",
         "publicEventType": "Microsoft.Communication.CallDisconnected"
       },
-      "time": "2025-03-06T09:53:53.1348948+00:00",
+      "time": "2025-03-06T11:06:25.9971428+00:00",
       "specversion": "1.0",
       "datacontenttype": "application/json",
-      "subject": "calling/callConnections/07002680-bd56-4891-b08f-8e60e366baeb"
+      "subject": "calling/callConnections/00002680-97fe-4cdb-ad2a-fbff2efd5a7f"
     }
   ],
   [
     {
       "id": "sanitized",
-      "source": "calling/callConnections/07002680-bd56-4891-b08f-8e60e366baeb",
+      "source": "calling/callConnections/00002680-97fe-4cdb-ad2a-fbff2efd5a7f",
       "type": "Microsoft.Communication.CreateCallFailed",
       "data": {
         "version": "2024-09-01-preview",
@@ -55,15 +55,15 @@
           "subCode": 0,
           "message": "Decline. DiagCode: 603#0.@"
         },
-        "callConnectionId": "07002680-bd56-4891-b08f-8e60e366baeb",
+        "callConnectionId": "00002680-97fe-4cdb-ad2a-fbff2efd5a7f",
         "serverCallId": "sanitized",
-        "correlationId": "2d8a73b8-962e-4426-85f8-e765cf9cd3a2",
+        "correlationId": "bcd392fa-32bd-439c-82dc-f8469ea620b6",
         "publicEventType": "Microsoft.Communication.CreateCallFailed"
       },
-      "time": "2025-03-06T09:53:53.1348948+00:00",
+      "time": "2025-03-06T11:06:25.9971428+00:00",
       "specversion": "1.0",
       "datacontenttype": "application/json",
-      "subject": "calling/callConnections/07002680-bd56-4891-b08f-8e60e366baeb"
+      "subject": "calling/callConnections/00002680-97fe-4cdb-ad2a-fbff2efd5a7f"
     }
   ]
 ]
