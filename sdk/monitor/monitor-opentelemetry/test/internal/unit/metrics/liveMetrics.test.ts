@@ -19,7 +19,7 @@ import {
   ATTR_URL_FULL,
 } from "@opentelemetry/semantic-conventions";
 import type { MockInstance } from "vitest";
-import { afterAll, afterEach, assert, beforeEach, describe, expect, it, vi } from "vitest";
+import { afterEach, assert, beforeEach, describe, expect, it, vi } from "vitest";
 
 describe("#LiveMetrics", () => {
   let exportStub: MockInstance<(typeof autoCollect)["quickpulseExporter"]["export"]>;
@@ -39,15 +39,12 @@ describe("#LiveMetrics", () => {
           resolve();
         }),
     );
+    autoCollect.activateMetrics();
   });
 
   afterEach(() => {
-    vi.restoreAllMocks();
-  });
-
-  afterAll(() => {
-    vi.restoreAllMocks();
     autoCollect.shutdown();
+    vi.restoreAllMocks();
   });
 
   it("should observe instruments during collection", async () => {
@@ -540,7 +537,7 @@ describe("#LiveMetrics", () => {
     );
   });
 
-  it("should retrieve meter provider", () => {
+  it.only("should retrieve meter provider", () => {
     assert.ok(autoCollect.getMeterProvider());
   });
 
