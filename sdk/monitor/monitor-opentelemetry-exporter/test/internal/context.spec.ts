@@ -58,5 +58,5 @@ describe("context.ts", () => {
       "Wrong ai.internal.sdkVersion",
     );
     process.env = originalEnv;
-  })
+  });
 });

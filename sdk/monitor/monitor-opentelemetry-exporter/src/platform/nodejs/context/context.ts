@@ -7,6 +7,11 @@ import { ATTR_TELEMETRY_SDK_VERSION } from "@opentelemetry/semantic-conventions"
 import { KnownContextTagKeys } from "../../../generated/index.js";
 import * as ai from "../../../utils/constants/applicationinsights.js";
 import type { Tags } from "../../../types.js";
+import {
+  ENV_AZURE_MONITOR_PREFIX,
+  ENV_APPLICATIONINSIGHTS_SHIM_VERSION,
+  ENV_AZURE_MONITOR_DISTRO_VERSION,
+} from "../../../Declarations/Constants.js";
 
 let instance: Context | null = null;
 
@@ -39,17 +44,19 @@ export class Context {
     Context.opentelemetryVersion = SDK_INFO[ATTR_TELEMETRY_SDK_VERSION];
     Context.sdkVersion = ai.packageVersion;
 
-    const prefix = process.env["AZURE_MONITOR_PREFIX"] ? process.env["AZURE_MONITOR_PREFIX"] : "";
+    const prefix = process.env[ENV_AZURE_MONITOR_PREFIX]
+      ? process.env[ENV_AZURE_MONITOR_PREFIX]
+      : "";
     const version = this._getVersion();
     const internalSdkVersion = `${prefix}node${Context.nodeVersion}:otel${Context.opentelemetryVersion}:${version}`;
     this.tags[KnownContextTagKeys.AiInternalSdkVersion] = internalSdkVersion;
   }
 
   private _getVersion(): string {
-    if (process.env["APPLICATION_INSIGHTS_SHIM_VERSION"]) {
-      return `sha${process.env["APPLICATION_INSIGHTS_SHIM_VERSION"]}`;
-    } else if (process.env["AZURE_MONITOR_DISTRO_VERSION"]) {
-      return `dst${process.env["AZURE_MONITOR_DISTRO_VERSION"]}`;
+    if (process.env[ENV_APPLICATIONINSIGHTS_SHIM_VERSION]) {
+      return `sha${process.env[ENV_APPLICATIONINSIGHTS_SHIM_VERSION]}`;
+    } else if (process.env[ENV_AZURE_MONITOR_DISTRO_VERSION]) {
+      return `dst${process.env[ENV_AZURE_MONITOR_DISTRO_VERSION]}`;
     } else {
       return `ext${Context.sdkVersion}`;
     }
