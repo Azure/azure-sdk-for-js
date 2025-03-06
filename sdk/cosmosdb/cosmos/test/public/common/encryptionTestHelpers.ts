@@ -541,7 +541,7 @@ export async function verifyItemByRead(
 export async function validateQueryResults(
   container: Container,
   query: EncryptionQueryBuilder | SqlQuerySpec,
-  expectedDocList: TestDoc[],
+  expectedDocList: any[],
   decryptOperation: boolean = true,
   expectedPropertiesDecryptedCount: number = 12,
   options?: RequestOptions,
