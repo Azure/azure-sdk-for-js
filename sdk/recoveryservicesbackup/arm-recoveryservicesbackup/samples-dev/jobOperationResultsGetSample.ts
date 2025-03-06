@@ -7,9 +7,7 @@
  */
 import { RecoveryServicesBackupClient } from "@azure/arm-recoveryservicesbackup";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Fetches the result of any operation.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Fetches the result of any operation.
  * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/Common/CancelJobOperationResult.json
  */
-async function cancelJobOperationResult() {
+async function cancelJobOperationResult(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICESBACKUP_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const vaultName = "NetSDKTestRsVault";
@@ -35,7 +33,7 @@ async function cancelJobOperationResult() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await cancelJobOperationResult();
 }
 

@@ -8,9 +8,7 @@
 import type { ServerCollector, ServerCollectorsCreateOptionalParams } from "@azure/arm-migrate";
 import { AzureMigrateV2 } from "@azure/arm-migrate";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create or Update Server collector
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Create or Update Server collector
  * x-ms-original-file: specification/migrate/resource-manager/Microsoft.Migrate/stable/2019-10-01/examples/ServerCollectors_Create.json
  */
-async function serverCollectorsCreate() {
+async function serverCollectorsCreate(): Promise<void> {
   const subscriptionId =
     process.env["MIGRATE_SUBSCRIPTION_ID"] || "4bd2aa0f-2bd2-4d67-91a8-5a4533d58600";
   const resourceGroupName = process.env["MIGRATE_RESOURCE_GROUP"] || "pajindtest";
@@ -52,7 +50,7 @@ async function serverCollectorsCreate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await serverCollectorsCreate();
 }
 

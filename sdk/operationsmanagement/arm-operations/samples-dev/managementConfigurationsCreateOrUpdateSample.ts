@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Creates or updates the ManagementConfiguration.
  * x-ms-original-file: specification/operationsmanagement/resource-manager/Microsoft.OperationsManagement/preview/2015-11-01-preview/examples/ManagementConfigurationCreate.json
  */
-async function managementConfigurationCreate() {
+async function managementConfigurationCreate(): Promise<void> {
   const subscriptionId = "subid";
   const resourceGroupName = "rg1";
   const managementConfigurationName = "managementConfiguration1";

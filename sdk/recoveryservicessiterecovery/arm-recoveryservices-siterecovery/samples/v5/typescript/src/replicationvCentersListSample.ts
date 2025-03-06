@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { SiteRecoveryManagementClient } from "@azure/arm-recoveryservices-siterecovery";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists the vCenter servers registered in the vault.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Lists the vCenter servers registered in the vault.
  * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationvCenters_List.json
  */
-async function getsTheListOfVCenterRegisteredUnderTheVault() {
+async function getsTheListOfVCenterRegisteredUnderTheVault(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICESSITERECOVERY_SUBSCRIPTION_ID"] ||
     "7c943c1b-5122-4097-90c8-861411bdd574";
@@ -39,7 +37,7 @@ async function getsTheListOfVCenterRegisteredUnderTheVault() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getsTheListOfVCenterRegisteredUnderTheVault();
 }
 

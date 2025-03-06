@@ -7,9 +7,7 @@
  */
 import { LogicManagementClient } from "@azure/arm-logic";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets the managed Api operations.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Gets the managed Api operations.
  * x-ms-original-file: specification/logic/resource-manager/Microsoft.Logic/stable/2019-05-01/examples/IntegrationServiceEnvironments_ManagedApis_ListApiOperations.json
  */
-async function getsTheIntegrationServiceEnvironmentManagedApis() {
+async function getsTheIntegrationServiceEnvironmentManagedApis(): Promise<void> {
   const subscriptionId =
     process.env["LOGIC_SUBSCRIPTION_ID"] || "80d4fe69-c95b-4dd2-a938-9250f1c8ab03";
   const resourceGroup = "testResourceGroup";
@@ -36,7 +34,7 @@ async function getsTheIntegrationServiceEnvironmentManagedApis() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await getsTheIntegrationServiceEnvironmentManagedApis();
 }
 

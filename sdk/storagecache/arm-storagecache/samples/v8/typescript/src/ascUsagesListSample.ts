@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { StorageCacheManagementClient } from "@azure/arm-storagecache";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets the quantity used and quota limit for resources
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Gets the quantity used and quota limit for resources
  * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2024-03-01/examples/AscResourceUsages_Get.json
  */
-async function ascUsagesList() {
+async function ascUsagesList(): Promise<void> {
   const subscriptionId =
     process.env["STORAGECACHE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -34,7 +32,7 @@ async function ascUsagesList() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   ascUsagesList();
 }
 

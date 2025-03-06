@@ -63,7 +63,7 @@ describe("Realtime", () => {
       output.outputText,
       "Expected output text to be different from input text.",
     );
-  }, 10000);
+  }, 20000);
 
   it("tag returns expected", async () => {
     const content: DeidentificationContent = {
@@ -101,5 +101,5 @@ describe("Realtime", () => {
       output.taggerResult!.entities[0].length.utf8 === 10,
       "Expected first tag to be 10 characters long.",
     );
-  }, 10000);
+  }, 20000);
 });

@@ -17,7 +17,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Creates a new peering or updates an existing peering with the specified name under the given subscription and resource group.
  * x-ms-original-file: specification/peering/resource-manager/Microsoft.Peering/stable/2021-06-01/examples/CreateDirectPeering.json
  */
-async function createADirectPeering() {
+async function createADirectPeering(): Promise<void> {
   const subscriptionId = "subId";
   const resourceGroupName = "rgName";
   const peeringName = "peeringName";
@@ -74,7 +74,7 @@ createADirectPeering().catch(console.error);
  * @summary Creates a new peering or updates an existing peering with the specified name under the given subscription and resource group.
  * x-ms-original-file: specification/peering/resource-manager/Microsoft.Peering/stable/2021-06-01/examples/CreatePeeringWithExchangeRouteServer.json
  */
-async function createAPeeringWithExchangeRouteServer() {
+async function createAPeeringWithExchangeRouteServer(): Promise<void> {
   const subscriptionId = "subId";
   const resourceGroupName = "rgName";
   const peeringName = "peeringName";
@@ -124,7 +124,7 @@ createAPeeringWithExchangeRouteServer().catch(console.error);
  * @summary Creates a new peering or updates an existing peering with the specified name under the given subscription and resource group.
  * x-ms-original-file: specification/peering/resource-manager/Microsoft.Peering/stable/2021-06-01/examples/CreateExchangePeering.json
  */
-async function createAnExchangePeering() {
+async function createAnExchangePeering(): Promise<void> {
   const subscriptionId = "subId";
   const resourceGroupName = "rgName";
   const peeringName = "peeringName";

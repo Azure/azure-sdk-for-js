@@ -8,9 +8,7 @@
 import type { AutonomousDatabase } from "@azure/arm-oracledatabase";
 import { OracleDatabaseManagementClient } from "@azure/arm-oracledatabase";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create a AutonomousDatabase
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Create a AutonomousDatabase
  * x-ms-original-file: specification/oracle/resource-manager/Oracle.Database/stable/2023-09-01/examples/autonomousDatabase_create.json
  */
-async function autonomousDatabasesCreateOrUpdate() {
+async function autonomousDatabasesCreateOrUpdate(): Promise<void> {
   const subscriptionId =
     process.env["ORACLEDATABASE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = process.env["ORACLEDATABASE_RESOURCE_GROUP"] || "rg000";
@@ -58,7 +56,7 @@ async function autonomousDatabasesCreateOrUpdate() {
  * @summary Create a AutonomousDatabase
  * x-ms-original-file: specification/oracle/resource-manager/Oracle.Database/stable/2023-09-01/examples/autonomousDatabaseClone_create.json
  */
-async function autonomousDatabasesCreateOrUpdateClone() {
+async function autonomousDatabasesCreateOrUpdateClone(): Promise<void> {
   const subscriptionId =
     process.env["ORACLEDATABASE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = process.env["ORACLEDATABASE_RESOURCE_GROUP"] || "rg000";
@@ -100,7 +98,7 @@ async function autonomousDatabasesCreateOrUpdateClone() {
  * @summary Create a AutonomousDatabase
  * x-ms-original-file: specification/oracle/resource-manager/Oracle.Database/stable/2023-09-01/examples/autonomousDatabase_create.json
  */
-async function createAutonomousDatabase() {
+async function createAutonomousDatabase(): Promise<void> {
   const subscriptionId =
     process.env["ORACLEDATABASE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = process.env["ORACLEDATABASE_RESOURCE_GROUP"] || "rg000";
@@ -140,7 +138,7 @@ async function createAutonomousDatabase() {
  * @summary Create a AutonomousDatabase
  * x-ms-original-file: specification/oracle/resource-manager/Oracle.Database/stable/2023-09-01/examples/autonomousDatabaseClone_create.json
  */
-async function createCloneAutonomousDatabase() {
+async function createCloneAutonomousDatabase(): Promise<void> {
   const subscriptionId =
     process.env["ORACLEDATABASE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = process.env["ORACLEDATABASE_RESOURCE_GROUP"] || "rg000";
@@ -176,7 +174,7 @@ async function createCloneAutonomousDatabase() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await autonomousDatabasesCreateOrUpdate();
   await autonomousDatabasesCreateOrUpdateClone();
   await createAutonomousDatabase();

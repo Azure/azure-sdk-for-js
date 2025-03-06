@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { StorageImportExport } from "@azure/arm-storageimportexport";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Returns all active and completed jobs in a resource group.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Returns all active and completed jobs in a resource group.
  * x-ms-original-file: specification/storageimportexport/resource-manager/Microsoft.ImportExport/preview/2021-01-01/examples/ListJobsInResourceGroup.json
  */
-async function listJobsInAResourceGroup() {
+async function listJobsInAResourceGroup(): Promise<void> {
   const subscriptionId =
     process.env["STORAGEIMPORTEXPORT_SUBSCRIPTION_ID"] ||
     "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx";
@@ -35,7 +33,7 @@ async function listJobsInAResourceGroup() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listJobsInAResourceGroup();
 }
 

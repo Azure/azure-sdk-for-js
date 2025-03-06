@@ -11,7 +11,7 @@ import "dotenv/config";
  * @summary Deletes the specified peering from a Virtual Router.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/VirtualRouterPeeringDelete.json
  */
-async function deleteVirtualRouterPeering() {
+async function deleteVirtualRouterPeering(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

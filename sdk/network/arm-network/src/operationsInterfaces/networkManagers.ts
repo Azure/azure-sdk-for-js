@@ -20,7 +20,7 @@ import {
   PatchObject,
   NetworkManagersPatchOptionalParams,
   NetworkManagersPatchResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a NetworkManagers. */

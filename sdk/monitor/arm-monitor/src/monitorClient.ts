@@ -14,7 +14,7 @@ import {
   OperationState,
   createHttpPoller,
 } from "@azure/core-lro";
-import { createLroSpec } from "./lroImpl";
+import { createLroSpec } from "./lroImpl.js";
 import {
   MetricNamespacesImpl,
   MetricDefinitionsImpl,
@@ -48,7 +48,7 @@ import {
   DataCollectionEndpointsImpl,
   DataCollectionRuleAssociationsImpl,
   DataCollectionRulesImpl,
-} from "./operations";
+} from "./operations/index.js";
 import {
   MetricNamespaces,
   MetricDefinitions,
@@ -82,9 +82,9 @@ import {
   DataCollectionEndpoints,
   DataCollectionRuleAssociations,
   DataCollectionRules,
-} from "./operationsInterfaces";
-import * as Parameters from "./models/parameters";
-import * as Mappers from "./models/mappers";
+} from "./operationsInterfaces/index.js";
+import * as Parameters from "./models/parameters.js";
+import * as Mappers from "./models/mappers.js";
 import {
   MonitorClientOptionalParams,
   TenantNotificationRequestBody,
@@ -92,7 +92,7 @@ import {
   CreateNotificationsAtTenantActionGroupResourceLevelResponse,
   GetTestNotificationsAtTenantActionGroupResourceLevelOptionalParams,
   GetTestNotificationsAtTenantActionGroupResourceLevelResponse,
-} from "./models";
+} from "./models/index.js";
 
 export class MonitorClient extends coreClient.ServiceClient {
   $host: string;

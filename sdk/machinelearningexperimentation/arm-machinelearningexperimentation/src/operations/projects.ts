@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { Projects } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { Projects } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { MLTeamAccountManagementClient } from "../mLTeamAccountManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { MLTeamAccountManagementClient } from "../mLTeamAccountManagementClient.js";
 import {
   Project,
   ProjectsListByWorkspaceNextOptionalParams,
@@ -27,7 +27,7 @@ import {
   ProjectsUpdateOptionalParams,
   ProjectsUpdateResponse,
   ProjectsListByWorkspaceNextResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Projects operations. */

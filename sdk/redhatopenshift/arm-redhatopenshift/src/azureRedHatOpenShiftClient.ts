@@ -22,7 +22,7 @@ import {
   SecretsImpl,
   SyncIdentityProvidersImpl,
   SyncSetsImpl,
-} from "./operations";
+} from "./operations/index.js";
 import {
   Operations,
   OpenShiftVersions,
@@ -31,8 +31,8 @@ import {
   Secrets,
   SyncIdentityProviders,
   SyncSets,
-} from "./operationsInterfaces";
-import { AzureRedHatOpenShiftClientOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { AzureRedHatOpenShiftClientOptionalParams } from "./models/index.js";
 
 export class AzureRedHatOpenShiftClient extends coreClient.ServiceClient {
   $host: string;

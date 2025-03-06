@@ -17,6 +17,10 @@ import {
   SEMRESATTRS_SERVICE_NAMESPACE,
   SEMRESATTRS_K8S_DEPLOYMENT_NAME,
   SEMRESATTRS_K8S_POD_NAME,
+  ATTR_HTTP_RESPONSE_STATUS_CODE,
+  ATTR_USER_AGENT_ORIGINAL,
+  ATTR_CLIENT_ADDRESS,
+  ATTR_SERVER_PORT,
 } from "@opentelemetry/semantic-conventions";
 import { ExportResultCode } from "@opentelemetry/core";
 import { LoggerProvider, LogRecord } from "@opentelemetry/sdk-logs";
@@ -255,6 +259,36 @@ describe("#StandardMetricsHandler", () => {
     assert.equal(metrics[0].dataPoints[0].attributes["operation/synthetic"], "True");
   });
 
+  it("[new sem conv] should mark as synthetic if UserAgent is 'AlwaysOn'", async () => {
+    const resource = new Resource({});
+    const serverSpan: any = {
+      kind: SpanKind.SERVER,
+      duration: [654321],
+      status: { code: SpanStatusCode.OK },
+      attributes: {
+        [ATTR_HTTP_RESPONSE_STATUS_CODE]: 200,
+        [ATTR_USER_AGENT_ORIGINAL]: "AlwaysOn",
+      },
+      resource: resource,
+    };
+    autoCollect.recordSpan(serverSpan);
+
+    for (let i = 0; i < 10; i++) {
+      serverSpan.duration[0] = i * 100000;
+      autoCollect.recordSpan(serverSpan);
+    }
+
+    await new Promise((resolve) => setTimeout(resolve, 1500));
+    assert.ok(exportStub.called);
+    const resourceMetrics = exportStub.args[0][0];
+    const scopeMetrics = resourceMetrics.scopeMetrics;
+    assert.strictEqual(scopeMetrics.length, 1, "scopeMetrics count");
+    const metrics = scopeMetrics[0].metrics;
+    assert.strictEqual(metrics.length, 1, "metrics count");
+    assert.strictEqual(metrics[0].descriptor.name, "requests/duration");
+    assert.equal(metrics[0].dataPoints[0].attributes["operation/synthetic"], "True");
+  });
+
   it("should set service name based on service namespace if provided", async () => {
     const resource = new Resource({});
     resource.attributes[SEMRESATTRS_SERVICE_NAMESPACE] = "testcloudRoleName";
@@ -311,6 +345,22 @@ describe("#StandardMetricsHandler", () => {
     assert.strictEqual(getDependencyTarget(attributes), "test.com");
 
     attributes = { [SEMATTRS_NET_PEER_NAME]: "test.com", [SEMATTRS_NET_HOST_PORT]: "8080" };
+    assert.strictEqual(getDependencyTarget(attributes), "test.com:8080");
+
+    attributes = { "unknown.attribute": "value" };
+    assert.strictEqual(getDependencyTarget(attributes), "");
+  });
+
+  it("[new sem conv] should set dependency targets", () => {
+    let attributes: Attributes;
+
+    attributes = { [SEMATTRS_PEER_SERVICE]: "TestService" };
+    assert.strictEqual(getDependencyTarget(attributes), "TestService");
+
+    attributes = { [ATTR_CLIENT_ADDRESS]: "test.com" };
+    assert.strictEqual(getDependencyTarget(attributes), "test.com");
+
+    attributes = { [ATTR_CLIENT_ADDRESS]: "test.com", [ATTR_SERVER_PORT]: "8080" };
     assert.strictEqual(getDependencyTarget(attributes), "test.com:8080");
 
     attributes = { "unknown.attribute": "value" };

@@ -10,7 +10,7 @@ import type {
   MessagesServiceClient,
   MessageTemplate,
   MessageTemplateValue,
-  MessageTemplateBindings,
+  MessageTemplateBindings
 } from "@azure-rest/communication-messages";
 import NotificationClient, { isUnexpected } from "@azure-rest/communication-messages";
 

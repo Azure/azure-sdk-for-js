@@ -7,9 +7,7 @@
  */
 import { AzureMediaServices } from "@azure/arm-mediaservices";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get the details of an Asset in the Media Services account
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Get the details of an Asset in the Media Services account
  * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Metadata/stable/2022-08-01/examples/assets-get-by-name.json
  */
-async function getAnAssetByName() {
+async function getAnAssetByName(): Promise<void> {
   const subscriptionId =
     process.env["MEDIASERVICES_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = process.env["MEDIASERVICES_RESOURCE_GROUP"] || "contoso";
@@ -29,7 +27,7 @@ async function getAnAssetByName() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await getAnAssetByName();
 }
 

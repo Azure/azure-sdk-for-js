@@ -12,7 +12,7 @@ import {
   IntegrationRuntimeAuthKeysRegenerateResponse,
   IntegrationRuntimeAuthKeysListOptionalParams,
   IntegrationRuntimeAuthKeysListResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a IntegrationRuntimeAuthKeysOperations. */
 export interface IntegrationRuntimeAuthKeysOperations {

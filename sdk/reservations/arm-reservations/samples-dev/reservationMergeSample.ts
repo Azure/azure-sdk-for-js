@@ -8,9 +8,7 @@
 import type { MergeRequest } from "@azure/arm-reservations";
 import { AzureReservationAPI } from "@azure/arm-reservations";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Merge the specified `Reservation`s into a new `Reservation`. The two `Reservation`s being merged must have same properties.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Merge the specified `Reservation`s into a new `Reservation`. The two `Reservation`s being merged must have same properties.
  * x-ms-original-file: specification/reservations/resource-manager/Microsoft.Capacity/stable/2022-11-01/examples/MergeReservations.json
  */
-async function merge() {
+async function merge(): Promise<void> {
   const reservationOrderId = "276e7ae4-84d0-4da6-ab4b-d6b94f3557da";
   const body: MergeRequest = {
     sources: [
@@ -32,7 +30,7 @@ async function merge() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await merge();
 }
 

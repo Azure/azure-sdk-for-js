@@ -10,7 +10,7 @@ import * as coreClient from "@azure/core-client";
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "./lroImpl";
+import { LroImpl } from "./lroImpl.js";
 import {
   ServersImpl,
   ReplicasImpl,
@@ -37,7 +37,7 @@ import {
   PrivateEndpointConnectionsImpl,
   PrivateLinkResourcesImpl,
   ServerKeysImpl
-} from "./operations";
+} from "./operations/index.js";
 import {
   Servers,
   Replicas,
@@ -64,15 +64,15 @@ import {
   PrivateEndpointConnections,
   PrivateLinkResources,
   ServerKeys
-} from "./operationsInterfaces";
-import * as Parameters from "./models/parameters";
-import * as Mappers from "./models/mappers";
+} from "./operationsInterfaces/index.js";
+import * as Parameters from "./models/parameters.js";
+import * as Mappers from "./models/mappers.js";
 import {
   MySQLManagementClientOptionalParams,
   ResetQueryPerformanceInsightDataOptionalParams,
   ResetQueryPerformanceInsightDataResponse,
   CreateRecommendedActionSessionOptionalParams
-} from "./models";
+} from "./models/index.js";
 
 export class MySQLManagementClient extends coreClient.ServiceClient {
   $host: string;

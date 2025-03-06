@@ -11,7 +11,7 @@ import {
   DiscoverySolutionNLPDiscoverSolutionsResponse,
   DiscoverySolutionNLPDiscoverSolutionsBySubscriptionOptionalParams,
   DiscoverySolutionNLPDiscoverSolutionsBySubscriptionResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a DiscoverySolutionNLP. */
 export interface DiscoverySolutionNLP {

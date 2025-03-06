@@ -14,7 +14,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary The operation to enable a subscription
  * x-ms-original-file: specification/subscription/resource-manager/Microsoft.Subscription/stable/2021-10-01/examples/enableSubscription.json
  */
-async function enableSubscription() {
+async function enableSubscription(): Promise<void> {
   const subscriptionId = "7948bcee-488c-47ce-941c-38e20ede803d";
   const credential = new DefaultAzureCredential();
   const client = new SubscriptionClient(credential);

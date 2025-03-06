@@ -13,7 +13,7 @@ import "dotenv/config";
  * @summary Creates or updates a subnet in the specified virtual network.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/SubnetCreate.json
  */
-async function createSubnet() {
+async function createSubnet(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -45,7 +45,7 @@ createSubnet().catch(console.error);
  * @summary Creates or updates a subnet in the specified virtual network.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/SubnetCreateWithDelegation.json
  */
-async function createSubnetWithADelegation() {
+async function createSubnetWithADelegation(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -77,7 +77,7 @@ createSubnetWithADelegation().catch(console.error);
  * @summary Creates or updates a subnet in the specified virtual network.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/SubnetCreateServiceEndpoint.json
  */
-async function createSubnetWithServiceEndpoints() {
+async function createSubnetWithServiceEndpoints(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

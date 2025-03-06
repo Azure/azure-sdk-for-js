@@ -8,9 +8,7 @@
 import type { GovernanceRule } from "@azure/arm-security";
 import { SecurityCenter } from "@azure/arm-security";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates or updates a governance rule over a given scope
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Creates or updates a governance rule over a given scope
  * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/preview/2022-01-01-preview/examples/GovernanceRules/PutManagementGroupGovernanceRule_example.json
  */
-async function createOrUpdateGovernanceRuleOverManagementGroupScope() {
+async function createOrUpdateGovernanceRuleOverManagementGroupScope(): Promise<void> {
   const scope = "providers/Microsoft.Management/managementGroups/contoso";
   const ruleId = "ad9a8e26-29d9-4829-bb30-e597a58cdbb8";
   const governanceRule: GovernanceRule = {
@@ -61,7 +59,7 @@ async function createOrUpdateGovernanceRuleOverManagementGroupScope() {
  * @summary Creates or updates a governance rule over a given scope
  * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/preview/2022-01-01-preview/examples/GovernanceRules/PutSecurityConnectorGovernanceRule_example.json
  */
-async function createOrUpdateGovernanceRuleOverSecurityConnectorScope() {
+async function createOrUpdateGovernanceRuleOverSecurityConnectorScope(): Promise<void> {
   const scope =
     "subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourceGroups/gcpResourceGroup/providers/Microsoft.Security/securityConnectors/gcpconnector";
   const ruleId = "ad9a8e26-29d9-4829-bb30-e597a58cdbb8";
@@ -104,7 +102,7 @@ async function createOrUpdateGovernanceRuleOverSecurityConnectorScope() {
  * @summary Creates or updates a governance rule over a given scope
  * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/preview/2022-01-01-preview/examples/GovernanceRules/PutGovernanceRule_example.json
  */
-async function createOrUpdateGovernanceRuleOverSubscriptionScope() {
+async function createOrUpdateGovernanceRuleOverSubscriptionScope(): Promise<void> {
   const scope = "subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23";
   const ruleId = "ad9a8e26-29d9-4829-bb30-e597a58cdbb8";
   const governanceRule: GovernanceRule = {
@@ -140,7 +138,7 @@ async function createOrUpdateGovernanceRuleOverSubscriptionScope() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await createOrUpdateGovernanceRuleOverManagementGroupScope();
   await createOrUpdateGovernanceRuleOverSecurityConnectorScope();
   await createOrUpdateGovernanceRuleOverSubscriptionScope();

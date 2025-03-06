@@ -11,7 +11,7 @@ import {
   Update,
   UpdatesListParentOptionalParams,
   UpdatesListOptionalParams,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Updates. */

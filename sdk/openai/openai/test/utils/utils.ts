@@ -33,6 +33,7 @@ export enum APIVersion {
   Preview = "2025-01-01-preview",
   Stable = "2024-10-21",
   OpenAI = "OpenAI",
+  "2024_10_01_preview" = "2024-10-01-preview",
 }
 
 export const APIMatrix = [APIVersion.Preview, APIVersion.Stable];

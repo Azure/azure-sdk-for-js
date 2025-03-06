@@ -60,9 +60,10 @@ You'll need to register the new Microsoft Entra ID application and grant access 
 You will also need to specify the Azure Maps resource you intend to use by specifying the `clientId` in the client options.
 The Azure Maps resource client id can be found in the Authentication sections in the Azure Maps resource. Please refer to the [documentation](https://learn.microsoft.com/azure/azure-maps/how-to-manage-authentication#view-authentication-details) on how to find it.
 
-```javascript
-const MapsGeolocation = require("@azure-rest/maps-geolocation").default;
-const { DefaultAzureCredential } = require("@azure/identity");
+```ts snippet:ReadmeSampleCreateClient_TokenCredential
+import { DefaultAzureCredential } from "@azure/identity";
+import MapsGeolocation from "@azure-rest/maps-geolocation";
+
 const credential = new DefaultAzureCredential();
 const client = MapsGeolocation(credential, "<maps-account-client-id>");
 ```
@@ -75,9 +76,10 @@ You can authenticate with your Azure Maps Subscription Key. Please install the["
 npm install @azure/core-auth
 ```
 
-```javascript
-const MapsGeolocation = require("@azure-rest/maps-geolocation").default;
-const { AzureKeyCredential } = require("@azure/core-auth");
+```ts snippet:ReadmeSampleCreateClient_SubscriptionKey
+import { AzureKeyCredential } from "@azure/core-auth";
+import MapsGeolocation from "@azure-rest/maps-geolocation";
+
 const credential = new AzureKeyCredential("<subscription-key>");
 const client = MapsGeolocation(credential);
 ```
@@ -98,11 +100,11 @@ npm install @azure/core-auth
 
 Finally, you can use the SAS token to authenticate the client:
 
-```javascript
-const MapsGeolocation = require("@azure-rest/maps-geolocation").default;
-const { AzureSASCredential } = require("@azure/core-auth");
-const { DefaultAzureCredential } = require("@azure/identity");
-const { AzureMapsManagementClient } = require("@azure/arm-maps");
+```ts snippet:ReadmeSampleCreateClient_SAS
+import { DefaultAzureCredential } from "@azure/identity";
+import { AzureMapsManagementClient } from "@azure/arm-maps";
+import { AzureSASCredential } from "@azure/core-auth";
+import MapsGeolocation from "@azure-rest/maps-geolocation";
 
 const subscriptionId = "<subscription ID of the map account>";
 const resourceGroupName = "<resource group name of the map account>";
@@ -114,6 +116,7 @@ const mapsAccountSasParameters = {
   principalId: "<principle ID (object ID) of the managed identity>",
   signingKey: "primaryKey",
 };
+
 const credential = new DefaultAzureCredential();
 const managementClient = new AzureMapsManagementClient(credential, subscriptionId);
 const { accountSasToken } = await managementClient.accounts.listSas(
@@ -121,9 +124,11 @@ const { accountSasToken } = await managementClient.accounts.listSas(
   accountName,
   mapsAccountSasParameters,
 );
+
 if (accountSasToken === undefined) {
   throw new Error("No accountSasToken was found for the Maps Account.");
 }
+
 const sasCredential = new AzureSASCredential(accountSasToken);
 const client = MapsGeolocation(sasCredential);
 ```
@@ -138,8 +143,12 @@ const client = MapsGeolocation(sasCredential);
 
 You can get the country code from a IP address:
 
-```javascript
-const { isUnexpected } = require("@azure-rest/maps-geolocation");
+```ts snippet:ReadmeSampleGetCountryCode
+import { DefaultAzureCredential } from "@azure/identity";
+import MapsGeolocation, { isUnexpected } from "@azure-rest/maps-geolocation";
+
+const credential = new DefaultAzureCredential();
+const client = MapsGeolocation(credential, "<maps-account-client-id>");
 
 const result = await client.path("/geolocation/ip/{format}", "json").get({
   queryParameters: { ip: "2001:4898:80e8:b::189" },
@@ -148,9 +157,11 @@ const result = await client.path("/geolocation/ip/{format}", "json").get({
 if (isUnexpected(result)) {
   throw result.body.error;
 }
+
 if (!result.body.countryRegion) {
   throw new Error("No country region was found for the IP address.");
 }
+
 console.log(`The country code for the IP address is ${result.body.countryRegion.isoCode}`);
 ```
 
@@ -160,15 +171,13 @@ console.log(`The country code for the IP address is ${result.body.countryRegion.
 
 Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
 
-```javascript
-const { setLogLevel } = require("@azure/logger");
+```ts snippet:SetLogLevel
+import { setLogLevel } from "@azure/logger";
 
 setLogLevel("info");
 ```
 
 For more detailed instructions on how to enable logs, you can look at the [@azure/logger package docs](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/logger).
-
-
 
 [source_code]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/maps/maps-geolocation-rest
 [npm_package]: https://www.npmjs.com/package/@azure-rest/maps-geolocation

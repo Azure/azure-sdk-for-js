@@ -23,7 +23,7 @@ import {
   DeviceGroupsImpl,
   DeploymentsImpl,
   DevicesImpl,
-} from "./operations";
+} from "./operations/index.js";
 import {
   Operations,
   Catalogs,
@@ -33,8 +33,8 @@ import {
   DeviceGroups,
   Deployments,
   Devices,
-} from "./operationsInterfaces";
-import { AzureSphereManagementClientOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { AzureSphereManagementClientOptionalParams } from "./models/index.js";
 
 export class AzureSphereManagementClient extends coreClient.ServiceClient {
   $host: string;

@@ -44,11 +44,11 @@ export class EncryptionItemQueryIterator<Item> extends QueryIterator<Item> {
       null,
     );
     try {
-      response = yield* super.getAsyncIteratorInternal(diagnosticNode);
+      response = yield* QueryIterator.prototype.getAsyncIteratorInternal.call(this, diagnosticNode);
     } catch (error) {
       await this.container.throwIfRequestNeedsARetryPostPolicyRefresh(error);
     }
-    if (response.resources && response.resources.length > 0) {
+    if (response?.resources?.length > 0) {
       for (let resource of response.resources) {
         resource = await this.container.encryptionProcessor.decrypt(resource);
       }
@@ -63,11 +63,11 @@ export class EncryptionItemQueryIterator<Item> extends QueryIterator<Item> {
     return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
       let response: FeedResponse<Item>;
       try {
-        response = await super.fetchAllInternal(diagnosticNode);
+        response = await QueryIterator.prototype.fetchAllInternal.call(this, diagnosticNode);
       } catch (error) {
         await this.container.throwIfRequestNeedsARetryPostPolicyRefresh(error);
       }
-      if (response && response.resources && response.resources.length > 0) {
+      if (response?.resources?.length > 0) {
         for (let resource of response.resources) {
           resource = await this.container.encryptionProcessor.decrypt(resource, diagnosticNode);
         }
@@ -83,11 +83,11 @@ export class EncryptionItemQueryIterator<Item> extends QueryIterator<Item> {
     return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
       let response: FeedResponse<Item>;
       try {
-        response = await super.fetchNextInternal(diagnosticNode);
+        response = await QueryIterator.prototype.fetchNextInternal.call(this, diagnosticNode);
       } catch (error) {
         await this.container.throwIfRequestNeedsARetryPostPolicyRefresh(error);
       }
-      if (response.resources && response.resources.length > 0) {
+      if (response?.resources?.length > 0) {
         for (let resource of response.resources) {
           resource = await this.container.encryptionProcessor.decrypt(resource, diagnosticNode);
         }
@@ -95,13 +95,15 @@ export class EncryptionItemQueryIterator<Item> extends QueryIterator<Item> {
       return response;
     }, this.encryptionClientContext);
   }
-
-  protected override async init(diagnosticNode: DiagnosticNodeInternal): Promise<void> {
+  /**
+   * @internal
+   */
+  public override async init(diagnosticNode: DiagnosticNodeInternal): Promise<void> {
     // Ensure encryption is initialized and set rid in options
     if (!this.container.isEncryptionInitialized) {
       await this.container.initializeEncryption();
     }
     this.encryptionOptions.containerRid = this.container._rid;
-    await super.init(diagnosticNode);
+    await QueryIterator.prototype.init.call(this, diagnosticNode);
   }
 }

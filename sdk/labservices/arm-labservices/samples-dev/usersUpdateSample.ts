@@ -8,9 +8,7 @@
 import type { UserUpdate } from "@azure/arm-labservices";
 import { LabServicesClient } from "@azure/arm-labservices";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Operation to update a lab user.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Operation to update a lab user.
  * x-ms-original-file: specification/labservices/resource-manager/Microsoft.LabServices/stable/2022-08-01/examples/Users/patchUser.json
  */
-async function patchUser() {
+async function patchUser(): Promise<void> {
   const subscriptionId =
     process.env["LABSERVICES_SUBSCRIPTION_ID"] || "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
   const resourceGroupName = process.env["LABSERVICES_RESOURCE_GROUP"] || "testrg123";
@@ -31,7 +29,7 @@ async function patchUser() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await patchUser();
 }
 

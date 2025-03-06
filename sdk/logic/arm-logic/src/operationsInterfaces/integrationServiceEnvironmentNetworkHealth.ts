@@ -9,7 +9,7 @@
 import {
   IntegrationServiceEnvironmentNetworkHealthGetOptionalParams,
   IntegrationServiceEnvironmentNetworkHealthGetResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a IntegrationServiceEnvironmentNetworkHealth. */
 export interface IntegrationServiceEnvironmentNetworkHealth {

@@ -7,9 +7,7 @@
  */
 import { MobileNetworkManagementClient } from "@azure/arm-mobilenetwork";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists all the packet core control planes in a resource group.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Lists all the packet core control planes in a resource group.
  * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/stable/2024-04-01/examples/PacketCoreControlPlaneListByResourceGroup.json
  */
-async function listPacketCoreControlPlanesInResourceGroup() {
+async function listPacketCoreControlPlanesInResourceGroup(): Promise<void> {
   const subscriptionId =
     process.env["MOBILENETWORK_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = process.env["MOBILENETWORK_RESOURCE_GROUP"] || "rg1";
@@ -30,7 +28,7 @@ async function listPacketCoreControlPlanesInResourceGroup() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await listPacketCoreControlPlanesInResourceGroup();
 }
 

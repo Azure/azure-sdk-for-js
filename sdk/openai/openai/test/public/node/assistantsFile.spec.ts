@@ -12,14 +12,14 @@ describe("Assistants", () => {
     describe(`[${apiVersion}] Client`, () => {
       let client: OpenAI;
 
-      beforeEach(async function () {
+      beforeEach(async () => {
         client = createClientsAndDeployments(apiVersion, { assistants: "true" })
           .clientsAndDeployments[0].client;
       });
 
       describe("all CRUD APIs", function () {
-        it("uploads, gets, and lists a file", async function () {
-          const filename = "sample_file_for_upload.jsonl";
+        it("uploads, gets, and lists a file assistant", async () => {
+          const filename = "sample_file_for_upload.json";
           const text =
             "The word 'apple' uses the code 442345, while the word 'banana' uses the code 673457.";
           const file = await toFile(Buffer.from(text), filename);
@@ -31,9 +31,13 @@ describe("Assistants", () => {
           assert.equal(uploadedFile.filename, filename);
           assert.equal(uploadedFile.bytes, file.size);
 
-          const fileList = await client.files.list();
+          const fileList = await client.files.list({ limit: 5 });
           assert.isNotEmpty(fileList.data);
           assert.isNotNull(fileList.data[0].id);
+
+          const fileDeleted = await client.files.del(uploadedFile.id);
+          assert.isTrue(fileDeleted.deleted);
+          assert.equal(fileDeleted.id, uploadedFile.id);
         });
       });
     });

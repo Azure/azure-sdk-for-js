@@ -6,23 +6,16 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import {
-  env,
-  Recorder,
-  RecorderStartOptions,
-  delay,
-  isPlaybackMode,
-} from "@azure-tools/test-recorder";
+import { env, Recorder, RecorderStartOptions, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { assert } from "chai";
-import { Context } from "mocha";
-import { ServiceBusManagementClient } from "../src/serviceBusManagementClient";
+import { ServiceBusManagementClient } from "../src/serviceBusManagementClient.js";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 const replaceableVariables: Record<string, string> = {
   AZURE_CLIENT_ID: "azure_client_id",
   AZURE_CLIENT_SECRET: "azure_client_secret",
   AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
-  SUBSCRIPTION_ID: "azure_subscription_id"
+  SUBSCRIPTION_ID: "azure_subscription_id",
 };
 
 const recorderOptions: RecorderStartOptions = {
@@ -44,55 +37,64 @@ describe("ServiceBus test", () => {
   let location: string;
   let resourceGroup: string;
   let namespacesName: string;
-  let authorizationRuleName: string;
   let queueName: string;
   let topicName: string;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async (ctx) => {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderOptions);
-    subscriptionId = env.SUBSCRIPTION_ID || '';
+    subscriptionId = env.SUBSCRIPTION_ID || "";
     // This is an example of how the environment variables are used
     const credential = createTestCredential();
-    client = new ServiceBusManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
+    client = new ServiceBusManagementClient(
+      credential,
+      subscriptionId,
+      recorder.configureClientOptions({}),
+    );
     location = "eastus";
     resourceGroup = "myjstest";
     namespacesName = "mynamespacexxx";
-    authorizationRuleName = "myAuthoriztionRule";
     queueName = "myQueue";
     topicName = "mytopic";
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
-  it("namespaces create test", async function () {
-    const res = await client.namespaces.beginCreateOrUpdateAndWait(resourceGroup, namespacesName, {
-      sku: {
-        name: "Standard",
-        tier: "Standard",
+  it("namespaces create test", async () => {
+    const res = await client.namespaces.beginCreateOrUpdateAndWait(
+      resourceGroup,
+      namespacesName,
+      {
+        sku: {
+          name: "Standard",
+          tier: "Standard",
+        },
+        location: location,
+        tags: {
+          tag1: "value1",
+          tag2: "value2",
+        },
       },
-      location: location,
-      tags: {
-        tag1: "value1",
-        tag2: "value2",
-      }
-    }, testPollingOptions)
+      testPollingOptions,
+    );
     assert.equal(res.name, namespacesName);
   });
 
-  it("queues create test", async function () {
-    const res = await client.queues.createOrUpdate(resourceGroup, namespacesName, queueName, { enablePartitioning: true });
+  it("queues create test", async () => {
+    const res = await client.queues.createOrUpdate(resourceGroup, namespacesName, queueName, {
+      enablePartitioning: true,
+    });
     assert.equal(res.name, queueName);
   });
 
-  it("queues get test", async function () {
+  it("queues get test", async () => {
     const res = await client.queues.get(resourceGroup, namespacesName, queueName);
     assert.equal(res.name, queueName);
   });
 
-  it("queues list test", async function () {
+  it("queues list test", async () => {
     const resArray = new Array();
     for await (let item of client.queues.listByNamespace(resourceGroup, namespacesName)) {
       resArray.push(item);
@@ -100,19 +102,19 @@ describe("ServiceBus test", () => {
     assert.equal(resArray.length, 1);
   });
 
-  it("topics create test", async function () {
+  it("topics create test", async () => {
     const res = await client.topics.createOrUpdate(resourceGroup, namespacesName, topicName, {
-      enableExpress: true
-    })
+      enableExpress: true,
+    });
     assert.equal(res.name, topicName);
   });
 
-  it("topics get test", async function () {
+  it("topics get test", async () => {
     const res = await client.topics.get(resourceGroup, namespacesName, topicName);
     assert.equal(res.name, topicName);
   });
 
-  it("topics list test", async function () {
+  it("topics list test", async () => {
     const resArray = new Array();
     for await (let item of client.topics.listByNamespace(resourceGroup, namespacesName)) {
       resArray.push(item);
@@ -120,25 +122,25 @@ describe("ServiceBus test", () => {
     assert.equal(resArray.length, 1);
   });
 
-  it("queues delete test", async function () {
-    const res = await client.queues.delete(resourceGroup, namespacesName, queueName);
+  it("queues delete test", async () => {
     const resArray = new Array();
+    await client.queues.delete(resourceGroup, namespacesName, queueName);
     for await (let item of client.queues.listByNamespace(resourceGroup, namespacesName)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 0);
   });
 
-  it("topics delete test", async function () {
-    const res = await client.topics.delete(resourceGroup, namespacesName, topicName);
+  it("topics delete test", async () => {
     const resArray = new Array();
+    await client.topics.delete(resourceGroup, namespacesName, topicName);
     for await (let item of client.topics.listByNamespace(resourceGroup, namespacesName)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 0);
   });
 
-  it("namespaces delete test", async function () {
-    const res = await client.namespaces.beginDeleteAndWait(resourceGroup, namespacesName, testPollingOptions);
+  it("namespaces delete test", async () => {
+    await client.namespaces.beginDeleteAndWait(resourceGroup, namespacesName, testPollingOptions);
   });
 });

@@ -7,9 +7,7 @@
  */
 import { MobileNetworkManagementClient } from "@azure/arm-mobilenetwork";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets information about the specified packet core control plane version.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Gets information about the specified packet core control plane version.
  * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/stable/2024-04-01/examples/PacketCoreControlPlaneVersionGet.json
  */
-async function getPacketCoreControlPlaneVersion() {
+async function getPacketCoreControlPlaneVersion(): Promise<void> {
   const versionName = "2404.0-1";
   const credential = new DefaultAzureCredential();
   const client = new MobileNetworkManagementClient(credential);
@@ -25,7 +23,7 @@ async function getPacketCoreControlPlaneVersion() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await getPacketCoreControlPlaneVersion();
 }
 

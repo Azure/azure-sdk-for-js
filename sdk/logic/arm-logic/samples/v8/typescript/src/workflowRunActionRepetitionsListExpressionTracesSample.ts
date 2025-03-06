@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { LogicManagementClient } from "@azure/arm-logic";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists a workflow run expression trace.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Lists a workflow run expression trace.
  * x-ms-original-file: specification/logic/resource-manager/Microsoft.Logic/stable/2019-05-01/examples/WorkflowRunActionRepetitions_ListExpressionTraces.json
  */
-async function listExpressionTracesForARepetition() {
+async function listExpressionTracesForARepetition(): Promise<void> {
   const subscriptionId =
     process.env["LOGIC_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -45,7 +43,7 @@ async function listExpressionTracesForARepetition() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listExpressionTracesForARepetition();
 }
 

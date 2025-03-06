@@ -32,7 +32,7 @@ import {
   DbServersImpl,
   DbNodesImpl,
   VirtualNetworkAddressesImpl,
-} from "./operations";
+} from "./operations/index.js";
 import {
   Operations,
   AutonomousDatabases,
@@ -51,8 +51,8 @@ import {
   DbServers,
   DbNodes,
   VirtualNetworkAddresses,
-} from "./operationsInterfaces";
-import { OracleDatabaseManagementClientOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { OracleDatabaseManagementClientOptionalParams } from "./models/index.js";
 
 export class OracleDatabaseManagementClient extends coreClient.ServiceClient {
   $host: string;

@@ -7,9 +7,7 @@
  */
 import { SecurityCenter } from "@azure/arm-security";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Deletes a custom assessment automation by name for a provided subscription
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Deletes a custom assessment automation by name for a provided subscription
  * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/preview/2021-07-01-preview/examples/CustomAssessmentAutomations/customAssessmentAutomationDelete_example.json
  */
-async function deleteACustomAssessmentAutomation() {
+async function deleteACustomAssessmentAutomation(): Promise<void> {
   const subscriptionId =
     process.env["SECURITY_SUBSCRIPTION_ID"] || "e5d1b86c-3051-44d5-8802-aa65d45a279b";
   const resourceGroupName = process.env["SECURITY_RESOURCE_GROUP"] || "TestResourceGroup";
@@ -31,7 +29,7 @@ async function deleteACustomAssessmentAutomation() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await deleteACustomAssessmentAutomation();
 }
 

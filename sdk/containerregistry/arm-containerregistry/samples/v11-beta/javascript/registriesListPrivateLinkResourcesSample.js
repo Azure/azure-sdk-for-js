@@ -10,13 +10,13 @@
 // Licensed under the MIT License.
 const { ContainerRegistryManagementClient } = require("@azure/arm-containerregistry");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Lists the private link resources for a container registry.
  *
  * @summary Lists the private link resources for a container registry.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2023-11-01-preview/examples/RegistryListPrivateLinkResources.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2024-11-01-preview/examples/RegistryListPrivateLinkResources.json
  */
 async function registryListPrivateLinkResources() {
   const subscriptionId =
@@ -28,7 +28,7 @@ async function registryListPrivateLinkResources() {
   const resArray = new Array();
   for await (let item of client.registries.listPrivateLinkResources(
     resourceGroupName,
-    registryName
+    registryName,
   )) {
     resArray.push(item);
   }
@@ -36,7 +36,7 @@ async function registryListPrivateLinkResources() {
 }
 
 async function main() {
-  registryListPrivateLinkResources();
+  await registryListPrivateLinkResources();
 }
 
 main().catch(console.error);

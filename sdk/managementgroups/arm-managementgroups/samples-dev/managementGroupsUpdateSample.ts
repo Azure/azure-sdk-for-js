@@ -20,7 +20,7 @@ import { DefaultAzureCredential } from "@azure/identity";
 
  * x-ms-original-file: specification/managementgroups/resource-manager/Microsoft.Management/stable/2021-04-01/examples/PatchManagementGroup.json
  */
-async function patchManagementGroup() {
+async function patchManagementGroup(): Promise<void> {
   const groupId = "ChildGroup";
   const cacheControl = "no-cache";
   const patchGroupRequest: PatchManagementGroupRequest = {

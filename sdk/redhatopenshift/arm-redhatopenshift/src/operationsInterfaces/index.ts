@@ -6,10 +6,10 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./operations";
-export * from "./openShiftVersions";
-export * from "./openShiftClusters";
-export * from "./machinePools";
-export * from "./secrets";
-export * from "./syncIdentityProviders";
-export * from "./syncSets";
+export * from "./operations.js";
+export * from "./openShiftVersions.js";
+export * from "./openShiftClusters.js";
+export * from "./machinePools.js";
+export * from "./secrets.js";
+export * from "./syncIdentityProviders.js";
+export * from "./syncSets.js";

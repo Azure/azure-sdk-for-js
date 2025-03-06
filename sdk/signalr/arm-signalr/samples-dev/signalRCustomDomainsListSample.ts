@@ -7,9 +7,7 @@
  */
 import { SignalRManagementClient } from "@azure/arm-signalr";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to List all custom domains.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary List all custom domains.
  * x-ms-original-file: specification/signalr/resource-manager/Microsoft.SignalRService/preview/2023-08-01-preview/examples/SignalRCustomDomains_List.json
  */
-async function signalRCustomDomainsList() {
+async function signalRCustomDomainsList(): Promise<void> {
   const subscriptionId =
     process.env["SIGNALR_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = process.env["SIGNALR_RESOURCE_GROUP"] || "myResourceGroup";
@@ -31,7 +29,7 @@ async function signalRCustomDomainsList() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await signalRCustomDomainsList();
 }
 

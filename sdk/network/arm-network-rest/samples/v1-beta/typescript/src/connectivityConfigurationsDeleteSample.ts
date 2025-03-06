@@ -13,7 +13,7 @@ import "dotenv/config";
  * @summary Deletes a network manager connectivity configuration, specified by the resource group, network manager name, and connectivity configuration name
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/NetworkManagerConnectivityConfigurationDelete.json
  */
-async function connectivityConfigurationsDelete() {
+async function connectivityConfigurationsDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

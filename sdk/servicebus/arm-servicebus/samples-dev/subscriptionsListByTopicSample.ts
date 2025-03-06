@@ -7,9 +7,7 @@
  */
 import { ServiceBusManagementClient } from "@azure/arm-servicebus";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to List all the subscriptions under a specified topic.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary List all the subscriptions under a specified topic.
  * x-ms-original-file: specification/servicebus/resource-manager/Microsoft.ServiceBus/preview/2022-10-01-preview/examples/Subscriptions/SBSubscriptionListByTopic.json
  */
-async function subscriptionListByTopic() {
+async function subscriptionListByTopic(): Promise<void> {
   const subscriptionId = process.env["SERVICEBUS_SUBSCRIPTION_ID"] || "5{Subscriptionid}";
   const resourceGroupName = process.env["SERVICEBUS_RESOURCE_GROUP"] || "ResourceGroup";
   const namespaceName = "sdk-Namespace-1349";
@@ -35,7 +33,7 @@ async function subscriptionListByTopic() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await subscriptionListByTopic();
 }
 

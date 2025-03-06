@@ -1,14 +1,10 @@
 # Release History
 
-## 2.3.4 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
+## 2.3.4 (2025-03-06)
 
 ### Bugs Fixed
 
-### Other Changes
+- `asNodeStream` and `asBrowserStream` now throw when called in the incorrect environment instead of returning the wrong type of stream. PR [#33138](https://github.com/Azure/azure-sdk-for-js/pull/33138)
 
 ## 2.3.3 (2025-02-06)
 

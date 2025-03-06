@@ -18,7 +18,7 @@ import {
   SqlVirtualMachine as SqlVirtualMachineMapper,
   SqlVirtualMachineUpdate as SqlVirtualMachineUpdateMapper,
   SqlVmTroubleshooting as SqlVmTroubleshootingMapper
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",

@@ -1,7 +1,7 @@
 /**
  * This is the main configuration file for Rush.
  * For full documentation, please see https://rushjs.io
- */ {
+ */{
   "$schema": "https://developer.microsoft.com/json-schemas/rush/v5/rush.schema.json",
   /**
    * (Required) This specifies the version of the Rush engine to be used in this repo.
@@ -288,11 +288,6 @@
     {
       "packageName": "@azure-rest/purview-administration",
       "projectFolder": "sdk/purview/purview-administration-rest",
-      "versionPolicyName": "client"
-    },
-    {
-      "packageName": "@azure-rest/purview-catalog",
-      "projectFolder": "sdk/purview/purview-catalog-rest",
       "versionPolicyName": "client"
     },
     {
@@ -2153,11 +2148,6 @@
       "versionPolicyName": "management"
     },
     {
-      "packageName": "@azure/arm-networkanalytics",
-      "projectFolder": "sdk/networkanalytics/arm-networkanalytics",
-      "versionPolicyName": "management"
-    },
-    {
       "packageName": "@azure/arm-workloadssapvirtualinstance",
       "projectFolder": "sdk/workloads/arm-workloadssapvirtualinstance",
       "versionPolicyName": "management"
@@ -2328,8 +2318,18 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure/arm-impactreporting",
+      "projectFolder": "sdk/impactreporting/arm-impactreporting",
+      "versionPolicyName": "management"
+    },
+    {
       "packageName": "@azure/arm-pineconevectordb",
       "projectFolder": "sdk/pineconevectordb/arm-pineconevectordb",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-databasewatcher",
+      "projectFolder": "sdk/databasewatcher/arm-databasewatcher",
       "versionPolicyName": "management"
     }
   ]

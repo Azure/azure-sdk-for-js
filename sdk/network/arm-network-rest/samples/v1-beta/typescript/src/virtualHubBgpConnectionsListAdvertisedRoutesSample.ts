@@ -13,7 +13,7 @@ import "dotenv/config";
  * @summary Retrieves a list of routes the virtual hub bgp connection is advertising to the specified peer.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/VirtualRouterPeerListAdvertisedRoute.json
  */
-async function virtualRouterPeerListAdvertisedRoutes() {
+async function virtualRouterPeerListAdvertisedRoutes(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

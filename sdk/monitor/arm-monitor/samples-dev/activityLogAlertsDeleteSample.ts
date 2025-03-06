@@ -7,9 +7,7 @@
  */
 import { MonitorClient } from "@azure/arm-monitor";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Delete an Activity Log Alert rule.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Delete an Activity Log Alert rule.
  * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2020-10-01/examples/ActivityLogAlertRule_Delete.json
  */
-async function deleteAnActivityLogAlertRule() {
+async function deleteAnActivityLogAlertRule(): Promise<void> {
   const subscriptionId =
     process.env["MONITOR_SUBSCRIPTION_ID"] || "187f412d-1758-44d9-b052-169e2564721d";
   const resourceGroupName = process.env["MONITOR_RESOURCE_GROUP"] || "MyResourceGroup";
@@ -28,7 +26,7 @@ async function deleteAnActivityLogAlertRule() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await deleteAnActivityLogAlertRule();
 }
 

@@ -7,9 +7,7 @@
  */
 import { IoTFirmwareDefenseClient } from "@azure/arm-iotfirmwaredefense";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists all of the firmware analysis workspaces in the specified subscription.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Lists all of the firmware analysis workspaces in the specified subscription.
  * x-ms-original-file: specification/fist/resource-manager/Microsoft.IoTFirmwareDefense/stable/2024-01-10/examples/Workspaces_ListBySubscription_MaximumSet_Gen.json
  */
-async function workspacesListBySubscriptionMaximumSetGen() {
+async function workspacesListBySubscriptionMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["IOTFIRMWAREDEFENSE_SUBSCRIPTION_ID"] || "5443A01A-5242-4950-AC1A-2DD362180254";
   const credential = new DefaultAzureCredential();
@@ -35,7 +33,7 @@ async function workspacesListBySubscriptionMaximumSetGen() {
  * @summary Lists all of the firmware analysis workspaces in the specified subscription.
  * x-ms-original-file: specification/fist/resource-manager/Microsoft.IoTFirmwareDefense/stable/2024-01-10/examples/Workspaces_ListBySubscription_MinimumSet_Gen.json
  */
-async function workspacesListBySubscriptionMinimumSetGen() {
+async function workspacesListBySubscriptionMinimumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["IOTFIRMWAREDEFENSE_SUBSCRIPTION_ID"] || "5443A01A-5242-4950-AC1A-2DD362180254";
   const credential = new DefaultAzureCredential();
@@ -47,7 +45,7 @@ async function workspacesListBySubscriptionMinimumSetGen() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await workspacesListBySubscriptionMaximumSetGen();
   await workspacesListBySubscriptionMinimumSetGen();
 }

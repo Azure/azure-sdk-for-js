@@ -14,9 +14,9 @@ import {
   SendRequest
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
-import { TemplateSpecsImpl, TemplateSpecVersionsImpl } from "./operations";
-import { TemplateSpecs, TemplateSpecVersions } from "./operationsInterfaces";
-import { TemplateSpecsClientOptionalParams } from "./models";
+import { TemplateSpecsImpl, TemplateSpecVersionsImpl } from "./operations/index.js";
+import { TemplateSpecs, TemplateSpecVersions } from "./operationsInterfaces/index.js";
+import { TemplateSpecsClientOptionalParams } from "./models/index.js";
 
 export class TemplateSpecsClient extends coreClient.ServiceClient {
   $host: string;

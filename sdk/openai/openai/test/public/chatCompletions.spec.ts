@@ -1,33 +1,43 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { assert, describe, it } from "vitest";
+import { matrix } from "@azure-tools/test-utils-vitest";
+import { assert, describe, beforeEach, it } from "vitest";
 import { createClientsAndDeployments } from "../utils/createClients.js";
+import {APIVersion, testWithDeployments} from "../utils/utils.js";
+import {
+  assertChatCompletions,
+  assertChatCompletionsList,
+  assertParsedChatCompletion,
+} from "../utils/asserts.js";
+import { z } from "zod";
+import { zodResponseFormat } from "openai/helpers/zod";
 import {
   APIMatrix,
-  APIVersion,
   bufferAsyncIterable,
   createAzureSearchExtension,
-  testWithDeployments,
   withDeployments,
 } from "../utils/utils.js";
-import { assertChatCompletions, assertChatCompletionsList } from "../utils/asserts.js";
 import { type ChatCompletionMessageParam } from "openai/resources/chat/completions.mjs";
 import { functionCallModelsToSkip, jsonResponseModelsToSkip } from "../utils/models.js";
 import "../../src/types/index.js";
 import type { ClientsAndDeploymentsInfo } from "../utils/types.js";
+import { type MathResponse, assertMathResponseOutput } from "../utils/structuredOutputUtils.js";
 
 describe.concurrent.shuffle.each(APIMatrix)("Chat Completions [%s]", function (apiVersion: APIVersion) {
   let clientsAndDeploymentsInfo: ClientsAndDeploymentsInfo;
 
-  clientsAndDeploymentsInfo = createClientsAndDeployments(
-    apiVersion,
-    { chatCompletion: "true" },
-    {
-      deploymentsToSkip: ["o1" /** It gets stuck and never returns */],
-      modelsToSkip: [{ name: "gpt-4o-audio-preview" }],
-    },
-  );
+      beforeEach(async () => {
+        clientsAndDeploymentsInfo = createClientsAndDeployments(
+          apiVersion,
+          { chatCompletion: "true" },
+          {
+            deploymentsToSkip: ["o1" /** It gets stuck and never returns */],
+            modelsToSkip: [{ name: "gpt-4o-audio-preview" }, { name: "o3-mini" }],
+          },
+        );
+      });
+
 
   describe("chat.completions.create", function () {
     const pirateMessages = [
@@ -67,7 +77,7 @@ describe.concurrent.shuffle.each(APIMatrix)("Chat Completions [%s]", function (a
         required: ["location"],
       },
     };
-
+    // TODO: Change to arrow functions
     it("returns completions across all models", async function () {
       await withDeployments(
         clientsAndDeploymentsInfo,
@@ -362,6 +372,43 @@ describe.concurrent.shuffle.each(APIMatrix)("Chat Completions [%s]", function (a
           assertChatCompletionsList,
           [{ name: "gpt-4", version: "vision-preview" }],
         );
+      });
+
+      describe("chat.completions.parse", function () {
+        it("structured output for chat completions", async () => {
+          await withDeployments(
+            clientsAndDeploymentsInfo,
+            async (client, deploymentName) => {
+              const step = z.object({
+                explanation: z.string(),
+                output: z.string(),
+              });
+
+              const mathResponse = z.object({
+                steps: z.array(step),
+                final_answer: z.string(),
+              });
+
+              return client.beta.chat.completions.parse({
+                model: deploymentName,
+                messages: [
+                  {
+                    role: "system",
+                    content:
+                      "You are a helpful math tutor. Only use the schema for math responses.",
+                  },
+                  { role: "user", content: "solve 8x + 3 = 21" },
+                ],
+                response_format: zodResponseFormat(mathResponse, "mathResponse"),
+              });
+            },
+            (result) => {
+              assertParsedChatCompletion<MathResponse>(result, assertMathResponseOutput, {
+                allowEmptyChoices: true,
+              });
+            },
+          );
+        });
       });
     });
   });

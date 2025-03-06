@@ -6,13 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./operations";
-export * from "./skus";
-export * from "./storageAccounts";
-export * from "./usages";
-export * from "./managementPolicies";
-export * from "./blobInventoryPolicies";
-export * from "./privateEndpointConnections";
-export * from "./privateLinkResources";
-export * from "./objectReplicationPoliciesOperations";
-export * from "./encryptionScopes";
+export * from "./operations.js";
+export * from "./skus.js";
+export * from "./storageAccounts.js";
+export * from "./usages.js";
+export * from "./managementPolicies.js";
+export * from "./blobInventoryPolicies.js";
+export * from "./privateEndpointConnections.js";
+export * from "./privateLinkResources.js";
+export * from "./objectReplicationPoliciesOperations.js";
+export * from "./encryptionScopes.js";

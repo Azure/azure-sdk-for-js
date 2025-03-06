@@ -1,14 +1,10 @@
 # Release History
 
-## 1.19.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
+## 1.19.1 (2025-03-06)
 
 ### Other Changes
+
+- clear the request timeout timer in `NodeHttpClient` after the response is returned [PR #32891](https://github.com/Azure/azure-sdk-for-js/pull/32891)
 
 ## 1.19.0 (2025-02-06)
 

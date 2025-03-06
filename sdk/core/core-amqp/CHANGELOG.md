@@ -1,14 +1,10 @@
 # Release History
 
-## 4.3.6 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
+## 4.3.6 (2025-03-06)
 
 ### Bugs Fixed
 
-### Other Changes
+- Designates `EAI_AGAIN` and `EADDRNOTAVAIL` errors as timeout errors to be retryable.
 
 ## 4.3.5 (2025-02-06)
 

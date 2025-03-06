@@ -6,11 +6,11 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { IntegrationRuntimeNodes } from "../operationsInterfaces";
+import { IntegrationRuntimeNodes } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { SynapseManagementClient } from "../synapseManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { SynapseManagementClient } from "../synapseManagementClient.js";
 import {
   IntegrationRuntimeNodesGetOptionalParams,
   IntegrationRuntimeNodesGetResponse,
@@ -18,7 +18,7 @@ import {
   IntegrationRuntimeNodesUpdateOptionalParams,
   IntegrationRuntimeNodesUpdateResponse,
   IntegrationRuntimeNodesDeleteOptionalParams
-} from "../models";
+} from "../models/index.js";
 
 /** Class containing IntegrationRuntimeNodes operations. */
 export class IntegrationRuntimeNodesImpl implements IntegrationRuntimeNodes {

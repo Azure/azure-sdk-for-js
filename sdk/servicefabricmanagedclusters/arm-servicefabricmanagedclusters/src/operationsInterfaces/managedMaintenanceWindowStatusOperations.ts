@@ -9,7 +9,7 @@
 import {
   ManagedMaintenanceWindowStatusGetOptionalParams,
   ManagedMaintenanceWindowStatusGetResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a ManagedMaintenanceWindowStatusOperations. */
 export interface ManagedMaintenanceWindowStatusOperations {

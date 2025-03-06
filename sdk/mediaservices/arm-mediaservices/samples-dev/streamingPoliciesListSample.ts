@@ -7,9 +7,7 @@
  */
 import { AzureMediaServices } from "@azure/arm-mediaservices";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists the Streaming Policies in the account
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Lists the Streaming Policies in the account
  * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Metadata/stable/2022-08-01/examples/streaming-policies-list.json
  */
-async function listsStreamingPolicies() {
+async function listsStreamingPolicies(): Promise<void> {
   const subscriptionId =
     process.env["MEDIASERVICES_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = process.env["MEDIASERVICES_RESOURCE_GROUP"] || "contoso";
@@ -31,7 +29,7 @@ async function listsStreamingPolicies() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await listsStreamingPolicies();
 }
 

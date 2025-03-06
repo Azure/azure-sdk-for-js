@@ -7,9 +7,7 @@
  */
 import { LargeInstanceManagementClient } from "@azure/arm-largeinstance";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets an Azure Large Storage instance for the specified subscription, resource
@@ -19,7 +17,7 @@ group, and instance name.
 group, and instance name.
  * x-ms-original-file: specification/azurelargeinstance/resource-manager/Microsoft.AzureLargeInstance/preview/2023-07-20-preview/examples/AzureLargeStorageInstance_Get.json
  */
-async function azureLargeStorageInstanceGet() {
+async function azureLargeStorageInstanceGet(): Promise<void> {
   const subscriptionId =
     process.env["LARGEINSTANCE_SUBSCRIPTION_ID"] || "f0f4887f-d13c-4943-a8ba-d7da28d2a3fd";
   const resourceGroupName = process.env["LARGEINSTANCE_RESOURCE_GROUP"] || "myResourceGroup";
@@ -33,7 +31,7 @@ async function azureLargeStorageInstanceGet() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await azureLargeStorageInstanceGet();
 }
 

@@ -73,7 +73,7 @@
 
 # PRLabel: %Communication - Call Automation
 # ServiceLabel: %Communication - Call Automation
-/sdk/communication/communication-call-automation/ @minwoolee-msft @juntuchen-msft @khannavikas @cochi2
+/sdk/communication/communication-call-automation/ @minwoolee-msft @juntuchen-msft @khannavikas
 
 # PRLabel: %Communication - Identity
 # ServiceLabel: %Communication - Identity
@@ -90,6 +90,10 @@
 # PRLabel: %Communication - Job Router
 # ServiceLabel: %Communication - Job Router
 /sdk/communication/communication-job-router-rest/ @marche0133
+
+# PRLabel: %Communication - Messages
+# ServiceLabel: %Communication - Messages
+/sdk/communication/communication-messages-rest/ @arifibrahim4 @juancamilor @glorialimicrosoft @Shamkh
 
 # PRLabel: %Communication - Phone Numbers
 # ServiceLabel: %Communication - Phone Numbers
@@ -151,7 +155,7 @@
 
 # ServiceLabel: %Health Deidentification
 # PRLabel: %Health Deidentification
-/sdk/healthdataaiservices/ @GrahamMThomas @alexathomases @Azure/healthdatadeidentification
+/sdk/healthdataaiservices/ @alexathomases @Azure/healthdatadeidentification
 
 # PRLabel: %Azure.Identity
 /sdk/identity/ @KarishmaGhiya @minhanh-phan @maorleger @schaabs @Azure/azure-sdk-write-identity
@@ -464,6 +468,9 @@ sdk/ai/ai-projects @ganeshyb @GraceBrigham
 /sdk/customer-insights/arm-customerinsights/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/databasewatcher/arm-databasewatcher/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/databox/arm-databox/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
@@ -606,6 +613,9 @@ sdk/ai/ai-projects @ganeshyb @GraceBrigham
 
 # PRLabel: %Mgmt
 /sdk/hybridkubernetes/arm-hybridkubernetes/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
+/sdk/impactreporting/arm-impactreporting @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
 /sdk/informatica/arm-informaticadatamanagement @qiaozha @MaryGao

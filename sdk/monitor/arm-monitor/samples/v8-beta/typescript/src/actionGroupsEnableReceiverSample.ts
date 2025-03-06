@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { EnableRequest, MonitorClient } from "@azure/arm-monitor";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Enable a receiver in an action group. This changes the receiver's status from Disabled to Enabled. This operation is only supported for Email or SMS receivers.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Enable a receiver in an action group. This changes the receiver's status from Disabled to Enabled. This operation is only supported for Email or SMS receivers.
  * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2023-01-01/examples/enableReceiver.json
  */
-async function enableTheReceiver() {
+async function enableTheReceiver(): Promise<void> {
   const subscriptionId =
     process.env["MONITOR_SUBSCRIPTION_ID"] ||
     "187f412d-1758-44d9-b052-169e2564721d";
@@ -38,7 +36,7 @@ async function enableTheReceiver() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   enableTheReceiver();
 }
 

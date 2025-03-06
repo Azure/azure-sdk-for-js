@@ -7,9 +7,7 @@
  */
 import { RedisEnterpriseManagementClient } from "@azure/arm-redisenterprisecache";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets the private link resources that need to be created for a Redis Enterprise cluster.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Gets the private link resources that need to be created for a Redis Enterprise cluster.
  * x-ms-original-file: specification/redisenterprise/resource-manager/Microsoft.Cache/preview/2024-09-01-preview/examples/RedisEnterpriseListPrivateLinkResources.json
  */
-async function redisEnterpriseListPrivateLinkResources() {
+async function redisEnterpriseListPrivateLinkResources(): Promise<void> {
   const subscriptionId =
     process.env["REDISENTERPRISE_SUBSCRIPTION_ID"] || "e7b5a9d2-6b6a-4d2f-9143-20d9a10f5b8f";
   const resourceGroupName = process.env["REDISENTERPRISE_RESOURCE_GROUP"] || "rg1";
@@ -34,7 +32,7 @@ async function redisEnterpriseListPrivateLinkResources() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await redisEnterpriseListPrivateLinkResources();
 }
 

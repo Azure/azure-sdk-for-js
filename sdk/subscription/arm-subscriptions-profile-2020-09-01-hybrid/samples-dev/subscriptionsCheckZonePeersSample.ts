@@ -8,9 +8,7 @@
 import type { CheckZonePeersRequest } from "@azure/arm-subscriptions-profile-2020-09-01-hybrid";
 import { SubscriptionClient } from "@azure/arm-subscriptions-profile-2020-09-01-hybrid";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Compares a subscriptions logical zone mapping
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Compares a subscriptions logical zone mapping
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2016-06-01/examples/PostCheckZonePeers.json
  */
-async function getLogicalZoneMapping() {
+async function getLogicalZoneMapping(): Promise<void> {
   const subscriptionId = "00000000-0000-0000-0000-00000000000000";
   const parameters: CheckZonePeersRequest = {
     location: "eastus",
@@ -30,7 +28,7 @@ async function getLogicalZoneMapping() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await getLogicalZoneMapping();
 }
 

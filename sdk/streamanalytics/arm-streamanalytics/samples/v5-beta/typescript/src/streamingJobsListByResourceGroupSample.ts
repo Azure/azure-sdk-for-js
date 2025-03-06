@@ -13,9 +13,7 @@ import {
   StreamAnalyticsManagementClient,
 } from "@azure/arm-streamanalytics";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists all of the streaming jobs in the specified resource group.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Lists all of the streaming jobs in the specified resource group.
  * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/preview/2021-10-01-preview/examples/StreamingJob_List_ByResourceGroup_NoExpand.json
  */
-async function listAllStreamingJobsInAResourceGroupAndDoNotUseTheExpandODataQueryParameter() {
+async function listAllStreamingJobsInAResourceGroupAndDoNotUseTheExpandODataQueryParameter(): Promise<void> {
   const subscriptionId =
     process.env["STREAMANALYTICS_SUBSCRIPTION_ID"] ||
     "56b5e0a9-b645-407d-99b0-c64f86013e3d";
@@ -49,7 +47,7 @@ async function listAllStreamingJobsInAResourceGroupAndDoNotUseTheExpandODataQuer
  * @summary Lists all of the streaming jobs in the specified resource group.
  * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/preview/2021-10-01-preview/examples/StreamingJob_List_ByResourceGroup_Expand.json
  */
-async function listAllStreamingJobsInAResourceGroupAndUseTheExpandODataQueryParameterToExpandInputsOutputsTransformationAndFunctions() {
+async function listAllStreamingJobsInAResourceGroupAndUseTheExpandODataQueryParameterToExpandInputsOutputsTransformationAndFunctions(): Promise<void> {
   const subscriptionId =
     process.env["STREAMANALYTICS_SUBSCRIPTION_ID"] ||
     "56b5e0a9-b645-407d-99b0-c64f86013e3d";
@@ -72,7 +70,7 @@ async function listAllStreamingJobsInAResourceGroupAndUseTheExpandODataQueryPara
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listAllStreamingJobsInAResourceGroupAndDoNotUseTheExpandODataQueryParameter();
   listAllStreamingJobsInAResourceGroupAndUseTheExpandODataQueryParameterToExpandInputsOutputsTransformationAndFunctions();
 }

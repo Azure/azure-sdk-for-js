@@ -17,7 +17,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Returns the properties of the specified bandwidth setting name.
  * x-ms-original-file: specification/storsimple8000series/resource-manager/Microsoft.StorSimple/stable/2017-06-01/examples/BandwidthSettingsGet.json
  */
-async function bandwidthSettingsGet() {
+async function bandwidthSettingsGet(): Promise<void> {
   const subscriptionId = "4385cf00-2d3a-425a-832f-f4285b1c9dce";
   const bandwidthSettingName = "bandwidthSetting1";
   const resourceGroupName = "ResourceGroupForSDKTest";

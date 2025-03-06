@@ -59,7 +59,7 @@ import {
   NetworkTapPatch as NetworkTapPatchMapper,
   RoutePolicy as RoutePolicyMapper,
   RoutePolicyPatch as RoutePolicyPatchMapper
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const contentType: OperationParameter = {
   parameterPath: ["options", "contentType"],

@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Creates a new migration.
  * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2024-08-01/examples/Migrations_Create_Other_SourceTypes_Validate_Migrate.json
  */
-async function createMigrationWithOtherSourceTypesForValidateAndMigrate() {
+async function createMigrationWithOtherSourceTypesForValidateAndMigrate(): Promise<void> {
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const resourceGroupName =
     process.env["POSTGRESQL_RESOURCE_GROUP"] || "testrg";
@@ -58,7 +58,7 @@ async function createMigrationWithOtherSourceTypesForValidateAndMigrate() {
  * @summary Creates a new migration.
  * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2024-08-01/examples/Migrations_Create_Validate_Only.json
  */
-async function createPreMigrationValidation() {
+async function createPreMigrationValidation(): Promise<void> {
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const resourceGroupName =
     process.env["POSTGRESQL_RESOURCE_GROUP"] || "testrg";
@@ -97,7 +97,7 @@ async function createPreMigrationValidation() {
  * @summary Creates a new migration.
  * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2024-08-01/examples/Migrations_Create_With_Other_Users.json
  */
-async function migrationsCreateByPassingUserNames() {
+async function migrationsCreateByPassingUserNames(): Promise<void> {
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const resourceGroupName =
     process.env["POSTGRESQL_RESOURCE_GROUP"] || "testrg";
@@ -136,7 +136,7 @@ async function migrationsCreateByPassingUserNames() {
  * @summary Creates a new migration.
  * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2024-08-01/examples/Migrations_Create_With_PrivateEndpoint_Servers.json
  */
-async function migrationsCreateWithPrivateEndpoint() {
+async function migrationsCreateWithPrivateEndpoint(): Promise<void> {
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const resourceGroupName =
     process.env["POSTGRESQL_RESOURCE_GROUP"] || "testrg";
@@ -176,7 +176,7 @@ async function migrationsCreateWithPrivateEndpoint() {
  * @summary Creates a new migration.
  * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2024-08-01/examples/Migrations_Create_With_Roles.json
  */
-async function migrationsCreateWithRoles() {
+async function migrationsCreateWithRoles(): Promise<void> {
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const resourceGroupName =
     process.env["POSTGRESQL_RESOURCE_GROUP"] || "testrg";
@@ -215,7 +215,7 @@ async function migrationsCreateWithRoles() {
  * @summary Creates a new migration.
  * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2024-08-01/examples/Migrations_Create.json
  */
-async function migrationsCreate() {
+async function migrationsCreate(): Promise<void> {
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const resourceGroupName =
     process.env["POSTGRESQL_RESOURCE_GROUP"] || "testrg";
@@ -249,7 +249,7 @@ async function migrationsCreate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createMigrationWithOtherSourceTypesForValidateAndMigrate();
   createPreMigrationValidation();
   migrationsCreateByPassingUserNames();

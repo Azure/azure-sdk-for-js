@@ -8,9 +8,7 @@
 import type { FileSystemResourceUpdate } from "@azure/arm-qumulo";
 import { QumuloStorage } from "@azure/arm-qumulo";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Update a FileSystemResource
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Update a FileSystemResource
  * x-ms-original-file: specification/liftrqumulo/resource-manager/Qumulo.Storage/stable/2024-06-19/examples/FileSystems_Update_MaximumSet_Gen.json
  */
-async function fileSystemsUpdate() {
+async function fileSystemsUpdate(): Promise<void> {
   const subscriptionId =
     process.env["LIFTRQUMULO_SUBSCRIPTION_ID"] || "382E8C7A-AC80-4D70-8580-EFE99537B9B7";
   const resourceGroupName = process.env["LIFTRQUMULO_RESOURCE_GROUP"] || "rgQumulo";
@@ -51,7 +49,7 @@ async function fileSystemsUpdate() {
  * @summary Update a FileSystemResource
  * x-ms-original-file: specification/liftrqumulo/resource-manager/Qumulo.Storage/stable/2024-06-19/examples/FileSystems_Update_MinimumSet_Gen.json
  */
-async function fileSystemsUpdateMinimumSetGen() {
+async function fileSystemsUpdateMinimumSetGen(): Promise<void> {
   const subscriptionId = process.env["LIFTRQUMULO_SUBSCRIPTION_ID"] || "aaaaaaa";
   const resourceGroupName = process.env["LIFTRQUMULO_RESOURCE_GROUP"] || "rgQumulo";
   const fileSystemName = "aaaaaaaaaaaaaaaaa";
@@ -62,7 +60,7 @@ async function fileSystemsUpdateMinimumSetGen() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await fileSystemsUpdate();
   await fileSystemsUpdateMinimumSetGen();
 }

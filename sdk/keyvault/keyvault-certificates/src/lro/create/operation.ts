@@ -84,6 +84,7 @@ export class CreateCertificatePollOperation extends KeyVaultCertificatePollOpera
             certificatePolicy: corePolicy,
             certificateAttributes,
             tags: updatedOptions.tags,
+            preserveCertOrder: updatedOptions.preserveCertificateOrder,
           },
           updatedOptions,
         );

@@ -11,7 +11,7 @@ import "dotenv/config";
  * @summary Gets the specified virtual network peering.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/VirtualNetworkPeeringGet.json
  */
-async function getPeering() {
+async function getPeering(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -40,7 +40,7 @@ getPeering().catch(console.error);
  * @summary Gets the specified virtual network peering.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/VirtualNetworkPeeringGetWithRemoteVirtualNetworkEncryption.json
  */
-async function getPeeringWithRemoteVirtualNetworkEncryption() {
+async function getPeeringWithRemoteVirtualNetworkEncryption(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

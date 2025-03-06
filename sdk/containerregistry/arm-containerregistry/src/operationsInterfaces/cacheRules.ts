@@ -19,7 +19,7 @@ import {
   CacheRulesDeleteResponse,
   CacheRuleUpdateParameters,
   CacheRulesUpdateOptionalParams,
-  CacheRulesUpdateResponse
+  CacheRulesUpdateResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -34,7 +34,7 @@ export interface CacheRules {
   list(
     resourceGroupName: string,
     registryName: string,
-    options?: CacheRulesListOptionalParams
+    options?: CacheRulesListOptionalParams,
   ): PagedAsyncIterableIterator<CacheRule>;
   /**
    * Gets the properties of the specified cache rule resource.
@@ -47,7 +47,7 @@ export interface CacheRules {
     resourceGroupName: string,
     registryName: string,
     cacheRuleName: string,
-    options?: CacheRulesGetOptionalParams
+    options?: CacheRulesGetOptionalParams,
   ): Promise<CacheRulesGetResponse>;
   /**
    * Creates a cache rule for a container registry with the specified parameters.
@@ -62,7 +62,7 @@ export interface CacheRules {
     registryName: string,
     cacheRuleName: string,
     cacheRuleCreateParameters: CacheRule,
-    options?: CacheRulesCreateOptionalParams
+    options?: CacheRulesCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<CacheRulesCreateResponse>,
@@ -82,7 +82,7 @@ export interface CacheRules {
     registryName: string,
     cacheRuleName: string,
     cacheRuleCreateParameters: CacheRule,
-    options?: CacheRulesCreateOptionalParams
+    options?: CacheRulesCreateOptionalParams,
   ): Promise<CacheRulesCreateResponse>;
   /**
    * Deletes a cache rule resource from a container registry.
@@ -95,7 +95,7 @@ export interface CacheRules {
     resourceGroupName: string,
     registryName: string,
     cacheRuleName: string,
-    options?: CacheRulesDeleteOptionalParams
+    options?: CacheRulesDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<CacheRulesDeleteResponse>,
@@ -113,7 +113,7 @@ export interface CacheRules {
     resourceGroupName: string,
     registryName: string,
     cacheRuleName: string,
-    options?: CacheRulesDeleteOptionalParams
+    options?: CacheRulesDeleteOptionalParams,
   ): Promise<CacheRulesDeleteResponse>;
   /**
    * Updates a cache rule for a container registry with the specified parameters.
@@ -128,7 +128,7 @@ export interface CacheRules {
     registryName: string,
     cacheRuleName: string,
     cacheRuleUpdateParameters: CacheRuleUpdateParameters,
-    options?: CacheRulesUpdateOptionalParams
+    options?: CacheRulesUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<CacheRulesUpdateResponse>,
@@ -148,6 +148,6 @@ export interface CacheRules {
     registryName: string,
     cacheRuleName: string,
     cacheRuleUpdateParameters: CacheRuleUpdateParameters,
-    options?: CacheRulesUpdateOptionalParams
+    options?: CacheRulesUpdateOptionalParams,
   ): Promise<CacheRulesUpdateResponse>;
 }

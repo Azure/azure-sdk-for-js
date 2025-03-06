@@ -8,9 +8,7 @@
 import type { SqlPoolBlobAuditingPolicy } from "@azure/arm-synapse";
 import { SynapseManagementClient } from "@azure/arm-synapse";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates or updates a SQL pool's blob auditing policy.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Creates or updates a SQL pool's blob auditing policy.
  * x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/stable/2021-06-01/examples/CreateOrUpdateSqlPoolBlobAuditingWithAllParameters.json
  */
-async function createOrUpdateADatabaseBlobAuditingPolicyWithAllParameters() {
+async function createOrUpdateADatabaseBlobAuditingPolicyWithAllParameters(): Promise<void> {
   const subscriptionId =
     process.env["SYNAPSE_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
   const resourceGroupName = process.env["SYNAPSE_RESOURCE_GROUP"] || "blobauditingtest-4799";
@@ -56,7 +54,7 @@ async function createOrUpdateADatabaseBlobAuditingPolicyWithAllParameters() {
  * @summary Creates or updates a SQL pool's blob auditing policy.
  * x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/stable/2021-06-01/examples/CreateOrUpdateSqlPoolBlobAuditingWithMinParameters.json
  */
-async function createOrUpdateADatabaseBlobAuditingPolicyWithMinimalParameters() {
+async function createOrUpdateADatabaseBlobAuditingPolicyWithMinimalParameters(): Promise<void> {
   const subscriptionId =
     process.env["SYNAPSE_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
   const resourceGroupName = process.env["SYNAPSE_RESOURCE_GROUP"] || "blobauditingtest-4799";
@@ -79,7 +77,7 @@ async function createOrUpdateADatabaseBlobAuditingPolicyWithMinimalParameters() 
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await createOrUpdateADatabaseBlobAuditingPolicyWithAllParameters();
   await createOrUpdateADatabaseBlobAuditingPolicyWithMinimalParameters();
 }

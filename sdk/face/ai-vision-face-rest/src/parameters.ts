@@ -13,14 +13,21 @@ import type {
   FaceUserData,
   UserDefinedFields,
   CreateLivenessSessionContent,
-  CreateLivenessWithVerifySessionMultipartContent,
-  CreateLivenessWithVerifySessionJsonContent,
+  CreateLivenessWithVerifySessionContent,
 } from "./models.js";
-
-export type GetOperationResultParameters = RequestParameters;
 
 export interface DetectFromUrlBodyParam {
   body: { url: string };
+}
+
+/** This is the wrapper object for the parameter `returnFaceAttributes` with explode set to false and style set to form. */
+export interface DetectFromUrlReturnFaceAttributesQueryParam {
+  /** Value of the parameter */
+  value: FaceAttributeType[];
+  /** Should we explode the value? */
+  explode: false;
+  /** Style of the value */
+  style: "form";
 }
 
 export interface DetectFromUrlQueryParamProperties {
@@ -39,7 +46,7 @@ export interface DetectFromUrlQueryParamProperties {
   /** Return faceIds of the detected faces or not. The default value is true. */
   returnFaceId?: boolean;
   /** Analyze and return the one or more specified face attributes in the comma-separated string like 'returnFaceAttributes=headPose,glasses'. Face attribute analysis has additional computational and time cost. */
-  returnFaceAttributes?: FaceAttributeType[];
+  returnFaceAttributes?: FaceAttributeType[] | DetectFromUrlReturnFaceAttributesQueryParam;
   /** Return face landmarks of the detected faces or not. The default value is false. */
   returnFaceLandmarks?: boolean;
   /** Return 'recognitionModel' or not. The default value is false. This is only applicable when returnFaceId = true. */
@@ -71,6 +78,16 @@ export interface DetectBodyParam {
   body: string | Uint8Array | ReadableStream<Uint8Array> | NodeJS.ReadableStream;
 }
 
+/** This is the wrapper object for the parameter `returnFaceAttributes` with explode set to false and style set to form. */
+export interface DetectReturnFaceAttributesQueryParam {
+  /** Value of the parameter */
+  value: FaceAttributeType[];
+  /** Should we explode the value? */
+  explode: false;
+  /** Style of the value */
+  style: "form";
+}
+
 export interface DetectQueryParamProperties {
   /**
    * The 'detectionModel' associated with the detected faceIds. Supported 'detectionModel' values include 'detection_01', 'detection_02' and 'detection_03'. The default value is 'detection_01'. 'detection_03' is recommended since its accuracy is improved on smaller faces (64x64 pixels) and rotated face orientations.
@@ -87,7 +104,7 @@ export interface DetectQueryParamProperties {
   /** Return faceIds of the detected faces or not. The default value is true. */
   returnFaceId?: boolean;
   /** Analyze and return the one or more specified face attributes in the comma-separated string like 'returnFaceAttributes=headPose,glasses'. Face attribute analysis has additional computational and time cost. */
-  returnFaceAttributes?: FaceAttributeType[];
+  returnFaceAttributes?: FaceAttributeType[] | DetectReturnFaceAttributesQueryParam;
   /** Return face landmarks of the detected faces or not. The default value is false. */
   returnFaceLandmarks?: boolean;
   /** Return 'recognitionModel' or not. The default value is false. This is only applicable when returnFaceId = true. */
@@ -114,6 +131,16 @@ export interface DetectFromSessionImageIdBodyParam {
   body: { sessionImageId: string };
 }
 
+/** This is the wrapper object for the parameter `returnFaceAttributes` with explode set to false and style set to form. */
+export interface DetectFromSessionImageIdReturnFaceAttributesQueryParam {
+  /** Value of the parameter */
+  value: FaceAttributeType[];
+  /** Should we explode the value? */
+  explode: false;
+  /** Style of the value */
+  style: "form";
+}
+
 export interface DetectFromSessionImageIdQueryParamProperties {
   /**
    * The 'detectionModel' associated with the detected faceIds. Supported 'detectionModel' values include 'detection_01', 'detection_02' and 'detection_03'. The default value is 'detection_01'. 'detection_03' is recommended since its accuracy is improved on smaller faces (64x64 pixels) and rotated face orientations.
@@ -130,7 +157,9 @@ export interface DetectFromSessionImageIdQueryParamProperties {
   /** Return faceIds of the detected faces or not. The default value is true. */
   returnFaceId?: boolean;
   /** Analyze and return the one or more specified face attributes in the comma-separated string like 'returnFaceAttributes=headPose,glasses'. Face attribute analysis has additional computational and time cost. */
-  returnFaceAttributes?: FaceAttributeType[];
+  returnFaceAttributes?:
+    | FaceAttributeType[]
+    | DetectFromSessionImageIdReturnFaceAttributesQueryParam;
   /** Return face landmarks of the detected faces or not. The default value is false. */
   returnFaceLandmarks?: boolean;
   /** Return 'recognitionModel' or not. The default value is false. This is only applicable when returnFaceId = true. */
@@ -307,9 +336,19 @@ export interface AddFaceListFaceFromUrlBodyParam {
   body: AddFaceFromUrlRequest;
 }
 
+/** This is the wrapper object for the parameter `targetFace` with explode set to false and style set to form. */
+export interface AddFaceListFaceFromUrlTargetFaceQueryParam {
+  /** Value of the parameter */
+  value: number[];
+  /** Should we explode the value? */
+  explode: false;
+  /** Style of the value */
+  style: "form";
+}
+
 export interface AddFaceListFaceFromUrlQueryParamProperties {
   /** A face rectangle to specify the target face to be added to a person, in the format of 'targetFace=left,top,width,height'. */
-  targetFace?: number[];
+  targetFace?: number[] | AddFaceListFaceFromUrlTargetFaceQueryParam;
   /**
    * The 'detectionModel' associated with the detected faceIds. Supported 'detectionModel' values include 'detection_01', 'detection_02' and 'detection_03'. The default value is 'detection_01'.
    *
@@ -337,9 +376,19 @@ export interface AddFaceListFaceBodyParam {
   body: string | Uint8Array | ReadableStream<Uint8Array> | NodeJS.ReadableStream;
 }
 
+/** This is the wrapper object for the parameter `targetFace` with explode set to false and style set to form. */
+export interface AddFaceListFaceTargetFaceQueryParam {
+  /** Value of the parameter */
+  value: number[];
+  /** Should we explode the value? */
+  explode: false;
+  /** Style of the value */
+  style: "form";
+}
+
 export interface AddFaceListFaceQueryParamProperties {
   /** A face rectangle to specify the target face to be added to a person, in the format of 'targetFace=left,top,width,height'. */
-  targetFace?: number[];
+  targetFace?: number[] | AddFaceListFaceTargetFaceQueryParam;
   /**
    * The 'detectionModel' associated with the detected faceIds. Supported 'detectionModel' values include 'detection_01', 'detection_02' and 'detection_03'. The default value is 'detection_01'.
    *
@@ -410,9 +459,19 @@ export interface AddLargeFaceListFaceFromUrlBodyParam {
   body: AddFaceFromUrlRequest;
 }
 
+/** This is the wrapper object for the parameter `targetFace` with explode set to false and style set to form. */
+export interface AddLargeFaceListFaceFromUrlTargetFaceQueryParam {
+  /** Value of the parameter */
+  value: number[];
+  /** Should we explode the value? */
+  explode: false;
+  /** Style of the value */
+  style: "form";
+}
+
 export interface AddLargeFaceListFaceFromUrlQueryParamProperties {
   /** A face rectangle to specify the target face to be added to a person, in the format of 'targetFace=left,top,width,height'. */
-  targetFace?: number[];
+  targetFace?: number[] | AddLargeFaceListFaceFromUrlTargetFaceQueryParam;
   /**
    * The 'detectionModel' associated with the detected faceIds. Supported 'detectionModel' values include 'detection_01', 'detection_02' and 'detection_03'. The default value is 'detection_01'.
    *
@@ -440,9 +499,19 @@ export interface AddLargeFaceListFaceBodyParam {
   body: string | Uint8Array | ReadableStream<Uint8Array> | NodeJS.ReadableStream;
 }
 
+/** This is the wrapper object for the parameter `targetFace` with explode set to false and style set to form. */
+export interface AddLargeFaceListFaceTargetFaceQueryParam {
+  /** Value of the parameter */
+  value: number[];
+  /** Should we explode the value? */
+  explode: false;
+  /** Style of the value */
+  style: "form";
+}
+
 export interface AddLargeFaceListFaceQueryParamProperties {
   /** A face rectangle to specify the target face to be added to a person, in the format of 'targetFace=left,top,width,height'. */
-  targetFace?: number[];
+  targetFace?: number[] | AddLargeFaceListFaceTargetFaceQueryParam;
   /**
    * The 'detectionModel' associated with the detected faceIds. Supported 'detectionModel' values include 'detection_01', 'detection_02' and 'detection_03'. The default value is 'detection_01'.
    *
@@ -563,9 +632,19 @@ export interface AddPersonGroupPersonFaceFromUrlBodyParam {
   body: AddFaceFromUrlRequest;
 }
 
+/** This is the wrapper object for the parameter `targetFace` with explode set to false and style set to form. */
+export interface AddPersonGroupPersonFaceFromUrlTargetFaceQueryParam {
+  /** Value of the parameter */
+  value: number[];
+  /** Should we explode the value? */
+  explode: false;
+  /** Style of the value */
+  style: "form";
+}
+
 export interface AddPersonGroupPersonFaceFromUrlQueryParamProperties {
   /** A face rectangle to specify the target face to be added to a person, in the format of 'targetFace=left,top,width,height'. */
-  targetFace?: number[];
+  targetFace?: number[] | AddPersonGroupPersonFaceFromUrlTargetFaceQueryParam;
   /**
    * The 'detectionModel' associated with the detected faceIds. Supported 'detectionModel' values include 'detection_01', 'detection_02' and 'detection_03'. The default value is 'detection_01'.
    *
@@ -593,9 +672,19 @@ export interface AddPersonGroupPersonFaceBodyParam {
   body: string | Uint8Array | ReadableStream<Uint8Array> | NodeJS.ReadableStream;
 }
 
+/** This is the wrapper object for the parameter `targetFace` with explode set to false and style set to form. */
+export interface AddPersonGroupPersonFaceTargetFaceQueryParam {
+  /** Value of the parameter */
+  value: number[];
+  /** Should we explode the value? */
+  explode: false;
+  /** Style of the value */
+  style: "form";
+}
+
 export interface AddPersonGroupPersonFaceQueryParamProperties {
   /** A face rectangle to specify the target face to be added to a person, in the format of 'targetFace=left,top,width,height'. */
-  targetFace?: number[];
+  targetFace?: number[] | AddPersonGroupPersonFaceTargetFaceQueryParam;
   /**
    * The 'detectionModel' associated with the detected faceIds. Supported 'detectionModel' values include 'detection_01', 'detection_02' and 'detection_03'. The default value is 'detection_01'.
    *
@@ -704,9 +793,19 @@ export interface AddLargePersonGroupPersonFaceFromUrlBodyParam {
   body: AddFaceFromUrlRequest;
 }
 
+/** This is the wrapper object for the parameter `targetFace` with explode set to false and style set to form. */
+export interface AddLargePersonGroupPersonFaceFromUrlTargetFaceQueryParam {
+  /** Value of the parameter */
+  value: number[];
+  /** Should we explode the value? */
+  explode: false;
+  /** Style of the value */
+  style: "form";
+}
+
 export interface AddLargePersonGroupPersonFaceFromUrlQueryParamProperties {
   /** A face rectangle to specify the target face to be added to a person, in the format of 'targetFace=left,top,width,height'. */
-  targetFace?: number[];
+  targetFace?: number[] | AddLargePersonGroupPersonFaceFromUrlTargetFaceQueryParam;
   /**
    * The 'detectionModel' associated with the detected faceIds. Supported 'detectionModel' values include 'detection_01', 'detection_02' and 'detection_03'. The default value is 'detection_01'.
    *
@@ -735,9 +834,19 @@ export interface AddLargePersonGroupPersonFaceBodyParam {
   body: string | Uint8Array | ReadableStream<Uint8Array> | NodeJS.ReadableStream;
 }
 
+/** This is the wrapper object for the parameter `targetFace` with explode set to false and style set to form. */
+export interface AddLargePersonGroupPersonFaceTargetFaceQueryParam {
+  /** Value of the parameter */
+  value: number[];
+  /** Should we explode the value? */
+  explode: false;
+  /** Style of the value */
+  style: "form";
+}
+
 export interface AddLargePersonGroupPersonFaceQueryParamProperties {
   /** A face rectangle to specify the target face to be added to a person, in the format of 'targetFace=left,top,width,height'. */
-  targetFace?: number[];
+  targetFace?: number[] | AddLargePersonGroupPersonFaceTargetFaceQueryParam;
   /**
    * The 'detectionModel' associated with the detected faceIds. Supported 'detectionModel' values include 'detection_01', 'detection_02' and 'detection_03'. The default value is 'detection_01'.
    *
@@ -780,256 +889,20 @@ export type CreateLivenessSessionParameters = CreateLivenessSessionBodyParam & R
 export type DeleteLivenessSessionParameters = RequestParameters;
 export type GetLivenessSessionResultParameters = RequestParameters;
 
-export interface GetLivenessSessionsQueryParamProperties {
-  /** List resources greater than the "start". It contains no more than 64 characters. Default is empty. */
-  start?: string;
-  /** The number of items to list, ranging in [1, 1000]. Default is 1000. */
-  top?: number;
-}
-
-export interface GetLivenessSessionsQueryParam {
-  queryParameters?: GetLivenessSessionsQueryParamProperties;
-}
-
-export type GetLivenessSessionsParameters = GetLivenessSessionsQueryParam & RequestParameters;
-
-export interface GetLivenessSessionAuditEntriesQueryParamProperties {
-  /** List resources greater than the "start". It contains no more than 64 characters. Default is empty. */
-  start?: string;
-  /** The number of items to list, ranging in [1, 1000]. Default is 1000. */
-  top?: number;
-}
-
-export interface GetLivenessSessionAuditEntriesQueryParam {
-  queryParameters?: GetLivenessSessionAuditEntriesQueryParamProperties;
-}
-
-export type GetLivenessSessionAuditEntriesParameters = GetLivenessSessionAuditEntriesQueryParam &
-  RequestParameters;
-
-export interface CreateLivenessWithVerifySessionWithVerifyImageBodyParam {
+export interface CreateLivenessWithVerifySessionBodyParam {
   /** Request content of liveness with verify session creation. */
-  body: CreateLivenessWithVerifySessionMultipartContent;
+  body: CreateLivenessWithVerifySessionContent;
 }
 
-export interface CreateLivenessWithVerifySessionWithVerifyImageMediaTypesParam {
+export interface CreateLivenessWithVerifySessionMediaTypesParam {
   /** The content type for the operation. Always multipart/form-data for this operation. */
   contentType: "multipart/form-data";
 }
 
-export type CreateLivenessWithVerifySessionWithVerifyImageParameters =
-  CreateLivenessWithVerifySessionWithVerifyImageMediaTypesParam &
-    CreateLivenessWithVerifySessionWithVerifyImageBodyParam &
+export type CreateLivenessWithVerifySessionParameters =
+  CreateLivenessWithVerifySessionMediaTypesParam &
+    CreateLivenessWithVerifySessionBodyParam &
     RequestParameters;
-
-export interface CreateLivenessWithVerifySessionBodyParam {
-  /** Body parameter. */
-  body: CreateLivenessWithVerifySessionJsonContent;
-}
-
-export type CreateLivenessWithVerifySessionParameters = CreateLivenessWithVerifySessionBodyParam &
-  RequestParameters;
 export type DeleteLivenessWithVerifySessionParameters = RequestParameters;
 export type GetLivenessWithVerifySessionResultParameters = RequestParameters;
-
-export interface GetLivenessWithVerifySessionsQueryParamProperties {
-  /** List resources greater than the "start". It contains no more than 64 characters. Default is empty. */
-  start?: string;
-  /** The number of items to list, ranging in [1, 1000]. Default is 1000. */
-  top?: number;
-}
-
-export interface GetLivenessWithVerifySessionsQueryParam {
-  queryParameters?: GetLivenessWithVerifySessionsQueryParamProperties;
-}
-
-export type GetLivenessWithVerifySessionsParameters = GetLivenessWithVerifySessionsQueryParam &
-  RequestParameters;
-
-export interface GetLivenessWithVerifySessionAuditEntriesQueryParamProperties {
-  /** List resources greater than the "start". It contains no more than 64 characters. Default is empty. */
-  start?: string;
-  /** The number of items to list, ranging in [1, 1000]. Default is 1000. */
-  top?: number;
-}
-
-export interface GetLivenessWithVerifySessionAuditEntriesQueryParam {
-  queryParameters?: GetLivenessWithVerifySessionAuditEntriesQueryParamProperties;
-}
-
-export type GetLivenessWithVerifySessionAuditEntriesParameters =
-  GetLivenessWithVerifySessionAuditEntriesQueryParam & RequestParameters;
 export type GetSessionImageParameters = RequestParameters;
-
-export interface CreatePersonBodyParam {
-  body: UserDefinedFields;
-}
-
-export type CreatePersonParameters = CreatePersonBodyParam & RequestParameters;
-export type DeletePersonParameters = RequestParameters;
-export type GetPersonParameters = RequestParameters;
-
-export interface UpdatePersonBodyParam {
-  body: UserDefinedFieldsForUpdate;
-}
-
-export type UpdatePersonParameters = UpdatePersonBodyParam & RequestParameters;
-
-export interface GetPersonsQueryParamProperties {
-  /** List resources greater than the "start". It contains no more than 64 characters. Default is empty. */
-  start?: string;
-  /** The number of items to list, ranging in [1, 1000]. Default is 1000. */
-  top?: number;
-}
-
-export interface GetPersonsQueryParam {
-  queryParameters?: GetPersonsQueryParamProperties;
-}
-
-export type GetPersonsParameters = GetPersonsQueryParam & RequestParameters;
-
-export interface GetDynamicPersonGroupReferencesQueryParamProperties {
-  /** List resources greater than the "start". It contains no more than 64 characters. Default is empty. */
-  start?: string;
-  /** The number of items to list, ranging in [1, 1000]. Default is 1000. */
-  top?: number;
-}
-
-export interface GetDynamicPersonGroupReferencesQueryParam {
-  queryParameters?: GetDynamicPersonGroupReferencesQueryParamProperties;
-}
-
-export type GetDynamicPersonGroupReferencesParameters = GetDynamicPersonGroupReferencesQueryParam &
-  RequestParameters;
-
-export interface AddPersonFaceBodyParam {
-  /**
-   * The image to be analyzed
-   *
-   * Value may contain any sequence of octets
-   */
-  body: string | Uint8Array | ReadableStream<Uint8Array> | NodeJS.ReadableStream;
-}
-
-export interface AddPersonFaceQueryParamProperties {
-  /** A face rectangle to specify the target face to be added to a person, in the format of 'targetFace=left,top,width,height'. */
-  targetFace?: number[];
-  /**
-   * The 'detectionModel' associated with the detected faceIds. Supported 'detectionModel' values include 'detection_01', 'detection_02' and 'detection_03'. The default value is 'detection_01'.
-   *
-   * Possible values: "detection_01", "detection_02", "detection_03"
-   */
-  detectionModel?: DetectionModel;
-  /** User-provided data attached to the face. The size limit is 1K. */
-  userData?: string;
-}
-
-export interface AddPersonFaceQueryParam {
-  queryParameters?: AddPersonFaceQueryParamProperties;
-}
-
-export interface AddPersonFaceMediaTypesParam {
-  /** The format of the HTTP payload. */
-  contentType: "application/octet-stream";
-}
-
-export type AddPersonFaceParameters = AddPersonFaceQueryParam &
-  AddPersonFaceMediaTypesParam &
-  AddPersonFaceBodyParam &
-  RequestParameters;
-
-export interface AddPersonFaceFromUrlBodyParam {
-  body: { url: string };
-}
-
-export interface AddPersonFaceFromUrlQueryParamProperties {
-  /** A face rectangle to specify the target face to be added to a person, in the format of 'targetFace=left,top,width,height'. */
-  targetFace?: number[];
-  /**
-   * The 'detectionModel' associated with the detected faceIds. Supported 'detectionModel' values include 'detection_01', 'detection_02' and 'detection_03'. The default value is 'detection_01'.
-   *
-   * Possible values: "detection_01", "detection_02", "detection_03"
-   */
-  detectionModel?: DetectionModel;
-  /** User-provided data attached to the face. The size limit is 1K. */
-  userData?: string;
-}
-
-export interface AddPersonFaceFromUrlQueryParam {
-  queryParameters?: AddPersonFaceFromUrlQueryParamProperties;
-}
-
-export type AddPersonFaceFromUrlParameters = AddPersonFaceFromUrlQueryParam &
-  AddPersonFaceFromUrlBodyParam &
-  RequestParameters;
-export type DeletePersonFaceParameters = RequestParameters;
-export type GetPersonFaceParameters = RequestParameters;
-
-export interface UpdatePersonFaceBodyParam {
-  body: FaceUserData;
-}
-
-export type UpdatePersonFaceParameters = UpdatePersonFaceBodyParam & RequestParameters;
-export type GetPersonFacesParameters = RequestParameters;
-
-export interface CreateDynamicPersonGroupWithPersonBodyParam {
-  body: { name: string; userData?: string; addPersonIds: string[] };
-}
-
-export type CreateDynamicPersonGroupWithPersonParameters =
-  CreateDynamicPersonGroupWithPersonBodyParam & RequestParameters;
-
-export interface CreateDynamicPersonGroupBodyParam {
-  body: UserDefinedFields;
-}
-
-export type CreateDynamicPersonGroupParameters = CreateDynamicPersonGroupBodyParam &
-  RequestParameters;
-export type DeleteDynamicPersonGroupParameters = RequestParameters;
-export type GetDynamicPersonGroupParameters = RequestParameters;
-
-export interface UpdateDynamicPersonGroupWithPersonChangesBodyParam {
-  body: {
-    name?: string;
-    userData?: string;
-    addPersonIds?: string[];
-    removePersonIds?: string[];
-  };
-}
-
-export type UpdateDynamicPersonGroupWithPersonChangesParameters =
-  UpdateDynamicPersonGroupWithPersonChangesBodyParam & RequestParameters;
-
-export interface UpdateDynamicPersonGroupBodyParam {
-  body: UserDefinedFieldsForUpdate;
-}
-
-export type UpdateDynamicPersonGroupParameters = UpdateDynamicPersonGroupBodyParam &
-  RequestParameters;
-
-export interface GetDynamicPersonGroupsQueryParamProperties {
-  /** List resources greater than the "start". It contains no more than 64 characters. Default is empty. */
-  start?: string;
-  /** The number of items to list, ranging in [1, 1000]. Default is 1000. */
-  top?: number;
-}
-
-export interface GetDynamicPersonGroupsQueryParam {
-  queryParameters?: GetDynamicPersonGroupsQueryParamProperties;
-}
-
-export type GetDynamicPersonGroupsParameters = GetDynamicPersonGroupsQueryParam & RequestParameters;
-
-export interface GetDynamicPersonGroupPersonsQueryParamProperties {
-  /** List resources greater than the "start". It contains no more than 64 characters. Default is empty. */
-  start?: string;
-  /** The number of items to list, ranging in [1, 1000]. Default is 1000. */
-  top?: number;
-}
-
-export interface GetDynamicPersonGroupPersonsQueryParam {
-  queryParameters?: GetDynamicPersonGroupPersonsQueryParamProperties;
-}
-
-export type GetDynamicPersonGroupPersonsParameters = GetDynamicPersonGroupPersonsQueryParam &
-  RequestParameters;

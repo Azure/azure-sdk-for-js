@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary create a OrganizationResource
  * x-ms-original-file: 2024-08-01-preview/Organizations_CreateOrUpdate_MaximumSet_Gen.json
  */
-async function organizationsCreateOrUpdate() {
+async function organizationsCreateOrUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "1178323D-8270-4757-B639-D528B6266487";
   const client = new PostgresClient(credential, subscriptionId);
@@ -60,7 +60,7 @@ async function organizationsCreateOrUpdate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await organizationsCreateOrUpdate();
 }
 

@@ -16,7 +16,7 @@ import "dotenv/config";
  * @summary Creates a new database or updates an existing database.
  * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2024-08-01/examples/DatabaseCreate.json
  */
-async function createADatabase() {
+async function createADatabase(): Promise<void> {
   const subscriptionId =
     process.env["POSTGRESQL_SUBSCRIPTION_ID"] || "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const resourceGroupName = process.env["POSTGRESQL_RESOURCE_GROUP"] || "TestGroup";
@@ -34,7 +34,7 @@ async function createADatabase() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await createADatabase();
 }
 

@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Get policy metadata resource.
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2024-10-01/examples/PolicyMetadata_GetResource.json
  */
-async function getASinglePolicyMetadataResource() {
+async function getASinglePolicyMetadataResource(): Promise<void> {
   const resourceName = "NIST_SP_800-53_R4_AC-2";
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential);
@@ -27,7 +27,7 @@ async function getASinglePolicyMetadataResource() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getASinglePolicyMetadataResource();
 }
 

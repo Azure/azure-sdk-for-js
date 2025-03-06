@@ -8,9 +8,7 @@
 import type { EventsListByTenantIdOptionalParams } from "@azure/arm-resourcehealth";
 import { MicrosoftResourceHealth } from "@azure/arm-resourcehealth";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists current service health events in the tenant.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Lists current service health events in the tenant.
  * x-ms-original-file: specification/resourcehealth/resource-manager/Microsoft.ResourceHealth/preview/2023-10-01-preview/examples/Events_ListByTenantId.json
  */
-async function listEventsByTenantId() {
+async function listEventsByTenantId(): Promise<void> {
   const filter = "service eq 'Virtual Machines' or region eq 'West US'";
   const queryStartTime = "7/24/2020";
   const options: EventsListByTenantIdOptionalParams = {
@@ -34,7 +32,7 @@ async function listEventsByTenantId() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await listEventsByTenantId();
 }
 

@@ -13,7 +13,7 @@ import "dotenv/config";
  * @summary Gets all network security groups applied to a network interface.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/NetworkInterfaceEffectiveNSGList.json
  */
-async function listNetworkInterfaceEffectiveNetworkSecurityGroups() {
+async function listNetworkInterfaceEffectiveNetworkSecurityGroups(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

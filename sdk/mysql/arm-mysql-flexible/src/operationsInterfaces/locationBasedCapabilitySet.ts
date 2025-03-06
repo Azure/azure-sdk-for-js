@@ -12,7 +12,7 @@ import {
   LocationBasedCapabilitySetListOptionalParams,
   LocationBasedCapabilitySetGetOptionalParams,
   LocationBasedCapabilitySetGetResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a LocationBasedCapabilitySet. */
