@@ -6,12 +6,12 @@ import { describe, it, beforeAll } from "vitest";
 import { createClientsAndDeployments } from "../utils/createClients.js";
 import { APIMatrix, type APIVersion, withDeployments } from "../utils/utils.js";
 import { assertEmbeddings } from "../utils/asserts.js";
-import type { ClientsAndDeploymentsCountInfo } from "../utils/types.js";
+import type { ClientsAndDeploymentsInfo } from "../utils/types.js";
 
 describe("Embeddings", function () {
   matrix([APIMatrix] as const, async function (apiVersion: APIVersion) {
     describe(`[${apiVersion}] Client`, () => {
-      let clientsAndDeployments: ClientsAndDeploymentsCountInfo;
+      let clientsAndDeployments: ClientsAndDeploymentsInfo;
 
       beforeAll(async function () {
         clientsAndDeployments = createClientsAndDeployments(apiVersion, { embeddings: "true" });

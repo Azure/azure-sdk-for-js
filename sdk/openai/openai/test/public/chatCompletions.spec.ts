@@ -21,11 +21,11 @@ import {zodResponseFormat} from "openai/helpers/zod";
 import {type ChatCompletionMessageParam} from "openai/resources/chat/completions.mjs";
 import {functionCallModelsToSkip, jsonResponseModelsToSkip} from "../utils/models.js";
 import "../../src/types/index.js";
-import type {ClientsAndDeploymentsCountInfo} from "../utils/types.js";
+import type {ClientsAndDeploymentsInfo} from "../utils/types.js";
 import {assertMathResponseOutput, type MathResponse} from "../utils/structuredOutputUtils.js";
 
 describe.shuffle.each(APIMatrix)("Chat Completions [%s]", (apiVersion: APIVersion) => {
-  let clientsAndDeploymentsInfo: ClientsAndDeploymentsCountInfo;
+  let clientsAndDeploymentsInfo: ClientsAndDeploymentsInfo;
 
   clientsAndDeploymentsInfo = createClientsAndDeployments(
     apiVersion,

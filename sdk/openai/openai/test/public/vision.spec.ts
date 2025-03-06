@@ -7,13 +7,13 @@ import { createClientsAndDeployments } from "../utils/createClients.js";
 import { assertChatCompletions } from "../utils/asserts.js";
 import { APIMatrix, type APIVersion, withDeployments } from "../utils/utils.js";
 import { RestError } from "@azure/core-rest-pipeline";
-import type { ClientsAndDeploymentsCountInfo } from "../utils/types.js";
+import type { ClientsAndDeploymentsInfo } from "../utils/types.js";
 import { logger } from "../utils/logger.js";
 
 describe("Vision", function () {
   matrix([APIMatrix] as const, async function (apiVersion: APIVersion) {
     describe(`[${apiVersion}] Client`, () => {
-      let clientsAndDeployments: ClientsAndDeploymentsCountInfo;
+      let clientsAndDeployments: ClientsAndDeploymentsInfo;
 
       beforeEach(async () => {
         clientsAndDeployments = createClientsAndDeployments(

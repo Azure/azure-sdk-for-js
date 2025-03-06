@@ -49,7 +49,7 @@ export interface ClientAndDeploymentsInfo {
   deployments: DeploymentInfo[];
 }
 
-export interface ClientsAndDeploymentsCountInfo {
+export interface ClientsAndDeploymentsInfo {
   clientsAndDeployments: ClientAndDeploymentsInfo[];
   count: number;
 }
