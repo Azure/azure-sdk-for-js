@@ -9,6 +9,8 @@
 import * as coreClient from "@azure/core-client";
 
 export interface CommunicationIdentityCreateRequest {
+  /** Set to tag the identity with your own id. */
+  externalId?: string;
   /** Also create access token for the created identity. */
   createTokenWithScopes?: CommunicationIdentityTokenScope[];
   /** Optional custom validity period of the token within [60,1440] minutes range. If not provided, the default value of 1440 minutes (24 hours) will be used. */
@@ -21,12 +23,18 @@ export interface CommunicationIdentityAccessTokenResult {
   identity: CommunicationIdentity;
   /** An access token. */
   accessToken?: CommunicationIdentityAccessToken;
+  /** Last time a token has been issued for the identity. */
+  lastTokenIssuedAt?: Date;
 }
 
 /** A communication identity. */
 export interface CommunicationIdentity {
+  /** The external Id if one has been associated with the identity. */
+  externalId?: string;
   /** Identifier of the identity. */
   id: string;
+  /** Last time a token has been issued for the identity. */
+  lastTokenIssuedAt?: Date;
 }
 
 /** An access token. */
@@ -93,7 +101,7 @@ export enum KnownCommunicationIdentityTokenScope {
   /** A more limited version of chat.join that doesn't allow to add or remove participants. Use this scope when the token bearer is not fully trusted, for example in guest scenarios. */
   ChatJoinLimited = "chat.join.limited",
   /** Access to Calling APIs but without the authorization to start new calls. */
-  VoipJoin = "voip.join"
+  VoipJoin = "voip.join",
 }
 
 /**
@@ -112,6 +120,8 @@ export type CommunicationIdentityTokenScope = string;
 /** Optional parameters. */
 export interface CommunicationIdentityCreateOptionalParams
   extends coreClient.OperationOptions {
+  /** Set to tag the identity with your own id. */
+  externalId?: string;
   /** Also create access token for the created identity. */
   createTokenWithScopes?: CommunicationIdentityTokenScope[];
   /** Optional custom validity period of the token within [60,1440] minutes range. If not provided, the default value of 1440 minutes (24 hours) will be used. */
@@ -119,11 +129,19 @@ export interface CommunicationIdentityCreateOptionalParams
 }
 
 /** Contains response data for the create operation. */
-export type CommunicationIdentityCreateResponse = CommunicationIdentityAccessTokenResult;
+export type CommunicationIdentityCreateResponse =
+  CommunicationIdentityAccessTokenResult;
 
 /** Optional parameters. */
 export interface CommunicationIdentityDeleteOptionalParams
   extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface CommunicationIdentityGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type CommunicationIdentityGetResponse = CommunicationIdentity;
 
 /** Optional parameters. */
 export interface CommunicationIdentityRevokeAccessTokensOptionalParams
@@ -134,7 +152,8 @@ export interface CommunicationIdentityExchangeTeamsUserAccessTokenOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the exchangeTeamsUserAccessToken operation. */
-export type CommunicationIdentityExchangeTeamsUserAccessTokenResponse = CommunicationIdentityAccessToken;
+export type CommunicationIdentityExchangeTeamsUserAccessTokenResponse =
+  CommunicationIdentityAccessToken;
 
 /** Optional parameters. */
 export interface CommunicationIdentityIssueAccessTokenOptionalParams
@@ -144,7 +163,8 @@ export interface CommunicationIdentityIssueAccessTokenOptionalParams
 }
 
 /** Contains response data for the issueAccessToken operation. */
-export type CommunicationIdentityIssueAccessTokenResponse = CommunicationIdentityAccessToken;
+export type CommunicationIdentityIssueAccessTokenResponse =
+  CommunicationIdentityAccessToken;
 
 /** Optional parameters. */
 export interface IdentityRestClientOptionalParams

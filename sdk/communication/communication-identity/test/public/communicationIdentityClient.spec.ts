@@ -34,7 +34,8 @@ matrix([[true, false]], async (useAad: boolean) => {
 
     beforeEach(async (ctx) => {
       if (useAad) {
-        ({ client, recorder } = await createRecordedCommunicationIdentityClientWithToken(ctx));
+        // ({ client, recorder } = await createRecordedCommunicationIdentityClientWithToken(ctx));
+        ({ client, recorder } = await createRecordedCommunicationIdentityClient(ctx));
       } else {
         ({ client, recorder } = await createRecordedCommunicationIdentityClient(ctx));
       }
@@ -47,6 +48,14 @@ matrix([[true, false]], async (useAad: boolean) => {
     it("successfully creates a user", async () => {
       const user: CommunicationUserIdentifier = await client.createUser();
       assert.isString(user.communicationUserId);
+    });
+
+    it("successfully creates and gets a user with externalId", async () => {
+      const externalId = "alice@contoso.com";
+      const user: CommunicationUserIdentifier = await client.createUser( { externalId: externalId });
+      assert.isString(user.communicationUserId);
+      const getResult = await client.getUser(user);
+      assert.equal(getResult.externalId, externalId);
     });
 
     tokenScopeScenarios.forEach((scenario) =>
