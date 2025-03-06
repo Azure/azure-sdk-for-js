@@ -743,8 +743,18 @@ export class ContainerClient extends StorageClient {
    *
    * Example usage:
    *
-   * ```js
-   * const containerClient = blobServiceClient.getContainerClient("<container name>");
+   * ```ts snippet:ContainerClientCreate
+   * import { BlobServiceClient } from "@azure/storage-blob";
+   * import { DefaultAzureCredential } from "@azure/identity";
+   *
+   * const account = "<account>";
+   * const blobServiceClient = new BlobServiceClient(
+   *   `https://${account}.blob.core.windows.net`,
+   *   new DefaultAzureCredential(),
+   * );
+   *
+   * const containerName = "<container name>";
+   * const containerClient = blobServiceClient.getContainerClient(containerName);
    * const createContainerResponse = await containerClient.create();
    * console.log("Container was created successfully", createContainerResponse.requestId);
    * ```
@@ -847,10 +857,22 @@ export class ContainerClient extends StorageClient {
    *
    * Example usage:
    *
-   * ```js
-   * const content = "Hello world!";
+   * ```ts snippet:ClientsUpload
+   * import { BlobServiceClient } from "@azure/storage-blob";
+   * import { DefaultAzureCredential } from "@azure/identity";
    *
-   * const blockBlobClient = containerClient.getBlockBlobClient("<blob name>");
+   * const account = "<account>";
+   * const blobServiceClient = new BlobServiceClient(
+   *   `https://${account}.blob.core.windows.net`,
+   *   new DefaultAzureCredential(),
+   * );
+   *
+   * const containerName = "<container name>";
+   * const blobName = "<blob name>";
+   * const containerClient = blobServiceClient.getContainerClient(containerName);
+   * const blockBlobClient = containerClient.getBlockBlobClient(blobName);
+   *
+   * const content = "Hello world!";
    * const uploadBlobResponse = await blockBlobClient.upload(content, content.length);
    * ```
    */
@@ -1379,64 +1401,63 @@ export class ContainerClient extends StorageClient {
    *
    * .byPage() returns an async iterable iterator to list the blobs in pages.
    *
-   * Example using `for await` syntax:
+   * ```ts snippet:ReadmeSampleListBlobs_Multiple
+   * import { BlobServiceClient } from "@azure/storage-blob";
+   * import { DefaultAzureCredential } from "@azure/identity";
    *
-   * ```js
-   * // Get the containerClient before you run these snippets,
-   * // Can be obtained from `blobServiceClient.getContainerClient("<your-container-name>");`
+   * const account = "<account>";
+   * const blobServiceClient = new BlobServiceClient(
+   *   `https://${account}.blob.core.windows.net`,
+   *   new DefaultAzureCredential(),
+   * );
+   *
+   * const containerName = "<container name>";
+   * const containerClient = blobServiceClient.getContainerClient(containerName);
+   *
+   * // Example using `for await` syntax
    * let i = 1;
-   * for await (const blob of containerClient.listBlobsFlat()) {
+   * const blobs = containerClient.listBlobsFlat();
+   * for await (const blob of blobs) {
    *   console.log(`Blob ${i++}: ${blob.name}`);
    * }
-   * ```
    *
-   * Example using `iter.next()`:
-   *
-   * ```js
-   * let i = 1;
-   * let iter = containerClient.listBlobsFlat();
-   * let blobItem = await iter.next();
-   * while (!blobItem.done) {
-   *   console.log(`Blob ${i++}: ${blobItem.value.name}`);
-   *   blobItem = await iter.next();
+   * // Example using `iter.next()` syntax
+   * i = 1;
+   * const iter = containerClient.listBlobsFlat();
+   * let { value, done } = await iter.next();
+   * while (!done) {
+   *   console.log(`Blob ${i++}: ${value.name}`);
+   *   ({ value, done } = await iter.next());
    * }
-   * ```
    *
-   * Example using `byPage()`:
+   * // Example using `byPage()` syntax
+   * i = 1;
+   * for await (const page of containerClient.listBlobsFlat().byPage({ maxPageSize: 20 })) {
+   *   for (const blob of page.segment.blobItems) {
+   *     console.log(`Blob ${i++}: ${blob.name}`);
+   *   }
+   * }
    *
-   * ```js
-   * // passing optional maxPageSize in the page settings
-   * let i = 1;
-   * for await (const response of containerClient.listBlobsFlat().byPage({ maxPageSize: 20 })) {
+   * // Example using paging with a marker
+   * i = 1;
+   * let iterator = containerClient.listBlobsFlat().byPage({ maxPageSize: 2 });
+   * let response = (await iterator.next()).value;
+   * // Prints 2 blob names
+   * if (response.segment.blobItems) {
    *   for (const blob of response.segment.blobItems) {
    *     console.log(`Blob ${i++}: ${blob.name}`);
    *   }
    * }
-   * ```
-   *
-   * Example using paging with a marker:
-   *
-   * ```js
-   * let i = 1;
-   * let iterator = containerClient.listBlobsFlat().byPage({ maxPageSize: 2 });
-   * let response = (await iterator.next()).value;
-   *
-   * // Prints 2 blob names
-   * for (const blob of response.segment.blobItems) {
-   *   console.log(`Blob ${i++}: ${blob.name}`);
-   * }
-   *
    * // Gets next marker
    * let marker = response.continuationToken;
-   *
    * // Passing next marker as continuationToken
-   *
    * iterator = containerClient.listBlobsFlat().byPage({ continuationToken: marker, maxPageSize: 10 });
    * response = (await iterator.next()).value;
-   *
    * // Prints 10 blob names
-   * for (const blob of response.segment.blobItems) {
-   *   console.log(`Blob ${i++}: ${blob.name}`);
+   * if (response.segment.blobItems) {
+   *   for (const blob of response.segment.blobItems) {
+   *     console.log(`Blob ${i++}: ${blob.name}`);
+   *   }
    * }
    * ```
    *
@@ -1582,71 +1603,88 @@ export class ContainerClient extends StorageClient {
    *
    * .byPage() returns an async iterable iterator to list the blobs by hierarchy in pages.
    *
-   * Example using `for await` syntax:
+   * ```ts snippet:ReadmeSampleListBlobsByHierarchy
+   * import { BlobServiceClient } from "@azure/storage-blob";
+   * import { DefaultAzureCredential } from "@azure/identity";
    *
-   * ```js
-   * for await (const item of containerClient.listBlobsByHierarchy("/")) {
-   *   if (item.kind === "prefix") {
-   *     console.log(`\tBlobPrefix: ${item.name}`);
-   *   } else {
-   *     console.log(`\tBlobItem: name - ${item.name}`);
-   *   }
-   * }
-   * ```
+   * const account = "<account>";
+   * const blobServiceClient = new BlobServiceClient(
+   *   `https://${account}.blob.core.windows.net`,
+   *   new DefaultAzureCredential(),
+   * );
    *
-   * Example using `iter.next()`:
+   * const containerName = "<container name>";
+   * const containerClient = blobServiceClient.getContainerClient(containerName);
    *
-   * ```js
-   * let iter = containerClient.listBlobsByHierarchy("/", { prefix: "prefix1/" });
-   * let entity = await iter.next();
-   * while (!entity.done) {
-   *   let item = entity.value;
-   *   if (item.kind === "prefix") {
-   *     console.log(`\tBlobPrefix: ${item.name}`);
-   *   } else {
-   *     console.log(`\tBlobItem: name - ${item.name}`);
-   *   }
-   *   entity = await iter.next();
-   * }
-   * ```
-   *
-   * Example using `byPage()`:
-   *
-   * ```js
-   * console.log("Listing blobs by hierarchy by page");
-   * for await (const response of containerClient.listBlobsByHierarchy("/").byPage()) {
-   *   const segment = response.segment;
-   *   if (segment.blobPrefixes) {
-   *     for (const prefix of segment.blobPrefixes) {
-   *       console.log(`\tBlobPrefix: ${prefix.name}`);
-   *     }
-   *   }
-   *   for (const blob of response.segment.blobItems) {
-   *     console.log(`\tBlobItem: name - ${blob.name}`);
-   *   }
-   * }
-   * ```
-   *
-   * Example using paging with a max page size:
-   *
-   * ```js
-   * console.log("Listing blobs by hierarchy by page, specifying a prefix and a max page size");
-   *
+   * // Example using `for await` syntax
    * let i = 1;
-   * for await (const response of containerClient
-   *   .listBlobsByHierarchy("/", { prefix: "prefix2/sub1/" })
-   *   .byPage({ maxPageSize: 2 })) {
-   *   console.log(`Page ${i++}`);
-   *   const segment = response.segment;
+   * const blobs = containerClient.listBlobsByHierarchy("/");
+   * for await (const blob of blobs) {
+   *   if (blob.kind === "prefix") {
+   *     console.log(`\tBlobPrefix: ${blob.name}`);
+   *   } else {
+   *     console.log(`\tBlobItem: name - ${blob.name}`);
+   *   }
+   * }
    *
+   * // Example using `iter.next()` syntax
+   * i = 1;
+   * const iter = containerClient.listBlobsByHierarchy("/");
+   * let { value, done } = await iter.next();
+   * while (!done) {
+   *   if (value.kind === "prefix") {
+   *     console.log(`\tBlobPrefix: ${value.name}`);
+   *   } else {
+   *     console.log(`\tBlobItem: name - ${value.name}`);
+   *   }
+   *   ({ value, done } = await iter.next());
+   * }
+   *
+   * // Example using `byPage()` syntax
+   * i = 1;
+   * for await (const page of containerClient.listBlobsByHierarchy("/").byPage({ maxPageSize: 20 })) {
+   *   const segment = page.segment;
    *   if (segment.blobPrefixes) {
    *     for (const prefix of segment.blobPrefixes) {
    *       console.log(`\tBlobPrefix: ${prefix.name}`);
    *     }
    *   }
+   *   for (const blob of page.segment.blobItems) {
+   *     console.log(`\tBlobItem: name - ${blob.name}`);
+   *   }
+   * }
    *
+   * // Example using paging with a marker
+   * i = 1;
+   * let iterator = containerClient.listBlobsByHierarchy("/").byPage({ maxPageSize: 2 });
+   * let response = (await iterator.next()).value;
+   * // Prints 2 blob names
+   * if (response.blobPrefixes) {
+   *   for (const prefix of response.blobPrefixes) {
+   *     console.log(`\tBlobPrefix: ${prefix.name}`);
+   *   }
+   * }
+   * if (response.segment.blobItems) {
    *   for (const blob of response.segment.blobItems) {
    *     console.log(`\tBlobItem: name - ${blob.name}`);
+   *   }
+   * }
+   * // Gets next marker
+   * let marker = response.continuationToken;
+   * // Passing next marker as continuationToken
+   * iterator = containerClient
+   *   .listBlobsByHierarchy("/")
+   *   .byPage({ continuationToken: marker, maxPageSize: 10 });
+   * response = (await iterator.next()).value;
+   * // Prints 10 blob names
+   * if (response.blobPrefixes) {
+   *   for (const prefix of response.blobPrefixes) {
+   *     console.log(`\tBlobPrefix: ${prefix.name}`);
+   *   }
+   * }
+   * if (response.segment.blobItems) {
+   *   for (const blob of response.segment.blobItems) {
+   *     console.log(`Blob ${i++}: ${blob.name}`);
    *   }
    * }
    * ```
@@ -1850,53 +1888,54 @@ export class ContainerClient extends StorageClient {
    *
    * Example using `for await` syntax:
    *
-   * ```js
+   * ```ts snippet:ReadmeSampleFindBlobsByTags
+   * import { BlobServiceClient } from "@azure/storage-blob";
+   * import { DefaultAzureCredential } from "@azure/identity";
+   *
+   * const account = "<account>";
+   * const blobServiceClient = new BlobServiceClient(
+   *   `https://${account}.blob.core.windows.net`,
+   *   new DefaultAzureCredential(),
+   * );
+   *
+   * const containerName = "<container name>";
+   * const containerClient = blobServiceClient.getContainerClient(containerName);
+   *
+   * // Example using `for await` syntax
    * let i = 1;
    * for await (const blob of containerClient.findBlobsByTags("tagkey='tagvalue'")) {
    *   console.log(`Blob ${i++}: ${blob.name}`);
    * }
-   * ```
    *
-   * Example using `iter.next()`:
-   *
-   * ```js
-   * let i = 1;
+   * // Example using `iter.next()` syntax
+   * i = 1;
    * const iter = containerClient.findBlobsByTags("tagkey='tagvalue'");
-   * let blobItem = await iter.next();
-   * while (!blobItem.done) {
-   *   console.log(`Blob ${i++}: ${blobItem.value.name}`);
-   *   blobItem = await iter.next();
+   * let { value, done } = await iter.next();
+   * while (!done) {
+   *   console.log(`Blob ${i++}: ${value.name}`);
+   *   ({ value, done } = await iter.next());
    * }
-   * ```
    *
-   * Example using `byPage()`:
-   *
-   * ```js
-   * // passing optional maxPageSize in the page settings
-   * let i = 1;
-   * for await (const response of containerClient.findBlobsByTags("tagkey='tagvalue'").byPage({ maxPageSize: 20 })) {
-   *   if (response.blobs) {
-   *     for (const blob of response.blobs) {
-   *       console.log(`Blob ${i++}: ${blob.name}`);
-   *     }
+   * // Example using `byPage()` syntax
+   * i = 1;
+   * for await (const page of containerClient
+   *   .findBlobsByTags("tagkey='tagvalue'")
+   *   .byPage({ maxPageSize: 20 })) {
+   *   for (const blob of page.blobs) {
+   *     console.log(`Blob ${i++}: ${blob.name}`);
    *   }
    * }
-   * ```
    *
-   * Example using paging with a marker:
-   *
-   * ```js
-   * let i = 1;
+   * // Example using paging with a marker
+   * i = 1;
    * let iterator = containerClient.findBlobsByTags("tagkey='tagvalue'").byPage({ maxPageSize: 2 });
    * let response = (await iterator.next()).value;
-   *
    * // Prints 2 blob names
    * if (response.blobs) {
    *   for (const blob of response.blobs) {
    *     console.log(`Blob ${i++}: ${blob.name}`);
    *   }
    * }
-   *
    * // Gets next marker
    * let marker = response.continuationToken;
    * // Passing next marker as continuationToken
@@ -1904,11 +1943,10 @@ export class ContainerClient extends StorageClient {
    *   .findBlobsByTags("tagkey='tagvalue'")
    *   .byPage({ continuationToken: marker, maxPageSize: 10 });
    * response = (await iterator.next()).value;
-   *
-   * // Prints blob names
+   * // Prints 10 blob names
    * if (response.blobs) {
    *   for (const blob of response.blobs) {
-   *      console.log(`Blob ${i++}: ${blob.name}`);
+   *     console.log(`Blob ${i++}: ${blob.name}`);
    *   }
    * }
    * ```

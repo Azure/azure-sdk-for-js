@@ -399,26 +399,34 @@ export class BlobServiceClient extends StorageClient {
    *
    * Example using DefaultAzureCredential from `@azure/identity`:
    *
-   * ```js
-   * const account = "<storage account name>";
+   * ```ts snippet:ReadmeSampleCreateClient_DefaultAzureCredential
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { BlobServiceClient } from "@azure/storage-blob";
    *
+   * // Enter your storage account name
+   * const account = "<account>";
    * const defaultAzureCredential = new DefaultAzureCredential();
    *
    * const blobServiceClient = new BlobServiceClient(
    *   `https://${account}.blob.core.windows.net`,
-   *   defaultAzureCredential
+   *   defaultAzureCredential,
    * );
    * ```
    *
    * Example using an account name/key:
    *
-   * ```js
-   * const account = "<storage account name>"
-   * const sharedKeyCredential = new StorageSharedKeyCredential(account, "<account key>");
+   * ```ts snippet:ReadmeSampleCreateClient_StorageSharedKeyCredential
+   * import { StorageSharedKeyCredential, BlobServiceClient } from "@azure/storage-blob";
    *
+   * const account = "<account>";
+   * const accountKey = "<accountkey>";
+   *
+   * // Use StorageSharedKeyCredential with storage account and account key
+   * // StorageSharedKeyCredential is only available in Node.js runtime, not in browsers
+   * const sharedKeyCredential = new StorageSharedKeyCredential(account, accountKey);
    * const blobServiceClient = new BlobServiceClient(
    *   `https://${account}.blob.core.windows.net`,
-   *   sharedKeyCredential
+   *   sharedKeyCredential,
    * );
    * ```
    */
@@ -475,7 +483,16 @@ export class BlobServiceClient extends StorageClient {
    *
    * Example usage:
    *
-   * ```js
+   * ```ts snippet:BlobServiceClientGetContainerClient
+   * import { BlobServiceClient } from "@azure/storage-blob";
+   * import { DefaultAzureCredential } from "@azure/identity";
+   *
+   * const account = "<account>";
+   * const blobServiceClient = new BlobServiceClient(
+   *   `https://${account}.blob.core.windows.net`,
+   *   new DefaultAzureCredential(),
+   * );
+   *
    * const containerClient = blobServiceClient.getContainerClient("<container name>");
    * ```
    */
@@ -877,55 +894,51 @@ export class BlobServiceClient extends StorageClient {
    *
    * @see https://learn.microsoft.com/en-us/rest/api/storageservices/get-blob-service-properties
    *
-   * Example using `for await` syntax:
+   * ```ts snippet:BlobServiceClientFindBlobsByTags
+   * import { BlobServiceClient } from "@azure/storage-blob";
+   * import { DefaultAzureCredential } from "@azure/identity";
    *
-   * ```js
+   * const account = "<account>";
+   * const blobServiceClient = new BlobServiceClient(
+   *   `https://${account}.blob.core.windows.net`,
+   *   new DefaultAzureCredential(),
+   * );
+   *
+   * // Use for await to iterate the blobs
    * let i = 1;
    * for await (const blob of blobServiceClient.findBlobsByTags("tagkey='tagvalue'")) {
-   *   console.log(`Blob ${i++}: ${container.name}`);
+   *   console.log(`Blob ${i++}: ${blob.name}`);
    * }
-   * ```
    *
-   * Example using `iter.next()`:
-   *
-   * ```js
-   * let i = 1;
+   * // Use iter.next() to iterate the blobs
+   * i = 1;
    * const iter = blobServiceClient.findBlobsByTags("tagkey='tagvalue'");
-   * let blobItem = await iter.next();
-   * while (!blobItem.done) {
-   *   console.log(`Blob ${i++}: ${blobItem.value.name}`);
-   *   blobItem = await iter.next();
+   * let { value, done } = await iter.next();
+   * while (!done) {
+   *   console.log(`Blob ${i++}: ${value.name}`);
+   *   ({ value, done } = await iter.next());
    * }
-   * ```
    *
-   * Example using `byPage()`:
-   *
-   * ```js
-   * // passing optional maxPageSize in the page settings
-   * let i = 1;
-   * for await (const response of blobServiceClient.findBlobsByTags("tagkey='tagvalue'").byPage({ maxPageSize: 20 })) {
-   *   if (response.blobs) {
-   *     for (const blob of response.blobs) {
-   *       console.log(`Blob ${i++}: ${blob.name}`);
-   *     }
+   * // Use byPage() to iterate the blobs
+   * i = 1;
+   * for await (const page of blobServiceClient
+   *   .findBlobsByTags("tagkey='tagvalue'")
+   *   .byPage({ maxPageSize: 20 })) {
+   *   for (const blob of page.blobs) {
+   *     console.log(`Blob ${i++}: ${blob.name}`);
    *   }
    * }
-   * ```
    *
-   * Example using paging with a marker:
-   *
-   * ```js
-   * let i = 1;
+   * // Use paging with a marker
+   * i = 1;
    * let iterator = blobServiceClient.findBlobsByTags("tagkey='tagvalue'").byPage({ maxPageSize: 2 });
    * let response = (await iterator.next()).value;
-   *
    * // Prints 2 blob names
    * if (response.blobs) {
    *   for (const blob of response.blobs) {
    *     console.log(`Blob ${i++}: ${blob.name}`);
    *   }
    * }
-   *
    * // Gets next marker
    * let marker = response.continuationToken;
    * // Passing next marker as continuationToken
@@ -937,7 +950,7 @@ export class BlobServiceClient extends StorageClient {
    * // Prints blob names
    * if (response.blobs) {
    *   for (const blob of response.blobs) {
-   *      console.log(`Blob ${i++}: ${blob.name}`);
+   *     console.log(`Blob ${i++}: ${blob.name}`);
    *   }
    * }
    * ```
@@ -1031,45 +1044,41 @@ export class BlobServiceClient extends StorageClient {
    *
    * .byPage() returns an async iterable iterator to list the containers in pages.
    *
-   * Example using `for await` syntax:
+   * ```ts snippet:BlobServiceClientListContainers
+   * import { BlobServiceClient } from "@azure/storage-blob";
+   * import { DefaultAzureCredential } from "@azure/identity";
    *
-   * ```js
+   * const account = "<account>";
+   * const blobServiceClient = new BlobServiceClient(
+   *   `https://${account}.blob.core.windows.net`,
+   *   new DefaultAzureCredential(),
+   * );
+   *
+   * // Use for await to iterate the containers
    * let i = 1;
    * for await (const container of blobServiceClient.listContainers()) {
    *   console.log(`Container ${i++}: ${container.name}`);
    * }
-   * ```
    *
-   * Example using `iter.next()`:
-   *
-   * ```js
-   * let i = 1;
+   * // Use iter.next() to iterate the containers
+   * i = 1;
    * const iter = blobServiceClient.listContainers();
-   * let containerItem = await iter.next();
-   * while (!containerItem.done) {
-   *   console.log(`Container ${i++}: ${containerItem.value.name}`);
-   *   containerItem = await iter.next();
+   * let { value, done } = await iter.next();
+   * while (!done) {
+   *   console.log(`Container ${i++}: ${value.name}`);
+   *   ({ value, done } = await iter.next());
    * }
-   * ```
    *
-   * Example using `byPage()`:
-   *
-   * ```js
-   * // passing optional maxPageSize in the page settings
-   * let i = 1;
-   * for await (const response of blobServiceClient.listContainers().byPage({ maxPageSize: 20 })) {
-   *   if (response.containerItems) {
-   *     for (const container of response.containerItems) {
-   *       console.log(`Container ${i++}: ${container.name}`);
-   *     }
+   * // Use byPage() to iterate the containers
+   * i = 1;
+   * for await (const page of blobServiceClient.listContainers().byPage({ maxPageSize: 20 })) {
+   *   for (const container of page.containerItems) {
+   *     console.log(`Container ${i++}: ${container.name}`);
    *   }
    * }
-   * ```
    *
-   * Example using paging with a marker:
-   *
-   * ```js
-   * let i = 1;
+   * // Use paging with a marker
+   * i = 1;
    * let iterator = blobServiceClient.listContainers().byPage({ maxPageSize: 2 });
    * let response = (await iterator.next()).value;
    *
@@ -1091,7 +1100,7 @@ export class BlobServiceClient extends StorageClient {
    * // Prints 10 container names
    * if (response.containerItems) {
    *   for (const container of response.containerItems) {
-   *      console.log(`Container ${i++}: ${container.name}`);
+   *     console.log(`Container ${i++}: ${container.name}`);
    *   }
    * }
    * ```
