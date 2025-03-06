@@ -9,12 +9,12 @@ import { assertCompletions, assertCompletionsStream } from "../utils/asserts.js"
 import { APIMatrix, withDeployments } from "../utils/utils.js";
 import { completionsModelsToSkip } from "../utils/models.js";
 import "../../src/types/index.js";
-import type { ClientsAndDeploymentsInfo } from "../utils/types.js";
+import type { ClientsAndDeploymentsCountInfo } from "../utils/types.js";
 
 describe("Legacy Completions", function () {
   matrix([APIMatrix] as const, async function (apiVersion: APIVersion) {
     describe(`[${apiVersion}] Client`, () => {
-      let clientsAndDeployments: ClientsAndDeploymentsInfo;
+      let clientsAndDeployments: ClientsAndDeploymentsCountInfo;
 
       beforeEach(async () => {
         clientsAndDeployments = createClientsAndDeployments(apiVersion, { completion: "true" });

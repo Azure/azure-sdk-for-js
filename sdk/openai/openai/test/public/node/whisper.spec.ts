@@ -13,12 +13,12 @@ import {
 } from "../../utils/utils.js";
 import { assertAudioResult } from "../../utils/asserts.js";
 import type { AudioResultFormat } from "../../utils/audioTypes.js";
-import type { ClientsAndDeploymentsInfo } from "../../utils/types.js";
+import type { ClientsAndDeploymentsCountInfo } from "../../utils/types.js";
 
 describe("Whisper", function () {
   matrix([APIMatrix] as const, async function (apiVersion: APIVersion) {
     describe(`[${apiVersion}] Client`, () => {
-      let clientsAndDeployments: ClientsAndDeploymentsInfo;
+      let clientsAndDeployments: ClientsAndDeploymentsCountInfo;
 
       beforeEach(async () => {
         clientsAndDeployments = createClientsAndDeployments(

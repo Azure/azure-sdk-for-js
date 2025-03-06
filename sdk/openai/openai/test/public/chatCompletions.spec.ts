@@ -1,56 +1,53 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { matrix } from "@azure-tools/test-utils-vitest";
-import { assert, describe, beforeEach, it } from "vitest";
-import { createClientsAndDeployments } from "../utils/createClients.js";
-import {APIVersion, testWithDeployments} from "../utils/utils.js";
+import {assert, describe, it} from "vitest";
+import {createClientsAndDeployments} from "../utils/createClients.js";
+import type {APIVersion} from "../utils/utils.js";
+import {
+  APIMatrix,
+  bufferAsyncIterable,
+  createAzureSearchExtension,
+  testWithDeployments,
+  withDeployments,
+} from "../utils/utils.js";
 import {
   assertChatCompletions,
   assertChatCompletionsList,
   assertParsedChatCompletion,
 } from "../utils/asserts.js";
-import { z } from "zod";
-import { zodResponseFormat } from "openai/helpers/zod";
-import {
-  APIMatrix,
-  bufferAsyncIterable,
-  createAzureSearchExtension,
-  withDeployments,
-} from "../utils/utils.js";
-import { type ChatCompletionMessageParam } from "openai/resources/chat/completions.mjs";
-import { functionCallModelsToSkip, jsonResponseModelsToSkip } from "../utils/models.js";
+import {z} from "zod";
+import {zodResponseFormat} from "openai/helpers/zod";
+import {type ChatCompletionMessageParam} from "openai/resources/chat/completions.mjs";
+import {functionCallModelsToSkip, jsonResponseModelsToSkip} from "../utils/models.js";
 import "../../src/types/index.js";
-import type { ClientsAndDeploymentsInfo } from "../utils/types.js";
-import { type MathResponse, assertMathResponseOutput } from "../utils/structuredOutputUtils.js";
+import type {ClientsAndDeploymentsCountInfo} from "../utils/types.js";
+import {assertMathResponseOutput, type MathResponse} from "../utils/structuredOutputUtils.js";
 
-describe.concurrent.shuffle.each(APIMatrix)("Chat Completions [%s]", function (apiVersion: APIVersion) {
-  let clientsAndDeploymentsInfo: ClientsAndDeploymentsInfo;
+describe.shuffle.each(APIMatrix)("Chat Completions [%s]", (apiVersion: APIVersion) => {
+  let clientsAndDeploymentsInfo: ClientsAndDeploymentsCountInfo;
 
-      beforeEach(async () => {
-        clientsAndDeploymentsInfo = createClientsAndDeployments(
-          apiVersion,
-          { chatCompletion: "true" },
-          {
-            deploymentsToSkip: ["o1" /** It gets stuck and never returns */],
-            modelsToSkip: [{ name: "gpt-4o-audio-preview" }, { name: "o3-mini" }],
-          },
-        );
-      });
+  clientsAndDeploymentsInfo = createClientsAndDeployments(
+    apiVersion,
+    {chatCompletion: "true"},
+    {
+      deploymentsToSkip: ["o1" /** It gets stuck and never returns */],
+      modelsToSkip: [{name: "gpt-4o-audio-preview"}, {name: "o3-mini"}],
+    },
+  );
 
-
-  describe("chat.completions.create", function () {
+  describe("chat.completions.create", () => {
     const pirateMessages = [
       {
         role: "system",
         content: "You are a helpful assistant. You will talk like a pirate.",
       } as const,
-      { role: "user", content: "Can you help me?" } as const,
+      {role: "user", content: "Can you help me?"} as const,
       {
         role: "assistant",
         content: "Arrrr! Of course, me hearty! What can I do for ye?",
       } as const,
-      { role: "user", content: "What's the best way to train a parrot?" } as const,
+      {role: "user", content: "What's the best way to train a parrot?"} as const,
     ];
     const byodMessages = [
       {
@@ -78,7 +75,7 @@ describe.concurrent.shuffle.each(APIMatrix)("Chat Completions [%s]", function (a
       },
     };
     // TODO: Change to arrow functions
-    it("returns completions across all models", async function () {
+    it("returns completions across all models", async () => {
       await withDeployments(
         clientsAndDeploymentsInfo,
         (client, deploymentName) =>
@@ -90,19 +87,19 @@ describe.concurrent.shuffle.each(APIMatrix)("Chat Completions [%s]", function (a
       );
     });
 
-    it("calls functions", async function () {
+    it("calls functions", async () => {
       await withDeployments(
         clientsAndDeploymentsInfo,
         async (client, deploymentName) => {
           const weatherMessages: ChatCompletionMessageParam[] = [
-            { role: "user", content: "What's the weather like in Boston?" },
+            {role: "user", content: "What's the weather like in Boston?"},
           ];
           const result = await client.chat.completions.create({
             model: deploymentName,
             messages: weatherMessages,
             functions: [getCurrentWeather],
           });
-          assertChatCompletions(result, { functions: true });
+          assertChatCompletions(result, {functions: true});
           const responseMessage = result.choices[0].message;
           if (!responseMessage?.function_call) {
             assert.fail("Undefined function call");
@@ -124,42 +121,42 @@ describe.concurrent.shuffle.each(APIMatrix)("Chat Completions [%s]", function (a
             messages: weatherMessages,
           });
         },
-        (result) => assertChatCompletions(result, { functions: true }),
+        (result) => assertChatCompletions(result, {functions: true}),
         functionCallModelsToSkip,
       );
     });
 
-    it("doesn't call tools if toolChoice is set to none", async function () {
+    it("doesn't call tools if toolChoice is set to none", async () => {
       await withDeployments(
         clientsAndDeploymentsInfo,
         (client, deploymentName) =>
           client.chat.completions.create({
             model: deploymentName,
-            messages: [{ role: "user", content: "What's the weather like in Boston?" }],
+            messages: [{role: "user", content: "What's the weather like in Boston?"}],
             tool_choice: "none",
-            tools: [{ type: "function", function: getCurrentWeather }],
+            tools: [{type: "function", function: getCurrentWeather}],
           }),
         (res) => {
-          assertChatCompletions(res, { functions: false });
+          assertChatCompletions(res, {functions: false});
           assert.isUndefined(res.choices[0].message?.tool_calls);
         },
       );
     });
 
-    it("calls a specific tool if its name is specified", async function () {
+    it("calls a specific tool if its name is specified", async () => {
       await withDeployments(
         clientsAndDeploymentsInfo,
         (client, deploymentName) =>
           client.chat.completions.create({
             model: deploymentName,
-            messages: [{ role: "user", content: "What's the weather like in Boston?" }],
+            messages: [{role: "user", content: "What's the weather like in Boston?"}],
 
             tool_choice: {
               type: "function",
-              function: { name: getCurrentWeather.name },
+              function: {name: getCurrentWeather.name},
             },
             tools: [
-              { type: "function", function: getCurrentWeather },
+              {type: "function", function: getCurrentWeather},
               {
                 type: "function",
                 function: {
@@ -184,7 +181,7 @@ describe.concurrent.shuffle.each(APIMatrix)("Chat Completions [%s]", function (a
             ],
           }),
         (res) => {
-          assertChatCompletions(res, { functions: true });
+          assertChatCompletions(res, {functions: true});
           const toolCalls = res.choices[0].message?.tool_calls;
           if (!toolCalls) {
             throw new Error("toolCalls should be defined here");
@@ -195,7 +192,7 @@ describe.concurrent.shuffle.each(APIMatrix)("Chat Completions [%s]", function (a
       );
     });
 
-    it("ensures schema name is not transformed with snake case", async function () {
+    it("ensures schema name is not transformed with snake case", async () => {
       const getAssetInfo = {
         name: "getAssetInfo",
         description: "Returns information about an asset",
@@ -215,11 +212,11 @@ describe.concurrent.shuffle.each(APIMatrix)("Chat Completions [%s]", function (a
         (client, deploymentName) =>
           client.chat.completions.create({
             model: deploymentName,
-            messages: [{ role: "user", content: "Give me information about Asset No1" }],
-            tools: [{ type: "function", function: getAssetInfo }],
+            messages: [{role: "user", content: "Give me information about Asset No1"}],
+            tools: [{type: "function", function: getAssetInfo}],
           }),
         (res) => {
-          assertChatCompletions(res, { functions: true });
+          assertChatCompletions(res, {functions: true});
           const toolCalls = res.choices[0].message?.tool_calls;
           if (!toolCalls) {
             throw new Error("toolCalls should be defined here");
@@ -231,7 +228,7 @@ describe.concurrent.shuffle.each(APIMatrix)("Chat Completions [%s]", function (a
       );
     });
 
-    it("respects json_object responseFormat", async function () {
+    it("respects json_object responseFormat", async () => {
       clientsAndDeploymentsInfo = createClientsAndDeployments(apiVersion, {
         chatCompletion: "true",
         jsonObjectResponse: "true",
@@ -248,10 +245,10 @@ describe.concurrent.shuffle.each(APIMatrix)("Chat Completions [%s]", function (a
                   "Answer the following question in JSON format: What are the capital cities in Africa?",
               },
             ],
-            response_format: { type: "json_object" },
+            response_format: {type: "json_object"},
           }),
         (res) => {
-          assertChatCompletions(res, { functions: false });
+          assertChatCompletions(res, {functions: false});
           const content = res.choices[0].message?.content;
           if (!content) assert.fail("Undefined content");
           try {
@@ -264,7 +261,7 @@ describe.concurrent.shuffle.each(APIMatrix)("Chat Completions [%s]", function (a
       );
     });
 
-    describe("works with custom data sources", async function () {
+    describe("works with custom data sources", async () => {
       assert.isNotEmpty(clientsAndDeploymentsInfo.clientsAndDeployments, "No deployments found");
       await testWithDeployments({
         clientsAndDeployments: clientsAndDeploymentsInfo,
@@ -276,9 +273,9 @@ describe.concurrent.shuffle.each(APIMatrix)("Chat Completions [%s]", function (a
           }),
         validate: assertChatCompletions,
         modelsListToSkip: [
-          { name: "gpt-35-turbo-0613" }, // Unsupported model
-          { name: "gpt-4-32k" }, // Managed identity is not enabled
-          { name: "o1-preview" }, // o-series models are not supported with OYD.
+          {name: "gpt-35-turbo-0613"}, // Unsupported model
+          {name: "gpt-4-32k"}, // Managed identity is not enabled
+          {name: "o1-preview"}, // o-series models are not supported with OYD.
         ],
         acceptableErrors: {
           messageSubstring: [
@@ -288,8 +285,8 @@ describe.concurrent.shuffle.each(APIMatrix)("Chat Completions [%s]", function (a
       });
     });
 
-    describe("return stream", function () {
-      it("returns completions across all models", async function () {
+    describe("return stream", () => {
+      it("returns completions across all models", async () => {
         await withDeployments(
           clientsAndDeploymentsInfo,
           async (client, deploymentName) =>
@@ -312,14 +309,14 @@ describe.concurrent.shuffle.each(APIMatrix)("Chat Completions [%s]", function (a
         );
       });
 
-      it("calls functions", async function () {
+      it("calls functions", async () => {
         await withDeployments(
           clientsAndDeploymentsInfo,
           async (client, deploymentName) =>
             bufferAsyncIterable(
               await client.chat.completions.create({
                 model: deploymentName,
-                messages: [{ role: "user", content: "What's the weather like in Boston?" }],
+                messages: [{role: "user", content: "What's the weather like in Boston?"}],
                 stream: true,
                 functions: [getCurrentWeather],
               }),
@@ -334,16 +331,16 @@ describe.concurrent.shuffle.each(APIMatrix)("Chat Completions [%s]", function (a
         );
       });
 
-      it("calls toolCalls", async function () {
+      it("calls toolCalls", async () => {
         await withDeployments(
           clientsAndDeploymentsInfo,
           async (client, deploymentName) =>
             bufferAsyncIterable(
               await client.chat.completions.create({
                 model: deploymentName,
-                messages: [{ role: "user", content: "What's the weather like in Boston?" }],
+                messages: [{role: "user", content: "What's the weather like in Boston?"}],
                 stream: true,
-                tools: [{ type: "function", function: getCurrentWeather }],
+                tools: [{type: "function", function: getCurrentWeather}],
               }),
             ),
           (res) =>
@@ -356,8 +353,8 @@ describe.concurrent.shuffle.each(APIMatrix)("Chat Completions [%s]", function (a
         );
       });
 
-      it("bring your data", async function () {
-        const dataSources = { data_sources: [createAzureSearchExtension()] };
+      it("bring your data", async () => {
+        const dataSources = {data_sources: [createAzureSearchExtension()]};
         await withDeployments(
           clientsAndDeploymentsInfo,
           async (client, deploymentName) =>
@@ -370,42 +367,54 @@ describe.concurrent.shuffle.each(APIMatrix)("Chat Completions [%s]", function (a
               }),
             ),
           assertChatCompletionsList,
-          [{ name: "gpt-4", version: "vision-preview" }],
+          [{name: "gpt-4", version: "vision-preview"}],
         );
       });
 
-      describe("chat.completions.parse", function () {
-        it("structured output for chat completions", async () => {
-          await withDeployments(
-            clientsAndDeploymentsInfo,
-            async (client, deploymentName) => {
-              const step = z.object({
-                explanation: z.string(),
-                output: z.string(),
-              });
+      describe("chat.completions.parse", () => {
+        describe("structured output for chat completions", async () => {
+          await testWithDeployments({
+              clientsAndDeployments: clientsAndDeploymentsInfo,
+              run: async (client, deploymentName) => {
+                const step = z.object({
+                  explanation: z.string(),
+                  output: z.string(),
+                });
 
-              const mathResponse = z.object({
-                steps: z.array(step),
-                final_answer: z.string(),
-              });
+                const mathResponse = z.object({
+                  steps: z.array(step),
+                  final_answer: z.string(),
+                });
 
-              return client.beta.chat.completions.parse({
-                model: deploymentName,
-                messages: [
-                  {
-                    role: "system",
-                    content:
-                      "You are a helpful math tutor. Only use the schema for math responses.",
-                  },
-                  { role: "user", content: "solve 8x + 3 = 21" },
-                ],
-                response_format: zodResponseFormat(mathResponse, "mathResponse"),
-              });
-            },
-            (result) => {
-              assertParsedChatCompletion<MathResponse>(result, assertMathResponseOutput, {
-                allowEmptyChoices: true,
-              });
+                return client.beta.chat.completions.parse({
+                  model: deploymentName,
+                  messages: [
+                    {
+                      role: "system",
+                      content:
+                        "You are a helpful math tutor. Only use the schema for math responses.",
+                    },
+                    {role: "user", content: "solve 8x + 3 = 21"},
+                  ],
+                  response_format: zodResponseFormat(mathResponse, "mathResponse"),
+                });
+              }
+              ,
+              validate: (result) => {
+                assertParsedChatCompletion<MathResponse>(result, assertMathResponseOutput, {
+                  allowEmptyChoices: true,
+                });
+              },
+              modelsListToSkip: [
+                // structured output is not supported
+                {name: "gpt-35-turbo"},
+                {name: "gpt-4"},
+                {name: "gpt-4-32k"},
+                {name: "gpt-35-turbo-16k"},
+                {name: "o1-preview"},
+                {name: "gpt-4-32k"},
+                {name: "gpt-4o", version: "2024-05-13"},
+              ],
             },
           );
         });

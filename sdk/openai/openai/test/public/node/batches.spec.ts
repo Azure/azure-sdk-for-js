@@ -9,12 +9,12 @@ import { APIVersion, withDeployments } from "../../utils/utils.js";
 import { assertBatch, assertNonEmptyArray } from "../../utils/asserts.js";
 import { delay } from "@azure/core-util";
 import type { FileObject } from "openai/resources/index";
-import type { ClientsAndDeploymentsInfo } from "../../utils/types.js";
+import type { ClientsAndDeploymentsCountInfo } from "../../utils/types.js";
 
 describe("Batches", () => {
   matrix([[APIVersion.Preview]] as const, async function (apiVersion: APIVersion) {
     describe(`[${apiVersion}] Client`, () => {
-      let clientAndDeployments: ClientsAndDeploymentsInfo;
+      let clientAndDeployments: ClientsAndDeploymentsCountInfo;
 
       beforeEach(async () => {
         clientAndDeployments = createClientsAndDeployments(

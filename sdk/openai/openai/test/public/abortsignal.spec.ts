@@ -5,10 +5,10 @@ import { assert, describe, beforeEach, it } from "vitest";
 import { matrix } from "@azure-tools/test-utils-vitest";
 import { createClientsAndDeployments } from "../utils/createClients.js";
 import { APIVersion } from "../utils/utils.js";
-import type { ClientsAndDeploymentsInfo } from "../utils/types.js";
+import type { ClientsAndDeploymentsCountInfo } from "../utils/types.js";
 
 describe("AbortSignal", () => {
-  let clientsAndDeployments: ClientsAndDeploymentsInfo;
+  let clientsAndDeployments: ClientsAndDeploymentsCountInfo;
 
   matrix([[APIVersion.Stable]] as const, async function (apiVersion: APIVersion) {
     beforeEach(async () => {

@@ -14,7 +14,7 @@ import {
 import type { Run } from "openai/resources/beta/threads/runs/runs.mjs";
 import type { AzureChatExtensionConfiguration } from "../../src/types/index.js";
 import { getAzureSearchEndpoint, getAzureSearchIndex } from "./injectables.js";
-import { ClientsAndDeploymentsInfo, ModelCapabilities, ModelInfo, ResourceInfo } from "./types.js";
+import { ClientsAndDeploymentsCountInfo, ModelCapabilities, ModelInfo, ResourceInfo } from "./types.js";
 import { logger } from "./logger.js";
 import type { OpenAI } from "openai";
 import type { Sku } from "@azure/arm-cognitiveservices";
@@ -43,7 +43,7 @@ function toString(error: any): string {
 }
 
 export async function withDeployments<T>(
-  { clientsAndDeployments, count }: ClientsAndDeploymentsInfo,
+  { clientsAndDeployments, count }: ClientsAndDeploymentsCountInfo,
   run: (client: OpenAI, model: string) => Promise<T>,
   validate?: (result: T) => void,
   modelsListToSkip?: Partial<ModelInfo>[],
@@ -110,13 +110,21 @@ export async function withDeployments<T>(
 }
 
 export type DeploymentTestingParameters<T> = {
-  clientsAndDeployments: ClientsAndDeploymentsInfo;
+  clientsAndDeployments: ClientsAndDeploymentsCountInfo;
   run: (client: OpenAI, model: string) => Promise<T>;
   validate?: (result: T) => void;
   modelsListToSkip?: Partial<ModelInfo>[];
   acceptableErrors?: AcceptableErrors;
 };
 
+/**
+ * Test with deployments invokes `test` call, so it should be inside of `describe` and not `it`.
+ * @param clientsAndDeployments
+ * @param run
+ * @param validate
+ * @param modelsListToSkip
+ * @param acceptableErrors
+ */
 export async function testWithDeployments<T>({
   clientsAndDeployments,
   run,
@@ -125,10 +133,10 @@ export async function testWithDeployments<T>({
   acceptableErrors,
 }: DeploymentTestingParameters<T>): Promise<void> {
   assert.isNotEmpty(clientsAndDeployments, "No deployments found");
-  describe.each(clientsAndDeployments.clientsAndDeployments)(
+  describe.concurrent.each(clientsAndDeployments.clientsAndDeployments)(
     "$client.baseURL", async function({ client, deployments }) {
     for (const deployment of deployments) {
-      test.concurrent(deployment.model.name, async (done) => {
+      test.concurrent(`${deployment.model.name} (${deployment.model.version})`, async (done) => {
         if (modelsListToSkip && isModelInList(deployment.model, modelsListToSkip)) {
           done.skip(`Skipping ${deployment.model.name} : ${deployment.model.version}`);
         }

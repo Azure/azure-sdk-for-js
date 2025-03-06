@@ -6,13 +6,13 @@ import { assert, describe, beforeEach, it } from "vitest";
 import { assertAssistantEquality } from "../utils/asserts.js";
 import { createClientsAndDeployments } from "../utils/createClients.js";
 import { APIVersion, isRateLimitRun, withDeployments } from "../utils/utils.js";
-import type { ClientsAndDeploymentsInfo, Metadata } from "../utils/types.js";
+import type { ClientsAndDeploymentsCountInfo, Metadata } from "../utils/types.js";
 import type { AssistantCreateParams } from "openai/resources/beta/assistants.mjs";
 
 describe("Assistants", () => {
   matrix([[APIVersion.Preview]] as const, async function (apiVersion: APIVersion) {
     describe(`[${apiVersion}] Client`, () => {
-      let clientsAndDeployments: ClientsAndDeploymentsInfo;
+      let clientsAndDeployments: ClientsAndDeploymentsCountInfo;
 
       function createCodeAssistant(deploymentName: string): AssistantCreateParams {
         return {

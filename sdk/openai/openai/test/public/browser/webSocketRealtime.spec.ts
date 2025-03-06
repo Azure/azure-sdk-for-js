@@ -11,13 +11,13 @@ import {
   assertResponseTextDoneEvent,
   assertSessionCreatedEvent,
 } from "../../utils/asserts.js";
-import type { ClientsAndDeploymentsInfo } from "../../utils/types.js";
+import type { ClientsAndDeploymentsCountInfo } from "../../utils/types.js";
 import type { AzureOpenAI } from "openai";
 
 describe("Realtime", () => {
   matrix([[APIVersion["2024_10_01_preview"]]] as const, async function (apiVersion: APIVersion) {
     describe(`[${apiVersion}] Client`, () => {
-      let clientAndDeployments: ClientsAndDeploymentsInfo;
+      let clientAndDeployments: ClientsAndDeploymentsCountInfo;
 
       beforeEach(async () => {
         clientAndDeployments = createClientsAndDeployments(apiVersion, { realtime: "true" });

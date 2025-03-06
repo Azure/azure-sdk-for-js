@@ -5,12 +5,12 @@ import { matrix } from "@azure-tools/test-utils-vitest";
 import { describe, beforeEach, it, assert } from "vitest";
 import { createClientsAndDeployments } from "../utils/createClients.js";
 import { APIVersion, withDeployments } from "../utils/utils.js";
-import type { ClientsAndDeploymentsInfo } from "../utils/types.js";
+import type { ClientsAndDeploymentsCountInfo } from "../utils/types.js";
 
 describe("Text to speech", function () {
   matrix([[APIVersion.Preview]] as const, async function (apiVersion: APIVersion) {
     describe(`[${apiVersion}] Client`, () => {
-      let clientsAndDeployments: ClientsAndDeploymentsInfo;
+      let clientsAndDeployments: ClientsAndDeploymentsCountInfo;
 
       beforeEach(async () => {
         clientsAndDeployments = createClientsAndDeployments(
