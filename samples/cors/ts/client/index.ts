@@ -15,8 +15,8 @@ const getSecretFromServer = () => {
       }
       return response.text();
     })
-    .then((json) => {
-      secretDisplay.textContent = json;
+    .then((text) => {
+      secretDisplay.textContent = text;
     })
     .catch((err) => {
       console.log("error fetching secret from the server", err);
@@ -40,8 +40,8 @@ const getSecretFromApiManagement = () => {
         }
         return response.text();
       })
-      .then((json) => {
-        secretDisplay.textContent = json;
+      .then((text) => {
+        secretDisplay.textContent = text;
       })
       .catch((err) => console.log("error fetching secret from Azure API Management", err));
   }
