@@ -553,7 +553,7 @@ describe("CallConnection Live Tests", function () {
     const muteResult = await callConnection.muteParticipant(testUser2);
     assert.isDefined(muteResult);
 
-    await new Promise((resolve) => setTimeout(resolve, 3000));
+    await new Promise((resolve) => setTimeout(resolve, 10000));
 
     const participantLists = await callConnection.listParticipants();
     let isMuted = false;

@@ -193,4 +193,56 @@ describe("Call Automation Main Client Live Tests", { skip: !isNodeLike }, () => 
     const createCallFailedEvent = await waitForEvent("CreateCallFailed", callConnectionId, 8000);
     assert.isDefined(createCallFailedEvent);
   });
+
+  it("Create call and verify incoming call event and hangup", { timeout: 60000 }, async (ctx) => {
+    const fullTitle: string | undefined =
+      ctx.task.suite && ctx.task.suite.name && ctx.task.name
+        ? `${ctx.task.suite.name} ${ctx.task.name}`
+        : undefined;
+
+    testName = fullTitle
+      ? fullTitle.replace(/ /g, "_")
+      : "create_call_and_verify_incoming_call_event_and_hangup";
+    await loadPersistedEvents(testName);
+
+    const callInvite: CallInvite = { targetParticipant: testUser2 };
+    const uniqueId = await serviceBusWithNewCall(testUser, testUser2);
+    const callBackUrl: string = dispatcherCallback + `?q=${uniqueId}`;
+    const createCallOption: CreateCallOptions = { operationContext: "operationContextCreateCall" };
+
+    const result = await callerCallAutomationClient.createCall(
+      callInvite,
+      callBackUrl,
+      createCallOption,
+    );
+
+    const callConnectionId: string = result.callConnectionProperties.callConnectionId
+      ? result.callConnectionProperties.callConnectionId
+      : "";
+
+    await waitForEvent("IncomingCall", callConnectionId, 10000);
+    const incomingCallContext = await waitForIncomingCallContext(uniqueId, 8000);
+    assert.isDefined(incomingCallContext);
+
+    if (incomingCallContext) {
+      const answerCallOptions: AnswerCallOptions = {
+        operationContext: "operationContextAnswerCall",
+      };
+      await receiverCallAutomationClient.answerCall(
+        incomingCallContext,
+        callBackUrl,
+        answerCallOptions,
+      );
+    }
+
+    const callConnectedEvent = await waitForEvent("CallConnected", callConnectionId, 8000);
+
+    assert.isDefined(callConnectedEvent);
+    callConnection = result.callConnection;
+
+    await callConnection.hangUp(true);
+
+    const callDisconnectedEvent = await waitForEvent("CallDisconnected", callConnectionId, 8000);
+    assert.isDefined(callDisconnectedEvent);
+  });
 });
