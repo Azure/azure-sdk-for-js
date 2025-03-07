@@ -11,22 +11,22 @@ describe("Agents - assistants", () => {
   let projectsClient: AIProjectsClient;
   let agents: AgentsOperations;
 
-  beforeEach(async function (context: VitestTestContext) {
+  beforeEach(async (context: VitestTestContext) => {
     recorder = await createRecorder(context);
     projectsClient = createProjectsClient(recorder);
     agents = projectsClient.agents;
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
-  it("client and agents operations are accessible", async function () {
+  it("client and agents operations are accessible", async () => {
     assert.isNotNull(projectsClient);
     assert.isNotNull(agents);
   });
 
-  it("should delete agent", async function () {
+  it("should delete agent", async () => {
     // Create agent
     const agent = await agents.createAgent("gpt-4o", {
       name: "my-agent",
@@ -40,7 +40,7 @@ describe("Agents - assistants", () => {
     console.log(`Deleted agent, agent ID: ${agent.id}`);
   });
 
-  it("should list assistants", async function () {
+  it("should list assistants", async () => {
     // Create agent
     const agent = await agents.createAgent("gpt-4o", {
       name: "my-agent",
@@ -59,7 +59,7 @@ describe("Agents - assistants", () => {
     console.log(`Deleted agent, agent ID: ${agent.id}`);
   });
 
-  it("should create agent", async function () {
+  it("should create agent", async () => {
     // Create agent
     const agent = await agents.createAgent("gpt-4o", {
       name: "my-agent",
@@ -74,7 +74,7 @@ describe("Agents - assistants", () => {
     console.log(`Deleted agent, agent ID: ${agent.id}`);
   });
 
-  it("should update agent", async function () {
+  it("should update agent", async () => {
     // Create agent
     const agent = await agents.createAgent("gpt-4o", {
       name: "my-agent",
