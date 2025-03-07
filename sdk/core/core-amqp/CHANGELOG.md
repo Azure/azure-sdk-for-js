@@ -1,5 +1,15 @@
 # Release History
 
+## 4.3.7 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 4.3.6 (2025-03-06)
 
 ### Bugs Fixed
