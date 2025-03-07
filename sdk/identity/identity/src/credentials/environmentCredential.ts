@@ -8,7 +8,6 @@ import { credentialLogger, formatError, formatSuccess, processEnvVars } from "..
 import { ClientCertificateCredential } from "./clientCertificateCredential.js";
 import { ClientSecretCredential } from "./clientSecretCredential.js";
 import type { EnvironmentCredentialOptions } from "./environmentCredentialOptions.js";
-import { UsernamePasswordCredential } from "./usernamePasswordCredential.js";
 import { checkTenantId } from "../util/tenantIdUtils.js";
 import { tracingClient } from "../util/tracing.js";
 
@@ -25,8 +24,6 @@ export const AllSupportedEnvironmentVariables = [
   "AZURE_CLIENT_SECRET",
   "AZURE_CLIENT_CERTIFICATE_PATH",
   "AZURE_CLIENT_CERTIFICATE_PASSWORD",
-  "AZURE_USERNAME",
-  "AZURE_PASSWORD",
   "AZURE_ADDITIONALLY_ALLOWED_TENANTS",
   "AZURE_CLIENT_SEND_CERTIFICATE_CHAIN",
 ];
@@ -57,8 +54,7 @@ export function getSendCertificateChain(): boolean {
 export class EnvironmentCredential implements TokenCredential {
   private _credential?:
     | ClientSecretCredential
-    | ClientCertificateCredential
-    | UsernamePasswordCredential = undefined;
+    | ClientCertificateCredential = undefined;
   /**
    * Creates an instance of the EnvironmentCredential class and decides what credential to use depending on the available environment variables.
    *
@@ -74,10 +70,6 @@ export class EnvironmentCredential implements TokenCredential {
    * - `AZURE_CLIENT_CERTIFICATE_PATH`: The path to a PEM certificate to use during the authentication, instead of the client secret.
    * - `AZURE_CLIENT_CERTIFICATE_PASSWORD`: (optional) password for the certificate file.
    * - `AZURE_CLIENT_SEND_CERTIFICATE_CHAIN`: (optional) indicates that the certificate chain should be set in x5c header to support subject name / issuer based authentication.
-   *
-   * Alternatively, users can provide environment variables for username and password authentication:
-   * - `AZURE_USERNAME`: Username to authenticate with.
-   * - `AZURE_PASSWORD`: Password to authenticate with.
    *
    * If the environment variables required to perform the authentication are missing, a {@link CredentialUnavailableError} will be thrown.
    * If the authentication fails, or if there's an unknown error, an {@link AuthenticationError} will be thrown.
@@ -123,21 +115,6 @@ export class EnvironmentCredential implements TokenCredential {
         newOptions,
       );
       return;
-    }
-
-    const username = process.env.AZURE_USERNAME;
-    const password = process.env.AZURE_PASSWORD;
-    if (tenantId && clientId && username && password) {
-      logger.info(
-        `Invoking UsernamePasswordCredential with tenant ID: ${tenantId}, clientId: ${clientId} and username: ${username}`,
-      );
-      this._credential = new UsernamePasswordCredential(
-        tenantId,
-        clientId,
-        username,
-        password,
-        newOptions,
-      );
     }
   }
 
