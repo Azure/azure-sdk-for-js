@@ -12,7 +12,7 @@ If you **only need to read configuration**, then use the [@azure/app-configurati
 - Query mechanism to declaratively compose app configuration
 - Configuration refresh during runtime
 - Replica discovery, failover, and load balancing
-- Key vault reference rolution and auto-refresh
+- Key vault reference resolution and auto-refresh
 
 ## Getting started
 
