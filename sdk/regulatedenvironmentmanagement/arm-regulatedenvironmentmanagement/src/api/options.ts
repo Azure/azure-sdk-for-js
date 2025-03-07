@@ -12,26 +12,22 @@ export interface LandingZoneRegistrationOperationsListByResourceGroupOptionalPar
   extends OperationOptions {}
 
 /** Optional parameters. */
-export interface LandingZoneRegistrationOperationsDeleteOptionalParams
-  extends OperationOptions {}
+export interface LandingZoneRegistrationOperationsDeleteOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface LandingZoneRegistrationOperationsUpdateOptionalParams
-  extends OperationOptions {
+export interface LandingZoneRegistrationOperationsUpdateOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
 
 /** Optional parameters. */
-export interface LandingZoneRegistrationOperationsCreateOptionalParams
-  extends OperationOptions {
+export interface LandingZoneRegistrationOperationsCreateOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
 
 /** Optional parameters. */
-export interface LandingZoneRegistrationOperationsGetOptionalParams
-  extends OperationOptions {}
+export interface LandingZoneRegistrationOperationsGetOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface LandingZoneConfigurationOperationsCreateCopyOptionalParams
@@ -63,29 +59,25 @@ export interface LandingZoneConfigurationOperationsListByResourceGroupOptionalPa
   extends OperationOptions {}
 
 /** Optional parameters. */
-export interface LandingZoneConfigurationOperationsDeleteOptionalParams
-  extends OperationOptions {
+export interface LandingZoneConfigurationOperationsDeleteOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
 
 /** Optional parameters. */
-export interface LandingZoneConfigurationOperationsUpdateOptionalParams
-  extends OperationOptions {
+export interface LandingZoneConfigurationOperationsUpdateOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
 
 /** Optional parameters. */
-export interface LandingZoneConfigurationOperationsCreateOptionalParams
-  extends OperationOptions {
+export interface LandingZoneConfigurationOperationsCreateOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
 
 /** Optional parameters. */
-export interface LandingZoneConfigurationOperationsGetOptionalParams
-  extends OperationOptions {}
+export interface LandingZoneConfigurationOperationsGetOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface LandingZoneAccountOperationsListBySubscriptionOptionalParams
@@ -96,29 +88,25 @@ export interface LandingZoneAccountOperationsListByResourceGroupOptionalParams
   extends OperationOptions {}
 
 /** Optional parameters. */
-export interface LandingZoneAccountOperationsDeleteOptionalParams
-  extends OperationOptions {
+export interface LandingZoneAccountOperationsDeleteOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
 
 /** Optional parameters. */
-export interface LandingZoneAccountOperationsUpdateOptionalParams
-  extends OperationOptions {
+export interface LandingZoneAccountOperationsUpdateOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
 
 /** Optional parameters. */
-export interface LandingZoneAccountOperationsCreateOptionalParams
-  extends OperationOptions {
+export interface LandingZoneAccountOperationsCreateOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
 
 /** Optional parameters. */
-export interface LandingZoneAccountOperationsGetOptionalParams
-  extends OperationOptions {}
+export interface LandingZoneAccountOperationsGetOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface OperationsListOptionalParams extends OperationOptions {}

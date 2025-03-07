@@ -20,8 +20,7 @@ async function landingZoneRegistrationOperationsUpdate(): Promise<void> {
     "ExampleLZR",
     {
       properties: {
-        existingTopLevelMgId:
-          "/providers/Microsoft.Management/managementGroups/mcfs",
+        existingTopLevelMgId: "/providers/Microsoft.Management/managementGroups/mcfs",
         existingLandingZoneConfigurationId:
           "/subscriptions/00000000-0000-0000-0000-000000000001/resourceGroups/TestResourceGroup/providers/Microsoft.Sovereign/landingZoneAccounts/ExampleLZA/landingZoneConfigurations/ExampleLZC",
         managedIdentity: { type: "SystemAssigned" },

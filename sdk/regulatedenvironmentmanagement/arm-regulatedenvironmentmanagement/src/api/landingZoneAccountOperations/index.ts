@@ -48,15 +48,13 @@ export function _landingZoneAccountOperationsListBySubscriptionSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _landingZoneAccountOperationsListBySubscriptionDeserialize(
@@ -106,15 +104,13 @@ export function _landingZoneAccountOperationsListByResourceGroupSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _landingZoneAccountOperationsListByResourceGroupDeserialize(
@@ -140,12 +136,7 @@ export function landingZoneAccountOperationsListByResourceGroup(
 ): PagedAsyncIterableIterator<LandingZoneAccountResource> {
   return buildPagedAsyncIterator(
     context,
-    () =>
-      _landingZoneAccountOperationsListByResourceGroupSend(
-        context,
-        resourceGroupName,
-        options,
-      ),
+    () => _landingZoneAccountOperationsListByResourceGroupSend(context, resourceGroupName, options),
     _landingZoneAccountOperationsListByResourceGroupDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },
@@ -172,15 +163,13 @@ export function _landingZoneAccountOperationsDeleteSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .delete({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).delete({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _landingZoneAccountOperationsDeleteDeserialize(
@@ -245,17 +234,15 @@ export function _landingZoneAccountOperationsUpdateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .patch({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: landingZoneAccountResourceSerializer(properties),
-    });
+  return context.path(path).patch({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: landingZoneAccountResourceSerializer(properties),
+  });
 }
 
 export async function _landingZoneAccountOperationsUpdateDeserialize(
@@ -280,10 +267,7 @@ export function landingZoneAccountOperationsUpdate(
   options: LandingZoneAccountOperationsUpdateOptionalParams = {
     requestOptions: {},
   },
-): PollerLike<
-  OperationState<LandingZoneAccountResource>,
-  LandingZoneAccountResource
-> {
+): PollerLike<OperationState<LandingZoneAccountResource>, LandingZoneAccountResource> {
   return getLongRunningPoller(
     context,
     _landingZoneAccountOperationsUpdateDeserialize,
@@ -301,10 +285,7 @@ export function landingZoneAccountOperationsUpdate(
         ),
       resourceLocationConfig: "location",
     },
-  ) as PollerLike<
-    OperationState<LandingZoneAccountResource>,
-    LandingZoneAccountResource
-  >;
+  ) as PollerLike<OperationState<LandingZoneAccountResource>, LandingZoneAccountResource>;
 }
 
 export function _landingZoneAccountOperationsCreateSend(
@@ -328,17 +309,15 @@ export function _landingZoneAccountOperationsCreateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .put({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: landingZoneAccountResourceSerializer(resource),
-    });
+  return context.path(path).put({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: landingZoneAccountResourceSerializer(resource),
+  });
 }
 
 export async function _landingZoneAccountOperationsCreateDeserialize(
@@ -363,10 +342,7 @@ export function landingZoneAccountOperationsCreate(
   options: LandingZoneAccountOperationsCreateOptionalParams = {
     requestOptions: {},
   },
-): PollerLike<
-  OperationState<LandingZoneAccountResource>,
-  LandingZoneAccountResource
-> {
+): PollerLike<OperationState<LandingZoneAccountResource>, LandingZoneAccountResource> {
   return getLongRunningPoller(
     context,
     _landingZoneAccountOperationsCreateDeserialize,
@@ -384,10 +360,7 @@ export function landingZoneAccountOperationsCreate(
         ),
       resourceLocationConfig: "azure-async-operation",
     },
-  ) as PollerLike<
-    OperationState<LandingZoneAccountResource>,
-    LandingZoneAccountResource
-  >;
+  ) as PollerLike<OperationState<LandingZoneAccountResource>, LandingZoneAccountResource>;
 }
 
 export function _landingZoneAccountOperationsGetSend(
@@ -410,15 +383,13 @@ export function _landingZoneAccountOperationsGetSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _landingZoneAccountOperationsGetDeserialize(

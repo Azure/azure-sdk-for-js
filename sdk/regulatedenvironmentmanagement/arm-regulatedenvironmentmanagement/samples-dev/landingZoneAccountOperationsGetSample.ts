@@ -14,10 +14,7 @@ async function landingZoneAccountOperationsGet(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new SovereignClient(credential, subscriptionId);
-  const result = await client.landingZoneAccountOperations.get(
-    "SampleResourceGroup",
-    "SampleLZA",
-  );
+  const result = await client.landingZoneAccountOperations.get("SampleResourceGroup", "SampleLZA");
   console.log(result);
 }
 

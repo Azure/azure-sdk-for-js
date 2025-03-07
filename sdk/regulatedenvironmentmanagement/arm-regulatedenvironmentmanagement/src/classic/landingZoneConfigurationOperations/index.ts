@@ -56,10 +56,7 @@ export interface LandingZoneConfigurationOperationsOperations {
     landingZoneConfigurationName: string,
     body: UpdateAuthoringStatusRequest,
     options?: LandingZoneConfigurationOperationsUpdateAuthoringStatusOptionalParams,
-  ) => PollerLike<
-    OperationState<UpdateAuthoringStatusResponse>,
-    UpdateAuthoringStatusResponse
-  >;
+  ) => PollerLike<OperationState<UpdateAuthoringStatusResponse>, UpdateAuthoringStatusResponse>;
   /** Generate infrastructure as code (IaC) for a landing zone deployment. */
   generateLandingZone: (
     resourceGroupName: string,
@@ -67,10 +64,7 @@ export interface LandingZoneConfigurationOperationsOperations {
     landingZoneConfigurationName: string,
     body: GenerateLandingZoneRequest,
     options?: LandingZoneConfigurationOperationsGenerateLandingZoneOptionalParams,
-  ) => PollerLike<
-    OperationState<GenerateLandingZoneResponse>,
-    GenerateLandingZoneResponse
-  >;
+  ) => PollerLike<OperationState<GenerateLandingZoneResponse>, GenerateLandingZoneResponse>;
   /** List the landing zone configurations within a subscription. */
   listBySubscription: (
     landingZoneAccountName: string,

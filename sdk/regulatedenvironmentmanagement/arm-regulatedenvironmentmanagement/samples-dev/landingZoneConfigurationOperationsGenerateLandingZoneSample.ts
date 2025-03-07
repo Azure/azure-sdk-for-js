@@ -14,27 +14,23 @@ async function landingZoneConfigurationOperationsGenerateLandingZone(): Promise<
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new SovereignClient(credential, subscriptionId);
-  const result =
-    await client.landingZoneConfigurationOperations.generateLandingZone(
-      "ExampleResourceGroup",
-      "SampleLZA",
-      "ExampleLZC",
-      {
-        infrastructureAsCodeOutputOptions: "Bicep",
-        deploymentPrefix: "mcfs",
-        topLevelMgDisplayName: "TestMG",
-        deploymentLocation: "eastus",
-        existingManagementSubscriptionId:
-          "/subscriptions/00000000-0000-0000-0000-000000000001",
-        existingIdentitySubscriptionId:
-          "/subscriptions/00000000-0000-0000-0000-000000000002",
-        existingConnectivitySubscriptionId:
-          "/subscriptions/00000000-0000-0000-0000-000000000003",
-        deploymentSuffix: "test",
-        organization: "test",
-        environment: "QA",
-      },
-    );
+  const result = await client.landingZoneConfigurationOperations.generateLandingZone(
+    "ExampleResourceGroup",
+    "SampleLZA",
+    "ExampleLZC",
+    {
+      infrastructureAsCodeOutputOptions: "Bicep",
+      deploymentPrefix: "mcfs",
+      topLevelMgDisplayName: "TestMG",
+      deploymentLocation: "eastus",
+      existingManagementSubscriptionId: "/subscriptions/00000000-0000-0000-0000-000000000001",
+      existingIdentitySubscriptionId: "/subscriptions/00000000-0000-0000-0000-000000000002",
+      existingConnectivitySubscriptionId: "/subscriptions/00000000-0000-0000-0000-000000000003",
+      deploymentSuffix: "test",
+      organization: "test",
+      environment: "QA",
+    },
+  );
   console.log(result);
 }
 

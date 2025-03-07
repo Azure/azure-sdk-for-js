@@ -14,10 +14,7 @@ async function landingZoneAccountOperationsDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new SovereignClient(credential, subscriptionId);
-  await client.landingZoneAccountOperations.delete(
-    "SampleResourceGroup",
-    "SampleLZA",
-  );
+  await client.landingZoneAccountOperations.delete("SampleResourceGroup", "SampleLZA");
 }
 
 async function main(): Promise<void> {

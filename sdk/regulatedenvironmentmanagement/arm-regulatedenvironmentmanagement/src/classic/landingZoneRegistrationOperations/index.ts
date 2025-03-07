@@ -49,10 +49,7 @@ export interface LandingZoneRegistrationOperationsOperations {
     landingZoneRegistrationName: string,
     properties: LandingZoneRegistrationResource,
     options?: LandingZoneRegistrationOperationsUpdateOptionalParams,
-  ) => PollerLike<
-    OperationState<LandingZoneRegistrationResource>,
-    LandingZoneRegistrationResource
-  >;
+  ) => PollerLike<OperationState<LandingZoneRegistrationResource>, LandingZoneRegistrationResource>;
   /** Create a landing zone registration. */
   create: (
     resourceGroupName: string,
@@ -60,10 +57,7 @@ export interface LandingZoneRegistrationOperationsOperations {
     landingZoneRegistrationName: string,
     resource: LandingZoneRegistrationResource,
     options?: LandingZoneRegistrationOperationsCreateOptionalParams,
-  ) => PollerLike<
-    OperationState<LandingZoneRegistrationResource>,
-    LandingZoneRegistrationResource
-  >;
+  ) => PollerLike<OperationState<LandingZoneRegistrationResource>, LandingZoneRegistrationResource>;
   /** Get a landing zone registration. */
   get: (
     resourceGroupName: string,
@@ -79,11 +73,7 @@ function _getLandingZoneRegistrationOperations(context: SovereignContext) {
       landingZoneAccountName: string,
       options?: LandingZoneRegistrationOperationsListBySubscriptionOptionalParams,
     ) =>
-      landingZoneRegistrationOperationsListBySubscription(
-        context,
-        landingZoneAccountName,
-        options,
-      ),
+      landingZoneRegistrationOperationsListBySubscription(context, landingZoneAccountName, options),
     listByResourceGroup: (
       resourceGroupName: string,
       landingZoneAccountName: string,

@@ -45,20 +45,14 @@ export interface LandingZoneAccountOperationsOperations {
     landingZoneAccountName: string,
     properties: LandingZoneAccountResource,
     options?: LandingZoneAccountOperationsUpdateOptionalParams,
-  ) => PollerLike<
-    OperationState<LandingZoneAccountResource>,
-    LandingZoneAccountResource
-  >;
+  ) => PollerLike<OperationState<LandingZoneAccountResource>, LandingZoneAccountResource>;
   /** Create a landing zone account. */
   create: (
     resourceGroupName: string,
     landingZoneAccountName: string,
     resource: LandingZoneAccountResource,
     options?: LandingZoneAccountOperationsCreateOptionalParams,
-  ) => PollerLike<
-    OperationState<LandingZoneAccountResource>,
-    LandingZoneAccountResource
-  >;
+  ) => PollerLike<OperationState<LandingZoneAccountResource>, LandingZoneAccountResource>;
   /** Get a landing zone account. */
   get: (
     resourceGroupName: string,
@@ -69,18 +63,12 @@ export interface LandingZoneAccountOperationsOperations {
 
 function _getLandingZoneAccountOperations(context: SovereignContext) {
   return {
-    listBySubscription: (
-      options?: LandingZoneAccountOperationsListBySubscriptionOptionalParams,
-    ) => landingZoneAccountOperationsListBySubscription(context, options),
+    listBySubscription: (options?: LandingZoneAccountOperationsListBySubscriptionOptionalParams) =>
+      landingZoneAccountOperationsListBySubscription(context, options),
     listByResourceGroup: (
       resourceGroupName: string,
       options?: LandingZoneAccountOperationsListByResourceGroupOptionalParams,
-    ) =>
-      landingZoneAccountOperationsListByResourceGroup(
-        context,
-        resourceGroupName,
-        options,
-      ),
+    ) => landingZoneAccountOperationsListByResourceGroup(context, resourceGroupName, options),
     delete: (
       resourceGroupName: string,
       landingZoneAccountName: string,
@@ -123,12 +111,7 @@ function _getLandingZoneAccountOperations(context: SovereignContext) {
       landingZoneAccountName: string,
       options?: LandingZoneAccountOperationsGetOptionalParams,
     ) =>
-      landingZoneAccountOperationsGet(
-        context,
-        resourceGroupName,
-        landingZoneAccountName,
-        options,
-      ),
+      landingZoneAccountOperationsGet(context, resourceGroupName, landingZoneAccountName, options),
   };
 }
 

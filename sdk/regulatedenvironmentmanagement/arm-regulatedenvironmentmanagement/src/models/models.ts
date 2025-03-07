@@ -29,9 +29,7 @@ export function landingZoneRegistrationResourceDeserializer(
       : systemDataDeserializer(item["systemData"]),
     properties: !item["properties"]
       ? item["properties"]
-      : landingZoneRegistrationResourcePropertiesDeserializer(
-          item["properties"],
-        ),
+      : landingZoneRegistrationResourcePropertiesDeserializer(item["properties"]),
   };
 }
 
@@ -52,8 +50,7 @@ export function landingZoneRegistrationResourcePropertiesSerializer(
 ): any {
   return {
     existingTopLevelMgId: item["existingTopLevelMgId"],
-    existingLandingZoneConfigurationId:
-      item["existingLandingZoneConfigurationId"],
+    existingLandingZoneConfigurationId: item["existingLandingZoneConfigurationId"],
     managedIdentity: !item["managedIdentity"]
       ? item["managedIdentity"]
       : managedIdentityPropertiesSerializer(item["managedIdentity"]),
@@ -66,8 +63,7 @@ export function landingZoneRegistrationResourcePropertiesDeserializer(
   return {
     provisioningState: item["provisioningState"],
     existingTopLevelMgId: item["existingTopLevelMgId"],
-    existingLandingZoneConfigurationId:
-      item["existingLandingZoneConfigurationId"],
+    existingLandingZoneConfigurationId: item["existingLandingZoneConfigurationId"],
     managedIdentity: !item["managedIdentity"]
       ? item["managedIdentity"]
       : managedIdentityPropertiesDeserializer(item["managedIdentity"]),
@@ -112,18 +108,14 @@ export interface ManagedIdentityProperties {
   userAssignedIdentityResourceId?: string;
 }
 
-export function managedIdentityPropertiesSerializer(
-  item: ManagedIdentityProperties,
-): any {
+export function managedIdentityPropertiesSerializer(item: ManagedIdentityProperties): any {
   return {
     type: item["type"],
     userAssignedIdentityResourceId: item["userAssignedIdentityResourceId"],
   };
 }
 
-export function managedIdentityPropertiesDeserializer(
-  item: any,
-): ManagedIdentityProperties {
+export function managedIdentityPropertiesDeserializer(item: any): ManagedIdentityProperties {
   return {
     type: item["type"],
     userAssignedIdentityResourceId: item["userAssignedIdentityResourceId"],
@@ -213,9 +205,7 @@ export function systemDataDeserializer(item: any): SystemData {
   return {
     createdBy: item["createdBy"],
     createdByType: item["createdByType"],
-    createdAt: !item["createdAt"]
-      ? item["createdAt"]
-      : new Date(item["createdAt"]),
+    createdAt: !item["createdAt"] ? item["createdAt"] : new Date(item["createdAt"]),
     lastModifiedBy: item["lastModifiedBy"],
     lastModifiedByType: item["lastModifiedByType"],
     lastModifiedAt: !item["lastModifiedAt"]
@@ -256,9 +246,7 @@ export interface ErrorResponse {
 
 export function errorResponseDeserializer(item: any): ErrorResponse {
   return {
-    error: !item["error"]
-      ? item["error"]
-      : errorDetailDeserializer(item["error"]),
+    error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
   };
 }
 
@@ -281,26 +269,20 @@ export function errorDetailDeserializer(item: any): ErrorDetail {
     code: item["code"],
     message: item["message"],
     target: item["target"],
-    details: !item["details"]
-      ? item["details"]
-      : errorDetailArrayDeserializer(item["details"]),
+    details: !item["details"] ? item["details"] : errorDetailArrayDeserializer(item["details"]),
     additionalInfo: !item["additionalInfo"]
       ? item["additionalInfo"]
       : errorAdditionalInfoArrayDeserializer(item["additionalInfo"]),
   };
 }
 
-export function errorDetailArrayDeserializer(
-  result: Array<ErrorDetail>,
-): any[] {
+export function errorDetailArrayDeserializer(result: Array<ErrorDetail>): any[] {
   return result.map((item) => {
     return errorDetailDeserializer(item);
   });
 }
 
-export function errorAdditionalInfoArrayDeserializer(
-  result: Array<ErrorAdditionalInfo>,
-): any[] {
+export function errorAdditionalInfoArrayDeserializer(result: Array<ErrorAdditionalInfo>): any[] {
   return result.map((item) => {
     return errorAdditionalInfoDeserializer(item);
   });
@@ -314,23 +296,17 @@ export interface ErrorAdditionalInfo {
   readonly info?: Record<string, any>;
 }
 
-export function errorAdditionalInfoDeserializer(
-  item: any,
-): ErrorAdditionalInfo {
+export function errorAdditionalInfoDeserializer(item: any): ErrorAdditionalInfo {
   return {
     type: item["type"],
-    info: !item["info"]
-      ? item["info"]
-      : _errorAdditionalInfoInfoDeserializer(item["info"]),
+    info: !item["info"] ? item["info"] : _errorAdditionalInfoInfoDeserializer(item["info"]),
   };
 }
 
 /** model interface _ErrorAdditionalInfoInfo */
 export interface _ErrorAdditionalInfoInfo {}
 
-export function _errorAdditionalInfoInfoDeserializer(
-  item: any,
-): _ErrorAdditionalInfoInfo {
+export function _errorAdditionalInfoInfoDeserializer(item: any): _ErrorAdditionalInfoInfo {
   return item;
 }
 
@@ -379,9 +355,7 @@ export function landingZoneConfigurationResourceSerializer(
   return {
     properties: !item["properties"]
       ? item["properties"]
-      : landingZoneConfigurationResourcePropertiesSerializer(
-          item["properties"],
-        ),
+      : landingZoneConfigurationResourcePropertiesSerializer(item["properties"]),
   };
 }
 
@@ -397,9 +371,7 @@ export function landingZoneConfigurationResourceDeserializer(
       : systemDataDeserializer(item["systemData"]),
     properties: !item["properties"]
       ? item["properties"]
-      : landingZoneConfigurationResourcePropertiesDeserializer(
-          item["properties"],
-        ),
+      : landingZoneConfigurationResourcePropertiesDeserializer(item["properties"]),
   };
 }
 
@@ -469,8 +441,7 @@ export function landingZoneConfigurationResourcePropertiesSerializer(
   return {
     ddosProtectionCreationOption: item["ddosProtectionCreationOption"],
     existingDdosProtectionId: item["existingDdosProtectionId"],
-    logAnalyticsWorkspaceCreationOption:
-      item["logAnalyticsWorkspaceCreationOption"],
+    logAnalyticsWorkspaceCreationOption: item["logAnalyticsWorkspaceCreationOption"],
     existingLogAnalyticsWorkspaceId: item["existingLogAnalyticsWorkspaceId"],
     tags: !item["tags"] ? item["tags"] : tagsArraySerializer(item["tags"]),
     firewallCreationOption: item["firewallCreationOption"],
@@ -483,9 +454,7 @@ export function landingZoneConfigurationResourcePropertiesSerializer(
     azureBastionSubnetCidrBlock: item["azureBastionSubnetCidrBlock"],
     landingZonesMgChildren: !item["landingZonesMgChildren"]
       ? item["landingZonesMgChildren"]
-      : landingZoneManagementGroupPropertiesArraySerializer(
-          item["landingZonesMgChildren"],
-        ),
+      : landingZoneManagementGroupPropertiesArraySerializer(item["landingZonesMgChildren"]),
     topLevelMgMetadata: !item["topLevelMgMetadata"]
       ? item["topLevelMgMetadata"]
       : managementGroupPropertiesSerializer(item["topLevelMgMetadata"]),
@@ -497,33 +466,23 @@ export function landingZoneConfigurationResourcePropertiesSerializer(
       : managementGroupPropertiesSerializer(item["platformMgMetadata"]),
     platformManagementMgMetadata: !item["platformManagementMgMetadata"]
       ? item["platformManagementMgMetadata"]
-      : managementGroupPropertiesSerializer(
-          item["platformManagementMgMetadata"],
-        ),
+      : managementGroupPropertiesSerializer(item["platformManagementMgMetadata"]),
     platformConnectivityMgMetadata: !item["platformConnectivityMgMetadata"]
       ? item["platformConnectivityMgMetadata"]
-      : managementGroupPropertiesSerializer(
-          item["platformConnectivityMgMetadata"],
-        ),
+      : managementGroupPropertiesSerializer(item["platformConnectivityMgMetadata"]),
     platformIdentityMgMetadata: !item["platformIdentityMgMetadata"]
       ? item["platformIdentityMgMetadata"]
       : managementGroupPropertiesSerializer(item["platformIdentityMgMetadata"]),
     decommissionedMgMetadata: !item["decommissionedMgMetadata"]
       ? item["decommissionedMgMetadata"]
-      : decommissionedManagementGroupPropertiesSerializer(
-          item["decommissionedMgMetadata"],
-        ),
+      : decommissionedManagementGroupPropertiesSerializer(item["decommissionedMgMetadata"]),
     sandboxMgMetadata: !item["sandboxMgMetadata"]
       ? item["sandboxMgMetadata"]
       : sandboxManagementGroupPropertiesSerializer(item["sandboxMgMetadata"]),
-    managedIdentity: managedIdentityPropertiesSerializer(
-      item["managedIdentity"],
-    ),
+    managedIdentity: managedIdentityPropertiesSerializer(item["managedIdentity"]),
     platformMgChildren: !item["platformMgChildren"]
       ? item["platformMgChildren"]
-      : platformManagementGroupPropertiesArraySerializer(
-          item["platformMgChildren"],
-        ),
+      : platformManagementGroupPropertiesArraySerializer(item["platformMgChildren"]),
     namingConventionFormula: item["namingConventionFormula"],
     customNamingConvention: !item["customNamingConvention"]
       ? item["customNamingConvention"]
@@ -539,8 +498,7 @@ export function landingZoneConfigurationResourcePropertiesDeserializer(
     authoringStatus: item["authoringStatus"],
     ddosProtectionCreationOption: item["ddosProtectionCreationOption"],
     existingDdosProtectionId: item["existingDdosProtectionId"],
-    logAnalyticsWorkspaceCreationOption:
-      item["logAnalyticsWorkspaceCreationOption"],
+    logAnalyticsWorkspaceCreationOption: item["logAnalyticsWorkspaceCreationOption"],
     existingLogAnalyticsWorkspaceId: item["existingLogAnalyticsWorkspaceId"],
     tags: !item["tags"] ? item["tags"] : tagsArrayDeserializer(item["tags"]),
     firewallCreationOption: item["firewallCreationOption"],
@@ -553,9 +511,7 @@ export function landingZoneConfigurationResourcePropertiesDeserializer(
     azureBastionSubnetCidrBlock: item["azureBastionSubnetCidrBlock"],
     landingZonesMgChildren: !item["landingZonesMgChildren"]
       ? item["landingZonesMgChildren"]
-      : landingZoneManagementGroupPropertiesArrayDeserializer(
-          item["landingZonesMgChildren"],
-        ),
+      : landingZoneManagementGroupPropertiesArrayDeserializer(item["landingZonesMgChildren"]),
     topLevelMgMetadata: !item["topLevelMgMetadata"]
       ? item["topLevelMgMetadata"]
       : managementGroupPropertiesDeserializer(item["topLevelMgMetadata"]),
@@ -567,35 +523,23 @@ export function landingZoneConfigurationResourcePropertiesDeserializer(
       : managementGroupPropertiesDeserializer(item["platformMgMetadata"]),
     platformManagementMgMetadata: !item["platformManagementMgMetadata"]
       ? item["platformManagementMgMetadata"]
-      : managementGroupPropertiesDeserializer(
-          item["platformManagementMgMetadata"],
-        ),
+      : managementGroupPropertiesDeserializer(item["platformManagementMgMetadata"]),
     platformConnectivityMgMetadata: !item["platformConnectivityMgMetadata"]
       ? item["platformConnectivityMgMetadata"]
-      : managementGroupPropertiesDeserializer(
-          item["platformConnectivityMgMetadata"],
-        ),
+      : managementGroupPropertiesDeserializer(item["platformConnectivityMgMetadata"]),
     platformIdentityMgMetadata: !item["platformIdentityMgMetadata"]
       ? item["platformIdentityMgMetadata"]
-      : managementGroupPropertiesDeserializer(
-          item["platformIdentityMgMetadata"],
-        ),
+      : managementGroupPropertiesDeserializer(item["platformIdentityMgMetadata"]),
     decommissionedMgMetadata: !item["decommissionedMgMetadata"]
       ? item["decommissionedMgMetadata"]
-      : decommissionedManagementGroupPropertiesDeserializer(
-          item["decommissionedMgMetadata"],
-        ),
+      : decommissionedManagementGroupPropertiesDeserializer(item["decommissionedMgMetadata"]),
     sandboxMgMetadata: !item["sandboxMgMetadata"]
       ? item["sandboxMgMetadata"]
       : sandboxManagementGroupPropertiesDeserializer(item["sandboxMgMetadata"]),
-    managedIdentity: managedIdentityPropertiesDeserializer(
-      item["managedIdentity"],
-    ),
+    managedIdentity: managedIdentityPropertiesDeserializer(item["managedIdentity"]),
     platformMgChildren: !item["platformMgChildren"]
       ? item["platformMgChildren"]
-      : platformManagementGroupPropertiesArrayDeserializer(
-          item["platformMgChildren"],
-        ),
+      : platformManagementGroupPropertiesArrayDeserializer(item["platformMgChildren"]),
     namingConventionFormula: item["namingConventionFormula"],
     customNamingConvention: !item["customNamingConvention"]
       ? item["customNamingConvention"]
@@ -725,10 +669,9 @@ export function landingZoneManagementGroupPropertiesSerializer(
   item: LandingZoneManagementGroupProperties,
 ): any {
   return {
-    policyInitiativesAssignmentProperties:
-      policyInitiativeAssignmentPropertiesArraySerializer(
-        item["policyInitiativesAssignmentProperties"],
-      ),
+    policyInitiativesAssignmentProperties: policyInitiativeAssignmentPropertiesArraySerializer(
+      item["policyInitiativesAssignmentProperties"],
+    ),
     name: item["name"],
   };
 }
@@ -737,10 +680,9 @@ export function landingZoneManagementGroupPropertiesDeserializer(
   item: any,
 ): LandingZoneManagementGroupProperties {
   return {
-    policyInitiativesAssignmentProperties:
-      policyInitiativeAssignmentPropertiesArrayDeserializer(
-        item["policyInitiativesAssignmentProperties"],
-      ),
+    policyInitiativesAssignmentProperties: policyInitiativeAssignmentPropertiesArrayDeserializer(
+      item["policyInitiativesAssignmentProperties"],
+    ),
     name: item["name"],
   };
 }
@@ -793,25 +735,19 @@ export interface ManagementGroupProperties {
   policyInitiativesAssignmentProperties: PolicyInitiativeAssignmentProperties[];
 }
 
-export function managementGroupPropertiesSerializer(
-  item: ManagementGroupProperties,
-): any {
+export function managementGroupPropertiesSerializer(item: ManagementGroupProperties): any {
   return {
-    policyInitiativesAssignmentProperties:
-      policyInitiativeAssignmentPropertiesArraySerializer(
-        item["policyInitiativesAssignmentProperties"],
-      ),
+    policyInitiativesAssignmentProperties: policyInitiativeAssignmentPropertiesArraySerializer(
+      item["policyInitiativesAssignmentProperties"],
+    ),
   };
 }
 
-export function managementGroupPropertiesDeserializer(
-  item: any,
-): ManagementGroupProperties {
+export function managementGroupPropertiesDeserializer(item: any): ManagementGroupProperties {
   return {
-    policyInitiativesAssignmentProperties:
-      policyInitiativeAssignmentPropertiesArrayDeserializer(
-        item["policyInitiativesAssignmentProperties"],
-      ),
+    policyInitiativesAssignmentProperties: policyInitiativeAssignmentPropertiesArrayDeserializer(
+      item["policyInitiativesAssignmentProperties"],
+    ),
   };
 }
 
@@ -827,10 +763,9 @@ export function decommissionedManagementGroupPropertiesSerializer(
   item: DecommissionedManagementGroupProperties,
 ): any {
   return {
-    policyInitiativesAssignmentProperties:
-      policyInitiativeAssignmentPropertiesArraySerializer(
-        item["policyInitiativesAssignmentProperties"],
-      ),
+    policyInitiativesAssignmentProperties: policyInitiativeAssignmentPropertiesArraySerializer(
+      item["policyInitiativesAssignmentProperties"],
+    ),
     create: item["create"],
   };
 }
@@ -839,10 +774,9 @@ export function decommissionedManagementGroupPropertiesDeserializer(
   item: any,
 ): DecommissionedManagementGroupProperties {
   return {
-    policyInitiativesAssignmentProperties:
-      policyInitiativeAssignmentPropertiesArrayDeserializer(
-        item["policyInitiativesAssignmentProperties"],
-      ),
+    policyInitiativesAssignmentProperties: policyInitiativeAssignmentPropertiesArrayDeserializer(
+      item["policyInitiativesAssignmentProperties"],
+    ),
     create: item["create"],
   };
 }
@@ -859,10 +793,9 @@ export function sandboxManagementGroupPropertiesSerializer(
   item: SandboxManagementGroupProperties,
 ): any {
   return {
-    policyInitiativesAssignmentProperties:
-      policyInitiativeAssignmentPropertiesArraySerializer(
-        item["policyInitiativesAssignmentProperties"],
-      ),
+    policyInitiativesAssignmentProperties: policyInitiativeAssignmentPropertiesArraySerializer(
+      item["policyInitiativesAssignmentProperties"],
+    ),
     create: item["create"],
   };
 }
@@ -871,10 +804,9 @@ export function sandboxManagementGroupPropertiesDeserializer(
   item: any,
 ): SandboxManagementGroupProperties {
   return {
-    policyInitiativesAssignmentProperties:
-      policyInitiativeAssignmentPropertiesArrayDeserializer(
-        item["policyInitiativesAssignmentProperties"],
-      ),
+    policyInitiativesAssignmentProperties: policyInitiativeAssignmentPropertiesArrayDeserializer(
+      item["policyInitiativesAssignmentProperties"],
+    ),
     create: item["create"],
   };
 }
@@ -907,10 +839,9 @@ export function platformManagementGroupPropertiesSerializer(
   item: PlatformManagementGroupProperties,
 ): any {
   return {
-    policyInitiativesAssignmentProperties:
-      policyInitiativeAssignmentPropertiesArraySerializer(
-        item["policyInitiativesAssignmentProperties"],
-      ),
+    policyInitiativesAssignmentProperties: policyInitiativeAssignmentPropertiesArraySerializer(
+      item["policyInitiativesAssignmentProperties"],
+    ),
     name: item["name"],
   };
 }
@@ -919,10 +850,9 @@ export function platformManagementGroupPropertiesDeserializer(
   item: any,
 ): PlatformManagementGroupProperties {
   return {
-    policyInitiativesAssignmentProperties:
-      policyInitiativeAssignmentPropertiesArrayDeserializer(
-        item["policyInitiativesAssignmentProperties"],
-      ),
+    policyInitiativesAssignmentProperties: policyInitiativeAssignmentPropertiesArrayDeserializer(
+      item["policyInitiativesAssignmentProperties"],
+    ),
     name: item["name"],
   };
 }
@@ -951,15 +881,11 @@ export interface CustomNamingConvention {
   formula: string;
 }
 
-export function customNamingConventionSerializer(
-  item: CustomNamingConvention,
-): any {
+export function customNamingConventionSerializer(item: CustomNamingConvention): any {
   return { resourceType: item["resourceType"], formula: item["formula"] };
 }
 
-export function customNamingConventionDeserializer(
-  item: any,
-): CustomNamingConvention {
+export function customNamingConventionDeserializer(item: any): CustomNamingConvention {
   return {
     resourceType: item["resourceType"],
     formula: item["formula"],
@@ -1069,16 +995,12 @@ export interface GenerateLandingZoneRequest {
   environment?: string;
 }
 
-export function generateLandingZoneRequestSerializer(
-  item: GenerateLandingZoneRequest,
-): any {
+export function generateLandingZoneRequestSerializer(item: GenerateLandingZoneRequest): any {
   return {
-    infrastructureAsCodeOutputOptions:
-      item["infrastructureAsCodeOutputOptions"],
+    infrastructureAsCodeOutputOptions: item["infrastructureAsCodeOutputOptions"],
     existingManagementSubscriptionId: item["existingManagementSubscriptionId"],
     existingIdentitySubscriptionId: item["existingIdentitySubscriptionId"],
-    existingConnectivitySubscriptionId:
-      item["existingConnectivitySubscriptionId"],
+    existingConnectivitySubscriptionId: item["existingConnectivitySubscriptionId"],
     subscriptionBillingScope: item["subscriptionBillingScope"],
     existingTopLevelMgParentId: item["existingTopLevelMgParentId"],
     deploymentPrefix: item["deploymentPrefix"],
@@ -1126,9 +1048,7 @@ export interface GenerateLandingZoneResponse {
   generatedArmTemplate?: string;
 }
 
-export function generateLandingZoneResponseDeserializer(
-  item: any,
-): GenerateLandingZoneResponse {
+export function generateLandingZoneResponseDeserializer(item: any): GenerateLandingZoneResponse {
   return {
     topLevelMgDisplayName: item["topLevelMgDisplayName"],
     landingZoneConfigurationName: item["landingZoneConfigurationName"],
@@ -1146,9 +1066,7 @@ export interface UpdateAuthoringStatusRequest {
   authoringStatus: AuthoringStatus;
 }
 
-export function updateAuthoringStatusRequestSerializer(
-  item: UpdateAuthoringStatusRequest,
-): any {
+export function updateAuthoringStatusRequestSerializer(item: UpdateAuthoringStatusRequest): any {
   return { authoringStatus: item["authoringStatus"] };
 }
 
@@ -1203,9 +1121,7 @@ export interface LandingZoneAccountResource extends TrackedResource {
   identity?: ManagedServiceIdentity;
 }
 
-export function landingZoneAccountResourceSerializer(
-  item: LandingZoneAccountResource,
-): any {
+export function landingZoneAccountResourceSerializer(item: LandingZoneAccountResource): any {
   return {
     tags: item["tags"],
     location: item["location"],
@@ -1218,9 +1134,7 @@ export function landingZoneAccountResourceSerializer(
   };
 }
 
-export function landingZoneAccountResourceDeserializer(
-  item: any,
-): LandingZoneAccountResource {
+export function landingZoneAccountResourceDeserializer(item: any): LandingZoneAccountResource {
   return {
     tags: item["tags"],
     location: item["location"],
@@ -1274,18 +1188,14 @@ export interface ManagedServiceIdentity {
   userAssignedIdentities?: Record<string, UserAssignedIdentity | null>;
 }
 
-export function managedServiceIdentitySerializer(
-  item: ManagedServiceIdentity,
-): any {
+export function managedServiceIdentitySerializer(item: ManagedServiceIdentity): any {
   return {
     type: item["type"],
     userAssignedIdentities: item["userAssignedIdentities"],
   };
 }
 
-export function managedServiceIdentityDeserializer(
-  item: any,
-): ManagedServiceIdentity {
+export function managedServiceIdentityDeserializer(item: any): ManagedServiceIdentity {
   return {
     principalId: item["principalId"],
     tenantId: item["tenantId"],
@@ -1326,15 +1236,11 @@ export interface UserAssignedIdentity {
   readonly principalId?: string;
 }
 
-export function userAssignedIdentitySerializer(
-  item: UserAssignedIdentity,
-): any {
+export function userAssignedIdentitySerializer(item: UserAssignedIdentity): any {
   return item;
 }
 
-export function userAssignedIdentityDeserializer(
-  item: any,
-): UserAssignedIdentity {
+export function userAssignedIdentityDeserializer(item: any): UserAssignedIdentity {
   return {
     clientId: item["clientId"],
     principalId: item["principalId"],
@@ -1407,9 +1313,7 @@ export interface _OperationListResult {
   nextLink?: string;
 }
 
-export function _operationListResultDeserializer(
-  item: any,
-): _OperationListResult {
+export function _operationListResultDeserializer(item: any): _OperationListResult {
   return {
     value: operationArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
@@ -1440,9 +1344,7 @@ export function operationDeserializer(item: any): Operation {
   return {
     name: item["name"],
     isDataAction: item["isDataAction"],
-    display: !item["display"]
-      ? item["display"]
-      : operationDisplayDeserializer(item["display"]),
+    display: !item["display"] ? item["display"] : operationDisplayDeserializer(item["display"]),
     origin: item["origin"],
     actionType: item["actionType"],
   };

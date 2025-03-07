@@ -14,13 +14,12 @@ async function landingZoneConfigurationOperationsUpdateAuthoringStatus(): Promis
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000001";
   const client = new SovereignClient(credential, subscriptionId);
-  const result =
-    await client.landingZoneConfigurationOperations.updateAuthoringStatus(
-      "ExampleResourceGroup",
-      "ExampleLZA",
-      "ExampleLZC",
-      { authoringStatus: "Authoring" },
-    );
+  const result = await client.landingZoneConfigurationOperations.updateAuthoringStatus(
+    "ExampleResourceGroup",
+    "ExampleLZA",
+    "ExampleLZC",
+    { authoringStatus: "Authoring" },
+  );
   console.log(result);
 }
 

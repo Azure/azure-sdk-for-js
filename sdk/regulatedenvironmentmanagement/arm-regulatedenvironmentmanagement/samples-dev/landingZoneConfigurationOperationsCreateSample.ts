@@ -172,8 +172,7 @@ async function landingZoneConfigurationOperationsCreate(): Promise<void> {
         customNamingConvention: [
           {
             resourceType: "ddosProtectionPlans",
-            formula:
-              "{ResourceTypeAbbreviation}-{DeploymentPrefix}-Contoso-{DeploymentSuffix}",
+            formula: "{ResourceTypeAbbreviation}-{DeploymentPrefix}-Contoso-{DeploymentSuffix}",
           },
         ],
       },

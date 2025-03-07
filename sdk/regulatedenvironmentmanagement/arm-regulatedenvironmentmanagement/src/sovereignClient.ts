@@ -13,15 +13,8 @@ import {
   _getLandingZoneAccountOperationsOperations,
   LandingZoneAccountOperationsOperations,
 } from "./classic/landingZoneAccountOperations/index.js";
-import {
-  _getOperationsOperations,
-  OperationsOperations,
-} from "./classic/operations/index.js";
-import {
-  createSovereign,
-  SovereignContext,
-  SovereignClientOptionalParams,
-} from "./api/index.js";
+import { _getOperationsOperations, OperationsOperations } from "./classic/operations/index.js";
+import { createSovereign, SovereignContext, SovereignClientOptionalParams } from "./api/index.js";
 import { Pipeline } from "@azure/core-rest-pipeline";
 import { TokenCredential } from "@azure/core-auth";
 
@@ -46,12 +39,13 @@ export class SovereignClient {
       userAgentOptions: { userAgentPrefix },
     });
     this.pipeline = this._client.pipeline;
-    this.landingZoneRegistrationOperations =
-      _getLandingZoneRegistrationOperationsOperations(this._client);
-    this.landingZoneConfigurationOperations =
-      _getLandingZoneConfigurationOperationsOperations(this._client);
-    this.landingZoneAccountOperations =
-      _getLandingZoneAccountOperationsOperations(this._client);
+    this.landingZoneRegistrationOperations = _getLandingZoneRegistrationOperationsOperations(
+      this._client,
+    );
+    this.landingZoneConfigurationOperations = _getLandingZoneConfigurationOperationsOperations(
+      this._client,
+    );
+    this.landingZoneAccountOperations = _getLandingZoneAccountOperationsOperations(this._client);
     this.operations = _getOperationsOperations(this._client);
   }
 
