@@ -8,7 +8,7 @@ import type { PluginConfig } from "./plugins/Plugin";
 import type { CosmosHeaders } from "./queryExecutionContext/CosmosHeaders";
 import type { CosmosDbDiagnosticLevel } from "./diagnostics/CosmosDbDiagnosticLevel";
 import type { HttpClient } from "@azure/core-rest-pipeline";
-import type { EncryptionPolicy } from "./encryption/EncryptionPolicy";
+import type { ClientEncryptionOptions } from "./encryption/ClientEncryptionOptions";
 
 // We expose our own Agent interface to avoid taking a dependency on and leaking node types. This interface should mirror the node Agent interface
 export interface Agent {
@@ -61,9 +61,9 @@ export interface CosmosClientOptions {
   diagnosticLevel?: CosmosDbDiagnosticLevel;
   /** encryption policy for operations involving encryption
    * must be set on the client if using client-side encryption
-   * @see {@link EncryptionPolicy}
+   * @see {@link ClientEncryptionOptions}
    */
-  encryptionPolicy?: EncryptionPolicy;
+  clientEncryptionOptions?: ClientEncryptionOptions;
   /** @internal */
   plugins?: PluginConfig[];
   /** An optional parameter that represents the connection string. Your database connection string can be found in the Azure Portal. */
