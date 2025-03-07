@@ -138,7 +138,12 @@ export class EnvironmentCredential implements TokenCredential {
         password,
         newOptions,
       );
+      return;
     }
+
+    throw new CredentialUnavailableError(
+      `${credentialName} is unavailable. No underlying credential could be used. To troubleshoot, visit https://aka.ms/azsdk/js/identity/environmentcredential/troubleshoot.`,
+    );
   }
 
   /**
