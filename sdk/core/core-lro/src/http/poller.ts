@@ -34,6 +34,7 @@ export function createHttpPoller<TResult, TState extends OperationState<TResult>
     updateState,
     withOperationLocation,
     resolveOnUnsuccessful = false,
+    skipFinalGet,
   } = options || {};
   return buildCreatePoller<OperationResponse, TResult, TState>({
     getStatusFromInitialResponse,
@@ -48,7 +49,7 @@ export function createHttpPoller<TResult, TState extends OperationState<TResult>
     {
       init: async () => {
         const response = await lro.sendInitialRequest();
-        const config = inferLroMode(response.rawResponse, resourceLocationConfig);
+        const config = inferLroMode(response.rawResponse, resourceLocationConfig, skipFinalGet);
         return {
           response,
           operationLocation: config?.operationLocation,

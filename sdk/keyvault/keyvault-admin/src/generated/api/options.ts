@@ -49,6 +49,8 @@ export interface SelectiveKeyRestoreOperationOptionalParams
   extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
+  /** Flag to skip the final GET request that would normally fetch the final resource */
+  skipFinalGet?: boolean;
 }
 
 /** Optional parameters. */
@@ -59,6 +61,8 @@ export interface SelectiveKeyRestoreStatusOptionalParams
 export interface FullRestoreOperationOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
+  /** Flag to skip the final GET request that would normally fetch the final resource */
+  skipFinalGet?: boolean;
 }
 
 /** Optional parameters. */
@@ -66,6 +70,8 @@ export interface PreFullRestoreOperationOptionalParams
   extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
+  /** Flag to skip the final GET request that would normally fetch the final resource */
+  skipFinalGet?: boolean;
 }
 
 /** Optional parameters. */
@@ -75,12 +81,16 @@ export interface RestoreStatusOptionalParams extends OperationOptions {}
 export interface PreFullBackupOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
+  /** Flag to skip the final GET request that would normally fetch the final resource */
+  skipFinalGet?: boolean;
 }
 
 /** Optional parameters. */
 export interface FullBackupOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
+  /** Flag to skip the final GET request that would normally fetch the final resource */
+  skipFinalGet?: boolean;
 }
 
 /** Optional parameters. */
