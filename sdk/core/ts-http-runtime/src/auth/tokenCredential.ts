@@ -1,8 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AbortSignalLike } from "../abort-controller/AbortSignalLike.js";
-
 /**
  * Represents a credential capable of providing an authentication token.
  */
@@ -10,45 +8,24 @@ export interface TokenCredential {
   /**
    * Gets the token provided by this credential.
    *
-   * This method is called automatically by Azure SDK client libraries. You may call this method
-   * directly, but you must also handle token caching and token refreshing.
+   * This method is called automatically by client libraries. It will be called
+   * directly, so you must handle token caching and token refreshing as necessary.
    *
    * @param scopes - The list of scopes for which the token will have access.
    * @param options - The options used to configure any requests this
    *                TokenCredential implementation might make.
    */
-  getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null>;
+  getToken(scopes: string[], options?: GetTokenOptions): Promise<AccessToken | undefined>;
 }
 
 /**
- * Defines options for TokenCredential.getToken.
+ * Options used when creating and sending HTTP requests for this operation.
  */
 export interface GetTokenOptions {
   /**
    * The signal which can be used to abort requests.
    */
-  abortSignal?: AbortSignalLike;
-  /**
-   * Options used when creating and sending HTTP requests for this operation.
-   */
-  requestOptions?: {
-    /**
-     * The number of milliseconds a request can take before automatically being terminated.
-     */
-    timeout?: number;
-  };
-  /**
-   * Claim details to perform the Continuous Access Evaluation authentication flow
-   */
-  claims?: string;
-  /**
-   * Indicates whether to enable the Continuous Access Evaluation authentication flow
-   */
-  enableCae?: boolean;
-  /**
-   * Allows specifying a tenantId. Useful to handle challenges that provide tenant Id hints.
-   */
-  tenantId?: string;
+  abortSignal?: AbortSignal;
 }
 
 /**
@@ -59,18 +36,6 @@ export interface AccessToken {
    * The access token returned by the authentication service.
    */
   token: string;
-
-  /**
-   * The access token's expiration timestamp in milliseconds, UNIX epoch time.
-   */
-  expiresOnTimestamp: number;
-
-  /**
-   * The timestamp when the access token should be refreshed, in milliseconds, UNIX epoch time.
-   */
-  refreshAfterTimestamp?: number;
-
-  // UNBRANDED DIFFERENCE: Unbranded Core does not support PoP ("Proof-of-Presence") tokens.
 }
 
 /**
