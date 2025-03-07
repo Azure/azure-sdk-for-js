@@ -15,7 +15,7 @@ output-folder: ../
 source-code-folder-path: ./src/generated
 disable-async-iterators: true
 api-version-parameter: choice
-package-version: 4.9.1
+package-version: 4.10.0-beta.1
 use-extension:
   "@autorest/typescript": "6.0.34"
 module-kind: esm
