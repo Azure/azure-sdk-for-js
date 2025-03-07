@@ -8,6 +8,31 @@ import {
 
 import type { AzureApplicationCredentialOptions } from "./azureApplicationCredentialOptions.js";
 import { ChainedTokenCredential } from "./chainedTokenCredential.js";
+import { credentialLogger } from "../util/logging.js";
+import { TokenCredential } from "@azure/core-auth";
+
+const logger = credentialLogger("AzureApplicationCredential");
+
+/**
+ * A no-op credential that logs the reason it was skipped if getToken is called.
+ * @internal
+ */
+export class UnavailableAzureApplicationCredential implements TokenCredential {
+  credentialUnavailableErrorMessage: string;
+  credentialName: string;
+
+  constructor(credentialName: string, message: string) {
+    this.credentialName = credentialName;
+    this.credentialUnavailableErrorMessage = message;
+  }
+
+  getToken(): Promise<null> {
+    logger.getToken.info(
+      `Skipping ${this.credentialName}, reason: ${this.credentialUnavailableErrorMessage}`,
+    );
+    return Promise.resolve(null);
+  }
+}
 
 /**
  * Provides a default {@link ChainedTokenCredential} configuration that should
@@ -33,6 +58,17 @@ export class AzureApplicationCredential extends ChainedTokenCredential {
       createEnvironmentCredential,
       createDefaultManagedIdentityCredential,
     ];
-    super(...credentialFunctions.map((createCredentialFn) => createCredentialFn(options)));
+
+    const credentials: TokenCredential[] = credentialFunctions.map((createCredentialFn) => {
+      try {
+        return createCredentialFn(options);
+      } catch (err: any) {
+        logger.warning(
+          `Skipped ${createCredentialFn.name} because of an error creating the credential: ${err}`,
+        );
+        return new UnavailableAzureApplicationCredential(createCredentialFn.name, err.message);
+      }
+    });
+    super(...credentials);
   }
 }
