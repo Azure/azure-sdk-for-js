@@ -66,23 +66,32 @@ export {
   ActionType,
   KnownVersions,
 } from "./models/index.js";
+export { DatabaseWatcherClientOptionalParams } from "./api/index.js";
 export {
-  DatabaseWatcherClientOptionalParams,
-  SharedPrivateLinkResourcesListByWatcherOptionalParams,
-  SharedPrivateLinkResourcesDeleteOptionalParams,
-  SharedPrivateLinkResourcesCreateOptionalParams,
-  SharedPrivateLinkResourcesGetOptionalParams,
-  TargetsListByWatcherOptionalParams,
-  TargetsDeleteOptionalParams,
-  TargetsCreateOrUpdateOptionalParams,
-  TargetsGetOptionalParams,
-  HealthValidationsStartValidationOptionalParams,
-  HealthValidationsListByParentOptionalParams,
-  HealthValidationsGetOptionalParams,
   AlertRuleResourcesListByParentOptionalParams,
   AlertRuleResourcesDeleteOptionalParams,
   AlertRuleResourcesCreateOrUpdateOptionalParams,
   AlertRuleResourcesGetOptionalParams,
+} from "./api/alertRuleResources/index.js";
+export {
+  HealthValidationsStartValidationOptionalParams,
+  HealthValidationsListByParentOptionalParams,
+  HealthValidationsGetOptionalParams,
+} from "./api/healthValidations/index.js";
+export { OperationsListOptionalParams } from "./api/operations/index.js";
+export {
+  SharedPrivateLinkResourcesListByWatcherOptionalParams,
+  SharedPrivateLinkResourcesDeleteOptionalParams,
+  SharedPrivateLinkResourcesCreateOptionalParams,
+  SharedPrivateLinkResourcesGetOptionalParams,
+} from "./api/sharedPrivateLinkResources/index.js";
+export {
+  TargetsListByWatcherOptionalParams,
+  TargetsDeleteOptionalParams,
+  TargetsCreateOrUpdateOptionalParams,
+  TargetsGetOptionalParams,
+} from "./api/targets/index.js";
+export {
   WatchersStopOptionalParams,
   WatchersStartOptionalParams,
   WatchersListBySubscriptionOptionalParams,
@@ -91,8 +100,7 @@ export {
   WatchersUpdateOptionalParams,
   WatchersCreateOrUpdateOptionalParams,
   WatchersGetOptionalParams,
-  OperationsListOptionalParams,
-} from "./api/index.js";
+} from "./api/watchers/index.js";
 export {
   AlertRuleResourcesOperations,
   HealthValidationsOperations,

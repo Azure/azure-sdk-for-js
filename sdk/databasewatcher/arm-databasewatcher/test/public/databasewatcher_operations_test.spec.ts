@@ -33,7 +33,7 @@ describe("DatabaseWatcher test", () => {
     );
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
   it("operations list test", async () => {
