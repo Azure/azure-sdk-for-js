@@ -471,9 +471,15 @@ export function hasUnderscoreResponse<T extends object>(
 export function getScope(appConfigEndpoint: string, appConfigAudience?: string): string {
   if (appConfigAudience) {
     return `${appConfigAudience}/.default`;
-  } else if (appConfigEndpoint.endsWith("azconfig.azure.us") || appConfigEndpoint.endsWith("appconfig.azure.us")) {
+  } else if (
+    appConfigEndpoint.endsWith("azconfig.azure.us") ||
+    appConfigEndpoint.endsWith("appconfig.azure.us")
+  ) {
     return `${KnownAppConfigAudience.AzureGovernment}/.default`;
-  } else if (appConfigEndpoint.endsWith("azconfig.azure.cn") || appConfigEndpoint.endsWith("appconfig.azure.cn")) {
+  } else if (
+    appConfigEndpoint.endsWith("azconfig.azure.cn") ||
+    appConfigEndpoint.endsWith("appconfig.azure.cn")
+  ) {
     return `${KnownAppConfigAudience.AzureChina}/.default`;
   } else {
     return `${KnownAppConfigAudience.AzurePublicCloud}/.default`;
