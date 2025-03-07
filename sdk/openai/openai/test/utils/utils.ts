@@ -14,7 +14,12 @@ import {
 import type { Run } from "openai/resources/beta/threads/runs/runs.mjs";
 import type { AzureChatExtensionConfiguration } from "../../src/types/index.js";
 import { getAzureSearchEndpoint, getAzureSearchIndex } from "./injectables.js";
-import { ClientsAndDeploymentsInfo, ModelCapabilities, ModelInfo, ResourceInfo } from "./types.js";
+import type {
+  ClientsAndDeploymentsInfo,
+  ModelCapabilities,
+  ModelInfo,
+  ResourceInfo,
+} from "./types.js";
 import { logger } from "./logger.js";
 import type { OpenAI } from "openai";
 import type { Sku } from "@azure/arm-cognitiveservices";
@@ -25,7 +30,7 @@ export type AcceptableErrors = {
 
 const GlobalAcceptedErrors: AcceptableErrors = {
   messageSubstring: ["Rate limit is exceeded"],
-}
+};
 
 export const maxRetriesOption = { maxRetries: 0 };
 
@@ -119,11 +124,11 @@ export type DeploymentTestingParameters<T> = {
 
 /**
  * Test with deployments invokes `test` call, so it should be inside of `describe` and not `it`.
- * @param clientsAndDeployments
- * @param run
- * @param validate
- * @param modelsListToSkip
- * @param acceptableErrors
+ * @param clientsAndDeployments -
+ * @param run -
+ * @param validate -
+ * @param modelsListToSkip -
+ * @param acceptableErrors -
  */
 export async function testWithDeployments<T>({
   clientsAndDeployments,
@@ -134,31 +139,35 @@ export async function testWithDeployments<T>({
 }: DeploymentTestingParameters<T>): Promise<void> {
   assert.isNotEmpty(clientsAndDeployments, "No deployments found");
   describe.concurrent.each(clientsAndDeployments.clientsAndDeployments)(
-    "$client.baseURL", async function({ client, deployments }) {
-    for (const deployment of deployments) {
-      test.concurrent(`${deployment.model.name} (${deployment.model.version})`, async (done) => {
-        if (modelsListToSkip && isModelInList(deployment.model, modelsListToSkip)) {
-          done.skip(`Skipping ${deployment.model.name} : ${deployment.model.version}`);
-        }
+    "$client.baseURL",
+    async function ({ client, deployments }) {
+      for (const deployment of deployments) {
+        test.concurrent(`${deployment.model.name} (${deployment.model.version})`, async (done) => {
+          if (modelsListToSkip && isModelInList(deployment.model, modelsListToSkip)) {
+            done.skip(`Skipping ${deployment.model.name} : ${deployment.model.version}`);
+          }
 
-        let result;
-        try {
-          result = await run(client, deployment.deploymentName);
-        } catch (e) {
-          const error = e as any;
-          if (acceptableErrors?.messageSubstring.some((match) => error.message.includes(match))) {
-            done.skip(`Skipping due to acceptable error: ${error}`);
+          let result;
+          try {
+            result = await run(client, deployment.deploymentName);
+          } catch (e) {
+            const error = e as any;
+            if (acceptableErrors?.messageSubstring.some((match) => error.message.includes(match))) {
+              done.skip(`Skipping due to acceptable error: ${error}`);
+            }
+            if (
+              GlobalAcceptedErrors.messageSubstring.some((match) => error.message.includes(match))
+            ) {
+              done.skip(`Skipping due to global acceptable error: ${error}`);
+            }
+            throw e;
           }
-          if (GlobalAcceptedErrors.messageSubstring.some((match) => error.message.includes(match))) {
-            done.skip(`Skipping due to global acceptable error: ${error}`);
-          }
-          throw e;
-        }
-        validate?.(result);
-        return;
-      });
-    }
-  });
+          validate?.(result);
+          return;
+        });
+      }
+    },
+  );
 }
 
 export function filterDeployments(
