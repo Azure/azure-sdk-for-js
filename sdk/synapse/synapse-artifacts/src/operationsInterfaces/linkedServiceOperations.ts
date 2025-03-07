@@ -6,9 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import type { PagedAsyncIterableIterator } from "@azure/core-paging";
-import type { SimplePollerLike, OperationState } from "@azure/core-lro";
-import type {
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
+import {
   LinkedServiceResource,
   LinkedServiceGetLinkedServicesByWorkspaceOptionalParams,
   LinkedServiceCreateOrUpdateLinkedServiceOptionalParams,
@@ -25,16 +25,16 @@ import type {
 export interface LinkedServiceOperations {
   /**
    * Lists linked services.
-   * @param options - The options parameters.
+   * @param options The options parameters.
    */
   listLinkedServicesByWorkspace(
     options?: LinkedServiceGetLinkedServicesByWorkspaceOptionalParams,
   ): PagedAsyncIterableIterator<LinkedServiceResource>;
   /**
    * Creates or updates a linked service.
-   * @param linkedServiceName - The linked service name.
-   * @param linkedService - Linked service resource definition.
-   * @param options - The options parameters.
+   * @param linkedServiceName The linked service name.
+   * @param linkedService Linked service resource definition.
+   * @param options The options parameters.
    */
   beginCreateOrUpdateLinkedService(
     linkedServiceName: string,
@@ -48,9 +48,9 @@ export interface LinkedServiceOperations {
   >;
   /**
    * Creates or updates a linked service.
-   * @param linkedServiceName - The linked service name.
-   * @param linkedService - Linked service resource definition.
-   * @param options - The options parameters.
+   * @param linkedServiceName The linked service name.
+   * @param linkedService Linked service resource definition.
+   * @param options The options parameters.
    */
   beginCreateOrUpdateLinkedServiceAndWait(
     linkedServiceName: string,
@@ -59,8 +59,8 @@ export interface LinkedServiceOperations {
   ): Promise<LinkedServiceCreateOrUpdateLinkedServiceResponse>;
   /**
    * Gets a linked service.
-   * @param linkedServiceName - The linked service name.
-   * @param options - The options parameters.
+   * @param linkedServiceName The linked service name.
+   * @param options The options parameters.
    */
   getLinkedService(
     linkedServiceName: string,
@@ -68,8 +68,8 @@ export interface LinkedServiceOperations {
   ): Promise<LinkedServiceGetLinkedServiceResponse>;
   /**
    * Deletes a linked service.
-   * @param linkedServiceName - The linked service name.
-   * @param options - The options parameters.
+   * @param linkedServiceName The linked service name.
+   * @param options The options parameters.
    */
   beginDeleteLinkedService(
     linkedServiceName: string,
@@ -77,8 +77,8 @@ export interface LinkedServiceOperations {
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a linked service.
-   * @param linkedServiceName - The linked service name.
-   * @param options - The options parameters.
+   * @param linkedServiceName The linked service name.
+   * @param options The options parameters.
    */
   beginDeleteLinkedServiceAndWait(
     linkedServiceName: string,
@@ -86,9 +86,9 @@ export interface LinkedServiceOperations {
   ): Promise<void>;
   /**
    * Renames a linked service.
-   * @param linkedServiceName - The linked service name.
-   * @param request - proposed new name.
-   * @param options - The options parameters.
+   * @param linkedServiceName The linked service name.
+   * @param request proposed new name.
+   * @param options The options parameters.
    */
   beginRenameLinkedService(
     linkedServiceName: string,
@@ -97,9 +97,9 @@ export interface LinkedServiceOperations {
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Renames a linked service.
-   * @param linkedServiceName - The linked service name.
-   * @param request - proposed new name.
-   * @param options - The options parameters.
+   * @param linkedServiceName The linked service name.
+   * @param request proposed new name.
+   * @param options The options parameters.
    */
   beginRenameLinkedServiceAndWait(
     linkedServiceName: string,
