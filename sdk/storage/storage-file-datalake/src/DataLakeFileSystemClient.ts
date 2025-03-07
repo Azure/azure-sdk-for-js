@@ -437,62 +437,109 @@ export class DataLakeFileSystemClient extends StorageClient {
    *
    * Example using `for await` syntax:
    *
-   * ```js
-   * // Get the fileSystemClient before you run these snippets,
-   * // Can be obtained from `serviceClient.getFileSystemClient("<your-filesystem-name>");`
+   * ```ts snippet:ReadmeSampleListPaths
+   * import { DataLakeServiceClient } from "@azure/storage-file-datalake";
+   * import { DefaultAzureCredential } from "@azure/identity";
+   *
+   * const account = "<account>";
+   * const datalakeServiceClient = new DataLakeServiceClient(
+   *   `https://${account}.dfs.core.windows.net`,
+   *   new DefaultAzureCredential(),
+   * );
+   *
+   * const fileSystemName = "<file system name>";
+   * const fileSystemClient = datalakeServiceClient.getFileSystemClient(fileSystemName);
+   *
    * let i = 1;
-   * for await (const path of fileSystemClient.listPaths()) {
-   *   console.log(`Path ${i++}: ${path.name}, isDirectory?: ${path.isDirectory}`);
+   * const paths = fileSystemClient.listPaths();
+   * for await (const path of paths) {
+   *   console.log(`Path ${i++}: ${path.name}, is directory: ${path.isDirectory}`);
    * }
    * ```
    *
    * Example using `iter.next()`:
    *
-   * ```js
+   * ```ts snippet:ReadmeSampleListPaths_Iterator
+   * import { DataLakeServiceClient } from "@azure/storage-file-datalake";
+   * import { DefaultAzureCredential } from "@azure/identity";
+   *
+   * const account = "<account>";
+   * const datalakeServiceClient = new DataLakeServiceClient(
+   *   `https://${account}.dfs.core.windows.net`,
+   *   new DefaultAzureCredential(),
+   * );
+   *
+   * const fileSystemName = "<file system name>";
+   * const fileSystemClient = datalakeServiceClient.getFileSystemClient(fileSystemName);
+   *
    * let i = 1;
-   * let iter = fileSystemClient.listPaths();
-   * let pathItem = await iter.next();
-   * while (!pathItem.done) {
-   *   console.log(`Path ${i++}: ${pathItem.value.name}, isDirectory?: ${pathItem.value.isDirectory}`);
-   *   pathItem = await iter.next();
+   * const paths = fileSystemClient.listPaths();
+   * let { value, done } = await paths.next();
+   * while (!done) {
+   *   console.log(`Path ${i++}: ${value.name}, is directory: ${value.isDirectory}`);
+   *   ({ value, done } = await paths.next());
    * }
    * ```
    *
    * Example using `byPage()`:
    *
-   * ```js
-   * // passing optional maxPageSize in the page settings
+   * ```ts snippet:ReadmeSampleListPaths_ByPage
+   * import { DataLakeServiceClient } from "@azure/storage-file-datalake";
+   * import { DefaultAzureCredential } from "@azure/identity";
+   *
+   * const account = "<account>";
+   * const datalakeServiceClient = new DataLakeServiceClient(
+   *   `https://${account}.dfs.core.windows.net`,
+   *   new DefaultAzureCredential(),
+   * );
+   *
+   * const fileSystemName = "<file system name>";
+   * const fileSystemClient = datalakeServiceClient.getFileSystemClient(fileSystemName);
+   *
    * let i = 1;
    * for await (const response of fileSystemClient.listPaths().byPage({ maxPageSize: 20 })) {
-   *   for (const path of response.pathItems) {
-   *     console.log(`Path ${i++}: ${path.name}, isDirectory?: ${path.isDirectory}`);
+   *   if (response.pathItems) {
+   *     for (const path of response.pathItems) {
+   *       console.log(`Path ${i++}: ${path.name}, is directory: ${path.isDirectory}`);
+   *     }
    *   }
    * }
    * ```
    *
    * Example using paging with a marker:
    *
-   * ```js
+   * ```ts snippet:ReadmeSampleListPaths_Continuation
+   * import { DataLakeServiceClient } from "@azure/storage-file-datalake";
+   * import { DefaultAzureCredential } from "@azure/identity";
+   *
+   * const account = "<account>";
+   * const datalakeServiceClient = new DataLakeServiceClient(
+   *   `https://${account}.dfs.core.windows.net`,
+   *   new DefaultAzureCredential(),
+   * );
+   *
+   * const fileSystemName = "<file system name>";
+   * const fileSystemClient = datalakeServiceClient.getFileSystemClient(fileSystemName);
+   *
    * let i = 1;
-   * let iterator = fileSystemClient.listPaths().byPage({ maxPageSize: 2 });
-   * let response = (await iterator.next()).value;
-   *
-   * // Prints 2 path names
-   * for (const path of response.pathItems) {
-   *   console.log(`Path ${i++}: ${path.name}, isDirectory?: ${path.isDirectory}`);
+   * let paths = fileSystemClient.listPaths().byPage({ maxPageSize: 2 });
+   * let response = (await paths.next()).value;
+   * // Prints 2 paths
+   * if (response.pathItems) {
+   *   for (const path of response.pathItems) {
+   *     console.log(`Path ${i++}: ${path.name}, is directory: ${path.isDirectory}`);
+   *   }
    * }
-   *
    * // Gets next marker
    * let marker = response.continuationToken;
-   *
    * // Passing next marker as continuationToken
-   *
-   * iterator = fileSystemClient.listPaths().byPage({ continuationToken: marker, maxPageSize: 10 });
-   * response = (await iterator.next()).value;
-   *
-   * // Prints 10 path names
-   * for (const path of response.pathItems) {
-   *   console.log(`Path ${i++}: ${path.name}, isDirectory?: ${path.isDirectory}`);
+   * paths = fileSystemClient.listPaths().byPage({ continuationToken: marker, maxPageSize: 10 });
+   * response = (await paths.next()).value;
+   * // Prints 10 paths
+   * if (response.pathItems) {
+   *   for (const path of response.pathItems) {
+   *     console.log(`Path ${i++}: ${path.name}, is directory: ${path.isDirectory}`);
+   *   }
    * }
    * ```
    *
@@ -581,62 +628,111 @@ export class DataLakeFileSystemClient extends StorageClient {
    *
    * Example using `for await` syntax:
    *
-   * ```js
-   * // Get the fileSystemClient before you run these snippets,
-   * // Can be obtained from `serviceClient.getFileSystemClient("<your-filesystem-name>");`
+   * ```ts snippet:ReadmeSampleListDeletedPaths
+   * import { DataLakeServiceClient } from "@azure/storage-file-datalake";
+   * import { DefaultAzureCredential } from "@azure/identity";
+   *
+   * const account = "<account>";
+   * const datalakeServiceClient = new DataLakeServiceClient(
+   *   `https://${account}.dfs.core.windows.net`,
+   *   new DefaultAzureCredential(),
+   * );
+   *
+   * const fileSystemName = "<file system name>";
+   * const fileSystemClient = datalakeServiceClient.getFileSystemClient(fileSystemName);
+   *
    * let i = 1;
-   * for await (const deletePath of fileSystemClient.listDeletedPaths()) {
-   *   console.log(`Path ${i++}: ${deletePath.name}`);
+   * const deletedPaths = fileSystemClient.listDeletedPaths();
+   * for await (const deletedPath of deletedPaths) {
+   *   console.log(`Deleted path ${i++}: ${deletedPath.name}, deleted on: ${deletedPath.deletedOn}`);
    * }
    * ```
    *
    * Example using `iter.next()`:
    *
-   * ```js
+   * ```ts snippet:ReadmeSampleListDeletedPaths_Iterator
+   * import { DataLakeServiceClient } from "@azure/storage-file-datalake";
+   * import { DefaultAzureCredential } from "@azure/identity";
+   *
+   * const account = "<account>";
+   * const datalakeServiceClient = new DataLakeServiceClient(
+   *   `https://${account}.dfs.core.windows.net`,
+   *   new DefaultAzureCredential(),
+   * );
+   *
+   * const fileSystemName = "<file system name>";
+   * const fileSystemClient = datalakeServiceClient.getFileSystemClient(fileSystemName);
+   *
    * let i = 1;
-   * let iter = fileSystemClient.listDeletedPaths();
-   * let deletedPathItem = await iter.next();
-   * while (!deletedPathItem.done) {
-   *   console.log(`Path ${i++}: ${deletedPathItem.value.name}`);
-   *   pathItem = await iter.next();
+   * const deletedPaths = fileSystemClient.listDeletedPaths();
+   * let { value, done } = await deletedPaths.next();
+   * while (!done) {
+   *   console.log(`Deleted path ${i++}: ${value.name}, deleted on: ${value.deletedOn}`);
+   *   ({ value, done } = await deletedPaths.next());
    * }
    * ```
    *
    * Example using `byPage()`:
    *
-   * ```js
-   * // passing optional maxPageSize in the page settings
+   * ```ts snippet:ReadmeSampleListDeletedPaths_ByPage
+   * import { DataLakeServiceClient } from "@azure/storage-file-datalake";
+   * import { DefaultAzureCredential } from "@azure/identity";
+   *
+   * const account = "<account>";
+   * const datalakeServiceClient = new DataLakeServiceClient(
+   *   `https://${account}.dfs.core.windows.net`,
+   *   new DefaultAzureCredential(),
+   * );
+   *
+   * const fileSystemName = "<file system name>";
+   * const fileSystemClient = datalakeServiceClient.getFileSystemClient(fileSystemName);
+   *
    * let i = 1;
    * for await (const response of fileSystemClient.listDeletedPaths().byPage({ maxPageSize: 20 })) {
-   *   for (const deletePath of response.pathItems) {
-   *     console.log(`Path ${i++}: ${deletePath.name}`);
+   *   if (response.deletedPathItems) {
+   *     for (const deletedPath of response.deletedPathItems) {
+   *       console.log(`Deleted path ${i++}: ${deletedPath.name}, deleted on: ${deletedPath.deletedOn}`);
+   *     }
    *   }
    * }
    * ```
    *
    * Example using paging with a marker:
    *
-   * ```js
+   * ```ts snippet:ReadmeSampleListDeletedPaths_Continuation
+   * import { DataLakeServiceClient } from "@azure/storage-file-datalake";
+   * import { DefaultAzureCredential } from "@azure/identity";
+   *
+   * const account = "<account>";
+   * const datalakeServiceClient = new DataLakeServiceClient(
+   *   `https://${account}.dfs.core.windows.net`,
+   *   new DefaultAzureCredential(),
+   * );
+   *
+   * const fileSystemName = "<file system name>";
+   * const fileSystemClient = datalakeServiceClient.getFileSystemClient(fileSystemName);
+   *
    * let i = 1;
-   * let iterator = fileSystemClient.listDeletedPaths().byPage({ maxPageSize: 2 });
-   * let response = (await iterator.next()).value;
-   *
-   * // Prints 2 path names
-   * for (const path of response.pathItems) {
-   *   console.log(`Path ${i++}: ${path.name}}`);
+   * let deletedPaths = fileSystemClient.listDeletedPaths().byPage({ maxPageSize: 2 });
+   * let response = (await deletedPaths.next()).value;
+   * // Prints 2 deleted paths
+   * if (response.deletedPathItems) {
+   *   for (const deletedPath of response.deletedPathItems) {
+   *     console.log(`Deleted path ${i++}: ${deletedPath.name}, deleted on: ${deletedPath.deletedOn}`);
+   *   }
    * }
-   *
    * // Gets next marker
    * let marker = response.continuationToken;
-   *
    * // Passing next marker as continuationToken
-   *
-   * iterator = fileSystemClient.listDeletedPaths().byPage({ continuationToken: marker, maxPageSize: 10 });
-   * response = (await iterator.next()).value;
-   *
-   * // Prints 10 path names
-   * for (const deletePath of response.deletedPathItems) {
-   *   console.log(`Path ${i++}: ${deletePath.name}`);
+   * deletedPaths = fileSystemClient
+   *   .listDeletedPaths()
+   *   .byPage({ continuationToken: marker, maxPageSize: 10 });
+   * response = (await deletedPaths.next()).value;
+   * // Prints 10 deleted paths
+   * if (response.deletedPathItems) {
+   *   for (const deletedPath of response.deletedPathItems) {
+   *     console.log(`Deleted path ${i++}: ${deletedPath.name}, deleted on: ${deletedPath.deletedOn}`);
+   *   }
    * }
    * ```
    *

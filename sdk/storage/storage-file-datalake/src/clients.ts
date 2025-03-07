@@ -1276,15 +1276,33 @@ export class DataLakeFileClient extends DataLakePathClient {
    *
    * * Example usage (Node.js):
    *
-   * ```js
-   * // Download and convert a file to a string
-   * const downloadResponse = await fileClient.read();
-   * const downloaded = await streamToBuffer(downloadResponse.readableStreamBody);
-   * console.log("Downloaded file content:", downloaded.toString());
+   * ```ts snippet:ReadmeSampleDownloadFile_Node
+   * import { DataLakeServiceClient } from "@azure/storage-file-datalake";
+   * import { DefaultAzureCredential } from "@azure/identity";
    *
-   * async function streamToBuffer(readableStream) {
+   * const account = "<account>";
+   * const datalakeServiceClient = new DataLakeServiceClient(
+   *   `https://${account}.dfs.core.windows.net`,
+   *   new DefaultAzureCredential(),
+   * );
+   *
+   * const fileSystemName = "<file system name>";
+   * const fileName = "<file name>";
+   * const fileSystemClient = datalakeServiceClient.getFileSystemClient(fileSystemName);
+   * const fileClient = fileSystemClient.getFileClient(fileName);
+   *
+   * // Get file content from position 0 to the end
+   * // In Node.js, get downloaded data by accessing downloadResponse.readableStreamBody
+   * const downloadResponse = await fileClient.read();
+   * if (downloadResponse.readableStreamBody) {
+   *   const downloaded = await streamToBuffer(downloadResponse.readableStreamBody);
+   *   console.log("Downloaded file content:", downloaded.toString());
+   * }
+   *
+   * // [Node.js only] A helper method used to read a Node.js readable stream into a Buffer.
+   * async function streamToBuffer(readableStream: NodeJS.ReadableStream): Promise<Buffer> {
    *   return new Promise((resolve, reject) => {
-   *     const chunks = [];
+   *     const chunks: Buffer[] = [];
    *     readableStream.on("data", (data) => {
    *       chunks.push(data instanceof Buffer ? data : Buffer.from(data));
    *     });
@@ -1298,16 +1316,31 @@ export class DataLakeFileClient extends DataLakePathClient {
    *
    * Example usage (browser):
    *
-   * ```js
-   * // Download and convert a file to a string
+   * ```ts snippet:ReadmeSampleDownloadFile_Browser
+   * import { DataLakeServiceClient } from "@azure/storage-file-datalake";
+   *
+   * const account = "<account>";
+   * const sas = "<sas token>";
+   * const datalakeServiceClient = new DataLakeServiceClient(
+   *   `https://${account}.dfs.core.windows.net${sas}`,
+   * );
+   *
+   * const fileSystemName = "<file system name>";
+   * const fileName = "<file name>";
+   * const fileSystemClient = datalakeServiceClient.getFileSystemClient(fileSystemName);
+   * const fileClient = fileSystemClient.getFileClient(fileName);
+   *
+   * // Get file content from position 0 to the end
+   * // In browsers, get downloaded data by accessing downloadResponse.contentAsBlob
    * const downloadResponse = await fileClient.read();
    * const downloaded = await blobToString(await downloadResponse.contentAsBlob);
    * console.log("Downloaded file content", downloaded);
    *
-   * async function blobToString(blob: Blob): Promise<string> {
+   * // [Browsers only] A helper method used to convert a browser Blob into string.
+   * async function blobToString(blob: Blob) {
    *   const fileReader = new FileReader();
-   *   return new Promise<string>((resolve, reject) => {
-   *     fileReader.onloadend = (ev: any) => {
+   *   return new Promise((resolve, reject) => {
+   *     fileReader.onloadend = (ev) => {
    *       resolve(ev.target!.result);
    *     };
    *     fileReader.onerror = reject;
@@ -1854,15 +1887,31 @@ export class DataLakeFileClient extends DataLakePathClient {
    *
    * Example usage (Node.js):
    *
-   * ```js
+   * ```ts snippet:ReadmeSampleQueryFile_Node
+   * import { DataLakeServiceClient } from "@azure/storage-file-datalake";
+   *
+   * const account = "<account>";
+   * const sas = "<sas token>";
+   * const datalakeServiceClient = new DataLakeServiceClient(
+   *   `https://${account}.dfs.core.windows.net${sas}`,
+   * );
+   *
+   * const fileSystemName = "<file system name>";
+   * const fileName = "<file name>";
+   * const fileSystemClient = datalakeServiceClient.getFileSystemClient(fileSystemName);
+   * const fileClient = fileSystemClient.getFileClient(fileName);
+   *
    * // Query and convert a file to a string
    * const queryResponse = await fileClient.query("select * from BlobStorage");
-   * const downloaded = (await streamToBuffer(queryResponse.readableStreamBody)).toString();
-   * console.log("Query file content:", downloaded);
+   * if (queryResponse.readableStreamBody) {
+   *   const responseBuffer = await streamToBuffer(queryResponse.readableStreamBody);
+   *   const downloaded = responseBuffer.toString();
+   *   console.log(`Query file content: ${downloaded}`);
+   * }
    *
-   * async function streamToBuffer(readableStream) {
+   * async function streamToBuffer(readableStream: NodeJS.ReadableStream): Promise<Buffer> {
    *   return new Promise((resolve, reject) => {
-   *     const chunks = [];
+   *     const chunks: Buffer[] = [];
    *     readableStream.on("data", (data) => {
    *       chunks.push(data instanceof Buffer ? data : Buffer.from(data));
    *     });
