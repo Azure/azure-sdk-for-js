@@ -265,6 +265,7 @@ export function generateMsalConfiguration(
   // TODO: move and reuse getIdentityClientAuthorityHost
   const authority = getAuthority(resolvedTenant, getAuthorityHost(msalClientOptions));
 
+  // it should take this identity client as a parameter and should be able to set this from WI constructor while making ClientAssertionCredential
   const httpClient = new IdentityClient({
     ...msalClientOptions.tokenCredentialOptions,
     authorityHost: authority,

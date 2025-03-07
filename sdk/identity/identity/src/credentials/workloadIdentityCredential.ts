@@ -11,6 +11,7 @@ import { checkTenantId } from "../util/tenantIdUtils.js";
 import { readFile } from "node:fs/promises";
 import * as forge from "node-forge";
 import { readFileSync } from "node:fs";
+import { IdentityClient } from "../client/identityClient.js";
 
 const credentialName = "WorkloadIdentityCredential";
 /**
@@ -45,7 +46,7 @@ export class WorkloadIdentityCredential implements TokenCredential {
   private azureFederatedTokenFileContent: string | undefined = undefined;
   private cacheDate: number | undefined = undefined;
   private federatedTokenFilePath: string | undefined;
-
+  private sniIdentityClient: IdentityClient | undefined; // this is the http client that will be used to make the request to the token endpoint - sni+https
   /**
    * WorkloadIdentityCredential supports Microsoft Entra Workload ID on Kubernetes.
    *
@@ -108,7 +109,9 @@ export class WorkloadIdentityCredential implements TokenCredential {
         const caData = readFileSync(caFile);
         certPool.addCert(forge.pki.certificateFromPem(caData));
       }
-   
+      // set the this.sniIdentityClient
+      // new implementation of INetworkInterface
+      // which network interface will be used to make ClientAssertionCredential request
 
     }
 
@@ -120,6 +123,13 @@ export class WorkloadIdentityCredential implements TokenCredential {
     );
   
   }
+// if i can modify 
+// extra boolean which is uninitiliazed - check the env vars, if they are not set, set initialize to true
+// if they are set, do all the logic and set initialize to true
+// ultimately, we should be able to configure the http transport layer passing to msal client
+// you should be able to intercept the http request with the new token request and pass the settings to msal client
+
+
 
   /**
    * Authenticates with Microsoft Entra ID and returns an access token if successful.

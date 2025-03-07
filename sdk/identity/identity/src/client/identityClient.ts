@@ -60,6 +60,8 @@ export function getIdentityClientAuthorityHost(options?: TokenCredentialOptions)
  * by calling to the `abortRequests()` method.
  *
  */
+
+// extend this IdentityClient that overrides 
 export class IdentityClient extends ServiceClient implements INetworkModule {
   public authorityHost: string;
   private allowLoggingAccountIdentifiers?: boolean;
@@ -251,7 +253,8 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
   }
 
   // The MSAL network module methods follow
-
+  // and override this method
+  // check the url to see if it points to token, then create this pipleine req or use the sni config to set the transport layer
   async sendGetRequestAsync<T>(
     url: string,
     options?: NetworkRequestOptions,
