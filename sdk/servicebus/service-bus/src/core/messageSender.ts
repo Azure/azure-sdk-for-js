@@ -31,6 +31,7 @@ import type { AbortSignalLike } from "@azure/abort-controller";
 import { ServiceBusError, translateServiceBusError } from "../serviceBusError.js";
 import { isDefined } from "@azure/core-util";
 import { defaultDataTransformer } from "../dataTransformer.js";
+import { maxBatchSizePremium, maxBatchSizeStandard } from "../util/constants.js";
 
 /**
  * @internal
@@ -401,10 +402,17 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
       retryOptions: this._retryOptions,
       abortSignal: options?.abortSignal,
     });
+
+    if (maxMessageSize > maxBatchSizePremium) {
+      maxMessageSize = maxBatchSizePremium;
+    } else {
+      maxMessageSize = maxBatchSizeStandard;
+    }
+
     if (options?.maxSizeInBytes) {
       if (options.maxSizeInBytes > maxMessageSize!) {
         const error = new Error(
-          `Max message size (${options.maxSizeInBytes} bytes) is greater than maximum message size (${maxMessageSize} bytes) on the AMQP sender link.`,
+          `Max message size (${options.maxSizeInBytes} bytes) is greater than maximum batch size (${maxMessageSize} bytes).`,
         );
         throw error;
       }

@@ -13,6 +13,8 @@
 
 ### Bugs Fixed
 
+- `MessageSender.createBatch()` now report error if `maxSizeInBytes` option is greater than maximum batch size.
+
 ### Other Changes
 
 - Upgrade dependency `@azure/abort-controller` version to `^2.1.2`.

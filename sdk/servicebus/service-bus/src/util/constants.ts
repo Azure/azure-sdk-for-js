@@ -27,6 +27,16 @@ export const receiveDrainTimeoutInMs = 200;
 export const max32BitNumber = Math.pow(2, 31) - 1;
 
 /**
+ * @internal
+ */
+export const maxBatchSizeStandard = 256 * 1024;
+
+/**
+ * @internal
+ */
+export const maxBatchSizePremium = 1024 * 1024;
+
+/**
  * Queue name identifier
  * @internal
  */
