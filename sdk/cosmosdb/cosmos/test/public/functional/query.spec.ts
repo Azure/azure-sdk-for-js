@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 import assert from "assert";
 import type { Suite } from "mocha";
-import type { ContainerDefinition } from "../../../src";
+import type { ContainerDefinition, FeedOptions } from "../../../src";
 import { CosmosClient } from "../../../src";
 import type { Container } from "../../../src/";
 import { endpoint } from "../common/_testConfig";
@@ -570,6 +570,91 @@ describe("Queries", function (this: Suite) {
         assert.equal(sum4.length, 1);
         assert.strictEqual(sum4[0], 115, "Sum should be 115");
       });
+    });
+  });
+
+  describe("Query With DISTCINCT, ORDER BY and LIMIT", function (this: Suite) {
+    let container: Container;
+    before(async function () {
+      const containerDefinition = {
+        id: "conti1",
+        partitionKey: { paths: ["/name"], kind: PartitionKeyKind.Hash },
+        throughput: 13000,
+      };
+      container = await getTestContainer(
+        "Query With DISTCINCT, ORDER BY and LIMIT",
+        client,
+        containerDefinition,
+      );
+      const sampleData = {
+        id: "1",
+        name: "A",
+        age: 28,
+      };
+      for (let i = 1; i <= 10; i++) {
+        sampleData.id = i.toString() + "A";
+        sampleData.name = "A";
+        sampleData.age = i;
+        await container.items.create(sampleData);
+      }
+      for (let i = 1; i <= 10; i++) {
+        sampleData.id = i.toString() + "B";
+        sampleData.name = "B";
+        sampleData.age = i;
+        await container.items.create(sampleData);
+      }
+      for (let i = 1; i <= 10; i++) {
+        sampleData.id = i.toString() + "C";
+        sampleData.name = "C";
+        sampleData.age = i;
+        await container.items.create(sampleData);
+      }
+    });
+
+    const expectedResult = [
+      { age: 1 },
+      { age: 2 },
+      { age: 3 },
+      { age: 4 },
+      { age: 5 },
+      { age: 6 },
+      { age: 7 },
+      { age: 8 },
+      { age: 9 },
+      { age: 10 },
+    ];
+
+    it("query with offset 0 and limit 10 should fetch correct number of results", async function () {
+      const query = "SELECT DISTINCT c.age FROM c ORDER BY c.age ASC OFFSET 0 LIMIT 10";
+      const options: FeedOptions = {
+        forceQueryPlan: true,
+        maxItemCount: 2,
+      };
+      const queryIterator = container.items.query(query, options);
+      const { resources: results } = await queryIterator.fetchAll();
+      assert.deepEqual(results, expectedResult);
+    });
+
+    it("query with offset 5 and limit 10 should fetch correct number of results", async function () {
+      const query = "SELECT DISTINCT c.age FROM c ORDER BY c.age ASC OFFSET 5 LIMIT 10";
+      const options: FeedOptions = {
+        forceQueryPlan: true,
+        maxItemCount: 2,
+      };
+      const queryIterator = container.items.query(query, options);
+      const { resources: results } = await queryIterator.fetchAll();
+      assert.deepEqual(results, expectedResult.slice(5));
+    });
+
+    it("query with TOP 10 should fetch correct number of results", async function () {
+      const query = "SELECT DISTINCT TOP 10  c.age FROM c ORDER BY c.age ASC";
+      const options: FeedOptions = {
+        forceQueryPlan: true,
+        maxItemCount: 2,
+      };
+      const queryIterator = container.items.query(query, options);
+      const { resources: results } = await queryIterator.fetchAll();
+      assert.deepEqual(results, expectedResult);
     });
   });
 });
