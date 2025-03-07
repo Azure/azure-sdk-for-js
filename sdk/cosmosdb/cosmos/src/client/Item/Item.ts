@@ -12,12 +12,16 @@ import {
   ResourceType,
   StatusCodes,
 } from "../../common";
-import { PartitionKey, PartitionKeyInternal, convertToInternalPartitionKey } from "../../documents";
-import { ErrorResponse, RequestOptions, Response } from "../../request";
-import { PatchOperationType, PatchRequestBody } from "../../utils/patch";
-import { Container } from "../Container";
-import { Resource } from "../Resource";
-import { ItemDefinition } from "./ItemDefinition";
+import type { PartitionKey, PartitionKeyInternal } from "../../documents";
+import { convertToInternalPartitionKey } from "../../documents";
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+import type { RequestOptions, Response } from "../../request";
+import { ErrorResponse } from "../../request";
+import type { PatchRequestBody } from "../../utils/patch";
+import { PatchOperationType } from "../../utils/patch";
+import type { Container } from "../Container";
+import type { Resource } from "../Resource";
+import type { ItemDefinition } from "./ItemDefinition";
 import { ItemResponse } from "./ItemResponse";
 import { getEmptyCosmosDiagnostics, withDiagnostics } from "../../utils/diagnostics";
 import { setPartitionKeyIfUndefined } from "../../extractPartitionKey";
@@ -65,15 +69,24 @@ export class Item {
    * @param options - Additional options for the request
    *
    * @example Using custom type for response
-   * ```typescript
+   * ```ts snippet:ItemRead
+   * import { CosmosClient } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   *
+   * const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+   *
+   * const { container } = await database.containers.createIfNotExists({ id: "Test Database" });
+   *
    * interface TodoItem {
    *   title: string;
-   *   done: bool;
+   *   done: boolean;
    *   id: string;
    * }
    *
-   * let item: TodoItem;
-   * ({body: item} = await item.read<TodoItem>());
+   * const { resource: item } = await container.item("id").read<TodoItem>();
    * ```
    */
   public async read<T extends ItemDefinition = any>(
