@@ -611,6 +611,19 @@ describe("Queries", function (this: Suite) {
       }
     });
 
+    const expectedResult = [
+      { age: 1 },
+      { age: 2 },
+      { age: 3 },
+      { age: 4 },
+      { age: 5 },
+      { age: 6 },
+      { age: 7 },
+      { age: 8 },
+      { age: 9 },
+      { age: 10 },
+    ];
+
     it("query with offset 0 and limit 10 should fetch correct number of results", async function () {
       const query = "SELECT DISTINCT c.age FROM c ORDER BY c.age ASC OFFSET 0 LIMIT 10";
       const options: FeedOptions = {
@@ -619,7 +632,7 @@ describe("Queries", function (this: Suite) {
       };
       const queryIterator = container.items.query(query, options);
       const { resources: results } = await queryIterator.fetchAll();
-      assert.equal(results.length, 10);
+      assert.deepEqual(results, expectedResult);
     });
 
     it("query with offset 5 and limit 10 should fetch correct number of results", async function () {
@@ -630,7 +643,7 @@ describe("Queries", function (this: Suite) {
       };
       const queryIterator = container.items.query(query, options);
       const { resources: results } = await queryIterator.fetchAll();
-      assert.equal(results.length, 5);
+      assert.deepEqual(results, expectedResult.slice(5));
     });
 
     it("query with TOP 10 should fetch correct number of results", async function () {
@@ -641,7 +654,7 @@ describe("Queries", function (this: Suite) {
       };
       const queryIterator = container.items.query(query, options);
       const { resources: results } = await queryIterator.fetchAll();
-      assert.equal(results.length, 10);
+      assert.deepEqual(results, expectedResult);
     });
   });
 });
