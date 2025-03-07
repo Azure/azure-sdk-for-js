@@ -84,7 +84,7 @@ describe("ClientSideEncryption", function (this: Suite) {
     encryptionClient = new CosmosClient({
       endpoint: endpoint,
       key: masterKey,
-      encryptionParameters: {
+      clientEncryptionOptions: {
         keyEncryptionKeyResolver: testKeyEncryptionKeyResolver,
         encryptionKeyResolverName: testKeyVault,
         encryptionKeyTimeToLive: EncryptionTimeToLive.NoTTL(),
@@ -313,7 +313,7 @@ describe("ClientSideEncryption", function (this: Suite) {
     const newClient = new CosmosClient({
       endpoint: endpoint,
       key: masterKey,
-      encryptionParameters: {
+      clientEncryptionOptions: {
         keyEncryptionKeyResolver: testKeyResolver,
         encryptionKeyResolverName: testKeyVault,
         encryptionKeyTimeToLive: EncryptionTimeToLive.FromMinutes(1),
@@ -356,7 +356,7 @@ describe("ClientSideEncryption", function (this: Suite) {
     const clientWithBulk = new CosmosClient({
       endpoint: endpoint,
       key: masterKey,
-      encryptionParameters: {
+      clientEncryptionOptions: {
         keyEncryptionKeyResolver: new MockKeyVaultEncryptionKeyResolver(),
         encryptionKeyResolverName: testKeyVault,
       },
@@ -441,7 +441,7 @@ describe("ClientSideEncryption", function (this: Suite) {
     const encryptionCosmosClient = new CosmosClient({
       endpoint: endpoint,
       key: masterKey,
-      encryptionParameters: {
+      clientEncryptionOptions: {
         keyEncryptionKeyResolver: new MockKeyVaultEncryptionKeyResolver(),
         encryptionKeyResolverName: testKeyVault,
         encryptionKeyTimeToLive: EncryptionTimeToLive.NoTTL(),
@@ -523,7 +523,7 @@ describe("ClientSideEncryption", function (this: Suite) {
     const client = new CosmosClient({
       endpoint: endpoint,
       key: masterKey,
-      encryptionParameters: {
+      clientEncryptionOptions: {
         keyEncryptionKeyResolver: testkeyEncryptionKeyResolver,
         encryptionKeyResolverName: testKeyVault,
         encryptionKeyTimeToLive: EncryptionTimeToLive.NoTTL(),
@@ -1198,7 +1198,7 @@ describe("ClientSideEncryption", function (this: Suite) {
     const newClient = new CosmosClient({
       endpoint: endpoint,
       key: masterKey,
-      encryptionParameters: {
+      clientEncryptionOptions: {
         keyEncryptionKeyResolver: new MockKeyVaultEncryptionKeyResolver(),
         encryptionKeyResolverName: testKeyVault,
       },
@@ -1300,7 +1300,7 @@ describe("ClientSideEncryption", function (this: Suite) {
     const otherClient = new CosmosClient({
       endpoint: endpoint,
       key: masterKey,
-      encryptionParameters: {
+      clientEncryptionOptions: {
         keyEncryptionKeyResolver: new MockKeyVaultEncryptionKeyResolver(),
         encryptionKeyResolverName: testKeyVault,
       },
@@ -1474,7 +1474,7 @@ describe("ClientSideEncryption", function (this: Suite) {
     const otherClient = new CosmosClient({
       endpoint: endpoint,
       key: masterKey,
-      encryptionParameters: {
+      clientEncryptionOptions: {
         keyEncryptionKeyResolver: new MockKeyVaultEncryptionKeyResolver(),
         encryptionKeyResolverName: testKeyVault,
       },
@@ -1585,7 +1585,7 @@ describe("ClientSideEncryption", function (this: Suite) {
     const otherClient = new CosmosClient({
       endpoint: endpoint,
       key: masterKey,
-      encryptionParameters: {
+      clientEncryptionOptions: {
         keyEncryptionKeyResolver: new MockKeyVaultEncryptionKeyResolver(),
         encryptionKeyResolverName: testKeyVault,
       },
@@ -1708,7 +1708,7 @@ describe("ClientSideEncryption", function (this: Suite) {
     const otherClient = new CosmosClient({
       endpoint: endpoint,
       key: masterKey,
-      encryptionParameters: {
+      clientEncryptionOptions: {
         keyEncryptionKeyResolver: new MockKeyVaultEncryptionKeyResolver(),
         encryptionKeyResolverName: testKeyVault,
       },
@@ -1808,7 +1808,7 @@ describe("ClientSideEncryption", function (this: Suite) {
     const mainCLient = new CosmosClient({
       endpoint: endpoint,
       key: masterKey,
-      encryptionParameters: {
+      clientEncryptionOptions: {
         keyEncryptionKeyResolver: new MockKeyVaultEncryptionKeyResolver(),
         encryptionKeyResolverName: testKeyVault,
         encryptionKeyTimeToLive: EncryptionTimeToLive.FromMinutes(30),
@@ -1858,7 +1858,7 @@ describe("ClientSideEncryption", function (this: Suite) {
     const otherClient = new CosmosClient({
       endpoint: endpoint,
       key: masterKey,
-      encryptionParameters: {
+      clientEncryptionOptions: {
         keyEncryptionKeyResolver: new MockKeyVaultEncryptionKeyResolver(),
         encryptionKeyResolverName: testKeyVault,
         encryptionKeyTimeToLive: EncryptionTimeToLive.NoTTL(),
@@ -1952,7 +1952,7 @@ describe("ClientSideEncryption", function (this: Suite) {
     const otherClient2 = new CosmosClient({
       endpoint: endpoint,
       key: masterKey,
-      encryptionParameters: {
+      clientEncryptionOptions: {
         keyEncryptionKeyResolver: new MockKeyVaultEncryptionKeyResolver(),
         encryptionKeyResolverName: testKeyVault,
         encryptionKeyTimeToLive: EncryptionTimeToLive.FromHours(1),
@@ -2172,7 +2172,7 @@ describe("ClientSideEncryption", function (this: Suite) {
     const restrictedClient = new CosmosClient({
       endpoint: endpoint,
       resourceTokens: resourceTokens,
-      encryptionParameters: {
+      clientEncryptionOptions: {
         keyEncryptionKeyResolver: new MockKeyVaultEncryptionKeyResolver(),
         encryptionKeyResolverName: testKeyVault,
       },
@@ -2219,7 +2219,7 @@ describe("ClientSideEncryption", function (this: Suite) {
     const encryptionTestClient = new CosmosClient({
       endpoint: endpoint,
       key: masterKey,
-      encryptionParameters: {
+      clientEncryptionOptions: {
         keyEncryptionKeyResolver: keyEncryptionKeyResolver,
         encryptionKeyTimeToLive: EncryptionTimeToLive.NoTTL(),
         encryptionKeyResolverName: testKeyVault,
@@ -2329,7 +2329,7 @@ describe("ClientSideEncryption", function (this: Suite) {
     let newClient = new CosmosClient({
       endpoint: endpoint,
       key: masterKey,
-      encryptionParameters: {
+      clientEncryptionOptions: {
         keyEncryptionKeyResolver: testKeyResolver1,
         encryptionKeyResolverName: testKeyVault,
         encryptionKeyTimeToLive: EncryptionTimeToLive.NoTTL(),
@@ -2348,7 +2348,7 @@ describe("ClientSideEncryption", function (this: Suite) {
     newClient = new CosmosClient({
       endpoint: endpoint,
       key: masterKey,
-      encryptionParameters: {
+      clientEncryptionOptions: {
         keyEncryptionKeyResolver: testKeyResolver2,
         encryptionKeyResolverName: testKeyVault,
       },

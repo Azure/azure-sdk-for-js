@@ -63,7 +63,7 @@ export class ClientContext {
     private clientConfig: ClientConfigDiagnostic,
     public diagnosticLevel: CosmosDbDiagnosticLevel,
   ) {
-    if (cosmosClientOptions.encryptionParameters) {
+    if (cosmosClientOptions.clientEncryptionOptions) {
       this.enableEncryption = true;
     }
     this.connectionPolicy = cosmosClientOptions.connectionPolicy;

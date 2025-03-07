@@ -42,7 +42,7 @@ async function run() {
   client = new CosmosClient({
     endpoint: endpoint,
     key: key,
-    encryptionParameters: {
+    clientEncryptionOptions: {
       keyEncryptionKeyResolver: keyResolver,
       encryptionKeyResolverName: EncryptionKeyResolverName.AzureKeyVault,
       // We can set encryption key time to live in hours (EncryptionTimeToLive.FromHours),

@@ -345,6 +345,13 @@ export class ClientEncryptionKeyResponse extends ResourceResponse<ClientEncrypti
 }
 
 // @public
+export interface ClientEncryptionOptions {
+    encryptionKeyResolverName: string;
+    encryptionKeyTimeToLive?: EncryptionTimeToLive;
+    keyEncryptionKeyResolver: EncryptionKeyResolver;
+}
+
+// @public
 export class ClientEncryptionPolicy {
     constructor(includedPaths: ClientEncryptionIncludedPath[], policyFormatVersion?: number);
     includedPaths: ClientEncryptionIncludedPath[];
@@ -777,6 +784,7 @@ export class CosmosClient {
 export interface CosmosClientOptions {
     aadCredentials?: TokenCredential;
     agent?: Agent;
+    clientEncryptionOptions?: ClientEncryptionOptions;
     connectionPolicy?: ConnectionPolicy;
     connectionString?: string;
     consistencyLevel?: keyof typeof ConsistencyLevel;
@@ -786,7 +794,6 @@ export interface CosmosClientOptions {
     defaultHeaders?: CosmosHeaders_2;
     // (undocumented)
     diagnosticLevel?: CosmosDbDiagnosticLevel;
-    encryptionParameters?: EncryptionParameters;
     endpoint?: string;
     httpClient?: HttpClient;
     key?: string;
@@ -1087,13 +1094,6 @@ export class EncryptionKeyWrapMetadata {
     name: string;
     type: EncryptionKeyResolverName;
     value: string;
-}
-
-// @public
-export interface EncryptionParameters {
-    encryptionKeyResolverName: string;
-    encryptionKeyTimeToLive?: EncryptionTimeToLive;
-    keyEncryptionKeyResolver: EncryptionKeyResolver;
 }
 
 // @public

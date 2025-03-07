@@ -4,10 +4,9 @@
 import type { EncryptionKeyResolver, EncryptionTimeToLive } from ".";
 
 /**
- * Represents the encryption policy associated with a CosmosClient.
- * NOTE: keyEncryptionKeyResolver and encryptionKeyResolverName must be provided if enableEncryption is set to true
+ * Represents the encryption options associated with a CosmosClient.
  */
-export interface EncryptionParameters {
+export interface ClientEncryptionOptions {
   /** resolver that allows interaction with key encryption keys. */
   keyEncryptionKeyResolver: EncryptionKeyResolver;
   /** name of the resolver to use for client side encryption.
