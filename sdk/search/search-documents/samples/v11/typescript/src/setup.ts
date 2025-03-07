@@ -6,7 +6,7 @@
  */
 
 import { SearchIndexClient, SearchIndex, KnownAnalyzerNames } from "@azure/search-documents";
-import { Hotel } from "./interfaces";
+import { Hotel } from "./interfaces.js";
 
 export const WAIT_TIME = 4000;
 

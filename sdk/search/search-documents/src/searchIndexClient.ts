@@ -118,13 +118,10 @@ export class SearchIndexClient {
    * Creates an instance of SearchIndexClient.
    *
    * Example usage:
-   * ```ts
-   * const { SearchIndexClient, AzureKeyCredential } = require("@azure/search-documents");
+   * ```ts snippet:SearchIndexClientCreate
+   * import { SearchIndexClient } from "@azure/search-documents";
    *
-   * const client = new SearchIndexClient(
-   *   "<endpoint>",
-   *   new AzureKeyCredential("<Admin Key>");
-   * );
+   * const indexClient = new SearchIndexClient("<endpoint>", new AzureKeyCredential("<apiKey>"));
    * ```
    * @param endpoint - The endpoint of the search service
    * @param credential - Used to authenticate requests to the service.

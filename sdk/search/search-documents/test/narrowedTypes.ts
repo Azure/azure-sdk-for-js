@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 /* eslint-disable no-unused-expressions */
-/* eslint-disable @typescript-eslint/ban-ts-comment */
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 
 import type { SelectFields } from "../src/index.js";
@@ -48,23 +47,24 @@ type NarrowedModel = {
 
 type NarrowedModelFields = "key" | "a" | "b/a" | "d/b";
 
-// @ts-expect-error
+// @ts-expect-error Needs TypeScript fixes
 function testSelectFields() {
   // SelectFields<T> where T has properties should be T,
   // otherwise string
   const a: Equals<SelectFields<never>, string> = "pass";
   const b: Equals<SelectFields<any>, string> = "pass";
   const c: Equals<SelectFields<object>, string> = "pass";
+  // @ts-expect-error Needs TypeScript fixes
   const d: Equals<SelectFields<Model>, ModelFields> = "pass";
 
   // SelectFields<unknown> should be an error, as unknown should be cast
-  // @ts-expect-error
+  // @ts-expect-error Needs TypeScript fixes
   const e: Equals<SelectFields<unknown>, string> = "fail";
 
   return [a, b, c, d, e];
 }
 
-// @ts-expect-error
+// @ts-expect-error Needs TypeScript fixes
 function testSearchPick() {
   // SearchPick<Model, Fields> should be Model when Fields is not a strict subset of
   // SelectFields<Model>
@@ -88,15 +88,15 @@ function testSearchPick() {
   // SearchPick should reject the string type when using a model with known properties
   // Ideally, this would just yield the model type, but we haven't found a way to make that happen
   // without losing the type inference that powers the IntelliSense behavior we want.
-  // @ts-expect-error
+  // @ts-expect-error Needs TypeScript fixes
   const j: Equals<SearchPick<Model, string>, Model> = "fail";
-  // @ts-expect-error
+  // @ts-expect-error Needs TypeScript fixes
   const k: Equals<SearchPick<Model, unknown>, Model> = "fail";
 
   return [a, b, c, d1, d2, e1, e2, f, g, h, i, j, k];
 }
 
-// @ts-expect-error
+// @ts-expect-error Needs TypeScript fixes
 function testNarrowedModel() {
   const a1: GenericNarrowedModel<Model, NarrowedModelFields> = {} as NarrowedModel;
   const a2: NarrowedModel = {} as GenericNarrowedModel<Model, NarrowedModelFields>;
@@ -139,22 +139,22 @@ function testNarrowedModel() {
   const v: Equals<SuggestNarrowedModel<Model, any>, Model> = "pass";
 
   // Passing unknown or string as fields are type errors
-  // @ts-expect-error
+  // @ts-expect-error Needs TypeScript fixes
   const w: Equals<GenericNarrowedModel<object, unknown>, object> = "fail";
-  // @ts-expect-error
+  // @ts-expect-error Needs TypeScript fixes
   const x: Equals<GenericNarrowedModel<never, unknown>, never> = "fail";
-  // @ts-expect-error
+  // @ts-expect-error Needs TypeScript fixes
   const y: Equals<GenericNarrowedModel<Model, unknown>, Model> = "fail";
-  // @ts-expect-error
+  // @ts-expect-error Needs TypeScript fixes
   const z: Equals<GenericNarrowedModel<Model, string>, Model> = "fail";
 
-  // @ts-expect-error
+  // @ts-expect-error Needs TypeScript fixes
   const aa: Equals<SuggestNarrowedModel<never, unknown>, never> = "fail";
-  // @ts-expect-error
+  // @ts-expect-error Needs TypeScript fixes
   const ab: Equals<SuggestNarrowedModel<object, unknown>, object> = "fail";
-  // @ts-expect-error
+  // @ts-expect-error Needs TypeScript fixes
   const ac: Equals<SuggestNarrowedModel<Model, unknown>, Model> = "fail";
-  // @ts-expect-error
+  // @ts-expect-error Needs TypeScript fixes
   const ad: Equals<SuggestNarrowedModel<Model, string>, Model> = "fail";
 
   return [
@@ -193,33 +193,34 @@ function testNarrowedModel() {
   ];
 }
 
-// @ts-expect-error
+// @ts-expect-error Needs TypeScript fixes
 function testSelectArray() {
   const a: Equals<SelectArray<never>, readonly string[]> = "pass";
   const b: Equals<SelectArray<"field1">, readonly "field1"[]> = "pass";
   const c: Equals<SelectArray<"field1" | "field2">, readonly ("field1" | "field2")[]> = "pass";
 
-  // @ts-expect-error
+  // @ts-expect-error Needs TypeScript fixes
   const d: Equals<SelectArray<any>, readonly string[]> = "fail";
-  // @ts-expect-error
+  // @ts-expect-error Needs TypeScript fixes
   const e: Equals<SelectArray<unknown>, readonly string[]> = "fail";
   return [a, b, c, d, e];
 }
 
-// @ts-expect-error
+// @ts-expect-error Needs TypeScript fixes
 function testSearchFieldArray() {
   const a: Equals<SearchFieldArray<object>, readonly string[]> = "pass";
+  // @ts-expect-error Needs TypeScript fixes
   const b: Equals<SearchFieldArray<Model>, readonly ModelFields[]> = "pass";
   const c: Equals<SearchFieldArray<never>, readonly string[]> = "pass";
   const d: Equals<SearchFieldArray<any>, readonly string[]> = "pass";
 
-  // @ts-expect-error
+  // @ts-expect-error Needs TypeScript fixes
   const e: Equals<SearchFieldArray<unknown>, readonly string[]> = "pass";
 
   return [a, b, c, d, e];
 }
 
-// @ts-expect-error
+// @ts-expect-error Needs TypeScript fixes
 function testNarrowedClient() {
   const client = new SearchClient<Model>("azure", "sdk", "js" as any, {});
 
@@ -235,7 +236,7 @@ function testNarrowedClient() {
           key?: string;
         }
       > = "pass";
-      // @ts-expect-error
+      // @ts-expect-error Needs TypeScript fixes
       const b = result.document.a;
       return [a, b];
     }
@@ -250,6 +251,7 @@ function testNarrowedClient() {
         >["queries"]
       >[number]["fields"]
     >;
+    // @ts-expect-error Needs TypeScript fixes
     const a: Equals<VectorFields, readonly ModelFields[]> = "pass";
     return a;
   };
@@ -276,7 +278,7 @@ function testNarrowedClient() {
     for await (const result of select2.results) {
       const a1: (typeof result)["document"] = {} as NarrowedModel;
       const a2: NarrowedModel = {} as (typeof result)["document"];
-      // @ts-expect-error
+      // @ts-expect-error Needs TypeScript fixes
       const b = result.document.c;
       suppressUnusedWarning.push(a1);
       suppressUnusedWarning.push(a2);
@@ -285,7 +287,7 @@ function testNarrowedClient() {
     for await (const result of select3.results) {
       const a1: (typeof result)["document"] = {} as NarrowedModel;
       const a2: NarrowedModel = {} as (typeof result)["document"];
-      // @ts-expect-error
+      // @ts-expect-error Needs TypeScript fixes
       const b = result.document.c;
       suppressUnusedWarning.push(a1);
       suppressUnusedWarning.push(a2);
@@ -343,7 +345,7 @@ function testNarrowedClient() {
     for await (const result of select2.results) {
       const a1: (typeof result)["document"] = {} as NarrowedModel;
       const a2: NarrowedModel = {} as (typeof result)["document"];
-      // @ts-expect-error
+      // @ts-expect-error Needs TypeScript fixes
       const b = result.document.c;
       suppressUnusedWarning.push(a1);
       suppressUnusedWarning.push(a2);
@@ -352,7 +354,7 @@ function testNarrowedClient() {
     for await (const result of select3.results) {
       const a1: (typeof result)["document"] = {} as NarrowedModel;
       const a2: NarrowedModel = {} as (typeof result)["document"];
-      // @ts-expect-error
+      // @ts-expect-error Needs TypeScript fixes
       const b = result.document.c;
       suppressUnusedWarning.push(a1);
       suppressUnusedWarning.push(a2);
@@ -362,7 +364,7 @@ function testNarrowedClient() {
   };
 }
 
-// @ts-expect-error
+// @ts-expect-error Needs TypeScript fixes
 function testWideClient() {
   const client = new SearchClient("azure", "sdk", "js" as any, {});
 
