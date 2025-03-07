@@ -74,7 +74,7 @@
     "express": "^4.19.2",
     "playwright": "^1.41.2",
     "tslib": "^2.6.2",
-    "typescript": "~5.7.2",
+    "typescript": "~5.8.2",
     "vitest": "^3.0.3"
   },
   "tshy": {

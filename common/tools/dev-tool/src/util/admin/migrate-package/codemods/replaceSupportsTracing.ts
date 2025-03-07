@@ -37,11 +37,13 @@ export default function replaceSupportTracing(sourceFile: SourceFile) {
     .getDescendantsOfKind(SyntaxKind.CallExpression)
     .some((callExpression) => {
       const callee = callExpression.getExpression();
-      if (callee && ts.isPropertyAccessExpression(callee.compilerNode)) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const calleeCompilerNode = callee.compilerNode as any;
+      if (callee && ts.isPropertyAccessExpression(calleeCompilerNode)) {
         return (
-          ts.isIdentifier(callee.compilerNode.expression) &&
-          callee.compilerNode.expression.text === "expect" &&
-          callee.compilerNode.name.text === "extend"
+          ts.isIdentifier(calleeCompilerNode.expression) &&
+          calleeCompilerNode.expression.text === "expect" &&
+          calleeCompilerNode.name.text === "extend"
         );
       }
       return false;
@@ -103,7 +105,8 @@ export default function replaceSupportTracing(sourceFile: SourceFile) {
                 undefined,
                 [methodArray.compilerNode as ts.Expression],
               ),
-            );
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            ) as any;
           });
 
           // Skip all children of the current node as it was already transformed
