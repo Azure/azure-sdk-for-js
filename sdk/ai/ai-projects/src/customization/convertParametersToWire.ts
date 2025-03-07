@@ -13,7 +13,7 @@ import {
  */
 interface ListQueryParameters {
   limit?: number;
-  order?: "asc" | "desc";
+  order?: string;
   after?: string;
   before?: string;
 }

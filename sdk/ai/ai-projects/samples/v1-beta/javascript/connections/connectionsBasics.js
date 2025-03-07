@@ -22,10 +22,6 @@ async function main() {
     new DefaultAzureCredential(),
   );
 
-  // Get the properties of the specified machine learning workspace
-  const workspace = await client.connections.getWorkspace();
-  console.log(`Retrieved workspace, workspace name: ${workspace.name}`);
-
   // List the details of all the connections
   const connections = await client.connections.listConnections();
   console.log(`Retrieved ${connections.length} connections`);
