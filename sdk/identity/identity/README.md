@@ -285,7 +285,7 @@ Not all credentials require this configuration. Credentials that authenticate th
 
 `DefaultAzureCredential` and `EnvironmentCredential` can be configured with environment variables. Each type of authentication requires values for specific variables.
 
-#### Service principal with secret
+### Service principal with secret
 
 | Variable name         | Value                                          |
 | --------------------- | ---------------------------------------------- |
@@ -293,7 +293,7 @@ Not all credentials require this configuration. Credentials that authenticate th
 | `AZURE_TENANT_ID`     | ID of the application's Microsoft Entra tenant |
 | `AZURE_CLIENT_SECRET` | one of the application's client secrets        |
 
-#### Service principal with certificate
+### Service principal with certificate
 
 | Variable name                         | Value                                                        |
 |---------------------------------------|--------------------------------------------------------------|
@@ -302,17 +302,6 @@ Not all credentials require this configuration. Credentials that authenticate th
 | `AZURE_CLIENT_CERTIFICATE_PATH`       | path to a PEM-encoded certificate file including private key |
 | `AZURE_CLIENT_CERTIFICATE_PASSWORD`   | (optional) password of the certificate file, if any          |
 | `AZURE_CLIENT_SEND_CERTIFICATE_CHAIN` | (optional) send certificate chain in x5c header to support subject name / issuer-based authentication |
-
-#### Username and password
-
-> **Warning**: Username and password authentication doesn't support multifactor authentication and is **deprecated**. For more details, see [Planning for mandatory multifactor authentication](https://aka.ms/azsdk/identity/mfa).
-
-| Variable name     | Value                                          |
-| ----------------- | ---------------------------------------------- |
-| `AZURE_CLIENT_ID` | ID of a Microsoft Entra application            |
-| `AZURE_TENANT_ID` | ID of the application's Microsoft Entra tenant |
-| `AZURE_USERNAME`  | a username (usually an email address)          |
-| `AZURE_PASSWORD`  | that user's password                           |
 
 Configuration is attempted in the preceding order. For example, if values for a client secret and certificate are both present, the client secret is used.
 
