@@ -9,10 +9,7 @@ import type { EncryptionKeyResolver, EncryptionTimeToLive } from ".";
 export interface ClientEncryptionOptions {
   /** resolver that allows interaction with key encryption keys. */
   keyEncryptionKeyResolver: EncryptionKeyResolver;
-  /** name of the resolver to use for client side encryption.
-   * Currently only AzureKeyVault implementation is supported.
-   */
-  encryptionKeyResolverName: string;
+
   /** time for which encryption keys and settings will be cached. Default is 2 hour */
   encryptionKeyTimeToLive?: EncryptionTimeToLive;
 }

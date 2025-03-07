@@ -90,14 +90,8 @@ export class CosmosClient {
           "KeyEncryptionKeyResolver needs to be provided to enable client-side encryption.",
         );
       }
-      if (!optionsOrConnectionString.clientEncryptionOptions.encryptionKeyResolverName) {
-        throw new Error(
-          "EncryptionKeyResolverName needs to be provided to enable client-side encryption.",
-        );
-      }
       this.encryptionManager = new EncryptionManager(
         optionsOrConnectionString.clientEncryptionOptions.keyEncryptionKeyResolver,
-        optionsOrConnectionString.clientEncryptionOptions.encryptionKeyResolverName,
         optionsOrConnectionString.clientEncryptionOptions.encryptionKeyTimeToLive,
       );
     }

@@ -22,12 +22,14 @@ import type {
 import {
   Constants,
   EncryptionAlgorithm,
+  EncryptionKeyResolverName,
   EncryptionQueryBuilder,
   ErrorResponse,
   StatusCodes,
 } from "../../../src";
 import { assert } from "chai";
 export class MockKeyVaultEncryptionKeyResolver implements EncryptionKeyResolver {
+  encryptionKeyResolverName = EncryptionKeyResolverName.AzureKeyVault;
   private keyInfo: { [key: string]: number } = {
     cmkpath1: 1,
     cmkpath2: 2,

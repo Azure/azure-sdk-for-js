@@ -86,7 +86,6 @@ describe("ClientSideEncryption", function (this: Suite) {
       key: masterKey,
       clientEncryptionOptions: {
         keyEncryptionKeyResolver: testKeyEncryptionKeyResolver,
-        encryptionKeyResolverName: testKeyVault,
         encryptionKeyTimeToLive: EncryptionTimeToLive.NoTTL(),
       },
     });
@@ -315,7 +314,6 @@ describe("ClientSideEncryption", function (this: Suite) {
       key: masterKey,
       clientEncryptionOptions: {
         keyEncryptionKeyResolver: testKeyResolver,
-        encryptionKeyResolverName: testKeyVault,
         encryptionKeyTimeToLive: EncryptionTimeToLive.FromMinutes(1),
       },
     });
@@ -358,7 +356,6 @@ describe("ClientSideEncryption", function (this: Suite) {
       key: masterKey,
       clientEncryptionOptions: {
         keyEncryptionKeyResolver: new MockKeyVaultEncryptionKeyResolver(),
-        encryptionKeyResolverName: testKeyVault,
       },
     });
 
@@ -443,7 +440,6 @@ describe("ClientSideEncryption", function (this: Suite) {
       key: masterKey,
       clientEncryptionOptions: {
         keyEncryptionKeyResolver: new MockKeyVaultEncryptionKeyResolver(),
-        encryptionKeyResolverName: testKeyVault,
         encryptionKeyTimeToLive: EncryptionTimeToLive.NoTTL(),
       },
     });
@@ -525,7 +521,6 @@ describe("ClientSideEncryption", function (this: Suite) {
       key: masterKey,
       clientEncryptionOptions: {
         keyEncryptionKeyResolver: testkeyEncryptionKeyResolver,
-        encryptionKeyResolverName: testKeyVault,
         encryptionKeyTimeToLive: EncryptionTimeToLive.NoTTL(),
       },
     });
@@ -1200,7 +1195,6 @@ describe("ClientSideEncryption", function (this: Suite) {
       key: masterKey,
       clientEncryptionOptions: {
         keyEncryptionKeyResolver: new MockKeyVaultEncryptionKeyResolver(),
-        encryptionKeyResolverName: testKeyVault,
       },
     });
     const newDatabase = newClient.database(database.id);
@@ -1302,7 +1296,6 @@ describe("ClientSideEncryption", function (this: Suite) {
       key: masterKey,
       clientEncryptionOptions: {
         keyEncryptionKeyResolver: new MockKeyVaultEncryptionKeyResolver(),
-        encryptionKeyResolverName: testKeyVault,
       },
     });
     const otherDatabase = otherClient.database(database.id);
@@ -1476,7 +1469,6 @@ describe("ClientSideEncryption", function (this: Suite) {
       key: masterKey,
       clientEncryptionOptions: {
         keyEncryptionKeyResolver: new MockKeyVaultEncryptionKeyResolver(),
-        encryptionKeyResolverName: testKeyVault,
       },
     });
     const otherDatabase = otherClient.database(database.id);
@@ -1587,7 +1579,6 @@ describe("ClientSideEncryption", function (this: Suite) {
       key: masterKey,
       clientEncryptionOptions: {
         keyEncryptionKeyResolver: new MockKeyVaultEncryptionKeyResolver(),
-        encryptionKeyResolverName: testKeyVault,
       },
     });
     const otherDatabase = otherClient.database(database.id);
@@ -1710,7 +1701,6 @@ describe("ClientSideEncryption", function (this: Suite) {
       key: masterKey,
       clientEncryptionOptions: {
         keyEncryptionKeyResolver: new MockKeyVaultEncryptionKeyResolver(),
-        encryptionKeyResolverName: testKeyVault,
       },
     });
     const otherDatabase = otherClient.database(database.id);
@@ -1810,7 +1800,6 @@ describe("ClientSideEncryption", function (this: Suite) {
       key: masterKey,
       clientEncryptionOptions: {
         keyEncryptionKeyResolver: new MockKeyVaultEncryptionKeyResolver(),
-        encryptionKeyResolverName: testKeyVault,
         encryptionKeyTimeToLive: EncryptionTimeToLive.FromMinutes(30),
       },
     });
@@ -1860,7 +1849,6 @@ describe("ClientSideEncryption", function (this: Suite) {
       key: masterKey,
       clientEncryptionOptions: {
         keyEncryptionKeyResolver: new MockKeyVaultEncryptionKeyResolver(),
-        encryptionKeyResolverName: testKeyVault,
         encryptionKeyTimeToLive: EncryptionTimeToLive.NoTTL(),
       },
     });
@@ -1954,7 +1942,6 @@ describe("ClientSideEncryption", function (this: Suite) {
       key: masterKey,
       clientEncryptionOptions: {
         keyEncryptionKeyResolver: new MockKeyVaultEncryptionKeyResolver(),
-        encryptionKeyResolverName: testKeyVault,
         encryptionKeyTimeToLive: EncryptionTimeToLive.FromHours(1),
       },
     });
@@ -2174,7 +2161,6 @@ describe("ClientSideEncryption", function (this: Suite) {
       resourceTokens: resourceTokens,
       clientEncryptionOptions: {
         keyEncryptionKeyResolver: new MockKeyVaultEncryptionKeyResolver(),
-        encryptionKeyResolverName: testKeyVault,
       },
     });
 
@@ -2222,7 +2208,6 @@ describe("ClientSideEncryption", function (this: Suite) {
       clientEncryptionOptions: {
         keyEncryptionKeyResolver: keyEncryptionKeyResolver,
         encryptionKeyTimeToLive: EncryptionTimeToLive.NoTTL(),
-        encryptionKeyResolverName: testKeyVault,
       },
     });
     const testdatabase = encryptionTestClient.database(database.id);
@@ -2331,7 +2316,6 @@ describe("ClientSideEncryption", function (this: Suite) {
       key: masterKey,
       clientEncryptionOptions: {
         keyEncryptionKeyResolver: testKeyResolver1,
-        encryptionKeyResolverName: testKeyVault,
         encryptionKeyTimeToLive: EncryptionTimeToLive.NoTTL(),
       },
     });
@@ -2350,7 +2334,6 @@ describe("ClientSideEncryption", function (this: Suite) {
       key: masterKey,
       clientEncryptionOptions: {
         keyEncryptionKeyResolver: testKeyResolver2,
-        encryptionKeyResolverName: testKeyVault,
       },
     });
     newDatabase = newClient.database(database.id);

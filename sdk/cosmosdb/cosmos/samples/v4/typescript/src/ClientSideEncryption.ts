@@ -44,7 +44,6 @@ async function run() {
     key: key,
     clientEncryptionOptions: {
       keyEncryptionKeyResolver: keyResolver,
-      encryptionKeyResolverName: EncryptionKeyResolverName.AzureKeyVault,
       // We can set encryption key time to live in hours (EncryptionTimeToLive.FromHours),
       //  minutes (EncryptionTimeToLive.FromMinutes), and with no ttl (EncryptiontimeToLive.NoTTL)
       encryptionKeyTimeToLive: EncryptionTimeToLive.FromMinutes(10),
