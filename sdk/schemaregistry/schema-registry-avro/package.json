@@ -93,7 +93,7 @@
     "playwright": "^1.50.1",
     "process": "^0.11.10",
     "stream": "^0.0.3",
-    "typescript": "~5.7.2",
+    "typescript": "~5.8.2",
     "vitest": "^3.0.6"
   },
   "type": "module",

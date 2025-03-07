@@ -39,7 +39,7 @@
     "@vitest/browser": "^3.0.3",
     "@vitest/coverage-istanbul": "^3.0.3",
     "playwright": "^1.50.0",
-    "typescript": "~5.7.2",
+    "typescript": "~5.8.2",
     "vitest": "^3.0.3"
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/devtestlabs/arm-devtestlabs",

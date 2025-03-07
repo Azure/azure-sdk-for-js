@@ -130,7 +130,7 @@
     "eslint": "^9.9.0",
     "openai": "^4.84.1",
     "playwright": "^1.50.1",
-    "typescript": "~5.7.2",
+    "typescript": "~5.8.2",
     "vitest": "^3.0.6",
     "zod": "^3.24.2"
   },

@@ -56,7 +56,8 @@ export default function replaceAssertIsRejected(sourceFile: SourceFile) {
                 undefined,
                 args.length > 1 ? [args[1].compilerNode as ts.Expression] : [], // Pass second argument if provided
               ),
-            );
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            ) as any;
           });
 
           // Skip all children of the current node as it was already transformed
