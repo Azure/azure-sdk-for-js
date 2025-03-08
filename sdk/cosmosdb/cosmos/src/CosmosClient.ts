@@ -114,6 +114,11 @@ export class CosmosClient {
         optionsOrConnectionString.consistencyLevel;
     }
 
+    if (optionsOrConnectionString.throughputBucket !== undefined) {
+      optionsOrConnectionString.defaultHeaders[Constants.HttpHeaders.ThroughputBucket] =
+        optionsOrConnectionString.throughputBucket;
+    }
+
     const userAgent = getUserAgent(optionsOrConnectionString.userAgentSuffix);
     optionsOrConnectionString.defaultHeaders[Constants.HttpHeaders.UserAgent] = userAgent;
     optionsOrConnectionString.defaultHeaders[Constants.HttpHeaders.CustomUserAgent] = userAgent;

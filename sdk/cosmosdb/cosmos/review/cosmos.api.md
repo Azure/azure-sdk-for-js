@@ -603,6 +603,7 @@ export const Constants: {
         DedicatedGatewayPerRequestBypassCache: string;
         ForceRefresh: string;
         PriorityLevel: string;
+        ThroughputBucket: string;
         IsClientEncryptedHeader: string;
         IntendedCollectionHeader: string;
         DatabaseRidHeader: string;
@@ -801,6 +802,7 @@ export interface CosmosClientOptions {
     resourceTokens?: {
         [resourcePath: string]: string;
     };
+    throughputBucket?: number;
     tokenProvider?: TokenProvider;
     userAgentSuffix?: string;
 }
@@ -2355,6 +2357,7 @@ export interface SharedOptions {
     maxIntegratedCacheStalenessInMs?: number;
     priorityLevel?: PriorityLevel;
     sessionToken?: string;
+    throughputBucket?: number;
 }
 
 // @public (undocumented)
