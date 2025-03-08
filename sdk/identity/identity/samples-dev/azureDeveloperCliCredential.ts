@@ -6,20 +6,12 @@
  */
 
 import { AzureDeveloperCliCredential, DefaultAzureCredential } from "@azure/identity";
-import { UsernamePasswordCredential, UsernamePasswordCredentialOptions } from "@azure/identity";
-
 import dotenv from "dotenv";
 
 dotenv.config();
 
 async function testDefaultCredential() {
   const credential = new DefaultAzureCredential();
-  const userCred = new UsernamePasswordCredential(
-    process.env.AZURE_TENANT_ID || "tenant",
-    process.env.AZURE_CLIENT_ID!,
-    process.env.AZURE_CLIENT_SECRET!,
-    process.env.AZURE_USERNAME!
-  )
 
   try {
     const token = await credential.getToken("https://storage.azure.com/.default");
