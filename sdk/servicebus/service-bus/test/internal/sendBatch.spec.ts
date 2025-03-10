@@ -16,6 +16,7 @@ import { delay } from "@azure/core-util";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { afterAll, afterEach, beforeAll, describe, it } from "vitest";
 import { assert, should } from "../public/utils/chai.js";
+import { maxBatchSizeStandard } from "../../src/util/constants.js";
 
 describe("Send Batch", () => {
   let sender: ServiceBusSender;
@@ -407,10 +408,9 @@ describe("Send Batch", () => {
       try {
         await sender.createMessageBatch({ maxSizeInBytes });
       } catch (error: any) {
-        const maxSize = await (sender as ServiceBusSenderImpl)["_sender"].getMaxMessageSize();
         should.equal(
           error.message,
-          `Max message size (${maxSizeInBytes} bytes) is greater than maximum message size (${maxSize} bytes) on the AMQP sender link.`,
+          `Max message size (${maxSizeInBytes} bytes) is greater than maximum batch size (${maxBatchSizeStandard} bytes).`,
           "Unexpected error message when tried to create a batch of size > maximum message size.",
         );
         errorIsThrown = true;
