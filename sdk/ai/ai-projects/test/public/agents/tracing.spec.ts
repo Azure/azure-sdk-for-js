@@ -50,7 +50,7 @@ describe("Agent Tracing", () => {
   let agents: AgentsOperations;
   let response: any = {};
   let status = 200;
-  beforeEach(async function () {
+  beforeEach(async () => {
     instrumenter = new ExtendedMockInstrumenter();
     useInstrumenter(instrumenter);
 
@@ -60,14 +60,14 @@ describe("Agent Tracing", () => {
     agents = projectsClient.agents;
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     (instrumenter as MockInstrumenter).reset();
     vi.clearAllMocks();
     response = {};
     status = 200;
   });
 
-  it("create agent", async function () {
+  it("create agent", async () => {
     const agentResponse: Partial<AgentOutput> = { id: "agentId", object: "assistant" };
     response = agentResponse;
     status = 200;
@@ -93,7 +93,7 @@ describe("Agent Tracing", () => {
     );
   });
 
-  it("create run", async function () {
+  it("create run", async () => {
     const runResponse: Partial<ThreadRunOutput> = {
       id: "runId",
       object: "thread.run",
@@ -114,7 +114,7 @@ describe("Agent Tracing", () => {
     assert.equal(span.events!.length, 1);
   });
 
-  it("create Thread", async function () {
+  it("create Thread", async () => {
     const threadResponse: Partial<AgentThreadOutput> = { id: "threadId", object: "thread" };
     response = threadResponse;
     status = 200;
@@ -126,7 +126,7 @@ describe("Agent Tracing", () => {
     assert.equal(span.attributes["gen_ai.operation.name"], "create_thread");
   });
 
-  it("create Message", async function () {
+  it("create Message", async () => {
     const messageResponse: Partial<ThreadMessageOutput> = {
       id: "messageId",
       object: "thread.message",
@@ -149,7 +149,7 @@ describe("Agent Tracing", () => {
     assert.equal(event?.name, "gen_ai.user.message");
   });
 
-  it("list messages", async function () {
+  it("list messages", async () => {
     const listMessages = {
       object: "list",
       data: [
@@ -196,7 +196,7 @@ describe("Agent Tracing", () => {
     assert.equal(span.events![1].name, "gen_ai.user.message");
   });
 
-  it("Submit tool outputs to run", async function () {
+  it("Submit tool outputs to run", async () => {
     const submitToolOutputs = {
       object: "thread.run",
       id: "runId",
