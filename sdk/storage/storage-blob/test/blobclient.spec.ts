@@ -1072,7 +1072,7 @@ describe("BlobClient", () => {
       const leaseClient = containerClient.getBlobLeaseClient(guid);
 
       const promise = leaseClient.acquireLease(duration, { conditions: tagConditionMet });
-      await assert.isRejected(promise, RangeError);
+      await expect(promise).rejects.toThrow(RangeError);
     });
 
     it("async copy's destination blob", async () => {
