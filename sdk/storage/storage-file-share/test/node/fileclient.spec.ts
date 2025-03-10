@@ -2,24 +2,23 @@
 // Licensed under the MIT License.
 
 import { assert } from "chai";
-import { Buffer } from "buffer";
-import * as fs from "fs";
-import type { Context } from "mocha";
-import * as path from "path";
-import { Duplex } from "stream";
+import { Buffer } from "node:buffer";
+import * as fs from "node:fs";
+import * as path from "node:path";
+import { Duplex } from "node:stream";
 import * as zlib from "zlib";
 
 import { isLiveMode, Recorder } from "@azure-tools/test-recorder";
 
-import type { ShareClient, ShareDirectoryClient, StorageSharedKeyCredential } from "../../src";
+import type { ShareClient, ShareDirectoryClient, StorageSharedKeyCredential } from "../../src/index.js";
 import {
   FileSASPermissions,
   generateFileSASQueryParameters,
   getFileServiceAccountAudience,
   newPipeline,
   ShareFileClient,
-} from "../../src";
-import { readStreamToLocalFileWithLogs } from "../../test/utils/testutils.node";
+} from "../../src/index.js";
+import { readStreamToLocalFileWithLogs } from "../../test/utils/testutils.node.js";
 import {
   bodyToString,
   configureStorageClient,
@@ -32,7 +31,7 @@ import {
   recorderEnvSetup,
   SimpleTokenCredential,
   uriSanitizers,
-} from "../utils";
+} from "../utils/index.js";
 import { isNode } from "@azure/core-util";
 import { createTestCredential } from "@azure-tools/test-credential";
 
@@ -48,41 +47,41 @@ describe("FileClient Node.js only", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
-    await recorder.start(recorderEnvSetup);
-    const serviceClient = getBSU(recorder);
-    await recorder.addSanitizers(
-      {
-        removeHeaderSanitizer: {
-          headersForRemoval: [
-            "x-ms-file-rename-source",
-            "x-ms-copy-source",
-            "x-ms-copy-source-authorization",
-          ],
+  beforeEach(async (ctx) => {
+      recorder = new Recorder(ctx);
+      await recorder.start(recorderEnvSetup);
+      const serviceClient = getBSU(recorder);
+      await recorder.addSanitizers(
+        {
+          removeHeaderSanitizer: {
+            headersForRemoval: [
+              "x-ms-file-rename-source",
+              "x-ms-copy-source",
+              "x-ms-copy-source-authorization",
+            ],
+          },
+          uriSanitizers,
         },
-        uriSanitizers,
-      },
-      ["record", "playback"],
-    );
-    shareName = recorder.variable("share", getUniqueName("share"));
-    shareClient = serviceClient.getShareClient(shareName);
-    await shareClient.create();
+        ["record", "playback"],
+      );
+      shareName = recorder.variable("share", getUniqueName("share"));
+      shareClient = serviceClient.getShareClient(shareName);
+      await shareClient.create();
 
-    dirName = recorder.variable("dir", getUniqueName("dir"));
-    dirClient = shareClient.getDirectoryClient(dirName);
-    await dirClient.create();
+      dirName = recorder.variable("dir", getUniqueName("dir"));
+      dirClient = shareClient.getDirectoryClient(dirName);
+      await dirClient.create();
 
-    fileName = recorder.variable("file", getUniqueName("file"));
-    fileClient = dirClient.getFileClient(fileName);
-  });
+      fileName = recorder.variable("file", getUniqueName("file"));
+      fileClient = dirClient.getFileClient(fileName);
+    });
 
-  afterEach(async function (this: Context) {
-    if (shareClient) {
-      await shareClient.delete();
-    }
-    await recorder.stop();
-  });
+  afterEach(async () => {
+      if (shareClient) {
+        await shareClient.delete();
+      }
+      await recorder.stop();
+    });
 
   it("Default audience should work", async () => {
     await fileClient.create(1024);
@@ -138,7 +137,7 @@ describe("FileClient Node.js only", () => {
 
   it("uploadData - large Buffer as data", async function () {
     if (isNode && !isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
     await fileClient.create(257 * 1024 * 1024 * 1024);
     const tempFolderPath = "temp";
@@ -309,11 +308,11 @@ describe("FileClient Node.js only", () => {
     assert.equal(await bodyToString(range2, 512), "b".repeat(512));
   });
 
-  it("uploadRangeFromURL - destination OAuth", async function (this: Context) {
+  it("uploadRangeFromURL - destination OAuth", async function (ctx) {
     // Pipeline config doesn't support well for file OAuth, disable live test for now.
     // Should add this back after pipeline config is enabled.
     if (isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
     await fileClient.create(1024);
 
@@ -403,7 +402,7 @@ describe("FileClient Node.js only", () => {
     assert.equal(await bodyToString(range2, 512), "b".repeat(512));
   });
 
-  it("uploadRangeFromURL - source bearer token", async function (this: Context) {
+  it("uploadRangeFromURL - source bearer token", async function () {
     const blobServiceClient = getBlobServiceClient(recorder);
     const containerClient = blobServiceClient.getContainerClient(
       recorder.variable("container", getUniqueName("container")),
@@ -446,7 +445,7 @@ describe("FileClient Node.js only", () => {
   });
 
   // [Copy source error code] Feature is pending on service side, skip test case for now.
-  it.skip("uploadRangeFromURL - should fail with copy source error message", async function (this: Context) {
+  it.skip("uploadRangeFromURL - should fail with copy source error message", async function () {
     await fileClient.create(1024);
 
     const fileContent = "a".repeat(512) + "b".repeat(512);
@@ -485,7 +484,7 @@ describe("FileClient Node.js only", () => {
   });
 
   // [Copy source error code] Feature is pending on service side, skip the test case for now.
-  it.skip("startCopyFromURL - should fail with copy source error message", async function (this: Context) {
+  it.skip("startCopyFromURL - should fail with copy source error message", async function () {
     await fileClient.create(1024);
 
     // Get a SAS for fileURL
@@ -523,7 +522,7 @@ describe("FileClient Node.js only", () => {
   it("should not decompress during downloading", async function () {
     // recorder doesn't save binary payload correctly
     if (!isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
     const body: string = "hello world body string!";
     const deflated = zlib.deflateSync(body);

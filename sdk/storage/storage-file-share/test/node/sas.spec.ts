@@ -12,45 +12,44 @@ import {
   ShareClient,
   ShareFileClient,
   ShareServiceClient,
-} from "../../src";
-import { AnonymousCredential } from "../../../storage-blob/src/credentials/AnonymousCredential";
-import type { StorageSharedKeyCredential } from "../../../storage-blob/src/credentials/StorageSharedKeyCredential";
-import { FileSASPermissions } from "../../src/FileSASPermissions";
-import { generateFileSASQueryParameters } from "../../src/FileSASSignatureValues";
-import { newPipeline } from "../../src/Pipeline";
-import { ShareSASPermissions } from "../../src/ShareSASPermissions";
+} from "../../src/index.js";
+import { AnonymousCredential } from "../../../storage-blob/src/credentials/AnonymousCredential.js";
+import type { StorageSharedKeyCredential } from "../../../storage-blob/src/credentials/StorageSharedKeyCredential.js";
+import { FileSASPermissions } from "../../src/FileSASPermissions.js";
+import { generateFileSASQueryParameters } from "../../src/FileSASSignatureValues.js";
+import { newPipeline } from "../../src/Pipeline.js";
+import { ShareSASPermissions } from "../../src/ShareSASPermissions.js";
 import {
   configureStorageClient,
   getBSU,
   getUniqueName,
   recorderEnvSetup,
   uriSanitizers,
-} from "../utils";
+} from "../utils/index.js";
 import { delay, Recorder } from "@azure-tools/test-recorder";
-import type { Context } from "mocha";
 
 describe("Shared Access Signature (SAS) generation Node.js only", () => {
   let recorder: Recorder;
   let serviceClient: ShareServiceClient;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
-    await recorder.start(recorderEnvSetup);
-    await recorder.addSanitizers(
-      {
-        removeHeaderSanitizer: {
-          headersForRemoval: ["x-ms-file-rename-source"],
+  beforeEach(async (ctx) => {
+      recorder = new Recorder(ctx);
+      await recorder.start(recorderEnvSetup);
+      await recorder.addSanitizers(
+        {
+          removeHeaderSanitizer: {
+            headersForRemoval: ["x-ms-file-rename-source"],
+          },
+          uriSanitizers,
         },
-        uriSanitizers,
-      },
-      ["record", "playback"],
-    );
-    serviceClient = getBSU(recorder);
-  });
+        ["record", "playback"],
+      );
+      serviceClient = getBSU(recorder);
+    });
 
-  afterEach(async function () {
-    await recorder.stop();
-  });
+  afterEach(async () => {
+      await recorder.stop();
+    });
 
   it("generateAccountSASQueryParameters should work", async () => {
     const now = new Date(recorder.variable("now", new Date().toISOString()));

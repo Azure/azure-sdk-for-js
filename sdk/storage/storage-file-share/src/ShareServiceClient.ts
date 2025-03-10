@@ -14,39 +14,39 @@ import type {
   SharePropertiesInternal,
   ServiceSetPropertiesHeaders,
   ServiceGetPropertiesHeaders,
-} from "./generatedModels";
-import type { Service } from "./generated/src/operationsInterfaces";
-import type { Pipeline } from "./Pipeline";
-import { isPipelineLike, newPipeline } from "./Pipeline";
-import type { CommonOptions } from "./StorageClient";
-import { StorageClient } from "./StorageClient";
-import { ShareClientInternal } from "./ShareClientInternal";
-import type { ShareCreateOptions, ShareDeleteMethodOptions } from "./Clients";
-import { ShareClient } from "./Clients";
-import type { WithResponse } from "./utils/utils.common";
+} from "./generatedModels.js";
+import type { Service } from "./generated/src/operationsInterfaces/index.js";
+import type { Pipeline } from "./Pipeline.js";
+import { isPipelineLike, newPipeline } from "./Pipeline.js";
+import type { CommonOptions } from "./StorageClient.js";
+import { StorageClient } from "./StorageClient.js";
+import { ShareClientInternal } from "./ShareClientInternal.js";
+import type { ShareCreateOptions, ShareDeleteMethodOptions } from "./Clients.js";
+import { ShareClient } from "./Clients.js";
+import type { WithResponse } from "./utils/utils.common.js";
 import {
   appendToURLPath,
   extractConnectionStringParts,
   assertResponse,
   removeEmptyString,
-} from "./utils/utils.common";
-import { Credential } from "../../storage-blob/src/credentials/Credential";
-import { StorageSharedKeyCredential } from "../../storage-blob/src/credentials/StorageSharedKeyCredential";
-import { AnonymousCredential } from "../../storage-blob/src/credentials/AnonymousCredential";
+} from "./utils/utils.common.js";
+import { Credential } from "../../storage-blob/src/credentials/Credential.js";
+import { StorageSharedKeyCredential } from "../../storage-blob/src/credentials/StorageSharedKeyCredential.js";
+import { AnonymousCredential } from "../../storage-blob/src/credentials/AnonymousCredential.js";
 import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { isNode } from "@azure/core-util";
-import { tracingClient } from "./utils/tracing";
-import type { ShareClientConfig, ShareClientOptions, ShareProtocols } from "./models";
-import { toShareProtocols } from "./models";
-import { AccountSASPermissions } from "./AccountSASPermissions";
+import { tracingClient } from "./utils/tracing.js";
+import type { ShareClientConfig, ShareClientOptions, ShareProtocols } from "./models.js";
+import { toShareProtocols } from "./models.js";
+import { AccountSASPermissions } from "./AccountSASPermissions.js";
 import {
   generateAccountSASQueryParameters,
   generateAccountSASQueryParametersInternal,
-} from "./AccountSASSignatureValues";
-import { AccountSASServices } from "./AccountSASServices";
-import type { SASProtocol } from "./SASQueryParameters";
-import type { SasIPRange } from "./SasIPRange";
-import { appendToURLQuery } from "./utils/utils.common";
+} from "./AccountSASSignatureValues.js";
+import { AccountSASServices } from "./AccountSASServices.js";
+import type { SASProtocol } from "./SASQueryParameters.js";
+import type { SasIPRange } from "./SasIPRange.js";
+import { appendToURLQuery } from "./utils/utils.common.js";
 import type { TokenCredential } from "@azure/core-auth";
 import { isTokenCredential } from "@azure/core-auth";
 

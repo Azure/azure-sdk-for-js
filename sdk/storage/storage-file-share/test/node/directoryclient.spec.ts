@@ -10,11 +10,10 @@ import {
   getUniqueName,
   recorderEnvSetup,
   uriSanitizers,
-} from "../utils";
-import type { StorageSharedKeyCredential, ShareClient } from "../../src";
-import { newPipeline, ShareDirectoryClient, getFileServiceAccountAudience } from "../../src";
+} from "../utils/index.js";
+import type { StorageSharedKeyCredential, ShareClient } from "../../src/index.js";
+import { newPipeline, ShareDirectoryClient, getFileServiceAccountAudience } from "../../src/index.js";
 import { Recorder } from "@azure-tools/test-recorder";
-import type { Context } from "mocha";
 import { createTestCredential } from "@azure-tools/test-credential";
 
 describe("DirectoryClient Node.js only", () => {
@@ -25,25 +24,25 @@ describe("DirectoryClient Node.js only", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
-    await recorder.start(recorderEnvSetup);
-    const serviceClient = getBSU(recorder);
-    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
-    shareName = recorder.variable("share", getUniqueName("share"));
-    shareClient = serviceClient.getShareClient(shareName);
-    await shareClient.create();
+  beforeEach(async (ctx) => {
+      recorder = new Recorder(ctx);
+      await recorder.start(recorderEnvSetup);
+      const serviceClient = getBSU(recorder);
+      await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+      shareName = recorder.variable("share", getUniqueName("share"));
+      shareClient = serviceClient.getShareClient(shareName);
+      await shareClient.create();
 
-    dirName = recorder.variable("dir", getUniqueName("dir"));
-    dirClient = shareClient.getDirectoryClient(dirName);
-    await dirClient.create();
-  });
+      dirName = recorder.variable("dir", getUniqueName("dir"));
+      dirClient = shareClient.getDirectoryClient(dirName);
+      await dirClient.create();
+    });
 
-  afterEach(async function () {
-    await dirClient.delete();
-    await shareClient.delete();
-    await recorder.stop();
-  });
+  afterEach(async () => {
+      await dirClient.delete();
+      await shareClient.delete();
+      await recorder.stop();
+    });
 
   it("Default audience should work", async () => {
     const dirClientWithOAuthToken = new ShareDirectoryClient(

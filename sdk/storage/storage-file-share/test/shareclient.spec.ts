@@ -10,12 +10,11 @@ import {
   getUniqueName,
   recorderEnvSetup,
   uriSanitizers,
-} from "./utils";
-import type { ShareItem, ShareServiceClient } from "../src";
-import { ShareClient } from "../src";
+} from "./utils/index.js";
+import type { ShareItem, ShareServiceClient } from "../src/index.js";
+import { ShareClient } from "../src/index.js";
 import { delay, Recorder } from "@azure-tools/test-recorder";
-import type { Context } from "mocha";
-import { configureStorageClient } from "./utils";
+import { configureStorageClient } from "./utils/index.js";
 
 describe("ShareClient", () => {
   let serviceClient: ShareServiceClient;
@@ -24,20 +23,20 @@ describe("ShareClient", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
-    await recorder.start(recorderEnvSetup);
-    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
-    serviceClient = getBSU(recorder);
-    shareName = recorder.variable("share", getUniqueName("share"));
-    shareClient = serviceClient.getShareClient(shareName);
-    await shareClient.create();
-  });
+  beforeEach(async (ctx) => {
+      recorder = new Recorder(ctx);
+      await recorder.start(recorderEnvSetup);
+      await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+      serviceClient = getBSU(recorder);
+      shareName = recorder.variable("share", getUniqueName("share"));
+      shareClient = serviceClient.getShareClient(shareName);
+      await shareClient.create();
+    });
 
-  afterEach(async function () {
-    await shareClient.delete();
-    await recorder.stop();
-  });
+  afterEach(async () => {
+      await shareClient.delete();
+      await recorder.stop();
+    });
 
   it("setMetadata", async () => {
     const metadata = {
@@ -332,28 +331,28 @@ describe("ShareClient - OAuth", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
-    await recorder.start(recorderEnvSetup);
-    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+  beforeEach(async (ctx) => {
+      recorder = new Recorder(ctx);
+      await recorder.start(recorderEnvSetup);
+      await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
 
-    try {
-      serviceClient = getTokenBSU(recorder, "", "", { fileRequestIntent: "backup" });
-    } catch (err) {
-      this.skip();
-    }
-    shareName = recorder.variable("share", getUniqueName("share"));
-    shareClient = serviceClient.getShareClient(shareName);
-    shareClientWithKeyCredential = getBSU(recorder).getShareClient(shareName);
-    await shareClientWithKeyCredential.create();
-  });
+      try {
+        serviceClient = getTokenBSU(recorder, "", "", { fileRequestIntent: "backup" });
+      } catch (err) {
+        ctx.skip();
+      }
+      shareName = recorder.variable("share", getUniqueName("share"));
+      shareClient = serviceClient.getShareClient(shareName);
+      shareClientWithKeyCredential = getBSU(recorder).getShareClient(shareName);
+      await shareClientWithKeyCredential.create();
+    });
 
-  afterEach(async function () {
-    if (shareClientWithKeyCredential) {
-      await shareClientWithKeyCredential.delete();
-    }
-    await recorder.stop();
-  });
+  afterEach(async () => {
+      if (shareClientWithKeyCredential) {
+        await shareClientWithKeyCredential.delete();
+      }
+      await recorder.stop();
+    });
 
   it("create and get permission", async () => {
     const directoryName = recorder.variable("dir", getUniqueName("dir"));
@@ -407,20 +406,20 @@ describe("ShareClient", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
-    await recorder.start(recorderEnvSetup);
-    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
-    serviceClient = getBSU(recorder);
-    shareName = recorder.variable("share", getUniqueName("share"));
-    shareClient = serviceClient.getShareClient(shareName);
-    await shareClient.create();
-  });
+  beforeEach(async (ctx) => {
+      recorder = new Recorder(ctx);
+      await recorder.start(recorderEnvSetup);
+      await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+      serviceClient = getBSU(recorder);
+      shareName = recorder.variable("share", getUniqueName("share"));
+      shareClient = serviceClient.getShareClient(shareName);
+      await shareClient.create();
+    });
 
-  afterEach(async function () {
-    await shareClient.delete();
-    await recorder.stop();
-  });
+  afterEach(async () => {
+      await shareClient.delete();
+      await recorder.stop();
+    });
 
   it("setMetadata", async () => {
     const metadata = {
@@ -735,24 +734,24 @@ describe("ShareClient Provisioned", () => {
   let recorder: Recorder;
   let serviceClient: ShareServiceClient;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
-    await recorder.start(recorderEnvSetup);
-    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
-    try {
-      serviceClient = getGenericBSU(recorder, "PROVISIONED_FILE_");
-    } catch (error: any) {
-      console.log(error);
-      this.skip();
-    }
-  });
+  beforeEach(async (ctx) => {
+      recorder = new Recorder(ctx);
+      await recorder.start(recorderEnvSetup);
+      await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+      try {
+        serviceClient = getGenericBSU(recorder, "PROVISIONED_FILE_");
+      } catch (error: any) {
+        console.log(error);
+        ctx.skip();
+      }
+    });
 
-  afterEach(async function () {
-    await recorder.stop();
-  });
+  afterEach(async () => {
+      await recorder.stop();
+    });
 
   // Skipped for now as it needs be enabled on the account.
-  it("Create share with Provisioned Max Iops and Bandwidth", async function (this: Context) {
+  it("Create share with Provisioned Max Iops and Bandwidth", async function () {
     const shareName = recorder.variable("share", getUniqueName("share"));
     const shareClient = serviceClient.getShareClient(shareName);
 
@@ -769,7 +768,7 @@ describe("ShareClient Provisioned", () => {
     assert.ok(deleteResult.snapshotUsageBytes !== undefined);
   });
 
-  it("setProperties with Provisioned Max Iops and Bandwidth", async function (this: Context) {
+  it("setProperties with Provisioned Max Iops and Bandwidth", async function () {
     const shareName = recorder.variable("share", getUniqueName("share"));
     const shareClient = serviceClient.getShareClient(shareName);
 
@@ -821,7 +820,7 @@ describe("ShareClient Provisioned", () => {
     assert.ok(deleteResult.snapshotUsageBytes !== undefined);
   });
 
-  it("Restore share", async function (this: Context) {
+  it("Restore share", async function () {
     const shareName = recorder.variable("share", getUniqueName("share"));
     const shareClient = serviceClient.getShareClient(shareName);
 
@@ -862,21 +861,21 @@ describe("ShareClient Premium", () => {
   let serviceClient: ShareServiceClient;
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
-    await recorder.start(recorderEnvSetup);
-    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
-    try {
-      serviceClient = getGenericBSU(recorder, "PREMIUM_FILE_");
-    } catch (error: any) {
-      console.log(error);
-      this.skip();
-    }
-  });
+  beforeEach(async (ctx) => {
+      recorder = new Recorder(ctx);
+      await recorder.start(recorderEnvSetup);
+      await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+      try {
+        serviceClient = getGenericBSU(recorder, "PREMIUM_FILE_");
+      } catch (error: any) {
+        console.log(error);
+        ctx.skip();
+      }
+    });
 
-  afterEach(async function () {
-    await recorder.stop();
-  });
+  afterEach(async () => {
+      await recorder.stop();
+    });
 
   it("create share with premium accessTier and listShare", async () => {
     const newShareName = recorder.variable("newshare", getUniqueName("newshare"));

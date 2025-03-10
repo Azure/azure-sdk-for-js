@@ -2,10 +2,9 @@
 // Licensed under the MIT License.
 
 import { assert } from "chai";
-import { getBSU, recorderEnvSetup, bodyToString, uriSanitizers, getUniqueName } from "./utils";
+import { getBSU, recorderEnvSetup, bodyToString, uriSanitizers, getUniqueName } from "./utils/index.js";
 import { Recorder } from "@azure-tools/test-recorder";
-import type { ShareClient, ShareDirectoryClient, ShareFileClient, SignedIdentifier } from "../src";
-import type { Context } from "mocha";
+import type { ShareClient, ShareDirectoryClient, ShareFileClient, SignedIdentifier } from "../src/index.js";
 import { isNode } from "@azure/core-util";
 
 // for file
@@ -22,36 +21,36 @@ describe("LeaseClient", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
-    await recorder.start(recorderEnvSetup);
-    await recorder.addSanitizers(
-      {
-        removeHeaderSanitizer: {
-          headersForRemoval: ["x-ms-file-rename-source", "x-ms-copy-source"],
+  beforeEach(async (ctx) => {
+      recorder = new Recorder(ctx);
+      await recorder.start(recorderEnvSetup);
+      await recorder.addSanitizers(
+        {
+          removeHeaderSanitizer: {
+            headersForRemoval: ["x-ms-file-rename-source", "x-ms-copy-source"],
+          },
+          uriSanitizers,
         },
-        uriSanitizers,
-      },
-      ["record", "playback"],
-    );
-    const serviceClient = getBSU(recorder);
-    shareName = recorder.variable("share", getUniqueName("share"));
-    shareClient = serviceClient.getShareClient(shareName);
-    await shareClient.create();
+        ["record", "playback"],
+      );
+      const serviceClient = getBSU(recorder);
+      shareName = recorder.variable("share", getUniqueName("share"));
+      shareClient = serviceClient.getShareClient(shareName);
+      await shareClient.create();
 
-    dirName = recorder.variable("dir", getUniqueName("dir"));
-    dirClient = shareClient.getDirectoryClient(dirName);
-    await dirClient.create();
+      dirName = recorder.variable("dir", getUniqueName("dir"));
+      dirClient = shareClient.getDirectoryClient(dirName);
+      await dirClient.create();
 
-    fileName = recorder.variable("file", getUniqueName("file"));
-    fileClient = dirClient.getFileClient(fileName);
-    await fileClient.create(content.length);
-  });
+      fileName = recorder.variable("file", getUniqueName("file"));
+      fileClient = dirClient.getFileClient(fileName);
+      await fileClient.create(content.length);
+    });
 
-  afterEach(async function () {
-    await shareClient.delete();
-    await recorder.stop();
-  });
+  afterEach(async () => {
+      await shareClient.delete();
+      await recorder.stop();
+    });
 
   // lease management:
   it("acquireLease", async () => {
@@ -419,28 +418,28 @@ describe("LeaseClient with ShareClient", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
-    await recorder.start(recorderEnvSetup);
-    await recorder.addSanitizers(
-      {
-        removeHeaderSanitizer: {
-          headersForRemoval: ["x-ms-file-rename-source", "x-ms-copy-source"],
+  beforeEach(async (ctx) => {
+      recorder = new Recorder(ctx);
+      await recorder.start(recorderEnvSetup);
+      await recorder.addSanitizers(
+        {
+          removeHeaderSanitizer: {
+            headersForRemoval: ["x-ms-file-rename-source", "x-ms-copy-source"],
+          },
+          uriSanitizers,
         },
-        uriSanitizers,
-      },
-      ["record", "playback"],
-    );
-    const serviceClient = getBSU(recorder);
-    shareName = recorder.variable("share", getUniqueName("share"));
-    shareClient = serviceClient.getShareClient(shareName);
-    await shareClient.create();
-  });
+        ["record", "playback"],
+      );
+      const serviceClient = getBSU(recorder);
+      shareName = recorder.variable("share", getUniqueName("share"));
+      shareClient = serviceClient.getShareClient(shareName);
+      await shareClient.create();
+    });
 
-  afterEach(async function () {
-    await shareClient.delete();
-    await recorder.stop();
-  });
+  afterEach(async () => {
+      await shareClient.delete();
+      await recorder.stop();
+    });
 
   // lease management:
   it("acquireLease", async () => {
@@ -716,7 +715,7 @@ describe("LeaseClient with ShareClient", () => {
 
   it("setAccessPolicy", async function () {
     if (!isNode) {
-      this.skip();
+      ctx.skip();
     }
     await recorder.addSanitizers(
       {

@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { assert } from "chai";
-import { extractConnectionStringParts } from "../../src/utils/utils.common";
+import { extractConnectionStringParts } from "../../src/utils/utils.common.js";
 
 describe("Utility Helpers Node.js only", () => {
   const protocol = "https";

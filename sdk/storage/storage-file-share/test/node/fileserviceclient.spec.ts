@@ -11,24 +11,23 @@ import {
   getUniqueName,
   recorderEnvSetup,
   uriSanitizers,
-} from "../utils";
-import type { StorageSharedKeyCredential, ShareItem } from "../../src";
-import { ShareServiceClient, newPipeline } from "../../src";
+} from "../utils/index.js";
+import type { StorageSharedKeyCredential, ShareItem } from "../../src/index.js";
+import { ShareServiceClient, newPipeline } from "../../src/index.js";
 import { delay, Recorder } from "@azure-tools/test-recorder";
-import type { Context } from "mocha";
 
 describe("FileServiceClient Node.js only", () => {
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
-    await recorder.start(recorderEnvSetup);
-    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
-  });
+  beforeEach(async (ctx) => {
+      recorder = new Recorder(ctx);
+      await recorder.start(recorderEnvSetup);
+      await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+    });
 
-  afterEach(async function () {
-    await recorder.stop();
-  });
+  afterEach(async () => {
+      await recorder.stop();
+    });
 
   it("can be created with a url and a credential", async () => {
     const serviceClient = getBSU(recorder);
@@ -106,15 +105,15 @@ describe("FileServiceClient Node.js only", () => {
 describe("FileServiceClient Node.js only - OAuth", () => {
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
-    await recorder.start(recorderEnvSetup);
-    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
-  });
+  beforeEach(async (ctx) => {
+      recorder = new Recorder(ctx);
+      await recorder.start(recorderEnvSetup);
+      await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+    });
 
-  afterEach(async function () {
-    await recorder.stop();
-  });
+  afterEach(async () => {
+      await recorder.stop();
+    });
 
   it("ListShares with default parameters", async () => {
     const serviceClient = getTokenBSUWithDefaultCredential(recorder, "", "", {
@@ -260,26 +259,26 @@ describe("FileServiceClient Premium Node.js only", () => {
   let recorder: Recorder;
   let serviceClient: ShareServiceClient;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
-    await recorder.start(recorderEnvSetup);
-    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
-    try {
-      serviceClient = getTokenBSUWithDefaultCredential(recorder, "PREMIUM_FILE_", "", {
-        fileRequestIntent: "backup",
-      });
-    } catch (error: any) {
-      console.log(error);
-      this.skip();
-    }
-  });
+  beforeEach(async (ctx) => {
+      recorder = new Recorder(ctx);
+      await recorder.start(recorderEnvSetup);
+      await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+      try {
+        serviceClient = getTokenBSUWithDefaultCredential(recorder, "PREMIUM_FILE_", "", {
+          fileRequestIntent: "backup",
+        });
+      } catch (error: any) {
+        console.log(error);
+        ctx.skip();
+      }
+    });
 
-  afterEach(async function () {
-    await recorder.stop();
-  });
+  afterEach(async () => {
+      await recorder.stop();
+    });
 
   // STG95 will enable it when it's enabled on service
-  it.skip("Paid Bursting", async function (this: Context) {
+  it.skip("Paid Bursting", async function () {
     const shareName = recorder.variable("share", getUniqueName("share"));
     const shareClient = serviceClient.getShareClient(shareName);
 

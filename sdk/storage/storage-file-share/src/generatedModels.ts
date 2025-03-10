@@ -38,11 +38,11 @@ import type {
   ShareSetAccessPolicyHeaders,
   ShareSetMetadataHeaders,
   ShareStats,
-} from "./generated/src/models";
+} from "./generated/src/models/index.js";
 
-import type { ShareSetPropertiesHeaders } from "./generated/src/models";
-import { FileDownloadResponse, FileSetHttpHeadersHeaders, NfsFileMode } from "./models";
-import type { WithResponse } from "./utils/utils.common";
+import type { ShareSetPropertiesHeaders } from "./generated/src/models/index.js";
+import { FileDownloadResponse, FileSetHttpHeadersHeaders, NfsFileMode } from "./models.js";
+import type { WithResponse } from "./utils/utils.common.js";
 
 /** Defines headers for Directory_create operation. */
 export interface DirectoryCreateHeaders {
@@ -641,12 +641,12 @@ export {
   ClearRange,
   ShareAccessTier,
   ShareRootSquash,
-} from "./generated/src/models";
+} from "./generated/src/models/index.js";
 
 export {
   FileDownloadResponse as RawFileDownloadResponse,
   FileSetHttpHeadersHeaders as FileSetHTTPHeadersHeaders,
-} from "./models";
+} from "./models.js";
 /** Known values of {@link ShareTokenIntent} that the service accepts. */
 export enum KnownShareTokenIntent {
   Backup = "backup",

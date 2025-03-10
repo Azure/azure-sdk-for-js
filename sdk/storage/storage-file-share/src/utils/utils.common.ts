@@ -9,16 +9,16 @@ import type {
   ListHandlesResponse as ListHandlesResponseInternal,
   SharePermission,
   StringEncoded,
-} from "../generated/src/models";
+} from "../generated/src/models/index.js";
 import type {
   DirectoryItem,
   FileItem,
   HandleItem,
   ListFilesAndDirectoriesSegmentResponse,
   ListHandlesResponse,
-} from "../generatedModels";
-import type { HttpAuthorization, NfsFileMode, PosixRolePermissions } from "../models";
-import { HeaderConstants, PathStylePorts, URLConstants } from "./constants";
+} from "../generatedModels.js";
+import type { HttpAuthorization, NfsFileMode, PosixRolePermissions } from "../models.js";
+import { HeaderConstants, PathStylePorts, URLConstants } from "./constants.js";
 import { isNode } from "@azure/core-util";
 import type { HttpHeadersLike, WebResourceLike } from "@azure/core-http-compat";
 

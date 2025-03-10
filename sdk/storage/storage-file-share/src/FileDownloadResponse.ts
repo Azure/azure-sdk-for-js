@@ -9,15 +9,15 @@ import type {
   LeaseDurationType,
   LeaseStateType,
   LeaseStatusType,
-} from "./generatedModels";
-import type { Metadata, NfsFileMode } from "./models";
+} from "./generatedModels.js";
+import type { Metadata, NfsFileMode } from "./models.js";
 import type {
   ReadableStreamGetter,
   RetriableReadableStreamOptions,
-} from "./utils/RetriableReadableStream";
-import { RetriableReadableStream } from "./utils/RetriableReadableStream";
-import type { HttpResponse, WithResponse } from "./utils/utils.common";
-import { assertResponse } from "./utils/utils.common";
+} from "./utils/RetriableReadableStream.js";
+import { RetriableReadableStream } from "./utils/RetriableReadableStream.js";
+import type { HttpResponse, WithResponse } from "./utils/utils.common.js";
+import { assertResponse } from "./utils/utils.common.js";
 
 /**
  * ONLY AVAILABLE IN NODE.JS RUNTIME.

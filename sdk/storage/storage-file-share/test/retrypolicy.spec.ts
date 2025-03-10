@@ -4,12 +4,11 @@
 import { assert } from "chai";
 import type { Pipeline } from "@azure/core-rest-pipeline";
 
-import type { ShareClient, ShareServiceClient } from "../src";
-import { RestError } from "../src";
-import { getBSU, getUniqueName, recorderEnvSetup, uriSanitizers } from "./utils";
-import { injectorPolicy, injectorPolicyName } from "./utils/InjectorPolicy";
+import type { ShareClient, ShareServiceClient } from "../src/index.js";
+import { RestError } from "../src/index.js";
+import { getBSU, getUniqueName, recorderEnvSetup, uriSanitizers } from "./utils/index.js";
+import { injectorPolicy, injectorPolicyName } from "./utils/InjectorPolicy.js";
 import { Recorder } from "@azure-tools/test-recorder";
-import type { Context } from "mocha";
 
 describe("RetryPolicy", () => {
   let shareServiceClient: ShareServiceClient;
@@ -18,22 +17,22 @@ describe("RetryPolicy", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
-    await recorder.start(recorderEnvSetup);
-    await recorder.addSanitizers({ uriSanitizers }, ["playback", "record"]);
-    shareServiceClient = getBSU(recorder);
-    shareName = recorder.variable("share", getUniqueName("share"));
-    shareClient = shareServiceClient.getShareClient(shareName);
-    await shareClient.create();
-  });
+  beforeEach(async (ctx) => {
+      recorder = new Recorder(ctx);
+      await recorder.start(recorderEnvSetup);
+      await recorder.addSanitizers({ uriSanitizers }, ["playback", "record"]);
+      shareServiceClient = getBSU(recorder);
+      shareName = recorder.variable("share", getUniqueName("share"));
+      shareClient = shareServiceClient.getShareClient(shareName);
+      await shareClient.create();
+    });
 
-  afterEach(async function () {
-    const pipeline: Pipeline = (shareClient as any).storageClientContext.pipeline;
-    pipeline.removePolicy({ name: injectorPolicyName });
-    await shareClient.delete();
-    await recorder.stop();
-  });
+  afterEach(async () => {
+      const pipeline: Pipeline = (shareClient as any).storageClientContext.pipeline;
+      pipeline.removePolicy({ name: injectorPolicyName });
+      await shareClient.delete();
+      await recorder.stop();
+    });
 
   it("Retry Policy should work when first request fails with 500", async function () {
     let injectCounter = 0;

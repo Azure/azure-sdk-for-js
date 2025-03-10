@@ -7,7 +7,7 @@ import {
   sanitizeURL,
   extractConnectionStringParts,
   isIpEndpointStyle,
-} from "../src/utils/utils.common";
+} from "../src/utils/utils.common.js";
 import { createHttpHeaders } from "@azure/core-rest-pipeline";
 
 describe("Utility Helpers", () => {

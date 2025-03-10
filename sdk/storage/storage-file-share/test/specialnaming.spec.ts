@@ -1,13 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ShareClient } from "../src";
-import { ShareDirectoryClient, ShareFileClient } from "../src";
-import { getBSU, getUniqueName, recorderEnvSetup, uriSanitizers } from "./utils/index";
+import type { ShareClient } from "../src/index.js";
+import { ShareDirectoryClient, ShareFileClient } from "../src/index.js";
+import { getBSU, getUniqueName, recorderEnvSetup, uriSanitizers } from "./utils/index.js";
 import { assert } from "chai";
-import { appendToURLPath } from "../src/utils/utils.common";
+import { appendToURLPath } from "../src/utils/utils.common.js";
 import { Recorder } from "@azure-tools/test-recorder";
-import type { Context } from "mocha";
 
 describe("Special Naming Tests", () => {
   let shareName: string;
@@ -17,26 +16,26 @@ describe("Special Naming Tests", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
-    await recorder.start(recorderEnvSetup);
-    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
-    const serviceClient = getBSU(recorder);
+  beforeEach(async (ctx) => {
+      recorder = new Recorder(ctx);
+      await recorder.start(recorderEnvSetup);
+      await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+      const serviceClient = getBSU(recorder);
 
-    shareName = recorder.variable("1share-with-dash", getUniqueName("1share-with-dash"));
-    shareClient = serviceClient.getShareClient(shareName);
+      shareName = recorder.variable("1share-with-dash", getUniqueName("1share-with-dash"));
+      shareClient = serviceClient.getShareClient(shareName);
 
-    directoryName = recorder.variable("dir", getUniqueName("dir"));
-    directoryClient = shareClient.getDirectoryClient(directoryName);
+      directoryName = recorder.variable("dir", getUniqueName("dir"));
+      directoryClient = shareClient.getDirectoryClient(directoryName);
 
-    await shareClient.create();
-    await directoryClient.create();
-  });
+      await shareClient.create();
+      await directoryClient.create();
+    });
 
-  afterEach(async function (this: Context) {
-    await shareClient.delete();
-    await recorder.stop();
-  });
+  afterEach(async () => {
+      await shareClient.delete();
+      await recorder.stop();
+    });
 
   it("Should work with special container and file names with spaces", async () => {
     const fileName: string = recorder.variable("file empty", getUniqueName("file empty"));
