@@ -5,6 +5,8 @@
 ### Other Changes
 
 - Filter OpenTelemetry semantic attributes from being double recorded as custom dimensions.
+- Add support for detecting the Application Insights shim on internal verison.
+
 ## 1.0.0-beta.29 (2025-03-04)
 
 ### Features Added
