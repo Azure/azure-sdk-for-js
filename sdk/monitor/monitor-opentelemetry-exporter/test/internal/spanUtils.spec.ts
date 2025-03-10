@@ -28,6 +28,7 @@ import {
   SEMATTRS_HTTP_HOST,
   SEMATTRS_HTTP_METHOD,
   SEMATTRS_HTTP_ROUTE,
+  SEMATTRS_HTTP_SCHEME,
   SEMATTRS_HTTP_STATUS_CODE,
   SEMATTRS_HTTP_URL,
   SEMATTRS_NET_PEER_IP,
@@ -587,6 +588,7 @@ describe("spanUtils.ts", () => {
           [SEMATTRS_HTTP_ROUTE]: "/api/example",
           [SEMATTRS_HTTP_URL]: "https://example.com/api/example",
           [SEMATTRS_HTTP_STATUS_CODE]: 200,
+          [SEMATTRS_HTTP_SCHEME]: "https",
           "extra.attribute": "foo",
         });
         span.setStatus({
@@ -910,6 +912,7 @@ describe("spanUtils.ts", () => {
           [SEMATTRS_HTTP_URL]: "https://example.com/api/example",
           [SEMATTRS_PEER_SERVICE]: "https://someotherexample.com/api/example",
           [SEMATTRS_HTTP_STATUS_CODE]: 200,
+          [SEMATTRS_HTTP_SCHEME]: "https",
           "extra.attribute": "foo",
         });
         span.setStatus({
