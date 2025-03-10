@@ -22,18 +22,18 @@ describe("QueueClient message methods, Node.js only", () => {
   let recorder: Recorder;
 
   beforeEach(async (ctx) => {
-      recorder = new Recorder(ctx);
-      await recorder.start(recorderEnvSetup);
-      const queueServiceClient = getQSU(recorder);
-      queueName = recorder.variable("queue", getUniqueName("queue"));
-      queueClient = queueServiceClient.getQueueClient(queueName);
-      await queueClient.create();
-    });
+    recorder = new Recorder(ctx);
+    await recorder.start(recorderEnvSetup);
+    const queueServiceClient = getQSU(recorder);
+    queueName = recorder.variable("queue", getUniqueName("queue"));
+    queueClient = queueServiceClient.getQueueClient(queueName);
+    await queueClient.create();
+  });
 
   afterEach(async () => {
-      await queueClient.delete();
-      await recorder.stop();
-    });
+    await queueClient.delete();
+    await recorder.stop();
+  });
 
   it("enqueue, peek, dequeue with 64KB characters including special char which is computed after encoding", async () => {
     const specialChars =

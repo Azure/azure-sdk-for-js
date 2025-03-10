@@ -24,18 +24,18 @@ describe("QueueClient Node.js only", () => {
   let recorder: Recorder;
 
   beforeEach(async (ctx) => {
-      recorder = new Recorder(ctx);
-      await recorder.start(recorderEnvSetup);
-      queueServiceClient = getQSU(recorder);
-      queueName = recorder.variable("queue", getUniqueName("queue"));
-      queueClient = queueServiceClient.getQueueClient(queueName);
-      await queueClient.create();
-    });
+    recorder = new Recorder(ctx);
+    await recorder.start(recorderEnvSetup);
+    queueServiceClient = getQSU(recorder);
+    queueName = recorder.variable("queue", getUniqueName("queue"));
+    queueClient = queueServiceClient.getQueueClient(queueName);
+    await queueClient.create();
+  });
 
   afterEach(async () => {
-      await queueClient.delete();
-      await recorder.stop();
-    });
+    await queueClient.delete();
+    await recorder.stop();
+  });
 
   it("QueueClient default audience should work", async () => {
     const queueClientWithOAuthToken = new QueueClient(queueClient.url, createTestCredential());

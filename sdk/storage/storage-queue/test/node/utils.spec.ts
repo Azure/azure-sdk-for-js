@@ -33,13 +33,13 @@ describe("Utility Helpers Node.js only", () => {
   }
 
   beforeEach(async (ctx) => {
-      recorder = new Recorder(ctx);
-      await recorder.start(recorderEnvSetup);
-    });
+    recorder = new Recorder(ctx);
+    await recorder.start(recorderEnvSetup);
+  });
 
   afterEach(async () => {
-      await recorder.stop();
-    });
+    await recorder.stop();
+  });
 
   it("extractConnectionStringParts throws error when passed an invalid protocol in the connection string", async () => {
     try {

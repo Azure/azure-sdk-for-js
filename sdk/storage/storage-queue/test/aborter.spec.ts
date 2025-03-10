@@ -13,17 +13,17 @@ describe("Aborter", () => {
   let recorder: Recorder;
 
   beforeEach(async (ctx) => {
-      recorder = new Recorder(ctx);
-      await recorder.start(recorderEnvSetup);
-      await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
-      const queueServiceClient = getQSU(recorder);
-      queueName = recorder.variable("queue", getUniqueName("queue"));
-      queueClient = queueServiceClient.getQueueClient(queueName);
-    });
+    recorder = new Recorder(ctx);
+    await recorder.start(recorderEnvSetup);
+    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+    const queueServiceClient = getQSU(recorder);
+    queueName = recorder.variable("queue", getUniqueName("queue"));
+    queueClient = queueServiceClient.getQueueClient(queueName);
+  });
 
   afterEach(async () => {
-      await recorder.stop();
-    });
+    await recorder.stop();
+  });
 
   it("should not abort after calling abort()", async () => {
     const cResp = await queueClient.create();

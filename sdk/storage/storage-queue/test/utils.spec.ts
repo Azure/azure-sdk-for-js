@@ -40,13 +40,13 @@ describe("Utility Helpers", () => {
   }
 
   beforeEach(async (ctx) => {
-      recorder = new Recorder(ctx);
-      await recorder.start(recorderEnvSetup);
-    });
+    recorder = new Recorder(ctx);
+    await recorder.start(recorderEnvSetup);
+  });
 
   afterEach(async () => {
-      await recorder.stop();
-    });
+    await recorder.stop();
+  });
 
   it("sanitizeURL redacts SAS token", () => {
     const url = "https://some.url.com/container/blob?sig=sasstring";

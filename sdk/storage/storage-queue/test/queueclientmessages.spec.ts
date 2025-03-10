@@ -20,19 +20,19 @@ describe("QueueClient message methods", () => {
   let recorder: Recorder;
 
   beforeEach(async (ctx) => {
-      recorder = new Recorder(ctx);
-      await recorder.start(recorderEnvSetup);
-      await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
-      const queueServiceClient = getQSU(recorder);
-      queueName = recorder.variable("queue", getUniqueName("queue"));
-      queueClient = queueServiceClient.getQueueClient(queueName);
-      await queueClient.create();
-    });
+    recorder = new Recorder(ctx);
+    await recorder.start(recorderEnvSetup);
+    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+    const queueServiceClient = getQSU(recorder);
+    queueName = recorder.variable("queue", getUniqueName("queue"));
+    queueClient = queueServiceClient.getQueueClient(queueName);
+    await queueClient.create();
+  });
 
   afterEach(async () => {
-      await queueClient.delete();
-      await recorder.stop();
-    });
+    await queueClient.delete();
+    await recorder.stop();
+  });
 
   it("enqueue, peek, dequeue and clear message with default parameters", async () => {
     const eResult = await queueClient.sendMessage(messageContent);

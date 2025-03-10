@@ -17,13 +17,13 @@ describe("QueueServiceClient Node.js only", () => {
   let recorder: Recorder;
 
   beforeEach(async (ctx) => {
-      recorder = new Recorder(ctx);
-      await recorder.start(recorderEnvSetup);
-    });
+    recorder = new Recorder(ctx);
+    await recorder.start(recorderEnvSetup);
+  });
 
   afterEach(async () => {
-      await recorder.stop();
-    });
+    await recorder.stop();
+  });
 
   it("can be created with a url and a credential", async () => {
     const queueServiceClient = getQSU(recorder);

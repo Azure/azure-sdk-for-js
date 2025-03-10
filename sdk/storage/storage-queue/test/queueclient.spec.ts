@@ -16,7 +16,7 @@ import { Recorder } from "@azure-tools/test-recorder";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 import { toSupportTracing } from "@azure-tools/test-utils-vitest";
 
-expect.extend({ toSupportTracing })
+expect.extend({ toSupportTracing });
 
 describe("QueueClient", () => {
   let queueServiceClient: QueueServiceClient;
@@ -26,19 +26,19 @@ describe("QueueClient", () => {
   let recorder: Recorder;
 
   beforeEach(async (ctx) => {
-      recorder = new Recorder(ctx);
-      await recorder.start(recorderEnvSetup);
-      await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
-      queueServiceClient = getQSU(recorder);
-      queueName = recorder.variable("queue", getUniqueName("queue"));
-      queueClient = queueServiceClient.getQueueClient(queueName);
-      await queueClient.create();
-    });
+    recorder = new Recorder(ctx);
+    await recorder.start(recorderEnvSetup);
+    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+    queueServiceClient = getQSU(recorder);
+    queueName = recorder.variable("queue", getUniqueName("queue"));
+    queueClient = queueServiceClient.getQueueClient(queueName);
+    await queueClient.create();
+  });
 
   afterEach(async () => {
-      await queueClient.delete();
-      await recorder.stop();
-    });
+    await queueClient.delete();
+    await recorder.stop();
+  });
 
   it("setMetadata", async () => {
     const metadata = {
@@ -216,8 +216,8 @@ describe("QueueClient", () => {
 
   it("getProperties with tracing", async () => {
     await expect(async (options) => {
-    await queueClient.getProperties(options);
-}).toSupportTracing(["QueueClient-getProperties"]);
+      await queueClient.getProperties(options);
+    }).toSupportTracing(["QueueClient-getProperties"]);
   });
 });
 

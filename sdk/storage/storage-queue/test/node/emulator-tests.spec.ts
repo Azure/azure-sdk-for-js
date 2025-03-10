@@ -18,23 +18,23 @@ describe("Emulator Tests", () => {
   let queueClient: QueueClient;
   let recorder: Recorder;
   beforeEach(async (ctx) => {
-      recorder = new Recorder(ctx);
-      await recorder.start(recorderEnvSetup);
-      if (!(env.STORAGE_CONNECTION_STRING ?? "").startsWith("UseDevelopmentStorage=true")) {
-        ctx.skip();
-      }
-      const queueServiceClient = getQSU(recorder);
-      queueName = getUniqueName("queue");
-      queueClient = queueServiceClient.getQueueClient(queueName);
-      await queueClient.create();
-    });
+    recorder = new Recorder(ctx);
+    await recorder.start(recorderEnvSetup);
+    if (!(env.STORAGE_CONNECTION_STRING ?? "").startsWith("UseDevelopmentStorage=true")) {
+      ctx.skip();
+    }
+    const queueServiceClient = getQSU(recorder);
+    queueName = getUniqueName("queue");
+    queueClient = queueServiceClient.getQueueClient(queueName);
+    await queueClient.create();
+  });
 
   afterEach(async () => {
-      if (queueClient) {
-        await queueClient.delete();
-      }
-      await recorder.stop();
-    });
+    if (queueClient) {
+      await queueClient.delete();
+    }
+    await recorder.stop();
+  });
 
   it("QueueClient can be created with a connection string and a queue name", async () => {
     const newClient = new QueueClient(getConnectionStringFromEnvironment(), queueName);

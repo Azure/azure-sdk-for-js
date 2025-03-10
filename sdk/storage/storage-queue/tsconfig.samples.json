@@ -2,9 +2,7 @@
   "extends": "../../../tsconfig.samples.base.json",
   "compilerOptions": {
     "paths": {
-      "@azure/storage-queue": [
-        "./dist/esm"
-      ]
+      "@azure/storage-queue": ["./dist/esm"]
     }
   }
 }
