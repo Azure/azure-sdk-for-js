@@ -19,7 +19,7 @@ import {
   generateAccountSASQueryParameters,
   SASProtocol,
 } from "../../src/index.js";
-import { StorageSharedKeyCredential } from "../../../storage-blob/src/credentials/StorageSharedKeyCredential.js";
+import { StorageSharedKeyCredential } from "@azure/storage-blob";
 import { newPipeline } from "../../src/Pipeline.js";
 import { ShareServiceClient } from "../../src/ShareServiceClient.js";
 import { extractConnectionStringParts } from "../../src/utils/utils.common.js";

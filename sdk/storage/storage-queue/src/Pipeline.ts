@@ -35,22 +35,22 @@ import type { TokenCredential } from "@azure/core-auth";
 import { isTokenCredential } from "@azure/core-auth";
 
 import { logger } from "./log.js";
-import type { StorageRetryOptions } from "../../storage-blob/src/StorageRetryPolicyFactory.js";
-import { StorageRetryPolicyFactory } from "../../storage-blob/src/StorageRetryPolicyFactory.js";
-import { StorageSharedKeyCredential } from "../../storage-blob/src/credentials/StorageSharedKeyCredential.js";
-import { AnonymousCredential } from "../../storage-blob/src/credentials/AnonymousCredential.js";
+import type { StorageRetryOptions } from "@azure/storage-blob";
+import { StorageRetryPolicyFactory } from "@azure/storage-blob";
+import { StorageSharedKeyCredential } from "@azure/storage-blob";
+import { AnonymousCredential } from "@azure/storage-blob";
 import {
   StorageOAuthScopes,
   StorageQueueLoggingAllowedHeaderNames,
   StorageQueueLoggingAllowedQueryParameters,
   SDK_VERSION,
 } from "./utils/constants.js";
-import { getCachedDefaultHttpClient } from "../../storage-blob/src/utils/cache.js";
-import { storageBrowserPolicy } from "../../storage-blob/src/policies/StorageBrowserPolicyV2.js";
-import { storageRetryPolicy } from "../../storage-blob/src/policies/StorageRetryPolicyV2.js";
-import { storageSharedKeyCredentialPolicy } from "../../storage-blob/src/policies/StorageSharedKeyCredentialPolicyV2.js";
-import { StorageBrowserPolicyFactory } from "../../storage-blob/src/StorageBrowserPolicyFactory.js";
-import { storageCorrectContentLengthPolicy } from "../../storage-blob/src/policies/StorageCorrectContentLengthPolicy.js";
+import { getCachedDefaultHttpClient } from "@azure/storage-common";
+import { storageBrowserPolicy } from "@azure/storage-blob";
+import { storageRetryPolicy } from "@azure/storage-blob";
+import { storageSharedKeyCredentialPolicy } from "@azure/storage-blob";
+import { StorageBrowserPolicyFactory } from "@azure/storage-blob";
+import { storageCorrectContentLengthPolicy } from "@azure/storage-blob";
 
 // Export following interfaces and types for customers who want to implement their
 // own RequestPolicy or HTTPClient

@@ -23,9 +23,9 @@ export {
 } from "./FileSASSignatureValues.js";
 export * from "./Clients.js";
 export * from "./ShareSASPermissions.js";
-export * from "../../storage-blob/src/credentials/AnonymousCredential.js";
-export * from "../../storage-blob/src/credentials/Credential.js";
-export * from "../../storage-blob/src/credentials/StorageSharedKeyCredential.js";
+export { AnonymousCredential } from "@azure/storage-blob";
+export { Credential } from "@azure/storage-blob";
+export { StorageSharedKeyCredential } from "@azure/storage-blob";
 export { SasIPRange } from "./SasIPRange.js";
 export { Range } from "./Range.js";
 export {

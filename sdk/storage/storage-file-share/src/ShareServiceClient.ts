@@ -32,8 +32,8 @@ import {
 } from "./utils/utils.common.js";
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 import { Credential } from "@azure/storage-blob";
-import { StorageSharedKeyCredential } from "../../storage-blob/src/credentials/StorageSharedKeyCredential.js";
-import { AnonymousCredential } from "../../storage-blob/src/credentials/AnonymousCredential.js";
+import { StorageSharedKeyCredential } from "@azure/storage-blob";
+import { AnonymousCredential } from "@azure/storage-blob";
 import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { isNodeLike } from "@azure/core-util";
 import { tracingClient } from "./utils/tracing.js";

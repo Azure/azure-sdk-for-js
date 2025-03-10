@@ -3,7 +3,7 @@
 
 import type { TokenCredential } from "@azure/core-auth";
 import { isTokenCredential } from "@azure/core-auth";
-import { isNode } from "@azure/core-util";
+import { isNodeLike } from "@azure/core-util";
 import type {
   QueueCreateResponse,
   QueueDeleteResponse,
@@ -33,8 +33,8 @@ import {
   extractConnectionStringParts,
   assertResponse,
 } from "./utils/utils.common.js";
-import { StorageSharedKeyCredential } from "../../storage-blob/src/credentials/StorageSharedKeyCredential.js";
-import { AnonymousCredential } from "../../storage-blob/src/credentials/AnonymousCredential.js";
+import { StorageSharedKeyCredential } from "@azure/storage-blob";
+import { AnonymousCredential } from "@azure/storage-blob";
 import { tracingClient } from "./utils/tracing.js";
 import type { QueueCreateOptions, QueueDeleteOptions } from "./QueueClient.js";
 import { QueueClient } from "./QueueClient.js";
@@ -190,7 +190,7 @@ export class QueueServiceClient extends StorageClient {
     options = options || {};
     const extractedCreds = extractConnectionStringParts(connectionString);
     if (extractedCreds.kind === "AccountConnString") {
-      if (isNode) {
+      if (isNodeLike) {
         const sharedKeyCredential = new StorageSharedKeyCredential(
           extractedCreds.accountName!,
           extractedCreds.accountKey,
@@ -299,7 +299,7 @@ export class QueueServiceClient extends StorageClient {
     if (isPipelineLike(credentialOrPipeline)) {
       pipeline = credentialOrPipeline;
     } else if (
-      (isNode && credentialOrPipeline instanceof StorageSharedKeyCredential) ||
+      (isNodeLike && credentialOrPipeline instanceof StorageSharedKeyCredential) ||
       credentialOrPipeline instanceof AnonymousCredential ||
       isTokenCredential(credentialOrPipeline)
     ) {

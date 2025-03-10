@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { QueueSASPermissions } from "./QueueSASPermissions.js";
-import type { StorageSharedKeyCredential } from "../../storage-blob/src/credentials/StorageSharedKeyCredential.js";
+import type { StorageSharedKeyCredential } from "@azure/storage-blob";
 import type { SasIPRange } from "./SasIPRange.js";
 import { ipRangeToString } from "./SasIPRange.js";
 import type { SASProtocol } from "./SASQueryParameters.js";

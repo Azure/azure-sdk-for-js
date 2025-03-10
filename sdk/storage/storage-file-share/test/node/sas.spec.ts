@@ -10,8 +10,8 @@ import {
   ShareFileClient,
   ShareServiceClient,
 } from "../../src/index.js";
-import { AnonymousCredential } from "../../../storage-blob/src/credentials/AnonymousCredential.js";
-import type { StorageSharedKeyCredential } from "../../../storage-blob/src/credentials/StorageSharedKeyCredential.js";
+import { AnonymousCredential } from "@azure/storage-blob";
+import type { StorageSharedKeyCredential } from "@azure/storage-blob";
 import { FileSASPermissions } from "../../src/FileSASPermissions.js";
 import { generateFileSASQueryParameters } from "../../src/FileSASSignatureValues.js";
 import { newPipeline } from "../../src/Pipeline.js";

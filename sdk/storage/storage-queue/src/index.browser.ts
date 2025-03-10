@@ -3,8 +3,8 @@
 
 import { RestError } from "@azure/core-rest-pipeline";
 
-export * from "../../storage-blob/src/credentials/AnonymousCredential.js";
-export * from "../../storage-blob/src/credentials/Credential.js";
+export { AnonymousCredential } from "@azure/storage-blob";
+export { Credential } from "@azure/storage-blob";
 export { SasIPRange } from "./SasIPRange.js";
 export {
   Pipeline,
@@ -15,11 +15,11 @@ export {
   StoragePipelineOptions,
   ServiceClientOptions,
 } from "./Pipeline.js";
-export { BaseRequestPolicy } from "../../storage-blob/src/policies/RequestPolicy.js";
-export * from "../../storage-blob/src/policies/AnonymousCredentialPolicy.js";
-export * from "../../storage-blob/src/policies/CredentialPolicy.js";
-export * from "../../storage-blob/src/StorageRetryPolicyFactory.js";
-export * from "../../storage-blob/src/StorageBrowserPolicyFactory.js";
+export { BaseRequestPolicy } from "@azure/storage-blob";
+export { AnonymousCredentialPolicy } from "@azure/storage-blob";
+export { CredentialPolicy } from "@azure/storage-blob";
+export { StorageRetryPolicyFactory } from "@azure/storage-blob";
+export { StorageBrowserPolicyFactory } from "@azure/storage-blob";
 export { Metadata } from "./models.js";
 export * from "./QueueClient.js";
 export * from "./QueueSASPermissions.js";
