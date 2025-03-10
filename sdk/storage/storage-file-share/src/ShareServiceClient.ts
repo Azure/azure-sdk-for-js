@@ -335,10 +335,21 @@ export class ShareServiceClient extends StorageClient {
    *
    * Example usage:
    *
-   * ```js
-   * const shareClient = serviceClient.getShareClient("<share name>");
+   * ```ts snippet:ReadmeSampleCreateShareClient
+   * import { StorageSharedKeyCredential, ShareServiceClient } from "@azure/storage-file-share";
+   *
+   * const account = "<account>";
+   * const accountKey = "<accountkey>";
+   *
+   * const credential = new StorageSharedKeyCredential(account, accountKey);
+   * const serviceClient = new ShareServiceClient(
+   *   `https://${account}.file.core.windows.net`,
+   *   credential,
+   * );
+   *
+   * const shareName = "<share name>";
+   * const shareClient = serviceClient.getShareClient(shareName);
    * await shareClient.create();
-   * console.log("Created share successfully!");
    * ```
    */
   public getShareClient(shareName: string): ShareClient {
@@ -509,51 +520,90 @@ export class ShareServiceClient extends StorageClient {
    *
    * Example using `for await` syntax:
    *
-   * ```js
+   * ```ts snippet:ReadmeSampleListShares
+   * import { StorageSharedKeyCredential, ShareServiceClient } from "@azure/storage-file-share";
+   *
+   * const account = "<account>";
+   * const accountKey = "<accountkey>";
+   *
+   * const credential = new StorageSharedKeyCredential(account, accountKey);
+   * const serviceClient = new ShareServiceClient(
+   *   `https://${account}.file.core.windows.net`,
+   *   credential,
+   * );
+   *
    * let i = 1;
    * for await (const share of serviceClient.listShares()) {
-   *   console.log(`Share ${i++}: ${share.name}`);
+   *   console.log(`Share${i++}: ${share.name}`);
    * }
    * ```
    *
    * Example using `iter.next()`:
    *
-   * ```js
+   * ```ts snippet:ReadmeSampleListShares_Iterator
+   * import { StorageSharedKeyCredential, ShareServiceClient } from "@azure/storage-file-share";
+   *
+   * const account = "<account>";
+   * const accountKey = "<accountkey>";
+   *
+   * const credential = new StorageSharedKeyCredential(account, accountKey);
+   * const serviceClient = new ShareServiceClient(
+   *   `https://${account}.file.core.windows.net`,
+   *   credential,
+   * );
+   *
+   * const shareIter = serviceClient.listShares();
    * let i = 1;
-   * let iter = serviceClient.listShares();
-   * let shareItem = await iter.next();
-   * while (!shareItem.done) {
-   *   console.log(`Share ${i++}: ${shareItem.value.name}`);
-   *   shareItem = await iter.next();
+   * let { value, done } = await shareIter.next();
+   * while (!done) {
+   *   console.log(`Share ${i++}: ${value.name}`);
+   *   ({ value, done } = await shareIter.next());
    * }
    * ```
    *
    * Example using `byPage()`:
    *
-   * ```js
-   * // passing optional maxPageSize in the page settings
+   * ```ts snippet:ReadmeSampleListShares_ByPage
+   * import { StorageSharedKeyCredential, ShareServiceClient } from "@azure/storage-file-share";
+   *
+   * const account = "<account>";
+   * const accountKey = "<accountkey>";
+   *
+   * const credential = new StorageSharedKeyCredential(account, accountKey);
+   * const serviceClient = new ShareServiceClient(
+   *   `https://${account}.file.core.windows.net`,
+   *   credential,
+   * );
+   *
    * let i = 1;
    * for await (const response of serviceClient.listShares().byPage({ maxPageSize: 20 })) {
-   *   if (response.shareItems) {
-   *    for (const share of response.shareItems) {
-   *        console.log(`Share ${i++}: ${share.name}`);
-   *     }
+   *   console.log(`Page ${i++}:`);
+   *   for (const share of response.shareItems || []) {
+   *     console.log(`\tShare: ${share.name}`);
    *   }
    * }
    * ```
    *
    * Example using paging with a marker:
    *
-   * ```js
+   * ```ts snippet:ReadmeSampleListShares_Continuation
+   * import { StorageSharedKeyCredential, ShareServiceClient } from "@azure/storage-file-share";
+   *
+   * const account = "<account>";
+   * const accountKey = "<accountkey>";
+   *
+   * const credential = new StorageSharedKeyCredential(account, accountKey);
+   * const serviceClient = new ShareServiceClient(
+   *   `https://${account}.file.core.windows.net`,
+   *   credential,
+   * );
+   *
    * let i = 1;
    * let iterator = serviceClient.listShares().byPage({ maxPageSize: 2 });
    * let response = (await iterator.next()).value;
    *
-   * // Prints 2 share names
-   * if (response.shareItems) {
-   *   for (const share of response.shareItems) {
-   *     console.log(`Share ${i++}: ${share.name}`);
-   *   }
+   * for await (const share of response.shareItems || []) {
+   *   console.log(`\tShare: ${share.name}`);
    * }
    *
    * // Gets next marker
@@ -563,11 +613,8 @@ export class ShareServiceClient extends StorageClient {
    * iterator = serviceClient.listShares().byPage({ continuationToken: marker, maxPageSize: 10 });
    * response = (await iterator.next()).value;
    *
-   * // Prints 10 share names
-   * if (response.shareItems) {
-   *   for (const share of response.shareItems) {
-   *     console.log(`Share ${i++}: ${share.name}`);
-   *   }
+   * for await (const share of response.shareItems || []) {
+   *   console.log(`\tShare: ${share.name}`);
    * }
    * ```
    *
