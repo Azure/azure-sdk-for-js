@@ -1,7 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import { assert } from "chai";
 import { Buffer } from "node:buffer";
 import * as fs from "node:fs";
 import * as path from "node:path";
@@ -34,6 +32,7 @@ import {
 } from "../utils/index.js";
 import { isNode } from "@azure/core-util";
 import { createTestCredential } from "@azure-tools/test-credential";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("FileClient Node.js only", () => {
   let shareName: string;

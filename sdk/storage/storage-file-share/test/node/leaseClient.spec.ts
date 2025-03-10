@@ -1,7 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import { assert } from "chai";
 import {
   recorderEnvSetup,
   uriSanitizers,
@@ -11,6 +9,7 @@ import {
 } from "../utils/index.js";
 import { Recorder } from "@azure-tools/test-recorder";
 import type { ShareClient, ShareDirectoryClient, ShareFileClient } from "../../src/index.js";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 // for file
 describe("LeaseClient Node.js only - OAuth", () => {

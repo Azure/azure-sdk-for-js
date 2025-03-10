@@ -1,11 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import { assert } from "chai";
 import { getBSU, recorderEnvSetup, bodyToString, uriSanitizers, getUniqueName } from "./utils/index.js";
 import { Recorder } from "@azure-tools/test-recorder";
 import type { ShareClient, ShareDirectoryClient, ShareFileClient, SignedIdentifier } from "../src/index.js";
 import { isNode } from "@azure/core-util";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 // for file
 describe("LeaseClient", () => {

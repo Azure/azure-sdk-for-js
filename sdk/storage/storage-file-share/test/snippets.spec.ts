@@ -3,6 +3,7 @@
 
 import { setLogLevel } from "@azure/logger";
 import { ShareServiceClient, StorageSharedKeyCredential } from "@azure/storage-file-share";
+import { describe, it, assert } from "vitest";
 
 describe("snippets", () => {
   it("ReadmeSampleCreateClient_ConnectionString", async () => {

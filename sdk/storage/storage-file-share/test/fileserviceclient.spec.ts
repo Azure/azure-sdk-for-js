@@ -1,8 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import { assert } from "chai";
-
 import {
   configureStorageClient,
   getBSU,
@@ -17,6 +14,7 @@ import { delay, Recorder } from "@azure-tools/test-recorder";
 import type { ShareItem, ShareRootSquash } from "../src/index.js";
 import { ShareServiceClient } from "../src/index.js";
 import { getYieldedValue } from "@azure-tools/test-utils";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("FileServiceClient", () => {
   let recorder: Recorder;

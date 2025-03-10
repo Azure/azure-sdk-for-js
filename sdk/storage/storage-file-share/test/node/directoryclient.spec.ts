@@ -1,7 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import { assert } from "chai";
 import {
   SimpleTokenCredential,
   configureStorageClient,
@@ -15,6 +13,7 @@ import type { StorageSharedKeyCredential, ShareClient } from "../../src/index.js
 import { newPipeline, ShareDirectoryClient, getFileServiceAccountAudience } from "../../src/index.js";
 import { Recorder } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("DirectoryClient Node.js only", () => {
   let shareName: string;

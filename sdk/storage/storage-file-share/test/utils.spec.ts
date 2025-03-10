@@ -1,7 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import { assert } from "chai";
 import {
   sanitizeHeaders,
   sanitizeURL,
@@ -9,6 +7,7 @@ import {
   isIpEndpointStyle,
 } from "../src/utils/utils.common.js";
 import { createHttpHeaders } from "@azure/core-rest-pipeline";
+import { describe, it, assert } from "vitest";
 
 describe("Utility Helpers", () => {
   const protocol = "https";

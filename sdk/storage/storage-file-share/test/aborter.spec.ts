@@ -1,11 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import { assert } from "chai";
-
 import { getBSU, recorderEnvSetup, getUniqueName, uriSanitizers } from "./utils/index.js";
 import { Recorder } from "@azure-tools/test-recorder";
 import type { ShareClient } from "../src/index.js";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("Aborter", () => {
   let shareName: string;

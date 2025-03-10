@@ -1,7 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import { assert } from "chai";
 import {
   getBSU,
   getGenericBSU,
@@ -15,6 +13,7 @@ import type { ShareItem, ShareServiceClient } from "../src/index.js";
 import { ShareClient } from "../src/index.js";
 import { delay, Recorder } from "@azure-tools/test-recorder";
 import { configureStorageClient } from "./utils/index.js";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("ShareClient", () => {
   let serviceClient: ShareServiceClient;

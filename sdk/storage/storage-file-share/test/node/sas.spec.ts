@@ -1,8 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import { assert } from "chai";
-
 import {
   AccountSASPermissions,
   AccountSASResourceTypes,
@@ -27,6 +24,7 @@ import {
   uriSanitizers,
 } from "../utils/index.js";
 import { delay, Recorder } from "@azure-tools/test-recorder";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("Shared Access Signature (SAS) generation Node.js only", () => {
   let recorder: Recorder;
