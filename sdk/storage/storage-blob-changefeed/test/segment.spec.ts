@@ -40,7 +40,7 @@ describe("Segment", async () => {
   });
 
   afterEach(() => {
-    sinon.restore();
+    vi.restoreAllMocks();
   });
 
   it("getChange round robin in shards", async () => {

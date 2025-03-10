@@ -25,7 +25,7 @@ class FakeAvroReader {
 
 describe("Chunk", async () => {
   afterEach(() => {
-    sinon.restore();
+    vi.restoreAllMocks();
   });
 
   it("hasNext()", async () => {

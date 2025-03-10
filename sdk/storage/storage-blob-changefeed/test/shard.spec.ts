@@ -28,7 +28,7 @@ describe("Shard", async () => {
   });
 
   afterEach(() => {
-    sinon.restore();
+    vi.restoreAllMocks();
   });
 
   it("build shard with none-zero chunkIndex", async () => {

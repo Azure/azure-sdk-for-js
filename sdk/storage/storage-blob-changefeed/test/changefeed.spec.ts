@@ -100,7 +100,7 @@ describe("Change Feed", async () => {
   });
 
   afterEach(() => {
-    sinon.restore();
+    vi.restoreAllMocks();
   });
 
   it("no valid years in change feed container", async () => {
