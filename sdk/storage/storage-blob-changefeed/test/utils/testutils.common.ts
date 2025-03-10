@@ -4,10 +4,10 @@
 import type { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-auth";
 import type { Recorder, RecorderStartOptions } from "@azure-tools/test-recorder";
 import { isPlaybackMode } from "@azure-tools/test-recorder";
-import type { Readable } from "stream";
+import type { Readable } from "node:stream";
 import type { FindReplaceSanitizer } from "@azure-tools/test-recorder/types/src/utils/utils";
 import type { Pipeline } from "@azure/core-rest-pipeline";
-import type { BlobChangeFeedClient } from "../../src/BlobChangeFeedClient";
+import type { BlobChangeFeedClient } from "../../src/BlobChangeFeedClient.js";
 
 export const testPollerProperties = {
   intervalInMs: isPlaybackMode() ? 0 : undefined,
