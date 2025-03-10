@@ -31,23 +31,23 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
   let serviceClient: ShareServiceClient;
 
   beforeEach(async (ctx) => {
-      recorder = new Recorder(ctx);
-      await recorder.start(recorderEnvSetup);
-      await recorder.addSanitizers(
-        {
-          removeHeaderSanitizer: {
-            headersForRemoval: ["x-ms-file-rename-source"],
-          },
-          uriSanitizers,
+    recorder = new Recorder(ctx);
+    await recorder.start(recorderEnvSetup);
+    await recorder.addSanitizers(
+      {
+        removeHeaderSanitizer: {
+          headersForRemoval: ["x-ms-file-rename-source"],
         },
-        ["record", "playback"],
-      );
-      serviceClient = getBSU(recorder);
-    });
+        uriSanitizers,
+      },
+      ["record", "playback"],
+    );
+    serviceClient = getBSU(recorder);
+  });
 
   afterEach(async () => {
-      await recorder.stop();
-    });
+    await recorder.stop();
+  });
 
   it("generateAccountSASQueryParameters should work", async () => {
     const now = new Date(recorder.variable("now", new Date().toISOString()));

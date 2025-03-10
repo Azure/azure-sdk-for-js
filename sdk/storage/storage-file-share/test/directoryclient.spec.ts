@@ -9,7 +9,7 @@ import {
   recorderEnvSetup,
   uriSanitizers,
 } from "./utils/index.js";
-import type { FilePosixProperties, ShareClient , ShareServiceClient } from "../src/index.js";
+import type { FilePosixProperties, ShareClient, ShareServiceClient } from "../src/index.js";
 import { ShareDirectoryClient, FileSystemAttributes } from "../src/index.js";
 import { Recorder, isLiveMode } from "@azure-tools/test-recorder";
 import type { DirectoryCreateResponse } from "../src/generatedModels.js";
@@ -19,7 +19,7 @@ import { isBrowser } from "@azure/core-util";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 import { toSupportTracing } from "@azure-tools/test-utils-vitest";
 
-expect.extend({ toSupportTracing })
+expect.extend({ toSupportTracing });
 
 describe("DirectoryClient", () => {
   let shareName: string;
@@ -41,40 +41,40 @@ describe("DirectoryClient", () => {
     "AQAUhGwAAACIAAAAAAAAABQAAAACAFgAAwAAAAAAFAD/AR8AAQEAAAAAAAUSAAAAAAAYAP8BHwABAgAAAAAABSAAAAAgAgAAAAAkAKkAEgABBQAAAAAABRUAAABZUbgXZnJdJWRjOwuMmS4AAQUAAAAAAAUVAAAAoGXPfnhLm1/nfIdwr/1IAQEFAAAAAAAFFQAAAKBlz354S5tf53yHcAECAAA=";
 
   beforeEach(async (ctx) => {
-      recorder = new Recorder(ctx);
-      await recorder.start(recorderEnvSetup);
-      await recorder.addSanitizers(
-        {
-          removeHeaderSanitizer: {
-            headersForRemoval: ["x-ms-file-rename-source", "x-ms-copy-source"],
-          },
-          uriSanitizers,
+    recorder = new Recorder(ctx);
+    await recorder.start(recorderEnvSetup);
+    await recorder.addSanitizers(
+      {
+        removeHeaderSanitizer: {
+          headersForRemoval: ["x-ms-file-rename-source", "x-ms-copy-source"],
         },
-        ["record", "playback"],
-      );
-      const serviceClient = getBSU(recorder);
-      shareName = recorder.variable("share", getUniqueName("share"));
-      shareClient = serviceClient.getShareClient(shareName);
-      await shareClient.create();
+        uriSanitizers,
+      },
+      ["record", "playback"],
+    );
+    const serviceClient = getBSU(recorder);
+    shareName = recorder.variable("share", getUniqueName("share"));
+    shareClient = serviceClient.getShareClient(shareName);
+    await shareClient.create();
 
-      dirName = recorder.variable("dir", getUniqueName("dir"));
-      dirClient = shareClient.getDirectoryClient(dirName);
+    dirName = recorder.variable("dir", getUniqueName("dir"));
+    dirClient = shareClient.getDirectoryClient(dirName);
 
-      defaultDirCreateResp = await dirClient.create();
-      assert.equal(defaultDirCreateResp.errorCode, undefined);
-      assert.equal(defaultDirCreateResp.fileAttributes!, "Directory");
-      assert.ok(defaultDirCreateResp.fileChangeOn!);
-      assert.ok(defaultDirCreateResp.fileCreatedOn!);
-      assert.ok(defaultDirCreateResp.fileId!);
-      assert.ok(defaultDirCreateResp.fileLastWriteOn!);
-      assert.ok(defaultDirCreateResp.fileParentId!);
-      assert.ok(defaultDirCreateResp.filePermissionKey!);
-    });
+    defaultDirCreateResp = await dirClient.create();
+    assert.equal(defaultDirCreateResp.errorCode, undefined);
+    assert.equal(defaultDirCreateResp.fileAttributes!, "Directory");
+    assert.ok(defaultDirCreateResp.fileChangeOn!);
+    assert.ok(defaultDirCreateResp.fileCreatedOn!);
+    assert.ok(defaultDirCreateResp.fileId!);
+    assert.ok(defaultDirCreateResp.fileLastWriteOn!);
+    assert.ok(defaultDirCreateResp.fileParentId!);
+    assert.ok(defaultDirCreateResp.filePermissionKey!);
+  });
 
   afterEach(async () => {
-      await shareClient.delete();
-      await recorder.stop();
-    });
+    await shareClient.delete();
+    await recorder.stop();
+  });
 
   it("Get directory client under another directory", async () => {
     const directoryName1 = recorder.variable("dir1", getUniqueName("dir1"));
@@ -1036,33 +1036,41 @@ describe("DirectoryClient", () => {
 
   it("createFile and deleteFile with tracing", async () => {
     await expect(async (options) => {
-    const directoryName = recorder.variable("directory", getUniqueName("directory"));
-    const { directoryClient: subDirClient } = await dirClient.createSubdirectory(directoryName, options);
-    const fileName = recorder.variable("file", getUniqueName("file"));
-    const metadata = { key: "value" };
-    const { fileClient } = await subDirClient.createFile(fileName, 256, {
+      const directoryName = recorder.variable("directory", getUniqueName("directory"));
+      const { directoryClient: subDirClient } = await dirClient.createSubdirectory(
+        directoryName,
+        options,
+      );
+      const fileName = recorder.variable("file", getUniqueName("file"));
+      const metadata = { key: "value" };
+      const { fileClient } = await subDirClient.createFile(fileName, 256, {
         metadata,
         ...options,
-    });
-    const result = await fileClient.getProperties(options);
-    assert.deepEqual(result.metadata, metadata);
-    await subDirClient.deleteFile(fileName, options);
-    try {
+      });
+      const result = await fileClient.getProperties(options);
+      assert.deepEqual(result.metadata, metadata);
+      await subDirClient.deleteFile(fileName, options);
+      try {
         await fileClient.getProperties(options);
-        assert.fail("Expecting an error in getting properties from a deleted block blob but didn't get one.");
-    }
-    catch (error: any) {
+        assert.fail(
+          "Expecting an error in getting properties from a deleted block blob but didn't get one.",
+        );
+      } catch (error: any) {
         assert.ok((error.statusCode as number) === 404);
-        assert.equal(error.details.errorCode, "ResourceNotFound", "Error does not contain details property");
-    }
-    await subDirClient.delete(options);
-}).toSupportTracing([
-    "ShareDirectoryClient-createSubdirectory",
-    "ShareDirectoryClient-createFile",
-    "ShareFileClient-getProperties",
-    "ShareDirectoryClient-deleteFile",
-    "ShareDirectoryClient-delete",
-]);
+        assert.equal(
+          error.details.errorCode,
+          "ResourceNotFound",
+          "Error does not contain details property",
+        );
+      }
+      await subDirClient.delete(options);
+    }).toSupportTracing([
+      "ShareDirectoryClient-createSubdirectory",
+      "ShareDirectoryClient-createFile",
+      "ShareFileClient-getProperties",
+      "ShareDirectoryClient-deleteFile",
+      "ShareDirectoryClient-delete",
+    ]);
   });
 
   it("listHandles should work", async () => {
@@ -1591,47 +1599,47 @@ describe("DirectoryClient - OAuth", () => {
   fullDirAttributes.noScrubData = true;
 
   beforeEach(async (ctx) => {
-      recorder = new Recorder(ctx);
-      await recorder.start(recorderEnvSetup);
-      await recorder.addSanitizers(
-        {
-          removeHeaderSanitizer: {
-            headersForRemoval: ["x-ms-file-rename-source", "x-ms-copy-source"],
-          },
-          uriSanitizers,
+    recorder = new Recorder(ctx);
+    await recorder.start(recorderEnvSetup);
+    await recorder.addSanitizers(
+      {
+        removeHeaderSanitizer: {
+          headersForRemoval: ["x-ms-file-rename-source", "x-ms-copy-source"],
         },
-        ["record", "playback"],
+        uriSanitizers,
+      },
+      ["record", "playback"],
+    );
+    shareName = recorder.variable("share", getUniqueName("share"));
+    shareClientWithKeyCredential = getBSU(recorder).getShareClient(shareName);
+    await shareClientWithKeyCredential.create();
+
+    try {
+      shareClient = getTokenBSU(recorder, "", "", { fileRequestIntent: "backup" }).getShareClient(
+        shareName,
       );
-      shareName = recorder.variable("share", getUniqueName("share"));
-      shareClientWithKeyCredential = getBSU(recorder).getShareClient(shareName);
-      await shareClientWithKeyCredential.create();
+    } catch (err) {
+      ctx.skip();
+    }
 
-      try {
-        shareClient = getTokenBSU(recorder, "", "", { fileRequestIntent: "backup" }).getShareClient(
-          shareName,
-        );
-      } catch (err) {
-        ctx.skip();
-      }
+    dirName = recorder.variable("dir", getUniqueName("dir"));
+    dirClient = shareClient.getDirectoryClient(dirName);
 
-      dirName = recorder.variable("dir", getUniqueName("dir"));
-      dirClient = shareClient.getDirectoryClient(dirName);
-
-      defaultDirCreateResp = await dirClient.create();
-      assert.equal(defaultDirCreateResp.errorCode, undefined);
-      assert.equal(defaultDirCreateResp.fileAttributes!, "Directory");
-      assert.ok(defaultDirCreateResp.fileChangeOn!);
-      assert.ok(defaultDirCreateResp.fileCreatedOn!);
-      assert.ok(defaultDirCreateResp.fileId!);
-      assert.ok(defaultDirCreateResp.fileLastWriteOn!);
-      assert.ok(defaultDirCreateResp.fileParentId!);
-      assert.ok(defaultDirCreateResp.filePermissionKey!);
-    });
+    defaultDirCreateResp = await dirClient.create();
+    assert.equal(defaultDirCreateResp.errorCode, undefined);
+    assert.equal(defaultDirCreateResp.fileAttributes!, "Directory");
+    assert.ok(defaultDirCreateResp.fileChangeOn!);
+    assert.ok(defaultDirCreateResp.fileCreatedOn!);
+    assert.ok(defaultDirCreateResp.fileId!);
+    assert.ok(defaultDirCreateResp.fileLastWriteOn!);
+    assert.ok(defaultDirCreateResp.fileParentId!);
+    assert.ok(defaultDirCreateResp.filePermissionKey!);
+  });
 
   afterEach(async () => {
-      await shareClientWithKeyCredential.delete();
-      await recorder.stop();
-    });
+    await shareClientWithKeyCredential.delete();
+    await recorder.stop();
+  });
 
   it("setMetadata", async () => {
     const metadata = {
@@ -1898,35 +1906,35 @@ describe("DirectoryClient - AllowingTrailingDots - True", () => {
   let recorder: Recorder;
 
   beforeEach(async (ctx) => {
-      recorder = new Recorder(ctx);
-      await recorder.start(recorderEnvSetup);
-      await recorder.addSanitizers(
-        {
-          removeHeaderSanitizer: {
-            headersForRemoval: ["x-ms-file-rename-source", "x-ms-copy-source"],
-          },
-          uriSanitizers,
+    recorder = new Recorder(ctx);
+    await recorder.start(recorderEnvSetup);
+    await recorder.addSanitizers(
+      {
+        removeHeaderSanitizer: {
+          headersForRemoval: ["x-ms-file-rename-source", "x-ms-copy-source"],
         },
-        ["record", "playback"],
-      );
-      const serviceClient = getBSU(recorder, {
-        allowTrailingDot: true,
-        allowSourceTrailingDot: true,
-      });
-      shareName = recorder.variable("share", getUniqueName("share"));
-      shareClient = serviceClient.getShareClient(shareName);
-      await shareClient.create();
-
-      dirName = recorder.variable("dir", getUniqueName("dir")) + ".";
-      dirClient = shareClient.getDirectoryClient(dirName);
-
-      defaultDirCreateResp = await dirClient.create();
+        uriSanitizers,
+      },
+      ["record", "playback"],
+    );
+    const serviceClient = getBSU(recorder, {
+      allowTrailingDot: true,
+      allowSourceTrailingDot: true,
     });
+    shareName = recorder.variable("share", getUniqueName("share"));
+    shareClient = serviceClient.getShareClient(shareName);
+    await shareClient.create();
+
+    dirName = recorder.variable("dir", getUniqueName("dir")) + ".";
+    dirClient = shareClient.getDirectoryClient(dirName);
+
+    defaultDirCreateResp = await dirClient.create();
+  });
 
   afterEach(async () => {
-      await shareClient.delete();
-      await recorder.stop();
-    });
+    await shareClient.delete();
+    await recorder.stop();
+  });
 
   it("create and delete", async () => {
     const dirName1 = recorder.variable("dir1", getUniqueName("dir1"));
@@ -2141,35 +2149,35 @@ describe("DirectoryClient - AllowingTrailingDots - False", () => {
   let defaultDirCreateResp: DirectoryCreateResponse;
 
   beforeEach(async (ctx) => {
-      recorder = new Recorder(ctx);
-      await recorder.start(recorderEnvSetup);
-      await recorder.addSanitizers(
-        {
-          removeHeaderSanitizer: {
-            headersForRemoval: ["x-ms-file-rename-source", "x-ms-copy-source"],
-          },
-          uriSanitizers,
+    recorder = new Recorder(ctx);
+    await recorder.start(recorderEnvSetup);
+    await recorder.addSanitizers(
+      {
+        removeHeaderSanitizer: {
+          headersForRemoval: ["x-ms-file-rename-source", "x-ms-copy-source"],
         },
-        ["record", "playback"],
-      );
-      const serviceClient = getBSU(recorder, {
-        allowTrailingDot: false,
-        allowSourceTrailingDot: false,
-      });
-      shareName = recorder.variable("share", getUniqueName("share"));
-      shareClient = serviceClient.getShareClient(shareName);
-      await shareClient.create();
-
-      dirName = recorder.variable("dir", getUniqueName("dir")) + ".";
-      dirClient = shareClient.getDirectoryClient(dirName);
-
-      defaultDirCreateResp = await dirClient.create();
+        uriSanitizers,
+      },
+      ["record", "playback"],
+    );
+    const serviceClient = getBSU(recorder, {
+      allowTrailingDot: false,
+      allowSourceTrailingDot: false,
     });
+    shareName = recorder.variable("share", getUniqueName("share"));
+    shareClient = serviceClient.getShareClient(shareName);
+    await shareClient.create();
+
+    dirName = recorder.variable("dir", getUniqueName("dir")) + ".";
+    dirClient = shareClient.getDirectoryClient(dirName);
+
+    defaultDirCreateResp = await dirClient.create();
+  });
 
   afterEach(async () => {
-      await shareClient.delete();
-      await recorder.stop();
-    });
+    await shareClient.delete();
+    await recorder.stop();
+  });
 
   it("create and delete", async () => {
     const dirName1 = recorder.variable("dir1", getUniqueName("dir1"));
@@ -2414,32 +2422,32 @@ describe("DirectoryClient - AllowingTrailingDots - Default", () => {
   let recorder: Recorder;
 
   beforeEach(async (ctx) => {
-      recorder = new Recorder(ctx);
-      await recorder.start(recorderEnvSetup);
-      await recorder.addSanitizers(
-        {
-          removeHeaderSanitizer: {
-            headersForRemoval: ["x-ms-file-rename-source", "x-ms-copy-source"],
-          },
-          uriSanitizers,
+    recorder = new Recorder(ctx);
+    await recorder.start(recorderEnvSetup);
+    await recorder.addSanitizers(
+      {
+        removeHeaderSanitizer: {
+          headersForRemoval: ["x-ms-file-rename-source", "x-ms-copy-source"],
         },
-        ["record", "playback"],
-      );
-      const serviceClient = getBSU(recorder);
-      shareName = recorder.variable("share", getUniqueName("share"));
-      shareClient = serviceClient.getShareClient(shareName);
-      await shareClient.create();
+        uriSanitizers,
+      },
+      ["record", "playback"],
+    );
+    const serviceClient = getBSU(recorder);
+    shareName = recorder.variable("share", getUniqueName("share"));
+    shareClient = serviceClient.getShareClient(shareName);
+    await shareClient.create();
 
-      dirName = recorder.variable("dir", getUniqueName("dir")) + ".";
-      dirClient = shareClient.getDirectoryClient(dirName);
+    dirName = recorder.variable("dir", getUniqueName("dir")) + ".";
+    dirClient = shareClient.getDirectoryClient(dirName);
 
-      await dirClient.create();
-    });
+    await dirClient.create();
+  });
 
   afterEach(async () => {
-      await shareClient.delete();
-      await recorder.stop();
-    });
+    await shareClient.delete();
+    await recorder.stop();
+  });
 
   it("create and delete", async () => {
     const dirName1 = recorder.variable("dir1", getUniqueName("dir1"));
@@ -2471,35 +2479,35 @@ describe("DirectoryClient - NFS", () => {
   let dirClient: ShareDirectoryClient;
 
   beforeEach(async (ctx) => {
-      recorder = new Recorder(ctx);
-      await recorder.start(recorderEnvSetup);
-      await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
-      let serviceClient: ShareServiceClient;
-      try {
-        serviceClient = getGenericBSU(recorder, "PREMIUM_FILE_");
-      } catch (error: any) {
-        console.log(error);
-        ctx.skip();
-      }
+    recorder = new Recorder(ctx);
+    await recorder.start(recorderEnvSetup);
+    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+    let serviceClient: ShareServiceClient;
+    try {
+      serviceClient = getGenericBSU(recorder, "PREMIUM_FILE_");
+    } catch (error: any) {
+      console.log(error);
+      ctx.skip();
+    }
 
-      shareName = recorder.variable("share", getUniqueName("share"));
-      shareClient = serviceClient.getShareClient(shareName);
-      await shareClient.create({
-        protocols: {
-          nfsEnabled: true,
-        },
-      });
-
-      dirName = recorder.variable("dir", getUniqueName("dir"));
-      dirClient = shareClient.getDirectoryClient(dirName);
+    shareName = recorder.variable("share", getUniqueName("share"));
+    shareClient = serviceClient.getShareClient(shareName);
+    await shareClient.create({
+      protocols: {
+        nfsEnabled: true,
+      },
     });
+
+    dirName = recorder.variable("dir", getUniqueName("dir"));
+    dirClient = shareClient.getDirectoryClient(dirName);
+  });
 
   afterEach(async () => {
-      if (shareClient) {
-        await shareClient.delete({ deleteSnapshots: "include" });
-      }
-      await recorder.stop();
-    });
+    if (shareClient) {
+      await shareClient.delete({ deleteSnapshots: "include" });
+    }
+    await recorder.stop();
+  });
 
   it("create with nfs properties", async function () {
     const posixProperties: FilePosixProperties = {

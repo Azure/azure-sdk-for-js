@@ -12,17 +12,17 @@ describe("Aborter", () => {
   let recorder: Recorder;
 
   beforeEach(async (ctx) => {
-      recorder = new Recorder(ctx);
-      await recorder.start(recorderEnvSetup);
-      await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
-      const serviceClient = getBSU(recorder);
-      shareName = recorder.variable("share", getUniqueName("share"));
-      shareClient = serviceClient.getShareClient(shareName);
-    });
+    recorder = new Recorder(ctx);
+    await recorder.start(recorderEnvSetup);
+    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+    const serviceClient = getBSU(recorder);
+    shareName = recorder.variable("share", getUniqueName("share"));
+    shareClient = serviceClient.getShareClient(shareName);
+  });
 
   afterEach(async () => {
-      await recorder.stop();
-    });
+    await recorder.stop();
+  });
 
   it("Should abort after aborter timeout", async () => {
     try {

@@ -8,7 +8,11 @@ import * as zlib from "zlib";
 
 import { isLiveMode, Recorder } from "@azure-tools/test-recorder";
 
-import type { ShareClient, ShareDirectoryClient, StorageSharedKeyCredential } from "../../src/index.js";
+import type {
+  ShareClient,
+  ShareDirectoryClient,
+  StorageSharedKeyCredential,
+} from "../../src/index.js";
 import {
   FileSASPermissions,
   generateFileSASQueryParameters,
@@ -47,40 +51,40 @@ describe("FileClient Node.js only", () => {
   let recorder: Recorder;
 
   beforeEach(async (ctx) => {
-      recorder = new Recorder(ctx);
-      await recorder.start(recorderEnvSetup);
-      const serviceClient = getBSU(recorder);
-      await recorder.addSanitizers(
-        {
-          removeHeaderSanitizer: {
-            headersForRemoval: [
-              "x-ms-file-rename-source",
-              "x-ms-copy-source",
-              "x-ms-copy-source-authorization",
-            ],
-          },
-          uriSanitizers,
+    recorder = new Recorder(ctx);
+    await recorder.start(recorderEnvSetup);
+    const serviceClient = getBSU(recorder);
+    await recorder.addSanitizers(
+      {
+        removeHeaderSanitizer: {
+          headersForRemoval: [
+            "x-ms-file-rename-source",
+            "x-ms-copy-source",
+            "x-ms-copy-source-authorization",
+          ],
         },
-        ["record", "playback"],
-      );
-      shareName = recorder.variable("share", getUniqueName("share"));
-      shareClient = serviceClient.getShareClient(shareName);
-      await shareClient.create();
+        uriSanitizers,
+      },
+      ["record", "playback"],
+    );
+    shareName = recorder.variable("share", getUniqueName("share"));
+    shareClient = serviceClient.getShareClient(shareName);
+    await shareClient.create();
 
-      dirName = recorder.variable("dir", getUniqueName("dir"));
-      dirClient = shareClient.getDirectoryClient(dirName);
-      await dirClient.create();
+    dirName = recorder.variable("dir", getUniqueName("dir"));
+    dirClient = shareClient.getDirectoryClient(dirName);
+    await dirClient.create();
 
-      fileName = recorder.variable("file", getUniqueName("file"));
-      fileClient = dirClient.getFileClient(fileName);
-    });
+    fileName = recorder.variable("file", getUniqueName("file"));
+    fileClient = dirClient.getFileClient(fileName);
+  });
 
   afterEach(async () => {
-      if (shareClient) {
-        await shareClient.delete();
-      }
-      await recorder.stop();
-    });
+    if (shareClient) {
+      await shareClient.delete();
+    }
+    await recorder.stop();
+  });
 
   it("Default audience should work", async () => {
     await fileClient.create(1024);

@@ -20,14 +20,14 @@ describe("FileServiceClient", () => {
   let recorder: Recorder;
 
   beforeEach(async (ctx) => {
-      recorder = new Recorder(ctx);
-      await recorder.start(recorderEnvSetup);
-      await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
-    });
+    recorder = new Recorder(ctx);
+    await recorder.start(recorderEnvSetup);
+    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+  });
 
   afterEach(async () => {
-      await recorder.stop();
-    });
+    await recorder.stop();
+  });
 
   it("ListShares with default parameters", async () => {
     const serviceClient = getBSU(recorder);
@@ -398,20 +398,20 @@ describe("FileServiceClient - soft delete", () => {
   let serviceClient: ShareServiceClient;
 
   beforeEach(async (ctx) => {
-      recorder = new Recorder(ctx);
-      await recorder.start(recorderEnvSetup);
-      await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+    recorder = new Recorder(ctx);
+    await recorder.start(recorderEnvSetup);
+    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
 
-      try {
-        serviceClient = getSoftDeleteBSU(recorder);
-      } catch (error: any) {
-        ctx.skip();
-      }
-    });
+    try {
+      serviceClient = getSoftDeleteBSU(recorder);
+    } catch (error: any) {
+      ctx.skip();
+    }
+  });
 
   afterEach(async () => {
-      await recorder.stop();
-    });
+    await recorder.stop();
+  });
 
   it("ListShares with deleted share", async function () {
     const shareClient = serviceClient.getShareClient(
@@ -486,20 +486,20 @@ describe("FileServiceClient Premium", () => {
   let serviceClient: ShareServiceClient;
 
   beforeEach(async (ctx) => {
-      recorder = new Recorder(ctx);
-      await recorder.start(recorderEnvSetup);
-      await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
-      try {
-        serviceClient = getGenericBSU(recorder, "PREMIUM_FILE_");
-      } catch (error: any) {
-        console.log(error);
-        ctx.skip();
-      }
-    });
+    recorder = new Recorder(ctx);
+    await recorder.start(recorderEnvSetup);
+    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+    try {
+      serviceClient = getGenericBSU(recorder, "PREMIUM_FILE_");
+    } catch (error: any) {
+      console.log(error);
+      ctx.skip();
+    }
+  });
 
   afterEach(async () => {
-      await recorder.stop();
-    });
+    await recorder.stop();
+  });
 
   // Skipped for now as it needs be enabled on the account.
   it.skip("SMB Multichannel", async function () {

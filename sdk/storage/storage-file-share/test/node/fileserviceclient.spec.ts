@@ -19,14 +19,14 @@ describe("FileServiceClient Node.js only", () => {
   let recorder: Recorder;
 
   beforeEach(async (ctx) => {
-      recorder = new Recorder(ctx);
-      await recorder.start(recorderEnvSetup);
-      await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
-    });
+    recorder = new Recorder(ctx);
+    await recorder.start(recorderEnvSetup);
+    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+  });
 
   afterEach(async () => {
-      await recorder.stop();
-    });
+    await recorder.stop();
+  });
 
   it("can be created with a url and a credential", async () => {
     const serviceClient = getBSU(recorder);
@@ -105,14 +105,14 @@ describe("FileServiceClient Node.js only - OAuth", () => {
   let recorder: Recorder;
 
   beforeEach(async (ctx) => {
-      recorder = new Recorder(ctx);
-      await recorder.start(recorderEnvSetup);
-      await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
-    });
+    recorder = new Recorder(ctx);
+    await recorder.start(recorderEnvSetup);
+    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+  });
 
   afterEach(async () => {
-      await recorder.stop();
-    });
+    await recorder.stop();
+  });
 
   it("ListShares with default parameters", async () => {
     const serviceClient = getTokenBSUWithDefaultCredential(recorder, "", "", {
@@ -259,22 +259,22 @@ describe("FileServiceClient Premium Node.js only", () => {
   let serviceClient: ShareServiceClient;
 
   beforeEach(async (ctx) => {
-      recorder = new Recorder(ctx);
-      await recorder.start(recorderEnvSetup);
-      await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
-      try {
-        serviceClient = getTokenBSUWithDefaultCredential(recorder, "PREMIUM_FILE_", "", {
-          fileRequestIntent: "backup",
-        });
-      } catch (error: any) {
-        console.log(error);
-        ctx.skip();
-      }
-    });
+    recorder = new Recorder(ctx);
+    await recorder.start(recorderEnvSetup);
+    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+    try {
+      serviceClient = getTokenBSUWithDefaultCredential(recorder, "PREMIUM_FILE_", "", {
+        fileRequestIntent: "backup",
+      });
+    } catch (error: any) {
+      console.log(error);
+      ctx.skip();
+    }
+  });
 
   afterEach(async () => {
-      await recorder.stop();
-    });
+    await recorder.stop();
+  });
 
   // STG95 will enable it when it's enabled on service
   it.skip("Paid Bursting", async function () {

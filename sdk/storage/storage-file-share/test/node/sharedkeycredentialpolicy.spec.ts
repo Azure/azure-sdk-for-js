@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-
 import { Recorder } from "@azure-tools/test-recorder";
 
 import type { ShareClient } from "../../src/index.js";
@@ -15,19 +14,19 @@ describe("StorageSharedKeyCredentialPolicy Node.js only", () => {
   let recorder: Recorder;
 
   beforeEach(async (ctx) => {
-      recorder = new Recorder(ctx);
-      await recorder.start(recorderEnvSetup);
-      await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
-      const serviceClient = getBSU(recorder);
-      shareName = recorder.variable("1share-with-dash", getUniqueName("1share-with-dash"));
-      shareClient = serviceClient.getShareClient(shareName);
-      await shareClient.create();
-    });
+    recorder = new Recorder(ctx);
+    await recorder.start(recorderEnvSetup);
+    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+    const serviceClient = getBSU(recorder);
+    shareName = recorder.variable("1share-with-dash", getUniqueName("1share-with-dash"));
+    shareClient = serviceClient.getShareClient(shareName);
+    await shareClient.create();
+  });
 
   afterEach(async () => {
-      await shareClient.delete();
-      await recorder.stop();
-    });
+    await shareClient.delete();
+    await recorder.stop();
+  });
 
   it("StorageSharedKeyCredentialPolicy should work with special share and file names with spaces", async () => {
     const dirName = recorder.variable("dir empty", getUniqueName("dir empty"));

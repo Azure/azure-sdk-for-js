@@ -17,7 +17,10 @@ export {
   parseSymbolicFileMode,
   toSymbolicFileMode,
 } from "./utils/utils.common.js";
-export { FileSASSignatureValues, generateFileSASQueryParameters } from "./FileSASSignatureValues.js";
+export {
+  FileSASSignatureValues,
+  generateFileSASQueryParameters,
+} from "./FileSASSignatureValues.js";
 export * from "./Clients.js";
 export * from "./ShareSASPermissions.js";
 export * from "../../storage-blob/src/credentials/AnonymousCredential.js";

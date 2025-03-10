@@ -34,26 +34,26 @@ describe("Highlevel Node.js only", () => {
   let recorder: Recorder;
 
   beforeEach(async (ctx) => {
-      recorder = new Recorder(ctx);
-      await recorder.start(recorderEnvSetup);
-      await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
-      const serviceClient = getBSU(recorder);
-      shareName = recorder.variable("share", getUniqueName("share"));
-      shareClient = serviceClient.getShareClient(shareName);
-      await shareClient.create();
-      dirName = recorder.variable("dir", getUniqueName("dir"));
-      dirClient = shareClient.getDirectoryClient(dirName);
-      await dirClient.create();
-      fileName = recorder.variable("file", getUniqueName("file"));
-      fileClient = dirClient.getFileClient(fileName);
-    });
+    recorder = new Recorder(ctx);
+    await recorder.start(recorderEnvSetup);
+    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+    const serviceClient = getBSU(recorder);
+    shareName = recorder.variable("share", getUniqueName("share"));
+    shareClient = serviceClient.getShareClient(shareName);
+    await shareClient.create();
+    dirName = recorder.variable("dir", getUniqueName("dir"));
+    dirClient = shareClient.getDirectoryClient(dirName);
+    await dirClient.create();
+    fileName = recorder.variable("file", getUniqueName("file"));
+    fileClient = dirClient.getFileClient(fileName);
+  });
 
   afterEach(async () => {
-      if (shareClient) {
-        await shareClient.delete();
-      }
-      await recorder.stop();
-    });
+    if (shareClient) {
+      await shareClient.delete();
+    }
+    await recorder.stop();
+  });
 
   beforeAll(async () => {
     if (!fs.existsSync(tempFolderPath)) {

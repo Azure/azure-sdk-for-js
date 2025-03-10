@@ -17,21 +17,21 @@ describe("RetryPolicy", () => {
   let recorder: Recorder;
 
   beforeEach(async (ctx) => {
-      recorder = new Recorder(ctx);
-      await recorder.start(recorderEnvSetup);
-      await recorder.addSanitizers({ uriSanitizers }, ["playback", "record"]);
-      shareServiceClient = getBSU(recorder);
-      shareName = recorder.variable("share", getUniqueName("share"));
-      shareClient = shareServiceClient.getShareClient(shareName);
-      await shareClient.create();
-    });
+    recorder = new Recorder(ctx);
+    await recorder.start(recorderEnvSetup);
+    await recorder.addSanitizers({ uriSanitizers }, ["playback", "record"]);
+    shareServiceClient = getBSU(recorder);
+    shareName = recorder.variable("share", getUniqueName("share"));
+    shareClient = shareServiceClient.getShareClient(shareName);
+    await shareClient.create();
+  });
 
   afterEach(async () => {
-      const pipeline: Pipeline = (shareClient as any).storageClientContext.pipeline;
-      pipeline.removePolicy({ name: injectorPolicyName });
-      await shareClient.delete();
-      await recorder.stop();
-    });
+    const pipeline: Pipeline = (shareClient as any).storageClientContext.pipeline;
+    pipeline.removePolicy({ name: injectorPolicyName });
+    await shareClient.delete();
+    await recorder.stop();
+  });
 
   it("Retry Policy should work when first request fails with 500", async function () {
     let injectCounter = 0;

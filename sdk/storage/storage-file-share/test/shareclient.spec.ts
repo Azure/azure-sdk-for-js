@@ -23,19 +23,19 @@ describe("ShareClient", () => {
   let recorder: Recorder;
 
   beforeEach(async (ctx) => {
-      recorder = new Recorder(ctx);
-      await recorder.start(recorderEnvSetup);
-      await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
-      serviceClient = getBSU(recorder);
-      shareName = recorder.variable("share", getUniqueName("share"));
-      shareClient = serviceClient.getShareClient(shareName);
-      await shareClient.create();
-    });
+    recorder = new Recorder(ctx);
+    await recorder.start(recorderEnvSetup);
+    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+    serviceClient = getBSU(recorder);
+    shareName = recorder.variable("share", getUniqueName("share"));
+    shareClient = serviceClient.getShareClient(shareName);
+    await shareClient.create();
+  });
 
   afterEach(async () => {
-      await shareClient.delete();
-      await recorder.stop();
-    });
+    await shareClient.delete();
+    await recorder.stop();
+  });
 
   it("setMetadata", async () => {
     const metadata = {
@@ -331,27 +331,27 @@ describe("ShareClient - OAuth", () => {
   let recorder: Recorder;
 
   beforeEach(async (ctx) => {
-      recorder = new Recorder(ctx);
-      await recorder.start(recorderEnvSetup);
-      await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+    recorder = new Recorder(ctx);
+    await recorder.start(recorderEnvSetup);
+    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
 
-      try {
-        serviceClient = getTokenBSU(recorder, "", "", { fileRequestIntent: "backup" });
-      } catch (err) {
-        ctx.skip();
-      }
-      shareName = recorder.variable("share", getUniqueName("share"));
-      shareClient = serviceClient.getShareClient(shareName);
-      shareClientWithKeyCredential = getBSU(recorder).getShareClient(shareName);
-      await shareClientWithKeyCredential.create();
-    });
+    try {
+      serviceClient = getTokenBSU(recorder, "", "", { fileRequestIntent: "backup" });
+    } catch (err) {
+      ctx.skip();
+    }
+    shareName = recorder.variable("share", getUniqueName("share"));
+    shareClient = serviceClient.getShareClient(shareName);
+    shareClientWithKeyCredential = getBSU(recorder).getShareClient(shareName);
+    await shareClientWithKeyCredential.create();
+  });
 
   afterEach(async () => {
-      if (shareClientWithKeyCredential) {
-        await shareClientWithKeyCredential.delete();
-      }
-      await recorder.stop();
-    });
+    if (shareClientWithKeyCredential) {
+      await shareClientWithKeyCredential.delete();
+    }
+    await recorder.stop();
+  });
 
   it("create and get permission", async () => {
     const directoryName = recorder.variable("dir", getUniqueName("dir"));
@@ -406,19 +406,19 @@ describe("ShareClient", () => {
   let recorder: Recorder;
 
   beforeEach(async (ctx) => {
-      recorder = new Recorder(ctx);
-      await recorder.start(recorderEnvSetup);
-      await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
-      serviceClient = getBSU(recorder);
-      shareName = recorder.variable("share", getUniqueName("share"));
-      shareClient = serviceClient.getShareClient(shareName);
-      await shareClient.create();
-    });
+    recorder = new Recorder(ctx);
+    await recorder.start(recorderEnvSetup);
+    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+    serviceClient = getBSU(recorder);
+    shareName = recorder.variable("share", getUniqueName("share"));
+    shareClient = serviceClient.getShareClient(shareName);
+    await shareClient.create();
+  });
 
   afterEach(async () => {
-      await shareClient.delete();
-      await recorder.stop();
-    });
+    await shareClient.delete();
+    await recorder.stop();
+  });
 
   it("setMetadata", async () => {
     const metadata = {
@@ -734,20 +734,20 @@ describe("ShareClient Provisioned", () => {
   let serviceClient: ShareServiceClient;
 
   beforeEach(async (ctx) => {
-      recorder = new Recorder(ctx);
-      await recorder.start(recorderEnvSetup);
-      await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
-      try {
-        serviceClient = getGenericBSU(recorder, "PROVISIONED_FILE_");
-      } catch (error: any) {
-        console.log(error);
-        ctx.skip();
-      }
-    });
+    recorder = new Recorder(ctx);
+    await recorder.start(recorderEnvSetup);
+    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+    try {
+      serviceClient = getGenericBSU(recorder, "PROVISIONED_FILE_");
+    } catch (error: any) {
+      console.log(error);
+      ctx.skip();
+    }
+  });
 
   afterEach(async () => {
-      await recorder.stop();
-    });
+    await recorder.stop();
+  });
 
   // Skipped for now as it needs be enabled on the account.
   it("Create share with Provisioned Max Iops and Bandwidth", async function () {
@@ -861,20 +861,20 @@ describe("ShareClient Premium", () => {
   let recorder: Recorder;
 
   beforeEach(async (ctx) => {
-      recorder = new Recorder(ctx);
-      await recorder.start(recorderEnvSetup);
-      await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
-      try {
-        serviceClient = getGenericBSU(recorder, "PREMIUM_FILE_");
-      } catch (error: any) {
-        console.log(error);
-        ctx.skip();
-      }
-    });
+    recorder = new Recorder(ctx);
+    await recorder.start(recorderEnvSetup);
+    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+    try {
+      serviceClient = getGenericBSU(recorder, "PREMIUM_FILE_");
+    } catch (error: any) {
+      console.log(error);
+      ctx.skip();
+    }
+  });
 
   afterEach(async () => {
-      await recorder.stop();
-    });
+    await recorder.stop();
+  });
 
   it("create share with premium accessTier and listShare", async () => {
     const newShareName = recorder.variable("newshare", getUniqueName("newshare"));

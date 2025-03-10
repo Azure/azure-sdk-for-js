@@ -3,7 +3,10 @@
 
 import type { Pipeline } from "./Pipeline.js";
 import { StorageClient } from "./StorageClient.js";
-import type { ShareRestoreOptionalParams, ShareRestoreResponse } from "./generated/src/models/index.js";
+import type {
+  ShareRestoreOptionalParams,
+  ShareRestoreResponse,
+} from "./generated/src/models/index.js";
 import type { Share } from "./generated/src/operationsInterfaces/index.js";
 
 /**

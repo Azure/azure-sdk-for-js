@@ -17,25 +17,25 @@ describe("Special Naming Tests", () => {
   let recorder: Recorder;
 
   beforeEach(async (ctx) => {
-      recorder = new Recorder(ctx);
-      await recorder.start(recorderEnvSetup);
-      await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
-      const serviceClient = getBSU(recorder);
+    recorder = new Recorder(ctx);
+    await recorder.start(recorderEnvSetup);
+    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+    const serviceClient = getBSU(recorder);
 
-      shareName = recorder.variable("1share-with-dash", getUniqueName("1share-with-dash"));
-      shareClient = serviceClient.getShareClient(shareName);
+    shareName = recorder.variable("1share-with-dash", getUniqueName("1share-with-dash"));
+    shareClient = serviceClient.getShareClient(shareName);
 
-      directoryName = recorder.variable("dir", getUniqueName("dir"));
-      directoryClient = shareClient.getDirectoryClient(directoryName);
+    directoryName = recorder.variable("dir", getUniqueName("dir"));
+    directoryClient = shareClient.getDirectoryClient(directoryName);
 
-      await shareClient.create();
-      await directoryClient.create();
-    });
+    await shareClient.create();
+    await directoryClient.create();
+  });
 
   afterEach(async () => {
-      await shareClient.delete();
-      await recorder.stop();
-    });
+    await shareClient.delete();
+    await recorder.stop();
+  });
 
   it("Should work with special container and file names with spaces", async () => {
     const fileName: string = recorder.variable("file empty", getUniqueName("file empty"));

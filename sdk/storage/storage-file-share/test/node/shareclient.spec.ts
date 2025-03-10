@@ -13,7 +13,11 @@ import {
   SimpleTokenCredential,
   getTokenBSUWithDefaultCredential,
 } from "../utils/index.js";
-import type { ShareServiceClient, SignedIdentifier, StorageSharedKeyCredential } from "../../src/index.js";
+import type {
+  ShareServiceClient,
+  SignedIdentifier,
+  StorageSharedKeyCredential,
+} from "../../src/index.js";
 import { getFileServiceAccountAudience, newPipeline, ShareClient } from "../../src/index.js";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
@@ -25,19 +29,19 @@ describe("ShareClient Node.js only", () => {
   let recorder: Recorder;
 
   beforeEach(async (ctx) => {
-      recorder = new Recorder(ctx);
-      await recorder.start(recorderEnvSetup);
-      await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
-      const serviceClient = getBSU(recorder);
-      shareName = recorder.variable("share", getUniqueName("share"));
-      shareClient = serviceClient.getShareClient(shareName);
-      await shareClient.create();
-    });
+    recorder = new Recorder(ctx);
+    await recorder.start(recorderEnvSetup);
+    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+    const serviceClient = getBSU(recorder);
+    shareName = recorder.variable("share", getUniqueName("share"));
+    shareClient = serviceClient.getShareClient(shareName);
+    await shareClient.create();
+  });
 
   afterEach(async () => {
-      await shareClient.delete();
-      await recorder.stop();
-    });
+    await shareClient.delete();
+    await recorder.stop();
+  });
 
   it("Default audience should work", async () => {
     const directoryName = recorder.variable("dir", getUniqueName("dir"));
@@ -255,21 +259,21 @@ describe("ShareClient Node.js only - OAuth", () => {
   let recorder: Recorder;
 
   beforeEach(async (ctx) => {
-      recorder = new Recorder(ctx);
-      await recorder.start(recorderEnvSetup);
-      await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
-      serviceClient = getTokenBSUWithDefaultCredential(recorder, "", "", {
-        fileRequestIntent: "backup",
-      });
-      shareName = recorder.variable("share", getUniqueName("share"));
-      shareClient = serviceClient.getShareClient(shareName);
-      await shareClient.create();
+    recorder = new Recorder(ctx);
+    await recorder.start(recorderEnvSetup);
+    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+    serviceClient = getTokenBSUWithDefaultCredential(recorder, "", "", {
+      fileRequestIntent: "backup",
     });
+    shareName = recorder.variable("share", getUniqueName("share"));
+    shareClient = serviceClient.getShareClient(shareName);
+    await shareClient.create();
+  });
 
   afterEach(async () => {
-      await shareClient.delete();
-      await recorder.stop();
-    });
+    await shareClient.delete();
+    await recorder.stop();
+  });
 
   it("setMetadata", async () => {
     const metadata = {
