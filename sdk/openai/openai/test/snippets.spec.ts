@@ -10,7 +10,7 @@ import "@azure/openai/types";
 describe("snippets", () => {
   it("ReadmeSampleAnalyzeBusinessData", async () => {
     // Import OpenAI Type Helpers
-    import "@azure/openai/types";
+    // FIX: import "@azure/openai/types";
     // @ts-preserve-whitespace
     const credential = new DefaultAzureCredential();
     const scope = "https://cognitiveservices.azure.com/.default";
@@ -57,7 +57,7 @@ describe("snippets", () => {
 
   it("ReadmeSampleContentFilteredChatCompletions", async () => {
     // Import OpenAI Type Helpers
-    import "@azure/openai/types";
+    // FIX: import "@azure/openai/types";
     // @ts-preserve-whitespace
     const credential = new DefaultAzureCredential();
     const scope = "https://cognitiveservices.azure.com/.default";

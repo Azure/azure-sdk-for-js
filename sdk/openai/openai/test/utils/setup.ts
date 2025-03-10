@@ -73,7 +73,7 @@ export async function getDeployments(): Promise<ResourcesInfo> {
   const filePath = "./deployments.json";
   try {
     const content = await readFile(filePath, "utf-8");
-    logger.info(`Reading deployments from file: ${filePath}: ${content}`);
+    logger.verbose(`Reading deployments from file: ${filePath}: ${content}`);
     return JSON.parse(content);
   } catch {
     const resourcesInfo: Omit<ResourceInfo, "count">[] = [];
@@ -92,7 +92,7 @@ export async function getDeployments(): Promise<ResourcesInfo> {
         });
       }
     }
-    logger.info(`Available deployments [${count}]: ${JSON.stringify(resourcesInfo, null, 2)}`);
+    logger.verbose(`Available deployments [${count}]: ${JSON.stringify(resourcesInfo, null, 2)}`);
     await writeFile(filePath, JSON.stringify({ resourcesInfo, count }, null, 2));
     return { resourcesInfo, count };
   }

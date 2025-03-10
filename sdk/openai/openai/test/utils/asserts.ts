@@ -569,7 +569,7 @@ function assertParsedMessage<ParsedT>(
   if (message.content && message.parsed) {
     assert.deepEqual(message.content, JSON.stringify(message.parsed));
   }
-  for (const item of message.tool_calls) {
+  for (const item of message.tool_calls || []) {
     assertParsedFunctionToolCall(item);
   }
 }
