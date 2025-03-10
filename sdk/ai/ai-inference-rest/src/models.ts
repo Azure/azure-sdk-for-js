@@ -77,15 +77,29 @@ export interface ChatMessageImageUrl {
   detail?: ChatMessageImageDetailLevel;
 }
 
-/** A structured chat content item containing an audio content. */
-export interface ChatMessageAudioContentItem extends ChatMessageContentItemParent {
+/** A structured chat content item for audio content passed as a url. */
+export interface ChatMessageAudioUrlContentItem extends ChatMessageContentItemParent {
+  /** The discriminated object type: always 'audio_url' for this type. */
+  type: "audio_url";
+  /** The details of the audio url. */
+  audio_url: ChatMessageInputAudioUrl;
+}
+
+/** The details of the audio url. */
+export interface ChatMessageInputAudioUrl {
+  /** The URL of the audio content. */
+  url: string;
+}
+
+/** A structured chat content item for audio content passed as base64 encoded data. */
+export interface ChatMessageAudioDataContentItem extends ChatMessageContentItemParent {
   /** The discriminated object type: always 'input_audio' for this type. */
   type: "input_audio";
-  /** The details of the input audio. */
+  /** The details of the input audio data. */
   input_audio: ChatMessageInputAudio;
 }
 
-/** The details of an audio chat message content part. */
+/** The details of the input audio data. */
 export interface ChatMessageInputAudio {
   /** Base64 encoded audio data */
   data: string;
@@ -264,7 +278,8 @@ export type ChatMessageContentItem =
   | ChatMessageContentItemParent
   | ChatMessageTextContentItem
   | ChatMessageImageContentItem
-  | ChatMessageAudioContentItem;
+  | ChatMessageAudioUrlContentItem
+  | ChatMessageAudioDataContentItem;
 /**
  * Represents the format that the model must output. Use this to enable JSON mode instead of the default text mode.
  * Note that to enable JSON mode, some AI models may also require you to instruct the model to produce JSON

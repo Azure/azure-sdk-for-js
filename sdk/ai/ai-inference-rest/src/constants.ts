@@ -1,6 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
 /**
  * THIS IS AN AUTO-GENERATED FILE - DO NOT EDIT!
  *
