@@ -22,6 +22,7 @@ import type {
 } from "./types.js";
 import { StatsbeatCounter, STATSBEAT_LANGUAGE, StatsbeatFeatureType } from "./types.js";
 import { AzureMonitorStatsbeatExporter } from "./statsbeatExporter.js";
+import { getAttachType } from "../../utils/metricUtils.js";
 
 let instance: LongIntervalStatsbeatMetrics | null = null;
 
@@ -36,7 +37,7 @@ class LongIntervalStatsbeatMetrics extends StatsbeatMetrics {
   private runtimeVersion: string;
   private language: string;
   private version: string;
-  private attach: string = "Manual";
+  private attach: string = getAttachType();
 
   private commonProperties: CommonStatsbeatProperties;
   private attachProperties: AttachStatsbeatProperties;

@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.0-beta.29 ()
+## 1.0.0-beta.29 (2025-03-04)
 
 ### Features Added
 
@@ -12,6 +12,7 @@
 
 - Removed faulty span exception exporting logic.
 - Remove applying cloud.* tags to statsbeat telemetry.
+- Correctly capture attach type on statsbeat metrics.
 
 ## 1.0.0-beta.28 (2025-01-28)
 
