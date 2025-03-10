@@ -12,7 +12,6 @@ const { AIProjectsClient, ToolSet } = require("@azure/ai-projects");
 const { DefaultAzureCredential } = require("@azure/identity");
 const dotenv = require("dotenv");
 const fs = require("fs");
-const path = require("node:path");
 
 dotenv.config();
 
@@ -26,7 +25,7 @@ async function main() {
   );
 
   // Upload file for code interpreter tool
-  const filePath1 = path.resolve(__dirname, "../data/nifty500QuarterlyResults.csv");
+  const filePath1 = "./data/nifty500QuarterlyResults.csv";
   const fileStream1 = fs.createReadStream(filePath1);
   const codeInterpreterFile = await client.agents.uploadFile(fileStream1, "assistants", {
     fileName: "myLocalFile",
@@ -35,7 +34,7 @@ async function main() {
   console.log(`Uploaded local file, file ID : ${codeInterpreterFile.id}`);
 
   // Upload file for file search tool
-  const filePath2 = path.resolve(__dirname, "../data/sampleFileForUpload.txt");
+  const filePath2 = "./data/sampleFileForUpload.txt";
   const fileStream2 = fs.createReadStream(filePath2);
   const fileSearchFile = await client.agents.uploadFile(fileStream2, "assistants", {
     fileName: "sampleFileForUpload.txt",
@@ -51,8 +50,8 @@ async function main() {
 
   // Create tool set
   const toolSet = new ToolSet();
-  toolSet.addFileSearchTool([vectorStore.id]);
-  toolSet.addCodeInterpreterTool([codeInterpreterFile.id]);
+  await toolSet.addFileSearchTool([vectorStore.id]);
+  await toolSet.addCodeInterpreterTool([codeInterpreterFile.id]);
 
   // Create agent with tool set
   const agent = await client.agents.createAgent("gpt-4o", {
