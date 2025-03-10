@@ -3,7 +3,7 @@
 
 import { isTokenCredential } from "@azure/core-auth";
 import { assert } from "chai";
-import type { StorageClient } from "../../src/StorageClient";
+import type { StorageClient } from "../../src/StorageClient.js";
 
 export function assertClientUsesTokenCredential(client: StorageClient): void {
   assert.isTrue(isTokenCredential(client.credential));

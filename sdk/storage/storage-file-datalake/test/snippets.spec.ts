@@ -422,7 +422,7 @@ describe("snippets", () => {
     }
     // @ts-preserve-whitespace
     // [Browsers only] A helper method used to convert a browser Blob into string.
-    async function blobToString(blob: Blob) {
+    async function blobToString(blob: Blob): Promise<void> {
       const fileReader = new FileReader();
       return new Promise((resolve, reject) => {
         fileReader.onloadend = (ev) => {

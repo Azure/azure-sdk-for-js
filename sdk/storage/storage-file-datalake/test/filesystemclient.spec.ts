@@ -9,8 +9,8 @@ import type {
   FileSystemListPathsResponse,
   DataLakeServiceClient,
   FileSystemListDeletedPathsResponse,
-} from "../src";
-import { DataLakeFileSystemClient, DataLakeFileClient, DataLakeDirectoryClient } from "../src";
+} from "../src/index.js";
+import { DataLakeFileSystemClient, DataLakeFileClient, DataLakeDirectoryClient } from "../src/index.js";
 import {
   getDataLakeServiceClient,
   getEncryptionScope,
@@ -18,8 +18,7 @@ import {
   getUniqueName,
   recorderEnvSetup,
   uriSanitizers,
-} from "./utils";
-import type { Context } from "mocha";
+} from "./utils/index.js";
 
 describe("DataLakeFileSystemClient", () => {
   let fileSystemName: string;
@@ -28,20 +27,20 @@ describe("DataLakeFileSystemClient", () => {
   let recorder: Recorder;
   let serviceClient: DataLakeServiceClient;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
-    await recorder.start(recorderEnvSetup);
-    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
-    serviceClient = getDataLakeServiceClient(recorder);
-    fileSystemName = recorder.variable("filesystem", getUniqueName("filesystem"));
-    fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
-    await fileSystemClient.createIfNotExists();
-  });
+  beforeEach(async (ctx) => {
+      recorder = new Recorder(ctx);
+      await recorder.start(recorderEnvSetup);
+      await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+      serviceClient = getDataLakeServiceClient(recorder);
+      fileSystemName = recorder.variable("filesystem", getUniqueName("filesystem"));
+      fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
+      await fileSystemClient.createIfNotExists();
+    });
 
-  afterEach(async function () {
-    await fileSystemClient.deleteIfExists();
-    await recorder.stop();
-  });
+  afterEach(async () => {
+      await fileSystemClient.deleteIfExists();
+      await recorder.stop();
+    });
 
   it("setMetadata", async () => {
     const metadata = {
@@ -100,12 +99,12 @@ describe("DataLakeFileSystemClient", () => {
     assert.deepEqual(result.metadata, metadata);
   });
 
-  it("create with encryption scope", async function (this: Context) {
+  it("create with encryption scope", async function (ctx) {
     let encryptionScopeName;
     try {
       encryptionScopeName = getEncryptionScope();
     } catch {
-      this.skip();
+      ctx.skip();
     }
 
     const cClient = serviceClient.getFileSystemClient(
@@ -122,12 +121,12 @@ describe("DataLakeFileSystemClient", () => {
     await cClient.delete();
   });
 
-  it("create with encryption scope - preventEncryptionScopeOverride : false", async function (this: Context) {
+  it("create with encryption scope - preventEncryptionScopeOverride : false", async function (ctx) {
     let encryptionScopeName;
     try {
       encryptionScopeName = getEncryptionScope();
     } catch {
-      this.skip();
+      ctx.skip();
     }
 
     const cClient = serviceClient.getFileSystemClient(
@@ -207,12 +206,12 @@ describe("DataLakeFileSystemClient", () => {
     }
   });
 
-  it("listPaths - Encryption Scope", async function (this: Context) {
+  it("listPaths - Encryption Scope", async function (ctx) {
     let encryptionScopeName;
     try {
       encryptionScopeName = getEncryptionScope();
     } catch {
-      this.skip();
+      ctx.skip();
     }
 
     const cClient = serviceClient.getFileSystemClient(
@@ -241,7 +240,7 @@ describe("DataLakeFileSystemClient", () => {
     await dirClient.delete();
   });
 
-  it("listPaths - Encryption context", async function (this: Context) {
+  it("listPaths - Encryption context", async function () {
     const encryptionContext = "EncryptionContext";
 
     const cClient = serviceClient.getFileSystemClient(
@@ -265,12 +264,12 @@ describe("DataLakeFileSystemClient", () => {
     await dirClient.delete();
   });
 
-  it("listPaths - PagedAsyncIterableIterator with Encryption Scope", async function (this: Context) {
+  it("listPaths - PagedAsyncIterableIterator with Encryption Scope", async function (ctx) {
     let encryptionScopeName;
     try {
       encryptionScopeName = getEncryptionScope();
     } catch {
-      this.skip();
+      ctx.skip();
     }
 
     const cClient = serviceClient.getFileSystemClient(
@@ -646,36 +645,36 @@ describe("DataLakeFileSystemClient with soft delete", () => {
   let recorder: Recorder;
   let serviceClient: DataLakeServiceClient;
 
-  beforeEach(async function (this: Context) {
-    if (isLiveMode()) {
-      // Turn on this case when the Container Rename feature is ready in the service side.
-      this.skip();
-    }
+  beforeEach(async (ctx) => {
+      if (isLiveMode()) {
+        // Turn on this case when the Container Rename feature is ready in the service side.
+        ctx.skip();
+      }
 
-    recorder = new Recorder(this.currentTest);
-    await recorder.start(recorderEnvSetup);
-    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+      recorder = new Recorder(ctx);
+      await recorder.start(recorderEnvSetup);
+      await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
 
-    try {
-      serviceClient = getGenericDataLakeServiceClient(recorder, "DFS_SOFT_DELETE_");
-    } catch (err: any) {
-      this.skip();
-    }
+      try {
+        serviceClient = getGenericDataLakeServiceClient(recorder, "DFS_SOFT_DELETE_");
+      } catch (err: any) {
+        ctx.skip();
+      }
 
-    fileSystemClient = serviceClient.getFileSystemClient(
-      recorder.variable(`filesystem`, getUniqueName(`filesystem`)),
-    );
-    await fileSystemClient.createIfNotExists();
-  });
+      fileSystemClient = serviceClient.getFileSystemClient(
+        recorder.variable(`filesystem`, getUniqueName(`filesystem`)),
+      );
+      await fileSystemClient.createIfNotExists();
+    });
 
-  afterEach(async function () {
-    if (fileSystemClient) {
-      await fileSystemClient.deleteIfExists();
-    }
-    if (recorder) {
-      await recorder.stop();
-    }
-  });
+  afterEach(async () => {
+      if (fileSystemClient) {
+        await fileSystemClient.deleteIfExists();
+      }
+      if (recorder) {
+        await recorder.stop();
+      }
+    });
 
   it("listDeletedPaths with default parameters", async () => {
     const fileClients = [];

@@ -3,12 +3,11 @@
 
 import { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
-import type { Context } from "mocha";
 
-import type { DataLakeFileSystemClient } from "../src";
-import { DataLakeFileClient } from "../src";
-import { appendToURLPath } from "../src/utils/utils.common";
-import { getDataLakeServiceClient, getUniqueName, recorderEnvSetup, uriSanitizers } from "./utils";
+import type { DataLakeFileSystemClient } from "../src/index.js";
+import { DataLakeFileClient } from "../src/index.js";
+import { appendToURLPath } from "../src/utils/utils.common.js";
+import { getDataLakeServiceClient, getUniqueName, recorderEnvSetup, uriSanitizers } from "./utils/index.js";
 
 describe("Special Naming Tests", () => {
   let fileSystemName: string;
@@ -16,23 +15,23 @@ describe("Special Naming Tests", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
-    await recorder.start(recorderEnvSetup);
-    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
-    const serviceClient = getDataLakeServiceClient(recorder);
-    fileSystemName = recorder.variable(
-      "1container-with-dash",
-      getUniqueName("1container-with-dash"),
-    );
-    fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
-    await fileSystemClient.createIfNotExists();
-  });
+  beforeEach(async (ctx) => {
+      recorder = new Recorder(ctx);
+      await recorder.start(recorderEnvSetup);
+      await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+      const serviceClient = getDataLakeServiceClient(recorder);
+      fileSystemName = recorder.variable(
+        "1container-with-dash",
+        getUniqueName("1container-with-dash"),
+      );
+      fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
+      await fileSystemClient.createIfNotExists();
+    });
 
-  afterEach(async function () {
-    await fileSystemClient.deleteIfExists();
-    await recorder.stop();
-  });
+  afterEach(async () => {
+      await fileSystemClient.deleteIfExists();
+      await recorder.stop();
+    });
 
   it("Should work with special container and blob names with spaces", async () => {
     const fileName: string = recorder.variable("blob empty", getUniqueName("blob empty"));

@@ -3,28 +3,27 @@
 
 import { isLiveMode, Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
-import * as fs from "fs";
-import * as path from "path";
-import * as buffer from "buffer";
-import type { DataLakeFileClient, DataLakeFileSystemClient } from "../../src";
+import * as fs from "node:fs";
+import * as path from "node:path";
+import * as buffer from "node:buffer";
+import type { DataLakeFileClient, DataLakeFileSystemClient } from "../../src/index.js";
 import {
   bodyToString,
   createRandomLocalFile,
   getDataLakeServiceClient,
   getUniqueName,
   recorderEnvSetup,
-} from "../utils";
+} from "../utils/index.js";
 import {
   MB,
   FILE_MAX_SINGLE_UPLOAD_THRESHOLD,
   BLOCK_BLOB_MAX_BLOCKS,
   FILE_UPLOAD_MAX_CHUNK_SIZE,
-} from "../../src/utils/constants";
-import { readStreamToLocalFileWithLogs } from "../../test/utils/testutils.node";
-import { Readable, PassThrough } from "stream";
-import { streamToBuffer2 } from "../../src/utils/utils.node";
-import type { Context } from "mocha";
-import { Test_CPK_INFO } from "../utils/fakeTestSecrets";
+} from "../../src/utils/constants.js";
+import { readStreamToLocalFileWithLogs } from "../../test/utils/testutils.node.js";
+import { Readable, PassThrough } from "node:stream";
+import { streamToBuffer2 } from "../../src/utils/utils.node.js";
+import { Test_CPK_INFO } from "../utils/fakeTestSecrets.js";
 
 describe("Highlevel Node.js only", () => {
   let fileSystemName: string;
@@ -40,37 +39,37 @@ describe("Highlevel Node.js only", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
-    await recorder.start(recorderEnvSetup);
-    await recorder.addSanitizers(
-      {
-        removeHeaderSanitizer: {
-          headersForRemoval: ["x-ms-proposed-lease-id", "x-ms-lease-id", "x-ms-rename-source"],
+  beforeEach(async (ctx) => {
+      recorder = new Recorder(ctx);
+      await recorder.start(recorderEnvSetup);
+      await recorder.addSanitizers(
+        {
+          removeHeaderSanitizer: {
+            headersForRemoval: ["x-ms-proposed-lease-id", "x-ms-lease-id", "x-ms-rename-source"],
+          },
         },
-      },
-      ["record", "playback"],
-    );
-    const serviceClient = getDataLakeServiceClient(recorder, {
-      keepAliveOptions: {
-        enable: true,
-      },
+        ["record", "playback"],
+      );
+      const serviceClient = getDataLakeServiceClient(recorder, {
+        keepAliveOptions: {
+          enable: true,
+        },
+      });
+      fileSystemName = recorder.variable("filesystem", getUniqueName("filesystem"));
+      fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
+      await fileSystemClient.createIfNotExists();
+      fileName = recorder.variable("file", getUniqueName("file"));
+      fileClient = fileSystemClient.getFileClient(fileName);
     });
-    fileSystemName = recorder.variable("filesystem", getUniqueName("filesystem"));
-    fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
-    await fileSystemClient.createIfNotExists();
-    fileName = recorder.variable("file", getUniqueName("file"));
-    fileClient = fileSystemClient.getFileClient(fileName);
-  });
 
-  afterEach(async function (this: Context) {
-    if (fileSystemClient) {
-      await fileSystemClient.deleteIfExists();
-    }
-    await recorder.stop();
-  });
+  afterEach(async () => {
+      if (fileSystemClient) {
+        await fileSystemClient.deleteIfExists();
+      }
+      await recorder.stop();
+    });
 
-  before(async function (this: Context) {
+  before(async function () {
     if (!fs.existsSync(tempFolderPath)) {
       fs.mkdirSync(tempFolderPath);
     }
@@ -80,7 +79,7 @@ describe("Highlevel Node.js only", () => {
     tempFileSmallLength = 15 * MB;
   });
 
-  after(async function (this: Context) {
+  after(async function () {
     fs.unlinkSync(tempFileLarge);
     fs.unlinkSync(tempFileSmall);
   });
@@ -97,10 +96,10 @@ describe("Highlevel Node.js only", () => {
     assert.deepStrictEqual(await bodyToString(result, content.length), content);
   });
 
-  it("upload large data with cpk", async function (this: Context) {
+  it("upload large data with cpk", async function (ctx) {
     if (!isLiveMode()) {
       // recorder doesn't support saving the file
-      this.skip();
+      ctx.skip();
     }
     const uploadedBuffer = fs.readFileSync(tempFileLarge);
     await fileClient.upload(uploadedBuffer, {
@@ -121,10 +120,10 @@ describe("Highlevel Node.js only", () => {
     fs.unlinkSync(readFile);
   });
 
-  it("uploadFile with CPK", async function (this: Context) {
+  it("uploadFile with CPK", async function (ctx) {
     if (!isLiveMode()) {
       // recorder doesn't support saving the file
-      this.skip();
+      ctx.skip();
     }
     await fileClient.uploadFile(tempFileSmall, {
       customerProvidedKey: Test_CPK_INFO,
@@ -138,10 +137,10 @@ describe("Highlevel Node.js only", () => {
     assert.ok(uploadedBuffer.equals(readBuffer));
   });
 
-  it("readToFile with CPK", async function (this: Context) {
+  it("readToFile with CPK", async function (ctx) {
     if (!isLiveMode()) {
       // recorder doesn't support saving the file
-      this.skip();
+      ctx.skip();
     }
     await fileClient.uploadFile(tempFileSmall, {
       customerProvidedKey: Test_CPK_INFO,
@@ -168,9 +167,9 @@ describe("Highlevel Node.js only", () => {
     fs.unlinkSync(readFilePath);
   });
 
-  it("upload should work for large data", async function (this: Context) {
+  it("upload should work for large data", async function (ctx) {
     if (!isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
     const uploadedBuffer = fs.readFileSync(tempFileLarge);
     await fileClient.upload(uploadedBuffer);
@@ -187,9 +186,9 @@ describe("Highlevel Node.js only", () => {
     fs.unlinkSync(readFile);
   }).timeout(timeoutForLargeFileUploadingTest);
 
-  it("upload should work for small data", async function (this: Context) {
+  it("upload should work for small data", async function (ctx) {
     if (!isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
     const uploadedBuffer = fs.readFileSync(tempFileSmall);
     await fileClient.upload(uploadedBuffer);
@@ -206,9 +205,9 @@ describe("Highlevel Node.js only", () => {
     fs.unlinkSync(readFile);
   });
 
-  it("upload can abort for single-shot upload", async function (this: Context) {
+  it("upload can abort for single-shot upload", async function (ctx) {
     if (!isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
     const aborter = AbortSignal.timeout(1);
     const uploadedBuffer = fs.readFileSync(tempFileSmall);
@@ -222,9 +221,9 @@ describe("Highlevel Node.js only", () => {
     }
   });
 
-  it("upload can abort for parallel upload", async function (this: Context) {
+  it("upload can abort for parallel upload", async function (ctx) {
     if (!isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
     const aborter = AbortSignal.timeout(1);
     const uploadedBuffer = fs.readFileSync(tempFileSmall);
@@ -239,9 +238,9 @@ describe("Highlevel Node.js only", () => {
     }
   });
 
-  it("upload can update progress with single-shot upload", async function (this: Context) {
+  it("upload can update progress with single-shot upload", async function (ctx) {
     if (!isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
     let eventTriggered = false;
     const uploadedBuffer = fs.readFileSync(tempFileSmall);
@@ -268,9 +267,9 @@ describe("Highlevel Node.js only", () => {
     assert.ok(eventTriggered);
   });
 
-  it("upload can update progress with parallel upload", async function (this: Context) {
+  it("upload can update progress with parallel upload", async function (ctx) {
     if (!isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
     let eventTriggered = false;
     const uploadedBuffer = fs.readFileSync(tempFileSmall);
@@ -396,9 +395,9 @@ describe("Highlevel Node.js only", () => {
     assert.ok(errThrown, "upload with a if-not-exist check should have thrown.");
   });
 
-  it("upload should work when data size = FILE_MAX_SINGLE_UPLOAD_THRESHOLD", async function (this: Context) {
+  it("upload should work when data size = FILE_MAX_SINGLE_UPLOAD_THRESHOLD", async function (ctx) {
     if (!isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
     const tempFile = await createRandomLocalFile(
       tempFolderPath,
@@ -421,9 +420,9 @@ describe("Highlevel Node.js only", () => {
     fs.unlinkSync(tempFile);
   }).timeout(timeoutForLargeFileUploadingTest);
 
-  it("upload should fail when number of chunks > BLOCK_BLOB_MAX_BLOCKS", async function (this: Context) {
+  it("upload should fail when number of chunks > BLOCK_BLOB_MAX_BLOCKS", async function (ctx) {
     if (!isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
     const uploadedBuffer = fs.readFileSync(tempFileLarge);
     let exceptionCaught = false;
@@ -439,9 +438,9 @@ describe("Highlevel Node.js only", () => {
     assert.ok(exceptionCaught, "Should have thrown the expected error.");
   });
 
-  it("uploadStream should work", async function (this: Context) {
+  it("uploadStream should work", async function (ctx) {
     if (!isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
     const rs = fs.createReadStream(tempFileLarge);
     await fileClient.uploadStream(rs);
@@ -460,9 +459,9 @@ describe("Highlevel Node.js only", () => {
     fs.unlinkSync(readFilePath);
   }).timeout(timeoutForLargeFileUploadingTest);
 
-  it("uploadStream can abort", async function (this: Context) {
+  it("uploadStream can abort", async function (ctx) {
     if (!isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
     const rs = fs.createReadStream(tempFileLarge);
     const aborter = AbortSignal.timeout(1);
@@ -475,9 +474,9 @@ describe("Highlevel Node.js only", () => {
     }
   });
 
-  it("uploadStream can update progress event", async function (this: Context) {
+  it("uploadStream can update progress event", async function (ctx) {
     if (!isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
     const rs = fs.createReadStream(tempFileLarge);
     let eventTriggered = false;
@@ -501,9 +500,9 @@ describe("Highlevel Node.js only", () => {
     assert.deepStrictEqual(await bodyToString(response), "");
   });
 
-  it("uploadStream should success for tiny buffers", async function (this: Context) {
+  it("uploadStream should success for tiny buffers", async function (ctx) {
     if (!isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
     const buf = Buffer.from([0x62, 0x75, 0x66, 0x66, 0x65, 0x72]);
     const bufferStream = new PassThrough();
@@ -517,9 +516,9 @@ describe("Highlevel Node.js only", () => {
     assert.ok(buf.equals(downloadBuffer));
   });
 
-  it("uploadFile should work for large data", async function (this: Context) {
+  it("uploadFile should work for large data", async function (ctx) {
     if (!isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
     await fileClient.uploadFile(tempFileLarge, {
       maxConcurrency: 20,
@@ -539,9 +538,9 @@ describe("Highlevel Node.js only", () => {
     fs.unlinkSync(readFile);
   }).timeout(timeoutForLargeFileUploadingTest);
 
-  it("uploadFile should success for small data", async function (this: Context) {
+  it("uploadFile should success for small data", async function (ctx) {
     if (!isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
     await fileClient.uploadFile(tempFileSmall);
 
@@ -559,9 +558,9 @@ describe("Highlevel Node.js only", () => {
     fs.unlinkSync(readFile);
   });
 
-  it("uploadFile can abort for single-shot upload", async function (this: Context) {
+  it("uploadFile can abort for single-shot upload", async function (ctx) {
     if (!isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
     const aborter = AbortSignal.timeout(1);
     try {
@@ -574,9 +573,9 @@ describe("Highlevel Node.js only", () => {
     }
   });
 
-  it("uploadFile should abort for parallel upload", async function (this: Context) {
+  it("uploadFile should abort for parallel upload", async function (ctx) {
     if (!isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
     const aborter = AbortSignal.timeout(1);
     try {
@@ -590,9 +589,9 @@ describe("Highlevel Node.js only", () => {
     }
   });
 
-  it("uploadFile should update progress with single-shot upload", async function (this: Context) {
+  it("uploadFile should update progress with single-shot upload", async function (ctx) {
     if (!isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
     let eventTriggered = false;
     const aborter = new AbortController();
@@ -616,9 +615,9 @@ describe("Highlevel Node.js only", () => {
     assert.ok(eventTriggered);
   });
 
-  it("uploadFile should update progress with parallel upload", async function (this: Context) {
+  it("uploadFile should update progress with parallel upload", async function (ctx) {
     if (!isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
     let eventTriggered = false;
     const aborter = new AbortController();
@@ -655,9 +654,9 @@ describe("Highlevel Node.js only", () => {
   // Skipped since creating large file (~8GB) may take too long in live tests pipeline.
   it.skip(
     "uploadFile with chunkSize = FILE_UPLOAD_MAX_CHUNK_SIZE should succeed",
-    async function (this: Context) {
+    async function (ctx) {
       if (!isLiveMode()) {
-        this.skip();
+        ctx.skip();
       }
       const fileSize = FILE_UPLOAD_MAX_CHUNK_SIZE * 2 + MB;
       const tempFile = await createRandomLocalFile(tempFolderPath, fileSize / MB, MB);
@@ -713,9 +712,9 @@ describe("Highlevel Node.js only", () => {
     assert.ok(res2.equals(Buffer.from(arrayBuf, 4, 2 * 2)));
   });
 
-  it("readToBuffer should work", async function (this: Context) {
+  it("readToBuffer should work", async function (ctx) {
     if (!isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
 
     await fileClient.uploadFile(tempFileLarge);
@@ -727,9 +726,9 @@ describe("Highlevel Node.js only", () => {
     assert.ok(localFileContent.equals(buf));
   }).timeout(timeoutForLargeFileUploadingTest);
 
-  it("readToBuffer should work - without passing the buffer", async function (this: Context) {
+  it("readToBuffer should work - without passing the buffer", async function (ctx) {
     if (!isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
 
     await fileClient.uploadFile(tempFileSmall);
@@ -739,9 +738,9 @@ describe("Highlevel Node.js only", () => {
     assert.ok(localFileContent.equals(buf));
   });
 
-  it("readToBuffer should throw error if the count is too large", async function (this: Context) {
+  it("readToBuffer should throw error if the count is too large", async function (ctx) {
     if (!isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
     let error;
     try {
@@ -776,9 +775,9 @@ describe("Highlevel Node.js only", () => {
     assert.deepStrictEqual(buf.toString(), "aaaa");
   });
 
-  it("readToBuffer can abort", async function (this: Context) {
+  it("readToBuffer can abort", async function (ctx) {
     if (!isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
     await fileClient.uploadFile(tempFileSmall);
 
@@ -795,9 +794,9 @@ describe("Highlevel Node.js only", () => {
     }
   });
 
-  it("readToBuffer should update progress event", async function (this: Context) {
+  it("readToBuffer should update progress event", async function (ctx) {
     if (!isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
     await fileClient.uploadFile(tempFileSmall);
 
@@ -823,9 +822,9 @@ describe("Highlevel Node.js only", () => {
     assert.ok(eventTriggered);
   });
 
-  it("readToFile should work", async function (this: Context) {
+  it("readToFile should work", async function (ctx) {
     if (!isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
 
     await fileClient.uploadFile(tempFileSmall);
@@ -849,9 +848,9 @@ describe("Highlevel Node.js only", () => {
     fs.unlinkSync(readFilePath);
   });
 
-  it("readToFile should fail when saving to directory", async function (this: Context) {
+  it("readToFile should fail when saving to directory", async function (ctx) {
     if (!isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
     await fileClient.uploadFile(tempFileSmall);
 

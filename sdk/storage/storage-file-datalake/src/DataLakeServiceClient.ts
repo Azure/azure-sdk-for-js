@@ -11,41 +11,39 @@ import type {
   ServiceSetPropertiesResponse,
 } from "@azure/storage-blob";
 import { BlobServiceClient } from "@azure/storage-blob";
-import type { Pipeline, StoragePipelineOptions } from "./Pipeline";
-import { isPipelineLike, newPipeline } from "./Pipeline";
+import type { Pipeline, StoragePipelineOptions } from "./Pipeline.js";
+import { isPipelineLike, newPipeline } from "./Pipeline.js";
 import { AnonymousCredential } from "@azure/storage-blob";
-import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
+import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential.js";
 
-import { DataLakeFileSystemClient } from "./DataLakeFileSystemClient";
+import { DataLakeFileSystemClient } from "./DataLakeFileSystemClient.js";
 import type {
   FileSystemItem,
-  FileSystemRenameResponse,
   ServiceGenerateAccountSasUrlOptions,
   ServiceListFileSystemsOptions,
   ServiceListFileSystemsSegmentResponse,
-  ServiceRenameFileSystemOptions,
   ServiceUndeleteFileSystemOptions,
   FileSystemUndeleteResponse,
-} from "./models";
-import { StorageClient } from "./StorageClient";
+} from "./models.js";
+import { StorageClient } from "./StorageClient.js";
 import {
   appendToURLPath,
   appendToURLQuery,
   extractConnectionStringParts,
-} from "./utils/utils.common";
-import { toDfsEndpointUrl, toFileSystemPagedAsyncIterableIterator } from "./transforms";
+} from "./utils/utils.common.js";
+import { toDfsEndpointUrl, toFileSystemPagedAsyncIterableIterator } from "./transforms.js";
 import type {
   ServiceGetUserDelegationKeyOptions,
   ServiceGetUserDelegationKeyResponse,
-} from "./models";
-import { tracingClient } from "./utils/tracing";
-import { AccountSASPermissions } from "./sas/AccountSASPermissions";
+} from "./models.js";
+import { tracingClient } from "./utils/tracing.js";
+import { AccountSASPermissions } from "./sas/AccountSASPermissions.js";
 import {
   generateAccountSASQueryParameters,
   generateAccountSASQueryParametersInternal,
-} from "./sas/AccountSASSignatureValues";
-import { AccountSASServices } from "./sas/AccountSASServices";
-import type { DataLakeServiceGetPropertiesResponse, DataLakeServiceProperties } from "./index";
+} from "./sas/AccountSASSignatureValues.js";
+import { AccountSASServices } from "./sas/AccountSASServices.js";
+import type { DataLakeServiceGetPropertiesResponse, DataLakeServiceProperties } from "./index.js";
 
 /**
  * DataLakeServiceClient allows you to manipulate Azure
@@ -451,41 +449,6 @@ export class DataLakeServiceClient extends StorageClient {
     ).stringToSign;
   }
 
-  /**
-   * Renames an existing File System.
-   *
-   * @param sourceFileSystemName - The name of the source File System.
-   * @param destinationContainerName - The new name of the File System.
-   * @param options - Options to configure File System Rename operation.
-   */
-  /* eslint-disable-next-line @typescript-eslint/ban-ts-comment */
-  // @ts-ignore Need to hide this interface for now. Make it public and turn on the live tests for it when the service is ready.
-  private async renameFileSystem(
-    sourceFileSystemName: string,
-    destinationFileSystemName: string,
-    options: ServiceRenameFileSystemOptions = {},
-  ): Promise<{
-    fileSystemClient: DataLakeFileSystemClient;
-    fileSystemRenameResponse: FileSystemRenameResponse;
-  }> {
-    return tracingClient.withSpan(
-      "DataLakeServiceClient-renameFileSystem",
-      options,
-      async (updatedOptions) => {
-        const res = await this.blobServiceClient["renameContainer"](
-          sourceFileSystemName,
-          destinationFileSystemName,
-          updatedOptions,
-        );
-
-        const fileSystemClient = this.getFileSystemClient(destinationFileSystemName);
-        return {
-          fileSystemClient,
-          fileSystemRenameResponse: res.containerRenameResponse,
-        };
-      },
-    );
-  }
 
   /**
    * Restore a previously deleted File System.

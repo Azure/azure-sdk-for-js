@@ -3,14 +3,14 @@
 import type { TokenCredential } from "@azure/core-auth";
 import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { ContainerClient } from "@azure/storage-blob";
-import type { Pipeline, StoragePipelineOptions } from "./Pipeline";
-import { isPipelineLike, newPipeline } from "./Pipeline";
-import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
+import type { Pipeline, StoragePipelineOptions } from "./Pipeline.js";
+import { isPipelineLike, newPipeline } from "./Pipeline.js";
+import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential.js";
 import { AnonymousCredential } from "@azure/storage-blob";
 
-import { DataLakeLeaseClient } from "./DataLakeLeaseClient";
+import { DataLakeLeaseClient } from "./DataLakeLeaseClient.js";
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-import { FileSystemOperationsImpl as FileSystem } from "./generated/src/operations";
+import { FileSystemOperationsImpl as FileSystem } from "./generated/src/operations/index.js";
 import type {
   AccessPolicy,
   FileSystemCreateOptions,
@@ -44,24 +44,24 @@ import type {
   ListDeletedPathsSegmentOptions,
   PathUndeleteHeaders,
   UserDelegationKey,
-} from "./models";
-import { StorageClient } from "./StorageClient";
-import { toContainerPublicAccessType, toPublicAccessType, toPermissions } from "./transforms";
-import { tracingClient } from "./utils/tracing";
+} from "./models.js";
+import { StorageClient } from "./StorageClient.js";
+import { toContainerPublicAccessType, toPublicAccessType, toPermissions } from "./transforms.js";
+import { tracingClient } from "./utils/tracing.js";
 import {
   appendToURLPath,
   appendToURLQuery,
   assertResponse,
   EscapePath,
   windowsFileTimeTicksToTime,
-} from "./utils/utils.common";
-import { DataLakeFileClient, DataLakeDirectoryClient } from "./clients";
+} from "./utils/utils.common.js";
+import { DataLakeFileClient, DataLakeDirectoryClient } from "./clients.js";
 import {
   generateDataLakeSASQueryParameters,
   generateDataLakeSASQueryParametersInternal,
-} from "./sas/DataLakeSASSignatureValues";
-import { DeletionIdKey, PathResultTypeConstants } from "./utils/constants";
-import { PathClientInternal } from "./utils/PathClientInternal";
+} from "./sas/DataLakeSASSignatureValues.js";
+import { DeletionIdKey, PathResultTypeConstants } from "./utils/constants.js";
+import { PathClientInternal } from "./utils/PathClientInternal.js";
 
 /**
  * A DataLakeFileSystemClient represents a URL to the Azure Storage file system
