@@ -2,7 +2,12 @@
 // Licensed under the MIT License.
 
 import { isPlaybackMode, Recorder, env } from "@azure-tools/test-recorder";
-import { recorderEnvSetup, getBlobChangeFeedClient, streamToString, uriSanitizers } from "./utils/index.js";
+import {
+  recorderEnvSetup,
+  getBlobChangeFeedClient,
+  streamToString,
+  uriSanitizers,
+} from "./utils/index.js";
 import type { BlobChangeFeedEvent, BlobChangeFeedEventPage } from "../src/index.js";
 import { BlobChangeFeedClient } from "../src/index.js";
 import type { BlobServiceClient, RequestPolicy } from "@azure/storage-blob";
@@ -17,7 +22,7 @@ import { toHttpHeadersLike } from "@azure/core-http-compat";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 import { toSupportTracing } from "@azure-tools/test-utils-vitest";
 
-expect.extend({ toSupportTracing })
+expect.extend({ toSupportTracing });
 
 const timeoutForLargeFileUploadingTest = 20 * 60 * 1000;
 
@@ -32,16 +37,16 @@ describe("BlobChangeFeedClient", async () => {
   });
 
   beforeEach(async (ctx) => {
-      recorder = new Recorder(ctx);
-      await recorder.start(recorderEnvSetup);
-      // make sure we add the sanitizers on playback for SAS strings
-      await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
-      changeFeedClient = getBlobChangeFeedClient(recorder);
-    });
+    recorder = new Recorder(ctx);
+    await recorder.start(recorderEnvSetup);
+    // make sure we add the sanitizers on playback for SAS strings
+    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+    changeFeedClient = getBlobChangeFeedClient(recorder);
+  });
 
   afterEach(async () => {
-      await recorder.stop();
-    });
+    await recorder.stop();
+  });
 
   it("next(): fetch all events", async () => {
     let i = 0;
@@ -176,9 +181,9 @@ describe("BlobChangeFeedClient", async () => {
 
   it("tracing", async () => {
     await expect(async (options) => {
-    const pageIter = changeFeedClient.listChanges(options);
-    await pageIter.next();
-}).toSupportTracing(["ChangeFeedFactory-create", "ChangeFeed-getChange"]);
+      const pageIter = changeFeedClient.listChanges(options);
+      await pageIter.next();
+    }).toSupportTracing(["ChangeFeedFactory-create", "ChangeFeed-getChange"]);
   });
 });
 
@@ -193,16 +198,16 @@ describe("BlobChangeFeedClient: Change Feed not configured", async () => {
   });
 
   beforeEach(async (ctx) => {
-      recorder = new Recorder(ctx);
-      await recorder.start(recorderEnvSetup);
-      // make sure we add the sanitizers on playback for SAS strings
-      await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
-      changeFeedClient = getBlobChangeFeedClient(recorder);
-    });
+    recorder = new Recorder(ctx);
+    await recorder.start(recorderEnvSetup);
+    // make sure we add the sanitizers on playback for SAS strings
+    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+    changeFeedClient = getBlobChangeFeedClient(recorder);
+  });
 
   afterEach(async () => {
-      await recorder.stop();
-    });
+    await recorder.stop();
+  });
 
   it("should throw when fetching changes", async () => {
     let exceptionCaught = false;
@@ -225,15 +230,15 @@ describe("Change feed event schema test", async () => {
   });
 
   beforeEach(async (ctx) => {
-      recorder = new Recorder(ctx);
-      await recorder.start(recorderEnvSetup);
-      // make sure we add the sanitizers on playback for SAS strings
-      await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
-    });
+    recorder = new Recorder(ctx);
+    await recorder.start(recorderEnvSetup);
+    // make sure we add the sanitizers on playback for SAS strings
+    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+  });
 
   afterEach(async () => {
-      await recorder.stop();
-    });
+    await recorder.stop();
+  });
 
   it("Event schema v1 test", async () => {
     const eventSchemaV1 = path.join("test", "resources", "EventSchemaV1.json");
