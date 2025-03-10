@@ -5,13 +5,14 @@ import { describe, it, assert } from "vitest";
 import { createDefaultPipeline } from "../../src/client/clientHelpers.js";
 import { bearerTokenAuthenticationPolicyName } from "../../src/policies/bearerTokenAuthenticationPolicy.js";
 import { keyCredentialAuthenticationPolicyName } from "../../src/client/keyCredentialAuthenticationPolicy.js";
-import type { TokenCredential } from "../../src/auth/tokenCredential.js";
 import { apiVersionPolicyName } from "../../src/client/apiVersionPolicy.js";
+import { BearerTokenCredential } from "../../src/auth/credentials.js";
+import { bearerTokenPolicyName } from "../../src/policies/auth/bearerTokenPolicy.js";
 
 describe("clientHelpers", () => {
   const mockBaseUrl = "https://example.org";
   it("should create a default pipeline with no credentials", () => {
-    const pipeline = createDefaultPipeline(mockBaseUrl);
+    const pipeline = createDefaultPipeline();
     const policies = pipeline.getOrderedPolicies();
 
     assert.isDefined(policies, "default pipeline should contain policies");
@@ -28,7 +29,7 @@ describe("clientHelpers", () => {
   });
 
   it("should create a default pipeline with apiVersion policy", () => {
-    const pipeline = createDefaultPipeline(mockBaseUrl);
+    const pipeline = createDefaultPipeline();
     const policies = pipeline.getOrderedPolicies();
 
     assert.isDefined(policies, "default pipeline should contain policies");
@@ -41,7 +42,7 @@ describe("clientHelpers", () => {
 
   it("should throw if key credentials but no Api Header Name", () => {
     try {
-      createDefaultPipeline(mockBaseUrl, { key: "mockKey" });
+      createDefaultPipeline([{ kind: "apiKey", credential: { key: "mockKey" } }]);
       assert.fail("Expected to throw an error");
     } catch (error: any) {
       assert.equal((error as Error).message, "Missing API Key Header Name");
@@ -49,11 +50,9 @@ describe("clientHelpers", () => {
   });
 
   it("should create a default pipeline with key credentials", () => {
-    const pipeline = createDefaultPipeline(
-      mockBaseUrl,
-      { key: "mockKey" },
-      { credentials: { apiKeyHeaderName: "apiHeader" } },
-    );
+    const pipeline = createDefaultPipeline([{ kind: "apiKey", credential: { key: "mockKey" } }], {
+      authScheme: { kind: "apiKey", apiKeyLocation: "header", name: "apiHeader" },
+    });
     const policies = pipeline.getOrderedPolicies();
 
     assert.isDefined(policies, "default pipeline should contain policies");
@@ -69,18 +68,18 @@ describe("clientHelpers", () => {
     );
   });
 
-  it("should create a default pipeline with TokenCredential", () => {
-    const mockCredential: TokenCredential = {
-      getToken: async () => ({ expiresOnTimestamp: 0, token: "mockToken" }),
+  it("should create a default pipeline with BearerTokenCredential", () => {
+    const mockCredential: BearerTokenCredential = {
+      getToken: async () => "mockToken",
     };
-    const pipeline = createDefaultPipeline(mockBaseUrl, mockCredential);
+    const pipeline = createDefaultPipeline([{ kind: "bearer", credential: mockCredential }]);
     const policies = pipeline.getOrderedPolicies();
 
     assert.isDefined(policies, "default pipeline should contain policies");
 
     assert.isDefined(
-      policies.find((p) => p.name === bearerTokenAuthenticationPolicyName),
-      "pipeline should have bearerTokenAuthenticationPolicyName",
+      policies.find((p) => p.name === bearerTokenPolicyName),
+      "pipeline should have bearerTokennPolicyName",
     );
 
     assert.isUndefined(

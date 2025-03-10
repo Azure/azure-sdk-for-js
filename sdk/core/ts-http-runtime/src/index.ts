@@ -40,13 +40,8 @@ export type {
   PipelineRetryOptions,
 } from "./interfaces.js";
 export { createHttpHeaders } from "./httpHeaders.js";
-export { isKeyCredential, type KeyCredential } from "./auth/keyCredential.js";
-export {
-  isTokenCredential,
-  type TokenCredential,
-  type GetTokenOptions,
-  type AccessToken,
-} from "./auth/tokenCredential.js";
+export * from "./auth/schemes.js";
+export * from "./auth/credentials.js";
 export { createPipelineRequest, type PipelineRequestOptions } from "./pipelineRequest.js";
 export type { Pipeline, PipelinePolicy, AddPolicyOptions, PipelinePhase } from "./pipeline.js";
 export { RestError, isRestError, type RestErrorOptions } from "./restError.js";

@@ -17,13 +17,6 @@ export interface AbortSignalLike {
 }
 
 // @public
-export interface AccessToken {
-    expiresOnTimestamp: number;
-    refreshAfterTimestamp?: number;
-    token: string;
-}
-
-// @public
 export interface AdditionalPolicyConfig {
     policy: PipelinePolicy;
     position: "perCall" | "perRetry";
@@ -46,6 +39,72 @@ export interface Agent {
     sockets: unknown;
 }
 
+// @public (undocumented)
+export interface ApiKeyAuthScheme {
+    // (undocumented)
+    apiKeyLocation: "query" | "header" | "cookie";
+    // (undocumented)
+    name: string;
+    // (undocumented)
+    type: "apiKey";
+}
+
+// @public (undocumented)
+export interface ApiKeyCredential {
+    // (undocumented)
+    key: string;
+}
+
+// @public (undocumented)
+export type AuthCredential = OAuth2TokenCredential<OAuth2Flow> | BearerTokenCredential | BasicCredential | ApiKeyCredential;
+
+// @public (undocumented)
+export interface AuthorizationCodeFlow {
+    // (undocumented)
+    authorizationUrl: string;
+    // (undocumented)
+    refreshUrl?: string;
+    // (undocumented)
+    scopes?: string[];
+    // (undocumented)
+    tokenUrl: string;
+    // (undocumented)
+    type: "authorizationCode";
+}
+
+// @public (undocumented)
+export type AuthScheme = BasicAuthScheme | BearerAuthScheme | NoAuthAuthScheme | ApiKeyAuthScheme | OAuth2AuthScheme<OAuth2Flow[]>;
+
+// @public (undocumented)
+export interface BasicAuthScheme {
+    // (undocumented)
+    scheme: "basic";
+    // (undocumented)
+    type: "http";
+}
+
+// @public (undocumented)
+export interface BasicCredential {
+    // (undocumented)
+    password: string;
+    // (undocumented)
+    username: string;
+}
+
+// @public (undocumented)
+export interface BearerAuthScheme {
+    // (undocumented)
+    scheme: "bearer";
+    // (undocumented)
+    type: "http";
+}
+
+// @public (undocumented)
+export interface BearerTokenCredential {
+    // (undocumented)
+    getToken(options: GetTokenOptions): Promise<string>;
+}
+
 // @public
 export interface BodyPart {
     body: ((() => ReadableStream<Uint8Array>) | (() => NodeJS.ReadableStream)) | ReadableStream<Uint8Array> | NodeJS.ReadableStream | Uint8Array | Blob;
@@ -59,12 +118,22 @@ export interface Client {
     pipeline: Pipeline;
 }
 
+// @public (undocumented)
+export interface ClientCredentialsFlow {
+    // (undocumented)
+    refreshUrl?: string[];
+    // (undocumented)
+    scopes?: string[];
+    // (undocumented)
+    tokenUrl: string;
+    // (undocumented)
+    type: "clientCredentials";
+}
+
 // @public
 export type ClientOptions = PipelineOptions & {
-    credentials?: {
-        scopes?: string[];
-        apiKeyHeaderName?: string;
-    };
+    authSchemes?: AuthScheme[];
+    credential?: AuthCredential;
     endpoint?: string;
     apiVersion?: string;
     allowInsecureConnection?: boolean;
@@ -117,20 +186,12 @@ export interface FullOperationResponse extends PipelineResponse {
 }
 
 // @public
-export function getClient(endpoint: string, options?: ClientOptions): Client;
+export function getClient(endpoint: string, clientOptions?: ClientOptions): Client;
 
-// @public
-export function getClient(endpoint: string, credentials?: TokenCredential | KeyCredential, options?: ClientOptions): Client;
-
-// @public
+// @public (undocumented)
 export interface GetTokenOptions {
-    abortSignal?: AbortSignalLike;
-    claims?: string;
-    enableCae?: boolean;
-    requestOptions?: {
-        timeout?: number;
-    };
-    tenantId?: string;
+    // (undocumented)
+    abortSignal?: AbortSignal;
 }
 
 // @public
@@ -170,19 +231,32 @@ export type HttpResponse = {
     status: string;
 };
 
-// @public
-export function isKeyCredential(credential: unknown): credential is KeyCredential;
+// @public (undocumented)
+export interface ImplicitFlow {
+    // (undocumented)
+    authorizationUrl: string;
+    // (undocumented)
+    refreshUrl?: string;
+    // (undocumented)
+    scopes?: string[];
+    // (undocumented)
+    type: "implicit";
+}
+
+// @public (undocumented)
+export function isApiKeyCredential(credential: AuthCredential): credential is ApiKeyCredential;
+
+// @public (undocumented)
+export function isBasicCredential(credential: AuthCredential): credential is BasicCredential;
+
+// @public (undocumented)
+export function isBearerTokenCredential(credential: AuthCredential): credential is BearerTokenCredential;
+
+// @public (undocumented)
+export function isOAuth2TokenCredential(credential: AuthCredential): credential is OAuth2TokenCredential<OAuth2Flow>;
 
 // @public
 export function isRestError(e: unknown): e is RestError;
-
-// @public
-export function isTokenCredential(credential: unknown): credential is TokenCredential;
-
-// @public
-export interface KeyCredential {
-    readonly key: string;
-}
 
 // @public
 export interface KeyObject {
@@ -203,9 +277,32 @@ export interface MultipartRequestBody {
     parts: BodyPart[];
 }
 
+// @public (undocumented)
+export interface NoAuthAuthScheme {
+    // (undocumented)
+    type: "noAuth";
+}
+
+// @public (undocumented)
+export interface OAuth2AuthScheme<TFlows extends OAuth2Flow[]> {
+    // (undocumented)
+    flows: TFlows;
+    // (undocumented)
+    type: "oauth2";
+}
+
+// @public (undocumented)
+export type OAuth2Flow = AuthorizationCodeFlow | ClientCredentialsFlow | ImplicitFlow | PasswordFlow;
+
+// @public (undocumented)
+export interface OAuth2TokenCredential<TFlows extends OAuth2Flow> {
+    // (undocumented)
+    getToken(flows: TFlows[], options: GetTokenOptions): Promise<string>;
+}
+
 // @public
 export interface OperationOptions {
-    abortSignal?: AbortSignalLike;
+    abortSignal?: AbortSignal;
     onResponse?: RawResponseCallback;
     requestOptions?: OperationRequestOptions;
 }
@@ -221,6 +318,18 @@ export interface OperationRequestOptions {
     onUploadProgress?: (progress: TransferProgressEvent) => void;
     skipUrlEncoding?: boolean;
     timeout?: number;
+}
+
+// @public (undocumented)
+export interface PasswordFlow {
+    // (undocumented)
+    refreshUrl?: string;
+    // (undocumented)
+    scopes?: string[];
+    // (undocumented)
+    tokenUrl: string;
+    // (undocumented)
+    type: "password";
 }
 
 // @public
@@ -278,9 +387,10 @@ export interface PipelinePolicy {
 
 // @public
 export interface PipelineRequest {
-    abortSignal?: AbortSignalLike;
+    abortSignal?: AbortSignal;
     agent?: Agent;
     allowInsecureConnection?: boolean;
+    authSchemes?: AuthScheme[];
     body?: RequestBodyType;
     disableKeepAlive?: boolean;
     enableBrowserStreams?: boolean;
@@ -301,7 +411,7 @@ export interface PipelineRequest {
 
 // @public
 export interface PipelineRequestOptions {
-    abortSignal?: AbortSignalLike;
+    abortSignal?: AbortSignal;
     allowInsecureConnection?: boolean;
     body?: RequestBodyType;
     disableKeepAlive?: boolean;
@@ -384,7 +494,7 @@ export type RequestParameters = {
     timeout?: number;
     onUploadProgress?: (progress: TransferProgressEvent) => void;
     onDownloadProgress?: (progress: TransferProgressEvent) => void;
-    abortSignal?: AbortSignalLike;
+    abortSignal?: AbortSignal;
     onResponse?: RawResponseCallback;
 };
 
@@ -446,11 +556,6 @@ export interface TlsSettings {
     key?: string | Buffer | Array<Buffer | KeyObject> | undefined;
     passphrase?: string | undefined;
     pfx?: string | Buffer | Array<string | Buffer | PxfObject> | undefined;
-}
-
-// @public
-export interface TokenCredential {
-    getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null>;
 }
 
 // @public

@@ -11,9 +11,10 @@ import type {
   RawHttpHeadersInput,
 } from "../interfaces.js";
 import type { Pipeline, PipelinePolicy } from "../pipeline.js";
-import type { AbortSignalLike } from "../abort-controller/AbortSignalLike.js";
 import type { PipelineOptions } from "../createPipelineFromOptions.js";
 import type { LogPolicyOptions } from "../policies/logPolicy.js";
+import { AuthScheme } from "../auth/schemes.js";
+import { AuthCredential } from "../auth/credentials.js";
 
 /**
  * Shape of the default request parameters, this may be overridden by the specific
@@ -70,7 +71,7 @@ export type RequestParameters = {
   /**
    * The signal which can be used to abort requests.
    */
-  abortSignal?: AbortSignalLike;
+  abortSignal?: AbortSignal;
 
   /**
    * A function to be called each time a response is received from the server
@@ -116,7 +117,7 @@ export interface OperationOptions {
   /**
    * The signal which can be used to abort requests.
    */
-  abortSignal?: AbortSignalLike;
+  abortSignal?: AbortSignal;
   /**
    * Options used when creating and sending HTTP requests for this operation.
    */
@@ -301,19 +302,9 @@ export interface AdditionalPolicyConfig {
  * General options that a Rest Level Client can take
  */
 export type ClientOptions = PipelineOptions & {
-  /**
-   * Credentials information
-   */
-  credentials?: {
-    /**
-     * Authentication scopes for AAD
-     */
-    scopes?: string[];
-    /**
-     * Heder name for Client Secret authentication
-     */
-    apiKeyHeaderName?: string;
-  };
+  authSchemes?: AuthScheme[];
+
+  credential?: AuthCredential;
 
   // UNBRANDED DIFFERENCE: The deprecated baseUrl property is removed in favor of the endpoint property in the unbranded Core package
 

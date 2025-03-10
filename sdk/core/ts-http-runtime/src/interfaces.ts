@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AbortSignalLike } from "./abort-controller/AbortSignalLike.js";
+import { AuthScheme } from "./auth/schemes.js";
 
 /**
  * A HttpHeaders collection represented as a simple JSON object.
@@ -134,6 +134,14 @@ export interface Agent {
  */
 export interface PipelineRequest {
   /**
+   * per-request authentication schemes if any
+   * this scheme overrides the client level authentication schemes if provided
+   *
+   * if no auth schemes provided at client or request level defaults to no auth
+   */
+  authSchemes?: AuthScheme[];
+
+  /**
    * The URL to make the request to.
    */
   url: string;
@@ -200,7 +208,7 @@ export interface PipelineRequest {
   /**
    * Used to abort the request later.
    */
-  abortSignal?: AbortSignalLike;
+  abortSignal?: AbortSignal;
 
   /**
    * Callback which fires upon upload progress.
