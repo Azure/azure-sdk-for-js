@@ -13,12 +13,11 @@ import {
   getUniqueName,
   recorderEnvSetup,
   uriSanitizers,
-} from "./utils";
-import type { ContainerClient, BlobClient } from "../src";
-import { BlockBlobClient } from "../src";
-import { Test_CPK_INFO } from "./utils/fakeTestSecrets";
-import { BlockBlobTier } from "../src";
-import type { Context } from "mocha";
+} from "./utils/index.js";
+import type { ContainerClient, BlobClient } from "../src/index.js";
+import { BlockBlobClient } from "../src/index.js";
+import { Test_CPK_INFO } from "./utils/fakeTestSecrets.js";
+import { BlockBlobTier } from "../src/index.js";
 import { isNode } from "@azure/core-util";
 
 describe("BlockBlobClient", () => {
@@ -30,31 +29,31 @@ describe("BlockBlobClient", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
-    await recorder.start(recorderEnvSetup);
-    await recorder.addSanitizers(
-      {
-        uriSanitizers,
-        removeHeaderSanitizer: { headersForRemoval: ["x-ms-copy-source", "x-ms-encryption-key"] },
-      },
-      ["playback", "record"],
-    );
-    const blobServiceClient = getBSU(recorder);
-    containerName = recorder.variable("container", getUniqueName("container"));
-    containerClient = blobServiceClient.getContainerClient(containerName);
-    await containerClient.create();
-    blobName = recorder.variable("blob", getUniqueName("blob"));
-    blobClient = containerClient.getBlobClient(blobName);
-    blockBlobClient = blobClient.getBlockBlobClient();
-  });
+  beforeEach(async (ctx) => {
+      recorder = new Recorder(ctx);
+      await recorder.start(recorderEnvSetup);
+      await recorder.addSanitizers(
+        {
+          uriSanitizers,
+          removeHeaderSanitizer: { headersForRemoval: ["x-ms-copy-source", "x-ms-encryption-key"] },
+        },
+        ["playback", "record"],
+      );
+      const blobServiceClient = getBSU(recorder);
+      containerName = recorder.variable("container", getUniqueName("container"));
+      containerClient = blobServiceClient.getContainerClient(containerName);
+      await containerClient.create();
+      blobName = recorder.variable("blob", getUniqueName("blob"));
+      blobClient = containerClient.getBlobClient(blobName);
+      blockBlobClient = blobClient.getBlockBlobClient();
+    });
 
-  afterEach(async function (this: Context) {
-    if (containerClient) {
-      await containerClient.delete();
-    }
-    await recorder.stop();
-  });
+  afterEach(async () => {
+      if (containerClient) {
+        await containerClient.delete();
+      }
+      await recorder.stop();
+    });
 
   it("upload with string body and default parameters", async function () {
     const body: string = recorder.variable("randomstring", getUniqueName("randomstring"));
@@ -279,7 +278,7 @@ describe("BlockBlobClient", () => {
 
   it("can be created with a sas connection string", async function () {
     if (isNode && !isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
     const newClient = new BlockBlobClient(
       getSASConnectionStringFromEnvironment(recorder),

@@ -3,7 +3,7 @@
 
 import { assert } from "chai";
 
-import { BlobServiceClient } from "../src";
+import { BlobServiceClient } from "../src/index.js";
 import {
   configureBlobStorageClient,
   getAlternateBSU,
@@ -14,24 +14,23 @@ import {
   getUniqueName,
   recorderEnvSetup,
   uriSanitizers,
-} from "./utils";
+} from "./utils/index.js";
 import { delay, Recorder, isLiveMode } from "@azure-tools/test-recorder";
 import { getYieldedValue } from "@azure-tools/test-utils";
-import type { Tags } from "../src/models";
-import type { Context } from "mocha";
+import type { Tags } from "../src/models.js";
 
 describe("BlobServiceClient", () => {
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
-    await recorder.start(recorderEnvSetup);
-    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
-  });
+  beforeEach(async (ctx) => {
+      recorder = new Recorder(ctx);
+      await recorder.start(recorderEnvSetup);
+      await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+    });
 
-  afterEach(async function () {
-    await recorder.stop();
-  });
+  afterEach(async () => {
+      await recorder.stop();
+    });
 
   it("ListContainers with default parameters", async function () {
     const blobServiceClient = getBSU(recorder);
@@ -55,10 +54,10 @@ describe("BlobServiceClient", () => {
   });
 
   // needs feature enabled to record test
-  it.skip("ListContainers including system containers", async function (this: Context) {
+  it.skip("ListContainers including system containers", async function (ctx) {
     if (isLiveMode()) {
       // Skip the test case until the feature is enabled in production.
-      this.skip();
+      ctx.skip();
     }
     const blobServiceClient = getBSU(recorder);
     const result = (await blobServiceClient.listContainers({ includeSystem: true }).byPage().next())
@@ -464,7 +463,7 @@ describe("BlobServiceClient", () => {
     assert.ok(result.requestId!.length > 0);
   });
 
-  it("getUserDelegationKey should work", async function (this: Context) {
+  it("getUserDelegationKey should work", async function (ctx) {
     // Try to get serviceURL object with TokenCredential
     // when ACCOUNT_TOKEN environment variable is set
     let serviceURLWithToken: BlobServiceClient;
@@ -473,7 +472,7 @@ describe("BlobServiceClient", () => {
     } catch {
       // Requires bearer token for this case which cannot be generated in the runtime
       // Make sure this case passed in sanity test
-      this.skip();
+      ctx.skip();
     }
     const now = new Date(recorder.variable("now", new Date().toISOString()));
     now.setHours(now.getHours() + 1);
@@ -591,12 +590,12 @@ describe("BlobServiceClient", () => {
     assert.equal(staticWebsite?.defaultIndexDocumentPath, defaultIndexDocumentPath);
   });
 
-  it("restore container", async function (this: Context) {
+  it("restore container", async function (ctx) {
     let blobServiceClient: BlobServiceClient;
     try {
       blobServiceClient = getGenericBSU(recorder, "SOFT_DELETE_");
     } catch (err: any) {
-      this.skip();
+      ctx.skip();
     }
 
     const containerName = recorder.variable("container", getUniqueName("container"));
@@ -629,10 +628,10 @@ describe("BlobServiceClient", () => {
   });
 
   // need feature to record test
-  it.skip("rename container", async function (this: Context) {
+  it.skip("rename container", async function (ctx) {
     if (isLiveMode()) {
       // Turn on this case when the Container Rename feature is ready in the service side.
-      this.skip();
+      ctx.skip();
     }
 
     const blobServiceClient = getBSU(recorder);
@@ -654,10 +653,10 @@ describe("BlobServiceClient", () => {
   });
 
   // need feature to record test
-  it.skip("rename container should work with source lease", async function (this: Context) {
+  it.skip("rename container should work with source lease", async function (ctx) {
     if (isLiveMode()) {
       // Turn on this case when the Container Rename feature is ready in the service side.
-      this.skip();
+      ctx.skip();
     }
 
     const blobServiceClient = getBSU(recorder);

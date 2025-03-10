@@ -12,18 +12,18 @@ import { isTokenCredential } from "@azure/core-auth";
 import { isNodeLike } from "@azure/core-util";
 import type { PollOperationState } from "@azure/core-lro";
 import { randomUUID } from "@azure/core-util";
-import type { Readable } from "stream";
+import type { Readable } from "node:stream";
 
-import { BlobDownloadResponse } from "./BlobDownloadResponse";
-import { BlobQueryResponse } from "./BlobQueryResponse";
-import { AnonymousCredential } from "./credentials/AnonymousCredential";
-import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
+import { BlobDownloadResponse } from "./BlobDownloadResponse.js";
+import { BlobQueryResponse } from "./BlobQueryResponse.js";
+import { AnonymousCredential } from "./credentials/AnonymousCredential.js";
+import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential.js";
 import type {
   AppendBlob,
   Blob as StorageBlob,
   BlockBlob,
   PageBlob,
-} from "./generated/src/operationsInterfaces";
+} from "./generated/src/operationsInterfaces/index.js";
 import type {
   AppendBlobAppendBlockFromUrlHeaders,
   AppendBlobAppendBlockHeaders,
@@ -56,7 +56,7 @@ import type {
   PageBlobUpdateSequenceNumberHeaders,
   PageBlobUploadPagesFromURLHeaders,
   PageBlobUploadPagesHeaders,
-} from "./generated/src";
+} from "./generated/src/index.js";
 import type {
   AppendBlobAppendBlockFromUrlResponse,
   AppendBlobAppendBlockResponse,
@@ -117,7 +117,7 @@ import type {
   BlobSetImmutabilityPolicyResponse,
   BlobSetLegalHoldResponse,
   BlobSetMetadataResponse,
-} from "./generatedModels";
+} from "./generatedModels.js";
 import type {
   AppendBlobRequestConditions,
   BlobDownloadResponseParsed,
@@ -136,26 +136,26 @@ import type {
   BlobImmutabilityPolicy,
   HttpAuthorization,
   PollerLikeWithCancellation,
-} from "./models";
-import { ensureCpkIfSpecified, toAccessTier } from "./models";
+} from "./models.js";
+import { ensureCpkIfSpecified, toAccessTier } from "./models.js";
 import type {
   PageBlobGetPageRangesDiffResponse,
   PageBlobGetPageRangesResponse,
-} from "./PageBlobRangeResponse";
-import { rangeResponseFromModel } from "./PageBlobRangeResponse";
-import type { PipelineLike, StoragePipelineOptions } from "./Pipeline";
-import { newPipeline, isPipelineLike } from "./Pipeline";
+} from "./PageBlobRangeResponse.js";
+import { rangeResponseFromModel } from "./PageBlobRangeResponse.js";
+import type { PipelineLike, StoragePipelineOptions } from "./Pipeline.js";
+import { newPipeline, isPipelineLike } from "./Pipeline.js";
 import type {
   BlobBeginCopyFromUrlPollState,
   CopyPollerBlobClient,
-} from "./pollers/BlobStartCopyFromUrlPoller";
-import { BlobBeginCopyFromUrlPoller } from "./pollers/BlobStartCopyFromUrlPoller";
-import type { Range } from "./Range";
-import { rangeToString } from "./Range";
-import type { CommonOptions } from "./StorageClient";
-import { StorageClient } from "./StorageClient";
-import { Batch } from "./utils/Batch";
-import { BufferScheduler } from "../../storage-common/src";
+} from "./pollers/BlobStartCopyFromUrlPoller.js";
+import { BlobBeginCopyFromUrlPoller } from "./pollers/BlobStartCopyFromUrlPoller.js";
+import type { Range } from "./Range.js";
+import { rangeToString } from "./Range.js";
+import type { CommonOptions } from "./StorageClient.js";
+import { StorageClient } from "./StorageClient.js";
+import { Batch } from "./utils/Batch.js";
+import { BufferScheduler } from "../../storage-common/src/index.js";
 import {
   BlobDoesNotUseCustomerSpecifiedEncryption,
   BlobUsesCustomerSpecifiedEncryptionMsg,
@@ -167,9 +167,9 @@ import {
   DEFAULT_MAX_DOWNLOAD_RETRY_REQUESTS,
   ETagAny,
   URLConstants,
-} from "./utils/constants";
-import { tracingClient } from "./utils/tracing";
-import type { WithResponse } from "./utils/utils.common";
+} from "./utils/constants.js";
+import { tracingClient } from "./utils/tracing.js";
+import type { WithResponse } from "./utils/utils.common.js";
 import {
   appendToURLPath,
   appendToURLQuery,
@@ -186,23 +186,23 @@ import {
   toBlobTagsString,
   toQuerySerialization,
   toTags,
-} from "./utils/utils.common";
+} from "./utils/utils.common.js";
 import {
   fsCreateReadStream,
   fsStat,
   readStreamToLocalFile,
   streamToBuffer,
-} from "./utils/utils.node";
-import type { SASProtocol } from "./sas/SASQueryParameters";
-import type { SasIPRange } from "./sas/SasIPRange";
+} from "./utils/utils.node.js";
+import type { SASProtocol } from "./sas/SASQueryParameters.js";
+import type { SasIPRange } from "./sas/SasIPRange.js";
 import {
   generateBlobSASQueryParameters,
   generateBlobSASQueryParametersInternal,
-} from "./sas/BlobSASSignatureValues";
-import type { BlobSASPermissions } from "./sas/BlobSASPermissions";
-import { BlobLeaseClient } from "./BlobLeaseClient";
+} from "./sas/BlobSASSignatureValues.js";
+import type { BlobSASPermissions } from "./sas/BlobSASPermissions.js";
+import { BlobLeaseClient } from "./BlobLeaseClient.js";
 import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import type { UserDelegationKey } from "./BlobServiceClient";
+import type { UserDelegationKey } from "./BlobServiceClient.js";
 
 /**
  * Options to configure the {@link BlobClient.beginCopyFromURL} operation.

@@ -1,20 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { BlobServiceClient } from "../src";
-import { BlockBlobClient } from "../src";
+import type { BlobServiceClient } from "../src/index.js";
+import { BlockBlobClient } from "../src/index.js";
 import {
   getBSU,
   getRecorderUniqueVariable,
   getUniqueName,
   recorderEnvSetup,
   uriSanitizers,
-} from "./utils/index";
+} from "./utils/index.js";
 import { assert } from "chai";
-import { appendToURLPath, EscapePath } from "../src/utils/utils.common";
+import { appendToURLPath, EscapePath } from "../src/utils/utils.common.js";
 import { Recorder } from "@azure-tools/test-recorder";
-import type { ContainerClient } from "../src";
-import type { Context } from "mocha";
+import type { ContainerClient } from "../src/index.js";
 
 describe("Special Naming Tests", () => {
   let containerName: string;
@@ -23,20 +22,20 @@ describe("Special Naming Tests", () => {
   let recorder: Recorder;
 
   let blobServiceClient: BlobServiceClient;
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
-    await recorder.start(recorderEnvSetup);
-    await recorder.addSanitizers({ uriSanitizers }, ["playback", "record"]);
-    blobServiceClient = getBSU(recorder);
-    containerName = getRecorderUniqueVariable(recorder, "1container-with-dash");
-    containerClient = blobServiceClient.getContainerClient(containerName);
-    await containerClient.create();
-  });
+  beforeEach(async (ctx) => {
+      recorder = new Recorder(ctx);
+      await recorder.start(recorderEnvSetup);
+      await recorder.addSanitizers({ uriSanitizers }, ["playback", "record"]);
+      blobServiceClient = getBSU(recorder);
+      containerName = getRecorderUniqueVariable(recorder, "1container-with-dash");
+      containerClient = blobServiceClient.getContainerClient(containerName);
+      await containerClient.create();
+    });
 
-  afterEach(async function () {
-    await containerClient.delete();
-    await recorder.stop();
-  });
+  afterEach(async () => {
+      await containerClient.delete();
+      await recorder.stop();
+    });
 
   it("Should work with special container and blob names with spaces", async function () {
     const blobName: string = getRecorderUniqueVariable(recorder, "blob empty");

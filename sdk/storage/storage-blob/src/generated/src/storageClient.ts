@@ -14,7 +14,7 @@ import {
   PageBlobImpl,
   AppendBlobImpl,
   BlockBlobImpl,
-} from "./operations";
+} from "./operations/index.js";
 import {
   Service,
   Container,
@@ -22,8 +22,8 @@ import {
   PageBlob,
   AppendBlob,
   BlockBlob,
-} from "./operationsInterfaces";
-import { StorageClientOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { StorageClientOptionalParams } from "./models/index.js";
 
 export class StorageClient extends coreHttpCompat.ExtendedServiceClient {
   url: string;

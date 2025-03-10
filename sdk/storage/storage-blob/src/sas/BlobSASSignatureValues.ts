@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { BlobSASPermissions } from "./BlobSASPermissions";
-import type { UserDelegationKey } from "../BlobServiceClient";
-import { ContainerSASPermissions } from "./ContainerSASPermissions";
-import { StorageSharedKeyCredential } from "../credentials/StorageSharedKeyCredential";
-import { UserDelegationKeyCredential } from "../credentials/UserDelegationKeyCredential";
-import type { SasIPRange } from "./SasIPRange";
-import { ipRangeToString } from "./SasIPRange";
-import type { SASProtocol } from "./SASQueryParameters";
-import { SASQueryParameters } from "./SASQueryParameters";
-import { SERVICE_VERSION } from "../utils/constants";
-import { truncatedISO8061Date } from "../utils/utils.common";
+import { BlobSASPermissions } from "./BlobSASPermissions.js";
+import type { UserDelegationKey } from "../BlobServiceClient.js";
+import { ContainerSASPermissions } from "./ContainerSASPermissions.js";
+import { StorageSharedKeyCredential } from "../credentials/StorageSharedKeyCredential.js";
+import { UserDelegationKeyCredential } from "../credentials/UserDelegationKeyCredential.js";
+import type { SasIPRange } from "./SasIPRange.js";
+import { ipRangeToString } from "./SasIPRange.js";
+import type { SASProtocol } from "./SASQueryParameters.js";
+import { SASQueryParameters } from "./SASQueryParameters.js";
+import { SERVICE_VERSION } from "../utils/constants.js";
+import { truncatedISO8061Date } from "../utils/utils.common.js";
 
 /**
  * ONLY AVAILABLE IN NODE.JS RUNTIME.

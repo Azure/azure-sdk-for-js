@@ -11,17 +11,16 @@ import {
   getTokenBSU,
   getUniqueName,
   uriSanitizers,
-} from "./utils";
+} from "./utils/index.js";
 import { isLiveMode, Recorder } from "@azure-tools/test-recorder";
-import { BlobBatch } from "../src";
+import { BlobBatch } from "../src/index.js";
 import type {
   ContainerClient,
   BlockBlobClient,
   BlobBatchClient,
   StorageSharedKeyCredential,
-} from "../src";
-import { BlobServiceClient, newPipeline } from "../src";
-import type { Context } from "mocha";
+} from "../src/index.js";
+import { BlobServiceClient, newPipeline } from "../src/index.js";
 
 describe("BlobBatch", () => {
   let blobServiceClient: BlobServiceClient;
@@ -36,41 +35,41 @@ describe("BlobBatch", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
-    await recorder.start(recorderEnvSetup);
-    await recorder.addSanitizers({ uriSanitizers }, ["playback", "record"]);
+  beforeEach(async (ctx) => {
+      recorder = new Recorder(ctx);
+      await recorder.start(recorderEnvSetup);
+      await recorder.addSanitizers({ uriSanitizers }, ["playback", "record"]);
 
-    blobServiceClient = getGenericBSU(recorder, "");
-    blobBatchClient = blobServiceClient.getBlobBatchClient();
-    credential = getGenericCredential("");
+      blobServiceClient = getGenericBSU(recorder, "");
+      blobBatchClient = blobServiceClient.getBlobBatchClient();
+      credential = getGenericCredential("");
 
-    containerName = recorder.variable("container", getUniqueName("container"));
-    containerClient = blobServiceClient.getContainerClient(containerName);
-    await containerClient.create();
-    containerScopedBatchClient = containerClient.getBlobBatchClient();
+      containerName = recorder.variable("container", getUniqueName("container"));
+      containerClient = blobServiceClient.getContainerClient(containerName);
+      await containerClient.create();
+      containerScopedBatchClient = containerClient.getBlobBatchClient();
 
-    for (let i = 0; i < blockBlobCount - 1; i++) {
-      const tmpBlobName = `blob${i}`;
-      const tmpBlockBlobClient = containerClient.getBlockBlobClient(tmpBlobName);
-      blockBlobClients[i] = tmpBlockBlobClient;
-    }
+      for (let i = 0; i < blockBlobCount - 1; i++) {
+        const tmpBlobName = `blob${i}`;
+        const tmpBlockBlobClient = containerClient.getBlockBlobClient(tmpBlobName);
+        blockBlobClients[i] = tmpBlockBlobClient;
+      }
 
-    const specialBlobName = `å ä ö`;
-    const tmpBlockBlobClient = containerClient.getBlockBlobClient(specialBlobName);
-    blockBlobClients[blockBlobCount - 1] = tmpBlockBlobClient;
-  });
+      const specialBlobName = `å ä ö`;
+      const tmpBlockBlobClient = containerClient.getBlockBlobClient(specialBlobName);
+      blockBlobClients[blockBlobCount - 1] = tmpBlockBlobClient;
+    });
 
-  afterEach(async function (this: Context) {
-    if (containerClient) {
-      await containerClient.delete();
-    }
-    await recorder.stop();
-  });
+  afterEach(async () => {
+      if (containerClient) {
+        await containerClient.delete();
+      }
+      await recorder.stop();
+    });
 
   it("submitBatch should work for batch delete", async function () {
     if (!isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
     // Upload blobs.
     for (let i = 0; i < blockBlobCount; i++) {
@@ -111,7 +110,7 @@ describe("BlobBatch", () => {
 
   it("deleteBlobs should work for batch delete", async function () {
     if (!isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
     // Upload blobs.
     for (let i = 0; i < blockBlobCount; i++) {
@@ -147,7 +146,7 @@ describe("BlobBatch", () => {
 
   it("submitBatch should work for batch delete with snapshot", async function () {
     if (!isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
     //
     // Test delete blob with snapshot.
@@ -273,7 +272,7 @@ describe("BlobBatch", () => {
 
   it("submitBatch should work for batch delete with access condition and partial succeed", async function () {
     if (!isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
     // Upload blobs.
     const b0 = await blockBlobClients[0].upload(content, content.length);
@@ -313,7 +312,7 @@ describe("BlobBatch", () => {
 
   it("submitBatch should work for batch set tier", async function () {
     if (!isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
     // Upload blobs.
     for (let i = 0; i < blockBlobCount; i++) {
@@ -347,7 +346,7 @@ describe("BlobBatch", () => {
 
   it("setBlobsAccessTier should work for batch set tier", async function () {
     if (!isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
     // Upload blobs.
     for (let i = 0; i < blockBlobCount; i++) {
@@ -376,7 +375,7 @@ describe("BlobBatch", () => {
 
   it("submitBatch should work for batch set tier with lease condition", async function () {
     if (!isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
     // Upload blobs.
     await blockBlobClients[0].upload(content, content.length);
@@ -416,7 +415,7 @@ describe("BlobBatch", () => {
 
   it("submitBatch should work for batch set tier with versioning", async function () {
     if (!isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
 
     // Upload blobs.
@@ -465,7 +464,7 @@ describe("BlobBatch", () => {
 
   it("submitBatch should work for batch set tier with snapshot", async function () {
     if (!isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
 
     // Upload blobs.
@@ -507,9 +506,9 @@ describe("BlobBatch", () => {
     }
   });
 
-  it("submitBatch should work with multiple types of credentials for subrequests", async function (this: Context) {
+  it("submitBatch should work with multiple types of credentials for subrequests", async function (ctx) {
     if (!isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
 
     // Upload blobs.
@@ -535,7 +534,7 @@ describe("BlobBatch", () => {
     try {
       tokenCredential = getTokenCredential();
     } catch {
-      this.skip();
+      ctx.skip();
     }
 
     await batchSetTierRequest.setBlobAccessTier(
@@ -627,7 +626,7 @@ describe("BlobBatch", () => {
 
   it("submitBatch should report error with invalid credential for batch request", async function () {
     if (!isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
     // Upload blobs.
     await blockBlobClients[0].upload(content, content.length);
@@ -677,7 +676,7 @@ describe("BlobBatch", () => {
 
   it("Container scoped: submitBatch should work for batch delete", async function () {
     if (!isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
     // Upload blobs.
     for (let i = 0; i < blockBlobCount; i++) {
@@ -727,49 +726,49 @@ describe("BlobBatch Token auth", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    if (!isLiveMode()) {
-      this.skip();
-    }
-    recorder = new Recorder(this.currentTest);
-    await recorder.start(recorderEnvSetup);
+  beforeEach(async (ctx) => {
+      if (!isLiveMode()) {
+        ctx.skip();
+      }
+      recorder = new Recorder(ctx);
+      await recorder.start(recorderEnvSetup);
 
-    // Try to get serviceURL object with TokenCredential when ACCOUNT_TOKEN environment variable is set
-    try {
-      blobServiceClient = getTokenBSU(recorder);
-    } catch (err: any) {
-      console.log(err);
-      this.skip();
-    }
+      // Try to get serviceURL object with TokenCredential when ACCOUNT_TOKEN environment variable is set
+      try {
+        blobServiceClient = getTokenBSU(recorder);
+      } catch (err: any) {
+        console.log(err);
+        ctx.skip();
+      }
 
-    blobBatchClient = blobServiceClient.getBlobBatchClient();
+      blobBatchClient = blobServiceClient.getBlobBatchClient();
 
-    const containerName = recorder.variable("container", getUniqueName("container"));
-    containerClient = blobServiceClient.getContainerClient(containerName);
-    await containerClient.create();
+      const containerName = recorder.variable("container", getUniqueName("container"));
+      containerClient = blobServiceClient.getContainerClient(containerName);
+      await containerClient.create();
 
-    for (let i = 0; i < blockBlobCount - 1; i++) {
-      const tmpBlobName = `blob${i}`;
-      const tmpBlockBlobClient = containerClient.getBlockBlobClient(tmpBlobName);
-      blockBlobClients[i] = tmpBlockBlobClient;
-    }
-    const specialBlobName = `å ä ö`;
-    const tmpBlockBlobClient = containerClient.getBlockBlobClient(specialBlobName);
-    blockBlobClients[blockBlobCount - 1] = tmpBlockBlobClient;
-  });
+      for (let i = 0; i < blockBlobCount - 1; i++) {
+        const tmpBlobName = `blob${i}`;
+        const tmpBlockBlobClient = containerClient.getBlockBlobClient(tmpBlobName);
+        blockBlobClients[i] = tmpBlockBlobClient;
+      }
+      const specialBlobName = `å ä ö`;
+      const tmpBlockBlobClient = containerClient.getBlockBlobClient(specialBlobName);
+      blockBlobClients[blockBlobCount - 1] = tmpBlockBlobClient;
+    });
 
-  afterEach(async function (this: Context) {
-    if (containerClient) {
-      await containerClient.delete();
-    }
-    if (recorder) {
-      await recorder.stop();
-    }
-  });
+  afterEach(async () => {
+      if (containerClient) {
+        await containerClient.delete();
+      }
+      if (recorder) {
+        await recorder.stop();
+      }
+    });
 
   it("Should work when passing in BlobClient", async function () {
     if (!isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
     // Upload blobs.
     for (let i = 0; i < blockBlobCount; i++) {
@@ -799,7 +798,7 @@ describe("BlobBatch Token auth", () => {
 
   it("Should work when passing in url and credential", async function () {
     if (!isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
     // Upload blobs.
     for (let i = 0; i < blockBlobCount; i++) {

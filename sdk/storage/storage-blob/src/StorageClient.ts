@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { StorageClient as StorageClientContext } from "./generated/src/";
-import { StorageContextClient } from "./StorageContextClient";
-import type { PipelineLike } from "./Pipeline";
-import { getCoreClientOptions, getCredentialFromPipeline } from "./Pipeline";
-import { escapeURLPath, getURLScheme, iEqual, getAccountNameFromUrl } from "./utils/utils.common";
-import type { AnonymousCredential } from "./credentials/AnonymousCredential";
-import type { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
+import type { StorageClient as StorageClientContext } from "./generated/src/index.js";
+import { StorageContextClient } from "./StorageContextClient.js";
+import type { PipelineLike } from "./Pipeline.js";
+import { getCoreClientOptions, getCredentialFromPipeline } from "./Pipeline.js";
+import { escapeURLPath, getURLScheme, iEqual, getAccountNameFromUrl } from "./utils/utils.common.js";
+import type { AnonymousCredential } from "./credentials/AnonymousCredential.js";
+import type { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential.js";
 import type { TokenCredential } from "@azure/core-auth";
 import type { OperationTracingOptions } from "@azure/core-tracing";
 

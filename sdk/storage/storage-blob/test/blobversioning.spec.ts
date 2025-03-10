@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { assert } from "chai";
-import * as fs from "fs";
+import * as fs from "node:fs";
 import { isNode, delay } from "@azure/core-util";
 import {
   getBSU,
@@ -11,7 +11,7 @@ import {
   getGenericCredential,
   getUniqueName,
   uriSanitizers,
-} from "./utils";
+} from "./utils/index.js";
 import { isLiveMode, Recorder } from "@azure-tools/test-recorder";
 import type {
   ContainerClient,
@@ -19,10 +19,9 @@ import type {
   BlobClient,
   BlockBlobClient,
   BlockBlobUploadResponse,
-} from "../src";
-import { BlobBatch } from "../src";
-import { setURLParameter } from "../src/utils/utils.common";
-import type { Context } from "mocha";
+} from "../src/index.js";
+import { BlobBatch } from "../src/index.js";
+import { setURLParameter } from "../src/utils/utils.common.js";
 
 describe("Blob versioning", () => {
   let blobServiceClient: BlobServiceClient;
@@ -37,28 +36,28 @@ describe("Blob versioning", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
-    await recorder.start(recorderEnvSetup);
-    await recorder.addSanitizers(
-      { uriSanitizers, removeHeaderSanitizer: { headersForRemoval: ["x-ms-copy-source"] } },
-      ["playback", "record"],
-    );
-    blobServiceClient = getBSU(recorder);
-    containerName = recorder.variable("container", getUniqueName("container"));
-    containerClient = blobServiceClient.getContainerClient(containerName);
-    await containerClient.create();
-    blobName = recorder.variable("blob", getUniqueName("blob"));
-    blobClient = containerClient.getBlobClient(blobName);
-    blockBlobClient = blobClient.getBlockBlobClient();
-    uploadRes = await blockBlobClient.upload(content, content.length);
-    uploadRes2 = await blockBlobClient.upload("", 0);
-  });
+  beforeEach(async (ctx) => {
+      recorder = new Recorder(ctx);
+      await recorder.start(recorderEnvSetup);
+      await recorder.addSanitizers(
+        { uriSanitizers, removeHeaderSanitizer: { headersForRemoval: ["x-ms-copy-source"] } },
+        ["playback", "record"],
+      );
+      blobServiceClient = getBSU(recorder);
+      containerName = recorder.variable("container", getUniqueName("container"));
+      containerClient = blobServiceClient.getContainerClient(containerName);
+      await containerClient.create();
+      blobName = recorder.variable("blob", getUniqueName("blob"));
+      blobClient = containerClient.getBlobClient(blobName);
+      blockBlobClient = blobClient.getBlockBlobClient();
+      uploadRes = await blockBlobClient.upload(content, content.length);
+      uploadRes2 = await blockBlobClient.upload("", 0);
+    });
 
-  afterEach(async function () {
-    await containerClient.delete();
-    await recorder.stop();
-  });
+  afterEach(async () => {
+      await containerClient.delete();
+      await recorder.stop();
+    });
 
   it("List Blobs include versions", async function () {
     const blobClients = [];
@@ -105,10 +104,10 @@ describe("Blob versioning", () => {
     }
   });
 
-  it("download a version to file", async function (this: Context) {
+  it("download a version to file", async function (ctx) {
     if (!isNode || !isLiveMode()) {
       // downloadToFile only available in Node.js
-      this.skip();
+      ctx.skip();
     }
     const downloadedFilePath = recorder.variable(
       "downloadedtofile",
@@ -160,7 +159,7 @@ describe("Blob versioning", () => {
 
   it("deleteBlobs should work for batch delete", async function () {
     if (!isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
     const blockBlobCount = 3;
     const blockBlobClients: BlockBlobClient[] = new Array(blockBlobCount);

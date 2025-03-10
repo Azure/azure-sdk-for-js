@@ -34,23 +34,23 @@ import { parseXML, stringifyXML } from "@azure/core-xml";
 import type { TokenCredential } from "@azure/core-auth";
 import { isTokenCredential } from "@azure/core-auth";
 
-import { logger } from "./log";
-import type { StorageRetryOptions } from "./StorageRetryPolicyFactory";
-import { StorageRetryPolicyFactory } from "./StorageRetryPolicyFactory";
-import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
-import { AnonymousCredential } from "./credentials/AnonymousCredential";
+import { logger } from "./log.js";
+import type { StorageRetryOptions } from "./StorageRetryPolicyFactory.js";
+import { StorageRetryPolicyFactory } from "./StorageRetryPolicyFactory.js";
+import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential.js";
+import { AnonymousCredential } from "./credentials/AnonymousCredential.js";
 import {
   StorageOAuthScopes,
   StorageBlobLoggingAllowedHeaderNames,
   StorageBlobLoggingAllowedQueryParameters,
   SDK_VERSION,
-} from "./utils/constants";
-import { getCachedDefaultHttpClient } from "./utils/cache";
-import { storageBrowserPolicy } from "./policies/StorageBrowserPolicyV2";
-import { storageRetryPolicy } from "./policies/StorageRetryPolicyV2";
-import { storageSharedKeyCredentialPolicy } from "./policies/StorageSharedKeyCredentialPolicyV2";
-import { StorageBrowserPolicyFactory } from "./StorageBrowserPolicyFactory";
-import { storageCorrectContentLengthPolicy } from "./policies/StorageCorrectContentLengthPolicy";
+} from "./utils/constants.js";
+import { getCachedDefaultHttpClient } from "./utils/cache.js";
+import { storageBrowserPolicy } from "./policies/StorageBrowserPolicyV2.js";
+import { storageRetryPolicy } from "./policies/StorageRetryPolicyV2.js";
+import { storageSharedKeyCredentialPolicy } from "./policies/StorageSharedKeyCredentialPolicyV2.js";
+import { StorageBrowserPolicyFactory } from "./StorageBrowserPolicyFactory.js";
+import { storageCorrectContentLengthPolicy } from "./policies/StorageCorrectContentLengthPolicy.js";
 
 // Export following interfaces and types for customers who want to implement their
 // own RequestPolicy or HTTPClient

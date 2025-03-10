@@ -3,10 +3,9 @@
 
 import { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
-import type { Context } from "mocha";
 
-import type { ContainerClient } from "../src";
-import { AppendBlobClient } from "../src";
+import type { ContainerClient } from "../src/index.js";
+import { AppendBlobClient } from "../src/index.js";
 import {
   bodyToString,
   configureBlobStorageClient,
@@ -15,7 +14,7 @@ import {
   getUniqueName,
   recorderEnvSetup,
   uriSanitizers,
-} from "./utils";
+} from "./utils/index.js";
 
 describe("AppendBlobClient", () => {
   let containerName: string;
@@ -25,26 +24,26 @@ describe("AppendBlobClient", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
-    await recorder.start(recorderEnvSetup);
-    // make sure we add the sanitizers on playback for SAS strings
-    await recorder.addSanitizers(
-      { uriSanitizers, removeHeaderSanitizer: { headersForRemoval: ["x-ms-copy-source"] } },
-      ["record", "playback"],
-    );
-    const blobServiceClient = getBSU(recorder);
-    containerName = recorder.variable("container", getUniqueName("container"));
-    containerClient = blobServiceClient.getContainerClient(containerName);
-    await containerClient.create();
-    blobName = recorder.variable("blob", getUniqueName("blob"));
-    appendBlobClient = containerClient.getAppendBlobClient(blobName);
-  });
+  beforeEach(async (ctx) => {
+      recorder = new Recorder(ctx);
+      await recorder.start(recorderEnvSetup);
+      // make sure we add the sanitizers on playback for SAS strings
+      await recorder.addSanitizers(
+        { uriSanitizers, removeHeaderSanitizer: { headersForRemoval: ["x-ms-copy-source"] } },
+        ["record", "playback"],
+      );
+      const blobServiceClient = getBSU(recorder);
+      containerName = recorder.variable("container", getUniqueName("container"));
+      containerClient = blobServiceClient.getContainerClient(containerName);
+      await containerClient.create();
+      blobName = recorder.variable("blob", getUniqueName("blob"));
+      appendBlobClient = containerClient.getAppendBlobClient(blobName);
+    });
 
-  afterEach(async function () {
-    await containerClient.delete();
-    await recorder.stop();
-  });
+  afterEach(async () => {
+      await containerClient.delete();
+      await recorder.stop();
+    });
 
   it("create with default parameters", async function () {
     await appendBlobClient.create();

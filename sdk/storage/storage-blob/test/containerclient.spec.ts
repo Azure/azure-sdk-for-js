@@ -12,7 +12,7 @@ import {
   isSuperSet,
   recorderEnvSetup,
   uriSanitizers,
-} from "./utils";
+} from "./utils/index.js";
 import { delay, Recorder } from "@azure-tools/test-recorder";
 import { getYieldedValue, assert } from "@azure-tools/test-utils";
 import type {
@@ -20,11 +20,10 @@ import type {
   BlobServiceClient,
   BlockBlobClient,
   BlobHTTPHeaders,
-} from "../src";
-import { ContainerClient, BlockBlobTier } from "../src";
-import { Test_CPK_INFO } from "./utils/fakeTestSecrets";
-import type { Context } from "mocha";
-import type { Tags } from "../src/models";
+} from "../src/index.js";
+import { ContainerClient, BlockBlobTier } from "../src/index.js";
+import { Test_CPK_INFO } from "./utils/fakeTestSecrets.js";
+import type { Tags } from "../src/models.js";
 
 describe("ContainerClient", () => {
   let blobServiceClient: BlobServiceClient;
@@ -33,28 +32,28 @@ describe("ContainerClient", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
-    await recorder.start(recorderEnvSetup);
-    await recorder.addSanitizers(
-      {
-        uriSanitizers,
-        removeHeaderSanitizer: {
-          headersForRemoval: ["x-ms-encryption-key"],
+  beforeEach(async (ctx) => {
+      recorder = new Recorder(ctx);
+      await recorder.start(recorderEnvSetup);
+      await recorder.addSanitizers(
+        {
+          uriSanitizers,
+          removeHeaderSanitizer: {
+            headersForRemoval: ["x-ms-encryption-key"],
+          },
         },
-      },
-      ["playback", "record"],
-    );
-    blobServiceClient = getBSU(recorder);
-    containerName = recorder.variable("container", getUniqueName("container"));
-    containerClient = blobServiceClient.getContainerClient(containerName);
-    await containerClient.create();
-  });
+        ["playback", "record"],
+      );
+      blobServiceClient = getBSU(recorder);
+      containerName = recorder.variable("container", getUniqueName("container"));
+      containerClient = blobServiceClient.getContainerClient(containerName);
+      await containerClient.create();
+    });
 
-  afterEach(async function () {
-    await containerClient.delete();
-    await recorder.stop();
-  });
+  afterEach(async () => {
+      await containerClient.delete();
+      await recorder.stop();
+    });
 
   it("setMetadata", async function () {
     const metadata = {
@@ -836,7 +835,7 @@ describe("ContainerClient", () => {
     }
   });
 
-  it("uploadBlockBlob and deleteBlob with tracing", async function (this: Context) {
+  it("uploadBlockBlob and deleteBlob with tracing", async function () {
     const body: string = recorder.variable("randomstring", getUniqueName("randomstring"));
     const blobHeaders: BlobHTTPHeaders = {
       blobCacheControl: "blobCacheControl",

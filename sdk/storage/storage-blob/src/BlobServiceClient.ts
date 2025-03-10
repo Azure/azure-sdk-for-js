@@ -20,44 +20,42 @@ import type {
   ContainerUndeleteResponse,
   FilterBlobSegmentModel,
   ServiceFilterBlobsHeaders,
-  ContainerRenameResponse,
   LeaseAccessConditions,
   FilterBlobSegment,
   FilterBlobItem,
   ServiceGetPropertiesResponseInternal,
   ServiceGetStatisticsResponseInternal,
   ServiceListContainersSegmentResponseInternal,
-} from "./generatedModels";
-import type { Service } from "./generated/src/operationsInterfaces";
-import type { StoragePipelineOptions, PipelineLike } from "./Pipeline";
-import { newPipeline, isPipelineLike } from "./Pipeline";
-import type { ContainerCreateOptions, ContainerDeleteMethodOptions } from "./ContainerClient";
-import { ContainerClient } from "./ContainerClient";
-import type { WithResponse } from "./utils/utils.common";
+} from "./generatedModels.js";
+import type { Service } from "./generated/src/operationsInterfaces/index.js";
+import type { StoragePipelineOptions, PipelineLike } from "./Pipeline.js";
+import { newPipeline, isPipelineLike } from "./Pipeline.js";
+import type { ContainerCreateOptions, ContainerDeleteMethodOptions } from "./ContainerClient.js";
+import { ContainerClient } from "./ContainerClient.js";
+import type { WithResponse } from "./utils/utils.common.js";
 import {
   appendToURLPath,
   appendToURLQuery,
   extractConnectionStringParts,
   toTags,
-} from "./utils/utils.common";
-import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
-import { AnonymousCredential } from "./credentials/AnonymousCredential";
+} from "./utils/utils.common.js";
+import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential.js";
+import { AnonymousCredential } from "./credentials/AnonymousCredential.js";
 import type { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
-import { truncatedISO8061Date, assertResponse } from "./utils/utils.common";
-import { tracingClient } from "./utils/tracing";
-import { BlobBatchClient } from "./BlobBatchClient";
-import type { CommonOptions } from "./StorageClient";
-import { StorageClient } from "./StorageClient";
-import { AccountSASPermissions } from "./sas/AccountSASPermissions";
-import type { SASProtocol } from "./sas/SASQueryParameters";
-import type { SasIPRange } from "./sas/SasIPRange";
+import { truncatedISO8061Date, assertResponse } from "./utils/utils.common.js";
+import { tracingClient } from "./utils/tracing.js";
+import { BlobBatchClient } from "./BlobBatchClient.js";
+import type { CommonOptions } from "./StorageClient.js";
+import { StorageClient } from "./StorageClient.js";
+import { AccountSASPermissions } from "./sas/AccountSASPermissions.js";
+import type { SASProtocol } from "./sas/SASQueryParameters.js";
+import type { SasIPRange } from "./sas/SasIPRange.js";
 import {
   generateAccountSASQueryParameters,
   generateAccountSASQueryParametersInternal,
-} from "./sas/AccountSASSignatureValues";
-import { AccountSASServices } from "./sas/AccountSASServices";
+} from "./sas/AccountSASSignatureValues.js";
+import { AccountSASServices } from "./sas/AccountSASServices.js";
 import type {
-  ContainerRenameHeaders,
   ContainerRestoreHeaders,
   ListContainersIncludeType,
   ServiceFilterBlobsResponse,
@@ -67,7 +65,7 @@ import type {
   ServiceGetUserDelegationKeyResponse as ServiceGetUserDelegationKeyResponseModel,
   ServiceListContainersSegmentHeaders,
   ServiceSetPropertiesHeaders,
-} from "./generated/src";
+} from "./generated/src/index.js";
 
 /**
  * Options to configure the {@link BlobServiceClient.getProperties} operation.
@@ -593,43 +591,6 @@ export class BlobServiceClient extends StorageClient {
     );
   }
 
-  /**
-   * Rename an existing Blob Container.
-   *
-   * @param sourceContainerName - The name of the source container.
-   * @param destinationContainerName - The new name of the container.
-   * @param options - Options to configure Container Rename operation.
-   */
-  /* eslint-disable-next-line @typescript-eslint/ban-ts-comment */
-  // @ts-ignore Need to hide this interface for now. Make it public and turn on the live tests for it when the service is ready.
-  private async renameContainer(
-    sourceContainerName: string,
-    destinationContainerName: string,
-    options: ServiceRenameContainerOptions = {},
-  ): Promise<{
-    containerClient: ContainerClient;
-    containerRenameResponse: ContainerRenameResponse;
-  }> {
-    return tracingClient.withSpan(
-      "BlobServiceClient-renameContainer",
-      options,
-      async (updatedOptions) => {
-        const containerClient = this.getContainerClient(destinationContainerName);
-        // Hack to access a protected member.
-        const containerContext = containerClient["storageClientContext"].container;
-        const containerRenameResponse = assertResponse<
-          ContainerRenameHeaders,
-          ContainerRenameHeaders
-        >(
-          await containerContext.rename(sourceContainerName, {
-            ...updatedOptions,
-            sourceLeaseId: options.sourceCondition?.leaseId,
-          }),
-        );
-        return { containerClient, containerRenameResponse };
-      },
-    );
-  }
 
   /**
    * Gets the properties of a storage account’s Blob service, including properties

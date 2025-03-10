@@ -17,13 +17,13 @@ import {
   getUniqueName,
   recorderEnvSetup,
   uriSanitizers,
-} from "../utils";
+} from "../utils/index.js";
 import type {
   StorageSharedKeyCredential,
   BlobClient,
   ContainerClient,
   BlobServiceClient,
-} from "../../src";
+} from "../../src/index.js";
 import {
   BlockBlobClient,
   newPipeline,
@@ -32,14 +32,13 @@ import {
   getBlobServiceAccountAudience,
   SASProtocol,
   AnonymousCredential,
-} from "../../src";
+} from "../../src/index.js";
 import type { TokenCredential } from "@azure/core-auth";
-import { assertClientUsesTokenCredential } from "../utils/assert";
+import { assertClientUsesTokenCredential } from "../utils/assert.js";
 import { isLiveMode, Recorder } from "@azure-tools/test-recorder";
-import { streamToBuffer3 } from "../../src/utils/utils.node";
-import * as crypto from "crypto";
-import { BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES } from "../../src/utils/constants";
-import type { Context } from "mocha";
+import { streamToBuffer3 } from "../../src/utils/utils.node.js";
+import * as crypto from "node:crypto";
+import { BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES } from "../../src/utils/constants.js";
 import { createTestCredential } from "@azure-tools/test-credential";
 
 describe("BlockBlobClient Node.js only", () => {
@@ -51,24 +50,24 @@ describe("BlockBlobClient Node.js only", () => {
   let recorder: Recorder;
 
   let blobServiceClient: BlobServiceClient;
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
-    await recorder.start(recorderEnvSetup);
-    blobServiceClient = getBSU(recorder);
-    containerName = recorder.variable("container", getUniqueName("container"));
-    containerClient = blobServiceClient.getContainerClient(containerName);
-    await containerClient.create();
-    blobName = recorder.variable("blob", getUniqueName("blob"));
-    blobClient = containerClient.getBlobClient(blobName);
-    blockBlobClient = blobClient.getBlockBlobClient();
-  });
+  beforeEach(async (ctx) => {
+      recorder = new Recorder(ctx);
+      await recorder.start(recorderEnvSetup);
+      blobServiceClient = getBSU(recorder);
+      containerName = recorder.variable("container", getUniqueName("container"));
+      containerClient = blobServiceClient.getContainerClient(containerName);
+      await containerClient.create();
+      blobName = recorder.variable("blob", getUniqueName("blob"));
+      blobClient = containerClient.getBlobClient(blobName);
+      blockBlobClient = blobClient.getBlockBlobClient();
+    });
 
-  afterEach(async function (this: Context) {
-    if (containerClient) {
-      await containerClient.delete();
-    }
-    await recorder.stop();
-  });
+  afterEach(async () => {
+      if (containerClient) {
+        await containerClient.delete();
+      }
+      await recorder.stop();
+    });
 
   it("Upload special content should work", async () => {
     const content =
@@ -288,7 +287,7 @@ describe("BlockBlobClient Node.js only", () => {
   it("should not decompress during downloading", async function () {
     // recorder doesn't save binary payload correctly
     if (!isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
     const body: string = "hello world body string!";
     const deflated = zlib.deflateSync(body);
@@ -327,60 +326,60 @@ describe("syncUploadFromURL", () => {
     largeContent = generateRandomUint8Array(BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES);
   });
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
-    await recorder.start(recorderEnvSetup);
-    await recorder.addSanitizers(
-      {
-        uriSanitizers,
-        removeHeaderSanitizer: {
-          headersForRemoval: [
-            "x-ms-copy-source",
-            "x-ms-copy-source-authorization",
-            "x-ms-encryption-key",
-          ],
+  beforeEach(async (ctx) => {
+      recorder = new Recorder(ctx);
+      await recorder.start(recorderEnvSetup);
+      await recorder.addSanitizers(
+        {
+          uriSanitizers,
+          removeHeaderSanitizer: {
+            headersForRemoval: [
+              "x-ms-copy-source",
+              "x-ms-copy-source-authorization",
+              "x-ms-encryption-key",
+            ],
+          },
         },
-      },
-      ["playback", "record"],
-    );
-    const blobServiceClient = getBSU(recorder);
-    const containerName = recorder.variable("container", getUniqueName("container"));
-    containerClient = blobServiceClient.getContainerClient(containerName);
-    await containerClient.create();
-    const blobName = recorder.variable("blockblob", getUniqueName("blockblob"));
-    blockBlobClient = containerClient.getBlockBlobClient(blobName);
+        ["playback", "record"],
+      );
+      const blobServiceClient = getBSU(recorder);
+      const containerName = recorder.variable("container", getUniqueName("container"));
+      containerClient = blobServiceClient.getContainerClient(containerName);
+      await containerClient.create();
+      const blobName = recorder.variable("blockblob", getUniqueName("blockblob"));
+      blockBlobClient = containerClient.getBlockBlobClient(blobName);
 
-    // generate source blob SAS
+      // generate source blob SAS
 
-    const srcBlobName = recorder.variable("srcblob/%2+%2F", getUniqueName("srcblob/%2+%2F"));
-    sourceBlob = containerClient.getBlockBlobClient(srcBlobName);
-    const uploadSrcRes = await sourceBlob.upload(content, content.length, {
-      blobHTTPHeaders: srcHttpHeaders,
+      const srcBlobName = recorder.variable("srcblob/%2+%2F", getUniqueName("srcblob/%2+%2F"));
+      sourceBlob = containerClient.getBlockBlobClient(srcBlobName);
+      const uploadSrcRes = await sourceBlob.upload(content, content.length, {
+        blobHTTPHeaders: srcHttpHeaders,
+      });
+      srcEtag = uploadSrcRes.etag;
+
+      const expiryTime = new Date(recorder.variable("expiry", new Date().toISOString()));
+      expiryTime.setDate(expiryTime.getDate() + 1);
+      const sas = generateBlobSASQueryParameters(
+        {
+          expiresOn: expiryTime,
+          permissions: BlobSASPermissions.parse("r"),
+          containerName,
+          blobName: srcBlobName,
+        },
+        sourceBlob.credential as StorageSharedKeyCredential,
+      );
+      sourceBlobURLWithSAS = sourceBlob.url + "?" + sas;
     });
-    srcEtag = uploadSrcRes.etag;
 
-    const expiryTime = new Date(recorder.variable("expiry", new Date().toISOString()));
-    expiryTime.setDate(expiryTime.getDate() + 1);
-    const sas = generateBlobSASQueryParameters(
-      {
-        expiresOn: expiryTime,
-        permissions: BlobSASPermissions.parse("r"),
-        containerName,
-        blobName: srcBlobName,
-      },
-      sourceBlob.credential as StorageSharedKeyCredential,
-    );
-    sourceBlobURLWithSAS = sourceBlob.url + "?" + sas;
-  });
+  afterEach(async () => {
+      if (containerClient) {
+        await containerClient.delete();
+      }
+      await recorder.stop();
+    });
 
-  afterEach(async function (this: Context) {
-    if (containerClient) {
-      await containerClient.delete();
-    }
-    await recorder.stop();
-  });
-
-  it("stageBlockFromURL - source SAS and destination bearer token", async function (this: Context) {
+  it("stageBlockFromURL - source SAS and destination bearer token", async function () {
     const stokenBlobServiceClient = getTokenBSUWithDefaultCredential(recorder);
     const tokenNewBlockBlobClient = stokenBlobServiceClient
       .getContainerClient(containerClient.containerName)
@@ -408,7 +407,7 @@ describe("syncUploadFromURL", () => {
     assert.equal(listResponse.committedBlocks![1].size, content.length);
   });
 
-  it("stageBlockFromURL - source bear token and destination account key", async function (this: Context) {
+  it("stageBlockFromURL - source bear token and destination account key", async function () {
     const body = "HelloWorld";
     await blockBlobClient.upload(body, body.length);
 
@@ -453,7 +452,7 @@ describe("syncUploadFromURL", () => {
     assert.equal(listResponse.committedBlocks![1].size, body.length);
   });
 
-  it("stageBlockFromURL - destination bearer token", async function (this: Context) {
+  it("stageBlockFromURL - destination bearer token", async function () {
     const body = "HelloWorld";
     await blockBlobClient.upload(body, body.length);
 
@@ -501,7 +500,7 @@ describe("syncUploadFromURL", () => {
     assert.equal(listResponse.committedBlocks![1].size, body.length);
   });
 
-  it("syncUploadFromURL - source SAS and destination bearer token", async function (this: Context) {
+  it("syncUploadFromURL - source SAS and destination bearer token", async function () {
     const stokenBlobServiceClient = getTokenBSUWithDefaultCredential(recorder);
     const tokenNewBlockBlobClient = stokenBlobServiceClient
       .getContainerClient(containerClient.containerName)
@@ -515,7 +514,7 @@ describe("syncUploadFromURL", () => {
     assert.ok(downloadBuffer.compare(Buffer.from(content)) === 0);
   });
 
-  it("syncUploadFromURL - source bear token and destination account key", async function (this: Context) {
+  it("syncUploadFromURL - source bear token and destination account key", async function () {
     const body = "HelloWorld";
     await blockBlobClient.upload(body, body.length);
 
@@ -538,7 +537,7 @@ describe("syncUploadFromURL", () => {
     assert.equal(downloadRes.contentLength!, body.length);
   });
 
-  it("syncUploadFromURL - destination bearer token", async function (this: Context) {
+  it("syncUploadFromURL - destination bearer token", async function () {
     const body = "HelloWorld";
     await blockBlobClient.upload(body, body.length);
 
@@ -799,7 +798,7 @@ describe("syncUploadFromURL", () => {
 
   it("large content", async function () {
     if (!isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
     await sourceBlob.uploadData(largeContent);
     await blockBlobClient.syncUploadFromURL(sourceBlobURLWithSAS);
@@ -808,7 +807,7 @@ describe("syncUploadFromURL", () => {
   // TODO: should enable this case when service is ready
   it.skip("large content with timeout", async function () {
     if (!isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
     await sourceBlob.uploadData(largeContent);
 

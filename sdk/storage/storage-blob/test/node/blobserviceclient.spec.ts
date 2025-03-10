@@ -9,24 +9,23 @@ import {
   getConnectionStringFromEnvironment,
   recorderEnvSetup,
   SimpleTokenCredential,
-} from "../utils";
-import type { StorageSharedKeyCredential } from "../../src";
-import { BlobServiceClient, getBlobServiceAccountAudience, newPipeline } from "../../src";
+} from "../utils/index.js";
+import type { StorageSharedKeyCredential } from "../../src/index.js";
+import { BlobServiceClient, getBlobServiceAccountAudience, newPipeline } from "../../src/index.js";
 import { Recorder } from "@azure-tools/test-recorder";
-import type { Context } from "mocha";
 import { createTestCredential } from "@azure-tools/test-credential";
 
 describe("BlobServiceClient Node.js only", () => {
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
-    await recorder.start(recorderEnvSetup);
-  });
+  beforeEach(async (ctx) => {
+      recorder = new Recorder(ctx);
+      await recorder.start(recorderEnvSetup);
+    });
 
-  afterEach(async function () {
-    await recorder.stop();
-  });
+  afterEach(async () => {
+      await recorder.stop();
+    });
 
   it("Default audience should work", async () => {
     const serviceClient = getBSU(recorder);

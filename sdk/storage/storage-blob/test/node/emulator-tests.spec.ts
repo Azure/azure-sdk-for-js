@@ -8,10 +8,9 @@ import {
   BlobServiceClient,
   BlockBlobClient,
   PageBlobClient,
-} from "../../src";
-import { getConnectionStringFromEnvironment, bodyToString, getUniqueName } from "../utils";
+} from "../../src/index.js";
+import { getConnectionStringFromEnvironment, bodyToString, getUniqueName } from "../utils/index.js";
 import { env } from "@azure-tools/test-recorder";
-import type { Context } from "mocha";
 
 // Expected environment variable to run this test-suite
 // STORAGE_CONNECTION_STRING=UseDevelopmentStorage=true
@@ -24,27 +23,27 @@ describe("Emulator Tests", () => {
   let blockBlobClient: BlockBlobClient;
   const content = "Hello World";
 
-  beforeEach(async function (this: Context) {
-    if (!env.STORAGE_CONNECTION_STRING?.startsWith("UseDevelopmentStorage=true")) {
-      this.skip();
-    }
-    blobServiceClient = BlobServiceClient.fromConnectionString(
-      getConnectionStringFromEnvironment(),
-    );
-    containerName = getUniqueName("container");
-    blobName = getUniqueName("blob");
-    containerClient = blobServiceClient.getContainerClient(containerName);
-    await containerClient.create();
-    blobClient = containerClient.getBlobClient(blobName);
-    blockBlobClient = blobClient.getBlockBlobClient();
-    await blockBlobClient.upload(content, content.length);
-  });
+  beforeEach(async (ctx) => {
+      if (!env.STORAGE_CONNECTION_STRING?.startsWith("UseDevelopmentStorage=true")) {
+        ctx.skip();
+      }
+      blobServiceClient = BlobServiceClient.fromConnectionString(
+        getConnectionStringFromEnvironment(),
+      );
+      containerName = getUniqueName("container");
+      blobName = getUniqueName("blob");
+      containerClient = blobServiceClient.getContainerClient(containerName);
+      await containerClient.create();
+      blobClient = containerClient.getBlobClient(blobName);
+      blockBlobClient = blobClient.getBlockBlobClient();
+      await blockBlobClient.upload(content, content.length);
+    });
 
-  afterEach(async function (this: Context) {
-    if (containerClient) {
-      await containerClient.delete();
-    }
-  });
+  afterEach(async () => {
+      if (containerClient) {
+        await containerClient.delete();
+      }
+    });
 
   it("BlobClient can be created with a connection string", async function () {
     const newClient = new BlobClient(getConnectionStringFromEnvironment(), containerName, blobName);
