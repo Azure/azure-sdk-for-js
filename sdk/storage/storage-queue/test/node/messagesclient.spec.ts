@@ -1,7 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import { assert } from "chai";
 import {
   getQSU,
   getConnectionStringFromEnvironment,
@@ -14,6 +12,7 @@ import { QueueClient } from "../../src/QueueClient.js";
 import type { TokenCredential } from "@azure/core-auth";
 import { assertClientUsesTokenCredential } from "../utils/assert.js";
 import { newPipeline } from "../../src/index.js";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("QueueClient message methods, Node.js only", () => {
   let queueName: string;

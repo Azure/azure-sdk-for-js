@@ -1,8 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import { assert } from "chai";
-
 import type { StorageSharedKeyCredential } from "../../src/index.js";
 import {
   AccountSASPermissions,
@@ -25,6 +22,7 @@ import {
   uriSanitizers,
 } from "../utils/index.js";
 import { delay, Recorder } from "@azure-tools/test-recorder";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("Shared Access Signature (SAS) generation Node.js only", () => {
   let queueServiceClient: QueueServiceClient;
