@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 import type { OAuth2Flow } from "./authFlows.js";
-import { OAuth2FlowType } from "./authFlows.js";
 
 /**
  * Represents a credential capable of providing an authentication token.
@@ -43,22 +42,6 @@ export interface AccessToken {
    * The access token returned by the authentication service.
    */
   token: string;
-}
-
-/**
- * Abstract base class for Authorization Code credentials.
- */
-export abstract class AuthorizationCodeCredential implements TokenCredential {
-  /**
-   * The type of OAuth2 flow
-   */
-  public readonly type: OAuth2FlowType.authorizationCode = OAuth2FlowType.authorizationCode;
-
-  /**
-   * Gets the token provided by this credential.
-   * @param options - The options used to configure any requests this TokenCredential implementation might make.
-   */
-  abstract getToken(options?: GetTokenOptions): Promise<AccessToken>;
 }
 
 /**

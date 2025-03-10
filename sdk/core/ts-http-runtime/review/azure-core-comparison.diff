@@ -141,15 +141,23 @@ index f8d603b..0000000
 -}
 diff --git a/src/auth/authFlows.ts b/src/auth/authFlows.ts
 new file mode 100644
-index 0000000..ef97a8d
+index 0000000..bb42d9f
 --- /dev/null
 +++ b/src/auth/authFlows.ts
-@@ -0,0 +1,131 @@
+@@ -0,0 +1,139 @@
++// Copyright (c) Microsoft Corporation.
++// Licensed under the MIT License.
++
 +/**
 + * Represents the different types of OAuth2 authentication flows supported.
 + * Can be AuthorizationCodeFlow, ClientCredentialsFlow, ImplicitFlow, or PasswordFlow.
 + */
-+export type OAuth2Flow = AuthorizationCodeFlow | ClientCredentialsFlow | ImplicitFlow | PasswordFlow | BaseOAuth2Flow;
++export type OAuth2Flow =
++  | AuthorizationCodeFlow
++  | ClientCredentialsFlow
++  | ImplicitFlow
++  | PasswordFlow
++  | BaseOAuth2Flow;
 +
 +/**
 + * Describes the OAuth2 flow types.
@@ -537,7 +545,7 @@ index 9db25cf..df8291c 100644
  /**
   * Represents a credential defined by a static API key.
 diff --git a/src/auth/tokenCredential.ts b/src/auth/tokenCredential.ts
-index 395b112..9e19f91 100644
+index 395b112..aba5152 100644
 --- a/src/auth/tokenCredential.ts
 +++ b/src/auth/tokenCredential.ts
 @@ -1,9 +1,7 @@
@@ -547,11 +555,11 @@ index 395b112..9e19f91 100644
 -import type { AbortSignalLike } from "@azure/abort-controller";
 -import type { TracingContext } from "./tracing.js";
 -import type { HttpMethods } from "@azure/core-util";
-+import { OAuth2Flow, OAuth2FlowType } from "./authFlows.js";
++import type { OAuth2Flow } from "./authFlows.js";
  
  /**
   * Represents a credential capable of providing an authentication token.
-@@ -12,117 +10,54 @@ export interface TokenCredential {
+@@ -12,117 +10,38 @@ export interface TokenCredential {
    /**
     * Gets the token provided by this credential.
     *
@@ -590,11 +598,9 @@ index 395b112..9e19f91 100644
 -   * Options used when tracing is enabled.
 -   */
 -  tracingOptions?: {
-+  abortSignal?: AbortSignal;
-   /**
+-    /**
 -     * Tracing Context for the current request.
-+   * OAuth2 flow metadata used during token acquisition.
-    */
+-     */
 -    tracingContext?: TracingContext;
 -  };
 -  /**
@@ -614,11 +620,13 @@ index 395b112..9e19f91 100644
 -   * Options for Proof of Possession token requests
 -   */
 -  proofOfPossessionOptions?: {
--    /**
++  abortSignal?: AbortSignal;
+   /**
 -     * The nonce value required for PoP token requests.
 -     * This is typically retrieved from the WWW-Authenticate header of a 401 challenge response.
 -     * This is used in combination with {@link resourceRequestUrl} and {@link resourceRequestMethod} to generate the PoP token.
--     */
++   * OAuth2 flow metadata used during token acquisition.
+    */
 -    nonce: string;
 -    /**
 -     * The HTTP method of the request.
@@ -643,45 +651,37 @@ index 395b112..9e19f91 100644
     * The access token returned by the authentication service.
     */
    token: string;
-+}
- 
- /**
+-
+-  /**
 -   * The access token's expiration timestamp in milliseconds, UNIX epoch time.
 -   */
 -  expiresOnTimestamp: number;
 -
 -  /**
 -   * The timestamp when the access token should be refreshed, in milliseconds, UNIX epoch time.
-+ * Abstract base class for Authorization Code credentials.
-  */
+-   */
 -  refreshAfterTimestamp?: number;
 -
 -  /** Type of token - `Bearer` or `pop` */
 -  tokenType?: "Bearer" | "pop";
 -}
 -
-+export abstract class AuthorizationCodeCredential implements TokenCredential {
-   /**
+-/**
 - * @internal
 - * @param accessToken - Access token
 - * @returns Whether a token is bearer type or not
-+   * The type of OAuth2 flow
-    */
+- */
 -export function isBearerToken(accessToken: AccessToken): boolean {
 -  return !accessToken.tokenType || accessToken.tokenType === "Bearer";
 -}
-+  public readonly type: OAuth2FlowType.authorizationCode = OAuth2FlowType.authorizationCode;
- 
-   /**
+-
+-/**
 - * @internal
 - * @param accessToken - Access token
 - * @returns Whether a token is Pop token or not
-+   * Gets the token provided by this credential.
-+   * @param options - The options used to configure any requests this TokenCredential implementation might make.
-    */
+- */
 -export function isPopToken(accessToken: AccessToken): boolean {
 -  return accessToken.tokenType === "pop";
-+  abstract getToken(options?: GetTokenOptions): Promise<AccessToken>;
  }
  
  /**
@@ -737,7 +737,7 @@ index 56cb7b8..da27584 100644
  
  export const apiVersionPolicyName = "ApiVersionPolicy";
 diff --git a/src/client/clientHelpers.ts b/src/client/clientHelpers.ts
-index 30dac33..2c0c65b 100644
+index 30dac33..4fe38ef 100644
 --- a/src/client/clientHelpers.ts
 +++ b/src/client/clientHelpers.ts
 @@ -1,15 +1,15 @@
@@ -779,7 +779,7 @@ index 30dac33..2c0c65b 100644
        credential,
 -      scopes: clientOptions?.credentials?.scopes ?? `${endpoint}/.default`,
 +      allowInsecureConnection: clientOptions?.allowInsecureConnection ?? false,
-+      authFlows: clientOptions?.authFlows
++      authFlows: clientOptions?.authFlows,
      });
      pipeline.addPolicy(tokenPolicy);
    } else if (isKeyCredential(credential)) {
@@ -808,7 +808,7 @@ index 30dac33..2c0c65b 100644
    if (!cachedHttpClient) {
      cachedHttpClient = createDefaultHttpClient();
 diff --git a/src/client/common.ts b/src/client/common.ts
-index 609878a..d8ed373 100644
+index 609878a..4dee5a8 100644
 --- a/src/client/common.ts
 +++ b/src/client/common.ts
 @@ -3,19 +3,17 @@
@@ -833,7 +833,7 @@ index 609878a..d8ed373 100644
 +import type { Pipeline, PipelinePolicy } from "../pipeline.js";
 +import type { PipelineOptions } from "../createPipelineFromOptions.js";
 +import type { LogPolicyOptions } from "../policies/logPolicy.js";
-+import { OAuth2Flow } from "../auth/authFlows.js";
++import type { OAuth2Flow } from "../auth/authFlows.js";
  
  /**
   * Shape of the default request parameters, this may be overridden by the specific
@@ -1262,11 +1262,11 @@ index ad162e3..ae5349c 100644
    HttpClient,
    HttpHeaders as PipelineHeaders,
 diff --git a/src/index.ts b/src/index.ts
-index 92a7ee9..be6ff84 100644
+index 92a7ee9..68c71cb 100644
 --- a/src/index.ts
 +++ b/src/index.ts
 @@ -9,116 +9,83 @@ declare global {
-   interface TransformStream<I = any, O = any> { }
+   interface TransformStream<I = any, O = any> {}
  }
  
 -export type { HttpMethods } from "@azure/core-util";
@@ -1446,7 +1446,7 @@ index 92a7ee9..be6ff84 100644
 -  type CreateFileFromStreamOptions,
 -} from "./util/file.js";
 diff --git a/src/interfaces.ts b/src/interfaces.ts
-index 26b806d..9e3f21d 100644
+index 26b806d..a9d1f9c 100644
 --- a/src/interfaces.ts
 +++ b/src/interfaces.ts
 @@ -1,10 +1,6 @@
@@ -1922,7 +1922,7 @@ index 55110a0..0000000
 -  };
 -}
 diff --git a/src/policies/bearerTokenAuthenticationPolicy.ts b/src/policies/bearerTokenAuthenticationPolicy.ts
-index d67931e..32db065 100644
+index d67931e..658d58b 100644
 --- a/src/policies/bearerTokenAuthenticationPolicy.ts
 +++ b/src/policies/bearerTokenAuthenticationPolicy.ts
 @@ -1,85 +1,17 @@
@@ -1938,7 +1938,7 @@ index d67931e..32db065 100644
  import { logger as coreLogger } from "../log.js";
 -import type { RestError } from "../restError.js";
 -import { isRestError } from "../restError.js";
-+import { OAuth2Flow } from "../auth/authFlows.js";
++import type { OAuth2Flow } from "../auth/authFlows.js";
  
  /**
   * The programmatic identifier of the bearerTokenAuthenticationPolicy.
@@ -2280,7 +2280,7 @@ index d67931e..32db065 100644
 -            }
 -          }
          }
-       }      
+       }
 +      const getAccessTokenOptions = {
 +        abortSignal: request.abortSignal,
 +        authFlows,
