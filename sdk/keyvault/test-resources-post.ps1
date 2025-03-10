@@ -31,6 +31,8 @@ param (
     [ValidateNotNullOrEmpty()]
     [string] $Environment,
 
+    [Parameter()]
+    [switch] $CI = ($null -ne $env:SYSTEM_TEAMPROJECTID),
 
     # Captures any arguments from eng/New-TestResources.ps1 not declared here (no parameter errors).
     [Parameter(ValueFromRemainingArguments = $true)]
