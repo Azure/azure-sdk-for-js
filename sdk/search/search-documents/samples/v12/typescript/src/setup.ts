@@ -6,8 +6,8 @@
  */
 
 import { KnownAnalyzerNames, SearchIndex, SearchIndexClient } from "@azure/search-documents";
-import { env } from "process";
-import { Hotel } from "./interfaces";
+import { env } from "node:process";
+import { Hotel } from "./interfaces.js";
 
 export const WAIT_TIME = 4000;
 
