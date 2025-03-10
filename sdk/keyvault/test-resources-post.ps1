@@ -126,9 +126,8 @@ if ($CI) {
                       -TenantId $TenantId `
                       -ApplicationId $TestApplicationId `
                       -FederatedToken $env:ARM_OIDC_TOKEN `
-                      -AllowNoSubscriptions
 
-    Select-AzSubscription -SubscriptionId $SubscriptionId
+    Select-AzSubscription -Subscription $SubscriptionId
 }
 
 Export-AzKeyVaultSecurityDomain -Name $hsmName -Quorum 2 -Certificates $wrappingFiles -OutputPath $sdPath -ErrorAction SilentlyContinue -Verbose
