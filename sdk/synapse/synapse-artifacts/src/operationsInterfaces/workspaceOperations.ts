@@ -6,13 +6,16 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import type { WorkspaceGetOptionalParams, WorkspaceGetResponse } from "../models/index.js";
+import {
+  WorkspaceGetOptionalParams,
+  WorkspaceGetResponse,
+} from "../models/index.js";
 
 /** Interface representing a WorkspaceOperations. */
 export interface WorkspaceOperations {
   /**
    * Get Workspace
-   * @param options - The options parameters.
+   * @param options The options parameters.
    */
   get(options?: WorkspaceGetOptionalParams): Promise<WorkspaceGetResponse>;
 }

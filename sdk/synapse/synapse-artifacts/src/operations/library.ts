@@ -7,18 +7,21 @@
  */
 
 import { tracingClient } from "../tracing.js";
-import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper.js";
-import type { Library } from "../operationsInterfaces/index.js";
+import { Library } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import type * as coreRestPipeline from "@azure/core-rest-pipeline";
+import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
-import type { ArtifactsClient } from "../artifactsClient.js";
-import type { SimplePollerLike, OperationState } from "@azure/core-lro";
-import { createHttpPoller } from "@azure/core-lro";
+import { ArtifactsClient } from "../artifactsClient.js";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller,
+} from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
-import type {
+import {
   LibraryResource,
   LibraryListNextOptionalParams,
   LibraryListOptionalParams,
@@ -34,6 +37,424 @@ import type {
   LibraryListNextResponse,
 } from "../models/index.js";
 
+/// <reference lib="esnext.asynciterable" />
+/** Class containing Library operations. */
+export class LibraryImpl implements Library {
+  private readonly client: ArtifactsClient;
+
+  /**
+   * Initialize a new instance of the class Library class.
+   * @param client Reference to the service client
+   */
+  constructor(client: ArtifactsClient) {
+    this.client = client;
+  }
+
+  /**
+   * Lists Library.
+   * @param options The options parameters.
+   */
+  public list(
+    options?: LibraryListOptionalParams,
+  ): PagedAsyncIterableIterator<LibraryResource> {
+    const iter = this.listPagingAll(options);
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(options, settings);
+      },
+    };
+  }
+
+  private async *listPagingPage(
+    options?: LibraryListOptionalParams,
+    settings?: PageSettings,
+  ): AsyncIterableIterator<LibraryResource[]> {
+    let result: LibraryListOperationResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listNext(continuationToken, options);
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listPagingAll(
+    options?: LibraryListOptionalParams,
+  ): AsyncIterableIterator<LibraryResource> {
+    for await (const page of this.listPagingPage(options)) {
+      yield* page;
+    }
+  }
+
+  /**
+   * Lists Library.
+   * @param options The options parameters.
+   */
+  private async _list(
+    options?: LibraryListOptionalParams,
+  ): Promise<LibraryListOperationResponse> {
+    return tracingClient.withSpan(
+      "ArtifactsClient._list",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { options },
+          listOperationSpec,
+        ) as Promise<LibraryListOperationResponse>;
+      },
+    );
+  }
+
+  /**
+   * Flush Library
+   * @param libraryName file name to upload. Minimum length of the filename should be 1 excluding the
+   *                    extension length.
+   * @param options The options parameters.
+   */
+  async beginFlush(
+    libraryName: string,
+    options?: LibraryFlushOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<void> => {
+      return tracingClient.withSpan(
+        "ArtifactsClient.beginFlush",
+        options ?? {},
+        async () => {
+          return this.client.sendOperationRequest(args, spec) as Promise<void>;
+        },
+      );
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { libraryName, options },
+      spec: flushOperationSpec,
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Flush Library
+   * @param libraryName file name to upload. Minimum length of the filename should be 1 excluding the
+   *                    extension length.
+   * @param options The options parameters.
+   */
+  async beginFlushAndWait(
+    libraryName: string,
+    options?: LibraryFlushOptionalParams,
+  ): Promise<void> {
+    const poller = await this.beginFlush(libraryName, options);
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Get Operation result for Library
+   * @param operationId operation id for which status is requested
+   * @param options The options parameters.
+   */
+  async getOperationResult(
+    operationId: string,
+    options?: LibraryGetOperationResultOptionalParams,
+  ): Promise<LibraryGetOperationResultResponse> {
+    return tracingClient.withSpan(
+      "ArtifactsClient.getOperationResult",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { operationId, options },
+          getOperationResultOperationSpec,
+        ) as Promise<LibraryGetOperationResultResponse>;
+      },
+    );
+  }
+
+  /**
+   * Delete Library
+   * @param libraryName file name to upload. Minimum length of the filename should be 1 excluding the
+   *                    extension length.
+   * @param options The options parameters.
+   */
+  async beginDelete(
+    libraryName: string,
+    options?: LibraryDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<void> => {
+      return tracingClient.withSpan(
+        "ArtifactsClient.beginDelete",
+        options ?? {},
+        async () => {
+          return this.client.sendOperationRequest(args, spec) as Promise<void>;
+        },
+      );
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { libraryName, options },
+      spec: deleteOperationSpec,
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Delete Library
+   * @param libraryName file name to upload. Minimum length of the filename should be 1 excluding the
+   *                    extension length.
+   * @param options The options parameters.
+   */
+  async beginDeleteAndWait(
+    libraryName: string,
+    options?: LibraryDeleteOptionalParams,
+  ): Promise<void> {
+    const poller = await this.beginDelete(libraryName, options);
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Get Library
+   * @param libraryName file name to upload. Minimum length of the filename should be 1 excluding the
+   *                    extension length.
+   * @param options The options parameters.
+   */
+  async get(
+    libraryName: string,
+    options?: LibraryGetOptionalParams,
+  ): Promise<LibraryGetResponse> {
+    return tracingClient.withSpan(
+      "ArtifactsClient.get",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { libraryName, options },
+          getOperationSpec,
+        ) as Promise<LibraryGetResponse>;
+      },
+    );
+  }
+
+  /**
+   * Creates a library with the library name.
+   * @param libraryName file name to upload. Minimum length of the filename should be 1 excluding the
+   *                    extension length.
+   * @param options The options parameters.
+   */
+  async beginCreate(
+    libraryName: string,
+    options?: LibraryCreateOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<void> => {
+      return tracingClient.withSpan(
+        "ArtifactsClient.beginCreate",
+        options ?? {},
+        async () => {
+          return this.client.sendOperationRequest(args, spec) as Promise<void>;
+        },
+      );
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { libraryName, options },
+      spec: createOperationSpec,
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Creates a library with the library name.
+   * @param libraryName file name to upload. Minimum length of the filename should be 1 excluding the
+   *                    extension length.
+   * @param options The options parameters.
+   */
+  async beginCreateAndWait(
+    libraryName: string,
+    options?: LibraryCreateOptionalParams,
+  ): Promise<void> {
+    const poller = await this.beginCreate(libraryName, options);
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Append the content to the library resource created using the create operation. The maximum content
+   * size is 4MiB. Content larger than 4MiB must be appended in 4MiB chunks
+   * @param libraryName file name to upload. Minimum length of the filename should be 1 excluding the
+   *                    extension length.
+   * @param content Library file chunk.
+   * @param options The options parameters.
+   */
+  async append(
+    libraryName: string,
+    content: coreRestPipeline.RequestBodyType,
+    options?: LibraryAppendOptionalParams,
+  ): Promise<void> {
+    return tracingClient.withSpan(
+      "ArtifactsClient.append",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { libraryName, content, options },
+          appendOperationSpec,
+        ) as Promise<void>;
+      },
+    );
+  }
+
+  /**
+   * ListNext
+   * @param nextLink The nextLink from the previous successful call to the List method.
+   * @param options The options parameters.
+   */
+  private async _listNext(
+    nextLink: string,
+    options?: LibraryListNextOptionalParams,
+  ): Promise<LibraryListNextResponse> {
+    return tracingClient.withSpan(
+      "ArtifactsClient._listNext",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { nextLink, options },
+          listNextOperationSpec,
+        ) as Promise<LibraryListNextResponse>;
+      },
+    );
+  }
+}
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
@@ -175,416 +596,3 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-
-/** Class containing Library operations. */
-export class LibraryImpl implements Library {
-  private readonly client: ArtifactsClient;
-
-  /**
-   * Initialize a new instance of the class Library class.
-   * @param client - Reference to the service client
-   */
-  constructor(client: ArtifactsClient) {
-    this.client = client;
-  }
-
-  /**
-   * Lists Library.
-   * @param options - The options parameters.
-   */
-  public list(options?: LibraryListOptionalParams): PagedAsyncIterableIterator<LibraryResource> {
-    const iter = this.listPagingAll(options);
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listPagingPage(options, settings);
-      },
-    };
-  }
-
-  private async *listPagingPage(
-    options?: LibraryListOptionalParams,
-    settings?: PageSettings,
-  ): AsyncIterableIterator<LibraryResource[]> {
-    let result: LibraryListOperationResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._list(options);
-      const page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-    while (continuationToken) {
-      result = await this._listNext(continuationToken, options);
-      continuationToken = result.nextLink;
-      const page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-  }
-
-  private async *listPagingAll(
-    options?: LibraryListOptionalParams,
-  ): AsyncIterableIterator<LibraryResource> {
-    for await (const page of this.listPagingPage(options)) {
-      yield* page;
-    }
-  }
-
-  /**
-   * Lists Library.
-   * @param options - The options parameters.
-   */
-  private async _list(options?: LibraryListOptionalParams): Promise<LibraryListOperationResponse> {
-    return tracingClient.withSpan(
-      "ArtifactsClient._list",
-      options ?? {},
-      async (updatedOptions) => {
-        return this.client.sendOperationRequest(
-          { updatedOptions },
-          listOperationSpec,
-        ) as Promise<LibraryListOperationResponse>;
-      },
-    );
-  }
-
-  /**
-   * Flush Library
-   * @param libraryName - file name to upload. Minimum length of the filename should be 1 excluding the
-   *                    extension length.
-   * @param options - The options parameters.
-   */
-  async beginFlush(
-    libraryName: string,
-    options?: LibraryFlushOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ): Promise<void> => {
-      return tracingClient.withSpan("ArtifactsClient.beginFlush", options ?? {}, async () => {
-        return this.client.sendOperationRequest(args, spec) as Promise<void>;
-      });
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ): Promise<{
-      flatResponse: void;
-      rawResponse: {
-        statusCode: number;
-        body: any;
-        headers: coreRestPipeline.RawHttpHeaders;
-      };
-    }> => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback,
-        },
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: { libraryName, options },
-      spec: flushOperationSpec,
-    });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Flush Library
-   * @param libraryName - file name to upload. Minimum length of the filename should be 1 excluding the
-   *                    extension length.
-   * @param options - The options parameters.
-   */
-  async beginFlushAndWait(
-    libraryName: string,
-    options?: LibraryFlushOptionalParams,
-  ): Promise<void> {
-    const poller = await this.beginFlush(libraryName, options);
-    return poller.pollUntilDone();
-  }
-
-  /**
-   * Get Operation result for Library
-   * @param operationId - operation id for which status is requested
-   * @param options - The options parameters.
-   */
-  async getOperationResult(
-    operationId: string,
-    options?: LibraryGetOperationResultOptionalParams,
-  ): Promise<LibraryGetOperationResultResponse> {
-    return tracingClient.withSpan(
-      "ArtifactsClient.getOperationResult",
-      options ?? {},
-      async (updatedOptions) => {
-        return this.client.sendOperationRequest(
-          { operationId, updatedOptions },
-          getOperationResultOperationSpec,
-        ) as Promise<LibraryGetOperationResultResponse>;
-      },
-    );
-  }
-
-  /**
-   * Delete Library
-   * @param libraryName - file name to upload. Minimum length of the filename should be 1 excluding the
-   *                    extension length.
-   * @param options - The options parameters.
-   */
-  async beginDelete(
-    libraryName: string,
-    options?: LibraryDeleteOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ): Promise<void> => {
-      return tracingClient.withSpan("ArtifactsClient.beginDelete", options ?? {}, async () => {
-        return this.client.sendOperationRequest(args, spec) as Promise<void>;
-      });
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ): Promise<{
-      flatResponse: void;
-      rawResponse: {
-        statusCode: number;
-        body: any;
-        headers: coreRestPipeline.RawHttpHeaders;
-      };
-    }> => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback,
-        },
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: { libraryName, options },
-      spec: deleteOperationSpec,
-    });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Delete Library
-   * @param libraryName - file name to upload. Minimum length of the filename should be 1 excluding the
-   *                    extension length.
-   * @param options - The options parameters.
-   */
-  async beginDeleteAndWait(
-    libraryName: string,
-    options?: LibraryDeleteOptionalParams,
-  ): Promise<void> {
-    const poller = await this.beginDelete(libraryName, options);
-    return poller.pollUntilDone();
-  }
-
-  /**
-   * Get Library
-   * @param libraryName - file name to upload. Minimum length of the filename should be 1 excluding the
-   *                    extension length.
-   * @param options - The options parameters.
-   */
-  async get(libraryName: string, options?: LibraryGetOptionalParams): Promise<LibraryGetResponse> {
-    return tracingClient.withSpan("ArtifactsClient.get", options ?? {}, async (updatedOptions) => {
-      return this.client.sendOperationRequest(
-        { libraryName, updatedOptions },
-        getOperationSpec,
-      ) as Promise<LibraryGetResponse>;
-    });
-  }
-
-  /**
-   * Creates a library with the library name.
-   * @param libraryName - file name to upload. Minimum length of the filename should be 1 excluding the
-   *                    extension length.
-   * @param options - The options parameters.
-   */
-  async beginCreate(
-    libraryName: string,
-    options?: LibraryCreateOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ): Promise<void> => {
-      return tracingClient.withSpan("ArtifactsClient.beginCreate", options ?? {}, async () => {
-        return this.client.sendOperationRequest(args, spec) as Promise<void>;
-      });
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ): Promise<{
-      flatResponse: void;
-      rawResponse: {
-        statusCode: number;
-        body: any;
-        headers: coreRestPipeline.RawHttpHeaders;
-      };
-    }> => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback,
-        },
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: { libraryName, options },
-      spec: createOperationSpec,
-    });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Creates a library with the library name.
-   * @param libraryName - file name to upload. Minimum length of the filename should be 1 excluding the
-   *                    extension length.
-   * @param options - The options parameters.
-   */
-  async beginCreateAndWait(
-    libraryName: string,
-    options?: LibraryCreateOptionalParams,
-  ): Promise<void> {
-    const poller = await this.beginCreate(libraryName, options);
-    return poller.pollUntilDone();
-  }
-
-  /**
-   * Append the content to the library resource created using the create operation. The maximum content
-   * size is 4MiB. Content larger than 4MiB must be appended in 4MiB chunks
-   * @param libraryName - file name to upload. Minimum length of the filename should be 1 excluding the
-   *                    extension length.
-   * @param content - Library file chunk.
-   * @param options - The options parameters.
-   */
-  async append(
-    libraryName: string,
-    content: coreRestPipeline.RequestBodyType,
-    options?: LibraryAppendOptionalParams,
-  ): Promise<void> {
-    return tracingClient.withSpan(
-      "ArtifactsClient.append",
-      options ?? {},
-      async (updatedOptions) => {
-        return this.client.sendOperationRequest(
-          { libraryName, content, updatedOptions },
-          appendOperationSpec,
-        ) as Promise<void>;
-      },
-    );
-  }
-
-  /**
-   * ListNext
-   * @param nextLink - The nextLink from the previous successful call to the List method.
-   * @param options - The options parameters.
-   */
-  private async _listNext(
-    nextLink: string,
-    options?: LibraryListNextOptionalParams,
-  ): Promise<LibraryListNextResponse> {
-    return tracingClient.withSpan(
-      "ArtifactsClient._listNext",
-      options ?? {},
-      async (updatedOptions) => {
-        return this.client.sendOperationRequest(
-          { nextLink, updatedOptions },
-          listNextOperationSpec,
-        ) as Promise<LibraryListNextResponse>;
-      },
-    );
-  }
-}
