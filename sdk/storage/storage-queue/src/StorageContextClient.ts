@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import type { OperationArguments, OperationSpec } from "@azure/core-client";
-import { StorageClient } from "./generated/src";
+import { StorageClient } from "./generated/src/index.js";
 
 /**
  * @internal

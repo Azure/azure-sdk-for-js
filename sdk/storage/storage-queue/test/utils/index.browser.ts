@@ -3,11 +3,11 @@
 
 import type { Recorder } from "@azure-tools/test-recorder";
 import { env } from "@azure-tools/test-recorder";
-import { AnonymousCredential } from "../../../storage-blob/src/credentials/AnonymousCredential";
-import { newPipeline } from "../../src/Pipeline";
-import { QueueServiceClient } from "../../src/QueueServiceClient";
-import { configureStorageClient } from "./testutils.common";
-export * from "./testutils.common";
+import { AnonymousCredential } from "../../../storage-blob/src/credentials/AnonymousCredential.js";
+import { newPipeline } from "../../src/Pipeline.js";
+import { QueueServiceClient } from "../../src/QueueServiceClient.js";
+import { configureStorageClient } from "./testutils.common.js";
+export * from "./testutils.common.js";
 
 export function getGenericQSU(
   recorder: Recorder,

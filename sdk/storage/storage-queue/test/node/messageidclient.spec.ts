@@ -2,17 +2,16 @@
 // Licensed under the MIT License.
 
 import { assert } from "chai";
-import { newPipeline } from "../../src";
+import { newPipeline } from "../../src/index.js";
 import {
   getQSU,
   getConnectionStringFromEnvironment,
   configureStorageClient,
   getUniqueName,
   recorderEnvSetup,
-} from "../utils";
+} from "../utils/index.js";
 import { Recorder } from "@azure-tools/test-recorder";
-import { QueueClient } from "../../src/QueueClient";
-import type { Context } from "mocha";
+import { QueueClient } from "../../src/QueueClient.js";
 
 describe("QueueClient messageId methods, Node.js only", () => {
   let queueName: string;
@@ -21,19 +20,19 @@ describe("QueueClient messageId methods, Node.js only", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
-    await recorder.start(recorderEnvSetup);
-    const queueServiceClient = getQSU(recorder);
-    queueName = recorder.variable("queue", getUniqueName("queue"));
-    queueClient = queueServiceClient.getQueueClient(queueName);
-    await queueClient.create();
-  });
+  beforeEach(async (ctx) => {
+      recorder = new Recorder(ctx);
+      await recorder.start(recorderEnvSetup);
+      const queueServiceClient = getQSU(recorder);
+      queueName = recorder.variable("queue", getUniqueName("queue"));
+      queueClient = queueServiceClient.getQueueClient(queueName);
+      await queueClient.create();
+    });
 
-  afterEach(async function () {
-    await queueClient.delete();
-    await recorder.stop();
-  });
+  afterEach(async () => {
+      await queueClient.delete();
+      await recorder.stop();
+    });
 
   it("update message with 64KB characters including special char which is computed after encoding", async () => {
     const eResult = await queueClient.sendMessage(messageContent);

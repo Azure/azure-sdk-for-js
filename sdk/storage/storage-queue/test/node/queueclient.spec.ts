@@ -9,13 +9,12 @@ import {
   recorderEnvSetup,
   configureStorageClient,
   SimpleTokenCredential,
-} from "../utils";
+} from "../utils/index.js";
 import { Recorder } from "@azure-tools/test-recorder";
-import type { QueueServiceClient } from "../../src";
-import { getQueueServiceAccountAudience, newPipeline, QueueClient } from "../../src";
+import type { QueueServiceClient } from "../../src/index.js";
+import { getQueueServiceAccountAudience, newPipeline, QueueClient } from "../../src/index.js";
 import type { TokenCredential } from "@azure/core-auth";
-import { assertClientUsesTokenCredential } from "../utils/assert";
-import type { Context } from "mocha";
+import { assertClientUsesTokenCredential } from "../utils/assert.js";
 import { createTestCredential } from "@azure-tools/test-credential";
 
 describe("QueueClient Node.js only", () => {
@@ -25,19 +24,19 @@ describe("QueueClient Node.js only", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
-    await recorder.start(recorderEnvSetup);
-    queueServiceClient = getQSU(recorder);
-    queueName = recorder.variable("queue", getUniqueName("queue"));
-    queueClient = queueServiceClient.getQueueClient(queueName);
-    await queueClient.create();
-  });
+  beforeEach(async (ctx) => {
+      recorder = new Recorder(ctx);
+      await recorder.start(recorderEnvSetup);
+      queueServiceClient = getQSU(recorder);
+      queueName = recorder.variable("queue", getUniqueName("queue"));
+      queueClient = queueServiceClient.getQueueClient(queueName);
+      await queueClient.create();
+    });
 
-  afterEach(async function () {
-    await queueClient.delete();
-    await recorder.stop();
-  });
+  afterEach(async () => {
+      await queueClient.delete();
+      await recorder.stop();
+    });
 
   it("QueueClient default audience should work", async () => {
     const queueClientWithOAuthToken = new QueueClient(queueClient.url, createTestCredential());

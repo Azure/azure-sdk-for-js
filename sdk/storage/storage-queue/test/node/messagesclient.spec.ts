@@ -8,13 +8,12 @@ import {
   getUniqueName,
   recorderEnvSetup,
   configureStorageClient,
-} from "../utils";
+} from "../utils/index.js";
 import { Recorder } from "@azure-tools/test-recorder";
-import { QueueClient } from "../../src/QueueClient";
+import { QueueClient } from "../../src/QueueClient.js";
 import type { TokenCredential } from "@azure/core-auth";
-import { assertClientUsesTokenCredential } from "../utils/assert";
-import { newPipeline } from "../../src";
-import type { Context } from "mocha";
+import { assertClientUsesTokenCredential } from "../utils/assert.js";
+import { newPipeline } from "../../src/index.js";
 
 describe("QueueClient message methods, Node.js only", () => {
   let queueName: string;
@@ -23,19 +22,19 @@ describe("QueueClient message methods, Node.js only", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
-    await recorder.start(recorderEnvSetup);
-    const queueServiceClient = getQSU(recorder);
-    queueName = recorder.variable("queue", getUniqueName("queue"));
-    queueClient = queueServiceClient.getQueueClient(queueName);
-    await queueClient.create();
-  });
+  beforeEach(async (ctx) => {
+      recorder = new Recorder(ctx);
+      await recorder.start(recorderEnvSetup);
+      const queueServiceClient = getQSU(recorder);
+      queueName = recorder.variable("queue", getUniqueName("queue"));
+      queueClient = queueServiceClient.getQueueClient(queueName);
+      await queueClient.create();
+    });
 
-  afterEach(async function () {
-    await queueClient.delete();
-    await recorder.stop();
-  });
+  afterEach(async () => {
+      await queueClient.delete();
+      await recorder.stop();
+    });
 
   it("enqueue, peek, dequeue with 64KB characters including special char which is computed after encoding", async () => {
     const specialChars =

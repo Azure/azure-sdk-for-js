@@ -2,30 +2,29 @@
 // Licensed under the MIT License.
 
 import { assert } from "chai";
-import { QueueServiceClient } from "../src/QueueServiceClient";
+import { QueueServiceClient } from "../src/QueueServiceClient.js";
 import {
   getAlternateQSU,
   getQSU,
   getSASConnectionStringFromEnvironment,
   uriSanitizers,
-} from "./utils";
+} from "./utils/index.js";
 import { delay, Recorder } from "@azure-tools/test-recorder";
 import { getYieldedValue } from "@azure-tools/test-utils";
-import { configureStorageClient, getUniqueName, recorderEnvSetup } from "./utils/index.browser";
-import type { Context } from "mocha";
+import { configureStorageClient, getUniqueName, recorderEnvSetup } from "./utils/index.browser.js";
 
 describe("QueueServiceClient", () => {
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
-    await recorder.start(recorderEnvSetup);
-    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
-  });
+  beforeEach(async (ctx) => {
+      recorder = new Recorder(ctx);
+      await recorder.start(recorderEnvSetup);
+      await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+    });
 
-  afterEach(async function () {
-    await recorder.stop();
-  });
+  afterEach(async () => {
+      await recorder.stop();
+    });
 
   it("listQueues with default parameters", async () => {
     const queueServiceClient = getQSU(recorder);

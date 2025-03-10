@@ -8,13 +8,12 @@ import {
   getUniqueName,
   recorderEnvSetup,
   uriSanitizers,
-} from "./utils";
-import type { QueueServiceClient } from "../src";
-import { QueueClient } from "../src";
+} from "./utils/index.js";
+import type { QueueServiceClient } from "../src/index.js";
+import { QueueClient } from "../src/index.js";
 import { assert } from "@azure-tools/test-utils";
 import type { RestError } from "@azure/core-rest-pipeline";
 import { Recorder } from "@azure-tools/test-recorder";
-import type { Context } from "mocha";
 
 describe("QueueClient", () => {
   let queueServiceClient: QueueServiceClient;
@@ -23,20 +22,20 @@ describe("QueueClient", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
-    await recorder.start(recorderEnvSetup);
-    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
-    queueServiceClient = getQSU(recorder);
-    queueName = recorder.variable("queue", getUniqueName("queue"));
-    queueClient = queueServiceClient.getQueueClient(queueName);
-    await queueClient.create();
-  });
+  beforeEach(async (ctx) => {
+      recorder = new Recorder(ctx);
+      await recorder.start(recorderEnvSetup);
+      await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+      queueServiceClient = getQSU(recorder);
+      queueName = recorder.variable("queue", getUniqueName("queue"));
+      queueClient = queueServiceClient.getQueueClient(queueName);
+      await queueClient.create();
+    });
 
-  afterEach(async function () {
-    await queueClient.delete();
-    await recorder.stop();
-  });
+  afterEach(async () => {
+      await queueClient.delete();
+      await recorder.stop();
+    });
 
   it("setMetadata", async () => {
     const metadata = {

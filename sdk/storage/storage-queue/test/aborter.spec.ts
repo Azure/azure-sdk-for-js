@@ -3,11 +3,10 @@
 
 import { assert } from "chai";
 
-import type { QueueClient } from "../src/QueueClient";
-import { getQSU } from "./utils";
-import { getUniqueName, recorderEnvSetup, uriSanitizers } from "./utils/testutils.common";
+import type { QueueClient } from "../src/QueueClient.js";
+import { getQSU } from "./utils/index.js";
+import { getUniqueName, recorderEnvSetup, uriSanitizers } from "./utils/testutils.common.js";
 import { Recorder } from "@azure-tools/test-recorder";
-import type { Context } from "mocha";
 
 describe("Aborter", () => {
   let queueName: string;
@@ -15,18 +14,18 @@ describe("Aborter", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
-    await recorder.start(recorderEnvSetup);
-    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
-    const queueServiceClient = getQSU(recorder);
-    queueName = recorder.variable("queue", getUniqueName("queue"));
-    queueClient = queueServiceClient.getQueueClient(queueName);
-  });
+  beforeEach(async (ctx) => {
+      recorder = new Recorder(ctx);
+      await recorder.start(recorderEnvSetup);
+      await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+      const queueServiceClient = getQSU(recorder);
+      queueName = recorder.variable("queue", getUniqueName("queue"));
+      queueClient = queueServiceClient.getQueueClient(queueName);
+    });
 
-  afterEach(async function () {
-    await recorder.stop();
-  });
+  afterEach(async () => {
+      await recorder.stop();
+    });
 
   it("should not abort after calling abort()", async () => {
     const cResp = await queueClient.create();
