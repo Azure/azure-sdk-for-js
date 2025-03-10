@@ -2,7 +2,9 @@
   "extends": "../../../tsconfig.samples.base.json",
   "compilerOptions": {
     "paths": {
-      "@azure/storage-blob-changefeed": ["./dist/esm"]
+      "@azure/storage-blob-changefeed": [
+        "./dist/esm"
+      ]
     }
   }
 }

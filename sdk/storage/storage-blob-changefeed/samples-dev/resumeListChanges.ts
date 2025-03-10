@@ -6,7 +6,8 @@
  */
 
 import { StorageSharedKeyCredential } from "@azure/storage-blob";
-import { BlobChangeFeedClient, BlobChangeFeedEvent } from "@azure/storage-blob-changefeed";
+import type { BlobChangeFeedEvent } from "@azure/storage-blob-changefeed";
+import { BlobChangeFeedClient } from "@azure/storage-blob-changefeed";
 
 // Load the .env file if it exists
 import "dotenv/config";

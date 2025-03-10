@@ -92,12 +92,9 @@
     "@vitest/browser": "^3.0.6",
     "@vitest/coverage-istanbul": "^3.0.6",
     "dotenv": "^16.0.0",
-    "es6-promise": "^4.2.5",
     "eslint": "^9.9.0",
-    "inherits": "^2.0.3",
     "playwright": "^1.51.0",
     "typescript": "~5.7.2",
-    "util": "^0.12.1",
     "vitest": "^3.0.6"
   },
   "//sampleConfiguration": {
