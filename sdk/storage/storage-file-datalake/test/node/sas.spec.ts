@@ -1,8 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import { Recorder, delay } from "@azure-tools/test-recorder";
-import { assert } from "chai";
-
 import type {
   PathAccessControlItem,
   PathPermissions,
@@ -39,6 +37,7 @@ import {
   getSignatureFromSasUrl,
 } from "../utils/index.js";
 import { UserDelegationKeyCredential } from "../../src/credentials/UserDelegationKeyCredential.js";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("Shared Access Signature (SAS) generation Node.js only", () => {
   let recorder: Recorder;

@@ -3,7 +3,6 @@
 
 import { delay, isLiveMode, Recorder } from "@azure-tools/test-recorder";
 import { getYieldedValue } from "@azure-tools/test-utils";
-import { assert } from "chai";
 import { isNodeLike } from "@azure/core-util";
 import type {
   DataLakeServiceProperties,
@@ -23,6 +22,7 @@ import {
   configureStorageClient,
   uriSanitizers,
 } from "./utils/index.js";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("DataLakeServiceClient", () => {
   let recorder: Recorder;

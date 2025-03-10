@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 import { isNodeLike } from "@azure/core-util";
-import { assert } from "@azure-tools/test-utils";
 import { isPlaybackMode, Recorder, delay } from "@azure-tools/test-recorder";
 
 import type { DataLakeDirectoryClient, DataLakeFileSystemClient } from "../src/index.js";
@@ -18,7 +17,7 @@ import {
   uriSanitizers,
 } from "./utils/index.js";
 import { Test_CPK_INFO } from "./utils/fakeTestSecrets.js";
-import { useFakeTimers } from "sinon";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("DataLakePathClient", () => {
   let fileSystemName: string;

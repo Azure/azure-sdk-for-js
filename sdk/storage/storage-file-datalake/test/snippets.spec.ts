@@ -10,6 +10,7 @@ import {
   SASProtocol,
   StorageSharedKeyCredential,
 } from "@azure/storage-file-datalake";
+import { describe, it, assert } from "vitest";
 
 describe("snippets", () => {
   it("ReadmeSampleCreateClient_DefaultAzureCredential", async () => {

@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 import { isLiveMode, Recorder } from "@azure-tools/test-recorder";
-import { assert } from "chai";
 import * as fs from "node:fs";
 import * as path from "node:path";
 import * as buffer from "node:buffer";
@@ -24,6 +23,7 @@ import { readStreamToLocalFileWithLogs } from "../../test/utils/testutils.node.j
 import { Readable, PassThrough } from "node:stream";
 import { streamToBuffer2 } from "../../src/utils/utils.node.js";
 import { Test_CPK_INFO } from "../utils/fakeTestSecrets.js";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("Highlevel Node.js only", () => {
   let fileSystemName: string;
