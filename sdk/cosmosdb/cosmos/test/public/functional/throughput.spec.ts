@@ -194,7 +194,7 @@ describe("testThroughputBucketForBulk", async function () {
     after(async () => {
         await container.database.delete();
     });
-    it("test diagnostics for bulk", async function () {
+    it("test throughput bucketing in bulk", async function () {
         const operations = [
             {
                 operationType: BulkOperationType.Create,
