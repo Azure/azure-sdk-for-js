@@ -1,6 +1,6 @@
 {
   "name": "@azure/core-xml",
-  "version": "1.4.5",
+  "version": "1.4.6",
   "description": "Core library for interacting with XML payloads",
   "sdk-type": "client",
   "type": "module",
@@ -75,7 +75,7 @@
     "update-snippets": "dev-tool run update-snippets"
   },
   "dependencies": {
-    "fast-xml-parser": "^5.0.6",
+    "fast-xml-parser": "^5.0.7",
     "tslib": "^2.8.1"
   },
   "devDependencies": {

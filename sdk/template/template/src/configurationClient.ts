@@ -51,7 +51,7 @@ export class ConfigurationClient {
    * Creates an instance of a ConfigurationClient.
    *
    * Example usage:
-   * ```ts snippet:new_configurationclient
+   * ```ts snippet:ReadmeSampleCreateClient
    * import { ConfigurationClient } from "@azure/template";
    * import { DefaultAzureCredential } from "@azure/identity";
    *

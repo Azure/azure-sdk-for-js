@@ -16,7 +16,7 @@ import { ContainerRegistryManagementClient } from "../containerRegistryManagemen
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
@@ -32,7 +32,7 @@ import {
   ScopeMapUpdateParameters,
   ScopeMapsUpdateOptionalParams,
   ScopeMapsUpdateResponse,
-  ScopeMapsListNextResponse
+  ScopeMapsListNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -57,7 +57,7 @@ export class ScopeMapsImpl implements ScopeMaps {
   public list(
     resourceGroupName: string,
     registryName: string,
-    options?: ScopeMapsListOptionalParams
+    options?: ScopeMapsListOptionalParams,
   ): PagedAsyncIterableIterator<ScopeMap> {
     const iter = this.listPagingAll(resourceGroupName, registryName, options);
     return {
@@ -75,9 +75,9 @@ export class ScopeMapsImpl implements ScopeMaps {
           resourceGroupName,
           registryName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -85,7 +85,7 @@ export class ScopeMapsImpl implements ScopeMaps {
     resourceGroupName: string,
     registryName: string,
     options?: ScopeMapsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ScopeMap[]> {
     let result: ScopeMapsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -101,7 +101,7 @@ export class ScopeMapsImpl implements ScopeMaps {
         resourceGroupName,
         registryName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -113,12 +113,12 @@ export class ScopeMapsImpl implements ScopeMaps {
   private async *listPagingAll(
     resourceGroupName: string,
     registryName: string,
-    options?: ScopeMapsListOptionalParams
+    options?: ScopeMapsListOptionalParams,
   ): AsyncIterableIterator<ScopeMap> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       registryName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -133,11 +133,11 @@ export class ScopeMapsImpl implements ScopeMaps {
   private _list(
     resourceGroupName: string,
     registryName: string,
-    options?: ScopeMapsListOptionalParams
+    options?: ScopeMapsListOptionalParams,
   ): Promise<ScopeMapsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, registryName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -152,11 +152,11 @@ export class ScopeMapsImpl implements ScopeMaps {
     resourceGroupName: string,
     registryName: string,
     scopeMapName: string,
-    options?: ScopeMapsGetOptionalParams
+    options?: ScopeMapsGetOptionalParams,
   ): Promise<ScopeMapsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, registryName, scopeMapName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -173,7 +173,7 @@ export class ScopeMapsImpl implements ScopeMaps {
     registryName: string,
     scopeMapName: string,
     scopeMapCreateParameters: ScopeMap,
-    options?: ScopeMapsCreateOptionalParams
+    options?: ScopeMapsCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ScopeMapsCreateResponse>,
@@ -182,21 +182,20 @@ export class ScopeMapsImpl implements ScopeMaps {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ScopeMapsCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -205,8 +204,8 @@ export class ScopeMapsImpl implements ScopeMaps {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -214,8 +213,8 @@ export class ScopeMapsImpl implements ScopeMaps {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -226,9 +225,9 @@ export class ScopeMapsImpl implements ScopeMaps {
         registryName,
         scopeMapName,
         scopeMapCreateParameters,
-        options
+        options,
       },
-      spec: createOperationSpec
+      spec: createOperationSpec,
     });
     const poller = await createHttpPoller<
       ScopeMapsCreateResponse,
@@ -236,7 +235,7 @@ export class ScopeMapsImpl implements ScopeMaps {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -255,14 +254,14 @@ export class ScopeMapsImpl implements ScopeMaps {
     registryName: string,
     scopeMapName: string,
     scopeMapCreateParameters: ScopeMap,
-    options?: ScopeMapsCreateOptionalParams
+    options?: ScopeMapsCreateOptionalParams,
   ): Promise<ScopeMapsCreateResponse> {
     const poller = await this.beginCreate(
       resourceGroupName,
       registryName,
       scopeMapName,
       scopeMapCreateParameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -278,25 +277,24 @@ export class ScopeMapsImpl implements ScopeMaps {
     resourceGroupName: string,
     registryName: string,
     scopeMapName: string,
-    options?: ScopeMapsDeleteOptionalParams
+    options?: ScopeMapsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -305,8 +303,8 @@ export class ScopeMapsImpl implements ScopeMaps {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -314,20 +312,20 @@ export class ScopeMapsImpl implements ScopeMaps {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, registryName, scopeMapName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -344,13 +342,13 @@ export class ScopeMapsImpl implements ScopeMaps {
     resourceGroupName: string,
     registryName: string,
     scopeMapName: string,
-    options?: ScopeMapsDeleteOptionalParams
+    options?: ScopeMapsDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       registryName,
       scopeMapName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -368,7 +366,7 @@ export class ScopeMapsImpl implements ScopeMaps {
     registryName: string,
     scopeMapName: string,
     scopeMapUpdateParameters: ScopeMapUpdateParameters,
-    options?: ScopeMapsUpdateOptionalParams
+    options?: ScopeMapsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ScopeMapsUpdateResponse>,
@@ -377,21 +375,20 @@ export class ScopeMapsImpl implements ScopeMaps {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ScopeMapsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -400,8 +397,8 @@ export class ScopeMapsImpl implements ScopeMaps {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -409,8 +406,8 @@ export class ScopeMapsImpl implements ScopeMaps {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -421,9 +418,9 @@ export class ScopeMapsImpl implements ScopeMaps {
         registryName,
         scopeMapName,
         scopeMapUpdateParameters,
-        options
+        options,
       },
-      spec: updateOperationSpec
+      spec: updateOperationSpec,
     });
     const poller = await createHttpPoller<
       ScopeMapsUpdateResponse,
@@ -431,7 +428,7 @@ export class ScopeMapsImpl implements ScopeMaps {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -450,14 +447,14 @@ export class ScopeMapsImpl implements ScopeMaps {
     registryName: string,
     scopeMapName: string,
     scopeMapUpdateParameters: ScopeMapUpdateParameters,
-    options?: ScopeMapsUpdateOptionalParams
+    options?: ScopeMapsUpdateOptionalParams,
   ): Promise<ScopeMapsUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
       registryName,
       scopeMapName,
       scopeMapUpdateParameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -473,11 +470,11 @@ export class ScopeMapsImpl implements ScopeMaps {
     resourceGroupName: string,
     registryName: string,
     nextLink: string,
-    options?: ScopeMapsListNextOptionalParams
+    options?: ScopeMapsListNextOptionalParams,
   ): Promise<ScopeMapsListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, registryName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -485,38 +482,15 @@ export class ScopeMapsImpl implements ScopeMaps {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/scopeMaps",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/scopeMaps",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ScopeMapListResult
+      bodyMapper: Mappers.ScopeMapListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.registryName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/scopeMaps/{scopeMapName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ScopeMap
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -524,31 +498,51 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.registryName,
-    Parameters.scopeMapName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/scopeMaps/{scopeMapName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ScopeMap,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.registryName,
+    Parameters.scopeMapName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/scopeMaps/{scopeMapName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/scopeMaps/{scopeMapName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ScopeMap
+      bodyMapper: Mappers.ScopeMap,
     },
     201: {
-      bodyMapper: Mappers.ScopeMap
+      bodyMapper: Mappers.ScopeMap,
     },
     202: {
-      bodyMapper: Mappers.ScopeMap
+      bodyMapper: Mappers.ScopeMap,
     },
     204: {
-      bodyMapper: Mappers.ScopeMap
+      bodyMapper: Mappers.ScopeMap,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.scopeMapCreateParameters,
   queryParameters: [Parameters.apiVersion],
@@ -557,15 +551,14 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.registryName,
-    Parameters.scopeMapName
+    Parameters.scopeMapName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/scopeMaps/{scopeMapName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/scopeMaps/{scopeMapName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -573,8 +566,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -582,31 +575,30 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.registryName,
-    Parameters.scopeMapName
+    Parameters.scopeMapName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/scopeMaps/{scopeMapName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/scopeMaps/{scopeMapName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.ScopeMap
+      bodyMapper: Mappers.ScopeMap,
     },
     201: {
-      bodyMapper: Mappers.ScopeMap
+      bodyMapper: Mappers.ScopeMap,
     },
     202: {
-      bodyMapper: Mappers.ScopeMap
+      bodyMapper: Mappers.ScopeMap,
     },
     204: {
-      bodyMapper: Mappers.ScopeMap
+      bodyMapper: Mappers.ScopeMap,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.scopeMapUpdateParameters,
   queryParameters: [Parameters.apiVersion],
@@ -615,30 +607,30 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.registryName,
-    Parameters.scopeMapName
+    Parameters.scopeMapName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ScopeMapListResult
+      bodyMapper: Mappers.ScopeMapListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.registryName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

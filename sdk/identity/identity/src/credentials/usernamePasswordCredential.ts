@@ -22,6 +22,7 @@ const logger = credentialLogger("UsernamePasswordCredential");
  * username and password. This credential requires a high degree of
  * trust so you should only use it when other, more secure credential
  * types can't be used.
+ * @deprecated UsernamePasswordCredential is deprecated. Use a more secure credential. See https://aka.ms/azsdk/identity/mfa for details.
  */
 export class UsernamePasswordCredential implements TokenCredential {
   private tenantId: string;
@@ -40,8 +41,6 @@ export class UsernamePasswordCredential implements TokenCredential {
    * @param username - The user account's e-mail address (user name).
    * @param password - The user account's account password
    * @param options - Options for configuring the client which makes the authentication request.
-   *
-   * @deprecated UsernamePasswordCredential is deprecated. Use a more secure credential. See https://aka.ms/azsdk/identity/mfa for details.
    */
   constructor(
     tenantId: string,

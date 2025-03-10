@@ -35,7 +35,7 @@ const getCurrentWeather = {
   },
 };
 
-export async function main() {
+export async function main(): Promise<void> {
   console.log("== Chat Completions Sample with Tool Calling ==");
 
   const scope = "https://cognitiveservices.azure.com/.default";

@@ -83,7 +83,7 @@ AZURE_TENANT_ID=<tenant>
 Take note of the service principal objectId:
 
 ```PowerShell
-az ad sp show --id <appId> --query objectId
+az ad sp show --id <appId> --query servicePrincipalNames[0]
 ```
 
 Output:

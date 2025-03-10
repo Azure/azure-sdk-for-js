@@ -1,8 +1,8 @@
 {
-  "commit": "297c3a012316e290e6a6ab737ec8944611554542",
+  "commit": "35ace1532807c025b39eb837a5198115e3488f61",
   "readme": "specification/networkcloud/resource-manager/readme.md",
-  "autorest_command": "autorest --version=3.9.7 --typescript --modelerfour.lenient-model-deduplication --azure-arm --head-as-boolean=true --license-header=MICROSOFT_MIT_NO_VERSION --generate-test --typescript-sdks-folder=D:\\Git\\azure-sdk-for-js ..\\azure-rest-api-specs\\specification\\networkcloud\\resource-manager\\readme.md --use=@autorest/typescript@6.0.28 --generate-sample=true",
+  "autorest_command": "autorest --version=3.9.7 --typescript --modelerfour.lenient-model-deduplication --azure-arm --head-as-boolean=true --license-header=MICROSOFT_MIT_NO_VERSION --generate-test --typescript-sdks-folder=D:\\Git\\azure-sdk-for-js ..\\azure-rest-api-specs\\specification\\networkcloud\\resource-manager\\readme.md --use=@autorest/typescript@6.0.34 --generate-sample=true",
   "repository_url": "https://github.com/Azure/azure-rest-api-specs.git",
-  "release_tool": "@azure-tools/js-sdk-release-tools@2.7.15",
-  "use": "@autorest/typescript@6.0.28"
+  "release_tool": "@azure-tools/js-sdk-release-tools@2.7.19",
+  "use": "@autorest/typescript@6.0.34"
 }

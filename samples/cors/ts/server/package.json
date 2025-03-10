@@ -3,24 +3,21 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@azure/identity": "^4.2.1",
-    "@azure/keyvault-secrets": "^4.1.0",
+    "@azure/identity": "^4.7.0",
+    "@azure/keyvault-secrets": "^4.9.0",
     "@types/node": "^18.0.0",
-    "axios": "^0.21.1",
     "cors": "^2.8.5",
     "dotenv": "^16.0.0",
-    "express": "^4.17.1",
-    "typescript": "^4.0.3"
+    "express": "^4.21.2"
   },
   "main": "server.ts",
   "scripts": {
     "prestart": "npm install",
-    "start": "ts-node server.ts"
+    "start": "tsx server.ts"
   },
   "devDependencies": {
-    "eslint-config-prettier": "^6.15.0",
-    "eslint-plugin-prettier": "^3.1.4",
-    "typescript": "^4.0.3",
+    "tsx": "^4.19.3",
+    "typescript": "^5.8.2",
     "@types/cors": "^2.8.9",
     "@types/express": "^4.17.9"
   }

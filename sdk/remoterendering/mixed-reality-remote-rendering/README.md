@@ -74,9 +74,16 @@ An example is `https://remoterendering.eastus2.mixedreality.azure.com`.
 
 Use the `AccountKeyCredential` object to use an account identifier and account key to authenticate:
 
-```typescript Snippet:CreateAClient
-const credential = new AzureKeyCredential(accountKey);
+```ts snippet:ReadmeSampleCreateClient_KeyCredential
+import { AzureKeyCredential } from "@azure/core-auth";
+import { RemoteRenderingClient } from "@azure/mixed-reality-remote-rendering";
 
+const accountDomain = "<account domain>";
+const accountId = "<account ID>";
+const accountKey = "<account key>";
+const serviceEndpoint = "<serviceEndpoint>";
+
+const credential = new AzureKeyCredential(accountKey);
 const client = new RemoteRenderingClient(serviceEndpoint, accountId, accountDomain, credential);
 ```
 
@@ -84,9 +91,19 @@ const client = new RemoteRenderingClient(serviceEndpoint, accountId, accountDoma
 
 Use the `ClientSecretCredential` object to perform client secret authentication.
 
-```typescript Snippet:CreateAClientWithAAD
+```ts snippet:ReadmeSampleCreateClient_ClientSecretCredential
+import { ClientSecretCredential } from "@azure/identity";
+import { RemoteRenderingClient } from "@azure/mixed-reality-remote-rendering";
+
+const accountDomain = "<account domain>";
+const accountId = "<account ID>";
+const serviceEndpoint = "<serviceEndpoint>";
+const tenantId = "<tenant ID>";
+const clientId = "<client ID>";
+const clientSecret = "<client secret>";
+
 const credential = new ClientSecretCredential(tenantId, clientId, clientSecret, {
-  authorityHost: "https://login.microsoftonline.com/" + tenantId,
+  authorityHost: `https://login.microsoftonline.com/${tenantId}`,
 });
 
 const client = new RemoteRenderingClient(serviceEndpoint, accountId, accountDomain, credential);
@@ -96,17 +113,26 @@ const client = new RemoteRenderingClient(serviceEndpoint, accountId, accountDoma
 
 Use the `DeviceCodeCredential` object to perform device code authentication.
 
-```typescript Snippet:CreateAClientWithDeviceCode
-const userPromptCallback = (deviceCodeInfo: DeviceCodeInfo) => {
+```ts snippet:ReadmeSampleCreateClient_DeviceCodeCredential
+import { DeviceCodeCredential } from "@azure/identity";
+import { RemoteRenderingClient } from "@azure/mixed-reality-remote-rendering";
+
+const accountDomain = "<account domain>";
+const accountId = "<account ID>";
+const serviceEndpoint = "<serviceEndpoint>";
+const tenantId = "<tenant ID>";
+const clientId = "<client ID>";
+
+const userPromptCallback = (deviceCodeInfo) => {
   console.debug(deviceCodeInfo.message);
   console.log(deviceCodeInfo.message);
 };
 
 const credential = new DeviceCodeCredential({
-  tenantId: tenantId,
-  clientId: clientId,
-  userPromptCallback: userPromptCallback,
-  authorityHost: "https://login.microsoftonline.com/" + tenantId,
+  tenantId,
+  clientId,
+  userPromptCallback,
+  authorityHost: `https://login.microsoftonline.com/${tenantId}`,
 });
 
 const client = new RemoteRenderingClient(serviceEndpoint, accountId, accountDomain, credential);
@@ -120,12 +146,16 @@ information about using device code authentication flow.
 Use the `DefaultAzureCredential` object with `includeInteractiveCredentials: true` to use default interactive authentication
 flow:
 
-```typescript Snippet:CreateAClientWithAzureCredential
-const credential = new DefaultAzureCredential();
+```ts snippet:ReadmeSampleCreateClient_DefaultAzureCredential
+import { DefaultAzureCredential } from "@azure/identity";
+import { RemoteRenderingClient } from "@azure/mixed-reality-remote-rendering";
 
-return new RemoteRenderingClient(serviceEndpoint, accountId, accountDomain, credential, {
-  authenticationEndpointUrl: "https://sts.mixedreality.azure.com",
-});
+const accountDomain = "<account domain>";
+const accountId = "<account ID>";
+const serviceEndpoint = "<serviceEndpoint>";
+
+const credential = new DefaultAzureCredential();
+const client = new RemoteRenderingClient(serviceEndpoint, accountId, accountDomain, credential);
 ```
 
 #### Authenticating with a static access token
@@ -134,14 +164,25 @@ You can pass a Mixed Reality access token as an `AccessToken` previously retriev
 [Mixed Reality STS service](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/mixedreality/mixed-reality-authentication)
 to be used with a Mixed Reality client library:
 
-```typescript Snippet:CreateAClientWithStaticAccessToken
-// GetMixedRealityAccessTokenFromWebService is a hypothetical method that retrieves
+```ts snippet:ReadmeSampleCreateClient_AccessToken
+import { RemoteRenderingClient } from "@azure/mixed-reality-remote-rendering";
+
+const accountId = "<account ID>";
+const serviceEndpoint = "<serviceEndpoint>";
+
+// getMixedRealityAccessTokenFromWebService is a hypothetical method that retrieves
 // a Mixed Reality access token from a web service. The web service would use the
 // MixedRealityStsClient and credentials to obtain an access token to be returned
 // to the client.
-const accessToken = GetMixedRealityAccessTokenFromWebService();
+async function getMixedRealityAccessTokenFromWebService() {
+  return {
+    token: "<access token>",
+    expiresOnTimestamp: Date.now() + 24 * 60 * 60 * 1000,
+  };
+}
+const accessToken = await getMixedRealityAccessTokenFromWebService();
 
-const client = new RemoteRenderingClient(remoteRenderingEndpoint, accountId, accessToken);
+const client = new RemoteRenderingClient(serviceEndpoint, accountId, accessToken);
 ```
 
 ## Key concepts
@@ -167,23 +208,42 @@ It provides methods to create and manage asset conversions and rendering session
 We assume that a RemoteRenderingClient has been constructed as described in the [Authenticate the Client](#authenticate-the-client) section.
 The following snippet describes how to request that "box.fbx", found at the root of the blob container at the given URI, gets converted.
 
-```typescript Snippet:StartAnAssetConversion
-const inputSettings: AssetConversionInputSettings = {
+```ts snippet:ReadmeSampleConvertASimpleAsset
+import { DefaultAzureCredential } from "@azure/identity";
+import { RemoteRenderingClient } from "@azure/mixed-reality-remote-rendering";
+import { randomUUID } from "node:crypto";
+
+const accountDomain = "<account domain>";
+const accountId = "<account ID>";
+const serviceEndpoint = "<serviceEndpoint>";
+const storageAccountName = "<storageAccountName>";
+const blobContainerName = "<blobStorageName>";
+const storageContainerUrl = `https://${storageAccountName}.blob.core.windows.net/${blobContainerName}`;
+
+const credential = new DefaultAzureCredential();
+const client = new RemoteRenderingClient(serviceEndpoint, accountId, accountDomain, credential);
+
+const inputSettings = {
   storageContainerUrl,
   relativeInputAssetPath: "box.fbx",
 };
-const outputSettings: AssetConversionOutputSettings = {
+const outputSettings = {
   storageContainerUrl,
 };
-const conversionSettings: AssetConversionSettings = { inputSettings, outputSettings };
+const conversionSettings = { inputSettings, outputSettings };
 
 // A randomly generated UUID is a good choice for a conversionId.
-const conversionId = uuid();
+const conversionId = randomUUID();
 
-const conversionPoller: AssetConversionPollerLike = await client.beginConversion(
-  conversionId,
-  conversionSettings,
-);
+const conversionPoller = await client.beginConversion(conversionId, conversionSettings);
+
+const conversion = await conversionPoller.pollUntilDone();
+
+if (conversion.status === "Succeeded") {
+  console.log(`Conversion succeeded: Output written to ${conversion.output?.outputAssetUrl}`);
+} else if (conversion.status === "Failed") {
+  console.log(`Conversion failed: ${conversion.error.code} ${conversion.error.message}`);
+}
 ```
 
 The output files will be placed beside the input asset.
@@ -198,24 +258,46 @@ We want to convert the glTF so that it has access to the other files which share
 To keep things tidy, we also want the output files to be written to a different storage container and given a common prefix: "ConvertedBicycle".
 The code is as follows:
 
-```typescript Snippet:StartAComplexAssetConversion
-const inputSettings: AssetConversionInputSettings = {
+```ts snippet:ReadmeSampleConvertAMoreComplexAsset
+import { DefaultAzureCredential } from "@azure/identity";
+import { RemoteRenderingClient } from "@azure/mixed-reality-remote-rendering";
+import { randomUUID } from "node:crypto";
+
+const accountDomain = "<account domain>";
+const accountId = "<account ID>";
+const serviceEndpoint = "<serviceEndpoint>";
+const storageAccountName = "<storageAccountName>";
+const blobContainerName = "<blobStorageName>";
+const storageAccountName2 = "<storageAccountName2>";
+const blobContainerName2 = "<blobStorageName2>";
+const inputStorageUrl = `https://${storageAccountName}.blob.core.windows.net/${blobContainerName}`;
+const outputStorageUrl = `https://${storageAccountName2}.blob.core.windows.net/${blobContainerName2}`;
+
+const credential = new DefaultAzureCredential();
+const client = new RemoteRenderingClient(serviceEndpoint, accountId, accountDomain, credential);
+
+const inputSettings = {
   storageContainerUrl: inputStorageUrl,
   blobPrefix: "Bicycle",
   relativeInputAssetPath: "bicycle.gltf",
 };
-const outputSettings: AssetConversionOutputSettings = {
+const outputSettings = {
   storageContainerUrl: outputStorageUrl,
   blobPrefix: "ConvertedBicycle",
 };
-const conversionSettings: AssetConversionSettings = { inputSettings, outputSettings };
+const conversionSettings = { inputSettings, outputSettings };
 
-const conversionId = uuid();
+const conversionId = randomUUID();
 
-const conversionPoller: AssetConversionPollerLike = await client.beginConversion(
-  conversionId,
-  conversionSettings,
-);
+const conversionPoller = await client.beginConversion(conversionId, conversionSettings);
+
+const conversion = await conversionPoller.pollUntilDone();
+
+if (conversion.status === "Succeeded") {
+  console.log(`Conversion succeeded: Output written to ${conversion.output?.outputAssetUrl}`);
+} else if (conversion.status === "Failed") {
+  console.log(`Conversion failed: ${conversion.error.code} ${conversion.error.message}`);
+}
 ```
 
 > NOTE: when a prefix is given in the input options, then the input file parameter is assumed to be relative to that prefix.
@@ -227,15 +309,13 @@ Converting an asset can take anywhere from seconds to hours.
 This code uses the conversionPoller returned by beginConversion to poll regularly until the conversion has finished or failed.
 The default polling period is 10 seconds.
 
-```typescript Snippet:QueryConversionStatus
+```ts snippet:ignore
 const conversion = await conversionPoller.pollUntilDone();
 
-console.log("== Check results ==");
-
 if (conversion.status === "Succeeded") {
-  console.log("Conversion succeeded: Output written to " + conversion.output?.outputAssetUrl);
+  console.log(`Conversion succeeded: Output written to ${conversion.output?.outputAssetUrl}`);
 } else if (conversion.status === "Failed") {
-  console.log("Conversion failed: " + conversion.error.code + " " + conversion.error.message);
+  console.log(`Conversion failed: ${conversion.error.code} ${conversion.error.message}`);
 }
 ```
 
@@ -243,7 +323,7 @@ Note that the state of a AssetConversionPollerLike can be serialized by calling 
 That value can later be passed into beginConversion as a `resumeFrom` value, to construct a new poller
 which carries on from where the earlier one left off:
 
-```typescript
+```ts snippet:ignore
 const serializedPollerString = conversionPoller.toString();
 // ...
 const resumedPoller = client.beginConversion({ resumeFrom: serializedPollerString });
@@ -255,7 +335,17 @@ You can get information about your conversions using the `getConversions` method
 This method may return conversions which have yet to start, conversions which are running and conversions which have finished.
 In this example, we just list the output URIs of successful conversions started in the last day.
 
-```typescript Snippet:ListConversions
+```ts snippet:ReadmeSampleListConversions
+import { DefaultAzureCredential } from "@azure/identity";
+import { RemoteRenderingClient } from "@azure/mixed-reality-remote-rendering";
+
+const accountDomain = "<account domain>";
+const accountId = "<account ID>";
+const serviceEndpoint = "<serviceEndpoint>";
+
+const credential = new DefaultAzureCredential();
+const client = new RemoteRenderingClient(serviceEndpoint, accountId, accountDomain, credential);
+
 for await (const conversion of client.listConversions()) {
   if (conversion.status === "Succeeded") {
     console.log(
@@ -274,26 +364,34 @@ for await (const conversion of client.listConversions()) {
 We assume that a RemoteRenderingClient has been constructed as described in the [Authenticate the Client](#authenticate-the-client) section.
 The following snippet describes how to request that a new rendering session be started.
 
-```typescript Snippet:CreateASession
-const sessionSettings: RenderingSessionSettings = {
+```ts snippet:ReadmeSampleCreateASession
+import { DefaultAzureCredential } from "@azure/identity";
+import { RemoteRenderingClient } from "@azure/mixed-reality-remote-rendering";
+import { randomUUID } from "node:crypto";
+
+const accountDomain = "<account domain>";
+const accountId = "<account ID>";
+const serviceEndpoint = "<serviceEndpoint>";
+
+const credential = new DefaultAzureCredential();
+const client = new RemoteRenderingClient(serviceEndpoint, accountId, accountDomain, credential);
+
+const sessionSettings = {
   maxLeaseTimeInMinutes: 4,
   size: "Standard",
 };
 
 // A randomly generated UUID is a good choice for a conversionId.
-const sessionId = uuid();
+const sessionId = randomUUID();
 
-const sessionPoller: RenderingSessionPollerLike = await client.beginSession(
-  sessionId,
-  sessionSettings,
-);
+const sessionPoller = await client.beginSession(sessionId, sessionSettings);
 ```
 
 Note that the state of a RenderingSessionPollerLike can be serialized by calling toString().
 That value can later be passed into beginSession as a `resumeFrom` value, to construct a new poller
 which carries on from where the earlier one left off:
 
-```typescript
+```ts snippet:ignore
 const serializedPollerString = sessionPoller.toString();
 // ...
 const resumedPoller = client.beginSession({ resumeFrom: serializedPollerString });
@@ -308,13 +406,23 @@ This example shows how to query the current properties and then extend the lease
 > NOTE: The runtime SDKs also offer this functionality, and in many typical scenarios, you would use them to
 > extend the session lease.
 
-```typescript Snippet:UpdateSession
-/// When the lease is within 2 minutes of expiring, extend it by 15 minutes.
+```ts snippet:ReadmeSampleExtendLease
+import { DefaultAzureCredential } from "@azure/identity";
+import { RemoteRenderingClient } from "@azure/mixed-reality-remote-rendering";
+
+const accountDomain = "<account domain>";
+const accountId = "<account ID>";
+const serviceEndpoint = "<serviceEndpoint>";
+
+const credential = new DefaultAzureCredential();
+const client = new RemoteRenderingClient(serviceEndpoint, accountId, accountDomain, credential);
+
+const sessionId = "<session ID from previous step>";
 const currentSession = await client.getSession(sessionId);
 if (currentSession.status === "Ready") {
   if (
     currentSession.maxLeaseTimeInMinutes -
-      (Date.now() - currentSession.properties.createdOn.valueOf()) / 60000 <
+      (Date.now() - +currentSession.properties.createdOn) / 60000 <
     2
   ) {
     const newLeaseTime = currentSession.maxLeaseTimeInMinutes + 15;
@@ -329,7 +437,17 @@ if (currentSession.status === "Ready") {
 You can get information about your sessions using the `getSessions` method.
 This method may return sessions which have yet to start and sessions which are ready.
 
-```typescript Snippet:ListSessions
+```ts snippet:ReadmeSampleListSessions
+import { DefaultAzureCredential } from "@azure/identity";
+import { RemoteRenderingClient } from "@azure/mixed-reality-remote-rendering";
+
+const accountDomain = "<account domain>";
+const accountId = "<account ID>";
+const serviceEndpoint = "<serviceEndpoint>";
+
+const credential = new DefaultAzureCredential();
+const client = new RemoteRenderingClient(serviceEndpoint, accountId, accountDomain, credential);
+
 for await (const session of client.listSessions()) {
   console.log(`Session ${session.sessionId} is ${session.status}`);
 }
@@ -339,8 +457,19 @@ for await (const session of client.listSessions()) {
 
 The following code will stop a running session with given id.
 
-```typescript Snippet:StopSession
-client.endSession(sessionId);
+```ts snippet:ReadmeSampleStopASession
+import { DefaultAzureCredential } from "@azure/identity";
+import { RemoteRenderingClient } from "@azure/mixed-reality-remote-rendering";
+
+const accountDomain = "<account domain>";
+const accountId = "<account ID>";
+const serviceEndpoint = "<serviceEndpoint>";
+
+const credential = new DefaultAzureCredential();
+const client = new RemoteRenderingClient(serviceEndpoint, accountId, accountDomain, credential);
+
+const sessionId = "<session ID from previous step>";
+await client.endSession(sessionId);
 ```
 
 ## Troubleshooting
@@ -349,8 +478,8 @@ client.endSession(sessionId);
 
 Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
 
-```javascript
-const { setlogLevel } = require("@azure/logger");
+```ts snippet:SetLogLevel
+import { setLogLevel } from "@azure/logger";
 
 setLogLevel("info");
 ```
@@ -386,8 +515,6 @@ If you'd like to contribute to this library, please read the [contributing guide
 ## Related projects
 
 - [Microsoft Azure SDK for Javascript](https://github.com/Azure/azure-sdk-for-js)
-
-
 
 [azure_cli]: https://learn.microsoft.com/cli/azure
 [azure_sub]: https://azure.microsoft.com/free/

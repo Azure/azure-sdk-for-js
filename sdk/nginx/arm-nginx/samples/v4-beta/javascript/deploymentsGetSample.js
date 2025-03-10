@@ -6,17 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { NginxManagementClient } = require("@azure/arm-nginx");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Get the NGINX deployment
  *
  * @summary Get the NGINX deployment
- * x-ms-original-file: specification/nginx/resource-manager/NGINX.NGINXPLUS/preview/2024-01-01-preview/examples/Deployments_Get.json
+ * x-ms-original-file: specification/nginx/resource-manager/NGINX.NGINXPLUS/preview/2024-11-01-preview/examples/Deployments_Get.json
  */
 async function deploymentsGet() {
   const subscriptionId =
@@ -33,7 +31,7 @@ async function deploymentsGet() {
  * This sample demonstrates how to Get the NGINX deployment
  *
  * @summary Get the NGINX deployment
- * x-ms-original-file: specification/nginx/resource-manager/NGINX.NGINXPLUS/preview/2024-01-01-preview/examples/Deployments_Get_AutoScale.json
+ * x-ms-original-file: specification/nginx/resource-manager/NGINX.NGINXPLUS/preview/2024-11-01-preview/examples/Deployments_Get_AutoScale.json
  */
 async function deploymentsGetAutoScale() {
   const subscriptionId =
@@ -47,8 +45,8 @@ async function deploymentsGetAutoScale() {
 }
 
 async function main() {
-  deploymentsGet();
-  deploymentsGetAutoScale();
+  await deploymentsGet();
+  await deploymentsGetAutoScale();
 }
 
 main().catch(console.error);

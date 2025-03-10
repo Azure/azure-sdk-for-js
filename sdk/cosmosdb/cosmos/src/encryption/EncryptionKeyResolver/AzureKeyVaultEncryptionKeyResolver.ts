@@ -6,6 +6,7 @@ import type { EncryptionKeyResolver } from "./EncryptionKeyResolver";
 import type { KeyWrapAlgorithm } from "@azure/keyvault-keys";
 import { KeyClient } from "@azure/keyvault-keys";
 import { ErrorResponse } from "../../request";
+import { EncryptionKeyResolverName } from "../enums";
 
 /**
  * Implementation of EncryptionKeyResolver that uses Azure Key Vault for customer managed keys.
@@ -16,6 +17,10 @@ export class AzureKeyVaultEncryptionKeyResolver implements EncryptionKeyResolver
   constructor(credentials: TokenCredential) {
     this.credentials = credentials;
   }
+  /** name of the resolver to use for client side encryption.
+   * Currently only AzureKeyVault implementation is supported.
+   */
+  public encryptionKeyResolverName = EncryptionKeyResolverName.AzureKeyVault;
   /**
    * wraps the given key using the specified key encryption key path and algorithm.
    * @param encryptionKeyId - path to the customer managed key to be used for wrapping. For Azure Key Vault, this is url of the key in the vault.
@@ -61,7 +66,7 @@ export class AzureKeyVaultEncryptionKeyResolver implements EncryptionKeyResolver
       const keyClient = new KeyClient(origin, this.credentials);
       const [keyName, keyVersion] = this.getKeyDetails(encryptionKeyId);
       const cryptographyClient = keyClient.getCryptographyClient(keyName, {
-        keyVersion: keyVersion ? keyVersion : "",
+        keyVersion: keyVersion,
       });
       const res = await cryptographyClient.unwrapKey(algorithm as KeyWrapAlgorithm, wrappedKey);
       if (!res || !res.result) {
@@ -78,13 +83,10 @@ export class AzureKeyVaultEncryptionKeyResolver implements EncryptionKeyResolver
     try {
       url = new URL(encryptionKeyId);
       const parts = url.pathname.split("/");
-      if (parts.length < 3 || parts.length > 5) {
+      if (parts.length < 4 || parts.length > 5) {
         throw new ErrorResponse(
           `Invalid key url: ${encryptionKeyId}. Key url must be in the format https://<vault>.vault.azure.net/keys/<key-name>/<key-version>`,
         );
-      }
-      if (parts.length === 3) {
-        return [parts[2], undefined];
       }
       if (parts.length === 4 || parts.length === 5) {
         return [parts[2], parts[3]];

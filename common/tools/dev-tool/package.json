@@ -92,7 +92,7 @@
     "eslint": "^9.9.0",
     "mkdirp": "^3.0.1",
     "rimraf": "^5.0.5",
-    "typescript-eslint": "~8.24.1",
+    "typescript-eslint": "~8.26.0",
     "uglify-js": "^3.4.9",
     "vitest": "^3.0.3",
     "@types/unzipper": "~0.10.10"

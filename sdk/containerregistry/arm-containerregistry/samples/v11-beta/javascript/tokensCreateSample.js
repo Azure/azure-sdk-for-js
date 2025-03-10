@@ -10,13 +10,13 @@
 // Licensed under the MIT License.
 const { ContainerRegistryManagementClient } = require("@azure/arm-containerregistry");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Creates a token for a container registry with the specified parameters.
  *
  * @summary Creates a token for a container registry with the specified parameters.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2023-11-01-preview/examples/TokenCreate.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2024-11-01-preview/examples/TokenCreate.json
  */
 async function tokenCreate() {
   const subscriptionId =
@@ -44,13 +44,13 @@ async function tokenCreate() {
     resourceGroupName,
     registryName,
     tokenName,
-    tokenCreateParameters
+    tokenCreateParameters,
   );
   console.log(result);
 }
 
 async function main() {
-  tokenCreate();
+  await tokenCreate();
 }
 
 main().catch(console.error);

@@ -16,12 +16,12 @@ describe("Legacy Completions", function () {
     describe(`[${apiVersion}] Client`, () => {
       let clientsAndDeployments: ClientsAndDeploymentsInfo;
 
-      beforeEach(async function () {
+      beforeEach(async () => {
         clientsAndDeployments = createClientsAndDeployments(apiVersion, { completion: "true" });
       });
 
       describe("completions.create", function () {
-        it("returns completions across all models", async function () {
+        it("returns completions across all models", async () => {
           const prompt = ["What is Azure OpenAI?"];
           await withDeployments(
             clientsAndDeployments,
@@ -32,7 +32,7 @@ describe("Legacy Completions", function () {
           );
         });
 
-        it("returns completions stream", async function () {
+        it("returns completions stream", async () => {
           const prompt = ["This is Azure OpenAI?"];
           await withDeployments(
             clientsAndDeployments,
@@ -44,7 +44,7 @@ describe("Legacy Completions", function () {
           );
         });
 
-        it("stream long completions", async function () {
+        it("stream long completions", async () => {
           const prompt = [
             `##### Translate this code snippet into Python. Use Azure SDKs where possible.
   \`\`\`
