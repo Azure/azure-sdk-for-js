@@ -5,6 +5,8 @@
 import WebSiteManagementClient, { paginate } from "@azure-rest/arm-appservice";
 import { DefaultAzureCredential } from "@azure/identity";
 
+// test
+
 /**
  * This sample demonstrates how to Description for Get the network endpoints of all inbound dependencies of an App Service Environment.
  *
