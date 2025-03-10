@@ -13,7 +13,7 @@ import {
 import type { ContainerClient, BlobClient, BlobServiceClient } from "../src/index.js";
 import { PageBlobClient, PremiumPageBlobTier } from "../src/index.js";
 import { Recorder } from "@azure-tools/test-recorder";
-import { getYieldedValue } from "@azure-tools/test-utils";
+import { getYieldedValue } from "@azure-tools/test-utils-vitest";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("PageBlobClient", () => {
