@@ -173,7 +173,7 @@ describe("AppConfigurationClient", () => {
     });
 
     // Skipping all "accepts operation options flaky tests" https://github.com/Azure/azure-sdk-for-js/issues/26447
-    it.skip("accepts  operation options", async (ctx) => {
+    it.skip("accepts operation options", async (ctx) => {
       ctx.skip();
       const key = recorder.variable(
         "addConfigTestTwice",

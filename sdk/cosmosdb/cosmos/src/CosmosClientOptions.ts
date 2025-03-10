@@ -66,6 +66,12 @@ export interface CosmosClientOptions {
   clientEncryptionOptions?: ClientEncryptionOptions;
   /** @internal */
   plugins?: PluginConfig[];
+
+  /** An optional parameter to set throughput bucket number. This value can be overridden at request level
+   * For more information, visit [Cosmos DB throughput Bucketing](https://aka.ms/cosmsodb-bucketing).
+   */
+  throughputBucket?: number;
+
   /** An optional parameter that represents the connection string. Your database connection string can be found in the Azure Portal. */
   connectionString?: string;
 }

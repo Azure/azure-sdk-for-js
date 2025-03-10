@@ -4,41 +4,41 @@
 // https://azure.github.io/azure-sdk/typescript_design.html#ts-config-lib
 /// <reference lib="esnext.asynciterable" />
 
-import type {
-  AddConfigurationSettingOptions,
-  AddConfigurationSettingParam,
-  AddConfigurationSettingResponse,
-  AppConfigurationClientOptions,
-  ConfigurationSetting,
-  ConfigurationSettingId,
-  CreateSnapshotOptions,
-  CreateSnapshotResponse,
-  DeleteConfigurationSettingOptions,
-  DeleteConfigurationSettingResponse,
-  GetConfigurationSettingOptions,
-  GetConfigurationSettingResponse,
-  GetSnapshotOptions,
-  GetSnapshotResponse,
-  HttpResponseField,
-  ListConfigurationSettingPage,
-  ListConfigurationSettingsForSnapshotOptions,
-  ListConfigurationSettingsOptions,
-  ListLabelsOptions,
-  ListLabelsPage,
-  ListRevisionsOptions,
-  ListRevisionsPage,
-  ListSnapshotsOptions,
-  ListSnapshotsPage,
-  PageSettings,
-  SetConfigurationSettingOptions,
-  SetConfigurationSettingParam,
-  SetConfigurationSettingResponse,
-  SetReadOnlyOptions,
-  SetReadOnlyResponse,
-  SettingLabel,
-  SnapshotInfo,
-  UpdateSnapshotOptions,
-  UpdateSnapshotResponse,
+import {
+  type AddConfigurationSettingOptions,
+  type AddConfigurationSettingParam,
+  type AddConfigurationSettingResponse,
+  type AppConfigurationClientOptions,
+  type ConfigurationSetting,
+  type ConfigurationSettingId,
+  type CreateSnapshotOptions,
+  type CreateSnapshotResponse,
+  type DeleteConfigurationSettingOptions,
+  type DeleteConfigurationSettingResponse,
+  type GetConfigurationSettingOptions,
+  type GetConfigurationSettingResponse,
+  type GetSnapshotOptions,
+  type GetSnapshotResponse,
+  type HttpResponseField,
+  type ListConfigurationSettingPage,
+  type ListConfigurationSettingsForSnapshotOptions,
+  type ListConfigurationSettingsOptions,
+  type ListLabelsOptions,
+  type ListLabelsPage,
+  type ListRevisionsOptions,
+  type ListRevisionsPage,
+  type ListSnapshotsOptions,
+  type ListSnapshotsPage,
+  type PageSettings,
+  type SetConfigurationSettingOptions,
+  type SetConfigurationSettingParam,
+  type SetConfigurationSettingResponse,
+  type SetReadOnlyOptions,
+  type SetReadOnlyResponse,
+  type SettingLabel,
+  type SnapshotInfo,
+  type UpdateSnapshotOptions,
+  type UpdateSnapshotResponse,
 } from "./models.js";
 import type {
   AppConfigurationGetKeyValuesHeaders,
@@ -74,6 +74,7 @@ import {
   formatFiltersAndSelect,
   formatLabelsFiltersAndSelect,
   formatSnapshotFiltersAndSelect,
+  getScope,
   makeConfigurationSettingEmpty,
   serializeAsConfigurationSettingParam,
   transformKeyValue,
@@ -126,7 +127,6 @@ export class AppConfigurationClient {
 
   /**
    * Initializes a new instance of the AppConfigurationClient class.
-   * @param connectionString - Connection string needed for a client to connect to Azure.
    * @param options - Options for the AppConfigurationClient.
    */
   constructor(connectionString: string, options?: AppConfigurationClientOptions);
@@ -151,6 +151,7 @@ export class AppConfigurationClient {
     let appConfigCredential: TokenCredential;
     let appConfigEndpoint: string;
     let authPolicy: PipelinePolicy;
+    let scope: string;
 
     if (isTokenCredential(tokenCredentialOrOptions)) {
       appConfigOptions = (options as InternalAppConfigurationClientOptions) || {};
@@ -158,8 +159,9 @@ export class AppConfigurationClient {
       appConfigEndpoint = connectionStringOrEndpoint.endsWith("/")
         ? connectionStringOrEndpoint.slice(0, -1)
         : connectionStringOrEndpoint;
+      scope = getScope(appConfigEndpoint, appConfigOptions.audience);
       authPolicy = bearerTokenAuthenticationPolicy({
-        scopes: `${appConfigEndpoint}/.default`,
+        scopes: scope,
         credential: appConfigCredential,
       });
     } else {
