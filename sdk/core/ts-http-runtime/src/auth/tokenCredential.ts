@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { OAuth2Flow, OAuth2FlowType } from "./authFlows.js";
+import type { OAuth2Flow } from "./authFlows.js";
+import { OAuth2FlowType } from "./authFlows.js";
 
 /**
  * Represents a credential capable of providing an authentication token.

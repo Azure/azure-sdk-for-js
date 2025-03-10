@@ -46,7 +46,7 @@ export function addCredentialPipelinePolicy(
     const tokenPolicy = bearerTokenAuthenticationPolicy({
       credential,
       allowInsecureConnection: clientOptions?.allowInsecureConnection ?? false,
-      authFlows: clientOptions?.authFlows
+      authFlows: clientOptions?.authFlows,
     });
     pipeline.addPolicy(tokenPolicy);
   } else if (isKeyCredential(credential)) {

@@ -1,8 +1,16 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 /**
  * Represents the different types of OAuth2 authentication flows supported.
  * Can be AuthorizationCodeFlow, ClientCredentialsFlow, ImplicitFlow, or PasswordFlow.
  */
-export type OAuth2Flow = AuthorizationCodeFlow | ClientCredentialsFlow | ImplicitFlow | PasswordFlow | BaseOAuth2Flow;
+export type OAuth2Flow =
+  | AuthorizationCodeFlow
+  | ClientCredentialsFlow
+  | ImplicitFlow
+  | PasswordFlow
+  | BaseOAuth2Flow;
 
 /**
  * Describes the OAuth2 flow types.

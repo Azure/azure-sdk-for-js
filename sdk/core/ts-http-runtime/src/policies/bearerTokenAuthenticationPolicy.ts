@@ -5,7 +5,7 @@ import type { TokenCredential } from "../auth/tokenCredential.js";
 import type { PipelineRequest, PipelineResponse, SendRequest } from "../interfaces.js";
 import type { PipelinePolicy } from "../pipeline.js";
 import { logger as coreLogger } from "../log.js";
-import { OAuth2Flow } from "../auth/authFlows.js";
+import type { OAuth2Flow } from "../auth/authFlows.js";
 
 /**
  * The programmatic identifier of the bearerTokenAuthenticationPolicy.
@@ -93,7 +93,7 @@ export function bearerTokenAuthenticationPolicy(
             "Bearer token authentication is not permitted for non-TLS protected (non-https) URLs when allowInsecureConnection is false.",
           );
         }
-      }      
+      }
       const getAccessTokenOptions = {
         abortSignal: request.abortSignal,
         authFlows,
