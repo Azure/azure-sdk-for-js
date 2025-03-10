@@ -14,6 +14,7 @@ import {
 } from "../../common";
 import type { PartitionKey, PartitionKeyInternal } from "../../documents";
 import { convertToInternalPartitionKey } from "../../documents";
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 import type { RequestOptions, Response } from "../../request";
 import { ErrorResponse } from "../../request";
 import type { PatchRequestBody } from "../../utils/patch";
@@ -68,15 +69,24 @@ export class Item {
    * @param options - Additional options for the request
    *
    * @example Using custom type for response
-   * ```typescript
+   * ```ts snippet:ItemRead
+   * import { CosmosClient } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   *
+   * const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+   *
+   * const { container } = await database.containers.createIfNotExists({ id: "Test Database" });
+   *
    * interface TodoItem {
    *   title: string;
-   *   done: bool;
+   *   done: boolean;
    *   id: string;
    * }
    *
-   * let item: TodoItem;
-   * ({body: item} = await item.read<TodoItem>());
+   * const { resource: item } = await container.item("id").read<TodoItem>();
    * ```
    */
   public async read<T extends ItemDefinition = any>(

@@ -22,10 +22,10 @@ import type {
   ClientEncryptionKeyRequest,
   KeyEncryptionKey,
   EncryptionKeyWrapMetadata,
+  ClientEncryptionKeyProperties,
 } from "../../encryption";
 import {
   ClientEncryptionKeyResponse,
-  ClientEncryptionKeyProperties,
   EncryptionAlgorithm,
   KeyEncryptionAlgorithm,
 } from "../../encryption";
@@ -47,8 +47,16 @@ export class Database {
    * Use `.database(id)` to read, replace, or delete a specific, existing {@link Database} by id.
    *
    * @example Create a new container
-   * ```typescript
-   * const {body: containerDefinition, container} = await client.database("<db id>").containers.create({id: "<container id>"});
+   * ```ts snippet:DatabaseCreateContainer
+   * import { CosmosClient } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   *
+   * const { body: containerDefinition, container } = await client
+   *   .database("<db id>")
+   *   .containers.create({ id: "<container id>" });
    * ```
    */
   public readonly containers: Containers;
@@ -94,7 +102,13 @@ export class Database {
    * Use `.containers` creating new containers, or querying/reading all containers.
    *
    * @example Delete a container
-   * ```typescript
+   * ```ts snippet:DatabaseDeleteContainer
+   * import { CosmosClient } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   *
    * await client.database("<db id>").container("<container id>").delete();
    * ```
    */
