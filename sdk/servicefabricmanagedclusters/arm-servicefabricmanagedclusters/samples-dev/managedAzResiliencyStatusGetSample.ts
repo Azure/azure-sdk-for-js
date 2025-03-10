@@ -7,9 +7,7 @@
  */
 import { ServiceFabricManagedClustersManagementClient } from "@azure/arm-servicefabricmanagedclusters";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Action to get Az Resiliency Status of all the Base resources constituting Service Fabric Managed Clusters.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Action to get Az Resiliency Status of all the Base resources constituting Service Fabric Managed Clusters.
  * x-ms-original-file: specification/servicefabricmanagedclusters/resource-manager/Microsoft.ServiceFabric/preview/2024-09-01-preview/examples/managedAzResiliencyStatusGet_example.json
  */
-async function azResiliencyStatusOfBaseResources() {
+async function azResiliencyStatusOfBaseResources(): Promise<void> {
   const subscriptionId =
     process.env["SERVICEFABRICMANAGEDCLUSTERS_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -33,7 +31,7 @@ async function azResiliencyStatusOfBaseResources() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await azResiliencyStatusOfBaseResources();
 }
 

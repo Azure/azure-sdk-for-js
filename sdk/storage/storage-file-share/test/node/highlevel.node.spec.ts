@@ -173,7 +173,11 @@ describe("Highlevel Node.js only", () => {
         rangeSize: 4 * 1024 * 1024,
       });
     } catch (err: any) {
-      assert.equal(err.message, "The operation was aborted.", "Unexpected error caught: " + err);
+      assert.equal(
+        err.message,
+        "The operation was aborted. Rejecting from abort signal callback while making request.",
+        "Unexpected error caught: " + err,
+      );
     }
     assert.ok(eventTriggered);
   });
@@ -197,7 +201,11 @@ describe("Highlevel Node.js only", () => {
         rangeSize: 4 * 1024 * 1024,
       });
     } catch (err: any) {
-      assert.equal(err.message, "The operation was aborted.", "Unexpected error caught: " + err);
+      assert.equal(
+        err.message,
+        "The operation was aborted. Rejecting from abort signal callback while making request.",
+        "Unexpected error caught: " + err,
+      );
     }
     assert.ok(eventTriggered);
   });
@@ -415,7 +423,11 @@ describe("Highlevel Node.js only", () => {
         rangeSize: 1 * 1024,
       });
     } catch (err: any) {
-      assert.equal(err.message, "The operation was aborted.", "Unexpected error caught: " + err);
+      assert.equal(
+        err.message,
+        "The operation was aborted. Request has already been canceled.",
+        "Unexpected error caught: " + err,
+      );
     }
     assert.ok(eventTriggered);
   });

@@ -11,7 +11,7 @@ import {
   SecuritySolutionsReferenceDataListResponse,
   SecuritySolutionsReferenceDataListByHomeRegionOptionalParams,
   SecuritySolutionsReferenceDataListByHomeRegionResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a SecuritySolutionsReferenceDataOperations. */
 export interface SecuritySolutionsReferenceDataOperations {

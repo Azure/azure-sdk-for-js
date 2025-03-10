@@ -7,9 +7,7 @@
  */
 import { SqlManagementClient } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets a list of databases.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Gets a list of databases.
  * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-02-01-preview/examples/ListVCoreDatabasesEnclaveTypeByServer.json
  */
-async function getsAListOfDatabasesConfiguredWithEnclaveType() {
+async function getsAListOfDatabasesConfiguredWithEnclaveType(): Promise<void> {
   const subscriptionId =
     process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
   const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "Default-SQL-SouthEastAsia";
@@ -37,7 +35,7 @@ async function getsAListOfDatabasesConfiguredWithEnclaveType() {
  * @summary Gets a list of databases.
  * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-02-01-preview/examples/ListVCoreDatabasesByServer.json
  */
-async function getsAListOfDatabases() {
+async function getsAListOfDatabases(): Promise<void> {
   const subscriptionId =
     process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
   const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "Default-SQL-SouthEastAsia";
@@ -51,7 +49,7 @@ async function getsAListOfDatabases() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await getsAListOfDatabasesConfiguredWithEnclaveType();
   await getsAListOfDatabases();
 }

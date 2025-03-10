@@ -8,9 +8,7 @@
 import type { DatabaseUpdate } from "@azure/arm-sql";
 import { SqlManagementClient } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Updates an existing database.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Updates an existing database.
  * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-02-01-preview/examples/PatchVCoreDatabaseAssignMaintenanceConfiguration.json
  */
-async function assignsMaintenanceWindowToADatabase() {
+async function assignsMaintenanceWindowToADatabase(): Promise<void> {
   const subscriptionId =
     process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
   const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "Default-SQL-SouthEastAsia";
@@ -46,7 +44,7 @@ async function assignsMaintenanceWindowToADatabase() {
  * @summary Updates an existing database.
  * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-02-01-preview/examples/PatchDatabaseVBSEnclave.json
  */
-async function createsADatabaseWithVbsEnclaveType() {
+async function createsADatabaseWithVbsEnclaveType(): Promise<void> {
   const subscriptionId =
     process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
   const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "Default-SQL-SouthEastAsia";
@@ -70,7 +68,7 @@ async function createsADatabaseWithVbsEnclaveType() {
  * @summary Updates an existing database.
  * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-02-01-preview/examples/PatchVCoreDatabaseWithKeysAndEncryptionProtector.json
  */
-async function patchADatabaseWithDatabaseLevelCustomerManagedKeys() {
+async function patchADatabaseWithDatabaseLevelCustomerManagedKeys(): Promise<void> {
   const subscriptionId =
     process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
   const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "Default-SQL-SouthEastAsia";
@@ -110,7 +108,7 @@ async function patchADatabaseWithDatabaseLevelCustomerManagedKeys() {
  * @summary Updates an existing database.
  * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-02-01-preview/examples/PatchVCoreDatabaseResetMaintenanceConfiguration.json
  */
-async function resetsMaintenanceWindowOfADatabaseToDefault() {
+async function resetsMaintenanceWindowOfADatabaseToDefault(): Promise<void> {
   const subscriptionId =
     process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
   const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "Default-SQL-SouthEastAsia";
@@ -138,7 +136,7 @@ async function resetsMaintenanceWindowOfADatabaseToDefault() {
  * @summary Updates an existing database.
  * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-02-01-preview/examples/PatchDatabaseDefaultEnclave.json
  */
-async function updatesADatabaseWithDefaultEnclaveType() {
+async function updatesADatabaseWithDefaultEnclaveType(): Promise<void> {
   const subscriptionId =
     process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
   const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "Default-SQL-SouthEastAsia";
@@ -162,7 +160,7 @@ async function updatesADatabaseWithDefaultEnclaveType() {
  * @summary Updates an existing database.
  * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-02-01-preview/examples/PatchVCoreDatabase.json
  */
-async function updatesADatabase() {
+async function updatesADatabase(): Promise<void> {
   const subscriptionId =
     process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
   const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "Default-SQL-SouthEastAsia";
@@ -184,7 +182,7 @@ async function updatesADatabase() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await assignsMaintenanceWindowToADatabase();
   await createsADatabaseWithVbsEnclaveType();
   await patchADatabaseWithDatabaseLevelCustomerManagedKeys();

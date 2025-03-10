@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { VmmServersDeleteOptionalParams, ScVmm } from "@azure/arm-scvmm";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Removes the SCVmm fabric from Azure.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Removes the SCVmm fabric from Azure.
  * x-ms-original-file: specification/scvmm/resource-manager/Microsoft.ScVmm/stable/2023-10-07/examples/VmmServers_Delete_MaximumSet_Gen.json
  */
-async function vmmServersDeleteMaximumSet() {
+async function vmmServersDeleteMaximumSet(): Promise<void> {
   const subscriptionId =
     process.env["SCVMM_SUBSCRIPTION_ID"] ||
     "79332E5A-630B-480F-A266-A941C015AB19";
@@ -44,7 +42,7 @@ async function vmmServersDeleteMaximumSet() {
  * @summary Removes the SCVmm fabric from Azure.
  * x-ms-original-file: specification/scvmm/resource-manager/Microsoft.ScVmm/stable/2023-10-07/examples/VmmServers_Delete_MinimumSet_Gen.json
  */
-async function vmmServersDeleteMinimumSet() {
+async function vmmServersDeleteMinimumSet(): Promise<void> {
   const subscriptionId =
     process.env["SCVMM_SUBSCRIPTION_ID"] ||
     "79332E5A-630B-480F-A266-A941C015AB19";
@@ -59,7 +57,7 @@ async function vmmServersDeleteMinimumSet() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   vmmServersDeleteMaximumSet();
   vmmServersDeleteMinimumSet();
 }

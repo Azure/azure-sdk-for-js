@@ -7,9 +7,7 @@
  */
 import { SecurityInsights } from "@azure/arm-securityinsight";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets a data connector.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Gets a data connector.
  * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/dataConnectors/GetAPIPolling.json
  */
-async function getAApiPollingDataConnector() {
+async function getAApiPollingDataConnector(): Promise<void> {
   const subscriptionId =
     process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] || "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
   const resourceGroupName = process.env["SECURITYINSIGHT_RESOURCE_GROUP"] || "myRg";
@@ -35,7 +33,7 @@ async function getAApiPollingDataConnector() {
  * @summary Gets a data connector.
  * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/dataConnectors/GetAzureSecurityCenterById.json
  */
-async function getAAscDataConnector() {
+async function getAAscDataConnector(): Promise<void> {
   const subscriptionId =
     process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] || "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
   const resourceGroupName = process.env["SECURITYINSIGHT_RESOURCE_GROUP"] || "myRg";
@@ -53,7 +51,7 @@ async function getAAscDataConnector() {
  * @summary Gets a data connector.
  * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/dataConnectors/GetDynamics365DataConnectorById.json
  */
-async function getADynamics365DataConnector() {
+async function getADynamics365DataConnector(): Promise<void> {
   const subscriptionId =
     process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] || "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
   const resourceGroupName = process.env["SECURITYINSIGHT_RESOURCE_GROUP"] || "myRg";
@@ -71,7 +69,7 @@ async function getADynamics365DataConnector() {
  * @summary Gets a data connector.
  * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/dataConnectors/GetGenericUI.json
  */
-async function getAGenericUiDataConnector() {
+async function getAGenericUiDataConnector(): Promise<void> {
   const subscriptionId =
     process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] || "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
   const resourceGroupName = process.env["SECURITYINSIGHT_RESOURCE_GROUP"] || "myRg";
@@ -89,7 +87,7 @@ async function getAGenericUiDataConnector() {
  * @summary Gets a data connector.
  * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/dataConnectors/GetIoTById.json
  */
-async function getAIoTDataConnector() {
+async function getAIoTDataConnector(): Promise<void> {
   const subscriptionId =
     process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] || "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
   const resourceGroupName = process.env["SECURITYINSIGHT_RESOURCE_GROUP"] || "myRg";
@@ -107,7 +105,7 @@ async function getAIoTDataConnector() {
  * @summary Gets a data connector.
  * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/dataConnectors/GetMicrosoftCloudAppSecurityById.json
  */
-async function getAMcasDataConnector() {
+async function getAMcasDataConnector(): Promise<void> {
   const subscriptionId =
     process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] || "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
   const resourceGroupName = process.env["SECURITYINSIGHT_RESOURCE_GROUP"] || "myRg";
@@ -125,7 +123,7 @@ async function getAMcasDataConnector() {
  * @summary Gets a data connector.
  * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/dataConnectors/GetMicrosoftDefenderAdvancedThreatProtectionById.json
  */
-async function getAMdatpDataConnector() {
+async function getAMdatpDataConnector(): Promise<void> {
   const subscriptionId =
     process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] || "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
   const resourceGroupName = process.env["SECURITYINSIGHT_RESOURCE_GROUP"] || "myRg";
@@ -143,7 +141,7 @@ async function getAMdatpDataConnector() {
  * @summary Gets a data connector.
  * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/dataConnectors/GetMicrosoftThreatIntelligenceById.json
  */
-async function getAMicrosoftThreatIntelligenceDataConnector() {
+async function getAMicrosoftThreatIntelligenceDataConnector(): Promise<void> {
   const subscriptionId =
     process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] || "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
   const resourceGroupName = process.env["SECURITYINSIGHT_RESOURCE_GROUP"] || "myRg";
@@ -161,7 +159,7 @@ async function getAMicrosoftThreatIntelligenceDataConnector() {
  * @summary Gets a data connector.
  * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/dataConnectors/GetMicrosoftThreatProtectionById.json
  */
-async function getAMicrosoftThreatProtectionDataConnector() {
+async function getAMicrosoftThreatProtectionDataConnector(): Promise<void> {
   const subscriptionId =
     process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] || "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
   const resourceGroupName = process.env["SECURITYINSIGHT_RESOURCE_GROUP"] || "myRg";
@@ -179,7 +177,7 @@ async function getAMicrosoftThreatProtectionDataConnector() {
  * @summary Gets a data connector.
  * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/dataConnectors/GetThreatIntelligenceTaxiiById.json
  */
-async function getATiTaxiiDataConnector() {
+async function getATiTaxiiDataConnector(): Promise<void> {
   const subscriptionId =
     process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] || "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
   const resourceGroupName = process.env["SECURITYINSIGHT_RESOURCE_GROUP"] || "myRg";
@@ -197,7 +195,7 @@ async function getATiTaxiiDataConnector() {
  * @summary Gets a data connector.
  * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/dataConnectors/GetThreatIntelligenceById.json
  */
-async function getATiDataConnector() {
+async function getATiDataConnector(): Promise<void> {
   const subscriptionId =
     process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] || "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
   const resourceGroupName = process.env["SECURITYINSIGHT_RESOURCE_GROUP"] || "myRg";
@@ -215,7 +213,7 @@ async function getATiDataConnector() {
  * @summary Gets a data connector.
  * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/dataConnectors/GetAzureActiveDirectoryById.json
  */
-async function getAnAadDataConnector() {
+async function getAnAadDataConnector(): Promise<void> {
   const subscriptionId =
     process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] || "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
   const resourceGroupName = process.env["SECURITYINSIGHT_RESOURCE_GROUP"] || "myRg";
@@ -233,7 +231,7 @@ async function getAnAadDataConnector() {
  * @summary Gets a data connector.
  * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/dataConnectors/GetAzureAdvancedThreatProtectionById.json
  */
-async function getAnAatpDataConnector() {
+async function getAnAatpDataConnector(): Promise<void> {
   const subscriptionId =
     process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] || "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
   const resourceGroupName = process.env["SECURITYINSIGHT_RESOURCE_GROUP"] || "myRg";
@@ -251,7 +249,7 @@ async function getAnAatpDataConnector() {
  * @summary Gets a data connector.
  * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/dataConnectors/GetAmazonWebServicesS3ById.json
  */
-async function getAnAwsS3DataConnector() {
+async function getAnAwsS3DataConnector(): Promise<void> {
   const subscriptionId =
     process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] || "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
   const resourceGroupName = process.env["SECURITYINSIGHT_RESOURCE_GROUP"] || "myRg";
@@ -269,7 +267,7 @@ async function getAnAwsS3DataConnector() {
  * @summary Gets a data connector.
  * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/dataConnectors/GetAmazonWebServicesCloudTrailById.json
  */
-async function getAnAwsCloudTrailDataConnector() {
+async function getAnAwsCloudTrailDataConnector(): Promise<void> {
   const subscriptionId =
     process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] || "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
   const resourceGroupName = process.env["SECURITYINSIGHT_RESOURCE_GROUP"] || "myRg";
@@ -287,7 +285,7 @@ async function getAnAwsCloudTrailDataConnector() {
  * @summary Gets a data connector.
  * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/dataConnectors/GetOffice365AdvancedThreatProtectionById.json
  */
-async function getAnOfficeAtpDataConnector() {
+async function getAnOfficeAtpDataConnector(): Promise<void> {
   const subscriptionId =
     process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] || "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
   const resourceGroupName = process.env["SECURITYINSIGHT_RESOURCE_GROUP"] || "myRg";
@@ -305,7 +303,7 @@ async function getAnOfficeAtpDataConnector() {
  * @summary Gets a data connector.
  * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/dataConnectors/GetMicrosoftInsiderRiskManagementById.json
  */
-async function getAnOfficeIrmDataConnector() {
+async function getAnOfficeIrmDataConnector(): Promise<void> {
   const subscriptionId =
     process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] || "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
   const resourceGroupName = process.env["SECURITYINSIGHT_RESOURCE_GROUP"] || "myRg";
@@ -323,7 +321,7 @@ async function getAnOfficeIrmDataConnector() {
  * @summary Gets a data connector.
  * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/dataConnectors/GetOfficePowerBIDataConnetorById.json
  */
-async function getAnOffice365PowerBiDataConnector() {
+async function getAnOffice365PowerBiDataConnector(): Promise<void> {
   const subscriptionId =
     process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] || "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
   const resourceGroupName = process.env["SECURITYINSIGHT_RESOURCE_GROUP"] || "myRg";
@@ -341,7 +339,7 @@ async function getAnOffice365PowerBiDataConnector() {
  * @summary Gets a data connector.
  * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/dataConnectors/GetOffice365ProjectDataConnetorById.json
  */
-async function getAnOffice365ProjectDataConnector() {
+async function getAnOffice365ProjectDataConnector(): Promise<void> {
   const subscriptionId =
     process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] || "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
   const resourceGroupName = process.env["SECURITYINSIGHT_RESOURCE_GROUP"] || "myRg";
@@ -359,7 +357,7 @@ async function getAnOffice365ProjectDataConnector() {
  * @summary Gets a data connector.
  * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/dataConnectors/GetOfficeDataConnetorById.json
  */
-async function getAnOffice365DataConnector() {
+async function getAnOffice365DataConnector(): Promise<void> {
   const subscriptionId =
     process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] || "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
   const resourceGroupName = process.env["SECURITYINSIGHT_RESOURCE_GROUP"] || "myRg";
@@ -371,7 +369,7 @@ async function getAnOffice365DataConnector() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await getAApiPollingDataConnector();
   await getAAscDataConnector();
   await getADynamics365DataConnector();

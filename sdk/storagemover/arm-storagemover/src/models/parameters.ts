@@ -22,7 +22,7 @@ import {
   ProjectUpdateParameters as ProjectUpdateParametersMapper,
   JobDefinition as JobDefinitionMapper,
   JobDefinitionUpdateParameters as JobDefinitionUpdateParametersMapper,
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",

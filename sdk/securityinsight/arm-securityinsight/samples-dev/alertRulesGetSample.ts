@@ -7,9 +7,7 @@
  */
 import { SecurityInsights } from "@azure/arm-securityinsight";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets the alert rule.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Gets the alert rule.
  * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/alertRules/GetFusionAlertRule.json
  */
-async function getAFusionAlertRule() {
+async function getAFusionAlertRule(): Promise<void> {
   const subscriptionId =
     process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] || "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
   const resourceGroupName = process.env["SECURITYINSIGHT_RESOURCE_GROUP"] || "myRg";
@@ -35,7 +33,7 @@ async function getAFusionAlertRule() {
  * @summary Gets the alert rule.
  * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/alertRules/GetMicrosoftSecurityIncidentCreationAlertRule.json
  */
-async function getAMicrosoftSecurityIncidentCreationRule() {
+async function getAMicrosoftSecurityIncidentCreationRule(): Promise<void> {
   const subscriptionId =
     process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] || "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
   const resourceGroupName = process.env["SECURITYINSIGHT_RESOURCE_GROUP"] || "myRg";
@@ -53,7 +51,7 @@ async function getAMicrosoftSecurityIncidentCreationRule() {
  * @summary Gets the alert rule.
  * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/alertRules/GetScheduledAlertRule.json
  */
-async function getAScheduledAlertRule() {
+async function getAScheduledAlertRule(): Promise<void> {
   const subscriptionId =
     process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] || "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
   const resourceGroupName = process.env["SECURITYINSIGHT_RESOURCE_GROUP"] || "myRg";
@@ -71,7 +69,7 @@ async function getAScheduledAlertRule() {
  * @summary Gets the alert rule.
  * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/alertRules/GetNrtAlertRule.json
  */
-async function getAnNrtAlertRule() {
+async function getAnNrtAlertRule(): Promise<void> {
   const subscriptionId =
     process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] || "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
   const resourceGroupName = process.env["SECURITYINSIGHT_RESOURCE_GROUP"] || "myRg";
@@ -83,7 +81,7 @@ async function getAnNrtAlertRule() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await getAFusionAlertRule();
   await getAMicrosoftSecurityIncidentCreationRule();
   await getAScheduledAlertRule();

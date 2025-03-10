@@ -14,7 +14,7 @@
 import { ServiceMap } from "@azure/arm-servicemap";
 import { DefaultAzureCredential } from "@azure/identity";
 
-async function smMachinesPortsListConnectionsGet() {
+async function smMachinesPortsListConnectionsGet(): Promise<void> {
   const subscriptionId = "63BE4E24-FDF0-4E9C-9342-6A5D5A359722";
   const resourceGroupName = "rg-sm";
   const workspaceName = "D6F79F14-E563-469B-84B5-9286D2803B2F";

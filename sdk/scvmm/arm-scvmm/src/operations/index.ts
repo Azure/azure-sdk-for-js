@@ -6,13 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./virtualMachineInstances";
-export * from "./guestAgents";
-export * from "./vmInstanceHybridIdentityMetadatas";
-export * from "./operations";
-export * from "./availabilitySets";
-export * from "./clouds";
-export * from "./virtualMachineTemplates";
-export * from "./virtualNetworks";
-export * from "./vmmServers";
-export * from "./inventoryItems";
+export * from "./virtualMachineInstances.js";
+export * from "./guestAgents.js";
+export * from "./vmInstanceHybridIdentityMetadatas.js";
+export * from "./operations.js";
+export * from "./availabilitySets.js";
+export * from "./clouds.js";
+export * from "./virtualMachineTemplates.js";
+export * from "./virtualNetworks.js";
+export * from "./vmmServers.js";
+export * from "./inventoryItems.js";

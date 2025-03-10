@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { SecurityCenter } from "@azure/arm-security";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to The Compliance scores of the specific management group.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary The Compliance scores of the specific management group.
  * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/preview/2017-08-01-preview/examples/Compliances/GetCompliances_example.json
  */
-async function getSecurityComplianceDataOverTime() {
+async function getSecurityComplianceDataOverTime(): Promise<void> {
   const scope = "subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23";
   const credential = new DefaultAzureCredential();
   const client = new SecurityCenter(credential);
@@ -31,7 +29,7 @@ async function getSecurityComplianceDataOverTime() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getSecurityComplianceDataOverTime();
 }
 

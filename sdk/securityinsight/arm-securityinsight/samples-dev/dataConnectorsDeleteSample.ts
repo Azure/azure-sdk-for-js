@@ -7,9 +7,7 @@
  */
 import { SecurityInsights } from "@azure/arm-securityinsight";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Delete the data connector.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Delete the data connector.
  * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/dataConnectors/DeleteAPIPolling.json
  */
-async function deleteAApiPollingDataConnector() {
+async function deleteAApiPollingDataConnector(): Promise<void> {
   const subscriptionId =
     process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] || "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
   const resourceGroupName = process.env["SECURITYINSIGHT_RESOURCE_GROUP"] || "myRg";
@@ -39,7 +37,7 @@ async function deleteAApiPollingDataConnector() {
  * @summary Delete the data connector.
  * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/dataConnectors/DeleteGenericUI.json
  */
-async function deleteAGenericUiDataConnector() {
+async function deleteAGenericUiDataConnector(): Promise<void> {
   const subscriptionId =
     process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] || "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
   const resourceGroupName = process.env["SECURITYINSIGHT_RESOURCE_GROUP"] || "myRg";
@@ -61,7 +59,7 @@ async function deleteAGenericUiDataConnector() {
  * @summary Delete the data connector.
  * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/dataConnectors/DeleteOfficePowerBIDataConnetor.json
  */
-async function deleteAnOfficePowerBiDataConnector() {
+async function deleteAnOfficePowerBiDataConnector(): Promise<void> {
   const subscriptionId =
     process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] || "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
   const resourceGroupName = process.env["SECURITYINSIGHT_RESOURCE_GROUP"] || "myRg";
@@ -83,7 +81,7 @@ async function deleteAnOfficePowerBiDataConnector() {
  * @summary Delete the data connector.
  * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/dataConnectors/DeleteOffice365ProjectDataConnetor.json
  */
-async function deleteAnOffice365ProjectDataConnector() {
+async function deleteAnOffice365ProjectDataConnector(): Promise<void> {
   const subscriptionId =
     process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] || "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
   const resourceGroupName = process.env["SECURITYINSIGHT_RESOURCE_GROUP"] || "myRg";
@@ -105,7 +103,7 @@ async function deleteAnOffice365ProjectDataConnector() {
  * @summary Delete the data connector.
  * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/dataConnectors/DeleteOfficeDataConnetor.json
  */
-async function deleteAnOffice365DataConnector() {
+async function deleteAnOffice365DataConnector(): Promise<void> {
   const subscriptionId =
     process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] || "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
   const resourceGroupName = process.env["SECURITYINSIGHT_RESOURCE_GROUP"] || "myRg";
@@ -121,7 +119,7 @@ async function deleteAnOffice365DataConnector() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await deleteAApiPollingDataConnector();
   await deleteAGenericUiDataConnector();
   await deleteAnOfficePowerBiDataConnector();

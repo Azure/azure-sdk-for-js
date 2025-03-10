@@ -6,10 +6,10 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./operations";
-export * from "./storageMovers";
-export * from "./agents";
-export * from "./endpoints";
-export * from "./projects";
-export * from "./jobDefinitions";
-export * from "./jobRuns";
+export * from "./operations.js";
+export * from "./storageMovers.js";
+export * from "./agents.js";
+export * from "./endpoints.js";
+export * from "./projects.js";
+export * from "./jobDefinitions.js";
+export * from "./jobRuns.js";
