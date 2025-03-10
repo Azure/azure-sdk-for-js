@@ -9,8 +9,8 @@ import {
   recorderEnvSetup,
   uriSanitizers,
 } from "./utils";
-import type { FilePosixProperties, ShareClient } from "../src";
-import { ShareDirectoryClient, FileSystemAttributes, ShareServiceClient } from "../src";
+import type { FilePosixProperties, ShareClient , ShareServiceClient } from "../src";
+import { ShareDirectoryClient, FileSystemAttributes } from "../src";
 import { Recorder, isLiveMode } from "@azure-tools/test-recorder";
 import type { DirectoryCreateResponse } from "../src/generatedModels";
 import { truncatedISO8061Date } from "../src/utils/utils.common";

@@ -57,7 +57,7 @@ describe("Highlevel Node.js only", () => {
     await recorder.stop();
   });
 
-  before(async function () {
+  beforeAll(async () => {
     if (!fs.existsSync(tempFolderPath)) {
       fs.mkdirSync(tempFolderPath);
     }
@@ -67,7 +67,7 @@ describe("Highlevel Node.js only", () => {
     tempFileSmallLength = 15 * 1024 * 1024;
   });
 
-  after(async function () {
+  afterAll(async () => {
     fs.unlinkSync(tempFileLarge);
     fs.unlinkSync(tempFileSmall);
   });
