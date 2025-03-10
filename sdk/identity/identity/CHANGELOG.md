@@ -1,13 +1,9 @@
 # Release History
 
-## 4.7.1 (Unreleased)
+## 4.8.0 (2025-03-11)
 
 ### Features Added
 - `ManagedIdentityCredential` will now log the configured user-assigned managed identity ID. [#33144](https://github.com/Azure/azure-sdk-for-js/pull/33144)
-
-### Breaking Changes
-
-### Bugs Fixed
 
 ### Other Changes
 - Deprecated `UsernamePasswordCredential`, as it doesn't support multifactor authentication (MFA). MFA will soon be enforced on all Microsoft Entra tenants. For more details, see [Planning for mandatory MFA](https://aka.ms/mfaforazure). [#33136](https://github.com/Azure/azure-sdk-for-js/pull/33136)
