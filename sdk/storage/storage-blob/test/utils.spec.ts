@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 import { createHttpHeaders } from "@azure/core-rest-pipeline";
-import { assert } from "chai";
 import {
   sanitizeHeaders,
   sanitizeURL,
@@ -10,6 +9,7 @@ import {
   isIpEndpointStyle,
   setURLParameter,
 } from "../src/utils/utils.common.js";
+import { describe, it, assert } from "vitest";
 
 describe("Utility Helpers", () => {
   const protocol = "https";

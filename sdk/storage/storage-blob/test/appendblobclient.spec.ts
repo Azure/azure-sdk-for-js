@@ -2,8 +2,6 @@
 // Licensed under the MIT License.
 
 import { Recorder } from "@azure-tools/test-recorder";
-import { assert } from "chai";
-
 import type { ContainerClient } from "../src/index.js";
 import { AppendBlobClient } from "../src/index.js";
 import {
@@ -15,6 +13,7 @@ import {
   recorderEnvSetup,
   uriSanitizers,
 } from "./utils/index.js";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("AppendBlobClient", () => {
   let containerName: string;

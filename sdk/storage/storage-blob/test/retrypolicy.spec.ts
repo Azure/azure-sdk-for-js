@@ -1,7 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import { assert } from "chai";
 import type { Pipeline, PipelineRequest, SendRequest } from "@azure/core-rest-pipeline";
 
 import type { ContainerClient, BlobServiceClient } from "../src/index.js";
@@ -9,6 +7,7 @@ import { RestError } from "../src/index.js";
 import { getBSU, getUniqueName, recorderEnvSetup, uriSanitizers } from "./utils/index.js";
 import { injectorPolicy, injectorPolicyName } from "./utils/InjectorPolicy.js";
 import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("RetryPolicy", () => {
   let blobServiceClient: BlobServiceClient;

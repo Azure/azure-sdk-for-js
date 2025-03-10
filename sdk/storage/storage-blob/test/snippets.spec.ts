@@ -12,6 +12,7 @@ import {
   SASProtocol,
   StorageSharedKeyCredential,
 } from "@azure/storage-blob";
+import { describe, it, assert } from "vitest";
 
 describe("snippets", () => {
   it("ReadmeSampleCreateClient_DefaultAzureCredential", async () => {

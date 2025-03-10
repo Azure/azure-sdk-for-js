@@ -1,7 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import { assert } from "chai";
 import * as fs from "node:fs";
 import { isNode, delay } from "@azure/core-util";
 import {
@@ -22,6 +20,7 @@ import type {
 } from "../src/index.js";
 import { BlobBatch } from "../src/index.js";
 import { setURLParameter } from "../src/utils/utils.common.js";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("Blob versioning", () => {
   let blobServiceClient: BlobServiceClient;

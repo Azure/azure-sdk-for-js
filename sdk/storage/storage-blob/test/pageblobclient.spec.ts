@@ -1,7 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import { assert } from "chai";
 import {
   bodyToString,
   configureBlobStorageClient,
@@ -16,6 +14,7 @@ import type { ContainerClient, BlobClient, BlobServiceClient } from "../src/inde
 import { PageBlobClient, PremiumPageBlobTier } from "../src/index.js";
 import { Recorder } from "@azure-tools/test-recorder";
 import { getYieldedValue } from "@azure-tools/test-utils";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("PageBlobClient", () => {
   let blobServiceClient: BlobServiceClient;

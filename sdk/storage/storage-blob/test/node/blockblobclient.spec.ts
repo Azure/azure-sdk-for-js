@@ -1,7 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import { assert } from "chai";
 import * as zlib from "zlib";
 
 import {
@@ -40,6 +38,7 @@ import { streamToBuffer3 } from "../../src/utils/utils.node.js";
 import * as crypto from "node:crypto";
 import { BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES } from "../../src/utils/constants.js";
 import { createTestCredential } from "@azure-tools/test-credential";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("BlockBlobClient Node.js only", () => {
   let containerName: string;
