@@ -16,6 +16,9 @@ import type { StreamableMethod } from '@azure-rest/core-client';
 import type { TokenCredential } from '@azure/core-auth';
 
 // @public
+export type AudioContentFormat = string;
+
+// @public
 export interface ChatChoiceOutput {
     finish_reason: CompletionsFinishReasonOutput | null;
     index: number;
@@ -99,7 +102,13 @@ export interface ChatCompletionsToolDefinition {
 }
 
 // @public
-export type ChatMessageContentItem = ChatMessageContentItemParent | ChatMessageTextContentItem | ChatMessageImageContentItem;
+export interface ChatMessageAudioContentItem extends ChatMessageContentItemParent {
+    input_audio: ChatMessageInputAudio;
+    type: "input_audio";
+}
+
+// @public
+export type ChatMessageContentItem = ChatMessageContentItemParent | ChatMessageTextContentItem | ChatMessageImageContentItem | ChatMessageAudioContentItem;
 
 // @public
 export interface ChatMessageContentItemParent {
@@ -123,6 +132,12 @@ export interface ChatMessageImageUrl {
 }
 
 // @public
+export interface ChatMessageInputAudio {
+    data: string;
+    format: AudioContentFormat;
+}
+
+// @public
 export interface ChatMessageTextContentItem extends ChatMessageContentItemParent {
     text: string;
     type: "text";
@@ -136,7 +151,13 @@ export interface ChatRequestAssistantMessage extends ChatRequestMessageParent {
 }
 
 // @public
-export type ChatRequestMessage = ChatRequestMessageParent | ChatRequestSystemMessage | ChatRequestUserMessage | ChatRequestAssistantMessage | ChatRequestToolMessage;
+export interface ChatRequestDeveloperMessage extends ChatRequestMessageParent {
+    content: string;
+    role: "developer";
+}
+
+// @public
+export type ChatRequestMessage = ChatRequestMessageParent | ChatRequestSystemMessage | ChatRequestDeveloperMessage | ChatRequestUserMessage | ChatRequestAssistantMessage | ChatRequestToolMessage;
 
 // @public
 export interface ChatRequestMessageParent {
@@ -254,7 +275,7 @@ export interface GetChatCompletions200Response extends HttpResponse {
 // @public (undocumented)
 export interface GetChatCompletionsBodyParam {
     // (undocumented)
-    body?: {
+    body: {
         messages: Array<ChatRequestMessage>;
         frequency_penalty?: number;
         stream?: boolean;
@@ -302,7 +323,7 @@ export type GetChatCompletionsParameters = GetChatCompletionsHeaderParam & GetCh
 
 // @public (undocumented)
 export interface GetEmbeddings {
-    post(options?: GetEmbeddingsParameters): StreamableMethod<GetEmbeddings200Response | GetEmbeddingsDefaultResponse>;
+    post(options: GetEmbeddingsParameters): StreamableMethod<GetEmbeddings200Response | GetEmbeddingsDefaultResponse>;
 }
 
 // @public
@@ -316,7 +337,7 @@ export interface GetEmbeddings200Response extends HttpResponse {
 // @public (undocumented)
 export interface GetEmbeddingsBodyParam {
     // (undocumented)
-    body?: {
+    body: {
         input: string[];
         dimensions?: number;
         encoding_format?: EmbeddingEncodingFormat;
