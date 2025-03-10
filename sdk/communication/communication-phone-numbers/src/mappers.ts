@@ -16,7 +16,18 @@ export function transformFromRestModel(
   if (trunks) {
     Object.keys(trunks).forEach((fqdn: string) => {
       const port = trunks[fqdn].sipSignalingPort;
-      result.push({ fqdn: fqdn, sipSignalingPort: port } as SipTrunk);
+      const enabled = trunks[fqdn].enabled;
+      const directTransfer = trunks[fqdn].directTransfer;
+      const privacyHeader = trunks[fqdn].privacyHeader;
+      const ipAddressVersion = trunks[fqdn].ipAddressVersion;
+      result.push({
+        fqdn: fqdn,
+        sipSignalingPort: port,
+        enabled: enabled,
+        directTransfer: directTransfer,
+        privacyHeader: privacyHeader,
+        ipAddressVersion: ipAddressVersion,
+      } as SipTrunk);
     });
   }
 
@@ -33,7 +44,13 @@ export function transformIntoRestModel(trunks: SipTrunk[]): {
   const result: { [propertyName: string]: RestSipTrunk } = {};
 
   trunks.forEach((trunk: SipTrunk) => {
-    result[trunk.fqdn] = { sipSignalingPort: trunk.sipSignalingPort } as RestSipTrunk;
+    result[trunk.fqdn] = {
+      sipSignalingPort: trunk.sipSignalingPort,
+      enabled: trunk.enabled,
+      directTransfer: trunk.directTransfer,
+      privacyHeader: trunk.privacyHeader,
+      ipAddressVersion: trunk.ipAddressVersion,
+    } as RestSipTrunk;
   });
 
   return result;

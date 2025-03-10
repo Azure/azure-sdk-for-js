@@ -36,8 +36,23 @@ export type ExpandEnum = string;
 export type GetPurchasedPhoneNumberOptions = OperationOptions;
 
 // @public
+export type IpAddressVersion = string;
+
+// @public
 export enum KnownExpandEnum {
     TrunksHealth = "trunks/health"
+}
+
+// @public
+export enum KnownIpAddressVersion {
+    Ipv4 = "ipv4",
+    Ipv6 = "ipv6"
+}
+
+// @public
+export enum KnownPrivacyHeader {
+    Id = "id",
+    None = "none"
 }
 
 // @public
@@ -222,6 +237,9 @@ export interface PhoneNumbersListAreaCodesOptionalParams extends coreClient.Oper
 export type PhoneNumberType = "geographic" | "tollFree";
 
 // @public
+export type PrivacyHeader = string;
+
+// @public
 export interface PurchasedPhoneNumber {
     assignmentType: PhoneNumberAssignmentType;
     capabilities: PhoneNumberCapabilities;
@@ -292,7 +310,11 @@ export interface SipRoutingGetOptionalParams extends coreClient.OperationOptions
 
 // @public
 export interface SipTrunk {
+    directTransfer?: boolean;
+    enabled?: boolean;
     fqdn: string;
+    ipAddressVersion?: IpAddressVersion;
+    privacyHeader?: PrivacyHeader;
     sipSignalingPort: number;
 }
 

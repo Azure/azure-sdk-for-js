@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { SipRoutingClient } from "../../../src/index.js";
+import type { SipRoutingClient, SipTrunkRoute } from "../../../src/index.js";
 
 import { matrix } from "@azure-tools/test-utils-vitest";
 import type { Recorder } from "@azure-tools/test-recorder";
@@ -49,14 +49,16 @@ matrix([[true, false]], async (useAad) => {
     });
 
     it("can retrieve not empty routes", async () => {
-      const expectedRoutes = [
+      const expectedRoutes: SipTrunkRoute[] = [
         {
+          callerIdOverride: undefined,
           name: "myFirstRoute",
           description: "myFirstRoute's description",
           numberPattern: "^+[1-9][0-9]{3,23}$",
           trunks: [],
         },
         {
+          callerIdOverride: undefined,
           name: "mySecondRoute",
           description: "mySecondRoute's description",
           numberPattern: "^+[1-9][0-9]{3,23}$",
@@ -66,7 +68,10 @@ matrix([[true, false]], async (useAad) => {
       await client.setRoutes(expectedRoutes);
 
       const routes = await listAllRoutes(client);
-
+      routes[0].callerIdOverride =
+        routes[0].callerIdOverride === null ? undefined : routes[0].callerIdOverride;
+      routes[1].callerIdOverride =
+        routes[1].callerIdOverride === null ? undefined : routes[1].callerIdOverride;
       assert.isNotNull(routes);
       assert.isArray(routes);
       assert.deepEqual(routes, expectedRoutes);

@@ -4,7 +4,7 @@ import type { SipRoutingClient } from "../../../src/index.js";
 
 import type { Recorder } from "@azure-tools/test-recorder";
 import { isPlaybackMode } from "@azure-tools/test-recorder";
-import type { SipTrunk } from "../../../src/models.js";
+import { KnownIpAddressVersion, KnownPrivacyHeader, type SipTrunk } from "../../../src/models.js";
 import {
   clearSipConfiguration,
   createRecordedClient,
@@ -81,9 +81,30 @@ matrix([[true, false]], async (useAad) => {
 
     it("can retrieve not empty trunks", async () => {
       const expectedTrunks = [
-        { fqdn: firstFqdn, sipSignalingPort: 1239 },
-        { fqdn: secondFqdn, sipSignalingPort: 2348 },
-        { fqdn: thirdFqdn, sipSignalingPort: 3457 },
+        {
+          fqdn: firstFqdn,
+          sipSignalingPort: 1239,
+          directTransfer: false,
+          enabled: false,
+          privacyHeader: KnownPrivacyHeader.Id,
+          ipAddressVersion: KnownIpAddressVersion.Ipv4,
+        },
+        {
+          fqdn: secondFqdn,
+          sipSignalingPort: 2348,
+          directTransfer: false,
+          enabled: false,
+          privacyHeader: KnownPrivacyHeader.Id,
+          ipAddressVersion: KnownIpAddressVersion.Ipv4,
+        },
+        {
+          fqdn: thirdFqdn,
+          sipSignalingPort: 3457,
+          directTransfer: false,
+          enabled: false,
+          privacyHeader: KnownPrivacyHeader.Id,
+          ipAddressVersion: KnownIpAddressVersion.Ipv4,
+        },
       ];
       await client.setTrunks(expectedTrunks);
 

@@ -9,6 +9,8 @@ import type {
   PhoneNumberType,
 } from "./generated/src/models/index.js";
 import type {
+  IpAddressVersion,
+  PrivacyHeader,
   RoutesForNumber,
   SipRoutingGetOptionalParams,
 } from "./generated/src/siprouting/models/index.js";
@@ -125,6 +127,10 @@ export {
   SipRoutingGetOptionalParams,
   ExpandEnum,
   KnownExpandEnum,
+  PrivacyHeader,
+  IpAddressVersion,
+  KnownPrivacyHeader,
+  KnownIpAddressVersion,
 } from "./generated/src/siprouting/models/index.js";
 
 /**
@@ -139,6 +145,15 @@ export interface SipTrunk {
    * Gets or sets SIP signaling port of the trunk.
    */
   sipSignalingPort: number;
+
+  /** Enabled flag */
+  enabled?: boolean;
+  /** When enabled, removes Azure Communication Services from the signaling path on call transfer and sets the SIP Refer-To header to the trunk's FQDN. By default false. */
+  directTransfer?: boolean;
+  /** SIP Privacy header. Default value is id. */
+  privacyHeader?: PrivacyHeader;
+  /** IP address version used by the trunk. The default value is ipv4. */
+  ipAddressVersion?: IpAddressVersion;
 }
 
 // export type ExpandEnum = "trunks/health";
