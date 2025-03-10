@@ -53,7 +53,7 @@ export function getClient(
     }
   }
 
-  const pipeline = createDefaultPipeline(endpoint, credentials, clientOptions);
+  const pipeline = createDefaultPipeline(credentials, clientOptions);
   if (clientOptions.additionalPolicies?.length) {
     for (const { policy, position } of clientOptions.additionalPolicies) {
       // Sign happens after Retry and is commonly needed to occur

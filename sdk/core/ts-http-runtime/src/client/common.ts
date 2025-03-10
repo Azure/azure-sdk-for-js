@@ -11,9 +11,9 @@ import type {
   RawHttpHeadersInput,
 } from "../interfaces.js";
 import type { Pipeline, PipelinePolicy } from "../pipeline.js";
-import type { AbortSignalLike } from "../abort-controller/AbortSignalLike.js";
 import type { PipelineOptions } from "../createPipelineFromOptions.js";
 import type { LogPolicyOptions } from "../policies/logPolicy.js";
+import type { OAuth2Flow } from "../auth/authFlows.js";
 
 /**
  * Shape of the default request parameters, this may be overridden by the specific
@@ -70,7 +70,7 @@ export type RequestParameters = {
   /**
    * The signal which can be used to abort requests.
    */
-  abortSignal?: AbortSignalLike;
+  abortSignal?: AbortSignal;
 
   /**
    * A function to be called each time a response is received from the server
@@ -116,7 +116,7 @@ export interface OperationOptions {
   /**
    * The signal which can be used to abort requests.
    */
-  abortSignal?: AbortSignalLike;
+  abortSignal?: AbortSignal;
   /**
    * Options used when creating and sending HTTP requests for this operation.
    */
@@ -341,6 +341,10 @@ export type ClientOptions = PipelineOptions & {
    * Options to configure request/response logging.
    */
   loggingOptions?: LogPolicyOptions;
+  /**
+   * List of OAuth2 flows to be used for authentication.
+   */
+  authFlows?: OAuth2Flow[];
 };
 
 /**

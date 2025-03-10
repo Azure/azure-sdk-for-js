@@ -10,16 +10,7 @@ export class AbortError extends Error {
 }
 
 // @public
-export interface AbortSignalLike {
-    readonly aborted: boolean;
-    addEventListener(type: "abort", listener: (this: AbortSignalLike, ev: any) => any, options?: any): void;
-    removeEventListener(type: "abort", listener: (this: AbortSignalLike, ev: any) => any, options?: any): void;
-}
-
-// @public
 export interface AccessToken {
-    expiresOnTimestamp: number;
-    refreshAfterTimestamp?: number;
     token: string;
 }
 
@@ -47,6 +38,30 @@ export interface Agent {
 }
 
 // @public
+export interface AuthorizationCodeFlow extends BaseOAuth2Flow {
+    authorizationUrl: string;
+    refreshUrl?: string;
+    tokenUrl: string;
+    type: OAuth2FlowType.authorizationCode;
+}
+
+// @public
+export interface BaseOAuth2Flow {
+    scopes?: string[];
+    type: string;
+}
+
+// @public
+export function bearerTokenAuthenticationPolicy(options: BearerTokenAuthenticationPolicyOptions): PipelinePolicy;
+
+// @public
+export interface BearerTokenAuthenticationPolicyOptions {
+    allowInsecureConnection?: boolean;
+    authFlows?: OAuth2Flow[];
+    credential: TokenCredential;
+}
+
+// @public
 export interface BodyPart {
     body: ((() => ReadableStream<Uint8Array>) | (() => NodeJS.ReadableStream)) | ReadableStream<Uint8Array> | NodeJS.ReadableStream | Uint8Array | Blob;
     headers: HttpHeaders;
@@ -57,6 +72,13 @@ export interface Client {
     path: Function;
     pathUnchecked: PathUnchecked;
     pipeline: Pipeline;
+}
+
+// @public
+export interface ClientCredentialsFlow extends BaseOAuth2Flow {
+    refreshUrl?: string;
+    tokenUrl: string;
+    type: OAuth2FlowType.clientCredentials;
 }
 
 // @public
@@ -71,6 +93,7 @@ export type ClientOptions = PipelineOptions & {
     additionalPolicies?: AdditionalPolicyConfig[];
     httpClient?: HttpClient;
     loggingOptions?: LogPolicyOptions;
+    authFlows?: OAuth2Flow[];
 };
 
 // @public
@@ -124,13 +147,8 @@ export function getClient(endpoint: string, credentials?: TokenCredential | KeyC
 
 // @public
 export interface GetTokenOptions {
-    abortSignal?: AbortSignalLike;
-    claims?: string;
-    enableCae?: boolean;
-    requestOptions?: {
-        timeout?: number;
-    };
-    tenantId?: string;
+    abortSignal?: AbortSignal;
+    authFlows?: OAuth2Flow[];
 }
 
 // @public
@@ -171,6 +189,13 @@ export type HttpResponse = {
 };
 
 // @public
+export interface ImplicitFlow extends BaseOAuth2Flow {
+    authorizationUrl: string;
+    refreshUrl?: string;
+    type: OAuth2FlowType.implicit;
+}
+
+// @public
 export function isKeyCredential(credential: unknown): credential is KeyCredential;
 
 // @public
@@ -204,8 +229,19 @@ export interface MultipartRequestBody {
 }
 
 // @public
+export type OAuth2Flow = AuthorizationCodeFlow | ClientCredentialsFlow | ImplicitFlow | PasswordFlow | BaseOAuth2Flow;
+
+// @public
+export enum OAuth2FlowType {
+    authorizationCode = "authorizationCode",
+    clientCredentials = "clientCredentials",
+    implicit = "implicit",
+    password = "password"
+}
+
+// @public
 export interface OperationOptions {
-    abortSignal?: AbortSignalLike;
+    abortSignal?: AbortSignal;
     onResponse?: RawResponseCallback;
     requestOptions?: OperationRequestOptions;
 }
@@ -221,6 +257,13 @@ export interface OperationRequestOptions {
     onUploadProgress?: (progress: TransferProgressEvent) => void;
     skipUrlEncoding?: boolean;
     timeout?: number;
+}
+
+// @public
+export interface PasswordFlow extends BaseOAuth2Flow {
+    refreshUrl?: string;
+    tokenUrl: string;
+    type: OAuth2FlowType.password;
 }
 
 // @public
@@ -278,7 +321,7 @@ export interface PipelinePolicy {
 
 // @public
 export interface PipelineRequest {
-    abortSignal?: AbortSignalLike;
+    abortSignal?: AbortSignal;
     agent?: Agent;
     allowInsecureConnection?: boolean;
     body?: RequestBodyType;
@@ -301,7 +344,7 @@ export interface PipelineRequest {
 
 // @public
 export interface PipelineRequestOptions {
-    abortSignal?: AbortSignalLike;
+    abortSignal?: AbortSignal;
     allowInsecureConnection?: boolean;
     body?: RequestBodyType;
     disableKeepAlive?: boolean;
@@ -384,7 +427,7 @@ export type RequestParameters = {
     timeout?: number;
     onUploadProgress?: (progress: TransferProgressEvent) => void;
     onDownloadProgress?: (progress: TransferProgressEvent) => void;
-    abortSignal?: AbortSignalLike;
+    abortSignal?: AbortSignal;
     onResponse?: RawResponseCallback;
 };
 
@@ -450,7 +493,7 @@ export interface TlsSettings {
 
 // @public
 export interface TokenCredential {
-    getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null>;
+    getToken(options?: GetTokenOptions): Promise<AccessToken>;
 }
 
 // @public

@@ -1,82 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AccessToken, GetTokenOptions, TokenCredential } from "../auth/tokenCredential.js";
-import type { TypeSpecRuntimeLogger } from "../logger/logger.js";
+import type { TokenCredential } from "../auth/tokenCredential.js";
 import type { PipelineRequest, PipelineResponse, SendRequest } from "../interfaces.js";
 import type { PipelinePolicy } from "../pipeline.js";
-import { createTokenCycler } from "../util/tokenCycler.js";
 import { logger as coreLogger } from "../log.js";
+import type { OAuth2Flow } from "../auth/authFlows.js";
 
 /**
  * The programmatic identifier of the bearerTokenAuthenticationPolicy.
  */
 export const bearerTokenAuthenticationPolicyName = "bearerTokenAuthenticationPolicy";
-
-/**
- * Options sent to the authorizeRequest callback
- */
-export interface AuthorizeRequestOptions {
-  /**
-   * The scopes for which the bearer token applies.
-   */
-  scopes: string[];
-  /**
-   * Function that retrieves either a cached access token or a new access token.
-   */
-  getAccessToken: (scopes: string[], options: GetTokenOptions) => Promise<AccessToken | null>;
-  /**
-   * Request that the policy is trying to fulfill.
-   */
-  request: PipelineRequest;
-  /**
-   * A logger, if one was sent through the HTTP pipeline.
-   */
-  logger?: TypeSpecRuntimeLogger;
-}
-
-/**
- * Options sent to the authorizeRequestOnChallenge callback
- */
-export interface AuthorizeRequestOnChallengeOptions {
-  /**
-   * The scopes for which the bearer token applies.
-   */
-  scopes: string[];
-  /**
-   * Function that retrieves either a cached access token or a new access token.
-   */
-  getAccessToken: (scopes: string[], options: GetTokenOptions) => Promise<AccessToken | null>;
-  /**
-   * Request that the policy is trying to fulfill.
-   */
-  request: PipelineRequest;
-  /**
-   * Response containing the challenge.
-   */
-  response: PipelineResponse;
-  /**
-   * A logger, if one was sent through the HTTP pipeline.
-   */
-  logger?: TypeSpecRuntimeLogger;
-}
-
-/**
- * Options to override the processing of [Continuous Access Evaluation](https://learn.microsoft.com/azure/active-directory/conditional-access/concept-continuous-access-evaluation) challenges.
- */
-export interface ChallengeCallbacks {
-  /**
-   * Allows for the authorization of the main request of this policy before it's sent.
-   */
-  authorizeRequest?(options: AuthorizeRequestOptions): Promise<void>;
-  /**
-   * Allows to handle authentication challenges and to re-authorize the request.
-   * The response containing the challenge is `options.response`.
-   * If this method returns true, the underlying request will be sent once again.
-   * The request may be modified before being sent.
-   */
-  authorizeRequestOnChallenge?(options: AuthorizeRequestOnChallengeOptions): Promise<boolean>;
-}
 
 /**
  * Options to configure the bearerTokenAuthenticationPolicy
@@ -85,49 +19,58 @@ export interface BearerTokenAuthenticationPolicyOptions {
   /**
    * The TokenCredential implementation that can supply the bearer token.
    */
-  credential?: TokenCredential;
+  credential: TokenCredential;
   /**
-   * The scopes for which the bearer token applies.
+   * Allows for connecting to HTTP endpoints instead of enforcing HTTPS.
+   * CAUTION: Never use this option in production.
    */
-  scopes: string | string[];
+  allowInsecureConnection?: boolean;
   /**
-   * Allows for the processing of [Continuous Access Evaluation](https://learn.microsoft.com/azure/active-directory/conditional-access/concept-continuous-access-evaluation) challenges.
-   * If provided, it must contain at least the `authorizeRequestOnChallenge` method.
-   * If provided, after a request is sent, if it has a challenge, it can be processed to re-send the original request with the relevant challenge information.
+   * The authentication flows supported by this policy.
    */
-  challengeCallbacks?: ChallengeCallbacks;
-  /**
-   * A logger can be sent for debugging purposes.
-   */
-  logger?: TypeSpecRuntimeLogger;
+  authFlows?: OAuth2Flow[];
 }
 
 /**
- * Default authorize request handler
+ * Checks if the request is allowed to be sent over an insecure connection.
+ *
+ * A request is allowed to be sent over an insecure connection when:
+ * - The `allowInsecureConnection` option is set to `true`.
+ * - The request has the `allowInsecureConnection` property set to `true`.
+ * - The request is being sent to `localhost` or `127.0.0.1`
  */
-async function defaultAuthorizeRequest(options: AuthorizeRequestOptions): Promise<void> {
-  const { scopes, getAccessToken, request } = options;
-  const getTokenOptions: GetTokenOptions = {
-    abortSignal: request.abortSignal,
-  };
-  const accessToken = await getAccessToken(scopes, getTokenOptions);
-
-  if (accessToken) {
-    options.request.headers.set("Authorization", `Bearer ${accessToken.token}`);
+function allowInsecureConnection(
+  request: PipelineRequest,
+  options: BearerTokenAuthenticationPolicyOptions,
+): boolean {
+  if (options.allowInsecureConnection && request.allowInsecureConnection) {
+    const url = new URL(request.url);
+    if (url.hostname === "localhost" || url.hostname === "127.0.0.1") {
+      return true;
+    }
   }
+
+  return false;
 }
 
 /**
- * We will retrieve the challenge only if the response status code was 401,
- * and if the response contained the header "WWW-Authenticate" with a non-empty value.
+ * Logs a warning about sending a bearer token over an insecure connection.
+ *
+ * This function will emit a node warning once, but log the warning every time.
  */
-function getChallenge(response: PipelineResponse): string | undefined {
-  const challenge = response.headers.get("WWW-Authenticate");
-  if (response.status === 401 && challenge) {
-    return challenge;
+function emitInsecureConnectionWarning(): void {
+  const warning =
+    "Sending bearer token over insecure transport. Assume any token issued is compromised.";
+
+  coreLogger.warning(warning);
+
+  if (typeof process?.emitWarning === "function" && !emitInsecureConnectionWarning.warned) {
+    emitInsecureConnectionWarning.warned = true;
+    process.emitWarning(warning);
   }
-  return;
 }
+
+emitInsecureConnectionWarning.warned = false; // Prime TypeScript to allow the property. Used to only emit warning once.
 
 /**
  * A policy that can request a token from a TokenCredential implementation and
@@ -136,85 +79,29 @@ function getChallenge(response: PipelineResponse): string | undefined {
 export function bearerTokenAuthenticationPolicy(
   options: BearerTokenAuthenticationPolicyOptions,
 ): PipelinePolicy {
-  const { credential, scopes, challengeCallbacks } = options;
-  const logger = options.logger || coreLogger;
-  const callbacks = {
-    authorizeRequest: challengeCallbacks?.authorizeRequest ?? defaultAuthorizeRequest,
-    authorizeRequestOnChallenge: challengeCallbacks?.authorizeRequestOnChallenge,
-    // keep all other properties
-    ...challengeCallbacks,
-  };
-
-  // This function encapsulates the entire process of reliably retrieving the token
-  // The options are left out of the public API until there's demand to configure this.
-  // Remember to extend `BearerTokenAuthenticationPolicyOptions` with `TokenCyclerOptions`
-  // in order to pass through the `options` object.
-  const getAccessToken = credential
-    ? createTokenCycler(credential /* , options */)
-    : () => Promise.resolve(null);
-
+  const { credential, authFlows } = options;
+  const getAccessToken = credential.getToken;
   return {
     name: bearerTokenAuthenticationPolicyName,
-    /**
-     * If there's no challenge parameter:
-     * - It will try to retrieve the token using the cache, or the credential's getToken.
-     * - Then it will try the next policy with or without the retrieved token.
-     *
-     * It uses the challenge parameters to:
-     * - Skip a first attempt to get the token from the credential if there's no cached token,
-     *   since it expects the token to be retrievable only after the challenge.
-     * - Prepare the outgoing request if the `prepareRequest` method has been provided.
-     * - Send an initial request to receive the challenge if it fails.
-     * - Process a challenge if the response contains it.
-     * - Retrieve a token with the challenge information, then re-send the request.
-     */
     async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
+      // Ensure allowInsecureConnection is explicitly set when sending request to non-https URLs
       if (!request.url.toLowerCase().startsWith("https://")) {
-        throw new Error(
-          "Bearer token authentication is not permitted for non-TLS protected (non-https) URLs.",
-        );
-      }
-
-      await callbacks.authorizeRequest({
-        scopes: Array.isArray(scopes) ? scopes : [scopes],
-        request,
-        getAccessToken,
-        logger,
-      });
-
-      let response: PipelineResponse;
-      let error: Error | undefined;
-      try {
-        response = await next(request);
-      } catch (err: any) {
-        error = err;
-        response = err.response;
-      }
-
-      if (
-        callbacks.authorizeRequestOnChallenge &&
-        response?.status === 401 &&
-        getChallenge(response)
-      ) {
-        // processes challenge
-        const shouldSendRequest = await callbacks.authorizeRequestOnChallenge({
-          scopes: Array.isArray(scopes) ? scopes : [scopes],
-          request,
-          response,
-          getAccessToken,
-          logger,
-        });
-
-        if (shouldSendRequest) {
-          return next(request);
+        if (allowInsecureConnection(request, options)) {
+          emitInsecureConnectionWarning();
+        } else {
+          throw new Error(
+            "Bearer token authentication is not permitted for non-TLS protected (non-https) URLs when allowInsecureConnection is false.",
+          );
         }
       }
+      const getAccessTokenOptions = {
+        abortSignal: request.abortSignal,
+        authFlows,
+      };
+      const accessToken = await getAccessToken(getAccessTokenOptions);
+      request.headers.set("Authorization", `Bearer ${accessToken.token}`);
 
-      if (error) {
-        throw error;
-      } else {
-        return response;
-      }
+      return next(request);
     },
   };
 }

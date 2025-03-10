@@ -9,7 +9,6 @@ declare global {
   interface TransformStream<I = any, O = any> {}
 }
 
-export { AbortSignalLike } from "./abort-controller/AbortSignalLike.js";
 export { AbortError } from "./abort-controller/AbortError.js";
 export {
   createClientLogger,
@@ -47,6 +46,15 @@ export {
   type GetTokenOptions,
   type AccessToken,
 } from "./auth/tokenCredential.js";
+export {
+  type OAuth2Flow,
+  type OAuth2FlowType,
+  type BaseOAuth2Flow,
+  type AuthorizationCodeFlow,
+  type ClientCredentialsFlow,
+  type ImplicitFlow,
+  type PasswordFlow,
+} from "./auth/authFlows.js";
 export { createPipelineRequest, type PipelineRequestOptions } from "./pipelineRequest.js";
 export type { Pipeline, PipelinePolicy, AddPolicyOptions, PipelinePhase } from "./pipeline.js";
 export { RestError, isRestError, type RestErrorOptions } from "./restError.js";
@@ -77,3 +85,7 @@ export type { PipelineOptions, TelemetryOptions } from "./createPipelineFromOpti
 export type { LogPolicyOptions } from "./policies/logPolicy.js";
 export type { RedirectPolicyOptions } from "./policies/redirectPolicy.js";
 export type { UserAgentPolicyOptions } from "./policies/userAgentPolicy.js";
+export {
+  type BearerTokenAuthenticationPolicyOptions,
+  bearerTokenAuthenticationPolicy,
+} from "./policies/bearerTokenAuthenticationPolicy.js";
