@@ -1,15 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import { assert } from "chai";
 import * as fs from "node:fs";
 import * as path from "node:path";
-import * as sinon from "sinon";
 import { ContainerClient, BlobClient } from "@azure/storage-blob";
 import { Shard } from "../src/Shard.js";
 import { SegmentFactory } from "../src/SegmentFactory.js";
 import { ShardFactory } from "../src/ShardFactory.js";
 import type { BlobChangeFeedEvent } from "../src/index.js";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("Segment", async () => {
   const manifestPath = "idx/segments/2020/03/25/0200/meta.json";

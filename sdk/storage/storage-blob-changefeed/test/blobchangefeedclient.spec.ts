@@ -5,7 +5,6 @@ import { isPlaybackMode, Recorder, env } from "@azure-tools/test-recorder";
 import { recorderEnvSetup, getBlobChangeFeedClient, streamToString, uriSanitizers } from "./utils/index.js";
 import type { BlobChangeFeedEvent, BlobChangeFeedEventPage } from "../src/index.js";
 import { BlobChangeFeedClient } from "../src/index.js";
-import { assert } from "@azure-tools/test-utils";
 import type { BlobServiceClient, RequestPolicy } from "@azure/storage-blob";
 import { SDK_VERSION } from "../src/utils/constants.js";
 import * as fs from "node:fs";
@@ -15,6 +14,7 @@ import { rawEventToBlobChangeFeedEvent } from "../src/utils/utils.common.js";
 import type { RestError } from "@azure/core-rest-pipeline";
 import { createHttpHeaders } from "@azure/core-rest-pipeline";
 import { toHttpHeadersLike } from "@azure/core-http-compat";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 const timeoutForLargeFileUploadingTest = 20 * 60 * 1000;
 

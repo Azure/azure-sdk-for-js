@@ -1,14 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import { assert } from "chai";
-import * as sinon from "sinon";
 import { ShardFactory } from "../src/ShardFactory.js";
 import { ContainerClient } from "@azure/storage-blob";
 import { ChunkFactory } from "../src/ChunkFactory.js";
 import type { ShardCursor } from "../src/models/ChangeFeedCursor.js";
 import { Chunk } from "../src/Chunk.js";
 import type { BlobChangeFeedEvent } from "../src/index.js";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("Shard", async () => {
   let chunkFactoryStub: any;

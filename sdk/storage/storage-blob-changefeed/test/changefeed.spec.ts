@@ -1,16 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import { assert } from "chai";
 import * as fs from "node:fs";
 import * as path from "node:path";
-import * as sinon from "sinon";
 import { BlobServiceClient, ContainerClient, BlobClient } from "@azure/storage-blob";
 import { SegmentFactory } from "../src/SegmentFactory.js";
 import { Segment } from "../src/Segment.js";
 import { ChangeFeedFactory } from "../src/ChangeFeedFactory.js";
 import { getHost } from "../src/utils/utils.common.js";
 import type { BlobChangeFeedEvent } from "../src/index.js";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("Change Feed", async () => {
   const manifestFilePath = path.join("test", "resources", "ChangeFeedManifest.json");

@@ -5,6 +5,7 @@ import { setLogLevel } from "@azure/logger";
 import { StorageSharedKeyCredential } from "@azure/storage-blob";
 import { BlobChangeFeedClient } from "@azure/storage-blob-changefeed";
 import { DefaultAzureCredential } from "@azure/identity";
+import { describe, it, assert } from "vitest";
 
 describe("snippets", () => {
   it("ReadmeSampleCreateClient", async () => {
