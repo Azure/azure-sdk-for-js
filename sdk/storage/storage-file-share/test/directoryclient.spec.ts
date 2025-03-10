@@ -1,18 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  getBSU,
-  getGenericBSU,
-  getTokenBSU,
-  getUniqueName,
-  recorderEnvSetup,
-  uriSanitizers,
-} from "./utils";
-import type { FilePosixProperties, ShareClient } from "../src";
-import { ShareDirectoryClient, FileSystemAttributes, ShareServiceClient } from "../src";
+import { getBSU, getTokenBSU, getUniqueName, recorderEnvSetup, uriSanitizers } from "./utils";
+import type { ShareClient } from "../src";
+import { ShareDirectoryClient, FileSystemAttributes } from "../src";
 import { Recorder, isLiveMode } from "@azure-tools/test-recorder";
-import type { DirectoryCreateResponse } from "../src/generatedModels";
+import type { DirectoryCreateResponse } from "../src/generated/src/models";
 import { truncatedISO8061Date } from "../src/utils/utils.common";
 import { assert, getYieldedValue } from "@azure-tools/test-utils";
 import { isBrowser } from "@azure/core-util";
@@ -2469,133 +2462,5 @@ describe("DirectoryClient - AllowingTrailingDots - Default", () => {
     await dirClient1.delete();
 
     assert.equal(await dirClient1.exists(), false);
-  });
-});
-
-describe("DirectoryClient - NFS", () => {
-  let recorder: Recorder;
-  let shareName: string;
-  let shareClient: ShareClient;
-  let dirName: string;
-  let dirClient: ShareDirectoryClient;
-
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
-    await recorder.start(recorderEnvSetup);
-    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
-    let serviceClient: ShareServiceClient;
-    try {
-      serviceClient = getGenericBSU(recorder, "PREMIUM_FILE_");
-    } catch (error: any) {
-      console.log(error);
-      this.skip();
-    }
-
-    shareName = recorder.variable("share", getUniqueName("share"));
-    shareClient = serviceClient.getShareClient(shareName);
-    await shareClient.create({
-      protocols: {
-        nfsEnabled: true,
-      },
-    });
-
-    dirName = recorder.variable("dir", getUniqueName("dir"));
-    dirClient = shareClient.getDirectoryClient(dirName);
-  });
-
-  afterEach(async function (this: Context) {
-    if (shareClient) {
-      await shareClient.delete({ deleteSnapshots: "include" });
-    }
-    await recorder.stop();
-  });
-
-  it("create with nfs properties", async function () {
-    const posixProperties: FilePosixProperties = {
-      owner: "123",
-      group: "654",
-      fileMode: {
-        owner: {
-          read: true,
-          write: true,
-          execute: true,
-        },
-        group: {
-          read: true,
-          write: false,
-          execute: true,
-        },
-        other: {
-          read: true,
-          write: false,
-          execute: true,
-        },
-        effectiveUserIdentity: false,
-        effectiveGroupIdentity: false,
-        stickyBit: false,
-      },
-    };
-    const cResp = await dirClient.create({
-      posixProperties: posixProperties,
-    });
-
-    assert.equal(cResp.errorCode, undefined);
-    assert.deepEqual(cResp.owner, posixProperties.owner);
-    assert.deepEqual(cResp.group, posixProperties.group);
-    assert.deepEqual(cResp.fileMode, posixProperties.fileMode);
-    assert.deepEqual(cResp.nfsFileType, "Directory");
-    assert.ok(cResp.fileChangeOn!);
-    assert.ok(cResp.fileCreatedOn!);
-    assert.ok(cResp.fileId!);
-    assert.ok(cResp.fileLastWriteOn!);
-    assert.ok(cResp.fileParentId!);
-  });
-
-  it("set&get nfs properties", async function () {
-    const posixProperties: FilePosixProperties = {
-      owner: "123",
-      group: "654",
-      fileMode: {
-        owner: {
-          read: true,
-          write: true,
-          execute: true,
-        },
-        group: {
-          read: true,
-          write: false,
-          execute: true,
-        },
-        other: {
-          read: true,
-          write: false,
-          execute: true,
-        },
-        effectiveUserIdentity: false,
-        effectiveGroupIdentity: false,
-        stickyBit: false,
-      },
-    };
-    const cResp = await dirClient.create();
-    assert.deepEqual(cResp.owner, "0");
-    assert.deepEqual(cResp.group, "0");
-    assert.ok(cResp.fileMode);
-    assert.ok(cResp.nfsFileType);
-
-    const setResp = await dirClient.setProperties({ posixProperties });
-    assert.deepEqual(setResp.owner, posixProperties.owner);
-    assert.deepEqual(setResp.group, posixProperties.group);
-    assert.deepEqual(setResp.fileMode, posixProperties.fileMode);
-
-    const getResp = await dirClient.getProperties();
-    assert.deepEqual(getResp.owner, posixProperties.owner);
-    assert.deepEqual(getResp.group, posixProperties.group);
-    assert.deepEqual(getResp.fileMode, posixProperties.fileMode);
-    assert.deepEqual(cResp.nfsFileType, "Directory");
-    assert.ok(cResp.fileChangeOn!);
-    assert.ok(cResp.fileCreatedOn!);
-    assert.ok(cResp.fileId!);
-    assert.ok(cResp.fileLastWriteOn!);
-    assert.ok(cResp.fileParentId!);
   });
 });

@@ -6,17 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { NginxManagementClient } = require("@azure/arm-nginx");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to List all NGINX deployments under the specified resource group.
  *
  * @summary List all NGINX deployments under the specified resource group.
- * x-ms-original-file: specification/nginx/resource-manager/NGINX.NGINXPLUS/preview/2024-01-01-preview/examples/Deployments_ListByResourceGroup.json
+ * x-ms-original-file: specification/nginx/resource-manager/NGINX.NGINXPLUS/preview/2024-11-01-preview/examples/Deployments_ListByResourceGroup.json
  */
 async function deploymentsListByResourceGroup() {
   const subscriptionId =
@@ -32,7 +30,7 @@ async function deploymentsListByResourceGroup() {
 }
 
 async function main() {
-  deploymentsListByResourceGroup();
+  await deploymentsListByResourceGroup();
 }
 
 main().catch(console.error);

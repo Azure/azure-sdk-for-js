@@ -6,11 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { NotificationHubsManagementClient } = require("@azure/arm-notificationhubs");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Even though this namespace requires subscription id, resource group and namespace name, it returns a constant payload (for a given namespacE) every time it's called.
@@ -37,7 +35,7 @@ async function privateEndpointConnectionsGetGroupId() {
 }
 
 async function main() {
-  privateEndpointConnectionsGetGroupId();
+  await privateEndpointConnectionsGetGroupId();
 }
 
 main().catch(console.error);

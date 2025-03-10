@@ -84,21 +84,15 @@ export class CosmosClient {
       throw new Error("Invalid endpoint specified");
     }
 
-    if (optionsOrConnectionString.encryptionPolicy?.enableEncryption) {
-      if (!optionsOrConnectionString.encryptionPolicy.keyEncryptionKeyResolver) {
+    if (optionsOrConnectionString.clientEncryptionOptions) {
+      if (!optionsOrConnectionString.clientEncryptionOptions.keyEncryptionKeyResolver) {
         throw new Error(
           "KeyEncryptionKeyResolver needs to be provided to enable client-side encryption.",
         );
       }
-      if (!optionsOrConnectionString.encryptionPolicy.encryptionKeyResolverName) {
-        throw new Error(
-          "EncryptionKeyResolverName needs to be provided to enable client-side encryption.",
-        );
-      }
       this.encryptionManager = new EncryptionManager(
-        optionsOrConnectionString.encryptionPolicy.keyEncryptionKeyResolver,
-        optionsOrConnectionString.encryptionPolicy.encryptionKeyResolverName,
-        optionsOrConnectionString.encryptionPolicy.encryptionKeyTimeToLive,
+        optionsOrConnectionString.clientEncryptionOptions.keyEncryptionKeyResolver,
+        optionsOrConnectionString.clientEncryptionOptions.encryptionKeyTimeToLive,
       );
     }
 

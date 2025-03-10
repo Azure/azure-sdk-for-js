@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary This operation retrieves a single policy assignment, given its name and the scope it was created at.
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Authorization/stable/2021-06-01/examples/getPolicyAssignment.json
  */
-async function retrieveAPolicyAssignment() {
+async function retrieveAPolicyAssignment(): Promise<void> {
   const subscriptionId =
     process.env["POLICY_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const scope = "subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2";
@@ -32,7 +32,7 @@ async function retrieveAPolicyAssignment() {
  * @summary This operation retrieves a single policy assignment, given its name and the scope it was created at.
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Authorization/stable/2021-06-01/examples/getPolicyAssignmentWithIdentity.json
  */
-async function retrieveAPolicyAssignmentWithASystemAssignedIdentity() {
+async function retrieveAPolicyAssignmentWithASystemAssignedIdentity(): Promise<void> {
   const subscriptionId =
     process.env["POLICY_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const scope = "subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2";
@@ -49,7 +49,7 @@ async function retrieveAPolicyAssignmentWithASystemAssignedIdentity() {
  * @summary This operation retrieves a single policy assignment, given its name and the scope it was created at.
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Authorization/stable/2021-06-01/examples/getPolicyAssignmentWithUserAssignedIdentity.json
  */
-async function retrieveAPolicyAssignmentWithAUserAssignedIdentity() {
+async function retrieveAPolicyAssignmentWithAUserAssignedIdentity(): Promise<void> {
   const subscriptionId =
     process.env["POLICY_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const scope = "subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2";
@@ -60,7 +60,7 @@ async function retrieveAPolicyAssignmentWithAUserAssignedIdentity() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await retrieveAPolicyAssignment();
   await retrieveAPolicyAssignmentWithASystemAssignedIdentity();
   await retrieveAPolicyAssignmentWithAUserAssignedIdentity();

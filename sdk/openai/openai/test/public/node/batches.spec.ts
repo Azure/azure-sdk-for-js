@@ -16,7 +16,7 @@ describe("Batches", () => {
     describe(`[${apiVersion}] Client`, () => {
       let clientAndDeployments: ClientsAndDeploymentsInfo;
 
-      beforeEach(async function () {
+      beforeEach(async () => {
         clientAndDeployments = createClientsAndDeployments(
           apiVersion,
           {},
@@ -39,7 +39,7 @@ describe("Batches", () => {
           return file;
         }
 
-        it("CRUD operations", async function () {
+        it("CRUD operations", async () => {
           await withDeployments(
             clientAndDeployments,
             async (client, deploymentName) => {

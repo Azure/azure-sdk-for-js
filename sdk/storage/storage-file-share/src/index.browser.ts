@@ -17,12 +17,6 @@ export {
   CloseHandlesInfo,
   HttpAuthorization,
 } from "./models";
-export {
-  parseOctalFileMode,
-  toOctalFileMode,
-  parseSymbolicFileMode,
-  toSymbolicFileMode,
-} from "./utils/utils.common";
 export * from "./FileSystemAttributes";
 export {
   Pipeline,

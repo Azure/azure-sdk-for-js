@@ -14,15 +14,16 @@ import "dotenv/config";
  * This sample demonstrates how to Gets a list of snapshots in the specified subscription.
  *
  * @summary Gets a list of snapshots in the specified subscription.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2024-09-02-preview/examples/SnapshotsList.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2024-10-01/examples/SnapshotsList.json
  */
 async function listSnapshots(): Promise<void> {
   const subscriptionId =
-    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
   const client = new ContainerServiceClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.snapshots.list()) {
+  for await (let item of client.snapshots.list()) {
     resArray.push(item);
   }
   console.log(resArray);

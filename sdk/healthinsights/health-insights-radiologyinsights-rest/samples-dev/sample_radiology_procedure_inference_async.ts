@@ -249,7 +249,7 @@ export async function main(): Promise<void> {
     throw RadiologyInsightsResult;
   }
   const resultBody = RadiologyInsightsResult.body;
-  await printResults(resultBody);
+  printResults(resultBody);
 }
 
 main().catch((err) => {

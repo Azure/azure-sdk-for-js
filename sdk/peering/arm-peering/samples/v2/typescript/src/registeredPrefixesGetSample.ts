@@ -17,7 +17,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Gets an existing registered prefix with the specified name under the given subscription, resource group and peering.
  * x-ms-original-file: specification/peering/resource-manager/Microsoft.Peering/stable/2021-06-01/examples/GetRegisteredPrefix.json
  */
-async function getARegisteredPrefixAssociatedWithThePeering() {
+async function getARegisteredPrefixAssociatedWithThePeering(): Promise<void> {
   const subscriptionId = "subId";
   const resourceGroupName = "rgName";
   const peeringName = "peeringName";

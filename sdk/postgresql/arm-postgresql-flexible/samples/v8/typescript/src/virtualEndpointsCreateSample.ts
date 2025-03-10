@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Creates a new virtual endpoint for PostgreSQL flexible server.
  * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2024-08-01/examples/VirtualEndpointCreate.json
  */
-async function createANewVirtualEndpointForAFlexibleServer() {
+async function createANewVirtualEndpointForAFlexibleServer(): Promise<void> {
   const subscriptionId =
     process.env["POSTGRESQL_SUBSCRIPTION_ID"] ||
     "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -44,7 +44,7 @@ async function createANewVirtualEndpointForAFlexibleServer() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createANewVirtualEndpointForAFlexibleServer();
 }
 

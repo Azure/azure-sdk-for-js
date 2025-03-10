@@ -32,6 +32,7 @@ export type AggregateType = "Average" | "Count" | "Max" | "Min" | "Sum" | "MakeS
 // @public
 export class AzureKeyVaultEncryptionKeyResolver implements EncryptionKeyResolver {
     constructor(credentials: TokenCredential);
+    encryptionKeyResolverName: EncryptionKeyResolverName;
     unwrapKey(encryptionKeyId: string, algorithm: string, wrappedKey: Buffer): Promise<Buffer>;
     wrapKey(encryptionKeyId: string, algorithm: string, unwrappedKey: Buffer): Promise<Buffer>;
 }
@@ -342,6 +343,12 @@ export interface ClientEncryptionKeyRequest extends ClientEncryptionKeyDefinitio
 export class ClientEncryptionKeyResponse extends ResourceResponse<ClientEncryptionKeyDefinition & Resource> {
     constructor(resource: ClientEncryptionKeyDefinition & Resource, headers: CosmosHeaders, statusCode: number, clientEncryptionKeyProperties: ClientEncryptionKeyProperties, diagnostics: CosmosDiagnostics);
     readonly clientEncryptionKeyProperties: ClientEncryptionKeyProperties;
+}
+
+// @public
+export interface ClientEncryptionOptions {
+    encryptionKeyTimeToLive?: EncryptionTimeToLive;
+    keyEncryptionKeyResolver: EncryptionKeyResolver;
 }
 
 // @public
@@ -777,6 +784,7 @@ export class CosmosClient {
 export interface CosmosClientOptions {
     aadCredentials?: TokenCredential;
     agent?: Agent;
+    clientEncryptionOptions?: ClientEncryptionOptions;
     connectionPolicy?: ConnectionPolicy;
     connectionString?: string;
     consistencyLevel?: keyof typeof ConsistencyLevel;
@@ -786,7 +794,6 @@ export interface CosmosClientOptions {
     defaultHeaders?: CosmosHeaders_2;
     // (undocumented)
     diagnosticLevel?: CosmosDbDiagnosticLevel;
-    encryptionPolicy?: EncryptionPolicy;
     endpoint?: string;
     httpClient?: HttpClient;
     key?: string;
@@ -1071,6 +1078,7 @@ export interface EncryptionDiagnostics {
 
 // @public
 export interface EncryptionKeyResolver {
+    encryptionKeyResolverName: EncryptionKeyResolverName;
     unwrapKey(encryptionKeyId: string, algorithm: string, wrappedKey: Buffer): Promise<Buffer>;
     wrapKey(encryptionKeyId: string, algorithm: string, unwrappedKey: Buffer): Promise<Buffer>;
 }
@@ -1087,14 +1095,6 @@ export class EncryptionKeyWrapMetadata {
     name: string;
     type: EncryptionKeyResolverName;
     value: string;
-}
-
-// @public
-export interface EncryptionPolicy {
-    enableEncryption: boolean;
-    encryptionKeyResolverName?: string;
-    encryptionKeyTimeToLive?: EncryptionTimeToLive;
-    keyEncryptionKeyResolver?: EncryptionKeyResolver;
 }
 
 // @public

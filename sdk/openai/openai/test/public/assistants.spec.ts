@@ -26,7 +26,7 @@ describe("Assistants", () => {
         };
       }
 
-      beforeEach(async function () {
+      beforeEach(async () => {
         clientsAndDeployments = createClientsAndDeployments(
           apiVersion,
           { assistants: "true" },
@@ -43,7 +43,7 @@ describe("Assistants", () => {
       });
 
       describe("all CRUD APIs", function () {
-        it("creates, gets, lists, modifies, and deletes an assistant", async function () {
+        it("creates, gets, lists, modifies, and deletes an assistant", async () => {
           await withDeployments(clientsAndDeployments, async (client, deployment) => {
             const codeAssistant = createCodeAssistant(deployment);
             const assistantResponse = await client.beta.assistants.create(codeAssistant);
@@ -72,7 +72,7 @@ describe("Assistants", () => {
           });
         });
 
-        it("creates, gets, modifies, and deletes a thread", async function () {
+        it("creates, gets, modifies, and deletes a thread", async () => {
           await withDeployments(clientsAndDeployments, async (client) => {
             const metadataValue = "bar";
             const thread = {
@@ -103,7 +103,7 @@ describe("Assistants", () => {
           });
         });
 
-        it("creates, gets, modifies, and lists a message", async function () {
+        it("creates, gets, modifies, and lists a message", async () => {
           await withDeployments(clientsAndDeployments, async (client) => {
             const thread = {
               messages: [],
@@ -168,7 +168,7 @@ describe("Assistants", () => {
           });
         });
 
-        it("create, lists, gets, and cancels a run", async function () {
+        it("create, lists, gets, and cancels a run", async () => {
           await withDeployments(clientsAndDeployments, async (client, deployment) => {
             const assistant = await client.beta.assistants.create({
               model: deployment,
@@ -233,7 +233,7 @@ describe("Assistants", () => {
       });
 
       describe(`customer scenarios`, function () {
-        it("create and run code interpreter scenario", async function () {
+        it("create and run code interpreter scenario", async () => {
           await withDeployments(clientsAndDeployments, async (client, deployment) => {
             const codeAssistant = createCodeAssistant(deployment);
             const assistant = await client.beta.assistants.create(codeAssistant);
@@ -284,7 +284,7 @@ describe("Assistants", () => {
           });
         });
 
-        it("create and run function scenario for assistant", async function () {
+        it("create and run function scenario for assistant", async () => {
           await withDeployments(clientsAndDeployments, async (client, deployment) => {
             const favoriteCityFunctionName = "getUserFavoriteCity";
             const favoriteCityFunctionDescription = "Gets the user's favorite city.";

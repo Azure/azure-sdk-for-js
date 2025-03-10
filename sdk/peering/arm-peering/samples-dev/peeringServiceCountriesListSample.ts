@@ -14,7 +14,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Lists all of the available countries for peering service.
  * x-ms-original-file: specification/peering/resource-manager/Microsoft.Peering/stable/2021-06-01/examples/ListPeeringServiceCountriesBySubscription.json
  */
-async function listPeeringServiceCountries() {
+async function listPeeringServiceCountries(): Promise<void> {
   const subscriptionId = "subId";
   const credential = new DefaultAzureCredential();
   const client = new PeeringManagementClient(credential, subscriptionId);

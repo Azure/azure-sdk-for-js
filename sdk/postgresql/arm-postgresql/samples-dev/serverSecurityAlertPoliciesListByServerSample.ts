@@ -14,7 +14,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Get the server's threat detection policies.
  * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2017-12-01/examples/ServerSecurityAlertsListByServer.json
  */
-async function listTheServerThreatDetectionPolicies() {
+async function listTheServerThreatDetectionPolicies(): Promise<void> {
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const resourceGroupName = "securityalert-4799";
   const serverName = "securityalert-6440";

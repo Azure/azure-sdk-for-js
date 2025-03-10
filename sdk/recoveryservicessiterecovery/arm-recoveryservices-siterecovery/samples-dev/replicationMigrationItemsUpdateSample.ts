@@ -8,9 +8,7 @@
 import type { UpdateMigrationItemInput } from "@azure/arm-recoveryservices-siterecovery";
 import { SiteRecoveryManagementClient } from "@azure/arm-recoveryservices-siterecovery";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to The operation to update the recovery settings of an ASR migration item.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary The operation to update the recovery settings of an ASR migration item.
  * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationMigrationItems_Update.json
  */
-async function updatesMigrationItem() {
+async function updatesMigrationItem(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICESSITERECOVERY_SUBSCRIPTION_ID"] ||
     "cb53d0c3-bd59-4721-89bc-06916a9147ef";
@@ -44,7 +42,7 @@ async function updatesMigrationItem() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await updatesMigrationItem();
 }
 

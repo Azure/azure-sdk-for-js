@@ -11,12 +11,6 @@ export {
   generateAccountSASQueryParameters,
 } from "./AccountSASSignatureValues";
 export * from "./FileSASPermissions";
-export {
-  parseOctalFileMode,
-  toOctalFileMode,
-  parseSymbolicFileMode,
-  toSymbolicFileMode,
-} from "./utils/utils.common";
 export { FileSASSignatureValues, generateFileSASQueryParameters } from "./FileSASSignatureValues";
 export * from "./Clients";
 export * from "./ShareSASPermissions";
@@ -31,9 +25,6 @@ export {
   FileHttpHeaders,
   FilePermissionInheritType,
   FilePermissionPreserveType,
-  PosixRolePermissions,
-  NfsFileMode,
-  FilePosixProperties,
   Metadata,
   TimeNowType,
   TimePreserveType,

@@ -14,12 +14,14 @@ import "dotenv/config";
  * This sample demonstrates how to Get a specific machine in the specified agent pool.
  *
  * @summary Get a specific machine in the specified agent pool.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2024-09-02-preview/examples/MachineGet.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2024-10-01/examples/MachineGet.json
  */
 async function getAMachineInAnAgentPoolsByManagedCluster(): Promise<void> {
   const subscriptionId =
-    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
+    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
+    "26fe00f8-9173-4872-9134-bb1d2e00343a";
+  const resourceGroupName =
+    process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
   const resourceName = "clustername1";
   const agentPoolName = "agentpool1";
   const machineName = "aks-nodepool1-42263519-vmss00000t";

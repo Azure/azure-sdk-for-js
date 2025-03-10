@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary This operation retrieves the policy set definition in the given management group with the given name.
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Authorization/stable/2021-06-01/examples/getPolicySetDefinitionAtManagementGroup.json
  */
-async function retrieveAPolicySetDefinitionAtManagementGroupLevel() {
+async function retrieveAPolicySetDefinitionAtManagementGroupLevel(): Promise<void> {
   const subscriptionId =
     process.env["POLICY_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -30,7 +30,7 @@ async function retrieveAPolicySetDefinitionAtManagementGroupLevel() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   retrieveAPolicySetDefinitionAtManagementGroupLevel();
 }
 

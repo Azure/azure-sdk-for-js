@@ -16,7 +16,7 @@ import "dotenv/config";
  * @summary Queries policy tracked resources under the resource group.
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/preview/2018-07-01-preview/examples/PolicyTrackedResources_QueryResourceGroupScope.json
  */
-async function queryAtResourceGroupScope() {
+async function queryAtResourceGroupScope(): Promise<void> {
   const subscriptionId =
     process.env["POLICYINSIGHTS_SUBSCRIPTION_ID"] || "fffedd8f-ffff-fffd-fffd-fffed2f84852";
   const resourceGroupName = process.env["POLICYINSIGHTS_RESOURCE_GROUP"] || "myResourceGroup";
@@ -39,7 +39,7 @@ async function queryAtResourceGroupScope() {
  * @summary Queries policy tracked resources under the resource group.
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/preview/2018-07-01-preview/examples/PolicyTrackedResources_QueryResourceGroupScopeWithFilterAndTop.json
  */
-async function queryAtResourceGroupScopeUsingQueryParameters() {
+async function queryAtResourceGroupScopeUsingQueryParameters(): Promise<void> {
   const subscriptionId =
     process.env["POLICYINSIGHTS_SUBSCRIPTION_ID"] || "fffedd8f-ffff-fffd-fffd-fffed2f84852";
   const resourceGroupName = process.env["POLICYINSIGHTS_RESOURCE_GROUP"] || "myResourceGroup";
@@ -64,7 +64,7 @@ async function queryAtResourceGroupScopeUsingQueryParameters() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await queryAtResourceGroupScope();
   await queryAtResourceGroupScopeUsingQueryParameters();
 }

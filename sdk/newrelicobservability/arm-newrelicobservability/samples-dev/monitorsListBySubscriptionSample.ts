@@ -7,9 +7,7 @@
  */
 import { NewRelicObservability } from "@azure/arm-newrelicobservability";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to List NewRelicMonitorResource resources by subscription ID
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary List NewRelicMonitorResource resources by subscription ID
  * x-ms-original-file: specification/newrelic/resource-manager/NewRelic.Observability/stable/2024-01-01/examples/Monitors_ListBySubscription_MaximumSet_Gen.json
  */
-async function monitorsListBySubscriptionMaximumSetGen() {
+async function monitorsListBySubscriptionMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["NEWRELICOBSERVABILITY_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
@@ -29,7 +27,7 @@ async function monitorsListBySubscriptionMaximumSetGen() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await monitorsListBySubscriptionMaximumSetGen();
 }
 

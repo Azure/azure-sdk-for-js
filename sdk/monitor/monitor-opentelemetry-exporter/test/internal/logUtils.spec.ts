@@ -409,7 +409,7 @@ describe("logUtils.ts", () => {
       );
     });
 
-    it("should create a Event Envelope", () => {
+    it("should create an Event Envelope", () => {
       const data: TelemetryEventData = {
         name: "testName",
         version: 2,
@@ -427,6 +427,35 @@ describe("logUtils.ts", () => {
       };
       const expectedBaseData: TelemetryEventData = {
         name: "testName",
+        version: 2,
+        properties: expectedProperties,
+        measurements: {},
+      };
+
+      const envelope = logToEnvelope(testLogRecord as ReadableLogRecord, "ikey");
+      assertEnvelope(
+        envelope,
+        "Microsoft.ApplicationInsights.Event",
+        100,
+        "EventData",
+        expectedProperties,
+        emptyMeasurements,
+        expectedBaseData,
+        expectedTime,
+      );
+    });
+
+    it("should create a Custom Event Envelope", () => {
+      testLogRecord.attributes = {
+        "microsoft.custom_event.name": "testing name",
+        "extra.attribute": "foo",
+      };
+      const expectedTime = hrTimeToDate(testLogRecord.hrTime);
+      const expectedProperties = {
+        "extra.attribute": "foo",
+      };
+      const expectedBaseData: TelemetryEventData = {
+        name: "testing name",
         version: 2,
         properties: expectedProperties,
         measurements: {},

@@ -64,7 +64,7 @@ function Get-javascript-AdditionalValidationPackagesFromPackageSet {
   # The targetedFiles needs to filter out anything in the ExcludePaths
   # otherwise it'll end up processing things below that it shouldn't be.
   foreach ($excludePath in $diffObj.ExcludePaths) {
-    $targetedFiles = $targetedFiles | Where-Object { -not $_.StartsWith($excludePath.TrimEnd("/") + "/") }
+    $targetedFiles = $targetedFiles | Where-Object { -not $_.StartsWith($excludePath) }
   }
 
   $changedServices = @()
@@ -75,8 +75,10 @@ function Get-javascript-AdditionalValidationPackagesFromPackageSet {
       $changedServices += $pathComponents[1]
     }
 
-    # handle any changes under sdk/<file>.<extension>
-    if ($pathComponents.Length -eq 2 -and $pathComponents[0] -eq "sdk") {
+    # handle any changes under sdk/<file>.<extension> or in the root of
+    # the repository
+    if (($pathComponents.Length -eq 2 -and $pathComponents[0] -eq "sdk") -or
+        ($pathComponents.Length -eq 1)) {
       $changedServices += "template"
     }
   }

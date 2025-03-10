@@ -11,7 +11,7 @@ import "dotenv/config";
  * @summary Creates or updates the specified Network Virtual Appliance.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/NetworkVirtualAppliancePut.json
  */
-async function createNetworkVirtualAppliance() {
+async function createNetworkVirtualAppliance(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

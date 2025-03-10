@@ -24,7 +24,7 @@ import {
   ConnectedPartnerResourcesImpl,
   TagRulesImpl,
   MonitoredSubscriptionsImpl,
-} from "./operations";
+} from "./operations/index.js";
 import {
   Operations,
   Accounts,
@@ -35,8 +35,8 @@ import {
   ConnectedPartnerResources,
   TagRules,
   MonitoredSubscriptions,
-} from "./operationsInterfaces";
-import { NewRelicObservabilityOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { NewRelicObservabilityOptionalParams } from "./models/index.js";
 
 export class NewRelicObservability extends coreClient.ServiceClient {
   $host: string;

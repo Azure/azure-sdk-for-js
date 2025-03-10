@@ -13,9 +13,7 @@ import {
   AzureQuantumManagementClient,
 } from "@azure/arm-quantum";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Check the availability of the resource name.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Check the availability of the resource name.
  * x-ms-original-file: specification/quantum/resource-manager/Microsoft.Quantum/preview/2023-11-13-preview/examples/quantumWorkspacesCheckNameAvailability.json
  */
-async function quantumWorkspacesCheckNameAvailability() {
+async function quantumWorkspacesCheckNameAvailability(): Promise<void> {
   const subscriptionId =
     process.env["QUANTUM_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -41,7 +39,7 @@ async function quantumWorkspacesCheckNameAvailability() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   quantumWorkspacesCheckNameAvailability();
 }
 

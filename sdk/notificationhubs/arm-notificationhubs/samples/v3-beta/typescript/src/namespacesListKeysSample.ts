@@ -7,9 +7,7 @@
  */
 import { NotificationHubsManagementClient } from "@azure/arm-notificationhubs";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets the Primary and Secondary ConnectionStrings to the namespace.
@@ -17,19 +15,14 @@ dotenv.config();
  * @summary Gets the Primary and Secondary ConnectionStrings to the namespace.
  * x-ms-original-file: specification/notificationhubs/resource-manager/Microsoft.NotificationHubs/preview/2023-10-01-preview/examples/Namespaces/AuthorizationRuleListKeys.json
  */
-async function namespacesListKeys() {
+async function namespacesListKeys(): Promise<void> {
   const subscriptionId =
-    process.env["NOTIFICATIONHUBS_SUBSCRIPTION_ID"] ||
-    "29cfa613-cbbc-4512-b1d6-1b3a92c7fa40";
-  const resourceGroupName =
-    process.env["NOTIFICATIONHUBS_RESOURCE_GROUP"] || "5ktrial";
+    process.env["NOTIFICATIONHUBS_SUBSCRIPTION_ID"] || "29cfa613-cbbc-4512-b1d6-1b3a92c7fa40";
+  const resourceGroupName = process.env["NOTIFICATIONHUBS_RESOURCE_GROUP"] || "5ktrial";
   const namespaceName = "nh-sdk-ns";
   const authorizationRuleName = "RootManageSharedAccessKey";
   const credential = new DefaultAzureCredential();
-  const client = new NotificationHubsManagementClient(
-    credential,
-    subscriptionId,
-  );
+  const client = new NotificationHubsManagementClient(credential, subscriptionId);
   const result = await client.namespaces.listKeys(
     resourceGroupName,
     namespaceName,
@@ -38,8 +31,8 @@ async function namespacesListKeys() {
   console.log(result);
 }
 
-async function main() {
-  namespacesListKeys();
+async function main(): Promise<void> {
+  await namespacesListKeys();
 }
 
 main().catch(console.error);

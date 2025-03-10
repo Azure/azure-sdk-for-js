@@ -13,7 +13,7 @@ import "dotenv/config";
  * @summary Gets the currently advertised ARP table associated with the express route cross connection in a resource group.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/ExpressRouteCrossConnectionsArpTable.json
  */
-async function getExpressRouteCrossConnectionsArpTable() {
+async function getExpressRouteCrossConnectionsArpTable(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

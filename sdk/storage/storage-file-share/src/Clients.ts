@@ -40,8 +40,6 @@ import type {
   FileUploadRangeResponse,
   HandleItem,
   LeaseAccessConditions,
-  ModeCopyMode,
-  OwnerCopyMode,
   RangeModel,
   ShareCreatePermissionResponse,
   ShareCreateResponse,
@@ -94,9 +92,6 @@ import type {
   FileAbortCopyHeaders,
   FileListHandlesHeaders,
   RawFileDownloadResponse,
-  FileCreateHardLinkResponse,
-  FileSetHTTPHeadersHeaders,
-  FileCreateHardLinkHeaders,
 } from "./generatedModels";
 import type {
   FileRenameHeaders,
@@ -112,6 +107,8 @@ import {
   FILE_MAX_SIZE_BYTES,
   FILE_RANGE_MAX_SIZE_BYTES,
   URLConstants,
+  FileAttributesPreserve,
+  FileAttributesNone,
 } from "./utils/constants";
 import type { WithResponse } from "./utils/utils.common";
 import {
@@ -130,8 +127,6 @@ import {
   assertResponse,
   removeEmptyString,
   asSharePermission,
-  parseOctalFileMode,
-  toOctalFileMode,
 } from "./utils/utils.common";
 import { Credential } from "../../storage-blob/src/credentials/Credential";
 import { StorageSharedKeyCredential } from "../../storage-blob/src/credentials/StorageSharedKeyCredential";
@@ -140,6 +135,7 @@ import { tracingClient } from "./utils/tracing";
 import type { CommonOptions } from "./StorageClient";
 import { StorageClient } from "./StorageClient";
 import type { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
+import { FileSystemAttributes } from "./FileSystemAttributes";
 import { FileDownloadResponse } from "./FileDownloadResponse";
 import type { Range } from "./Range";
 import { rangeToString } from "./Range";
@@ -153,7 +149,6 @@ import type {
   HttpAuthorization,
   ShareClientOptions,
   ShareClientConfig,
-  FilePosixProperties,
 } from "./models";
 import {
   fileAttributesToString,
@@ -174,7 +169,10 @@ import {
   readStreamToLocalFile,
   streamToBuffer,
 } from "./utils/utils.node";
-import type { StorageClient as StorageClientContext } from "./generated/src/";
+import type {
+  FileSetHttpHeadersHeaders,
+  StorageClient as StorageClientContext,
+} from "./generated/src/";
 import { randomUUID } from "@azure/core-util";
 import {
   generateFileSASQueryParameters,
@@ -1805,30 +1803,29 @@ export class ShareDirectoryClient extends StorageClient {
   public async create(options: DirectoryCreateOptions = {}): Promise<DirectoryCreateResponse> {
     if (!options.fileAttributes) {
       options = validateAndSetDefaultsForFileAndDirectoryCreateCommonOptions(options);
+      // By default set it as a directory.
+      const attributes: FileSystemAttributes = new FileSystemAttributes();
+      attributes.directory = true;
+      options.fileAttributes = attributes;
     }
     return tracingClient.withSpan(
       "ShareDirectoryClient-create",
       options,
       async (updatedOptions) => {
-        const rawResponse = await this.context.create({
-          ...updatedOptions,
-          fileChangeOn: fileChangeTimeToString(updatedOptions.changeTime),
-          fileCreatedOn: fileCreationTimeToString(updatedOptions.creationTime),
-          fileLastWriteOn: fileLastWriteTimeToString(updatedOptions.lastWriteTime),
-          fileAttributes: updatedOptions.fileAttributes
-            ? fileAttributesToString(updatedOptions.fileAttributes!)
-            : undefined,
-          owner: updatedOptions.posixProperties?.owner,
-          group: updatedOptions.posixProperties?.group,
-          fileMode: toOctalFileMode(updatedOptions.posixProperties?.fileMode),
-          ...this.shareClientConfig,
-        });
-        const wrappedRes = {
-          ...rawResponse,
-          _response: (rawResponse as any)._response, // _response is made non-enumerable,
-          fileMode: parseOctalFileMode(rawResponse.fileMode),
-        };
-        return assertResponse<DirectoryCreateHeaders, DirectoryCreateHeaders>(wrappedRes);
+        return assertResponse<DirectoryCreateHeaders, DirectoryCreateHeaders>(
+          await this.context.create(
+            updatedOptions.fileAttributes
+              ? fileAttributesToString(updatedOptions.fileAttributes!)
+              : FileAttributesNone,
+            {
+              ...updatedOptions,
+              fileChangeOn: fileChangeTimeToString(updatedOptions.changeTime),
+              fileCreatedOn: fileCreationTimeToString(updatedOptions.creationTime),
+              fileLastWriteOn: fileLastWriteTimeToString(updatedOptions.lastWriteTime),
+              ...this.shareClientConfig,
+            },
+          ),
+        );
       },
     );
   }
@@ -1882,24 +1879,20 @@ export class ShareDirectoryClient extends StorageClient {
       "ShareDirectoryClient-setProperties",
       properties,
       async (updatedOptions) => {
-        const rawResponse = await this.context.setProperties({
-          ...updatedOptions,
-          fileChangeOn: fileChangeTimeToString(updatedOptions.changeTime),
-          fileCreatedOn: fileCreationTimeToString(updatedOptions.creationTime),
-          fileLastWriteOn: fileLastWriteTimeToString(updatedOptions.lastWriteTime),
-          fileAttributes: updatedOptions.fileAttributes
-            ? fileAttributesToString(updatedOptions.fileAttributes!)
-            : undefined,
-          owner: updatedOptions.posixProperties?.owner,
-          group: updatedOptions.posixProperties?.group,
-          fileMode: toOctalFileMode(updatedOptions.posixProperties?.fileMode),
-          ...this.shareClientConfig,
-        });
-        return assertResponse<DirectorySetPropertiesHeaders, DirectorySetPropertiesHeaders>({
-          ...rawResponse,
-          _response: (rawResponse as any)._response,
-          fileMode: parseOctalFileMode(rawResponse.fileMode),
-        } as any);
+        return assertResponse<DirectorySetPropertiesHeaders, DirectorySetPropertiesHeaders>(
+          await this.context.setProperties(
+            updatedOptions.fileAttributes
+              ? fileAttributesToString(updatedOptions.fileAttributes!)
+              : FileAttributesPreserve,
+            {
+              ...updatedOptions,
+              fileChangeOn: fileChangeTimeToString(updatedOptions.changeTime),
+              fileCreatedOn: fileCreationTimeToString(updatedOptions.creationTime),
+              fileLastWriteOn: fileLastWriteTimeToString(updatedOptions.lastWriteTime),
+              ...this.shareClientConfig,
+            },
+          ),
+        );
       },
     );
   }
@@ -2111,15 +2104,9 @@ export class ShareDirectoryClient extends StorageClient {
       "ShareDirectoryClient-getProperties",
       options,
       async (updatedOptions) => {
-        const rawResponse = await this.context.getProperties({
-          ...updatedOptions,
-          ...this.shareClientConfig,
-        });
-        return assertResponse<DirectoryGetPropertiesHeaders, DirectoryGetPropertiesHeaders>({
-          ...rawResponse,
-          _response: (rawResponse as any)._response,
-          fileMode: parseOctalFileMode(rawResponse.fileMode),
-        } as any);
+        return assertResponse<DirectoryGetPropertiesHeaders, DirectoryGetPropertiesHeaders>(
+          await this.context.getProperties({ ...updatedOptions, ...this.shareClientConfig }),
+        );
       },
     );
   }
@@ -2855,6 +2842,7 @@ export interface FileCreateOptions extends FileAndDirectoryCreateCommonOptions, 
    * File HTTP headers like Content-Type.
    */
   fileHttpHeaders?: FileHttpHeaders;
+
   /**
    * A collection of key-value string pair to associate with the file storage object.
    */
@@ -3148,24 +3136,6 @@ export interface FileStartCopyOptions extends CommonOptions {
    * SMB info.
    */
   copyFileSmbInfo?: CopyFileSmbInfo;
-  /**
-   * Optional properties to set on NFS files.
-     Note that this property is only applicable to files created in NFS shares.
-   */
-  posixProperties?: FilePosixProperties;
-  /**
-   * Optional, only applicable to NFS Files.
-   * Applicable only when the copy source is a File. Determines the copy behavior of the mode bits of the file.
-   * source: The mode on the destination file is copied from the source file.
-   * override: The mode on the destination file is determined via the x-ms-mode header.
-   */
-  fileModeCopyMode?: ModeCopyMode;
-  /**
-   * Optional, only applicable to NFS Files. Determines the copy behavior of the owner user identifier (UID) and group identifier (GID) of the file.
-   * source: The owner user identifier (UID) and group identifier (GID) on the destination file is copied from the source file.
-   * override: The owner user identifier (UID) and group identifier (GID) on the destination file is determined via the x-ms-owner and x-ms-group  headers.
-   */
-  fileOwnerCopyMode?: OwnerCopyMode;
 }
 
 /**
@@ -3292,24 +3262,6 @@ export interface FileListHandlesOptions extends CommonOptions {
  * - {@link ShareFileClient.forceCloseHandle}
  */
 export interface FileForceCloseHandlesOptions extends CommonOptions {
-  /**
-   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
-   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   */
-  abortSignal?: AbortSignalLike;
-}
-
-/**
- * Options to configure File - Create Hard Link operations.
- *
- * See:
- * - {@link ShareFileClient.createHardLink}
- */
-export interface FileCreateHardLinkOptions extends CommonOptions {
-  /**
-   * Lease access conditions.
-   */
-  leaseAccessConditions?: LeaseAccessConditions;
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
@@ -3788,27 +3740,21 @@ export class ShareFileClient extends StorageClient {
 
     options.fileHttpHeaders = options.fileHttpHeaders || {};
     return tracingClient.withSpan("ShareFileClient-create", options, async (updatedOptions) => {
-      const rawResponse = await this.context.create(size, {
-        ...updatedOptions,
-        fileChangeOn: fileChangeTimeToString(updatedOptions.changeTime),
-        fileCreatedOn: fileCreationTimeToString(updatedOptions.creationTime),
-        fileLastWriteOn: fileLastWriteTimeToString(updatedOptions.lastWriteTime),
-        fileAttributes: updatedOptions.fileAttributes
-          ? fileAttributesToString(updatedOptions.fileAttributes!)
-          : undefined,
-        owner: updatedOptions.posixProperties?.owner,
-        group: updatedOptions.posixProperties?.group,
-        fileMode: toOctalFileMode(updatedOptions.posixProperties?.fileMode),
-        nfsFileType: updatedOptions.posixProperties?.fileType,
-        ...this.shareClientConfig,
-      });
-
-      const wrappedRes = {
-        ...rawResponse,
-        _response: (rawResponse as any)._response, // _response is made non-enumerable,
-        fileMode: parseOctalFileMode(rawResponse.fileMode),
-      };
-      return assertResponse<FileCreateHeaders, FileCreateHeaders>(wrappedRes);
+      return assertResponse<FileCreateHeaders, FileCreateHeaders>(
+        await this.context.create(
+          size,
+          updatedOptions.fileAttributes
+            ? fileAttributesToString(updatedOptions.fileAttributes!)
+            : FileAttributesNone,
+          {
+            ...updatedOptions,
+            fileChangeOn: fileChangeTimeToString(updatedOptions.changeTime),
+            fileCreatedOn: fileCreationTimeToString(updatedOptions.creationTime),
+            fileLastWriteOn: fileLastWriteTimeToString(updatedOptions.lastWriteTime),
+            ...this.shareClientConfig,
+          },
+        ),
+      );
     });
   }
 
@@ -3884,20 +3830,16 @@ export class ShareFileClient extends StorageClient {
       }
 
       const downloadFullFile = offset === 0 && !count;
-      const rawResponse = await this.context.download({
-        ...updatedOptions,
-        requestOptions: {
-          onDownloadProgress: isNode ? undefined : updatedOptions.onProgress, // for Node.js, progress is reported by RetriableReadableStream
-        },
-        range: downloadFullFile ? undefined : rangeToString({ offset, count }),
-        ...this.shareClientConfig,
-      });
-
-      const res = assertResponse<RawFileDownloadResponse, FileDownloadHeaders>({
-        ...rawResponse,
-        _response: (rawResponse as any)._response, // _response is made non-enumerable,
-        fileMode: parseOctalFileMode(rawResponse.fileMode),
-      } as any);
+      const res = assertResponse<RawFileDownloadResponse, FileDownloadHeaders>(
+        await this.context.download({
+          ...updatedOptions,
+          requestOptions: {
+            onDownloadProgress: isNode ? undefined : updatedOptions.onProgress, // for Node.js, progress is reported by RetriableReadableStream
+          },
+          range: downloadFullFile ? undefined : rangeToString({ offset, count }),
+          ...this.shareClientConfig,
+        }),
+      );
 
       // Return browser response immediately
       if (!isNode) {
@@ -3994,15 +3936,9 @@ export class ShareFileClient extends StorageClient {
       "ShareFileClient-getProperties",
       options,
       async (updatedOptions) => {
-        const rawResponse = await this.context.getProperties({
-          ...updatedOptions,
-          ...this.shareClientConfig,
-        });
-        return assertResponse<FileGetPropertiesHeaders, FileGetPropertiesHeaders>({
-          ...rawResponse,
-          _response: (rawResponse as any)._response, // _response is made non-enumerable,
-          fileMode: parseOctalFileMode(rawResponse.fileMode),
-        } as any);
+        return assertResponse<FileGetPropertiesHeaders, FileGetPropertiesHeaders>(
+          await this.context.getProperties({ ...updatedOptions, ...this.shareClientConfig }),
+        );
       },
     );
   }
@@ -4023,25 +3959,20 @@ export class ShareFileClient extends StorageClient {
       "ShareFileClient-setProperties",
       properties,
       async (updatedOptions) => {
-        const rawResponse = await this.context.setHttpHeaders({
-          ...updatedOptions,
-          fileChangeOn: fileChangeTimeToString(updatedOptions.changeTime),
-          fileCreatedOn: fileCreationTimeToString(updatedOptions.creationTime),
-          fileLastWriteOn: fileLastWriteTimeToString(updatedOptions.lastWriteTime),
-          fileAttributes: updatedOptions.fileAttributes
-            ? fileAttributesToString(updatedOptions.fileAttributes!)
-            : undefined,
-          owner: updatedOptions.posixProperties?.owner,
-          group: updatedOptions.posixProperties?.group,
-          fileMode: toOctalFileMode(updatedOptions.posixProperties?.fileMode),
-          ...this.shareClientConfig,
-        });
-
-        return assertResponse<FileSetHTTPHeadersHeaders, FileSetHTTPHeadersHeaders>({
-          ...rawResponse,
-          _response: (rawResponse as any)._response, // _response is made non-enumerable,
-          fileMode: parseOctalFileMode(rawResponse.fileMode),
-        } as any);
+        return assertResponse<FileSetHttpHeadersHeaders, FileSetHttpHeadersHeaders>(
+          await this.context.setHttpHeaders(
+            updatedOptions.fileAttributes
+              ? fileAttributesToString(updatedOptions.fileAttributes!)
+              : FileAttributesPreserve,
+            {
+              ...updatedOptions,
+              fileChangeOn: fileChangeTimeToString(updatedOptions.changeTime),
+              fileCreatedOn: fileCreationTimeToString(updatedOptions.creationTime),
+              fileLastWriteOn: fileLastWriteTimeToString(updatedOptions.lastWriteTime),
+              ...this.shareClientConfig,
+            },
+          ),
+        );
       },
     );
   }
@@ -4139,25 +4070,21 @@ export class ShareFileClient extends StorageClient {
       "ShareFileClient-setHTTPHeaders",
       options,
       async (updatedOptions) => {
-        const rawResponse = await this.context.setHttpHeaders({
-          ...updatedOptions,
-          fileHttpHeaders,
-          fileCreatedOn: fileCreationTimeToString(updatedOptions.creationTime),
-          fileLastWriteOn: fileLastWriteTimeToString(updatedOptions.lastWriteTime),
-          fileChangeOn: fileChangeTimeToString(updatedOptions.changeTime),
-          fileAttributes: updatedOptions.fileAttributes
-            ? fileAttributesToString(updatedOptions.fileAttributes!)
-            : undefined,
-          owner: updatedOptions.posixProperties?.owner,
-          group: updatedOptions.posixProperties?.group,
-          fileMode: toOctalFileMode(updatedOptions.posixProperties?.fileMode),
-          ...this.shareClientConfig,
-        });
-        return assertResponse<FileSetHTTPHeadersHeaders, FileSetHTTPHeadersHeaders>({
-          ...rawResponse,
-          _response: (rawResponse as any)._response, // _response is made non-enumerable,
-          fileMode: parseOctalFileMode(rawResponse.fileMode),
-        } as any);
+        return assertResponse<FileSetHttpHeadersHeaders, FileSetHttpHeadersHeaders>(
+          await this.context.setHttpHeaders(
+            updatedOptions.fileAttributes
+              ? fileAttributesToString(updatedOptions.fileAttributes!)
+              : FileAttributesPreserve,
+            {
+              ...updatedOptions,
+              fileHttpHeaders,
+              fileCreatedOn: fileCreationTimeToString(updatedOptions.creationTime),
+              fileLastWriteOn: fileLastWriteTimeToString(updatedOptions.lastWriteTime),
+              fileChangeOn: fileChangeTimeToString(updatedOptions.changeTime),
+              ...this.shareClientConfig,
+            },
+          ),
+        );
       },
     );
   }
@@ -4183,23 +4110,16 @@ export class ShareFileClient extends StorageClient {
     // FileAttributes, filePermission, createTime, lastWriteTime will all be preserved.
     options = validateAndSetDefaultsForFileAndDirectorySetPropertiesCommonOptions(options);
     return tracingClient.withSpan("ShareFileClient-resize", options, async (updatedOptions) => {
-      const rawResponse = await this.context.setHttpHeaders({
-        ...updatedOptions,
-        fileContentLength: length,
-        fileChangeOn: fileChangeTimeToString(options.changeTime),
-        fileCreatedOn: fileCreationTimeToString(options.creationTime),
-        fileLastWriteOn: fileLastWriteTimeToString(options.lastWriteTime),
-        fileAttributes: fileAttributesToString(updatedOptions.fileAttributes!),
-        owner: updatedOptions.posixProperties?.owner,
-        group: updatedOptions.posixProperties?.group,
-        fileMode: toOctalFileMode(options.posixProperties?.fileMode),
-        ...this.shareClientConfig,
-      });
-      return assertResponse<FileSetHTTPHeadersHeaders, FileSetHTTPHeadersHeaders>({
-        ...rawResponse,
-        _response: (rawResponse as any)._response,
-        fileMode: parseOctalFileMode(rawResponse.fileMode),
-      } as any);
+      return assertResponse<FileSetHttpHeadersHeaders, FileSetHttpHeadersHeaders>(
+        await this.context.setHttpHeaders(fileAttributesToString(updatedOptions.fileAttributes!), {
+          ...updatedOptions,
+          fileContentLength: length,
+          fileChangeOn: fileChangeTimeToString(options.changeTime),
+          fileCreatedOn: fileCreationTimeToString(options.creationTime),
+          fileLastWriteOn: fileLastWriteTimeToString(options.lastWriteTime),
+          ...this.shareClientConfig,
+        }),
+      );
     });
   }
 
@@ -4472,11 +4392,6 @@ export class ShareFileClient extends StorageClient {
           await this.context.startCopy(copySource, {
             ...updatedOptions,
             ...this.shareClientConfig,
-            owner: updatedOptions.posixProperties?.owner,
-            group: updatedOptions.posixProperties?.group,
-            fileMode: toOctalFileMode(updatedOptions.posixProperties?.fileMode),
-            fileModeCopyMode: updatedOptions.fileModeCopyMode,
-            fileOwnerCopyMode: updatedOptions.fileOwnerCopyMode,
           }),
         );
       },
@@ -5218,33 +5133,6 @@ export class ShareFileClient extends StorageClient {
         response.closedHandlesCount = rawResponse.numberOfHandlesClosed || 0;
         response.closeFailureCount = rawResponse.numberOfHandlesFailedToClose || 0;
         return response;
-      },
-    );
-  }
-
-  /**
-   * NFS only.  Creates a hard link to the file file specified by path.
-   * @param targetFile - Path of the file to create the hard link to, not including the share.
-   *  For example: "targetDirectory/targetSubDirectory/.../targetFile"
-   * @param options - Options to create hard link operation.
-   */
-  public async createHardLink(
-    targetFile: string,
-    options: FileCreateHardLinkOptions = {},
-  ): Promise<FileCreateHardLinkResponse> {
-    return tracingClient.withSpan(
-      "ShareFileClient-createHardLink",
-      options,
-      async (updatedOptions) => {
-        const rawResponse = await this.context.createHardLink(targetFile, {
-          ...updatedOptions,
-          ...this.shareClientConfig,
-        });
-        return assertResponse<FileCreateHardLinkHeaders, FileCreateHardLinkHeaders>({
-          ...rawResponse,
-          _response: (rawResponse as any)._response, // _response is made non-enumerable,
-          fileMode: parseOctalFileMode(rawResponse.fileMode),
-        } as any);
       },
     );
   }
