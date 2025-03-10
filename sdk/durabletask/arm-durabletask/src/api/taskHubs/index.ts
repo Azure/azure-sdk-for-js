@@ -48,15 +48,13 @@ export function _taskHubsListBySchedulerSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _taskHubsListBySchedulerDeserialize(
@@ -81,13 +79,7 @@ export function taskHubsListByScheduler(
 ): PagedAsyncIterableIterator<TaskHub> {
   return buildPagedAsyncIterator(
     context,
-    () =>
-      _taskHubsListBySchedulerSend(
-        context,
-        resourceGroupName,
-        schedulerName,
-        options,
-      ),
+    () => _taskHubsListBySchedulerSend(context, resourceGroupName, schedulerName, options),
     _taskHubsListBySchedulerDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },
@@ -114,20 +106,16 @@ export function _taskHubsDeleteSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .delete({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).delete({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
-export async function _taskHubsDeleteDeserialize(
-  result: PathUncheckedResponse,
-): Promise<void> {
+export async function _taskHubsDeleteDeserialize(result: PathUncheckedResponse): Promise<void> {
   const expectedStatuses = ["202", "204", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -146,24 +134,13 @@ export function taskHubsDelete(
   taskHubName: string,
   options: TaskHubsDeleteOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(
-    context,
-    _taskHubsDeleteDeserialize,
-    ["202", "204", "200"],
-    {
-      updateIntervalInMs: options?.updateIntervalInMs,
-      abortSignal: options?.abortSignal,
-      getInitialResponse: () =>
-        _taskHubsDeleteSend(
-          context,
-          resourceGroupName,
-          schedulerName,
-          taskHubName,
-          options,
-        ),
-      resourceLocationConfig: "location",
-    },
-  ) as PollerLike<OperationState<void>, void>;
+  return getLongRunningPoller(context, _taskHubsDeleteDeserialize, ["202", "204", "200"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _taskHubsDeleteSend(context, resourceGroupName, schedulerName, taskHubName, options),
+    resourceLocationConfig: "location",
+  }) as PollerLike<OperationState<void>, void>;
 }
 
 export function _taskHubsCreateOrUpdateSend(
@@ -187,17 +164,15 @@ export function _taskHubsCreateOrUpdateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .put({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: taskHubSerializer(resource),
-    });
+  return context.path(path).put({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: taskHubSerializer(resource),
+  });
 }
 
 export async function _taskHubsCreateOrUpdateDeserialize(
@@ -222,25 +197,20 @@ export function taskHubsCreateOrUpdate(
   resource: TaskHub,
   options: TaskHubsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<TaskHub>, TaskHub> {
-  return getLongRunningPoller(
-    context,
-    _taskHubsCreateOrUpdateDeserialize,
-    ["200", "201"],
-    {
-      updateIntervalInMs: options?.updateIntervalInMs,
-      abortSignal: options?.abortSignal,
-      getInitialResponse: () =>
-        _taskHubsCreateOrUpdateSend(
-          context,
-          resourceGroupName,
-          schedulerName,
-          taskHubName,
-          resource,
-          options,
-        ),
-      resourceLocationConfig: "azure-async-operation",
-    },
-  ) as PollerLike<OperationState<TaskHub>, TaskHub>;
+  return getLongRunningPoller(context, _taskHubsCreateOrUpdateDeserialize, ["200", "201"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _taskHubsCreateOrUpdateSend(
+        context,
+        resourceGroupName,
+        schedulerName,
+        taskHubName,
+        resource,
+        options,
+      ),
+    resourceLocationConfig: "azure-async-operation",
+  }) as PollerLike<OperationState<TaskHub>, TaskHub>;
 }
 
 export function _taskHubsGetSend(
@@ -263,20 +233,16 @@ export function _taskHubsGetSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
-export async function _taskHubsGetDeserialize(
-  result: PathUncheckedResponse,
-): Promise<TaskHub> {
+export async function _taskHubsGetDeserialize(result: PathUncheckedResponse): Promise<TaskHub> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);

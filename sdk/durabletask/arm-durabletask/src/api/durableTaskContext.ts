@@ -26,8 +26,7 @@ export function createDurableTask(
   subscriptionId: string,
   options: DurableTaskClientOptionalParams = {},
 ): DurableTaskContext {
-  const endpointUrl =
-    options.endpoint ?? options.baseUrl ?? "https://management.azure.com";
+  const endpointUrl = options.endpoint ?? options.baseUrl ?? "https://management.azure.com";
   const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
   const userAgentInfo = `azsdk-js-arm-durabletask/1.0.0-beta.1`;
   const userAgentPrefix = prefixFromOptions

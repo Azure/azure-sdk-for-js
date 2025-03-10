@@ -1,18 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  _getTaskHubsOperations,
-  TaskHubsOperations,
-} from "./classic/taskHubs/index.js";
-import {
-  _getSchedulersOperations,
-  SchedulersOperations,
-} from "./classic/schedulers/index.js";
-import {
-  _getOperationsOperations,
-  OperationsOperations,
-} from "./classic/operations/index.js";
+import { _getTaskHubsOperations, TaskHubsOperations } from "./classic/taskHubs/index.js";
+import { _getSchedulersOperations, SchedulersOperations } from "./classic/schedulers/index.js";
+import { _getOperationsOperations, OperationsOperations } from "./classic/operations/index.js";
 import {
   createDurableTask,
   DurableTaskContext,

@@ -46,15 +46,13 @@ export function _schedulersListBySubscriptionSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _schedulersListBySubscriptionDeserialize(
@@ -100,15 +98,13 @@ export function _schedulersListByResourceGroupSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _schedulersListByResourceGroupDeserialize(
@@ -132,8 +128,7 @@ export function schedulersListByResourceGroup(
 ): PagedAsyncIterableIterator<Scheduler> {
   return buildPagedAsyncIterator(
     context,
-    () =>
-      _schedulersListByResourceGroupSend(context, resourceGroupName, options),
+    () => _schedulersListByResourceGroupSend(context, resourceGroupName, options),
     _schedulersListByResourceGroupDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },
@@ -158,20 +153,16 @@ export function _schedulersDeleteSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .delete({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).delete({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
-export async function _schedulersDeleteDeserialize(
-  result: PathUncheckedResponse,
-): Promise<void> {
+export async function _schedulersDeleteDeserialize(result: PathUncheckedResponse): Promise<void> {
   const expectedStatuses = ["202", "204", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -189,23 +180,13 @@ export function schedulersDelete(
   schedulerName: string,
   options: SchedulersDeleteOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(
-    context,
-    _schedulersDeleteDeserialize,
-    ["202", "204", "200"],
-    {
-      updateIntervalInMs: options?.updateIntervalInMs,
-      abortSignal: options?.abortSignal,
-      getInitialResponse: () =>
-        _schedulersDeleteSend(
-          context,
-          resourceGroupName,
-          schedulerName,
-          options,
-        ),
-      resourceLocationConfig: "location",
-    },
-  ) as PollerLike<OperationState<void>, void>;
+  return getLongRunningPoller(context, _schedulersDeleteDeserialize, ["202", "204", "200"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _schedulersDeleteSend(context, resourceGroupName, schedulerName, options),
+    resourceLocationConfig: "location",
+  }) as PollerLike<OperationState<void>, void>;
 }
 
 export function _schedulersUpdateSend(
@@ -227,17 +208,15 @@ export function _schedulersUpdateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .patch({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: schedulerSerializer(properties),
-    });
+  return context.path(path).patch({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: schedulerSerializer(properties),
+  });
 }
 
 export async function _schedulersUpdateDeserialize(
@@ -261,24 +240,13 @@ export function schedulersUpdate(
   properties: Scheduler,
   options: SchedulersUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<Scheduler>, Scheduler> {
-  return getLongRunningPoller(
-    context,
-    _schedulersUpdateDeserialize,
-    ["200", "202"],
-    {
-      updateIntervalInMs: options?.updateIntervalInMs,
-      abortSignal: options?.abortSignal,
-      getInitialResponse: () =>
-        _schedulersUpdateSend(
-          context,
-          resourceGroupName,
-          schedulerName,
-          properties,
-          options,
-        ),
-      resourceLocationConfig: "location",
-    },
-  ) as PollerLike<OperationState<Scheduler>, Scheduler>;
+  return getLongRunningPoller(context, _schedulersUpdateDeserialize, ["200", "202"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _schedulersUpdateSend(context, resourceGroupName, schedulerName, properties, options),
+    resourceLocationConfig: "location",
+  }) as PollerLike<OperationState<Scheduler>, Scheduler>;
 }
 
 export function _schedulersCreateOrUpdateSend(
@@ -300,17 +268,15 @@ export function _schedulersCreateOrUpdateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .put({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: schedulerSerializer(resource),
-    });
+  return context.path(path).put({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: schedulerSerializer(resource),
+  });
 }
 
 export async function _schedulersCreateOrUpdateDeserialize(
@@ -334,24 +300,13 @@ export function schedulersCreateOrUpdate(
   resource: Scheduler,
   options: SchedulersCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<Scheduler>, Scheduler> {
-  return getLongRunningPoller(
-    context,
-    _schedulersCreateOrUpdateDeserialize,
-    ["200", "201"],
-    {
-      updateIntervalInMs: options?.updateIntervalInMs,
-      abortSignal: options?.abortSignal,
-      getInitialResponse: () =>
-        _schedulersCreateOrUpdateSend(
-          context,
-          resourceGroupName,
-          schedulerName,
-          resource,
-          options,
-        ),
-      resourceLocationConfig: "azure-async-operation",
-    },
-  ) as PollerLike<OperationState<Scheduler>, Scheduler>;
+  return getLongRunningPoller(context, _schedulersCreateOrUpdateDeserialize, ["200", "201"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _schedulersCreateOrUpdateSend(context, resourceGroupName, schedulerName, resource, options),
+    resourceLocationConfig: "azure-async-operation",
+  }) as PollerLike<OperationState<Scheduler>, Scheduler>;
 }
 
 export function _schedulersGetSend(
@@ -372,20 +327,16 @@ export function _schedulersGetSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
-export async function _schedulersGetDeserialize(
-  result: PathUncheckedResponse,
-): Promise<Scheduler> {
+export async function _schedulersGetDeserialize(result: PathUncheckedResponse): Promise<Scheduler> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -403,11 +354,6 @@ export async function schedulersGet(
   schedulerName: string,
   options: SchedulersGetOptionalParams = { requestOptions: {} },
 ): Promise<Scheduler> {
-  const result = await _schedulersGetSend(
-    context,
-    resourceGroupName,
-    schedulerName,
-    options,
-  );
+  const result = await _schedulersGetSend(context, resourceGroupName, schedulerName, options);
   return _schedulersGetDeserialize(result);
 }

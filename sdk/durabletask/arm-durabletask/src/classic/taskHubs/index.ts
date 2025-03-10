@@ -56,26 +56,13 @@ function _getTaskHubs(context: DurableTaskContext) {
       resourceGroupName: string,
       schedulerName: string,
       options?: TaskHubsListBySchedulerOptionalParams,
-    ) =>
-      taskHubsListByScheduler(
-        context,
-        resourceGroupName,
-        schedulerName,
-        options,
-      ),
+    ) => taskHubsListByScheduler(context, resourceGroupName, schedulerName, options),
     delete: (
       resourceGroupName: string,
       schedulerName: string,
       taskHubName: string,
       options?: TaskHubsDeleteOptionalParams,
-    ) =>
-      taskHubsDelete(
-        context,
-        resourceGroupName,
-        schedulerName,
-        taskHubName,
-        options,
-      ),
+    ) => taskHubsDelete(context, resourceGroupName, schedulerName, taskHubName, options),
     createOrUpdate: (
       resourceGroupName: string,
       schedulerName: string,
@@ -96,20 +83,11 @@ function _getTaskHubs(context: DurableTaskContext) {
       schedulerName: string,
       taskHubName: string,
       options?: TaskHubsGetOptionalParams,
-    ) =>
-      taskHubsGet(
-        context,
-        resourceGroupName,
-        schedulerName,
-        taskHubName,
-        options,
-      ),
+    ) => taskHubsGet(context, resourceGroupName, schedulerName, taskHubName, options),
   };
 }
 
-export function _getTaskHubsOperations(
-  context: DurableTaskContext,
-): TaskHubsOperations {
+export function _getTaskHubsOperations(context: DurableTaskContext): TaskHubsOperations {
   return {
     ..._getTaskHubs(context),
   };
