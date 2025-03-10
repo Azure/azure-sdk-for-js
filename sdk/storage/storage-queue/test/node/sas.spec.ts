@@ -1,9 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import { assert } from "chai";
-
-import type { StorageSharedKeyCredential } from "../../src";
+import type { StorageSharedKeyCredential } from "../../src/index.js";
 import {
   AccountSASPermissions,
   AccountSASResourceTypes,
@@ -15,30 +12,30 @@ import {
   generateQueueSASQueryParameters,
   QueueServiceClient,
   newPipeline,
-} from "../../src";
-import { SASProtocol } from "../../src/SASQueryParameters";
+} from "../../src/index.js";
+import { SASProtocol } from "../../src/SASQueryParameters.js";
 import {
   configureStorageClient,
   getQSU,
   getUniqueName,
   recorderEnvSetup,
   uriSanitizers,
-} from "../utils";
+} from "../utils/index.js";
 import { delay, Recorder } from "@azure-tools/test-recorder";
-import type { Context } from "mocha";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("Shared Access Signature (SAS) generation Node.js only", () => {
   let queueServiceClient: QueueServiceClient;
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async (ctx) => {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderEnvSetup);
     await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
     queueServiceClient = getQSU(recorder);
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 

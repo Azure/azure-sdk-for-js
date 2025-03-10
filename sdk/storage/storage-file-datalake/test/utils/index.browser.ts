@@ -3,13 +3,13 @@
 
 import type { TokenCredential } from "@azure/core-auth";
 
-import { DataLakeServiceClient, newPipeline } from "../../src";
+import { DataLakeServiceClient, newPipeline } from "../../src/index.js";
 import { AnonymousCredential } from "@azure/storage-blob";
-import { configureStorageClient, SimpleTokenCredential } from "./testutils.common";
+import { configureStorageClient, SimpleTokenCredential } from "./testutils.common.js";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { env } from "@azure-tools/test-recorder";
 
-export * from "./testutils.common";
+export * from "./testutils.common.js";
 
 export function getGenericCredential(): AnonymousCredential {
   return new AnonymousCredential();
@@ -90,46 +90,6 @@ export function getEncryptionScope(): string {
   return encryptionScope;
 }
 
-/**
- * Read body from downloading operation methods to string.
- * Works in both Node.js and browsers.
- *
- * @param response - Convenience layer methods response with downloaded body
- * @param length - Length of Readable stream, needed for Node.js environment
- */
-export async function bodyToString(
-  response: {
-    readableStreamBody?: NodeJS.ReadableStream;
-    contentAsBlob?: Promise<Blob>;
-  },
-  _length?: number,
-): Promise<string> {
-  const blob = await response.contentAsBlob!;
-  return blobToString(blob);
-}
-
-export async function blobToString(blob: Blob): Promise<string> {
-  const fileReader = new FileReader();
-  return new Promise<string>((resolve, reject) => {
-    fileReader.onloadend = (ev: any) => {
-      resolve(ev.target!.result);
-    };
-    fileReader.onerror = reject;
-    fileReader.readAsText(blob);
-  });
-}
-
-export async function blobToArrayBuffer(blob: Blob): Promise<ArrayBuffer> {
-  const fileReader = new FileReader();
-  return new Promise<ArrayBuffer>((resolve, reject) => {
-    fileReader.onloadend = (ev: any) => {
-      resolve(ev.target!.result);
-    };
-    fileReader.onerror = reject;
-    fileReader.readAsArrayBuffer(blob);
-  });
-}
-
 export function arrayBufferEqual(buf1: ArrayBuffer, buf2: ArrayBuffer): boolean {
   if (buf1.byteLength !== buf2.byteLength) {
     return false;
@@ -138,7 +98,7 @@ export function arrayBufferEqual(buf1: ArrayBuffer, buf2: ArrayBuffer): boolean 
   const uint8Arr1 = new Uint8Array(buf1);
   const uint8Arr2 = new Uint8Array(buf2);
 
-  for (let i = 0; i <= uint8Arr1.length; i++) {
+  for (let i = 0; i < uint8Arr1.length; i++) {
     if (uint8Arr1[i] !== uint8Arr2[i]) {
       return false;
     }

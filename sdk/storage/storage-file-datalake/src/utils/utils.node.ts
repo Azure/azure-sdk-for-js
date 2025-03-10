@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import * as fs from "fs";
-import * as util from "util";
+import * as fs from "node:fs";
+import * as util from "node:util";
 
 /**
  * Reads a readable stream into buffer. Fill the buffer from offset to end.

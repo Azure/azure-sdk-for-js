@@ -8,13 +8,15 @@ import {
   getUniqueName,
   recorderEnvSetup,
   uriSanitizers,
-} from "./utils";
-import type { QueueServiceClient } from "../src";
-import { QueueClient } from "../src";
-import { assert } from "@azure-tools/test-utils";
+} from "./utils/index.js";
+import type { QueueServiceClient } from "../src/index.js";
+import { QueueClient } from "../src/index.js";
 import type { RestError } from "@azure/core-rest-pipeline";
 import { Recorder } from "@azure-tools/test-recorder";
-import type { Context } from "mocha";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
+import { toSupportTracing } from "@azure-tools/test-utils-vitest";
+
+expect.extend({ toSupportTracing });
 
 describe("QueueClient", () => {
   let queueServiceClient: QueueServiceClient;
@@ -23,8 +25,8 @@ describe("QueueClient", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async (ctx) => {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderEnvSetup);
     await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
     queueServiceClient = getQSU(recorder);
@@ -33,7 +35,7 @@ describe("QueueClient", () => {
     await queueClient.create();
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await queueClient.delete();
     await recorder.stop();
   });
@@ -213,12 +215,9 @@ describe("QueueClient", () => {
   });
 
   it("getProperties with tracing", async () => {
-    await assert.supportsTracing(
-      async (options) => {
-        await queueClient.getProperties(options);
-      },
-      ["QueueClient-getProperties"],
-    );
+    await expect(async (options) => {
+      await queueClient.getProperties(options);
+    }).toSupportTracing(["QueueClient-getProperties"]);
   });
 });
 

@@ -1,16 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import { assert } from "chai";
-import * as fs from "fs";
-import * as path from "path";
-import * as sinon from "sinon";
+import * as fs from "node:fs";
+import * as path from "node:path";
 import { BlobServiceClient, ContainerClient, BlobClient } from "@azure/storage-blob";
-import { SegmentFactory } from "../src/SegmentFactory";
-import { Segment } from "../src/Segment";
-import { ChangeFeedFactory } from "../src/ChangeFeedFactory";
-import { getHost } from "../src/utils/utils.common";
-import type { BlobChangeFeedEvent } from "../src";
+import { SegmentFactory } from "../src/SegmentFactory.js";
+import { Segment } from "../src/Segment.js";
+import { ChangeFeedFactory } from "../src/ChangeFeedFactory.js";
+import { getHost } from "../src/utils/utils.common.js";
+import type { BlobChangeFeedEvent } from "../src/index.js";
+import { describe, it, assert, beforeEach, afterEach, vi } from "vitest";
 
 describe("Change Feed", async () => {
   const manifestFilePath = path.join("test", "resources", "ChangeFeedManifest.json");
@@ -45,13 +43,13 @@ describe("Change Feed", async () => {
   let changeFeedFactory: ChangeFeedFactory;
   let blobClientStub: sinon.SinonStubbedInstance<BlobClient>;
 
-  async function* fakeList(items: any[]) {
+  async function* fakeList(items: any[]): Promise<void> {
     for (const item of items) {
       yield item;
     }
   }
 
-  async function* listTwoArray(itemsA: any[], itemsB: any[]) {
+  async function* listTwoArray(itemsA: any[], itemsB: any[]): Promise<void> {
     for (const item of itemsA) {
       yield item;
     }
@@ -102,7 +100,7 @@ describe("Change Feed", async () => {
   });
 
   afterEach(() => {
-    sinon.restore();
+    vi.restoreAllMocks();
   });
 
   it("no valid years in change feed container", async () => {

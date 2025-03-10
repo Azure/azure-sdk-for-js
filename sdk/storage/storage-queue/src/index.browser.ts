@@ -3,9 +3,9 @@
 
 import { RestError } from "@azure/core-rest-pipeline";
 
-export * from "../../storage-blob/src/credentials/AnonymousCredential";
-export * from "../../storage-blob/src/credentials/Credential";
-export { SasIPRange } from "./SasIPRange";
+export { AnonymousCredential } from "@azure/storage-blob";
+export { Credential } from "@azure/storage-blob";
+export { SasIPRange } from "./SasIPRange.js";
 export {
   Pipeline,
   PipelineLike,
@@ -14,24 +14,24 @@ export {
   newPipeline,
   StoragePipelineOptions,
   ServiceClientOptions,
-} from "./Pipeline";
-export { BaseRequestPolicy } from "../../storage-blob/src/policies/RequestPolicy";
-export * from "../../storage-blob/src/policies/AnonymousCredentialPolicy";
-export * from "../../storage-blob/src/policies/CredentialPolicy";
-export * from "../../storage-blob/src/StorageRetryPolicyFactory";
-export * from "../../storage-blob/src/StorageBrowserPolicyFactory";
-export { Metadata } from "./models";
-export * from "./QueueClient";
-export * from "./QueueSASPermissions";
-export * from "./QueueServiceClient";
-export { CommonOptions } from "./StorageClient";
-export * from "./generatedModels";
+} from "./Pipeline.js";
+export { BaseRequestPolicy } from "@azure/storage-blob";
+export { AnonymousCredentialPolicy } from "@azure/storage-blob";
+export { CredentialPolicy } from "@azure/storage-blob";
+export { StorageRetryPolicyFactory } from "@azure/storage-blob";
+export { StorageBrowserPolicyFactory } from "@azure/storage-blob";
+export { Metadata } from "./models.js";
+export * from "./QueueClient.js";
+export * from "./QueueSASPermissions.js";
+export * from "./QueueServiceClient.js";
+export { CommonOptions } from "./StorageClient.js";
+export * from "./generatedModels.js";
 export {
   WithResponse,
   ResponseLike,
   ResponseWithBody,
   ResponseWithHeaders,
   HttpResponse,
-} from "./utils/utils.common";
+} from "./utils/utils.common.js";
 export { RestError };
-export { logger } from "./log";
+export { logger } from "./log.js";

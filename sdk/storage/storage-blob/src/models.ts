@@ -3,7 +3,7 @@
 
 import type { AbortSignalLike } from "@azure/abort-controller";
 import type { CancelOnProgress, PollOperationState } from "@azure/core-lro";
-import type { BlobImmutabilityPolicyMode } from "./generatedModels";
+import type { BlobImmutabilityPolicyMode } from "./generatedModels.js";
 import type {
   LeaseAccessConditions,
   SequenceNumberAccessConditions,
@@ -11,8 +11,8 @@ import type {
   AccessTier,
   CpkInfo,
   BlobDownloadResponseModel,
-} from "./generatedModels";
-import { EncryptionAlgorithmAES25 } from "./utils/constants";
+} from "./generatedModels.js";
+import { EncryptionAlgorithmAES25 } from "./utils/constants.js";
 
 /**
  * Blob tags.

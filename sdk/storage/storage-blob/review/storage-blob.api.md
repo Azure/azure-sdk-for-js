@@ -17,10 +17,11 @@ import { RequestBodyType as HttpRequestBody } from '@azure/core-rest-pipeline';
 import type { KeepAliveOptions } from '@azure/core-http-compat';
 import type { OperationTracingOptions } from '@azure/core-tracing';
 import type { PagedAsyncIterableIterator } from '@azure/core-paging';
+import type { PipelinePolicy } from '@azure/core-rest-pipeline';
 import { PollerLike } from '@azure/core-lro';
 import { PollOperationState } from '@azure/core-lro';
 import type { ProxySettings } from '@azure/core-rest-pipeline';
-import type { Readable } from 'stream';
+import type { Readable } from 'node:stream';
 import { RequestPolicy } from '@azure/core-http-compat';
 import { RequestPolicyFactory } from '@azure/core-http-compat';
 import { RequestPolicyOptionsLike as RequestPolicyOptions } from '@azure/core-http-compat';
@@ -2418,6 +2419,9 @@ export interface ModifiedAccessConditionsModel {
 export function newPipeline(credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, pipelineOptions?: StoragePipelineOptions): Pipeline;
 
 // @public
+export function NewRetryPolicyFactory(retryOptions?: StorageRetryOptions): RequestPolicyFactory;
+
+// @public
 export interface ObjectReplicationPolicy {
     policyId: string;
     rules: ObjectReplicationRule[];
@@ -3171,9 +3175,21 @@ export class StorageBrowserPolicy extends BaseRequestPolicy {
 }
 
 // @public
+export function storageBrowserPolicy(): PipelinePolicy;
+
+// @public
 export class StorageBrowserPolicyFactory implements RequestPolicyFactory {
     create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): StorageBrowserPolicy;
 }
+
+// @public
+export const storageBrowserPolicyName = "storageBrowserPolicy";
+
+// @public
+export function storageCorrectContentLengthPolicy(): PipelinePolicy;
+
+// @public
+export const storageCorrectContentLengthPolicyName = "StorageCorrectContentLengthPolicy";
 
 // @public
 export const StorageOAuthScopes: string | string[];
@@ -3207,10 +3223,16 @@ export class StorageRetryPolicy extends BaseRequestPolicy {
 }
 
 // @public
+export function storageRetryPolicy(options?: StorageRetryOptions): PipelinePolicy;
+
+// @public
 export class StorageRetryPolicyFactory implements RequestPolicyFactory {
     constructor(retryOptions?: StorageRetryOptions);
     create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): StorageRetryPolicy;
 }
+
+// @public
+export const storageRetryPolicyName = "storageRetryPolicy";
 
 // @public
 export enum StorageRetryPolicyType {
@@ -3230,6 +3252,20 @@ export class StorageSharedKeyCredential extends Credential_2 {
 export class StorageSharedKeyCredentialPolicy extends CredentialPolicy {
     constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions, factory: StorageSharedKeyCredential);
     protected signRequest(request: WebResource): WebResource;
+}
+
+// @public
+export function storageSharedKeyCredentialPolicy(options: StorageSharedKeyCredentialPolicyOptions): PipelinePolicy;
+
+// @public
+export const storageSharedKeyCredentialPolicyName = "storageSharedKeyCredentialPolicy";
+
+// @public
+export interface StorageSharedKeyCredentialPolicyOptions {
+    // (undocumented)
+    accountKey: Buffer;
+    // (undocumented)
+    accountName: string;
 }
 
 // @public

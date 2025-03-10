@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ServiceSubmitBatchResponseModel } from "./generatedModels";
-import { streamToBuffer2 } from "./utils/utils.node";
-import { BATCH_MAX_PAYLOAD_IN_BYTES } from "./utils/constants";
+import type { ServiceSubmitBatchResponseModel } from "./generatedModels.js";
+import { streamToBuffer2 } from "./utils/utils.node.js";
+import { BATCH_MAX_PAYLOAD_IN_BYTES } from "./utils/constants.js";
 
 export async function getBodyAsText(
   batchResponse: ServiceSubmitBatchResponseModel,

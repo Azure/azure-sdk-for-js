@@ -2,9 +2,9 @@
 // Licensed under the MIT License.
 
 import type { BlobServiceClient, ContainerClient } from "@azure/storage-blob";
-import { ChangeFeed } from "./ChangeFeed";
-import type { ChangeFeedCursor } from "./models/ChangeFeedCursor";
-import { CHANGE_FEED_CONTAINER_NAME, CHANGE_FEED_META_SEGMENT_PATH } from "./utils/constants";
+import { ChangeFeed } from "./ChangeFeed.js";
+import type { ChangeFeedCursor } from "./models/ChangeFeedCursor.js";
+import { CHANGE_FEED_CONTAINER_NAME, CHANGE_FEED_META_SEGMENT_PATH } from "./utils/constants.js";
 import {
   ceilToNearestHour,
   floorToNearestHour,
@@ -13,16 +13,16 @@ import {
   minDate,
   getHost,
   parseDateFromSegmentPath,
-} from "./utils/utils.common";
-import { bodyToString } from "./utils/utils.node";
-import { SegmentFactory } from "./SegmentFactory";
-import { ShardFactory } from "./ShardFactory";
-import { ChunkFactory } from "./ChunkFactory";
-import { AvroReaderFactory } from "./AvroReaderFactory";
-import type { Segment } from "./Segment";
-import type { BlobChangeFeedListChangesOptions } from "./models/models";
-import { tracingClient } from "./utils/tracing";
-import { LazyLoadingBlobStreamFactory } from "./LazyLoadingBlobStreamFactory";
+} from "./utils/utils.common.js";
+import { bodyToString } from "./utils/utils.node.js";
+import { SegmentFactory } from "./SegmentFactory.js";
+import { ShardFactory } from "./ShardFactory.js";
+import { ChunkFactory } from "./ChunkFactory.js";
+import { AvroReaderFactory } from "./AvroReaderFactory.js";
+import type { Segment } from "./Segment.js";
+import type { BlobChangeFeedListChangesOptions } from "./models/models.js";
+import { tracingClient } from "./utils/tracing.js";
+import { LazyLoadingBlobStreamFactory } from "./LazyLoadingBlobStreamFactory.js";
 
 interface MetaSegments {
   version?: number;

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { isNode } from "@azure/core-util";
+import { isNodeLike } from "@azure/core-util";
 
 import type {
   BlobDownloadResponseModel,
@@ -12,11 +12,11 @@ import type {
   LeaseStatusType,
   BlobQueryHeaders,
   BlobQueryResponseModel,
-} from "./generatedModels";
-import type { Metadata } from "./models";
-import type { BlobQuickQueryStreamOptions } from "./utils/BlobQuickQueryStream";
-import { BlobQuickQueryStream } from "./utils/BlobQuickQueryStream";
-import type { ResponseWithHeaders } from "./utils/utils.common";
+} from "./generatedModels.js";
+import type { Metadata } from "./models.js";
+import type { BlobQuickQueryStreamOptions } from "./utils/BlobQuickQueryStream.js";
+import { BlobQuickQueryStream } from "./utils/BlobQuickQueryStream.js";
+import type { ResponseWithHeaders } from "./utils/utils.common.js";
 
 /**
  * ONLY AVAILABLE IN NODE.JS RUNTIME.
@@ -395,7 +395,7 @@ export class BlobQueryResponse implements BlobDownloadResponseModel {
    * @readonly
    */
   public get readableStreamBody(): NodeJS.ReadableStream | undefined {
-    return isNode ? this.blobDownloadStream : undefined;
+    return isNodeLike ? this.blobDownloadStream : undefined;
   }
 
   /**

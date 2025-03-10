@@ -4,9 +4,9 @@
 import type { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
 import type { Recorder, RecorderStartOptions } from "@azure-tools/test-recorder";
 import { isPlaybackMode, delay } from "@azure-tools/test-recorder";
-import type { FindReplaceSanitizer } from "@azure-tools/test-recorder/types/src/utils/utils";
+import type { FindReplaceSanitizer } from "@azure-tools/test-recorder";
 import type { Pipeline } from "@azure/core-rest-pipeline";
-import type { StorageClient } from "../../src/StorageClient";
+import type { StorageClient } from "../../src/StorageClient.js";
 
 export const testPollerProperties = {
   intervalInMs: isPlaybackMode() ? 0 : undefined,
@@ -21,7 +21,7 @@ export function configureStorageClient(recorder: Recorder, client: StorageClient
   }
 }
 
-function getUriSanitizerForQueryParam(paramName: string) {
+function getUriSanitizerForQueryParam(paramName: string): FindReplaceSanitizer {
   return {
     regex: true,
     target: `http.+\\?([^&=]+=[^&=]+&)*(?<param>${paramName}=[^&=]+&?)`,

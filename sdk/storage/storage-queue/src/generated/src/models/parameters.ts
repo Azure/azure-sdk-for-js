@@ -14,7 +14,7 @@ import {
 import {
   QueueServiceProperties as QueueServicePropertiesMapper,
   QueueMessage as QueueMessageMapper
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const contentType: OperationParameter = {
   parameterPath: ["options", "contentType"],

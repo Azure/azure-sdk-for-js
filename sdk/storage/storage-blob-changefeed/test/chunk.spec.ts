@@ -1,11 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import { assert } from "chai";
-import { Chunk } from "../src/Chunk";
-import * as sinon from "sinon";
-import { AvroReader } from "../../storage-internal-avro/src";
-import type { BlobChangeFeedEvent } from "../src";
+import { Chunk } from "../src/Chunk.js";
+import { AvroReader } from "@azure/storage-internal-avro";
+import type { BlobChangeFeedEvent } from "../src/index.js";
+import { describe, it, assert, afterEach, vi } from "vitest";
 
 class FakeAvroReader {
   constructor(
@@ -27,7 +25,7 @@ class FakeAvroReader {
 
 describe("Chunk", async () => {
   afterEach(() => {
-    sinon.restore();
+    vi.restoreAllMocks();
   });
 
   it("hasNext()", async () => {

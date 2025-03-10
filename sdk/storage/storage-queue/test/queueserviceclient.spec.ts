@@ -1,29 +1,27 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import { assert } from "chai";
-import { QueueServiceClient } from "../src/QueueServiceClient";
+import { QueueServiceClient } from "../src/QueueServiceClient.js";
 import {
   getAlternateQSU,
   getQSU,
   getSASConnectionStringFromEnvironment,
   uriSanitizers,
-} from "./utils";
+} from "./utils/index.js";
 import { delay, Recorder } from "@azure-tools/test-recorder";
-import { getYieldedValue } from "@azure-tools/test-utils";
-import { configureStorageClient, getUniqueName, recorderEnvSetup } from "./utils/index.browser";
-import type { Context } from "mocha";
+import { getYieldedValue } from "@azure-tools/test-utils-vitest";
+import { configureStorageClient, getUniqueName, recorderEnvSetup } from "./utils/index.browser.js";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("QueueServiceClient", () => {
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async (ctx) => {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderEnvSetup);
     await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 

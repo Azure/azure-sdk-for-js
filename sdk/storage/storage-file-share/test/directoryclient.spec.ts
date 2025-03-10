@@ -8,15 +8,19 @@ import {
   getUniqueName,
   recorderEnvSetup,
   uriSanitizers,
-} from "./utils";
-import type { FilePosixProperties, ShareClient } from "../src";
-import { ShareDirectoryClient, FileSystemAttributes, ShareServiceClient } from "../src";
+} from "./utils/index.js";
+import type { FilePosixProperties, ShareClient, ShareServiceClient } from "../src/index.js";
+import { ShareDirectoryClient, FileSystemAttributes } from "../src/index.js";
 import { Recorder, isLiveMode } from "@azure-tools/test-recorder";
-import type { DirectoryCreateResponse } from "../src/generatedModels";
-import { truncatedISO8061Date } from "../src/utils/utils.common";
-import { assert, getYieldedValue } from "@azure-tools/test-utils";
+import type { DirectoryCreateResponse } from "../src/generatedModels.js";
+import { truncatedISO8061Date } from "../src/utils/utils.common.js";
+import { getYieldedValue } from "@azure-tools/test-utils-vitest";
 import { isBrowser } from "@azure/core-util";
-import type { Context } from "mocha";
+import { describe, it, assert, beforeEach, afterEach, expect } from "vitest";
+import { toSupportTracing } from "@azure-tools/test-utils-vitest";
+import type { OperationOptions } from "@azure/core-client";
+
+expect.extend({ toSupportTracing });
 
 describe("DirectoryClient", () => {
   let shareName: string;
@@ -37,8 +41,8 @@ describe("DirectoryClient", () => {
   const filePermissionInBinaryFormat =
     "AQAUhGwAAACIAAAAAAAAABQAAAACAFgAAwAAAAAAFAD/AR8AAQEAAAAAAAUSAAAAAAAYAP8BHwABAgAAAAAABSAAAAAgAgAAAAAkAKkAEgABBQAAAAAABRUAAABZUbgXZnJdJWRjOwuMmS4AAQUAAAAAAAUVAAAAoGXPfnhLm1/nfIdwr/1IAQEFAAAAAAAFFQAAAKBlz354S5tf53yHcAECAAA=";
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async (ctx) => {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderEnvSetup);
     await recorder.addSanitizers(
       {
@@ -68,7 +72,7 @@ describe("DirectoryClient", () => {
     assert.ok(defaultDirCreateResp.filePermissionKey!);
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await shareClient.delete();
     await recorder.stop();
   });
@@ -127,9 +131,8 @@ describe("DirectoryClient", () => {
     assert.ok(result.date);
   });
 
-  it("create with default parameters", (done) => {
+  it("create with default parameters", () => {
     // create() with default parameters has been tested in beforeEach
-    done();
   });
 
   it("create with all parameters configured setting filePermissionKey", async () => {
@@ -369,7 +372,7 @@ describe("DirectoryClient", () => {
     assert.ok(result.fileParentId!);
   });
 
-  it("setProperties with binary permissions", async function () {
+  it("setProperties with binary permissions", async () => {
     await dirClient.setProperties({
       filePermissionFormat: "Binary",
       filePermission: filePermissionInBinaryFormat,
@@ -380,10 +383,7 @@ describe("DirectoryClient", () => {
     assert.ok(result.filePermissionKey);
   });
 
-  it("delete", (done) => {
-    // delete() with default parameters has been tested in afterEach
-    done();
-  });
+  it("delete", () => {});
 
   it("listFilesAndDirectories - empty prefix should not cause an error", async () => {
     const subDirClients = [];
@@ -505,10 +505,10 @@ describe("DirectoryClient", () => {
     }
   });
 
-  it("listFilesAndDirectories - with invalid char", async function (this: Context) {
+  it("listFilesAndDirectories - with invalid char", async function (ctx) {
     if (isBrowser && isLiveMode()) {
       // Skipped for now as the generating new version SAS token is not supported in pipeline yet.
-      this.skip();
+      ctx.skip();
     }
     const subDirClients = [];
     const subDirNames = [];
@@ -1032,46 +1032,42 @@ describe("DirectoryClient", () => {
   });
 
   it("createFile and deleteFile with tracing", async () => {
-    await assert.supportsTracing(
-      async (options) => {
-        const directoryName = recorder.variable("directory", getUniqueName("directory"));
-        const { directoryClient: subDirClient } = await dirClient.createSubdirectory(
-          directoryName,
-          options,
+    await expect(async (options: OperationOptions) => {
+      const directoryName = recorder.variable("directory", getUniqueName("directory"));
+      const { directoryClient: subDirClient } = await dirClient.createSubdirectory(
+        directoryName,
+        options,
+      );
+      const fileName = recorder.variable("file", getUniqueName("file"));
+      const metadata = { key: "value" };
+      const { fileClient } = await subDirClient.createFile(fileName, 256, {
+        metadata,
+        ...options,
+      });
+      const result = await fileClient.getProperties(options);
+      assert.deepEqual(result.metadata, metadata);
+      await subDirClient.deleteFile(fileName, options);
+      try {
+        await fileClient.getProperties(options);
+        assert.fail(
+          "Expecting an error in getting properties from a deleted block blob but didn't get one.",
         );
-        const fileName = recorder.variable("file", getUniqueName("file"));
-        const metadata = { key: "value" };
-        const { fileClient } = await subDirClient.createFile(fileName, 256, {
-          metadata,
-          ...options,
-        });
-        const result = await fileClient.getProperties(options);
-        assert.deepEqual(result.metadata, metadata);
-
-        await subDirClient.deleteFile(fileName, options);
-        try {
-          await fileClient.getProperties(options);
-          assert.fail(
-            "Expecting an error in getting properties from a deleted block blob but didn't get one.",
-          );
-        } catch (error: any) {
-          assert.ok((error.statusCode as number) === 404);
-          assert.equal(
-            error.details.errorCode,
-            "ResourceNotFound",
-            "Error does not contain details property",
-          );
-        }
-        await subDirClient.delete(options);
-      },
-      [
-        "ShareDirectoryClient-createSubdirectory",
-        "ShareDirectoryClient-createFile",
-        "ShareFileClient-getProperties",
-        "ShareDirectoryClient-deleteFile",
-        "ShareDirectoryClient-delete",
-      ],
-    );
+      } catch (error: any) {
+        assert.ok((error.statusCode as number) === 404);
+        assert.equal(
+          error.details.errorCode,
+          "ResourceNotFound",
+          "Error does not contain details property",
+        );
+      }
+      await subDirClient.delete(options);
+    }).toSupportTracing([
+      "ShareDirectoryClient-createSubdirectory",
+      "ShareDirectoryClient-createFile",
+      "ShareFileClient-getProperties",
+      "ShareDirectoryClient-deleteFile",
+      "ShareDirectoryClient-delete",
+    ]);
   });
 
   it("listHandles should work", async () => {
@@ -1091,10 +1087,10 @@ describe("DirectoryClient", () => {
     }
   });
 
-  it("listHandles for directory with Invalid Char should work", async function (this: Context) {
+  it("listHandles for directory with Invalid Char should work", async function (ctx) {
     if (isBrowser && isLiveMode()) {
       // Skipped for now as the generating new version SAS token is not supported in pipeline yet.
-      this.skip();
+      ctx.skip();
     }
 
     const dirNameWithInvalidChar = recorder.variable("dir2", getUniqueName("dir2\uFFFE"));
@@ -1519,7 +1515,7 @@ describe("ShareDirectoryClient - Verify Name Properties", () => {
   const dirPath = "dir1/dir2";
   const baseName = "baseName";
 
-  function verifyNameProperties(url: string) {
+  function verifyNameProperties(url: string): void {
     const newClient = new ShareDirectoryClient(url);
     assert.equal(newClient.shareName, shareName, "Share name is not the same as the one provided.");
     assert.equal(
@@ -1599,8 +1595,8 @@ describe("DirectoryClient - OAuth", () => {
   fullDirAttributes.notContentIndexed = true;
   fullDirAttributes.noScrubData = true;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async (ctx) => {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderEnvSetup);
     await recorder.addSanitizers(
       {
@@ -1620,7 +1616,7 @@ describe("DirectoryClient - OAuth", () => {
         shareName,
       );
     } catch (err) {
-      this.skip();
+      ctx.skip();
     }
 
     dirName = recorder.variable("dir", getUniqueName("dir"));
@@ -1637,7 +1633,7 @@ describe("DirectoryClient - OAuth", () => {
     assert.ok(defaultDirCreateResp.filePermissionKey!);
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await shareClientWithKeyCredential.delete();
     await recorder.stop();
   });
@@ -1667,9 +1663,8 @@ describe("DirectoryClient - OAuth", () => {
     assert.ok(result.date);
   });
 
-  it("create", (done) => {
+  it("create", () => {
     // create() with default parameters has been tested in beforeEach
-    done();
   });
 
   it("createIfNotExists", async () => {
@@ -1762,9 +1757,8 @@ describe("DirectoryClient - OAuth", () => {
     assert.ok(result.fileParentId!);
   });
 
-  it("delete", (done) => {
+  it("delete", () => {
     // delete() with default parameters has been tested in afterEach
-    done();
   });
 
   it("listFilesAndDirectories", async () => {
@@ -1906,8 +1900,8 @@ describe("DirectoryClient - AllowingTrailingDots - True", () => {
   let dirClient: ShareDirectoryClient;
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async (ctx) => {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderEnvSetup);
     await recorder.addSanitizers(
       {
@@ -1932,7 +1926,7 @@ describe("DirectoryClient - AllowingTrailingDots - True", () => {
     defaultDirCreateResp = await dirClient.create();
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await shareClient.delete();
     await recorder.stop();
   });
@@ -2149,8 +2143,8 @@ describe("DirectoryClient - AllowingTrailingDots - False", () => {
   let recorder: Recorder;
   let defaultDirCreateResp: DirectoryCreateResponse;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async (ctx) => {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderEnvSetup);
     await recorder.addSanitizers(
       {
@@ -2175,7 +2169,7 @@ describe("DirectoryClient - AllowingTrailingDots - False", () => {
     defaultDirCreateResp = await dirClient.create();
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await shareClient.delete();
     await recorder.stop();
   });
@@ -2422,8 +2416,8 @@ describe("DirectoryClient - AllowingTrailingDots - Default", () => {
   let dirClient: ShareDirectoryClient;
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async (ctx) => {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderEnvSetup);
     await recorder.addSanitizers(
       {
@@ -2445,7 +2439,7 @@ describe("DirectoryClient - AllowingTrailingDots - Default", () => {
     await dirClient.create();
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await shareClient.delete();
     await recorder.stop();
   });
@@ -2479,8 +2473,8 @@ describe("DirectoryClient - NFS", () => {
   let dirName: string;
   let dirClient: ShareDirectoryClient;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async (ctx) => {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderEnvSetup);
     await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
     let serviceClient: ShareServiceClient;
@@ -2488,7 +2482,8 @@ describe("DirectoryClient - NFS", () => {
       serviceClient = getGenericBSU(recorder, "PREMIUM_FILE_");
     } catch (error: any) {
       console.log(error);
-      this.skip();
+      ctx.skip();
+      return;
     }
 
     shareName = recorder.variable("share", getUniqueName("share"));
@@ -2503,14 +2498,14 @@ describe("DirectoryClient - NFS", () => {
     dirClient = shareClient.getDirectoryClient(dirName);
   });
 
-  afterEach(async function (this: Context) {
+  afterEach(async () => {
     if (shareClient) {
       await shareClient.delete({ deleteSnapshots: "include" });
     }
     await recorder.stop();
   });
 
-  it("create with nfs properties", async function () {
+  it("create with nfs properties", async () => {
     const posixProperties: FilePosixProperties = {
       owner: "123",
       group: "654",
@@ -2551,7 +2546,7 @@ describe("DirectoryClient - NFS", () => {
     assert.ok(cResp.fileParentId!);
   });
 
-  it("set&get nfs properties", async function () {
+  it("set&get nfs properties", async () => {
     const posixProperties: FilePosixProperties = {
       owner: "123",
       group: "654",

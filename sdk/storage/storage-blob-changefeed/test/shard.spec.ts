@@ -1,21 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import { assert } from "chai";
-import * as sinon from "sinon";
-import { ShardFactory } from "../src/ShardFactory";
+import { ShardFactory } from "../src/ShardFactory.js";
 import { ContainerClient } from "@azure/storage-blob";
-import { ChunkFactory } from "../src/ChunkFactory";
-import type { ShardCursor } from "../src/models/ChangeFeedCursor";
-import { Chunk } from "../src/Chunk";
-import type { BlobChangeFeedEvent } from "../src";
+import { ChunkFactory } from "../src/ChunkFactory.js";
+import type { ShardCursor } from "../src/models/ChangeFeedCursor.js";
+import { Chunk } from "../src/Chunk.js";
+import type { BlobChangeFeedEvent } from "../src/index.js";
+import { describe, it, assert, beforeEach, afterEach, vi } from "vitest";
 
 describe("Shard", async () => {
   let chunkFactoryStub: any;
   let containerClientSub: any;
   let chunkStub: any;
 
-  async function* fakeListBlobsFlat(option: { prefix: string }) {
+  async function* fakeListBlobsFlat(option: { prefix: string }): Promise<void> {
     for (let i = 0; i < 5; i++) {
       yield { name: `${option.prefix}0000${i}.avro` };
     }
@@ -30,7 +28,7 @@ describe("Shard", async () => {
   });
 
   afterEach(() => {
-    sinon.restore();
+    vi.restoreAllMocks();
   });
 
   it("build shard with none-zero chunkIndex", async () => {
