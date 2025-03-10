@@ -4,7 +4,7 @@
 import * as fs from "node:fs";
 import { AvroReadableFromStream } from "../../src/index.js";
 import { Readable } from "node:stream";
-import { assert } from "chai";
+import { describe, it, assert } from "vitest";
 
 describe("AvroReadableFromStream", () => {
   it("read pass end should throw", async () => {
