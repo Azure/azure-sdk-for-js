@@ -14,7 +14,12 @@ import {
 } from "../utils/index.js";
 import type { RetriableReadableStreamOptions } from "../../src/utils/RetriableReadableStream.js";
 import { isLiveMode, Recorder } from "@azure-tools/test-recorder";
-import type { ContainerClient, BlobClient, BlockBlobClient, BlobServiceClient } from "../../src/index.js";
+import type {
+  ContainerClient,
+  BlobClient,
+  BlockBlobClient,
+  BlobServiceClient,
+} from "../../src/index.js";
 import { readStreamToLocalFileWithLogs } from "../utils/testutils.node.js";
 import { BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES } from "../../src/utils/constants.js";
 import { Test_CPK_INFO } from "../utils/fakeTestSecrets.js";
@@ -39,35 +44,35 @@ describe("Highlevel", () => {
 
   let blobServiceClient: BlobServiceClient;
   beforeEach(async (ctx) => {
-      recorder = new Recorder(ctx);
-      await recorder.start(recorderEnvSetup);
-      await recorder.addSanitizers(
-        {
-          removeHeaderSanitizer: {
-            headersForRemoval: ["x-ms-encryption-key"],
-          },
+    recorder = new Recorder(ctx);
+    await recorder.start(recorderEnvSetup);
+    await recorder.addSanitizers(
+      {
+        removeHeaderSanitizer: {
+          headersForRemoval: ["x-ms-encryption-key"],
         },
-        ["playback", "record"],
-      );
-      blobServiceClient = getBSU(recorder, {
-        keepAliveOptions: {
-          enable: true,
-        },
-      });
-      containerName = recorder.variable("container", getUniqueName("container"));
-      containerClient = blobServiceClient.getContainerClient(containerName);
-      await containerClient.create();
-      blobName = recorder.variable("blob", getUniqueName("blob"));
-      blobClient = containerClient.getBlobClient(blobName);
-      blockBlobClient = blobClient.getBlockBlobClient();
+      },
+      ["playback", "record"],
+    );
+    blobServiceClient = getBSU(recorder, {
+      keepAliveOptions: {
+        enable: true,
+      },
     });
+    containerName = recorder.variable("container", getUniqueName("container"));
+    containerClient = blobServiceClient.getContainerClient(containerName);
+    await containerClient.create();
+    blobName = recorder.variable("blob", getUniqueName("blob"));
+    blobClient = containerClient.getBlobClient(blobName);
+    blockBlobClient = blobClient.getBlockBlobClient();
+  });
 
   afterEach(async () => {
-      if (containerClient) {
-        await containerClient.delete();
-      }
-      await recorder.stop();
-    });
+    if (containerClient) {
+      await containerClient.delete();
+    }
+    await recorder.stop();
+  });
 
   before(async function () {
     if (!fs.existsSync(tempFolderPath)) {

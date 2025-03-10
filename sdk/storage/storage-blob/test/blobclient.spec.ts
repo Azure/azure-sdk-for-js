@@ -31,7 +31,7 @@ import { isRestError } from "@azure/core-rest-pipeline";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 import { toSupportTracing } from "@azure-tools/test-utils-vitest";
 
-expect.extend({ toSupportTracing })
+expect.extend({ toSupportTracing });
 
 describe("BlobClient", () => {
   let blobServiceClient: BlobServiceClient;
@@ -45,31 +45,31 @@ describe("BlobClient", () => {
   let recorder: Recorder;
 
   beforeEach(async (ctx) => {
-      recorder = new Recorder(ctx);
-      await recorder.start(recorderEnvSetup);
-      await recorder.addSanitizers(
-        {
-          uriSanitizers,
-          removeHeaderSanitizer: { headersForRemoval: ["x-ms-copy-source", "x-ms-encryption-key"] },
-        },
-        ["record", "playback"],
-      );
-      blobServiceClient = getBSU(recorder);
-      containerName = recorder.variable("container", getUniqueName("container"));
-      containerClient = blobServiceClient.getContainerClient(containerName);
-      await containerClient.create();
-      blobName = recorder.variable("blob", getUniqueName("blob"));
-      blobClient = containerClient.getBlobClient(blobName);
-      blockBlobClient = blobClient.getBlockBlobClient();
-      await blockBlobClient.upload(content, content.length);
-    });
+    recorder = new Recorder(ctx);
+    await recorder.start(recorderEnvSetup);
+    await recorder.addSanitizers(
+      {
+        uriSanitizers,
+        removeHeaderSanitizer: { headersForRemoval: ["x-ms-copy-source", "x-ms-encryption-key"] },
+      },
+      ["record", "playback"],
+    );
+    blobServiceClient = getBSU(recorder);
+    containerName = recorder.variable("container", getUniqueName("container"));
+    containerClient = blobServiceClient.getContainerClient(containerName);
+    await containerClient.create();
+    blobName = recorder.variable("blob", getUniqueName("blob"));
+    blobClient = containerClient.getBlobClient(blobName);
+    blockBlobClient = blobClient.getBlockBlobClient();
+    await blockBlobClient.upload(content, content.length);
+  });
 
   afterEach(async () => {
-      if (containerClient) {
-        await containerClient.delete();
-      }
-      await recorder.stop();
-    });
+    if (containerClient) {
+      await containerClient.delete();
+    }
+    await recorder.stop();
+  });
 
   it("upload blob with cold tier should work", async function () {
     const newBlobClient = containerClient.getBlockBlobClient(
@@ -819,7 +819,9 @@ describe("BlobClient", () => {
   });
 
   it("download with default parameters and tracing", async function () {
-    await expect((options) => blobClient.download(undefined, undefined, options)).toSupportTracing(["BlobClient-download"]);
+    await expect((options) => blobClient.download(undefined, undefined, options)).toSupportTracing([
+      "BlobClient-download",
+    ]);
   });
 
   it("exists returns true on an existing blob", async function () {
@@ -1005,8 +1007,8 @@ describe("BlobClient", () => {
     const tagConditionUnmet = { tagConditions: "tag1 = 'val2'" };
 
     beforeEach(async () => {
-          await blobClient.setTags(tags);
-        });
+      await blobClient.setTags(tags);
+    });
 
     async function throwExpectedError(promise: Promise<any>, errorCode: string): Promise<void> {
       try {
@@ -1488,19 +1490,19 @@ describe("BlobClient - Object Replication", () => {
   });
 
   beforeEach(async (ctx) => {
-      recorder = new Recorder(ctx);
-      await recorder.start(recorderEnvSetup);
-      srcBlobServiceClient = getGenericBSU(recorder, "");
-      destBlobServiceClient = getGenericBSU(recorder, "ORS_DEST_");
-      srcContainerClient = srcBlobServiceClient.getContainerClient(srcContainerName);
-      destContainerClient = destBlobServiceClient.getContainerClient(destContainerName);
-      srcBlobClient = srcContainerClient.getBlobClient(blobName);
-      destBlobClient = destContainerClient.getBlobClient(blobName);
-    });
+    recorder = new Recorder(ctx);
+    await recorder.start(recorderEnvSetup);
+    srcBlobServiceClient = getGenericBSU(recorder, "");
+    destBlobServiceClient = getGenericBSU(recorder, "ORS_DEST_");
+    srcContainerClient = srcBlobServiceClient.getContainerClient(srcContainerName);
+    destContainerClient = destBlobServiceClient.getContainerClient(destContainerName);
+    srcBlobClient = srcContainerClient.getBlobClient(blobName);
+    destBlobClient = destContainerClient.getBlobClient(blobName);
+  });
 
   afterEach(async () => {
-      await recorder.stop();
-    });
+    await recorder.stop();
+  });
 
   it("source blob get properties", async function () {
     const getRes = await srcBlobClient.getProperties();
@@ -1594,45 +1596,45 @@ describe("BlobClient - ImmutabilityPolicy", () => {
   let recorder: Recorder;
 
   beforeEach(async (ctx) => {
-      try {
-        containerName = getImmutableContainerName();
-        recorder = new Recorder(ctx);
-        await recorder.start(recorderEnvSetup);
-        await recorder.addSanitizers(
-          {
-            uriSanitizers,
-          },
-          ["record", "playback"],
-        );
-        blobServiceClient = getBSU(recorder);
+    try {
+      containerName = getImmutableContainerName();
+      recorder = new Recorder(ctx);
+      await recorder.start(recorderEnvSetup);
+      await recorder.addSanitizers(
+        {
+          uriSanitizers,
+        },
+        ["record", "playback"],
+      );
+      blobServiceClient = getBSU(recorder);
 
-        containerClient = blobServiceClient.getContainerClient(containerName);
-        blobName = recorder.variable("blob", getUniqueName("blob"));
-        blobClient = containerClient.getBlobClient(blobName);
-      } catch {
-        ctx.skip();
-      }
-    });
+      containerClient = blobServiceClient.getContainerClient(containerName);
+      blobName = recorder.variable("blob", getUniqueName("blob"));
+      blobClient = containerClient.getBlobClient(blobName);
+    } catch {
+      ctx.skip();
+    }
+  });
 
   afterEach(async () => {
-      if (containerClient) {
-        const listResult = (await containerClient.listBlobsFlat().byPage().next()).value;
+    if (containerClient) {
+      const listResult = (await containerClient.listBlobsFlat().byPage().next()).value;
 
-        for (let i = 0; i < listResult.segment.blobItems!.length; ++i) {
-          const deleteBlobClient = containerClient.getBlobClient(
-            listResult.segment.blobItems[i].name,
-          );
+      for (let i = 0; i < listResult.segment.blobItems!.length; ++i) {
+        const deleteBlobClient = containerClient.getBlobClient(
+          listResult.segment.blobItems[i].name,
+        );
 
-          await deleteBlobClient.setLegalHold(false);
+        await deleteBlobClient.setLegalHold(false);
 
-          await deleteBlobClient.deleteImmutabilityPolicy();
-          await deleteBlobClient.delete({ deleteSnapshots: "include" });
-        }
-        if (recorder) {
-          await recorder.stop();
-        }
+        await deleteBlobClient.deleteImmutabilityPolicy();
+        await deleteBlobClient.delete({ deleteSnapshots: "include" });
       }
-    });
+      if (recorder) {
+        await recorder.stop();
+      }
+    }
+  });
 
   it("Set immutability policy", async function () {
     const blockBlobClient = blobClient.getBlockBlobClient();

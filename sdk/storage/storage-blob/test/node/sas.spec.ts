@@ -44,15 +44,15 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
   let blobServiceClient: BlobServiceClient;
   beforeEach(async (ctx) => {
-      recorder = new Recorder(ctx);
-      await recorder.start(recorderEnvSetup);
-      await recorder.addSanitizers({ uriSanitizers }, ["playback", "record"]);
-      blobServiceClient = getBSU(recorder);
-    });
+    recorder = new Recorder(ctx);
+    await recorder.start(recorderEnvSetup);
+    await recorder.addSanitizers({ uriSanitizers }, ["playback", "record"]);
+    blobServiceClient = getBSU(recorder);
+  });
 
   afterEach(async () => {
-      await recorder.stop();
-    });
+    await recorder.stop();
+  });
 
   it("generateAccountSASQueryParameters should work", async function () {
     const now = new Date(recorder.variable("now", new Date().toISOString()));
@@ -2688,40 +2688,40 @@ describe("Generation for user delegation SAS Node.js only", () => {
   let blobClient: BlobClient;
 
   beforeEach(async (ctx) => {
-      accountName = env["ACCOUNT_NAME"] ?? "";
+    accountName = env["ACCOUNT_NAME"] ?? "";
 
-      if (!accountName) {
-        ctx.skip();
-      }
-      recorder = new Recorder(ctx);
-      await recorder.start(recorderEnvSetup);
-      await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
-      blobServiceClient = getTokenBSUWithDefaultCredential(recorder);
+    if (!accountName) {
+      ctx.skip();
+    }
+    recorder = new Recorder(ctx);
+    await recorder.start(recorderEnvSetup);
+    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+    blobServiceClient = getTokenBSUWithDefaultCredential(recorder);
 
-      now = new Date(recorder.variable("now", new Date().toISOString()));
-      now.setHours(now.getHours() - 1);
-      tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
-      tmr.setDate(tmr.getDate() + 5);
-      userDelegationKey = await blobServiceClient.getUserDelegationKey(now, tmr);
+    now = new Date(recorder.variable("now", new Date().toISOString()));
+    now.setHours(now.getHours() - 1);
+    tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
+    tmr.setDate(tmr.getDate() + 5);
+    userDelegationKey = await blobServiceClient.getUserDelegationKey(now, tmr);
 
-      const containerName = recorder.variable("container", getUniqueName("container"));
-      containerClient = blobServiceClient.getContainerClient(containerName);
-      await containerClient.create();
-      const content = "Hello World";
-      const blobName = recorder.variable("blob", getUniqueName("blob"));
-      blobClient = containerClient.getBlobClient(blobName);
-      const blockBlobClient = blobClient.getBlockBlobClient();
-      await blockBlobClient.upload(content, content.length);
-    });
+    const containerName = recorder.variable("container", getUniqueName("container"));
+    containerClient = blobServiceClient.getContainerClient(containerName);
+    await containerClient.create();
+    const content = "Hello World";
+    const blobName = recorder.variable("blob", getUniqueName("blob"));
+    blobClient = containerClient.getBlobClient(blobName);
+    const blockBlobClient = blobClient.getBlockBlobClient();
+    await blockBlobClient.upload(content, content.length);
+  });
 
   afterEach(async () => {
-      if (containerClient) {
-        await containerClient.delete();
-      }
-      if (recorder) {
-        await recorder.stop();
-      }
-    });
+    if (containerClient) {
+      await containerClient.delete();
+    }
+    if (recorder) {
+      await recorder.stop();
+    }
+  });
 
   it("user delegation SAS permission m, e for blob should work", async function () {
     const blobSAS = generateBlobSASQueryParameters(
@@ -2792,44 +2792,44 @@ describe("Shared Access Signature (SAS) generation Node.js Only - ImmutabilityPo
   let recorder: Recorder;
 
   beforeEach(async (ctx) => {
-      try {
-        containerName = getImmutableContainerName();
-      } catch {
-        ctx.skip();
-      }
-      recorder = new Recorder(ctx);
-      await recorder.start(recorderEnvSetup);
-      await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
-      blobServiceClient = getBSU(recorder);
-      containerClient = blobServiceClient.getContainerClient(containerName);
-      blobName = recorder.variable("blob", getUniqueName("blob"));
-      blobClient = containerClient.getBlobClient(blobName);
-    });
+    try {
+      containerName = getImmutableContainerName();
+    } catch {
+      ctx.skip();
+    }
+    recorder = new Recorder(ctx);
+    await recorder.start(recorderEnvSetup);
+    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+    blobServiceClient = getBSU(recorder);
+    containerClient = blobServiceClient.getContainerClient(containerName);
+    blobName = recorder.variable("blob", getUniqueName("blob"));
+    blobClient = containerClient.getBlobClient(blobName);
+  });
 
   afterEach(async () => {
-      if (containerClient) {
-        const listResult = (
-          await containerClient
-            .listBlobsFlat({
-              includeImmutabilityPolicy: true,
-            })
-            .byPage()
-            .next()
-        ).value;
+    if (containerClient) {
+      const listResult = (
+        await containerClient
+          .listBlobsFlat({
+            includeImmutabilityPolicy: true,
+          })
+          .byPage()
+          .next()
+      ).value;
 
-        for (let i = 0; i < listResult.segment.blobItems!.length; ++i) {
-          const deleteBlobClient = containerClient.getBlobClient(
-            listResult.segment.blobItems[i].name,
-          );
-          await deleteBlobClient.setLegalHold(false);
-          await deleteBlobClient.deleteImmutabilityPolicy();
-          await deleteBlobClient.delete();
-        }
-        if (recorder) {
-          await recorder.stop();
-        }
+      for (let i = 0; i < listResult.segment.blobItems!.length; ++i) {
+        const deleteBlobClient = containerClient.getBlobClient(
+          listResult.segment.blobItems[i].name,
+        );
+        await deleteBlobClient.setLegalHold(false);
+        await deleteBlobClient.deleteImmutabilityPolicy();
+        await deleteBlobClient.delete();
       }
-    });
+      if (recorder) {
+        await recorder.stop();
+      }
+    }
+  });
 
   it("Account sas - set immutability policy and legalhold with account SAS should work", async () => {
     const blockBlobClient = blobClient.getBlockBlobClient();
@@ -2996,33 +2996,33 @@ describe("Generation for user delegation SAS against container Node.js only", ()
   let tmr: Date;
   let userDelegationKey: UserDelegationKey;
   beforeEach(async (ctx) => {
-      recorder = new Recorder(ctx);
-      await recorder.start(recorderEnvSetup);
-      await recorder.addSanitizers({ uriSanitizers }, ["playback", "record"]);
-      try {
-        blobServiceClient = getTokenBSUWithDefaultCredential(recorder);
-      } catch {
-        // Requires bearer token for this case which cannot be generated in the runtime
-        // Make sure this case passed in sanity test
-        ctx.skip();
-      }
-      const containerName = recorder.variable("container", getUniqueName("container"));
-      containerClient = blobServiceClient.getContainerClient(containerName);
-      await containerClient.create();
+    recorder = new Recorder(ctx);
+    await recorder.start(recorderEnvSetup);
+    await recorder.addSanitizers({ uriSanitizers }, ["playback", "record"]);
+    try {
+      blobServiceClient = getTokenBSUWithDefaultCredential(recorder);
+    } catch {
+      // Requires bearer token for this case which cannot be generated in the runtime
+      // Make sure this case passed in sanity test
+      ctx.skip();
+    }
+    const containerName = recorder.variable("container", getUniqueName("container"));
+    containerClient = blobServiceClient.getContainerClient(containerName);
+    await containerClient.create();
 
-      now = new Date(recorder.variable("now", new Date().toISOString()));
-      now.setHours(now.getHours() - 1);
-      tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
-      tmr.setDate(tmr.getDate() + 1);
-      userDelegationKey = await blobServiceClient.getUserDelegationKey(now, tmr);
-    });
+    now = new Date(recorder.variable("now", new Date().toISOString()));
+    now.setHours(now.getHours() - 1);
+    tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
+    tmr.setDate(tmr.getDate() + 1);
+    userDelegationKey = await blobServiceClient.getUserDelegationKey(now, tmr);
+  });
 
   afterEach(async () => {
-      if (containerClient) {
-        await containerClient.delete();
-      }
-      await recorder.stop();
-    });
+    if (containerClient) {
+      await containerClient.delete();
+    }
+    await recorder.stop();
+  });
 
   it("generateUserDelegationSasUrl should work with all configurations", async function () {
     const generateSASOptions = {
@@ -3138,37 +3138,37 @@ describe("Generation for user delegation SAS against blob Node.js only", () => {
   let blobClient: BlobClient;
 
   beforeEach(async (ctx) => {
-      recorder = new Recorder(ctx);
-      await recorder.start(recorderEnvSetup);
-      await recorder.addSanitizers({ uriSanitizers }, ["playback", "record"]);
-      try {
-        blobServiceClient = getTokenBSUWithDefaultCredential(recorder);
-      } catch {
-        ctx.skip();
-      }
+    recorder = new Recorder(ctx);
+    await recorder.start(recorderEnvSetup);
+    await recorder.addSanitizers({ uriSanitizers }, ["playback", "record"]);
+    try {
+      blobServiceClient = getTokenBSUWithDefaultCredential(recorder);
+    } catch {
+      ctx.skip();
+    }
 
-      now = new Date(recorder.variable("now", new Date().toISOString()));
-      now.setHours(now.getHours() - 1);
-      tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
-      tmr.setDate(tmr.getDate() + 5);
-      userDelegationKey = await blobServiceClient.getUserDelegationKey(now, tmr);
+    now = new Date(recorder.variable("now", new Date().toISOString()));
+    now.setHours(now.getHours() - 1);
+    tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
+    tmr.setDate(tmr.getDate() + 5);
+    userDelegationKey = await blobServiceClient.getUserDelegationKey(now, tmr);
 
-      const containerName = recorder.variable("container", getUniqueName("container"));
-      containerClient = blobServiceClient.getContainerClient(containerName);
-      await containerClient.create();
-      const content = "Hello World";
-      const blobName = recorder.variable("blob", getUniqueName("blob"));
-      blobClient = containerClient.getBlobClient(blobName);
-      const blockBlobClient = blobClient.getBlockBlobClient();
-      await blockBlobClient.upload(content, content.length);
-    });
+    const containerName = recorder.variable("container", getUniqueName("container"));
+    containerClient = blobServiceClient.getContainerClient(containerName);
+    await containerClient.create();
+    const content = "Hello World";
+    const blobName = recorder.variable("blob", getUniqueName("blob"));
+    blobClient = containerClient.getBlobClient(blobName);
+    const blockBlobClient = blobClient.getBlockBlobClient();
+    await blockBlobClient.upload(content, content.length);
+  });
 
   afterEach(async () => {
-      if (containerClient) {
-        await containerClient.delete();
-      }
-      await recorder.stop();
-    });
+    if (containerClient) {
+      await containerClient.delete();
+    }
+    await recorder.stop();
+  });
 
   it("generateUserDelegationSasUrl should work", async function () {
     const blobName = recorder.variable("pageBlob", getUniqueName("pageBlob"));

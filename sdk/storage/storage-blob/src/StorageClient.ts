@@ -5,7 +5,12 @@ import type { StorageClient as StorageClientContext } from "./generated/src/inde
 import { StorageContextClient } from "./StorageContextClient.js";
 import type { PipelineLike } from "./Pipeline.js";
 import { getCoreClientOptions, getCredentialFromPipeline } from "./Pipeline.js";
-import { escapeURLPath, getURLScheme, iEqual, getAccountNameFromUrl } from "./utils/utils.common.js";
+import {
+  escapeURLPath,
+  getURLScheme,
+  iEqual,
+  getAccountNameFromUrl,
+} from "./utils/utils.common.js";
 import type { AnonymousCredential } from "./credentials/AnonymousCredential.js";
 import type { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential.js";
 import type { TokenCredential } from "@azure/core-auth";

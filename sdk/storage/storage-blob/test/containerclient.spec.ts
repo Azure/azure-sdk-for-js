@@ -27,7 +27,7 @@ import type { Tags } from "../src/models.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 import { toSupportTracing } from "@azure-tools/test-utils-vitest";
 
-expect.extend({ toSupportTracing })
+expect.extend({ toSupportTracing });
 
 describe("ContainerClient", () => {
   let blobServiceClient: BlobServiceClient;
@@ -37,27 +37,27 @@ describe("ContainerClient", () => {
   let recorder: Recorder;
 
   beforeEach(async (ctx) => {
-      recorder = new Recorder(ctx);
-      await recorder.start(recorderEnvSetup);
-      await recorder.addSanitizers(
-        {
-          uriSanitizers,
-          removeHeaderSanitizer: {
-            headersForRemoval: ["x-ms-encryption-key"],
-          },
+    recorder = new Recorder(ctx);
+    await recorder.start(recorderEnvSetup);
+    await recorder.addSanitizers(
+      {
+        uriSanitizers,
+        removeHeaderSanitizer: {
+          headersForRemoval: ["x-ms-encryption-key"],
         },
-        ["playback", "record"],
-      );
-      blobServiceClient = getBSU(recorder);
-      containerName = recorder.variable("container", getUniqueName("container"));
-      containerClient = blobServiceClient.getContainerClient(containerName);
-      await containerClient.create();
-    });
+      },
+      ["playback", "record"],
+    );
+    blobServiceClient = getBSU(recorder);
+    containerName = recorder.variable("container", getUniqueName("container"));
+    containerClient = blobServiceClient.getContainerClient(containerName);
+    await containerClient.create();
+  });
 
   afterEach(async () => {
-      await containerClient.delete();
-      await recorder.stop();
-    });
+    await containerClient.delete();
+    await recorder.stop();
+  });
 
   it("setMetadata", async function () {
     const metadata = {
@@ -851,16 +851,16 @@ describe("ContainerClient", () => {
     const blobName: string = recorder.variable("blob", getUniqueName("blob"));
     let blockBlobClient: BlockBlobClient | undefined;
     await expect(async function (options) {
-    const result = await containerClient.uploadBlockBlob(blobName, body, body.length, {
+      const result = await containerClient.uploadBlockBlob(blobName, body, body.length, {
         blobHTTPHeaders: blobHeaders,
         metadata: {
-            keya: "vala",
-            keyb: "valb",
+          keya: "vala",
+          keyb: "valb",
         },
         tracingOptions: options.tracingOptions,
-    });
-    blockBlobClient = result.blockBlobClient;
-}).toSupportTracing(["ContainerClient-uploadBlockBlob"]);
+      });
+      blockBlobClient = result.blockBlobClient;
+    }).toSupportTracing(["ContainerClient-uploadBlockBlob"]);
 
     await containerClient.deleteBlob(blobName);
     try {

@@ -30,32 +30,32 @@ describe("BlobClient beginCopyFromURL Poller", () => {
   let recorder: Recorder;
 
   beforeEach(async (ctx) => {
-      recorder = new Recorder(ctx);
-      // Copy source for all cases in this suite doesn't include any credential, it's save to keep x-ms-copy-source header.
-      await recorder.start(recorderEnvSetupWithCopySource);
-      await recorder.addSanitizers({ uriSanitizers }, ["playback", "record"]);
-      const blobServiceClient = getBSU(recorder);
-      containerName = recorder.variable("container", getUniqueName("container"));
-      containerClient = blobServiceClient.getContainerClient(containerName);
-      await containerClient.create();
-      blobName = recorder.variable("blob", getUniqueName("blob"));
-      blobClient = containerClient.getBlobClient(blobName);
-      blockBlobClient = blobClient.getBlockBlobClient();
-      await blockBlobClient.upload(content, content.length);
-      destinationContainerName = recorder.variable("dest-container", getUniqueName("dest-container"));
-      destinationContainerClient = blobServiceClient.getContainerClient(destinationContainerName);
-      await destinationContainerClient.create();
-    });
+    recorder = new Recorder(ctx);
+    // Copy source for all cases in this suite doesn't include any credential, it's save to keep x-ms-copy-source header.
+    await recorder.start(recorderEnvSetupWithCopySource);
+    await recorder.addSanitizers({ uriSanitizers }, ["playback", "record"]);
+    const blobServiceClient = getBSU(recorder);
+    containerName = recorder.variable("container", getUniqueName("container"));
+    containerClient = blobServiceClient.getContainerClient(containerName);
+    await containerClient.create();
+    blobName = recorder.variable("blob", getUniqueName("blob"));
+    blobClient = containerClient.getBlobClient(blobName);
+    blockBlobClient = blobClient.getBlockBlobClient();
+    await blockBlobClient.upload(content, content.length);
+    destinationContainerName = recorder.variable("dest-container", getUniqueName("dest-container"));
+    destinationContainerClient = blobServiceClient.getContainerClient(destinationContainerName);
+    await destinationContainerClient.create();
+  });
 
   afterEach(async () => {
-      if (containerClient) {
-        await containerClient.delete();
-      }
-      if (destinationContainerClient) {
-        await destinationContainerClient.delete();
-      }
-      await recorder.stop();
-    });
+    if (containerClient) {
+      await containerClient.delete();
+    }
+    if (destinationContainerClient) {
+      await destinationContainerClient.delete();
+    }
+    await recorder.stop();
+  });
 
   it("supports automatic polling via pollUntilDone", async function () {
     if (!isNodeLike && !isLiveMode()) {

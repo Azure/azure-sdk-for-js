@@ -50,23 +50,23 @@ describe("BlockBlobClient Node.js only", () => {
 
   let blobServiceClient: BlobServiceClient;
   beforeEach(async (ctx) => {
-      recorder = new Recorder(ctx);
-      await recorder.start(recorderEnvSetup);
-      blobServiceClient = getBSU(recorder);
-      containerName = recorder.variable("container", getUniqueName("container"));
-      containerClient = blobServiceClient.getContainerClient(containerName);
-      await containerClient.create();
-      blobName = recorder.variable("blob", getUniqueName("blob"));
-      blobClient = containerClient.getBlobClient(blobName);
-      blockBlobClient = blobClient.getBlockBlobClient();
-    });
+    recorder = new Recorder(ctx);
+    await recorder.start(recorderEnvSetup);
+    blobServiceClient = getBSU(recorder);
+    containerName = recorder.variable("container", getUniqueName("container"));
+    containerClient = blobServiceClient.getContainerClient(containerName);
+    await containerClient.create();
+    blobName = recorder.variable("blob", getUniqueName("blob"));
+    blobClient = containerClient.getBlobClient(blobName);
+    blockBlobClient = blobClient.getBlockBlobClient();
+  });
 
   afterEach(async () => {
-      if (containerClient) {
-        await containerClient.delete();
-      }
-      await recorder.stop();
-    });
+    if (containerClient) {
+      await containerClient.delete();
+    }
+    await recorder.stop();
+  });
 
   it("Upload special content should work", async () => {
     const content =
@@ -326,57 +326,57 @@ describe("syncUploadFromURL", () => {
   });
 
   beforeEach(async (ctx) => {
-      recorder = new Recorder(ctx);
-      await recorder.start(recorderEnvSetup);
-      await recorder.addSanitizers(
-        {
-          uriSanitizers,
-          removeHeaderSanitizer: {
-            headersForRemoval: [
-              "x-ms-copy-source",
-              "x-ms-copy-source-authorization",
-              "x-ms-encryption-key",
-            ],
-          },
+    recorder = new Recorder(ctx);
+    await recorder.start(recorderEnvSetup);
+    await recorder.addSanitizers(
+      {
+        uriSanitizers,
+        removeHeaderSanitizer: {
+          headersForRemoval: [
+            "x-ms-copy-source",
+            "x-ms-copy-source-authorization",
+            "x-ms-encryption-key",
+          ],
         },
-        ["playback", "record"],
-      );
-      const blobServiceClient = getBSU(recorder);
-      const containerName = recorder.variable("container", getUniqueName("container"));
-      containerClient = blobServiceClient.getContainerClient(containerName);
-      await containerClient.create();
-      const blobName = recorder.variable("blockblob", getUniqueName("blockblob"));
-      blockBlobClient = containerClient.getBlockBlobClient(blobName);
+      },
+      ["playback", "record"],
+    );
+    const blobServiceClient = getBSU(recorder);
+    const containerName = recorder.variable("container", getUniqueName("container"));
+    containerClient = blobServiceClient.getContainerClient(containerName);
+    await containerClient.create();
+    const blobName = recorder.variable("blockblob", getUniqueName("blockblob"));
+    blockBlobClient = containerClient.getBlockBlobClient(blobName);
 
-      // generate source blob SAS
+    // generate source blob SAS
 
-      const srcBlobName = recorder.variable("srcblob/%2+%2F", getUniqueName("srcblob/%2+%2F"));
-      sourceBlob = containerClient.getBlockBlobClient(srcBlobName);
-      const uploadSrcRes = await sourceBlob.upload(content, content.length, {
-        blobHTTPHeaders: srcHttpHeaders,
-      });
-      srcEtag = uploadSrcRes.etag;
-
-      const expiryTime = new Date(recorder.variable("expiry", new Date().toISOString()));
-      expiryTime.setDate(expiryTime.getDate() + 1);
-      const sas = generateBlobSASQueryParameters(
-        {
-          expiresOn: expiryTime,
-          permissions: BlobSASPermissions.parse("r"),
-          containerName,
-          blobName: srcBlobName,
-        },
-        sourceBlob.credential as StorageSharedKeyCredential,
-      );
-      sourceBlobURLWithSAS = sourceBlob.url + "?" + sas;
+    const srcBlobName = recorder.variable("srcblob/%2+%2F", getUniqueName("srcblob/%2+%2F"));
+    sourceBlob = containerClient.getBlockBlobClient(srcBlobName);
+    const uploadSrcRes = await sourceBlob.upload(content, content.length, {
+      blobHTTPHeaders: srcHttpHeaders,
     });
+    srcEtag = uploadSrcRes.etag;
+
+    const expiryTime = new Date(recorder.variable("expiry", new Date().toISOString()));
+    expiryTime.setDate(expiryTime.getDate() + 1);
+    const sas = generateBlobSASQueryParameters(
+      {
+        expiresOn: expiryTime,
+        permissions: BlobSASPermissions.parse("r"),
+        containerName,
+        blobName: srcBlobName,
+      },
+      sourceBlob.credential as StorageSharedKeyCredential,
+    );
+    sourceBlobURLWithSAS = sourceBlob.url + "?" + sas;
+  });
 
   afterEach(async () => {
-      if (containerClient) {
-        await containerClient.delete();
-      }
-      await recorder.stop();
-    });
+    if (containerClient) {
+      await containerClient.delete();
+    }
+    await recorder.stop();
+  });
 
   it("stageBlockFromURL - source SAS and destination bearer token", async function () {
     const stokenBlobServiceClient = getTokenBSUWithDefaultCredential(recorder);
