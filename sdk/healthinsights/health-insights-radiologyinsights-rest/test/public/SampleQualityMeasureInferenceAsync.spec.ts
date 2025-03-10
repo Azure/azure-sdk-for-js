@@ -9,8 +9,8 @@ import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 const codingData = {
   system: "http://www.ama-assn.org/go/cpt",
-  code: "USPELVIS",
-  display: "US PELVIS COMPLETE",
+  code: "CTCHWO",
+  display: "CT CHEST WO CONTRAST",
 };
 
 const code = {
@@ -38,7 +38,7 @@ const authorData = {
 
 const orderedProceduresData = {
   code: code,
-  description: "US PELVIS COMPLETE",
+  description: "CT CHEST WO CONTRAST",
 };
 
 const administrativeMetadata = {
@@ -48,29 +48,27 @@ const administrativeMetadata = {
 
 const content = {
   sourceType: "inline",
-  value: `CLINICAL HISTORY:
-20-year-old female presenting with abdominal pain. Surgical history significant for appendectomy.
+  value: `EXAM: CT CHEST WO CONTRAST
 
-COMPARISON:
-Right upper quadrant sonographic performed 1 day prior.
+INDICATION: abnormal lung findings. History of emphysema.
 
-TECHNIQUE:
-Transabdominal grayscale pelvic sonography with duplex color Doppler
-and spectral waveform analysis of the ovaries.
+TECHNIQUE: Helical CT images through the chest, without contrast. This exam was performed using one or more of the following dose reduction techniques: Automated exposure control, adjustment of the mA and/or kV according to patient size, and/or use of iterative reconstruction technique. 
+
+COMPARISON: Chest CT dated 6/21/2022.
+Number of previous CT examinations or cardiac nuclear medicine (myocardial perfusion) examinations performed in the preceding 12-months: 2
 
 FINDINGS:
-The uterus is unremarkable given the transabdominal technique with
-endometrial echo complex within physiologic normal limits. The
-ovaries are symmetric in size, measuring 2.5 x 1.2 x 3.0 cm and the
-left measuring 2.8 x 1.5 x 1.9 cm.
+Heart size is normal. No pericardial effusion. Thoracic aorta as well as pulmonary arteries are normal in caliber. There are dense coronary artery calcifications. No enlarged axillary, mediastinal, or hilar lymph nodes by CT size criteria. Central airways are widely patent. No bronchial wall thickening. No pneumothorax, pleural effusion or pulmonary edema. The previously identified posterior right upper lobe nodules are no longer seen. However, there are multiple new small pulmonary nodules. An 8 mm nodule in the right upper lobe, image #15 series 4. New posterior right upper lobe nodule measuring 6 mm, image #28 series 4. New 1.2 cm pulmonary nodule, right upper lobe, image #33 series 4. New 4 mm pulmonary nodule left upper lobe, image #22 series 4. New 8 mm pulmonary nodule in the left upper lobe adjacent to the fissure, image #42 series 4. A few new tiny 2 to 3 mm pulmonary nodules are also noted in the left lower lobe. As before there is a background of severe emphysema. No evidence of pneumonia.
+Limited evaluation of the upper abdomen shows no concerning abnormality.
+Review of bone windows shows no aggressive appearing osseous lesions.
 
-On duplex imaging, Doppler signal is symmetric.
 
 IMPRESSION:
-1. Normal pelvic sonography. Findings of testicular torsion.
-A new US pelvis within the next 6 months is recommended.
 
-These results have been discussed with Dr. Jones at 3 PM on November 5 2020.`,
+1. Previously identified small pulmonary nodules in the right upper lobe have resolved, but there are multiple new small nodules scattered throughout both lungs. Recommend short-term follow-up with noncontrast chest CT in 3 months as per current  Current guidelines (2017 Fleischner Society).
+2. Severe emphysema.
+
+Findings communicated to Dr. Jane Smith.`,
 };
 
 const patientDocumentData = {
@@ -83,7 +81,7 @@ const patientDocumentData = {
   administrativeMetadata: administrativeMetadata,
   content: content,
   createdAt: "2021-05-31T16:00:00.000Z",
-  orderedProceduresAsCsv: "US PELVIS COMPLETE",
+  orderedProceduresAsCsv: "CT CHEST WO CONTRAST",
 };
 
 const patientData = {
@@ -148,39 +146,39 @@ const param = {
 
 /**
  *
- * Display the Follow Up Recommendation of the Radiology Insights request.
+ * Display the Scoring and Assessment Inference of the Radiology Insights request.
  *
  */
 
-function findFollowUpCommunicationInferences(res: any): void {
+function findQMInference(res: any): void {
   if ("result" in res.body) {
     res.body.result?.patientResults.forEach((patientResult: any) => {
       if (patientResult.inferences) {
-        patientResult.inferences.forEach(
-          (inference: {
-            kind: string;
-            communicatedAt: any[];
-            recipient: any[];
-            wasAcknowledged: string;
-          }) => {
-            if (inference.kind === "followupCommunication") {
-              console.log("Followup Communication Inference found");
-              if ("communicatedAt" in inference) {
-                console.log("Communicated At: " + inference.communicatedAt.join(" "));
-              }
-              if ("recipient" in inference) {
-                console.log("Recipient: " + inference.recipient.join(" "));
-              }
-              console.log("Aknowledged: " + inference.wasAcknowledged);
+        patientResult.inferences.forEach((inference: any) => {
+          if (inference.kind === "qualityMeasure") {
+            console.log("Quality Measure Inference found:");
+
+            if ("qualityMeasureDenominator" in inference) {
+              console.log("   Quality Measure Denominator: ", inference.qualityMeasureDenominator);
             }
-          },
-        );
+
+            if ("complianceType" in inference) {
+              console.log("   Compliance Type: ", inference.complianceType);
+            }
+
+            inference.qualityCriteria?.forEach((criteria: any) => {
+              console.log("   Quality Criterium: ", criteria);
+            })
+
+          }
+        });
       }
     });
   }
+
 }
 
-describe("Follow Up Communication Inference Test", () => {
+describe("Sex Mismatch Inference Test", () => {
   let recorder: Recorder;
   let client: AzureHealthInsightsClient;
 
@@ -193,14 +191,14 @@ describe("Follow Up Communication Inference Test", () => {
     await recorder.stop();
   });
 
-  it("follow up communication inference test", async () => {
+  it("sex mismatch inference test", async () => {
     const result = await client
-      .path("/radiology-insights/jobs/{id}", "jobId-17138794923687")
+      .path("/radiology-insights/jobs/{id}", "jobId-17138795260264")
       .put(param);
     const poller = await getLongRunningPoller(client, result);
     const res = await poller.pollUntilDone();
     console.log(res);
     assert.equal(res.status, "200");
-    findFollowUpCommunicationInferences(res);
+    findQMInference(res);
   });
 });

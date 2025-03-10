@@ -9,8 +9,8 @@ import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 const codingData = {
   system: "http://www.ama-assn.org/go/cpt",
-  code: "ANG366",
-  display: "XA VENACAVA FILTER INSERTION",
+  code: "71250",
+  display: "CT CHEST WO CONTRAST",
 };
 
 const code = {
@@ -18,8 +18,8 @@ const code = {
 };
 
 const patientInfo = {
-  sex: "male",
-  birthDate: "1980-04-22T02:00:00+00:00",
+  sex: "female",
+  birthDate: "1959-11-11T19:00:00+00:00",
 };
 
 const encounterData = {
@@ -38,7 +38,7 @@ const authorData = {
 
 const orderedProceduresData = {
   code: code,
-  description: "XA VENACAVA FILTER INSERTION",
+  description: "CT CHEST WO CONTRAST",
 };
 
 const administrativeMetadata = {
@@ -48,12 +48,10 @@ const administrativeMetadata = {
 
 const content = {
   sourceType: "inline",
-  value: `FINDINGS:
-  1. Inferior vena cavagram using CO2 contrast shows the IVC is normal
-  in course and caliber without filling defects to indicate clot. It
-  measures 19.8 mm. in diameter infrarenally.
-
-  2. Successful placement of IVC filter in infrarenal location.`,
+  value: `History:
+    Left renal tumor with thin septations.
+    Findings:
+    There is a right kidney tumor with nodular calcification.`,
 };
 
 const patientDocumentData = {
@@ -66,11 +64,11 @@ const patientDocumentData = {
   administrativeMetadata: administrativeMetadata,
   content: content,
   createdAt: "2021-05-31T16:00:00.000Z",
-  orderedProceduresAsCsv: "XA VENACAVA FILTER INSERTION",
+  orderedProceduresAsCsv: "CT CHEST WO CONTRAST",
 };
 
 const patientData = {
-  id: "Roberto Lewis",
+  id: "Samantha Jones",
   details: patientInfo,
   encounters: [encounterData],
   patientDocuments: [patientDocumentData],
@@ -131,44 +129,50 @@ const param = {
 
 /**
  *
- * Display the finding inference of the Radiology Insights request.
+ * Display the guidance inference of the Radiology Insights request.
  *
  */
 
-function findFinding(res: any): void {
+function findGuidance(res: any): void {
   if ("result" in res.body) {
     res.body.result?.patientResults.forEach((patientResult: any) => {
       if (patientResult.inferences) {
         patientResult.inferences.forEach((inference: any) => {
-          if (inference.kind === "finding") {
-            console.log("Finding Inference found: ");
+          if (inference.kind === "guidance") {
+            console.log("Guidance Inference found: ");
 
-            const find = inference.finding;
-            if ("code" in find) {
-              const fcode = find.code;
-              console.log("   Code: ");
-              displayCodes(fcode);
+            if ("finding" in inference) {
+              const find = inference.finding;
+              if ("code" in find) {
+                const fcode = find.code;
+                console.log("   Finding Code: ");
+                displayCodes(fcode);
+              }
             }
 
-            find.interpretation?.forEach((inter: { coding: any }) => {
-              console.log("   Interpretation: ");
-              displayCodes(inter);
-            });
-
-            inference.finding.component?.forEach(
-              (comp: { code: any; valueCodeableConcept: any }) => {
-                console.log("   Component code: ");
-                displayCodes(comp.code);
-                if ("valueCodeableConcept" in comp) {
-                  console.log("     Value component codeable concept: ");
-                  displayCodes(comp.valueCodeableConcept);
-                }
-              },
-            );
-
-            if ("extension" in inference) {
-              displaySectionInfo(inference);
+            if ("identifier" in inference) {
+              console.log("   Identifier: ", inference.identifier);
+              if ("code" in inference.identifier) {
+                displayCodes(inference.identifier.code);
+              }
             }
+
+            inference.presentGuidanceInformation?.forEach((presentInfo: any) => {
+              console.log("   Present Guidance Information: ");
+              displayPresentGuidanceInformation(presentInfo);
+            })
+
+            if ("ranking" in inference) {
+              console.log("   Ranking: ", inference.ranking);
+            }
+
+            if ("recommendationProposals" in inference) {
+              console.log("   Recommendation Proposal: ", inference.recommendationProposals.recommendedProcedure.kind);
+            }
+
+            inference.missingGuidanceInformation?.forEach((missingInfo: any) => {
+              console.log("   Missing Guidance Information: ", missingInfo);
+            })
           }
         });
       }
@@ -185,6 +189,48 @@ function findFinding(res: any): void {
     });
   }
 
+  function displayPresentGuidanceInformation(guidanceinfo: any): void {
+    console.log("     Present Guidance Information Item: ", guidanceinfo.presentGuidanceItem);
+
+    guidanceinfo.presentGuidanceValues?.forEach((sizes: any) => {
+      console.log("     Present Guidance Value: ", sizes);
+    })
+
+    guidanceinfo.sizes?.forEach((sizes: any) => {
+      if ("valueQuantity" in sizes) {
+        console.log("     Size valueQuantity: ");
+        displayQuantityOutput(guidanceinfo.sizes.valueQuantity);
+      }
+      if ("valueRange" in sizes) {
+        if ("low" in sizes.valueRange) {
+          console.log("     Size ValueRange: min", sizes.valueRange.low);
+        }
+        if ("high" in sizes.valueRange) {
+          console.log("     Size ValueRange: max", sizes.valueRange.high);
+        }
+      }
+    })
+
+    if ("maximumDiameterAsInText" in guidanceinfo) {
+      console.log("     Maximum Diameter As In Text: ");
+      displayQuantityOutput(guidanceinfo.maximumDiameterAsInText);
+    }
+
+    if ("extension" in guidanceinfo) {
+      console.log("     Extension: ");
+      displaySectionInfo(guidanceinfo.extension);
+    }
+  }
+
+  function displayQuantityOutput(quantity: any): void {
+    if ("value" in quantity) {
+      console.log("     Value: ", quantity.value);
+    }
+    if ("unit" in quantity) {
+      console.log("     Unit: ", quantity.unit);
+    }
+  }
+
   function displaySectionInfo(inference: { extension: any[] }): void {
     inference.extension?.forEach((ext: any) => {
       if ("url" in ext && ext.url === "section") {
@@ -199,7 +245,7 @@ function findFinding(res: any): void {
   }
 }
 
-describe("Finding Inference Test", () => {
+describe("Guidance Inference Test", () => {
   let recorder: Recorder;
   let client: AzureHealthInsightsClient;
 
@@ -212,14 +258,14 @@ describe("Finding Inference Test", () => {
     await recorder.stop();
   });
 
-  it("finding inference test", async () => {
+  it("guidance inference test", async () => {
     const result = await client
-      .path("/radiology-insights/jobs/{id}", "jobId-17138794807336")
+      .path("/radiology-insights/jobs/{id}", "jobId-17138794807347")
       .put(param);
     const poller = await getLongRunningPoller(client, result);
     const res = await poller.pollUntilDone();
     console.log(res);
     assert.equal(res.status, "200");
-    findFinding(res);
+    findGuidance(res);
   });
 });
