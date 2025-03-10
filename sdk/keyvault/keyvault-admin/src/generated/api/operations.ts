@@ -228,6 +228,7 @@ export function selectiveKeyRestoreOperation(
     {
       updateIntervalInMs: options?.updateIntervalInMs,
       abortSignal: options?.abortSignal,
+      skipFinalGet: options?.skipFinalGet,
       getInitialResponse: () =>
         _selectiveKeyRestoreOperationSend(
           context,
@@ -328,6 +329,7 @@ export function fullRestoreOperation(
     {
       updateIntervalInMs: options?.updateIntervalInMs,
       abortSignal: options?.abortSignal,
+      skipFinalGet: options?.skipFinalGet,
       getInitialResponse: () =>
         _fullRestoreOperationSend(context, restoreBlobDetails, options),
       resourceLocationConfig: "azure-async-operation",
@@ -382,6 +384,7 @@ export function preFullRestoreOperation(
     {
       updateIntervalInMs: options?.updateIntervalInMs,
       abortSignal: options?.abortSignal,
+      skipFinalGet: options?.skipFinalGet,
       getInitialResponse: () =>
         _preFullRestoreOperationSend(
           context,
@@ -480,6 +483,7 @@ export function preFullBackup(
     {
       updateIntervalInMs: options?.updateIntervalInMs,
       abortSignal: options?.abortSignal,
+      skipFinalGet: options?.skipFinalGet,
       getInitialResponse: () =>
         _preFullBackupSend(context, preBackupOperationParameters, options),
       resourceLocationConfig: "azure-async-operation",
@@ -528,6 +532,7 @@ export function fullBackup(
   return getLongRunningPoller(context, _fullBackupDeserialize, ["202", "200"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
+    skipFinalGet: options?.skipFinalGet,
     getInitialResponse: () =>
       _fullBackupSend(context, azureStorageBlobContainerUri, options),
     resourceLocationConfig: "azure-async-operation",
