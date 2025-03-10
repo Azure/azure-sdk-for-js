@@ -24,8 +24,9 @@ import type {
 import { ContainerClient, BlockBlobTier } from "../src/index.js";
 import { Test_CPK_INFO } from "./utils/fakeTestSecrets.js";
 import type { Tags } from "../src/models.js";
-import { describe, it, assert, beforeEach, afterEach } from "vitest";
+import { describe, it, assert, beforeEach, afterEach, expect } from "vitest";
 import { toSupportTracing } from "@azure-tools/test-utils-vitest";
+import type { OperationOptions } from "@azure/core-client";
 
 expect.extend({ toSupportTracing });
 
@@ -113,9 +114,8 @@ describe("ContainerClient", () => {
     assert.equal(res2.errorCode, "ContainerNotFound");
   });
 
-  it("create with default parameters", (done) => {
+  it("create with default parameters", () => {
     // create() with default parameters has been tested in beforeEach
-    done();
   });
 
   it("create with all parameters configured", async () => {
@@ -130,9 +130,8 @@ describe("ContainerClient", () => {
     assert.deepEqual(result.metadata, metadata);
   });
 
-  it("delete", (done) => {
+  it("delete", () => {
     // delete() with default parameters has been tested in afterEach
-    done();
   });
 
   it("listBlobsFlat with default parameters", async () => {
@@ -850,7 +849,7 @@ describe("ContainerClient", () => {
     };
     const blobName: string = recorder.variable("blob", getUniqueName("blob"));
     let blockBlobClient: BlockBlobClient | undefined;
-    await expect(async function (options) {
+    await expect(async function (options: OperationOptions) {
       const result = await containerClient.uploadBlockBlob(blobName, body, body.length, {
         blobHTTPHeaders: blobHeaders,
         metadata: {

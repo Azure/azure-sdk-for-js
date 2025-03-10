@@ -141,7 +141,7 @@ describe("BlockBlobClient", () => {
 
     // When in browsers testing with SAS tokens, setAccessPolicy won't work.
     // so only test setAccessPolicy in Node.js environment.
-    if (isNode) {
+    if (isNodeLike) {
       await containerClient.setAccessPolicy("container");
     }
 
@@ -162,7 +162,7 @@ describe("BlockBlobClient", () => {
 
     // When in browsers testing with SAS tokens, setAccessPolicy won't work.
     // so only test setAccessPolicy in Node.js environment.
-    if (isNode) {
+    if (isNodeLike) {
       await containerClient.setAccessPolicy("container");
     }
 
@@ -355,7 +355,7 @@ describe("BlockBlobClient", () => {
 
     // When in browsers testing with SAS tokens, setAccessPolicy won't work.
     // so only test setAccessPolicy in Node.js environment.
-    if (isNode) {
+    if (isNodeLike) {
       await containerClient.setAccessPolicy("container");
     }
 

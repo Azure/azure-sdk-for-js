@@ -37,7 +37,7 @@ import { assertClientUsesTokenCredential } from "../utils/assert.js";
 import { readStreamToLocalFileWithLogs } from "../utils/testutils.node.js";
 import { streamToBuffer3 } from "../../src/utils/utils.node.js";
 import { Test_CPK_INFO } from "../utils/fakeTestSecrets.js";
-import { describe, it, assert, beforeEach, afterEach } from "vitest";
+import { describe, it, assert, beforeEach, afterEach, beforeAll } from "vitest";
 
 describe("BlobClient Node.js only", () => {
   let containerName: string;
@@ -232,6 +232,7 @@ describe("BlobClient Node.js only", () => {
       encryptionScopeName = getEncryptionScope_1();
     } catch {
       ctx.skip();
+      return;
     }
 
     const newBlobName = recorder.variable("copiedblob", getUniqueName("copiedblob"));
@@ -699,7 +700,7 @@ describe("BlobClient Node.js only", () => {
     response.readableStreamBody?.resume();
   });
 
-  it("query should work with large file", async () => {
+  it("query should work with large file", async (ctx) => {
     if (!isLiveMode()) {
       ctx.skip();
     }
@@ -728,7 +729,7 @@ describe("BlobClient Node.js only", () => {
     assert.ok(downloadedData.equals(uploadedData));
   });
 
-  it("query should work with aborter", async () => {
+  it("query should work with aborter", async (ctx) => {
     if (!isLiveMode()) {
       ctx.skip();
     }

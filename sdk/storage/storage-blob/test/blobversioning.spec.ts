@@ -156,7 +156,7 @@ describe("Blob versioning", () => {
     assert.ok(rootExists);
   });
 
-  it("deleteBlobs should work for batch delete", async () => {
+  it("deleteBlobs should work for batch delete", async (ctx) => {
     if (!isLiveMode()) {
       ctx.skip();
     }

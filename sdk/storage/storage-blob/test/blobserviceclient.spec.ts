@@ -396,23 +396,16 @@ describe("BlobServiceClient", () => {
     assert.deepEqual(result.hourMetrics, serviceProperties.hourMetrics);
   });
 
-  it("getStatistics", (done) => {
+  it("getStatistics", async () => {
     let blobServiceClient: BlobServiceClient | undefined;
     try {
       blobServiceClient = getAlternateBSU(recorder);
     } catch (err: any) {
-      done();
       return;
     }
 
-    blobServiceClient!
-      .getStatistics()
-      .then((result) => {
-        assert.ok(result.geoReplication!.lastSyncOn);
-        done();
-        return;
-      })
-      .catch(done);
+    const result = await blobServiceClient!.getStatistics();
+    assert.ok(result.geoReplication!.lastSyncOn);
   });
 
   it("getAccountInfo", async () => {
@@ -471,6 +464,7 @@ describe("BlobServiceClient", () => {
       // Requires bearer token for this case which cannot be generated in the runtime
       // Make sure this case passed in sanity test
       ctx.skip();
+      return;
     }
     const now = new Date(recorder.variable("now", new Date().toISOString()));
     now.setHours(now.getHours() + 1);
@@ -594,6 +588,7 @@ describe("BlobServiceClient", () => {
       blobServiceClient = getGenericBSU(recorder, "SOFT_DELETE_");
     } catch (err: any) {
       ctx.skip();
+      return;
     }
 
     const containerName = recorder.variable("container", getUniqueName("container"));
@@ -640,6 +635,7 @@ describe("BlobServiceClient", () => {
 
     const newContainerName = recorder.variable("newcontainer", getUniqueName("newcontainer"));
     // const renameRes = await blobServiceClient.renameContainer(containerName, newContainerName);
+    // @ts-expect-error private member
     const renameRes = await blobServiceClient["renameContainer"](containerName, newContainerName);
 
     const newContainerClient = blobServiceClient.getContainerClient(newContainerName);
@@ -669,6 +665,7 @@ describe("BlobServiceClient", () => {
     const newContainerName = recorder.variable("newcontainer", getUniqueName("newcontainer"));
 
     // const renameRes = await blobServiceClient.renameContainer(containerName, newContainerName, {
+    // @ts-expect-error private member
     const renameRes = await blobServiceClient["renameContainer"](containerName, newContainerName, {
       sourceCondition: { leaseId: leaseClient.leaseId },
     });

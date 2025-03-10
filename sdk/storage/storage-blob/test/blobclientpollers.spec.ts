@@ -57,7 +57,7 @@ describe("BlobClient beginCopyFromURL Poller", () => {
     await recorder.stop();
   });
 
-  it("supports automatic polling via pollUntilDone", async () => {
+  it("supports automatic polling via pollUntilDone", async (ctx) => {
     if (!isNodeLike && !isLiveMode()) {
       ctx.skip();
     }
@@ -93,7 +93,7 @@ describe("BlobClient beginCopyFromURL Poller", () => {
     );
   });
 
-  it("supports manual polling via poll", async () => {
+  it("supports manual polling via poll", async (ctx) => {
     if (!isNodeLike && !isLiveMode()) {
       ctx.skip();
     }
@@ -189,7 +189,7 @@ describe("BlobClient beginCopyFromURL Poller", () => {
     assert.equal(onProgressCalled, true, "onProgress handler was not called.");
   });
 
-  it("supports restoring poller state from another poller", async () => {
+  it("supports restoring poller state from another poller", async (ctx) => {
     if (!isNodeLike && !isLiveMode()) {
       ctx.skip();
     }

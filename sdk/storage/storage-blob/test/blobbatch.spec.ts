@@ -66,7 +66,7 @@ describe("BlobBatch", () => {
     await recorder.stop();
   });
 
-  it("submitBatch should work for batch delete", async () => {
+  it("submitBatch should work for batch delete", async (ctx) => {
     if (!isLiveMode()) {
       ctx.skip();
     }
@@ -107,7 +107,7 @@ describe("BlobBatch", () => {
     assert.equal(resp2.segment.blobItems.length, 0);
   });
 
-  it("deleteBlobs should work for batch delete", async () => {
+  it("deleteBlobs should work for batch delete", async (ctx) => {
     if (!isLiveMode()) {
       ctx.skip();
     }
@@ -143,7 +143,7 @@ describe("BlobBatch", () => {
     assert.equal(resp2.segment.blobItems.length, 0);
   });
 
-  it("submitBatch should work for batch delete with snapshot", async () => {
+  it("submitBatch should work for batch delete with snapshot", async (ctx) => {
     if (!isLiveMode()) {
       ctx.skip();
     }
@@ -269,7 +269,7 @@ describe("BlobBatch", () => {
     assert.equal(respList3.segment.blobItems.length, 2);
   });
 
-  it("submitBatch should work for batch delete with access condition and partial succeed", async () => {
+  it("submitBatch should work for batch delete with access condition and partial succeed", async (ctx) => {
     if (!isLiveMode()) {
       ctx.skip();
     }
@@ -309,7 +309,7 @@ describe("BlobBatch", () => {
     assert.equal(resp.subResponses[1]._request.url, blockBlobClients[1].url);
   });
 
-  it("submitBatch should work for batch set tier", async () => {
+  it("submitBatch should work for batch set tier", async (ctx) => {
     if (!isLiveMode()) {
       ctx.skip();
     }
@@ -343,7 +343,7 @@ describe("BlobBatch", () => {
     }
   });
 
-  it("setBlobsAccessTier should work for batch set tier", async () => {
+  it("setBlobsAccessTier should work for batch set tier", async (ctx) => {
     if (!isLiveMode()) {
       ctx.skip();
     }
@@ -372,7 +372,7 @@ describe("BlobBatch", () => {
     }
   });
 
-  it("submitBatch should work for batch set tier with lease condition", async () => {
+  it("submitBatch should work for batch set tier with lease condition", async (ctx) => {
     if (!isLiveMode()) {
       ctx.skip();
     }
@@ -412,7 +412,7 @@ describe("BlobBatch", () => {
     }
   });
 
-  it("submitBatch should work for batch set tier with versioning", async () => {
+  it("submitBatch should work for batch set tier with versioning", async (ctx) => {
     if (!isLiveMode()) {
       ctx.skip();
     }
@@ -461,7 +461,7 @@ describe("BlobBatch", () => {
     }
   });
 
-  it("submitBatch should work for batch set tier with snapshot", async () => {
+  it("submitBatch should work for batch set tier with snapshot", async (ctx) => {
     if (!isLiveMode()) {
       ctx.skip();
     }
@@ -505,7 +505,7 @@ describe("BlobBatch", () => {
     }
   });
 
-  it("submitBatch should work with multiple types of credentials for subrequests", async function (ctx) {
+  it("submitBatch should work with multiple types of credentials for subrequests", async (ctx) => {
     if (!isLiveMode()) {
       ctx.skip();
     }
@@ -534,6 +534,7 @@ describe("BlobBatch", () => {
       tokenCredential = getTokenCredential();
     } catch {
       ctx.skip();
+      return;
     }
 
     await batchSetTierRequest.setBlobAccessTier(
@@ -623,7 +624,7 @@ describe("BlobBatch", () => {
     assert.ok(exceptionCaught);
   });
 
-  it("submitBatch should report error with invalid credential for batch request", async () => {
+  it("submitBatch should report error with invalid credential for batch request", async (ctx) => {
     if (!isLiveMode()) {
       ctx.skip();
     }
@@ -673,7 +674,7 @@ describe("BlobBatch", () => {
     assert.ok(exceptionCaught);
   });
 
-  it("Container scoped: submitBatch should work for batch delete", async () => {
+  it("Container scoped: submitBatch should work for batch delete", async (ctx) => {
     if (!isLiveMode()) {
       ctx.skip();
     }
@@ -765,7 +766,7 @@ describe("BlobBatch Token auth", () => {
     }
   });
 
-  it("Should work when passing in BlobClient", async () => {
+  it("Should work when passing in BlobClient", async (ctx) => {
     if (!isLiveMode()) {
       ctx.skip();
     }
@@ -795,7 +796,7 @@ describe("BlobBatch Token auth", () => {
     }
   });
 
-  it("Should work when passing in url and credential", async () => {
+  it("Should work when passing in url and credential", async (ctx) => {
     if (!isLiveMode()) {
       ctx.skip();
     }

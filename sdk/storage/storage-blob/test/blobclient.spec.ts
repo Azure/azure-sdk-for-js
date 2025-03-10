@@ -28,8 +28,9 @@ import { BlobClient, BlockBlobTier, BlobServiceClient } from "../src/index.js";
 import { Test_CPK_INFO } from "./utils/fakeTestSecrets.js";
 import { base64encode } from "../src/utils/utils.common.js";
 import { isRestError } from "@azure/core-rest-pipeline";
-import { describe, it, assert, beforeEach, afterEach } from "vitest";
+import { describe, it, assert, beforeEach, afterEach, expect } from "vitest";
 import { toSupportTracing } from "@azure-tools/test-utils-vitest";
+import type { OperationOptions } from "@azure/core-client";
 
 expect.extend({ toSupportTracing });
 
@@ -215,7 +216,7 @@ describe("BlobClient", () => {
     assert.exists(result.createdOn);
   });
 
-  it("download with progress report", async () => {
+  it("download with progress report", async (ctx) => {
     if (!isLiveMode()) {
       ctx.skip();
     }
@@ -742,7 +743,7 @@ describe("BlobClient", () => {
     assert.ok(exceptionCaught);
   });
 
-  it("beginCopyFromURL with rehydrate priority", async () => {
+  it("beginCopyFromURL with rehydrate priority", async (ctx) => {
     if (!isNodeLike && !isLiveMode()) {
       ctx.skip();
     }
@@ -819,9 +820,9 @@ describe("BlobClient", () => {
   });
 
   it("download with default parameters and tracing", async () => {
-    await expect((options) => blobClient.download(undefined, undefined, options)).toSupportTracing([
-      "BlobClient-download",
-    ]);
+    await expect((options: OperationOptions) =>
+      blobClient.download(undefined, undefined, options),
+    ).toSupportTracing(["BlobClient-download"]);
   });
 
   it("exists returns true on an existing blob", async () => {
@@ -1450,7 +1451,8 @@ describe("BlobClient - Verify Name Properties", () => {
   });
 });
 
-describe("BlobClient - Object Replication", () => {
+// TODO: need special setup to re-record these tests
+describe("BlobClient - Object Replication", { skip: true }, () => {
   const srcContainerName = "orssrc";
   const destContainerName = "orsdst";
   const blobName = "orsBlob";
@@ -1483,11 +1485,6 @@ describe("BlobClient - Object Replication", () => {
       ],
     },
   ];
-
-  before(async function (ctx) {
-    // need special setup to re-record these tests
-    ctx.skip();
-  });
 
   beforeEach(async (ctx) => {
     recorder = new Recorder(ctx);

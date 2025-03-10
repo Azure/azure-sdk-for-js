@@ -13,7 +13,7 @@ import {
 } from "../../src/utils/utils.node.js";
 import type { ReadableStreamGetter } from "../../src/utils/RetriableReadableStream.js";
 import { RetriableReadableStream } from "../../src/utils/RetriableReadableStream.js";
-import { describe, it, assert } from "vitest";
+import { describe, it, assert, afterEach } from "vitest";
 
 describe("Utility Helpers Node.js only", () => {
   const protocol = "https";
@@ -188,7 +188,7 @@ describe("Utility Helpers Node.js only", () => {
 
     const validFilePath = path.join("./", "read_stream_to_local_file_test.txt");
 
-    afterEach("remove temporary file", () => {
+    afterEach(() => {
       if (fs.existsSync(validFilePath)) {
         fs.unlinkSync(validFilePath);
       }
