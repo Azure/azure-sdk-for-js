@@ -27,8 +27,6 @@ describe("snippets", () => {
   });
 
   it("ReadmeSampleCreateClient_SASToken", async () => {
-    const { ShareServiceClient } = require("@azure/storage-file-share");
-    // @ts-preserve-whitespace
     const account = "<account name>";
     const sas = "<service Shared Access Signature Token>";
     // @ts-preserve-whitespace

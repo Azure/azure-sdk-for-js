@@ -185,7 +185,7 @@ const serviceClient = new ShareServiceClient(
 Also, You can instantiate a `ShareServiceClient` with a shared access signatures (SAS). You can get the SAS token from the Azure Portal or generate one using `generateAccountSASQueryParameters()`.
 
 ```ts snippet:ReadmeSampleCreateClient_SASToken
-const { ShareServiceClient } = require("@azure/storage-file-share");
+import { ShareServiceClient } from "@azure/storage-file-share";
 
 const account = "<account name>";
 const sas = "<service Shared Access Signature Token>";
