@@ -65,7 +65,7 @@
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
     "unit-test:browser": "echo skipped",
     "unit-test:node": "dev-tool run test:node-ts-input --no-test-proxy -- --timeout 12000 'test/**/*.spec.ts' --exit",
-    "update-snippets": "echo skipped"
+    "update-snippets": "dev-tool run update-snippets"
   },
   "dependencies": {
     "@azure/core-rest-pipeline": "^1.16.3",

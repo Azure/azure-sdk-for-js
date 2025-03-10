@@ -20,6 +20,6 @@ input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/7452e1c
 output-folder: ../
 source-code-folder-path: ./src/generated
 hide-clients: true
-package-version: 4.9.1
+package-version: 4.10.0-beta.1
 module-kind: esm
 ```

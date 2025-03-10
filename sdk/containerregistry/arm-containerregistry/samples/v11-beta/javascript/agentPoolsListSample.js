@@ -6,11 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { ContainerRegistryManagementClient } = require("@azure/arm-containerregistry");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Lists all the agent pools for a specified container registry.
@@ -33,7 +31,7 @@ async function agentPoolsList() {
 }
 
 async function main() {
-  agentPoolsList();
+  await agentPoolsList();
 }
 
 main().catch(console.error);

@@ -10,14 +10,12 @@
 import { Edm, TableClient, AzureNamedKeyCredential } from "@azure/data-tables";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
-
+import "dotenv/config";
 const tablesUrl = process.env["TABLES_URL"] || "";
 const accountName = process.env["ACCOUNT_NAME"] || "";
 const accountKey = process.env["ACCOUNT_KEY"] || "";
 
-async function workingWithInt64() {
+async function workingWithInt64(): Promise<void> {
   console.log("working with Int64 sample");
   const client = new TableClient(
     tablesUrl,
@@ -48,7 +46,7 @@ async function workingWithInt64() {
   await client.deleteTable();
 }
 
-export async function main() {
+export async function main(): Promise<void> {
   await workingWithInt64();
 }
 

@@ -126,10 +126,10 @@ export class Container {
    * @internal
    */
   public _rid: string;
-  /**
-   * @internal
-   */
-  public isEncryptionInitialized: boolean = false;
+
+  private isEncryptionInitialized: boolean = false;
+  private encryptionInitializationPromise: Promise<void>;
+
   /**
    * Returns a container instance. Note: You should get this from `database.container(id)`, rather than creating your own object.
    * @param database - The parent {@link Database}.
@@ -394,14 +394,18 @@ export class Container {
       const id = getIdFromLink(this.url);
       path = path + "/operations/partitionkeydelete";
       if (this.clientContext.enableEncryption) {
-        if (!this.isEncryptionInitialized) {
-          await this.initializeEncryption();
-        }
+        await this.checkAndInitializeEncryption();
         options = options || {};
         options.containerRid = this._rid;
+        diagnosticNode.beginEncryptionDiagnostics(Constants.Encryption.DiagnosticsEncryptOperation);
         const partitionKeyInternal = convertToInternalPartitionKey(partitionKey);
-        partitionKey =
+        const { partitionKeyList, encryptedCount } =
           await this.encryptionProcessor.getEncryptedPartitionKeyValue(partitionKeyInternal);
+        partitionKey = partitionKeyList;
+        diagnosticNode.endEncryptionDiagnostics(
+          Constants.Encryption.DiagnosticsEncryptOperation,
+          encryptedCount,
+        );
       }
       let response: Response<any>;
       try {
@@ -431,7 +435,6 @@ export class Container {
     }, this.clientContext);
   }
   /**
-   * @hidden
    * Warms up encryption related caches for the container.
    */
   public async initializeEncryption(): Promise<void> {
@@ -490,6 +493,19 @@ export class Container {
       }, this.clientContext);
     }
   }
+
+  /**
+   * @internal
+   */
+  async checkAndInitializeEncryption(): Promise<void> {
+    if (!this.isEncryptionInitialized) {
+      if (!this.encryptionInitializationPromise) {
+        this.encryptionInitializationPromise = this.initializeEncryption();
+      }
+      await this.encryptionInitializationPromise;
+    }
+  }
+
   /**
    * @internal
    * This function handles the scenario where a container is deleted(say from different Client) and recreated with same Id but with different client encryption policy.

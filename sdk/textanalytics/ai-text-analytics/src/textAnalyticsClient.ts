@@ -341,13 +341,10 @@ export class TextAnalyticsClient {
    * Creates an instance of TextAnalyticsClient.
    *
    * Example usage:
-   * ```ts
+   * ```ts snippet:ReadmeSampleCreateClient_KeyCredential
    * import { TextAnalyticsClient, AzureKeyCredential } from "@azure/ai-text-analytics";
    *
-   * const client = new TextAnalyticsClient(
-   *    "<service endpoint>",
-   *    new AzureKeyCredential("<api key>")
-   * );
+   * const client = new TextAnalyticsClient("<endpoint>", new AzureKeyCredential("<API key>"));
    * ```
    * @param endpointUrl - The URL to the TextAnalytics endpoint
    * @param credential - Used to authenticate requests to the service.

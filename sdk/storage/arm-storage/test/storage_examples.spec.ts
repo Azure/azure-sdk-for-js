@@ -101,7 +101,7 @@ describe("Storage test", () => {
 
   it("storageAccounts list test", async () => {
     const resArray = new Array();
-    for await (let item of client.storageAccounts.listByResourceGroup(resourceGroup)) {
+    for await (const item of client.storageAccounts.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 1);
@@ -109,7 +109,7 @@ describe("Storage test", () => {
 
   it("blobContainers list test", async () => {
     const resArray = new Array();
-    for await (let item of client.blobContainers.list(resourceGroup, storageAccountName)) {
+    for await (const item of client.blobContainers.list(resourceGroup, storageAccountName)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 1);
@@ -128,7 +128,7 @@ describe("Storage test", () => {
   it("blobContainers delete test", async () => {
     const resArray = new Array();
     await client.blobContainers.delete(resourceGroup, storageAccountName, containerName);
-    for await (let item of client.blobContainers.list(resourceGroup, storageAccountName)) {
+    for await (const item of client.blobContainers.list(resourceGroup, storageAccountName)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 0);
@@ -137,7 +137,7 @@ describe("Storage test", () => {
   it("storageAccounts delete test", async () => {
     const resArray = new Array();
     await client.storageAccounts.delete(resourceGroup, storageAccountName);
-    for await (let item of client.storageAccounts.listByResourceGroup(resourceGroup)) {
+    for await (const item of client.storageAccounts.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 0);

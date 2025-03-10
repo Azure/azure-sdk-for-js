@@ -1,3 +1,5 @@
+<!-- dev-tool snippets ignore -->
+
 # Release History
 
 ## 1.4.0-beta.1 (Unreleased)
@@ -55,7 +57,7 @@
 
 ### Features Added
 
-- an option to customize the API version has been added to `SchemaRegistryClientOptions`. 
+- an option to customize the API version has been added to `SchemaRegistryClientOptions`.
 
 ### Breaking Changes
 
@@ -92,7 +94,8 @@
 ### Breaking Changes
 
 - Change SchemaRegistryClient.getSchemaId and SchemaRegistryClient.getSchemaById to return `undefined` instead of throwing when schema is not found ([Issue #15130](https://github.com/Azure/azure-sdk-for-js/issues/15130))
-- Move generated client to use @azure/core-rest-pipeline. For more information about Core V2, please refer to [the documentation](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core#core-v1-and-core-v2). 
+- Move generated client to use @azure/core-rest-pipeline. For more information about Core V2, please refer to [the documentation](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core#core-v1-and-core-v2).
+
   - With this change, the response types no longer contain the raw response `_response`. To access the raw response, an `onResponse` callback has to be passed in the request options bag.
 
     ```typescript

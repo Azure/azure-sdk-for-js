@@ -3,18 +3,21 @@
 ## 4.7.1 (Unreleased)
 
 ### Features Added
+- `ManagedIdentityCredential` will now log the configured user-assigned managed identity ID. [#33144](https://github.com/Azure/azure-sdk-for-js/pull/33144)
 
 ### Breaking Changes
 
 ### Bugs Fixed
 
 ### Other Changes
+- Deprecated `UsernamePasswordCredential`, as it doesn't support multifactor authentication (MFA). MFA will soon be enforced on all Microsoft Entra tenants. For more details, see [Planning for mandatory MFA](https://aka.ms/mfaforazure). [#33136](https://github.com/Azure/azure-sdk-for-js/pull/33136)
+- For`AzureCliCredential` and `AzureDeveloperCliCredential`, if system root environment variable is not found on the Windows platform, the system root variable is set to the appropriate value with a warning logged as opposed to throwing an error. [#33178](https://github.com/Azure/azure-sdk-for-js/pull/33178)
 
 ## 4.7.0 (2025-02-18)
 
 ### Features Added
 
-- Added `subscription` property in `AzureCliCredentialOptions` [#31451](https://github.com/Azure/azure-sdk-for-js/pull/31451).
+- Added `subscription` property in `AzureCliCredentialOptions`. [#31451](https://github.com/Azure/azure-sdk-for-js/pull/31451)
 
 ### Bugs Fixed
 

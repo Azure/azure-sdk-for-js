@@ -9,7 +9,7 @@
 
 import { AzureOpenAI } from "openai";
 import { DefaultAzureCredential, getBearerTokenProvider } from "@azure/identity";
-import { createReadStream } from "fs";
+import { createReadStream } from "node:fs";
 
 // Set AZURE_OPENAI_ENDPOINT to the endpoint of your
 // OpenAI resource. You can find this in the Azure portal.
@@ -19,7 +19,7 @@ import "dotenv/config";
 // You will need to set these environment variables or edit the following values
 const audioFilePath = process.env["AUDIO_FILE_PATH"] || "<audio file path>";
 
-export async function main() {
+export async function main(): Promise<void> {
   console.log("== Translate Audio Sample ==");
 
   const scope = "https://cognitiveservices.azure.com/.default";

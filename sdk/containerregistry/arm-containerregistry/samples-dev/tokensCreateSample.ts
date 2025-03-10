@@ -6,8 +6,10 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import type { Token } from "@azure/arm-containerregistry";
-import { ContainerRegistryManagementClient } from "@azure/arm-containerregistry";
+import {
+  Token,
+  ContainerRegistryManagementClient,
+} from "@azure/arm-containerregistry";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -15,12 +17,14 @@ import "dotenv/config";
  * This sample demonstrates how to Creates a token for a container registry with the specified parameters.
  *
  * @summary Creates a token for a container registry with the specified parameters.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2023-11-01-preview/examples/TokenCreate.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2024-11-01-preview/examples/TokenCreate.json
  */
 async function tokenCreate(): Promise<void> {
   const subscriptionId =
-    process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = process.env["CONTAINERREGISTRY_RESOURCE_GROUP"] || "myResourceGroup";
+    process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName =
+    process.env["CONTAINERREGISTRY_RESOURCE_GROUP"] || "myResourceGroup";
   const registryName = "myRegistry";
   const tokenName = "myToken";
   const tokenCreateParameters: Token = {
@@ -38,7 +42,10 @@ async function tokenCreate(): Promise<void> {
     status: "disabled",
   };
   const credential = new DefaultAzureCredential();
-  const client = new ContainerRegistryManagementClient(credential, subscriptionId);
+  const client = new ContainerRegistryManagementClient(
+    credential,
+    subscriptionId,
+  );
   const result = await client.tokens.beginCreateAndWait(
     resourceGroupName,
     registryName,

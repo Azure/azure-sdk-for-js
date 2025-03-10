@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { StorageManagementClient } from "@azure/arm-storage";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -16,7 +14,7 @@ import "dotenv/config";
  * This sample demonstrates how to Gets properties of a specified container.
  *
  * @summary Gets properties of a specified container.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/BlobContainersGetWithAllowProtectedAppendWritesAll.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2024-01-01/examples/BlobContainersGetWithAllowProtectedAppendWritesAll.json
  */
 async function getBlobContainersGetWithAllowProtectedAppendWritesAll(): Promise<void> {
   const subscriptionId =
@@ -38,7 +36,7 @@ async function getBlobContainersGetWithAllowProtectedAppendWritesAll(): Promise<
  * This sample demonstrates how to Gets properties of a specified container.
  *
  * @summary Gets properties of a specified container.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/BlobContainersGet.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2024-01-01/examples/BlobContainersGet.json
  */
 async function getContainers(): Promise<void> {
   const subscriptionId =
@@ -57,8 +55,8 @@ async function getContainers(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getBlobContainersGetWithAllowProtectedAppendWritesAll();
-  getContainers();
+  await getBlobContainersGetWithAllowProtectedAppendWritesAll();
+  await getContainers();
 }
 
 main().catch(console.error);

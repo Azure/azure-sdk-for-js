@@ -28,6 +28,7 @@ import { BreezePerformanceCounterNames, OTelPerformanceCounterNames } from "../.
 import { Context, getInstance } from "../../src/platform/index.js";
 import { describe, it, assert } from "vitest";
 import { ENV_APPLICATIONINSIGHTS_METRICS_TO_LOGANALYTICS_ENABLED } from "../../src/Declarations/Constants.js";
+import { StatsbeatCounter } from "../../src/export/statsbeat/types.js";
 
 const context = getInstance();
 const packageJsonPath = path.resolve(__dirname, "../../", "./package.json");
@@ -86,6 +87,22 @@ function assertEnvelope(
   if (expectedProperties) {
     assert.deepStrictEqual(envelope.data?.baseData?.properties, expectedProperties);
   }
+}
+
+function assertStatsbeatEnvelope(
+  envelope: Envelope,
+  name: string,
+  sampleRate: number,
+  baseType: string,
+): void {
+  assert.ok(envelope);
+  assert.strictEqual(envelope.name, name);
+  assert.strictEqual(envelope.sampleRate, sampleRate);
+  assert.deepStrictEqual(envelope.data?.baseType, baseType);
+
+  assert.strictEqual(envelope.instrumentationKey, "ikey");
+
+  assert.deepStrictEqual(Object.keys(envelope.tags || {}).length, 2);
 }
 
 describe("metricUtil.ts", () => {
@@ -532,6 +549,34 @@ describe("metricUtil.ts", () => {
         expectedProperties,
       );
       process.env = originalEnv;
+    });
+    it("should add not attach tags to statsbeat telemetry", async () => {
+      const provider = new MeterProvider({
+        resource: new Resource({
+          [SemanticResourceAttributes.SERVICE_NAME]: "basic-service",
+        }),
+      });
+      const exporter = new TestExporter({
+        connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
+      });
+      const metricReaderOptions: PeriodicExportingMetricReaderOptions = {
+        exporter: exporter,
+      };
+      const metricReader = new PeriodicExportingMetricReader(metricReaderOptions);
+      provider.addMetricReader(metricReader);
+      const meter = provider.getMeter("example-meter-node");
+      // Create Counter instrument with the meter
+      const counter = meter.createCounter(StatsbeatCounter.SUCCESS_COUNT);
+      counter.add(1);
+      provider.forceFlush();
+      await new Promise((resolve) => setTimeout(resolve, 800));
+      const envelope = resourceMetricsToEnvelope(testMetrics, "ikey", true);
+      assertStatsbeatEnvelope(
+        envelope[0],
+        "Microsoft.ApplicationInsights.Statsbeat",
+        100,
+        "MetricData",
+      );
     });
   });
 });
