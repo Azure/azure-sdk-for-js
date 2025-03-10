@@ -14,7 +14,24 @@ param (
   [switch] $CI = ($null -ne $env:SYSTEM_TEAMPROJECTID),
 
   [Parameter()]
-  [hashtable] $AdditionalParameters = @{}
+  [hashtable] $AdditionalParameters = @{},
+
+
+  [Parameter(Mandatory = $true)]
+  [ValidateNotNullOrEmpty()]
+  [string] $SubscriptionId,
+
+  [Parameter(Mandatory = $true)]
+  [ValidateNotNullOrEmpty()]
+  [string] $TenantId,
+
+  [Parameter()]
+  [ValidatePattern('^[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}$')]
+  [string] $TestApplicationId,
+
+  [Parameter(Mandatory = $true)]
+  [ValidateNotNullOrEmpty()]
+  [string] $Environment
 )
 
 if (!$AdditionalParameters['deployMIResources']) {
@@ -39,8 +56,14 @@ Write-Host "Working directory: $workingFolder"
 
 if ($CI) {
   Write-Host "Logging in to service principal"
-  az login --service-principal -u $env:ARM_CLIENT_ID --tenant $env:ARM_TENANT_ID --allow-no-subscriptions --federated-token $env:ARM_OIDC_TOKEN
-  az account set --subscription $DeploymentOutputs['IDENTITY_SUBSCRIPTION_ID']
+  Write-Host "$env:TestApplicationId exists? $($env:TestApplicationId -ne $null)"
+  # log if $env:TenantId, $SubscriptionId, and $env:ARM_OIDC_TOKEN are set
+  Write-Host "$TenantId exists? $($TenantId -ne $null)"
+  Write-Host "$SubscriptionId exists? $($SubscriptionId -ne $null)"
+  Write-Host "$env:ARM_OIDC_TOKEN exists? $($env:ARM_OIDC_TOKEN -ne $null)"
+
+  az login --service-principal -u $TestApplicationId --tenant $TenantId --allow-no-subscriptions --federated-token $env:ARM_OIDC_TOKEN
+  az account set --subscription $SubscriptionId
 }
 
 # Azure Functions app deployment
