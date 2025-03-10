@@ -18,6 +18,9 @@ import {
   uriSanitizers,
 } from "./utils/index.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
+import { toSupportTracing } from "@azure-tools/test-utils-vitest";
+
+expect.extend({ toSupportTracing })
 
 describe("DataLakeFileSystemClient", () => {
   let fileSystemName: string;
@@ -54,17 +57,14 @@ describe("DataLakeFileSystemClient", () => {
   });
 
   it("setMetadata with tracing", async () => {
-    await assert.supportsTracing(
-      async (options) => {
-        const metadata = {
-          key0: "val0",
-          keya: "vala",
-          keyb: "valb",
-        };
-        await fileSystemClient.setMetadata(metadata, options);
-      },
-      ["DataLakeFileSystemClient-setMetadata"],
-    );
+    await expect(async (options) => {
+    const metadata = {
+        key0: "val0",
+        keya: "vala",
+        keyb: "valb",
+    };
+    await fileSystemClient.setMetadata(metadata, options);
+}).toSupportTracing(["DataLakeFileSystemClient-setMetadata"]);
   });
 
   it("getProperties", async () => {
