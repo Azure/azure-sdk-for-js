@@ -4,18 +4,11 @@
 # IMPORTANT: Do not invoke this file directly. Please instead run eng/New-TestResources.ps1 from the repository root.
 
 param (
-  [Parameter(ValueFromRemainingArguments = $true)]
-  $RemainingArguments,
-
   [Parameter()]
   [hashtable] $DeploymentOutputs,
 
   [Parameter()]
   [switch] $CI = ($null -ne $env:SYSTEM_TEAMPROJECTID),
-
-  [Parameter()]
-  [hashtable] $AdditionalParameters = @{},
-
 
   [Parameter(Mandatory = $true)]
   [ValidateNotNullOrEmpty()]
@@ -31,7 +24,11 @@ param (
 
   [Parameter(Mandatory = $true)]
   [ValidateNotNullOrEmpty()]
-  [string] $Environment
+  [string] $Environment,
+
+  # Captures any arguments from eng/New-TestResources.ps1 not declared here (no parameter errors).
+  [Parameter(ValueFromRemainingArguments = $true)]
+  $RemainingArguments
 )
 
 if (!$AdditionalParameters['deployMIResources']) {
