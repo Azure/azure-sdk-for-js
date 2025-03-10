@@ -229,31 +229,41 @@ export class QueueServiceClient extends StorageClient {
    *
    * Example using DefaultAzureCredential from `@azure/identity`:
    *
-   * ```js
-   * const account = "<account>";
+   * ```ts snippet:ReadmeSampleCreateClient_DefaultAzureCredential
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { QueueServiceClient } from "@azure/storage-queue";
    *
+   * const account = "<account>";
    * const credential = new DefaultAzureCredential();
    *
    * const queueServiceClient = new QueueServiceClient(
    *   `https://${account}.queue.core.windows.net`,
-   *   credential
-   * }
+   *   credential,
+   * );
    * ```
    *
    * Example using an account name/key:
    *
-   * ```js
-   * const account = "<account>";
+   * ```ts snippet:ReadmeSampleCreateClient_StorageSharedKeyCredential
+   * import { StorageSharedKeyCredential, QueueServiceClient } from "@azure/storage-queue";
    *
-   * const sharedKeyCredential = new StorageSharedKeyCredential(account, "<account key>");
+   * // Enter your storage account name and shared key
+   * const account = "<account>";
+   * const accountKey = "<accountkey>";
+   *
+   * // Use StorageSharedKeyCredential with storage account and account key
+   * // StorageSharedKeyCredential is only available in Node.js runtime, not in browsers
+   * const sharedKeyCredential = new StorageSharedKeyCredential(account, accountKey);
    *
    * const queueServiceClient = new QueueServiceClient(
    *   `https://${account}.queue.core.windows.net`,
    *   sharedKeyCredential,
    *   {
    *     retryOptions: { maxTries: 4 }, // Retry options
-   *     telemetry: { value: "BasicSample/V11.0.0" } // Customized telemetry string
-   *   }
+   *     userAgentOptions: {
+   *       userAgentPrefix: "BasicSample V10.0.0",
+   *     }, // Customized telemetry string
+   *   },
    * );
    * ```
    */
@@ -310,9 +320,22 @@ export class QueueServiceClient extends StorageClient {
    *
    * Example usage:
    *
-   * ```js
-   * const queueClient = queueServiceClient.getQueueClient("<new queue name>");
+   * ```ts snippet:ReadmeSampleCreateQueue
+   * import { QueueServiceClient } from "@azure/storage-queue";
+   * import { DefaultAzureCredential } from "@azure/identity";
+   *
+   * const account = "<account>";
+   * const queueServiceClient = new QueueServiceClient(
+   *   `https://${account}.queue.core.windows.net`,
+   *   new DefaultAzureCredential(),
+   * );
+   *
+   * const queueName = "<valid queue name>";
+   * const queueClient = queueServiceClient.getQueueClient(queueName);
    * const createQueueResponse = await queueClient.create();
+   * console.log(
+   *   `Created queue ${queueName} successfully, service assigned request Id: ${createQueueResponse.requestId}`,
+   * );
    * ```
    */
   public getQueueClient(queueName: string): QueueClient {
@@ -416,68 +439,93 @@ export class QueueServiceClient extends StorageClient {
    *
    * Example using `for await` syntax:
    *
-   * ```js
+   * ```ts snippet:ReadmeSampleListQueues
+   * import { QueueServiceClient } from "@azure/storage-queue";
+   * import { DefaultAzureCredential } from "@azure/identity";
+   *
+   * const account = "<account>";
+   * const queueServiceClient = new QueueServiceClient(
+   *   `https://${account}.queue.core.windows.net`,
+   *   new DefaultAzureCredential(),
+   * );
+   *
    * let i = 1;
    * for await (const item of queueServiceClient.listQueues()) {
-   *   console.log(`Queue${i}: ${item.name}`);
-   *   i++;
+   *   console.log(`Queue${i++}: ${item.name}`);
    * }
    * ```
    *
    * Example using `iter.next()`:
    *
-   * ```js
+   * ```ts snippet:ReadmeSampleListQueues_Iterator
+   * import { QueueServiceClient } from "@azure/storage-queue";
+   * import { DefaultAzureCredential } from "@azure/identity";
+   *
+   * const account = "<account>";
+   * const queueServiceClient = new QueueServiceClient(
+   *   `https://${account}.queue.core.windows.net`,
+   *   new DefaultAzureCredential(),
+   * );
+   *
    * let i = 1;
-   * let iterator = queueServiceClient.listQueues();
-   * let item = await iterator.next();
-   * while (!item.done) {
-   *   console.log(`Queue${i}: ${item.value.name}`);
-   *   i++;
-   *   item = await iterator.next();
+   * const iterator = queueServiceClient.listQueues();
+   * let { done, value } = await iterator.next();
+   * while (!done) {
+   *   console.log(`Queue${i++}: ${value.name}`);
+   *   ({ done, value } = await iterator.next());
    * }
    * ```
    *
    * Example using `byPage()`:
    *
-   * ```js
-   * // passing optional maxPageSize in the page settings
+   * ```ts snippet:ReadmeSampleListQueues_ByPage
+   * import { QueueServiceClient } from "@azure/storage-queue";
+   * import { DefaultAzureCredential } from "@azure/identity";
+   *
+   * const account = "<account>";
+   * const queueServiceClient = new QueueServiceClient(
+   *   `https://${account}.queue.core.windows.net`,
+   *   new DefaultAzureCredential(),
+   * );
+   *
    * let i = 1;
-   * for await (const item2 of queueServiceClient.listQueues().byPage({ maxPageSize: 20 })) {
-   *   if (item2.queueItems) {
-   *     for (const queueItem of item2.queueItems) {
-   *       console.log(`Queue${i}: ${queueItem.name}`);
-   *       i++;
-   *     }
+   * for await (const page of queueServiceClient.listQueues().byPage({ maxPageSize: 20 })) {
+   *   for (const item of page.queueItems || []) {
+   *     console.log(`Queue${i++}: ${item.name}`);
    *   }
    * }
    * ```
    *
    * Example using paging with a marker:
    *
-   * ```js
+   * ```ts snippet:ReadmeSampleListQueues_Continuation
+   * import { QueueServiceClient } from "@azure/storage-queue";
+   * import { DefaultAzureCredential } from "@azure/identity";
+   *
+   * const account = "<account>";
+   * const queueServiceClient = new QueueServiceClient(
+   *   `https://${account}.queue.core.windows.net`,
+   *   new DefaultAzureCredential(),
+   * );
+   *
    * let i = 1;
    * let iterator = queueServiceClient.listQueues().byPage({ maxPageSize: 2 });
-   * let item = (await iterator.next()).value;
-   *
-   * // Prints 2 queue names
-   * if (item.queueItems) {
-   *   for (const queueItem of item.queueItems) {
-   *     console.log(`Queue${i}: ${queueItem.name}`);
-   *     i++;
+   * let response = (await iterator.next()).value;
+   * // Prints 2 queues
+   * if (response.queueItems) {
+   *   for (const item of response.queueItems) {
+   *     console.log(`Queue${i++}: ${item.name}`);
    *   }
    * }
    * // Gets next marker
-   * let marker = item.continuationToken;
-   *
+   * let marker = response.continuationToken;
    * // Passing next marker as continuationToken
    * iterator = queueServiceClient.listQueues().byPage({ continuationToken: marker, maxPageSize: 10 });
-   * item = (await iterator.next()).value;
-   *
-   * // Prints 10 queue names
-   * if (item.queueItems) {
-   *   for (const queueItem of item.queueItems) {
-   *     console.log(`Queue${i}: ${queueItem.name}`);
-   *     i++;
+   * response = (await iterator.next()).value;
+   * // Prints 10 queues
+   * if (response.queueItems) {
+   *   for (const item of response.queueItems) {
+   *     console.log(`Queue${i++}: ${item.name}`);
    *   }
    * }
    * ```
