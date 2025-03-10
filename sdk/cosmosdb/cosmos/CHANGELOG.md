@@ -116,7 +116,7 @@ Eg. usage:
 ```js
 const options = {
   connectionString: "<ConnectionString>",
-  connectionPolicy: {}// some custom connectionPolicy
+  consistencyLevel: ConsistencyLevel.Strong
 }
 ```
 
