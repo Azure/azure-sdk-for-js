@@ -57,6 +57,7 @@ export function bearerTokenAuthenticationPolicy(options: BearerTokenAuthenticati
 // @public
 export interface BearerTokenAuthenticationPolicyOptions {
     allowInsecureConnection?: boolean;
+    authFlows?: OAuth2Flow[];
     credential: TokenCredential;
 }
 
@@ -92,6 +93,7 @@ export type ClientOptions = PipelineOptions & {
     additionalPolicies?: AdditionalPolicyConfig[];
     httpClient?: HttpClient;
     loggingOptions?: LogPolicyOptions;
+    authFlows?: OAuth2Flow[];
 };
 
 // @public
@@ -146,7 +148,7 @@ export function getClient(endpoint: string, credentials?: TokenCredential | KeyC
 // @public
 export interface GetTokenOptions {
     abortSignal?: AbortSignal;
-    authFlow?: OAuth2Flow[];
+    authFlows?: OAuth2Flow[];
 }
 
 // @public
@@ -187,6 +189,13 @@ export type HttpResponse = {
 };
 
 // @public
+export interface ImplicitFlow extends BaseOAuth2Flow {
+    authorizationUrl: string;
+    refreshUrl?: string;
+    type: OAuth2FlowType.implicit;
+}
+
+// @public
 export function isKeyCredential(credential: unknown): credential is KeyCredential;
 
 // @public
@@ -220,12 +229,14 @@ export interface MultipartRequestBody {
 }
 
 // @public
-export type OAuth2Flow = AuthorizationCodeFlow | ClientCredentialsFlow | BaseOAuth2Flow;
+export type OAuth2Flow = AuthorizationCodeFlow | ClientCredentialsFlow | ImplicitFlow | PasswordFlow | BaseOAuth2Flow;
 
 // @public
 export enum OAuth2FlowType {
     authorizationCode = "authorizationCode",
-    clientCredentials = "clientCredentials"
+    clientCredentials = "clientCredentials",
+    implicit = "implicit",
+    password = "password"
 }
 
 // @public
@@ -246,6 +257,13 @@ export interface OperationRequestOptions {
     onUploadProgress?: (progress: TransferProgressEvent) => void;
     skipUrlEncoding?: boolean;
     timeout?: number;
+}
+
+// @public
+export interface PasswordFlow extends BaseOAuth2Flow {
+    refreshUrl?: string;
+    tokenUrl: string;
+    type: OAuth2FlowType.password;
 }
 
 // @public
@@ -306,7 +324,6 @@ export interface PipelineRequest {
     abortSignal?: AbortSignal;
     agent?: Agent;
     allowInsecureConnection?: boolean;
-    authFlow?: OAuth2Flow[];
     body?: RequestBodyType;
     disableKeepAlive?: boolean;
     enableBrowserStreams?: boolean;

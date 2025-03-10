@@ -45,12 +45,16 @@ export {
   type TokenCredential,
   type GetTokenOptions,
   type AccessToken,
+} from "./auth/tokenCredential.js";
+export {
   type OAuth2Flow,
   type OAuth2FlowType,
   type BaseOAuth2Flow,
   type AuthorizationCodeFlow,
   type ClientCredentialsFlow,
-} from "./auth/tokenCredential.js";
+  type ImplicitFlow,
+  type PasswordFlow,
+} from "./auth/authFlows.js";
 export { createPipelineRequest, type PipelineRequestOptions } from "./pipelineRequest.js";
 export type { Pipeline, PipelinePolicy, AddPolicyOptions, PipelinePhase } from "./pipeline.js";
 export { RestError, isRestError, type RestErrorOptions } from "./restError.js";

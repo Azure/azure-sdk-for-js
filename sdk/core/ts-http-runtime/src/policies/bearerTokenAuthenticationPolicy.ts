@@ -1,10 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { TokenCredential, OAuth2Flow } from "../auth/tokenCredential.js";
+import type { TokenCredential } from "../auth/tokenCredential.js";
 import type { PipelineRequest, PipelineResponse, SendRequest } from "../interfaces.js";
 import type { PipelinePolicy } from "../pipeline.js";
 import { logger as coreLogger } from "../log.js";
+import { OAuth2Flow } from "../auth/authFlows.js";
 
 /**
  * The programmatic identifier of the bearerTokenAuthenticationPolicy.
@@ -92,12 +93,10 @@ export function bearerTokenAuthenticationPolicy(
             "Bearer token authentication is not permitted for non-TLS protected (non-https) URLs when allowInsecureConnection is false.",
           );
         }
-      }
-      // TODO: Check if the scopes is provided for the request
-      
+      }      
       const getAccessTokenOptions = {
         abortSignal: request.abortSignal,
-        authFlows: request.authFlows?? authFlows,
+        authFlows,
       };
       const accessToken = await getAccessToken(getAccessTokenOptions);
       request.headers.set("Authorization", `Bearer ${accessToken.token}`);
