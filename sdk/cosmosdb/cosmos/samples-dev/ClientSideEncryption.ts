@@ -30,7 +30,7 @@ const key = process.env.COSMOS_KEY || "<cosmos key>";
 const endpoint = process.env.COSMOS_ENDPOINT || "<cosmos endpoint>";
 const databaseId = process.env.COSMOS_DATABASE || "<cosmos database>";
 const containerId = process.env.COSMOS_CONTAINER || "<cosmos container>";
-var client: CosmosClient;
+let client: CosmosClient;
 
 async function run() {
   logStep("Create encryption enabled cosmos client");
@@ -42,10 +42,8 @@ async function run() {
   client = new CosmosClient({
     endpoint: endpoint,
     key: key,
-    encryptionPolicy: {
-      enableEncryption: true,
+    clientEncryptionOptions: {
       keyEncryptionKeyResolver: keyResolver,
-      encryptionKeyResolverName: EncryptionKeyResolverName.AzureKeyVault,
       // We can set encryption key time to live in hours (EncryptionTimeToLive.FromHours),
       //  minutes (EncryptionTimeToLive.FromMinutes), and with no ttl (EncryptiontimeToLive.NoTTL)
       encryptionKeyTimeToLive: EncryptionTimeToLive.FromMinutes(10),

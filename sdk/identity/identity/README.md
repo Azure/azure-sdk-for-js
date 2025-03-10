@@ -264,7 +264,6 @@ Not all credentials require this configuration. Credentials that authenticate th
 | [`ClientCertificateCredential`](https://learn.microsoft.com/javascript/api/@azure/identity/clientcertificatecredential?view=azure-node-latest) | Authenticates a service principal using a certificate.                                                                                                               | [example](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-a-service-principal-with-a-client-certificate) | [Service principal authentication](https://learn.microsoft.com/entra/identity-platform/app-objects-and-service-principals) |
 | [`ClientSecretCredential`](https://learn.microsoft.com/javascript/api/@azure/identity/clientsecretcredential?view=azure-node-latest)           | Authenticates a service principal using a secret.                                                                                                                    | [example](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-a-service-principal-with-a-client-secret)      | [Service principal authentication](https://learn.microsoft.com/entra/identity-platform/app-objects-and-service-principals) |
 
-
 ### Authenticate users
 
 | Credential                                                                                                                                       | Usage                                                                                                                                                                                                                     | Example                                                                                                                                                                          | Reference                                                                                                      |
@@ -273,7 +272,6 @@ Not all credentials require this configuration. Credentials that authenticate th
 | [`DeviceCodeCredential`](https://learn.microsoft.com/javascript/api/@azure/identity/devicecodecredential?view=azure-node-latest)                 | Interactively authenticates a user on devices with limited UI.                                                                                                                                                            | [example](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-a-user-account-with-device-code-flow)        | [Device code authentication](https://learn.microsoft.com/entra/identity-platform/v2-oauth2-device-code)        |
 | [`InteractiveBrowserCredential`](https://learn.microsoft.com/javascript/api/@azure/identity/interactivebrowsercredential?view=azure-node-latest) | Interactively authenticates a user with the default system browser. Read more about how this happens [here](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/interactive-browser-credential.md). | [example](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-a-user-account-interactively-in-the-browser) | [OAuth2 authorization code](https://learn.microsoft.com/entra/identity-platform/v2-oauth2-auth-code-flow)     |
 | [`OnBehalfOfCredential`](https://learn.microsoft.com/javascript/api/@azure/identity/onbehalfofcredential?view=azure-node-latest)                 | Propagates the delegated user identity and permissions through the request chain                                                                                                                                          |                                                                                                                                                                                  | [On-behalf-of authentication](https://learn.microsoft.com/entra/identity-platform/v2-oauth2-on-behalf-of-flow) |
-| [`UsernamePasswordCredential`](https://learn.microsoft.com/javascript/api/@azure/identity/usernamepasswordcredential?view=azure-node-latest)     | **Deprecated** - Authenticates a user with a username and password.                                                                                                                                                                        | [example](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-a-user-account-with-username-and-password)   | [Username + password authentication](https://learn.microsoft.com/entra/identity-platform/v2-oauth-ropc)        |
 
 ### Authenticate via development tools
 
@@ -287,7 +285,7 @@ Not all credentials require this configuration. Credentials that authenticate th
 
 `DefaultAzureCredential` and `EnvironmentCredential` can be configured with environment variables. Each type of authentication requires values for specific variables.
 
-#### Service principal with secret
+### Service principal with secret
 
 | Variable name         | Value                                          |
 | --------------------- | ---------------------------------------------- |
@@ -295,7 +293,7 @@ Not all credentials require this configuration. Credentials that authenticate th
 | `AZURE_TENANT_ID`     | ID of the application's Microsoft Entra tenant |
 | `AZURE_CLIENT_SECRET` | one of the application's client secrets        |
 
-#### Service principal with certificate
+### Service principal with certificate
 
 | Variable name                         | Value                                                        |
 |---------------------------------------|--------------------------------------------------------------|
@@ -304,17 +302,6 @@ Not all credentials require this configuration. Credentials that authenticate th
 | `AZURE_CLIENT_CERTIFICATE_PATH`       | path to a PEM-encoded certificate file including private key |
 | `AZURE_CLIENT_CERTIFICATE_PASSWORD`   | (optional) password of the certificate file, if any          |
 | `AZURE_CLIENT_SEND_CERTIFICATE_CHAIN` | (optional) send certificate chain in x5c header to support subject name / issuer-based authentication |
-
-#### Username and password
-
-> **Warning**: Username and password authentication doesn't support multifactor authentication and is **deprecated**. For more details, see [Planning for mandatory multifactor authentication](https://aka.ms/azsdk/identity/mfa).
-
-| Variable name     | Value                                          |
-| ----------------- | ---------------------------------------------- |
-| `AZURE_CLIENT_ID` | ID of a Microsoft Entra application            |
-| `AZURE_TENANT_ID` | ID of the application's Microsoft Entra tenant |
-| `AZURE_USERNAME`  | a username (usually an email address)          |
-| `AZURE_PASSWORD`  | that user's password                           |
 
 Configuration is attempted in the preceding order. For example, if values for a client secret and certificate are both present, the client secret is used.
 
@@ -372,7 +359,6 @@ To contribute to this library, read the [contributing guide](https://github.com/
 [azureclilogin_image]: https://raw.githubusercontent.com/Azure/azure-sdk-for-js/main/sdk/identity/identity/images/AzureCliLogin.png
 [azureclilogindevicecode_image]: https://raw.githubusercontent.com/Azure/azure-sdk-for-js/main/sdk/identity/identity/images/AzureCliLoginDeviceCode.png
 [azurepowershelllogin_image]: https://raw.githubusercontent.com/Azure/azure-sdk-for-js/main/sdk/identity/identity/images/AzurePowerShellLogin.png
-[defaultauthflow_image]: https://raw.githubusercontent.com/Azure/azure-sdk-for-js/main/sdk/identity/identity/images/mermaidjs/DefaultAzureCredentialAuthFlow.svg
 [azure_identity_broker]: https://www.npmjs.com/package/@azure/identity-broker
 [azure_identity_broker_readme]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity-broker
 [authority_hosts]: https://learn.microsoft.com/javascript/api/@azure/identity/azureauthorityhosts

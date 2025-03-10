@@ -28,7 +28,6 @@ import {
   ClientEncryptionKeyProperties,
   EncryptionAlgorithm,
   KeyEncryptionAlgorithm,
-  EncryptionKeyResolverName,
 } from "../../encryption";
 import type { EncryptionManager } from "../../encryption/EncryptionManager";
 /**
@@ -346,16 +345,8 @@ export class Database {
     }
     if (!this.clientContext.enableEncryption) {
       throw new ErrorResponse(
-        "Creating a client encryption key requires the use of an encryption-enabled client.",
+        "Rewrapping a client encryption key requires the use of an encryption-enabled client.",
       );
-    }
-    if (newKeyWrapMetadata.type === EncryptionKeyResolverName.AzureKeyVault) {
-      // https://KEYVAULTNAME.vault.azure.net/keys/KEYNAME/KEYVERSION
-      const keyVaultUriSegments: string[] = new URL(newKeyWrapMetadata.value).pathname.split("/");
-
-      if (keyVaultUriSegments.length !== 4 || keyVaultUriSegments[1] !== "keys") {
-        throw new Error(`Invalid Key Vault URI '${newKeyWrapMetadata.value}' passed.`);
-      }
     }
 
     const res = await this.readClientEncryptionKey(id);

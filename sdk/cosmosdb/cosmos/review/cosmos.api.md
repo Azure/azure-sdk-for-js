@@ -32,6 +32,7 @@ export type AggregateType = "Average" | "Count" | "Max" | "Min" | "Sum" | "MakeS
 // @public
 export class AzureKeyVaultEncryptionKeyResolver implements EncryptionKeyResolver {
     constructor(credentials: TokenCredential);
+    encryptionKeyResolverName: EncryptionKeyResolverName;
     unwrapKey(encryptionKeyId: string, algorithm: string, wrappedKey: Buffer): Promise<Buffer>;
     wrapKey(encryptionKeyId: string, algorithm: string, unwrappedKey: Buffer): Promise<Buffer>;
 }
@@ -345,6 +346,12 @@ export class ClientEncryptionKeyResponse extends ResourceResponse<ClientEncrypti
 }
 
 // @public
+export interface ClientEncryptionOptions {
+    encryptionKeyTimeToLive?: EncryptionTimeToLive;
+    keyEncryptionKeyResolver: EncryptionKeyResolver;
+}
+
+// @public
 export class ClientEncryptionPolicy {
     constructor(includedPaths: ClientEncryptionIncludedPath[], policyFormatVersion?: number);
     includedPaths: ClientEncryptionIncludedPath[];
@@ -596,6 +603,7 @@ export const Constants: {
         DedicatedGatewayPerRequestBypassCache: string;
         ForceRefresh: string;
         PriorityLevel: string;
+        ThroughputBucket: string;
         IsClientEncryptedHeader: string;
         IntendedCollectionHeader: string;
         DatabaseRidHeader: string;
@@ -777,6 +785,7 @@ export class CosmosClient {
 export interface CosmosClientOptions {
     aadCredentials?: TokenCredential;
     agent?: Agent;
+    clientEncryptionOptions?: ClientEncryptionOptions;
     connectionPolicy?: ConnectionPolicy;
     connectionString?: string;
     consistencyLevel?: keyof typeof ConsistencyLevel;
@@ -786,7 +795,6 @@ export interface CosmosClientOptions {
     defaultHeaders?: CosmosHeaders_2;
     // (undocumented)
     diagnosticLevel?: CosmosDbDiagnosticLevel;
-    encryptionPolicy?: EncryptionPolicy;
     endpoint?: string;
     httpClient?: HttpClient;
     key?: string;
@@ -794,6 +802,7 @@ export interface CosmosClientOptions {
     resourceTokens?: {
         [resourcePath: string]: string;
     };
+    throughputBucket?: number;
     tokenProvider?: TokenProvider;
     userAgentSuffix?: string;
 }
@@ -1071,6 +1080,7 @@ export interface EncryptionDiagnostics {
 
 // @public
 export interface EncryptionKeyResolver {
+    encryptionKeyResolverName: EncryptionKeyResolverName;
     unwrapKey(encryptionKeyId: string, algorithm: string, wrappedKey: Buffer): Promise<Buffer>;
     wrapKey(encryptionKeyId: string, algorithm: string, unwrappedKey: Buffer): Promise<Buffer>;
 }
@@ -1087,14 +1097,6 @@ export class EncryptionKeyWrapMetadata {
     name: string;
     type: EncryptionKeyResolverName;
     value: string;
-}
-
-// @public
-export interface EncryptionPolicy {
-    enableEncryption: boolean;
-    encryptionKeyResolverName?: string;
-    encryptionKeyTimeToLive?: EncryptionTimeToLive;
-    keyEncryptionKeyResolver?: EncryptionKeyResolver;
 }
 
 // @public
@@ -2355,6 +2357,7 @@ export interface SharedOptions {
     maxIntegratedCacheStalenessInMs?: number;
     priorityLevel?: PriorityLevel;
     sessionToken?: string;
+    throughputBucket?: number;
 }
 
 // @public (undocumented)
