@@ -42,7 +42,7 @@ export enum connectionToolType {
   /** Bing grounding search tool */
   BingGrounding = "bing_grounding",
   /** Microsoft Fabric tool */
-  MicrosoftFabric = "microsoft_fabric",
+  MicrosoftFabric = "fabric_aiskill",
   /** Sharepoint tool */
   SharepointGrounding = "sharepoint_grounding",
   /** Azure Function tool */
