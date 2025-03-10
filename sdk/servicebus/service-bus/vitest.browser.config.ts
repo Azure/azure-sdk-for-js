@@ -6,7 +6,7 @@ import viteConfig from "../../../vitest.browser.shared.config.ts";
 import browserMap from "@azure-tools/vite-plugin-browser-test-map";
 import inject from "@rollup/plugin-inject";
 
-export default mergeConfig(
+const config = mergeConfig(
   viteConfig,
   defineConfig({
     define: {
@@ -27,3 +27,7 @@ export default mergeConfig(
     },
   }),
 );
+
+delete config.test.fakeTimers;
+
+export default config;
