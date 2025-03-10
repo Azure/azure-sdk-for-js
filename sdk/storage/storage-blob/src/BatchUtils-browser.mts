@@ -2,13 +2,16 @@
 // Licensed under the MIT License.
 
 import type { ServiceSubmitBatchResponseModel } from "./generatedModels.js";
-import { blobToString } from "./utils/utils.browser.js";
 
 export async function getBodyAsText(
   batchResponse: ServiceSubmitBatchResponseModel,
 ): Promise<string> {
-  const blob = (await batchResponse.blobBody) as Blob;
-  return blobToString(blob);
+  const blobBodyResponse = await batchResponse.blobBody;
+  if (!blobBodyResponse) {
+    return "";
+  }
+  const blobString = await blobBodyResponse.text();
+  return blobString;
 }
 
 export function utf8ByteLength(str: string): number {

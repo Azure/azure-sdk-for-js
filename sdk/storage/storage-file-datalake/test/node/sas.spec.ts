@@ -1780,7 +1780,7 @@ describe("Generate user delegation SAS against file system Node.js only", () => 
     await recorder.stop();
   });
 
-  it("generateUserDelegationSasUrl should work with all configurations", async function () {
+  it("generateUserDelegationSasUrl should work with all configurations", async () => {
     const containerSasOptions = {
       expiresOn: tmr,
       // ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
@@ -1816,7 +1816,7 @@ describe("Generate user delegation SAS against file system Node.js only", () => 
     assert.deepEqual(signature, getSignatureFromSasUrl(containerSasUrl));
   });
 
-  it("generateUserDelegationSasUrl should work with minimum parameters", async function () {
+  it("generateUserDelegationSasUrl should work with minimum parameters", async () => {
     const containerSasOptions = {
       expiresOn: tmr,
       permissions: FileSystemSASPermissions.parse("racwdl"),
@@ -2028,7 +2028,7 @@ describe("Generate user delegation SAS against path Node.js only", () => {
     await recorder.stop();
   });
 
-  it("generateUserDelegationSasUrl should work for file", async function () {
+  it("generateUserDelegationSasUrl should work for file", async () => {
     const fileName = recorder.variable("file", getUniqueName("file"));
     const fileClient = fileSystemClient.getFileClient(fileName);
     await fileClient.create({
@@ -2080,7 +2080,7 @@ describe("Generate user delegation SAS against path Node.js only", () => {
     assert.deepEqual(signature, getSignatureFromSasUrl(fileSasUrl));
   });
 
-  it("generateUserDelegationSasUrl should work for 2019-12-12", async function () {
+  it("generateUserDelegationSasUrl should work for 2019-12-12", async () => {
     const fileName = recorder.variable("file", getUniqueName("file"));
     const fileClient = fileSystemClient.getFileClient(fileName);
     await fileClient.create({

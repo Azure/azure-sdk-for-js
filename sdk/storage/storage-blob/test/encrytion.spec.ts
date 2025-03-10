@@ -56,7 +56,7 @@ describe("Encryption Scope", function () {
     await recorder.stop();
   });
 
-  it("create container", async function () {
+  it("create container", async () => {
     await containerClient.create();
     let containerChecked = false;
     for await (const container of blobServiceClient.listContainers({
@@ -76,7 +76,7 @@ describe("Encryption Scope", function () {
     });
   });
 
-  it("create container preventEncryptionScopeOverride", async function () {
+  it("create container preventEncryptionScopeOverride", async () => {
     await containerClient.create({
       containerEncryptionScope: {
         defaultEncryptionScope: encryptionScopeName1,

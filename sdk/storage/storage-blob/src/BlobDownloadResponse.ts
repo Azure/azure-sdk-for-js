@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { isNode } from "@azure/core-util";
+import { isNodeLike } from "@azure/core-util";
 import type { BlobImmutabilityPolicyMode } from "./generatedModels.js";
 
 import type {
@@ -500,7 +500,7 @@ export class BlobDownloadResponse implements BlobDownloadResponseParsed {
    * @readonly
    */
   public get readableStreamBody(): NodeJS.ReadableStream | undefined {
-    return isNode ? this.blobDownloadStream : undefined;
+    return isNodeLike ? this.blobDownloadStream : undefined;
   }
 
   /**

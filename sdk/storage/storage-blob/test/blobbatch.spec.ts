@@ -66,7 +66,7 @@ describe("BlobBatch", () => {
     await recorder.stop();
   });
 
-  it("submitBatch should work for batch delete", async function () {
+  it("submitBatch should work for batch delete", async () => {
     if (!isLiveMode()) {
       ctx.skip();
     }
@@ -107,7 +107,7 @@ describe("BlobBatch", () => {
     assert.equal(resp2.segment.blobItems.length, 0);
   });
 
-  it("deleteBlobs should work for batch delete", async function () {
+  it("deleteBlobs should work for batch delete", async () => {
     if (!isLiveMode()) {
       ctx.skip();
     }
@@ -143,7 +143,7 @@ describe("BlobBatch", () => {
     assert.equal(resp2.segment.blobItems.length, 0);
   });
 
-  it("submitBatch should work for batch delete with snapshot", async function () {
+  it("submitBatch should work for batch delete with snapshot", async () => {
     if (!isLiveMode()) {
       ctx.skip();
     }
@@ -269,7 +269,7 @@ describe("BlobBatch", () => {
     assert.equal(respList3.segment.blobItems.length, 2);
   });
 
-  it("submitBatch should work for batch delete with access condition and partial succeed", async function () {
+  it("submitBatch should work for batch delete with access condition and partial succeed", async () => {
     if (!isLiveMode()) {
       ctx.skip();
     }
@@ -309,7 +309,7 @@ describe("BlobBatch", () => {
     assert.equal(resp.subResponses[1]._request.url, blockBlobClients[1].url);
   });
 
-  it("submitBatch should work for batch set tier", async function () {
+  it("submitBatch should work for batch set tier", async () => {
     if (!isLiveMode()) {
       ctx.skip();
     }
@@ -343,7 +343,7 @@ describe("BlobBatch", () => {
     }
   });
 
-  it("setBlobsAccessTier should work for batch set tier", async function () {
+  it("setBlobsAccessTier should work for batch set tier", async () => {
     if (!isLiveMode()) {
       ctx.skip();
     }
@@ -372,7 +372,7 @@ describe("BlobBatch", () => {
     }
   });
 
-  it("submitBatch should work for batch set tier with lease condition", async function () {
+  it("submitBatch should work for batch set tier with lease condition", async () => {
     if (!isLiveMode()) {
       ctx.skip();
     }
@@ -412,7 +412,7 @@ describe("BlobBatch", () => {
     }
   });
 
-  it("submitBatch should work for batch set tier with versioning", async function () {
+  it("submitBatch should work for batch set tier with versioning", async () => {
     if (!isLiveMode()) {
       ctx.skip();
     }
@@ -461,7 +461,7 @@ describe("BlobBatch", () => {
     }
   });
 
-  it("submitBatch should work for batch set tier with snapshot", async function () {
+  it("submitBatch should work for batch set tier with snapshot", async () => {
     if (!isLiveMode()) {
       ctx.skip();
     }
@@ -563,7 +563,7 @@ describe("BlobBatch", () => {
     assert.equal(resp.subResponses[1]._request.url, blockBlobClient1WithoutSAS);
   });
 
-  it("submitBatch should report error when sub requests exceed 256", async function () {
+  it("submitBatch should report error when sub requests exceed 256", async () => {
     const batchSetTierRequest = new BlobBatch();
 
     for (let i = 0; i < 256; i++) {
@@ -589,7 +589,7 @@ describe("BlobBatch", () => {
     assert.ok(exceptionCaught);
   });
 
-  it("submitBatch should report error when sub request with invalid url or invalid credential", async function () {
+  it("submitBatch should report error when sub request with invalid url or invalid credential", async () => {
     const batchSetTierRequest = new BlobBatch();
     let exceptionCaught = false;
 
@@ -606,7 +606,7 @@ describe("BlobBatch", () => {
     assert.ok(exceptionCaught);
   });
 
-  it("submitBatch should report error with 0 sub request", async function () {
+  it("submitBatch should report error with 0 sub request", async () => {
     const batchDeleteRequest = new BlobBatch();
 
     let exceptionCaught = false;
@@ -623,7 +623,7 @@ describe("BlobBatch", () => {
     assert.ok(exceptionCaught);
   });
 
-  it("submitBatch should report error with invalid credential for batch request", async function () {
+  it("submitBatch should report error with invalid credential for batch request", async () => {
     if (!isLiveMode()) {
       ctx.skip();
     }
@@ -654,7 +654,7 @@ describe("BlobBatch", () => {
     assert.ok(exceptionCaught);
   });
 
-  it("BlobBatch should report error when mixing different request types in one batch", async function () {
+  it("BlobBatch should report error when mixing different request types in one batch", async () => {
     const batchRequest = new BlobBatch();
 
     let exceptionCaught = false;
@@ -673,7 +673,7 @@ describe("BlobBatch", () => {
     assert.ok(exceptionCaught);
   });
 
-  it("Container scoped: submitBatch should work for batch delete", async function () {
+  it("Container scoped: submitBatch should work for batch delete", async () => {
     if (!isLiveMode()) {
       ctx.skip();
     }
@@ -765,7 +765,7 @@ describe("BlobBatch Token auth", () => {
     }
   });
 
-  it("Should work when passing in BlobClient", async function () {
+  it("Should work when passing in BlobClient", async () => {
     if (!isLiveMode()) {
       ctx.skip();
     }
@@ -795,7 +795,7 @@ describe("BlobBatch Token auth", () => {
     }
   });
 
-  it("Should work when passing in url and credential", async function () {
+  it("Should work when passing in url and credential", async () => {
     if (!isLiveMode()) {
       ctx.skip();
     }

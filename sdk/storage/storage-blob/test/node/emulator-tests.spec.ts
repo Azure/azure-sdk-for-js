@@ -44,7 +44,7 @@ describe("Emulator Tests", () => {
     }
   });
 
-  it("BlobClient can be created with a connection string", async function () {
+  it("BlobClient can be created with a connection string", async () => {
     const newClient = new BlobClient(getConnectionStringFromEnvironment(), containerName, blobName);
     const metadata = {
       a: "a",
@@ -61,7 +61,7 @@ describe("Emulator Tests", () => {
     assert.deepStrictEqual(result.metadata, metadata);
   });
 
-  it("BlobServiceClient can be created from a connection string", async function () {
+  it("BlobServiceClient can be created from a connection string", async () => {
     const newClient = BlobServiceClient.fromConnectionString(getConnectionStringFromEnvironment());
 
     const result = await newClient.getProperties();
@@ -70,7 +70,7 @@ describe("Emulator Tests", () => {
     assert.ok(result.requestId!.length > 0);
   });
 
-  it("BlockBlobClient can be created with a connection string", async function () {
+  it("BlockBlobClient can be created with a connection string", async () => {
     const newClient = new BlockBlobClient(
       getConnectionStringFromEnvironment(),
       containerName,
@@ -89,7 +89,7 @@ describe("Emulator Tests", () => {
     assert.deepStrictEqual(await bodyToString(result, body.length), body);
   });
 
-  it("ContainerClient can be created with a connection string and a container name and an option bag", async function () {
+  it("ContainerClient can be created with a connection string and a container name and an option bag", async () => {
     const newClient = new ContainerClient(getConnectionStringFromEnvironment(), containerName, {
       retryOptions: {
         maxTries: 5,
@@ -129,7 +129,7 @@ describe("Emulator Tests", () => {
     assert.ok(result.requestId);
   });
 
-  it("PageBlobClient can be created with a connection string", async function () {
+  it("PageBlobClient can be created with a connection string", async () => {
     const newClient = new PageBlobClient(
       getConnectionStringFromEnvironment(),
       containerName,

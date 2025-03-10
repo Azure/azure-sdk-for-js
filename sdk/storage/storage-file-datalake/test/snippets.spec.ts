@@ -9,8 +9,8 @@ import {
   generateDataLakeSASQueryParameters,
   SASProtocol,
   StorageSharedKeyCredential,
-} from "@azure/storage-file-datalake";
-import { describe, it, assert } from "vitest";
+} from "../src/index.js";
+import { describe, it } from "vitest";
 
 describe("snippets", () => {
   it("ReadmeSampleCreateClient_DefaultAzureCredential", async () => {
@@ -418,20 +418,9 @@ describe("snippets", () => {
     // In browsers, get downloaded data by accessing downloadResponse.contentAsBlob
     const downloadResponse = await fileClient.read();
     if (downloadResponse.contentAsBlob) {
-      const downloaded = await blobToString(await downloadResponse.contentAsBlob);
+      const blob = await downloadResponse.contentAsBlob;
+      const downloaded = await blob.text();
       console.log(`Downloaded file content ${downloaded}`);
-    }
-    // @ts-preserve-whitespace
-    // [Browsers only] A helper method used to convert a browser Blob into string.
-    async function blobToString(blob: Blob): Promise<void> {
-      const fileReader = new FileReader();
-      return new Promise((resolve, reject) => {
-        fileReader.onloadend = (ev) => {
-          resolve(ev.target!.result);
-        };
-        fileReader.onerror = reject;
-        fileReader.readAsText(blob);
-      });
     }
   });
 

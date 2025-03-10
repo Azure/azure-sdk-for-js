@@ -3,15 +3,14 @@
 import type { TokenCredential } from "@azure/core-auth";
 import { isTokenCredential } from "@azure/core-auth";
 import type { RequestBodyType as HttpRequestBody } from "@azure/core-rest-pipeline";
-import { isNode } from "@azure/core-util";
+import { isNodeLike } from "@azure/core-util";
 import type { Pipeline, StoragePipelineOptions } from "./Pipeline.js";
 import { isPipelineLike, newPipeline } from "./Pipeline.js";
 import { BlobClient, BlockBlobClient } from "@azure/storage-blob";
 import { AnonymousCredential } from "@azure/storage-blob";
 import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential.js";
 import type { Readable } from "node:stream";
-
-import { BufferScheduler } from "../../storage-common/src/index.js";
+import { BufferScheduler } from "@azure/storage-common";
 import { DataLakeLeaseClient } from "./DataLakeLeaseClient.js";
 import { PathOperationsImpl as Path } from "./generated/src/operations/index.js";
 import type {
@@ -1334,20 +1333,9 @@ export class DataLakeFileClient extends DataLakePathClient {
    * // In browsers, get downloaded data by accessing downloadResponse.contentAsBlob
    * const downloadResponse = await fileClient.read();
    * if (downloadResponse.contentAsBlob) {
-   *   const downloaded = await blobToString(await downloadResponse.contentAsBlob);
+   *   const blob = await downloadResponse.contentAsBlob;
+   *   const downloaded = await blob.text();
    *   console.log(`Downloaded file content ${downloaded}`);
-   * }
-   *
-   * // [Browsers only] A helper method used to convert a browser Blob into string.
-   * async function blobToString(blob: Blob) {
-   *   const fileReader = new FileReader();
-   *   return new Promise((resolve, reject) => {
-   *     fileReader.onloadend = (ev) => {
-   *       resolve(ev.target!.result);
-   *     };
-   *     fileReader.onerror = reject;
-   *     fileReader.readAsText(blob);
-   *   });
    * }
    * ```
    *
@@ -1369,7 +1357,7 @@ export class DataLakeFileClient extends DataLakePathClient {
       const response = ParsePathGetPropertiesExtraHeaderValues(
         rawResponse as FileReadResponse,
       ) as FileReadResponse;
-      if (!isNode && !response.contentAsBlob) {
+      if (!isNodeLike && !response.contentAsBlob) {
         response.contentAsBlob = rawResponse.blobBody;
       }
       response.fileContentMD5 = rawResponse.blobContentMD5;
@@ -1505,7 +1493,7 @@ export class DataLakeFileClient extends DataLakePathClient {
     options: FileParallelUploadOptions = {},
   ): Promise<FileUploadResponse> {
     return tracingClient.withSpan("DataLakeFileClient-upload", options, async (updatedOptions) => {
-      if (isNode) {
+      if (isNodeLike) {
         let buffer: Buffer;
         if (data instanceof Buffer) {
           buffer = data;
@@ -1522,7 +1510,7 @@ export class DataLakeFileClient extends DataLakePathClient {
           updatedOptions,
         );
       } else {
-        const browserBlob = new Blob([data]);
+        const browserBlob = new Blob([data as ArrayBuffer]);
         return this.uploadSeekableInternal(
           (offset: number, size: number): Blob => browserBlob.slice(offset, offset + size),
           browserBlob.size,
@@ -1935,7 +1923,7 @@ export class DataLakeFileClient extends DataLakePathClient {
         customerProvidedKey: toBlobCpkInfo(options.customerProvidedKey),
       });
       const response = rawResponse as FileReadResponse;
-      if (!isNode && !response.contentAsBlob) {
+      if (!isNodeLike && !response.contentAsBlob) {
         response.contentAsBlob = rawResponse.blobBody;
       }
       response.fileContentMD5 = rawResponse.blobContentMD5;

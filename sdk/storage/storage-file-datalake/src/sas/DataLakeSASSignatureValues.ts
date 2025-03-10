@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 import { StorageSharedKeyCredential } from "../credentials/StorageSharedKeyCredential.js";
 import { UserDelegationKeyCredential } from "../credentials/UserDelegationKeyCredential.js";
 import { DataLakeSASPermissions } from "./DataLakeSASPermissions.js";

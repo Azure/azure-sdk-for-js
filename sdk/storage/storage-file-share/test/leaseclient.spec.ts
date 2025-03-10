@@ -14,7 +14,7 @@ import type {
   ShareFileClient,
   SignedIdentifier,
 } from "../src/index.js";
-import { isNode } from "@azure/core-util";
+import { isNodeLike } from "@azure/core-util";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 // for file
@@ -723,8 +723,8 @@ describe("LeaseClient with ShareClient", () => {
     await leaseClient.releaseLease();
   });
 
-  it("setAccessPolicy", async function () {
-    if (!isNode) {
+  it("setAccessPolicy", async (ctx) => {
+    if (!isNodeLike) {
       ctx.skip();
     }
     await recorder.addSanitizers(

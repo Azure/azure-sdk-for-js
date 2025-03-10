@@ -5,7 +5,6 @@ import type {
   RequestPolicy,
   RequestPolicyOptionsLike as RequestPolicyOptions,
 } from "@azure/core-http-compat";
-
 import { AnonymousCredentialPolicy } from "../policies/AnonymousCredentialPolicy.js";
 import { Credential } from "./Credential.js";
 

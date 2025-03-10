@@ -48,7 +48,7 @@ export {
   getFileServiceAccountAudience,
 } from "./models.js";
 export * from "./FileSystemAttributes.js";
-export { BaseRequestPolicy } from "../../storage-blob/src/policies/RequestPolicy.js";
+export { BaseRequestPolicy } from "@azure/storage-blob";
 export {
   Pipeline,
   PipelineLike,
@@ -67,11 +67,11 @@ export {
   StorageOAuthScopes,
   ServiceClientOptions,
 } from "./Pipeline.js";
-export * from "../../storage-blob/src/policies/AnonymousCredentialPolicy.js";
-export * from "../../storage-blob/src/policies/CredentialPolicy.js";
+export { AnonymousCredentialPolicy } from "@azure/storage-blob";
+export { CredentialPolicy } from "@azure/storage-blob";
 export * from "./StorageRetryPolicyFactory.js";
-export * from "../../storage-blob/src/policies/StorageSharedKeyCredentialPolicy.js";
-export * from "../../storage-blob/src/StorageBrowserPolicyFactory.js";
+export { StorageSharedKeyCredentialPolicy } from "@azure/storage-blob";
+export { StorageBrowserPolicyFactory } from "@azure/storage-blob";
 export * from "./ShareServiceClient.js";
 export * from "./SASQueryParameters.js";
 export { CommonOptions } from "./StorageClient.js";

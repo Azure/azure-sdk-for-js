@@ -4,11 +4,11 @@
 import type { AvroReaderFactory } from "./AvroReaderFactory.js";
 import type { ContainerClient, CommonOptions } from "@azure/storage-blob";
 import { Chunk } from "./Chunk.js";
-import type { AvroReader } from "../../storage-internal-avro/src/index.js";
 import { streamToAvroReadable } from "./utils/utils.node.js";
 import type { AbortSignalLike } from "@azure/abort-controller";
 import type { LazyLoadingBlobStreamFactory } from "./LazyLoadingBlobStreamFactory.js";
 import { CHANGE_FEED_CHUNK_BLOCK_DOWNLOAD_SIZE } from "./utils/constants.js";
+import type { AvroReader } from "@azure/storage-internal-avro";
 
 /**
  * Options to configure {@link ChunkFactory.create} operation.

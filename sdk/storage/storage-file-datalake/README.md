@@ -478,20 +478,9 @@ const fileClient = fileSystemClient.getFileClient(fileName);
 // In browsers, get downloaded data by accessing downloadResponse.contentAsBlob
 const downloadResponse = await fileClient.read();
 if (downloadResponse.contentAsBlob) {
-  const downloaded = await blobToString(await downloadResponse.contentAsBlob);
+  const blob = await downloadResponse.contentAsBlob;
+  const downloaded = await blob.text();
   console.log(`Downloaded file content ${downloaded}`);
-}
-
-// [Browsers only] A helper method used to convert a browser Blob into string.
-async function blobToString(blob: Blob) {
-  const fileReader = new FileReader();
-  return new Promise((resolve, reject) => {
-    fileReader.onloadend = (ev) => {
-      resolve(ev.target!.result);
-    };
-    fileReader.onerror = reject;
-    fileReader.readAsText(blob);
-  });
 }
 ```
 

@@ -750,7 +750,7 @@ describe("ShareClient Provisioned", () => {
   });
 
   // Skipped for now as it needs be enabled on the account.
-  it("Create share with Provisioned Max Iops and Bandwidth", async function () {
+  it("Create share with Provisioned Max Iops and Bandwidth", async () => {
     const shareName = recorder.variable("share", getUniqueName("share"));
     const shareClient = serviceClient.getShareClient(shareName);
 
@@ -767,7 +767,7 @@ describe("ShareClient Provisioned", () => {
     assert.ok(deleteResult.snapshotUsageBytes !== undefined);
   });
 
-  it("setProperties with Provisioned Max Iops and Bandwidth", async function () {
+  it("setProperties with Provisioned Max Iops and Bandwidth", async () => {
     const shareName = recorder.variable("share", getUniqueName("share"));
     const shareClient = serviceClient.getShareClient(shareName);
 
@@ -819,7 +819,7 @@ describe("ShareClient Provisioned", () => {
     assert.ok(deleteResult.snapshotUsageBytes !== undefined);
   });
 
-  it("Restore share", async function () {
+  it("Restore share", async () => {
     const shareName = recorder.variable("share", getUniqueName("share"));
     const shareClient = serviceClient.getShareClient(shareName);
 

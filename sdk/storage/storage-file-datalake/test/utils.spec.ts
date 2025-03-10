@@ -13,7 +13,7 @@ describe("Utility Helpers", () => {
   const blobEndpoint = `https://${accountName}.blob.core.windows.net`;
   const sharedAccessSignature = "sasToken";
 
-  function verifySASConnectionString(sasConnectionString: string) {
+  function verifySASConnectionString(sasConnectionString: string): void {
     const connectionStringParts = extractConnectionStringParts(sasConnectionString);
     assert.equal(
       "SASConnString",

@@ -9,15 +9,9 @@ import {
   recorderEnvSetup,
   uriSanitizers,
 } from "../utils/index.js";
-import {
-  blobToString,
-  bodyToString,
-  getBrowserFile,
-  blobToArrayBuffer,
-  arrayBufferEqual,
-} from "../utils/index.browser.js";
+import { getBrowserFile, arrayBufferEqual } from "../utils/index.browser.js";
 import { MB } from "../../src/utils/constants.js";
-import { describe, it, assert, beforeEach, afterEach } from "vitest";
+import { describe, it, assert, beforeEach, afterEach, beforeAll } from "vitest";
 
 describe("Highlevel browser only", () => {
   let fileSystemName: string;
@@ -49,7 +43,7 @@ describe("Highlevel browser only", () => {
     await recorder.stop();
   });
 
-  before(async function () {
+  beforeAll(async () => {
     tempFileLarge = getBrowserFile("browserfilesmall", tempFileLargeLength);
     tempFileSmall = getBrowserFile("browserfilelarge", tempFileSmallLength);
   });
@@ -61,8 +55,8 @@ describe("Highlevel browser only", () => {
     await fileClient.upload(tempFileSmall);
 
     const readResponse = await fileClient.read();
-    const readString = await bodyToString(readResponse);
-    const uploadedString = await blobToString(tempFileSmall);
+    const readString = await (await readResponse.contentAsBlob!).text();
+    const uploadedString = await tempFileSmall.text();
     assert.equal(uploadedString, readString);
   });
 
@@ -73,8 +67,8 @@ describe("Highlevel browser only", () => {
     await fileClient.upload(tempFileLarge);
     const readResponse = await fileClient.read();
 
-    const readBuf = await blobToArrayBuffer(await readResponse.contentAsBlob!);
-    const localBuf = await blobToArrayBuffer(tempFileLarge);
+    const readBuf = await (await readResponse.contentAsBlob!).arrayBuffer();
+    const localBuf = await tempFileLarge.arrayBuffer();
     assert.ok(arrayBufferEqual(readBuf, localBuf));
   });
 
@@ -148,7 +142,8 @@ describe("Highlevel browser only", () => {
     );
     await fileClient.upload(tempFileEmpty);
     const response = await fileClient.read();
-    assert.deepStrictEqual(await bodyToString(response), "");
+    const bodyString = await (await response.contentAsBlob!).text();
+    assert.deepStrictEqual(bodyString, "");
   });
 
   it("upload should work with Blob, ArrayBuffer and ArrayBufferView", async () => {

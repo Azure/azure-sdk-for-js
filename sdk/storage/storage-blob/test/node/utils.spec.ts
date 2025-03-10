@@ -41,7 +41,7 @@ describe("Utility Helpers Node.js only", () => {
     );
   }
 
-  it("extractConnectionStringParts throws error when passed an invalid protocol in the connection string", async function () {
+  it("extractConnectionStringParts throws error when passed an invalid protocol in the connection string", async () => {
     try {
       extractConnectionStringParts(
         "DefaultEndpointsProtocol=a;AccountName=b;AccountKey=c;EndpointSuffix=d",
@@ -55,7 +55,7 @@ describe("Utility Helpers Node.js only", () => {
     }
   });
 
-  it("extractConnectionStringParts throws error when passed an invalid connection string with typo", async function () {
+  it("extractConnectionStringParts throws error when passed an invalid connection string with typo", async () => {
     try {
       extractConnectionStringParts(
         // Typo in the attributes
@@ -72,7 +72,7 @@ describe("Utility Helpers Node.js only", () => {
     }
   });
 
-  it("extractConnectionStringParts throws error with empty EndpointSuffix in the connection string", async function () {
+  it("extractConnectionStringParts throws error with empty EndpointSuffix in the connection string", async () => {
     try {
       extractConnectionStringParts(
         "DefaultEndpointsProtocol=https;AccountName=b;AccountKey=cdefg;EndpointSuffix=",
@@ -87,7 +87,7 @@ describe("Utility Helpers Node.js only", () => {
     }
   });
 
-  it("extractConnectionStringParts throws error with empty AccountKey in the connection string", async function () {
+  it("extractConnectionStringParts throws error with empty AccountKey in the connection string", async () => {
     try {
       extractConnectionStringParts(
         "DefaultEndpointsProtocol=https;AccountName=b;AccountKey=;EndpointSuffix=d",
@@ -102,7 +102,7 @@ describe("Utility Helpers Node.js only", () => {
     }
   });
 
-  it("extractConnectionStringParts throws error with empty AccountName in the connection string", async function () {
+  it("extractConnectionStringParts throws error with empty AccountName in the connection string", async () => {
     try {
       extractConnectionStringParts(
         "DefaultEndpointsProtocol=https;AccountName=;AccountKey=c;EndpointSuffix=d",
@@ -117,7 +117,7 @@ describe("Utility Helpers Node.js only", () => {
     }
   });
 
-  it("extractConnectionStringParts throws error with empty DefaultEndpointsProtocol in the connection string", async function () {
+  it("extractConnectionStringParts throws error with empty DefaultEndpointsProtocol in the connection string", async () => {
     try {
       extractConnectionStringParts(
         "DefaultEndpointsProtocol=;AccountName=b;AccountKey=c;EndpointSuffix=d",
@@ -132,7 +132,7 @@ describe("Utility Helpers Node.js only", () => {
     }
   });
 
-  it("extractConnectionStringParts parses connection string with complete service endpoint for each service", async function () {
+  it("extractConnectionStringParts parses connection string with complete service endpoint for each service", async () => {
     verifyConnectionString(
       `DefaultEndpointsProtocol=${protocol};
           BlobEndpoint=${blobEndpoint};
@@ -144,7 +144,7 @@ describe("Utility Helpers Node.js only", () => {
     );
   });
 
-  it("extractConnectionStringParts parses connection string with an explicit endpoint", async function () {
+  it("extractConnectionStringParts parses connection string with an explicit endpoint", async () => {
     verifyConnectionString(
       `DefaultEndpointsProtocol=${protocol};
         BlobEndpoint=${blobEndpoint};
@@ -153,7 +153,7 @@ describe("Utility Helpers Node.js only", () => {
     );
   });
 
-  it("extractConnectionStringParts parses connection string with an endpoint suffix", async function () {
+  it("extractConnectionStringParts parses connection string with an endpoint suffix", async () => {
     verifyConnectionString(
       `DefaultEndpointsProtocol=${protocol};
         AccountName=${accountName};
@@ -194,7 +194,7 @@ describe("Utility Helpers Node.js only", () => {
       }
     });
 
-    it("writes a readable stream into a file", async function () {
+    it("writes a readable stream into a file", async () => {
       const numBytes = 100;
       const emittingErrorInMiddle = false;
       const readStream = new TestReadableStream(numBytes, emittingErrorInMiddle);
@@ -208,7 +208,7 @@ describe("Utility Helpers Node.js only", () => {
       );
     });
 
-    it("rejects when the readStream emits an error", async function () {
+    it("rejects when the readStream emits an error", async () => {
       const numBytes = 100;
       const shouldEmitError = true;
       const readStream = new TestReadableStream(numBytes, shouldEmitError);
@@ -225,7 +225,7 @@ describe("Utility Helpers Node.js only", () => {
       }
     });
 
-    it("rejects when the filepath is a directory", async function () {
+    it("rejects when the filepath is a directory", async () => {
       const numBytes = 100;
       const emittingErrorInMiddle = false;
       const readStream = new TestReadableStream(numBytes, emittingErrorInMiddle);
@@ -419,7 +419,7 @@ describe("RetriableReadableStream", () => {
     });
   };
 
-  it("destory should work", async function () {
+  it("destory should work", async () => {
     const counter = new Counter();
     const retriable = new RetriableReadableStream(counter, getter, 0, counterMax);
 
@@ -437,7 +437,7 @@ describe("RetriableReadableStream", () => {
     assert.ok(errorCaught);
   });
 
-  it("setEncoding should work", async function () {
+  it("setEncoding should work", async () => {
     const counter = new Counter(1);
     const retriable = new RetriableReadableStream(counter, getter, 0, 1);
     retriable.on("data", (chunk) => {
@@ -452,7 +452,7 @@ describe("RetriableReadableStream", () => {
     });
   });
 
-  it("pause and resume should work", async function () {
+  it("pause and resume should work", async () => {
     const counter = new Counter(10, undefined, { highWaterMark: 1 });
     const retriable = new RetriableReadableStream(counter, getter, 0, 10, { highWaterMark: 1 });
 
@@ -471,7 +471,7 @@ describe("RetriableReadableStream", () => {
     assert.equal(cur, 2);
   });
 
-  it("retry should work on source error", async function () {
+  it("retry should work on source error", async () => {
     const counter = new Counter();
     const retriable = new RetriableReadableStream(counter, getter, 0, counterMax, {
       maxRetryRequests: 1,
@@ -482,7 +482,7 @@ describe("RetriableReadableStream", () => {
     assert.deepStrictEqual(resBuf.toString(), "0123456789");
   });
 
-  it("retry should work on source unexpected end", async function () {
+  it("retry should work on source unexpected end", async () => {
     const counter = new Counter(2);
     const retriable = new RetriableReadableStream(counter, getter, 0, counterMax, {
       maxRetryRequests: 1,

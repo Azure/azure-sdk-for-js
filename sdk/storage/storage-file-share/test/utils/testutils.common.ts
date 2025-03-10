@@ -1,7 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { Recorder, RecorderStartOptions } from "@azure-tools/test-recorder";
+import type {
+  Recorder,
+  RecorderStartOptions,
+  FindReplaceSanitizer,
+} from "@azure-tools/test-recorder";
 import type { Pipeline } from "@azure/core-rest-pipeline";
 import { isBrowser } from "@azure/core-util";
 import type { StorageClient } from "../../src/StorageClient.js";
@@ -18,7 +22,7 @@ export function configureStorageClient(recorder: Recorder, client: StorageClient
   }
 }
 
-function getUriSanitizerForQueryParam(paramName: string) {
+function getUriSanitizerForQueryParam(paramName: string): FindReplaceSanitizer {
   return {
     regex: true,
     target: `http.+\\?([^&=]+=[^&=]+&)*(?<param>${paramName}=[^&=]+&?)`,

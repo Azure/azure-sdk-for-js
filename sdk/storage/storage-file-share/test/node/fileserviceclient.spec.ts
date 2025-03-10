@@ -137,7 +137,7 @@ describe("FileServiceClient Node.js only - OAuth", () => {
     }
   });
 
-  it("Undelete should work", async function () {
+  it("Undelete should work", async () => {
     const serviceClient = getSoftDeleteBSUWithDefaultCredential(recorder, "", {
       fileRequestIntent: "backup",
     });

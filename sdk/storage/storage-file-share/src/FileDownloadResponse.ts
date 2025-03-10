@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { isNode } from "@azure/core-util";
+import { isNodeLike } from "@azure/core-util";
 import type {
   CopyStatusType,
   FileDownloadHeaders,
@@ -418,7 +418,7 @@ export class FileDownloadResponse implements FileDownloadResponseModel {
    * @readonly
    */
   public get readableStreamBody(): NodeJS.ReadableStream | undefined {
-    return isNode ? this.fileDownloadStream : undefined;
+    return isNodeLike ? this.fileDownloadStream : undefined;
   }
 
   public get _response(): HttpResponse & {

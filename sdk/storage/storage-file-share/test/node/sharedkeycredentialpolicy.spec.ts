@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 import { Recorder } from "@azure-tools/test-recorder";
-
 import type { ShareClient } from "../../src/index.js";
 import { getBSU, getUniqueName, recorderEnvSetup, uriSanitizers } from "../utils/index.js";
 import { describe, it, beforeEach, afterEach } from "vitest";

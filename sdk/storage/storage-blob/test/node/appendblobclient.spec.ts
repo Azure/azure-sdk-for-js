@@ -69,7 +69,7 @@ describe("AppendBlobClient Node.js only", () => {
     await recorder.stop();
   });
 
-  it("can be created with a url and a credential", async function () {
+  it("can be created with a url and a credential", async () => {
     const credential = (appendBlobClient as any).credential as StorageSharedKeyCredential;
     const newClient = new AppendBlobClient(appendBlobClient.url, credential);
     configureBlobStorageClient(recorder, newClient);
@@ -78,7 +78,7 @@ describe("AppendBlobClient Node.js only", () => {
     await newClient.download();
   });
 
-  it("can be created with a url and a credential and an option bag", async function () {
+  it("can be created with a url and a credential and an option bag", async () => {
     const credential = (appendBlobClient as any).credential as StorageSharedKeyCredential;
     const newClient = new AppendBlobClient(appendBlobClient.url, credential, {
       userAgentOptions: { userAgentPrefix: "test/1.0" },
@@ -89,7 +89,7 @@ describe("AppendBlobClient Node.js only", () => {
     await newClient.download();
   });
 
-  it("can be created with a url and a TokenCredential", async function () {
+  it("can be created with a url and a TokenCredential", async () => {
     const tokenCredential: TokenCredential = {
       getToken: () =>
         Promise.resolve({
@@ -168,7 +168,7 @@ describe("AppendBlobClient Node.js only", () => {
     await newClient.download();
   });
 
-  it("can be created with a connection string", async function () {
+  it("can be created with a connection string", async () => {
     const newClient = new AppendBlobClient(
       getConnectionStringFromEnvironment(),
       containerName,
@@ -180,7 +180,7 @@ describe("AppendBlobClient Node.js only", () => {
     await newClient.download();
   });
 
-  it("can be created with a connection string and an option bag", async function () {
+  it("can be created with a connection string and an option bag", async () => {
     const newClient = new AppendBlobClient(
       getConnectionStringFromEnvironment(),
       containerName,
@@ -197,7 +197,7 @@ describe("AppendBlobClient Node.js only", () => {
     await newClient.download();
   });
 
-  it("appendBlockFromURL", async function () {
+  it("appendBlockFromURL", async () => {
     await appendBlobClient.create();
 
     const content = "Hello World!";
@@ -230,7 +230,7 @@ describe("AppendBlobClient Node.js only", () => {
     assert.equal(downloadResponse.contentLength!, content.length * 2);
   });
 
-  it("appendBlockFromURL - source SAS and destination bearer token", async function () {
+  it("appendBlockFromURL - source SAS and destination bearer token", async () => {
     await appendBlobClient.create();
 
     const content = "Hello World!";
@@ -270,7 +270,7 @@ describe("AppendBlobClient Node.js only", () => {
     assert.equal(downloadResponse.contentLength!, content.length);
   });
 
-  it("appendBlockFromURL - source bear token and destination account key", async function () {
+  it("appendBlockFromURL - source bear token and destination account key", async () => {
     await appendBlobClient.create();
 
     const content = "Hello World!";
@@ -294,7 +294,7 @@ describe("AppendBlobClient Node.js only", () => {
     assert.equal(downloadResponse.contentLength!, content.length);
   });
 
-  it("appendBlockFromURL - destination bearer token", async function () {
+  it("appendBlockFromURL - destination bearer token", async () => {
     await appendBlobClient.create();
 
     const content = "Hello World!";

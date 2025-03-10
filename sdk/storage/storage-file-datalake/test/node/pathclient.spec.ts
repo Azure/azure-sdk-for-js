@@ -955,7 +955,7 @@ describe("DataLakePathClient Node.js only", () => {
     await bodyToString(response);
   });
 
-  it("query should work with Parquet input configuration", async function () {
+  it("query should work with Parquet input configuration", async () => {
     const parquetFilePath = join("test", "resources", "parquet.parquet");
 
     const fileClient2 = fileSystemClient.getFileClient(fileName + "2");

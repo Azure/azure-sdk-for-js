@@ -103,6 +103,7 @@ import type {
   ListFilesAndDirectoriesSegmentResponse as GeneratedListFilesAndDirectoriesSegmentResponse,
   ListHandlesResponse as GeneratedListHandlesResponse,
 } from "./generated/src/models/index.js";
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 import type { Share, Directory, File } from "./generated/src/operationsInterfaces/index.js";
 import type { Pipeline, PipelineLike } from "./Pipeline.js";
 import { isPipelineLike, newPipeline } from "./Pipeline.js";
@@ -133,14 +134,16 @@ import {
   parseOctalFileMode,
   toOctalFileMode,
 } from "./utils/utils.common.js";
-import { Credential } from "../../storage-blob/src/credentials/Credential.js";
-import { StorageSharedKeyCredential } from "../../storage-blob/src/credentials/StorageSharedKeyCredential.js";
-import { AnonymousCredential } from "../../storage-blob/src/credentials/AnonymousCredential.js";
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+import { Credential } from "@azure/storage-blob";
+import { StorageSharedKeyCredential } from "@azure/storage-blob";
+import { AnonymousCredential } from "@azure/storage-blob";
 import { tracingClient } from "./utils/tracing.js";
 import type { CommonOptions } from "./StorageClient.js";
 import { StorageClient } from "./StorageClient.js";
 import type { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 import { FileDownloadResponse } from "./FileDownloadResponse.js";
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 import type { Range } from "./Range.js";
 import { rangeToString } from "./Range.js";
 import type {

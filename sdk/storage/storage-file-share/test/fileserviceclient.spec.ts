@@ -413,7 +413,7 @@ describe("FileServiceClient - soft delete", () => {
     await recorder.stop();
   });
 
-  it("ListShares with deleted share", async function () {
+  it("ListShares with deleted share", async () => {
     const shareClient = serviceClient.getShareClient(
       recorder.variable("share", getUniqueName("share")),
     );
@@ -431,7 +431,7 @@ describe("FileServiceClient - soft delete", () => {
     assert.ok(found);
   });
 
-  it("Undelete share positive", async function () {
+  it("Undelete share positive", async () => {
     const shareClient = serviceClient.getShareClient(
       recorder.variable("share", getUniqueName("share")),
     );
@@ -466,7 +466,7 @@ describe("FileServiceClient - soft delete", () => {
     await restoredShareClient.delete();
   });
 
-  it("Undelete share negative", async function () {
+  it("Undelete share negative", async () => {
     const shareClient = serviceClient.getShareClient(
       recorder.variable("share", getUniqueName("share")),
     );

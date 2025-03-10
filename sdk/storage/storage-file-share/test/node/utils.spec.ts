@@ -10,7 +10,7 @@ describe("Utility Helpers Node.js only", () => {
   const accountKey = "myAccountKey";
   const fileEndpoint = `${protocol}://${accountName}.file.${endpointSuffix}`;
 
-  function verifyConnectionString(connectionString: string) {
+  function verifyConnectionString(connectionString: string): void {
     const connectionStringParts = extractConnectionStringParts(connectionString);
     assert.equal(
       "AccountConnString",

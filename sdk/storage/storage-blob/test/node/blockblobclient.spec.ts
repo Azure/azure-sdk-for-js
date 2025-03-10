@@ -193,14 +193,14 @@ describe("BlockBlobClient Node.js only", () => {
     assert.deepStrictEqual(downloadedBody, body);
   });
 
-  it("upload with Chinese string body and default parameters", async function () {
+  it("upload with Chinese string body and default parameters", async () => {
     const body: string = recorder.variable("randomstring你好", getUniqueName("randomstring你好"));
     await blockBlobClient.upload(body, Buffer.byteLength(body));
     const result = await blobClient.download(0);
     assert.deepStrictEqual(await bodyToString(result, Buffer.byteLength(body)), body);
   });
 
-  it("can be created with a url and a credential", async function () {
+  it("can be created with a url and a credential", async () => {
     const credential = (blockBlobClient as any).credential as StorageSharedKeyCredential;
     const newClient = new BlockBlobClient(blockBlobClient.url, credential);
     configureBlobStorageClient(recorder, newClient);
@@ -211,7 +211,7 @@ describe("BlockBlobClient Node.js only", () => {
     assert.deepStrictEqual(await bodyToString(result, body.length), body);
   });
 
-  it("can be created with a url and a credential and an option bag", async function () {
+  it("can be created with a url and a credential and an option bag", async () => {
     const credential = (blockBlobClient as any).credential as StorageSharedKeyCredential;
     const newClient = new BlockBlobClient(blockBlobClient.url, credential, {
       retryOptions: {
@@ -226,7 +226,7 @@ describe("BlockBlobClient Node.js only", () => {
     assert.deepStrictEqual(await bodyToString(result, body.length), body);
   });
 
-  it("can be created with a url and a TokenCredential", async function () {
+  it("can be created with a url and a TokenCredential", async () => {
     const tokenCredential: TokenCredential = {
       getToken: () =>
         Promise.resolve({
@@ -238,7 +238,7 @@ describe("BlockBlobClient Node.js only", () => {
     assertClientUsesTokenCredential(newClient);
   });
 
-  it("can be created with a url and a pipeline", async function () {
+  it("can be created with a url and a pipeline", async () => {
     const credential = (blockBlobClient as any).credential as StorageSharedKeyCredential;
     const pipeline = newPipeline(credential);
     const newClient = new BlockBlobClient(blockBlobClient.url, pipeline);
@@ -250,7 +250,7 @@ describe("BlockBlobClient Node.js only", () => {
     assert.deepStrictEqual(await bodyToString(result, body.length), body);
   });
 
-  it("can be created with a connection string", async function () {
+  it("can be created with a connection string", async () => {
     const newClient = new BlockBlobClient(
       getConnectionStringFromEnvironment(),
       containerName,
@@ -264,7 +264,7 @@ describe("BlockBlobClient Node.js only", () => {
     assert.deepStrictEqual(await bodyToString(result, body.length), body);
   });
 
-  it("can be created with a connection string and an option bag", async function () {
+  it("can be created with a connection string and an option bag", async () => {
     const newClient = new BlockBlobClient(
       getConnectionStringFromEnvironment(),
       containerName,
@@ -283,7 +283,7 @@ describe("BlockBlobClient Node.js only", () => {
     assert.deepStrictEqual(await bodyToString(result, body.length), body);
   });
 
-  it("should not decompress during downloading", async function () {
+  it("should not decompress during downloading", async () => {
     // recorder doesn't save binary payload correctly
     if (!isLiveMode()) {
       ctx.skip();
@@ -321,7 +321,7 @@ describe("syncUploadFromURL", () => {
     blobContentType: "blobContentType",
   };
 
-  before(async function () {
+  beforeAll(async () => {
     largeContent = generateRandomUint8Array(BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES);
   });
 
@@ -378,7 +378,7 @@ describe("syncUploadFromURL", () => {
     await recorder.stop();
   });
 
-  it("stageBlockFromURL - source SAS and destination bearer token", async function () {
+  it("stageBlockFromURL - source SAS and destination bearer token", async () => {
     const stokenBlobServiceClient = getTokenBSUWithDefaultCredential(recorder);
     const tokenNewBlockBlobClient = stokenBlobServiceClient
       .getContainerClient(containerClient.containerName)
@@ -406,7 +406,7 @@ describe("syncUploadFromURL", () => {
     assert.equal(listResponse.committedBlocks![1].size, content.length);
   });
 
-  it("stageBlockFromURL - source bear token and destination account key", async function () {
+  it("stageBlockFromURL - source bear token and destination account key", async () => {
     const body = "HelloWorld";
     await blockBlobClient.upload(body, body.length);
 
@@ -451,7 +451,7 @@ describe("syncUploadFromURL", () => {
     assert.equal(listResponse.committedBlocks![1].size, body.length);
   });
 
-  it("stageBlockFromURL - destination bearer token", async function () {
+  it("stageBlockFromURL - destination bearer token", async () => {
     const body = "HelloWorld";
     await blockBlobClient.upload(body, body.length);
 
@@ -499,7 +499,7 @@ describe("syncUploadFromURL", () => {
     assert.equal(listResponse.committedBlocks![1].size, body.length);
   });
 
-  it("syncUploadFromURL - source SAS and destination bearer token", async function () {
+  it("syncUploadFromURL - source SAS and destination bearer token", async () => {
     const stokenBlobServiceClient = getTokenBSUWithDefaultCredential(recorder);
     const tokenNewBlockBlobClient = stokenBlobServiceClient
       .getContainerClient(containerClient.containerName)
@@ -513,7 +513,7 @@ describe("syncUploadFromURL", () => {
     assert.ok(downloadBuffer.compare(Buffer.from(content)) === 0);
   });
 
-  it("syncUploadFromURL - source bear token and destination account key", async function () {
+  it("syncUploadFromURL - source bear token and destination account key", async () => {
     const body = "HelloWorld";
     await blockBlobClient.upload(body, body.length);
 
@@ -536,7 +536,7 @@ describe("syncUploadFromURL", () => {
     assert.equal(downloadRes.contentLength!, body.length);
   });
 
-  it("syncUploadFromURL - destination bearer token", async function () {
+  it("syncUploadFromURL - destination bearer token", async () => {
     const body = "HelloWorld";
     await blockBlobClient.upload(body, body.length);
 
@@ -562,7 +562,7 @@ describe("syncUploadFromURL", () => {
     assert.equal(downloadRes.contentLength!, body.length);
   });
 
-  it("with default options", async function () {
+  it("with default options", async () => {
     await blockBlobClient.syncUploadFromURL(sourceBlobURLWithSAS);
 
     // Validate source and destination blob content match.
@@ -578,7 +578,7 @@ describe("syncUploadFromURL", () => {
     assert.deepStrictEqual(downloadRes.contentType, srcHttpHeaders.blobContentType);
   });
 
-  it("set some of the properties on the request", async function () {
+  it("set some of the properties on the request", async () => {
     const blobHTTPHeaders = {
       blobContentLanguage: "blobContentLanguage1",
       blobContentType: "blobContentType1",
@@ -735,7 +735,7 @@ describe("syncUploadFromURL", () => {
     assert.deepStrictEqual(downloadRes.contentType, blobHTTPHeaders.blobContentType);
   });
 
-  it("destination conditon", async function () {
+  it("destination conditon", async () => {
     // upload to dest blob first
     const hello = "hello";
     await blockBlobClient.upload(hello, hello.length);
@@ -759,7 +759,7 @@ describe("syncUploadFromURL", () => {
     }
   });
 
-  it("source conditon", async function () {
+  it("source conditon", async () => {
     await blockBlobClient.syncUploadFromURL(sourceBlobURLWithSAS, {
       sourceConditions: {
         ifMatch: srcEtag,
@@ -778,7 +778,7 @@ describe("syncUploadFromURL", () => {
     }
   });
 
-  it("sourceContentMD5", async function () {
+  it("sourceContentMD5", async () => {
     const sourceContentMD5 = crypto.createHash("md5").update(Buffer.from(content)).digest();
     await blockBlobClient.syncUploadFromURL(sourceBlobURLWithSAS, {
       sourceContentMD5,
@@ -795,7 +795,7 @@ describe("syncUploadFromURL", () => {
     }
   });
 
-  it("large content", async function () {
+  it("large content", async () => {
     if (!isLiveMode()) {
       ctx.skip();
     }

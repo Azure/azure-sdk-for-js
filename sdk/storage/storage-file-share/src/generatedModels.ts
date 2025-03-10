@@ -39,9 +39,8 @@ import type {
   ShareSetMetadataHeaders,
   ShareStats,
 } from "./generated/src/models/index.js";
-
 import type { ShareSetPropertiesHeaders } from "./generated/src/models/index.js";
-import { FileDownloadResponse, FileSetHttpHeadersHeaders, NfsFileMode } from "./models.js";
+import type { FileDownloadResponse, FileSetHttpHeadersHeaders, NfsFileMode } from "./models.js";
 import type { WithResponse } from "./utils/utils.common.js";
 
 /** Defines headers for Directory_create operation. */

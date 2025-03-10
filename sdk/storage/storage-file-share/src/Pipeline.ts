@@ -37,22 +37,23 @@ import { isTokenCredential } from "@azure/core-auth";
 import { logger } from "./log.js";
 import type { StorageRetryOptions } from "./StorageRetryPolicyFactory.js";
 import { StorageRetryPolicyFactory } from "./StorageRetryPolicyFactory.js";
-import { StorageSharedKeyCredential } from "../../storage-blob/src/credentials/StorageSharedKeyCredential.js";
-import { AnonymousCredential } from "../../storage-blob/src/credentials/AnonymousCredential.js";
-import type { Credential } from "../../storage-blob/src/credentials/Credential.js";
+import { StorageSharedKeyCredential } from "@azure/storage-blob";
+import { AnonymousCredential } from "@azure/storage-blob";
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+import type { Credential } from "@azure/storage-blob";
 import {
   StorageOAuthScopes,
   StorageFileLoggingAllowedHeaderNames,
   StorageFileLoggingAllowedQueryParameters,
   SDK_VERSION,
 } from "./utils/constants.js";
-import { getCachedDefaultHttpClient } from "../../storage-blob/src/utils/cache.js";
-import { storageBrowserPolicy } from "../../storage-blob/src/policies/StorageBrowserPolicyV2.js";
+import { getCachedDefaultHttpClient } from "@azure/storage-common";
+import { storageBrowserPolicy } from "@azure/storage-blob";
 import { storageRetryPolicy } from "./policies/StorageRetryPolicyV2.js";
-import { storageSharedKeyCredentialPolicy } from "../../storage-blob/src/policies/StorageSharedKeyCredentialPolicyV2.js";
-import { StorageBrowserPolicyFactory } from "../../storage-blob/src/StorageBrowserPolicyFactory.js";
+import { storageSharedKeyCredentialPolicy } from "@azure/storage-blob";
+import { StorageBrowserPolicyFactory } from "@azure/storage-blob";
 import type { ShareTokenIntent } from "./generatedModels.js";
-import { storageCorrectContentLengthPolicy } from "../../storage-blob/src/policies/StorageCorrectContentLengthPolicy.js";
+import { storageCorrectContentLengthPolicy } from "@azure/storage-blob";
 
 // Export following interfaces and types for customers who want to implement their
 // own RequestPolicy or HTTPClient

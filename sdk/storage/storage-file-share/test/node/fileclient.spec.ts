@@ -1,5 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 import { Buffer } from "node:buffer";
 import * as fs from "node:fs";
 import * as path from "node:path";
@@ -34,7 +36,7 @@ import {
   SimpleTokenCredential,
   uriSanitizers,
 } from "../utils/index.js";
-import { isNode } from "@azure/core-util";
+import { isNodeLike } from "@azure/core-util";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
@@ -138,31 +140,35 @@ describe("FileClient Node.js only", () => {
     assert.equal(exist, true);
   });
 
-  it("uploadData - large Buffer as data", async function () {
-    if (isNode && !isLiveMode()) {
-      ctx.skip();
-    }
-    await fileClient.create(257 * 1024 * 1024 * 1024);
-    const tempFolderPath = "temp";
-    if (!fs.existsSync(tempFolderPath)) {
-      fs.mkdirSync(tempFolderPath);
-    }
-    const tempFileLarge = await createRandomLocalFile(tempFolderPath, 257, 1024 * 1024);
-    await fileClient.uploadData(fs.readFileSync(tempFileLarge));
+  it(
+    "uploadData - large Buffer as data",
+    { timeout: timeoutForLargeFileUploadingTest },
+    async (ctx) => {
+      if (isNodeLike && !isLiveMode()) {
+        ctx.skip();
+      }
+      await fileClient.create(257 * 1024 * 1024 * 1024);
+      const tempFolderPath = "temp";
+      if (!fs.existsSync(tempFolderPath)) {
+        fs.mkdirSync(tempFolderPath);
+      }
+      const tempFileLarge = await createRandomLocalFile(tempFolderPath, 257, 1024 * 1024);
+      await fileClient.uploadData(fs.readFileSync(tempFileLarge));
 
-    const downloadResponse = await fileClient.download();
-    const downloadedFile = path.join(
-      tempFolderPath,
-      recorder.variable("downloadfile.", getUniqueName("downloadfile.")),
-    );
-    await readStreamToLocalFileWithLogs(downloadResponse.readableStreamBody!, downloadedFile);
+      const downloadResponse = await fileClient.download();
+      const downloadedFile = path.join(
+        tempFolderPath,
+        recorder.variable("downloadfile.", getUniqueName("downloadfile.")),
+      );
+      await readStreamToLocalFileWithLogs(downloadResponse.readableStreamBody!, downloadedFile);
 
-    const downloadedData = await fs.readFileSync(downloadedFile);
-    const uploadedData = await fs.readFileSync(tempFileLarge);
+      const downloadedData = await fs.readFileSync(downloadedFile);
+      const uploadedData = await fs.readFileSync(tempFileLarge);
 
-    fs.unlinkSync(downloadedFile);
-    assert.ok(downloadedData.equals(uploadedData));
-  }).timeout(timeoutForLargeFileUploadingTest);
+      fs.unlinkSync(downloadedFile);
+      assert.ok(downloadedData.equals(uploadedData));
+    },
+  );
 
   it("upload with buffer and default parameters", async () => {
     const body: string = recorder.variable("randomstring", getUniqueName("randomstring"));
@@ -405,7 +411,7 @@ describe("FileClient Node.js only", () => {
     assert.equal(await bodyToString(range2, 512), "b".repeat(512));
   });
 
-  it("uploadRangeFromURL - source bearer token", async function () {
+  it("uploadRangeFromURL - source bearer token", async () => {
     const blobServiceClient = getBlobServiceClient(recorder);
     const containerClient = blobServiceClient.getContainerClient(
       recorder.variable("container", getUniqueName("container")),
@@ -522,7 +528,7 @@ describe("FileClient Node.js only", () => {
     }
   });
 
-  it("should not decompress during downloading", async function () {
+  it("should not decompress during downloading", async (ctx) => {
     // recorder doesn't save binary payload correctly
     if (!isLiveMode()) {
       ctx.skip();

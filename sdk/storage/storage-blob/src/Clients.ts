@@ -155,7 +155,7 @@ import { rangeToString } from "./Range.js";
 import type { CommonOptions } from "./StorageClient.js";
 import { StorageClient } from "./StorageClient.js";
 import { Batch } from "./utils/Batch.js";
-import { BufferScheduler } from "../../storage-common/src/index.js";
+import { BufferScheduler } from "@azure/storage-common";
 import {
   BlobDoesNotUseCustomerSpecifiedEncryption,
   BlobUsesCustomerSpecifiedEncryptionMsg,

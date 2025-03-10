@@ -6,7 +6,6 @@ import type {
   RequestPolicy,
   RequestPolicyOptionsLike as RequestPolicyOptions,
 } from "@azure/core-http-compat";
-
 import { StorageSharedKeyCredentialPolicy } from "../policies/StorageSharedKeyCredentialPolicy.js";
 import { Credential } from "./Credential.js";
 

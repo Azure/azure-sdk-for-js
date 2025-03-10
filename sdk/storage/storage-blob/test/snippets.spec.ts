@@ -11,7 +11,7 @@ import {
   generateBlobSASQueryParameters,
   SASProtocol,
   StorageSharedKeyCredential,
-} from "@azure/storage-blob";
+} from "../src/index.js";
 import { describe, it, assert } from "vitest";
 
 describe("snippets", () => {

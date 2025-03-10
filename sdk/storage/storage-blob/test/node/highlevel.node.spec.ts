@@ -74,7 +74,7 @@ describe("Highlevel", () => {
     await recorder.stop();
   });
 
-  before(async function () {
+  beforeAll(async () => {
     if (!fs.existsSync(tempFolderPath)) {
       fs.mkdirSync(tempFolderPath);
     }
@@ -93,12 +93,12 @@ describe("Highlevel", () => {
     );
   });
 
-  after(async function () {
+  afterAll(async () => {
     fs.unlinkSync(tempFileLarge);
     fs.unlinkSync(tempFileSmall);
   });
 
-  it("put blob with maximum size", async function () {
+  it("put blob with maximum size", async () => {
     if (isNodeLike && !isLiveMode()) {
       ctx.skip();
     }
@@ -118,7 +118,7 @@ describe("Highlevel", () => {
     fs.unlinkSync(tempFile);
   }).timeout(timeoutForLargeFileUploadingTest);
 
-  it("uploadFile should success when blob >= BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async function () {
+  it("uploadFile should success when blob >= BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async () => {
     if (isNodeLike && !isLiveMode()) {
       ctx.skip();
     }
@@ -141,7 +141,7 @@ describe("Highlevel", () => {
     assert.ok(downloadedData.equals(uploadedData));
   }).timeout(timeoutForLargeFileUploadingTest);
 
-  it("uploadFile should work with tags", async function () {
+  it("uploadFile should work with tags", async () => {
     if (isNodeLike && !isLiveMode()) {
       ctx.skip();
     }
@@ -161,7 +161,7 @@ describe("Highlevel", () => {
     assert.deepStrictEqual(response.tags, tags);
   });
 
-  it("uploadFile should success when blob < BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async function () {
+  it("uploadFile should success when blob < BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async () => {
     if (isNodeLike && !isLiveMode()) {
       ctx.skip();
     }
@@ -184,7 +184,7 @@ describe("Highlevel", () => {
     assert.ok(downloadedData.equals(uploadedData));
   });
 
-  it("uploadFile should success when blob < BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES and configured maxSingleShotSize", async function () {
+  it("uploadFile should success when blob < BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES and configured maxSingleShotSize", async () => {
     if (isNodeLike && !isLiveMode()) {
       ctx.skip();
     }
@@ -206,7 +206,7 @@ describe("Highlevel", () => {
     assert.ok(downloadedData.equals(uploadedData));
   });
 
-  it("uploadFile should abort when blob >= BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async function () {
+  it("uploadFile should abort when blob >= BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async () => {
     const aborter = AbortSignal.timeout(1);
 
     try {
@@ -221,7 +221,7 @@ describe("Highlevel", () => {
     }
   });
 
-  it("uploadFile should abort when blob < BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async function () {
+  it("uploadFile should abort when blob < BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async () => {
     const aborter = AbortSignal.timeout(1);
 
     try {
@@ -236,7 +236,7 @@ describe("Highlevel", () => {
     }
   });
 
-  it("uploadFile should update progress when blob >= BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async function () {
+  it("uploadFile should update progress when blob >= BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async () => {
     if (!isLiveMode()) {
       ctx.skip();
     }
@@ -258,7 +258,7 @@ describe("Highlevel", () => {
     assert.ok(eventTriggered);
   });
 
-  it("uploadFile should update progress when blob < BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async function () {
+  it("uploadFile should update progress when blob < BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async () => {
     if (!isLiveMode()) {
       ctx.skip();
     }
@@ -280,7 +280,7 @@ describe("Highlevel", () => {
     assert.ok(eventTriggered);
   });
 
-  it("uploadFile should succeed with blockSize = BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES", async function () {
+  it("uploadFile should succeed with blockSize = BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES", async () => {
     if (isNodeLike && !isLiveMode()) {
       ctx.skip();
     }
@@ -301,7 +301,7 @@ describe("Highlevel", () => {
     fs.unlinkSync(tempFile);
   }).timeout(timeoutForLargeFileUploadingTest);
 
-  it("uploadStream should success", async function () {
+  it("uploadStream should success", async () => {
     if (isNodeLike && !isLiveMode()) {
       ctx.skip();
     }
@@ -323,7 +323,7 @@ describe("Highlevel", () => {
     fs.unlinkSync(downloadFilePath);
   }).timeout(timeoutForLargeFileUploadingTest);
 
-  it("uploadStream with CPK should success", async function () {
+  it("uploadStream with CPK should success", async () => {
     if (isNodeLike && !isLiveMode()) {
       ctx.skip();
     }
@@ -357,7 +357,7 @@ describe("Highlevel", () => {
     fs.unlinkSync(downloadFilePath);
   }).timeout(timeoutForLargeFileUploadingTest);
 
-  it("uploadStream should success for tiny buffers", async function () {
+  it("uploadStream should success for tiny buffers", async () => {
     if (!isLiveMode()) {
       ctx.skip();
     }
@@ -373,7 +373,7 @@ describe("Highlevel", () => {
     assert.ok(buf.equals(downloadBuffer));
   });
 
-  it("uploadStream should work with tags", async function () {
+  it("uploadStream should work with tags", async () => {
     if (isNodeLike && !isLiveMode()) {
       ctx.skip();
     }
@@ -393,7 +393,7 @@ describe("Highlevel", () => {
     assert.deepStrictEqual(response.tags, tags);
   });
 
-  it("uploadStream should abort", async function () {
+  it("uploadStream should abort", async () => {
     if (isNodeLike && !isLiveMode()) {
       ctx.skip();
     }
@@ -410,7 +410,7 @@ describe("Highlevel", () => {
     }
   });
 
-  it("uploadStream should update progress event", async function () {
+  it("uploadStream should update progress event", async () => {
     if (isNodeLike && !isLiveMode()) {
       ctx.skip();
     }
@@ -426,7 +426,7 @@ describe("Highlevel", () => {
     assert.ok(eventTriggered);
   }).timeout(timeoutForLargeFileUploadingTest);
 
-  it("uploadStream should work with empty data", async function () {
+  it("uploadStream should work with empty data", async () => {
     const emptyReadable = new Readable();
     emptyReadable.push(null);
 
@@ -464,7 +464,7 @@ describe("Highlevel", () => {
     },
   ).timeout(timeoutForLargeFileUploadingTest);
 
-  it("downloadToBuffer should success - without passing the buffer", async function () {
+  it("downloadToBuffer should success - without passing the buffer", async () => {
     if (isNodeLike && !isLiveMode()) {
       ctx.skip();
     }
@@ -481,7 +481,7 @@ describe("Highlevel", () => {
     assert.ok(localFileContent.equals(buf));
   }).timeout(timeoutForLargeFileUploadingTest);
 
-  it("downloadToBuffer should throw error if the count(size provided in bytes) is too large", async function () {
+  it("downloadToBuffer should throw error if the count(size provided in bytes) is too large", async () => {
     let error;
     try {
       // casting to "any" is required since @types/node@8 doesn't have `constants` though it is present on the `buffer`,
@@ -496,7 +496,7 @@ describe("Highlevel", () => {
     );
   });
 
-  it("downloadToBuffer should success", async function () {
+  it("downloadToBuffer should success", async () => {
     if (isNodeLike && !isLiveMode()) {
       ctx.skip();
     }
@@ -514,7 +514,7 @@ describe("Highlevel", () => {
     assert.ok(localFileContent.equals(buf));
   }).timeout(timeoutForLargeFileUploadingTest);
 
-  it("downloadBlobToBuffer should success when downloading a range inside blob", async function () {
+  it("downloadBlobToBuffer should success when downloading a range inside blob", async () => {
     await blockBlobClient.upload("aaaabbbb", 8);
 
     const buf = Buffer.alloc(4);
@@ -547,7 +547,7 @@ describe("Highlevel", () => {
     assert.deepStrictEqual(buf.toString(), "aaab");
   });
 
-  it("downloadToBuffer should abort", async function () {
+  it("downloadToBuffer should abort", async () => {
     if (isNodeLike && !isLiveMode()) {
       ctx.skip();
     }
@@ -568,7 +568,7 @@ describe("Highlevel", () => {
     }
   }).timeout(timeoutForLargeFileUploadingTest);
 
-  it("downloadToBuffer should update progress event", async function () {
+  it("downloadToBuffer should update progress event", async () => {
     if (isNodeLike && !isLiveMode()) {
       ctx.skip();
     }
@@ -594,7 +594,7 @@ describe("Highlevel", () => {
     assert.ok(eventTriggered);
   });
 
-  it("downloadToBuffer with CPK", async function () {
+  it("downloadToBuffer with CPK", async () => {
     const content = "Hello World";
     const CPKblobName = recorder.variable("blobCPK", getUniqueName("blobCPK"));
     const CPKblobClient = containerClient.getBlobClient(CPKblobName);
@@ -618,7 +618,7 @@ describe("Highlevel", () => {
     assert.ok(exceptionCaught);
   });
 
-  it("blobclient.download should success when internal stream unexpected ends at the stream end", async function () {
+  it("blobclient.download should success when internal stream unexpected ends at the stream end", async () => {
     if (isNodeLike && !isLiveMode()) {
       ctx.skip();
     }
@@ -657,7 +657,7 @@ describe("Highlevel", () => {
     assert.ok(downloadedData.equals(uploadedData));
   });
 
-  it("blobclient.download should download full data successfully when internal stream unexpected ends", async function () {
+  it("blobclient.download should download full data successfully when internal stream unexpected ends", async () => {
     if (isNodeLike && !isLiveMode()) {
       ctx.skip();
     }
@@ -697,7 +697,7 @@ describe("Highlevel", () => {
     assert.ok(downloadedData.equals(uploadedData));
   });
 
-  it("blobclient.download should download partial data when internal stream unexpected ends", async function () {
+  it("blobclient.download should download partial data when internal stream unexpected ends", async () => {
     if (isNodeLike && !isLiveMode()) {
       ctx.skip();
     }
@@ -739,7 +739,7 @@ describe("Highlevel", () => {
     assert.ok(downloadedData.slice(0, partialSize).equals(uploadedData.slice(0, partialSize)));
   });
 
-  it("blobclient.download should download data failed when exceeding max stream retry requests", async function () {
+  it("blobclient.download should download data failed when exceeding max stream retry requests", async () => {
     if (isNodeLike && !isLiveMode()) {
       ctx.skip();
     }
@@ -779,7 +779,7 @@ describe("Highlevel", () => {
     fs.unlinkSync(downloadedFile);
   });
 
-  it("blobclient.download should abort after retries", async function () {
+  it("blobclient.download should abort after retries", async () => {
     if (isNodeLike && !isLiveMode()) {
       ctx.skip();
     }
@@ -824,7 +824,7 @@ describe("Highlevel", () => {
     assert.equal(caughtError?.name, "AbortError");
   });
 
-  it("download abort should work when still fetching body", async function () {
+  it("download abort should work when still fetching body", async () => {
     if (isNodeLike && !isLiveMode()) {
       ctx.skip();
     }
@@ -850,7 +850,7 @@ describe("Highlevel", () => {
     await bodyEnded;
   });
 
-  it("downloadToFile should success", async function () {
+  it("downloadToFile should success", async () => {
     if (isNodeLike && !isLiveMode()) {
       ctx.skip();
     }
@@ -880,7 +880,7 @@ describe("Highlevel", () => {
     fs.unlinkSync(downloadedFilePath);
   });
 
-  it("downloadToFile should fail when saving to directory", async function () {
+  it("downloadToFile should fail when saving to directory", async () => {
     if (isNodeLike && !isLiveMode()) {
       ctx.skip();
     }
@@ -895,7 +895,7 @@ describe("Highlevel", () => {
     }
   });
 
-  it("set tier while upload", async function () {
+  it("set tier while upload", async () => {
     if (isNodeLike && !isLiveMode()) {
       ctx.skip();
     }
@@ -918,7 +918,7 @@ describe("Highlevel", () => {
     assert.equal((await blockBlobClient.getProperties()).accessTier, "Hot");
   });
 
-  it("uploadData should work with Buffer, ArrayBuffer and ArrayBufferView", async function () {
+  it("uploadData should work with Buffer, ArrayBuffer and ArrayBufferView", async () => {
     const byteLength = 10;
     const arrayBuf = new ArrayBuffer(byteLength);
     const uint8Array = new Uint8Array(arrayBuf);

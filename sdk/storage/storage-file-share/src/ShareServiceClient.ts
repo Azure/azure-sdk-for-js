@@ -30,11 +30,12 @@ import {
   assertResponse,
   removeEmptyString,
 } from "./utils/utils.common.js";
-import { Credential } from "../../storage-blob/src/credentials/Credential.js";
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+import { Credential } from "@azure/storage-blob";
 import { StorageSharedKeyCredential } from "../../storage-blob/src/credentials/StorageSharedKeyCredential.js";
 import { AnonymousCredential } from "../../storage-blob/src/credentials/AnonymousCredential.js";
 import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { isNode } from "@azure/core-util";
+import { isNodeLike } from "@azure/core-util";
 import { tracingClient } from "./utils/tracing.js";
 import type { ShareClientConfig, ShareClientOptions, ShareProtocols } from "./models.js";
 import { toShareProtocols } from "./models.js";
@@ -248,7 +249,7 @@ export class ShareServiceClient extends StorageClient {
   ): ShareServiceClient {
     const extractedCreds = extractConnectionStringParts(connectionString);
     if (extractedCreds.kind === "AccountConnString") {
-      if (isNode) {
+      if (isNodeLike) {
         const sharedKeyCredential = new StorageSharedKeyCredential(
           extractedCreds.accountName!,
           extractedCreds.accountKey,

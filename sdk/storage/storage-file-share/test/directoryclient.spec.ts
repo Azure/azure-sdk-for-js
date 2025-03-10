@@ -16,8 +16,9 @@ import type { DirectoryCreateResponse } from "../src/generatedModels.js";
 import { truncatedISO8061Date } from "../src/utils/utils.common.js";
 import { getYieldedValue } from "@azure-tools/test-utils-vitest";
 import { isBrowser } from "@azure/core-util";
-import { describe, it, assert, beforeEach, afterEach } from "vitest";
+import { describe, it, assert, beforeEach, afterEach, expect } from "vitest";
 import { toSupportTracing } from "@azure-tools/test-utils-vitest";
+import type { OperationOptions } from "@azure/core-client";
 
 expect.extend({ toSupportTracing });
 
@@ -130,9 +131,8 @@ describe("DirectoryClient", () => {
     assert.ok(result.date);
   });
 
-  it("create with default parameters", (done) => {
+  it("create with default parameters", () => {
     // create() with default parameters has been tested in beforeEach
-    done();
   });
 
   it("create with all parameters configured setting filePermissionKey", async () => {
@@ -372,7 +372,7 @@ describe("DirectoryClient", () => {
     assert.ok(result.fileParentId!);
   });
 
-  it("setProperties with binary permissions", async function () {
+  it("setProperties with binary permissions", async () => {
     await dirClient.setProperties({
       filePermissionFormat: "Binary",
       filePermission: filePermissionInBinaryFormat,
@@ -383,10 +383,7 @@ describe("DirectoryClient", () => {
     assert.ok(result.filePermissionKey);
   });
 
-  it("delete", (done) => {
-    // delete() with default parameters has been tested in afterEach
-    done();
-  });
+  it("delete", () => {});
 
   it("listFilesAndDirectories - empty prefix should not cause an error", async () => {
     const subDirClients = [];
@@ -1035,7 +1032,7 @@ describe("DirectoryClient", () => {
   });
 
   it("createFile and deleteFile with tracing", async () => {
-    await expect(async (options) => {
+    await expect(async (options: OperationOptions) => {
       const directoryName = recorder.variable("directory", getUniqueName("directory"));
       const { directoryClient: subDirClient } = await dirClient.createSubdirectory(
         directoryName,
@@ -1518,7 +1515,7 @@ describe("ShareDirectoryClient - Verify Name Properties", () => {
   const dirPath = "dir1/dir2";
   const baseName = "baseName";
 
-  function verifyNameProperties(url: string) {
+  function verifyNameProperties(url: string): void {
     const newClient = new ShareDirectoryClient(url);
     assert.equal(newClient.shareName, shareName, "Share name is not the same as the one provided.");
     assert.equal(
@@ -1666,9 +1663,8 @@ describe("DirectoryClient - OAuth", () => {
     assert.ok(result.date);
   });
 
-  it("create", (done) => {
+  it("create", () => {
     // create() with default parameters has been tested in beforeEach
-    done();
   });
 
   it("createIfNotExists", async () => {
@@ -1761,9 +1757,8 @@ describe("DirectoryClient - OAuth", () => {
     assert.ok(result.fileParentId!);
   });
 
-  it("delete", (done) => {
+  it("delete", () => {
     // delete() with default parameters has been tested in afterEach
-    done();
   });
 
   it("listFilesAndDirectories", async () => {
@@ -2488,6 +2483,7 @@ describe("DirectoryClient - NFS", () => {
     } catch (error: any) {
       console.log(error);
       ctx.skip();
+      return;
     }
 
     shareName = recorder.variable("share", getUniqueName("share"));
@@ -2509,7 +2505,7 @@ describe("DirectoryClient - NFS", () => {
     await recorder.stop();
   });
 
-  it("create with nfs properties", async function () {
+  it("create with nfs properties", async () => {
     const posixProperties: FilePosixProperties = {
       owner: "123",
       group: "654",
@@ -2550,7 +2546,7 @@ describe("DirectoryClient - NFS", () => {
     assert.ok(cResp.fileParentId!);
   });
 
-  it("set&get nfs properties", async function () {
+  it("set&get nfs properties", async () => {
     const posixProperties: FilePosixProperties = {
       owner: "123",
       group: "654",

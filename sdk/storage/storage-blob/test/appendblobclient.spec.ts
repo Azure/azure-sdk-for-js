@@ -44,12 +44,12 @@ describe("AppendBlobClient", () => {
     await recorder.stop();
   });
 
-  it("create with default parameters", async function () {
+  it("create with default parameters", async () => {
     await appendBlobClient.create();
     await appendBlobClient.download(0);
   });
 
-  it("create with parameters configured", async function () {
+  it("create with parameters configured", async () => {
     const options = {
       blobHTTPHeaders: {
         blobCacheControl: "blobCacheControl",
@@ -74,7 +74,7 @@ describe("AppendBlobClient", () => {
     assert.equal(properties.metadata!.key2, options.metadata.key2);
   });
 
-  it("createIfNotExists", async function () {
+  it("createIfNotExists", async () => {
     const res = await appendBlobClient.createIfNotExists();
     assert.ok(res.succeeded);
     assert.ok(res.etag);
@@ -84,7 +84,7 @@ describe("AppendBlobClient", () => {
     assert.equal(res2.errorCode, "BlobAlreadyExists");
   });
 
-  it("appendBlock", async function () {
+  it("appendBlock", async () => {
     await appendBlobClient.create();
 
     const content = "Hello World!";
@@ -95,7 +95,7 @@ describe("AppendBlobClient", () => {
     assert.equal(downloadResponse.contentLength!, content.length);
   });
 
-  it("appendBlock with progress report", async function () {
+  it("appendBlock with progress report", async () => {
     await appendBlobClient.create();
 
     const content = "Hello World!";
@@ -110,7 +110,7 @@ describe("AppendBlobClient", () => {
     assert.equal(downloadResponse.contentLength!, content.length);
   });
 
-  it("can be created with a sas connection string", async function () {
+  it("can be created with a sas connection string", async () => {
     const newClient = new AppendBlobClient(
       getSASConnectionStringFromEnvironment(recorder),
       containerName,
@@ -122,7 +122,7 @@ describe("AppendBlobClient", () => {
     await newClient.download();
   });
 
-  it("throws error if constructor containerName parameter is empty", async function () {
+  it("throws error if constructor containerName parameter is empty", async () => {
     try {
       new AppendBlobClient(getSASConnectionStringFromEnvironment(recorder), "", "blobName");
       assert.fail("Expecting an thrown error but didn't get one.");
@@ -135,7 +135,7 @@ describe("AppendBlobClient", () => {
     }
   });
 
-  it("throws error if constructor blobName parameter is empty", async function () {
+  it("throws error if constructor blobName parameter is empty", async () => {
     try {
       // tslint:disable-next-line: no-unused-expression
       new AppendBlobClient(getSASConnectionStringFromEnvironment(recorder), "containerName", "");
@@ -149,7 +149,7 @@ describe("AppendBlobClient", () => {
     }
   });
 
-  it("appendBlock with invalid CRC64 should fail", async function () {
+  it("appendBlock with invalid CRC64 should fail", async () => {
     await appendBlobClient.create();
 
     const content = "Hello World!";
@@ -178,7 +178,7 @@ describe("AppendBlobClient", () => {
     assert.ok(exceptionCaught);
   });
 
-  it("Seal append blob", async function () {
+  it("Seal append blob", async () => {
     await appendBlobClient.create();
     await appendBlobClient.seal();
 
@@ -193,7 +193,7 @@ describe("AppendBlobClient", () => {
     }
   });
 
-  it("Copy seal blob", async function () {
+  it("Copy seal blob", async () => {
     await appendBlobClient.create();
     await appendBlobClient.seal();
 

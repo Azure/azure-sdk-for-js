@@ -3,11 +3,11 @@
   "sdk-type": "client",
   "version": "12.26.0",
   "description": "Microsoft Azure Storage SDK for JavaScript - Blob",
-  "main": "./dist/index.js",
-  "module": "./dist-esm/storage-blob/src/index.js",
+  "main": "./dist/commonjs/index.js",
+  "module": "./dist/esm/index.js",
   "browser": "./dist/browser/index.js",
   "react-native": "./dist/react-native/index.js",
-  "types": "./types/latest/storage-blob.d.ts",
+  "types": "./dist/commonjs/index.d.ts",
   "engines": {
     "node": ">=18.0.0"
   },
@@ -108,6 +108,8 @@
     "@azure/core-lro": "^2.2.0",
     "@azure/core-paging": "^1.6.2",
     "@azure/core-rest-pipeline": "^1.19.1",
+    "@azure/storage-common": "^1.0.0",
+    "@azure/storage-internal-avro": "^1.0.0",
     "@azure/core-tracing": "^1.2.0",
     "@azure/core-util": "^1.11.0",
     "@azure/core-xml": "^1.4.3",
@@ -151,5 +153,26 @@
       "react-native"
     ],
     "selfLink": false
+  },
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "browser": {
+        "types": "./dist/browser/index.d.ts",
+        "default": "./dist/browser/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/index.d.ts",
+        "default": "./dist/react-native/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/index.d.ts",
+        "default": "./dist/esm/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/index.d.ts",
+        "default": "./dist/commonjs/index.js"
+      }
+    }
   }
 }

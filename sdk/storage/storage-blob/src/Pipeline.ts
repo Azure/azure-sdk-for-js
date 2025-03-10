@@ -33,7 +33,6 @@ import { authorizeRequestOnTenantChallenge, createClientPipeline } from "@azure/
 import { parseXML, stringifyXML } from "@azure/core-xml";
 import type { TokenCredential } from "@azure/core-auth";
 import { isTokenCredential } from "@azure/core-auth";
-
 import { logger } from "./log.js";
 import type { StorageRetryOptions } from "./StorageRetryPolicyFactory.js";
 import { StorageRetryPolicyFactory } from "./StorageRetryPolicyFactory.js";
@@ -45,7 +44,7 @@ import {
   StorageBlobLoggingAllowedQueryParameters,
   SDK_VERSION,
 } from "./utils/constants.js";
-import { getCachedDefaultHttpClient } from "./utils/cache.js";
+import { getCachedDefaultHttpClient } from "@azure/storage-common";
 import { storageBrowserPolicy } from "./policies/StorageBrowserPolicyV2.js";
 import { storageRetryPolicy } from "./policies/StorageRetryPolicyV2.js";
 import { storageSharedKeyCredentialPolicy } from "./policies/StorageSharedKeyCredentialPolicyV2.js";

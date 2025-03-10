@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { EventEmitter } from "node:events";
+import { EventEmitter } from "events";
 import type { Readable } from "node:stream";
 
 /**
@@ -215,7 +215,7 @@ export class BufferScheduler {
    *
    * @param data -
    */
-  private appendUnresolvedData(data: Buffer) {
+  private appendUnresolvedData(data: Buffer): void {
     this.unresolvedDataArray.push(data);
     this.unresolvedLength += data.length;
   }
@@ -285,7 +285,7 @@ export class BufferScheduler {
    * Try to trigger a outgoing handler for every buffer in outgoing. Stop when
    * concurrency reaches.
    */
-  private async triggerOutgoingHandlers() {
+  private async triggerOutgoingHandlers(): Promise<void> {
     let buffer: Buffer | undefined;
     do {
       if (this.executingOutgoingHandlers >= this.concurrency) {
@@ -327,7 +327,7 @@ export class BufferScheduler {
    *
    * @param buffer -
    */
-  private reuseBuffer(buffer: Buffer) {
+  private reuseBuffer(buffer: Buffer): void {
     this.incoming.push(buffer);
     if (!this.isError && this.resolveData() && !this.isStreamEnd) {
       this.readable.resume();

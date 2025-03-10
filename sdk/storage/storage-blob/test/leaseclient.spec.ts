@@ -38,7 +38,7 @@ describe("LeaseClient from Container", () => {
     await recorder.stop();
   });
 
-  it("acquireLease", async function () {
+  it("acquireLease", async () => {
     const guid = "ca761232ed4211cebacd00aa0057b223";
     const duration = 30;
     const leaseClient = containerClient.getBlobLeaseClient(guid);
@@ -52,7 +52,7 @@ describe("LeaseClient from Container", () => {
     await leaseClient.releaseLease();
   });
 
-  it("acquireLease without specifying a lease id", async function () {
+  it("acquireLease without specifying a lease id", async () => {
     const duration = 30;
     const leaseClient = containerClient.getBlobLeaseClient();
     await leaseClient.acquireLease(duration);
@@ -65,7 +65,7 @@ describe("LeaseClient from Container", () => {
     await leaseClient.releaseLease();
   });
 
-  it("releaseLease", async function () {
+  it("releaseLease", async () => {
     const guid = "ca761232ed4211cebacd00aa0057b223";
     const duration = -1;
     const leaseClient = containerClient.getBlobLeaseClient(guid);
@@ -79,7 +79,7 @@ describe("LeaseClient from Container", () => {
     await leaseClient.releaseLease();
   });
 
-  it("renewLease", async function () {
+  it("renewLease", async () => {
     const guid = "ca761232ed4211cebacd00aa0057b223";
     const duration = 15;
     const leaseClient = containerClient.getBlobLeaseClient(guid);
@@ -105,7 +105,7 @@ describe("LeaseClient from Container", () => {
     await leaseClient.releaseLease();
   });
 
-  it("changeLease", async function () {
+  it("changeLease", async () => {
     const guid = "ca761232ed4211cebacd00aa0057b223";
     const duration = 15;
     const leaseClient = containerClient.getBlobLeaseClient(guid);
@@ -123,7 +123,7 @@ describe("LeaseClient from Container", () => {
     await leaseClient.releaseLease();
   });
 
-  it("breakLease", async function () {
+  it("breakLease", async () => {
     const guid = "ca761232ed4211cebacd00aa0057b223";
     const duration = 15;
     const leaseClient = containerClient.getBlobLeaseClient(guid);
@@ -178,7 +178,7 @@ describe("LeaseClient from Blob", () => {
     await recorder.stop();
   });
 
-  it("acquireLease", async function () {
+  it("acquireLease", async () => {
     const guid = "ca761232ed4211cebacd00aa0057b223";
     const duration = 30;
     const leaseClient = blobClient.getBlobLeaseClient(guid);
@@ -192,7 +192,7 @@ describe("LeaseClient from Blob", () => {
     await leaseClient.releaseLease();
   });
 
-  it("releaseLease", async function () {
+  it("releaseLease", async () => {
     const guid = "ca761232ed4211cebacd00aa0057b223";
     const duration = -1;
     const leaseClient = blobClient.getBlobLeaseClient(guid);
@@ -206,7 +206,7 @@ describe("LeaseClient from Blob", () => {
     await leaseClient.releaseLease();
   });
 
-  it("renewLease", async function () {
+  it("renewLease", async () => {
     const guid = "ca761232ed4211cebacd00aa0057b223";
     const duration = 15;
     const leaseClient = blobClient.getBlobLeaseClient(guid);
@@ -233,7 +233,7 @@ describe("LeaseClient from Blob", () => {
     await leaseClient.releaseLease();
   });
 
-  it("changeLease", async function () {
+  it("changeLease", async () => {
     const guid = "ca761232ed4211cebacd00aa0057b223";
     const duration = 15;
     const leaseClient = blobClient.getBlobLeaseClient(guid);
@@ -251,7 +251,7 @@ describe("LeaseClient from Blob", () => {
     await leaseClient.releaseLease();
   });
 
-  it("breakLease", async function () {
+  it("breakLease", async () => {
     const guid = "ca761232ed4211cebacd00aa0057b223";
     const duration = 15;
     const leaseClient = blobClient.getBlobLeaseClient(guid);

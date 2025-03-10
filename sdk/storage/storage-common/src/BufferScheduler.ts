@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { EventEmitter } from "events";
-import { Readable } from "stream";
-import { PooledBuffer } from "./PooledBuffer";
+import { EventEmitter } from "node:events";
+import type { Readable } from "node:stream";
+import { PooledBuffer } from "./PooledBuffer.js";
 
 /**
  * OutgoingHandler is an async function triggered by BufferScheduler.
@@ -11,7 +11,7 @@ import { PooledBuffer } from "./PooledBuffer";
 export declare type OutgoingHandler = (
   body: () => NodeJS.ReadableStream,
   length: number,
-  offset?: number
+  offset?: number,
 ) => Promise<any>;
 
 /**
@@ -141,7 +141,7 @@ export class BufferScheduler {
     maxBuffers: number,
     outgoingHandler: OutgoingHandler,
     concurrency: number,
-    encoding?: BufferEncoding
+    encoding?: BufferEncoding,
   ) {
     if (bufferSize <= 0) {
       throw new RangeError(`bufferSize must be larger than 0, current is ${bufferSize}`);
@@ -307,7 +307,7 @@ export class BufferScheduler {
       await this.outgoingHandler(
         () => buffer.getReadableStream(),
         bufferLength,
-        this.offset - bufferLength
+        this.offset - bufferLength,
       );
     } catch (err: any) {
       this.emitter.emit("error", err);

@@ -15,7 +15,7 @@ import {
   createEmptyPipeline,
   createHttpHeaders,
 } from "@azure/core-rest-pipeline";
-import { isNode } from "@azure/core-util";
+import { isNodeLike } from "@azure/core-util";
 import { AnonymousCredential } from "./credentials/AnonymousCredential.js";
 import type { BlobDeleteOptions, BlobSetTierOptions } from "./Clients.js";
 import { BlobClient } from "./Clients.js";
@@ -165,7 +165,7 @@ export class BlobBatch {
 
     if (
       typeof urlOrBlobClient === "string" &&
-      ((isNode && credentialOrOptions instanceof StorageSharedKeyCredential) ||
+      ((isNodeLike && credentialOrOptions instanceof StorageSharedKeyCredential) ||
         credentialOrOptions instanceof AnonymousCredential ||
         isTokenCredential(credentialOrOptions))
     ) {
@@ -269,7 +269,7 @@ export class BlobBatch {
 
     if (
       typeof urlOrBlobClient === "string" &&
-      ((isNode && credentialOrTier instanceof StorageSharedKeyCredential) ||
+      ((isNodeLike && credentialOrTier instanceof StorageSharedKeyCredential) ||
         credentialOrTier instanceof AnonymousCredential ||
         isTokenCredential(credentialOrTier))
     ) {

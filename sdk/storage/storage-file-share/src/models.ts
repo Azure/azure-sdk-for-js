@@ -1,11 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 import { FileSystemAttributes } from "./FileSystemAttributes.js";
 import { truncatedISO8061Date } from "./utils/utils.common.js";
 import { logger } from "./log.js";
 import type { FilePermissionFormat, NfsFileType, ShareTokenIntent } from "./generatedModels.js";
 import type { StoragePipelineOptions } from "./Pipeline.js";
-import { FileDownloadHeaders } from "./generatedModels.js";
+import type { FileDownloadHeaders } from "./generatedModels.js";
 
 export interface Metadata {
   [propertyName: string]: string;

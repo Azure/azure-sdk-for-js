@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import { Chunk } from "../src/Chunk.js";
-import { AvroReader } from "../../storage-internal-avro/src/index.js";
+import { AvroReader } from "@azure/storage-internal-avro";
 import type { BlobChangeFeedEvent } from "../src/index.js";
 import { describe, it, assert, afterEach, vi } from "vitest";
 

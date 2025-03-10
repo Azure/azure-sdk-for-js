@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import * as fs from "node:fs";
-import { isNode, delay } from "@azure/core-util";
+import { isNodeLike, delay } from "@azure/core-util";
 import {
   getBSU,
   recorderEnvSetup,
@@ -58,7 +58,7 @@ describe("Blob versioning", () => {
     await recorder.stop();
   });
 
-  it("List Blobs include versions", async function () {
+  it("List Blobs include versions", async () => {
     const blobClients = [];
     blobClients.push(blobClient);
 
@@ -87,7 +87,7 @@ describe("Blob versioning", () => {
     assert.ok(result.segment.blobItems![1].isCurrentVersion);
   });
 
-  it("download a blob version", async function () {
+  it("download a blob version", async () => {
     const blobVersionClient = blobClient.withVersion(uploadRes.versionId!);
     const downloadRes = await blobVersionClient.download();
     assert.deepStrictEqual(await bodyToString(downloadRes, content.length), content);
@@ -97,14 +97,14 @@ describe("Blob versioning", () => {
     assert.deepStrictEqual(await bodyToString(downloadRes2), "");
     assert.deepStrictEqual(downloadRes2.versionId, uploadRes2.versionId);
 
-    if (isNode) {
+    if (isNodeLike) {
       const downloadToBufferRes = await blobVersionClient.downloadToBuffer();
       assert.ok(downloadToBufferRes.equals(Buffer.from(content)));
     }
   });
 
   it("download a version to file", async function (ctx) {
-    if (!isNode || !isLiveMode()) {
+    if (!isNodeLike || !isLiveMode()) {
       // downloadToFile only available in Node.js
       ctx.skip();
     }
@@ -118,7 +118,7 @@ describe("Blob versioning", () => {
     fs.unlinkSync(downloadedFilePath);
   });
 
-  it("get properties of a blob version", async function () {
+  it("get properties of a blob version", async () => {
     const blobVersionClient = blobClient.withVersion(uploadRes.versionId!);
     const getRes = await blobVersionClient.getProperties();
     assert.equal(getRes.contentLength, content.length);
@@ -145,7 +145,7 @@ describe("Blob versioning", () => {
     assert.isTrue(existRes, "blob version should exist");
   });
 
-  it("delete a version", async function () {
+  it("delete a version", async () => {
     const blobVersionClient = blobClient.withVersion(uploadRes.versionId!);
     await blobVersionClient.delete();
 
@@ -156,7 +156,7 @@ describe("Blob versioning", () => {
     assert.ok(rootExists);
   });
 
-  it("deleteBlobs should work for batch delete", async function () {
+  it("deleteBlobs should work for batch delete", async () => {
     if (!isLiveMode()) {
       ctx.skip();
     }
@@ -216,7 +216,7 @@ describe("Blob versioning", () => {
     assert.equal(resp2.segment.blobItems.length, 2 + blockBlobCount);
   });
 
-  it("deleting root blob with versionId should fail", async function () {
+  it("deleting root blob with versionId should fail", async () => {
     await containerClient.deleteBlob(blobName, {
       versionId: uploadRes.versionId,
     });
@@ -235,7 +235,7 @@ describe("Blob versioning", () => {
     assert.ok(exceptionCaught);
   });
 
-  it("delete a snapshot", async function () {
+  it("delete a snapshot", async () => {
     const result = await blobClient.createSnapshot();
     assert.ok(result.snapshot);
     assert.ok(result.versionId);
@@ -249,7 +249,7 @@ describe("Blob versioning", () => {
     assert.ok(rootExists);
   });
 
-  it("deleting a blob that has snapshots needs deleteSnapshots option", async function () {
+  it("deleting a blob that has snapshots needs deleteSnapshots option", async () => {
     const result = await blobClient.createSnapshot();
     assert.ok(result.snapshot);
 
@@ -269,7 +269,7 @@ describe("Blob versioning", () => {
     assert.ok(!rootExists);
   });
 
-  it("deleting a blob with both deleteSnapshots and versionId option should fail", async function () {
+  it("deleting a blob with both deleteSnapshots and versionId option should fail", async () => {
     const result = await blobClient.createSnapshot();
     assert.ok(result.snapshot);
 
@@ -294,7 +294,7 @@ describe("Blob versioning", () => {
     assert.ok(exceptionCaught2);
   });
 
-  it("deleting a versioned blob without extra parameters should succeed", async function () {
+  it("deleting a versioned blob without extra parameters should succeed", async () => {
     await blobClient.delete();
 
     const rootExists = await blobClient.exists();
@@ -304,7 +304,7 @@ describe("Blob versioning", () => {
     assert.ok(versionExists);
   });
 
-  it("promote a version: as the copy source", async function () {
+  it("promote a version: as the copy source", async () => {
     const blobVersionClient = blobClient.withVersion(uploadRes.versionId!);
     await blobVersionClient.getProperties();
 
@@ -330,7 +330,7 @@ describe("Blob versioning", () => {
     assert.deepStrictEqual(await bodyToString(downloadRes, content.length), content);
   });
 
-  it("blob create return versionId", async function () {
+  it("blob create return versionId", async () => {
     const appendBlobName = recorder.variable("appendblob", getUniqueName("appendblob"));
     const appendBlobClient = containerClient.getBlobClient(appendBlobName).getAppendBlobClient();
     const appendCreateRes = await appendBlobClient.create();
@@ -342,7 +342,7 @@ describe("Blob versioning", () => {
     assert.ok(pageCreateRes.versionId);
   });
 
-  it("upload block blob return versionId", async function () {
+  it("upload block blob return versionId", async () => {
     const containerUploadRes = await containerClient.uploadBlockBlob(
       blobName,
       content,
@@ -350,13 +350,13 @@ describe("Blob versioning", () => {
     );
     assert.ok(containerUploadRes.response.versionId);
 
-    if (!isNode) {
+    if (!isNodeLike) {
       const uploadBrowserDataRes = await blockBlobClient.uploadBrowserData(new Blob([content]));
       assert.ok(uploadBrowserDataRes.versionId);
     }
   });
 
-  it("asynchorous copy return versionId", async function () {
+  it("asynchorous copy return versionId", async () => {
     const newBlobClient = containerClient.getBlobClient(
       recorder.variable("copiedblob", getUniqueName("copiedblob")),
     );
@@ -364,7 +364,7 @@ describe("Blob versioning", () => {
     assert.ok(result.versionId);
   });
 
-  it("setMetaData", async function () {
+  it("setMetaData", async () => {
     const metadata = {
       keya: "a",
       keyb: "c",
@@ -373,7 +373,7 @@ describe("Blob versioning", () => {
     assert.ok(setMetaRes.versionId);
   });
 
-  it("undelete a soft-deleted version", async function () {
+  it("undelete a soft-deleted version", async () => {
     let properties = await blobServiceClient.getProperties();
     if (!properties.deleteRetentionPolicy!.enabled) {
       await blobServiceClient.setProperties({

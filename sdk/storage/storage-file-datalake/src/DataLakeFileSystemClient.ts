@@ -7,9 +7,7 @@ import type { Pipeline, StoragePipelineOptions } from "./Pipeline.js";
 import { isPipelineLike, newPipeline } from "./Pipeline.js";
 import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential.js";
 import { AnonymousCredential } from "@azure/storage-blob";
-
 import { DataLakeLeaseClient } from "./DataLakeLeaseClient.js";
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 import { FileSystemOperationsImpl as FileSystem } from "./generated/src/operations/index.js";
 import type {
   AccessPolicy,

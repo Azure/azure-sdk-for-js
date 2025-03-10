@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 import type { TokenCredential } from "@azure/core-auth";
 import { StorageContextClient } from "./StorageContextClient.js";
 import type { StorageClient as StorageClientContext } from "./generated/src/index.js";

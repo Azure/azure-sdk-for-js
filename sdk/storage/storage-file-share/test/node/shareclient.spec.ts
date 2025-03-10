@@ -156,9 +156,8 @@ describe("ShareClient Node.js only", () => {
     );
   });
 
-  it("getAccessPolicy", (done) => {
+  it("getAccessPolicy", () => {
     // create() with default parameters has been tested in setAccessPolicy
-    done();
   });
 
   it("setAccessPolicy and getAccessPolicy with empty SignedIdentifier", async () => {
@@ -305,9 +304,8 @@ describe("ShareClient Node.js only - OAuth", () => {
     assert.ok(result.date);
   });
 
-  it("create with default parameters", (done) => {
+  it("create with default parameters", () => {
     // create() with default parameters has been tested in beforeEach
-    done();
   });
 
   it("createIfNotExists", async () => {
@@ -324,10 +322,7 @@ describe("ShareClient Node.js only - OAuth", () => {
     await shareClient2.delete();
   });
 
-  it("delete", (done) => {
-    // delete() with default parameters has been tested in afterEach
-    done();
-  });
+  it("delete", () => {});
 
   it("deleteIfExists", async () => {
     const shareClient2 = serviceClient.getShareClient(
