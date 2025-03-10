@@ -29,6 +29,9 @@ import { Test_CPK_INFO } from "./utils/fakeTestSecrets.js";
 import { base64encode } from "../src/utils/utils.common.js";
 import { isRestError } from "@azure/core-rest-pipeline";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
+import { toSupportTracing } from "@azure-tools/test-utils-vitest";
+
+expect.extend({ toSupportTracing })
 
 describe("BlobClient", () => {
   let blobServiceClient: BlobServiceClient;
@@ -816,10 +819,7 @@ describe("BlobClient", () => {
   });
 
   it("download with default parameters and tracing", async function () {
-    await assert.supportsTracing(
-      (options) => blobClient.download(undefined, undefined, options),
-      ["BlobClient-download"],
-    );
+    await expect((options) => blobClient.download(undefined, undefined, options)).toSupportTracing(["BlobClient-download"]);
   });
 
   it("exists returns true on an existing blob", async function () {

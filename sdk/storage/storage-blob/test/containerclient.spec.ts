@@ -25,6 +25,9 @@ import { ContainerClient, BlockBlobTier } from "../src/index.js";
 import { Test_CPK_INFO } from "./utils/fakeTestSecrets.js";
 import type { Tags } from "../src/models.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
+import { toSupportTracing } from "@azure-tools/test-utils-vitest";
+
+expect.extend({ toSupportTracing })
 
 describe("ContainerClient", () => {
   let blobServiceClient: BlobServiceClient;
@@ -847,20 +850,17 @@ describe("ContainerClient", () => {
     };
     const blobName: string = recorder.variable("blob", getUniqueName("blob"));
     let blockBlobClient: BlockBlobClient | undefined;
-    await assert.supportsTracing(
-      async function (options) {
-        const result = await containerClient.uploadBlockBlob(blobName, body, body.length, {
-          blobHTTPHeaders: blobHeaders,
-          metadata: {
+    await expect(async function (options) {
+    const result = await containerClient.uploadBlockBlob(blobName, body, body.length, {
+        blobHTTPHeaders: blobHeaders,
+        metadata: {
             keya: "vala",
             keyb: "valb",
-          },
-          tracingOptions: options.tracingOptions,
-        });
-        blockBlobClient = result.blockBlobClient;
-      },
-      ["ContainerClient-uploadBlockBlob"],
-    );
+        },
+        tracingOptions: options.tracingOptions,
+    });
+    blockBlobClient = result.blockBlobClient;
+}).toSupportTracing(["ContainerClient-uploadBlockBlob"]);
 
     await containerClient.deleteBlob(blobName);
     try {
