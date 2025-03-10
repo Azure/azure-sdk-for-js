@@ -6,7 +6,7 @@ import { ChunkFactory } from "../src/ChunkFactory.js";
 import type { ShardCursor } from "../src/models/ChangeFeedCursor.js";
 import { Chunk } from "../src/Chunk.js";
 import type { BlobChangeFeedEvent } from "../src/index.js";
-import { describe, it, assert, beforeEach, afterEach } from "vitest";
+import { describe, it, assert, beforeEach, afterEach, vi } from "vitest";
 
 describe("Shard", async () => {
   let chunkFactoryStub: any;

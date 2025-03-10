@@ -8,7 +8,7 @@ import { Segment } from "../src/Segment.js";
 import { ChangeFeedFactory } from "../src/ChangeFeedFactory.js";
 import { getHost } from "../src/utils/utils.common.js";
 import type { BlobChangeFeedEvent } from "../src/index.js";
-import { describe, it, assert, beforeEach, afterEach } from "vitest";
+import { describe, it, assert, beforeEach, afterEach, vi } from "vitest";
 
 describe("Change Feed", async () => {
   const manifestFilePath = path.join("test", "resources", "ChangeFeedManifest.json");

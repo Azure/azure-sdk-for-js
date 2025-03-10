@@ -3,7 +3,7 @@
 import { Chunk } from "../src/Chunk.js";
 import { AvroReader } from "../../storage-internal-avro/src/index.js";
 import type { BlobChangeFeedEvent } from "../src/index.js";
-import { describe, it, assert, afterEach } from "vitest";
+import { describe, it, assert, afterEach, vi } from "vitest";
 
 class FakeAvroReader {
   constructor(
