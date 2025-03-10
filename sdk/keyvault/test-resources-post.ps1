@@ -15,6 +15,23 @@ param (
     [Parameter()]
     [hashtable] $DeploymentOutputs,
 
+    [Parameter(Mandatory = $true)]
+    [ValidateNotNullOrEmpty()]
+    [string] $SubscriptionId,
+
+    [Parameter(Mandatory = $true)]
+    [ValidateNotNullOrEmpty()]
+    [string] $TenantId,
+
+    [Parameter()]
+    [ValidatePattern('^[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}$')]
+    [string] $TestApplicationId,
+
+    [Parameter(Mandatory = $true)]
+    [ValidateNotNullOrEmpty()]
+    [string] $Environment,
+
+
     # Captures any arguments from eng/New-TestResources.ps1 not declared here (no parameter errors).
     [Parameter(ValueFromRemainingArguments = $true)]
     $RemainingArguments
@@ -93,6 +110,23 @@ $sdPath = Join-Path -Path $PSScriptRoot -ChildPath "$hsmName-security-domain.key
 if (Test-Path $sdpath) {
     Log "Deleting old security domain: $sdPath"
     Remove-Item $sdPath -Force
+}
+
+if ($CI) {
+    Log "Logging in to service principal"
+    Log "$TestApplicationId exists? $($TestApplicationId -ne $null)"
+    # log if $env:TenantId, $SubscriptionId, and $env:ARM_OIDC_TOKEN are set
+    Log "$TenantId exists? $($TenantId -ne $null)"
+    Log "$SubscriptionId exists? $($SubscriptionId -ne $null)"
+    Log "$env:ARM_OIDC_TOKEN exists? $($env:ARM_OIDC_TOKEN -ne $null)"
+
+    Connect-AzAccount -ServicePrincipal `
+                      -TenantId $TenantId `
+                      -ApplicationId $TestApplicationId `
+                      -FederatedToken $env:ARM_OIDC_TOKEN `
+                      -AllowNoSubscriptions
+
+    Select-AzSubscription -SubscriptionId $SubscriptionId
 }
 
 Export-AzKeyVaultSecurityDomain -Name $hsmName -Quorum 2 -Certificates $wrappingFiles -OutputPath $sdPath -ErrorAction SilentlyContinue -Verbose

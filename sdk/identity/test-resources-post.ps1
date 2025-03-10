@@ -56,7 +56,7 @@ Write-Host "Working directory: $workingFolder"
 
 if ($CI) {
   Write-Host "Logging in to service principal"
-  Write-Host "$env:TestApplicationId exists? $($env:TestApplicationId -ne $null)"
+  Write-Host "$TestApplicationId exists? $($TestApplicationId -ne $null)"
   # log if $env:TenantId, $SubscriptionId, and $env:ARM_OIDC_TOKEN are set
   Write-Host "$TenantId exists? $($TenantId -ne $null)"
   Write-Host "$SubscriptionId exists? $($SubscriptionId -ne $null)"
