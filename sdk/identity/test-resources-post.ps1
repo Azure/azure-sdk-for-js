@@ -56,12 +56,6 @@ Write-Host "Working directory: $workingFolder"
 
 if ($CI) {
   Write-Host "Logging in to service principal"
-  Write-Host "$TestApplicationId exists? $($TestApplicationId -ne $null)"
-  # log if $env:TenantId, $SubscriptionId, and $env:ARM_OIDC_TOKEN are set
-  Write-Host "$TenantId exists? $($TenantId -ne $null)"
-  Write-Host "$SubscriptionId exists? $($SubscriptionId -ne $null)"
-  Write-Host "$env:ARM_OIDC_TOKEN exists? $($env:ARM_OIDC_TOKEN -ne $null)"
-
   az login --service-principal -u $TestApplicationId --tenant $TenantId --allow-no-subscriptions --federated-token $env:ARM_OIDC_TOKEN
   az account set --subscription $SubscriptionId
 }

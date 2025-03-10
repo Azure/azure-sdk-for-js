@@ -116,11 +116,6 @@ if (Test-Path $sdpath) {
 
 if ($CI) {
     Log "Logging in to service principal"
-    Log "$TestApplicationId exists? $($TestApplicationId -ne $null)"
-    # log if $env:TenantId, $SubscriptionId, and $env:ARM_OIDC_TOKEN are set
-    Log "$TenantId exists? $($TenantId -ne $null)"
-    Log "$SubscriptionId exists? $($SubscriptionId -ne $null)"
-    Log "$env:ARM_OIDC_TOKEN exists? $($env:ARM_OIDC_TOKEN -ne $null)"
 
     Connect-AzAccount -ServicePrincipal `
                       -TenantId $TenantId `
