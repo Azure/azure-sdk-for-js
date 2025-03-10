@@ -3,7 +3,12 @@
 
 import { isLiveMode, Recorder } from "@azure-tools/test-recorder";
 import type { DataLakeFileClient, DataLakeFileSystemClient } from "../../src/index.js";
-import { getDataLakeServiceClient, getUniqueName, recorderEnvSetup, uriSanitizers } from "../utils/index.js";
+import {
+  getDataLakeServiceClient,
+  getUniqueName,
+  recorderEnvSetup,
+  uriSanitizers,
+} from "../utils/index.js";
 import {
   blobToString,
   bodyToString,
@@ -26,23 +31,23 @@ describe("Highlevel browser only", () => {
   let recorder: Recorder;
 
   beforeEach(async (ctx) => {
-      recorder = new Recorder(ctx);
-      await recorder.start(recorderEnvSetup);
-      await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
-      const serviceClient = getDataLakeServiceClient(recorder);
-      fileSystemName = recorder.variable("filesystem", getUniqueName("filesystem"));
-      fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
-      await fileSystemClient.create();
-      fileName = recorder.variable("file", getUniqueName("file"));
-      fileClient = fileSystemClient.getFileClient(fileName);
-    });
+    recorder = new Recorder(ctx);
+    await recorder.start(recorderEnvSetup);
+    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+    const serviceClient = getDataLakeServiceClient(recorder);
+    fileSystemName = recorder.variable("filesystem", getUniqueName("filesystem"));
+    fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
+    await fileSystemClient.create();
+    fileName = recorder.variable("file", getUniqueName("file"));
+    fileClient = fileSystemClient.getFileClient(fileName);
+  });
 
   afterEach(async () => {
-      if (fileSystemClient) {
-        await fileSystemClient.delete();
-      }
-      await recorder.stop();
-    });
+    if (fileSystemClient) {
+      await fileSystemClient.delete();
+    }
+    await recorder.stop();
+  });
 
   before(async function () {
     tempFileLarge = getBrowserFile("browserfilesmall", tempFileLargeLength);

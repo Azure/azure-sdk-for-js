@@ -1,7 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import type { DataLakeFileSystemClient } from "../src/index.js";
-import { getDataLakeServiceClient, getUniqueName, recorderEnvSetup, uriSanitizers } from "./utils/index.js";
+import {
+  getDataLakeServiceClient,
+  getUniqueName,
+  recorderEnvSetup,
+  uriSanitizers,
+} from "./utils/index.js";
 import { Recorder } from "@azure-tools/test-recorder";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
@@ -12,17 +17,17 @@ describe("Aborter", () => {
   let recorder: Recorder;
 
   beforeEach(async (ctx) => {
-      recorder = new Recorder(ctx);
-      await recorder.start(recorderEnvSetup);
-      await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
-      const serviceClient = getDataLakeServiceClient(recorder);
-      fileSystemName = recorder.variable("container", getUniqueName("container"));
-      fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
-    });
+    recorder = new Recorder(ctx);
+    await recorder.start(recorderEnvSetup);
+    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+    const serviceClient = getDataLakeServiceClient(recorder);
+    fileSystemName = recorder.variable("container", getUniqueName("container"));
+    fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
+  });
 
   afterEach(async () => {
-      await recorder.stop();
-    });
+    await recorder.stop();
+  });
 
   it("Should abort after aborter timeout", async () => {
     try {

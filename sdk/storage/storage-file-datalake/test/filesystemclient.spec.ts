@@ -8,7 +8,11 @@ import type {
   DataLakeServiceClient,
   FileSystemListDeletedPathsResponse,
 } from "../src/index.js";
-import { DataLakeFileSystemClient, DataLakeFileClient, DataLakeDirectoryClient } from "../src/index.js";
+import {
+  DataLakeFileSystemClient,
+  DataLakeFileClient,
+  DataLakeDirectoryClient,
+} from "../src/index.js";
 import {
   getDataLakeServiceClient,
   getEncryptionScope,
@@ -20,7 +24,7 @@ import {
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 import { toSupportTracing } from "@azure-tools/test-utils-vitest";
 
-expect.extend({ toSupportTracing })
+expect.extend({ toSupportTracing });
 
 describe("DataLakeFileSystemClient", () => {
   let fileSystemName: string;
@@ -30,19 +34,19 @@ describe("DataLakeFileSystemClient", () => {
   let serviceClient: DataLakeServiceClient;
 
   beforeEach(async (ctx) => {
-      recorder = new Recorder(ctx);
-      await recorder.start(recorderEnvSetup);
-      await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
-      serviceClient = getDataLakeServiceClient(recorder);
-      fileSystemName = recorder.variable("filesystem", getUniqueName("filesystem"));
-      fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
-      await fileSystemClient.createIfNotExists();
-    });
+    recorder = new Recorder(ctx);
+    await recorder.start(recorderEnvSetup);
+    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+    serviceClient = getDataLakeServiceClient(recorder);
+    fileSystemName = recorder.variable("filesystem", getUniqueName("filesystem"));
+    fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
+    await fileSystemClient.createIfNotExists();
+  });
 
   afterEach(async () => {
-      await fileSystemClient.deleteIfExists();
-      await recorder.stop();
-    });
+    await fileSystemClient.deleteIfExists();
+    await recorder.stop();
+  });
 
   it("setMetadata", async () => {
     const metadata = {
@@ -58,13 +62,13 @@ describe("DataLakeFileSystemClient", () => {
 
   it("setMetadata with tracing", async () => {
     await expect(async (options) => {
-    const metadata = {
+      const metadata = {
         key0: "val0",
         keya: "vala",
         keyb: "valb",
-    };
-    await fileSystemClient.setMetadata(metadata, options);
-}).toSupportTracing(["DataLakeFileSystemClient-setMetadata"]);
+      };
+      await fileSystemClient.setMetadata(metadata, options);
+    }).toSupportTracing(["DataLakeFileSystemClient-setMetadata"]);
   });
 
   it("getProperties", async () => {
@@ -645,35 +649,35 @@ describe("DataLakeFileSystemClient with soft delete", () => {
   let serviceClient: DataLakeServiceClient;
 
   beforeEach(async (ctx) => {
-      if (isLiveMode()) {
-        // Turn on this case when the Container Rename feature is ready in the service side.
-        ctx.skip();
-      }
+    if (isLiveMode()) {
+      // Turn on this case when the Container Rename feature is ready in the service side.
+      ctx.skip();
+    }
 
-      recorder = new Recorder(ctx);
-      await recorder.start(recorderEnvSetup);
-      await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+    recorder = new Recorder(ctx);
+    await recorder.start(recorderEnvSetup);
+    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
 
-      try {
-        serviceClient = getGenericDataLakeServiceClient(recorder, "DFS_SOFT_DELETE_");
-      } catch (err: any) {
-        ctx.skip();
-      }
+    try {
+      serviceClient = getGenericDataLakeServiceClient(recorder, "DFS_SOFT_DELETE_");
+    } catch (err: any) {
+      ctx.skip();
+    }
 
-      fileSystemClient = serviceClient.getFileSystemClient(
-        recorder.variable(`filesystem`, getUniqueName(`filesystem`)),
-      );
-      await fileSystemClient.createIfNotExists();
-    });
+    fileSystemClient = serviceClient.getFileSystemClient(
+      recorder.variable(`filesystem`, getUniqueName(`filesystem`)),
+    );
+    await fileSystemClient.createIfNotExists();
+  });
 
   afterEach(async () => {
-      if (fileSystemClient) {
-        await fileSystemClient.deleteIfExists();
-      }
-      if (recorder) {
-        await recorder.stop();
-      }
-    });
+    if (fileSystemClient) {
+      await fileSystemClient.deleteIfExists();
+    }
+    if (recorder) {
+      await recorder.stop();
+    }
+  });
 
   it("listDeletedPaths with default parameters", async () => {
     const fileClients = [];

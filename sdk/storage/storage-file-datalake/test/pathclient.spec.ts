@@ -20,7 +20,7 @@ import { Test_CPK_INFO } from "./utils/fakeTestSecrets.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 import { toSupportTracing } from "@azure-tools/test-utils-vitest";
 
-expect.extend({ toSupportTracing })
+expect.extend({ toSupportTracing });
 
 describe("DataLakePathClient", () => {
   let fileSystemName: string;
@@ -32,24 +32,24 @@ describe("DataLakePathClient", () => {
   let recorder: Recorder;
 
   beforeEach(async (ctx) => {
-      recorder = new Recorder(ctx);
-      await recorder.start(recorderEnvSetup);
-      await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
-      const serviceClient = getDataLakeServiceClient(recorder);
-      fileSystemName = recorder.variable("filesystem", getUniqueName("filesystem"));
-      fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
-      await fileSystemClient.createIfNotExists();
-      fileName = recorder.variable("file", getUniqueName("file"));
-      fileClient = fileSystemClient.getFileClient(fileName);
-      await fileClient.create();
-      await fileClient.append(content, 0, content.length);
-      await fileClient.flush(content.length);
-    });
+    recorder = new Recorder(ctx);
+    await recorder.start(recorderEnvSetup);
+    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+    const serviceClient = getDataLakeServiceClient(recorder);
+    fileSystemName = recorder.variable("filesystem", getUniqueName("filesystem"));
+    fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
+    await fileSystemClient.createIfNotExists();
+    fileName = recorder.variable("file", getUniqueName("file"));
+    fileClient = fileSystemClient.getFileClient(fileName);
+    await fileClient.create();
+    await fileClient.append(content, 0, content.length);
+    await fileClient.flush(content.length);
+  });
 
   afterEach(async () => {
-      await fileSystemClient.deleteIfExists();
-      await recorder.stop();
-    });
+    await fileSystemClient.deleteIfExists();
+    await recorder.stop();
+  });
 
   it("DataLakeFileClient create file path with directory dots", async () => {
     const fileBaseName = recorder.variable("filename", getUniqueName("filename"));
@@ -914,9 +914,9 @@ describe("DataLakePathClient", () => {
 
   it("read with default parameters and tracing", async () => {
     await expect(async (options) => {
-    const result = await fileClient.read(undefined, undefined, options);
-    assert.deepStrictEqual(await bodyToString(result, content.length), content);
-}).toSupportTracing(["DataLakeFileClient-read"]);
+      const result = await fileClient.read(undefined, undefined, options);
+      assert.deepStrictEqual(await bodyToString(result, content.length), content);
+    }).toSupportTracing(["DataLakeFileClient-read"]);
   });
 
   it("verify fileName and fileSystemName passed to the client", async () => {
@@ -1451,23 +1451,23 @@ describe("DataLakePathClient with CPK", () => {
   let recorder: Recorder;
 
   beforeEach(async (ctx) => {
-      recorder = new Recorder(ctx);
-      await recorder.start(recorderEnvSetup);
-      await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
-      const serviceClient = getDataLakeServiceClient(recorder);
-      fileSystemName = recorder.variable("filesystem", getUniqueName("filesystem"));
-      fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
-      await fileSystemClient.createIfNotExists();
-      fileName = recorder.variable("file", getUniqueName("file"));
-      fileClient = fileSystemClient.getFileClient(fileName);
-      dirName = recorder.variable("dir", getUniqueName("dir"));
-      dirClient = fileSystemClient.getDirectoryClient(dirName);
-    });
+    recorder = new Recorder(ctx);
+    await recorder.start(recorderEnvSetup);
+    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+    const serviceClient = getDataLakeServiceClient(recorder);
+    fileSystemName = recorder.variable("filesystem", getUniqueName("filesystem"));
+    fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
+    await fileSystemClient.createIfNotExists();
+    fileName = recorder.variable("file", getUniqueName("file"));
+    fileClient = fileSystemClient.getFileClient(fileName);
+    dirName = recorder.variable("dir", getUniqueName("dir"));
+    dirClient = fileSystemClient.getDirectoryClient(dirName);
+  });
 
   afterEach(async () => {
-      await fileSystemClient.deleteIfExists();
-      await recorder.stop();
-    });
+    await fileSystemClient.deleteIfExists();
+    await recorder.stop();
+  });
 
   it("file create, append, flush and read with cpk", async () => {
     await fileClient.create({
@@ -1848,32 +1848,32 @@ describe("DataLakePathClient - Encryption Scope", () => {
   let recorder: Recorder;
 
   beforeEach(async (ctx) => {
-      try {
-        encryptionScopeName = getEncryptionScope();
-      } catch {
-        ctx.skip();
-      }
+    try {
+      encryptionScopeName = getEncryptionScope();
+    } catch {
+      ctx.skip();
+    }
 
-      recorder = new Recorder(ctx);
-      await recorder.start(recorderEnvSetup);
-      await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
-      const serviceClient = getDataLakeServiceClient(recorder);
-      fileSystemName = recorder.variable("filesystem", getUniqueName("filesystem"));
-      fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
-      await fileSystemClient.createIfNotExists({
-        fileSystemEncryptionScope: {
-          defaultEncryptionScope: encryptionScopeName,
-          preventEncryptionScopeOverride: true,
-        },
-      });
+    recorder = new Recorder(ctx);
+    await recorder.start(recorderEnvSetup);
+    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+    const serviceClient = getDataLakeServiceClient(recorder);
+    fileSystemName = recorder.variable("filesystem", getUniqueName("filesystem"));
+    fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
+    await fileSystemClient.createIfNotExists({
+      fileSystemEncryptionScope: {
+        defaultEncryptionScope: encryptionScopeName,
+        preventEncryptionScopeOverride: true,
+      },
     });
+  });
 
   afterEach(async () => {
-      await fileSystemClient?.deleteIfExists();
-      if (recorder) {
-        await recorder.stop();
-      }
-    });
+    await fileSystemClient?.deleteIfExists();
+    if (recorder) {
+      await recorder.stop();
+    }
+  });
 
   it("DataLakeFileClient - getProperties should return Encryption Scope", async () => {
     const fileName = recorder.variable("file", getUniqueName("file"));

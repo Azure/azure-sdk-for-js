@@ -40,34 +40,34 @@ describe("Highlevel Node.js only", () => {
   let recorder: Recorder;
 
   beforeEach(async (ctx) => {
-      recorder = new Recorder(ctx);
-      await recorder.start(recorderEnvSetup);
-      await recorder.addSanitizers(
-        {
-          removeHeaderSanitizer: {
-            headersForRemoval: ["x-ms-proposed-lease-id", "x-ms-lease-id", "x-ms-rename-source"],
-          },
+    recorder = new Recorder(ctx);
+    await recorder.start(recorderEnvSetup);
+    await recorder.addSanitizers(
+      {
+        removeHeaderSanitizer: {
+          headersForRemoval: ["x-ms-proposed-lease-id", "x-ms-lease-id", "x-ms-rename-source"],
         },
-        ["record", "playback"],
-      );
-      const serviceClient = getDataLakeServiceClient(recorder, {
-        keepAliveOptions: {
-          enable: true,
-        },
-      });
-      fileSystemName = recorder.variable("filesystem", getUniqueName("filesystem"));
-      fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
-      await fileSystemClient.createIfNotExists();
-      fileName = recorder.variable("file", getUniqueName("file"));
-      fileClient = fileSystemClient.getFileClient(fileName);
+      },
+      ["record", "playback"],
+    );
+    const serviceClient = getDataLakeServiceClient(recorder, {
+      keepAliveOptions: {
+        enable: true,
+      },
     });
+    fileSystemName = recorder.variable("filesystem", getUniqueName("filesystem"));
+    fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
+    await fileSystemClient.createIfNotExists();
+    fileName = recorder.variable("file", getUniqueName("file"));
+    fileClient = fileSystemClient.getFileClient(fileName);
+  });
 
   afterEach(async () => {
-      if (fileSystemClient) {
-        await fileSystemClient.deleteIfExists();
-      }
-      await recorder.stop();
-    });
+    if (fileSystemClient) {
+      await fileSystemClient.deleteIfExists();
+    }
+    await recorder.stop();
+  });
 
   before(async function () {
     if (!fs.existsSync(tempFolderPath)) {

@@ -28,15 +28,15 @@ describe("DataLakeServiceClient", () => {
   let recorder: Recorder;
 
   beforeEach(async (ctx) => {
-      recorder = new Recorder(ctx);
-      await recorder.start(recorderEnvSetup);
-      // make sure we add the sanitizers on playback for SAS strings
-      await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
-    });
+    recorder = new Recorder(ctx);
+    await recorder.start(recorderEnvSetup);
+    // make sure we add the sanitizers on playback for SAS strings
+    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+  });
 
   afterEach(async () => {
-      await recorder.stop();
-    });
+    await recorder.stop();
+  });
 
   it("SetProperties and GetProperties", async () => {
     const serviceClient = getDataLakeServiceClient(recorder);

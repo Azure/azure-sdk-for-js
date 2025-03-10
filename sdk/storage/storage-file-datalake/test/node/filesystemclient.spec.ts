@@ -12,7 +12,11 @@ import {
   uriSanitizers,
 } from "../utils/index.js";
 import type { DataLakeServiceClient } from "../../src/index.js";
-import { DataLakeFileSystemClient, FileSystemSASPermissions, newPipeline } from "../../src/index.js";
+import {
+  DataLakeFileSystemClient,
+  FileSystemSASPermissions,
+  newPipeline,
+} from "../../src/index.js";
 import type { PublicAccessType } from "../../src/models.js";
 import { getDataLakeServiceAccountAudience } from "../../src/models.js";
 import { assertClientUsesTokenCredential } from "../utils/assert.js";
@@ -26,20 +30,20 @@ describe("DataLakeFileSystemClient Node.js only", () => {
   let recorder: Recorder;
 
   beforeEach(async (ctx) => {
-      recorder = new Recorder(ctx);
-      await recorder.start(recorderEnvSetup);
-      // make sure we add the sanitizers on playback for SAS strings
-      await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
-      serviceClient = getDataLakeServiceClient(recorder);
-      fileSystemName = recorder.variable("filesystem", getUniqueName("filesystem"));
-      fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
-      await fileSystemClient.createIfNotExists();
-    });
+    recorder = new Recorder(ctx);
+    await recorder.start(recorderEnvSetup);
+    // make sure we add the sanitizers on playback for SAS strings
+    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+    serviceClient = getDataLakeServiceClient(recorder);
+    fileSystemName = recorder.variable("filesystem", getUniqueName("filesystem"));
+    fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
+    await fileSystemClient.createIfNotExists();
+  });
 
   afterEach(async () => {
-      await fileSystemClient.deleteIfExists();
-      await recorder.stop();
-    });
+    await fileSystemClient.deleteIfExists();
+    await recorder.stop();
+  });
 
   it("DataLakeFileSystemClient default audience should work", async () => {
     const fileSystemClientWithOAuthToken = new DataLakeFileSystemClient(

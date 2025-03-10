@@ -47,33 +47,33 @@ describe("DataLakePathClient Node.js only", () => {
   let recorder: Recorder;
 
   beforeEach(async (ctx) => {
-      recorder = new Recorder(ctx);
-      await recorder.start(recorderEnvSetup);
-      // make sure we add the sanitizers on playback for SAS strings
-      await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
-      await recorder.addSanitizers(
-        {
-          removeHeaderSanitizer: {
-            headersForRemoval: ["x-ms-rename-source"],
-          },
+    recorder = new Recorder(ctx);
+    await recorder.start(recorderEnvSetup);
+    // make sure we add the sanitizers on playback for SAS strings
+    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+    await recorder.addSanitizers(
+      {
+        removeHeaderSanitizer: {
+          headersForRemoval: ["x-ms-rename-source"],
         },
-        ["record", "playback"],
-      );
-      serviceClient = getDataLakeServiceClient(recorder);
-      fileSystemName = recorder.variable("filesystem", getUniqueName("filesystem"));
-      fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
-      await fileSystemClient.createIfNotExists();
-      fileName = recorder.variable("file", getUniqueName("file"));
-      fileClient = fileSystemClient.getFileClient(fileName);
-      await fileClient.create();
-      await fileClient.append(content, 0, content.length);
-      await fileClient.flush(content.length);
-    });
+      },
+      ["record", "playback"],
+    );
+    serviceClient = getDataLakeServiceClient(recorder);
+    fileSystemName = recorder.variable("filesystem", getUniqueName("filesystem"));
+    fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
+    await fileSystemClient.createIfNotExists();
+    fileName = recorder.variable("file", getUniqueName("file"));
+    fileClient = fileSystemClient.getFileClient(fileName);
+    await fileClient.create();
+    await fileClient.append(content, 0, content.length);
+    await fileClient.flush(content.length);
+  });
 
   afterEach(async () => {
-      await fileSystemClient.deleteIfExists();
-      await recorder.stop();
-    });
+    await fileSystemClient.deleteIfExists();
+    await recorder.stop();
+  });
 
   it.skip("DataLakeDirectoryClient pagenated delete", async function () {
     // To run this test, the NamespaceTenant AAD info needs to be set to an AAD app that does not have any RBAC permissions,
@@ -1110,23 +1110,23 @@ describe("DataLakePathClient setAccessControlRecursive Node.js only", () => {
   let recorder: Recorder;
 
   beforeEach(async (ctx) => {
-      recorder = new Recorder(ctx);
-      await recorder.start(recorderEnvSetup);
-      serviceClient = getDataLakeServiceClient(recorder);
-      fileSystemName = recorder.variable("filesystem", getUniqueName("filesystem"));
-      fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
-      await fileSystemClient.createIfNotExists();
-      fileName = recorder.variable("file", getUniqueName("file"));
-      fileClient = fileSystemClient.getFileClient(fileName);
-      await fileClient.create();
-      await fileClient.append(content, 0, content.length);
-      await fileClient.flush(content.length);
-    });
+    recorder = new Recorder(ctx);
+    await recorder.start(recorderEnvSetup);
+    serviceClient = getDataLakeServiceClient(recorder);
+    fileSystemName = recorder.variable("filesystem", getUniqueName("filesystem"));
+    fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
+    await fileSystemClient.createIfNotExists();
+    fileName = recorder.variable("file", getUniqueName("file"));
+    fileClient = fileSystemClient.getFileClient(fileName);
+    await fileClient.create();
+    await fileClient.append(content, 0, content.length);
+    await fileClient.flush(content.length);
+  });
 
   afterEach(async () => {
-      await fileSystemClient.deleteIfExists();
-      await recorder.stop();
-    });
+    await fileSystemClient.deleteIfExists();
+    await recorder.stop();
+  });
 
   it("setAccessControlRecursive should work", async () => {
     const directoryName = recorder.variable("directory", getUniqueName("directory"));

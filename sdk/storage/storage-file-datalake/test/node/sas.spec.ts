@@ -44,16 +44,16 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
   let serviceClient: DataLakeServiceClient;
 
   beforeEach(async (ctx) => {
-      recorder = new Recorder(ctx);
-      await recorder.start(recorderEnvSetup);
-      // make sure we add the sanitizers on playback for SAS strings
-      await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
-      serviceClient = getDataLakeServiceClient(recorder);
-    });
+    recorder = new Recorder(ctx);
+    await recorder.start(recorderEnvSetup);
+    // make sure we add the sanitizers on playback for SAS strings
+    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+    serviceClient = getDataLakeServiceClient(recorder);
+  });
 
   afterEach(async () => {
-      await recorder.stop();
-    });
+    await recorder.stop();
+  });
 
   it("generateAccountSASQueryParameters should work", async () => {
     const now = new Date(recorder.variable("now", new Date().toISOString()));
@@ -1257,36 +1257,36 @@ describe("SAS generation Node.js only for directory SAS", () => {
   };
 
   beforeEach(async (ctx) => {
-      recorder = new Recorder(ctx);
-      await recorder.start(recorderEnvSetup);
-      // make sure we add the sanitizers on playback for SAS strings
-      await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
-      serviceClient = getDataLakeServiceClient(recorder);
+    recorder = new Recorder(ctx);
+    await recorder.start(recorderEnvSetup);
+    // make sure we add the sanitizers on playback for SAS strings
+    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+    serviceClient = getDataLakeServiceClient(recorder);
 
-      const fileSystemName = recorder.variable("filesystem", getUniqueName("filesystem"));
-      fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
-      await fileSystemClient.createIfNotExists();
+    const fileSystemName = recorder.variable("filesystem", getUniqueName("filesystem"));
+    fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
+    await fileSystemClient.createIfNotExists();
 
-      const directoryName = recorder.variable("directory", getUniqueName("directory"));
-      directoryClient = fileSystemClient.getDirectoryClient(directoryName);
-      await directoryClient.create();
+    const directoryName = recorder.variable("directory", getUniqueName("directory"));
+    directoryClient = fileSystemClient.getDirectoryClient(directoryName);
+    await directoryClient.create();
 
-      const fileName = recorder.variable("file", getUniqueName("file"));
-      fileClient = directoryClient.getFileClient(fileName);
-      await fileClient.create();
+    const fileName = recorder.variable("file", getUniqueName("file"));
+    fileClient = directoryClient.getFileClient(fileName);
+    await fileClient.create();
 
-      now = new Date(recorder.variable("now", new Date().toISOString()));
-      now.setMinutes(now.getMinutes() - 10); // Skip clock skew with server
-      tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
-      tmr.setDate(tmr.getDate() + 10);
+    now = new Date(recorder.variable("now", new Date().toISOString()));
+    now.setMinutes(now.getMinutes() - 10); // Skip clock skew with server
+    tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
+    tmr.setDate(tmr.getDate() + 10);
 
-      sharedKeyCredential = serviceClient.credential as StorageSharedKeyCredential;
-    });
+    sharedKeyCredential = serviceClient.credential as StorageSharedKeyCredential;
+  });
 
   afterEach(async () => {
-      await fileSystemClient.deleteIfExists();
-      await recorder.stop();
-    });
+    await fileSystemClient.deleteIfExists();
+    await recorder.stop();
+  });
 
   it("generateDataLakeSASQueryParameters for directory should work for permissions m, e, o, p", async () => {
     const directorySAS = generateDataLakeSASQueryParameters(
@@ -1583,43 +1583,43 @@ describe("SAS generation Node.js only for delegation SAS", () => {
   };
 
   beforeEach(async (ctx) => {
-      recorder = new Recorder(ctx);
-      await recorder.start(recorderEnvSetup);
-      // make sure we add the sanitizers on playback for SAS strings
-      await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
-      accountName = process.env["DFS_ACCOUNT_NAME"] || "";
-      try {
-        oauthServiceClient = getDataLakeServiceClientWithDefaultCredential(recorder);
-      } catch (err: any) {
-        console.log(err);
-        ctx.skip();
-      }
+    recorder = new Recorder(ctx);
+    await recorder.start(recorderEnvSetup);
+    // make sure we add the sanitizers on playback for SAS strings
+    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+    accountName = process.env["DFS_ACCOUNT_NAME"] || "";
+    try {
+      oauthServiceClient = getDataLakeServiceClientWithDefaultCredential(recorder);
+    } catch (err: any) {
+      console.log(err);
+      ctx.skip();
+    }
 
-      now = new Date(recorder.variable("now", new Date().toISOString()));
-      now.setHours(now.getHours() - 1);
-      tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
-      tmr.setDate(tmr.getDate() + 5);
-      userDelegationKey = await oauthServiceClient.getUserDelegationKey(now, tmr);
+    now = new Date(recorder.variable("now", new Date().toISOString()));
+    now.setHours(now.getHours() - 1);
+    tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
+    tmr.setDate(tmr.getDate() + 5);
+    userDelegationKey = await oauthServiceClient.getUserDelegationKey(now, tmr);
 
-      fileSystemName = recorder.variable("filesystem", getUniqueName("filesystem"));
-      fileSystemClient = oauthServiceClient.getFileSystemClient(fileSystemName);
-      await fileSystemClient.createIfNotExists();
+    fileSystemName = recorder.variable("filesystem", getUniqueName("filesystem"));
+    fileSystemClient = oauthServiceClient.getFileSystemClient(fileSystemName);
+    await fileSystemClient.createIfNotExists();
 
-      const directoryName = recorder.variable("directory", getUniqueName("directory"));
-      directoryClient = fileSystemClient.getDirectoryClient(directoryName);
-      await directoryClient.create();
+    const directoryName = recorder.variable("directory", getUniqueName("directory"));
+    directoryClient = fileSystemClient.getDirectoryClient(directoryName);
+    await directoryClient.create();
 
-      const fileName = recorder.variable("file", getUniqueName("file"));
-      fileClient = directoryClient.getFileClient(fileName);
-      await fileClient.create();
-    });
+    const fileName = recorder.variable("file", getUniqueName("file"));
+    fileClient = directoryClient.getFileClient(fileName);
+    await fileClient.create();
+  });
 
   afterEach(async () => {
-      if (fileSystemClient) {
-        await fileSystemClient.deleteIfExists();
-      }
-      await recorder.stop();
-    });
+    if (fileSystemClient) {
+      await fileSystemClient.deleteIfExists();
+    }
+    await recorder.stop();
+  });
 
   it("GenerateUserDelegationSAS for directory should work for permissions m, e, o, p", async () => {
     const fileSystemSAS = generateDataLakeSASQueryParameters(
@@ -1747,38 +1747,38 @@ describe("Generate user delegation SAS against file system Node.js only", () => 
   let tmr: Date;
 
   beforeEach(async (ctx) => {
-      recorder = new Recorder(ctx);
-      await recorder.start(recorderEnvSetup);
-      // make sure we add the sanitizers on playback for SAS strings
-      await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
-      try {
-        serviceClient = getDataLakeServiceClientWithDefaultCredential(recorder);
-      } catch {
-        ctx.skip();
-      }
+    recorder = new Recorder(ctx);
+    await recorder.start(recorderEnvSetup);
+    // make sure we add the sanitizers on playback for SAS strings
+    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+    try {
+      serviceClient = getDataLakeServiceClientWithDefaultCredential(recorder);
+    } catch {
+      ctx.skip();
+    }
 
-      if (serviceClient === undefined) {
-        ctx.skip();
-      }
+    if (serviceClient === undefined) {
+      ctx.skip();
+    }
 
-      now = new Date(recorder.variable("now", new Date().toISOString()));
-      now.setHours(now.getHours() - 1);
-      tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
-      tmr.setDate(tmr.getDate() + 5);
-      userDelegationKey = await serviceClient.getUserDelegationKey(now, tmr);
+    now = new Date(recorder.variable("now", new Date().toISOString()));
+    now.setHours(now.getHours() - 1);
+    tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
+    tmr.setDate(tmr.getDate() + 5);
+    userDelegationKey = await serviceClient.getUserDelegationKey(now, tmr);
 
-      const fileSystemName = recorder.variable("filesystem", getUniqueName("filesystem"));
-      fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
-      await fileSystemClient.create();
-    });
+    const fileSystemName = recorder.variable("filesystem", getUniqueName("filesystem"));
+    fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
+    await fileSystemClient.create();
+  });
 
   afterEach(async () => {
-      if (fileSystemClient) {
-        fileSystemClient.delete();
-      }
+    if (fileSystemClient) {
+      fileSystemClient.delete();
+    }
 
-      await recorder.stop();
-    });
+    await recorder.stop();
+  });
 
   it("generateUserDelegationSasUrl should work with all configurations", async function () {
     const containerSasOptions = {
@@ -1995,38 +1995,38 @@ describe("Generate user delegation SAS against path Node.js only", () => {
   let tmr: Date;
 
   beforeEach(async (ctx) => {
-      recorder = new Recorder(ctx);
-      await recorder.start(recorderEnvSetup);
-      // make sure we add the sanitizers on playback for SAS strings
-      await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
-      try {
-        serviceClient = getDataLakeServiceClientWithDefaultCredential(recorder);
-      } catch {
-        ctx.skip();
-      }
+    recorder = new Recorder(ctx);
+    await recorder.start(recorderEnvSetup);
+    // make sure we add the sanitizers on playback for SAS strings
+    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+    try {
+      serviceClient = getDataLakeServiceClientWithDefaultCredential(recorder);
+    } catch {
+      ctx.skip();
+    }
 
-      if (serviceClient === undefined) {
-        ctx.skip();
-      }
+    if (serviceClient === undefined) {
+      ctx.skip();
+    }
 
-      now = new Date(recorder.variable("now", new Date().toISOString()));
-      now.setHours(now.getHours() - 1);
-      tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
-      tmr.setDate(tmr.getDate() + 5);
-      userDelegationKey = await serviceClient.getUserDelegationKey(now, tmr);
+    now = new Date(recorder.variable("now", new Date().toISOString()));
+    now.setHours(now.getHours() - 1);
+    tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
+    tmr.setDate(tmr.getDate() + 5);
+    userDelegationKey = await serviceClient.getUserDelegationKey(now, tmr);
 
-      const fileSystemName = recorder.variable("filesystem", getUniqueName("filesystem"));
-      fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
-      await fileSystemClient.create();
-    });
+    const fileSystemName = recorder.variable("filesystem", getUniqueName("filesystem"));
+    fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
+    await fileSystemClient.create();
+  });
 
   afterEach(async () => {
-      if (fileSystemClient) {
-        fileSystemClient.delete();
-      }
+    if (fileSystemClient) {
+      fileSystemClient.delete();
+    }
 
-      await recorder.stop();
-    });
+    await recorder.stop();
+  });
 
   it("generateUserDelegationSasUrl should work for file", async function () {
     const fileName = recorder.variable("file", getUniqueName("file"));

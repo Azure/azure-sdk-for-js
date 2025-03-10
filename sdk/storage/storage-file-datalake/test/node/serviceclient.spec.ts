@@ -17,13 +17,13 @@ describe("DataLakeServiceClient", () => {
   let recorder: Recorder;
 
   beforeEach(async (ctx) => {
-      recorder = new Recorder(ctx);
-      await recorder.start(recorderEnvSetup);
-    });
+    recorder = new Recorder(ctx);
+    await recorder.start(recorderEnvSetup);
+  });
 
   afterEach(async () => {
-      await recorder.stop();
-    });
+    await recorder.stop();
+  });
 
   it("DataLakeServiceClient default audience should work", async () => {
     const serviceClient = getDataLakeServiceClient(recorder);
