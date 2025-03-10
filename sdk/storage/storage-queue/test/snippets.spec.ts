@@ -10,6 +10,7 @@ describe("snippets", () => {
     const account = "<account>";
     const credential = new DefaultAzureCredential();
     // @ts-preserve-whitespace
+    // @ts-ignore
     const queueServiceClient = new QueueServiceClient(
       `https://${account}.queue.core.windows.net`,
       credential,
@@ -19,6 +20,7 @@ describe("snippets", () => {
   it("ReadmeSampleCreateClient_ConnectionString", async () => {
     const connectionString = "<connection string>";
     // @ts-preserve-whitespace
+    // @ts-ignore
     const queueServiceClient = QueueServiceClient.fromConnectionString(connectionString);
   });
 
@@ -31,6 +33,7 @@ describe("snippets", () => {
     // StorageSharedKeyCredential is only available in Node.js runtime, not in browsers
     const sharedKeyCredential = new StorageSharedKeyCredential(account, accountKey);
     // @ts-preserve-whitespace
+    // @ts-ignore
     const queueServiceClient = new QueueServiceClient(
       `https://${account}.queue.core.windows.net`,
       sharedKeyCredential,
@@ -46,6 +49,7 @@ describe("snippets", () => {
   it("ReadmeSampleCreateClient_SASToken", async () => {
     const account = "<account name>";
     const sas = "<service Shared Access Signature Token>";
+    // @ts-ignore
     const queueServiceClient = new QueueServiceClient(
       `https://${account}.queue.core.windows.net?${sas}`,
     );

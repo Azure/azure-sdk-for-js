@@ -17,6 +17,7 @@ describe("snippets", () => {
     const account = "<account>";
     const defaultAzureCredential = new DefaultAzureCredential();
     // @ts-preserve-whitespace
+    // @ts-ignore
     const datalakeServiceClient = new DataLakeServiceClient(
       `https://${account}.dfs.core.windows.net`,
       defaultAzureCredential,
@@ -26,6 +27,7 @@ describe("snippets", () => {
   it("ReadmeSampleCreateClient_ConnectionString", async () => {
     const connectionString = "<connection string>";
     // @ts-preserve-whitespace
+    // @ts-ignore
     const dataLakeServiceClient = DataLakeServiceClient.fromConnectionString(connectionString);
   });
 
@@ -37,6 +39,7 @@ describe("snippets", () => {
     // Use StorageSharedKeyCredential with storage account and account key
     // StorageSharedKeyCredential is only available in Node.js runtime, not in browsers
     const sharedKeyCredential = new StorageSharedKeyCredential(account, accountKey);
+    // @ts-ignore
     const datalakeServiceClient = new DataLakeServiceClient(
       `https://${account}.dfs.core.windows.net`,
       sharedKeyCredential,
@@ -46,6 +49,7 @@ describe("snippets", () => {
   it("ReadmeSampleCreateClient_SASToken", async () => {
     const account = "<account name>";
     const sas = "<service Shared Access Signature Token>";
+    // @ts-ignore
     const serviceClientWithSAS = new DataLakeServiceClient(
       `https://${account}.dfs.core.windows.net${sas}`,
     );
@@ -314,8 +318,8 @@ describe("snippets", () => {
     // @ts-preserve-whitespace
     let i = 1;
     for await (const response of fileSystemClient.listDeletedPaths().byPage({ maxPageSize: 20 })) {
-      if (response.deletedPathItems) {
-        for (const deletedPath of response.deletedPathItems) {
+      if (response.pathItems) {
+        for (const deletedPath of response.pathItems) {
           console.log(
             `Deleted path ${i++}: ${deletedPath.name}, deleted on: ${deletedPath.deletedOn}`,
           );
@@ -412,8 +416,10 @@ describe("snippets", () => {
     // Get file content from position 0 to the end
     // In browsers, get downloaded data by accessing downloadResponse.contentAsBlob
     const downloadResponse = await fileClient.read();
-    const downloaded = await blobToString(await downloadResponse.contentAsBlob);
-    console.log("Downloaded file content", downloaded);
+    if (downloadResponse.contentAsBlob) {
+      const downloaded = await blobToString(await downloadResponse.contentAsBlob);
+      console.log(`Downloaded file content ${downloaded}`);
+    }
     // @ts-preserve-whitespace
     // [Browsers only] A helper method used to convert a browser Blob into string.
     async function blobToString(blob: Blob) {
@@ -475,6 +481,7 @@ describe("snippets", () => {
     const expiresOn = new Date(+new Date() + 86400 * 1000);
     // Generate user delegation SAS for a file system
     const userDelegationKey = await datalakeServiceClient.getUserDelegationKey(startsOn, expiresOn);
+    // @ts-ignore
     const fileSystemSAS = generateDataLakeSASQueryParameters(
       {
         fileSystemName, // Required

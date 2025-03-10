@@ -689,8 +689,8 @@ export class DataLakeFileSystemClient extends StorageClient {
    *
    * let i = 1;
    * for await (const response of fileSystemClient.listDeletedPaths().byPage({ maxPageSize: 20 })) {
-   *   if (response.deletedPathItems) {
-   *     for (const deletedPath of response.deletedPathItems) {
+   *   if (response.pathItems) {
+   *     for (const deletedPath of response.pathItems) {
    *       console.log(`Deleted path ${i++}: ${deletedPath.name}, deleted on: ${deletedPath.deletedOn}`);
    *     }
    *   }

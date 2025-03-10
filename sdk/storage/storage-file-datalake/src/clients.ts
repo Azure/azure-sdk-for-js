@@ -1333,8 +1333,10 @@ export class DataLakeFileClient extends DataLakePathClient {
    * // Get file content from position 0 to the end
    * // In browsers, get downloaded data by accessing downloadResponse.contentAsBlob
    * const downloadResponse = await fileClient.read();
-   * const downloaded = await blobToString(await downloadResponse.contentAsBlob);
-   * console.log("Downloaded file content", downloaded);
+   * if (downloadResponse.contentAsBlob) {
+   *   const downloaded = await blobToString(await downloadResponse.contentAsBlob);
+   *   console.log(`Downloaded file content ${downloaded}`);
+   * }
    *
    * // [Browsers only] A helper method used to convert a browser Blob into string.
    * async function blobToString(blob: Blob) {

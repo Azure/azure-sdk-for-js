@@ -14,6 +14,7 @@ describe("snippets", () => {
     // Use StorageSharedKeyCredential with storage account and account key
     // StorageSharedKeyCredential is only available in Node.js runtime, not in browsers
     const sharedKeyCredential = new StorageSharedKeyCredential(account, accountKey);
+    // @ts-ignore
     const changeFeedClient = new BlobChangeFeedClient(
       // When using AnonymousCredential, following url should include a valid SAS or support public access
       `https://${account}.blob.core.windows.net`,
@@ -25,6 +26,7 @@ describe("snippets", () => {
     // Enter your storage account name and shared key
     const account = "<account>";
     const credential = new DefaultAzureCredential();
+    // @ts-ignore
     const changeFeedClient = new BlobChangeFeedClient(
       // When using AnonymousCredential, following url should include a valid SAS or support public access
       `https://${account}.blob.core.windows.net`,

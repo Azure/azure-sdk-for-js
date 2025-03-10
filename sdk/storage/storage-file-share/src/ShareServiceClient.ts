@@ -598,7 +598,6 @@ export class ShareServiceClient extends StorageClient {
    *   credential,
    * );
    *
-   * let i = 1;
    * let iterator = serviceClient.listShares().byPage({ maxPageSize: 2 });
    * let response = (await iterator.next()).value;
    *

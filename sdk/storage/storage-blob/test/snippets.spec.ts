@@ -19,6 +19,7 @@ describe("snippets", () => {
     const account = "<account>";
     const defaultAzureCredential = new DefaultAzureCredential();
     // @ts-preserve-whitespace
+    // @ts-ignore
     const blobServiceClient = new BlobServiceClient(
       `https://${account}.blob.core.windows.net`,
       defaultAzureCredential,
@@ -28,6 +29,7 @@ describe("snippets", () => {
   it("ReadmeSampleCreateClient_ConnectionString", async () => {
     const connStr = "<connection string>";
     // @ts-preserve-whitespace
+    // @ts-ignore
     const blobServiceClient = BlobServiceClient.fromConnectionString(connStr);
   });
 
@@ -38,6 +40,7 @@ describe("snippets", () => {
     // Use StorageSharedKeyCredential with storage account and account key
     // StorageSharedKeyCredential is only available in Node.js runtime, not in browsers
     const sharedKeyCredential = new StorageSharedKeyCredential(account, accountKey);
+    // @ts-ignore
     const blobServiceClient = new BlobServiceClient(
       `https://${account}.blob.core.windows.net`,
       sharedKeyCredential,
@@ -48,6 +51,7 @@ describe("snippets", () => {
     const account = "<account name>";
     const sas = "<service Shared Access Signature Token>";
     // @ts-preserve-whitespace
+    // @ts-ignore
     const blobServiceClient = new BlobServiceClient(
       `https://${account}.blob.core.windows.net?${sas}`,
     );
@@ -462,6 +466,7 @@ describe("snippets", () => {
       new DefaultAzureCredential(),
     );
     // @ts-preserve-whitespace
+    // @ts-ignore
     const containerClient = blobServiceClient.getContainerClient("<container name>");
   });
 
@@ -597,6 +602,7 @@ describe("snippets", () => {
     // @ts-preserve-whitespace
     // Example using automatic polling
     const automaticCopyPoller = await blobClient.beginCopyFromURL("url");
+    // @ts-ignore
     const automaticResult = await automaticCopyPoller.pollUntilDone();
     // @ts-preserve-whitespace
     // Example using manual polling
@@ -604,6 +610,7 @@ describe("snippets", () => {
     while (!manualCopyPoller.isDone()) {
       await manualCopyPoller.poll();
     }
+    // @ts-ignore
     const manualResult = manualCopyPoller.getResult();
     // @ts-preserve-whitespace
     // Example using progress updates
@@ -612,12 +619,14 @@ describe("snippets", () => {
         console.log(`Progress: ${state.copyProgress}`);
       },
     });
+    // @ts-ignore
     const progressUpdatesResult = await progressUpdatesCopyPoller.pollUntilDone();
     // @ts-preserve-whitespace
     // Example using a changing polling interval (default 15 seconds)
     const pollingIntervalCopyPoller = await blobClient.beginCopyFromURL("url", {
       intervalInMs: 1000, // poll blob every 1 second for copy progress
     });
+    // @ts-ignore
     const pollingIntervalResult = await pollingIntervalCopyPoller.pollUntilDone();
     // @ts-preserve-whitespace
     // Example using copy cancellation:
@@ -662,6 +671,7 @@ describe("snippets", () => {
     const blockBlobClient = containerClient.getBlockBlobClient(blobName);
     // @ts-preserve-whitespace
     const content = "Hello world!";
+    // @ts-ignore
     const uploadBlobResponse = await blockBlobClient.upload(content, content.length);
   });
 
@@ -873,6 +883,7 @@ describe("snippets", () => {
     const containerName = "<container name>";
     // @ts-preserve-whitespace
     // Generate service level SAS for a container
+    // @ts-ignore
     const containerSAS = generateBlobSASQueryParameters(
       {
         containerName, // Required
@@ -913,6 +924,7 @@ describe("snippets", () => {
       },
     ]);
     // @ts-preserve-whitespace
+    // @ts-ignore
     const containerSAS = generateBlobSASQueryParameters(
       {
         containerName, // Required
@@ -931,6 +943,7 @@ describe("snippets", () => {
     const blobName = "<blob name>";
     // @ts-preserve-whitespace
     // Generate service level SAS for a blob
+    // @ts-ignore
     const blobSAS = generateBlobSASQueryParameters(
       {
         containerName, // Required
@@ -965,6 +978,7 @@ describe("snippets", () => {
     // @ts-preserve-whitespace
     // Generate user delegation SAS for a container
     const userDelegationKey = await blobServiceClient.getUserDelegationKey(startsOn, expiresOn);
+    // @ts-ignore
     const containerSAS = generateBlobSASQueryParameters(
       {
         containerName, // Required

@@ -8,6 +8,7 @@ describe("snippets", () => {
   it("ReadmeSampleCreateClient_ConnectionString", async () => {
     const connectionString = "<connection string>";
     // @ts-preserve-whitespace
+    // @ts-ignore
     const shareServiceClient = ShareServiceClient.fromConnectionString(connectionString);
   });
 
@@ -19,6 +20,7 @@ describe("snippets", () => {
     // Use StorageSharedKeyCredential with storage account and account key
     // StorageSharedKeyCredential is only available in Node.js runtime, not in browsers
     const credential = new StorageSharedKeyCredential(account, accountKey);
+    // @ts-ignore
     const serviceClient = new ShareServiceClient(
       // When using AnonymousCredential, following url should include a valid SAS
       `https://${account}.file.core.windows.net`,
@@ -30,6 +32,7 @@ describe("snippets", () => {
     const account = "<account name>";
     const sas = "<service Shared Access Signature Token>";
     // @ts-preserve-whitespace
+    // @ts-ignore
     const serviceClientWithSAS = new ShareServiceClient(
       `https://${account}.file.core.windows.net?${sas}`,
     );
@@ -99,7 +102,6 @@ describe("snippets", () => {
       credential,
     );
     // @ts-preserve-whitespace
-    let i = 1;
     let iterator = serviceClient.listShares().byPage({ maxPageSize: 2 });
     let response = (await iterator.next()).value;
     // @ts-preserve-whitespace
