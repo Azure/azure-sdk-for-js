@@ -12,17 +12,17 @@ describe("Agents - streaming", () => {
   let projectsClient: AIProjectsClient;
   let agents: AgentsOperations;
 
-  beforeEach(async function (context: VitestTestContext) {
+  beforeEach(async (context: VitestTestContext) => {
     recorder = await createRecorder(context);
     projectsClient = createProjectsClient(recorder);
     agents = projectsClient.agents;
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
-  it("should run streaming", async function () {
+  it("should run streaming", async () => {
     // Create agent
     const agent = await agents.createAgent("gpt-4-1106-preview", {
       name: "My Friendly Test Assistant",
@@ -70,7 +70,7 @@ describe("Agents - streaming", () => {
   });
 
   // eslint-disable-next-line no-only-tests/no-only-tests
-  it("should create thread and run streaming", async function () {
+  it("should create thread and run streaming", async () => {
     // Create agent
     const agent = await agents.createAgent("gpt-4-1106-preview", {
       name: "My Friendly Test Assistant",
