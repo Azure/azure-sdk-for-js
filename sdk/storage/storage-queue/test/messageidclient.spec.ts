@@ -1,10 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 import { getQSU, getSASConnectionStringFromEnvironment, uriSanitizers } from "./utils/index.js";
 import { QueueClient } from "../src/QueueClient.js";
 import { delay, Recorder } from "@azure-tools/test-recorder";
 import { extractConnectionStringParts } from "../src/utils/utils.common.js";
-import { getUniqueName, recorderEnvSetup } from "./utils/index.browser.js";
+import { getUniqueName, recorderEnvSetup } from "./utils/index-browser.mjs";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("QueueClient messageId methods", () => {

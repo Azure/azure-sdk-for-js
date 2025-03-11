@@ -12,7 +12,7 @@ import {
   SASProtocol,
   StorageSharedKeyCredential,
 } from "../src/index.js";
-import { describe, it, assert } from "vitest";
+import { describe, it } from "vitest";
 
 describe("snippets", () => {
   it("ReadmeSampleCreateClient_DefaultAzureCredential", async () => {

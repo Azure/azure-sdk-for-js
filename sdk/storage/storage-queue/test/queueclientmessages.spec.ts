@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 import { getQSU, getSASConnectionStringFromEnvironment } from "./utils/index.js";
 import { QueueClient } from "../src/QueueClient.js";
 import { Recorder } from "@azure-tools/test-recorder";

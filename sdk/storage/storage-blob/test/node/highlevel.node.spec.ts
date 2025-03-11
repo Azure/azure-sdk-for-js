@@ -23,7 +23,7 @@ import type {
 import { readStreamToLocalFileWithLogs } from "../utils/testutils.node.js";
 import { BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES } from "../../src/utils/constants.js";
 import { Test_CPK_INFO } from "../utils/fakeTestSecrets.js";
-import { streamToBuffer2 } from "../../src/utils/utils.node.js";
+import { streamToBuffer2 } from "../../src/utils/utils.js";
 import { isNodeLike } from "@azure/core-util";
 import { describe, it, assert, beforeEach, afterEach, beforeAll, afterAll } from "vitest";
 

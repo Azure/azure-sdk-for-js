@@ -2,15 +2,13 @@
 // Licensed under the MIT License.
 import {
   arrayBufferEqual,
-  blobToArrayBuffer,
-  blobToString,
-  bodyToString,
   getBrowserFile,
+  bodyToString,
   getBSU,
   getUniqueName,
   recorderEnvSetup,
   uriSanitizers,
-} from "../utils/index.browser.js";
+} from "../utils/index.js";
 import { isLiveMode, Recorder } from "@azure-tools/test-recorder";
 import type {
   ContainerClient,
@@ -151,7 +149,7 @@ describe("Highlevel", () => {
 
     const downloadResponse = await blockBlobClient.download(0);
     const downloadedString = await bodyToString(downloadResponse);
-    const uploadedString = await blobToString(tempFile2);
+    const uploadedString = await tempFile2.text();
 
     assert.equal(uploadedString, downloadedString);
   });
@@ -167,7 +165,7 @@ describe("Highlevel", () => {
 
     const downloadResponse = await blockBlobClient.download(0);
     const downloadedString = await bodyToString(downloadResponse);
-    const uploadedString = await blobToString(tempFile2);
+    const uploadedString = await tempFile2.text();
 
     assert.equal(uploadedString, downloadedString);
   });
@@ -202,8 +200,8 @@ describe("Highlevel", () => {
     });
 
     const downloadResponse = await blockBlobClient.download(0);
-    const buf1 = await blobToArrayBuffer(await downloadResponse.blobBody!);
-    const buf2 = await blobToArrayBuffer(tempFile1);
+    const buf1 = await (await downloadResponse.blobBody!).arrayBuffer();
+    const buf2 = await tempFile1.arrayBuffer();
 
     assert.ok(arrayBufferEqual(buf1, buf2));
   });

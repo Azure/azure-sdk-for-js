@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 import { RestError } from "@azure/core-rest-pipeline";
-
 export { AnonymousCredential } from "@azure/storage-blob";
 export { Credential } from "@azure/storage-blob";
 export { SasIPRange } from "./SasIPRange.js";

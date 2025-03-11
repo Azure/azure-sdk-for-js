@@ -167,7 +167,7 @@ export function arrayBufferEqual(buf1: ArrayBuffer, buf2: ArrayBuffer): boolean 
   const uint8Arr1 = new Uint8Array(buf1);
   const uint8Arr2 = new Uint8Array(buf2);
 
-  for (let i = 0; i <= uint8Arr1.length; i++) {
+  for (let i = 0; i < uint8Arr1.length; i++) {
     if (uint8Arr1[i] !== uint8Arr2[i]) {
       return false;
     }

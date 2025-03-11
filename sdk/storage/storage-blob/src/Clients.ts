@@ -13,7 +13,6 @@ import { isNodeLike } from "@azure/core-util";
 import type { PollOperationState } from "@azure/core-lro";
 import { randomUUID } from "@azure/core-util";
 import type { Readable } from "node:stream";
-
 import { BlobDownloadResponse } from "./BlobDownloadResponse.js";
 import { BlobQueryResponse } from "./BlobQueryResponse.js";
 import { AnonymousCredential } from "./credentials/AnonymousCredential.js";
@@ -192,7 +191,7 @@ import {
   fsStat,
   readStreamToLocalFile,
   streamToBuffer,
-} from "./utils/utils.node.js";
+} from "./utils/utils.js";
 import type { SASProtocol } from "./sas/SASQueryParameters.js";
 import type { SasIPRange } from "./sas/SasIPRange.js";
 import {

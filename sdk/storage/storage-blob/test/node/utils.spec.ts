@@ -6,11 +6,7 @@ import * as path from "node:path";
 import { delay, extractConnectionStringParts } from "../../src/utils/utils.common.js";
 import type { ReadableOptions } from "node:stream";
 import { Readable, PassThrough } from "node:stream";
-import {
-  readStreamToLocalFile,
-  streamToBuffer2,
-  streamToBuffer3,
-} from "../../src/utils/utils.node.js";
+import { readStreamToLocalFile, streamToBuffer2, streamToBuffer3 } from "../../src/utils/utils.js";
 import type { ReadableStreamGetter } from "../../src/utils/RetriableReadableStream.js";
 import { RetriableReadableStream } from "../../src/utils/RetriableReadableStream.js";
 import { describe, it, assert, afterEach } from "vitest";
