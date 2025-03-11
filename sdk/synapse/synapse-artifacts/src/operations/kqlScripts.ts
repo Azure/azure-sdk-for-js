@@ -7,14 +7,14 @@
  */
 
 import { tracingClient } from "../tracing.js";
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper.js";
-import { KqlScripts } from "../operationsInterfaces/index.js";
+import type { KqlScripts } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
-import { ArtifactsClient } from "../artifactsClient.js";
-import {
+import type { ArtifactsClient } from "../artifactsClient.js";
+import type {
   KqlScriptResource,
   KqlScriptsGetAllNextOptionalParams,
   KqlScriptsGetAllOptionalParams,
@@ -67,7 +67,7 @@ export class KqlScriptsImpl implements KqlScripts {
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._getAll(options);
-      let page = result.value || [];
+      const page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
@@ -75,7 +75,7 @@ export class KqlScriptsImpl implements KqlScripts {
     while (continuationToken) {
       result = await this._getAllNext(continuationToken, options);
       continuationToken = result.nextLink;
-      let page = result.value || [];
+      const page = result.value || [];
       setContinuationToken(page, continuationToken);
       yield page;
     }

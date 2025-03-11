@@ -8,7 +8,7 @@
 
 import * as coreClient from "@azure/core-client";
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
-import * as coreAuth from "@azure/core-auth";
+import type * as coreAuth from "@azure/core-auth";
 import {
   LinkConnectionOperationsImpl,
   RunNotebookImpl,
@@ -35,7 +35,7 @@ import {
   TriggerRunOperationsImpl,
   WorkspaceOperationsImpl,
 } from "./operations/index.js";
-import {
+import type {
   LinkConnectionOperations,
   RunNotebook,
   KqlScripts,
@@ -61,7 +61,7 @@ import {
   TriggerRunOperations,
   WorkspaceOperations,
 } from "./operationsInterfaces/index.js";
-import { ArtifactsClientOptionalParams } from "./models/index.js";
+import type { ArtifactsClientOptionalParams } from "./models/index.js";
 
 export class ArtifactsClient extends coreClient.ServiceClient {
   endpoint: string;
