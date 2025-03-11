@@ -47,7 +47,7 @@ import {
   SystemTopic as SystemTopicMapper,
   SystemTopicUpdateParameters as SystemTopicUpdateParametersMapper,
   TopicSpace as TopicSpaceMapper,
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",
