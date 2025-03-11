@@ -51,7 +51,7 @@ export enum connectionToolType {
 
 const toolMap = {
   bing_grounding: "bingGrounding",
-  microsoft_fabric: "microsoftFabric",
+  fabric_aiskill: "fabric_aiskill",
   sharepoint_grounding: "sharepointGrounding",
   azure_function: "azureFunction",
 };
