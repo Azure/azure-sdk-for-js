@@ -1,6 +1,6 @@
 # Release History
 
-## 4.3.0 (2025-03-10)
+## 4.3.0 (2025-03-11)
 
 ### Features Added
 #### Client-side Encryption (Preview) [#28760](https://github.com/Azure/azure-sdk-for-js/issues/28760)
