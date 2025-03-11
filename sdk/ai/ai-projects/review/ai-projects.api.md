@@ -310,7 +310,7 @@ export interface ConnectionsOperations {
 export enum connectionToolType {
     AzureFunction = "azure_function",
     BingGrounding = "bing_grounding",
-    MicrosoftFabric = "microsoft_fabric",
+    MicrosoftFabric = "fabric_aiskill",
     SharepointGrounding = "sharepoint_grounding"
 }
 
