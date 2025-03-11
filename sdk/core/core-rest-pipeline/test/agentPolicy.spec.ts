@@ -5,10 +5,12 @@ import { describe, it, assert, vi } from "vitest";
 import {
   type PipelineResponse,
   type SendRequest,
+  type Agent,
+} from "../src/index.js";
+import {
   createHttpHeaders,
   createPipelineRequest,
   agentPolicy,
-  Agent,
 } from "../src/index.js";
 
 describe("agentPolicy", function () {
