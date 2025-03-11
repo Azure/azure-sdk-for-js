@@ -102,13 +102,19 @@ export interface ChatCompletionsToolDefinition {
 }
 
 // @public
-export interface ChatMessageAudioContentItem extends ChatMessageContentItemParent {
+export interface ChatMessageAudioDataContentItem extends ChatMessageContentItemParent {
     input_audio: ChatMessageInputAudio;
     type: "input_audio";
 }
 
 // @public
-export type ChatMessageContentItem = ChatMessageContentItemParent | ChatMessageTextContentItem | ChatMessageImageContentItem | ChatMessageAudioContentItem;
+export interface ChatMessageAudioUrlContentItem extends ChatMessageContentItemParent {
+    audio_url: ChatMessageInputAudioUrl;
+    type: "audio_url";
+}
+
+// @public
+export type ChatMessageContentItem = ChatMessageContentItemParent | ChatMessageTextContentItem | ChatMessageImageContentItem | ChatMessageAudioUrlContentItem | ChatMessageAudioDataContentItem;
 
 // @public
 export interface ChatMessageContentItemParent {
@@ -135,6 +141,11 @@ export interface ChatMessageImageUrl {
 export interface ChatMessageInputAudio {
     data: string;
     format: AudioContentFormat;
+}
+
+// @public
+export interface ChatMessageInputAudioUrl {
+    url: string;
 }
 
 // @public
