@@ -7,6 +7,7 @@ import type { MultiTenantTokenCredentialOptions } from "./multiTenantTokenCreden
 
 /**
  * Defines options for the {@link UsernamePasswordCredential} class.
+ * @deprecated UsernamePasswordCredential is deprecated. Use a more secure credential. See https://aka.ms/azsdk/identity/mfa for details.
  */
 export interface UsernamePasswordCredentialOptions
   extends MultiTenantTokenCredentialOptions,
