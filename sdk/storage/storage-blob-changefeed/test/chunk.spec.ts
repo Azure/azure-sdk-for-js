@@ -1,9 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 import { Chunk } from "../src/Chunk.js";
 import { AvroReader } from "@azure/storage-internal-avro";
 import type { BlobChangeFeedEvent } from "../src/index.js";
-import { describe, it, assert, afterEach, vi } from "vitest";
+import { describe, it, assert, expect, beforeEach, afterEach, vi } from "vitest";
 
 class FakeAvroReader {
   constructor(
@@ -23,19 +24,37 @@ class FakeAvroReader {
   }
 }
 
-describe("Chunk", async () => {
+describe("Chunk", () => {
+  beforeEach(() => {
+    vi.mock("@azure/storage-internal-avro", (importActual) => {
+      // eslint-disable-next-line @typescript-eslint/no-shadow
+      const AvroReader = vi.fn();
+      AvroReader.prototype.hasNext = vi.fn();
+      AvroReader.prototype.parseObjects = vi.fn();
+      AvroReader.prototype.blockOffset = 0;
+      AvroReader.prototype.objectIndex = 0;
+      AvroReader.prototype.blockSize = 0;
+
+      const actual = importActual<typeof import("@azure/storage-internal-avro")>();
+      return {
+        ...actual,
+        AvroReader,
+      };
+    });
+  });
+
   afterEach(() => {
     vi.restoreAllMocks();
   });
 
   it("hasNext()", async () => {
-    const avroReaderStub = sinon.createStubInstance(AvroReader);
-    avroReaderStub.hasNext.returns(true);
+    const avroReaderStub = new AvroReader(expect.anything());
+    vi.mocked(avroReaderStub.hasNext).mockReturnValue(true);
 
     const chunk = new Chunk(avroReaderStub as any, 0, 0, "log/00/2020/07/30/2300/");
     assert.equal(chunk.hasNext(), true);
 
-    avroReaderStub.hasNext.returns(false);
+    vi.mocked(avroReaderStub.hasNext).mockReturnValue(false);
     assert.equal(chunk.hasNext(), false);
   });
 
@@ -43,15 +62,11 @@ describe("Chunk", async () => {
     // set up
     const record = { a: 1 };
     const fakeAvroReader = new FakeAvroReader(0, 0, true, record);
-    const avroReaderStub = sinon.createStubInstance(AvroReader);
-    avroReaderStub.hasNext.callsFake(() => fakeAvroReader.hasNext);
-    avroReaderStub.parseObjects.returns(fakeAvroReader.parseObjects());
-    sinon.stub(avroReaderStub, "blockOffset").get(() => {
-      return fakeAvroReader.blockOffset;
-    });
-    sinon.stub(avroReaderStub, "objectIndex").get(() => {
-      return fakeAvroReader.objectIndex;
-    });
+    const avroReaderStub = new AvroReader(expect.anything());
+    vi.mocked(avroReaderStub.hasNext).mockImplementation(() => fakeAvroReader.hasNext);
+    vi.mocked(avroReaderStub.parseObjects).mockReturnValue(fakeAvroReader.parseObjects());
+    vi.spyOn(avroReaderStub, "blockOffset", "get").mockReturnValue(fakeAvroReader.blockOffset);
+    vi.spyOn(avroReaderStub, "objectIndex", "get").mockReturnValue(fakeAvroReader.objectIndex);
 
     const chunk = new Chunk(
       avroReaderStub as any,

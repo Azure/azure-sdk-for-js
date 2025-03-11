@@ -22,7 +22,7 @@
     "extract-api": "dev-tool run build-package && dev-tool run extract-api",
     "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
-    "integration-test:browser": "npm run clean && dev-tool run build-package && dev-tool run build-test && dev-tool run test:vitest --browser",
+    "integration-test:browser": "echo skipped",
     "integration-test:node": "dev-tool run test:vitest --esm",
     "lint": "eslint package.json api-extractor.json src test",
     "lint:fix": "eslint package.json api-extractor.json src test --fix",
@@ -31,7 +31,7 @@
     "test:browser": "echo 'browser not supported yet.'",
     "test:node": "npm run clean && npm run build:test && npm run unit-test:node",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
-    "unit-test:browser": "npm run clean && dev-tool run build-package && dev-tool run build-test && dev-tool run test:vitest --browser",
+    "unit-test:browser": "echo skipped",
     "unit-test:node": "dev-tool run test:vitest",
     "update-snippets": "dev-tool run update-snippets"
   },
@@ -70,7 +70,8 @@
   "dependencies": {
     "@azure/abort-controller": "^2.1.2",
     "@azure/core-auth": "^1.9.0",
-    "@azure/core-http-compat": "^2.0.0",
+    "@azure/core-client": "^1.9.3",
+    "@azure/core-http-compat": "^2.2.0",
     "@azure/core-lro": "^2.7.2",
     "@azure/core-paging": "^1.6.2",
     "@azure/core-rest-pipeline": "^1.19.1",
