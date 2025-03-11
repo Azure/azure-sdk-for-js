@@ -9,6 +9,7 @@ import { AbortError } from "@azure/abort-controller";
 import type {
   HttpClient,
   HttpHeaders,
+  NodeJSReadableStream,
   PipelineRequest,
   PipelineResponse,
   RequestBodyType,
@@ -121,7 +122,7 @@ class NodeHttpClient implements HttpClient {
       }
     }
 
-    let responseStream: NodeJS.ReadableStream | undefined;
+    let responseStream: NodeJSReadableStream | undefined;
     try {
       if (body && request.onUploadProgress) {
         const onUploadProgress = request.onUploadProgress;
@@ -332,7 +333,7 @@ function getResponseHeaders(res: IncomingMessage): HttpHeaders {
 function getDecodedResponseStream(
   stream: IncomingMessage,
   headers: HttpHeaders,
-): NodeJS.ReadableStream {
+): NodeJSReadableStream {
   const contentEncoding = headers.get("Content-Encoding");
   if (contentEncoding === "gzip") {
     const unzip = zlib.createGunzip();

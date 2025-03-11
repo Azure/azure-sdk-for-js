@@ -49,6 +49,18 @@ export interface HttpHeaders extends Iterable<[string, string]> {
 }
 
 /**
+ * A Node.js Readable stream that also has a `destroy` method.
+ */
+export interface NodeJSReadableStream extends NodeJS.ReadableStream {
+  /**
+   * Destroy the stream. Optionally emit an 'error' event, and emit a
+   * 'close' event (unless emitClose is set to false). After this call,
+   * internal resources will be released.
+   */
+  destroy(error?: Error): void;
+}
+
+/**
  * A part of the request body in a multipart request.
  */
 export interface BodyPart {
@@ -61,9 +73,9 @@ export interface BodyPart {
    * The body of this part of the multipart request.
    */
   body:
-    | ((() => ReadableStream<Uint8Array>) | (() => NodeJS.ReadableStream))
+    | ((() => ReadableStream<Uint8Array>) | (() => NodeJSReadableStream))
     | ReadableStream<Uint8Array>
-    | NodeJS.ReadableStream
+    | NodeJSReadableStream
     | Uint8Array
     | Blob;
 }
@@ -88,12 +100,12 @@ export interface MultipartRequestBody {
 
 /**
  * Types of bodies supported on the request.
- * NodeJS.ReadableStream and () =\> NodeJS.ReadableStream is Node only.
+ * NodeJSReadableStream and () =\> NodeJSReadableStream is Node only.
  * Blob, ReadableStream<Uint8Array>, and () =\> ReadableStream<Uint8Array> are browser only.
  */
 export type RequestBodyType =
-  | NodeJS.ReadableStream
-  | (() => NodeJS.ReadableStream)
+  | NodeJSReadableStream
+  | (() => NodeJSReadableStream)
   | ReadableStream<Uint8Array>
   | (() => ReadableStream<Uint8Array>)
   | Blob
@@ -286,7 +298,7 @@ export interface PipelineResponse {
    * The response body as a node.js Readable stream.
    * Always undefined in the browser.
    */
-  readableStreamBody?: NodeJS.ReadableStream;
+  readableStreamBody?: NodeJSReadableStream;
 }
 
 /**

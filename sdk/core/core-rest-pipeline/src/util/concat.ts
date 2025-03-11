@@ -5,6 +5,7 @@ import { Readable } from "node:stream";
 import type { ReadableStream as AsyncIterableReadableStream } from "node:stream/web";
 import { isBlob } from "./typeGuards.js";
 import { getRawContent } from "./file.js";
+import type { NodeJSReadableStream } from "../interfaces.js";
 
 async function* streamAsyncIterator(
   this: ReadableStream<Uint8Array>,
@@ -75,7 +76,7 @@ export type ConcatSource = ReadableStream<Uint8Array> | NodeJS.ReadableStream | 
  */
 export async function concat(
   sources: (ConcatSource | (() => ConcatSource))[],
-): Promise<(() => NodeJS.ReadableStream) | Blob> {
+): Promise<(() => NodeJSReadableStream) | Blob> {
   return function () {
     const streams = sources.map((x) => (typeof x === "function" ? x() : x)).map(toStream);
 

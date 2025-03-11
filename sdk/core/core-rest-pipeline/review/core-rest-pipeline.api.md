@@ -82,7 +82,7 @@ export interface BearerTokenAuthenticationPolicyOptions {
 
 // @public
 export interface BodyPart {
-    body: ((() => ReadableStream<Uint8Array>) | (() => NodeJS.ReadableStream)) | ReadableStream<Uint8Array> | NodeJS.ReadableStream | Uint8Array | Blob;
+    body: ((() => ReadableStream<Uint8Array>) | (() => NodeJSReadableStream)) | ReadableStream<Uint8Array> | NodeJSReadableStream | Uint8Array | Blob;
     headers: HttpHeaders;
 }
 
@@ -232,6 +232,11 @@ export function ndJsonPolicy(): PipelinePolicy;
 export const ndJsonPolicyName = "ndJsonPolicy";
 
 // @public
+export interface NodeJSReadableStream extends NodeJS.ReadableStream {
+    destroy(error?: Error): void;
+}
+
+// @public
 export interface Pipeline {
     addPolicy(policy: PipelinePolicy, options?: AddPipelineOptions): void;
     clone(): Pipeline;
@@ -317,7 +322,7 @@ export interface PipelineResponse {
     bodyAsText?: string | null;
     browserStreamBody?: ReadableStream<Uint8Array>;
     headers: HttpHeaders;
-    readableStreamBody?: NodeJS.ReadableStream;
+    readableStreamBody?: NodeJSReadableStream;
     request: PipelineRequest;
     status: number;
 }
@@ -371,7 +376,7 @@ export interface RedirectPolicyOptions {
 }
 
 // @public
-export type RequestBodyType = NodeJS.ReadableStream | (() => NodeJS.ReadableStream) | ReadableStream<Uint8Array> | (() => ReadableStream<Uint8Array>) | Blob | ArrayBuffer | ArrayBufferView | FormData | string | null;
+export type RequestBodyType = NodeJSReadableStream | (() => NodeJSReadableStream) | ReadableStream<Uint8Array> | (() => ReadableStream<Uint8Array>) | Blob | ArrayBuffer | ArrayBufferView | FormData | string | null;
 
 // @public
 export class RestError extends Error {

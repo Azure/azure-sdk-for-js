@@ -4,6 +4,8 @@
 
 ### Features Added
 
+- `PipelineResponse.readableStreamBody` is now typed as `NodeJSReadableStream` which can be canceled by calling the `destroy` method.
+
 ### Breaking Changes
 
 ### Bugs Fixed
