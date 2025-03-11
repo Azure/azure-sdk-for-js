@@ -248,7 +248,7 @@ function convertToolDefinitionOutput(
       return convertBingGroundingToolDefinitionOutput(
         tool as GeneratedModels.BingGroundingToolDefinitionOutput,
       );
-    case "microsoft_fabric":
+    case "fabric_aiskill":
       return convertMicrosoftFabricToolDefinitionOutput(
         tool as GeneratedModels.MicrosoftFabricToolDefinitionOutput,
       );
@@ -710,7 +710,7 @@ function convertRunStepToolCallOutput(
       return convertRunStepSharepointToolCallOutput(
         input as GeneratedModels.RunStepSharepointToolCallOutput,
       );
-    case "microsoft_fabric":
+    case "fabric_aiskill":
       return convertRunStepMicrosoftFabricToolCallOutput(
         input as GeneratedModels.RunStepMicrosoftFabricToolCallOutput,
       );
