@@ -66,7 +66,7 @@ function convertToolDefinition(
       return convertFunctionToolDefinition(source as PublicModels.FunctionToolDefinition);
     case "bing_grounding":
       return convertBingGroundingToolDefinition(source as PublicModels.BingGroundingToolDefinition);
-    case "microsoft_fabric":
+    case "fabric_aiskill":
       return convertMicrosoftFabricToolDefinition(
         source as PublicModels.MicrosoftFabricToolDefinition,
       );
