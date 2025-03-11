@@ -11,8 +11,6 @@ import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   EventSubscription,
   DomainTopicEventSubscriptionsListOptionalParams,
-  DomainTopicEventSubscriptionsGetDeliveryAttributesOptionalParams,
-  DomainTopicEventSubscriptionsGetDeliveryAttributesResponse,
   DomainTopicEventSubscriptionsGetOptionalParams,
   DomainTopicEventSubscriptionsGetResponse,
   DomainTopicEventSubscriptionsCreateOrUpdateOptionalParams,
@@ -23,7 +21,9 @@ import {
   DomainTopicEventSubscriptionsUpdateResponse,
   DomainTopicEventSubscriptionsGetFullUrlOptionalParams,
   DomainTopicEventSubscriptionsGetFullUrlResponse,
-} from "../models/index.js";
+  DomainTopicEventSubscriptionsGetDeliveryAttributesOptionalParams,
+  DomainTopicEventSubscriptionsGetDeliveryAttributesResponse,
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a DomainTopicEventSubscriptions. */
@@ -41,21 +41,6 @@ export interface DomainTopicEventSubscriptions {
     topicName: string,
     options?: DomainTopicEventSubscriptionsListOptionalParams,
   ): PagedAsyncIterableIterator<EventSubscription>;
-  /**
-   * Get all delivery attributes for an event subscription for domain topic.
-   * @param resourceGroupName The name of the resource group within the user's subscription.
-   * @param domainName Name of the top level domain.
-   * @param topicName Name of the domain topic.
-   * @param eventSubscriptionName Name of the event subscription.
-   * @param options The options parameters.
-   */
-  getDeliveryAttributes(
-    resourceGroupName: string,
-    domainName: string,
-    topicName: string,
-    eventSubscriptionName: string,
-    options?: DomainTopicEventSubscriptionsGetDeliveryAttributesOptionalParams,
-  ): Promise<DomainTopicEventSubscriptionsGetDeliveryAttributesResponse>;
   /**
    * Get properties of a nested event subscription for a domain topic.
    * @param resourceGroupName The name of the resource group within the user's subscription.
@@ -198,4 +183,19 @@ export interface DomainTopicEventSubscriptions {
     eventSubscriptionName: string,
     options?: DomainTopicEventSubscriptionsGetFullUrlOptionalParams,
   ): Promise<DomainTopicEventSubscriptionsGetFullUrlResponse>;
+  /**
+   * Get all delivery attributes for an event subscription for domain topic.
+   * @param resourceGroupName The name of the resource group within the user's subscription.
+   * @param domainName Name of the top level domain.
+   * @param topicName Name of the domain topic.
+   * @param eventSubscriptionName Name of the event subscription.
+   * @param options The options parameters.
+   */
+  getDeliveryAttributes(
+    resourceGroupName: string,
+    domainName: string,
+    topicName: string,
+    eventSubscriptionName: string,
+    options?: DomainTopicEventSubscriptionsGetDeliveryAttributesOptionalParams,
+  ): Promise<DomainTopicEventSubscriptionsGetDeliveryAttributesResponse>;
 }

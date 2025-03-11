@@ -14,7 +14,7 @@ import {
   TopicTypesListEventTypesOptionalParams,
   TopicTypesGetOptionalParams,
   TopicTypesGetResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a TopicTypes. */

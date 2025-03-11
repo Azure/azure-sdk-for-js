@@ -25,7 +25,7 @@ import {
   PartnerConfigurationsAuthorizePartnerResponse,
   PartnerConfigurationsUnauthorizePartnerOptionalParams,
   PartnerConfigurationsUnauthorizePartnerResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a PartnerConfigurations. */

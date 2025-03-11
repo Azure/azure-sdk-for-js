@@ -23,7 +23,7 @@ import {
   NamespaceTopicEventSubscriptionsGetDeliveryAttributesResponse,
   NamespaceTopicEventSubscriptionsGetFullUrlOptionalParams,
   NamespaceTopicEventSubscriptionsGetFullUrlResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a NamespaceTopicEventSubscriptions. */

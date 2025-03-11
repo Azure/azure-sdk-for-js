@@ -16,7 +16,7 @@ import {
   CaCertificatesCreateOrUpdateOptionalParams,
   CaCertificatesCreateOrUpdateResponse,
   CaCertificatesDeleteOptionalParams,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a CaCertificates. */

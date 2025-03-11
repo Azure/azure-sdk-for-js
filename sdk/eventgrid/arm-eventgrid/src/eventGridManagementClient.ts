@@ -21,32 +21,30 @@ import {
   ClientsImpl,
   DomainsImpl,
   DomainTopicsImpl,
-  DomainTopicEventSubscriptionsImpl,
   TopicEventSubscriptionsImpl,
   DomainEventSubscriptionsImpl,
-  EventSubscriptionsImpl,
-  SystemTopicEventSubscriptionsImpl,
   NamespaceTopicEventSubscriptionsImpl,
+  EventSubscriptionsImpl,
+  DomainTopicEventSubscriptionsImpl,
+  SystemTopicEventSubscriptionsImpl,
   PartnerTopicEventSubscriptionsImpl,
   NamespacesImpl,
   NamespaceTopicsImpl,
   OperationsImpl,
+  TopicsImpl,
   PartnerConfigurationsImpl,
-  PartnerDestinationsImpl,
   PartnerNamespacesImpl,
   PartnerRegistrationsImpl,
   PartnerTopicsImpl,
-  NetworkSecurityPerimeterConfigurationsImpl,
   PermissionBindingsImpl,
   PrivateEndpointConnectionsImpl,
   PrivateLinkResourcesImpl,
   SystemTopicsImpl,
-  TopicsImpl,
   ExtensionTopicsImpl,
   TopicSpacesImpl,
   TopicTypesImpl,
   VerifiedPartnersImpl,
-} from "./operations/index.js";
+} from "./operations";
 import {
   CaCertificates,
   Channels,
@@ -54,33 +52,31 @@ import {
   Clients,
   Domains,
   DomainTopics,
-  DomainTopicEventSubscriptions,
   TopicEventSubscriptions,
   DomainEventSubscriptions,
-  EventSubscriptions,
-  SystemTopicEventSubscriptions,
   NamespaceTopicEventSubscriptions,
+  EventSubscriptions,
+  DomainTopicEventSubscriptions,
+  SystemTopicEventSubscriptions,
   PartnerTopicEventSubscriptions,
   Namespaces,
   NamespaceTopics,
   Operations,
+  Topics,
   PartnerConfigurations,
-  PartnerDestinations,
   PartnerNamespaces,
   PartnerRegistrations,
   PartnerTopics,
-  NetworkSecurityPerimeterConfigurations,
   PermissionBindings,
   PrivateEndpointConnections,
   PrivateLinkResources,
   SystemTopics,
-  Topics,
   ExtensionTopics,
   TopicSpaces,
   TopicTypes,
   VerifiedPartners,
-} from "./operationsInterfaces/index.js";
-import { EventGridManagementClientOptionalParams } from "./models/index.js";
+} from "./operationsInterfaces";
+import { EventGridManagementClientOptionalParams } from "./models";
 
 export class EventGridManagementClient extends coreClient.ServiceClient {
   $host: string;
@@ -129,7 +125,7 @@ export class EventGridManagementClient extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-eventgrid/14.2.0-beta.5`;
+    const packageDetails = `azsdk-js-arm-eventgrid/1.0.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -183,41 +179,38 @@ export class EventGridManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2024-06-01-preview";
+    this.apiVersion = options.apiVersion || "2025-02-15";
     this.caCertificates = new CaCertificatesImpl(this);
     this.channels = new ChannelsImpl(this);
     this.clientGroups = new ClientGroupsImpl(this);
     this.clients = new ClientsImpl(this);
     this.domains = new DomainsImpl(this);
     this.domainTopics = new DomainTopicsImpl(this);
+    this.topicEventSubscriptions = new TopicEventSubscriptionsImpl(this);
+    this.domainEventSubscriptions = new DomainEventSubscriptionsImpl(this);
+    this.namespaceTopicEventSubscriptions =
+      new NamespaceTopicEventSubscriptionsImpl(this);
+    this.eventSubscriptions = new EventSubscriptionsImpl(this);
     this.domainTopicEventSubscriptions = new DomainTopicEventSubscriptionsImpl(
       this,
     );
-    this.topicEventSubscriptions = new TopicEventSubscriptionsImpl(this);
-    this.domainEventSubscriptions = new DomainEventSubscriptionsImpl(this);
-    this.eventSubscriptions = new EventSubscriptionsImpl(this);
     this.systemTopicEventSubscriptions = new SystemTopicEventSubscriptionsImpl(
       this,
     );
-    this.namespaceTopicEventSubscriptions =
-      new NamespaceTopicEventSubscriptionsImpl(this);
     this.partnerTopicEventSubscriptions =
       new PartnerTopicEventSubscriptionsImpl(this);
     this.namespaces = new NamespacesImpl(this);
     this.namespaceTopics = new NamespaceTopicsImpl(this);
     this.operations = new OperationsImpl(this);
+    this.topics = new TopicsImpl(this);
     this.partnerConfigurations = new PartnerConfigurationsImpl(this);
-    this.partnerDestinations = new PartnerDestinationsImpl(this);
     this.partnerNamespaces = new PartnerNamespacesImpl(this);
     this.partnerRegistrations = new PartnerRegistrationsImpl(this);
     this.partnerTopics = new PartnerTopicsImpl(this);
-    this.networkSecurityPerimeterConfigurations =
-      new NetworkSecurityPerimeterConfigurationsImpl(this);
     this.permissionBindings = new PermissionBindingsImpl(this);
     this.privateEndpointConnections = new PrivateEndpointConnectionsImpl(this);
     this.privateLinkResources = new PrivateLinkResourcesImpl(this);
     this.systemTopics = new SystemTopicsImpl(this);
-    this.topics = new TopicsImpl(this);
     this.extensionTopics = new ExtensionTopicsImpl(this);
     this.topicSpaces = new TopicSpacesImpl(this);
     this.topicTypes = new TopicTypesImpl(this);
@@ -259,27 +252,25 @@ export class EventGridManagementClient extends coreClient.ServiceClient {
   clients: Clients;
   domains: Domains;
   domainTopics: DomainTopics;
-  domainTopicEventSubscriptions: DomainTopicEventSubscriptions;
   topicEventSubscriptions: TopicEventSubscriptions;
   domainEventSubscriptions: DomainEventSubscriptions;
-  eventSubscriptions: EventSubscriptions;
-  systemTopicEventSubscriptions: SystemTopicEventSubscriptions;
   namespaceTopicEventSubscriptions: NamespaceTopicEventSubscriptions;
+  eventSubscriptions: EventSubscriptions;
+  domainTopicEventSubscriptions: DomainTopicEventSubscriptions;
+  systemTopicEventSubscriptions: SystemTopicEventSubscriptions;
   partnerTopicEventSubscriptions: PartnerTopicEventSubscriptions;
   namespaces: Namespaces;
   namespaceTopics: NamespaceTopics;
   operations: Operations;
+  topics: Topics;
   partnerConfigurations: PartnerConfigurations;
-  partnerDestinations: PartnerDestinations;
   partnerNamespaces: PartnerNamespaces;
   partnerRegistrations: PartnerRegistrations;
   partnerTopics: PartnerTopics;
-  networkSecurityPerimeterConfigurations: NetworkSecurityPerimeterConfigurations;
   permissionBindings: PermissionBindings;
   privateEndpointConnections: PrivateEndpointConnections;
   privateLinkResources: PrivateLinkResources;
   systemTopics: SystemTopics;
-  topics: Topics;
   extensionTopics: ExtensionTopics;
   topicSpaces: TopicSpaces;
   topicTypes: TopicTypes;

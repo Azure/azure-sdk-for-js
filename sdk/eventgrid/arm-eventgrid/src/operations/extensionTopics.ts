@@ -6,15 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { ExtensionTopics } from "../operationsInterfaces/index.js";
+import { ExtensionTopics } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers.js";
-import * as Parameters from "../models/parameters.js";
-import { EventGridManagementClient } from "../eventGridManagementClient.js";
+import * as Mappers from "../models/mappers";
+import * as Parameters from "../models/parameters";
+import { EventGridManagementClient } from "../eventGridManagementClient";
 import {
   ExtensionTopicsGetOptionalParams,
   ExtensionTopicsGetResponse,
-} from "../models/index.js";
+} from "../models";
 
 /** Class containing ExtensionTopics operations. */
 export class ExtensionTopicsImpl implements ExtensionTopics {

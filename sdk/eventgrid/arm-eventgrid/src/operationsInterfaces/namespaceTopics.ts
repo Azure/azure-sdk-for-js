@@ -24,7 +24,7 @@ import {
   TopicRegenerateKeyRequest,
   NamespaceTopicsRegenerateKeyOptionalParams,
   NamespaceTopicsRegenerateKeyResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a NamespaceTopics. */

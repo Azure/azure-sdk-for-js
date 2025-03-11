@@ -20,7 +20,7 @@ import {
   SystemTopicUpdateParameters,
   SystemTopicsUpdateOptionalParams,
   SystemTopicsUpdateResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a SystemTopics. */

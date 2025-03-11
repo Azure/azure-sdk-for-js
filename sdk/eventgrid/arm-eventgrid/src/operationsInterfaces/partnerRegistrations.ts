@@ -19,7 +19,7 @@ import {
   PartnerRegistrationsDeleteOptionalParams,
   PartnerRegistrationUpdateParameters,
   PartnerRegistrationsUpdateOptionalParams,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a PartnerRegistrations. */
