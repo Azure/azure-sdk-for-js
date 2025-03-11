@@ -73,9 +73,9 @@ export interface BodyPart {
    * The body of this part of the multipart request.
    */
   body:
-    | ((() => ReadableStream<Uint8Array>) | (() => NodeJSReadableStream))
+    | ((() => ReadableStream<Uint8Array>) | (() => NodeJS.ReadableStream))
     | ReadableStream<Uint8Array>
-    | NodeJSReadableStream
+    | NodeJS.ReadableStream
     | Uint8Array
     | Blob;
 }
@@ -100,12 +100,12 @@ export interface MultipartRequestBody {
 
 /**
  * Types of bodies supported on the request.
- * NodeJSReadableStream and () =\> NodeJSReadableStream is Node only.
+ * NodeJS.ReadableStream and () =\> NodeJS.ReadableStream is Node only.
  * Blob, ReadableStream<Uint8Array>, and () =\> ReadableStream<Uint8Array> are browser only.
  */
 export type RequestBodyType =
-  | NodeJSReadableStream
-  | (() => NodeJSReadableStream)
+  | NodeJS.ReadableStream
+  | (() => NodeJS.ReadableStream)
   | ReadableStream<Uint8Array>
   | (() => ReadableStream<Uint8Array>)
   | Blob

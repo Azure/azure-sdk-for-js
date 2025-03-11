@@ -24,11 +24,11 @@ import { Sanitizer } from "./util/sanitizer.js";
 
 const DEFAULT_TLS_SETTINGS = {};
 
-function isReadableStream(body: any): body is NodeJS.ReadableStream {
+function isReadableStream(body: any): body is NodeJSReadableStream {
   return body && typeof body.pipe === "function";
 }
 
-function isStreamComplete(stream: NodeJS.ReadableStream): Promise<void> {
+function isStreamComplete(stream: NodeJSReadableStream): Promise<void> {
   if (stream.readable === false) {
     return Promise.resolve();
   }
@@ -348,7 +348,7 @@ function getDecodedResponseStream(
   return stream;
 }
 
-function streamToText(stream: NodeJS.ReadableStream): Promise<string> {
+function streamToText(stream: NodeJSReadableStream): Promise<string> {
   return new Promise<string>((resolve, reject) => {
     const buffer: Buffer[] = [];
 
