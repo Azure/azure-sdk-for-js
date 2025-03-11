@@ -2331,6 +2331,11 @@
       "packageName": "@azure/arm-databasewatcher",
       "projectFolder": "sdk/databasewatcher/arm-databasewatcher",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-durabletask",
+      "projectFolder": "sdk/durabletask/arm-durabletask",
+      "versionPolicyName": "management"
     }
   ]
 }
