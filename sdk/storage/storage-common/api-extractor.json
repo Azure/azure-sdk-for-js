@@ -11,7 +11,7 @@
   "dtsRollup": {
     "enabled": true,
     "untrimmedFilePath": "",
-    "publicTrimmedFilePath": "dist/storage-internal-avro.d.ts"
+    "publicTrimmedFilePath": "dist/storage-common.d.ts"
   },
   "messages": {
     "tsdocMessageReporting": {
