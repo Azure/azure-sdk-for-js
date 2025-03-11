@@ -1826,7 +1826,12 @@ export class ShareDirectoryClient extends StorageClient {
         const wrappedRes = {
           ...rawResponse,
           _response: (rawResponse as any)._response, // _response is made non-enumerable,
-          fileMode: parseOctalFileMode(rawResponse.fileMode),
+          posixProperties: {
+            fileMode: parseOctalFileMode(rawResponse.fileMode),
+            fileType: rawResponse.nfsFileType,
+            owner: rawResponse.owner,
+            group: rawResponse.group,
+          },
         };
         return assertResponse<DirectoryCreateHeaders, DirectoryCreateHeaders>(wrappedRes);
       },
@@ -1898,7 +1903,11 @@ export class ShareDirectoryClient extends StorageClient {
         return assertResponse<DirectorySetPropertiesHeaders, DirectorySetPropertiesHeaders>({
           ...rawResponse,
           _response: (rawResponse as any)._response,
-          fileMode: parseOctalFileMode(rawResponse.fileMode),
+          posixProperties: {
+            fileMode: parseOctalFileMode(rawResponse.fileMode),
+            owner: rawResponse.owner,
+            group: rawResponse.group,
+          },
         } as any);
       },
     );
@@ -2118,7 +2127,11 @@ export class ShareDirectoryClient extends StorageClient {
         return assertResponse<DirectoryGetPropertiesHeaders, DirectoryGetPropertiesHeaders>({
           ...rawResponse,
           _response: (rawResponse as any)._response,
-          fileMode: parseOctalFileMode(rawResponse.fileMode),
+          posixProperties: {
+            fileMode: parseOctalFileMode(rawResponse.fileMode),
+            owner: rawResponse.owner,
+            group: rawResponse.group,
+          },
         } as any);
       },
     );
@@ -3806,7 +3819,12 @@ export class ShareFileClient extends StorageClient {
       const wrappedRes = {
         ...rawResponse,
         _response: (rawResponse as any)._response, // _response is made non-enumerable,
-        fileMode: parseOctalFileMode(rawResponse.fileMode),
+        posixProperties: {
+          fileMode: parseOctalFileMode(rawResponse.fileMode),
+          fileType: rawResponse.nfsFileType,
+          owner: rawResponse.owner,
+          group: rawResponse.group,
+        },
       };
       return assertResponse<FileCreateHeaders, FileCreateHeaders>(wrappedRes);
     });
@@ -3896,7 +3914,12 @@ export class ShareFileClient extends StorageClient {
       const res = assertResponse<RawFileDownloadResponse, FileDownloadHeaders>({
         ...rawResponse,
         _response: (rawResponse as any)._response, // _response is made non-enumerable,
-        fileMode: parseOctalFileMode(rawResponse.fileMode),
+        posixProperties: {
+          fileMode: parseOctalFileMode(rawResponse.fileMode),
+          owner: rawResponse.owner,
+          group: rawResponse.group,
+          linkCount: rawResponse.linkCount,
+        },
       } as any);
 
       // Return browser response immediately
@@ -4001,7 +4024,13 @@ export class ShareFileClient extends StorageClient {
         return assertResponse<FileGetPropertiesHeaders, FileGetPropertiesHeaders>({
           ...rawResponse,
           _response: (rawResponse as any)._response, // _response is made non-enumerable,
-          fileMode: parseOctalFileMode(rawResponse.fileMode),
+          posixProperties: {
+            fileMode: parseOctalFileMode(rawResponse.fileMode),
+            fileType: rawResponse.nfsFileType,
+            owner: rawResponse.owner,
+            group: rawResponse.group,
+            linkCount: rawResponse.linkCount,
+          },
         } as any);
       },
     );
@@ -4040,7 +4069,12 @@ export class ShareFileClient extends StorageClient {
         return assertResponse<FileSetHTTPHeadersHeaders, FileSetHTTPHeadersHeaders>({
           ...rawResponse,
           _response: (rawResponse as any)._response, // _response is made non-enumerable,
-          fileMode: parseOctalFileMode(rawResponse.fileMode),
+          posixProperties: {
+            fileMode: parseOctalFileMode(rawResponse.fileMode),
+            owner: rawResponse.owner,
+            group: rawResponse.group,
+            linkCount: rawResponse.linkCount,
+          },
         } as any);
       },
     );
@@ -4156,7 +4190,12 @@ export class ShareFileClient extends StorageClient {
         return assertResponse<FileSetHTTPHeadersHeaders, FileSetHTTPHeadersHeaders>({
           ...rawResponse,
           _response: (rawResponse as any)._response, // _response is made non-enumerable,
-          fileMode: parseOctalFileMode(rawResponse.fileMode),
+          posixProperties: {
+            fileMode: parseOctalFileMode(rawResponse.fileMode),
+            owner: rawResponse.owner,
+            group: rawResponse.group,
+            linkCount: rawResponse.linkCount,
+          },
         } as any);
       },
     );
@@ -4198,7 +4237,12 @@ export class ShareFileClient extends StorageClient {
       return assertResponse<FileSetHTTPHeadersHeaders, FileSetHTTPHeadersHeaders>({
         ...rawResponse,
         _response: (rawResponse as any)._response,
-        fileMode: parseOctalFileMode(rawResponse.fileMode),
+        posixProperties: {
+          fileMode: parseOctalFileMode(rawResponse.fileMode),
+          owner: rawResponse.owner,
+          group: rawResponse.group,
+          linkCount: rawResponse.linkCount,
+        },
       } as any);
     });
   }
@@ -5243,7 +5287,13 @@ export class ShareFileClient extends StorageClient {
         return assertResponse<FileCreateHardLinkHeaders, FileCreateHardLinkHeaders>({
           ...rawResponse,
           _response: (rawResponse as any)._response, // _response is made non-enumerable,
-          fileMode: parseOctalFileMode(rawResponse.fileMode),
+          posixProperties: {
+            fileMode: parseOctalFileMode(rawResponse.fileMode),
+            fileType: rawResponse.nfsFileType,
+            owner: rawResponse.owner,
+            group: rawResponse.group,
+            linkCount: rawResponse.linkCount,
+          },
         } as any);
       },
     );

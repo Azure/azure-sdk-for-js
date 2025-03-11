@@ -2540,10 +2540,10 @@ describe("DirectoryClient - NFS", () => {
     });
 
     assert.equal(cResp.errorCode, undefined);
-    assert.deepEqual(cResp.owner, posixProperties.owner);
-    assert.deepEqual(cResp.group, posixProperties.group);
-    assert.deepEqual(cResp.fileMode, posixProperties.fileMode);
-    assert.deepEqual(cResp.nfsFileType, "Directory");
+    assert.deepEqual(cResp.posixProperties?.owner, posixProperties.owner);
+    assert.deepEqual(cResp.posixProperties?.group, posixProperties.group);
+    assert.deepEqual(cResp.posixProperties?.fileMode, posixProperties.fileMode);
+    assert.deepEqual(cResp.posixProperties?.fileType, "Directory");
     assert.ok(cResp.fileChangeOn!);
     assert.ok(cResp.fileCreatedOn!);
     assert.ok(cResp.fileId!);
@@ -2577,21 +2577,21 @@ describe("DirectoryClient - NFS", () => {
       },
     };
     const cResp = await dirClient.create();
-    assert.deepEqual(cResp.owner, "0");
-    assert.deepEqual(cResp.group, "0");
-    assert.ok(cResp.fileMode);
-    assert.ok(cResp.nfsFileType);
+    assert.deepEqual(cResp.posixProperties?.owner, "0");
+    assert.deepEqual(cResp.posixProperties?.group, "0");
+    assert.ok(cResp.posixProperties?.fileMode);
+    assert.ok(cResp.posixProperties?.fileType);
 
     const setResp = await dirClient.setProperties({ posixProperties });
-    assert.deepEqual(setResp.owner, posixProperties.owner);
-    assert.deepEqual(setResp.group, posixProperties.group);
-    assert.deepEqual(setResp.fileMode, posixProperties.fileMode);
+    assert.deepEqual(setResp.posixProperties?.owner, posixProperties.owner);
+    assert.deepEqual(setResp.posixProperties?.group, posixProperties.group);
+    assert.deepEqual(setResp.posixProperties?.fileMode, posixProperties.fileMode);
 
     const getResp = await dirClient.getProperties();
-    assert.deepEqual(getResp.owner, posixProperties.owner);
-    assert.deepEqual(getResp.group, posixProperties.group);
-    assert.deepEqual(getResp.fileMode, posixProperties.fileMode);
-    assert.deepEqual(cResp.nfsFileType, "Directory");
+    assert.deepEqual(getResp.posixProperties?.owner, posixProperties.owner);
+    assert.deepEqual(getResp.posixProperties?.group, posixProperties.group);
+    assert.deepEqual(getResp.posixProperties?.fileMode, posixProperties.fileMode);
+    assert.deepEqual(cResp.posixProperties?.fileType, "Directory");
     assert.ok(cResp.fileChangeOn!);
     assert.ok(cResp.fileCreatedOn!);
     assert.ok(cResp.fileId!);
