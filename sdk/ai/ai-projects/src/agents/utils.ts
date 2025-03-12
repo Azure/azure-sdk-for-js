@@ -359,4 +359,15 @@ export class ToolSet {
     this.toolResources = { ...this.toolResources, ...tool.resources };
     return tool;
   }
+    /**
+   * Adds a Microsoft Fabric tool to the tool set.
+   *
+   * @param connectionId - The ID of the Fabric connection to use.
+   * @returns An object containing the definition for the Microsoft Fabric tool
+   */
+  addFabricTool(connectionId: string): { definition: ToolDefinition } {
+    const tool = ToolUtility.createFabricTool(connectionId);
+    this.toolDefinitions.push(tool.definition);
+    return tool;
+  }
 }
