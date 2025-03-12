@@ -21,8 +21,9 @@ import {
   recorderEnvSetup,
   uriSanitizers,
 } from "./utils/index.js";
-import { describe, it, assert, beforeEach, afterEach } from "vitest";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 import { toSupportTracing } from "@azure-tools/test-utils-vitest";
+import type { OperationOptions } from "@azure/core-client";
 
 expect.extend({ toSupportTracing });
 
@@ -61,7 +62,7 @@ describe("DataLakeFileSystemClient", () => {
   });
 
   it("setMetadata with tracing", async () => {
-    await expect(async (options) => {
+    await expect(async (options: OperationOptions) => {
       const metadata = {
         key0: "val0",
         keya: "vala",
@@ -85,9 +86,8 @@ describe("DataLakeFileSystemClient", () => {
     assert.ok(result.clientRequestId); // As default pipeline involves UniqueRequestIDPolicy
   });
 
-  it("create with default parameters", (done) => {
+  it("create with default parameters", () => {
     // create() with default parameters has been tested in beforeEach
-    done();
   });
 
   it("create with all parameters configured", async () => {
@@ -174,9 +174,8 @@ describe("DataLakeFileSystemClient", () => {
     assert.ok(res2.succeeded);
   });
 
-  it("delete", (done) => {
+  it("delete", () => {
     // delete() with default parameters has been tested in afterEach
-    done();
   });
 
   it("listPaths with default parameters", async () => {
@@ -323,12 +322,13 @@ describe("DataLakeFileSystemClient", () => {
     await fileClient.create();
     await fileClient.append(content, 0, content.length);
     await fileClient.flush(content.length);
-    const clock = useFakeTimers(now);
+    vi.useFakeTimers();
+    vi.setSystemTime(now);
     let setExpiryPromise: Promise<unknown>;
     try {
       setExpiryPromise = fileClient.setExpiry("Absolute", { expiresOn });
     } finally {
-      clock.restore();
+      vi.useRealTimers();
     }
     await setExpiryPromise;
 

@@ -9,7 +9,7 @@ import {
   recorderEnvSetup,
   uriSanitizers,
 } from "../utils/index.js";
-import { getBrowserFile, arrayBufferEqual } from "../utils/index.browser.js";
+import { getBrowserFile, arrayBufferEqual } from "../utils/index-browser.mjs";
 import { MB } from "../../src/utils/constants.js";
 import { describe, it, assert, beforeEach, afterEach, beforeAll } from "vitest";
 

@@ -156,7 +156,7 @@ describe("DataLakeServiceClient", () => {
     }
   });
 
-  it("ListFileSystems - returns file system encryption scope info", async function (ctx) {
+  it("ListFileSystems - returns file system encryption scope info", async (ctx) => {
     let encryptionScopeName: string | undefined;
     try {
       encryptionScopeName = getEncryptionScope();
@@ -189,7 +189,7 @@ describe("DataLakeServiceClient", () => {
     await cClient.delete();
   });
 
-  it("ListFileSystems - PagedAsyncIterableIterator returns file system encryption scope info", async function (ctx) {
+  it("ListFileSystems - PagedAsyncIterableIterator returns file system encryption scope info", async (ctx) => {
     let encryptionScopeName: string | undefined;
     try {
       encryptionScopeName = getEncryptionScope();
@@ -234,7 +234,7 @@ describe("DataLakeServiceClient", () => {
     }
   });
 
-  it("ListFileSystems with all parameters configured", async function (ctx) {
+  it("ListFileSystems with all parameters configured", async (ctx) => {
     // Skip browser mock test because of account name replacement issue with recorded requests
     if (!isNodeLike && !isLiveMode()) {
       ctx.skip();
@@ -368,7 +368,7 @@ describe("DataLakeServiceClient", () => {
     await fileSystemClient2.deleteIfExists();
   });
 
-  it("Verify PagedAsyncIterableIterator(byPage()) for ListFileSystems", async function (ctx) {
+  it("Verify PagedAsyncIterableIterator(byPage()) for ListFileSystems", async (ctx) => {
     // Skip browser mock test because of account name replacement issue with recorded requests
     if (!isNodeLike && !isLiveMode()) {
       ctx.skip();
@@ -409,7 +409,7 @@ describe("DataLakeServiceClient", () => {
     }
   });
 
-  it("Verify PagedAsyncIterableIterator(byPage() - continuationToken) for ListFileSystems", async function (ctx) {
+  it("Verify PagedAsyncIterableIterator(byPage() - continuationToken) for ListFileSystems", async (ctx) => {
     // Skip browser mock test because of account name replacement issue with recorded requests
     if (!isNodeLike && !isLiveMode()) {
       ctx.skip();
@@ -496,7 +496,7 @@ describe("DataLakeServiceClient", () => {
   //   }
   // });
 
-  it("getUserDelegationKey should work", async function (ctx) {
+  it("getUserDelegationKey should work", async (ctx) => {
     // Try to get serviceURL object with TokenCredential
     // when DFS_ACCOUNT_TOKEN environment variable is set
     let serviceURLWithToken: DataLakeServiceClient | undefined;
@@ -542,7 +542,7 @@ describe("DataLakeServiceClient", () => {
     assert.ok(newClient.url.includes("dfs"));
   });
 
-  it("renameFileSystem should work", async function (ctx) {
+  it("renameFileSystem should work", async (ctx) => {
     // Turn on this case when the Container Rename feature is ready in the service side.
     ctx.skip();
 
@@ -553,6 +553,7 @@ describe("DataLakeServiceClient", () => {
 
     const newFileSystemName = recorder.variable("newfilesystem", getUniqueName("newfilesystem"));
     // const renameRes = await serviceClient.renameFileSystem(fileSystemName, newFileSystemName);
+    // @ts-expect-error does not exist
     const renameRes = await serviceClient["renameFileSystem"](fileSystemName, newFileSystemName);
 
     const newFileSystemClient = serviceClient.getFileSystemClient(newFileSystemName);
@@ -562,7 +563,7 @@ describe("DataLakeServiceClient", () => {
     await newFileSystemClient.delete();
   });
 
-  it("renameFileSystem should work with source lease", async function (ctx) {
+  it("renameFileSystem should work with source lease", async (ctx) => {
     // Turn on this case when the Container Rename feature is ready in the service side.
     ctx.skip();
 
@@ -576,6 +577,7 @@ describe("DataLakeServiceClient", () => {
 
     const newFileSystemName = recorder.variable("newfilesystem", getUniqueName("newfilesystem"));
     // const renameRes = await serviceClient.renameFileSystem(fileSystemName, newFileSystemName, {
+    // @ts-expect-error does not exist
     const renameRes = await serviceClient["renameFileSystem"](fileSystemName, newFileSystemName, {
       sourceCondition: { leaseId: leaseClient.leaseId },
     });
@@ -587,12 +589,13 @@ describe("DataLakeServiceClient", () => {
     await newFileSystemClient.deleteIfExists();
   });
 
-  it("undelete and list deleted file system should work", async function (ctx) {
+  it("undelete and list deleted file system should work", async (ctx) => {
     let serviceClient: DataLakeServiceClient;
     try {
       serviceClient = getGenericDataLakeServiceClient(recorder, "DFS_SOFT_DELETE_");
     } catch (err: any) {
       ctx.skip();
+      return;
     }
 
     const fileSystemName = recorder.variable("filesystem", getUniqueName("filesystem"));

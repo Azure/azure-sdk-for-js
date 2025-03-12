@@ -60,7 +60,7 @@ export class BuffersStream extends Readable {
    *
    * @param size - Optional. The size of data to be read
    */
-  public _read(size?: number) {
+  public _read(size?: number): void {
     if (this.pushedBytesLength >= this.byteLength) {
       this.push(null);
     }

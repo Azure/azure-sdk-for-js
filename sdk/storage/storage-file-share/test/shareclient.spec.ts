@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 import {
   getBSU,
   getGenericBSU,
@@ -67,9 +68,8 @@ describe("ShareClient", () => {
     assert.ok(result.date);
   });
 
-  it("create with default parameters", (done) => {
+  it("create with default parameters", () => {
     // create() with default parameters has been tested in beforeEach
-    done();
   });
 
   it("create with all parameters configured", async () => {
@@ -96,9 +96,8 @@ describe("ShareClient", () => {
     await shareClient2.delete();
   });
 
-  it("delete", (done) => {
+  it("delete", () => {
     // delete() with default parameters has been tested in afterEach
-    done();
   });
 
   it("deleteIfExists", async () => {
@@ -450,9 +449,8 @@ describe("ShareClient", () => {
     assert.ok(result.date);
   });
 
-  it("create with default parameters", (done) => {
+  it("create with default parameters", () => {
     // create() with default parameters has been tested in beforeEach
-    done();
   });
 
   it("create with all parameters configured", async () => {
@@ -479,9 +477,8 @@ describe("ShareClient", () => {
     await shareClient2.delete();
   });
 
-  it("delete", (done) => {
+  it("delete", () => {
     // delete() with default parameters has been tested in afterEach
-    done();
   });
 
   it("deleteIfExists", async () => {
@@ -852,7 +849,7 @@ describe("ShareClient Provisioned", () => {
     assert.ok(shareDeleted);
     await delay(60000);
 
-    await serviceClient.undeleteShare(shareDeleted.name, shareDeleted.version!);
+    await serviceClient.undeleteShare(shareDeleted!.name, shareDeleted!.version!);
   });
 });
 

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { Pipeline } from "@azure/core-rest-pipeline";
 
+import type { Pipeline } from "@azure/core-rest-pipeline";
 import type { ShareClient, ShareServiceClient } from "../src/index.js";
 import { RestError } from "../src/index.js";
 import { getBSU, getUniqueName, recorderEnvSetup, uriSanitizers } from "./utils/index.js";

@@ -86,6 +86,34 @@ export function getSoftDeleteBSU(recorder: Recorder): ShareServiceClient {
   return getGenericBSU(recorder, "SOFT_DELETE_");
 }
 
+/**
+ * Read body from downloading operation methods to string.
+ * Works in both Node.js and browsers.
+ *
+ * @param response - Convenience layer methods response with downloaded body
+ * @param length - Length of Readable stream, needed for Node.js environment
+ */
+export async function bodyToString(
+  response: {
+    readableStreamBody?: NodeJS.ReadableStream;
+    blobBody?: Promise<Blob>;
+  },
+  _length?: number,
+): Promise<string> {
+  const blob = await response.blobBody!;
+  return blobToString(blob);
+}
+
+export async function blobToString(blob: Blob): Promise<string> {
+  const text = await blob.text();
+  return text;
+}
+
+export async function blobToArrayBuffer(blob: Blob): Promise<ArrayBuffer> {
+  const arrayBuffer = await blob.arrayBuffer();
+  return arrayBuffer;
+}
+
 export function arrayBufferEqual(buf1: ArrayBuffer, buf2: ArrayBuffer): boolean {
   if (buf1.byteLength !== buf2.byteLength) {
     return false;

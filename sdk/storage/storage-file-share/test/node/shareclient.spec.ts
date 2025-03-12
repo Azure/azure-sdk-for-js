@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { Recorder } from "@azure-tools/test-recorder";
 
+import { Recorder } from "@azure-tools/test-recorder";
 import {
   getAccountName,
   configureStorageClient,

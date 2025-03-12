@@ -3,9 +3,7 @@
 
 import { Recorder } from "@azure-tools/test-recorder";
 import { join } from "node:path";
-
 import * as fs from "node:fs";
-
 import type {
   AccessControlChangeCounters,
   AccessControlChanges,
@@ -75,45 +73,49 @@ describe("DataLakePathClient Node.js only", () => {
     await recorder.stop();
   });
 
-  it.skip("DataLakeDirectoryClient pagenated delete", async function () {
-    // To run this test, the NamespaceTenant AAD info needs to be set to an AAD app that does not have any RBAC permissions,
-    const directoryName1 = recorder.variable("directory1", getUniqueName("directory1"));
-    const directoryClient = fileSystemClient.getDirectoryClient(directoryName1);
-    await directoryClient.create();
+  it.skip(
+    "DataLakeDirectoryClient paginated delete",
+    { timeout: 10 * 60 * 60 * 1000 },
+    async () => {
+      // To run this test, the NamespaceTenant AAD info needs to be set to an AAD app that does not have any RBAC permissions,
+      const directoryName1 = recorder.variable("directory1", getUniqueName("directory1"));
+      const directoryClient = fileSystemClient.getDirectoryClient(directoryName1);
+      await directoryClient.create();
 
-    for (let i = 0; i < 5020; i++) {
-      const fileClientInternal = directoryClient.getFileClient(
-        recorder.variable("file" + i, getUniqueName("file" + i)),
-      );
-      await fileClientInternal.create();
-    }
-
-    const rootDirectory = fileSystemClient.getDirectoryClient("/");
-
-    const originAcls = await rootDirectory.getAccessControl();
-    const acls: PathAccessControlItem[] = [];
-
-    originAcls.acl.forEach((entry) => {
-      if (entry.accessControlType === "other") {
-        entry.permissions = {
-          read: true,
-          write: true,
-          execute: true,
-        };
+      for (let i = 0; i < 5020; i++) {
+        const fileClientInternal = directoryClient.getFileClient(
+          recorder.variable("file" + i, getUniqueName("file" + i)),
+        );
+        await fileClientInternal.create();
       }
-      acls.push(entry);
-    });
 
-    await rootDirectory.setAccessControlRecursive(acls);
+      const rootDirectory = fileSystemClient.getDirectoryClient("/");
 
-    const oauthService = getDataLakeServiceClientWithDefaultCredential(recorder);
-    const oauthDirectory = oauthService
-      .getFileSystemClient(fileSystemName)
-      .getDirectoryClient(directoryName1);
-    await oauthDirectory.delete(true);
-  }).timeout(10 * 60 * 60 * 1000);
+      const originAcls = await rootDirectory.getAccessControl();
+      const acls: PathAccessControlItem[] = [];
 
-  it.skip("DataLakeFileClient delete without pagenated", async function () {
+      originAcls.acl.forEach((entry) => {
+        if (entry.accessControlType === "other") {
+          entry.permissions = {
+            read: true,
+            write: true,
+            execute: true,
+          };
+        }
+        acls.push(entry);
+      });
+
+      await rootDirectory.setAccessControlRecursive(acls);
+
+      const oauthService = getDataLakeServiceClientWithDefaultCredential(recorder);
+      const oauthDirectory = oauthService
+        .getFileSystemClient(fileSystemName)
+        .getDirectoryClient(directoryName1);
+      await oauthDirectory.delete(true);
+    },
+  );
+
+  it.skip("DataLakeFileClient delete without paginated", async () => {
     // To run this test, the NamespaceTenant AAD info needs to be set to an AAD app that does not have any RBAC permissions,
     const fileName1 = recorder.variable("file1", getUniqueName("file1"));
     const fileClient1 = fileSystemClient.getFileClient(fileName1);

@@ -1,15 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 import { Buffer } from "node:buffer";
 import * as fs from "node:fs";
 import * as path from "node:path";
 import { Duplex } from "node:stream";
 import * as zlib from "zlib";
-
 import { isLiveMode, Recorder } from "@azure-tools/test-recorder";
-
 import type {
   ShareClient,
   ShareDirectoryClient,

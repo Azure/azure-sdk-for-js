@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 import type { TokenCredential } from "@azure/core-auth";
-
 import { DataLakeServiceClient, newPipeline } from "../../src/index.js";
 import { AnonymousCredential } from "@azure/storage-blob";
 import { configureStorageClient, SimpleTokenCredential } from "./testutils.common.js";
@@ -88,6 +87,34 @@ export function getEncryptionScope(): string {
   }
 
   return encryptionScope;
+}
+
+/**
+ * Read body from downloading operation methods to string.
+ * Works in both Node.js and browsers.
+ *
+ * @param response - Convenience layer methods response with downloaded body
+ * @param length - Length of Readable stream, needed for Node.js environment
+ */
+export async function bodyToString(
+  response: {
+    readableStreamBody?: NodeJS.ReadableStream;
+    blobBody?: Promise<Blob>;
+  },
+  _length?: number,
+): Promise<string> {
+  const blob = await response.blobBody!;
+  return blobToString(blob);
+}
+
+export async function blobToString(blob: Blob): Promise<string> {
+  const text = await blob.text();
+  return text;
+}
+
+export async function blobToArrayBuffer(blob: Blob): Promise<ArrayBuffer> {
+  const arrayBuffer = await blob.arrayBuffer();
+  return arrayBuffer;
 }
 
 export function arrayBufferEqual(buf1: ArrayBuffer, buf2: ArrayBuffer): boolean {

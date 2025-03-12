@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 import { newPipeline } from "../../src/index.js";
 import {
   getQSU,

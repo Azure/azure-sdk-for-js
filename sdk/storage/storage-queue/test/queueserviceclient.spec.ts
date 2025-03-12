@@ -311,23 +311,16 @@ describe("QueueServiceClient", () => {
     assert.deepEqual(result.hourMetrics, serviceProperties.hourMetrics);
   });
 
-  it("getStatistics with default/all parameters secondary", (done) => {
+  it("getStatistics with default/all parameters secondary", async () => {
     let queueServiceClient: QueueServiceClient | undefined;
     try {
       queueServiceClient = getAlternateQSU(recorder);
     } catch (err: any) {
-      done();
       return;
     }
 
-    queueServiceClient!
-      .getStatistics()
-      .then((result) => {
-        assert.ok(result.geoReplication!.lastSyncOn);
-        done();
-        return;
-      })
-      .catch(done);
+    const result = await queueServiceClient!.getStatistics();
+    assert.ok(result.geoReplication!.lastSyncOn);
   });
 
   it("can be created from a sas connection string", async () => {

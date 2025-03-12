@@ -91,7 +91,7 @@ export class PooledBuffer {
    * @param totalLength - Total length of the data to be filled in.
    *
    */
-  public fill(buffers: Buffer[], totalLength: number) {
+  public fill(buffers: Buffer[], totalLength: number): void {
     this._size = Math.min(this.capacity, totalLength);
 
     let i = 0,

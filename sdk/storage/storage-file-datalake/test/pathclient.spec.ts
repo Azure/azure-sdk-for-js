@@ -17,8 +17,9 @@ import {
   uriSanitizers,
 } from "./utils/index.js";
 import { Test_CPK_INFO } from "./utils/fakeTestSecrets.js";
-import { describe, it, assert, beforeEach, afterEach } from "vitest";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 import { toSupportTracing } from "@azure-tools/test-utils-vitest";
+import type { OperationOptions } from "@azure/core-client";
 
 expect.extend({ toSupportTracing });
 
@@ -913,7 +914,7 @@ describe("DataLakePathClient", () => {
   });
 
   it("read with default parameters and tracing", async () => {
-    await expect(async (options) => {
+    await expect(async (options: OperationOptions) => {
       const result = await fileClient.read(undefined, undefined, options);
       assert.deepStrictEqual(await bodyToString(result, content.length), content);
     }).toSupportTracing(["DataLakeFileClient-read"]);
@@ -1392,12 +1393,13 @@ describe("DataLakePathClient", () => {
     const now = new Date(recorder.variable("now", new Date().toISOString())); // Flaky workaround for the recording to work.
     const delta = 5 * 1000;
     const expiresOn = new Date(now.getTime() + delta);
-    const clock = useFakeTimers(now);
+    vi.useFakeTimers();
+    vi.setSystemTime(now);
     let setExpiryPromise: Promise<unknown>;
     try {
       setExpiryPromise = fileClient.setExpiry("Absolute", { expiresOn });
     } finally {
-      clock.restore();
+      vi.useRealTimers();
     }
     await setExpiryPromise;
 
