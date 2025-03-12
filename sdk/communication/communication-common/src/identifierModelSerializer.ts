@@ -64,7 +64,7 @@ export interface SerializedPhoneNumberIdentifier {
    */
   value: string;
   /**
-   * Value generated when the same number joins the same call multiple times.
+   * The asserted Id is set on a phone number that is already in the same call to distinguish from other connections made through the same number.
    */
   assertedId?: string;
   /**
@@ -79,7 +79,7 @@ export interface SerializedPhoneNumberIdentifier {
  */
 export interface SerializedMicrosoftTeamsUserIdentifier {
   /**
-   * The Id of the Microsoft Teams user. If not anonymous, this is the AAD object Id of the user.
+   * The Id of the Microsoft Teams user. If not anonymous, this is the Entra ID object Id of the user.
    */
   userId: string;
   /**
@@ -110,7 +110,7 @@ export interface SerializedMicrosoftTeamsAppIdentifier {
 
 /**
  * @hidden
- * A Microsoft Teams Phone user who is using a Communication Services resource
+ * A Microsoft Teams Phone user who is using a Communication Services resource to extend their Teams Phone set up.
  */
 export interface SerializedTeamsExtensionUserIdentifier {
   /**
@@ -124,12 +124,12 @@ export interface SerializedTeamsExtensionUserIdentifier {
   tenantId: string;
 
   /**
-   * The Communication Services resource Id.
+   * The Azure Communication Services resource Id.
    */
   resourceId: string;
 
   /**
-   * The cloud that the Microsoft Teams user belongs to. If missing, the cloud is "public".
+   * The cloud that the Microsoft Teams Extension user belongs to. If missing, the cloud is "public".
    */
   cloud?: SerializedCommunicationCloudEnvironment;
 }

@@ -5,7 +5,7 @@
 ### Features Added
 
 - Added support for a new communication identifier `TeamsExtensionUserIdentifier`.
-    - Added a type `TeamsExtensionUserKind`.
+    - Added a type `TeamsExtensionUserKind` with rawId in the format `8:acs:{resourceId}_{tenantId}_{userId}`.
     - Added a method `isTeamsExtensionUserIdentifier` to check if the identifier is `TeamsExtensionUserIdentifier`.
     - Mandatory fields of `TeamsExtensionUserIdentifier` are `userId`, `tenantId` and `resourceId`.
     - With this version, rawId starting with `8:acs` may be either `CommunicationUserIdentifier` or new `TeamsExtensionUserIdentifier`.

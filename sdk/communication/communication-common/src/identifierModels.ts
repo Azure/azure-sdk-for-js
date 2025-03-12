@@ -36,7 +36,7 @@ export interface PhoneNumberIdentifier {
   phoneNumber: string;
 
   /**
-   * Value generated when the same number joins the same call multiple times.
+   * The asserted Id is set on a phone number that is already in the same call to distinguish from other connections made through the same number.
    */
   assertedId?: string;
 
@@ -56,7 +56,7 @@ export interface MicrosoftTeamsUserIdentifier {
   rawId?: string;
 
   /**
-   * Id of the Microsoft Teams user. If the user isn't anonymous, the id is the AAD object id of the user.
+   * Id of the Microsoft Teams user. If the user isn't anonymous, the id is the Entra ID object id of the user.
    */
   microsoftTeamsUserId: string;
 
@@ -92,11 +92,11 @@ export interface MicrosoftTeamsAppIdentifier {
 }
 
 /**
- * A Microsoft Teams Phone user who is using a Communication Services resource
+ * A Microsoft Teams Phone user who is using a Communication Services resource to extend their Teams Phone set up.
  */
 export interface TeamsExtensionUserIdentifier {
   /**
-   * Optional raw id of the Microsoft Teams user.
+   * Optional raw id of the Microsoft Teams Extension user.
    */
   rawId?: string;
 
@@ -111,12 +111,12 @@ export interface TeamsExtensionUserIdentifier {
   tenantId: string;
 
   /**
-   * The Communication Services resource Id.
+   * The Azure Communication Services resource Id.
    */
   resourceId: string;
 
   /**
-   * The cloud that the Microsoft Teams user belongs to. If missing, the cloud is "public".
+   * The cloud that the Microsoft Teams Extension user belongs to. If missing, the cloud is "public".
    */
   cloud?: "public" | "dod" | "gcch";
 }
