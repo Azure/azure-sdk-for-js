@@ -84,10 +84,8 @@ describe("ClientSideEncryption", function (this: Suite) {
     encryptionClient = new CosmosClient({
       endpoint: endpoint,
       key: masterKey,
-      encryptionPolicy: {
-        enableEncryption: true,
+      clientEncryptionOptions: {
         keyEncryptionKeyResolver: testKeyEncryptionKeyResolver,
-        encryptionKeyResolverName: testKeyVault,
         encryptionKeyTimeToLive: EncryptionTimeToLive.NoTTL(),
       },
     });
@@ -314,10 +312,8 @@ describe("ClientSideEncryption", function (this: Suite) {
     const newClient = new CosmosClient({
       endpoint: endpoint,
       key: masterKey,
-      encryptionPolicy: {
-        enableEncryption: true,
+      clientEncryptionOptions: {
         keyEncryptionKeyResolver: testKeyResolver,
-        encryptionKeyResolverName: testKeyVault,
         encryptionKeyTimeToLive: EncryptionTimeToLive.FromMinutes(1),
       },
     });
@@ -358,10 +354,8 @@ describe("ClientSideEncryption", function (this: Suite) {
     const clientWithBulk = new CosmosClient({
       endpoint: endpoint,
       key: masterKey,
-      encryptionPolicy: {
-        enableEncryption: true,
+      clientEncryptionOptions: {
         keyEncryptionKeyResolver: new MockKeyVaultEncryptionKeyResolver(),
-        encryptionKeyResolverName: testKeyVault,
       },
     });
 
@@ -397,7 +391,8 @@ describe("ClientSideEncryption", function (this: Suite) {
     ];
 
     const response = await encryptionContainerWithBulk.items.bulk(operations);
-    verifyDiagnostics(response.diagnostics, true, true, undefined, undefined);
+    // num of encrypted operations - 4*12 for encrypting body + 4 pk + 2 id
+    verifyDiagnostics(response.diagnostics, true, true, 54, 48);
     assert.equal(StatusCodes.Created, response[0].statusCode);
     verifyExpectedDocResponse(docToCreate, response[0].resourceBody);
     assert.equal(StatusCodes.Created, response[1].statusCode);
@@ -443,10 +438,8 @@ describe("ClientSideEncryption", function (this: Suite) {
     const encryptionCosmosClient = new CosmosClient({
       endpoint: endpoint,
       key: masterKey,
-      encryptionPolicy: {
-        enableEncryption: true,
+      clientEncryptionOptions: {
         keyEncryptionKeyResolver: new MockKeyVaultEncryptionKeyResolver(),
-        encryptionKeyResolverName: testKeyVault,
         encryptionKeyTimeToLive: EncryptionTimeToLive.NoTTL(),
       },
     });
@@ -526,10 +519,8 @@ describe("ClientSideEncryption", function (this: Suite) {
     const client = new CosmosClient({
       endpoint: endpoint,
       key: masterKey,
-      encryptionPolicy: {
-        enableEncryption: true,
+      clientEncryptionOptions: {
         keyEncryptionKeyResolver: testkeyEncryptionKeyResolver,
-        encryptionKeyResolverName: testKeyVault,
         encryptionKeyTimeToLive: EncryptionTimeToLive.NoTTL(),
       },
     });
@@ -665,11 +656,13 @@ describe("ClientSideEncryption", function (this: Suite) {
       testDoc1.sensitive_FloatFormat,
       "/sensitive_FloatFormat",
     );
-    await validateQueryResults(encryptionQueryContainer, queryBuilder, [
-      testDoc1,
-      testDoc2,
-      testDoc3,
-    ]);
+    await validateQueryResults(
+      encryptionQueryContainer,
+      queryBuilder,
+      [testDoc1, testDoc2, testDoc3],
+      true,
+      36,
+    );
 
     // with encrypted int and non encrypted properties
     const testDoc4 = new TestDoc((await testCreateItem(encryptionQueryContainer)).resource);
@@ -686,7 +679,13 @@ describe("ClientSideEncryption", function (this: Suite) {
 
     // without adding param
     queryBuilder = new EncryptionQueryBuilder("SELECT c.sensitive_DateFormat FROM c");
-    await validateQueryResults(encryptionQueryContainer, queryBuilder, null, true, 1);
+    const expectedRes = [
+      { sensitive_DateFormat: testDoc1.sensitive_DateFormat },
+      { sensitive_DateFormat: testDoc2.sensitive_DateFormat },
+      { sensitive_DateFormat: testDoc3.sensitive_DateFormat },
+      { sensitive_DateFormat: testDoc4.sensitive_DateFormat },
+    ];
+    await validateQueryResults(encryptionQueryContainer, queryBuilder, expectedRes, true, 4);
   });
 
   it("encryption batch CRUD", async () => {
@@ -760,7 +759,7 @@ describe("ClientSideEncryption", function (this: Suite) {
     ];
 
     const response = await encryptionContainer.items.batch(operations, partitionKey);
-    verifyDiagnostics(response.diagnostics, true, true, undefined, undefined);
+    verifyDiagnostics(response.diagnostics, true, true, 42, 48);
     assert.equal(StatusCodes.Ok, response.code);
 
     const doc1 = response.result[0];
@@ -877,7 +876,7 @@ describe("ClientSideEncryption", function (this: Suite) {
       docPostPatching,
       StatusCodes.Ok,
     );
-    // verifyDiagnostics(patchResponse.diagnostics, true, true, 6);
+    verifyDiagnostics(patchResponse.diagnostics, true, true, 8, 12);
     docPostPatching.sensitive_ArrayFormat = [
       {
         sensitive_ArrayIntFormat: 100,
@@ -963,7 +962,7 @@ describe("ClientSideEncryption", function (this: Suite) {
       docPostPatching,
       StatusCodes.Ok,
     );
-    verifyDiagnostics(patchResponse.diagnostics, true, true, 6, 12);
+    verifyDiagnostics(patchResponse.diagnostics, true, true, 8, 12);
     patchOperations = [
       {
         op: PatchOperationType.incr,
@@ -1194,10 +1193,8 @@ describe("ClientSideEncryption", function (this: Suite) {
     const newClient = new CosmosClient({
       endpoint: endpoint,
       key: masterKey,
-      encryptionPolicy: {
-        enableEncryption: true,
+      clientEncryptionOptions: {
         keyEncryptionKeyResolver: new MockKeyVaultEncryptionKeyResolver(),
-        encryptionKeyResolverName: testKeyVault,
       },
     });
     const newDatabase = newClient.database(database.id);
@@ -1297,10 +1294,8 @@ describe("ClientSideEncryption", function (this: Suite) {
     const otherClient = new CosmosClient({
       endpoint: endpoint,
       key: masterKey,
-      encryptionPolicy: {
-        enableEncryption: true,
+      clientEncryptionOptions: {
         keyEncryptionKeyResolver: new MockKeyVaultEncryptionKeyResolver(),
-        encryptionKeyResolverName: testKeyVault,
       },
     });
     const otherDatabase = otherClient.database(database.id);
@@ -1433,7 +1428,7 @@ describe("ClientSideEncryption", function (this: Suite) {
       );
       assert.fail("patch operation should fail");
     } catch (err) {
-      verifyDiagnostics(err.diagnostics, true, false, 2, 0);
+      verifyDiagnostics(err.diagnostics, true, false, 3, 0);
       assert.ok(
         err.message.includes(
           "Operation has failed due to a possible mismatch in Client Encryption Policy configured on the container.",
@@ -1472,10 +1467,8 @@ describe("ClientSideEncryption", function (this: Suite) {
     const otherClient = new CosmosClient({
       endpoint: endpoint,
       key: masterKey,
-      encryptionPolicy: {
-        enableEncryption: true,
+      clientEncryptionOptions: {
         keyEncryptionKeyResolver: new MockKeyVaultEncryptionKeyResolver(),
-        encryptionKeyResolverName: testKeyVault,
       },
     });
     const otherDatabase = otherClient.database(database.id);
@@ -1584,10 +1577,8 @@ describe("ClientSideEncryption", function (this: Suite) {
     const otherClient = new CosmosClient({
       endpoint: endpoint,
       key: masterKey,
-      encryptionPolicy: {
-        enableEncryption: true,
+      clientEncryptionOptions: {
         keyEncryptionKeyResolver: new MockKeyVaultEncryptionKeyResolver(),
-        encryptionKeyResolverName: testKeyVault,
       },
     });
     const otherDatabase = otherClient.database(database.id);
@@ -1708,10 +1699,8 @@ describe("ClientSideEncryption", function (this: Suite) {
     const otherClient = new CosmosClient({
       endpoint: endpoint,
       key: masterKey,
-      encryptionPolicy: {
-        enableEncryption: true,
+      clientEncryptionOptions: {
         keyEncryptionKeyResolver: new MockKeyVaultEncryptionKeyResolver(),
-        encryptionKeyResolverName: testKeyVault,
       },
     });
     const otherDatabase = otherClient.database(database.id);
@@ -1753,7 +1742,7 @@ describe("ClientSideEncryption", function (this: Suite) {
       await testCreateItem(encryptionContainerToDelete);
       assert.fail("create operation should fail");
     } catch (err) {
-      verifyDiagnostics(err.diagnostics, true, false, 3, 3);
+      verifyDiagnostics(err.diagnostics, true, false, 3);
       assert.ok(
         err.message.includes(
           "Operation has failed due to a possible mismatch in Client Encryption Policy configured on the container.",
@@ -1785,7 +1774,7 @@ describe("ClientSideEncryption", function (this: Suite) {
       await otherEncryptionContainer.items.bulk(operations);
       assert.fail("bulk operation should fail");
     } catch (error) {
-      verifyDiagnostics(error.diagnostics, true, false, undefined, undefined);
+      verifyDiagnostics(error.diagnostics, true, false, 11, undefined);
       assert.ok(
         error.message.includes(
           "Operation has failed due to a possible mismatch in Client Encryption Policy configured on the container.",
@@ -1809,10 +1798,8 @@ describe("ClientSideEncryption", function (this: Suite) {
     const mainCLient = new CosmosClient({
       endpoint: endpoint,
       key: masterKey,
-      encryptionPolicy: {
-        enableEncryption: true,
+      clientEncryptionOptions: {
         keyEncryptionKeyResolver: new MockKeyVaultEncryptionKeyResolver(),
-        encryptionKeyResolverName: testKeyVault,
         encryptionKeyTimeToLive: EncryptionTimeToLive.FromMinutes(30),
       },
     });
@@ -1860,10 +1847,8 @@ describe("ClientSideEncryption", function (this: Suite) {
     const otherClient = new CosmosClient({
       endpoint: endpoint,
       key: masterKey,
-      encryptionPolicy: {
-        enableEncryption: true,
+      clientEncryptionOptions: {
         keyEncryptionKeyResolver: new MockKeyVaultEncryptionKeyResolver(),
-        encryptionKeyResolverName: testKeyVault,
         encryptionKeyTimeToLive: EncryptionTimeToLive.NoTTL(),
       },
     });
@@ -1955,10 +1940,8 @@ describe("ClientSideEncryption", function (this: Suite) {
     const otherClient2 = new CosmosClient({
       endpoint: endpoint,
       key: masterKey,
-      encryptionPolicy: {
-        enableEncryption: true,
+      clientEncryptionOptions: {
         keyEncryptionKeyResolver: new MockKeyVaultEncryptionKeyResolver(),
-        encryptionKeyResolverName: testKeyVault,
         encryptionKeyTimeToLive: EncryptionTimeToLive.FromHours(1),
       },
     });
@@ -2176,10 +2159,8 @@ describe("ClientSideEncryption", function (this: Suite) {
     const restrictedClient = new CosmosClient({
       endpoint: endpoint,
       resourceTokens: resourceTokens,
-      encryptionPolicy: {
-        enableEncryption: true,
+      clientEncryptionOptions: {
         keyEncryptionKeyResolver: new MockKeyVaultEncryptionKeyResolver(),
-        encryptionKeyResolverName: testKeyVault,
       },
     });
 
@@ -2224,11 +2205,9 @@ describe("ClientSideEncryption", function (this: Suite) {
     const encryptionTestClient = new CosmosClient({
       endpoint: endpoint,
       key: masterKey,
-      encryptionPolicy: {
-        enableEncryption: true,
+      clientEncryptionOptions: {
         keyEncryptionKeyResolver: keyEncryptionKeyResolver,
         encryptionKeyTimeToLive: EncryptionTimeToLive.NoTTL(),
-        encryptionKeyResolverName: testKeyVault,
       },
     });
     const testdatabase = encryptionTestClient.database(database.id);
@@ -2305,7 +2284,7 @@ describe("ClientSideEncryption", function (this: Suite) {
     upsertedDoc.sensitive_StringFormat = randomUUID();
 
     const replaceResponse = await testReplaceItem(encryptionContainer, upsertedDoc);
-    verifyDiagnostics(replaceResponse.diagnostics, true, true, 12, 12);
+    verifyDiagnostics(replaceResponse.diagnostics, true, true, 14, 12);
   });
 
   it("encryption delete all items in a partition key", async () => {
@@ -2335,10 +2314,8 @@ describe("ClientSideEncryption", function (this: Suite) {
     let newClient = new CosmosClient({
       endpoint: endpoint,
       key: masterKey,
-      encryptionPolicy: {
-        enableEncryption: true,
+      clientEncryptionOptions: {
         keyEncryptionKeyResolver: testKeyResolver1,
-        encryptionKeyResolverName: testKeyVault,
         encryptionKeyTimeToLive: EncryptionTimeToLive.NoTTL(),
       },
     });
@@ -2355,10 +2332,8 @@ describe("ClientSideEncryption", function (this: Suite) {
     newClient = new CosmosClient({
       endpoint: endpoint,
       key: masterKey,
-      encryptionPolicy: {
-        enableEncryption: true,
+      clientEncryptionOptions: {
         keyEncryptionKeyResolver: testKeyResolver2,
-        encryptionKeyResolverName: testKeyVault,
       },
     });
     newDatabase = newClient.database(database.id);

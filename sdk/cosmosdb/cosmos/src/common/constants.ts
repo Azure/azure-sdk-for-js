@@ -182,8 +182,9 @@ export const Constants = {
     // Cache Refresh header
     ForceRefresh: "x-ms-force-refresh",
 
-    // Priority Based throttling header
+    // Throughput related headers
     PriorityLevel: "x-ms-cosmos-priority-level",
+    ThroughputBucket: "x-ms-cosmos-throughput-bucket",
 
     // Encryption Headers
     IsClientEncryptedHeader: "x-ms-cosmos-is-client-encrypted",
@@ -219,7 +220,7 @@ export const Constants = {
   AzureNamespace: "Azure.Cosmos",
   AzurePackageName: "@azure/cosmos",
   SDKName: "azure-cosmos-js",
-  SDKVersion: "4.2.1",
+  SDKVersion: "4.3.0",
 
   // Diagnostics
   CosmosDbDiagnosticLevelEnvVarName: "AZURE_COSMOSDB_DIAGNOSTICS_LEVEL",

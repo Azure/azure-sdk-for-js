@@ -489,14 +489,15 @@ index 30dac33..66ea99c 100644
    if (!cachedHttpClient) {
      cachedHttpClient = createDefaultHttpClient();
 diff --git a/src/client/common.ts b/src/client/common.ts
-index 609878a..da6742a 100644
+index f9b6c48..a45e87d 100644
 --- a/src/client/common.ts
 +++ b/src/client/common.ts
-@@ -3,19 +3,17 @@
+@@ -3,20 +3,18 @@
  
  import type {
    HttpClient,
 -  LogPolicyOptions,
+-  NodeJSReadableStream,
 -  Pipeline,
 -  PipelineOptions,
 -  PipelinePolicy,
@@ -510,6 +511,7 @@ index 609878a..da6742a 100644
 -import type { AbortSignalLike } from "@azure/abort-controller";
 -import type { OperationTracingOptions } from "@azure/core-tracing";
 +  RawHttpHeadersInput,
++  NodeJSReadableStream,
 +} from "../interfaces.js";
 +import type { Pipeline, PipelinePolicy } from "../pipeline.js";
 +import type { AbortSignalLike } from "../abort-controller/AbortSignalLike.js";
@@ -518,7 +520,7 @@ index 609878a..da6742a 100644
  
  /**
   * Shape of the default request parameters, this may be overridden by the specific
-@@ -74,11 +72,6 @@ export type RequestParameters = {
+@@ -75,11 +73,6 @@ export type RequestParameters = {
     */
    abortSignal?: AbortSignalLike;
  
@@ -530,7 +532,7 @@ index 609878a..da6742a 100644
    /**
     * A function to be called each time a response is received from the server
     * while performing the requested operation.
-@@ -91,16 +84,9 @@ export type RequestParameters = {
+@@ -92,16 +85,9 @@ export type RequestParameters = {
   * A function to be called each time a response is received from the server
   * while performing the requested operation.
   * May be called multiple times.
@@ -549,7 +551,7 @@ index 609878a..da6742a 100644
  
  /**
   * Wrapper object for http request and response. Deserialized object is stored in
-@@ -135,11 +121,6 @@ export interface OperationOptions {
+@@ -136,11 +122,6 @@ export interface OperationOptions {
     * Options used when creating and sending HTTP requests for this operation.
     */
    requestOptions?: OperationRequestOptions;
@@ -561,7 +563,7 @@ index 609878a..da6742a 100644
    /**
     * A function to be called each time a response is received from the server
     * while performing the requested operation.
-@@ -201,8 +182,8 @@ export interface Client {
+@@ -202,8 +183,8 @@ export interface Client {
     * This method will be used to send request that would check the path to provide
     * strong types. When used by the codegen this type gets overridden with the generated
     * types. For example:
@@ -572,7 +574,7 @@ index 609878a..da6742a 100644
     *
     * type MyClient = Client & {
     *   path: Routes;
-@@ -333,11 +314,9 @@ export type ClientOptions = PipelineOptions & {
+@@ -334,11 +315,9 @@ export type ClientOptions = PipelineOptions & {
       */
      apiKeyHeaderName?: string;
    };
@@ -851,14 +853,14 @@ index 4ee4778..dc3b0f5 100644
      onUploadProgress: options.onUploadProgress,
      onDownloadProgress: options.onDownloadProgress,
 diff --git a/src/constants.ts b/src/constants.ts
-index 261e271..e81a30d 100644
+index 201ff0d..e81a30d 100644
 --- a/src/constants.ts
 +++ b/src/constants.ts
 @@ -1,6 +1,6 @@
  // Copyright (c) Microsoft Corporation.
  // Licensed under the MIT License.
  
--export const SDK_VERSION: string = "1.19.1";
+-export const SDK_VERSION: string = "1.19.2";
 +export const SDK_VERSION: string = "0.1.0";
  
  export const DEFAULT_RETRY_POLICY_COUNT = 3;
@@ -915,10 +917,10 @@ index ad162e3..ae5349c 100644
    HttpClient,
    HttpHeaders as PipelineHeaders,
 diff --git a/src/index.ts b/src/index.ts
-index 92a7ee9..65e7734 100644
+index 5fd69af..f28ac83 100644
 --- a/src/index.ts
 +++ b/src/index.ts
-@@ -9,116 +9,71 @@ declare global {
+@@ -9,117 +9,72 @@ declare global {
    interface TransformStream<I = any, O = any> {}
  }
  
@@ -963,6 +965,7 @@ index 92a7ee9..65e7734 100644
 +  ProxySettings,
 +  RawHttpHeadersInput,
 +  PipelineRetryOptions,
+   NodeJSReadableStream,
  } from "./interfaces.js";
 -export {
 -  type AddPolicyOptions as AddPipelineOptions,
@@ -1091,7 +1094,7 @@ index 92a7ee9..65e7734 100644
 +export type { RedirectPolicyOptions } from "./policies/redirectPolicy.js";
 +export type { UserAgentPolicyOptions } from "./policies/userAgentPolicy.js";
 diff --git a/src/interfaces.ts b/src/interfaces.ts
-index 26b806d..5d790ad 100644
+index 8466f08..58ad06c 100644
 --- a/src/interfaces.ts
 +++ b/src/interfaces.ts
 @@ -1,9 +1,7 @@
@@ -1105,7 +1108,7 @@ index 26b806d..5d790ad 100644
  
  /**
   * A HttpHeaders collection represented as a simple JSON object.
-@@ -204,11 +202,6 @@ export interface PipelineRequest {
+@@ -216,11 +214,6 @@ export interface PipelineRequest {
     */
    abortSignal?: AbortSignalLike;
  
@@ -1117,7 +1120,7 @@ index 26b806d..5d790ad 100644
    /**
     * Callback which fires upon upload progress.
     */
-@@ -315,6 +308,21 @@ export type TransferProgressEvent = {
+@@ -327,6 +320,21 @@ export type TransferProgressEvent = {
    loadedBytes: number;
  };
  
@@ -1337,7 +1340,7 @@ index 3e33a3b..3654566 100644
 +  return TYPESPEC_RUNTIME_LOG_LEVELS.includes(logLevel as any);
  }
 diff --git a/src/nodeHttpClient.ts b/src/nodeHttpClient.ts
-index 264a28e..2b974db 100644
+index 2d7bf00..1e415cb 100644
 --- a/src/nodeHttpClient.ts
 +++ b/src/nodeHttpClient.ts
 @@ -5,7 +5,7 @@ import * as http from "node:http";

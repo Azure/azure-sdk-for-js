@@ -21,7 +21,13 @@ describe("GetSupportedFormats tests", () => {
   });
 
   it("all formats", async () => {
-    const response = await client.path("/document/formats").get();
+    const options = {
+      queryParameters: {
+        type: "",
+      },
+    };
+
+    const response = await client.path("/document/formats").get(options);
     if (isUnexpected(response)) {
       throw response.body;
     }

@@ -1,5 +1,17 @@
 # Release History
 
+## 1.19.2 (Unreleased)
+
+### Features Added
+
+- `PipelineResponse.readableStreamBody` is now typed as `NodeJSReadableStream` which can be canceled by calling the `destroy` method.
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 1.19.1 (2025-03-06)
 
 ### Other Changes
