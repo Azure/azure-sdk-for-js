@@ -12,12 +12,12 @@ describe("EncryptionSettingsCache", function () {
     const containerRid = "mockContainerRid";
     const partitionKeyPaths = ["/mockPath"];
 
-    const path = new ClientEncryptionIncludedPath(
-      "/mockPath",
-      "key1",
-      EncryptionType.DETERMINISTIC,
-      EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
-    );
+    const path: ClientEncryptionIncludedPath = {
+      path: "/mockPath",
+      clientEncryptionKeyId: "key1",
+      encryptionType: EncryptionType.DETERMINISTIC,
+      encryptionAlgorithm: EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
+    };
 
     const clientEncryptionPolicy = new ClientEncryptionPolicy([path], 2);
     const encryptionSettingsCache = new EncryptionSettingsCache();

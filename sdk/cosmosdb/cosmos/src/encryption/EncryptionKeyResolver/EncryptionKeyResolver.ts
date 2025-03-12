@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { EncryptionKeyResolverName } from "../enums";
+// import { EncryptionKeyResolverName } from "../enums";
 
 /** Provides an interface for key resolver for different key providers.
  * All resolvers should implement this interface.
@@ -10,7 +10,7 @@ export interface EncryptionKeyResolver {
   /** name of the resolver to use for client side encryption.
    * Currently only AzureKeyVault implementation is supported.
    */
-  encryptionKeyResolverName: EncryptionKeyResolverName;
+  encryptionKeyResolverName: string;
   /**
    * Wraps the input key using the key encryption key.
    * @param encryptionKeyId - Identifier of the customer managed key to be used for wrapping.

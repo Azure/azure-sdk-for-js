@@ -55,7 +55,7 @@ async function run() {
   console.log(`Database with id ${databaseId} created`);
 
   // metadata for the customer managed key that will be used to wrap client encryption key
-  const metadata = new EncryptionKeyWrapMetadata(
+  const metadata: EncryptionKeyWrapMetadata(
     EncryptionKeyResolverName.AzureKeyVault,
     "akvKey",
     "https://<my-key-vault-1>.vault.azure.net/keys/cmk1/<version>", // key-vault url
@@ -71,13 +71,12 @@ async function run() {
   logStep("Create client encryption included path and policy");
   // adding id, salary and ssn properties for encryption
   const paths = ["/salary", "/ssn", "/id"].map(
-    (path) =>
-      new ClientEncryptionIncludedPath(
-        path,
-        "cek1",
-        EncryptionType.DETERMINISTIC,
-        EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
-      ),
+    (path) => {
+      path: path,
+        clientEncryptionKeyId: "cek1",
+          encryptionType: EncryptionType.DETERMINISTIC,
+            encryptionAlgorithm: EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
+    },
   );
   // creating client encryption policy with included paths and policy version 2.
   // policy version 2 must be used if we encrypt id or partition key
@@ -144,12 +143,12 @@ async function run() {
 
   logStep("rewrap client encryption key");
   // new metadata for rewrapping client encryption key
-  const newMetadata = new EncryptionKeyWrapMetadata(
-    EncryptionKeyResolverName.AzureKeyVault,
-    "v4key",
-    "https://<my-key-vault-1>.vault.azure.net/keys/cmk2/<version>",
-    KeyEncryptionAlgorithm.RSA_OAEP,
-  );
+  const newMetadata: EncryptionKeyWrapMetadata = {
+    type: EncryptionKeyResolverName.AzureKeyVault,
+    name: "v4key",
+    value: "https://<my-key-vault-1>.vault.azure.net/keys/cmk2/<version>",
+    algorithm: KeyEncryptionAlgorithm.RSA_OAEP,
+  };
   await database.rewrapClientEncryptionKey("cek1", newMetadata);
   console.log(`rewrapped client encryption key with id cek1`);
   // recommended to dispose client after use to clear all the timers

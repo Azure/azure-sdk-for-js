@@ -311,8 +311,7 @@ export class ClientContext {
 }
 
 // @public
-export class ClientEncryptionIncludedPath {
-    constructor(path: string, clientEncryptionKeyId: string, encryptionType: EncryptionType, encryptionAlgorithm: EncryptionAlgorithm);
+export interface ClientEncryptionIncludedPath {
     clientEncryptionKeyId: string;
     encryptionAlgorithm: EncryptionAlgorithm;
     encryptionType: EncryptionType;
@@ -857,16 +856,16 @@ export class Database {
     readonly client: CosmosClient;
     container(id: string): Container;
     readonly containers: Containers;
-    createClientEncryptionKey(id: string, encryptionAlgorithm: EncryptionAlgorithm, keyWrapMetadata: EncryptionKeyWrapMetadata): Promise<ClientEncryptionKeyResponse>;
+    createClientEncryptionKey(clientEncryptionKeyId: string, encryptionAlgorithm: EncryptionAlgorithm, keyWrapMetadata: EncryptionKeyWrapMetadata): Promise<ClientEncryptionKeyResponse>;
     delete(options?: RequestOptions): Promise<DatabaseResponse>;
     // (undocumented)
     readonly id: string;
     read(options?: RequestOptions): Promise<DatabaseResponse>;
-    readClientEncryptionKey(id: string): Promise<ClientEncryptionKeyResponse>;
+    readClientEncryptionKey(clientEncryptionKeyId: string): Promise<ClientEncryptionKeyResponse>;
     // (undocumented)
     readInternal(diagnosticNode: DiagnosticNodeInternal, options?: RequestOptions): Promise<DatabaseResponse>;
     readOffer(options?: RequestOptions): Promise<OfferResponse>;
-    rewrapClientEncryptionKey(id: string, newKeyWrapMetadata: EncryptionKeyWrapMetadata): Promise<ClientEncryptionKeyResponse>;
+    rewrapClientEncryptionKey(clientEncryptionKeyId: string, newKeyWrapMetadata: EncryptionKeyWrapMetadata): Promise<ClientEncryptionKeyResponse>;
     get url(): string;
     user(id: string): User;
     readonly users: Users;
@@ -1076,7 +1075,7 @@ export interface EncryptionDiagnostics {
 
 // @public
 export interface EncryptionKeyResolver {
-    encryptionKeyResolverName: EncryptionKeyResolverName;
+    encryptionKeyResolverName: string;
     unwrapKey(encryptionKeyId: string, algorithm: string, wrappedKey: Buffer): Promise<Buffer>;
     wrapKey(encryptionKeyId: string, algorithm: string, unwrappedKey: Buffer): Promise<Buffer>;
 }
@@ -1088,7 +1087,6 @@ export enum EncryptionKeyResolverName {
 
 // @public
 export class EncryptionKeyWrapMetadata {
-    constructor(type: EncryptionKeyResolverName, name: string, value: string, algorithm: KeyEncryptionAlgorithm);
     algorithm: KeyEncryptionAlgorithm;
     name: string;
     type: EncryptionKeyResolverName;
