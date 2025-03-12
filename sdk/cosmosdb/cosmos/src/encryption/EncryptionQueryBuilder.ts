@@ -27,12 +27,13 @@ export class EncryptionQueryBuilder {
     this.parameters = [];
   }
 
-  public addParameter(
-    name: string,
-    value: boolean | string | JSONArray | JSONObject | Date | null,
-    path: string,
-  ): void;
   public addParameter(name: string, value: number, dbType: "long" | "double", path: string): void;
+  public addParameter(name: string, value: boolean, path: string): void;
+  public addParameter(name: string, value: string, path: string): void;
+  public addParameter(name: string, value: JSONArray, path: string): void;
+  public addParameter(name: string, value: JSONObject, path: string): void;
+  public addParameter(name: string, value: Date, path: string): void;
+  public addParameter(name: string, value: null, path: string): void;
   public addParameter(
     name: string,
     value: boolean | string | JSONArray | JSONObject | Date | null | number,
