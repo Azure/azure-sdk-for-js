@@ -29,6 +29,12 @@ interface MetaSegments {
   lastConsumable: string;
 }
 
+function isSegmentFactory(
+  segmentFactoryOrMaxTransferSize: SegmentFactory | number,
+): segmentFactoryOrMaxTransferSize is SegmentFactory {
+  return (segmentFactoryOrMaxTransferSize as SegmentFactory).create !== undefined;
+}
+
 export class ChangeFeedFactory {
   private readonly segmentFactory: SegmentFactory;
   private readonly maxTransferSize?: number;
@@ -40,7 +46,7 @@ export class ChangeFeedFactory {
     if (segmentFactoryOrMaxTransferSize) {
       if (Number.isFinite(segmentFactoryOrMaxTransferSize)) {
         this.maxTransferSize = segmentFactoryOrMaxTransferSize as number;
-      } else if (segmentFactoryOrMaxTransferSize instanceof SegmentFactory) {
+      } else if (isSegmentFactory(segmentFactoryOrMaxTransferSize)) {
         segmentFactory = segmentFactoryOrMaxTransferSize as SegmentFactory;
       }
     }
