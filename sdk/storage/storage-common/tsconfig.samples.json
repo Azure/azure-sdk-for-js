@@ -2,9 +2,7 @@
   "extends": "../../../tsconfig.samples.base.json",
   "compilerOptions": {
     "paths": {
-      "@azure/storage-common": [
-        "./dist/esm"
-      ]
+      "@azure/storage-common": ["./dist/esm"]
     }
   }
 }
