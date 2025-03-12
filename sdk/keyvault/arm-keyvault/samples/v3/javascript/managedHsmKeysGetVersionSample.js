@@ -10,13 +10,13 @@
 // Licensed under the MIT License.
 const { KeyVaultManagementClient } = require("@azure/arm-keyvault");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Gets the specified version of the specified key in the specified managed HSM.
  *
  * @summary Gets the specified version of the specified key in the specified managed HSM.
- * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2023-07-01/examples/managedHsmGetKeyVersion.json
+ * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2024-11-01/examples/managedHsmGetKeyVersion.json
  */
 async function getAKeyVersion() {
   const subscriptionId =
@@ -31,13 +31,13 @@ async function getAKeyVersion() {
     resourceGroupName,
     name,
     keyName,
-    keyVersion
+    keyVersion,
   );
   console.log(result);
 }
 
 async function main() {
-  getAKeyVersion();
+  await getAKeyVersion();
 }
 
 main().catch(console.error);
