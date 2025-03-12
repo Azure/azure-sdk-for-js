@@ -26,44 +26,51 @@ export class EncryptionQueryBuilder {
     this.query = query;
     this.parameters = [];
   }
-  /** Adds boolean parameter to the query */
-  public addBooleanParameter(name: string, value: boolean, path: string): void {
-    this.parameters.push({ name: name, value: value, type: TypeMarker.Boolean, path: path });
-  }
-  /** Adds integer parameter to query  */
-  public addIntegerParameter(name: string, value: number, path: string): void {
-    this.parameters.push({ name: name, value: value, type: TypeMarker.Long, path: path });
-  }
-  /** Adds float parameter to query */
-  public addFloatParameter(name: string, value: number, path: string): void {
-    this.parameters.push({ name: name, value: value, type: TypeMarker.Double, path: path });
-  }
-  /** Adds string parameter to query */
-  public addStringParameter(name: string, value: string, path: string): void {
-    this.parameters.push({ name: name, value: value, type: TypeMarker.String, path: path });
-  }
-  /** Adds array parameter to query */
-  public addArrayParameter(name: string, value: JSONArray, path: string): void {
-    this.parameters.push({ name: name, value: value, path: path });
-  }
-  /** Adds object parameter to query */
-  public addObjectParameter(name: string, value: JSONObject, path: string): void {
-    this.parameters.push({ name: name, value: value, path: path });
-  }
-  /** Adds date parameter to query */
-  public addDateParameter(name: string, value: Date, path: string): void {
-    const date = value.toISOString();
-    this.parameters.push({
-      name: name,
-      value: date,
-      type: TypeMarker.String,
-      path: path,
-    });
-  }
 
-  /** Adds null parameter to query */
-  public addNullParameter(name: string, path: string): void {
-    this.parameters.push({ name: name, value: null, path: path });
+  public addParameter(
+    name: string,
+    value: boolean | string | JSONArray | JSONObject | Date | null,
+    path: string,
+  ): void;
+  public addParameter(name: string, value: number, dbType: "long" | "double", path: string): void;
+  public addParameter(
+    name: string,
+    value: boolean | string | JSONArray | JSONObject | Date | null | number,
+    kindOrPath: string,
+    pathOrUndefined?: string,
+  ): void {
+    const path = pathOrUndefined === undefined ? kindOrPath : pathOrUndefined;
+    const kind = pathOrUndefined === undefined ? undefined : kindOrPath;
+    if (path === undefined) {
+      throw new Error("Path is required");
+    }
+
+    switch (typeof value) {
+      case "boolean":
+        this.parameters?.push({ name, value, type: TypeMarker.Boolean, path });
+        break;
+      case "number":
+        if (kind === "double") {
+          this.parameters?.push({ name, value, type: TypeMarker.Double, path });
+        } else {
+          this.parameters?.push({ name, value, type: TypeMarker.Long, path });
+        }
+        break;
+      case "string":
+        this.parameters?.push({ name, value, type: TypeMarker.String, path });
+        break;
+      case "object":
+        if (value instanceof Date) {
+          const date = value.toISOString();
+          this.parameters?.push({ name, value: date, type: TypeMarker.String, path });
+        } else if (value === null) {
+          this.parameters?.push({ name, value: null, path });
+        }
+        break;
+      default:
+        this.parameters?.push({ name, value, path });
+        break;
+    }
   }
 
   /** Adds unencrypted parameter to query */
