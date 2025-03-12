@@ -76,7 +76,11 @@ export function ensureAsyncIterable(
   } else {
     return {
       cancel: async () => {
-        stream.destroy();
+        if ("socket" in stream) {
+          stream.socket.end();
+        } else {
+          stream.destroy();
+        }
       },
       iterable: stream as AsyncIterable<Uint8Array>,
     };
