@@ -1178,7 +1178,7 @@ export class BlobClient extends StorageClient {
    * return new Promise((resolve, reject) => {
    * const chunks = [];
    * readableStream.on("data", (data) => {
-   * chunks.push(data instanceof Buffer ? data : Buffer.from(data));
+   * chunks.push(Buffer.isBuffer(data) ? data : Buffer.from(data));
    * });
    * readableStream.on("end", () => {
    * resolve(Buffer.concat(chunks));
@@ -3765,7 +3765,7 @@ export class BlockBlobClient extends BlobClient {
    *   return new Promise((resolve, reject) => {
    *     const chunks = [];
    *     readableStream.on("data", (data) => {
-   *       chunks.push(data instanceof Buffer ? data : Buffer.from(data));
+   *       chunks.push(Buffer.isBuffer(data) ? data : Buffer.from(data));
    *     });
    *     readableStream.on("end", () => {
    *       resolve(Buffer.concat(chunks));
