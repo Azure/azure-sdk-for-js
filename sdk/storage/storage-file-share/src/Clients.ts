@@ -2131,6 +2131,7 @@ export class ShareDirectoryClient extends StorageClient {
             fileMode: parseOctalFileMode(rawResponse.fileMode),
             owner: rawResponse.owner,
             group: rawResponse.group,
+            fileType: rawResponse.nfsFileType,
           },
         } as any);
       },

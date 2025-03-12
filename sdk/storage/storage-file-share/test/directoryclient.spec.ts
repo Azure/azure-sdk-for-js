@@ -2591,11 +2591,11 @@ describe("DirectoryClient - NFS", () => {
     assert.deepEqual(getResp.posixProperties?.owner, posixProperties.owner);
     assert.deepEqual(getResp.posixProperties?.group, posixProperties.group);
     assert.deepEqual(getResp.posixProperties?.fileMode, posixProperties.fileMode);
-    assert.deepEqual(cResp.posixProperties?.fileType, "Directory");
-    assert.ok(cResp.fileChangeOn!);
-    assert.ok(cResp.fileCreatedOn!);
-    assert.ok(cResp.fileId!);
-    assert.ok(cResp.fileLastWriteOn!);
-    assert.ok(cResp.fileParentId!);
+    assert.deepEqual(getResp.posixProperties?.fileType, "Directory");
+    assert.ok(getResp.fileChangeOn!);
+    assert.ok(getResp.fileCreatedOn!);
+    assert.ok(getResp.fileId!);
+    assert.ok(getResp.fileLastWriteOn!);
+    assert.ok(getResp.fileParentId!);
   });
 });
