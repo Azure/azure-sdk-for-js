@@ -550,8 +550,9 @@ describe("ClientSideEncryption", function (this: Suite) {
       testDoc.sensitive_StringFormat,
       "/sensitive_StringFormat",
     );
+    queryBuilder.addNumericParameter("foo", 4.4, "float", "/something");
     queryBuilder.addParameter("@sensitive_ArrayFormat", null, "/sensitive_ArrayFormat");
-    queryBuilder.addParameter(
+    queryBuilder.addNumericParameter(
       "@sensitive_IntFormat",
       testDoc.sensitive_IntFormat,
       "double",
@@ -563,7 +564,7 @@ describe("ClientSideEncryption", function (this: Suite) {
         .sensitive_StringFormatL2,
       "/sensitive_NestedObjectFormatL1",
     );
-    queryBuilder.addParameter(
+    queryBuilder.addNumericParameter(
       "@sensitive_DecimalFormatL2",
       testDoc.sensitive_NestedObjectFormatL1.sensitive_NestedObjectFormatL2
         .sensitive_DecimalFormatL2,
@@ -653,7 +654,7 @@ describe("ClientSideEncryption", function (this: Suite) {
       testDoc1.sensitive_BoolFormat,
       "/sensitive_BoolFormat",
     );
-    queryBuilder.addParameter(
+    queryBuilder.addNumericParameter(
       "@sensitive_FloatFormat",
       testDoc1.sensitive_FloatFormat,
       "double",
@@ -673,10 +674,10 @@ describe("ClientSideEncryption", function (this: Suite) {
       "SELECT * FROM c where c.nonsensitive = @nonsensitive and c.sensitive_IntFormat = @sensitive_IntFormat",
     );
     queryBuilder.addParameter("@nonsensitive", testDoc4.nonsensitive, "/nonsensitive");
-    queryBuilder.addParameter(
+    queryBuilder.addNumericParameter(
       "@sensitive_IntFormat",
       testDoc4.sensitive_IntFormat,
-      "long",
+      "double",
       "/sensitive_IntFormat",
     );
     await validateQueryResults(encryptionQueryContainer, queryBuilder, [testDoc4]);
@@ -1144,10 +1145,10 @@ describe("ClientSideEncryption", function (this: Suite) {
       testDoc.sensitive_StringFormat,
       "/sensitive_StringFormat",
     );
-    queryBuilder.addParameter(
+    queryBuilder.addNumericParameter(
       "@sensitive_IntFormat",
       testDoc.sensitive_IntFormat,
-      "long",
+      "double",
       "/sensitive_IntFormat",
     );
     const expectedDocList = [testDoc];
@@ -2001,16 +2002,16 @@ describe("ClientSideEncryption", function (this: Suite) {
       "SELECT COUNT(c.id), c.sensitive_IntFormat FROM c WHERE c.sensitive_IntFormat = @Sensitive_IntFormat GROUP BY c.sensitive_IntFormat",
     );
 
-    withEncryptedParameter.addParameter(
+    withEncryptedParameter.addNumericParameter(
       "@sensitive",
       testDoc1.sensitive_IntFormat,
-      "long",
+      "double",
       "/sensitive_IntFormat",
     );
-    withEncryptedParameter.addParameter(
+    withEncryptedParameter.addNumericParameter(
       "@Sensitive_IntFormat",
       testDoc1.sensitive_IntFormat,
-      "long",
+      "double",
       "/sensitive_IntFormat",
     );
 
@@ -2133,10 +2134,10 @@ describe("ClientSideEncryption", function (this: Suite) {
     query = new EncryptionQueryBuilder(
       "SELECT * FROM c WHERE c.sensitive_LongFormat= @sensitive_LongFormat",
     );
-    query.addParameter(
+    query.addNumericParameter(
       "@sensitive_LongFormat",
       testDoc.sensitive_LongFormat,
-      "long",
+      "double",
       "/sensitive_LongFormat",
     );
     iterator = await container.items.getEncryptionQueryIterator(query);

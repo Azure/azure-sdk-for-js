@@ -27,49 +27,53 @@ export class EncryptionQueryBuilder {
     this.parameters = [];
   }
 
-  public addParameter(name: string, value: number, dbType: "long" | "double", path: string): void;
+  public addNumericParameter(
+    name: string,
+    value: number,
+    dbType: "float" | "double",
+    path: string,
+  ): void {
+    this.parameters?.push({
+      name,
+      value,
+      type: dbType === "float" ? TypeMarker.Double : TypeMarker.Long,
+      path,
+    });
+  }
+
+  // Alternatively you can remove all overloads (except for last one) and expose a single method
+  // with a union type for the value parameter (comment out this block and see how it impacts the experience)
   public addParameter(name: string, value: boolean, path: string): void;
   public addParameter(name: string, value: string, path: string): void;
   public addParameter(name: string, value: JSONArray, path: string): void;
   public addParameter(name: string, value: JSONObject, path: string): void;
   public addParameter(name: string, value: Date, path: string): void;
   public addParameter(name: string, value: null, path: string): void;
+
   public addParameter(
     name: string,
-    value: boolean | string | JSONArray | JSONObject | Date | null | number,
-    kindOrPath: string,
-    pathOrUndefined?: string,
+    value: boolean | string | JSONArray | JSONObject | Date | null,
+    path: string,
   ): void {
-    const path = pathOrUndefined === undefined ? kindOrPath : pathOrUndefined;
-    const kind = pathOrUndefined === undefined ? undefined : kindOrPath;
-    if (path === undefined) {
-      throw new Error("Path is required");
-    }
-
     switch (typeof value) {
       case "boolean":
         this.parameters?.push({ name, value, type: TypeMarker.Boolean, path });
-        break;
-      case "number":
-        if (kind === "double") {
-          this.parameters?.push({ name, value, type: TypeMarker.Double, path });
-        } else {
-          this.parameters?.push({ name, value, type: TypeMarker.Long, path });
-        }
         break;
       case "string":
         this.parameters?.push({ name, value, type: TypeMarker.String, path });
         break;
       case "object":
         if (value instanceof Date) {
+          // convenience for dates
           const date = value.toISOString();
           this.parameters?.push({ name, value: date, type: TypeMarker.String, path });
         } else if (value === null) {
+          // typeof null === object
           this.parameters?.push({ name, value: null, path });
         }
         break;
       default:
-        this.parameters?.push({ name, value, path });
+        this.parameters?.push({ name, value, path }); // for JSONObject, JSONArray, unencrypted etc
         break;
     }
   }
