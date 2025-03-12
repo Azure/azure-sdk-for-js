@@ -446,8 +446,9 @@ export class Recorder {
       // Ideally this should be handled by the test-proxy.  However, it was suggested that
       // there may be scenarios where it is desired to include these headers.
       // Thus we are ignoring Accept-Language and Accept-Encountered headers in recorder for browser.
+      // Origin header - https://github.com/Azure/azure-sdk-for-js/issues/32851
       const excludedHeaders = isBrowser
-        ? (options.excludedHeaders ?? []).concat("Accept-Language", "Accept-Encoding")
+        ? (options.excludedHeaders ?? []).concat("Accept-Language", "Accept-Encoding", "Origin")
         : options.excludedHeaders;
 
       const updatedOptions = {
