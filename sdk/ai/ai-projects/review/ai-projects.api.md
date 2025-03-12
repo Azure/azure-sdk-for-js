@@ -1749,6 +1749,9 @@ export class ToolUtility {
     static createConnectionTool(toolType: connectionToolType, connectionIds: string[]): {
         definition: ToolDefinition;
     };
+    static createFabricTool(connectionId: string): {
+        definition: ToolDefinition;
+    };
     static createFileSearchTool(vectorStoreIds?: string[], vectorStores?: Array<VectorStoreConfigurations>, definitionDetails?: FileSearchToolDefinitionDetails): {
         definition: FileSearchToolDefinition;
         resources: ToolResources;
