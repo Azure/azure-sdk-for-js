@@ -81,13 +81,13 @@ describe("Client Tests", function (this: Suite) {
       }
     });
   });
-  describe.skip("Validate user passed AbortController.signal", function () {
+  describe("Validate user passed AbortController.signal", function () {
     it("should throw exception if aborted during the request", async function () {
       const client = new CosmosClient({ endpoint, key: masterKey });
       try {
         const controller = new AbortController();
         const signal = controller.signal;
-        setTimeout(() => controller.abort(), 1);
+        setTimeout(() => controller.abort(), 0.1);
         await client.getDatabaseAccount({ abortSignal: signal });
         assert.fail("Must throw when trying to connect to database");
       } catch (err: any) {
