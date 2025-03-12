@@ -4,6 +4,8 @@
 
 ### Features Added
 
+- Supports a `baseUrl` option that can be used to rewrite the polling URL to use that base URL instead. This makes sure that polling works for operations that live behind proxies or API gateways.
+
 ### Breaking Changes
 
 ### Bugs Fixed

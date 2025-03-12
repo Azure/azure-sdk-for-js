@@ -3,10 +3,13 @@
 
 import type { ImplementationName, Result } from "./utils/utils.js";
 import { assertDivergentBehavior, assertError, createDoubleHeaders } from "./utils/utils.js";
-import { describe, it, assert, expect } from "vitest";
+import { describe, it, assert, expect, chai } from "vitest";
+import chaiAsPromised from "chai-as-promised";
 import { createRunLroWith, createTestPoller } from "./utils/router.js";
 import { delay } from "@azure/core-util";
 import { matrix } from "@azure-tools/test-utils-vitest";
+
+chai.use(chaiAsPromised);
 
 matrix(
   [["createPoller"], [true, false]] as const,
@@ -2345,7 +2348,7 @@ matrix(
             implName,
             throwOnNon2xxResponse,
           });
-          assert.isUndefined(poller.operationState);
+          assert.isUndefined(poller.operationState as any);
           const serialized = await poller.serialize();
           const expectedSerialized = JSON.stringify({
             state: {
@@ -2369,7 +2372,7 @@ matrix(
             throwOnNon2xxResponse,
           });
           assert.equal(serialized, await restoredPoller.serialize());
-          assert.equal(poller.operationState!.status, "succeeded");
+          assert.equal(poller.operationState.status, "succeeded");
           assert.deepEqual(poller.result, retResult);
         });
 
@@ -2445,7 +2448,7 @@ matrix(
           assert.equal(pollCount, 0);
           assert.deepEqual(retResult, await restoredPoller);
           assert.equal(pollCount, 11);
-          assert.equal(restoredPoller.operationState.status, "succeeded");
+          assert.equal(restoredPoller.operationState?.status, "succeeded");
           assert.deepEqual(restoredPoller.result, retResult);
           assert.isUndefined(poller.result);
           // duplicate awaitting would not trigger extra pollings
@@ -2950,6 +2953,43 @@ matrix(
           });
           assert.equal(poller.result?.properties?.provisioningState, "Canceled");
         });
+        it("polling URL is rewritten if the baseUrl option is provided ", async function () {
+          const baseUrl = "https://example2.com";
+          const initialRequestUrl = `${baseUrl}/path`;
+          const poller = createTestPoller({
+            routes: [
+              {
+                method: "POST",
+                status: 200,
+                body: JSON.stringify({ status: "Running" }),
+                headers: {
+                  "operation-location": "https://example1.com/path/polling",
+                  location: "https://example1.com/location",
+                },
+                path: initialRequestUrl,
+              },
+              {
+                method: "GET",
+                status: 200,
+                body: JSON.stringify({ status: "Succeeded" }),
+                path: `${baseUrl}/path/polling`,
+              },
+              {
+                method: "GET",
+                status: 200,
+                body: "",
+                path: `${baseUrl}/location`,
+              },
+            ],
+            baseUrl,
+            throwOnNon2xxResponse,
+          });
+          const pollerState = JSON.parse(await poller.serialize());
+          assert.equal(pollerState.state.config.operationLocation, `${baseUrl}/path/polling`);
+          assert.equal(pollerState.state.config.resourceLocation, `${baseUrl}/location`);
+          assert.equal(pollerState.state.config.initialRequestUrl, initialRequestUrl);
+          await assert.isFulfilled(poller.pollUntilDone());
+        });
         it("prints an error message based on the error in the status monitor", async () => {
           const pollingPath = "/postlocation/retry/succeeded/operationResults/200/";
           const code = "InvalidRequest";
@@ -3172,7 +3212,7 @@ matrix(
               implName,
               throwOnNon2xxResponse: true,
             });
-            await expect(poller).rejects.toThrow(errMsg);
+            await expect(poller).to.be.rejectedWith(errMsg);
           });
           it("should work properly when mixing catch and await", async () => {
             const body = { status: "canceled", results: [1, 2] };
@@ -3207,9 +3247,9 @@ matrix(
               err = e;
             });
             assert.equal(err.message, errMsg);
-            await expect(poller).rejects.toThrow(errMsg);
+            await expect(poller).to.be.rejectedWith(errMsg);
             assert.equal(callbackCounts, 1);
-            await expect(poller.finally(() => callbackCounts++)).rejects.toThrow(errMsg);
+            await expect(poller.finally(() => callbackCounts++)).to.be.rejectedWith(errMsg);
             assert.equal(callbackCounts, 2);
           });
         });
