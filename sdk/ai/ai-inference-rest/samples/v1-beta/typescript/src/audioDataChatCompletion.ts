@@ -90,7 +90,7 @@ function createModelClient(): ModelClient {
 
 /**
  * Get the Base 64 data of an audio file.
- * @param {string} audioFile - The path to the image file.
+ * @param {string} audioFile - The path to the audio file.
  * @returns {string} Base64 data of the audio.
  */
 function getAudioData(audioFile: string): string {
