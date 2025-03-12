@@ -13,6 +13,7 @@ These sample programs show how to use the TypeScript client libraries for Azure 
 
 | **File Name**                                                                 | **Description**                                               |
 | ----------------------------------------------------------------------------- | ------------------------------------------------------------- |
+| [audioUrlChatCompletion.ts][audiourlchatcompletion]                           | Get chat completions using Audio URL.                         |
 | [chatCompletions.ts][chatcompletions]                                         | Get chat completions.                                         |
 | [chatCompletionsWithStructuredOutput.ts][chatcompletionswithstructuredoutput] | Get chat completions with structured output.                  |
 | [embeddings.ts][embeddings]                                                   | Get embeddings.                                               |
@@ -62,19 +63,20 @@ npm run build
 4. Run whichever samples you like (note that some samples may require additional setup, see the table above):
 
 ```bash
-node dist/chatCompletions.js
+node dist/audioUrlChatCompletion.js
 ```
 
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx dev-tool run vendored cross-env ENDPOINT="<endpoint>" KEY="<key>" MODEL_NAME="<model name>" node dist/chatCompletions.js
+npx dev-tool run vendored cross-env ENDPOINT="<endpoint>" KEY="<key>" MODEL_NAME="<model name>" node dist/audioUrlChatCompletion.js
 ```
 
 ## Next Steps
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
+[audiourlchatcompletion]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-inference-rest/samples/v1-beta/typescript/src/audioUrlChatCompletion.ts
 [chatcompletions]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-inference-rest/samples/v1-beta/typescript/src/chatCompletions.ts
 [chatcompletionswithstructuredoutput]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-inference-rest/samples/v1-beta/typescript/src/chatCompletionsWithStructuredOutput.ts
 [embeddings]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-inference-rest/samples/v1-beta/typescript/src/embeddings.ts
