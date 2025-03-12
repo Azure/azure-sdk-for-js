@@ -1,23 +1,27 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { RawHttpHeaders } from "@azure/core-rest-pipeline";
-import { HttpResponse, ErrorResponse } from "@azure-rest/core-client";
-import {
+import type { RawHttpHeaders } from "@azure/core-rest-pipeline";
+import type { HttpResponse, ErrorResponse } from "@azure-rest/core-client";
+import type {
   AgentOutput,
   OpenAIPageableListOfAgentOutput,
-  OpenAIPageableListOfVectorStoreOutput,
   AgentDeletionStatusOutput,
   AgentThreadOutput,
   ThreadDeletionStatusOutput,
   ThreadMessageOutput,
+  OpenAIPageableListOfThreadMessageOutput,
   ThreadRunOutput,
+  OpenAIPageableListOfThreadRunOutput,
   RunStepOutput,
+  OpenAIPageableListOfRunStepOutput,
   FileListResponseOutput,
   OpenAIFileOutput,
   FileDeletionStatusOutput,
+  OpenAIPageableListOfVectorStoreOutput,
   VectorStoreOutput,
   VectorStoreDeletionStatusOutput,
+  OpenAIPageableListOfVectorStoreFileOutput,
   VectorStoreFileOutput,
   VectorStoreFileDeletionStatusOutput,
   VectorStoreFileBatchOutput,
@@ -29,10 +33,6 @@ import {
   PagedEvaluationOutput,
   EvaluationScheduleOutput,
   PagedEvaluationScheduleOutput,
-  OpenAIPageableListOfVectorStoreFileOutput,
-  OpenAIPageableListOfRunStepOutput,
-  OpenAIPageableListOfThreadRunOutput,
-  OpenAIPageableListOfThreadMessageOutput,
 } from "./outputModels.js";
 
 /** The new agent instance. */
