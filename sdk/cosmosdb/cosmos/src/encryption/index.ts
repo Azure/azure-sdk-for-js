@@ -15,4 +15,4 @@ export { ProtectedDataEncryptionKey } from "./EncryptionKey";
 export { EncryptionProcessor } from "./EncryptionProcessor";
 export { EncryptionQueryBuilder } from "./EncryptionQueryBuilder";
 export { EncryptionTimeToLive } from "./EncryptionTimeToLive";
-export { EncryptionPolicy } from "./EncryptionPolicy";
+export { ClientEncryptionOptions } from "./ClientEncryptionOptions";

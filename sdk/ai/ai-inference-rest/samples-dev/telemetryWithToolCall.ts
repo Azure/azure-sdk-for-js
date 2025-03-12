@@ -17,6 +17,7 @@ import {
   SimpleSpanProcessor,
 } from "@opentelemetry/sdk-trace-node";
 import { createAzureSdkInstrumentation } from "@azure/opentelemetry-instrumentation-azure-sdk";
+import { createRestError } from "@azure-rest/core-client";
 
 // Load the .env file if it exists
 import "dotenv/config";
@@ -151,7 +152,7 @@ export async function main(): Promise<void> {
       });
 
       if (isUnexpected(response)) {
-        throw response.body.error;
+        throw createRestError(response);
       }
 
       const stream = response.body;

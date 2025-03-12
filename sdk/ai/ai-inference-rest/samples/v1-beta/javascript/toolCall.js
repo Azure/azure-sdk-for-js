@@ -11,10 +11,10 @@ const ModelClient = require("@azure-rest/ai-inference").default,
   { isUnexpected } = require("@azure-rest/ai-inference");
 const { AzureKeyCredential } = require("@azure/core-auth");
 const { DefaultAzureCredential } = require("@azure/identity");
+const { createRestError } = require("@azure-rest/core-client");
 
 // Load the .env file if it exists
-require("dotenv").config();
-
+require("dotenv/config");
 // You will need to set these environment variables or edit the following values
 const endpoint = process.env["ENDPOINT"] || "<endpoint>";
 const key = process.env["KEY"];
@@ -40,7 +40,7 @@ const getCurrentWeather = {
 };
 
 const getWeatherFunc = (location, unit) => {
-  if (unit != "celsius") {
+  if (unit !== "celsius") {
     unit = "fahrenheit";
   }
   return `The temperature in ${location} is 72 degrees ${unit}`;
@@ -114,7 +114,7 @@ async function main() {
     });
 
     if (isUnexpected(response)) {
-      throw response.body.error;
+      throw createRestError(response);
     }
 
     const stream = response.body;
@@ -139,11 +139,11 @@ async function main() {
         }
         updateToolCalls(toolCallArray, functionArray);
       }
-      if (choice.finish_reason == "tool_calls") {
+      if (choice.finish_reason === "tool_calls") {
         const messageArray = handleToolCalls(functionArray);
         messages.push(...messageArray);
       } else {
-        if (choice.message?.content && choice.message.content != "") {
+        if (choice.message?.content && choice.message.content !== "") {
           toolCallAnswer += choice.message?.content;
           awaitingToolCallAnswer = false;
         }

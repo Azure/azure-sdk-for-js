@@ -1,5 +1,21 @@
 # Release History
 
+## 1.9.1 ()
+
+## Other Changes
+
+- Add support for detecting the Application Insights shim on internal verison.
+
+## 1.9.0 (2025-03-04)
+
+### Features Added
+
+- Add support for stable OpenTelemetry semantic conventions.
+
+### Other Changes
+
+- Added support for detecting AKS when `KUBERNETES_SERVICE_HOST` is set.
+
 ## 1.8.1 (2025-01-28)
 
 ### Bugs Fixed

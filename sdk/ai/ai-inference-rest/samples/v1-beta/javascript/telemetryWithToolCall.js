@@ -17,10 +17,10 @@ const {
   SimpleSpanProcessor,
 } = require("@opentelemetry/sdk-trace-node");
 const { createAzureSdkInstrumentation } = require("@azure/opentelemetry-instrumentation-azure-sdk");
+const { createRestError } = require("@azure-rest/core-client");
 
 // Load the .env file if it exists
-require("dotenv").config();
-
+require("dotenv/config");
 // You will need to set these environment variables or edit the following values
 const endpoint = process.env["ENDPOINT"] || "<endpoint>";
 const key = process.env["KEY"];
@@ -143,7 +143,7 @@ async function main() {
       });
 
       if (isUnexpected(response)) {
-        throw response.body.error;
+        throw createRestError(response);
       }
 
       const stream = response.body;
@@ -168,11 +168,11 @@ async function main() {
           }
           updateToolCalls(toolCallArray, functionArray);
         }
-        if (choice.finish_reason == "tool_calls") {
+        if (choice.finish_reason === "tool_calls") {
           const messageArray = handleToolCalls(functionArray);
           messages.push(...messageArray);
         } else {
-          if (choice.message?.content && choice.message.content != "") {
+          if (choice.message?.content && choice.message.content !== "") {
             toolCallAnswer += choice.message?.content;
             awaitingToolCallAnswer = false;
           }

@@ -140,25 +140,55 @@ export enum KnownDeletionRecoveryLevel {
  */
 export type DeletionRecoveryLevel = string;
 
-/** The key vault server error. */
-export interface ErrorModel {
+/** The key vault error exception. */
+export interface KeyVaultError {
+  /** The key vault server error. */
+  readonly error?: ErrorModel;
+}
+
+export function keyVaultErrorDeserializer(item: any): KeyVaultError {
+  return {
+    error: !item["error"]
+      ? item["error"]
+      : _keyVaultErrorErrorDeserializer(item["error"]),
+  };
+}
+
+/** Alias for ErrorModel */
+export type ErrorModel = {
+  code?: string;
+  message?: string;
+  innerError?: ErrorModel_1;
+} | null;
+
+/** model interface _KeyVaultErrorError */
+export interface _KeyVaultErrorError {
   /** The error code. */
   readonly code?: string;
   /** The error message. */
   readonly message?: string;
   /** The key vault server error. */
-  readonly innerError?: ErrorModel;
+  readonly innerError?: ErrorModel_1;
 }
 
-export function errorDeserializer(item: any): ErrorModel {
+export function _keyVaultErrorErrorDeserializer(
+  item: any,
+): _KeyVaultErrorError {
   return {
     code: item["code"],
     message: item["message"],
     innerError: !item["innererror"]
       ? item["innererror"]
-      : errorDeserializer(item["innererror"]),
+      : _keyVaultErrorErrorDeserializer(item["innererror"]),
   };
 }
+
+/** Alias for ErrorModel */
+export type ErrorModel_1 = {
+  code?: string;
+  message?: string;
+  innerError?: ErrorModel_1;
+} | null;
 
 /** A Deleted Certificate consisting of its previous id, attributes and its tags, as well as information on when it will be purged. */
 export interface DeletedCertificateBundle {
@@ -180,6 +210,8 @@ export interface DeletedCertificateBundle {
   attributes?: CertificateAttributes;
   /** Application specific metadata in the form of key-value pairs */
   tags?: Record<string, string>;
+  /** Specifies whether the certificate chain preserves its original order. The default value is false, which sets the leaf certificate at index 0. */
+  preserveCertOrder?: boolean;
   /** The url of the recovery object, used to identify and recover the deleted certificate. */
   recoveryId?: string;
   /** The time when the certificate is scheduled to be purged, in UTC */
@@ -213,6 +245,7 @@ export function deletedCertificateBundleDeserializer(
       ? item["attributes"]
       : certificateAttributesDeserializer(item["attributes"]),
     tags: item["tags"],
+    preserveCertOrder: item["preserveCertOrder"],
     recoveryId: item["recoveryId"],
     scheduledPurgeDate: !item["scheduledPurgeDate"]
       ? item["scheduledPurgeDate"]
@@ -980,6 +1013,8 @@ export interface CertificateCreateParameters {
   certificateAttributes?: CertificateAttributes;
   /** Application specific metadata in the form of key-value pairs. */
   tags?: Record<string, string>;
+  /** Specifies whether the certificate chain preserves its original order. The default value is false, which sets the leaf certificate at index 0. */
+  preserveCertOrder?: boolean;
 }
 
 export function certificateCreateParametersSerializer(
@@ -993,6 +1028,7 @@ export function certificateCreateParametersSerializer(
       ? item["certificateAttributes"]
       : certificateAttributesSerializer(item["certificateAttributes"]),
     tags: item["tags"],
+    preserveCertOrder: item["preserveCertOrder"],
   };
 }
 
@@ -1014,6 +1050,8 @@ export interface CertificateOperation {
   error?: ErrorModel;
   /** Location which contains the result of the certificate operation. */
   target?: string;
+  /** Specifies whether the certificate chain preserves its original order. The default value is false, which sets the leaf certificate at index 0. */
+  preserveCertOrder?: boolean;
   /** Identifier for the certificate operation. */
   requestId?: string;
 }
@@ -1034,8 +1072,11 @@ export function certificateOperationDeserializer(
     cancellationRequested: item["cancellation_requested"],
     status: item["status"],
     statusDetails: item["status_details"],
-    error: !item["error"] ? item["error"] : errorDeserializer(item["error"]),
+    error: !item["error"]
+      ? item["error"]
+      : _keyVaultErrorErrorDeserializer(item["error"]),
     target: item["target"],
+    preserveCertOrder: item["preserveCertOrder"],
     requestId: item["request_id"],
   };
 }
@@ -1052,6 +1093,8 @@ export interface CertificateImportParameters {
   certificateAttributes?: CertificateAttributes;
   /** Application specific metadata in the form of key-value pairs. */
   tags?: Record<string, string>;
+  /** Specifies whether the certificate chain preserves its original order. The default value is false, which sets the leaf certificate at index 0. */
+  preserveCertOrder?: boolean;
 }
 
 export function certificateImportParametersSerializer(
@@ -1067,6 +1110,7 @@ export function certificateImportParametersSerializer(
       ? item["certificateAttributes"]
       : certificateAttributesSerializer(item["certificateAttributes"]),
     tags: item["tags"],
+    preserveCertOrder: item["preserveCertOrder"],
   };
 }
 
@@ -1090,6 +1134,8 @@ export interface CertificateBundle {
   attributes?: CertificateAttributes;
   /** Application specific metadata in the form of key-value pairs */
   tags?: Record<string, string>;
+  /** Specifies whether the certificate chain preserves its original order. The default value is false, which sets the leaf certificate at index 0. */
+  preserveCertOrder?: boolean;
 }
 
 export function certificateBundleDeserializer(item: any): CertificateBundle {
@@ -1115,6 +1161,7 @@ export function certificateBundleDeserializer(item: any): CertificateBundle {
       ? item["attributes"]
       : certificateAttributesDeserializer(item["attributes"]),
     tags: item["tags"],
+    preserveCertOrder: item["preserveCertOrder"],
   };
 }
 
@@ -1283,6 +1330,6 @@ export function deletedCertificateItemDeserializer(
 export enum KnownVersions {
   /** The 7.5 API version. */
   "v7.5" = "7.5",
-  /** The 7.6-preview.1 API version. */
-  "v7.6_preview.1" = "7.6-preview.1",
+  /** The 7.6-preview.2 API version. */
+  "v7.6_preview.2" = "7.6-preview.2",
 }

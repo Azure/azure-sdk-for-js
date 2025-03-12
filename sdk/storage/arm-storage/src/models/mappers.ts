@@ -827,6 +827,294 @@ export const Multichannel: coreClient.CompositeMapper = {
   },
 };
 
+export const FileServiceUsages: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "FileServiceUsages",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "FileServiceUsage",
+            },
+          },
+        },
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const FileServiceUsageProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "FileServiceUsageProperties",
+    modelProperties: {
+      storageAccountLimits: {
+        serializedName: "storageAccountLimits",
+        type: {
+          name: "Composite",
+          className: "AccountLimits",
+        },
+      },
+      fileShareLimits: {
+        serializedName: "fileShareLimits",
+        type: {
+          name: "Composite",
+          className: "FileShareLimits",
+        },
+      },
+      fileShareRecommendations: {
+        serializedName: "fileShareRecommendations",
+        type: {
+          name: "Composite",
+          className: "FileShareRecommendations",
+        },
+      },
+      burstingConstants: {
+        serializedName: "burstingConstants",
+        type: {
+          name: "Composite",
+          className: "BurstingConstants",
+        },
+      },
+      storageAccountUsage: {
+        serializedName: "storageAccountUsage",
+        type: {
+          name: "Composite",
+          className: "AccountUsage",
+        },
+      },
+    },
+  },
+};
+
+export const AccountLimits: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AccountLimits",
+    modelProperties: {
+      maxFileShares: {
+        serializedName: "maxFileShares",
+        readOnly: true,
+        type: {
+          name: "Number",
+        },
+      },
+      maxProvisionedStorageGiB: {
+        serializedName: "maxProvisionedStorageGiB",
+        readOnly: true,
+        type: {
+          name: "Number",
+        },
+      },
+      maxProvisionedIops: {
+        serializedName: "maxProvisionedIOPS",
+        readOnly: true,
+        type: {
+          name: "Number",
+        },
+      },
+      maxProvisionedBandwidthMiBPerSec: {
+        serializedName: "maxProvisionedBandwidthMiBPerSec",
+        readOnly: true,
+        type: {
+          name: "Number",
+        },
+      },
+    },
+  },
+};
+
+export const FileShareLimits: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "FileShareLimits",
+    modelProperties: {
+      minProvisionedStorageGiB: {
+        serializedName: "minProvisionedStorageGiB",
+        readOnly: true,
+        type: {
+          name: "Number",
+        },
+      },
+      maxProvisionedStorageGiB: {
+        serializedName: "maxProvisionedStorageGiB",
+        readOnly: true,
+        type: {
+          name: "Number",
+        },
+      },
+      minProvisionedIops: {
+        serializedName: "minProvisionedIOPS",
+        readOnly: true,
+        type: {
+          name: "Number",
+        },
+      },
+      maxProvisionedIops: {
+        serializedName: "maxProvisionedIOPS",
+        readOnly: true,
+        type: {
+          name: "Number",
+        },
+      },
+      minProvisionedBandwidthMiBPerSec: {
+        serializedName: "minProvisionedBandwidthMiBPerSec",
+        readOnly: true,
+        type: {
+          name: "Number",
+        },
+      },
+      maxProvisionedBandwidthMiBPerSec: {
+        serializedName: "maxProvisionedBandwidthMiBPerSec",
+        readOnly: true,
+        type: {
+          name: "Number",
+        },
+      },
+    },
+  },
+};
+
+export const FileShareRecommendations: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "FileShareRecommendations",
+    modelProperties: {
+      baseIops: {
+        serializedName: "baseIOPS",
+        readOnly: true,
+        type: {
+          name: "Number",
+        },
+      },
+      ioScalar: {
+        serializedName: "ioScalar",
+        readOnly: true,
+        type: {
+          name: "Number",
+        },
+      },
+      baseBandwidthMiBPerSec: {
+        serializedName: "baseBandwidthMiBPerSec",
+        readOnly: true,
+        type: {
+          name: "Number",
+        },
+      },
+      bandwidthScalar: {
+        serializedName: "bandwidthScalar",
+        readOnly: true,
+        type: {
+          name: "Number",
+        },
+      },
+    },
+  },
+};
+
+export const BurstingConstants: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "BurstingConstants",
+    modelProperties: {
+      burstFloorIops: {
+        serializedName: "burstFloorIOPS",
+        readOnly: true,
+        type: {
+          name: "Number",
+        },
+      },
+      burstIOScalar: {
+        serializedName: "burstIOScalar",
+        readOnly: true,
+        type: {
+          name: "Number",
+        },
+      },
+      burstTimeframeSeconds: {
+        serializedName: "burstTimeframeSeconds",
+        readOnly: true,
+        type: {
+          name: "Number",
+        },
+      },
+    },
+  },
+};
+
+export const AccountUsage: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AccountUsage",
+    modelProperties: {
+      liveShares: {
+        serializedName: "liveShares",
+        type: {
+          name: "Composite",
+          className: "AccountUsageElements",
+        },
+      },
+      softDeletedShares: {
+        serializedName: "softDeletedShares",
+        type: {
+          name: "Composite",
+          className: "AccountUsageElements",
+        },
+      },
+    },
+  },
+};
+
+export const AccountUsageElements: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AccountUsageElements",
+    modelProperties: {
+      fileShareCount: {
+        serializedName: "fileShareCount",
+        readOnly: true,
+        type: {
+          name: "Number",
+        },
+      },
+      provisionedStorageGiB: {
+        serializedName: "provisionedStorageGiB",
+        readOnly: true,
+        type: {
+          name: "Number",
+        },
+      },
+      provisionedIops: {
+        serializedName: "provisionedIOPS",
+        readOnly: true,
+        type: {
+          name: "Number",
+        },
+      },
+      provisionedBandwidthMiBPerSec: {
+        serializedName: "provisionedBandwidthMiBPerSec",
+        readOnly: true,
+        type: {
+          name: "Number",
+        },
+      },
+    },
+  },
+};
+
 export const FileShareItems: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -904,6 +1192,34 @@ export const AccessPolicy: coreClient.CompositeMapper = {
     },
   },
 };
+
+export const FileSharePropertiesFileSharePaidBursting: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "FileSharePropertiesFileSharePaidBursting",
+      modelProperties: {
+        paidBurstingEnabled: {
+          serializedName: "paidBurstingEnabled",
+          type: {
+            name: "Boolean",
+          },
+        },
+        paidBurstingMaxIops: {
+          serializedName: "paidBurstingMaxIops",
+          type: {
+            name: "Number",
+          },
+        },
+        paidBurstingMaxBandwidthMibps: {
+          serializedName: "paidBurstingMaxBandwidthMibps",
+          type: {
+            name: "Number",
+          },
+        },
+      },
+    },
+  };
 
 export const DeletedShare: coreClient.CompositeMapper = {
   type: {
@@ -4296,6 +4612,22 @@ export const ObjectReplicationPolicyFilter: coreClient.CompositeMapper = {
   },
 };
 
+export const ObjectReplicationPolicyPropertiesMetrics: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "ObjectReplicationPolicyPropertiesMetrics",
+      modelProperties: {
+        enabled: {
+          serializedName: "enabled",
+          type: {
+            name: "Boolean",
+          },
+        },
+      },
+    },
+  };
+
 export const LocalUsers: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -5590,6 +5922,23 @@ export const FileServiceProperties: coreClient.CompositeMapper = {
   },
 };
 
+export const FileServiceUsage: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "FileServiceUsage",
+    modelProperties: {
+      ...Resource.type.modelProperties,
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "FileServiceUsageProperties",
+        },
+      },
+    },
+  },
+};
+
 export const QueueServiceProperties: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -5850,6 +6199,13 @@ export const ObjectReplicationPolicy: coreClient.CompositeMapper = {
               className: "ObjectReplicationPolicyRule",
             },
           },
+        },
+      },
+      metrics: {
+        serializedName: "properties.metrics",
+        type: {
+          name: "Composite",
+          className: "ObjectReplicationPolicyPropertiesMetrics",
         },
       },
     },
@@ -6420,13 +6776,57 @@ export const FileShareItem: coreClient.CompositeMapper = {
         },
       },
       shareQuota: {
-        constraints: {
-          InclusiveMaximum: 102400,
-          InclusiveMinimum: 1,
-        },
         serializedName: "properties.shareQuota",
         type: {
           name: "Number",
+        },
+      },
+      provisionedIops: {
+        serializedName: "properties.provisionedIops",
+        type: {
+          name: "Number",
+        },
+      },
+      provisionedBandwidthMibps: {
+        serializedName: "properties.provisionedBandwidthMibps",
+        type: {
+          name: "Number",
+        },
+      },
+      includedBurstIops: {
+        serializedName: "properties.includedBurstIops",
+        readOnly: true,
+        type: {
+          name: "Number",
+        },
+      },
+      maxBurstCreditsForIops: {
+        serializedName: "properties.maxBurstCreditsForIops",
+        readOnly: true,
+        type: {
+          name: "Number",
+        },
+      },
+      nextAllowedQuotaDowngradeTime: {
+        serializedName: "properties.nextAllowedQuotaDowngradeTime",
+        readOnly: true,
+        type: {
+          name: "DateTimeRfc1123",
+        },
+      },
+      nextAllowedProvisionedIopsDowngradeTime: {
+        serializedName: "properties.nextAllowedProvisionedIopsDowngradeTime",
+        readOnly: true,
+        type: {
+          name: "DateTimeRfc1123",
+        },
+      },
+      nextAllowedProvisionedBandwidthDowngradeTime: {
+        serializedName:
+          "properties.nextAllowedProvisionedBandwidthDowngradeTime",
+        readOnly: true,
+        type: {
+          name: "DateTimeRfc1123",
         },
       },
       enabledProtocols: {
@@ -6534,6 +6934,13 @@ export const FileShareItem: coreClient.CompositeMapper = {
         readOnly: true,
         type: {
           name: "DateTime",
+        },
+      },
+      fileSharePaidBursting: {
+        serializedName: "properties.fileSharePaidBursting",
+        type: {
+          name: "Composite",
+          className: "FileSharePropertiesFileSharePaidBursting",
         },
       },
     },
@@ -6561,13 +6968,57 @@ export const FileShare: coreClient.CompositeMapper = {
         },
       },
       shareQuota: {
-        constraints: {
-          InclusiveMaximum: 102400,
-          InclusiveMinimum: 1,
-        },
         serializedName: "properties.shareQuota",
         type: {
           name: "Number",
+        },
+      },
+      provisionedIops: {
+        serializedName: "properties.provisionedIops",
+        type: {
+          name: "Number",
+        },
+      },
+      provisionedBandwidthMibps: {
+        serializedName: "properties.provisionedBandwidthMibps",
+        type: {
+          name: "Number",
+        },
+      },
+      includedBurstIops: {
+        serializedName: "properties.includedBurstIops",
+        readOnly: true,
+        type: {
+          name: "Number",
+        },
+      },
+      maxBurstCreditsForIops: {
+        serializedName: "properties.maxBurstCreditsForIops",
+        readOnly: true,
+        type: {
+          name: "Number",
+        },
+      },
+      nextAllowedQuotaDowngradeTime: {
+        serializedName: "properties.nextAllowedQuotaDowngradeTime",
+        readOnly: true,
+        type: {
+          name: "DateTimeRfc1123",
+        },
+      },
+      nextAllowedProvisionedIopsDowngradeTime: {
+        serializedName: "properties.nextAllowedProvisionedIopsDowngradeTime",
+        readOnly: true,
+        type: {
+          name: "DateTimeRfc1123",
+        },
+      },
+      nextAllowedProvisionedBandwidthDowngradeTime: {
+        serializedName:
+          "properties.nextAllowedProvisionedBandwidthDowngradeTime",
+        readOnly: true,
+        type: {
+          name: "DateTimeRfc1123",
         },
       },
       enabledProtocols: {
@@ -6675,6 +7126,13 @@ export const FileShare: coreClient.CompositeMapper = {
         readOnly: true,
         type: {
           name: "DateTime",
+        },
+      },
+      fileSharePaidBursting: {
+        serializedName: "properties.fileSharePaidBursting",
+        type: {
+          name: "Composite",
+          className: "FileSharePropertiesFileSharePaidBursting",
         },
       },
     },

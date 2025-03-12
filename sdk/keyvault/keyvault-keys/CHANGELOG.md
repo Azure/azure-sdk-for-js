@@ -2,13 +2,12 @@
 
 # Release History
 
-## 4.9.1 (Unreleased)
+## 4.10.0-beta.1 (2025-03-11)
 
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
+- Added support for service API version `7.6-preview.2`. [#32947](https://github.com/Azure/azure-sdk-for-js/pull/32947)
+- Added support for `KeyClient.getKeyAttestation` which can be used to retrieve the key along with its attestation blob from a managed HSM. [#32947](https://github.com/Azure/azure-sdk-for-js/pull/32947)
 
 ### Other Changes
 

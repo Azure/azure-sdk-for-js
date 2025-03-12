@@ -8,11 +8,11 @@
 package-name: "@azure/communication-rooms"
 override-client-name: RoomsRestClient
 description: Communication Rooms client
-package-version: 1.1.1
+package-version: 1.2.0
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
-tag: package-rooms-2024-11-22
-require: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/91813ca7a287fe944262e992413ce4d51d987276/specification/communication/data-plane/Rooms/readme.md
+tag: package-rooms-2025-03-13
+require: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/538040a7bbb466baf361e98d6d36faec417cff7a/specification/communication/data-plane/Rooms/readme.md
 model-date-time-as-string: false
 optional-response-headers: true
 payload-flattening-threshold: 10

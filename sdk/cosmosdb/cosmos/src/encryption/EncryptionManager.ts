@@ -23,7 +23,6 @@ export class EncryptionManager {
 
   constructor(
     encryptionKeyResolver: EncryptionKeyResolver,
-    encryptionKeyResolverName: string,
     cacheTimeToLive?: EncryptionTimeToLive,
   ) {
     this.cacheTimeToLive =
@@ -33,7 +32,6 @@ export class EncryptionManager {
     const cacheTtlInMs = this.getCacheTTlInMs();
     this.encryptionKeyStoreProvider = new EncryptionKeyStoreProvider(
       encryptionKeyResolver,
-      encryptionKeyResolverName,
       cacheTtlInMs,
     );
     this.protectedDataEncryptionKeyCache = new ProtectedDataEncryptionKeyCache(cacheTtlInMs);

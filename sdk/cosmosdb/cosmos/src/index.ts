@@ -149,12 +149,11 @@ export {
   EncryptionQueryBuilder,
   ClientEncryptionKeyRequest,
   ClientEncryptionKeyResponse,
-  ClientEncryptionKeyDefinition,
   EncryptionKeyResolver,
   AzureKeyVaultEncryptionKeyResolver,
   EncryptionType,
   EncryptionAlgorithm,
   EncryptionKeyResolverName,
   EncryptionTimeToLive,
-  EncryptionPolicy,
+  ClientEncryptionOptions,
 } from "./encryption";

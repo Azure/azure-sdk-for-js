@@ -144,7 +144,7 @@ export interface TaxUs1098ELender {
 /**
  * The raw model schema.
  */
-function modelInfo() {
+function modelInfo(): any {
   return {
     modelId: "prebuilt-tax.us.1098E",
     description:
