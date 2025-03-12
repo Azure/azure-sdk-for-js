@@ -3840,7 +3840,7 @@ export class ShareFileClient extends StorageClient {
    *   return new Promise((resolve, reject) => {
    *     const chunks = [];
    *     readableStream.on("data", (data) => {
-   *       chunks.push(Buffer.isBuffer(data) ? data : Buffer.from(data));
+   *       chunks.push(typeof data === "string" ? Buffer.from(data) : data);
    *     });
    *     readableStream.on("end", () => {
    *       resolve(Buffer.concat(chunks));
@@ -4521,7 +4521,7 @@ export class ShareFileClient extends StorageClient {
     return tracingClient.withSpan("ShareFileClient-uploadData", options, async (updatedOptions) => {
       if (isNode) {
         let buffer: Buffer;
-        if (Buffer.isBuffer(data)) {
+        if (data instanceof Buffer) {
           buffer = data;
         } else if (data instanceof ArrayBuffer) {
           buffer = Buffer.from(data);
