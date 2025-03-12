@@ -4,6 +4,7 @@
     "../../../tsconfig.browser.base.json"
   ],
   "exclude": [
+    "test/node/**/*.ts",
     "test/snippets.spec.ts"
   ]
 }
