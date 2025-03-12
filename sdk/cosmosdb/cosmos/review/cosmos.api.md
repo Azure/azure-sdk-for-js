@@ -1101,17 +1101,7 @@ export class EncryptionQueryBuilder {
     // (undocumented)
     addNumericParameter(name: string, value: number, dbType: "float" | "double", path: string): void;
     // (undocumented)
-    addParameter(name: string, value: boolean, path: string): void;
-    // (undocumented)
-    addParameter(name: string, value: string, path: string): void;
-    // (undocumented)
-    addParameter(name: string, value: JSONArray, path: string): void;
-    // (undocumented)
-    addParameter(name: string, value: JSONObject, path: string): void;
-    // (undocumented)
-    addParameter(name: string, value: Date, path: string): void;
-    // (undocumented)
-    addParameter(name: string, value: null, path: string): void;
+    addParameter(name: string, value: boolean | string | JSONArray | JSONObject | Date | null, path: string): void;
     addUnencryptedParameter(name: string, value: JSONValue, path: string): void;
 }
 

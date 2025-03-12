@@ -41,15 +41,6 @@ export class EncryptionQueryBuilder {
     });
   }
 
-  // Alternatively you can remove all overloads (except for last one) and expose a single method
-  // with a union type for the value parameter (comment out this block and see how it impacts the experience)
-  public addParameter(name: string, value: boolean, path: string): void;
-  public addParameter(name: string, value: string, path: string): void;
-  public addParameter(name: string, value: JSONArray, path: string): void;
-  public addParameter(name: string, value: JSONObject, path: string): void;
-  public addParameter(name: string, value: Date, path: string): void;
-  public addParameter(name: string, value: null, path: string): void;
-
   public addParameter(
     name: string,
     value: boolean | string | JSONArray | JSONObject | Date | null,
