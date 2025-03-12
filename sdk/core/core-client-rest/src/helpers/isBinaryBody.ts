@@ -1,16 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { NodeJSReadableStream } from "@azure/core-rest-pipeline";
 import { isReadableStream } from "./isReadableStream.js";
 
 export function isBinaryBody(
   body: unknown,
 ): body is
   | Uint8Array
-  | NodeJSReadableStream
+  | NodeJS.ReadableStream
   | ReadableStream<Uint8Array>
-  | (() => NodeJSReadableStream)
+  | (() => NodeJS.ReadableStream)
   | (() => ReadableStream<Uint8Array>)
   | Blob {
   return (
