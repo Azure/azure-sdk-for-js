@@ -39,10 +39,6 @@ export function rewriteUrl({
     }
   }
 
-  // Normalize the baseUrl by appending a trailing slash if missing
-  if (!baseUrl.endsWith('/')) {
-    baseUrl += '/';
-  }
   let newBase: URL;
   try {
     newBase = new URL(baseUrl);
