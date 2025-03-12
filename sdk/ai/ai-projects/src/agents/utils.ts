@@ -176,6 +176,24 @@ export class ToolUtility {
   }
 
   /**
+   * Creates a Microsoft Fabric tool
+   *
+   * @param connectionIds - A list of the IDs of the Fabric connections to use.
+   * @returns An object containing the definition for the Microsoft Fabric tool
+   */
+  static createFabricTool( connectionId:string,
+  ): { definition: ToolDefinition } {
+    return {
+      definition: {
+        type: "fabric_aiskill",
+        fabricAISkill:{
+          connections: [{ connectionId: connectionId }]
+        }
+      }
+    };
+  }
+
+  /**
    * Creates a function tool
    *
    * @param functionDefinition - The function definition to use.

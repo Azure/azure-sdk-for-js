@@ -33,7 +33,7 @@ export async function main(): Promise<void> {
   const connectionId = fabricConnection.id;
 
   // Initialize agent Microsoft Fabric tool with the connection id
-  const fabricTool = ToolUtility.createConnectionTool(connectionToolType.MicrosoftFabric, [connectionId]);
+  const fabricTool = ToolUtility.createFabricTool([connectionId]);
 
   // Create agent with the Microsoft Fabric tool and process assistant run
   const agent = await client.agents.createAgent(
