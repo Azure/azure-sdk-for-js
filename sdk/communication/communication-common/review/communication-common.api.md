@@ -27,7 +27,7 @@ export interface CommunicationGetTokenOptions {
 export type CommunicationIdentifier = CommunicationUserIdentifier | PhoneNumberIdentifier | MicrosoftTeamsUserIdentifier | MicrosoftTeamsAppIdentifier | TeamsExtensionUserIdentifier | UnknownIdentifier;
 
 // @public
-export type CommunicationIdentifierKind = CommunicationUserKind | PhoneNumberKind | MicrosoftTeamsUserKind | MicrosoftTeamsAppKind | TeamsExtensionUserIdentifierKind | UnknownIdentifierKind;
+export type CommunicationIdentifierKind = CommunicationUserKind | PhoneNumberKind | MicrosoftTeamsUserKind | MicrosoftTeamsAppKind | TeamsExtensionUserKind | UnknownIdentifierKind;
 
 // @public
 export interface CommunicationTokenCredential {
@@ -201,7 +201,7 @@ export interface TeamsExtensionUserIdentifier {
 }
 
 // @public
-export interface TeamsExtensionUserIdentifierKind extends TeamsExtensionUserIdentifier {
+export interface TeamsExtensionUserKind extends TeamsExtensionUserIdentifier {
     kind: "teamsExtensionUser";
 }
 
