@@ -52,13 +52,13 @@ const expectedStatuses = ["200"];
 export function createRun(
   context: Client,
   threadId: string,
-  assistantId: string,
+  agentsID: string,
   options: CreateRunOptionalParams,
 ): AgentRunResponse {
   const createRunOptions: GeneratedParameters.CreateRunParameters = {
     ...operationOptionsToRequestParameters(options),
     body: {
-      ...ConverterToWire.convertCreateRunOptions({ ...options, assistantId }),
+      ...ConverterToWire.convertCreateRunOptions({ ...options, agentsID }),
       stream: false,
     },
   };
@@ -267,13 +267,13 @@ export async function cancelRun(
 /** Creates a new thread and immediately starts a run of that thread. */
 export function createThreadAndRun(
   context: Client,
-  assistantId: string,
+  agentsID: string,
   options: CreateAndRunThreadOptionalParams,
 ): AgentRunResponse {
   const createThreadAndRunOptions: GeneratedParameters.CreateThreadAndRunParameters = {
     ...operationOptionsToRequestParameters(options),
     body: {
-      ...ConverterToWire.convertCreateAndRunThreadOptions({ ...options, assistantId }),
+      ...ConverterToWire.convertCreateAndRunThreadOptions({ ...options, agentsID }),
       stream: false,
     },
   };

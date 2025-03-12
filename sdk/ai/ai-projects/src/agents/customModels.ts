@@ -93,15 +93,15 @@ export type AgentRunResponse = PromiseLike<ThreadRunOutput> & {
 };
 
 /**
- * Optional parameters for creating and running a thread, excluding the assistantId.
+ * Optional parameters for creating and running a thread, excluding the agentsID.
  */
-export type CreateRunOptionalParams = Omit<CreateRunOptions & OperationOptions, "assistantId"> &
+export type CreateRunOptionalParams = Omit<CreateRunOptions & OperationOptions, "agentsID"> &
   OperationOptions;
 
 /**
- * Optional parameters for creating and running a thread, excluding the assistantId.
+ * Optional parameters for creating and running a thread, excluding the agentsID.
  */
-export type CreateAndRunThreadOptionalParams = Omit<CreateAndRunThreadOptions, "assistantId"> &
+export type CreateAndRunThreadOptionalParams = Omit<CreateAndRunThreadOptions, "agentsID"> &
   OperationOptions;
 
 /**

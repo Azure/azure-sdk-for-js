@@ -361,7 +361,7 @@ export interface ThreadMessage {
   /** The list of content items associated with the agent thread message. */
   content: Array<MessageContent>;
   /** If applicable, the ID of the agent that authored this message. */
-  assistantId: string | null;
+  agentsID: string | null;
   /** If applicable, the ID of the run associated with the authoring of this message. */
   runId: string | null;
   /** A list of files attached to the message, and the tools they were added to. */
@@ -466,7 +466,7 @@ export interface MessageImageFileDetails {
 /** The details used when creating a new run of an agent thread. */
 export interface CreateRunOptions {
   /** The ID of the agent that should run the thread. */
-  assistantId: string;
+  agentsID: string;
   /** The overridden model name that the agent should use to run the thread. */
   model?: string | null;
   /** The overridden system instructions that the agent should use to run the thread. */
@@ -595,7 +595,7 @@ export interface ToolOutput {
 /** The details used when creating and immediately running a new agent thread. */
 export interface CreateAndRunThreadOptions {
   /** The ID of the agent for which the thread should be created. */
-  assistantId: string;
+  agentsID: string;
   /** The details used to create the new thread. If no thread is provided, an empty one will be created. */
   thread?: AgentThreadCreationOptions;
   /** The overridden model that the agent should use to run the thread. */

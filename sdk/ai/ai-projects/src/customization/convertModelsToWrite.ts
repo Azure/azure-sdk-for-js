@@ -285,7 +285,7 @@ export function convertCreateRunOptions(
   source: PublicModels.CreateRunOptions,
 ): GeneratedModels.CreateRunOptions {
   return {
-    assistant_id: source.assistantId,
+    assistant_id: source.agentsID,
     ...(source.model && { model: source.model }),
     ...(source.instructions && { instructions: source.instructions }),
     ...(source.additionalInstructions && {
@@ -363,7 +363,7 @@ export function convertCreateAndRunThreadOptions(
   source: PublicModels.CreateAndRunThreadOptions,
 ): GeneratedModels.CreateAndRunThreadOptions {
   return {
-    assistant_id: source.assistantId,
+    assistant_id: source.agentsID,
     ...(source.thread && { thread: convertAgentThreadCreationOptions(source.thread) }),
     ...(source.model && { model: source.model }),
     ...(source.instructions && { instructions: source.instructions }),
@@ -500,7 +500,7 @@ function convertThreadMessage(source: PublicModels.ThreadMessage): GeneratedMode
     incomplete_at: source.incompleteAt,
     role: source.role,
     content: source.content.map(convertMessageContent),
-    assistant_id: source.assistantId,
+    assistant_id: source.agentsID,
     run_id: source.runId,
     attachments: !source.attachments
       ? source.attachments
