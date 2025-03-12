@@ -324,7 +324,7 @@ export function convertThreadMessageOutput(
     incompleteAt: input.incomplete_at ? new Date(input.incomplete_at) : null,
     role: input.role,
     content: input.content?.map(convertMessageContentOutput),
-    assistantId: input.assistant_id,
+    agentId: input.assistant_id,
     runId: input.run_id,
     attachments: !input.attachments
       ? input.attachments
@@ -449,7 +449,7 @@ export function convertThreadRunOutput(
     id: input.id,
     object: input.object,
     threadId: input.thread_id,
-    assistantId: input.assistant_id,
+    agentId: input.assistant_id,
     status: input.status,
     ...(input.required_action && {
       requiredAction: convertRequiredActionOutput(input.required_action),
@@ -583,7 +583,7 @@ export function convertRunStepOutput(
     id: input.id,
     object: input.object,
     type: input.type,
-    assistantId: input.assistant_id,
+    agentId: input.assistant_id,
     threadId: input.thread_id,
     runId: input.run_id,
     status: input.status,

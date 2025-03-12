@@ -30,7 +30,11 @@ import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 import * as fs from "fs";
 import path from "node:path";
+import { fileURLToPath } from 'url';
+
 dotenv.config();
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const connectionString =
   process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] || "<project connection string>";

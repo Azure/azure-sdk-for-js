@@ -535,8 +535,8 @@ export interface DisableSchedule {
 export interface Routes {
   /** Resource for '/assistants' has methods for the following verbs: post, get */
   (path: "/assistants"): CreateAgent;
-  /** Resource for '/assistants/\{assistantId\}' has methods for the following verbs: get, post, delete */
-  (path: "/assistants/{assistantId}", assistantId: string): GetAgent;
+  /** Resource for '/assistants/\{agentId\}' has methods for the following verbs: get, post, delete */
+  (path: "/assistants/{agentId}", agentId: string): GetAgent;
   /** Resource for '/threads' has methods for the following verbs: post */
   (path: "/threads"): CreateThread;
   /** Resource for '/threads/\{threadId\}' has methods for the following verbs: get, post, delete */

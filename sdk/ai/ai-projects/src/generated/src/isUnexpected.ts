@@ -112,9 +112,9 @@ import type {
 const responseMap: Record<string, string[]> = {
   "POST /assistants": ["200"],
   "GET /assistants": ["200"],
-  "GET /assistants/{assistantId}": ["200"],
-  "POST /assistants/{assistantId}": ["200"],
-  "DELETE /assistants/{assistantId}": ["200"],
+  "GET /assistants/{agentId}": ["200"],
+  "POST /assistants/{agentId}": ["200"],
+  "DELETE /assistants/{agentId}": ["200"],
   "POST /threads": ["200"],
   "GET /threads/{threadId}": ["200"],
   "POST /threads/{threadId}": ["200"],

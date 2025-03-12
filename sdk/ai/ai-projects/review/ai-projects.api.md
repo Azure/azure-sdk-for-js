@@ -5,7 +5,7 @@
 ```ts
 
 import type { AbortSignalLike } from '@azure/abort-controller';
-import { ClientOptions } from '@azure-rest/core-client';
+import type { ClientOptions } from '@azure-rest/core-client';
 import type { OperationOptions } from '@azure-rest/core-client';
 import type { PollerLike } from '@azure/core-lro';
 import type { PollOperationState } from '@azure/core-lro';
@@ -112,21 +112,21 @@ export interface AgentsOperations {
     cancelVectorStoreFileBatch: (vectorStoreId: string, batchId: string, options?: CancelVectorStoreFileBatchOptionalParams) => Promise<VectorStoreFileBatchOutput>;
     createAgent: (model: string, options?: CreateAgentOptionalParams) => Promise<AgentOutput>;
     createMessage: (threadId: string, messageOptions: ThreadMessageOptions, options?: CreateMessageOptionalParams) => Promise<ThreadMessageOutput>;
-    createRun: (threadId: string, assistantId: string, options?: CreateRunOptionalParams) => AgentRunResponse;
+    createRun: (threadId: string, agentId: string, options?: CreateRunOptionalParams) => AgentRunResponse;
     createThread: (options?: CreateAgentThreadOptionalParams) => Promise<AgentThreadOutput>;
-    createThreadAndRun: (assistantId: string, options?: CreateAndRunThreadOptionalParams) => AgentRunResponse;
+    createThreadAndRun: (agentId: string, options?: CreateAndRunThreadOptionalParams) => AgentRunResponse;
     createVectorStore: (options?: CreateVectorStoreOptionalParams) => Promise<VectorStoreOutput>;
     createVectorStoreAndPoll: (options?: CreateVectorStoreWithPollingOptionalParams) => PollerLike<PollOperationState<VectorStoreOutput>, VectorStoreOutput>;
     createVectorStoreFile: (vectorStoreId: string, options?: CreateVectorStoreFileOptionalParams) => Promise<VectorStoreFileOutput>;
     createVectorStoreFileAndPoll: (vectorStoreId: string, options?: CreateVectorStoreFileWithPollingOptionalParams) => PollerLike<PollOperationState<VectorStoreFileOutput>, VectorStoreFileOutput>;
     createVectorStoreFileBatch: (vectorStoreId: string, options?: CreateVectorStoreFileBatchOptionalParams) => Promise<VectorStoreFileBatchOutput>;
     createVectorStoreFileBatchAndPoll: (vectorStoreId: string, options?: CreateVectorStoreFileBatchWithPollingOptionalParams) => PollerLike<PollOperationState<VectorStoreFileBatchOutput>, VectorStoreFileBatchOutput>;
-    deleteAgent: (assistantId: string, options?: DeleteAgentOptionalParams) => Promise<AgentDeletionStatusOutput>;
+    deleteAgent: (agentId: string, options?: DeleteAgentOptionalParams) => Promise<AgentDeletionStatusOutput>;
     deleteFile: (fileId: string, options?: DeleteFileOptionalParams) => Promise<FileDeletionStatusOutput>;
     deleteThread: (threadId: string, options?: DeleteAgentThreadOptionalParams) => Promise<ThreadDeletionStatusOutput>;
     deleteVectorStore: (vectorStoreId: string, options?: DeleteVectorStoreOptionalParams) => Promise<VectorStoreDeletionStatusOutput>;
     deleteVectorStoreFile: (vectorStoreId: string, fileId: string, options?: DeleteVectorStoreFileOptionalParams) => Promise<VectorStoreFileDeletionStatusOutput>;
-    getAgent: (assistantId: string, options?: GetAgentOptionalParams) => Promise<AgentOutput>;
+    getAgent: (agentId: string, options?: GetAgentOptionalParams) => Promise<AgentOutput>;
     getFile: (fileId: string, options?: GetFileOptionalParams) => Promise<OpenAIFileOutput>;
     getFileContent: (fileId: string, options?: GetFileContentOptionalParams) => StreamableMethod<string | Uint8Array>;
     getRun: (threadId: string, runId: string, options?: GetRunOptionalParams) => Promise<ThreadRunOutput>;
@@ -145,7 +145,7 @@ export interface AgentsOperations {
     listVectorStores: (options?: DeleteVectorStoreOptionalParams) => Promise<OpenAIPageableListOfVectorStoreOutput>;
     modifyVectorStore: (vectorStoreId: string, options?: UpdateVectorStoreOptionalParams) => Promise<VectorStoreOutput>;
     submitToolOutputsToRun: (threadId: string, runId: string, toolOutputs: Array<ToolOutput>, options?: SubmitToolOutputsToRunOptionalParams) => AgentRunResponse;
-    updateAgent: (assistantId: string, options: UpdateAgentOptionalParams) => Promise<AgentOutput>;
+    updateAgent: (agentId: string, options: UpdateAgentOptionalParams) => Promise<AgentOutput>;
     updateMessage: (threadId: string, messageId: string, options?: UpdateMessageOptionalParams) => Promise<ThreadMessageOutput>;
     updateRun: (threadId: string, runId: string, options?: UpdateRunOptionalParams) => Promise<ThreadRunOutput>;
     updateThread: (threadId: string, options?: UpdateAgentThreadOptionalParams) => Promise<AgentThreadOutput>;
@@ -299,11 +299,11 @@ export interface CreateAgentThreadOptionalParams extends AgentThreadCreationOpti
 }
 
 // @public
-export type CreateAndRunThreadOptionalParams = Omit<CreateAndRunThreadOptions, "assistantId"> & OperationOptions;
+export type CreateAndRunThreadOptionalParams = Omit<CreateAndRunThreadOptions, "agentId"> & OperationOptions;
 
 // @public
 export interface CreateAndRunThreadOptions {
-    assistantId: string;
+    agentId: string;
     instructions?: string | null;
     maxCompletionTokens?: number | null;
     maxPromptTokens?: number | null;
@@ -325,13 +325,13 @@ export interface CreateMessageOptionalParams extends OperationOptions {
 }
 
 // @public
-export type CreateRunOptionalParams = Omit<CreateRunOptions & OperationOptions, "assistantId"> & OperationOptions;
+export type CreateRunOptionalParams = Omit<CreateRunOptions & OperationOptions, "agentId"> & OperationOptions;
 
 // @public
 export interface CreateRunOptions {
     additionalInstructions?: string | null;
     additionalMessages?: Array<ThreadMessage> | null;
-    assistantId: string;
+    agentId: string;
     instructions?: string | null;
     maxCompletionTokens?: number | null;
     maxPromptTokens?: number | null;
@@ -1349,7 +1349,7 @@ export interface RunStepMicrosoftFabricToolCallOutput extends RunStepToolCallOut
 
 // @public
 export interface RunStepOutput {
-    assistantId: string;
+    agentId: string;
     cancelledAt: Date | null;
     completedAt: Date | null;
     createdAt: Date;
@@ -1468,7 +1468,7 @@ export interface ThreadDeletionStatusOutput {
 
 // @public
 export interface ThreadMessage {
-    assistantId: string | null;
+    agentId: string | null;
     attachments: Array<MessageAttachment> | null;
     completedAt: number | null;
     content: Array<MessageContent>;
@@ -1494,7 +1494,7 @@ export interface ThreadMessageOptions {
 
 // @public
 export interface ThreadMessageOutput {
-    assistantId: string | null;
+    agentId: string | null;
     attachments: Array<MessageAttachmentOutput> | null;
     completedAt: Date | null;
     content: Array<MessageContentOutput>;
@@ -1512,7 +1512,7 @@ export interface ThreadMessageOutput {
 
 // @public
 export interface ThreadRunOutput {
-    assistantId: string;
+    agentId: string;
     cancelledAt: Date | null;
     completedAt: Date | null;
     createdAt: Date;
