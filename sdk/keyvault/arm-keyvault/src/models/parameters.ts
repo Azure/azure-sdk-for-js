@@ -24,7 +24,7 @@ import {
   MhsmPrivateEndpointConnection as MhsmPrivateEndpointConnectionMapper,
   SecretCreateOrUpdateParameters as SecretCreateOrUpdateParametersMapper,
   SecretPatchParameters as SecretPatchParametersMapper,
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const contentType: OperationParameter = {
   parameterPath: ["options", "contentType"],

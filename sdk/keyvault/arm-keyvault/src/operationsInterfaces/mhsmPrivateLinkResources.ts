@@ -9,7 +9,7 @@
 import {
   MhsmPrivateLinkResourcesListByMhsmResourceOptionalParams,
   MhsmPrivateLinkResourcesListByMhsmResourceResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a MhsmPrivateLinkResources. */
 export interface MhsmPrivateLinkResources {

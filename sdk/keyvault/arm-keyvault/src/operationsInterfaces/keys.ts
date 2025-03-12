@@ -18,7 +18,7 @@ import {
   KeysGetResponse,
   KeysGetVersionOptionalParams,
   KeysGetVersionResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Keys. */
