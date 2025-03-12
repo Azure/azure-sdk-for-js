@@ -9,6 +9,7 @@ export type CommunicationIdentifier =
   | PhoneNumberIdentifier
   | MicrosoftTeamsUserIdentifier
   | MicrosoftTeamsAppIdentifier
+  | TeamsExtensionUserIdentifier
   | UnknownIdentifier;
 
 /**
@@ -33,6 +34,16 @@ export interface PhoneNumberIdentifier {
    * The phone number in E.164 format.
    */
   phoneNumber: string;
+
+  /**
+   * Value generated when the same number joins the same call multiple times.
+   */
+  assertedId?: string;
+
+  /**
+   * True if the phone number is anonymous.
+   */
+  isAnonymous?: boolean;
 }
 
 /**
@@ -75,7 +86,37 @@ export interface MicrosoftTeamsAppIdentifier {
   teamsAppId: string;
 
   /**
-   * The cloud that the Microsoft Temas App belongs to. If missing, the cloud is "public".
+   * The cloud that the Microsoft Teams App belongs to. If missing, the cloud is "public".
+   */
+  cloud?: "public" | "dod" | "gcch";
+}
+
+/**
+ * A Microsoft Teams Phone user who is using a Communication Services resource
+ */
+export interface TeamsExtensionUserIdentifier {
+  /**
+   * Optional raw id of the Microsoft Teams user.
+   */
+  rawId?: string;
+
+  /**
+   * The Id of the Microsoft Teams Extension user, i.e. the Entra ID object Id of the user.
+   */
+  userId: string;
+
+  /**
+   * The tenant Id of the Microsoft Teams Extension user.
+   */
+  tenantId: string;
+
+  /**
+   * The Communication Services resource Id.
+   */
+  resourceId: string;
+
+  /**
+   * The cloud that the Microsoft Teams user belongs to. If missing, the cloud is "public".
    */
   cloud?: "public" | "dod" | "gcch";
 }
@@ -135,6 +176,19 @@ export const isMicrosoftTeamsAppIdentifier = (
 };
 
 /**
+ * Tests an Identifier to determine whether it implements TeamsExtensionUserIdentifier.
+ *
+ * @param identifier - The assumed available to be tested.
+ */
+export const isTeamsExtensionUserIdentifier = (
+  identifier: CommunicationIdentifier,
+): identifier is TeamsExtensionUserIdentifier => {
+  return typeof (identifier as any).userId === "string" &&
+    typeof (identifier as any).tenantId === "string" &&
+    typeof (identifier as any).resourceId === "string";
+};
+
+/**
  * Tests an Identifier to determine whether it implements UnknownIdentifier.
  *
  * @param identifier - The assumed UnknownIdentifier to be tested.
@@ -153,6 +207,7 @@ export type CommunicationIdentifierKind =
   | PhoneNumberKind
   | MicrosoftTeamsUserKind
   | MicrosoftTeamsAppKind
+  | TeamsExtensionUserKind
   | UnknownIdentifierKind;
 
 /**
@@ -196,6 +251,16 @@ export interface MicrosoftTeamsAppKind extends MicrosoftTeamsAppIdentifier {
 }
 
 /**
+ * IdentifierKind for a TeamsExtensionUserIdentifier.
+ */
+export interface TeamsExtensionUserKind extends TeamsExtensionUserIdentifier {
+  /**
+   * The identifier kind.
+   */
+  kind: "teamsExtensionUser";
+}
+
+/**
  * IdentifierKind for UnknownIdentifier.
  */
 export interface UnknownIdentifierKind extends UnknownIdentifier {
@@ -224,6 +289,9 @@ export const getIdentifierKind = (
   }
   if (isMicrosoftTeamsAppIdentifier(identifier)) {
     return { ...identifier, kind: "microsoftTeamsApp" };
+  }
+  if (isTeamsExtensionUserIdentifier(identifier)) {
+    return { ...identifier, kind: "teamsExtensionUser" };
   }
   return { ...identifier, kind: "unknown" };
 };
@@ -268,6 +336,17 @@ export const getIdentifierRawId = (identifier: CommunicationIdentifier): string 
       if (rawId) return rawId;
       return `4:${phoneNumber}`;
     }
+    case "teamsExtensionUser": {
+      const { userId, tenantId, resourceId, rawId, cloud } = identifierKind;
+      if (rawId) return rawId;
+      switch (cloud) {
+        case "dod":
+          return `8:dod-acs:${resourceId}_${tenantId}_${userId}`;
+        case "gcch":
+          return `8:gcch-acs:${resourceId}_${tenantId}_${userId}`;
+      }
+      return `8:acs:${resourceId}_${tenantId}_${userId}`;
+    }
     case "unknown": {
       return identifierKind.id;
     }
@@ -298,6 +377,44 @@ const buildMicrosoftTeamsUserIdentifier = (
   };
 };
 
+const buildTeamsExtensionUserOrCommunicationUserIdentifier = (
+  rawId: string,
+  suffix: string,
+  cloud: "public" | "dod" | "gcch",
+): CommunicationIdentifierKind => {
+  const segments = suffix.split("_");
+  if (segments.length !== 3) {
+    return { kind: "communicationUser", communicationUserId: rawId };
+  }
+
+  const resourceId = segments[0];
+  const tenantId = segments[1];
+  const userId = segments[2];
+  return {
+    kind: "teamsExtensionUser",
+    userId: userId,
+    tenantId: tenantId,
+    resourceId: resourceId,
+    cloud: cloud,
+  };
+}
+
+const buildPhoneNumberIdentifier = (
+  rawId: string,
+): CommunicationIdentifierKind => {
+  const phoneNumber = rawId.substring("4:".length);
+  const isAnonymous = phoneNumber === "anonymous";
+  const assertedIdIndex = isAnonymous ? -1 : phoneNumber.lastIndexOf("_") + 1;
+  const assertedId = assertedIdIndex > 0 && assertedIdIndex < phoneNumber.length ? phoneNumber.substring(assertedIdIndex) : undefined;
+
+  return {
+    kind: "phoneNumber",
+    phoneNumber: phoneNumber,
+    isAnonymous: isAnonymous,
+    assertedId: assertedId,
+  };
+};
+
 /**
  * Creates a CommunicationIdentifierKind from a given rawId. When storing rawIds use this function to restore the identifier that was encoded in the rawId.
  *
@@ -305,7 +422,7 @@ const buildMicrosoftTeamsUserIdentifier = (
  */
 export const createIdentifierFromRawId = (rawId: string): CommunicationIdentifierKind => {
   if (rawId.startsWith("4:")) {
-    return { kind: "phoneNumber", phoneNumber: `${rawId.substring("4:".length)}` };
+    return buildPhoneNumberIdentifier(rawId);
   }
 
   const segments = rawId.split(":");
@@ -326,9 +443,12 @@ export const createIdentifierFromRawId = (rawId: string): CommunicationIdentifie
     case "8:gcch:":
       return buildMicrosoftTeamsUserIdentifier(suffix, "gcch", false);
     case "8:acs:":
-    case "8:spool:":
+      return buildTeamsExtensionUserOrCommunicationUserIdentifier(rawId, suffix, "public");
     case "8:dod-acs:":
+      return buildTeamsExtensionUserOrCommunicationUserIdentifier(rawId, suffix, "dod");
     case "8:gcch-acs:":
+      return buildTeamsExtensionUserOrCommunicationUserIdentifier(rawId, suffix, "gcch");
+    case "8:spool:":
       return { kind: "communicationUser", communicationUserId: rawId };
     case "28:orgid:":
       return buildMicrosoftTeamsAppIdentifier(suffix, "public");
