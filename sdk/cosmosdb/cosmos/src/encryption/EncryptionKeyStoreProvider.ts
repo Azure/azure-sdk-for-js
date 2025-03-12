@@ -31,12 +31,13 @@ export class EncryptionKeyStoreProvider {
     algorithm: KeyEncryptionAlgorithm,
     key: Buffer,
   ): Promise<Buffer> {
+    const Uint8ArrayKey = new Uint8Array(key);
     const wrappedEncryptionKey = await this.keyEncryptionKeyResolver.wrapKey(
       encryptionKeyId,
       algorithm,
-      key,
+      Uint8ArrayKey,
     );
-    return wrappedEncryptionKey;
+    return Buffer.from(wrappedEncryptionKey);
   }
 
   public async unwrapKey(
@@ -45,15 +46,22 @@ export class EncryptionKeyStoreProvider {
     wrappedKey: Buffer,
   ): Promise<Buffer> {
     if (this.cacheTimeToLive === 0) {
-      return this.keyEncryptionKeyResolver.unwrapKey(encryptionKeyId, algorithm, wrappedKey);
-    }
-    if (!this.unwrappedEncryptionKeyCache[encryptionKeyId]) {
-      const plainEncryptionKey = await this.keyEncryptionKeyResolver.unwrapKey(
+      const res = await this.keyEncryptionKeyResolver.unwrapKey(
         encryptionKeyId,
         algorithm,
         wrappedKey,
       );
-      this.unwrappedEncryptionKeyCache[encryptionKeyId] = [new Date(), plainEncryptionKey];
+      return Buffer.from(res);
+    }
+    if (!this.unwrappedEncryptionKeyCache[encryptionKeyId]) {
+      const wrappedKeyUint8Array = new Uint8Array(wrappedKey);
+      const plainEncryptionKey = await this.keyEncryptionKeyResolver.unwrapKey(
+        encryptionKeyId,
+        algorithm,
+        wrappedKeyUint8Array,
+      );
+      const bufferPlainEncryptionKey = Buffer.from(plainEncryptionKey);
+      this.unwrappedEncryptionKeyCache[encryptionKeyId] = [new Date(), bufferPlainEncryptionKey];
     }
     return this.unwrappedEncryptionKeyCache[encryptionKeyId][1];
   }

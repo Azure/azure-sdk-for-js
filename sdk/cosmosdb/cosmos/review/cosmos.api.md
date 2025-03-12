@@ -33,8 +33,8 @@ export type AggregateType = "Average" | "Count" | "Max" | "Min" | "Sum" | "MakeS
 export class AzureKeyVaultEncryptionKeyResolver implements EncryptionKeyResolver {
     constructor(credentials: TokenCredential);
     encryptionKeyResolverName: EncryptionKeyResolverName;
-    unwrapKey(encryptionKeyId: string, algorithm: string, wrappedKey: Buffer): Promise<Buffer>;
-    wrapKey(encryptionKeyId: string, algorithm: string, unwrappedKey: Buffer): Promise<Buffer>;
+    unwrapKey(encryptionKeyId: string, algorithm: string, wrappedKey: Uint8Array): Promise<Uint8Array>;
+    wrapKey(encryptionKeyId: string, algorithm: string, unwrappedKey: Uint8Array): Promise<Uint8Array>;
 }
 
 // @public (undocumented)
@@ -323,7 +323,7 @@ export interface ClientEncryptionKeyProperties {
     encryptionAlgorithm: string;
     encryptionKeyWrapMetadata: EncryptionKeyWrapMetadata;
     id: string;
-    wrappedDataEncryptionKey: Buffer;
+    wrappedDataEncryptionKey: Uint8Array;
 }
 
 // @public
@@ -1076,8 +1076,8 @@ export interface EncryptionDiagnostics {
 // @public
 export interface EncryptionKeyResolver {
     encryptionKeyResolverName: string;
-    unwrapKey(encryptionKeyId: string, algorithm: string, wrappedKey: Buffer): Promise<Buffer>;
-    wrapKey(encryptionKeyId: string, algorithm: string, unwrappedKey: Buffer): Promise<Buffer>;
+    unwrapKey(encryptionKeyId: string, algorithm: string, wrappedKey: Uint8Array): Promise<Uint8Array>;
+    wrapKey(encryptionKeyId: string, algorithm: string, unwrappedKey: Uint8Array): Promise<Uint8Array>;
 }
 
 // @public

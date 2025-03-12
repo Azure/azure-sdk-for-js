@@ -70,12 +70,15 @@ async function run() {
 
   logStep("Create client encryption included path and policy");
   // adding id, salary and ssn properties for encryption
-  const paths = ["/salary", "/ssn", "/id"].map((path) => ({
-    path: path,
-    clientEncryptionKeyId: "cek1",
-    encryptionType: EncryptionType.DETERMINISTIC,
-    encryptionAlgorithm: EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
-  } as ClientEncryptionIncludedPath));
+  const paths = ["/salary", "/ssn", "/id"].map(
+    (path) =>
+      ({
+        path: path,
+        clientEncryptionKeyId: "cek1",
+        encryptionType: EncryptionType.DETERMINISTIC,
+        encryptionAlgorithm: EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
+      }) as ClientEncryptionIncludedPath,
+  );
   // creating client encryption policy with included paths and policy version 2.
   // policy version 2 must be used if we encrypt id or partition key
   const clientEncryptionPolicy = new ClientEncryptionPolicy(paths, 2);

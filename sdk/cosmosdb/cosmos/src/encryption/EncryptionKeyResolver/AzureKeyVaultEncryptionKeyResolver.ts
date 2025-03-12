@@ -31,8 +31,8 @@ export class AzureKeyVaultEncryptionKeyResolver implements EncryptionKeyResolver
   public async wrapKey(
     encryptionKeyId: string,
     algorithm: string,
-    unwrappedKey: Buffer,
-  ): Promise<Buffer> {
+    unwrappedKey: Uint8Array,
+  ): Promise<Uint8Array> {
     try {
       const origin = this.getOrigin(encryptionKeyId);
       const keyClient = new KeyClient(origin, this.credentials);
@@ -44,7 +44,7 @@ export class AzureKeyVaultEncryptionKeyResolver implements EncryptionKeyResolver
       if (!res || !res.result) {
         throw new ErrorResponse(`Failed to wrap key: ${res}`);
       }
-      return Buffer.from(res.result);
+      return res.result;
     } catch (e) {
       throw new ErrorResponse(`Failed to wrap key: ${e.message}`);
     }
@@ -59,8 +59,8 @@ export class AzureKeyVaultEncryptionKeyResolver implements EncryptionKeyResolver
   public async unwrapKey(
     encryptionKeyId: string,
     algorithm: string,
-    wrappedKey: Buffer,
-  ): Promise<Buffer> {
+    wrappedKey: Uint8Array,
+  ): Promise<Uint8Array> {
     try {
       const origin = this.getOrigin(encryptionKeyId);
       const keyClient = new KeyClient(origin, this.credentials);
@@ -72,7 +72,7 @@ export class AzureKeyVaultEncryptionKeyResolver implements EncryptionKeyResolver
       if (!res || !res.result) {
         throw new ErrorResponse(`Failed to wrap key: ${res}`);
       }
-      return Buffer.from(res.result);
+      return res.result;
     } catch (e) {
       throw new ErrorResponse(`Failed to unwrap key: ${e.message}`);
     }

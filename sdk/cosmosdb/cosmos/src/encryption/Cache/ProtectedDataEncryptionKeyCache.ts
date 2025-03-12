@@ -77,25 +77,27 @@ export class ProtectedDataEncryptionKeyCache {
   public async getOrCreate(
     name: string,
     keyEncryptionKey: KeyEncryptionKey,
-    encryptedValue?: Buffer,
+    encryptedValue?: Uint8Array,
     forceRefresh?: boolean,
   ): Promise<ProtectedDataEncryptionKey> {
+    const bufferEncryptedValue = encryptedValue ? Buffer.from(encryptedValue) : undefined;
     if (this.cacheTimeToLive === 0 || forceRefresh) {
-      return this.createProtectedDataEncryptionKey(name, keyEncryptionKey, encryptedValue);
+      return this.createProtectedDataEncryptionKey(name, keyEncryptionKey, bufferEncryptedValue);
     }
-    if (encryptedValue) {
+
+    if (bufferEncryptedValue) {
       const key = JSON.stringify([
         name,
         keyEncryptionKey.name,
         keyEncryptionKey.path,
-        encryptedValue.toString("hex"),
+        bufferEncryptedValue.toString("hex"),
       ]);
       const protectedDataEncryptionKey = this.get(key);
       if (protectedDataEncryptionKey) {
         return protectedDataEncryptionKey;
       }
     }
-    return this.createProtectedDataEncryptionKey(name, keyEncryptionKey, encryptedValue);
+    return this.createProtectedDataEncryptionKey(name, keyEncryptionKey, bufferEncryptedValue);
   }
 
   private generateColumnEncryptionKey(): Buffer {
