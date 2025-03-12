@@ -183,9 +183,10 @@ export const isMicrosoftTeamsAppIdentifier = (
 export const isTeamsExtensionUserIdentifier = (
   identifier: CommunicationIdentifier,
 ): identifier is TeamsExtensionUserIdentifier => {
-  return typeof (identifier as any).userId === "string" &&
-    typeof (identifier as any).tenantId === "string" &&
-    typeof (identifier as any).resourceId === "string";
+  const userIdExists = typeof (identifier as any).userId === "string";
+  const tenantIdExists = typeof (identifier as any).tenantId === "string";
+  const resourceIdExists = typeof (identifier as any).resourceId === "string";
+  return userIdExists && tenantIdExists && resourceIdExists;
 };
 
 /**
@@ -397,15 +398,14 @@ const buildTeamsExtensionUserOrCommunicationUserIdentifier = (
     resourceId: resourceId,
     cloud: cloud,
   };
-}
+};
 
-const buildPhoneNumberIdentifier = (
-  rawId: string,
-): CommunicationIdentifierKind => {
+const buildPhoneNumberIdentifier = (rawId: string): CommunicationIdentifierKind => {
   const phoneNumber = rawId.substring("4:".length);
   const isAnonymous = phoneNumber === "anonymous";
   const assertedIdIndex = isAnonymous ? -1 : phoneNumber.lastIndexOf("_") + 1;
-  const assertedId = assertedIdIndex > 0 && assertedIdIndex < phoneNumber.length ? phoneNumber.substring(assertedIdIndex) : undefined;
+  const hasAssertedId = assertedIdIndex > 0 && assertedIdIndex < phoneNumber.length;
+  const assertedId = hasAssertedId ? phoneNumber.substring(assertedIdIndex) : undefined;
 
   return {
     kind: "phoneNumber",

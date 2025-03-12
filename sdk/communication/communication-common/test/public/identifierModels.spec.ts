@@ -136,12 +136,12 @@ describe("Identifier models", function () {
     );
     assertRawId(
       {
-        rawId: "8:acs:bbbcbc1e-9f06-482a-b5d8-20e3f26ef0cd_45ab2481-1c1c-4005-be24-0ffb879b1130_0eae17f2-cdce-4198-be04-e18e4cc074c6",
+        rawId: "8:acs:resource_tenant_user",
         userId: "207ffef6-9444-41fb-92ab-20eacaae2768",
         tenantId: "45ab2481-1c1c-4005-be24-0ffb879b1130",
         resourceId: "bbbcbc1e-9f06-482a-b5d8-20e3f26ef0cd",
       },
-      "8:acs:bbbcbc1e-9f06-482a-b5d8-20e3f26ef0cd_45ab2481-1c1c-4005-be24-0ffb879b1130_0eae17f2-cdce-4198-be04-e18e4cc074c6",
+      "8:acs:resource_tenant_user",
     );
     assertRawId(
       {
@@ -301,43 +301,37 @@ describe("Identifier models", function () {
       isAnonymous: false,
       assertedId: "207ffef6-9444-41fb-92ab-20eacaae2768",
     });
-    assertIdentifier(
-      "4:207ffef6-9444-41fb-92ab-20eacaae2768_", {
+    assertIdentifier("4:207ffef6-9444-41fb-92ab-20eacaae2768_", {
       phoneNumber: "207ffef6-9444-41fb-92ab-20eacaae2768_",
       kind: "phoneNumber",
       isAnonymous: false,
       assertedId: undefined,
     });
-    assertIdentifier(
-      "4:+112345556789_207ffef6-9444-41fb-92ab-20eacaae2768_123", {
+    assertIdentifier("4:+112345556789_207ffef6-9444-41fb-92ab-20eacaae2768_123", {
       phoneNumber: "+112345556789_207ffef6-9444-41fb-92ab-20eacaae2768_123",
       kind: "phoneNumber",
       isAnonymous: false,
       assertedId: "123",
     });
-    assertIdentifier(
-      "4:_123", {
+    assertIdentifier("4:_123", {
       phoneNumber: "_123",
       kind: "phoneNumber",
       isAnonymous: false,
       assertedId: "123",
     });
-    assertIdentifier(
-      "4:anonymous", {
+    assertIdentifier("4:anonymous", {
       phoneNumber: "anonymous",
       kind: "phoneNumber",
       isAnonymous: true,
       assertedId: undefined,
     });
-    assertIdentifier(
-      "4:anonymous_123", {
+    assertIdentifier("4:anonymous_123", {
       phoneNumber: "anonymous_123",
       kind: "phoneNumber",
       isAnonymous: false,
       assertedId: "123",
     });
-    assertIdentifier(
-      "4:_anonymous", {
+    assertIdentifier("4:_anonymous", {
       phoneNumber: "_anonymous",
       kind: "phoneNumber",
       isAnonymous: false,
@@ -462,9 +456,15 @@ describe("Identifier models", function () {
     assertRoundtrip("28:dod:01234567-89ab-cdef-0123-456789abcdef");
     assertRoundtrip("28:gal-global:01234567-89ab-cdef-0123-456789abcdef");
     assertRoundtrip("48:45ab2481-1c1c-4005-be24-0ffb879b1130");
-    assertRoundtrip("8:gcch-acs:bbbcbc1e-9f06-482a-b5d8-20e3f26ef0cd_45ab2481-1c1c-4005-be24-0ffb879b1130_207ffef6-9444-41fb-92ab-20eacaae2768");
-    assertRoundtrip("8:dod-acs:bbbcbc1e-9f06-482a-b5d8-20e3f26ef0cd_45ab2481-1c1c-4005-be24-0ffb879b1130_207ffef6-9444-41fb-92ab-20eacaae2768");
-    assertRoundtrip("8:acs:bbbcbc1e-9f06-482a-b5d8-20e3f26ef0cd_45ab2481-1c1c-4005-be24-0ffb879b1130_207ffef6-9444-41fb-92ab-20eacaae2768");
+    assertRoundtrip(
+      "8:gcch-acs:bbbcbc1e-9f06-482a-b5d8-20e3f26ef0cd_45ab2481-1c1c-4005-be24-0ffb879b1130_207ffef6-9444-41fb-92ab-20eacaae2768",
+    );
+    assertRoundtrip(
+      "8:dod-acs:bbbcbc1e-9f06-482a-b5d8-20e3f26ef0cd_45ab2481-1c1c-4005-be24-0ffb879b1130_207ffef6-9444-41fb-92ab-20eacaae2768",
+    );
+    assertRoundtrip(
+      "8:acs:bbbcbc1e-9f06-482a-b5d8-20e3f26ef0cd_45ab2481-1c1c-4005-be24-0ffb879b1130_207ffef6-9444-41fb-92ab-20eacaae2768",
+    );
     assertRoundtrip("");
   });
 });

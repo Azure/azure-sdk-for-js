@@ -134,7 +134,6 @@ export interface SerializedTeamsExtensionUserIdentifier {
   cloud?: SerializedCommunicationCloudEnvironment;
 }
 
-
 /**
  * @hidden
  * Defines values for CommunicationCloudEnvironmentModel.
@@ -273,8 +272,11 @@ export const deserializeCommunicationIdentifier = (
 ): CommunicationIdentifierKind => {
   assertMaximumOneNestedModel(serializedIdentifier);
 
-  const { communicationUser, microsoftTeamsUser, microsoftTeamsApp, phoneNumber, teamsExtensionUser } =
-    serializedIdentifier;
+  const communicationUser = serializedIdentifier.communicationUser;
+  const microsoftTeamsUser = serializedIdentifier.microsoftTeamsUser;
+  const microsoftTeamsApp = serializedIdentifier.microsoftTeamsApp;
+  const phoneNumber = serializedIdentifier.phoneNumber;
+  const teamsExtensionUser = serializedIdentifier.teamsExtensionUser;
   const kind = serializedIdentifier.kind ?? getKind(serializedIdentifier);
 
   if (kind === "communicationUser" && communicationUser) {

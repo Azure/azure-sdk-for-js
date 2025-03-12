@@ -48,6 +48,9 @@ const assertThrowsTooManyProperties = (
 };
 
 describe("Identifier model serializer", function () {
+  const resourceId = "bbbcbc1e-9f06-482a-b5d8-20e3f26ef0cd";
+  const tenantId = "45ab2481-1c1c-4005-be24-0ffb879b1130";
+  const userId = "207ffef6-9444-41fb-92ab-20eacaae2768";
   it("can serialize", function () {
     assertSerialize(
       {
@@ -170,7 +173,7 @@ describe("Identifier model serializer", function () {
         resourceId: "bbbcbc1e-9f06-482a-b5d8-20e3f26ef0cd",
       },
       {
-        rawId: "8:acs:bbbcbc1e-9f06-482a-b5d8-20e3f26ef0cd_45ab2481-1c1c-4005-be24-0ffb879b1130_207ffef6-9444-41fb-92ab-20eacaae2768",
+        rawId: `8:acs:${resourceId}_${tenantId}_${userId}`,
         teamsExtensionUser: {
           userId: "207ffef6-9444-41fb-92ab-20eacaae2768",
           tenantId: "45ab2481-1c1c-4005-be24-0ffb879b1130",
@@ -187,7 +190,7 @@ describe("Identifier model serializer", function () {
         cloud: "dod",
       },
       {
-        rawId: "8:dod-acs:bbbcbc1e-9f06-482a-b5d8-20e3f26ef0cd_45ab2481-1c1c-4005-be24-0ffb879b1130_207ffef6-9444-41fb-92ab-20eacaae2768",
+        rawId: `8:dod-acs:${resourceId}_${tenantId}_${userId}`,
         teamsExtensionUser: {
           userId: "207ffef6-9444-41fb-92ab-20eacaae2768",
           tenantId: "45ab2481-1c1c-4005-be24-0ffb879b1130",
@@ -284,24 +287,84 @@ describe("Identifier model serializer", function () {
       },
     );
     assertDeserialize(
-      { phoneNumber: { value: "+1234555000" }, rawId: "4:+1234555000" },
-      { kind: "phoneNumber", phoneNumber: "+1234555000", rawId: "4:+1234555000", isAnonymous: false, assertedId: undefined },
+      {
+        phoneNumber: {
+          value: "+1234555000",
+        },
+        rawId: "4:+1234555000",
+      },
+      {
+        kind: "phoneNumber",
+        phoneNumber: "+1234555000",
+        rawId: "4:+1234555000",
+        isAnonymous: false,
+        assertedId: undefined,
+      },
     );
     assertDeserialize(
-      { kind: "phoneNumber", phoneNumber: { value: "+1234555000" }, rawId: "4:+1234555000" },
-      { kind: "phoneNumber", phoneNumber: "+1234555000", rawId: "4:+1234555000", isAnonymous: false, assertedId: undefined },
+      {
+        kind: "phoneNumber",
+        phoneNumber: {
+          value: "+1234555000",
+        },
+        rawId: "4:+1234555000",
+      },
+      {
+        kind: "phoneNumber",
+        phoneNumber: "+1234555000",
+        rawId: "4:+1234555000",
+        isAnonymous: false,
+        assertedId: undefined,
+      },
     );
     assertDeserialize(
-      { phoneNumber: { value: "anonymous", isAnonymous: true }, rawId: "4:anonymous" },
-      { kind: "phoneNumber", phoneNumber: "anonymous", rawId: "4:anonymous", isAnonymous: true, assertedId: undefined },
+      {
+        phoneNumber: {
+          value: "anonymous",
+          isAnonymous: true,
+        },
+        rawId: "4:anonymous",
+      },
+      {
+        kind: "phoneNumber",
+        phoneNumber: "anonymous",
+        rawId: "4:anonymous",
+        isAnonymous: true,
+        assertedId: undefined,
+      },
     );
     assertDeserialize(
-      { phoneNumber: { value: "+1234555000_123", isAnonymous: false, assertedId: "123" }, rawId: "4:+1234555000" },
-      { kind: "phoneNumber", phoneNumber: "+1234555000_123", rawId: "4:+1234555000", isAnonymous: false, assertedId: "123" },
+      {
+        phoneNumber: {
+          value: "+1234555000_123",
+          isAnonymous: false,
+          assertedId: "123",
+        },
+        rawId: "4:+1234555000",
+      },
+      {
+        kind: "phoneNumber",
+        phoneNumber: "+1234555000_123",
+        rawId: "4:+1234555000",
+        isAnonymous: false,
+        assertedId: "123",
+      },
     );
     assertDeserialize(
-      { phoneNumber: { value: "+1234555000_123", assertedId: "123" }, rawId: "4:+1234555000" },
-      { kind: "phoneNumber", phoneNumber: "+1234555000_123", rawId: "4:+1234555000", isAnonymous: false, assertedId: "123" },
+      {
+        phoneNumber: {
+          value: "+1234555000_123",
+          assertedId: "123",
+        },
+        rawId: "4:+1234555000",
+      },
+      {
+        kind: "phoneNumber",
+        phoneNumber: "+1234555000_123",
+        rawId: "4:+1234555000",
+        isAnonymous: false,
+        assertedId: "123",
+      },
     );
     assertDeserialize(
       { kind: "phoneNumber", rawId: "4:+1234555000" },
@@ -389,7 +452,7 @@ describe("Identifier model serializer", function () {
     assertDeserialize(
       {
         kind: "teamsExtensionUser",
-        rawId: "8:dod-acs:bbbcbc1e-9f06-482a-b5d8-20e3f26ef0cd_45ab2481-1c1c-4005-be24-0ffb879b1130_207ffef6-9444-41fb-92ab-20eacaae2768",
+        rawId: `8:dod-acs:${resourceId}_${tenantId}_${userId}`,
         teamsExtensionUser: {
           userId: "207ffef6-9444-41fb-92ab-20eacaae2768",
           tenantId: "45ab2481-1c1c-4005-be24-0ffb879b1130",
@@ -403,13 +466,13 @@ describe("Identifier model serializer", function () {
         tenantId: "45ab2481-1c1c-4005-be24-0ffb879b1130",
         resourceId: "bbbcbc1e-9f06-482a-b5d8-20e3f26ef0cd",
         cloud: "dod",
-        rawId: "8:dod-acs:bbbcbc1e-9f06-482a-b5d8-20e3f26ef0cd_45ab2481-1c1c-4005-be24-0ffb879b1130_207ffef6-9444-41fb-92ab-20eacaae2768",
+        rawId: `8:dod-acs:${resourceId}_${tenantId}_${userId}`,
       },
     );
     assertDeserialize(
       {
         kind: "teamsExtensionUser",
-        rawId: "8:acs:bbbcbc1e-9f06-482a-b5d8-20e3f26ef0cd_45ab2481-1c1c-4005-be24-0ffb879b1130_207ffef6-9444-41fb-92ab-20eacaae2768",
+        rawId: `8:acs:${resourceId}_${tenantId}_${userId}`,
         teamsExtensionUser: {
           userId: "207ffef6-9444-41fb-92ab-20eacaae2768",
           tenantId: "45ab2481-1c1c-4005-be24-0ffb879b1130",
@@ -422,14 +485,14 @@ describe("Identifier model serializer", function () {
         userId: "207ffef6-9444-41fb-92ab-20eacaae2768",
         tenantId: "45ab2481-1c1c-4005-be24-0ffb879b1130",
         resourceId: "bbbcbc1e-9f06-482a-b5d8-20e3f26ef0cd",
-        rawId: "8:acs:bbbcbc1e-9f06-482a-b5d8-20e3f26ef0cd_45ab2481-1c1c-4005-be24-0ffb879b1130_207ffef6-9444-41fb-92ab-20eacaae2768",
+        rawId: `8:acs:${resourceId}_${tenantId}_${userId}`,
         cloud: "public",
       },
     );
     assertDeserialize(
       {
+        rawId: `8:acs:${resourceId}_${tenantId}_${userId}`,
         kind: "teamsExtensionUser",
-        rawId: "8:acs:bbbcbc1e-9f06-482a-b5d8-20e3f26ef0cd_45ab2481-1c1c-4005-be24-0ffb879b1130_207ffef6-9444-41fb-92ab-20eacaae2768",
       },
       {
         kind: "unknown",
