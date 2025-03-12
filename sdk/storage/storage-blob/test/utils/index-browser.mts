@@ -138,25 +138,13 @@ export async function bodyToString(
 }
 
 export async function blobToString(blob: Blob): Promise<string> {
-  const fileReader = new FileReader();
-  return new Promise<string>((resolve, reject) => {
-    fileReader.onloadend = (ev: any) => {
-      resolve(ev.target!.result);
-    };
-    fileReader.onerror = reject;
-    fileReader.readAsText(blob);
-  });
+  const text = await blob.text();
+  return text;
 }
 
 export async function blobToArrayBuffer(blob: Blob): Promise<ArrayBuffer> {
-  const fileReader = new FileReader();
-  return new Promise<ArrayBuffer>((resolve, reject) => {
-    fileReader.onloadend = (ev: any) => {
-      resolve(ev.target!.result);
-    };
-    fileReader.onerror = reject;
-    fileReader.readAsArrayBuffer(blob);
-  });
+  const arrayBuffer = await blob.arrayBuffer();
+  return arrayBuffer;
 }
 
 export function arrayBufferEqual(buf1: ArrayBuffer, buf2: ArrayBuffer): boolean {
