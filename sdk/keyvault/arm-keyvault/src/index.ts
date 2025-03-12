@@ -7,7 +7,7 @@
  */
 
 /// <reference lib="esnext.asynciterable" />
-export { getContinuationToken } from "./pagingHelper.js";
-export * from "./models/index.js";
-export { KeyVaultManagementClient } from "./keyVaultManagementClient.js";
-export * from "./operationsInterfaces/index.js";
+export { getContinuationToken } from "./pagingHelper";
+export * from "./models";
+export { KeyVaultManagementClient } from "./keyVaultManagementClient";
+export * from "./operationsInterfaces";
