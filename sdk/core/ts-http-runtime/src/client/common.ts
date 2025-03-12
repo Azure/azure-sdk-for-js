@@ -9,6 +9,7 @@ import type {
   RequestBodyType,
   TransferProgressEvent,
   RawHttpHeadersInput,
+  NodeJSReadableStream,
 } from "../interfaces.js";
 import type { Pipeline, PipelinePolicy } from "../pipeline.js";
 import type { AbortSignalLike } from "../abort-controller/AbortSignalLike.js";
@@ -205,7 +206,7 @@ export type HttpNodeStreamResponse = HttpResponse & {
   /**
    * Streamable body
    */
-  body?: NodeJS.ReadableStream;
+  body?: NodeJSReadableStream;
 };
 
 /**
