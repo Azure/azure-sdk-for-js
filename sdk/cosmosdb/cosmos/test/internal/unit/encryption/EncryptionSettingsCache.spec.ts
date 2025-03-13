@@ -2,7 +2,8 @@
 // Licensed under the MIT License.
 
 import assert from "assert";
-import { ClientEncryptionPolicy, EncryptionAlgorithm, EncryptionType } from "../../../../src";
+import type { ClientEncryptionPolicy } from "../../../../src";
+import { EncryptionAlgorithm, EncryptionType } from "../../../../src";
 import { ClientEncryptionIncludedPath, EncryptionSettings } from "../../../../src/encryption";
 import { EncryptionSettingsCache } from "../../../../src/encryption/Cache/EncryptionSettingsCache";
 
@@ -19,7 +20,10 @@ describe("EncryptionSettingsCache", function () {
       encryptionAlgorithm: EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
     };
 
-    const clientEncryptionPolicy = new ClientEncryptionPolicy([path], 2);
+    const clientEncryptionPolicy: ClientEncryptionPolicy = {
+      includedPaths: [path],
+      policyFormatVersion: 2,
+    };
     const encryptionSettingsCache = new EncryptionSettingsCache();
     const encryptionSettings = await encryptionSettingsCache.create(
       id,

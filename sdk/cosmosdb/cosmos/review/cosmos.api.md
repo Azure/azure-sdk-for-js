@@ -347,10 +347,9 @@ export interface ClientEncryptionOptions {
 }
 
 // @public
-export class ClientEncryptionPolicy {
-    constructor(includedPaths: ClientEncryptionIncludedPath[], policyFormatVersion?: number);
+export interface ClientEncryptionPolicy {
     includedPaths: ClientEncryptionIncludedPath[];
-    policyFormatVersion: number;
+    policyFormatVersion?: number;
 }
 
 // @public (undocumented)

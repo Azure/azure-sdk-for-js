@@ -131,7 +131,10 @@ describe("ClientSideEncryption", function (this: Suite) {
       encryptionType: EncryptionType.DETERMINISTIC,
       encryptionAlgorithm: EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
     });
-    clientEncryptionPolicy = new ClientEncryptionPolicy(paths, 2);
+    clientEncryptionPolicy = {
+      includedPaths: paths,
+      policyFormatVersion: 2,
+    };
     containerDefinition = {
       id: randomUUID(),
       partitionKey: {
@@ -175,7 +178,9 @@ describe("ClientSideEncryption", function (this: Suite) {
       encryptionType: EncryptionType.DETERMINISTIC,
       encryptionAlgorithm: EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
     };
-    let policy = new ClientEncryptionPolicy([path]);
+    let policy: ClientEncryptionPolicy = {
+      includedPaths: [path],
+    };
     try {
       await database.containers.createIfNotExists({
         id: randomUUID(),
@@ -196,7 +201,10 @@ describe("ClientSideEncryption", function (this: Suite) {
       encryptionAlgorithm: EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
     };
 
-    policy = new ClientEncryptionPolicy([path], 2);
+    policy = {
+      includedPaths: [path],
+      policyFormatVersion: 2,
+    };
     try {
       await database.containers.createIfNotExists({
         id: randomUUID(),
@@ -216,8 +224,11 @@ describe("ClientSideEncryption", function (this: Suite) {
       encryptionType: EncryptionType.RANDOMIZED,
       encryptionAlgorithm: EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
     };
-    policy = new ClientEncryptionPolicy([path], 2);
-    const containerDef = {
+    policy = {
+      includedPaths: [path],
+      policyFormatVersion: 2,
+    };
+    let containerDef = {
       id: randomUUID(),
       partitionKey: {
         paths: ["/PK", "/address/zip"],
@@ -241,8 +252,19 @@ describe("ClientSideEncryption", function (this: Suite) {
       encryptionType: EncryptionType.DETERMINISTIC,
       encryptionAlgorithm: EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
     };
+    policy = {
+      includedPaths: [path],
+      policyFormatVersion: 2,
+    };
+    containerDef = {
+      id: randomUUID(),
+      partitionKey: {
+        paths: ["/PK"],
+      },
+      clientEncryptionPolicy: policy,
+    };
     try {
-      new ClientEncryptionPolicy([path]);
+      await database.containers.createIfNotExists(containerDef);
     } catch (err) {
       assert.ok(
         err.message.includes("Path in ClientEncryptionIncludedPath needs to start with '/'"),
@@ -255,8 +277,18 @@ describe("ClientSideEncryption", function (this: Suite) {
       encryptionType: EncryptionType.DETERMINISTIC,
       encryptionAlgorithm: EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
     };
+    policy = {
+      includedPaths: [path],
+    };
+    containerDef = {
+      id: randomUUID(),
+      partitionKey: {
+        paths: ["/PK", "/address/zip"],
+      },
+      clientEncryptionPolicy: policy,
+    };
     try {
-      new ClientEncryptionPolicy([path]);
+      await database.containers.createIfNotExists(containerDef);
     } catch (err) {
       assert.ok(
         err.message.includes("Only top-level paths are currently supported for encryption"),
@@ -269,12 +301,23 @@ describe("ClientSideEncryption", function (this: Suite) {
       encryptionType: EncryptionType.DETERMINISTIC,
       encryptionAlgorithm: EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
     };
+    policy = {
+      includedPaths: [path],
+      policyFormatVersion: 2,
+    };
+    containerDef = {
+      id: randomUUID(),
+      partitionKey: {
+        paths: ["/PK"],
+      },
+      clientEncryptionPolicy: policy,
+    };
     try {
-      new ClientEncryptionPolicy([path]);
+      await database.containers.createIfNotExists(containerDef);
     } catch (err) {
       assert.ok(
         err.message.includes(
-          "ClientEncryptionKeyId needs to be defined in ClientEncryptionIncludedPath.",
+          "ClientEncryptionKeyId needs to be defined as string type in ClientEncryptionIncludedPath",
         ),
       );
     }
@@ -1007,7 +1050,10 @@ describe("ClientSideEncryption", function (this: Suite) {
       encryptionType: EncryptionType.DETERMINISTIC,
       encryptionAlgorithm: EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
     }));
-    let policy = new ClientEncryptionPolicy(paths, 2);
+    let policy: ClientEncryptionPolicy = {
+      includedPaths: paths,
+      policyFormatVersion: 2,
+    };
     let containerProperties = {
       id: "StringPKEncContainer",
       partitionKey: {
@@ -1033,7 +1079,10 @@ describe("ClientSideEncryption", function (this: Suite) {
       encryptionType: EncryptionType.DETERMINISTIC,
       encryptionAlgorithm: EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
     }));
-    policy = new ClientEncryptionPolicy(paths, 2);
+    policy = {
+      includedPaths: paths,
+      policyFormatVersion: 2,
+    };
     containerProperties = {
       id: "FloatPKEncContainer",
       partitionKey: {
@@ -1060,7 +1109,10 @@ describe("ClientSideEncryption", function (this: Suite) {
       encryptionType: EncryptionType.DETERMINISTIC,
       encryptionAlgorithm: EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
     }));
-    policy = new ClientEncryptionPolicy(paths, 2);
+    policy = {
+      includedPaths: paths,
+      policyFormatVersion: 2,
+    };
     containerProperties = {
       id: "BoolPKEncContainer",
       partitionKey: {
@@ -1262,7 +1314,10 @@ describe("ClientSideEncryption", function (this: Suite) {
       encryptionType: EncryptionType.DETERMINISTIC,
       encryptionAlgorithm: EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
     }));
-    let encryptionPolicy = new ClientEncryptionPolicy(paths, 2);
+    let encryptionPolicy = {
+      includedPaths: paths,
+      policyFormatVersion: 2,
+    };
     let containerProperties: ContainerDefinition = {
       id: randomUUID(),
       partitionKey: { paths: ["/sensitive_DoubleFormat"] },
@@ -1307,7 +1362,10 @@ describe("ClientSideEncryption", function (this: Suite) {
         encryptionAlgorithm: EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
       },
     ];
-    encryptionPolicy = new ClientEncryptionPolicy(paths, 2);
+    encryptionPolicy = {
+      includedPaths: paths,
+      policyFormatVersion: 2,
+    };
     containerProperties = {
       id: encryptionContainerToDelete.id,
       partitionKey: { paths: ["/PK"] },
@@ -1432,7 +1490,10 @@ describe("ClientSideEncryption", function (this: Suite) {
       encryptionType: EncryptionType.DETERMINISTIC,
       encryptionAlgorithm: EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
     }));
-    let encryptionPolicy = new ClientEncryptionPolicy(paths, 2);
+    let encryptionPolicy = {
+      includedPaths: paths,
+      policyFormatVersion: 2,
+    };
     let containerProperties: ContainerDefinition = {
       id: randomUUID(),
       partitionKey: { paths: ["/sensitive_DoubleFormat"] },
@@ -1477,7 +1538,10 @@ describe("ClientSideEncryption", function (this: Suite) {
         encryptionAlgorithm: EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
       },
     ];
-    encryptionPolicy = new ClientEncryptionPolicy(paths, 2);
+    encryptionPolicy = {
+      includedPaths: paths,
+      policyFormatVersion: 2,
+    };
     containerProperties = {
       id: encryptionContainerToDelete.id,
       partitionKey: { paths: ["/PK"] },
@@ -1539,7 +1603,10 @@ describe("ClientSideEncryption", function (this: Suite) {
       encryptionType: EncryptionType.DETERMINISTIC,
       encryptionAlgorithm: EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
     }));
-    let encryptionPolicy = new ClientEncryptionPolicy(paths, 2);
+    let encryptionPolicy = {
+      includedPaths: paths,
+      policyFormatVersion: 2,
+    };
     let containerProperties: ContainerDefinition = {
       id: randomUUID(),
       partitionKey: { paths: ["/sensitive_DoubleFormat"] },
@@ -1584,7 +1651,10 @@ describe("ClientSideEncryption", function (this: Suite) {
         encryptionAlgorithm: EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
       },
     ];
-    encryptionPolicy = new ClientEncryptionPolicy(paths, 2);
+    encryptionPolicy = {
+      includedPaths: paths,
+      policyFormatVersion: 2,
+    };
     containerProperties = {
       id: encryptionContainerToDelete.id,
       partitionKey: { paths: ["/PK"] },
@@ -1658,7 +1728,10 @@ describe("ClientSideEncryption", function (this: Suite) {
       encryptionType: EncryptionType.DETERMINISTIC,
       encryptionAlgorithm: EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
     }));
-    let encryptionPolicy = new ClientEncryptionPolicy(paths, 2);
+    let encryptionPolicy = {
+      includedPaths: paths,
+      policyFormatVersion: 2,
+    };
     let containerProperties: ContainerDefinition = {
       id: randomUUID(),
       partitionKey: { paths: ["/sensitive_DoubleFormat"] },
@@ -1703,7 +1776,10 @@ describe("ClientSideEncryption", function (this: Suite) {
         encryptionAlgorithm: EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
       },
     ];
-    encryptionPolicy = new ClientEncryptionPolicy(paths, 2);
+    encryptionPolicy = {
+      includedPaths: paths,
+      policyFormatVersion: 2,
+    };
     containerProperties = {
       id: encryptionContainerToDelete.id,
       partitionKey: { paths: ["/PK"] },
@@ -1799,7 +1875,9 @@ describe("ClientSideEncryption", function (this: Suite) {
       encryptionType: EncryptionType.DETERMINISTIC,
       encryptionAlgorithm: EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
     }));
-    const encryptionPolicy = new ClientEncryptionPolicy(originalPaths);
+    const encryptionPolicy = {
+      includedPaths: originalPaths,
+    };
     let containerDef: ContainerDefinition = {
       id: "containerToBeDeleted",
       partitionKey: {
@@ -1851,7 +1929,9 @@ describe("ClientSideEncryption", function (this: Suite) {
       encryptionType: EncryptionType.DETERMINISTIC,
       encryptionAlgorithm: EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
     }));
-    clientEncryptionPolicy = new ClientEncryptionPolicy(newModifiedPaths);
+    clientEncryptionPolicy = {
+      includedPaths: newModifiedPaths,
+    };
     containerDef = {
       id: encryptionContainerToDelete.id,
       partitionKey: {
@@ -1897,7 +1977,10 @@ describe("ClientSideEncryption", function (this: Suite) {
       await otherDatabase.containers.createIfNotExists({
         id: "otherContainer2",
         partitionKey: "/PK",
-        clientEncryptionPolicy: new ClientEncryptionPolicy([newModifiedPath2], 2),
+        clientEncryptionPolicy: {
+          includedPaths: [newModifiedPath2],
+          policyFormatVersion: 2,
+        },
       })
     ).container;
 
@@ -1990,8 +2073,17 @@ describe("ClientSideEncryption", function (this: Suite) {
       encryptionAlgorithm: EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
     };
     const pathsWithDups = [pathdup1, pathdup2];
+    const contDef = {
+      id: "containerWithDups",
+      partitionKey: {
+        paths: ["/PK"],
+      },
+      clientEncryptionPolicy: {
+        includedPaths: pathsWithDups,
+      },
+    };
     try {
-      new ClientEncryptionPolicy(pathsWithDups);
+      await database.containers.create(contDef);
       assert.fail("ClientEncryptionPolicy creation should have failed");
     } catch (err) {
       assert.ok(
@@ -2046,7 +2138,10 @@ describe("ClientSideEncryption", function (this: Suite) {
         version: 2,
         kind: PartitionKeyKind.MultiHash,
       },
-      clientEncryptionPolicy: new ClientEncryptionPolicy(key1Paths, 2),
+      clientEncryptionPolicy: {
+        includedPaths: key1Paths,
+        policyFormatVersion: 2,
+      },
       throughput: 400,
     };
     const container = (await database.containers.create(containerDef)).container;
@@ -2185,7 +2280,9 @@ describe("ClientSideEncryption", function (this: Suite) {
       encryptionAlgorithm: EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
     };
     const paths = [pathWithRevokedKek];
-    const clientEncryptionPolicyWithRevokedKek = new ClientEncryptionPolicy(paths);
+    const clientEncryptionPolicyWithRevokedKek = {
+      includedPaths: paths,
+    };
     const containerProperties = {
       id: randomUUID(),
       partitionKey: {
