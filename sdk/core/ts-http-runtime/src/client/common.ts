@@ -13,8 +13,8 @@ import type {
 import type { Pipeline, PipelinePolicy } from "../pipeline.js";
 import type { PipelineOptions } from "../createPipelineFromOptions.js";
 import type { LogPolicyOptions } from "../policies/logPolicy.js";
-import { AuthScheme } from "../auth/schemes.js";
-import { AuthCredential } from "../auth/credentials.js";
+import type { AuthScheme } from "../auth/schemes.js";
+import type { AuthCredential } from "../auth/credentials.js";
 
 /**
  * Shape of the default request parameters, this may be overridden by the specific
@@ -302,8 +302,16 @@ export interface AdditionalPolicyConfig {
  * General options that a Rest Level Client can take
  */
 export type ClientOptions = PipelineOptions & {
+  /**
+   * List of authentication schemes supported by the client.
+   * These schemes define how the client can authenticate requests.
+   */
   authSchemes?: AuthScheme[];
 
+  /**
+   * The credential used to authenticate requests.
+   * Must be compatible with one of the specified authentication schemes.
+   */
   credential?: AuthCredential;
 
   // UNBRANDED DIFFERENCE: The deprecated baseUrl property is removed in favor of the endpoint property in the unbranded Core package

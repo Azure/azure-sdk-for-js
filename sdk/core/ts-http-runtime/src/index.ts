@@ -41,6 +41,7 @@ export type {
 } from "./interfaces.js";
 export { createHttpHeaders } from "./httpHeaders.js";
 export * from "./auth/schemes.js";
+export * from "./auth/authFlows.js";
 export * from "./auth/credentials.js";
 export { createPipelineRequest, type PipelineRequestOptions } from "./pipelineRequest.js";
 export type { Pipeline, PipelinePolicy, AddPolicyOptions, PipelinePhase } from "./pipeline.js";
@@ -72,3 +73,19 @@ export type { PipelineOptions, TelemetryOptions } from "./createPipelineFromOpti
 export type { LogPolicyOptions } from "./policies/logPolicy.js";
 export type { RedirectPolicyOptions } from "./policies/redirectPolicy.js";
 export type { UserAgentPolicyOptions } from "./policies/userAgentPolicy.js";
+export {
+  basicAuthenticationPolicy,
+  type BasicAuthenticationPolicyOptions,
+} from "./policies/auth/basicAuthenticationPolicy.js";
+export {
+  bearerAuthenticationPolicy,
+  type BearerAuthenticationPolicyOptions,
+} from "./policies/auth/bearerAuthenticationPolicy.js";
+export {
+  oauth2AuthenticationPolicy,
+  type OAuth2AuthenticationPolicyOptions,
+} from "./policies/auth/oauth2AuthenticationPolicy.js";
+export {
+  apiKeyAuthenticationPolicy,
+  type ApiKeyAuthenticationPolicyOptions,
+} from "./policies/auth/apiKeyAuthenticationPolicy.js";

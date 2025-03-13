@@ -2,30 +2,39 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert } from "vitest";
-import { createDefaultPipeline } from "../../src/client/clientHelpers.js";
-import { bearerTokenAuthenticationPolicyName } from "../../src/policies/bearerTokenAuthenticationPolicy.js";
-import { keyCredentialAuthenticationPolicyName } from "../../src/client/keyCredentialAuthenticationPolicy.js";
 import { apiVersionPolicyName } from "../../src/client/apiVersionPolicy.js";
-import { BearerTokenCredential } from "../../src/auth/credentials.js";
-import { bearerTokenPolicyName } from "../../src/policies/auth/bearerTokenPolicy.js";
+import type {
+  BearerTokenCredential,
+  OAuth2TokenCredential,
+  BasicCredential,
+} from "../../src/auth/credentials.js";
+import { createDefaultPipeline } from "../../src/client/clientHelpers.js";
+import { bearerAuthenticationPolicyName } from "../../src/policies/auth/bearerAuthenticationPolicy.js";
+import { basicAuthenticationPolicyName } from "../../src/policies/auth/basicAuthenticationPolicy.js";
+import { apiKeyAuthenticationPolicyName } from "../../src/policies/auth/apiKeyAuthenticationPolicy.js";
+import { oauth2AuthenticationPolicyName } from "../../src/policies/auth/oauth2AuthenticationPolicy.js";
+import type { OAuth2Flow } from "../../src/index.js";
 
 describe("clientHelpers", () => {
-  const mockBaseUrl = "https://example.org";
   it("should create a default pipeline with no credentials", () => {
-    const pipeline = createDefaultPipeline();
+    const pipeline = createDefaultPipeline({ credential: undefined, authSchemes: [] });
     const policies = pipeline.getOrderedPolicies();
 
     assert.isDefined(policies, "default pipeline should contain policies");
 
-    assert.isUndefined(
-      policies.find((p) => p.name === bearerTokenAuthenticationPolicyName),
-      "pipeline shouldn't have bearerTokenAuthenticationPolicyName",
-    );
+    const authPolicyNames = [
+      bearerAuthenticationPolicyName,
+      basicAuthenticationPolicyName,
+      apiKeyAuthenticationPolicyName,
+      oauth2AuthenticationPolicyName,
+    ];
 
-    assert.isUndefined(
-      policies.find((p) => p.name === keyCredentialAuthenticationPolicyName),
-      "pipeline shouldn't have keyCredentialAuthenticationPolicyName",
-    );
+    for (const policyName of authPolicyNames) {
+      assert.isUndefined(
+        policies.find((p) => p.name === policyName),
+        `pipeline shouldn't have ${policyName}`,
+      );
+    }
   });
 
   it("should create a default pipeline with apiVersion policy", () => {
@@ -40,51 +49,69 @@ describe("clientHelpers", () => {
     );
   });
 
-  it("should throw if key credentials but no Api Header Name", () => {
-    try {
-      createDefaultPipeline([{ kind: "apiKey", credential: { key: "mockKey" } }]);
-      assert.fail("Expected to throw an error");
-    } catch (error: any) {
-      assert.equal((error as Error).message, "Missing API Key Header Name");
-    }
-  });
-
-  it("should create a default pipeline with key credentials", () => {
-    const pipeline = createDefaultPipeline([{ kind: "apiKey", credential: { key: "mockKey" } }], {
-      authScheme: { kind: "apiKey", apiKeyLocation: "header", name: "apiHeader" },
+  it("should create a default pipeline with apiKeyCredential", () => {
+    const pipeline = createDefaultPipeline({
+      credential: { key: "mockKey" },
     });
     const policies = pipeline.getOrderedPolicies();
 
     assert.isDefined(policies, "default pipeline should contain policies");
 
-    assert.isUndefined(
-      policies.find((p) => p.name === bearerTokenAuthenticationPolicyName),
-      "pipeline shouldn't have bearerTokenAuthenticationPolicyName",
-    );
-
     assert.isDefined(
-      policies.find((p) => p.name === keyCredentialAuthenticationPolicyName),
-      "pipeline shouldn have keyCredentialAuthenticationPolicyName",
+      policies.find((p) => p.name === apiKeyAuthenticationPolicyName),
+      "pipeline should have apiKeyAuthenticationPolicyName",
     );
   });
 
   it("should create a default pipeline with BearerTokenCredential", () => {
     const mockCredential: BearerTokenCredential = {
-      getToken: async () => "mockToken",
+      getBearerToken: async () => "mockToken",
     };
-    const pipeline = createDefaultPipeline([{ kind: "bearer", credential: mockCredential }]);
+    const pipeline = createDefaultPipeline({
+      credential: mockCredential,
+    });
     const policies = pipeline.getOrderedPolicies();
 
     assert.isDefined(policies, "default pipeline should contain policies");
 
     assert.isDefined(
-      policies.find((p) => p.name === bearerTokenPolicyName),
-      "pipeline should have bearerTokennPolicyName",
+      policies.find((p) => p.name === bearerAuthenticationPolicyName),
+      "pipeline should have bearerAuthenticationPolicyName",
     );
+  });
 
-    assert.isUndefined(
-      policies.find((p) => p.name === keyCredentialAuthenticationPolicyName),
-      "pipeline shouldn have keyCredentialAuthenticationPolicyName",
+  it("should create a default pipeline with OAuth2TokenCredential", () => {
+    const mockCredential: OAuth2TokenCredential<OAuth2Flow> = {
+      getOAuth2Token: async (_flows: OAuth2Flow[]) => "mockToken",
+    };
+    const pipeline = createDefaultPipeline({
+      credential: mockCredential,
+    });
+    const policies = pipeline.getOrderedPolicies();
+
+    assert.isDefined(policies, "default pipeline should contain policies");
+
+    assert.isDefined(
+      policies.find((p) => p.name === oauth2AuthenticationPolicyName),
+      "pipeline should have oauth2AuthenticationPolicyName",
+    );
+  });
+
+  it("should create a default pipeline with BasicCredential", () => {
+    const mockCredential: BasicCredential = {
+      username: "mockUser",
+      password: "mockPassword",
+    };
+    const pipeline = createDefaultPipeline({
+      credential: mockCredential,
+    });
+    const policies = pipeline.getOrderedPolicies();
+
+    assert.isDefined(policies, "default pipeline should contain policies");
+
+    assert.isDefined(
+      policies.find((p) => p.name === basicAuthenticationPolicyName),
+      "pipeline should have basicAuthenticationPolicyName",
     );
   });
 });

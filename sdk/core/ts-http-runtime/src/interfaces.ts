@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AuthScheme } from "./auth/schemes.js";
+import type { AuthScheme } from "./auth/schemes.js";
 
 /**
  * A HttpHeaders collection represented as a simple JSON object.
@@ -134,10 +134,11 @@ export interface Agent {
  */
 export interface PipelineRequest {
   /**
-   * per-request authentication schemes if any
-   * this scheme overrides the client level authentication schemes if provided
+   * List of authentication schemes used for this specific request.
+   * These schemes define how the request will be authenticated.
+   * If provided, these schemes override the client level authentication schemes.
    *
-   * if no auth schemes provided at client or request level defaults to no auth
+   * If no auth schemes are provided at client or request level, defaults to no auth.
    */
   authSchemes?: AuthScheme[];
 

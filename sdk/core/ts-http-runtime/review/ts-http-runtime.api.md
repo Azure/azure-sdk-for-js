@@ -39,51 +39,83 @@ export interface Agent {
     sockets: unknown;
 }
 
-// @public (undocumented)
-export interface ApiKeyAuthScheme {
-    // (undocumented)
-    apiKeyLocation: "query" | "header" | "cookie";
-    // (undocumented)
-    name: string;
-    // (undocumented)
-    type: "apiKey";
+// @public
+export function apiKeyAuthenticationPolicy(options: ApiKeyAuthenticationPolicyOptions): PipelinePolicy;
+
+// @public
+export interface ApiKeyAuthenticationPolicyOptions {
+    allowInsecureConnection?: boolean;
+    authSchemes?: AuthScheme[];
+    credential: ApiKeyCredential;
 }
 
-// @public (undocumented)
+// @public
+export interface ApiKeyAuthScheme {
+    apiKeyLocation: ApiKeyLocation;
+    name: string;
+    type: AuthType.ApiKey;
+}
+
+// @public
 export interface ApiKeyCredential {
     // (undocumented)
     key: string;
 }
 
-// @public (undocumented)
+// @public
+export enum ApiKeyLocation {
+    // (undocumented)
+    Cookie = "cookie",
+    // (undocumented)
+    Header = "header",
+    // (undocumented)
+    Query = "query"
+}
+
+// @public
 export type AuthCredential = OAuth2TokenCredential<OAuth2Flow> | BearerTokenCredential | BasicCredential | ApiKeyCredential;
 
-// @public (undocumented)
+// @public
 export interface AuthorizationCodeFlow {
-    // (undocumented)
     authorizationUrl: string;
-    // (undocumented)
     refreshUrl?: string;
-    // (undocumented)
     scopes?: string[];
-    // (undocumented)
     tokenUrl: string;
-    // (undocumented)
-    type: "authorizationCode";
+    type: OAuth2FlowType.AuthorizationCode;
 }
 
-// @public (undocumented)
+// @public
 export type AuthScheme = BasicAuthScheme | BearerAuthScheme | NoAuthAuthScheme | ApiKeyAuthScheme | OAuth2AuthScheme<OAuth2Flow[]>;
 
-// @public (undocumented)
-export interface BasicAuthScheme {
+// @public
+export enum AuthType {
     // (undocumented)
-    scheme: "basic";
+    ApiKey = "apiKey",
     // (undocumented)
-    type: "http";
+    Http = "http",
+    // (undocumented)
+    NoAuth = "noAuth",
+    // (undocumented)
+    OAuth2 = "oauth2"
 }
 
-// @public (undocumented)
+// @public
+export function basicAuthenticationPolicy(options: BasicAuthenticationPolicyOptions): PipelinePolicy;
+
+// @public
+export interface BasicAuthenticationPolicyOptions {
+    allowInsecureConnection?: boolean;
+    authSchemes?: AuthScheme[];
+    credential: BasicCredential;
+}
+
+// @public
+export interface BasicAuthScheme {
+    scheme: HttpAuthType.Basic;
+    type: AuthType.Http;
+}
+
+// @public
 export interface BasicCredential {
     // (undocumented)
     password: string;
@@ -91,18 +123,26 @@ export interface BasicCredential {
     username: string;
 }
 
-// @public (undocumented)
-export interface BearerAuthScheme {
-    // (undocumented)
-    scheme: "bearer";
-    // (undocumented)
-    type: "http";
+// @public
+export function bearerAuthenticationPolicy(options: BearerAuthenticationPolicyOptions): PipelinePolicy;
+
+// @public
+export interface BearerAuthenticationPolicyOptions {
+    allowInsecureConnection?: boolean;
+    authSchemes?: AuthScheme[];
+    credential: BearerTokenCredential;
 }
 
-// @public (undocumented)
+// @public
+export interface BearerAuthScheme {
+    scheme: HttpAuthType.Bearer;
+    type: AuthType.Http;
+}
+
+// @public
 export interface BearerTokenCredential {
     // (undocumented)
-    getToken(options: GetTokenOptions): Promise<string>;
+    getBearerToken(options?: GetBearTokenOptions): Promise<string>;
 }
 
 // @public
@@ -118,16 +158,12 @@ export interface Client {
     pipeline: Pipeline;
 }
 
-// @public (undocumented)
+// @public
 export interface ClientCredentialsFlow {
-    // (undocumented)
     refreshUrl?: string[];
-    // (undocumented)
     scopes?: string[];
-    // (undocumented)
     tokenUrl: string;
-    // (undocumented)
-    type: "clientCredentials";
+    type: OAuth2FlowType.ClientCredentials;
 }
 
 // @public
@@ -185,13 +221,25 @@ export interface FullOperationResponse extends PipelineResponse {
     request: PipelineRequest;
 }
 
+// Warning: (ae-forgotten-export) The symbol "GetTokenCommonOptions" needs to be exported by the entry point index.d.ts
+//
+// @public
+export interface GetBearTokenOptions extends GetTokenCommonOptions {
+}
+
 // @public
 export function getClient(endpoint: string, clientOptions?: ClientOptions): Client;
 
-// @public (undocumented)
-export interface GetTokenOptions {
+// @public
+export interface GetOAuth2TokenOptions extends GetTokenCommonOptions {
+}
+
+// @public
+export enum HttpAuthType {
     // (undocumented)
-    abortSignal?: AbortSignal;
+    Basic = "basic",
+    // (undocumented)
+    Bearer = "bearer"
 }
 
 // @public
@@ -231,28 +279,24 @@ export type HttpResponse = {
     status: string;
 };
 
-// @public (undocumented)
+// @public
 export interface ImplicitFlow {
-    // (undocumented)
     authorizationUrl: string;
-    // (undocumented)
     refreshUrl?: string;
-    // (undocumented)
     scopes?: string[];
-    // (undocumented)
-    type: "implicit";
+    type: OAuth2FlowType.Implicit;
 }
 
-// @public (undocumented)
+// @public
 export function isApiKeyCredential(credential: AuthCredential): credential is ApiKeyCredential;
 
-// @public (undocumented)
+// @public
 export function isBasicCredential(credential: AuthCredential): credential is BasicCredential;
 
-// @public (undocumented)
+// @public
 export function isBearerTokenCredential(credential: AuthCredential): credential is BearerTokenCredential;
 
-// @public (undocumented)
+// @public
 export function isOAuth2TokenCredential(credential: AuthCredential): credential is OAuth2TokenCredential<OAuth2Flow>;
 
 // @public
@@ -277,27 +321,46 @@ export interface MultipartRequestBody {
     parts: BodyPart[];
 }
 
-// @public (undocumented)
+// @public
 export interface NoAuthAuthScheme {
-    // (undocumented)
-    type: "noAuth";
+    type: AuthType.NoAuth;
 }
 
-// @public (undocumented)
+// @public
+export function oauth2AuthenticationPolicy<TFlows extends OAuth2Flow>(options: OAuth2AuthenticationPolicyOptions<TFlows>): PipelinePolicy;
+
+// @public
+export interface OAuth2AuthenticationPolicyOptions<TFlows extends OAuth2Flow> {
+    allowInsecureConnection?: boolean;
+    authSchemes?: AuthScheme[];
+    credential: OAuth2TokenCredential<TFlows>;
+}
+
+// @public
 export interface OAuth2AuthScheme<TFlows extends OAuth2Flow[]> {
-    // (undocumented)
     flows: TFlows;
-    // (undocumented)
-    type: "oauth2";
+    type: AuthType.OAuth2;
 }
 
-// @public (undocumented)
+// @public
 export type OAuth2Flow = AuthorizationCodeFlow | ClientCredentialsFlow | ImplicitFlow | PasswordFlow;
 
-// @public (undocumented)
+// @public
+export enum OAuth2FlowType {
+    // (undocumented)
+    AuthorizationCode = "authorizationCode",
+    // (undocumented)
+    ClientCredentials = "clientCredentials",
+    // (undocumented)
+    Implicit = "implicit",
+    // (undocumented)
+    Password = "password"
+}
+
+// @public
 export interface OAuth2TokenCredential<TFlows extends OAuth2Flow> {
     // (undocumented)
-    getToken(flows: TFlows[], options: GetTokenOptions): Promise<string>;
+    getOAuth2Token(flows: TFlows[], options?: GetOAuth2TokenOptions): Promise<string>;
 }
 
 // @public
@@ -320,16 +383,12 @@ export interface OperationRequestOptions {
     timeout?: number;
 }
 
-// @public (undocumented)
+// @public
 export interface PasswordFlow {
-    // (undocumented)
     refreshUrl?: string;
-    // (undocumented)
     scopes?: string[];
-    // (undocumented)
     tokenUrl: string;
-    // (undocumented)
-    type: "password";
+    type: OAuth2FlowType.Password;
 }
 
 // @public
