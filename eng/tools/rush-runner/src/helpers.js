@@ -15,6 +15,7 @@ export const reducedDependencyTestMatrix = {
     "@azure/arm-resources",
     "@azure/identity",
     "@azure/service-bus",
+    "@azure/storage-queue",
     "@azure/template",
   ],
   "test-utils": [
