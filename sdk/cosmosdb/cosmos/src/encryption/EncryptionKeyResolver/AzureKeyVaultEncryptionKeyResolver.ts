@@ -17,7 +17,8 @@ export class AzureKeyVaultEncryptionKeyResolver implements EncryptionKeyResolver
   constructor(credentials: TokenCredential) {
     this.credentials = credentials;
   }
-  /** name of the resolver to use for client side encryption.
+  /**
+   * Name of the resolver to use for client side encryption.
    * Currently only AzureKeyVault implementation is supported.
    */
   public encryptionKeyResolverName = EncryptionKeyResolverName.AzureKeyVault;
