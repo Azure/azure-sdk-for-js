@@ -6,6 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 import {
   MaintenanceConfiguration,
   ContainerServiceClient,
@@ -17,7 +19,7 @@ import "dotenv/config";
  * This sample demonstrates how to Creates or updates a maintenance configuration in the specified managed cluster.
  *
  * @summary Creates or updates a maintenance configuration in the specified managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2024-10-01/examples/MaintenanceConfigurationsCreate_Update.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2024-10-02-preview/examples/MaintenanceConfigurationsCreate_Update.json
  */
 async function createOrUpdateMaintenanceConfiguration(): Promise<void> {
   const subscriptionId =
@@ -51,7 +53,7 @@ async function createOrUpdateMaintenanceConfiguration(): Promise<void> {
  * This sample demonstrates how to Creates or updates a maintenance configuration in the specified managed cluster.
  *
  * @summary Creates or updates a maintenance configuration in the specified managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2024-10-01/examples/MaintenanceConfigurationsCreate_Update_MaintenanceWindow.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2024-10-02-preview/examples/MaintenanceConfigurationsCreate_Update_MaintenanceWindow.json
  */
 async function createOrUpdateMaintenanceConfigurationWithMaintenanceWindow(): Promise<void> {
   const subscriptionId =

@@ -6,6 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 import {
   TrustedAccessRoleBinding,
   ContainerServiceClient,
@@ -17,7 +19,7 @@ import "dotenv/config";
  * This sample demonstrates how to Create or update a trusted access role binding
  *
  * @summary Create or update a trusted access role binding
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2024-10-01/examples/TrustedAccessRoleBindings_CreateOrUpdate.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2024-10-02-preview/examples/TrustedAccessRoleBindings_CreateOrUpdate.json
  */
 async function createOrUpdateATrustedAccessRoleBinding(): Promise<void> {
   const subscriptionId =

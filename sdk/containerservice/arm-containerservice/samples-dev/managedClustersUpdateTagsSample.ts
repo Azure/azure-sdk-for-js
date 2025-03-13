@@ -6,6 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 import {
   TagsObject,
   ContainerServiceClient,
@@ -17,7 +19,7 @@ import "dotenv/config";
  * This sample demonstrates how to Updates tags on a managed cluster.
  *
  * @summary Updates tags on a managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2024-10-01/examples/ManagedClustersUpdateTags.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2024-10-02-preview/examples/ManagedClustersUpdateTags.json
  */
 async function updateManagedClusterTags(): Promise<void> {
   const subscriptionId =

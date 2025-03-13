@@ -6,6 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 import { ContainerServiceClient } from "@azure/arm-containerservice";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -14,7 +16,7 @@ import "dotenv/config";
  * This sample demonstrates how to Contains extra metadata on the revision, including supported revisions, cluster compatibility and available upgrades
  *
  * @summary Contains extra metadata on the revision, including supported revisions, cluster compatibility and available upgrades
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2024-10-01/examples/ManagedClustersGet_MeshRevisionProfile.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2024-10-02-preview/examples/ManagedClustersGet_MeshRevisionProfile.json
  */
 async function getAMeshRevisionProfileForAMeshMode(): Promise<void> {
   const subscriptionId =
