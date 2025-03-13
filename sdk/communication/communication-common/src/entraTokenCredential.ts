@@ -16,11 +16,11 @@ import {
 } from "@azure/core-rest-pipeline";
 
 const TeamsExtensionScopePrefix = "https://auth.msft.communication.azure.com/";
-const ComunicationClientsScopePrefix = "https://communication.azure.com/clients/";
+const CommunicationClientsScopePrefix = "https://communication.azure.com/clients/";
 const TeamsExtensionEndpoint = "/access/teamsPhone/:exchangeAccessToken";
 const TeamsExtensionApiVersion = "2025-03-02-preview";
-const ComunicationClientsEndpoint = "/access/entra/:exchangeAccessToken";
-const ComunicationClientsApiVersion = "2024-04-01-preview";
+const CommunicationClientsEndpoint = "/access/entra/:exchangeAccessToken";
+const CommunicationClientsApiVersion = "2024-04-01-preview";
 
 export interface ExchangeTokenResponse {
   identity: string;
@@ -173,17 +173,17 @@ export class EntraTokenCredential implements AcsTokenCredential {
   private determineEndpointAndApiVersion(): [string, string] {
     if (!this.options.scopes || this.options.scopes.length === 0) {
       throw new Error(
-        `Scopes validation failed. Ensure all scopes start with either {TeamsExtensionScopePrefix} or {ComunicationClientsScopePrefix}.`,
+        `Scopes validation failed. Ensure all scopes start with either {TeamsExtensionScopePrefix} or {CommunicationClientsScopePrefix}.`,
       );
     } else if (this.options.scopes.every((scope) => scope.startsWith(TeamsExtensionScopePrefix))) {
       return [TeamsExtensionEndpoint, TeamsExtensionApiVersion];
     } else if (
-      this.options.scopes.every((scope) => scope.startsWith(ComunicationClientsScopePrefix))
+      this.options.scopes.every((scope) => scope.startsWith(CommunicationClientsScopePrefix))
     ) {
-      return [ComunicationClientsEndpoint, ComunicationClientsApiVersion];
+      return [CommunicationClientsEndpoint, CommunicationClientsApiVersion];
     } else {
       throw new Error(
-        `Scopes validation failed. Ensure all scopes start with either {TeamsExtensionScopePrefix} or {ComunicationClientsScopePrefix}.`,
+        `Scopes validation failed. Ensure all scopes start with either {TeamsExtensionScopePrefix} or {CommunicationClientsScopePrefix}.`,
       );
     }
   }
