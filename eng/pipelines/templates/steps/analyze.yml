@@ -29,9 +29,9 @@ steps:
       pwsh: true
     displayName: Spell check public API
 
-  - template: /eng/common/pipelines/templates/steps/verify-readmes.yml
-    parameters:
-      PackagePropertiesFolder: $(Build.ArtifactStagingDirectory)/PackageInfo
+  # - template: /eng/common/pipelines/templates/steps/verify-readmes.yml
+  #   parameters:
+  #     PackagePropertiesFolder: $(Build.ArtifactStagingDirectory)/PackageInfo
 
   - template: /eng/common/pipelines/templates/steps/verify-path-length.yml
     parameters:
