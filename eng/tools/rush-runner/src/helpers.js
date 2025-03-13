@@ -24,12 +24,10 @@ export const reducedDependencyTestMatrix = {
     "@azure/template",
   ],
   identity: [
-    "@azure-tests/perf-storage-blob",
     "@azure/ai-text-analytics",
     "@azure/arm-resources",
     "@azure/identity-cache-persistence",
     "@azure/identity-vscode",
-    "@azure/storage-blob",
     "@azure/template",
   ],
 };
