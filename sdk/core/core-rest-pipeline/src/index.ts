@@ -30,7 +30,6 @@ export type {
   SendRequest,
   TlsSettings,
   TransferProgressEvent,
-  NodeJSReadableStream,
 } from "./interfaces.js";
 export {
   type AddPolicyOptions as AddPipelineOptions,
