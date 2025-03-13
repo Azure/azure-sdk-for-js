@@ -4,8 +4,6 @@
 
 ### Features Added
 
-- `createSseStream` now supports NodeJS streams as input.
-
 ### Breaking Changes
 
 ### Bugs Fixed

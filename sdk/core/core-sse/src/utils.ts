@@ -2,7 +2,10 @@
 // Licensed under the MIT License.
 
 import type { IncomingMessage } from "node:http";
-import type { NodeJSReadableStream } from "./models.js";
+
+type Nullable<T, K extends keyof T> = {
+  [P in K]: T[P] | null;
+} & Omit<T, K>;
 
 export function createStream<T>(
   asyncIter: AsyncIterableIterator<T>,
@@ -62,7 +65,7 @@ function iteratorToStream<T>(
 }
 
 export function ensureAsyncIterable(
-  stream: IncomingMessage | NodeJSReadableStream | ReadableStream<Uint8Array>,
+  stream: Nullable<IncomingMessage, "socket"> | ReadableStream<Uint8Array>,
 ): {
   cancel(): Promise<void>;
   iterable: AsyncIterable<Uint8Array>;
@@ -76,11 +79,11 @@ export function ensureAsyncIterable(
   } else {
     return {
       cancel: async () => {
-        if ("socket" in stream) {
-          stream.socket.end();
-        } else {
-          stream.destroy();
-        }
+        /**
+         * socket is set to null when the stream has been consumed
+         * so we need to make sure to guard against nullability.
+         */
+        stream.socket?.end();
       },
       iterable: stream as AsyncIterable<Uint8Array>,
     };
