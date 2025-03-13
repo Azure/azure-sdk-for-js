@@ -14,7 +14,6 @@ import {
   CosmosClient,
   AzureKeyVaultEncryptionKeyResolver,
   EncryptionKeyResolverName,
-  EncryptionTimeToLive,
   EncryptionAlgorithm,
   KeyEncryptionAlgorithm,
   EncryptionKeyWrapMetadata,
@@ -44,9 +43,8 @@ async function run() {
     key: key,
     clientEncryptionOptions: {
       keyEncryptionKeyResolver: keyResolver,
-      // We can set encryption key time to live in hours (EncryptionTimeToLive.FromHours),
-      //  minutes (EncryptionTimeToLive.FromMinutes), and with no ttl (EncryptiontimeToLive.NoTTL)
-      encryptionKeyTimeToLive: EncryptionTimeToLive.FromMinutes(10),
+      // 300 seconds (5 minutes) TTL for encryption keys. Default is 2 hours
+      encryptionKeyTimeToLiveInSeconds: 300,
     },
   });
 
@@ -81,7 +79,10 @@ async function run() {
   );
   // creating client encryption policy with included paths and policy version 2.
   // policy version 2 must be used if we encrypt id or partition key
-  const clientEncryptionPolicy = new ClientEncryptionPolicy(paths, 2);
+  const clientEncryptionPolicy: ClientEncryptionPolicy = {
+    includedPaths: paths,
+    policyFormatVersion: 2,
+  };
 
   logStep("Create container with client encryption policy");
   const containerDefinition = {

@@ -13,11 +13,9 @@ const {
   CosmosClient,
   AzureKeyVaultEncryptionKeyResolver,
   EncryptionKeyResolverName,
-  EncryptionTimeToLive,
   EncryptionAlgorithm,
   KeyEncryptionAlgorithm,
   EncryptionType,
-  ClientEncryptionPolicy,
   EncryptionQueryBuilder,
 } = require("@azure/cosmos");
 const { finish, handleError, logStep } = require("./Shared/handleError");
@@ -26,7 +24,7 @@ const key = process.env.COSMOS_KEY || "<cosmos key>";
 const endpoint = process.env.COSMOS_ENDPOINT || "<cosmos endpoint>";
 const databaseId = process.env.COSMOS_DATABASE || "<cosmos database>";
 const containerId = process.env.COSMOS_CONTAINER || "<cosmos container>";
-var client;
+let client;
 
 async function run() {
   logStep("Create encryption enabled cosmos client");
@@ -38,12 +36,10 @@ async function run() {
   client = new CosmosClient({
     endpoint: endpoint,
     key: key,
-    encryptionPolicy: {
-      enableEncryption: true,
+    clientEncryptionOptions: {
       keyEncryptionKeyResolver: keyResolver,
-      // We can set encryption key time to live in hours (EncryptionTimeToLive.FromHours),
-      //  minutes (EncryptionTimeToLive.FromMinutes), and with no ttl (EncryptiontimeToLive.NoTTL)
-      encryptionKeyTimeToLive: EncryptionTimeToLive.FromMinutes(10),
+      // 300 seconds (5 minutes) TTL for encryption keys. Default is 2 hours
+      encryptionKeyTimeToLiveInSeconds: 300,
     },
   });
 
@@ -67,17 +63,18 @@ async function run() {
 
   logStep("Create client encryption included path and policy");
   // adding id, salary and ssn properties for encryption
-  const paths = ["/salary", "/ssn", "/id"].map(
-    (path) => ({
-      path: path,
-      clientEncryptionKeyId: "cek1",
-      encryptionType: EncryptionType.DETERMINISTIC,
-      encryptionAlgorithm: EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
-    }),
-  );
+  const paths = ["/salary", "/ssn", "/id"].map((path) => ({
+    path: path,
+    clientEncryptionKeyId: "cek1",
+    encryptionType: EncryptionType.DETERMINISTIC,
+    encryptionAlgorithm: EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
+  }));
   // creating client encryption policy with included paths and policy version 2.
   // policy version 2 must be used if we encrypt id or partition key
-  const clientEncryptionPolicy = new ClientEncryptionPolicy(paths, 2);
+  const clientEncryptionPolicy = {
+    includedPaths: paths,
+    policyFormatVersion: 2,
+  };
 
   logStep("Create container with client encryption policy");
   const containerDefinition = {
