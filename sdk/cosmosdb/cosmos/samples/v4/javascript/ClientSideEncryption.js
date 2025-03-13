@@ -38,8 +38,8 @@ async function run() {
     key: key,
     clientEncryptionOptions: {
       keyEncryptionKeyResolver: keyResolver,
-      // 300 seconds (5 minutes) TTL for encryption keys. Default is 2 hours
-      encryptionKeyTimeToLiveInSeconds: 300,
+      // setting 3600 seconds (1 hour) TTL for encryption keys. Default is 7200 seconds
+      encryptionKeyTimeToLiveInSeconds: 3600,
     },
   });
 

@@ -1,8 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-// import { EncryptionKeyResolverName } from "../enums";
-
 /** Provides an interface for key resolver for different key providers.
  * All resolvers should implement this interface.
  */

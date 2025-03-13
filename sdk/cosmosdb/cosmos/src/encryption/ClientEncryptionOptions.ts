@@ -10,6 +10,6 @@ export interface ClientEncryptionOptions {
   /** resolver that allows interaction with key encryption keys. */
   keyEncryptionKeyResolver: EncryptionKeyResolver;
 
-  /** time for which encryption keys and settings will be cached. Default is 2 hour */
+  /** time for which encryption keys and settings will be cached. Default is 7200 seconds */
   encryptionKeyTimeToLiveInSeconds?: number;
 }
