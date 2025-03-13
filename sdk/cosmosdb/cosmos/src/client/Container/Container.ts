@@ -380,7 +380,7 @@ export class Container {
       const id = getIdFromLink(this.url);
       path = path + "/operations/partitionkeydelete";
       if (this.clientContext.enableEncryption) {
-        await this.checkAndInitializeEncryption();
+        await this.checkAndWarmUpEncryptionCache();
         options = options || {};
         options.containerRid = this._rid;
         diagnosticNode.beginEncryptionDiagnostics(Constants.Encryption.DiagnosticsEncryptOperation);
@@ -423,7 +423,7 @@ export class Container {
   /**
    * Warms up encryption related caches for the container.
    */
-  public async initializeEncryption(): Promise<void> {
+  public async warmUpEncryptionCache(): Promise<void> {
     if (!this.clientContext.enableEncryption) {
       throw new ErrorResponse("Encryption is not enabled for the client.");
     } else {
@@ -483,10 +483,10 @@ export class Container {
   /**
    * @internal
    */
-  async checkAndInitializeEncryption(): Promise<void> {
+  async checkAndWarmUpEncryptionCache(): Promise<void> {
     if (!this.isEncryptionInitialized) {
       if (!this.encryptionInitializationPromise) {
-        this.encryptionInitializationPromise = this.initializeEncryption();
+        this.encryptionInitializationPromise = this.warmUpEncryptionCache();
       }
       await this.encryptionInitializationPromise;
     }
@@ -543,7 +543,7 @@ export class Container {
       if (currentContainerRid === updatedContainerRid) {
         return;
       }
-      await this.initializeEncryption();
+      await this.warmUpEncryptionCache();
       throw new ErrorResponse(
         "Operation has failed due to a possible mismatch in Client Encryption Policy configured on the container. Retrying may fix the issue. Please refer to https://aka.ms/CosmosClientEncryption for more details." +
           errorResponse.message,

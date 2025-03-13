@@ -127,7 +127,7 @@ export class EncryptionItemQueryIterator<Item> extends QueryIterator<Item> {
    */
   public override async init(diagnosticNode: DiagnosticNodeInternal): Promise<void> {
     // Ensure encryption is initialized and set rid in options
-    await this.container.checkAndInitializeEncryption();
+    await this.container.checkAndWarmUpEncryptionCache();
     this.encryptionOptions.containerRid = this.container._rid;
     await QueryIterator.prototype.init.call(this, diagnosticNode);
   }

@@ -689,7 +689,6 @@ export class Container {
     getQueryPlan(query: string | SqlQuerySpec): Promise<Response_2<PartitionedQueryExecutionInfo>>;
     // (undocumented)
     readonly id: string;
-    initializeEncryption(): Promise<void>;
     item(id: string, partitionKeyValue?: PartitionKey): Item;
     get items(): Items;
     read(options?: RequestOptions): Promise<ContainerResponse>;
@@ -702,6 +701,7 @@ export class Container {
     replace(body: ContainerDefinition, options?: RequestOptions): Promise<ContainerResponse>;
     get scripts(): Scripts;
     get url(): string;
+    warmUpEncryptionCache(): Promise<void>;
 }
 
 // @public (undocumented)

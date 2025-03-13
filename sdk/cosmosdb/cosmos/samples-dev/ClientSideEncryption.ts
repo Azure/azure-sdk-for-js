@@ -96,7 +96,7 @@ async function run() {
 
   // optional call to initialize encryption. This will warm up the encryption cache.
   // If not initialized, it will be initialized on the first operation that requires encryption.
-  await container.initializeEncryption();
+  await container.warmUpEncryptionCache();
 
   logStep("Create item with encrypted properties");
   const item1 = {

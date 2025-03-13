@@ -394,7 +394,7 @@ export class Items {
       let response: Response<T & Resource>;
       try {
         if (this.clientContext.enableEncryption) {
-          await this.container.checkAndInitializeEncryption();
+          await this.container.checkAndWarmUpEncryptionCache();
           options.containerRid = this.container._rid;
           // returns copy to avoid encryption of original body passed
           body = copyObject(body);
@@ -522,7 +522,7 @@ export class Items {
           // returns copy to avoid encryption of original body passed
           body = copyObject(body);
           options = options || {};
-          await this.container.checkAndInitializeEncryption();
+          await this.container.checkAndWarmUpEncryptionCache();
           options.containerRid = this.container._rid;
           diagnosticNode.beginEncryptionDiagnostics(
             Constants.Encryption.DiagnosticsEncryptOperation,
@@ -646,7 +646,7 @@ export class Items {
         // returns copy to avoid encryption of original operations body passed
         operations = copyObject(operations);
         options = options || {};
-        await this.container.checkAndInitializeEncryption();
+        await this.container.checkAndWarmUpEncryptionCache();
         options.containerRid = this.container._rid;
         diagnosticNode.beginEncryptionDiagnostics(Constants.Encryption.DiagnosticsEncryptOperation);
         const { operations: encryptedOperations, totalPropertiesEncryptedCount } =
@@ -942,7 +942,7 @@ export class Items {
           // returns copy to avoid encryption of original operations body passed
           operations = copyObject(operations);
           options = options || {};
-          await this.container.checkAndInitializeEncryption();
+          await this.container.checkAndWarmUpEncryptionCache();
           options.containerRid = this.container._rid;
           let count = 0;
           diagnosticNode.beginEncryptionDiagnostics(
