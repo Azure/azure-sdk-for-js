@@ -368,7 +368,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.NginxCertificate,
     },
     default: {
-      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -399,10 +399,10 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.NginxCertificate,
     },
     default: {
-      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.body,
+  requestBody: Parameters.body1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -411,7 +411,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.deploymentName,
     Parameters.certificateName,
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer,
 };
@@ -424,7 +424,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -446,7 +446,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.NginxCertificateListResponse,
     },
     default: {
-      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -467,7 +467,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.NginxCertificateListResponse,
     },
     default: {
-      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   urlParameters: [

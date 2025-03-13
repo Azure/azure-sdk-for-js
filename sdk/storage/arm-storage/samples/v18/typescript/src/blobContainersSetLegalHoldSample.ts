@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { LegalHold, StorageManagementClient } from "@azure/arm-storage";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -16,7 +14,7 @@ import "dotenv/config";
  * This sample demonstrates how to Sets legal hold tags. Setting the same tag results in an idempotent operation. SetLegalHold follows an append pattern and does not clear out the existing tags that are not specified in the request.
  *
  * @summary Sets legal hold tags. Setting the same tag results in an idempotent operation. SetLegalHold follows an append pattern and does not clear out the existing tags that are not specified in the request.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/BlobContainersSetLegalHold.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2024-01-01/examples/BlobContainersSetLegalHold.json
  */
 async function setLegalHoldContainers(): Promise<void> {
   const subscriptionId =
@@ -40,7 +38,7 @@ async function setLegalHoldContainers(): Promise<void> {
  * This sample demonstrates how to Sets legal hold tags. Setting the same tag results in an idempotent operation. SetLegalHold follows an append pattern and does not clear out the existing tags that are not specified in the request.
  *
  * @summary Sets legal hold tags. Setting the same tag results in an idempotent operation. SetLegalHold follows an append pattern and does not clear out the existing tags that are not specified in the request.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/BlobContainersSetLegalHoldAllowProtectedAppendWritesAll.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2024-01-01/examples/BlobContainersSetLegalHoldAllowProtectedAppendWritesAll.json
  */
 async function setLegalHoldContainersWithAllowProtectedAppendWritesAll(): Promise<void> {
   const subscriptionId =
@@ -64,8 +62,8 @@ async function setLegalHoldContainersWithAllowProtectedAppendWritesAll(): Promis
 }
 
 async function main(): Promise<void> {
-  setLegalHoldContainers();
-  setLegalHoldContainersWithAllowProtectedAppendWritesAll();
+  await setLegalHoldContainers();
+  await setLegalHoldContainersWithAllowProtectedAppendWritesAll();
 }
 
 main().catch(console.error);

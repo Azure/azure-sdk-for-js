@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { EncryptionScope, StorageManagementClient } from "@azure/arm-storage";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -16,7 +14,7 @@ import "dotenv/config";
  * This sample demonstrates how to Update encryption scope properties as specified in the request body. Update fails if the specified encryption scope does not already exist.
  *
  * @summary Update encryption scope properties as specified in the request body. Update fails if the specified encryption scope does not already exist.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/StorageAccountPatchEncryptionScope.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2024-01-01/examples/StorageAccountPatchEncryptionScope.json
  */
 async function storageAccountPatchEncryptionScope(): Promise<void> {
   const subscriptionId =
@@ -44,7 +42,7 @@ async function storageAccountPatchEncryptionScope(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  storageAccountPatchEncryptionScope();
+  await storageAccountPatchEncryptionScope();
 }
 
 main().catch(console.error);

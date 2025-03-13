@@ -10,6 +10,7 @@ export {
   KeyAttributes,
   KnownDeletionRecoveryLevel,
   DeletionRecoveryLevel,
+  KeyAttestation,
   KnownJsonWebKeyCurveName,
   JsonWebKeyCurveName,
   KeyReleasePolicy,

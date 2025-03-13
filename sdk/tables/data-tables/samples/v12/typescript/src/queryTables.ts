@@ -9,12 +9,10 @@
 import { odata, TableServiceClient } from "@azure/data-tables";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
-
+import "dotenv/config";
 const accountConnectionString = process.env["ACCOUNT_CONNECTION_STRING"] || "";
 
-async function queryTables() {
+async function queryTables(): Promise<void> {
   console.log("== Query tables Sample ==");
 
   // See authenticationMethods sample for other options of creating a new client
@@ -40,7 +38,7 @@ async function queryTables() {
   await serviceClient.deleteTable(tableName);
 }
 
-export async function main() {
+export async function main(): Promise<void> {
   await queryTables();
 }
 

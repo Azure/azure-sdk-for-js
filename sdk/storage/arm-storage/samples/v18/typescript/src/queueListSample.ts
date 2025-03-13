@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { StorageManagementClient } from "@azure/arm-storage";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -16,7 +14,7 @@ import "dotenv/config";
  * This sample demonstrates how to Gets a list of all the queues under the specified storage account
  *
  * @summary Gets a list of all the queues under the specified storage account
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/QueueOperationList.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2024-01-01/examples/QueueOperationList.json
  */
 async function queueOperationList(): Promise<void> {
   const subscriptionId =
@@ -26,14 +24,14 @@ async function queueOperationList(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new StorageManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.queue.list(resourceGroupName, accountName)) {
+  for await (const item of client.queue.list(resourceGroupName, accountName)) {
     resArray.push(item);
   }
   console.log(resArray);
 }
 
 async function main(): Promise<void> {
-  queueOperationList();
+  await queueOperationList();
 }
 
 main().catch(console.error);

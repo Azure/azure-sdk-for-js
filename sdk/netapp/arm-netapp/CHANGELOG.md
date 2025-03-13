@@ -1,6 +1,6 @@
 # Release History
 
-## 21.4.0-beta.2 (Unreleased)
+## 21.4.1 (Unreleased)
 
 ### Features Added
 
@@ -10,6 +10,36 @@
 
 ### Other Changes
 
+## 21.4.0 (2025-02-17)
+    
+### Features Added
+
+  - Added operation Accounts.beginChangeKeyVault
+  - Added operation Accounts.beginChangeKeyVaultAndWait
+  - Added operation Accounts.beginGetChangeKeyVaultInformation
+  - Added operation Accounts.beginGetChangeKeyVaultInformationAndWait
+  - Added operation Accounts.beginTransitionToCmk
+  - Added operation Accounts.beginTransitionToCmkAndWait
+  - Added Interface AccountsChangeKeyVaultHeaders
+  - Added Interface AccountsChangeKeyVaultOptionalParams
+  - Added Interface AccountsGetChangeKeyVaultInformationHeaders
+  - Added Interface AccountsGetChangeKeyVaultInformationOptionalParams
+  - Added Interface AccountsTransitionToCmkHeaders
+  - Added Interface AccountsTransitionToCmkOptionalParams
+  - Added Interface ChangeKeyVault
+  - Added Interface EncryptionTransitionRequest
+  - Added Interface GetKeyVaultStatusResponse
+  - Added Interface KeyVaultPrivateEndpoint
+  - Added Type Alias AccountsChangeKeyVaultResponse
+  - Added Type Alias AccountsGetChangeKeyVaultInformationResponse
+  - Added Type Alias AccountsTransitionToCmkResponse
+  - Added Type Alias CoolAccessTieringPolicy
+  - Interface Volume has a new optional parameter coolAccessTieringPolicy
+  - Interface VolumeGroupVolumeProperties has a new optional parameter coolAccessTieringPolicy
+  - Interface VolumePatch has a new optional parameter coolAccessTieringPolicy
+  - Added Enum KnownCoolAccessTieringPolicy
+    
+    
 ## 21.4.0-beta.1 (2024-11-18)
 Compared with version 21.3.0
     

@@ -10,13 +10,13 @@
 // Licensed under the MIT License.
 const { ContainerRegistryManagementClient } = require("@azure/arm-containerregistry");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Regenerates one of the login credentials for the specified container registry.
  *
  * @summary Regenerates one of the login credentials for the specified container registry.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2023-11-01-preview/examples/RegistryRegenerateCredential.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2024-11-01-preview/examples/RegistryRegenerateCredential.json
  */
 async function registryRegenerateCredential() {
   const subscriptionId =
@@ -31,13 +31,13 @@ async function registryRegenerateCredential() {
   const result = await client.registries.regenerateCredential(
     resourceGroupName,
     registryName,
-    regenerateCredentialParameters
+    regenerateCredentialParameters,
   );
   console.log(result);
 }
 
 async function main() {
-  registryRegenerateCredential();
+  await registryRegenerateCredential();
 }
 
 main().catch(console.error);

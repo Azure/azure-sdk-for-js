@@ -6,11 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { ContainerRegistryManagementClient } = require("@azure/arm-containerregistry");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Gets the detailed information for a given agent pool.
@@ -31,7 +29,7 @@ async function agentPoolsGet() {
 }
 
 async function main() {
-  agentPoolsGet();
+  await agentPoolsGet();
 }
 
 main().catch(console.error);

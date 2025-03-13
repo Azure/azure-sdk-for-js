@@ -18,6 +18,7 @@ import {
 import { AzureMonitorTraceExporter } from "@azure/monitor-opentelemetry-exporter";
 import "dotenv/config";
 import { AzureKeyCredential } from "@azure/core-auth";
+import { createRestError } from "@azure-rest/core-client";
 const endpoint = process.env["ENDPOINT"] || "<endpoint>";
 const key = process.env["KEY"];
 const modelName = process.env["MODEL_NAME"];
@@ -66,7 +67,7 @@ async function main(): Promise<void> {
   });
 
   if (isUnexpected(response)) {
-    throw response.body.error;
+    throw createRestError(response);
   }
 
   for (const choice of response.body.choices) {

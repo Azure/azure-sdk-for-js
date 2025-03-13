@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 const { ContainerRegistryManagementClient } = require("@azure/arm-containerregistry");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Patch the run properties.
@@ -31,13 +31,13 @@ async function runsUpdate() {
     resourceGroupName,
     registryName,
     runId,
-    runUpdateParameters
+    runUpdateParameters,
   );
   console.log(result);
 }
 
 async function main() {
-  runsUpdate();
+  await runsUpdate();
 }
 
 main().catch(console.error);

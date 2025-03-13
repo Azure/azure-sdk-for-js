@@ -32,7 +32,7 @@ describe("ClientSecretCredential (internal)", () => {
       "acquireTokenByClientCredential",
     );
   });
-  afterEach(async function () {
+  afterEach(async () => {
     await cleanup();
   });
 

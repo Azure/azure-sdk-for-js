@@ -16,13 +16,11 @@ import { TextAnalyticsClient, AzureKeyCredential } from "@azure/ai-text-analytic
 import { DefaultAzureCredential } from "@azure/identity";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
-
+import "dotenv/config";
 // You will need to set this environment variables or edit the following values
 const endpoint = process.env["ENDPOINT"] || "<cognitive services endpoint>";
 
-async function useAad() {
+async function useAad(): Promise<void> {
   console.log("-- Azure Active Directory --");
 
   // DefaultAzureCredential expects the following three environment variables:
@@ -40,7 +38,7 @@ async function useAad() {
   }
 }
 
-async function useApiKey() {
+async function useApiKey(): Promise<void> {
   console.log("-- API Key --");
 
   // If using an API Key, you will need to set this environment variable
@@ -57,7 +55,7 @@ async function useApiKey() {
   }
 }
 
-export async function main() {
+export async function main(): Promise<void> {
   console.log("== Client Authentication Methods Sample ==");
 
   await useAad();

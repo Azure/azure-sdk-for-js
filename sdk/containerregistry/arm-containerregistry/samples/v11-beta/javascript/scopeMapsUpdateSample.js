@@ -10,13 +10,13 @@
 // Licensed under the MIT License.
 const { ContainerRegistryManagementClient } = require("@azure/arm-containerregistry");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Updates a scope map with the specified parameters.
  *
  * @summary Updates a scope map with the specified parameters.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2023-11-01-preview/examples/ScopeMapUpdate.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2024-11-01-preview/examples/ScopeMapUpdate.json
  */
 async function scopeMapUpdate() {
   const subscriptionId =
@@ -34,13 +34,13 @@ async function scopeMapUpdate() {
     resourceGroupName,
     registryName,
     scopeMapName,
-    scopeMapUpdateParameters
+    scopeMapUpdateParameters,
   );
   console.log(result);
 }
 
 async function main() {
-  scopeMapUpdate();
+  await scopeMapUpdate();
 }
 
 main().catch(console.error);

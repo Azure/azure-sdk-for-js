@@ -1,3 +1,5 @@
+<!-- dev-tool snippets ignore -->
+
 # Guide for migrating to `@azure/data-tables` from `azure-storage`
 
 This guide is intended to assist in the migration to `@azure/data-tables` from the legacy `azure-storage` package. It will focus on side-by-side comparisons for similar operations between the two packages.
@@ -69,7 +71,7 @@ const azure = require("azure-storage");
 const tableService = azure.createTableService("<connection-string>");
 
 const tableName = "<table-name>";
-tableService.createTable(tableName, function() {
+tableService.createTable(tableName, function () {
   console.log(`Table created`);
 });
 ```
@@ -83,7 +85,7 @@ const tablesEndpoint = "https://<account-name>.table.core.windows.net";
 
 const tableService = new TableServiceClient(
   tablesEndpoint,
-  new AzureNamedKeyCredential("<accountName>", "<accountKey>")
+  new AzureNamedKeyCredential("<accountName>", "<accountKey>"),
 );
 
 // Creates the table with `tableName` if it doesn't exist
@@ -101,7 +103,7 @@ const tablesEndpoint = "https://<account-name>.table.core.windows.net";
 const tableClient = new TableClient(
   tablesEndpoint,
   tableName,
-  new AzureNamedKeyCredential("<accountName>", "<accountKey>")
+  new AzureNamedKeyCredential("<accountName>", "<accountKey>"),
 );
 
 // Creates the table with `tableName` if it doesn't exist
@@ -124,10 +126,10 @@ const task1 = {
   PartitionKey: { _: "hometasks" },
   RowKey: { _: "1" },
   description: { _: "take out the trash" },
-  dueDate: { _: new Date(2015, 6, 20), $: "Edm.DateTime" }
+  dueDate: { _: new Date(2015, 6, 20), $: "Edm.DateTime" },
 };
 
-tableService.insertEntity(tableName, task1, function() {
+tableService.insertEntity(tableName, task1, function () {
   console.log("Entity inserted");
 });
 ```
@@ -144,10 +146,10 @@ const task1 = {
   PartitionKey: entGen.String("hometasks"),
   RowKey: entGen.String("1"),
   description: entGen.String("take out the trash"),
-  dueDate: entGen.DateTime(new Date(2015, 6, 20))
+  dueDate: entGen.DateTime(new Date(2015, 6, 20)),
 };
 
-tableService.insertEntity(tableName, task1, function() {
+tableService.insertEntity(tableName, task1, function () {
   console.log("Entity inserted");
 });
 ```
@@ -162,7 +164,7 @@ const tablesEndpoint = "https://<account-name>.table.core.windows.net";
 const tableClient = new TableClient(
   tablesEndpoint,
   tableName,
-  new AzureNamedKeyCredential("<accountName>", "<accountKey>")
+  new AzureNamedKeyCredential("<accountName>", "<accountKey>"),
 );
 
 // Creates the table with `tableName` if it doesn't exist
@@ -170,7 +172,7 @@ const task1 = {
   partitionKey: "hometasks",
   rowKey: "1",
   description: "take out the trash",
-  dueDate: new Date(2015, 6, 20)
+  dueDate: new Date(2015, 6, 20),
 };
 
 await tableClient.createEntity(task1);
@@ -186,14 +188,14 @@ const tablesEndpoint = "https://<account-name>.table.core.windows.net";
 const tableClient = new TableClient(
   tablesEndpoint,
   tableName,
-  new AzureNamedKeyCredential("<accountName>", "<accountKey>")
+  new AzureNamedKeyCredential("<accountName>", "<accountKey>"),
 );
 
 const task1: TableEntity = {
   partitionKey: "hometasks",
   rowKey: "1",
   description: "take out the trash",
-  dueDate: new Date(2015, 6, 20)
+  dueDate: new Date(2015, 6, 20),
 };
 
 await tableClient.createEntity(task1);
@@ -210,7 +212,7 @@ const azure = require("azure-storage");
 const tableService = azure.createTableService("<connection-string>");
 
 const tableName = "<table-name>";
-tableService.retrieveEntity(tableName, "hometasks", "1", function(error, result, response) {
+tableService.retrieveEntity(tableName, "hometasks", "1", function (error, result, response) {
   if (!error) {
     // result contains the entity
     console.log(result);
@@ -228,7 +230,7 @@ const tablesEndpoint = "https://<account-name>.table.core.windows.net";
 const tableClient = new TableClient(
   tablesEndpoint,
   tableName,
-  new AzureNamedKeyCredential("<accountName>", "<accountKey>")
+  new AzureNamedKeyCredential("<accountName>", "<accountKey>"),
 );
 
 const entity = await tableClient.getEntity("hometasks", "1");
@@ -248,7 +250,7 @@ const query = new azure.TableQuery().where("PartitionKey eq ?", "part2");
 let entities = [];
 
 function listEntities(query, continuationToken, callback) {
-  tableService.queryEntities(tableName, query, null, function(error, result) {
+  tableService.queryEntities(tableName, query, null, function (error, result) {
     entities.push(result.entries);
     const token = result.continuationToken;
     if (token) {
@@ -260,7 +262,7 @@ function listEntities(query, continuationToken, callback) {
   });
 }
 
-listEntities(query, null, function() {
+listEntities(query, null, function () {
   console.log(entities);
 });
 ```
@@ -275,12 +277,12 @@ const tablesEndpoint = "https://<account-name>.table.core.windows.net";
 const tableClient = new TableClient(
   tablesEndpoint,
   tableName,
-  new AzureNamedKeyCredential("<accountName>", "<accountKey>")
+  new AzureNamedKeyCredential("<accountName>", "<accountKey>"),
 );
 const partitionKey = "part2";
 
 const entities = tableClient.listEntities({
-  queryOptions: { filter: odata`PartitionKey eq ${partitionKey}` }
+  queryOptions: { filter: odata`PartitionKey eq ${partitionKey}` },
 });
 
 for await (const entity of entities) {
@@ -299,10 +301,10 @@ const tableService = azure.createTableService("<connection-string>");
 const tableName = "<table-name>";
 const task = {
   PartitionKey: { _: "hometasks" },
-  RowKey: { _: "1" }
+  RowKey: { _: "1" },
 };
 
-tableService.deleteEntity(tableName, task, function(error, response) {
+tableService.deleteEntity(tableName, task, function (error, response) {
   if (!error) {
     console.log("Entity deleted");
   }
@@ -319,7 +321,7 @@ const tablesEndpoint = "https://<account-name>.table.core.windows.net";
 const tableClient = new TableClient(
   tablesEndpoint,
   tableName,
-  new AzureNamedKeyCredential("<accountName>", "<accountKey>")
+  new AzureNamedKeyCredential("<accountName>", "<accountKey>"),
 );
 
 await tableClient.deleteEntity("hometasks", "1");
@@ -340,13 +342,13 @@ const task1 = {
   PartitionKey: { _: "hometasks" },
   RowKey: { _: "1" },
   description: { _: "Take out the trash" },
-  dueDate: { _: new Date(2015, 6, 20) }
+  dueDate: { _: new Date(2015, 6, 20) },
 };
 const task2 = {
   PartitionKey: { _: "hometasks" },
   RowKey: { _: "2" },
   description: { _: "Wash the dishes" },
-  dueDate: { _: new Date(2015, 6, 20) }
+  dueDate: { _: new Date(2015, 6, 20) },
 };
 
 const batch = new azure.TableBatch();
@@ -354,7 +356,7 @@ const batch = new azure.TableBatch();
 batch.insertEntity(task1, { echoContent: true });
 batch.insertEntity(task2, { echoContent: true });
 
-tableService.executeBatch(tableName, batch, function(error, result, response) {
+tableService.executeBatch(tableName, batch, function (error, result, response) {
   if (!error) {
     console.log("Batch completed");
   }
@@ -371,25 +373,25 @@ const tablesEndpoint = "https://<account-name>.table.core.windows.net";
 const tableClient = new TableClient(
   tablesEndpoint,
   tableName,
-  new AzureNamedKeyCredential("<accountName>", "<accountKey>")
+  new AzureNamedKeyCredential("<accountName>", "<accountKey>"),
 );
 
 const task1 = {
   partitionKey: "hometasks",
   rowKey: "1",
   description: "Take out the trash",
-  dueDate: new Date(2015, 6, 20)
+  dueDate: new Date(2015, 6, 20),
 };
 const task2 = {
   partitionKey: "hometasks",
   rowKey: "2",
   description: "Wash the dishes",
-  dueDate: new Date(2015, 6, 20)
+  dueDate: new Date(2015, 6, 20),
 };
 
 const tableActions = [
   ["create", task1],
-  ["create", task2]
+  ["create", task2],
 ];
 
 await tableClient.submitTransaction(tableActions);
@@ -406,20 +408,20 @@ const tablesEndpoint = "https://<account-name>.table.core.windows.net";
 const tableClient = new TableClient(
   tablesEndpoint,
   tableName,
-  new AzureNamedKeyCredential("<accountName>", "<accountKey>")
+  new AzureNamedKeyCredential("<accountName>", "<accountKey>"),
 );
 
 const task1 = {
   partitionKey: "hometasks",
   rowKey: "1",
   description: "Take out the trash",
-  dueDate: new Date(2015, 6, 20)
+  dueDate: new Date(2015, 6, 20),
 };
 const task2 = {
   partitionKey: "hometasks",
   rowKey: "2",
   description: "Wash the dishes",
-  dueDate: new Date(2015, 6, 20)
+  dueDate: new Date(2015, 6, 20),
 };
 
 const transaction = new TableTransaction();
@@ -439,19 +441,19 @@ const azure = require("azure-storage");
 const tableService = azure.createTableService("<connection-string>");
 
 const tableName = "<table-name>";
-tableService.createTable(tableName, function() {
+tableService.createTable(tableName, function () {
   tableService.insertEntity(
     tableName,
     { PartitionKey: "p1", RowKey: "r1", foo: "bar" },
-    function() {
+    function () {
       tableService.insertEntity(
         tableName,
         { PartitionKey: "p2", RowKey: "r2", foo: "baz" },
-        function() {
+        function () {
           console.log("Inserted Entity");
-        }
+        },
       );
-    }
+    },
   );
 });
 ```
@@ -466,7 +468,7 @@ const tablesEndpoint = "https://<account-name>.table.core.windows.net";
 const tableClient = new TableClient(
   tablesEndpoint,
   tableName,
-  new AzureNamedKeyCredential("<accountName>", "<accountKey>")
+  new AzureNamedKeyCredential("<accountName>", "<accountKey>"),
 );
 
 await tableClient.createTable();

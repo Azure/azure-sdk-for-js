@@ -15,7 +15,7 @@ import type {
 /**
  * The latest supported KeyVault service API version
  */
-export const LATEST_API_VERSION = "7.5";
+export const LATEST_API_VERSION = "7.6-preview.2";
 
 /**
  * The optional parameters accepted by the KeyVault's CertificateClient
@@ -24,7 +24,7 @@ export interface CertificateClientOptions extends ExtendedCommonClientOptions {
   /**
    * The accepted versions of the KeyVault's service API.
    */
-  serviceVersion?: "7.0" | "7.1" | "7.2" | "7.3" | "7.4" | "7.5";
+  serviceVersion?: "7.0" | "7.1" | "7.2" | "7.3" | "7.4" | "7.5" | "7.6-preview.2";
 
   /**
    * Whether to disable verification that the authentication challenge resource matches the Key Vault domain.
@@ -472,6 +472,10 @@ export interface CertificateProperties {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   recoverableDays?: number;
+  /**
+   * Specifies whether the certificate chain preserves its original order. The default value is false, which sets the leaf certificate at index 0.
+   */
+  preserveCertificateOrder?: boolean;
 }
 
 /**
@@ -592,6 +596,10 @@ export interface ImportCertificateOptions extends coreClient.OperationOptions {
    * metadata in the form of key-value pairs.
    */
   tags?: CertificateTags;
+  /**
+   * Specifies whether the certificate chain preserves its original order. The default value is false, which sets the leaf certificate at index 0.
+   */
+  preserveCertificateOrder?: boolean;
 }
 
 /**

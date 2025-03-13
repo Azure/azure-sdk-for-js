@@ -573,6 +573,10 @@ export const StandardAbortMessage = "The operation was aborted.";
 // @public
 export enum SystemErrorConditionMapper {
     // (undocumented)
+    EADDRNOTAVAIL = "com.microsoft:timeout",
+    // (undocumented)
+    EAI_AGAIN = "com.microsoft:timeout",
+    // (undocumented)
     EBUSY = "com.microsoft:server-busy",
     // (undocumented)
     ECONNREFUSED = "amqp:connection:forced",

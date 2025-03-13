@@ -10,13 +10,13 @@
 // Licensed under the MIT License.
 const { ContainerRegistryManagementClient } = require("@azure/arm-containerregistry");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Deletes an export pipeline from a container registry.
  *
  * @summary Deletes an export pipeline from a container registry.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2023-11-01-preview/examples/ExportPipelineDelete.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2024-11-01-preview/examples/ExportPipelineDelete.json
  */
 async function exportPipelineDelete() {
   const subscriptionId =
@@ -29,13 +29,13 @@ async function exportPipelineDelete() {
   const result = await client.exportPipelines.beginDeleteAndWait(
     resourceGroupName,
     registryName,
-    exportPipelineName
+    exportPipelineName,
   );
   console.log(result);
 }
 
 async function main() {
-  exportPipelineDelete();
+  await exportPipelineDelete();
 }
 
 main().catch(console.error);

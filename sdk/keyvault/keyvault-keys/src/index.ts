@@ -26,11 +26,13 @@ import {
   DeletedKey,
   GetCryptographyClientOptions,
   GetDeletedKeyOptions,
+  GetKeyAttestationOptions,
   GetKeyOptions,
   GetKeyRotationPolicyOptions,
   GetRandomBytesOptions,
   ImportKeyOptions,
   JsonWebKey,
+  KeyAttestation,
   KeyClientOptions,
   KeyExportEncryptionAlgorithm,
   KeyOperation,
@@ -43,9 +45,7 @@ import {
   KeyRotationPolicyProperties,
   KeyType,
   KeyVaultKey,
-  KnownKeyExportEncryptionAlgorithm,
   KnownKeyOperations,
-  KnownKeyTypes,
   LATEST_API_VERSION,
   ListDeletedKeysOptions,
   ListPropertiesOfKeyVersionsOptions,
@@ -75,7 +75,9 @@ import {
   EncryptionAlgorithm,
   KeyCurveName,
   KeyWrapAlgorithm,
+  KnownKeyExportEncryptionAlgorithm,
   KnownEncryptionAlgorithms,
+  KnownKeyTypes,
   KnownKeyCurveNames,
   KnownSignatureAlgorithms,
   RsaDecryptParameters,
@@ -132,10 +134,12 @@ export {
   EncryptOptions,
   EncryptResult,
   GetDeletedKeyOptions,
+  GetKeyAttestationOptions,
   GetKeyOptions,
   GetRandomBytesOptions,
   ImportKeyOptions,
   JsonWebKey,
+  KeyAttestation,
   KeyCurveName,
   KnownKeyCurveNames,
   KnownKeyExportEncryptionAlgorithm,
@@ -728,13 +732,57 @@ export class KeyClient {
    */
   public getKey(name: string, options: GetKeyOptions = {}): Promise<KeyVaultKey> {
     return tracingClient.withSpan(`KeyClient.getKey`, options, async (updatedOptions) => {
-      const response = await this.client.getKey(
-        name,
-        options && options.version ? options.version : "",
-        updatedOptions,
-      );
+      const response = await this.client.getKey(name, options.version || "", updatedOptions);
       return getKeyFromKeyBundle(response);
     });
+  }
+
+  /**
+   * The getKeyAttestation method gets a specified key and its attestation blob and is applicable to any key stored in Azure Key Vault Managed HSM.
+   * This operation requires the keys/get permission.
+   *
+   * Example usage:
+   * ```ts snippet:ReadmeSampleGetKeyAttestation
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { KeyClient } from "@azure/keyvault-keys";
+   *
+   * const credential = new DefaultAzureCredential();
+   *
+   * const vaultName = "<YOUR KEYVAULT MANAGED HSM NAME>";
+   * const url = `https://${vaultName}.managedhsm.azure.net`;
+   *
+   * const client = new KeyClient(url, credential);
+   *
+   * const keyName = "MyKeyName";
+   *
+   * const latestKey = await client.getKeyAttestation(keyName);
+   * console.log(`Latest version of the key ${keyName}: `, latestKey);
+   *
+   * const specificKey = await client.getKeyAttestation(keyName, {
+   *   version: latestKey.properties.version!,
+   * });
+   * console.log(`The key ${keyName} at the version ${latestKey.properties.version!}: `, specificKey);
+   * ```
+   * Get a specified key from a given key vault.
+   * @param name - The name of the key.
+   * @param options - The optional parameters.
+   */
+  public getKeyAttestation(
+    name: string,
+    options: GetKeyAttestationOptions = {},
+  ): Promise<KeyVaultKey> {
+    return tracingClient.withSpan(
+      `KeyClient.getKeyAttestation`,
+      options,
+      async (updatedOptions) => {
+        const response = await this.client.getKeyAttestation(
+          name,
+          updatedOptions.version ?? "",
+          updatedOptions,
+        );
+        return getKeyFromKeyBundle(response);
+      },
+    );
   }
 
   /**

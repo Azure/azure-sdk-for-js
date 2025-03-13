@@ -15,10 +15,9 @@ import { TextAnalyticsClient, AzureKeyCredential, PiiEntityDomain } from "@azure
 import { assert } from "console";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
-export async function main() {
+export async function main(): Promise<void> {
   console.log(`Running recognizePii sample`);
 
   // You will need to set these environment variables or edit the following values

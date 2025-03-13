@@ -9,7 +9,7 @@
 import {
   OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter
+  OperationQueryParameter,
 } from "@azure/core-client";
 import {
   Archive as ArchiveMapper,
@@ -45,7 +45,7 @@ import {
   TaskRun as TaskRunMapper,
   TaskRunUpdateParameters as TaskRunUpdateParametersMapper,
   Task as TaskMapper,
-  TaskUpdateParameters as TaskUpdateParametersMapper
+  TaskUpdateParameters as TaskUpdateParametersMapper,
 } from "../models/mappers.js";
 
 export const accept: OperationParameter = {
@@ -55,9 +55,9 @@ export const accept: OperationParameter = {
     isConstant: true,
     serializedName: "Accept",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const $host: OperationURLParameter = {
@@ -66,22 +66,22 @@ export const $host: OperationURLParameter = {
     serializedName: "$host",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2023-11-01-preview",
+    defaultValue: "2024-11-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const subscriptionId: OperationURLParameter = {
@@ -90,9 +90,9 @@ export const subscriptionId: OperationURLParameter = {
     serializedName: "subscriptionId",
     required: true,
     type: {
-      name: "Uuid"
-    }
-  }
+      name: "Uuid",
+    },
+  },
 };
 
 export const resourceGroupName: OperationURLParameter = {
@@ -100,14 +100,14 @@ export const resourceGroupName: OperationURLParameter = {
   mapper: {
     constraints: {
       MaxLength: 90,
-      MinLength: 1
+      MinLength: 1,
     },
     serializedName: "resourceGroupName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const registryName: OperationURLParameter = {
@@ -116,14 +116,14 @@ export const registryName: OperationURLParameter = {
     constraints: {
       Pattern: new RegExp("^[a-zA-Z0-9]*$"),
       MaxLength: 50,
-      MinLength: 5
+      MinLength: 5,
     },
     serializedName: "registryName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const packageType: OperationURLParameter = {
@@ -132,14 +132,14 @@ export const packageType: OperationURLParameter = {
     constraints: {
       Pattern: new RegExp("^[a-zA-Z]*$"),
       MaxLength: 50,
-      MinLength: 3
+      MinLength: 3,
     },
     serializedName: "packageType",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const archiveName: OperationURLParameter = {
@@ -148,14 +148,14 @@ export const archiveName: OperationURLParameter = {
     constraints: {
       Pattern: new RegExp("^[a-zA-Z0-9-]*$"),
       MaxLength: 200,
-      MinLength: 5
+      MinLength: 5,
     },
     serializedName: "archiveName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const contentType: OperationParameter = {
@@ -165,19 +165,19 @@ export const contentType: OperationParameter = {
     isConstant: true,
     serializedName: "Content-Type",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const archiveCreateParameters: OperationParameter = {
   parameterPath: "archiveCreateParameters",
-  mapper: ArchiveMapper
+  mapper: ArchiveMapper,
 };
 
 export const archiveUpdateParameters: OperationParameter = {
   parameterPath: "archiveUpdateParameters",
-  mapper: ArchiveUpdateParametersMapper
+  mapper: ArchiveUpdateParametersMapper,
 };
 
 export const nextLink: OperationURLParameter = {
@@ -186,10 +186,10 @@ export const nextLink: OperationURLParameter = {
     serializedName: "nextLink",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const archiveVersionName: OperationURLParameter = {
@@ -198,14 +198,14 @@ export const archiveVersionName: OperationURLParameter = {
     constraints: {
       Pattern: new RegExp("^[a-zA-Z0-9-]*$"),
       MaxLength: 200,
-      MinLength: 5
+      MinLength: 5,
     },
     serializedName: "archiveVersionName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const cacheRuleName: OperationURLParameter = {
@@ -214,24 +214,24 @@ export const cacheRuleName: OperationURLParameter = {
     constraints: {
       Pattern: new RegExp("^[a-zA-Z0-9-]*$"),
       MaxLength: 50,
-      MinLength: 5
+      MinLength: 5,
     },
     serializedName: "cacheRuleName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const cacheRuleCreateParameters: OperationParameter = {
   parameterPath: "cacheRuleCreateParameters",
-  mapper: CacheRuleMapper
+  mapper: CacheRuleMapper,
 };
 
 export const cacheRuleUpdateParameters: OperationParameter = {
   parameterPath: "cacheRuleUpdateParameters",
-  mapper: CacheRuleUpdateParametersMapper
+  mapper: CacheRuleUpdateParametersMapper,
 };
 
 export const filter: OperationQueryParameter = {
@@ -239,9 +239,9 @@ export const filter: OperationQueryParameter = {
   mapper: {
     serializedName: "$filter",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const connectedRegistryName: OperationURLParameter = {
@@ -250,24 +250,24 @@ export const connectedRegistryName: OperationURLParameter = {
     constraints: {
       Pattern: new RegExp("^[a-zA-Z0-9]*$"),
       MaxLength: 50,
-      MinLength: 5
+      MinLength: 5,
     },
     serializedName: "connectedRegistryName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const connectedRegistryCreateParameters: OperationParameter = {
   parameterPath: "connectedRegistryCreateParameters",
-  mapper: ConnectedRegistryMapper
+  mapper: ConnectedRegistryMapper,
 };
 
 export const connectedRegistryUpdateParameters: OperationParameter = {
   parameterPath: "connectedRegistryUpdateParameters",
-  mapper: ConnectedRegistryUpdateParametersMapper
+  mapper: ConnectedRegistryUpdateParametersMapper,
 };
 
 export const credentialSetName: OperationURLParameter = {
@@ -276,24 +276,24 @@ export const credentialSetName: OperationURLParameter = {
     constraints: {
       Pattern: new RegExp("^[a-zA-Z0-9-]*$"),
       MaxLength: 50,
-      MinLength: 5
+      MinLength: 5,
     },
     serializedName: "credentialSetName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const credentialSetCreateParameters: OperationParameter = {
   parameterPath: "credentialSetCreateParameters",
-  mapper: CredentialSetMapper
+  mapper: CredentialSetMapper,
 };
 
 export const credentialSetUpdateParameters: OperationParameter = {
   parameterPath: "credentialSetUpdateParameters",
-  mapper: CredentialSetUpdateParametersMapper
+  mapper: CredentialSetUpdateParametersMapper,
 };
 
 export const exportPipelineName: OperationURLParameter = {
@@ -302,39 +302,39 @@ export const exportPipelineName: OperationURLParameter = {
     constraints: {
       Pattern: new RegExp("^[a-zA-Z0-9]*$"),
       MaxLength: 50,
-      MinLength: 5
+      MinLength: 5,
     },
     serializedName: "exportPipelineName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const exportPipelineCreateParameters: OperationParameter = {
   parameterPath: "exportPipelineCreateParameters",
-  mapper: ExportPipelineMapper
+  mapper: ExportPipelineMapper,
 };
 
 export const parameters: OperationParameter = {
   parameterPath: "parameters",
-  mapper: ImportImageParametersMapper
+  mapper: ImportImageParametersMapper,
 };
 
 export const registryNameCheckRequest: OperationParameter = {
   parameterPath: "registryNameCheckRequest",
-  mapper: RegistryNameCheckRequestMapper
+  mapper: RegistryNameCheckRequestMapper,
 };
 
 export const registry: OperationParameter = {
   parameterPath: "registry",
-  mapper: RegistryMapper
+  mapper: RegistryMapper,
 };
 
 export const registryUpdateParameters: OperationParameter = {
   parameterPath: "registryUpdateParameters",
-  mapper: RegistryUpdateParametersMapper
+  mapper: RegistryUpdateParametersMapper,
 };
 
 export const groupName: OperationURLParameter = {
@@ -343,38 +343,38 @@ export const groupName: OperationURLParameter = {
     serializedName: "groupName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const regenerateCredentialParameters: OperationParameter = {
   parameterPath: "regenerateCredentialParameters",
-  mapper: RegenerateCredentialParametersMapper
+  mapper: RegenerateCredentialParametersMapper,
 };
 
 export const generateCredentialsParameters: OperationParameter = {
   parameterPath: "generateCredentialsParameters",
-  mapper: GenerateCredentialsParametersMapper
+  mapper: GenerateCredentialsParametersMapper,
 };
 
 export const runRequest: OperationParameter = {
   parameterPath: "runRequest",
-  mapper: RunRequestMapper
+  mapper: RunRequestMapper,
 };
 
 export const resourceGroupName1: OperationURLParameter = {
   parameterPath: "resourceGroupName",
   mapper: {
     constraints: {
-      MinLength: 1
+      MinLength: 1,
     },
     serializedName: "resourceGroupName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const apiVersion1: OperationQueryParameter = {
@@ -384,9 +384,9 @@ export const apiVersion1: OperationQueryParameter = {
     isConstant: true,
     serializedName: "api-version",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const importPipelineName: OperationURLParameter = {
@@ -395,19 +395,19 @@ export const importPipelineName: OperationURLParameter = {
     constraints: {
       Pattern: new RegExp("^[a-zA-Z0-9]*$"),
       MaxLength: 50,
-      MinLength: 5
+      MinLength: 5,
     },
     serializedName: "importPipelineName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const importPipelineCreateParameters: OperationParameter = {
   parameterPath: "importPipelineCreateParameters",
-  mapper: ImportPipelineMapper
+  mapper: ImportPipelineMapper,
 };
 
 export const pipelineRunName: OperationURLParameter = {
@@ -416,19 +416,19 @@ export const pipelineRunName: OperationURLParameter = {
     constraints: {
       Pattern: new RegExp("^[a-zA-Z0-9]*$"),
       MaxLength: 50,
-      MinLength: 5
+      MinLength: 5,
     },
     serializedName: "pipelineRunName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const pipelineRunCreateParameters: OperationParameter = {
   parameterPath: "pipelineRunCreateParameters",
-  mapper: PipelineRunMapper
+  mapper: PipelineRunMapper,
 };
 
 export const privateEndpointConnectionName: OperationURLParameter = {
@@ -437,14 +437,14 @@ export const privateEndpointConnectionName: OperationURLParameter = {
     serializedName: "privateEndpointConnectionName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const privateEndpointConnection: OperationParameter = {
   parameterPath: "privateEndpointConnection",
-  mapper: PrivateEndpointConnectionMapper
+  mapper: PrivateEndpointConnectionMapper,
 };
 
 export const replicationName: OperationURLParameter = {
@@ -453,24 +453,24 @@ export const replicationName: OperationURLParameter = {
     constraints: {
       Pattern: new RegExp("^[a-zA-Z0-9]*$"),
       MaxLength: 50,
-      MinLength: 5
+      MinLength: 5,
     },
     serializedName: "replicationName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const replication: OperationParameter = {
   parameterPath: "replication",
-  mapper: ReplicationMapper
+  mapper: ReplicationMapper,
 };
 
 export const replicationUpdateParameters: OperationParameter = {
   parameterPath: "replicationUpdateParameters",
-  mapper: ReplicationUpdateParametersMapper
+  mapper: ReplicationUpdateParametersMapper,
 };
 
 export const scopeMapName: OperationURLParameter = {
@@ -479,24 +479,24 @@ export const scopeMapName: OperationURLParameter = {
     constraints: {
       Pattern: new RegExp("^[a-zA-Z0-9-_]*$"),
       MaxLength: 50,
-      MinLength: 5
+      MinLength: 5,
     },
     serializedName: "scopeMapName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const scopeMapCreateParameters: OperationParameter = {
   parameterPath: "scopeMapCreateParameters",
-  mapper: ScopeMapMapper
+  mapper: ScopeMapMapper,
 };
 
 export const scopeMapUpdateParameters: OperationParameter = {
   parameterPath: "scopeMapUpdateParameters",
-  mapper: ScopeMapUpdateParametersMapper
+  mapper: ScopeMapUpdateParametersMapper,
 };
 
 export const tokenName: OperationURLParameter = {
@@ -505,24 +505,24 @@ export const tokenName: OperationURLParameter = {
     constraints: {
       Pattern: new RegExp("^[a-zA-Z0-9-]*$"),
       MaxLength: 50,
-      MinLength: 5
+      MinLength: 5,
     },
     serializedName: "tokenName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const tokenCreateParameters: OperationParameter = {
   parameterPath: "tokenCreateParameters",
-  mapper: TokenMapper
+  mapper: TokenMapper,
 };
 
 export const tokenUpdateParameters: OperationParameter = {
   parameterPath: "tokenUpdateParameters",
-  mapper: TokenUpdateParametersMapper
+  mapper: TokenUpdateParametersMapper,
 };
 
 export const webhookName: OperationURLParameter = {
@@ -531,24 +531,24 @@ export const webhookName: OperationURLParameter = {
     constraints: {
       Pattern: new RegExp("^[a-zA-Z0-9]*$"),
       MaxLength: 50,
-      MinLength: 5
+      MinLength: 5,
     },
     serializedName: "webhookName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const webhookCreateParameters: OperationParameter = {
   parameterPath: "webhookCreateParameters",
-  mapper: WebhookCreateParametersMapper
+  mapper: WebhookCreateParametersMapper,
 };
 
 export const webhookUpdateParameters: OperationParameter = {
   parameterPath: "webhookUpdateParameters",
-  mapper: WebhookUpdateParametersMapper
+  mapper: WebhookUpdateParametersMapper,
 };
 
 export const agentPoolName: OperationURLParameter = {
@@ -557,24 +557,24 @@ export const agentPoolName: OperationURLParameter = {
     constraints: {
       Pattern: new RegExp("^[a-zA-Z0-9-]*$"),
       MaxLength: 20,
-      MinLength: 3
+      MinLength: 3,
     },
     serializedName: "agentPoolName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const agentPool: OperationParameter = {
   parameterPath: "agentPool",
-  mapper: AgentPoolMapper
+  mapper: AgentPoolMapper,
 };
 
 export const updateParameters: OperationParameter = {
   parameterPath: "updateParameters",
-  mapper: AgentPoolUpdateParametersMapper
+  mapper: AgentPoolUpdateParametersMapper,
 };
 
 export const top: OperationQueryParameter = {
@@ -582,9 +582,9 @@ export const top: OperationQueryParameter = {
   mapper: {
     serializedName: "$top",
     type: {
-      name: "Number"
-    }
-  }
+      name: "Number",
+    },
+  },
 };
 
 export const runId: OperationURLParameter = {
@@ -593,14 +593,14 @@ export const runId: OperationURLParameter = {
     serializedName: "runId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const runUpdateParameters: OperationParameter = {
   parameterPath: "runUpdateParameters",
-  mapper: RunUpdateParametersMapper
+  mapper: RunUpdateParametersMapper,
 };
 
 export const taskRunName: OperationURLParameter = {
@@ -609,24 +609,24 @@ export const taskRunName: OperationURLParameter = {
     constraints: {
       Pattern: new RegExp("^[a-zA-Z0-9-]*$"),
       MaxLength: 50,
-      MinLength: 5
+      MinLength: 5,
     },
     serializedName: "taskRunName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const taskRun: OperationParameter = {
   parameterPath: "taskRun",
-  mapper: TaskRunMapper
+  mapper: TaskRunMapper,
 };
 
 export const updateParameters1: OperationParameter = {
   parameterPath: "updateParameters",
-  mapper: TaskRunUpdateParametersMapper
+  mapper: TaskRunUpdateParametersMapper,
 };
 
 export const taskName: OperationURLParameter = {
@@ -635,22 +635,22 @@ export const taskName: OperationURLParameter = {
     constraints: {
       Pattern: new RegExp("^[a-zA-Z0-9-_]*$"),
       MaxLength: 50,
-      MinLength: 5
+      MinLength: 5,
     },
     serializedName: "taskName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const taskCreateParameters: OperationParameter = {
   parameterPath: "taskCreateParameters",
-  mapper: TaskMapper
+  mapper: TaskMapper,
 };
 
 export const taskUpdateParameters: OperationParameter = {
   parameterPath: "taskUpdateParameters",
-  mapper: TaskUpdateParametersMapper
+  mapper: TaskUpdateParametersMapper,
 };

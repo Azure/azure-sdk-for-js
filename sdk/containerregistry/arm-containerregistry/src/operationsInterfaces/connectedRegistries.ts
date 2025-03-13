@@ -19,7 +19,7 @@ import {
   ConnectedRegistryUpdateParameters,
   ConnectedRegistriesUpdateOptionalParams,
   ConnectedRegistriesUpdateResponse,
-  ConnectedRegistriesDeactivateOptionalParams
+  ConnectedRegistriesDeactivateOptionalParams,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -34,7 +34,7 @@ export interface ConnectedRegistries {
   list(
     resourceGroupName: string,
     registryName: string,
-    options?: ConnectedRegistriesListOptionalParams
+    options?: ConnectedRegistriesListOptionalParams,
   ): PagedAsyncIterableIterator<ConnectedRegistry>;
   /**
    * Gets the properties of the connected registry.
@@ -47,7 +47,7 @@ export interface ConnectedRegistries {
     resourceGroupName: string,
     registryName: string,
     connectedRegistryName: string,
-    options?: ConnectedRegistriesGetOptionalParams
+    options?: ConnectedRegistriesGetOptionalParams,
   ): Promise<ConnectedRegistriesGetResponse>;
   /**
    * Creates a connected registry for a container registry with the specified parameters.
@@ -62,7 +62,7 @@ export interface ConnectedRegistries {
     registryName: string,
     connectedRegistryName: string,
     connectedRegistryCreateParameters: ConnectedRegistry,
-    options?: ConnectedRegistriesCreateOptionalParams
+    options?: ConnectedRegistriesCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ConnectedRegistriesCreateResponse>,
@@ -82,7 +82,7 @@ export interface ConnectedRegistries {
     registryName: string,
     connectedRegistryName: string,
     connectedRegistryCreateParameters: ConnectedRegistry,
-    options?: ConnectedRegistriesCreateOptionalParams
+    options?: ConnectedRegistriesCreateOptionalParams,
   ): Promise<ConnectedRegistriesCreateResponse>;
   /**
    * Deletes a connected registry from a container registry.
@@ -95,7 +95,7 @@ export interface ConnectedRegistries {
     resourceGroupName: string,
     registryName: string,
     connectedRegistryName: string,
-    options?: ConnectedRegistriesDeleteOptionalParams
+    options?: ConnectedRegistriesDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a connected registry from a container registry.
@@ -108,7 +108,7 @@ export interface ConnectedRegistries {
     resourceGroupName: string,
     registryName: string,
     connectedRegistryName: string,
-    options?: ConnectedRegistriesDeleteOptionalParams
+    options?: ConnectedRegistriesDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Updates a connected registry with the specified parameters.
@@ -123,7 +123,7 @@ export interface ConnectedRegistries {
     registryName: string,
     connectedRegistryName: string,
     connectedRegistryUpdateParameters: ConnectedRegistryUpdateParameters,
-    options?: ConnectedRegistriesUpdateOptionalParams
+    options?: ConnectedRegistriesUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ConnectedRegistriesUpdateResponse>,
@@ -143,7 +143,7 @@ export interface ConnectedRegistries {
     registryName: string,
     connectedRegistryName: string,
     connectedRegistryUpdateParameters: ConnectedRegistryUpdateParameters,
-    options?: ConnectedRegistriesUpdateOptionalParams
+    options?: ConnectedRegistriesUpdateOptionalParams,
   ): Promise<ConnectedRegistriesUpdateResponse>;
   /**
    * Deactivates the connected registry instance.
@@ -156,7 +156,7 @@ export interface ConnectedRegistries {
     resourceGroupName: string,
     registryName: string,
     connectedRegistryName: string,
-    options?: ConnectedRegistriesDeactivateOptionalParams
+    options?: ConnectedRegistriesDeactivateOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deactivates the connected registry instance.
@@ -169,6 +169,6 @@ export interface ConnectedRegistries {
     resourceGroupName: string,
     registryName: string,
     connectedRegistryName: string,
-    options?: ConnectedRegistriesDeactivateOptionalParams
+    options?: ConnectedRegistriesDeactivateOptionalParams,
   ): Promise<void>;
 }

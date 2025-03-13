@@ -3,30 +3,15 @@
 
 import { DeviceRegistryManagementClient } from "./deviceRegistryManagementClient.js";
 import {
-  _assetsCreateOrReplaceDeserialize,
-  _assetsUpdateDeserialize,
-  _assetsDeleteDeserialize,
-} from "./api/assets/index.js";
-import {
-  _assetEndpointProfilesCreateOrReplaceDeserialize,
-  _assetEndpointProfilesUpdateDeserialize,
   _assetEndpointProfilesDeleteDeserialize,
+  _assetEndpointProfilesUpdateDeserialize,
+  _assetEndpointProfilesCreateOrReplaceDeserialize,
 } from "./api/assetEndpointProfiles/index.js";
 import {
-  _discoveredAssetsCreateOrReplaceDeserialize,
-  _discoveredAssetsUpdateDeserialize,
-  _discoveredAssetsDeleteDeserialize,
-} from "./api/discoveredAssets/index.js";
-import {
-  _discoveredAssetEndpointProfilesCreateOrReplaceDeserialize,
-  _discoveredAssetEndpointProfilesUpdateDeserialize,
-  _discoveredAssetEndpointProfilesDeleteDeserialize,
-} from "./api/discoveredAssetEndpointProfiles/index.js";
-import {
-  _schemaRegistriesCreateOrReplaceDeserialize,
-  _schemaRegistriesUpdateDeserialize,
-  _schemaRegistriesDeleteDeserialize,
-} from "./api/schemaRegistries/index.js";
+  _assetsDeleteDeserialize,
+  _assetsUpdateDeserialize,
+  _assetsCreateOrReplaceDeserialize,
+} from "./api/assets/index.js";
 import { getLongRunningPoller } from "./static-helpers/pollingHelpers.js";
 import { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
 import { AbortSignalLike } from "@azure/abort-controller";
@@ -100,80 +85,35 @@ interface DeserializationHelper {
 }
 
 const deserializeMap: Record<string, DeserializationHelper> = {
-  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/assets/{assetName}":
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/assetEndpointProfiles/{assetEndpointProfileName}":
     {
-      deserializer: _assetsCreateOrReplaceDeserialize,
-      expectedStatuses: ["200", "201"],
-    },
-  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/assets/{assetName}":
-    {
-      deserializer: _assetsUpdateDeserialize,
-      expectedStatuses: ["200", "202"],
-    },
-  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/assets/{assetName}":
-    {
-      deserializer: _assetsDeleteDeserialize,
+      deserializer: _assetEndpointProfilesDeleteDeserialize,
       expectedStatuses: ["202", "204", "200"],
-    },
-  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/assetEndpointProfiles/{assetEndpointProfileName}":
-    {
-      deserializer: _assetEndpointProfilesCreateOrReplaceDeserialize,
-      expectedStatuses: ["200", "201"],
     },
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/assetEndpointProfiles/{assetEndpointProfileName}":
     {
       deserializer: _assetEndpointProfilesUpdateDeserialize,
       expectedStatuses: ["200", "202"],
     },
-  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/assetEndpointProfiles/{assetEndpointProfileName}":
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/assetEndpointProfiles/{assetEndpointProfileName}":
     {
-      deserializer: _assetEndpointProfilesDeleteDeserialize,
-      expectedStatuses: ["202", "204", "200"],
-    },
-  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/discoveredAssets/{discoveredAssetName}":
-    {
-      deserializer: _discoveredAssetsCreateOrReplaceDeserialize,
+      deserializer: _assetEndpointProfilesCreateOrReplaceDeserialize,
       expectedStatuses: ["200", "201"],
     },
-  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/discoveredAssets/{discoveredAssetName}":
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/assets/{assetName}":
     {
-      deserializer: _discoveredAssetsUpdateDeserialize,
-      expectedStatuses: ["200", "202"],
-    },
-  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/discoveredAssets/{discoveredAssetName}":
-    {
-      deserializer: _discoveredAssetsDeleteDeserialize,
+      deserializer: _assetsDeleteDeserialize,
       expectedStatuses: ["202", "204", "200"],
     },
-  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/discoveredAssetEndpointProfiles/{discoveredAssetEndpointProfileName}":
+  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/assets/{assetName}":
     {
-      deserializer: _discoveredAssetEndpointProfilesCreateOrReplaceDeserialize,
+      deserializer: _assetsUpdateDeserialize,
+      expectedStatuses: ["200", "202"],
+    },
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/assets/{assetName}":
+    {
+      deserializer: _assetsCreateOrReplaceDeserialize,
       expectedStatuses: ["200", "201"],
-    },
-  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/discoveredAssetEndpointProfiles/{discoveredAssetEndpointProfileName}":
-    {
-      deserializer: _discoveredAssetEndpointProfilesUpdateDeserialize,
-      expectedStatuses: ["200", "202"],
-    },
-  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/discoveredAssetEndpointProfiles/{discoveredAssetEndpointProfileName}":
-    {
-      deserializer: _discoveredAssetEndpointProfilesDeleteDeserialize,
-      expectedStatuses: ["202", "204", "200"],
-    },
-  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/schemaRegistries/{schemaRegistryName}":
-    {
-      deserializer: _schemaRegistriesCreateOrReplaceDeserialize,
-      expectedStatuses: ["200", "201"],
-    },
-  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/schemaRegistries/{schemaRegistryName}":
-    {
-      deserializer: _schemaRegistriesUpdateDeserialize,
-      expectedStatuses: ["200", "202"],
-    },
-  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/schemaRegistries/{schemaRegistryName}":
-    {
-      deserializer: _schemaRegistriesDeleteDeserialize,
-      expectedStatuses: ["202", "204", "200"],
     },
 };
 

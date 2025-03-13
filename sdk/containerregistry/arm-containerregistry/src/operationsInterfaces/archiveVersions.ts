@@ -16,7 +16,7 @@ import {
   ArchiveVersionsCreateOptionalParams,
   ArchiveVersionsCreateResponse,
   ArchiveVersionsDeleteOptionalParams,
-  ArchiveVersionsDeleteResponse
+  ArchiveVersionsDeleteResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -35,7 +35,7 @@ export interface ArchiveVersions {
     registryName: string,
     packageType: string,
     archiveName: string,
-    options?: ArchiveVersionsListOptionalParams
+    options?: ArchiveVersionsListOptionalParams,
   ): PagedAsyncIterableIterator<ArchiveVersion>;
   /**
    * Gets the properties of the archive version.
@@ -52,7 +52,7 @@ export interface ArchiveVersions {
     packageType: string,
     archiveName: string,
     archiveVersionName: string,
-    options?: ArchiveVersionsGetOptionalParams
+    options?: ArchiveVersionsGetOptionalParams,
   ): Promise<ArchiveVersionsGetResponse>;
   /**
    * Creates a archive for a container registry with the specified parameters.
@@ -69,7 +69,7 @@ export interface ArchiveVersions {
     packageType: string,
     archiveName: string,
     archiveVersionName: string,
-    options?: ArchiveVersionsCreateOptionalParams
+    options?: ArchiveVersionsCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ArchiveVersionsCreateResponse>,
@@ -91,7 +91,7 @@ export interface ArchiveVersions {
     packageType: string,
     archiveName: string,
     archiveVersionName: string,
-    options?: ArchiveVersionsCreateOptionalParams
+    options?: ArchiveVersionsCreateOptionalParams,
   ): Promise<ArchiveVersionsCreateResponse>;
   /**
    * Deletes a archive version from a container registry.
@@ -108,7 +108,7 @@ export interface ArchiveVersions {
     packageType: string,
     archiveName: string,
     archiveVersionName: string,
-    options?: ArchiveVersionsDeleteOptionalParams
+    options?: ArchiveVersionsDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ArchiveVersionsDeleteResponse>,
@@ -130,6 +130,6 @@ export interface ArchiveVersions {
     packageType: string,
     archiveName: string,
     archiveVersionName: string,
-    options?: ArchiveVersionsDeleteOptionalParams
+    options?: ArchiveVersionsDeleteOptionalParams,
   ): Promise<ArchiveVersionsDeleteResponse>;
 }

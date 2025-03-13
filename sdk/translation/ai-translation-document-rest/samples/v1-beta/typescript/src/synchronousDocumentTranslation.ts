@@ -1,22 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * @summary This sample demonstrates how to make a simple call to the Azure Document Translator service to synchronously start a single file translation
- */
-
-import * as dotenv from "dotenv";
-import { DocumentTranslateParameters, isUnexpected } from "../src";
-import createClient from "../src/documentTranslationClient";
-dotenv.config();
-
+import "dotenv/config";
+import { DocumentTranslateParameters, isUnexpected } from "../src/index.js";
+import createClient from "../src/documentTranslationClient.js";
 const endpoint =
   process.env["ENDPOINT"] ||
   "https://<translator-instance>-doctranslation.cognitiveservices.azure.com";
 const apiKey = process.env["DOCUMENT_TRANSLATION_API_KEY"] || "<API_Key>";
 const credentials = { key: apiKey ?? "" };
 
-export async function main() {
+export async function main(): Promise<void> {
   console.log("== Synchronous Document Translation ==");
 
   const client = createClient(endpoint, credentials);

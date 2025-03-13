@@ -10,6 +10,7 @@
 import ModelClient from "@azure-rest/ai-inference";
 import { DefaultAzureCredential } from "@azure/identity";
 import { createSseStream } from "@azure/core-sse";
+import { createRestError } from "@azure-rest/core-client";
 
 // Load the .env file if it exists
 import "dotenv/config";
@@ -47,7 +48,7 @@ export async function main(): Promise<void> {
   }
 
   if (response.status !== "200") {
-    throw new Error(`Failed to get chat completions: ${streamToString(stream)}`);
+    throw createRestError(response);
   }
 
   const sses = createSseStream(stream as IncomingMessage);

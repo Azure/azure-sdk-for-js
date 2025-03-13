@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { NginxManagementClient } from "@azure/arm-nginx";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -16,7 +14,7 @@ import "dotenv/config";
  * This sample demonstrates how to List the NGINX deployments resources
  *
  * @summary List the NGINX deployments resources
- * x-ms-original-file: specification/nginx/resource-manager/NGINX.NGINXPLUS/preview/2024-01-01-preview/examples/Deployments_List.json
+ * x-ms-original-file: specification/nginx/resource-manager/NGINX.NGINXPLUS/preview/2024-11-01-preview/examples/Deployments_List.json
  */
 async function deploymentsList(): Promise<void> {
   const subscriptionId =
@@ -32,7 +30,7 @@ async function deploymentsList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  deploymentsList();
+  await deploymentsList();
 }
 
 main().catch(console.error);

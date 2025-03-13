@@ -29,11 +29,10 @@ npm install @azure/ai-form-recognizer
 
 ## Getting started
 
-```javascript
-const { DocumentAnalysisClient } = require("@azure/ai-form-recognizer");
-const { DefaultAzureCredential } = require("@azure/identity");
-
-const fs = require("fs");
+```ts snippet:ReadmeSampleCreateClient_Node
+import { DefaultAzureCredential } from "@azure/identity";
+import { DocumentAnalysisClient } from "@azure/ai-form-recognizer";
+import { createReadStream } from "node:fs";
 
 const credential = new DefaultAzureCredential();
 const client = new DocumentAnalysisClient(
@@ -42,10 +41,10 @@ const client = new DocumentAnalysisClient(
 );
 
 // Document Intelligence supports many different types of files.
-const file = fs.createReadStream("path/to/file.jpg");
+const file = createReadStream("path/to/file.jpg");
 const poller = await client.beginAnalyzeDocument("<model ID>", file);
 
-const { pages, tables, styles, keyValuePairs, entities, documents } = await poller.pollUntilDone();
+const { pages, tables, styles, keyValuePairs, documents } = await poller.pollUntilDone();
 ```
 
 ### Currently supported environments
@@ -108,10 +107,14 @@ az cognitiveservices account keys list --resource-group <your-resource-group-nam
 
 Once you have an API key and endpoint, you can use it as follows:
 
-```js
-const { DocumentAnalysisClient, AzureKeyCredential } = require("@azure/ai-form-recognizer");
+```ts snippet:ReadmeSampleCreateClient_KeyCredential
+import { AzureKeyCredential, DocumentAnalysisClient } from "@azure/ai-form-recognizer";
 
-const client = new DocumentAnalysisClient("<endpoint>", new AzureKeyCredential("<API key>"));
+const credential = new AzureKeyCredential("<API key>");
+const client = new DocumentAnalysisClient(
+  "https://<resource name>.cognitiveservices.azure.com",
+  credential,
+);
 ```
 
 #### Use Azure Active Directory
@@ -126,11 +129,15 @@ To authenticate using a service principal, you will also need to [register an AA
 
 Set the values of the client ID, tenant ID, and client secret of the AAD application as environment variables: `AZURE_CLIENT_ID`, `AZURE_TENANT_ID`, `AZURE_CLIENT_SECRET`.
 
-```js
-const { DocumentAnalysisClient } = require("@azure/ai-form-recognizer");
-const { DefaultAzureCredential } = require("@azure/identity");
+```ts snippet:ReadmeSampleCreateClient_TokenCredential
+import { DefaultAzureCredential } from "@azure/identity";
+import { DocumentAnalysisClient } from "@azure/ai-form-recognizer";
 
-const client = new DocumentAnalysisClient("<endpoint>", new DefaultAzureCredential());
+const credential = new DefaultAzureCredential();
+const client = new DocumentAnalysisClient(
+  "https://<resource name>.cognitiveservices.azure.com",
+  credential,
+);
 ```
 
 ## Key concepts
@@ -179,56 +186,53 @@ The following section provides several JavaScript code snippets illustrating com
 
 The `beginAnalyzeDocument` method can extract fields and table data from documents. Analysis may use either a custom model, trained with your own data, or a prebuilt model provided by the service (see _[Use Prebuilt Models](#use-prebuilt-models)_ below). A custom model is tailored to your own documents, so it should only be used with documents of the same structure as one of the document types in the model (there may be multiple, such as in a composed model).
 
-```javascript
-const { DocumentAnalysisClient, AzureKeyCredential } = require("@azure/ai-form-recognizer");
+```ts snippet:ReadmeSampleAnalyzeDocumentWithModelId
+import { DefaultAzureCredential } from "@azure/identity";
+import { DocumentAnalysisClient } from "@azure/ai-form-recognizer";
+import { createReadStream } from "node:fs";
 
-const fs = require("fs");
+const credential = new DefaultAzureCredential();
+const client = new DocumentAnalysisClient(
+  "https://<resource name>.cognitiveservices.azure.com",
+  credential,
+);
 
-async function main() {
-  const endpoint = "<cognitive services endpoint>";
-  const apiKey = "<api key>";
-  const modelId = "<model id>";
-  const path = "<path to a document>";
+const modelId = "<model id>";
+const path = "<path to a document>";
+const readStream = createReadStream(path);
 
-  const readStream = fs.createReadStream(path);
+const poller = await client.beginAnalyzeDocument(modelId, readStream, {
+  onProgress: ({ status }) => {
+    console.log(`status: ${status}`);
+  },
+});
 
-  const client = new DocumentAnalysisClient(endpoint, new AzureKeyCredential(apiKey));
-  const poller = await client.beginAnalyzeDocument(modelId, readStream, {
-    onProgress: ({ status }) => {
-      console.log(`status: ${status}`);
-    },
-  });
+// There are more fields than just these three
+const { documents, pages, tables } = await poller.pollUntilDone();
 
-  // There are more fields than just these three
-  const { documents, pages, tables } = await poller.pollUntilDone();
-
-  console.log("Documents:");
-  for (const document of documents || []) {
-    console.log(`Type: ${document.docType}`);
-    console.log("Fields:");
-    for (const [name, field] of Object.entries(document.fields)) {
-      console.log(
-        `Field ${name} has value '${field.value}' with a confidence score of ${field.confidence}`,
-      );
-    }
-  }
-  console.log("Pages:");
-  for (const page of pages || []) {
-    console.log(`Page number: ${page.pageNumber} (${page.width}x${page.height} ${page.unit})`);
-  }
-
-  console.log("Tables:");
-  for (const table of tables || []) {
-    console.log(`- Table (${table.columnCount}x${table.rowCount})`);
-    for (const cell of table.cells) {
-      console.log(`  - cell (${cell.rowIndex},${cell.columnIndex}) "${cell.content}"`);
-    }
+console.log("Documents:");
+for (const document of documents || []) {
+  console.log(`Type: ${document.docType}`);
+  console.log("Fields:");
+  for (const [name, field] of Object.entries(document.fields)) {
+    console.log(
+      `Field ${name} has content '${field.content}' with a confidence score of ${field.confidence}`,
+    );
   }
 }
 
-main().catch((err) => {
-  console.error("The sample encountered an error:", err);
-});
+console.log("Pages:");
+for (const page of pages || []) {
+  console.log(`Page number: ${page.pageNumber} (${page.width}x${page.height} ${page.unit})`);
+}
+
+console.log("Tables:");
+for (const table of tables || []) {
+  console.log(`- Table (${table.columnCount}x${table.rowCount})`);
+  for (const cell of table.cells) {
+    console.log(`  - cell (${cell.rowIndex},${cell.columnIndex}) "${cell.content}"`);
+  }
+}
 ```
 
 #### Analyze a document from a URL
@@ -243,59 +247,52 @@ Example `DocumentModel` objects for the current service API version (`2022-08-31
 
 Since the main benefit of `DocumentModel`-based analysis is stronger TypeScript type constraints, the following sample is written in TypeScript using ECMAScript module syntax:
 
-```typescript
-import { DocumentAnalysisClient, AzureKeyCredential } from "@azure/ai-form-recognizer";
+```ts snippet:ReadmeSamplePrebuiltReceipt
+import { DefaultAzureCredential } from "@azure/identity";
+import { DocumentAnalysisClient } from "@azure/ai-form-recognizer";
+import { createReadStream } from "node:fs";
+import { PrebuiltReceiptModel } from "../samples-dev/prebuilt/prebuilt-receipt.js";
 
-// Copy the file from the above-linked sample directory so that it can be imported in this module
-import { PrebuiltReceiptModel } from "./prebuilt/prebuilt-receipt";
+const credential = new DefaultAzureCredential();
+const client = new DocumentAnalysisClient(
+  "https://<resource name>.cognitiveservices.azure.com",
+  credential,
+);
 
-import fs from "fs";
+const path = "<path to a document>";
+const readStream = createReadStream(path);
 
-async function main() {
-  const endpoint = "<cognitive services endpoint>";
-  const apiKey = "<api key>";
-  const path = "<path to your receipt document>"; // pdf/jpeg/png/tiff formats
+// The PrebuiltReceiptModel `DocumentModel` instance encodes both the model ID and a stronger return type for the operation
+const poller = await client.beginAnalyzeDocument(PrebuiltReceiptModel, readStream, {
+  onProgress: ({ status }) => {
+    console.log(`status: ${status}`);
+  },
+});
 
-  const readStream = fs.createReadStream(path);
+const {
+  documents: [receiptDocument],
+} = await poller.pollUntilDone();
 
-  const client = new DocumentAnalysisClient(endpoint, new AzureKeyCredential(apiKey));
+// The fields of the document constitute the extracted receipt data.
+const receipt = receiptDocument.fields;
 
-  // The PrebuiltReceiptModel `DocumentModel` instance encodes both the model ID and a stronger return type for the operation
-  const poller = await client.beginAnalyzeDocument(PrebuiltReceiptModel, readStream, {
-    onProgress: ({ status }) => {
-      console.log(`status: ${status}`);
-    },
-  });
-
-  const {
-    documents: [receiptDocument],
-  } = await poller.pollUntilDone();
-
-  // The fields of the document constitute the extracted receipt data.
-  const receipt = receiptDocument.fields;
-
-  if (receipt === undefined) {
-    throw new Error("Expected at least one receipt in analysis result.");
-  }
-
-  console.log(`Receipt data (${receiptDocument.docType})`);
-  console.log("  Merchant Name:", receipt.merchantName?.value);
-
-  // The items of the receipt are an example of a `DocumentArrayValue`
-  if (receipt.items !== undefined) {
-    console.log("Items:");
-    for (const { properties: item } of receipt.items.values) {
-      console.log("- Description:", item.description?.value);
-      console.log("  Total Price:", item.totalPrice?.value);
-    }
-  }
-
-  console.log("  Total:", receipt.total?.value);
+if (receipt === undefined) {
+  throw new Error("Expected at least one receipt in analysis result.");
 }
 
-main().catch((err) => {
-  console.error("The sample encountered an error:", err);
-});
+console.log(`Receipt data (${receiptDocument.docType})`);
+console.log("  Merchant Name:", receipt.merchantName?.value);
+
+// The items of the receipt are an example of a `DocumentArrayValue`
+if (receipt.items !== undefined) {
+  console.log("Items:");
+  for (const { properties: item } of receipt.items.values) {
+    console.log("- Description:", item.description?.value);
+    console.log("  Total Price:", item.totalPrice?.value);
+  }
+}
+
+console.log("  Total:", receipt.total?.value);
 ```
 
 Alternatively, as mentioned above, instead of using `PrebuiltReceiptModel`, which produces the stronger return type, the prebuilt receipt's model ID ("prebuilt-receipt") can be used, but the document fields will not be strongly typed in TypeScript, and the field names will generally be in "PascalCase" instead of "camelCase".
@@ -327,40 +324,34 @@ The `"prebuilt-layout"` model extracts only the basic elements of the document, 
 
 Since the main benefit of `DocumentModel`-based analysis is stronger TypeScript type constraints, the following sample is written in TypeScript using ECMAScript module syntax:
 
-```typescript
-import { DocumentAnalysisClient, AzureKeyCredential } from "@azure/ai-form-recognizer";
+```ts snippet:ReadmeSamplePrebuiltLayout
+import { DefaultAzureCredential } from "@azure/identity";
+import { DocumentAnalysisClient } from "@azure/ai-form-recognizer";
+import { createReadStream } from "node:fs";
+import { PrebuiltLayoutModel } from "../samples-dev/prebuilt/prebuilt-layout.js";
 
-// Copy the above-linked `DocumentModel` file so that it may be imported in this module.
-import { PrebuiltLayoutModel } from "./prebuilt/prebuilt-layout";
+const credential = new DefaultAzureCredential();
+const client = new DocumentAnalysisClient(
+  "https://<resource name>.cognitiveservices.azure.com",
+  credential,
+);
 
-import fs from "fs";
+const path = "<path to a document>";
+const readStream = createReadStream(path);
 
-async function main() {
-  const endpoint = "<cognitive services endpoint>";
-  const apiKey = "<api key>";
-  const path = "<path to a document>"; // pdf/jpeg/png/tiff formats
+const poller = await client.beginAnalyzeDocument(PrebuiltLayoutModel, readStream);
+const { pages, tables } = await poller.pollUntilDone();
 
-  const readStream = fs.createReadStream(path);
-
-  const client = new DocumentAnalysisClient(endpoint, new AzureKeyCredential(apiKey));
-  const poller = await client.beginAnalyzeDocument(PrebuiltLayoutModel, readStream);
-  const { pages, tables } = await poller.pollUntilDone();
-
-  for (const page of pages || []) {
-    console.log(`- Page ${page.pageNumber}: (${page.width}x${page.height} ${page.unit})`);
-  }
-
-  for (const table of tables || []) {
-    console.log(`- Table (${table.columnCount}x${table.rowCount})`);
-    for (const cell of table.cells) {
-      console.log(`  cell [${cell.rowIndex},${cell.columnIndex}] "${cell.content}"`);
-    }
-  }
+for (const page of pages || []) {
+  console.log(`- Page ${page.pageNumber}: (${page.width}x${page.height} ${page.unit})`);
 }
 
-main().catch((err) => {
-  console.error("The sample encountered an error:", err);
-});
+for (const table of tables || []) {
+  console.log(`- Table (${table.columnCount}x${table.rowCount})`);
+  for (const cell of table.cells) {
+    console.log(`  cell [${cell.rowIndex},${cell.columnIndex}] "${cell.content}"`);
+  }
+}
 ```
 
 ### Use the "document" prebuilt
@@ -369,42 +360,36 @@ The `"prebuilt-document"` model extracts information about key-value pairs (dire
 
 Since the main benefit of `DocumentModel`-based analysis is stronger TypeScript type constraints, the following sample is written in TypeScript using ECMAScript module syntax:
 
-```typescript
-import { DocumentAnalysisClient, AzureKeyCredential } from "@azure/ai-form-recognizer";
+```ts snippet:ReadmeSamplePrebuiltDocument
+import { DefaultAzureCredential } from "@azure/identity";
+import { DocumentAnalysisClient } from "@azure/ai-form-recognizer";
+import { createReadStream } from "node:fs";
+import { PrebuiltDocumentModel } from "../samples-dev/prebuilt/prebuilt-document.js";
 
-// Copy the above-linked `DocumentModel` file so that it may be imported in this module.
-import { PrebuiltDocumentModel } from "./prebuilt/prebuilt-document";
+const credential = new DefaultAzureCredential();
+const client = new DocumentAnalysisClient(
+  "https://<resource name>.cognitiveservices.azure.com",
+  credential,
+);
 
-import fs from "fs";
+const path = "<path to a document>";
+const readStream = createReadStream(path);
 
-async function main() {
-  const endpoint = "<cognitive services endpoint>";
-  const apiKey = "<api key>";
-  const path = "<path to a document>"; // pdf/jpeg/png/tiff formats
+const poller = await client.beginAnalyzeDocument(PrebuiltDocumentModel, readStream);
 
-  const readStream = fs.createReadStream(path);
+// `pages`, `tables` and `styles` are also available as in the "layout" example above, but for the sake of this
+// example we won't show them here.
+const { keyValuePairs } = await poller.pollUntilDone();
 
-  const client = new DocumentAnalysisClient(endpoint, new AzureKeyCredential(apiKey));
-  const poller = await client.beginAnalyzeDocument(PrebuiltDocumentModel, readStream);
-
-  // `pages`, `tables` and `styles` are also available as in the "layout" example above, but for the sake of this
-  // example we won't show them here.
-  const { keyValuePairs } = await poller.pollUntilDone();
-
-  if (!keyValuePairs || keyValuePairs.length <= 0) {
-    console.log("No key-value pairs were extracted from the document.");
-  } else {
-    console.log("Key-Value Pairs:");
-    for (const { key, value, confidence } of keyValuePairs) {
-      console.log("- Key  :", `"${key.content}"`);
-      console.log("  Value:", `"${value?.content ?? "<undefined>"}" (${confidence})`);
-    }
+if (!keyValuePairs || keyValuePairs.length <= 0) {
+  console.log("No key-value pairs were extracted from the document.");
+} else {
+  console.log("Key-Value Pairs:");
+  for (const { key, value, confidence } of keyValuePairs) {
+    console.log("- Key  :", `"${key.content}"`);
+    console.log("  Value:", `"${value?.content ?? "<undefined>"}" (${confidence})`);
   }
 }
-
-main().catch((err) => {
-  console.error("The sample encountered an error:", err);
-});
 ```
 
 ### Use the "read" prebuilt
@@ -413,73 +398,69 @@ The `"prebuilt-read"` model extracts textual information in a document such as w
 
 Since the main benefit of `DocumentModel`-based analysis is stronger TypeScript type constraints, the following sample is written in TypeScript using ECMAScript module syntax:
 
-```typescript
-import { DocumentAnalysisClient, AzureKeyCredential } from "@azure/ai-form-recognizer";
+```ts snippet:ReadmeSamplePrebuiltRead
+import { DefaultAzureCredential } from "@azure/identity";
+import { DocumentAnalysisClient } from "@azure/ai-form-recognizer";
+import { createReadStream } from "node:fs";
+import { PrebuiltReadModel } from "../samples-dev/prebuilt/prebuilt-read.js";
 
-// Copy the above-linked `DocumentModel` file so that it may be imported in this module.
-import { PrebuiltReadModel } from "./prebuilt/prebuilt-read";
+const credential = new DefaultAzureCredential();
+const client = new DocumentAnalysisClient(
+  "https://<resource name>.cognitiveservices.azure.com",
+  credential,
+);
 
-// See the samples directory for a definition of this helper function.
-import { getTextOfSpans } from "./utils";
+const path = "<path to a document>";
+const readStream = createReadStream(path);
 
-import fs from "fs";
+const poller = await client.beginAnalyzeDocument(PrebuiltReadModel, readStream);
 
-async function main() {
-  const endpoint = "<cognitive services endpoint>";
-  const apiKey = "<api key>";
-  const path = "<path to a document>"; // pdf/jpeg/png/tiff formats
+// The "prebuilt-read" model (`beginReadDocument` method) only extracts information about the textual content of the
+// document, such as page text elements, text styles, and information about the language of the text.
+const { content, pages, languages } = await poller.pollUntilDone();
 
-  const readStream = fs.createReadStream(path);
+if (!pages || pages.length <= 0) {
+  console.log("No pages were extracted from the document.");
+} else {
+  console.log("Pages:");
+  for (const page of pages) {
+    console.log("- Page", page.pageNumber, `(unit: ${page.unit})`);
+    console.log(`  ${page.width}x${page.height}, angle: ${page.angle}`);
+    console.log(
+      `  ${page.lines && page.lines.length} lines, ${page.words && page.words.length} words`,
+    );
 
-  const client = new DocumentAnalysisClient(endpoint, new AzureKeyCredential(apiKey));
-  const poller = await client.beginAnalyzeDocument(PrebuiltReadModel, readStream);
+    if (page.lines && page.lines.length > 0) {
+      console.log("  Lines:");
 
-  // The "prebuilt-read" model (`beginReadDocument` method) only extracts information about the textual content of the
-  // document, such as page text elements, text styles, and information about the language of the text.
-  const { content, pages, languages } = await poller.pollUntilDone();
-
-  if (!pages || pages.length <= 0) {
-    console.log("No pages were extracted from the document.");
-  } else {
-    console.log("Pages:");
-    for (const page of pages) {
-      console.log("- Page", page.pageNumber, `(unit: ${page.unit})`);
-      console.log(`  ${page.width}x${page.height}, angle: ${page.angle}`);
-      console.log(
-        `  ${page.lines && page.lines.length} lines, ${page.words && page.words.length} words`,
-      );
-
-      if (page.lines && page.lines.length > 0) {
-        console.log("  Lines:");
-
-        for (const line of page.lines) {
-          console.log(`  - "${line.content}"`);
-        }
-      }
-    }
-  }
-
-  if (!languages || languages.length <= 0) {
-    console.log("No language spans were extracted from the document.");
-  } else {
-    console.log("Languages:");
-    for (const languageEntry of languages) {
-      console.log(
-        `- Found language: ${languageEntry.locale} (confidence: ${languageEntry.confidence})`,
-      );
-
-      for (const text of getTextOfSpans(content, languageEntry.spans)) {
-        const escapedText = text.replace(/\r?\n/g, "\\n").replace(/"/g, '\\"');
-        console.log(`  - "${escapedText}"`);
+      for (const line of page.lines) {
+        console.log(`  - "${line.content}"`);
       }
     }
   }
 }
 
-main().catch((error) => {
-  console.error("An error occurred:", error);
-  process.exit(1);
-});
+if (!languages || languages.length <= 0) {
+  console.log("No language spans were extracted from the document.");
+} else {
+  console.log("Languages:");
+  for (const languageEntry of languages) {
+    console.log(
+      `- Found language: ${languageEntry.locale} (confidence: ${languageEntry.confidence})`,
+    );
+
+    for (const text of getTextOfSpans(content, languageEntry.spans)) {
+      const escapedText = text.replace(/\r?\n/g, "\\n").replace(/"/g, '\\"');
+      console.log(`  - "${escapedText}"`);
+    }
+  }
+}
+
+function* getTextOfSpans(content, spans) {
+  for (const span of spans) {
+    yield content.slice(span.offset, span.offset + span.length);
+  }
+}
 ```
 
 ### Classify a document
@@ -488,37 +469,32 @@ The Document Intelligence service supports custom document classifiers that can 
 
 The following sample shows how to classify a document using a custom classifier:
 
-```javascript
-const { AzureKeyCredential, DocumentAnalysisClient } = require("@azure/ai-form-recognizer");
+```ts snippet:ReadmeSampleClassifyDocument
+import { DefaultAzureCredential } from "@azure/identity";
+import { DocumentAnalysisClient } from "@azure/ai-form-recognizer";
 
-async function main() {
-  const endpoint = "<endpoint>";
-  const credential = new AzureKeyCredential("<api key>");
+const credential = new DefaultAzureCredential();
+const client = new DocumentAnalysisClient(
+  "https://<resource name>.cognitiveservices.azure.com",
+  credential,
+);
 
-  const documentUrl =
-    "https://raw.githubusercontent.com/Azure/azure-sdk-for-js/main/sdk/formrecognizer/ai-form-recognizer/assets/invoice/Invoice_1.pdf";
+const documentUrl =
+  "https://raw.githubusercontent.com/Azure/azure-sdk-for-js/main/sdk/formrecognizer/ai-form-recognizer/assets/invoice/Invoice_1.pdf";
 
-  const client = new DocumentAnalysisClient(endpoint, credential);
+const poller = await client.beginClassifyDocumentFromUrl("<classifier id>", documentUrl);
 
-  const poller = await client.beginClassifyDocumentFromUrl("<classifier id>", documentUrl);
+const result = await poller.pollUntilDone();
 
-  const result = await poller.pollUntilDone();
-
-  if (result.documents === undefined || result.documents.length === 0) {
-    throw new Error("Failed to extract any documents.");
-  }
-
-  for (const document of result.documents) {
-    console.log(
-      `Extracted a document with type '${document.docType}' on page ${document.boundingRegions?.[0].pageNumber} (confidence: ${document.confidence})`,
-    );
-  }
+if (result?.documents?.length === 0) {
+  throw new Error("Failed to extract any documents.");
 }
 
-main().catch((error) => {
-  console.error("An error occurred:", error);
-  process.exit(1);
-});
+for (const document of result.documents) {
+  console.log(
+    `Extracted a document with type '${document.docType}' on page ${document.boundingRegions?.[0].pageNumber} (confidence: ${document.confidence})`,
+  );
+}
 ```
 
 For information on training a custom classifier, see the [section on classifier training at the end of the next section](#build-classifier).
@@ -531,60 +507,54 @@ While we provide these methods for programmatic model creation, the Document Int
 
 For example, the following program builds a custom document model using a SAS-encoded URL to a pre-existing Azure Storage container:
 
-```javascript
-const {
-  DocumentModelAdministrationClient,
-  AzureKeyCredential,
-} = require("@azure/ai-form-recognizer");
+```ts snippet:ReadmeSampleBuildModel
+import { DefaultAzureCredential } from "@azure/identity";
+import { DocumentModelAdministrationClient } from "@azure/ai-form-recognizer";
 
-async function main() {
-  const endpoint = "<cognitive services endpoint>";
-  const apiKey = "<api key>";
-  const containerSasUrl = "<SAS url to the blob container storing training documents>";
+const credential = new DefaultAzureCredential();
+const client = new DocumentModelAdministrationClient(
+  "https://<resource name>.cognitiveservices.azure.com",
+  credential,
+);
 
-  const client = new DocumentModelAdministrationClient(endpoint, new AzureKeyCredential(apiKey));
+const containerSasUrl = "<SAS url to the blob container storing training documents>";
 
-  // You must provide the model ID. It can be any text that does not start with "prebuilt-".
-  // For example, you could provide a randomly generated GUID using the "uuid" package.
-  // The second parameter is the SAS-encoded URL to an Azure Storage container with the training documents.
-  // The third parameter is the build mode: one of "template" (the only mode prior to 4.0.0-beta.3) or "neural".
-  // See https://aka.ms/azsdk/formrecognizer/buildmode for more information about build modes.
-  const poller = await client.beginBuildDocumentModel("<model ID>", containerSasUrl, "template", {
-    // The model description is optional and can be any text.
-    description: "This is my new model!",
-    onProgress: ({ status }) => {
-      console.log(`operation status: ${status}`);
-    },
-  });
-  const model = await poller.pollUntilDone();
+// You must provide the model ID. It can be any text that does not start with "prebuilt-".
+// For example, you could provide a randomly generated GUID using the "uuid" package.
+// The second parameter is the SAS-encoded URL to an Azure Storage container with the training documents.
+// The third parameter is the build mode: one of "template" (the only mode prior to 4.0.0-beta.3) or "neural".
+// See https://aka.ms/azsdk/formrecognizer/buildmode for more information about build modes.
+const poller = await client.beginBuildDocumentModel("<model ID>", containerSasUrl, "template", {
+  // The model description is optional and can be any text.
+  description: "This is my new model!",
+  onProgress: ({ status }) => {
+    console.log(`operation status: ${status}`);
+  },
+});
+const model = await poller.pollUntilDone();
 
-  console.log("Model ID:", model.modelId);
-  console.log("Description:", model.description);
-  console.log("Created:", model.createdOn);
+console.log(`Model ID: ${model.modelId}`);
+console.log(`Description: ${model.description}`);
+console.log(`Created: ${model.createdOn}`);
 
-  // A model may contain several document types, which describe the possible object structures of fields extracted using
-  // this model
+// A model may contain several document types, which describe the possible object structures of fields extracted using
+// this model
 
-  console.log("Document Types:");
-  for (const [docType, { description, fieldSchema: schema }] of Object.entries(
-    model.docTypes ?? {},
-  )) {
-    console.log(`- Name: "${docType}"`);
-    console.log(`  Description: "${description}"`);
+console.log("Document Types:");
+for (const [docType, { description, fieldSchema: schema }] of Object.entries(
+  model.docTypes ?? {},
+)) {
+  console.log(`- Name: "${docType}"`);
+  console.log(`  Description: "${description}"`);
 
-    // For simplicity, this example will only show top-level field names
-    console.log("  Fields:");
+  // For simplicity, this example will only show top-level field names
+  console.log("  Fields:");
 
-    for (const [fieldName, fieldSchema] of Object.entries(schema)) {
-      console.log(`  - "${fieldName}" (${fieldSchema.type})`);
-      console.log(`    ${fieldSchema.description ?? "<no description>"}`);
-    }
+  for (const [fieldName, fieldSchema] of Object.entries(schema)) {
+    console.log(`  - "${fieldName}" (${fieldSchema.type})`);
+    console.log(`    ${fieldSchema.description ?? "<no description>"}`);
   }
 }
-
-main().catch((err) => {
-  console.error("The sample encountered an error:", err);
-});
 ```
 
 <a id="build-classifier"></a>
@@ -594,50 +564,44 @@ Custom classifiers are built in a similar way using the `beginBuildDocumentClass
 
 `DocumentModelAdministrationClient` also provides several methods for accessing and listing models. The following example shows how to iterate through the models in a resource (this will include both custom models in the resource as well as prebuilt models that are common to all resources), get a model by ID, and delete a model.
 
-```javascript
-const {
-  DocumentModelAdministrationClient,
-  AzureKeyCredential,
-} = require("@azure/ai-form-recognizer");
+```ts snippet:ReadmeSampleManageModels
+import { DefaultAzureCredential } from "@azure/identity";
+import { DocumentModelAdministrationClient } from "@azure/ai-form-recognizer";
 
-async function main() {
-  const endpoint = "<cognitive services endpoint>";
-  const apiKey = "<api key>";
-  const client = new DocumentModelAdministrationClient(endpoint, new AzureKeyCredential(apiKey));
+const credential = new DefaultAzureCredential();
+const client = new DocumentModelAdministrationClient(
+  "https://<resource name>.cognitiveservices.azure.com",
+  credential,
+);
 
-  // Produces an async iterable that supports paging (`PagedAsyncIterableIterator`). The `listDocumentModels` method will only
-  // iterate over model summaries, which do not include detailed schema information. Schema information is only returned
-  // from `getDocumentModel` as part of the full model information.
-  const models = client.listDocumentModels();
-  let i = 1;
-  for await (const summary of models) {
-    console.log(`Model ${i++}:`, summary);
-  }
-
-  // The iterable is paged, and the application can control the flow of paging if needed
-  i = 1;
-  for await (const page of client.listDocumentModels().byPage()) {
-    for (const summary of page) {
-      console.log(`Model ${i++}`, summary);
-    }
-  }
-
-  // We can also get a full ModelInfo by ID. Here we only show the basic information. See the documentation and the
-  // `getDocumentModel` sample program for information about the `docTypes` field, which contains the model's document type
-  // schemas.
-  const model = await client.getDocumentModel("<model ID>");
-  console.log("ID", model.modelId);
-  console.log("Created:", model.createdOn);
-  console.log("Description: ", model.description ?? "<none>");
-
-  // A model can also be deleted by its model ID. Once it is deleted, it CANNOT be recovered.
-  const modelIdToDelete = "<model ID that should be deleted forever>";
-  await client.deleteDocumentModel(modelIdToDelete);
+// Produces an async iterable that supports paging (`PagedAsyncIterableIterator`). The `listDocumentModels` method will only
+// iterate over model summaries, which do not include detailed schema information. Schema information is only returned
+// from `getDocumentModel` as part of the full model information.
+const models = client.listDocumentModels();
+let i = 1;
+for await (const summary of models) {
+  console.log(`Model ${i++}:`, summary);
 }
 
-main().catch((err) => {
-  console.error("The sample encountered an error:", err);
-});
+// The iterable is paged, and the application can control the flow of paging if needed
+i = 1;
+for await (const page of client.listDocumentModels().byPage()) {
+  for (const summary of page) {
+    console.log(`Model ${i++}`, summary);
+  }
+}
+
+// We can also get a full ModelInfo by ID. Here we only show the basic information. See the documentation and the
+// `getDocumentModel` sample program for information about the `docTypes` field, which contains the model's document type
+// schemas.
+const model = await client.getDocumentModel("<model ID>");
+console.log(`ID ${model.modelId}`);
+console.log(`Created: ${model.createdOn}`);
+console.log(`Description: ${model.description ?? "<none>"}`);
+
+// A model can also be deleted by its model ID. Once it is deleted, it CANNOT be recovered.
+const modelIdToDelete = "<model ID that should be deleted forever>";
+await client.deleteDocumentModel(modelIdToDelete);
 ```
 
 Similar methods `listDocumentClassifiers` and `getDocumentClassifier` are available for listing and getting information about custom classifiers in addition to `deleteDocumentClassifier` for deleting custom classifiers.
@@ -650,8 +614,8 @@ For assistance with troubleshooting, see the [troubleshooting guide][trouble-sho
 
 Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
 
-```javascript
-const { setLogLevel } = require("@azure/logger");
+```ts snippet:SetLogLevel
+import { setLogLevel } from "@azure/logger";
 
 setLogLevel("info");
 ```
@@ -665,8 +629,6 @@ Please take a look at the [samples](https://github.com/Azure/azure-sdk-for-js/tr
 ## Contributing
 
 If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md) to learn more about how to build and test the code.
-
-
 
 [azure_cli]: https://learn.microsoft.com/cli/azure
 [azure_sub]: https://azure.microsoft.com/free/

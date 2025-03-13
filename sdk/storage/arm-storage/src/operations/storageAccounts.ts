@@ -523,7 +523,7 @@ export class StorageAccountsImpl implements StorageAccounts {
    * primary and secondary endpoints are available. The primary use case of a Planned Failover is
    * disaster recovery testing drills. This type of failover is invoked by setting FailoverType parameter
    * to 'Planned'. Learn more about the failover options here-
-   * https://learn.microsoft.com/azure/storage/common/storage-disaster-recovery-guidance
+   * https://learn.microsoft.com/en-us/azure/storage/common/storage-disaster-recovery-guidance
    * @param resourceGroupName The name of the resource group within the user's subscription. The name is
    *                          case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
@@ -598,7 +598,7 @@ export class StorageAccountsImpl implements StorageAccounts {
    * primary and secondary endpoints are available. The primary use case of a Planned Failover is
    * disaster recovery testing drills. This type of failover is invoked by setting FailoverType parameter
    * to 'Planned'. Learn more about the failover options here-
-   * https://learn.microsoft.com/azure/storage/common/storage-disaster-recovery-guidance
+   * https://learn.microsoft.com/en-us/azure/storage/common/storage-disaster-recovery-guidance
    * @param resourceGroupName The name of the resource group within the user's subscription. The name is
    *                          case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
@@ -1323,28 +1323,28 @@ const hierarchicalNamespaceMigrationOperationSpec: coreClient.OperationSpec = {
   serializer,
 };
 const abortHierarchicalNamespaceMigrationOperationSpec: coreClient.OperationSpec =
-{
-  path: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/aborthnsonmigration",
-  httpMethod: "POST",
-  responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
+  {
+    path: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/aborthnsonmigration",
+    httpMethod: "POST",
+    responses: {
+      200: {},
+      201: {},
+      202: {},
+      204: {},
+      default: {
+        bodyMapper: Mappers.ErrorResponse,
+      },
     },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.accountName,
-    Parameters.subscriptionId,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
+    queryParameters: [Parameters.apiVersion],
+    urlParameters: [
+      Parameters.$host,
+      Parameters.resourceGroupName,
+      Parameters.accountName,
+      Parameters.subscriptionId,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };
 const customerInitiatedMigrationOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/startAccountMigration",
   httpMethod: "POST",

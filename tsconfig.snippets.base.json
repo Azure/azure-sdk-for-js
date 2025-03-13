@@ -1,0 +1,13 @@
+{
+  "extends": "./tsconfig.nonlib",
+  "compilerOptions": {
+    "skipLibCheck": true,
+    "lib": [],
+    "strict": true,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true
+  },
+  "include": ["${configDir}/src", "${configDir}/test/snippets.spec.ts"]
+}

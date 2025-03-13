@@ -49,15 +49,19 @@ interface AzurePluginContext {
  *
  * Example:
  *
- * ```javascript
+ * ```ts snippet:ReadmeSampleVisualStudioCodeCredential
  * import { useIdentityPlugin, VisualStudioCodeCredential } from "@azure/identity";
  * import { vsCodePlugin } from "@azure/identity-vscode";
  *
- * // Load the plugin
  * useIdentityPlugin(vsCodePlugin);
  *
- * // Now that the plugin is loaded, this credential may be used
  * const credential = new VisualStudioCodeCredential();
+ *
+ * // The graph.microsoft.com scope is used as an example
+ * const scope = "https://graph.microsoft.com/.default";
+ *
+ * // Print out part of the access token
+ * console.log((await credential.getToken(scope)).token.substr(0, 10), "...");
  * ```
  */
 export const vsCodePlugin: IdentityPlugin = (context) => {
