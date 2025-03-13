@@ -5,11 +5,10 @@
 ```ts
 
 import type { HttpClient } from '@azure/core-rest-pipeline';
-import type { Readable } from 'node:stream';
 
 // @public
 export class BufferScheduler {
-    constructor(readable: Readable, bufferSize: number, maxBuffers: number, outgoingHandler: OutgoingHandler, concurrency: number, encoding?: BufferEncoding);
+    constructor(readable: NodeJS.ReadableStream, bufferSize: number, maxBuffers: number, outgoingHandler: OutgoingHandler, concurrency: number, encoding?: BufferEncoding);
     do(): Promise<void>;
 }
 

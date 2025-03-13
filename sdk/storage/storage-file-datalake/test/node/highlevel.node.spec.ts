@@ -21,7 +21,7 @@ import {
 } from "../../src/utils/constants.js";
 import { readStreamToLocalFileWithLogs } from "../../test/utils/testutils.node.js";
 import { Readable, PassThrough } from "node:stream";
-import { streamToBuffer2 } from "../../src/utils/utils.node.js";
+import { streamToBuffer2 } from "../../src/utils/utils.js";
 import { Test_CPK_INFO } from "../utils/fakeTestSecrets.js";
 import { describe, it, assert, beforeEach, afterEach, beforeAll, afterAll } from "vitest";
 

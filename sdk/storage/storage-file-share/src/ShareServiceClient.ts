@@ -30,7 +30,6 @@ import {
   assertResponse,
   removeEmptyString,
 } from "./utils/utils.common.js";
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 import { Credential } from "@azure/storage-blob";
 import { StorageSharedKeyCredential } from "@azure/storage-blob";
 import { AnonymousCredential } from "@azure/storage-blob";

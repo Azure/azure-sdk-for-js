@@ -13,6 +13,7 @@ export * from "./BatchResponse.js";
 export * from "./StorageBrowserPolicyFactory.js";
 export * from "./credentials/AnonymousCredential.js";
 export * from "./credentials/Credential.js";
+export * from "./credentials/StorageSharedKeyCredential.js";
 export { SasIPRange } from "./sas/SasIPRange.js";
 export { Range } from "./Range.js";
 export {
@@ -53,6 +54,7 @@ export * from "./policies/StorageCorrectContentLengthPolicy.js";
 export * from "./policies/StorageRetryPolicyType.js";
 export * from "./policies/StorageRetryPolicy.js";
 export * from "./policies/StorageRetryPolicyV2.js";
+export * from "./policies/StorageSharedKeyCredentialPolicyV2.js";
 export * from "./StorageRetryPolicyFactory.js";
 export { CommonOptions } from "./StorageClient.js";
 export * from "./generatedModels.js";

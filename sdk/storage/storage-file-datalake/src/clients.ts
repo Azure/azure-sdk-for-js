@@ -108,7 +108,7 @@ import {
   setURLPath,
   setURLQueries,
 } from "./utils/utils.common.js";
-import { fsCreateReadStream, fsStat } from "./utils/utils.node.js";
+import { fsCreateReadStream, fsStat } from "./utils/utils.js";
 import type {
   PathAppendDataHeaders,
   PathCreateHeaders,

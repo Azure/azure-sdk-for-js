@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ReadableOptions } from "node:stream";
-import { Readable } from "node:stream";
+import type { ReadableOptions } from "stream";
+import { Readable } from "stream";
 
 /**
  * Options to configure the BuffersStream.

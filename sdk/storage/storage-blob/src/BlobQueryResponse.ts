@@ -22,7 +22,7 @@ import type { ResponseWithHeaders } from "./utils/utils.common.js";
  * ONLY AVAILABLE IN NODE.JS RUNTIME.
  *
  * BlobQueryResponse implements BlobDownloadResponseModel interface, and in Node.js runtime it will
- * parse avor data returned by blob query.
+ * parse avro data returned by blob query.
  */
 export class BlobQueryResponse implements BlobDownloadResponseModel {
   /**

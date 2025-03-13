@@ -103,7 +103,6 @@ import type {
   ListFilesAndDirectoriesSegmentResponse as GeneratedListFilesAndDirectoriesSegmentResponse,
   ListHandlesResponse as GeneratedListHandlesResponse,
 } from "./generated/src/models/index.js";
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 import type { Share, Directory, File } from "./generated/src/operationsInterfaces/index.js";
 import type { Pipeline, PipelineLike } from "./Pipeline.js";
 import { isPipelineLike, newPipeline } from "./Pipeline.js";
@@ -134,7 +133,6 @@ import {
   parseOctalFileMode,
   toOctalFileMode,
 } from "./utils/utils.common.js";
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 import { Credential } from "@azure/storage-blob";
 import { StorageSharedKeyCredential } from "@azure/storage-blob";
 import { AnonymousCredential } from "@azure/storage-blob";
@@ -170,13 +168,12 @@ import {
 } from "./models.js";
 import { Batch } from "./utils/Batch.js";
 import { BufferScheduler } from "./utils/BufferScheduler.js";
-import type { Readable } from "node:stream";
 import {
   fsStat,
   fsCreateReadStream,
   readStreamToLocalFile,
   streamToBuffer,
-} from "./utils/utils.node.js";
+} from "./utils/utils.js";
 import type { StorageClient as StorageClientContext } from "./generated/src/index.js";
 import { randomUUID } from "@azure/core-util";
 import {
@@ -5077,7 +5074,7 @@ export class ShareFileClient extends StorageClient {
    * @param options -
    */
   public async uploadStream(
-    stream: Readable,
+    stream: NodeJS.ReadableStream,
     size: number,
     bufferSize: number,
     maxBuffers: number,

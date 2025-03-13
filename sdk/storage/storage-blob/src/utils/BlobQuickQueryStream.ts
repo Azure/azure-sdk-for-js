@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 import { Readable } from "node:stream";
-
 import type { AbortSignalLike } from "@azure/abort-controller";
 import type { TransferProgressEvent } from "@azure/core-rest-pipeline";
 import { AvroReadableFromStream, AvroReader } from "@azure/storage-internal-avro";
