@@ -1,9 +1,4 @@
-const {
-  AIProjectsClient,
-  ToolUtility,
-  connectionToolType,
-  isOutputOfType,
-} = require("@azure/ai-projects");
+const { AIProjectsClient, ToolUtility, isOutputOfType } = require("@azure/ai-projects");
 const { delay } = require("@azure/core-util");
 const { DefaultAzureCredential } = require("@azure/identity");
 
@@ -24,20 +19,19 @@ async function main() {
   const fabricConnection = await client.connections.getConnection(
     process.env["FABRIC_CONNECTION_NAME"] || "<connection-name>",
   );
+
   const connectionId = fabricConnection.id;
 
   // Initialize agent Microsoft Fabric tool with the connection id
-  const fabricTool = ToolUtility.createConnectionTool(connectionToolType.MicrosoftFabric, [
-    connectionId,
-  ]);
+  const fabricTool = ToolUtility.createFabricTool(connectionId);
 
   // Create agent with the Microsoft Fabric tool and process assistant run
-  const agent = await client.agents.createAgent("gpt-4-0125-preview", {
+  const agent = await client.agents.createAgent("gpt-4o", {
     name: "my-agent",
     instructions: "You are a helpful agent",
     tools: [fabricTool.definition],
+    toolResources: {}, // Add empty tool_resources which is required by the API
   });
-  console.log(connectionId);
   console.log(`Created agent, agent ID : ${agent.id}`);
 
   // Create thread for communication
@@ -47,7 +41,7 @@ async function main() {
   // Create message to thread
   const message = await client.agents.createMessage(thread.id, {
     role: "user",
-    content: "What inventory is currently available?",
+    content: "What are the top 3 weather events with the highest property damage?",
   });
   console.log(`Created message, message ID: ${message.id}`);
 
@@ -62,8 +56,8 @@ async function main() {
   }
   console.log(`Run finished with status: ${run.status}`);
 
-  // Delete the assistant when done
-  client.agents.deleteAgent(agent.id);
+  // Delete the agent when done
+  await client.agents.deleteAgent(agent.id);
   console.log(`Deleted agent, agent ID: ${agent.id}`);
 
   // Fetch and log all messages
