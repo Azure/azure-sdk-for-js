@@ -107,7 +107,7 @@ To build all packages:
 To build specific package(s), use `-t` rush command-line option:
 
 6. Install and link all dependencies (`rush update`)
-7. Build the package, for example, `rush build -t @azure/service-bus`. Alternatively when under the package folder, `rush build -t .`
+7. Build the package, for example, `rush build -t @azure/service-bus`. Alternatively when under the package directory, `rush build -t .`
 
 ## Development Workflows
 
@@ -124,6 +124,8 @@ To remove a dependency, you must edit the package.json to remove the dependency 
 If you manually edit dependencies within the package.json for any reason, make sure to run `rush update` afterwards to update the project's node_modules directory.
 
 Any time you add, update, or remove dependencies, running `rush update` will generate a diff to the file `common/config/rush/pnpm-lock.yaml`. You should commit these changes - this file works similarly to NPM's package-lock.json files, except it tracks package versions for all projects in the Rush workspace. Do not check in any package-lock.json files.
+
+Because multiple pull requests may be changing `pnpm-lock.yaml` at the same time, it is very common that the first merged one will cause merge conflicts for the later ones. Please refer to [this wiki article](https://github.com/Azure/azure-sdk-for-js/wiki/Resolving-PR-merge-conflicts-for-%22common-config-rush-pnpm%E2%80%90lock.yaml%22) on resolve PR merge conflicts for `common/config/rush/pnpm-lock.yaml`
 
 ### Resolving dependency version conflicts
 
@@ -251,13 +253,13 @@ In the case where you do not want to generate documentation for a specific defin
 To maintain the quality of the documentation, the following two facilities are provided:
 
 - an [ESLint plugin](https://github.com/microsoft/tsdoc/tree/master/eslint-plugin) is used to check that our comments are well-formed TSDoc comments and it can be run using `rushx lint`
-- documentation artifacts are published in pull request checks Azure Pipelines. They can be downloaded, extracted to local disk, and inspected by opening `azure-<package name>/<version>/index.html` in your favorite browser. Click on "xx published; xx consumed" under **Related**, expand packages > azure-xxxxx > documentation then download the azure-xxxxx.zip file.
+- documentation artifacts are generated in pull request checks Azure Pipelines. They can be downloaded, extracted to local disk, and inspected by opening `azure-<package name>/<version>/index.html` in your favorite browser. Click on "xx published; xx consumed" under **Related**, expand packages > azure-xxxxx > documentation then download the azure-xxxxx.zip file.
 
 TSDoc specifications can be customized using the `tsdoc.json` configuration file that can be found in the root of the repository. Currently, the `@hidden` tag is used which is only supported by TypeDoc and is not a TSDoc tag, so it is added as a custom tag in `tsdoc.json`.
 
 ### Formatting changed files
 
-We used to have a git hook that formats your changed files on commit but it was removed because it did not work well for some people for various reasons. If you would like to enable it in your fork, you will need to just revert this [PR](https://github.com/Azure/azure-sdk-for-js/pull/13982/) in your branch and then run `rush update` so the hook script gets copied into `.git/hooks`. Moreover, without the hook, you can manually format changed files by invoking `rush prettier`.
+We used to have a git hook that formats your changed files on commit but it was removed because it did not work well for some people for various reasons. If you would like to enable it in your fork, you will need to just revert this [PR](https://github.com/Azure/azure-sdk-for-js/pull/13982/) in your branch and then run `rush update` so the hook script gets copied into `.git/hooks`. Moreover, without the hook, you can manually format changed files by invoking `rushx format` under your package directory.
 
 ### Enforcing Azure SDK design guidelines
 
@@ -288,7 +290,7 @@ The second type of libraries is more complex to develop and maintain because the
 
 Rush assumes that anything printed to `STDERR` is a warning. Your package scripts should avoid writing to `STDERR` unless emitting warnings or errors, since this will cause Rush to flag them as warnings during the execution of your build or script command. If your library uses a tool that can't be configured this way, you can still append `2>&1` to the command which will redirect all output to `STDOUT`. You won't see warnings show up, but Rush will still consider the command to have failed as long as it returns a nonzero exit code.
 
-In general, it's recommended to avoid using NPM [hook scripts](https://docs.npmjs.com/misc/scripts) (those starting with `pre` / `post`). The build system will always explicitly run the `install`, `build`, `build:test`, `pack`, `audit`, `lint`, `unit-test`, and `integration-test` scripts at the appropriate times during the build. Adding hooks that performs steps like installing dependencies or compiling the source code will at best slow down the build, and at worst may lead to difficult to diagnose build failures.
+In general, it's recommended to avoid using NPM [hook scripts](https://docs.npmjs.com/misc/scripts) (those starting with `pre` / `post`). The build system will always explicitly run the `install`, `build`, `build:test`, `pack`, `lint`, `unit-test`, and `integration-test` scripts at the appropriate times during the build. Adding hooks that performs steps like installing dependencies or compiling the source code will at best slow down the build, and at worst may lead to difficult to diagnose build failures.
 
 Because Rush uses PNPM to download and manage dependencies, it's **_especially_** important to make sure that none of your package scripts are calling `npm install` when your library is built via the Rush toolchain. Most commonly this occurs in a `prepack` or `prebuild` script. Ensure your library does not contain these scripts - or if you determine that such a script is required, ensure that it doesn't run `npm install`.
 
