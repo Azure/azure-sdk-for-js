@@ -86,9 +86,8 @@ function _getAgriService(context: AgriculturePlatformContext) {
         agriServiceResourceName,
         options,
       ),
-    listBySubscription: (
-      options?: AgriServiceListBySubscriptionOptionalParams,
-    ) => agriServiceListBySubscription(context, options),
+    listBySubscription: (options?: AgriServiceListBySubscriptionOptionalParams) =>
+      agriServiceListBySubscription(context, options),
     listByResourceGroup: (
       resourceGroupName: string,
       options?: AgriServiceListByResourceGroupOptionalParams,
@@ -97,26 +96,14 @@ function _getAgriService(context: AgriculturePlatformContext) {
       resourceGroupName: string,
       agriServiceResourceName: string,
       options?: AgriServiceDeleteOptionalParams,
-    ) =>
-      agriServiceDelete(
-        context,
-        resourceGroupName,
-        agriServiceResourceName,
-        options,
-      ),
+    ) => agriServiceDelete(context, resourceGroupName, agriServiceResourceName, options),
     update: (
       resourceGroupName: string,
       agriServiceResourceName: string,
       properties: AgriServiceResourceUpdate,
       options?: AgriServiceUpdateOptionalParams,
     ) =>
-      agriServiceUpdate(
-        context,
-        resourceGroupName,
-        agriServiceResourceName,
-        properties,
-        options,
-      ),
+      agriServiceUpdate(context, resourceGroupName, agriServiceResourceName, properties, options),
     createOrUpdate: (
       resourceGroupName: string,
       agriServiceResourceName: string,
@@ -134,13 +121,7 @@ function _getAgriService(context: AgriculturePlatformContext) {
       resourceGroupName: string,
       agriServiceResourceName: string,
       options?: AgriServiceGetOptionalParams,
-    ) =>
-      agriServiceGet(
-        context,
-        resourceGroupName,
-        agriServiceResourceName,
-        options,
-      ),
+    ) => agriServiceGet(context, resourceGroupName, agriServiceResourceName, options),
   };
 }
 

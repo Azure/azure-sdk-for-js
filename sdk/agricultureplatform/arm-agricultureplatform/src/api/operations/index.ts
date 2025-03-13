@@ -1,10 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  AgriculturePlatformContext as Client,
-  OperationsListOptionalParams,
-} from "../index.js";
+import { AgriculturePlatformContext as Client, OperationsListOptionalParams } from "../index.js";
 import {
   errorResponseDeserializer,
   _OperationListResult,
@@ -36,15 +33,13 @@ export function _operationsListSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _operationsListDeserialize(

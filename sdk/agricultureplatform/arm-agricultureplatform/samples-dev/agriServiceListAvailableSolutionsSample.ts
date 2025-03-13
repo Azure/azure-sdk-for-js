@@ -14,10 +14,7 @@ async function agriServiceListAvailableSolutions(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "83D293F5-DEFD-4D48-B120-1DC713BE338A";
   const client = new AgriculturePlatformClient(credential, subscriptionId);
-  const result = await client.agriService.listAvailableSolutions(
-    "rgopenapi",
-    "abc123",
-  );
+  const result = await client.agriService.listAvailableSolutions("rgopenapi", "abc123");
   console.log(result);
 }
 

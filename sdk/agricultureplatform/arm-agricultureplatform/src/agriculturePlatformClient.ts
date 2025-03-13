@@ -1,14 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  _getAgriServiceOperations,
-  AgriServiceOperations,
-} from "./classic/agriService/index.js";
-import {
-  _getOperationsOperations,
-  OperationsOperations,
-} from "./classic/operations/index.js";
+import { _getAgriServiceOperations, AgriServiceOperations } from "./classic/agriService/index.js";
+import { _getOperationsOperations, OperationsOperations } from "./classic/operations/index.js";
 import {
   createAgriculturePlatform,
   AgriculturePlatformContext,

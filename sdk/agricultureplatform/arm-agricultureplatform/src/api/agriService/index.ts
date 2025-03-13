@@ -57,15 +57,13 @@ export function _agriServiceListAvailableSolutionsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _agriServiceListAvailableSolutionsDeserialize(
@@ -113,15 +111,13 @@ export function _agriServiceListBySubscriptionSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _agriServiceListBySubscriptionDeserialize(
@@ -169,15 +165,13 @@ export function _agriServiceListByResourceGroupSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _agriServiceListByResourceGroupDeserialize(
@@ -203,8 +197,7 @@ export function agriServiceListByResourceGroup(
 ): PagedAsyncIterableIterator<AgriServiceResource> {
   return buildPagedAsyncIterator(
     context,
-    () =>
-      _agriServiceListByResourceGroupSend(context, resourceGroupName, options),
+    () => _agriServiceListByResourceGroupSend(context, resourceGroupName, options),
     _agriServiceListByResourceGroupDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },
@@ -229,20 +222,16 @@ export function _agriServiceDeleteSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .delete({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).delete({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
-export async function _agriServiceDeleteDeserialize(
-  result: PathUncheckedResponse,
-): Promise<void> {
+export async function _agriServiceDeleteDeserialize(result: PathUncheckedResponse): Promise<void> {
   const expectedStatuses = ["202", "204", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -260,23 +249,13 @@ export function agriServiceDelete(
   agriServiceResourceName: string,
   options: AgriServiceDeleteOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(
-    context,
-    _agriServiceDeleteDeserialize,
-    ["202", "204", "200"],
-    {
-      updateIntervalInMs: options?.updateIntervalInMs,
-      abortSignal: options?.abortSignal,
-      getInitialResponse: () =>
-        _agriServiceDeleteSend(
-          context,
-          resourceGroupName,
-          agriServiceResourceName,
-          options,
-        ),
-      resourceLocationConfig: "location",
-    },
-  ) as PollerLike<OperationState<void>, void>;
+  return getLongRunningPoller(context, _agriServiceDeleteDeserialize, ["202", "204", "200"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _agriServiceDeleteSend(context, resourceGroupName, agriServiceResourceName, options),
+    resourceLocationConfig: "location",
+  }) as PollerLike<OperationState<void>, void>;
 }
 
 export function _agriServiceUpdateSend(
@@ -298,17 +277,15 @@ export function _agriServiceUpdateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .patch({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: agriServiceResourceUpdateSerializer(properties),
-    });
+  return context.path(path).patch({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: agriServiceResourceUpdateSerializer(properties),
+  });
 }
 
 export async function _agriServiceUpdateDeserialize(
@@ -332,24 +309,19 @@ export function agriServiceUpdate(
   properties: AgriServiceResourceUpdate,
   options: AgriServiceUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<AgriServiceResource>, AgriServiceResource> {
-  return getLongRunningPoller(
-    context,
-    _agriServiceUpdateDeserialize,
-    ["200", "202"],
-    {
-      updateIntervalInMs: options?.updateIntervalInMs,
-      abortSignal: options?.abortSignal,
-      getInitialResponse: () =>
-        _agriServiceUpdateSend(
-          context,
-          resourceGroupName,
-          agriServiceResourceName,
-          properties,
-          options,
-        ),
-      resourceLocationConfig: "location",
-    },
-  ) as PollerLike<OperationState<AgriServiceResource>, AgriServiceResource>;
+  return getLongRunningPoller(context, _agriServiceUpdateDeserialize, ["200", "202"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _agriServiceUpdateSend(
+        context,
+        resourceGroupName,
+        agriServiceResourceName,
+        properties,
+        options,
+      ),
+    resourceLocationConfig: "location",
+  }) as PollerLike<OperationState<AgriServiceResource>, AgriServiceResource>;
 }
 
 export function _agriServiceCreateOrUpdateSend(
@@ -371,17 +343,15 @@ export function _agriServiceCreateOrUpdateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .put({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: agriServiceResourceSerializer(resource),
-    });
+  return context.path(path).put({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: agriServiceResourceSerializer(resource),
+  });
 }
 
 export async function _agriServiceCreateOrUpdateDeserialize(
@@ -405,24 +375,19 @@ export function agriServiceCreateOrUpdate(
   resource: AgriServiceResource,
   options: AgriServiceCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<AgriServiceResource>, AgriServiceResource> {
-  return getLongRunningPoller(
-    context,
-    _agriServiceCreateOrUpdateDeserialize,
-    ["200", "201"],
-    {
-      updateIntervalInMs: options?.updateIntervalInMs,
-      abortSignal: options?.abortSignal,
-      getInitialResponse: () =>
-        _agriServiceCreateOrUpdateSend(
-          context,
-          resourceGroupName,
-          agriServiceResourceName,
-          resource,
-          options,
-        ),
-      resourceLocationConfig: "azure-async-operation",
-    },
-  ) as PollerLike<OperationState<AgriServiceResource>, AgriServiceResource>;
+  return getLongRunningPoller(context, _agriServiceCreateOrUpdateDeserialize, ["200", "201"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _agriServiceCreateOrUpdateSend(
+        context,
+        resourceGroupName,
+        agriServiceResourceName,
+        resource,
+        options,
+      ),
+    resourceLocationConfig: "azure-async-operation",
+  }) as PollerLike<OperationState<AgriServiceResource>, AgriServiceResource>;
 }
 
 export function _agriServiceGetSend(
@@ -443,15 +408,13 @@ export function _agriServiceGetSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _agriServiceGetDeserialize(
