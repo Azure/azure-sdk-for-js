@@ -674,6 +674,8 @@ export const Constants: {
 
 // @public
 export class Container {
+    // Warning: (ae-forgotten-export) The symbol "EncryptionManager" needs to be exported by the entry point index.d.ts
+    constructor(database: Database, id: string, clientContext: ClientContext, encryptionManager?: EncryptionManager, _rid?: string);
     conflict(id: string, partitionKey?: PartitionKey): Conflict;
     get conflicts(): Conflicts;
     // (undocumented)
@@ -747,6 +749,7 @@ export class ContainerResponse extends ResourceResponse<ContainerDefinition & Re
 
 // @public
 export class Containers {
+    constructor(database: Database, clientContext: ClientContext, encryptionManager?: EncryptionManager);
     create(body: ContainerRequest, options?: RequestOptions): Promise<ContainerResponse>;
     createIfNotExists(body: ContainerRequest, options?: RequestOptions): Promise<ContainerResponse>;
     // (undocumented)
@@ -852,6 +855,7 @@ export interface CreateOperationInput {
 
 // @public
 export class Database {
+    constructor(client: CosmosClient, id: string, clientContext: ClientContext, encryptionManager?: EncryptionManager, _rid?: string);
     // (undocumented)
     readonly client: CosmosClient;
     container(id: string): Container;
@@ -923,6 +927,7 @@ export class DatabaseResponse extends ResourceResponse<DatabaseDefinition & Reso
 
 // @public
 export class Databases {
+    constructor(client: CosmosClient, clientContext: ClientContext, encryptionManager?: EncryptionManager);
     // (undocumented)
     readonly client: CosmosClient;
     create(body: DatabaseRequest, options?: RequestOptions): Promise<DatabaseResponse>;
@@ -1064,12 +1069,8 @@ export enum EncryptionAlgorithm {
 
 // @public
 export interface EncryptionDiagnostics {
-    decryptContent: {
-        [key: string]: any;
-    };
-    encryptContent: {
-        [key: string]: any;
-    };
+    decryptContent: Record<string, any>;
+    encryptContent: Record<string, any>;
     processingDurationInMs: number;
 }
 

@@ -120,7 +120,7 @@ export class Container {
    * Returns a container instance. Note: You should get this from `database.container(id)`, rather than creating your own object.
    * @param database - The parent {@link Database}.
    * @param id - The id of the given container.
-   * @internal
+   * @hidden
    */
   constructor(
     public readonly database: Database,

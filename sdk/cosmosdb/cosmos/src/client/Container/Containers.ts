@@ -39,7 +39,7 @@ import { EncryptionType } from "../../encryption";
  */
 export class Containers {
   /**
-   * @internal
+   * @hidden
    * @param database - The parent {@link Database}.
    */
   constructor(
