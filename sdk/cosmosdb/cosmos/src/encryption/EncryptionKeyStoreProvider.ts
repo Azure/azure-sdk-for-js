@@ -60,8 +60,8 @@ export class EncryptionKeyStoreProvider {
         algorithm,
         wrappedKeyUint8Array,
       );
-      const bufferPlainEncryptionKey = Buffer.from(plainEncryptionKey);
-      this.unwrappedEncryptionKeyCache[encryptionKeyId] = [new Date(), bufferPlainEncryptionKey];
+      const plainEncryptionKeyBuffer = Buffer.from(plainEncryptionKey);
+      this.unwrappedEncryptionKeyCache[encryptionKeyId] = [new Date(), plainEncryptionKeyBuffer];
     }
     return this.unwrappedEncryptionKeyCache[encryptionKeyId][1];
   }
