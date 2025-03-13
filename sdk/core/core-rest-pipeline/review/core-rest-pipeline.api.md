@@ -232,6 +232,11 @@ export function ndJsonPolicy(): PipelinePolicy;
 export const ndJsonPolicyName = "ndJsonPolicy";
 
 // @public
+export interface NodeJSReadableStream extends NodeJS.ReadableStream {
+    destroy(error?: Error): void;
+}
+
+// @public
 export interface Pipeline {
     addPolicy(policy: PipelinePolicy, options?: AddPipelineOptions): void;
     clone(): Pipeline;
@@ -317,7 +322,7 @@ export interface PipelineResponse {
     bodyAsText?: string | null;
     browserStreamBody?: ReadableStream<Uint8Array>;
     headers: HttpHeaders;
-    readableStreamBody?: NodeJS.ReadableStream;
+    readableStreamBody?: NodeJSReadableStream;
     request: PipelineRequest;
     status: number;
 }

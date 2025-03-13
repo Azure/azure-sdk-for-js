@@ -2,9 +2,8 @@ import azsdkEslint from "@azure/eslint-plugin-azure-sdk";
 
 export default azsdkEslint.config([
   {
+    files: ["src/models.ts", "src/sse.ts", "src/utils.ts"],
     rules: {
-      "@azure/azure-sdk/ts-package-json-name": "warn",
-      "@azure/azure-sdk/ts-versioning-semver": "warn",
       "n/no-unsupported-features/node-builtins": "off",
     },
   },
