@@ -87,8 +87,9 @@ describe("Client Tests", function (this: Suite) {
       try {
         const controller = new AbortController();
         const signal = controller.signal;
-        setTimeout(() => controller.abort(), 0.1);
-        await client.getDatabaseAccount({ abortSignal: signal });
+        setTimeout(() => controller.abort(), 1);
+        const request = client.getDatabaseAccount({ abortSignal: signal });
+        await request;
         assert.fail("Must throw when trying to connect to database");
       } catch (err: any) {
         assert.equal(err.name, "AbortError", "client should throw exception");
