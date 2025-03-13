@@ -93,7 +93,7 @@ export class Item {
       let response: Response<T & Resource>;
       try {
         if (this.clientContext.enableEncryption) {
-          await this.container.checkAndWarmUpEncryptionCache();
+          await this.container.checkAndInitializeEncryption();
           options.containerRid = this.container._rid;
           let count = 0;
           diagnosticNode.beginEncryptionDiagnostics(
@@ -206,7 +206,7 @@ export class Item {
           // returns copy to avoid encryption of original body passed
           body = copyObject(body);
           options = options || {};
-          await this.container.checkAndWarmUpEncryptionCache();
+          await this.container.checkAndInitializeEncryption();
           options.containerRid = this.container._rid;
           let count = 0;
           diagnosticNode.beginEncryptionDiagnostics(
@@ -303,7 +303,7 @@ export class Item {
       let response: Response<T & Resource>;
       try {
         if (this.clientContext.enableEncryption) {
-          await this.container.checkAndWarmUpEncryptionCache();
+          await this.container.checkAndInitializeEncryption();
           options.containerRid = this.container._rid;
           let count = 0;
           diagnosticNode.beginEncryptionDiagnostics(
@@ -376,7 +376,7 @@ export class Item {
       let response: Response<T & Resource>;
       try {
         if (this.clientContext.enableEncryption) {
-          await this.container.checkAndWarmUpEncryptionCache();
+          await this.container.checkAndInitializeEncryption();
           options.containerRid = this.container._rid;
           // returns copy to avoid encryption of original body passed
           body = copyObject(body);

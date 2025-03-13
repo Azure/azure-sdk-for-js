@@ -156,7 +156,7 @@ describe("ClientSideEncryption", function (this: Suite) {
     ).container;
     // initialize Encryption will warm up the cache beforehand
     // not calling it for encryptionContainer as cache will be initialized with first encryption operation
-    await encryptionContainerForChangeFeed.warmUpEncryptionCache();
+    await encryptionContainerForChangeFeed.initializeEncryption();
   });
 
   beforeEach(async () => {
@@ -333,7 +333,7 @@ describe("ClientSideEncryption", function (this: Suite) {
       throughput: 400,
     };
     const testcontainer = (await testdatabase.containers.create(containerProperties)).container;
-    await testcontainer.warmUpEncryptionCache();
+    await testcontainer.initializeEncryption();
     const testDoc = TestDoc.create();
     const createResponse = await testcontainer.items.create(testDoc);
     assert.equal(StatusCodes.Created, createResponse.statusCode);
@@ -656,7 +656,7 @@ describe("ClientSideEncryption", function (this: Suite) {
     };
     const encryptionQueryContainer = (await database.containers.create(containerProperties))
       .container;
-    encryptionQueryContainer.warmUpEncryptionCache();
+    encryptionQueryContainer.initializeEncryption();
     const testDoc1 = new TestDoc((await testCreateItem(encryptionQueryContainer)).resource);
     const testDoc2 = new TestDoc((await testCreateItem(encryptionQueryContainer)).resource);
     const testDoc3 = new TestDoc((await testCreateItem(encryptionQueryContainer)).resource);
@@ -1061,7 +1061,7 @@ describe("ClientSideEncryption", function (this: Suite) {
       clientEncryptionPolicy: policy,
     };
     let testcontainer = (await database.containers.create(containerProperties)).container;
-    await testcontainer.warmUpEncryptionCache();
+    await testcontainer.initializeEncryption();
     const testDoc = TestDoc.create();
     let createResponse = await testcontainer.items.create(testDoc);
     assert.equal(StatusCodes.Created, createResponse.statusCode);
@@ -1090,7 +1090,7 @@ describe("ClientSideEncryption", function (this: Suite) {
       clientEncryptionPolicy: policy,
     };
     testcontainer = (await database.containers.create(containerProperties)).container;
-    await testcontainer.warmUpEncryptionCache();
+    await testcontainer.initializeEncryption();
 
     createResponse = await testcontainer.items.create(testDoc);
     assert.equal(StatusCodes.Created, createResponse.statusCode);
@@ -1120,7 +1120,7 @@ describe("ClientSideEncryption", function (this: Suite) {
       clientEncryptionPolicy: policy,
     };
     testcontainer = (await database.containers.create(containerProperties)).container;
-    await testcontainer.warmUpEncryptionCache();
+    await testcontainer.initializeEncryption();
 
     createResponse = await testcontainer.items.create(testDoc);
     assert.equal(StatusCodes.Created, createResponse.statusCode);
@@ -1141,7 +1141,7 @@ describe("ClientSideEncryption", function (this: Suite) {
       },
     };
     const testcontainer = (await testdatabase.containers.create(containerProperties)).container;
-    await testcontainer.warmUpEncryptionCache();
+    await testcontainer.initializeEncryption();
     const testDoc = TestDoc.create();
     const createResponse = await testcontainer.items.create(testDoc);
     assert.equal(StatusCodes.Created, createResponse.statusCode);
@@ -1160,7 +1160,7 @@ describe("ClientSideEncryption", function (this: Suite) {
     };
     const encryptionContainerWithNoPolicy = (await database.containers.create(containerProperties))
       .container;
-    await encryptionContainerWithNoPolicy.warmUpEncryptionCache();
+    await encryptionContainerWithNoPolicy.initializeEncryption();
 
     const testDoc = TestDoc.create();
     const createResponse = await encryptionContainerWithNoPolicy.items.create(testDoc);
@@ -1324,7 +1324,7 @@ describe("ClientSideEncryption", function (this: Suite) {
     };
     const encryptionContainerToDelete = (await database.containers.create(containerProperties))
       .container;
-    await encryptionContainerToDelete.warmUpEncryptionCache();
+    await encryptionContainerToDelete.initializeEncryption();
     // create a document with 2nd client on same database and container
     const otherClient = new CosmosClient({
       endpoint: endpoint,
@@ -1500,7 +1500,7 @@ describe("ClientSideEncryption", function (this: Suite) {
     };
     const encryptionContainerToDelete = (await database.containers.create(containerProperties))
       .container;
-    await encryptionContainerToDelete.warmUpEncryptionCache();
+    await encryptionContainerToDelete.initializeEncryption();
     // create a document with 2nd client on same database and container
     const otherClient = new CosmosClient({
       endpoint: endpoint,
@@ -1613,7 +1613,7 @@ describe("ClientSideEncryption", function (this: Suite) {
     };
     const encryptionContainerToDelete = (await database.containers.create(containerProperties))
       .container;
-    await encryptionContainerToDelete.warmUpEncryptionCache();
+    await encryptionContainerToDelete.initializeEncryption();
     // create a document with 2nd client on same database and container
     const otherClient = new CosmosClient({
       endpoint: endpoint,
@@ -1738,7 +1738,7 @@ describe("ClientSideEncryption", function (this: Suite) {
     };
     const encryptionContainerToDelete = (await database.containers.create(containerProperties))
       .container;
-    await encryptionContainerToDelete.warmUpEncryptionCache();
+    await encryptionContainerToDelete.initializeEncryption();
     // create a document with 2nd client on same database and container
     const otherClient = new CosmosClient({
       endpoint: endpoint,
@@ -1887,7 +1887,7 @@ describe("ClientSideEncryption", function (this: Suite) {
     const encryptionContainerToDelete = (
       await mainDatabase.containers.createIfNotExists(containerDef)
     ).container;
-    await encryptionContainerToDelete.warmUpEncryptionCache();
+    await encryptionContainerToDelete.initializeEncryption();
     await testCreateItem(encryptionContainerToDelete);
 
     const otherClient = new CosmosClient({
@@ -2144,7 +2144,7 @@ describe("ClientSideEncryption", function (this: Suite) {
       throughput: 400,
     };
     const container = (await database.containers.create(containerDef)).container;
-    await container.warmUpEncryptionCache();
+    await container.initializeEncryption();
     const testDoc = TestDoc.create();
     const createResponse = await container.items.create(testDoc);
     assert.equal(StatusCodes.Created, createResponse.statusCode);
