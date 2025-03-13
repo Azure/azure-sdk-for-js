@@ -16,7 +16,7 @@ Example of using Client-Side Encryption:
       type: EncryptionKeyResolverName.AzureKeyVault, 
       name: "akvKey", 
       value: "https://<my-key-vault>.vault.azure.net/keys/<key>/<version>",
-      algoriithm: KeyEncryptionAlgorithm.RSA_OAEP
+      algorithm: KeyEncryptionAlgorithm.RSA_OAEP
   };
 
   await database.createClientEncryptionKey(

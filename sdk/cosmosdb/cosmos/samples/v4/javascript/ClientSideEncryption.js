@@ -68,12 +68,12 @@ async function run() {
   logStep("Create client encryption included path and policy");
   // adding id, salary and ssn properties for encryption
   const paths = ["/salary", "/ssn", "/id"].map(
-    (path) => {
+    (path) => ({
       path: path,
-        clientEncryptionKeyId: "cek1",
-          encryptionType: EncryptionType.DETERMINISTIC,
-            encryptionAlgorithm: EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
-    },
+      clientEncryptionKeyId: "cek1",
+      encryptionType: EncryptionType.DETERMINISTIC,
+      encryptionAlgorithm: EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
+    }),
   );
   // creating client encryption policy with included paths and policy version 2.
   // policy version 2 must be used if we encrypt id or partition key
@@ -144,7 +144,7 @@ async function run() {
     type: EncryptionKeyResolverName.AzureKeyVault,
     name: "v4key",
     value: "https://<my-key-vault-1>.vault.azure.net/keys/cmk2/<version>",
-    algoruthm: KeyEncryptionAlgorithm.RSA_OAEP,
+    algorithm: KeyEncryptionAlgorithm.RSA_OAEP,
   };
   await database.rewrapClientEncryptionKey("cek1", newMetadata);
   console.log(`rewrapped client encryption key with id cek1`);
