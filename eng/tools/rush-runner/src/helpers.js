@@ -18,7 +18,6 @@ export const reducedDependencyTestMatrix = {
     "@azure/template",
   ],
   "test-utils": [
-    "@azure-tests/perf-storage-blob",
     "@azure/arm-eventgrid",
     "@azure/ai-text-analytics",
     "@azure/identity",
