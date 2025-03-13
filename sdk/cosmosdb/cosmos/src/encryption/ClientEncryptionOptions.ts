@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { EncryptionKeyResolver, EncryptionTimeToLive } from ".";
+import type { EncryptionKeyResolver } from ".";
 
 /**
  * Represents the encryption options associated with a CosmosClient.
@@ -11,5 +11,5 @@ export interface ClientEncryptionOptions {
   keyEncryptionKeyResolver: EncryptionKeyResolver;
 
   /** time for which encryption keys and settings will be cached. Default is 2 hour */
-  encryptionKeyTimeToLive?: EncryptionTimeToLive;
+  encryptionKeyTimeToLiveInSeconds?: number;
 }

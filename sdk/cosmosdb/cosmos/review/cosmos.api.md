@@ -342,7 +342,7 @@ export class ClientEncryptionKeyResponse extends ResourceResponse<Resource> {
 
 // @public
 export interface ClientEncryptionOptions {
-    encryptionKeyTimeToLive?: EncryptionTimeToLive;
+    encryptionKeyTimeToLiveInSeconds?: number;
     keyEncryptionKeyResolver: EncryptionKeyResolver;
 }
 
@@ -667,7 +667,7 @@ export const Constants: {
     };
     AllVersionsAndDeletesChangeFeedWireFormatVersion: string;
     ChangeFeedIfNoneMatchStartFromNowHeader: string;
-    DefaultEncryptionCacheTimeToLiveInHours: number;
+    DefaultEncryptionCacheTimeToLiveInSeconds: number;
     EncryptionCacheRefreshIntervalInMs: number;
 };
 
@@ -1105,13 +1105,6 @@ export class EncryptionQueryBuilder {
     addObjectParameter(name: string, value: JSONObject, path: string): void;
     addStringParameter(name: string, value: string, path: string): void;
     addUnencryptedParameter(name: string, value: JSONValue, path: string): void;
-}
-
-// @public
-export class EncryptionTimeToLive {
-    static FromHours(hours: number): number;
-    static FromMinutes(minutes: number): number;
-    static NoTTL(): number;
 }
 
 // @public

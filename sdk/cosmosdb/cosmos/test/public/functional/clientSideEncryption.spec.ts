@@ -51,7 +51,6 @@ import {
 } from "../common/encryptionTestHelpers";
 import { removeAllDatabases } from "../common/TestHelpers";
 import { assert } from "chai";
-import { EncryptionTimeToLive } from "../../../src/encryption/EncryptionTimeToLive";
 
 let encryptionClient: CosmosClient;
 let metadata1: EncryptionKeyWrapMetadata;
@@ -86,7 +85,7 @@ describe("ClientSideEncryption", function (this: Suite) {
       key: masterKey,
       clientEncryptionOptions: {
         keyEncryptionKeyResolver: testKeyEncryptionKeyResolver,
-        encryptionKeyTimeToLive: EncryptionTimeToLive.NoTTL(),
+        encryptionKeyTimeToLiveInSeconds: 0,
       },
     });
     database = (await encryptionClient.databases.createIfNotExists({ id: randomUUID() })).database;
@@ -350,7 +349,7 @@ describe("ClientSideEncryption", function (this: Suite) {
       key: masterKey,
       clientEncryptionOptions: {
         keyEncryptionKeyResolver: testKeyResolver,
-        encryptionKeyTimeToLive: EncryptionTimeToLive.FromMinutes(1),
+        encryptionKeyTimeToLiveInSeconds: 60,
       },
     });
     const newDatabase = newClient.database(database.id);
@@ -476,7 +475,7 @@ describe("ClientSideEncryption", function (this: Suite) {
       key: masterKey,
       clientEncryptionOptions: {
         keyEncryptionKeyResolver: new MockKeyVaultEncryptionKeyResolver(),
-        encryptionKeyTimeToLive: EncryptionTimeToLive.NoTTL(),
+        encryptionKeyTimeToLiveInSeconds: 0,
       },
     });
     let metadata: EncryptionKeyWrapMetadata = {
@@ -557,7 +556,7 @@ describe("ClientSideEncryption", function (this: Suite) {
       key: masterKey,
       clientEncryptionOptions: {
         keyEncryptionKeyResolver: testkeyEncryptionKeyResolver,
-        encryptionKeyTimeToLive: EncryptionTimeToLive.NoTTL(),
+        encryptionKeyTimeToLiveInSeconds: 0,
       },
     });
     const testdatabase = client.database(database.id);
@@ -1848,7 +1847,7 @@ describe("ClientSideEncryption", function (this: Suite) {
       key: masterKey,
       clientEncryptionOptions: {
         keyEncryptionKeyResolver: new MockKeyVaultEncryptionKeyResolver(),
-        encryptionKeyTimeToLive: EncryptionTimeToLive.FromMinutes(30),
+        encryptionKeyTimeToLiveInSeconds: 1800,
       },
     });
     let keyWrapMetadata: EncryptionKeyWrapMetadata = {
@@ -1896,7 +1895,7 @@ describe("ClientSideEncryption", function (this: Suite) {
       key: masterKey,
       clientEncryptionOptions: {
         keyEncryptionKeyResolver: new MockKeyVaultEncryptionKeyResolver(),
-        encryptionKeyTimeToLive: EncryptionTimeToLive.NoTTL(),
+        encryptionKeyTimeToLiveInSeconds: 0,
       },
     });
     const otherDatabase = otherClient.database(mainDatabase.id);
@@ -1991,7 +1990,7 @@ describe("ClientSideEncryption", function (this: Suite) {
       key: masterKey,
       clientEncryptionOptions: {
         keyEncryptionKeyResolver: new MockKeyVaultEncryptionKeyResolver(),
-        encryptionKeyTimeToLive: EncryptionTimeToLive.FromHours(1),
+        encryptionKeyTimeToLiveInSeconds: 120,
       },
     });
     const otherDatabase2 = otherClient2.database(mainDatabase.id);
@@ -2265,7 +2264,7 @@ describe("ClientSideEncryption", function (this: Suite) {
       key: masterKey,
       clientEncryptionOptions: {
         keyEncryptionKeyResolver: keyEncryptionKeyResolver,
-        encryptionKeyTimeToLive: EncryptionTimeToLive.NoTTL(),
+        encryptionKeyTimeToLiveInSeconds: 0,
       },
     });
     const testdatabase = encryptionTestClient.database(database.id);
@@ -2376,7 +2375,7 @@ describe("ClientSideEncryption", function (this: Suite) {
       key: masterKey,
       clientEncryptionOptions: {
         keyEncryptionKeyResolver: testKeyResolver1,
-        encryptionKeyTimeToLive: EncryptionTimeToLive.NoTTL(),
+        encryptionKeyTimeToLiveInSeconds: 0,
       },
     });
     let newDatabase = newClient.database(database.id);

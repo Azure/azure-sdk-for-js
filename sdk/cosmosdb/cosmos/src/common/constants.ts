@@ -292,8 +292,8 @@ export const Constants = {
   // Changefeed AllVersionsAndDeletesMode formatting version
   AllVersionsAndDeletesChangeFeedWireFormatVersion: "2021-09-15",
   ChangeFeedIfNoneMatchStartFromNowHeader: "*",
-  // Default TTL for encryption caches in hours
-  DefaultEncryptionCacheTimeToLiveInHours: 2,
+  // Default TTL for encryption caches is 2 hrs (7200 sec)
+  DefaultEncryptionCacheTimeToLiveInSeconds: 7200,
   // Timeout to clear encryption related cache
   EncryptionCacheRefreshIntervalInMs: 60000, // 1 minute
 };
