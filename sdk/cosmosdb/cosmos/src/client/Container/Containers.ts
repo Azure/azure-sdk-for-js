@@ -45,7 +45,7 @@ export class Containers {
     public readonly database: Database,
     private readonly clientContext: ClientContext,
     private encryptionManager?: EncryptionManager,
-  ) { }
+  ) {}
 
   /**
    * Queries all containers.
@@ -192,7 +192,8 @@ export class Containers {
     }
 
     if (this.clientContext.enableEncryption && body.clientEncryptionPolicy) {
-      body.clientEncryptionPolicy.policyFormatVersion = body.clientEncryptionPolicy.policyFormatVersion ?? 1;
+      body.clientEncryptionPolicy.policyFormatVersion =
+        body.clientEncryptionPolicy.policyFormatVersion ?? 1;
       validateClientEncryptionPolicy(body.clientEncryptionPolicy, body.partitionKey);
     }
 
