@@ -125,7 +125,7 @@ If you manually edit dependencies within the package.json for any reason, make s
 
 Any time you add, update, or remove dependencies, running `rush update` will generate a diff to the file `common/config/rush/pnpm-lock.yaml`. You should commit these changes - this file works similarly to NPM's package-lock.json files, except it tracks package versions for all projects in the Rush workspace. Do not check in any package-lock.json files.
 
-Because multiple pull requests may be changing `pnpm-lock.yaml` at the same time, it is very common that the first merged one will cause merge conflicts for the later ones. Please refer to [this wiki article](https://github.com/Azure/azure-sdk-for-js/wiki/Resolving-PR-merge-conflicts-for-%22common-config-rush-pnpm%E2%80%90lock.yaml%22) on resolve PR merge conflicts for `common/config/rush/pnpm-lock.yaml`
+Because multiple pull requests may be changing `pnpm-lock.yaml` at the same time, it is very common that the first merged one will cause merge conflicts for the later ones. Please refer to [the instructions](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/resolve-pnpm-lock-merge-conflict.md) on resolve PR merge conflicts for `common/config/rush/pnpm-lock.yaml`
 
 ### Resolving dependency version conflicts
 
