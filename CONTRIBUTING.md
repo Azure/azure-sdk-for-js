@@ -251,7 +251,7 @@ In the case where you do not want to generate documentation for a specific defin
 To maintain the quality of the documentation, the following two facilities are provided:
 
 - an [ESLint plugin](https://github.com/microsoft/tsdoc/tree/master/eslint-plugin) is used to check that our comments are well-formed TSDoc comments and it can be run using `rushx lint`
-- the documentation can be generated locally for a particular package using `rushx docs` and it can be inspected by opening `sdk/<package path>/dist/docs/index.html` in your favorite browser
+- documentation artifacts are published in pull request checks Azure Pipelines. They can be downloaded, extracted to local disk, and inspected by opening `azure-<package name>/<version>/index.html` in your favorite browser. Click on "xx published; xx consumed" under **Related**, expand packages > azure-xxxxx > documentation then download the azure-xxxxx.zip file.
 
 TSDoc specifications can be customized using the `tsdoc.json` configuration file that can be found in the root of the repository. Currently, the `@hidden` tag is used which is only supported by TypeDoc and is not a TSDoc tag, so it is added as a custom tag in `tsdoc.json`.
 
@@ -266,18 +266,16 @@ Our libraries follow the [TypeScript SDK design guidelines](https://azure.github
 - [add `eslint` to your `devDependencies`](https://github.com/Azure/azure-sdk-for-js/blob/8ec9801c17b175573a115fc8b2d6cbaeb17b0b09/sdk/template/template/package.json#L106)
 - [add `eslint-plugin-azure-sdk` to your `devDependencies`](https://github.com/Azure/azure-sdk-for-js/blob/8ec9801c17b175573a115fc8b2d6cbaeb17b0b09/sdk/template/template/package.json#L93)
 - add a linting npm script as follows:
-  - ["lint": "eslint package.json api-extractor.json src test --ext .ts"](https://github.com/Azure/azure-sdk-for-js/blob/8ec9801c17b175573a115fc8b2d6cbaeb17b0b09/sdk/template/template/package.json#L49)
+  - ["lint": "eslint package.json api-extractor.json src test"](https://github.com/Azure/azure-sdk-for-js/blob/8ec9801c17b175573a115fc8b2d6cbaeb17b0b09/sdk/template/template/package.json#L49)
 
-You can run the plugin by excuting `rushx lint` inside your package directory.
+You can run the plugin by executing `rushx lint` inside your package directory. You need to build the plugin at least once either directly via `rush build -t eslint-plugin-azure-sdk`, or indirectly as your package's dependency by `rush build -t .` under your package directory.
 
-If the package is internal, it should not follow the design guidelines and in turn should not be linted by the plugin. In this case, use the an internal config from `eslint-plugin-azure-sdk` instead. For example: `"lint": "eslint src test"` with the following eslint.config.mjs
+If the package is internal, it should not follow the design guidelines and in turn should not be linted using the same set of rules. In this case, use the an internal config from `eslint-plugin-azure-sdk` instead. For example: `"lint": "eslint src test"` with the following eslint.config.mjs
 
 ```javascript
 import azsdkEslint from "@azure/eslint-plugin-azure-sdk";
 
-export default [
-  ...azsdkEslint.configs.internal,
-];
+export default [...azsdkEslint.configs.internal];
 ```
 
 ## Onboarding a new library
