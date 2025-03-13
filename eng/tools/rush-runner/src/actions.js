@@ -43,7 +43,7 @@ export function executeActions(action, serviceDirs, rushParams, artifactNames, c
           action,
           getDirectionMappedPackages(packageNames, action, serviceDirs),
           rushParams,
-          ciFlag
+          ciFlag,
         );
         break;
 

@@ -57,11 +57,11 @@ export function rushRunAllWithDirection(action, packagesWithDirection, rushParam
   if (
     // 1. eng/tools/rush-runner/index.js is running in CI: "--ci" flag is set
     // Example: node eng/tools/rush-runner/index.js unit-test:node servicebus template -packages "azure-service-bus,azure-template" --ci --verbose -p max
-    ciFlag
+    ciFlag &&
     // 2. Ensure not in "live" or "record" mode (run only in playback mode)
-    && (!["live", "record"].includes(process.env.TEST_MODE))
+    !["live", "record"].includes(process.env.TEST_MODE) &&
     // 3. Ensure the action is either 'unit-test:node' or 'unit-test:browser' (unit tests)
-    && (['unit-test:node', 'unit-test:browser'].includes(action))
+    ["unit-test:node", "unit-test:browser"].includes(action)
   ) {
     console.log(`Running rush list with ${invocation.join(" ")}`);
 
@@ -124,11 +124,12 @@ export function runRushInPackageDirs(action, packageDirs, onError) {
  */
 function parsePackageNames(rushListOutput) {
   const packageNames = [];
-  const lines = rushListOutput.split('\n'); // Split the output into lines
+  const lines = rushListOutput.split("\n"); // Split the output into lines
 
   for (const line of lines) {
     const trimmedLine = line.trim(); // Trim whitespace
-    if (trimmedLine.startsWith('@azure')) { // Assuming package names start with '@azure'
+    if (trimmedLine.startsWith("@azure")) {
+      // Assuming package names start with '@azure'
       packageNames.push(trimmedLine);
     }
   }
