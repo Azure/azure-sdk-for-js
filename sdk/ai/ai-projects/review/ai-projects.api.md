@@ -1721,6 +1721,9 @@ export class ToolSet {
     addConnectionTool(toolType: connectionToolType, connectionIds: string[]): {
         definition: ToolDefinition;
     };
+    addFabricTool(connectionId: string): {
+        definition: ToolDefinition;
+    };
     addFileSearchTool(vectorStoreIds?: string[], vectorStores?: Array<VectorStoreConfigurations>, definitionDetails?: FileSearchToolDefinitionDetails): {
         definition: FileSearchToolDefinition;
         resources: ToolResources;
