@@ -1,3 +1,5 @@
+<!-- dev-tool snippets ignore -->
+
 # Release History
 
 ## 12.25.0 (2024-11-13)

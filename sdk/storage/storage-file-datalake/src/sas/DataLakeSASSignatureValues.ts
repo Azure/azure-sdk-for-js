@@ -155,7 +155,7 @@ export interface DataLakeSASSignatureValues {
  *
  * Fill in the required details before running the following snippets.
  * @example
- * ```js
+ * ```ts snippet:ignore
  * // Generate service level SAS for a file system
  * const containerSAS = generateDataLakeSASQueryParameters({
  *     fileSystemName, // Required
@@ -172,7 +172,7 @@ export interface DataLakeSASSignatureValues {
  *
  * // Fill in the required details before running the snippet.
  * @example
- * ```js
+ * ```ts snippet:ignore
  * // Generate service level SAS for a file
  * const fileSAS = generateDataLakeSASQueryParameters({
  *     fileSystemName, // Required
@@ -208,7 +208,7 @@ export function generateDataLakeSASQueryParameters(
  * WARNING: identifier will be ignored when generating user delegation SAS, permissions and expiresOn are required.
  *
  * @example
- * ```js
+ * ```ts snippet:ignore
  * // Generate user delegation SAS for a file system
  * const userDelegationKey = await dataLakeServiceClient.getUserDelegationKey(startsOn, expiresOn);
  * const fileSystemSAS = generateDataLakeSASQueryParameters({

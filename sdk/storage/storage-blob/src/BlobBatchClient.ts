@@ -268,11 +268,25 @@ export class BlobBatchClient {
    *
    * Example usage:
    *
-   * ```js
-   * let batchRequest = new BlobBatch();
-   * await batchRequest.deleteBlob(urlInString0, credential0);
-   * await batchRequest.deleteBlob(urlInString1, credential1, {
-   *  deleteSnapshots: "include"
+   * ```ts snippet:BlobBatchClientSubmitBatch
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { BlobServiceClient, BlobBatch } from "@azure/storage-blob";
+   *
+   * const account = "<account>";
+   * const credential = new DefaultAzureCredential();
+   * const blobServiceClient = new BlobServiceClient(
+   *   `https://${account}.blob.core.windows.net`,
+   *   credential,
+   * );
+   *
+   * const containerName = "<container name>";
+   * const containerClient = blobServiceClient.getContainerClient(containerName);
+   * const blobBatchClient = containerClient.getBlobBatchClient();
+   *
+   * const batchRequest = new BlobBatch();
+   * await batchRequest.deleteBlob("<blob-url-1>", credential);
+   * await batchRequest.deleteBlob("<blob-url-2>", credential, {
+   *   deleteSnapshots: "include",
    * });
    * const batchResp = await blobBatchClient.submitBatch(batchRequest);
    * console.log(batchResp.subResponsesSucceededCount);
@@ -280,11 +294,26 @@ export class BlobBatchClient {
    *
    * Example using a lease:
    *
-   * ```js
-   * let batchRequest = new BlobBatch();
-   * await batchRequest.setBlobAccessTier(blockBlobClient0, "Cool");
-   * await batchRequest.setBlobAccessTier(blockBlobClient1, "Cool", {
-   *  conditions: { leaseId: leaseId }
+   * ```ts snippet:BlobBatchClientSubmitBatchWithLease
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { BlobServiceClient, BlobBatch } from "@azure/storage-blob";
+   *
+   * const account = "<account>";
+   * const credential = new DefaultAzureCredential();
+   * const blobServiceClient = new BlobServiceClient(
+   *   `https://${account}.blob.core.windows.net`,
+   *   credential,
+   * );
+   *
+   * const containerName = "<container name>";
+   * const containerClient = blobServiceClient.getContainerClient(containerName);
+   * const blobBatchClient = containerClient.getBlobBatchClient();
+   * const blobClient = containerClient.getBlobClient("<blob name>");
+   *
+   * const batchRequest = new BlobBatch();
+   * await batchRequest.setBlobAccessTier(blobClient, "Cool");
+   * await batchRequest.setBlobAccessTier(blobClient, "Cool", {
+   *   conditions: { leaseId: "<lease-id>" },
    * });
    * const batchResp = await blobBatchClient.submitBatch(batchRequest);
    * console.log(batchResp.subResponsesSucceededCount);
