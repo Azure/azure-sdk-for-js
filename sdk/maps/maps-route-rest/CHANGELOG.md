@@ -1,14 +1,10 @@
 # Release History
 
-## 1.0.0-beta.5 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
+## 1.0.0-beta.5 (2025-03-14)
 
 ### Bugs Fixed
 
-### Other Changes
+- Fix ESM module file not found.
 
 ## 1.0.0-beta.4 (2024-12-10)
 

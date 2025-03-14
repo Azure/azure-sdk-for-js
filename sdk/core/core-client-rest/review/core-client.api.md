@@ -8,7 +8,6 @@ import type { AbortSignalLike } from '@azure/abort-controller';
 import type { HttpClient } from '@azure/core-rest-pipeline';
 import type { KeyCredential } from '@azure/core-auth';
 import type { LogPolicyOptions } from '@azure/core-rest-pipeline';
-import type { NodeJSReadableStream } from '@azure/core-rest-pipeline';
 import type { OperationTracingOptions } from '@azure/core-tracing';
 import type { Pipeline } from '@azure/core-rest-pipeline';
 import type { PipelineOptions } from '@azure/core-rest-pipeline';
@@ -99,7 +98,7 @@ export type HttpBrowserStreamResponse = HttpResponse & {
 
 // @public
 export type HttpNodeStreamResponse = HttpResponse & {
-    body?: NodeJSReadableStream;
+    body?: NodeJS.ReadableStream;
 };
 
 // @public

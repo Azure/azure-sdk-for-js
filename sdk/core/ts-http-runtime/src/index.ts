@@ -38,7 +38,6 @@ export type {
   ProxySettings,
   RawHttpHeadersInput,
   PipelineRetryOptions,
-  NodeJSReadableStream,
 } from "./interfaces.js";
 export { createHttpHeaders } from "./httpHeaders.js";
 export { isKeyCredential, type KeyCredential } from "./auth/keyCredential.js";
