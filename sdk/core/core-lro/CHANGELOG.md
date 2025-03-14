@@ -1,8 +1,10 @@
 # Release History
 
-## 3.1.1 (Unreleased)
+## 3.2.0 (Unreleased)
 
 ### Features Added
+
+- Added `skipFinalGet` option to skip the final GET request when polling is complete, optimizing scenarios where the final resource state is not needed.
 
 ### Breaking Changes
 
