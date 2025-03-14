@@ -73,14 +73,16 @@ export interface NfsFileMode {
    premium NFS file accounts.
   */
 export interface FilePosixProperties {
-  /** Optional, NFS only. The owner of the file or directory. */
+  /** NFS only. The owner of the file or directory. */
   owner?: string;
-  /** Optional, NFS only. The owning group of the file or directory. */
+  /** NFS only. The owning group of the file or directory. */
   group?: string;
-  /** Optional, NFS only. The file mode of the file or directory */
+  /** NFS only. The file mode of the file or directory */
   fileMode?: NfsFileMode;
-  /** Optional, NFS only. Type of the file or directory. */
+  /** NFS only. Type of the file or directory. */
   fileType?: NfsFileType;
+  /** NFS only. The link count of the file or directory. */
+  linkCount?: number;
 }
 
 /** Defines headers for File_setHttpHeaders operation. */
@@ -111,14 +113,8 @@ export interface FileSetHttpHeadersHeaders {
   fileId?: string;
   /** The parent fileId of the directory. */
   fileParentId?: string;
-  /** NFS only. The mode of the file or directory. */
-  fileMode?: NfsFileMode;
-  /** NFS only. The owner of the file or directory. */
-  owner?: string;
-  /** NFS only. The owning group of the file or directory. */
-  group?: string;
-  /** NFS only. The link count of the file or directory. */
-  linkCount?: number;
+  /** Properties of NFS files. */
+  posixProperties?: FilePosixProperties;
   /** Error Code */
   errorCode?: string;
 }

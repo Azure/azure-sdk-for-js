@@ -3003,10 +3003,10 @@ describe("FileClient - NFS", () => {
     });
 
     assert.equal(cResp.errorCode, undefined);
-    assert.deepEqual(cResp.owner, posixProperties.owner);
-    assert.deepEqual(cResp.group, posixProperties.group);
-    assert.deepEqual(cResp.fileMode, posixProperties.fileMode);
-    assert.deepEqual(cResp.nfsFileType, posixProperties.fileType);
+    assert.deepEqual(cResp.posixProperties?.owner, posixProperties.owner);
+    assert.deepEqual(cResp.posixProperties?.group, posixProperties.group);
+    assert.deepEqual(cResp.posixProperties?.fileMode, posixProperties.fileMode);
+    assert.deepEqual(cResp.posixProperties?.fileType, posixProperties.fileType);
     assert.ok(cResp.fileChangeOn!);
     assert.ok(cResp.fileCreatedOn!);
     assert.ok(cResp.fileId!);
@@ -3018,10 +3018,10 @@ describe("FileClient - NFS", () => {
       await bodyToString(result, content.length),
       "\u0000".repeat(content.length),
     );
-    assert.deepEqual(result.owner, posixProperties.owner);
-    assert.deepEqual(result.group, posixProperties.group);
-    assert.deepEqual(result.fileMode, posixProperties.fileMode);
-    assert.deepEqual(result.linkCount, 1);
+    assert.deepEqual(result.posixProperties?.owner, posixProperties.owner);
+    assert.deepEqual(result.posixProperties?.group, posixProperties.group);
+    assert.deepEqual(result.posixProperties?.fileMode, posixProperties.fileMode);
+    assert.deepEqual(result.posixProperties?.linkCount, 1);
   });
 
   it("set&get nfs properties", async () => {
@@ -3032,40 +3032,41 @@ describe("FileClient - NFS", () => {
       fileType: "Regular",
     };
     const cResp = await fileClient.create(content.length);
-    assert.deepEqual(cResp.owner, "0");
-    assert.deepEqual(cResp.group, "0");
-    assert.ok(cResp.fileMode);
-    assert.ok(cResp.nfsFileType);
+    assert.deepEqual(cResp.posixProperties?.owner, "0");
+    assert.deepEqual(cResp.posixProperties?.group, "0");
+    assert.ok(cResp.posixProperties?.fileMode);
+    assert.ok(cResp.posixProperties?.fileType);
 
     const setResp = await fileClient.setProperties({ posixProperties });
-    assert.deepEqual(setResp.owner, posixProperties.owner);
-    assert.deepEqual(setResp.group, posixProperties.group);
-    assert.deepEqual(setResp.fileMode, posixProperties.fileMode);
+    assert.deepEqual(setResp.posixProperties?.owner, posixProperties.owner);
+    assert.deepEqual(setResp.posixProperties?.group, posixProperties.group);
+    assert.deepEqual(setResp.posixProperties?.fileMode, posixProperties.fileMode);
+    assert.deepEqual(setResp.posixProperties?.linkCount, 1);
 
     const getResp = await fileClient.getProperties();
-    assert.deepEqual(getResp.owner, posixProperties.owner);
-    assert.deepEqual(getResp.group, posixProperties.group);
-    assert.deepEqual(getResp.fileMode, posixProperties.fileMode);
-    assert.deepEqual(getResp.nfsFileType, posixProperties.fileType);
-    assert.deepEqual(getResp.linkCount, 1);
+    assert.deepEqual(getResp.posixProperties?.owner, posixProperties.owner);
+    assert.deepEqual(getResp.posixProperties?.group, posixProperties.group);
+    assert.deepEqual(getResp.posixProperties?.fileMode, posixProperties.fileMode);
+    assert.deepEqual(getResp.posixProperties?.fileType, posixProperties.fileType);
+    assert.deepEqual(getResp.posixProperties?.linkCount, 1);
 
     const result = await fileClient.download(0);
     assert.deepStrictEqual(
       await bodyToString(result, content.length),
       "\u0000".repeat(content.length),
     );
-    assert.deepEqual(result.owner, posixProperties.owner);
-    assert.deepEqual(result.group, posixProperties.group);
-    assert.deepEqual(result.fileMode, posixProperties.fileMode);
-    assert.deepEqual(result.linkCount, 1);
+    assert.deepEqual(result.posixProperties?.owner, posixProperties.owner);
+    assert.deepEqual(result.posixProperties?.group, posixProperties.group);
+    assert.deepEqual(result.posixProperties?.fileMode, posixProperties.fileMode);
+    assert.deepEqual(result.posixProperties?.linkCount, 1);
   });
 
   it("delete nfs file", async () => {
     const cResp = await fileClient.create(content.length);
-    assert.deepEqual(cResp.owner, "0");
-    assert.deepEqual(cResp.group, "0");
-    assert.ok(cResp.fileMode);
-    assert.ok(cResp.nfsFileType);
+    assert.deepEqual(cResp.posixProperties?.owner, "0");
+    assert.deepEqual(cResp.posixProperties?.group, "0");
+    assert.ok(cResp.posixProperties?.fileMode);
+    assert.ok(cResp.posixProperties?.fileType);
 
     const result = await fileClient.delete();
     assert.deepEqual(result.linkCount, 0);
@@ -3084,10 +3085,10 @@ describe("FileClient - NFS", () => {
     assert.ok(!result.contentEncoding);
     assert.ok(!result.contentLanguage);
     assert.ok(!result.contentDisposition);
-    assert.deepEqual(result.owner, "0");
-    assert.deepEqual(result.group, "0");
-    assert.ok(result.fileMode);
-    assert.ok(result.nfsFileType);
+    assert.deepEqual(result.posixProperties?.owner, "0");
+    assert.deepEqual(result.posixProperties?.group, "0");
+    assert.ok(result.posixProperties?.fileMode);
+    assert.ok(result.posixProperties?.fileType);
   });
 
   it("setHTTPHeaders with all parameters set", async () => {
@@ -3108,9 +3109,14 @@ describe("FileClient - NFS", () => {
       fileContentType: "fileContentType",
     };
 
-    await fileClient.setHttpHeaders(headers, {
+    const setHeadersResult = await fileClient.setHttpHeaders(headers, {
       posixProperties: posixProperties,
     });
+    assert.deepEqual(setHeadersResult.posixProperties?.owner, posixProperties.owner);
+    assert.deepEqual(setHeadersResult.posixProperties?.group, posixProperties.group);
+    assert.deepEqual(setHeadersResult.posixProperties?.fileMode, posixProperties.fileMode);
+    assert.deepEqual(setHeadersResult.posixProperties?.linkCount, 1);
+
     const result = await fileClient.getProperties();
     assert.ok(result.lastModified);
     assert.deepStrictEqual(result.metadata, {});
@@ -3120,10 +3126,10 @@ describe("FileClient - NFS", () => {
     assert.deepStrictEqual(result.contentEncoding, headers.fileContentEncoding);
     assert.deepStrictEqual(result.contentLanguage, headers.fileContentLanguage);
     assert.deepStrictEqual(result.contentDisposition, headers.fileContentDisposition);
-    assert.deepEqual(result.owner, posixProperties.owner);
-    assert.deepEqual(result.group, posixProperties.group);
-    assert.deepEqual(result.fileMode, posixProperties.fileMode);
-    assert.deepEqual(result.linkCount, 1);
+    assert.deepEqual(result.posixProperties?.owner, posixProperties.owner);
+    assert.deepEqual(result.posixProperties?.group, posixProperties.group);
+    assert.deepEqual(result.posixProperties?.fileMode, posixProperties.fileMode);
+    assert.deepEqual(result.posixProperties?.linkCount, 1);
   });
 
   it("resize with all parameters set", async () => {
@@ -3136,16 +3142,21 @@ describe("FileClient - NFS", () => {
 
     await fileClient.create(content.length);
 
-    await fileClient.resize(1, {
+    const resizeResult = await fileClient.resize(1, {
       posixProperties: posixProperties,
     });
+    assert.deepEqual(resizeResult.posixProperties?.owner, posixProperties.owner);
+    assert.deepEqual(resizeResult.posixProperties?.group, posixProperties.group);
+    assert.deepEqual(resizeResult.posixProperties?.fileMode, posixProperties.fileMode);
+    assert.deepEqual(resizeResult.posixProperties?.linkCount, 1);
+
     const result = await fileClient.getProperties();
     assert.ok(result.lastModified);
-    assert.deepEqual(result.owner, posixProperties.owner);
-    assert.deepEqual(result.group, posixProperties.group);
-    assert.deepEqual(result.fileMode, posixProperties.fileMode);
+    assert.deepEqual(result.posixProperties?.owner, posixProperties.owner);
+    assert.deepEqual(result.posixProperties?.group, posixProperties.group);
+    assert.deepEqual(result.posixProperties?.fileMode, posixProperties.fileMode);
     assert.deepEqual(result.contentLength, 1);
-    assert.deepEqual(result.linkCount, 1);
+    assert.deepEqual(result.posixProperties?.linkCount, 1);
   });
 
   it("startCopy - with NFS properties", async () => {
@@ -3169,10 +3180,11 @@ describe("FileClient - NFS", () => {
     assert.ok(result.copyId);
 
     const properties = await newFileClient.getProperties();
-    assert.deepEqual(properties.owner, posixProperties.owner);
-    assert.deepEqual(properties.group, posixProperties.group);
-    assert.deepEqual(properties.fileMode, posixProperties.fileMode);
-    assert.deepEqual(properties.linkCount, 1);
+    assert.deepEqual(properties.posixProperties?.owner, posixProperties.owner);
+    assert.deepEqual(properties.posixProperties?.group, posixProperties.group);
+    assert.deepEqual(properties.posixProperties?.fileMode, posixProperties.fileMode);
+    assert.deepEqual(properties.posixProperties?.fileType, "Regular");
+    assert.deepEqual(properties.posixProperties?.linkCount, 1);
   });
 
   it("startCopy - with default", async () => {
@@ -3185,11 +3197,11 @@ describe("FileClient - NFS", () => {
     await fileClient.create(1024, { posixProperties: posixProperties });
 
     const getResp = await fileClient.getProperties();
-    assert.deepEqual(getResp.owner, posixProperties.owner);
-    assert.deepEqual(getResp.group, posixProperties.group);
-    assert.deepEqual(getResp.fileMode, posixProperties.fileMode);
-    assert.deepEqual(getResp.nfsFileType, posixProperties.fileType);
-    assert.deepEqual(getResp.linkCount, 1);
+    assert.deepEqual(getResp.posixProperties?.owner, posixProperties.owner);
+    assert.deepEqual(getResp.posixProperties?.group, posixProperties.group);
+    assert.deepEqual(getResp.posixProperties?.fileMode, posixProperties.fileMode);
+    assert.deepEqual(getResp.posixProperties?.fileType, posixProperties.fileType);
+    assert.deepEqual(getResp.posixProperties?.linkCount, 1);
 
     const newFileClient = dirClient.getFileClient(
       recorder.variable("copiedfile", getUniqueName("copiedfile")),
@@ -3199,10 +3211,10 @@ describe("FileClient - NFS", () => {
     assert.ok(result.copyId);
 
     const properties = await newFileClient.getProperties();
-    assert.deepEqual(properties.owner, "0");
-    assert.deepEqual(properties.group, "0");
-    assert.deepEqual(properties.fileMode, expectedDefaultFileMode);
-    assert.deepEqual(properties.linkCount, 1);
+    assert.deepEqual(properties.posixProperties?.owner, "0");
+    assert.deepEqual(properties.posixProperties?.group, "0");
+    assert.deepEqual(properties.posixProperties?.fileMode, expectedDefaultFileMode);
+    assert.deepEqual(properties.posixProperties?.linkCount, 1);
   });
 
   it("startCopy - with source", async () => {
@@ -3215,11 +3227,11 @@ describe("FileClient - NFS", () => {
     await fileClient.create(1024, { posixProperties: posixProperties });
 
     const getResp = await fileClient.getProperties();
-    assert.deepEqual(getResp.owner, posixProperties.owner);
-    assert.deepEqual(getResp.group, posixProperties.group);
-    assert.deepEqual(getResp.fileMode, posixProperties.fileMode);
-    assert.deepEqual(getResp.nfsFileType, posixProperties.fileType);
-    assert.deepEqual(getResp.linkCount, 1);
+    assert.deepEqual(getResp.posixProperties?.owner, posixProperties.owner);
+    assert.deepEqual(getResp.posixProperties?.group, posixProperties.group);
+    assert.deepEqual(getResp.posixProperties?.fileMode, posixProperties.fileMode);
+    assert.deepEqual(getResp.posixProperties?.fileType, posixProperties.fileType);
+    assert.deepEqual(getResp.posixProperties?.linkCount, 1);
 
     const newFileClient = dirClient.getFileClient(
       recorder.variable("copiedfile", getUniqueName("copiedfile")),
@@ -3231,11 +3243,11 @@ describe("FileClient - NFS", () => {
     assert.ok(result.copyId);
 
     const properties = await newFileClient.getProperties();
-    assert.deepEqual(properties.owner, posixProperties.owner);
-    assert.deepEqual(properties.group, posixProperties.group);
-    assert.deepEqual(properties.fileMode, posixProperties.fileMode);
-    assert.deepEqual(properties.nfsFileType, posixProperties.fileType);
-    assert.deepEqual(properties.linkCount, 1);
+    assert.deepEqual(properties.posixProperties?.owner, posixProperties.owner);
+    assert.deepEqual(properties.posixProperties?.group, posixProperties.group);
+    assert.deepEqual(properties.posixProperties?.fileMode, posixProperties.fileMode);
+    assert.deepEqual(properties.posixProperties?.fileType, posixProperties.fileType);
+    assert.deepEqual(properties.posixProperties?.linkCount, 1);
   });
 
   it("createHardLink", async () => {
@@ -3250,11 +3262,11 @@ describe("FileClient - NFS", () => {
     const hardLink = recorder.variable("hardLink", getUniqueName("hardLink"));
     const linkClient = dirClient.getFileClient(hardLink);
     const getResp = await linkClient.createHardLink(`${dirName}/${fileName}`);
-    assert.deepEqual(getResp.owner, posixProperties.owner);
-    assert.deepEqual(getResp.group, posixProperties.group);
-    assert.deepEqual(getResp.fileMode, posixProperties.fileMode);
-    assert.deepEqual(getResp.nfsFileType, posixProperties.fileType);
-    assert.deepEqual(getResp.linkCount, 2);
+    assert.deepEqual(getResp.posixProperties?.owner, posixProperties.owner);
+    assert.deepEqual(getResp.posixProperties?.group, posixProperties.group);
+    assert.deepEqual(getResp.posixProperties?.fileMode, posixProperties.fileMode);
+    assert.deepEqual(getResp.posixProperties?.fileType, posixProperties.fileType);
+    assert.deepEqual(getResp.posixProperties?.linkCount, 2);
     assert.ok(getResp.fileCreationTime);
     assert.ok(getResp.fileLastWriteTime);
     assert.ok(getResp.fileChangeTime);
@@ -3289,7 +3301,7 @@ describe("FileClient - NFS", () => {
       },
     };
     const resp = await fileClient.create(1024, { posixProperties: posixProperties });
-    assert.deepEqual(resp.fileMode, expectedPosixProperties.fileMode);
+    assert.deepEqual(resp.posixProperties?.fileMode, expectedPosixProperties.fileMode);
 
     const posixProperties1 = {
       fileMode: parseOctalFileMode("7644"),
@@ -3317,7 +3329,7 @@ describe("FileClient - NFS", () => {
       },
     };
     const setResp1 = await fileClient.setProperties({ posixProperties: posixProperties1 });
-    assert.deepEqual(setResp1.fileMode, expectedPosixProperties1.fileMode);
+    assert.deepEqual(setResp1.posixProperties?.fileMode, expectedPosixProperties1.fileMode);
 
     const posixProperties2 = {
       fileMode: parseOctalFileMode("1522"),
@@ -3345,7 +3357,7 @@ describe("FileClient - NFS", () => {
       },
     };
     const setResp2 = await fileClient.setProperties({ posixProperties: posixProperties2 });
-    assert.deepEqual(setResp2.fileMode, expectedPosixProperties2.fileMode);
+    assert.deepEqual(setResp2.posixProperties?.fileMode, expectedPosixProperties2.fileMode);
   });
 
   it("parse file mode function unit test", async () => {

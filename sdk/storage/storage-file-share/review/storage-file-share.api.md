@@ -176,14 +176,11 @@ export interface DirectoryCreateHeaders {
     fileCreatedOn?: Date;
     fileId?: string;
     fileLastWriteOn?: Date;
-    fileMode?: NfsFileMode;
     fileParentId?: string;
     filePermissionKey?: string;
-    group?: string;
     isServerEncrypted?: boolean;
     lastModified?: Date;
-    nfsFileType?: NfsFileType;
-    owner?: string;
+    posixProperties?: FilePosixProperties;
     requestId?: string;
     version?: string;
 }
@@ -263,17 +260,14 @@ export interface DirectoryGetPropertiesHeaders {
     fileCreatedOn?: Date;
     fileId?: string;
     fileLastWriteOn?: Date;
-    fileMode?: NfsFileMode;
     fileParentId?: string;
     filePermissionKey?: string;
-    group?: string;
     isServerEncrypted?: boolean;
     lastModified?: Date;
     metadata?: {
         [propertyName: string]: string;
     };
-    nfsFileType?: NfsFileType;
-    owner?: string;
+    posixProperties?: FilePosixProperties;
     requestId?: string;
     version?: string;
 }
@@ -419,13 +413,11 @@ export interface DirectorySetPropertiesHeaders {
     fileCreatedOn?: Date;
     fileId?: string;
     fileLastWriteOn?: Date;
-    fileMode?: NfsFileMode;
     fileParentId?: string;
     filePermissionKey?: string;
-    group?: string;
     isServerEncrypted?: boolean;
     lastModified?: Date;
-    owner?: string;
+    posixProperties?: FilePosixProperties;
     requestId?: string;
     version?: string;
 }
@@ -501,13 +493,9 @@ export interface FileCreateHardLinkHeaders {
     fileCreationTime?: Date;
     fileId?: string;
     fileLastWriteTime?: Date;
-    fileMode?: NfsFileMode;
     fileParentId?: string;
-    group?: string;
     lastModified?: Date;
-    linkCount?: number;
-    nfsFileType?: NfsFileType;
-    owner?: string;
+    posixProperties?: FilePosixProperties;
     requestId?: string;
     version?: string;
 }
@@ -531,14 +519,11 @@ export interface FileCreateHeaders {
     fileCreatedOn?: Date;
     fileId?: string;
     fileLastWriteOn?: Date;
-    fileMode?: NfsFileMode;
     fileParentId?: string;
     filePermissionKey?: string;
-    group?: string;
     isServerEncrypted?: boolean;
     lastModified?: Date;
-    nfsFileType?: NfsFileType;
-    owner?: string;
+    posixProperties?: FilePosixProperties;
     requestId?: string;
     version?: string;
 }
@@ -603,20 +588,17 @@ export interface FileDownloadHeaders {
     fileCreatedOn?: Date;
     fileId?: string;
     fileLastWriteOn?: Date;
-    fileMode?: NfsFileMode;
     fileParentId?: string;
     filePermissionKey?: string;
-    group?: string;
     isServerEncrypted?: boolean;
     lastModified?: Date;
     leaseDuration?: LeaseDurationType;
     leaseState?: LeaseStateType;
     leaseStatus?: LeaseStatusType;
-    linkCount?: number;
     metadata?: {
         [propertyName: string]: string;
     };
-    owner?: string;
+    posixProperties?: FilePosixProperties;
     requestId?: string;
     version?: string;
 }
@@ -705,22 +687,18 @@ export interface FileGetPropertiesHeaders {
     fileCreatedOn?: Date;
     fileId?: string;
     fileLastWriteOn?: Date;
-    fileMode?: NfsFileMode;
     fileParentId?: string;
     filePermissionKey?: string;
     fileType?: string;
-    group?: string;
     isServerEncrypted?: boolean;
     lastModified?: Date;
     leaseDuration?: LeaseDurationType;
     leaseState?: LeaseStateType;
     leaseStatus?: LeaseStatusType;
-    linkCount?: number;
     metadata?: {
         [propertyName: string]: string;
     };
-    nfsFileType?: NfsFileType;
-    owner?: string;
+    posixProperties?: FilePosixProperties;
     requestId?: string;
     version?: string;
 }
@@ -835,6 +813,7 @@ export interface FilePosixProperties {
     fileMode?: NfsFileMode;
     fileType?: NfsFileType;
     group?: string;
+    linkCount?: number;
     owner?: string;
 }
 
@@ -958,14 +937,11 @@ export interface FileSetHTTPHeadersHeaders {
     fileCreatedOn?: Date;
     fileId?: string;
     fileLastWriteOn?: Date;
-    fileMode?: NfsFileMode;
     fileParentId?: string;
     filePermissionKey?: string;
-    group?: string;
     isServerEncrypted?: boolean;
     lastModified?: Date;
-    linkCount?: number;
-    owner?: string;
+    posixProperties?: FilePosixProperties;
     requestId?: string;
     version?: string;
 }
