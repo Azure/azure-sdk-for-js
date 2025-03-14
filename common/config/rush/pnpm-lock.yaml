@@ -2432,7 +2432,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/ai-projects@file:projects/ai-projects.tgz':
-    resolution: {integrity: sha512-tB/5BCJaDHfB7f8sAnzW/5/ZFBHzDqeMwWi9UP0VR2iAWfS15t9zu1voyKE8YnLBpr6/5/c/gYXZ/bOnDsJBYA==, tarball: file:projects/ai-projects.tgz}
+    resolution: {integrity: sha512-rbzbhwz+05oHf7CC83pshBtWypNW2LVlSpfOOwkX3BmqB4MiHah+CmjehPDEKqpnn0vgU4GzdM0BeD4HoI9J1w==, tarball: file:projects/ai-projects.tgz}
     version: 0.0.0
 
   '@rush-temp/ai-text-analytics@file:projects/ai-text-analytics.tgz':
@@ -3520,7 +3520,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/communication-rooms@file:projects/communication-rooms.tgz':
-    resolution: {integrity: sha512-K/mZVvKYYhjrrQDbShm4Ce+SuL1L8OaN6eeLfdQoSnsM2RNwvFOE7Tu/khStZuiAKvNDV038ct8fpPIhJ1sAiw==, tarball: file:projects/communication-rooms.tgz}
+    resolution: {integrity: sha512-wcpWrS8VO0FKg6DaO+xs5VO3UNA/6+conA2cUSEMv+4WFvyxnkdr5IOlR8u0Svky3hGVa1SIZvc5jBbbqATlag==, tarball: file:projects/communication-rooms.tgz}
     version: 0.0.0
 
   '@rush-temp/communication-short-codes@file:projects/communication-short-codes.tgz':
@@ -6437,10 +6437,6 @@ packages:
     resolution: {integrity: sha512-I9jwMn07Sy/IwOj3zVkVik2JTvgpaykDZEigL6Rx6N9LbMywwUSMtxET+7lVoDLLd3O3IXwJwvuuns8UB/HeAg==}
     engines: {node: '>=4'}
 
-  minimatch@10.0.1:
-    resolution: {integrity: sha512-ethXTt3SGGR+95gudmqJ1eNhRO7eGEGIgYA9vnPatK4/etz2MEVDno5GMCibdMTuBMyElzIlgxMna3K94XDIDQ==}
-    engines: {node: 20 || >=22}
-
   minimatch@3.0.8:
     resolution: {integrity: sha512-6FsRAQsxQ61mw+qP1ZzbL9Bc78x2p5OqNgNpnoAFLTrX8n5Kxph0CsnhmKKNXTWjXqU5L0pGPR7hYk+XWZr60Q==}
 
@@ -7619,11 +7615,6 @@ packages:
     engines: {node: '>=18.12'}
     peerDependencies:
       typescript: '>=4.8.4'
-
-  ts-declaration-location@1.0.5:
-    resolution: {integrity: sha512-WqmlO9IoeYwCqJ2E9kHMcY9GZhhfLYItC3VnHDlPOrg6nNdUWS4wn4hhDZUPt60m1EvtjPIZyprTjpI992Bgzw==}
-    peerDependencies:
-      typescript: '>=4.0.0'
 
   ts-morph@25.0.1:
     resolution: {integrity: sha512-QJEiTdnz1YjrB3JFhd626gX4rKHDLSjSVMvGGG4v7ONc3RBwa0Eei98G9AT9uNFDMtV54JyuXsFeC+OH0n6bXQ==}
@@ -10026,6 +10017,7 @@ snapshots:
 
   '@rush-temp/ai-projects@file:projects/ai-projects.tgz(@types/debug@4.1.12)(msw@2.7.3(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.3)(vite@6.2.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)':
     dependencies:
+      '@azure/core-lro': 2.7.2
       '@opentelemetry/api': 1.9.0
       '@opentelemetry/instrumentation': 0.57.0(@opentelemetry/api@1.9.0)
       '@opentelemetry/sdk-trace-node': 1.30.1(@opentelemetry/api@1.9.0)
@@ -25121,10 +25113,6 @@ snapshots:
       ignore: 5.3.2
       minimatch: 9.0.5
       semver: 7.7.1
-      ts-declaration-location: 1.0.5(typescript@5.7.3)
-    transitivePeerDependencies:
-      - supports-color
-      - typescript
 
   eslint-plugin-no-only-tests@3.3.0: {}
 
@@ -26348,10 +26336,6 @@ snapshots:
 
   min-indent@1.0.1: {}
 
-  minimatch@10.0.1:
-    dependencies:
-      brace-expansion: 2.0.1
-
   minimatch@3.0.8:
     dependencies:
       brace-expansion: 1.1.11
@@ -26513,32 +26497,6 @@ snapshots:
       typescript: 5.7.3
     transitivePeerDependencies:
       - '@types/node'
-
-  msw@2.7.3(@types/node@22.7.9)(typescript@5.8.2):
-    dependencies:
-      '@bundled-es-modules/cookie': 2.0.1
-      '@bundled-es-modules/statuses': 1.0.1
-      '@bundled-es-modules/tough-cookie': 0.1.6
-      '@inquirer/confirm': 5.1.6(@types/node@22.7.9)
-      '@mswjs/interceptors': 0.37.6
-      '@open-draft/deferred-promise': 2.2.0
-      '@open-draft/until': 2.1.0
-      '@types/cookie': 0.6.0
-      '@types/statuses': 2.0.5
-      graphql: 16.10.0
-      headers-polyfill: 4.0.3
-      is-node-process: 1.2.0
-      outvariant: 1.4.3
-      path-to-regexp: 6.3.0
-      picocolors: 1.1.1
-      strict-event-emitter: 0.5.1
-      type-fest: 4.37.0
-      yargs: 17.7.2
-    optionalDependencies:
-      typescript: 5.8.2
-    transitivePeerDependencies:
-      - '@types/node'
-    optional: true
 
   mustache@4.2.0: {}
 
@@ -27764,11 +27722,6 @@ snapshots:
     dependencies:
       typescript: 5.7.3
 
-  ts-declaration-location@1.0.5(typescript@5.7.3):
-    dependencies:
-      minimatch: 10.0.1
-      typescript: 5.7.3
-
   ts-morph@25.0.1:
     dependencies:
       '@ts-morph/common': 0.26.1
@@ -27803,7 +27756,7 @@ snapshots:
       resolve-import: 1.4.6
       rimraf: 5.0.10
       sync-content: 1.0.2
-      typescript: 5.8.2
+      typescript: 5.7.3
       walk-up-path: 3.0.1
 
   tslib@2.8.1: {}
