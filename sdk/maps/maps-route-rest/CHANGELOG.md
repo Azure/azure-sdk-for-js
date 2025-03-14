@@ -8,6 +8,8 @@
 
 ### Bugs Fixed
 
+- Fix ESM module file not found.
+
 ### Other Changes
 
 ## 1.0.0-beta.4 (2024-12-10)
