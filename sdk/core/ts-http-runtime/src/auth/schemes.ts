@@ -3,24 +3,25 @@
 
 import type { OAuth2Flow } from "./authFlows.js";
 
-/** Supported HTTP authentication scheme types */
-export enum HttpAuthType {
-  Basic = "basic",
-  Bearer = "bearer",
-}
-
 /** Supported authentication types */
 export enum AuthType {
+  /** HTTP authentication scheme */
   Http = "http",
+  /** API Key authentication scheme */
   ApiKey = "apiKey",
+  /** OAuth2 authentication scheme */
   OAuth2 = "oauth2",
+  /** No authentication required */
   NoAuth = "noAuth",
 }
 
 /** Supported API key locations */
 export enum ApiKeyLocation {
+  /** API key is included in the query string */
   Query = "query",
+  /** API key is included in the request header */
   Header = "header",
+  /** API key is included in the cookie */
   Cookie = "cookie",
 }
 
@@ -32,8 +33,8 @@ export enum ApiKeyLocation {
 export interface BasicAuthScheme {
   /** Type of auth scheme */
   type: AuthType.Http;
-  /** Authentication scheme */
-  scheme: HttpAuthType.Basic;
+  /** Basic authentication scheme */
+  scheme: "basic";
 }
 
 /**
@@ -44,8 +45,8 @@ export interface BasicAuthScheme {
 export interface BearerAuthScheme {
   /** Type of auth scheme */
   type: AuthType.Http;
-  /** Authentication scheme */
-  scheme: HttpAuthType.Bearer;
+  /** Bearer authentication scheme */
+  scheme: "bearer";
 }
 
 /**

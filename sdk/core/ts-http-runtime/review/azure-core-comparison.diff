@@ -21,6 +21,41 @@ index d075fbb..9f62db0 100644
   * try {
   *   doAsyncWork({ abortSignal: controller.signal });
   * } catch (e) {
+diff --git a/src/abort-controller/AbortSignalLike.ts b/src/abort-controller/AbortSignalLike.ts
+deleted file mode 100644
+index b5b390d..0000000
+--- a/src/abort-controller/AbortSignalLike.ts
++++ /dev/null
+@@ -1,29 +0,0 @@
+-// Copyright (c) Microsoft Corporation.
+-// Licensed under the MIT License.
+-
+-/**
+- * Allows the request to be aborted upon firing of the "abort" event.
+- * Compatible with the browser built-in AbortSignal and common polyfills.
+- */
+-export interface AbortSignalLike {
+-  /**
+-   * Indicates if the signal has already been aborted.
+-   */
+-  readonly aborted: boolean;
+-  /**
+-   * Add new "abort" event listener, only support "abort" event.
+-   */
+-  addEventListener(
+-    type: "abort",
+-    listener: (this: AbortSignalLike, ev: any) => any,
+-    options?: any,
+-  ): void;
+-  /**
+-   * Remove "abort" event listener, only support "abort" event.
+-   */
+-  removeEventListener(
+-    type: "abort",
+-    listener: (this: AbortSignalLike, ev: any) => any,
+-    options?: any,
+-  ): void;
+-}
 diff --git a/src/abort-controller/index.ts b/src/abort-controller/index.ts
 deleted file mode 100644
 index 7f2adc4..0000000
@@ -106,18 +141,25 @@ index f8d603b..0000000
 -}
 diff --git a/src/auth/authFlows.ts b/src/auth/authFlows.ts
 new file mode 100644
-index 0000000..e13b141
+index 0000000..45cca71
 --- /dev/null
 +++ b/src/auth/authFlows.ts
-@@ -0,0 +1,75 @@
+@@ -0,0 +1,82 @@
 +// Copyright (c) Microsoft Corporation.
 +// Licensed under the MIT License.
 +
 +/** Supported OAuth2 flow types */
 +export enum OAuth2FlowType {
++  /** Authorization Code flow */
 +  AuthorizationCode = "authorizationCode",
++
++  /** Client Credentials flow */
 +  ClientCredentials = "clientCredentials",
++
++  /** Implicit flow */
 +  Implicit = "implicit",
++
++  /** Password flow */
 +  Password = "password",
 +}
 +
@@ -408,10 +450,10 @@ index 045c639..0000000
 -}
 diff --git a/src/auth/credentials.ts b/src/auth/credentials.ts
 new file mode 100644
-index 0000000..cbed68d
+index 0000000..baa36c2
 --- /dev/null
 +++ b/src/auth/credentials.ts
-@@ -0,0 +1,95 @@
+@@ -0,0 +1,106 @@
 +// Copyright (c) Microsoft Corporation.
 +// Licensed under the MIT License.
 +
@@ -420,17 +462,18 @@ index 0000000..cbed68d
 +/**
 + * Options used when creating and sending get OAuth 2 requests for this operation.
 + */
-+export interface GetOAuth2TokenOptions extends GetTokenCommonOptions {}
++export interface GetOAuth2TokenOptions extends GetTokenOptions {}
 +
 +/**
 + * Options used when creating and sending get bearer token requests for this operation.
 + */
-+export interface GetBearTokenOptions extends GetTokenCommonOptions {}
++export interface GetBearTokenOptions extends GetTokenOptions {}
 +
 +/**
 + * Options used when creating and sending HTTP requests for this operation.
 + */
-+interface GetTokenCommonOptions {
++export interface GetTokenOptions {
++  /** Abort signal for the request */
 +  abortSignal?: AbortSignal;
 +}
 +
@@ -438,8 +481,11 @@ index 0000000..cbed68d
 + * Credential for OAuth2 authentication flows.
 + */
 +export interface OAuth2TokenCredential<TFlows extends OAuth2Flow> {
-+  // for @useAuth(OAuth2Auth) we provide the possible flows
-+  // scope(s) are declared in each flow
++  /**
++   * Gets an OAuth2 token for the specified flows.
++   * @param flows - The OAuth2 flows to use
++   * @param options - Options for the request.
++   */
 +  getOAuth2Token(flows: TFlows[], options?: GetOAuth2TokenOptions): Promise<string>;
 +}
 +
@@ -447,6 +493,10 @@ index 0000000..cbed68d
 + * Credential for Bearer token authentication.
 + */
 +export interface BearerTokenCredential {
++  /**
++   * Gets a Bearer token for the specified flows.
++   * @param options - Options for the request.
++   */
 +  getBearerToken(options?: GetBearTokenOptions): Promise<string>;
 +}
 +
@@ -455,7 +505,9 @@ index 0000000..cbed68d
 + * Provides username and password for basic authentication headers.
 + */
 +export interface BasicCredential {
++  /** The username for basic authentication. */
 +  username: string;
++  /** The password for basic authentication. */
 +  password: string;
 +}
 +
@@ -464,6 +516,7 @@ index 0000000..cbed68d
 + * Provides an API key that will be used in the request headers.
 + */
 +export interface ApiKeyCredential {
++  /** The API key for authentication. */
 +  key: string;
 +}
 +
@@ -482,7 +535,7 @@ index 0000000..cbed68d
 +export function isOAuth2TokenCredential(
 +  credential: AuthCredential,
 +): credential is OAuth2TokenCredential<OAuth2Flow> {
-+  return "getOAuth2Token" in credential;
++  return "getOAuth2Token" in credential && credential.getOAuth2Token.length > 0;
 +}
 +
 +/**
@@ -564,33 +617,34 @@ index 9db25cf..0000000
 -}
 diff --git a/src/auth/schemes.ts b/src/auth/schemes.ts
 new file mode 100644
-index 0000000..c82c80a
+index 0000000..777f0b1
 --- /dev/null
 +++ b/src/auth/schemes.ts
-@@ -0,0 +1,87 @@
+@@ -0,0 +1,88 @@
 +// Copyright (c) Microsoft Corporation.
 +// Licensed under the MIT License.
 +
 +import type { OAuth2Flow } from "./authFlows.js";
 +
-+/** Supported HTTP authentication scheme types */
-+export enum HttpAuthType {
-+  Basic = "basic",
-+  Bearer = "bearer",
-+}
-+
 +/** Supported authentication types */
 +export enum AuthType {
++  /** HTTP authentication scheme */
 +  Http = "http",
++  /** API Key authentication scheme */
 +  ApiKey = "apiKey",
++  /** OAuth2 authentication scheme */
 +  OAuth2 = "oauth2",
++  /** No authentication required */
 +  NoAuth = "noAuth",
 +}
 +
 +/** Supported API key locations */
 +export enum ApiKeyLocation {
++  /** API key is included in the query string */
 +  Query = "query",
++  /** API key is included in the request header */
 +  Header = "header",
++  /** API key is included in the cookie */
 +  Cookie = "cookie",
 +}
 +
@@ -602,8 +656,8 @@ index 0000000..c82c80a
 +export interface BasicAuthScheme {
 +  /** Type of auth scheme */
 +  type: AuthType.Http;
-+  /** Authentication scheme */
-+  scheme: HttpAuthType.Basic;
++  /** Basic authentication scheme */
++  scheme: "basic";
 +}
 +
 +/**
@@ -614,8 +668,8 @@ index 0000000..c82c80a
 +export interface BearerAuthScheme {
 +  /** Type of auth scheme */
 +  type: AuthType.Http;
-+  /** Authentication scheme */
-+  scheme: HttpAuthType.Bearer;
++  /** Bearer authentication scheme */
++  scheme: "bearer";
 +}
 +
 +/**
@@ -1484,15 +1538,14 @@ index ad162e3..ae5349c 100644
    HttpClient,
    HttpHeaders as PipelineHeaders,
 diff --git a/src/index.ts b/src/index.ts
-index 92a7ee9..781d9f9 100644
+index 92a7ee9..caf4819 100644
 --- a/src/index.ts
 +++ b/src/index.ts
-@@ -9,116 +9,83 @@ declare global {
+@@ -9,116 +9,75 @@ declare global {
    interface TransformStream<I = any, O = any> {}
  }
  
 -export type { HttpMethods } from "@azure/core-util";
-+export { AbortSignalLike } from "./abort-controller/AbortSignalLike.js";
 +export { AbortError } from "./abort-controller/AbortError.js";
 +export {
 +  createClientLogger,
@@ -1548,10 +1601,7 @@ index 92a7ee9..781d9f9 100644
 -} from "./createPipelineFromOptions.js";
 -export { createDefaultHttpClient } from "./defaultHttpClient.js";
  export { createHttpHeaders } from "./httpHeaders.js";
-+export * from "./auth/schemes.js";
-+export * from "./auth/authFlows.js";
-+export * from "./auth/credentials.js";
- export { createPipelineRequest, type PipelineRequestOptions } from "./pipelineRequest.js";
+-export { createPipelineRequest, type PipelineRequestOptions } from "./pipelineRequest.js";
 -export { RestError, type RestErrorOptions, isRestError } from "./restError.js";
 -export {
 -  decompressResponsePolicy,
@@ -1569,7 +1619,9 @@ index 92a7ee9..781d9f9 100644
 -export { logPolicy, logPolicyName, type LogPolicyOptions } from "./policies/logPolicy.js";
 -export { multipartPolicy, multipartPolicyName } from "./policies/multipartPolicy.js";
 -export { proxyPolicy, proxyPolicyName, getDefaultProxySettings } from "./policies/proxyPolicy.js";
--export {
++export * from "./auth/schemes.js";
++export * from "./auth/authFlows.js";
+ export {
 -  redirectPolicy,
 -  redirectPolicyName,
 -  type RedirectPolicyOptions,
@@ -1585,6 +1637,16 @@ index 92a7ee9..781d9f9 100644
 -  type ThrottlingRetryPolicyOptions,
 -} from "./policies/throttlingRetryPolicy.js";
 -export { retryPolicy, type RetryPolicyOptions } from "./policies/retryPolicy.js";
++  type BasicCredential,
++  type BearerTokenCredential,
++  type OAuth2TokenCredential,
++  type GetOAuth2TokenOptions,
++  type GetBearTokenOptions,
++  type GetTokenOptions,
++  type ApiKeyCredential,
++  type AuthCredential,
++} from "./auth/credentials.js";
++export { createPipelineRequest, type PipelineRequestOptions } from "./pipelineRequest.js";
 +export type { Pipeline, PipelinePolicy, AddPolicyOptions, PipelinePhase } from "./pipeline.js";
 +export { RestError, isRestError, type RestErrorOptions } from "./restError.js";
 +export { stringToUint8Array, uint8ArrayToString, type EncodingType } from "./util/bytesEncoding.js";
@@ -1605,6 +1667,34 @@ index 92a7ee9..781d9f9 100644
 -  defaultRetryPolicy,
 -  type DefaultRetryPolicyOptions,
 -} from "./policies/defaultRetryPolicy.js";
+-export {
+-  userAgentPolicy,
+-  userAgentPolicyName,
+-  type UserAgentPolicyOptions,
+-} from "./policies/userAgentPolicy.js";
+-export { tlsPolicy, tlsPolicyName } from "./policies/tlsPolicy.js";
+-export { formDataPolicy, formDataPolicyName } from "./policies/formDataPolicy.js";
+-export {
+-  bearerTokenAuthenticationPolicy,
+-  type BearerTokenAuthenticationPolicyOptions,
+-  bearerTokenAuthenticationPolicyName,
+-  type ChallengeCallbacks,
+-  type AuthorizeRequestOptions,
+-  type AuthorizeRequestOnChallengeOptions,
+-} from "./policies/bearerTokenAuthenticationPolicy.js";
+-export { ndJsonPolicy, ndJsonPolicyName } from "./policies/ndJsonPolicy.js";
+-export {
+-  auxiliaryAuthenticationHeaderPolicy,
+-  type AuxiliaryAuthenticationHeaderPolicyOptions,
+-  auxiliaryAuthenticationHeaderPolicyName,
+-} from "./policies/auxiliaryAuthenticationHeaderPolicy.js";
+-export { agentPolicy, agentPolicyName } from "./policies/agentPolicy.js";
+-export {
+-  createFile,
+-  createFileFromStream,
+-  type CreateFileOptions,
+-  type CreateFileFromStreamOptions,
+-} from "./util/file.js";
 +  Client,
 +  ClientOptions,
 +  OperationOptions,
@@ -1627,46 +1717,6 @@ index 92a7ee9..781d9f9 100644
 +export type { LogPolicyOptions } from "./policies/logPolicy.js";
 +export type { RedirectPolicyOptions } from "./policies/redirectPolicy.js";
 +export type { UserAgentPolicyOptions } from "./policies/userAgentPolicy.js";
- export {
--  userAgentPolicy,
--  userAgentPolicyName,
--  type UserAgentPolicyOptions,
--} from "./policies/userAgentPolicy.js";
--export { tlsPolicy, tlsPolicyName } from "./policies/tlsPolicy.js";
--export { formDataPolicy, formDataPolicyName } from "./policies/formDataPolicy.js";
-+  basicAuthenticationPolicy,
-+  type BasicAuthenticationPolicyOptions,
-+} from "./policies/auth/basicAuthenticationPolicy.js";
- export {
--  bearerTokenAuthenticationPolicy,
--  type BearerTokenAuthenticationPolicyOptions,
--  bearerTokenAuthenticationPolicyName,
--  type ChallengeCallbacks,
--  type AuthorizeRequestOptions,
--  type AuthorizeRequestOnChallengeOptions,
--} from "./policies/bearerTokenAuthenticationPolicy.js";
--export { ndJsonPolicy, ndJsonPolicyName } from "./policies/ndJsonPolicy.js";
-+  bearerAuthenticationPolicy,
-+  type BearerAuthenticationPolicyOptions,
-+} from "./policies/auth/bearerAuthenticationPolicy.js";
- export {
--  auxiliaryAuthenticationHeaderPolicy,
--  type AuxiliaryAuthenticationHeaderPolicyOptions,
--  auxiliaryAuthenticationHeaderPolicyName,
--} from "./policies/auxiliaryAuthenticationHeaderPolicy.js";
--export { agentPolicy, agentPolicyName } from "./policies/agentPolicy.js";
-+  oauth2AuthenticationPolicy,
-+  type OAuth2AuthenticationPolicyOptions,
-+} from "./policies/auth/oauth2AuthenticationPolicy.js";
- export {
--  createFile,
--  createFileFromStream,
--  type CreateFileOptions,
--  type CreateFileFromStreamOptions,
--} from "./util/file.js";
-+  apiKeyAuthenticationPolicy,
-+  type ApiKeyAuthenticationPolicyOptions,
-+} from "./policies/auth/apiKeyAuthenticationPolicy.js";
 diff --git a/src/interfaces.ts b/src/interfaces.ts
 index 26b806d..cf1ffad 100644
 --- a/src/interfaces.ts
@@ -2049,10 +2099,10 @@ index 5947165..6c09a01 100644
  
 diff --git a/src/policies/auth/apiKeyAuthenticationPolicy.ts b/src/policies/auth/apiKeyAuthenticationPolicy.ts
 new file mode 100644
-index 0000000..2381f89
+index 0000000..1169b27
 --- /dev/null
 +++ b/src/policies/auth/apiKeyAuthenticationPolicy.ts
-@@ -0,0 +1,70 @@
+@@ -0,0 +1,61 @@
 +// Copyright (c) Microsoft Corporation.
 +// Licensed under the MIT License.
 +
@@ -2060,10 +2110,7 @@ index 0000000..2381f89
 +import type { AuthScheme } from "../../auth/schemes.js";
 +import type { PipelineRequest, PipelineResponse, SendRequest } from "../../interfaces.js";
 +import type { PipelinePolicy } from "../../pipeline.js";
-+import {
-+  allowInsecureConnection,
-+  emitInsecureConnectionWarning,
-+} from "./checkInsecureConnection.js";
++import { ensureSecureConnection } from "./checkInsecureConnection.js";
 +
 +/**
 + * Name of the API Key Authentication Policy
@@ -2099,13 +2146,7 @@ index 0000000..2381f89
 +    name: apiKeyAuthenticationPolicyName,
 +    async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
 +      // Ensure allowInsecureConnection is explicitly set when sending request to non-https URLs
-+      if (allowInsecureConnection(request, options)) {
-+        emitInsecureConnectionWarning();
-+      } else {
-+        throw new Error(
-+          "API key authentication is not permitted for non-TLS protected (non-https) URLs when allowInsecureConnection is false.",
-+        );
-+      }
++      ensureSecureConnection(request, options);
 +
 +      const scheme = (request.authSchemes ?? options.authSchemes)?.find((x) => x.type === "apiKey");
 +
@@ -2125,10 +2166,10 @@ index 0000000..2381f89
 +}
 diff --git a/src/policies/auth/basicAuthenticationPolicy.ts b/src/policies/auth/basicAuthenticationPolicy.ts
 new file mode 100644
-index 0000000..cb55e51
+index 0000000..c85b3e8
 --- /dev/null
 +++ b/src/policies/auth/basicAuthenticationPolicy.ts
-@@ -0,0 +1,74 @@
+@@ -0,0 +1,65 @@
 +// Copyright (c) Microsoft Corporation.
 +// Licensed under the MIT License.
 +
@@ -2137,10 +2178,7 @@ index 0000000..cb55e51
 +import type { PipelineRequest, PipelineResponse, SendRequest } from "../../interfaces.js";
 +import type { PipelinePolicy } from "../../pipeline.js";
 +import { stringToUint8Array, uint8ArrayToString } from "../../util/bytesEncoding.js";
-+import {
-+  allowInsecureConnection,
-+  emitInsecureConnectionWarning,
-+} from "./checkInsecureConnection.js";
++import { ensureSecureConnection } from "./checkInsecureConnection.js";
 +
 +/**
 + * Name of the Basic Authentication Policy
@@ -2176,13 +2214,7 @@ index 0000000..cb55e51
 +    name: basicAuthenticationPolicyName,
 +    async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
 +      // Ensure allowInsecureConnection is explicitly set when sending request to non-https URLs
-+      if (allowInsecureConnection(request, options)) {
-+        emitInsecureConnectionWarning();
-+      } else {
-+        throw new Error(
-+          "Basic authentication is not permitted for non-TLS protected (non-https) URLs when allowInsecureConnection is false.",
-+        );
-+      }
++      ensureSecureConnection(request, options);
 +
 +      const scheme = (request.authSchemes ?? options.authSchemes)?.find(
 +        (x) => x.type === "http" && x.scheme === "basic",
@@ -2205,10 +2237,10 @@ index 0000000..cb55e51
 +}
 diff --git a/src/policies/auth/bearerAuthenticationPolicy.ts b/src/policies/auth/bearerAuthenticationPolicy.ts
 new file mode 100644
-index 0000000..7a230d3
+index 0000000..f51908d
 --- /dev/null
 +++ b/src/policies/auth/bearerAuthenticationPolicy.ts
-@@ -0,0 +1,71 @@
+@@ -0,0 +1,62 @@
 +// Copyright (c) Microsoft Corporation.
 +// Licensed under the MIT License.
 +
@@ -2216,10 +2248,7 @@ index 0000000..7a230d3
 +import type { AuthScheme } from "../../auth/schemes.js";
 +import type { PipelineRequest, PipelineResponse, SendRequest } from "../../interfaces.js";
 +import type { PipelinePolicy } from "../../pipeline.js";
-+import {
-+  allowInsecureConnection,
-+  emitInsecureConnectionWarning,
-+} from "./checkInsecureConnection.js";
++import { ensureSecureConnection } from "./checkInsecureConnection.js";
 +
 +/**
 + * Name of the Bearer Authentication Policy
@@ -2255,13 +2284,7 @@ index 0000000..7a230d3
 +    name: bearerAuthenticationPolicyName,
 +    async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
 +      // Ensure allowInsecureConnection is explicitly set when sending request to non-https URLs
-+      if (allowInsecureConnection(request, options)) {
-+        emitInsecureConnectionWarning();
-+      } else {
-+        throw new Error(
-+          "Bearer token authentication is not permitted for non-TLS protected (non-https) URLs when allowInsecureConnection is false.",
-+        );
-+      }
++      ensureSecureConnection(request, options);
 +
 +      const scheme = (request.authSchemes ?? options.authSchemes)?.find(
 +        (x) => x.type === "http" && x.scheme === "bearer",
@@ -2282,10 +2305,10 @@ index 0000000..7a230d3
 +}
 diff --git a/src/policies/auth/checkInsecureConnection.ts b/src/policies/auth/checkInsecureConnection.ts
 new file mode 100644
-index 0000000..c3c5502
+index 0000000..2604b32
 --- /dev/null
 +++ b/src/policies/auth/checkInsecureConnection.ts
-@@ -0,0 +1,46 @@
+@@ -0,0 +1,65 @@
 +// Copyright (c) Microsoft Corporation.
 +// Licensed under the MIT License.
 +
@@ -2300,7 +2323,7 @@ index 0000000..c3c5502
 + * - The request has the `allowInsecureConnection` property set to `true`.
 + * - The request is being sent to `localhost` or `127.0.0.1`
 + */
-+export function allowInsecureConnection(
++function allowInsecureConnection(
 +  request: PipelineRequest,
 +  options: { allowInsecureConnection?: boolean },
 +): boolean {
@@ -2319,7 +2342,7 @@ index 0000000..c3c5502
 + *
 + * This function will emit a node warning once, but log the warning every time.
 + */
-+export function emitInsecureConnectionWarning(): void {
++function emitInsecureConnectionWarning(): void {
 +  const warning =
 +    "Sending bearer token over insecure transport. Assume any token issued is compromised.";
 +
@@ -2332,12 +2355,31 @@ index 0000000..c3c5502
 +}
 +
 +emitInsecureConnectionWarning.warned = false; // Prime TypeScript to allow the property. Used to only emit warning once.
++
++/**
++ * Ensures that authentication is only allowed over HTTPS unless explicitly allowed.
++ * Throws an error if the connection is not secure and not explicitly allowed.
++ */
++export function ensureSecureConnection(
++  request: PipelineRequest,
++  options: { allowInsecureConnection?: boolean },
++): void {
++  if (!request.url.toLowerCase().startsWith("https://")) {
++    if (allowInsecureConnection(request, options)) {
++      emitInsecureConnectionWarning();
++    } else {
++      throw new Error(
++        "Authentication is not permitted for non-TLS protected (non-https) URLs when allowInsecureConnection is false.",
++      );
++    }
++  }
++}
 diff --git a/src/policies/auth/oauth2AuthenticationPolicy.ts b/src/policies/auth/oauth2AuthenticationPolicy.ts
 new file mode 100644
-index 0000000..30b6465
+index 0000000..d1f7ec6
 --- /dev/null
 +++ b/src/policies/auth/oauth2AuthenticationPolicy.ts
-@@ -0,0 +1,69 @@
+@@ -0,0 +1,60 @@
 +// Copyright (c) Microsoft Corporation.
 +// Licensed under the MIT License.
 +
@@ -2346,10 +2388,7 @@ index 0000000..30b6465
 +import type { AuthScheme } from "../../auth/schemes.js";
 +import type { PipelineRequest, PipelineResponse, SendRequest } from "../../interfaces.js";
 +import type { PipelinePolicy } from "../../pipeline.js";
-+import {
-+  allowInsecureConnection,
-+  emitInsecureConnectionWarning,
-+} from "./checkInsecureConnection.js";
++import { ensureSecureConnection } from "./checkInsecureConnection.js";
 +
 +/**
 + * Name of the OAuth2 Authentication Policy
@@ -2385,13 +2424,7 @@ index 0000000..30b6465
 +    name: oauth2AuthenticationPolicyName,
 +    async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
 +      // Ensure allowInsecureConnection is explicitly set when sending request to non-https URLs
-+      if (allowInsecureConnection(request, options)) {
-+        emitInsecureConnectionWarning();
-+      } else {
-+        throw new Error(
-+          "OAuth2 token authentication is not permitted for non-TLS protected (non-https) URLs when allowInsecureConnection is false.",
-+        );
-+      }
++      ensureSecureConnection(request, options);
 +
 +      const scheme = (request.authSchemes ?? options.authSchemes)?.find((x) => x.type === "oauth2");
 +

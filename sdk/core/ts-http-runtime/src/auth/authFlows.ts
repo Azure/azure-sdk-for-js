@@ -3,9 +3,16 @@
 
 /** Supported OAuth2 flow types */
 export enum OAuth2FlowType {
+  /** Authorization Code flow */
   AuthorizationCode = "authorizationCode",
+
+  /** Client Credentials flow */
   ClientCredentials = "clientCredentials",
+
+  /** Implicit flow */
   Implicit = "implicit",
+
+  /** Password flow */
   Password = "password",
 }
 

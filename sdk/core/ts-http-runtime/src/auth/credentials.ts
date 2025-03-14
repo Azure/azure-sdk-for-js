@@ -6,17 +6,18 @@ import type { OAuth2Flow } from "./authFlows.js";
 /**
  * Options used when creating and sending get OAuth 2 requests for this operation.
  */
-export interface GetOAuth2TokenOptions extends GetTokenCommonOptions {}
+export interface GetOAuth2TokenOptions extends GetTokenOptions {}
 
 /**
  * Options used when creating and sending get bearer token requests for this operation.
  */
-export interface GetBearTokenOptions extends GetTokenCommonOptions {}
+export interface GetBearTokenOptions extends GetTokenOptions {}
 
 /**
  * Options used when creating and sending HTTP requests for this operation.
  */
-interface GetTokenCommonOptions {
+export interface GetTokenOptions {
+  /** Abort signal for the request */
   abortSignal?: AbortSignal;
 }
 
@@ -24,8 +25,11 @@ interface GetTokenCommonOptions {
  * Credential for OAuth2 authentication flows.
  */
 export interface OAuth2TokenCredential<TFlows extends OAuth2Flow> {
-  // for @useAuth(OAuth2Auth) we provide the possible flows
-  // scope(s) are declared in each flow
+  /**
+   * Gets an OAuth2 token for the specified flows.
+   * @param flows - The OAuth2 flows to use
+   * @param options - Options for the request.
+   */
   getOAuth2Token(flows: TFlows[], options?: GetOAuth2TokenOptions): Promise<string>;
 }
 
@@ -33,6 +37,10 @@ export interface OAuth2TokenCredential<TFlows extends OAuth2Flow> {
  * Credential for Bearer token authentication.
  */
 export interface BearerTokenCredential {
+  /**
+   * Gets a Bearer token for the specified flows.
+   * @param options - Options for the request.
+   */
   getBearerToken(options?: GetBearTokenOptions): Promise<string>;
 }
 
@@ -41,7 +49,9 @@ export interface BearerTokenCredential {
  * Provides username and password for basic authentication headers.
  */
 export interface BasicCredential {
+  /** The username for basic authentication. */
   username: string;
+  /** The password for basic authentication. */
   password: string;
 }
 
@@ -50,6 +60,7 @@ export interface BasicCredential {
  * Provides an API key that will be used in the request headers.
  */
 export interface ApiKeyCredential {
+  /** The API key for authentication. */
   key: string;
 }
 
@@ -68,7 +79,7 @@ export type AuthCredential =
 export function isOAuth2TokenCredential(
   credential: AuthCredential,
 ): credential is OAuth2TokenCredential<OAuth2Flow> {
-  return "getOAuth2Token" in credential;
+  return "getOAuth2Token" in credential && credential.getOAuth2Token.length > 0;
 }
 
 /**

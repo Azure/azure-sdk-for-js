@@ -12,7 +12,7 @@ import { logger } from "../../log.js";
  * - The request has the `allowInsecureConnection` property set to `true`.
  * - The request is being sent to `localhost` or `127.0.0.1`
  */
-export function allowInsecureConnection(
+function allowInsecureConnection(
   request: PipelineRequest,
   options: { allowInsecureConnection?: boolean },
 ): boolean {
@@ -31,7 +31,7 @@ export function allowInsecureConnection(
  *
  * This function will emit a node warning once, but log the warning every time.
  */
-export function emitInsecureConnectionWarning(): void {
+function emitInsecureConnectionWarning(): void {
   const warning =
     "Sending bearer token over insecure transport. Assume any token issued is compromised.";
 
@@ -44,3 +44,22 @@ export function emitInsecureConnectionWarning(): void {
 }
 
 emitInsecureConnectionWarning.warned = false; // Prime TypeScript to allow the property. Used to only emit warning once.
+
+/**
+ * Ensures that authentication is only allowed over HTTPS unless explicitly allowed.
+ * Throws an error if the connection is not secure and not explicitly allowed.
+ */
+export function ensureSecureConnection(
+  request: PipelineRequest,
+  options: { allowInsecureConnection?: boolean },
+): void {
+  if (!request.url.toLowerCase().startsWith("https://")) {
+    if (allowInsecureConnection(request, options)) {
+      emitInsecureConnectionWarning();
+    } else {
+      throw new Error(
+        "Authentication is not permitted for non-TLS protected (non-https) URLs when allowInsecureConnection is false.",
+      );
+    }
+  }
+}

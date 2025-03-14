@@ -6,10 +6,7 @@ import type { AuthScheme } from "../../auth/schemes.js";
 import type { PipelineRequest, PipelineResponse, SendRequest } from "../../interfaces.js";
 import type { PipelinePolicy } from "../../pipeline.js";
 import { stringToUint8Array, uint8ArrayToString } from "../../util/bytesEncoding.js";
-import {
-  allowInsecureConnection,
-  emitInsecureConnectionWarning,
-} from "./checkInsecureConnection.js";
+import { ensureSecureConnection } from "./checkInsecureConnection.js";
 
 /**
  * Name of the Basic Authentication Policy
@@ -45,13 +42,7 @@ export function basicAuthenticationPolicy(
     name: basicAuthenticationPolicyName,
     async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
       // Ensure allowInsecureConnection is explicitly set when sending request to non-https URLs
-      if (allowInsecureConnection(request, options)) {
-        emitInsecureConnectionWarning();
-      } else {
-        throw new Error(
-          "Basic authentication is not permitted for non-TLS protected (non-https) URLs when allowInsecureConnection is false.",
-        );
-      }
+      ensureSecureConnection(request, options);
 
       const scheme = (request.authSchemes ?? options.authSchemes)?.find(
         (x) => x.type === "http" && x.scheme === "basic",

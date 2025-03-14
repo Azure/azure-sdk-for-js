@@ -10,13 +10,6 @@ export class AbortError extends Error {
 }
 
 // @public
-export interface AbortSignalLike {
-    readonly aborted: boolean;
-    addEventListener(type: "abort", listener: (this: AbortSignalLike, ev: any) => any, options?: any): void;
-    removeEventListener(type: "abort", listener: (this: AbortSignalLike, ev: any) => any, options?: any): void;
-}
-
-// @public
 export interface AdditionalPolicyConfig {
     policy: PipelinePolicy;
     position: "perCall" | "perRetry";
@@ -40,16 +33,6 @@ export interface Agent {
 }
 
 // @public
-export function apiKeyAuthenticationPolicy(options: ApiKeyAuthenticationPolicyOptions): PipelinePolicy;
-
-// @public
-export interface ApiKeyAuthenticationPolicyOptions {
-    allowInsecureConnection?: boolean;
-    authSchemes?: AuthScheme[];
-    credential: ApiKeyCredential;
-}
-
-// @public
 export interface ApiKeyAuthScheme {
     apiKeyLocation: ApiKeyLocation;
     name: string;
@@ -58,17 +41,13 @@ export interface ApiKeyAuthScheme {
 
 // @public
 export interface ApiKeyCredential {
-    // (undocumented)
     key: string;
 }
 
 // @public
 export enum ApiKeyLocation {
-    // (undocumented)
     Cookie = "cookie",
-    // (undocumented)
     Header = "header",
-    // (undocumented)
     Query = "query"
 }
 
@@ -89,59 +68,32 @@ export type AuthScheme = BasicAuthScheme | BearerAuthScheme | NoAuthAuthScheme |
 
 // @public
 export enum AuthType {
-    // (undocumented)
     ApiKey = "apiKey",
-    // (undocumented)
     Http = "http",
-    // (undocumented)
     NoAuth = "noAuth",
-    // (undocumented)
     OAuth2 = "oauth2"
 }
 
 // @public
-export function basicAuthenticationPolicy(options: BasicAuthenticationPolicyOptions): PipelinePolicy;
-
-// @public
-export interface BasicAuthenticationPolicyOptions {
-    allowInsecureConnection?: boolean;
-    authSchemes?: AuthScheme[];
-    credential: BasicCredential;
-}
-
-// @public
 export interface BasicAuthScheme {
-    scheme: HttpAuthType.Basic;
+    scheme: "basic";
     type: AuthType.Http;
 }
 
 // @public
 export interface BasicCredential {
-    // (undocumented)
     password: string;
-    // (undocumented)
     username: string;
 }
 
 // @public
-export function bearerAuthenticationPolicy(options: BearerAuthenticationPolicyOptions): PipelinePolicy;
-
-// @public
-export interface BearerAuthenticationPolicyOptions {
-    allowInsecureConnection?: boolean;
-    authSchemes?: AuthScheme[];
-    credential: BearerTokenCredential;
-}
-
-// @public
 export interface BearerAuthScheme {
-    scheme: HttpAuthType.Bearer;
+    scheme: "bearer";
     type: AuthType.Http;
 }
 
 // @public
 export interface BearerTokenCredential {
-    // (undocumented)
     getBearerToken(options?: GetBearTokenOptions): Promise<string>;
 }
 
@@ -221,25 +173,20 @@ export interface FullOperationResponse extends PipelineResponse {
     request: PipelineRequest;
 }
 
-// Warning: (ae-forgotten-export) The symbol "GetTokenCommonOptions" needs to be exported by the entry point index.d.ts
-//
 // @public
-export interface GetBearTokenOptions extends GetTokenCommonOptions {
+export interface GetBearTokenOptions extends GetTokenOptions {
 }
 
 // @public
 export function getClient(endpoint: string, clientOptions?: ClientOptions): Client;
 
 // @public
-export interface GetOAuth2TokenOptions extends GetTokenCommonOptions {
+export interface GetOAuth2TokenOptions extends GetTokenOptions {
 }
 
 // @public
-export enum HttpAuthType {
-    // (undocumented)
-    Basic = "basic",
-    // (undocumented)
-    Bearer = "bearer"
+export interface GetTokenOptions {
+    abortSignal?: AbortSignal;
 }
 
 // @public
@@ -288,18 +235,6 @@ export interface ImplicitFlow {
 }
 
 // @public
-export function isApiKeyCredential(credential: AuthCredential): credential is ApiKeyCredential;
-
-// @public
-export function isBasicCredential(credential: AuthCredential): credential is BasicCredential;
-
-// @public
-export function isBearerTokenCredential(credential: AuthCredential): credential is BearerTokenCredential;
-
-// @public
-export function isOAuth2TokenCredential(credential: AuthCredential): credential is OAuth2TokenCredential<OAuth2Flow>;
-
-// @public
 export function isRestError(e: unknown): e is RestError;
 
 // @public
@@ -327,16 +262,6 @@ export interface NoAuthAuthScheme {
 }
 
 // @public
-export function oauth2AuthenticationPolicy<TFlows extends OAuth2Flow>(options: OAuth2AuthenticationPolicyOptions<TFlows>): PipelinePolicy;
-
-// @public
-export interface OAuth2AuthenticationPolicyOptions<TFlows extends OAuth2Flow> {
-    allowInsecureConnection?: boolean;
-    authSchemes?: AuthScheme[];
-    credential: OAuth2TokenCredential<TFlows>;
-}
-
-// @public
 export interface OAuth2AuthScheme<TFlows extends OAuth2Flow[]> {
     flows: TFlows;
     type: AuthType.OAuth2;
@@ -347,19 +272,14 @@ export type OAuth2Flow = AuthorizationCodeFlow | ClientCredentialsFlow | Implici
 
 // @public
 export enum OAuth2FlowType {
-    // (undocumented)
     AuthorizationCode = "authorizationCode",
-    // (undocumented)
     ClientCredentials = "clientCredentials",
-    // (undocumented)
     Implicit = "implicit",
-    // (undocumented)
     Password = "password"
 }
 
 // @public
 export interface OAuth2TokenCredential<TFlows extends OAuth2Flow> {
-    // (undocumented)
     getOAuth2Token(flows: TFlows[], options?: GetOAuth2TokenOptions): Promise<string>;
 }
 
@@ -472,6 +392,8 @@ export interface PipelineRequest {
 export interface PipelineRequestOptions {
     abortSignal?: AbortSignal;
     allowInsecureConnection?: boolean;
+    // (undocumented)
+    authSchemes?: AuthScheme[];
     body?: RequestBodyType;
     disableKeepAlive?: boolean;
     enableBrowserStreams?: boolean;

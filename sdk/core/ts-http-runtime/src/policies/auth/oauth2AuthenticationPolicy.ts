@@ -6,10 +6,7 @@ import type { OAuth2TokenCredential } from "../../auth/credentials.js";
 import type { AuthScheme } from "../../auth/schemes.js";
 import type { PipelineRequest, PipelineResponse, SendRequest } from "../../interfaces.js";
 import type { PipelinePolicy } from "../../pipeline.js";
-import {
-  allowInsecureConnection,
-  emitInsecureConnectionWarning,
-} from "./checkInsecureConnection.js";
+import { ensureSecureConnection } from "./checkInsecureConnection.js";
 
 /**
  * Name of the OAuth2 Authentication Policy
@@ -45,13 +42,7 @@ export function oauth2AuthenticationPolicy<TFlows extends OAuth2Flow>(
     name: oauth2AuthenticationPolicyName,
     async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
       // Ensure allowInsecureConnection is explicitly set when sending request to non-https URLs
-      if (allowInsecureConnection(request, options)) {
-        emitInsecureConnectionWarning();
-      } else {
-        throw new Error(
-          "OAuth2 token authentication is not permitted for non-TLS protected (non-https) URLs when allowInsecureConnection is false.",
-        );
-      }
+      ensureSecureConnection(request, options);
 
       const scheme = (request.authSchemes ?? options.authSchemes)?.find((x) => x.type === "oauth2");
 
