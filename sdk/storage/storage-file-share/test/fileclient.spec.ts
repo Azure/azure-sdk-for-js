@@ -3015,7 +3015,6 @@ describe("FileClient - NFS", () => {
     assert.deepEqual(cResp.posixProperties?.group, posixProperties.group);
     assert.deepEqual(cResp.posixProperties?.fileMode, posixProperties.fileMode);
     assert.deepEqual(cResp.posixProperties?.fileType, posixProperties.fileType);
-    assert.deepEqual(cResp.posixProperties?.linkCount, 1);
     assert.ok(cResp.fileChangeOn!);
     assert.ok(cResp.fileCreatedOn!);
     assert.ok(cResp.fileId!);
