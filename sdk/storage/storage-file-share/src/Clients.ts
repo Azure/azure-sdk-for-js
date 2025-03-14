@@ -141,7 +141,6 @@ import type { CommonOptions } from "./StorageClient.js";
 import { StorageClient } from "./StorageClient.js";
 import type { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 import { FileDownloadResponse } from "./FileDownloadResponse.js";
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 import type { Range } from "./Range.js";
 import { rangeToString } from "./Range.js";
 import type {

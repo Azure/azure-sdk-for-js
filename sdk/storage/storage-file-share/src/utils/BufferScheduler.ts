@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 import { EventEmitter } from "events";
-import type { Readable } from "node:stream";
 
 /**
  * OutgoingHandler is an async function triggered by BufferScheduler.
@@ -46,7 +45,7 @@ export class BufferScheduler {
   /**
    * A Node.js Readable stream.
    */
-  private readonly readable: Readable;
+  private readonly readable: NodeJS.ReadableStream;
 
   /**
    * OutgoingHandler is an async function triggered by BufferScheduler when there
@@ -131,7 +130,7 @@ export class BufferScheduler {
    * @param encoding - [Optional] Encoding of Readable stream when it's a string stream
    */
   constructor(
-    readable: Readable,
+    readable: NodeJS.ReadableStream,
     bufferSize: number,
     maxBuffers: number,
     outgoingHandler: OutgoingHandler,
