@@ -9,7 +9,6 @@
 
 const { AzureOpenAI } = require("openai");
 const { DefaultAzureCredential, getBearerTokenProvider } = require("@azure/identity");
-require("@azure/openai/types");
 
 // Set AZURE_OPENAI_ENDPOINT to the endpoint of your
 // OpenAI resource. You can find this in the Azure portal.
@@ -55,7 +54,9 @@ async function main() {
 
   for await (const event of events) {
     for (const choice of event.choices) {
-      console.log(choice.delta?.content);
+      if (choice.delta.content) {
+        process.stdout.write(choice.delta.content);
+      }
     }
   }
 }
