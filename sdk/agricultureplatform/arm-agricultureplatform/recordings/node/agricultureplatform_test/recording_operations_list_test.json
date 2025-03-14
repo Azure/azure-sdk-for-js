@@ -1,0 +1,160 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://Sanitized.azure.com/providers/Microsoft.AgriculturePlatform/operations?api-version=2024-06-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-client azsdk-js-api azsdk-js-arm-agricultureplatform/1.0.0-beta.1 core-rest-pipeline/1.19.2 Node/18.19.0 OS/(x64-Windows_NT-10.0.26100)",
+        "x-ms-client-request-id": "Sanitized"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "2713",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 14 Mar 2025 01:57:21 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "f16ea23e-9779-4592-b022-f4280cd95a4d",
+        "x-ms-providerhub-traffic": "True",
+        "x-ms-ratelimit-remaining-tenant-reads": "249",
+        "x-ms-request-id": "Sanitized",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20250314T015721Z:f16ea23e-9779-4592-b022-f4280cd95a4d",
+        "X-MSEdge-Ref": "Ref A: 5848E30D2B444601836279E6C19D683E Ref B: MAA201060514045 Ref C: 2025-03-14T01:57:21Z"
+      },
+      "ResponseBody": {
+        "value": [
+          {
+            "name": "Sanitized",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AgriculturePlatform",
+              "resource": "Microsoft.AgriculturePlatform",
+              "operation": "Register the Microsoft.AgriculturePlatform",
+              "description": "Register the subscription for Microsoft.AgriculturePlatform"
+            }
+          },
+          {
+            "name": "Sanitized",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AgriculturePlatform",
+              "resource": "Microsoft.AgriculturePlatform",
+              "operation": "Unregister the Microsoft.AgriculturePlatform",
+              "description": "Unregister the subscription for Microsoft.AgriculturePlatform"
+            }
+          },
+          {
+            "name": "Sanitized",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AgriculturePlatform",
+              "resource": "operations",
+              "operation": "read_operations",
+              "description": "read operations"
+            }
+          },
+          {
+            "name": "Sanitized",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AgriculturePlatform",
+              "resource": "agriServices",
+              "operation": "AgriService_ListBySubscription",
+              "description": "List AgriServiceResource resources by subscription ID"
+            }
+          },
+          {
+            "name": "Sanitized",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AgriculturePlatform",
+              "resource": "agriServices",
+              "operation": "AgriService_ListByResourceGroup",
+              "description": "List AgriServiceResource resources by resource group"
+            }
+          },
+          {
+            "name": "Sanitized",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AgriculturePlatform",
+              "resource": "agriServices",
+              "operation": "AgriService_Get",
+              "description": "Get a AgriServiceResource"
+            }
+          },
+          {
+            "name": "Sanitized",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AgriculturePlatform",
+              "resource": "agriServices",
+              "operation": "AgriService_CreateOrUpdate",
+              "description": "Create a AgriServiceResource"
+            }
+          },
+          {
+            "name": "Sanitized",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AgriculturePlatform",
+              "resource": "agriServices",
+              "operation": "AgriService_Delete",
+              "description": "Delete a AgriServiceResource"
+            }
+          },
+          {
+            "name": "Sanitized",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AgriculturePlatform",
+              "resource": "agriServices",
+              "operation": "AgriService_Update",
+              "description": "Update a AgriServiceResource"
+            }
+          },
+          {
+            "name": "Sanitized",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AgriculturePlatform",
+              "resource": "agriServices/listAvailableSolutions",
+              "operation": "AgriService_ListAvailableSolutions",
+              "description": "Returns the list of available agri solutions."
+            }
+          },
+          {
+            "name": "Sanitized",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AgriculturePlatform",
+              "resource": "locations/operationStatuses",
+              "operation": "read_operationStatuses",
+              "description": "read operationStatuses"
+            }
+          },
+          {
+            "name": "Sanitized",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AgriculturePlatform",
+              "resource": "locations/operationStatuses",
+              "operation": "write_operationStatuses",
+              "description": "write operationStatuses"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "Variables": {}
+}
