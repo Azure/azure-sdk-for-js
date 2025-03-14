@@ -2816,7 +2816,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-edgezones@file:projects/arm-edgezones.tgz':
-    resolution: {integrity: sha512-A9km34rPVx1SbRWkk7dYuEBjjVDZtNPuwFOVkhjg1SjqwHPGuGechXdoviGtfxmH2Zpr0xu66yB9hG/ya1lVbQ==, tarball: file:projects/arm-edgezones.tgz}
+    resolution: {integrity: sha512-WiuXYM+lpYi/qGYng+qi8aIW4XMsRqMoArneXsUnTkPm8B37Vhg+nt0IoOUz8fepZNSVlTY8e7wZaqCMN3+hHQ==, tarball: file:projects/arm-edgezones.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-education@file:projects/arm-education.tgz':
@@ -13350,13 +13350,13 @@ snapshots:
   '@rush-temp/arm-edgezones@file:projects/arm-edgezones.tgz(@types/debug@4.1.12)(msw@2.7.3(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.3)(vite@6.2.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)':
     dependencies:
       '@types/node': 18.19.80
-      '@vitest/browser': 3.0.7(@types/node@18.19.80)(playwright@1.51.0)(typescript@5.7.3)(vite@6.2.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.7)
+      '@vitest/browser': 3.0.7(@types/node@18.19.80)(playwright@1.51.0)(typescript@5.6.3)(vite@6.2.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.7)
       '@vitest/coverage-istanbul': 3.0.7(vitest@3.0.7)
       dotenv: 16.4.7
       eslint: 9.22.0
       playwright: 1.51.0
       tslib: 2.8.1
-      typescript: 5.7.3
+      typescript: 5.6.3
       vitest: 3.0.7(@types/debug@4.1.12)(@types/node@18.19.80)(@vitest/browser@3.0.7)(msw@2.7.3(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.3)(yaml@2.7.0)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
