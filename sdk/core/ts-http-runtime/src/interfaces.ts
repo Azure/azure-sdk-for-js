@@ -338,6 +338,7 @@ export type HttpMethods =
 export interface ProxySettings {
   /**
    * The proxy's host address.
+   * Must include the protocol (e.g., http:// or https://).
    */
   host: string;
 

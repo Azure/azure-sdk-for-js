@@ -320,11 +320,6 @@ export class ClientEncryptionIncludedPath {
 }
 
 // @public
-export interface ClientEncryptionKeyDefinition {
-    id: string;
-}
-
-// @public
 export interface ClientEncryptionKeyProperties {
     encryptionAlgorithm: string;
     encryptionKeyWrapMetadata: EncryptionKeyWrapMetadata;
@@ -333,15 +328,16 @@ export interface ClientEncryptionKeyProperties {
 }
 
 // @public
-export interface ClientEncryptionKeyRequest extends ClientEncryptionKeyDefinition {
+export interface ClientEncryptionKeyRequest {
     encryptionAlgorithm: string;
+    id: string;
     keyWrapMetadata: EncryptionKeyWrapMetadata;
     wrappedDataEncryptionKey: string;
 }
 
 // @public
-export class ClientEncryptionKeyResponse extends ResourceResponse<ClientEncryptionKeyDefinition & Resource> {
-    constructor(resource: ClientEncryptionKeyDefinition & Resource, headers: CosmosHeaders, statusCode: number, clientEncryptionKeyProperties: ClientEncryptionKeyProperties, diagnostics: CosmosDiagnostics);
+export class ClientEncryptionKeyResponse extends ResourceResponse<Resource> {
+    constructor(resource: Resource, headers: CosmosHeaders, statusCode: number, clientEncryptionKeyProperties: ClientEncryptionKeyProperties, diagnostics: CosmosDiagnostics);
     readonly clientEncryptionKeyProperties: ClientEncryptionKeyProperties;
 }
 
@@ -603,6 +599,7 @@ export const Constants: {
         DedicatedGatewayPerRequestBypassCache: string;
         ForceRefresh: string;
         PriorityLevel: string;
+        ThroughputBucket: string;
         IsClientEncryptedHeader: string;
         IntendedCollectionHeader: string;
         DatabaseRidHeader: string;
@@ -801,6 +798,7 @@ export interface CosmosClientOptions {
     resourceTokens?: {
         [resourcePath: string]: string;
     };
+    throughputBucket?: number;
     tokenProvider?: TokenProvider;
     userAgentSuffix?: string;
 }
@@ -2355,6 +2353,7 @@ export interface SharedOptions {
     maxIntegratedCacheStalenessInMs?: number;
     priorityLevel?: PriorityLevel;
     sessionToken?: string;
+    throughputBucket?: number;
 }
 
 // @public (undocumented)

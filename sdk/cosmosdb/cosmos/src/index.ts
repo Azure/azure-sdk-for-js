@@ -149,7 +149,6 @@ export {
   EncryptionQueryBuilder,
   ClientEncryptionKeyRequest,
   ClientEncryptionKeyResponse,
-  ClientEncryptionKeyDefinition,
   EncryptionKeyResolver,
   AzureKeyVaultEncryptionKeyResolver,
   EncryptionType,
