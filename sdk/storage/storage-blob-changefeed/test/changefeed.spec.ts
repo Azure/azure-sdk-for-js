@@ -6,67 +6,20 @@ import * as path from "node:path";
 import { ChangeFeedFactory } from "../src/ChangeFeedFactory.js";
 import { getHost } from "../src/utils/utils.common.js";
 import type { BlobChangeFeedEvent } from "../src/index.js";
-import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
+import type { BlobServiceClient, ContainerClient, BlobClient } from "@azure/storage-blob";
+import { describe, it, assert, vi, beforeEach, afterEach } from "vitest";
 
-vi.mock("@azure/storage-blob", async (importActual) => {
-  const BlobServiceClient = vi.fn();
-  BlobServiceClient.prototype.getContainerClient = vi.fn();
-
-  const ContainerClient = vi.fn();
-  ContainerClient.prototype.exists = vi.fn();
-  ContainerClient.prototype.getBlobClient = vi.fn();
-  ContainerClient.prototype.listBlobsByHierarchy = vi.fn();
-  ContainerClient.prototype.listBlobsFlat = vi.fn();
-
-  const BlobClient = vi.fn();
-  BlobClient.prototype.download = vi.fn();
-
-  const actual = await importActual<typeof import("@azure/storage-blob")>();
-
-  return {
-    ...actual,
-    BlobServiceClient,
-    ContainerClient,
-    BlobClient,
-  };
-});
-
-vi.mock("../src/SegmentFactory.js", async (importActual) => {
-  const SegmentFactory = vi.fn();
-  SegmentFactory.prototype.create = vi.fn();
-
-  const actual = await importActual<typeof import("../src/SegmentFactory.js")>();
-
-  return {
-    ...actual,
-    SegmentFactory,
-  };
-});
-
-vi.mock("../src/Segment.js", async (importActual) => {
-  const Segment = vi.fn();
-  Segment.prototype.hasNext = vi.fn();
-  Segment.prototype.getChange = vi.fn();
-  Segment.prototype.getCursor = vi.fn();
-  Segment.prototype.dateTime = vi.fn();
-
-  const actual = await importActual<typeof import("../src/Segment.js")>();
-
-  return {
-    ...actual,
-    Segment,
-  };
-});
-
-import { BlobServiceClient, ContainerClient, BlobClient } from "@azure/storage-blob";
-import { SegmentFactory } from "../src/SegmentFactory.js";
-import { Segment } from "../src/Segment.js";
+interface StubSegment {
+  hasNext: () => boolean;
+  getChange: () => Promise<number | undefined>;
+  getCursor: () => { ShardCursors: any[]; SegmentPath: string; CurrentShardPath: string };
+  dateTime: Date;
+}
 
 describe("Change Feed", async () => {
   const manifestFilePath = path.join("test", "resources", "ChangeFeedManifest.json");
   const manifestFilePath2 = path.join("test", "resources", "ChangeFeedManifest2.json");
   const lastConsumable = new Date("2020-05-04T19:00:00.000Z");
-  const segmentCount = 5;
   const yearPaths = [
     { kind: "prefix", name: "idx/segments/1601/" },
     { kind: "prefix", name: "idx/segments/2019/" },
@@ -90,36 +43,43 @@ describe("Change Feed", async () => {
   ];
 
   let serviceClientStub: BlobServiceClient;
-  let segmentFactoryStub: SegmentFactory;
   let containerClientStub: ContainerClient;
-  let segmentStubs: Segment[];
+  let segmentStubs: StubSegment[];
   let changeFeedFactory: ChangeFeedFactory;
   let blobClientStub: BlobClient;
 
   async function* fakeList(items: any[]): AsyncGenerator<any, void, unknown> {
-    for (const item of items) {
-      yield item;
-    }
-  }
-
-  async function* listTwoArray(itemsA: any[], itemsB: any[]): AsyncGenerator<any, void, unknown> {
-    for (const item of itemsA) {
-      yield item;
-    }
-    for (const item of itemsB) {
-      yield item;
-    }
+    yield* items;
   }
 
   beforeEach(async () => {
-    serviceClientStub = new BlobServiceClient(expect.anything());
-    containerClientStub = new ContainerClient(expect.anything());
-    blobClientStub = new BlobClient(expect.anything());
-    segmentFactoryStub = new SegmentFactory(expect.anything());
-    changeFeedFactory = new ChangeFeedFactory(segmentFactoryStub);
+    serviceClientStub = {
+      getContainerClient: vi.fn(),
+    } as any as BlobServiceClient;
+    containerClientStub = {
+      exists: vi.fn().mockResolvedValue(true),
+      getBlobClient: vi.fn(),
+      listBlobsByHierarchy: vi.fn(),
+      listBlobsFlat: vi.fn(),
+    } as any as ContainerClient;
+    blobClientStub = {
+      // TODO: rewrite for browser
+      download: vi
+        .fn()
+        .mockResolvedValue({ readableStreamBody: fs.createReadStream(manifestFilePath) }),
+    } as any as BlobClient;
+
+    const segmentStubByName = new Map<string, StubSegment>();
+    const segmentFactoryCreate = vi.fn().mockImplementation(async (_, manifestPath) => {
+      const segment = segmentStubByName.get(manifestPath);
+      if (!segment) {
+        throw new Error(`Invalid segment named ${manifestPath}`);
+      }
+      return segment as any;
+    });
+    changeFeedFactory = new ChangeFeedFactory({ create: segmentFactoryCreate } as any);
 
     vi.mocked(serviceClientStub.getContainerClient).mockReturnValue(containerClientStub);
-    vi.mocked(containerClientStub.exists).mockResolvedValue(true);
     vi.mocked(containerClientStub.getBlobClient).mockReturnValue(blobClientStub);
     vi.mocked(containerClientStub.listBlobsByHierarchy).mockImplementation((delimiter?: string) => {
       if (delimiter === "/") {
@@ -136,40 +96,20 @@ describe("Change Feed", async () => {
       }
       return fakeList([]) as any;
     });
-    // TODO: rewrite for browser
-    vi.mocked(blobClientStub.download).mockImplementation(() => {
-      return new Promise((resolve) => {
-        resolve({ readableStreamBody: fs.createReadStream(manifestFilePath) } as any);
-      });
-    });
 
     segmentStubs = [];
-    const segmentIter = listTwoArray(segmentsIn2019, segmentsIn2020);
-    for (let i = 0; i < segmentCount; i++) {
-      const segment = new Segment(
-        expect.anything(),
-        expect.anything(),
-        expect.anything(),
-        expect.anything(),
-      );
+
+    let segmentIndex = 0;
+    for (const item of [...segmentsIn2019, ...segmentsIn2020]) {
+      const segment: StubSegment = {
+        hasNext: vi.fn(() => true),
+        getChange: vi.fn(() => Promise.resolve(segmentIndex)),
+        getCursor: vi.fn(),
+        dateTime: segmentTimes[segmentIndex],
+      };
+      segmentStubByName.set(item.name, segment);
       segmentStubs.push(segment);
-      vi.mocked(segmentFactoryStub.create).mockImplementation(async (_, manifestPath) => {
-        if ((await segmentIter.next()).value.name === manifestPath) {
-          return segmentStubs[i];
-        } else {
-          return new Segment(
-            expect.anything(),
-            expect.anything(),
-            expect.anything(),
-            expect.anything(),
-          );
-        }
-      });
-    }
-    for (let i = 0; i < segmentCount; i++) {
-      vi.spyOn(segmentStubs[i], "dateTime", "get").mockReturnValue(segmentTimes[i]);
-      vi.mocked(segmentStubs[i].hasNext).mockReturnValue(true);
-      vi.mocked(segmentStubs[i].getChange).mockResolvedValue(i as any);
+      segmentIndex++;
     }
   });
 
@@ -185,7 +125,7 @@ describe("Change Feed", async () => {
       }
       return fakeList([]) as any;
     });
-    const changeFeed = await changeFeedFactory.create(serviceClientStub as any);
+    const changeFeed = await changeFeedFactory.create(serviceClientStub);
     assert.ok(!changeFeed.hasNext());
   });
 
@@ -200,7 +140,7 @@ describe("Change Feed", async () => {
       }
       return fakeList([]) as any;
     });
-    const changeFeed = await changeFeedFactory.create(serviceClientStub as any, undefined, {
+    const changeFeed = await changeFeedFactory.create(serviceClientStub, undefined, {
       start: new Date(Date.UTC(2020, 0)),
     });
     assert.ok(!changeFeed.hasNext());
@@ -270,14 +210,14 @@ describe("Change Feed", async () => {
 
   it("with start and end time", async () => {
     // no valid segment between start and end
-    const changeFeed = await changeFeedFactory.create(serviceClientStub as any, undefined, {
+    const changeFeed = await changeFeedFactory.create(serviceClientStub, undefined, {
       start: new Date(Date.UTC(2019, 2, 2, 21)),
       end: new Date(Date.UTC(2019, 3, 3, 22)),
     });
     assert.ok(!changeFeed.hasNext());
 
     // end earlier than lastConsumable
-    const changeFeed2 = await changeFeedFactory.create(serviceClientStub as any, undefined, {
+    const changeFeed2 = await changeFeedFactory.create(serviceClientStub, undefined, {
       start: new Date(Date.UTC(2019, 3, 3, 22)),
       end: new Date(Date.UTC(2019, 4, 3, 22)),
     });
@@ -291,7 +231,7 @@ describe("Change Feed", async () => {
     assert.equal(event2, undefined);
 
     // end later than lastConsumable
-    const changeFeed3 = await changeFeedFactory.create(serviceClientStub as any, undefined, {
+    const changeFeed3 = await changeFeedFactory.create(serviceClientStub, undefined, {
       start: lastConsumable,
       end: new Date(lastConsumable.getTime() + 1),
     });
@@ -299,7 +239,7 @@ describe("Change Feed", async () => {
   });
 
   it("with continuation token", async () => {
-    const changeFeed = await changeFeedFactory.create(serviceClientStub as any, undefined, {
+    const changeFeed = await changeFeedFactory.create(serviceClientStub, undefined, {
       start: new Date(Date.UTC(2020, 2, 2, 20)),
     });
     assert.ok(changeFeed.hasNext());
@@ -315,20 +255,18 @@ describe("Change Feed", async () => {
       CurrentShardPath: "",
     });
     const continuation = JSON.stringify(changeFeed.getCursor());
-    const changeFeed2 = await changeFeedFactory.create(serviceClientStub as any, continuation);
+    const changeFeed2 = await changeFeedFactory.create(serviceClientStub, continuation);
     assert.ok(changeFeed2.hasNext());
     const event = await changeFeed.getChange();
     assert.equal(event, 3 as unknown as BlobChangeFeedEvent | undefined);
 
     // lastConsumable changed
     vi.mocked(blobClientStub.download).mockImplementation(() => {
-      return new Promise((resolve) => {
-        resolve({ readableStreamBody: fs.createReadStream(manifestFilePath2) } as any);
-      });
+      return Promise.resolve({ readableStreamBody: fs.createReadStream(manifestFilePath2) } as any);
     });
     vi.mocked(segmentStubs[3].hasNext).mockReturnValue(false);
     vi.mocked(segmentStubs[3].getChange).mockResolvedValue(undefined);
-    const changeFeed3 = await changeFeedFactory.create(serviceClientStub as any, continuation);
+    const changeFeed3 = await changeFeedFactory.create(serviceClientStub, continuation);
     assert.ok(changeFeed3.hasNext());
     const event2 = await changeFeed3.getChange();
     assert.equal(event2, 4 as unknown as BlobChangeFeedEvent | undefined);
@@ -340,7 +278,7 @@ describe("Change Feed", async () => {
         statusCode: 404,
       };
     });
-    const changeFeed = await changeFeedFactory.create(serviceClientStub as any, undefined);
+    const changeFeed = await changeFeedFactory.create(serviceClientStub, undefined);
     assert.ok(!changeFeed.hasNext(), "Should return empty change feed");
   });
 });
