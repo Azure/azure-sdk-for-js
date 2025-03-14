@@ -1,5 +1,5 @@
 # NOTE: Please refer to https://aka.ms/azsdk/engsys/ci-yaml before editing this file.
-                
+
 trigger:
   branches:
     include:
@@ -36,3 +36,14 @@ extends:
     Artifacts:
       - name: azure-service-bus
         safeName: azureservicebus
+        triggeringPaths:
+        - /.config/
+        - /.devcontainer/
+        - /.github/
+        - /.scripts/
+        - /.vscode/
+        - /common/
+        - /design/
+        - /documentation/
+        - /eng/
+        - /samples/
