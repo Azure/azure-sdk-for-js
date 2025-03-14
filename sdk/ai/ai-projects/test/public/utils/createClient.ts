@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import type { RecorderStartOptions, VitestTestContext } from "@azure-tools/test-recorder";
-import { Recorder } from "@azure-tools/test-recorder";
+import { isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { AIProjectsClient } from "../../../src/index.js";
 import type { ClientOptions } from "@azure-rest/core-client";
@@ -89,6 +89,13 @@ const recorderEnvSetup: RecorderStartOptions = {
 export async function createRecorder(context: VitestTestContext): Promise<Recorder> {
   const recorder = new Recorder(context);
   await recorder.start(recorderEnvSetup);
+  if (isPlaybackMode()) {
+    // To handle the unpredicable content-type header (in different environments?)
+    // The following matcher is to avoid the mismatch between the request and the recording:
+    // Header differences:
+    //    <Content-Type> values differ, request <application/json>, record <application/json; charset=UTF-8>
+    await recorder.setMatcher("CustomDefaultMatcher", { excludedHeaders: ["Content-Type"] });
+  }
   return recorder;
 }
 
