@@ -1379,6 +1379,10 @@ packages:
     resolution: {integrity: sha512-y1caGX6LYrA7msAckQVb/quFOhWHSPiGzWfIML17t0ee2ydpinJTBF+Sti+URfLAH63dtmXJR4meraZkhhK9tw==}
     engines: {node: '>=18.0'}
 
+  '@azure/identity@4.3.0':
+    resolution: {integrity: sha512-LHZ58/RsIpIWa4hrrE2YuJ/vzG1Jv9f774RfTTAVDZDriubvJ0/S5u4pnw4akJDlS0TiJb6VMphmVUFsWmgodQ==}
+    engines: {node: '>=18.0.0'}
+
   '@azure/identity@4.8.0':
     resolution: {integrity: sha512-l9ALUGHtFB/JfsqmA+9iYAp2a+cCwdNO/cyIr2y7nJLJsz1aae6qVP8XxT7Kbudg0IQRSIMXj0+iivFdbD1xPA==}
     engines: {node: '>=18.0.0'}
@@ -1406,6 +1410,10 @@ packages:
   '@azure/maps-common@1.0.0-beta.2':
     resolution: {integrity: sha512-PB9GlnfojcQ4nf9WXdQvWeAk7gm8P74o+Z5IHz5YLK/W+3vrNrmVVVuFpGOvCPrLjag50UinaZsMBtPtxoiobg==}
     engines: {node: '>=14.0.0'}
+
+  '@azure/msal-browser@3.28.1':
+    resolution: {integrity: sha512-OHHEWMB5+Zrix8yKvLVzU3rKDFvh7SOzAzXfICD7YgUXLxfHpTPX2pzOotrri1kskwhHqIj4a5LvhZlIqE7C7g==}
+    engines: {node: '>=0.8.0'}
 
   '@azure/msal-browser@4.7.0':
     resolution: {integrity: sha512-H4AIPhIQVe1qW4+BJaitqod6UGQiXE3juj7q2ZBsOPjuZicQaqcbnBp2gCroF/icS0+TJ9rGuyCBJbjlAqVOGA==}
@@ -3492,7 +3500,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/communication-common@file:projects/communication-common.tgz':
-    resolution: {integrity: sha512-dwDiNmqEVH4dF6xK/EOg2/dwy5NWAv7Hx1kra0xH+9LQ7Dgy1+EymUuBzvX4pI8fsGn7OErOfY09p83/Wuk9xg==, tarball: file:projects/communication-common.tgz}
+    resolution: {integrity: sha512-41HZDXQJt9XC6FH4cweop868KlZHuGiIZ//qqbdJrx0y17PRAukp8vYhb7t8Y/GnvtLoUEGKbRMx/plZok7jFg==, tarball: file:projects/communication-common.tgz}
     version: 0.0.0
 
   '@rush-temp/communication-email@file:projects/communication-email.tgz':
@@ -6576,6 +6584,10 @@ packages:
     resolution: {integrity: sha512-o2zOYiCpzRqSzPj0Zt/dQ/DqZeYoaQ7TUonc/xUPjCGl9WeHpNbxgVvOquXYAaJzI0M9BXV3HTzG0p8IUAbBTQ==}
     engines: {node: '>= 10.13'}
 
+  nock@14.0.1:
+    resolution: {integrity: sha512-IJN4O9pturuRdn60NjQ7YkFt6Rwei7ZKaOwb1tvUIIqTgeD0SDDAX3vrqZD4wcXczeEy/AsUXxpGpP/yHqV7xg==}
+    engines: {node: '>=18.20.0 <20 || >=20.12.1'}
+
   node-abi@3.74.0:
     resolution: {integrity: sha512-c5XK0MjkGBrQPGYG24GBADZud0NCbznxNx0ZkS+ebUTrmV1qTDxPxSL8zEAPURXSbLRWVexxmP4986BziahL5w==}
     engines: {node: '>=10'}
@@ -8342,6 +8354,25 @@ snapshots:
       long: 4.0.0
       undici: 5.28.5
 
+  '@azure/identity@4.3.0':
+    dependencies:
+      '@azure/abort-controller': 1.1.0
+      '@azure/core-auth': 1.9.0
+      '@azure/core-client': 1.9.3
+      '@azure/core-rest-pipeline': 1.19.1
+      '@azure/core-tracing': 1.2.0
+      '@azure/core-util': 1.11.0
+      '@azure/logger': 1.1.4
+      '@azure/msal-browser': 3.28.1
+      '@azure/msal-node': 2.16.2
+      events: 3.3.0
+      jws: 4.0.0
+      open: 8.4.2
+      stoppable: 1.1.0
+      tslib: 2.8.1
+    transitivePeerDependencies:
+      - supports-color
+
   '@azure/identity@4.8.0':
     dependencies:
       '@azure/abort-controller': 2.1.2
@@ -8438,6 +8469,10 @@ snapshots:
       '@azure/core-rest-pipeline': 1.19.1
     transitivePeerDependencies:
       - supports-color
+
+  '@azure/msal-browser@3.28.1':
+    dependencies:
+      '@azure/msal-common': 14.16.0
 
   '@azure/msal-browser@4.7.0':
     dependencies:
@@ -19227,6 +19262,7 @@ snapshots:
 
   '@rush-temp/communication-common@file:projects/communication-common.tgz(@types/debug@4.1.12)(msw@2.7.3(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.3)(vite@6.2.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)':
     dependencies:
+      '@azure/identity': 4.3.0
       '@types/node': 18.19.80
       '@vitest/browser': 3.0.7(@types/node@18.19.80)(playwright@1.51.0)(typescript@5.7.3)(vite@6.2.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.7)
       '@vitest/coverage-istanbul': 3.0.7(vitest@3.0.7)
@@ -19234,6 +19270,7 @@ snapshots:
       events: 3.3.0
       jwt-decode: 4.0.0
       mockdate: 3.0.5
+      nock: 14.0.1
       playwright: 1.51.0
       tslib: 2.8.1
       typescript: 5.7.3
@@ -26545,6 +26582,12 @@ snapshots:
       propagate: 2.0.1
     transitivePeerDependencies:
       - supports-color
+
+  nock@14.0.1:
+    dependencies:
+      '@mswjs/interceptors': 0.37.6
+      json-stringify-safe: 5.0.1
+      propagate: 2.0.1
 
   node-abi@3.74.0:
     dependencies:
