@@ -38,11 +38,7 @@ extends:
         - /.devcontainer/
         - /.github/
         - /.scripts/
-        - /.vscode/
         - /common/
-        - /design/
-        - /documentation/
         - /eng/
-        - /samples/
       - name: azure-arm-resources-profile-2020-09-01-hybrid
         safeName: azurearmresourcesprofile20200901hybrid

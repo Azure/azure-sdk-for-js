@@ -41,9 +41,5 @@ extends:
         - /.devcontainer/
         - /.github/
         - /.scripts/
-        - /.vscode/
         - /common/
-        - /design/
-        - /documentation/
         - /eng/
-        - /samples/

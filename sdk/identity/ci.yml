@@ -34,12 +34,8 @@ extends:
         - /.devcontainer/
         - /.github/
         - /.scripts/
-        - /.vscode/
         - /common/
-        - /design/
-        - /documentation/
         - /eng/
-        - /samples/
       - name: azure-identity-cache-persistence
         safeName: azureidentitycachepersistence
         triggeringPaths:
