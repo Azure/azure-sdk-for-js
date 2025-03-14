@@ -5,28 +5,23 @@ import { DurableTaskClient } from "@azure/arm-durabletask";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to update a Scheduler
+ * This sample demonstrates how to create or Update a Task Hub
  *
- * @summary update a Scheduler
- * x-ms-original-file: 2024-10-01-preview/Schedulers_Update.json
+ * @summary create or Update a Task Hub
+ * x-ms-original-file: 2024-10-01-preview/TaskHubs_CreateOrUpdate.json
  */
-async function schedulersUpdate(): Promise<void> {
+async function taskHubsCreateOrUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "EE9BD735-67CE-4A90-89C4-439D3F6A4C93";
   const client = new DurableTaskClient(credential, subscriptionId);
-  const result = await client.schedulers.update("rgopenapi", "testscheduler", {
-    location: "",
-    tags: { key8653: "lr" },
-    properties: {
-      ipAllowlist: ["10.0.0.0/8"],
-      sku: { name: "Dedicated", capacity: 10 },
-    },
+  const result = await client.taskHubs.createOrUpdate("rgopenapi", "testscheduler", "testtaskhub", {
+    properties: {},
   });
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await schedulersUpdate();
+  await taskHubsCreateOrUpdate();
 }
 
 main().catch(console.error);
