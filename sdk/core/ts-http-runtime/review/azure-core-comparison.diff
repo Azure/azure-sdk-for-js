@@ -1091,7 +1091,7 @@ index 92a7ee9..65e7734 100644
 +export type { RedirectPolicyOptions } from "./policies/redirectPolicy.js";
 +export type { UserAgentPolicyOptions } from "./policies/userAgentPolicy.js";
 diff --git a/src/interfaces.ts b/src/interfaces.ts
-index 26b806d..5d790ad 100644
+index ae5513d..f8367e5 100644
 --- a/src/interfaces.ts
 +++ b/src/interfaces.ts
 @@ -1,9 +1,7 @@
