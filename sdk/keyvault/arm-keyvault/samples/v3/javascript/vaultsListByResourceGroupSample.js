@@ -10,13 +10,13 @@
 // Licensed under the MIT License.
 const { KeyVaultManagementClient } = require("@azure/arm-keyvault");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to The List operation gets information about the vaults associated with the subscription and within the specified resource group.
  *
  * @summary The List operation gets information about the vaults associated with the subscription and within the specified resource group.
- * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2023-07-01/examples/listVaultByResourceGroup.json
+ * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2024-11-01/examples/listVaultByResourceGroup.json
  */
 async function listVaultsInTheSpecifiedResourceGroup() {
   const subscriptionId =
@@ -27,14 +27,14 @@ async function listVaultsInTheSpecifiedResourceGroup() {
   const credential = new DefaultAzureCredential();
   const client = new KeyVaultManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.vaults.listByResourceGroup(resourceGroupName, options)) {
+  for await (const item of client.vaults.listByResourceGroup(resourceGroupName, options)) {
     resArray.push(item);
   }
   console.log(resArray);
 }
 
 async function main() {
-  listVaultsInTheSpecifiedResourceGroup();
+  await listVaultsInTheSpecifiedResourceGroup();
 }
 
 main().catch(console.error);

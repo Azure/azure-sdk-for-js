@@ -17,7 +17,7 @@ import {
   ManagedHsmKeysGetOptionalParams,
   ManagedHsmKeysGetResponse,
   ManagedHsmKeysGetVersionOptionalParams,
-  ManagedHsmKeysGetVersionResponse
+  ManagedHsmKeysGetVersionResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -32,7 +32,7 @@ export interface ManagedHsmKeys {
   list(
     resourceGroupName: string,
     name: string,
-    options?: ManagedHsmKeysListOptionalParams
+    options?: ManagedHsmKeysListOptionalParams,
   ): PagedAsyncIterableIterator<ManagedHsmKey>;
   /**
    * Lists the versions of the specified key in the specified managed HSM.
@@ -47,7 +47,7 @@ export interface ManagedHsmKeys {
     resourceGroupName: string,
     name: string,
     keyName: string,
-    options?: ManagedHsmKeysListVersionsOptionalParams
+    options?: ManagedHsmKeysListVersionsOptionalParams,
   ): PagedAsyncIterableIterator<ManagedHsmKey>;
   /**
    * Creates the first version of a new key if it does not exist. If it already exists, then the existing
@@ -66,7 +66,7 @@ export interface ManagedHsmKeys {
     name: string,
     keyName: string,
     parameters: ManagedHsmKeyCreateParameters,
-    options?: ManagedHsmKeysCreateIfNotExistOptionalParams
+    options?: ManagedHsmKeysCreateIfNotExistOptionalParams,
   ): Promise<ManagedHsmKeysCreateIfNotExistResponse>;
   /**
    * Gets the current version of the specified key from the specified managed HSM.
@@ -81,7 +81,7 @@ export interface ManagedHsmKeys {
     resourceGroupName: string,
     name: string,
     keyName: string,
-    options?: ManagedHsmKeysGetOptionalParams
+    options?: ManagedHsmKeysGetOptionalParams,
   ): Promise<ManagedHsmKeysGetResponse>;
   /**
    * Gets the specified version of the specified key in the specified managed HSM.
@@ -98,6 +98,6 @@ export interface ManagedHsmKeys {
     name: string,
     keyName: string,
     keyVersion: string,
-    options?: ManagedHsmKeysGetVersionOptionalParams
+    options?: ManagedHsmKeysGetVersionOptionalParams,
   ): Promise<ManagedHsmKeysGetVersionResponse>;
 }

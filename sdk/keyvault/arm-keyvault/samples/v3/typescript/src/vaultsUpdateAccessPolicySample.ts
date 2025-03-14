@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   VaultAccessPolicyParameters,
-  KeyVaultManagementClient
+  KeyVaultManagementClient,
 } from "@azure/arm-keyvault";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -19,7 +19,7 @@ import "dotenv/config";
  * This sample demonstrates how to Update access policies in a key vault in the specified subscription.
  *
  * @summary Update access policies in a key vault in the specified subscription.
- * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2023-07-01/examples/updateAccessPoliciesAdd.json
+ * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2024-11-01/examples/updateAccessPoliciesAdd.json
  */
 async function addAnAccessPolicyOrUpdateAnAccessPolicyWithNewPermissions(): Promise<void> {
   const subscriptionId =
@@ -37,12 +37,12 @@ async function addAnAccessPolicyOrUpdateAnAccessPolicyWithNewPermissions(): Prom
           permissions: {
             certificates: ["get"],
             keys: ["encrypt"],
-            secrets: ["get"]
+            secrets: ["get"],
           },
-          tenantId: "00000000-0000-0000-0000-000000000000"
-        }
-      ]
-    }
+          tenantId: "00000000-0000-0000-0000-000000000000",
+        },
+      ],
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new KeyVaultManagementClient(credential, subscriptionId);
@@ -50,13 +50,13 @@ async function addAnAccessPolicyOrUpdateAnAccessPolicyWithNewPermissions(): Prom
     resourceGroupName,
     vaultName,
     operationKind,
-    parameters
+    parameters,
   );
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  addAnAccessPolicyOrUpdateAnAccessPolicyWithNewPermissions();
+  await addAnAccessPolicyOrUpdateAnAccessPolicyWithNewPermissions();
 }
 
 main().catch(console.error);

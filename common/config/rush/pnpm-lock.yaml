@@ -2956,7 +2956,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-keyvault@file:projects/arm-keyvault.tgz':
-    resolution: {integrity: sha512-5qSE73Yeutn3GBcgxz64kx7N0rTzhYZB8wUG51Tm+b49+pzuss4iFHWT7UbNBrKFGiqAXoX2tTyyJi89OX/0oQ==, tarball: file:projects/arm-keyvault.tgz}
+    resolution: {integrity: sha512-ZpT70P/TiZUUCX7CmuK9yiuC6BHfDTYt7XPt4+u8uCEn2gOUI3+hrhi6ci12ZO9X61ZAEK50kddrbk2/VVubGw==, tarball: file:projects/arm-keyvault.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-kubernetesconfiguration@file:projects/arm-kubernetesconfiguration.tgz':
@@ -14571,12 +14571,12 @@ snapshots:
     dependencies:
       '@azure/core-lro': 2.7.2
       '@types/node': 18.19.80
-      '@vitest/browser': 3.0.7(@types/node@18.19.80)(playwright@1.51.0)(typescript@5.7.3)(vite@6.2.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.7)
+      '@vitest/browser': 3.0.7(@types/node@18.19.80)(playwright@1.51.0)(typescript@5.6.3)(vite@6.2.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.7)
       '@vitest/coverage-istanbul': 3.0.7(vitest@3.0.7)
       dotenv: 16.4.7
       playwright: 1.51.0
       tslib: 2.8.1
-      typescript: 5.7.3
+      typescript: 5.6.3
       vitest: 3.0.7(@types/debug@4.1.12)(@types/node@18.19.80)(@vitest/browser@3.0.7)(msw@2.7.3(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.3)(yaml@2.7.0)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
