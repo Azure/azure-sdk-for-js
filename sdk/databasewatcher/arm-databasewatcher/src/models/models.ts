@@ -7,7 +7,9 @@ export interface SharedPrivateLinkResource extends ProxyResource {
   properties?: SharedPrivateLinkResourceProperties;
 }
 
-export function sharedPrivateLinkResourceSerializer(item: SharedPrivateLinkResource): any {
+export function sharedPrivateLinkResourceSerializer(
+  item: SharedPrivateLinkResource,
+): any {
   return {
     properties: !item["properties"]
       ? item["properties"]
@@ -15,7 +17,9 @@ export function sharedPrivateLinkResourceSerializer(item: SharedPrivateLinkResou
   };
 }
 
-export function sharedPrivateLinkResourceDeserializer(item: any): SharedPrivateLinkResource {
+export function sharedPrivateLinkResourceDeserializer(
+  item: any,
+): SharedPrivateLinkResource {
   return {
     id: item["id"],
     name: item["name"],
@@ -37,7 +41,7 @@ export interface SharedPrivateLinkResourceProperties {
   groupId: string;
   /** The request message for requesting approval of the shared private link resource. */
   requestMessage: string;
-  /** The DNS zone to be included in the DNS name of the shared private link. Value is required for Azure Data Explorer clusters and SQL managed instances. The value to use is the second segment of the host FQDN name of the resource that the shared private link resource is for. */
+  /** The DNS zone segment to be included in the DNS name of the shared private link. Value is required for Azure Data Explorer clusters and SQL managed instances, and must be omitted for SQL logical servers and key vaults. The value is the second segment of the host FQDN name of the resource that the shared private link resource is for. For example: if the host name is 'adx-cluster-21187695.eastus.kusto.windows.net', then the value is 'eastus'; if the host name is 'sql-mi-23961134.767d5869f605.database.windows.net', then the value is '767d5869f605'. */
   dnsZone?: string;
   /** Status of the shared private link resource. Can be Pending, Approved, Rejected or Disconnected. */
   readonly status?: SharedPrivateLinkResourceStatus;
@@ -179,7 +183,9 @@ export function systemDataDeserializer(item: any): SystemData {
   return {
     createdBy: item["createdBy"],
     createdByType: item["createdByType"],
-    createdAt: !item["createdAt"] ? item["createdAt"] : new Date(item["createdAt"]),
+    createdAt: !item["createdAt"]
+      ? item["createdAt"]
+      : new Date(item["createdAt"]),
     lastModifiedBy: item["lastModifiedBy"],
     lastModifiedByType: item["lastModifiedByType"],
     lastModifiedAt: !item["lastModifiedAt"]
@@ -220,7 +226,9 @@ export interface ErrorResponse {
 
 export function errorResponseDeserializer(item: any): ErrorResponse {
   return {
-    error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
+    error: !item["error"]
+      ? item["error"]
+      : errorDetailDeserializer(item["error"]),
   };
 }
 
@@ -243,20 +251,26 @@ export function errorDetailDeserializer(item: any): ErrorDetail {
     code: item["code"],
     message: item["message"],
     target: item["target"],
-    details: !item["details"] ? item["details"] : errorDetailArrayDeserializer(item["details"]),
+    details: !item["details"]
+      ? item["details"]
+      : errorDetailArrayDeserializer(item["details"]),
     additionalInfo: !item["additionalInfo"]
       ? item["additionalInfo"]
       : errorAdditionalInfoArrayDeserializer(item["additionalInfo"]),
   };
 }
 
-export function errorDetailArrayDeserializer(result: Array<ErrorDetail>): any[] {
+export function errorDetailArrayDeserializer(
+  result: Array<ErrorDetail>,
+): any[] {
   return result.map((item) => {
     return errorDetailDeserializer(item);
   });
 }
 
-export function errorAdditionalInfoArrayDeserializer(result: Array<ErrorAdditionalInfo>): any[] {
+export function errorAdditionalInfoArrayDeserializer(
+  result: Array<ErrorAdditionalInfo>,
+): any[] {
   return result.map((item) => {
     return errorAdditionalInfoDeserializer(item);
   });
@@ -270,17 +284,23 @@ export interface ErrorAdditionalInfo {
   readonly info?: Record<string, any>;
 }
 
-export function errorAdditionalInfoDeserializer(item: any): ErrorAdditionalInfo {
+export function errorAdditionalInfoDeserializer(
+  item: any,
+): ErrorAdditionalInfo {
   return {
     type: item["type"],
-    info: !item["info"] ? item["info"] : _errorAdditionalInfoInfoDeserializer(item["info"]),
+    info: !item["info"]
+      ? item["info"]
+      : _errorAdditionalInfoInfoDeserializer(item["info"]),
   };
 }
 
 /** model interface _ErrorAdditionalInfoInfo */
 export interface _ErrorAdditionalInfoInfo {}
 
-export function _errorAdditionalInfoInfoDeserializer(item: any): _ErrorAdditionalInfoInfo {
+export function _errorAdditionalInfoInfoDeserializer(
+  item: any,
+): _ErrorAdditionalInfoInfo {
   return item;
 }
 
@@ -354,7 +374,7 @@ export interface TargetProperties {
   targetAuthenticationType: TargetAuthenticationType;
   /** To use SQL authentication when connecting to targets, specify the vault where the login name and password secrets are stored. */
   targetVault?: VaultSecret;
-  /** The server name to use in the connection string when connecting to a target. Port number and instance name must be specified separately. */
+  /** The FQDN host name of the server to use in the connection string when connecting to a target. For example, for an Azure SQL logical server in the Azure commercial cloud, the value might be 'sql-logical-server-22092780.database.windows.net'; for an Azure SQL managed instance in the Azure commercial cloud, the value might be 'sql-mi-39441134.767d5869f605.database.windows.net'. Port number and instance name must be specified separately. */
   connectionServerName: string;
   /** The provisioning state of the resource. */
   readonly provisioningState?: ResourceProvisioningState;
@@ -390,7 +410,9 @@ export type TargetPropertiesUnion =
   | SqlMiTargetProperties
   | TargetProperties;
 
-export function targetPropertiesUnionSerializer(item: TargetPropertiesUnion): any {
+export function targetPropertiesUnionSerializer(
+  item: TargetPropertiesUnion,
+): any {
   switch (item.targetType) {
     case "SqlDb":
       return sqlDbSingleDatabaseTargetPropertiesSerializer(
@@ -398,7 +420,9 @@ export function targetPropertiesUnionSerializer(item: TargetPropertiesUnion): an
       );
 
     case "SqlEp":
-      return sqlDbElasticPoolTargetPropertiesSerializer(item as SqlDbElasticPoolTargetProperties);
+      return sqlDbElasticPoolTargetPropertiesSerializer(
+        item as SqlDbElasticPoolTargetProperties,
+      );
 
     case "SqlMi":
       return sqlMiTargetPropertiesSerializer(item as SqlMiTargetProperties);
@@ -408,7 +432,9 @@ export function targetPropertiesUnionSerializer(item: TargetPropertiesUnion): an
   }
 }
 
-export function targetPropertiesUnionDeserializer(item: any): TargetPropertiesUnion {
+export function targetPropertiesUnionDeserializer(
+  item: any,
+): TargetPropertiesUnion {
   switch (item.targetType) {
     case "SqlDb":
       return sqlDbSingleDatabaseTargetPropertiesDeserializer(
@@ -416,7 +442,9 @@ export function targetPropertiesUnionDeserializer(item: any): TargetPropertiesUn
       );
 
     case "SqlEp":
-      return sqlDbElasticPoolTargetPropertiesDeserializer(item as SqlDbElasticPoolTargetProperties);
+      return sqlDbElasticPoolTargetPropertiesDeserializer(
+        item as SqlDbElasticPoolTargetProperties,
+      );
 
     case "SqlMi":
       return sqlMiTargetPropertiesDeserializer(item as SqlMiTargetProperties);
@@ -470,11 +498,11 @@ export function vaultSecretDeserializer(item: any): VaultSecret {
   };
 }
 
-/** The properties specific to single database in Azure SQL Database. */
+/** The properties specific to a database in Azure SQL Database. */
 export interface SqlDbSingleDatabaseTargetProperties extends TargetProperties {
   /** The Azure SQL DB single database target. */
   targetType: "SqlDb";
-  /** The Azure resource ID of an Azure SQL DB single database target. */
+  /** The Azure resource ID of an Azure SQL DB database target. */
   sqlDbResourceId: string;
   /** Set to true to monitor a high availability replica of specified target, if any. */
   readIntent?: boolean;
@@ -511,7 +539,7 @@ export function sqlDbSingleDatabaseTargetPropertiesDeserializer(
   };
 }
 
-/** The properties specific to elastic pool in Azure SQL Database. */
+/** The properties specific to an elastic pool in Azure SQL Database. */
 export interface SqlDbElasticPoolTargetProperties extends TargetProperties {
   /** The Azure SQL DB elastic pool target. */
   targetType: "SqlEp";
@@ -568,7 +596,9 @@ export interface SqlMiTargetProperties extends TargetProperties {
   readIntent?: boolean;
 }
 
-export function sqlMiTargetPropertiesSerializer(item: SqlMiTargetProperties): any {
+export function sqlMiTargetPropertiesSerializer(
+  item: SqlMiTargetProperties,
+): any {
   return {
     targetType: item["targetType"],
     targetAuthenticationType: item["targetAuthenticationType"],
@@ -582,7 +612,9 @@ export function sqlMiTargetPropertiesSerializer(item: SqlMiTargetProperties): an
   };
 }
 
-export function sqlMiTargetPropertiesDeserializer(item: any): SqlMiTargetProperties {
+export function sqlMiTargetPropertiesDeserializer(
+  item: any,
+): SqlMiTargetProperties {
   return {
     targetType: item["targetType"],
     targetAuthenticationType: item["targetAuthenticationType"],
@@ -658,7 +690,9 @@ export interface HealthValidationProperties {
   readonly provisioningState?: ResourceProvisioningState;
 }
 
-export function healthValidationPropertiesDeserializer(item: any): HealthValidationProperties {
+export function healthValidationPropertiesDeserializer(
+  item: any,
+): HealthValidationProperties {
   return {
     startTime: new Date(item["startTime"]),
     endTime: new Date(item["endTime"]),
@@ -698,7 +732,9 @@ export enum KnownValidationStatus {
  */
 export type ValidationStatus = string;
 
-export function validationIssueArrayDeserializer(result: Array<ValidationIssue>): any[] {
+export function validationIssueArrayDeserializer(
+  result: Array<ValidationIssue>,
+): any[] {
   return result.map((item) => {
     return validationIssueDeserializer(item);
   });
@@ -742,14 +778,18 @@ export interface _HealthValidationListResult {
   nextLink?: string;
 }
 
-export function _healthValidationListResultDeserializer(item: any): _HealthValidationListResult {
+export function _healthValidationListResultDeserializer(
+  item: any,
+): _HealthValidationListResult {
   return {
     value: healthValidationArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function healthValidationArrayDeserializer(result: Array<HealthValidation>): any[] {
+export function healthValidationArrayDeserializer(
+  result: Array<HealthValidation>,
+): any[] {
   return result.map((item) => {
     return healthValidationDeserializer(item);
   });
@@ -799,7 +839,9 @@ export interface AlertRuleResourceProperties {
   alertRuleTemplateVersion: string;
 }
 
-export function alertRuleResourcePropertiesSerializer(item: AlertRuleResourceProperties): any {
+export function alertRuleResourcePropertiesSerializer(
+  item: AlertRuleResourceProperties,
+): any {
   return {
     alertRuleResourceId: item["alertRuleResourceId"],
     createdWithProperties: item["createdWithProperties"],
@@ -809,7 +851,9 @@ export function alertRuleResourcePropertiesSerializer(item: AlertRuleResourcePro
   };
 }
 
-export function alertRuleResourcePropertiesDeserializer(item: any): AlertRuleResourceProperties {
+export function alertRuleResourcePropertiesDeserializer(
+  item: any,
+): AlertRuleResourceProperties {
   return {
     alertRuleResourceId: item["alertRuleResourceId"],
     createdWithProperties: item["createdWithProperties"],
@@ -846,20 +890,26 @@ export interface _AlertRuleResourceListResult {
   nextLink?: string;
 }
 
-export function _alertRuleResourceListResultDeserializer(item: any): _AlertRuleResourceListResult {
+export function _alertRuleResourceListResultDeserializer(
+  item: any,
+): _AlertRuleResourceListResult {
   return {
     value: alertRuleResourceArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function alertRuleResourceArraySerializer(result: Array<AlertRuleResource>): any[] {
+export function alertRuleResourceArraySerializer(
+  result: Array<AlertRuleResource>,
+): any[] {
   return result.map((item) => {
     return alertRuleResourceSerializer(item);
   });
 }
 
-export function alertRuleResourceArrayDeserializer(result: Array<AlertRuleResource>): any[] {
+export function alertRuleResourceArrayDeserializer(
+  result: Array<AlertRuleResource>,
+): any[] {
   return result.map((item) => {
     return alertRuleResourceDeserializer(item);
   });
@@ -919,17 +969,23 @@ export interface WatcherProperties {
 
 export function watcherPropertiesSerializer(item: WatcherProperties): any {
   return {
-    datastore: !item["datastore"] ? item["datastore"] : datastoreSerializer(item["datastore"]),
-    defaultAlertRuleIdentityResourceId: item["defaultAlertRuleIdentityResourceId"],
+    datastore: !item["datastore"]
+      ? item["datastore"]
+      : datastoreSerializer(item["datastore"]),
+    defaultAlertRuleIdentityResourceId:
+      item["defaultAlertRuleIdentityResourceId"],
   };
 }
 
 export function watcherPropertiesDeserializer(item: any): WatcherProperties {
   return {
-    datastore: !item["datastore"] ? item["datastore"] : datastoreDeserializer(item["datastore"]),
+    datastore: !item["datastore"]
+      ? item["datastore"]
+      : datastoreDeserializer(item["datastore"]),
     status: item["status"],
     provisioningState: item["provisioningState"],
-    defaultAlertRuleIdentityResourceId: item["defaultAlertRuleIdentityResourceId"],
+    defaultAlertRuleIdentityResourceId:
+      item["defaultAlertRuleIdentityResourceId"],
   };
 }
 
@@ -1056,7 +1112,9 @@ export interface ManagedServiceIdentityV4 {
   userAssignedIdentities?: Record<string, UserAssignedIdentity>;
 }
 
-export function managedServiceIdentityV4Serializer(item: ManagedServiceIdentityV4): any {
+export function managedServiceIdentityV4Serializer(
+  item: ManagedServiceIdentityV4,
+): any {
   return {
     type: item["type"],
     userAssignedIdentities: !item["userAssignedIdentities"]
@@ -1065,7 +1123,9 @@ export function managedServiceIdentityV4Serializer(item: ManagedServiceIdentityV
   };
 }
 
-export function managedServiceIdentityV4Deserializer(item: any): ManagedServiceIdentityV4 {
+export function managedServiceIdentityV4Deserializer(
+  item: any,
+): ManagedServiceIdentityV4 {
   return {
     principalId: item["principalId"],
     tenantId: item["tenantId"],
@@ -1105,7 +1165,9 @@ export function userAssignedIdentityRecordSerializer(
 ): Record<string, any> {
   const result: Record<string, any> = {};
   Object.keys(item).map((key) => {
-    result[key] = !item[key] ? item[key] : userAssignedIdentitySerializer(item[key]);
+    result[key] = !item[key]
+      ? item[key]
+      : userAssignedIdentitySerializer(item[key]);
   });
   return result;
 }
@@ -1115,27 +1177,33 @@ export function userAssignedIdentityRecordDeserializer(
 ): Record<string, UserAssignedIdentity> {
   const result: Record<string, any> = {};
   Object.keys(item).map((key) => {
-    result[key] = !item[key] ? item[key] : userAssignedIdentityDeserializer(item[key]);
+    result[key] = !item[key]
+      ? item[key]
+      : userAssignedIdentityDeserializer(item[key]);
   });
   return result;
 }
 
 /** User assigned identity properties */
 export interface UserAssignedIdentity {
-  /** The principal ID of the assigned identity. */
-  readonly principalId?: string;
   /** The client ID of the assigned identity. */
   readonly clientId?: string;
+  /** The principal ID of the assigned identity. */
+  readonly principalId?: string;
 }
 
-export function userAssignedIdentitySerializer(item: UserAssignedIdentity): any {
+export function userAssignedIdentitySerializer(
+  item: UserAssignedIdentity,
+): any {
   return item;
 }
 
-export function userAssignedIdentityDeserializer(item: any): UserAssignedIdentity {
+export function userAssignedIdentityDeserializer(
+  item: any,
+): UserAssignedIdentity {
   return {
-    principalId: item["principalId"],
     clientId: item["clientId"],
+    principalId: item["principalId"],
   };
 }
 
@@ -1194,10 +1262,15 @@ export interface WatcherUpdateProperties {
   defaultAlertRuleIdentityResourceId?: string;
 }
 
-export function watcherUpdatePropertiesSerializer(item: WatcherUpdateProperties): any {
+export function watcherUpdatePropertiesSerializer(
+  item: WatcherUpdateProperties,
+): any {
   return {
-    datastore: !item["datastore"] ? item["datastore"] : datastoreSerializer(item["datastore"]),
-    defaultAlertRuleIdentityResourceId: item["defaultAlertRuleIdentityResourceId"],
+    datastore: !item["datastore"]
+      ? item["datastore"]
+      : datastoreSerializer(item["datastore"]),
+    defaultAlertRuleIdentityResourceId:
+      item["defaultAlertRuleIdentityResourceId"],
   };
 }
 
@@ -1236,7 +1309,9 @@ export interface _OperationListResult {
   nextLink?: string;
 }
 
-export function _operationListResultDeserializer(item: any): _OperationListResult {
+export function _operationListResultDeserializer(
+  item: any,
+): _OperationListResult {
   return {
     value: operationArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
@@ -1267,7 +1342,9 @@ export function operationDeserializer(item: any): Operation {
   return {
     name: item["name"],
     isDataAction: item["isDataAction"],
-    display: !item["display"] ? item["display"] : operationDisplayDeserializer(item["display"]),
+    display: !item["display"]
+      ? item["display"]
+      : operationDisplayDeserializer(item["display"]),
     origin: item["origin"],
     actionType: item["actionType"],
   };
