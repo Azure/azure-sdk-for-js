@@ -112,8 +112,14 @@ export class WorkloadIdentityCredential implements TokenCredential {
       // set the this.sniIdentityClient
       // new implementation of INetworkInterface
       // which network interface will be used to make ClientAssertionCredential request
-
-    }
+      this.sniIdentityClient = new IdentityClient({
+        endpoint: host,
+        options: {
+          httpClient: new HttpClient({
+            ca: caData ? forge.pki.certificateFromPem(caData) : undefined,
+            sni: sni,
+          }),
+        });
 
     this.client = new ClientAssertionCredential(
       tenantId,

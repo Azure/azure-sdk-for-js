@@ -68,7 +68,7 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
   private abortControllers: Map<string, AbortController[] | undefined>;
   private allowInsecureConnection: boolean = false;
   // used for WorkloadIdentity
-  private tokenCredentialOptions: TokenCredentialOptions;
+  protected tokenCredentialOptions: TokenCredentialOptions;
 
   constructor(options?: TokenCredentialOptions) {
     const packageDetails = `azsdk-js-identity/${SDK_VERSION}`;
