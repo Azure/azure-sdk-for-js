@@ -1,5 +1,11 @@
 # Release History
 
+## 2.0.0-beta.3 (2025-03-14)
+
+### Bugs Fixed
+
+- Fix ESM module file not found.
+
 ## 2.0.0-beta.2 (2024-12-10)
 
 ### Breaking Changes

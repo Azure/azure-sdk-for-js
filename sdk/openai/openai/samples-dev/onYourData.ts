@@ -56,7 +56,9 @@ export async function main(): Promise<void> {
 
   for await (const event of events) {
     for (const choice of event.choices) {
-      console.log(choice.delta?.content);
+      if (choice.delta?.content) {
+        process.stdout.write(choice.delta.content);
+      }
     }
   }
 }
