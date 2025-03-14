@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { isPlaybackMode, type Recorder, type VitestTestContext } from "@azure-tools/test-recorder";
+import type { Recorder, VitestTestContext } from "@azure-tools/test-recorder";
 import type { AgentsOperations, AIProjectsClient } from "../../../src/index.js";
 import { createRecorder, createProjectsClient } from "../utils/createClient.js";
 import { assert, beforeEach, afterEach, it, describe } from "vitest";
@@ -13,23 +13,6 @@ describe("Agents - files", () => {
 
   beforeEach(async function (context: VitestTestContext) {
     recorder = await createRecorder(context);
-    if (isPlaybackMode()) {
-      // To handle the unpredicable content-type header (in different environments?) encoded in the body
-      // The following matcher is to avoid the mismatch between the request and the recording:
-      //    <Content-Type> values differ, request <application/json>, record <application/json; charset=UTF-8>
-      //
-      // Body mismatches due to content-type header differences:
-      // -----RecordedTestMultipartBoundary
-      // content-type: application/json; charset=UTF-8
-      // content-disposition: form-data; name="file"; filename="filename.txt"
-      // {}
-      // -----RecordedTestMultipartBoundary
-      // content-type: text/plain; charset=UTF-8
-      // content-disposition: form-data; name="purpose"
-      // assistants
-      // -----RecordedTestMultipartBoundary--
-      await recorder.setMatcher("BodilessMatcher");
-    }
     projectsClient = createProjectsClient(recorder);
     agents = projectsClient.agents;
   });
