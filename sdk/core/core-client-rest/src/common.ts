@@ -4,7 +4,6 @@
 import type {
   HttpClient,
   LogPolicyOptions,
-  NodeJSReadableStream,
   Pipeline,
   PipelineOptions,
   PipelinePolicy,
@@ -225,7 +224,7 @@ export type HttpNodeStreamResponse = HttpResponse & {
   /**
    * Streamable body
    */
-  body?: NodeJSReadableStream;
+  body?: NodeJS.ReadableStream;
 };
 
 /**
