@@ -39,8 +39,5 @@ export {
   ExtendedZonesGetOptionalParams,
 } from "./api/extendedZones/index.js";
 export { OperationsListOptionalParams } from "./api/operations/index.js";
-export {
-  ExtendedZonesOperations,
-  OperationsOperations,
-} from "./classic/index.js";
+export { ExtendedZonesOperations, OperationsOperations } from "./classic/index.js";
 export { PageSettings, ContinuablePage, PagedAsyncIterableIterator };

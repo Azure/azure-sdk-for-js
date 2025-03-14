@@ -5,15 +5,8 @@ import {
   _getExtendedZonesOperations,
   ExtendedZonesOperations,
 } from "./classic/extendedZones/index.js";
-import {
-  _getOperationsOperations,
-  OperationsOperations,
-} from "./classic/operations/index.js";
-import {
-  createEdgeZones,
-  EdgeZonesContext,
-  EdgeZonesClientOptionalParams,
-} from "./api/index.js";
+import { _getOperationsOperations, OperationsOperations } from "./classic/operations/index.js";
+import { createEdgeZones, EdgeZonesContext, EdgeZonesClientOptionalParams } from "./api/index.js";
 import { Pipeline } from "@azure/core-rest-pipeline";
 import { TokenCredential } from "@azure/core-auth";
 
