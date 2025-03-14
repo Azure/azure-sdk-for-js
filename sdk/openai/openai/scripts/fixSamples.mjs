@@ -30,7 +30,6 @@ async function processFile(filePath) {
     const content = await fs.readFile(filePath, "utf-8");
     // Regex to match: require("@azure/openai/types"); using either ' or " for the quotes.
     const regex = /require\((['"])@azure\/openai\/types\1\);?\s*\n?/g;
-    // Replace the matching line with an empty line instead of removing it altogether.
     const newContent = content.replace(regex, "\n");
     if (newContent !== content) {
       await fs.writeFile(filePath, newContent, "utf-8");
