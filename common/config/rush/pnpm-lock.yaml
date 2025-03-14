@@ -2832,7 +2832,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-eventgrid@file:projects/arm-eventgrid.tgz':
-    resolution: {integrity: sha512-70LuLNNK6MxKzIs4O0uXpqeJQt8T9aTQ8H2bXY8D6mZkY7DI5+H7RbkAK73HmZJxEB4Glep9AU/9DDE8W/g5DA==, tarball: file:projects/arm-eventgrid.tgz}
+    resolution: {integrity: sha512-0J3XsFs+sXb7aAwIwZ+KgyB2xa3lA8rq1AENoHkb45uC/d9lw5gDhjwunYh5vYuENfbJqE8tBd/hNA5nAQw/HA==, tarball: file:projects/arm-eventgrid.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-eventhub-profile-2020-09-01-hybrid@file:projects/arm-eventhub-profile-2020-09-01-hybrid.tgz':
@@ -13490,12 +13490,12 @@ snapshots:
     dependencies:
       '@azure/core-lro': 2.7.2
       '@types/node': 18.19.80
-      '@vitest/browser': 3.0.7(@types/node@18.19.80)(playwright@1.51.0)(typescript@5.7.3)(vite@6.2.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.7)
+      '@vitest/browser': 3.0.7(@types/node@18.19.80)(playwright@1.51.0)(typescript@5.6.3)(vite@6.2.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.7)
       '@vitest/coverage-istanbul': 3.0.7(vitest@3.0.7)
       dotenv: 16.4.7
       playwright: 1.51.0
       tslib: 2.8.1
-      typescript: 5.7.3
+      typescript: 5.6.3
       vitest: 3.0.7(@types/debug@4.1.12)(@types/node@18.19.80)(@vitest/browser@3.0.7)(msw@2.7.3(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.3)(yaml@2.7.0)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
