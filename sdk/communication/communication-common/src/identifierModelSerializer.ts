@@ -110,7 +110,7 @@ export interface SerializedMicrosoftTeamsAppIdentifier {
 
 /**
  * @hidden
- * A Microsoft Teams Phone user who is using a Communication Services resource to extend their Teams Phone set up.
+ * A Microsoft Teams Phone user who is using the Azure Communication Services resource to extend their Teams Phone set up.
  */
 export interface SerializedTeamsExtensionUserIdentifier {
   /**
