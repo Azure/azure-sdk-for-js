@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ImplementationName, Result } from "./utils/utils.js";
-import { assertDivergentBehavior, assertError, createDoubleHeaders } from "./utils/utils.js";
+import type { ImplementationName, Result } from "../utils/utils.js";
+import { assertDivergentBehavior, assertError, createDoubleHeaders } from "../utils/utils.js";
 import { describe, it, assert, expect, chai } from "vitest";
 import chaiAsPromised from "chai-as-promised";
-import { createRunLroWith, createTestPoller } from "./utils/router.js";
+import { createRunLroWith, createTestPoller } from "../utils/router.js";
 import { delay } from "@azure/core-util";
 import { matrix } from "@azure-tools/test-utils-vitest";
 
