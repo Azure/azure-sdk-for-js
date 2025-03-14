@@ -3830,7 +3830,7 @@ export class BlockBlobClient extends BlobClient {
    *   return new Promise((resolve, reject) => {
    *     const chunks: Buffer[] = [];
    *     readableStream.on("data", (data) => {
-   *       chunks.push(data instanceof Buffer ? data : Buffer.from(data));
+   *       chunks.push(typeof data === "string" ? Buffer.from(data) : data);
    *     });
    *     readableStream.on("end", () => {
    *       resolve(Buffer.concat(chunks));
