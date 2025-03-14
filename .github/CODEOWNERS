@@ -77,7 +77,7 @@
 
 # PRLabel: %Communication - Identity
 # ServiceLabel: %Communication - Identity
-/sdk/communication/communication-identity/ @AikoBB @maximrytych-ms @mjafferi-msft @paveldostalms
+/sdk/communication/communication-identity/ @AikoBB @maximrytych-ms @mjafferi-msft
 
 # PRLabel: %Communication - Chat
 # ServiceLabel: %Communication - Chat
@@ -117,7 +117,7 @@
 
 # PRLabel: %Communication - Common
 # ServiceLabel: %Communication - Common
-/sdk/communication/communication-common/ @AikoBB @maximrytych-ms @mjafferi-msft @paveldostalms
+/sdk/communication/communication-common/ @AikoBB @maximrytych-ms @mjafferi-msft
 
 # PRLabel: %Container Registry
 /sdk/containerregistry/ @timovv @jeremymeng @Azure/azsdk-acr
