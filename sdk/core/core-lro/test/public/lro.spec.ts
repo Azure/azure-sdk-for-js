@@ -3,13 +3,10 @@
 
 import type { ImplementationName, Result } from "../utils/utils.js";
 import { assertDivergentBehavior, assertError, createDoubleHeaders } from "../utils/utils.js";
-import { describe, it, assert, expect, chai } from "vitest";
-import chaiAsPromised from "chai-as-promised";
+import { describe, it, assert, expect } from "vitest";
 import { createRunLroWith, createTestPoller } from "../utils/router.js";
 import { delay } from "@azure/core-util";
 import { matrix } from "@azure-tools/test-utils-vitest";
-
-chai.use(chaiAsPromised);
 
 matrix(
   [["createPoller"], [true, false]] as const,
@@ -2988,7 +2985,8 @@ matrix(
           assert.equal(pollerState.state.config.operationLocation, `${baseUrl}/path/polling`);
           assert.equal(pollerState.state.config.resourceLocation, `${baseUrl}/location`);
           assert.equal(pollerState.state.config.initialRequestUrl, initialRequestUrl);
-          await assert.isFulfilled(poller.pollUntilDone());
+          const res = await poller.pollUntilDone();
+          assert.equal(res.statusCode, 200);
         });
         it("prints an error message based on the error in the status monitor", async () => {
           const pollingPath = "/postlocation/retry/succeeded/operationResults/200/";
@@ -3212,7 +3210,7 @@ matrix(
               implName,
               throwOnNon2xxResponse: true,
             });
-            await expect(poller).to.be.rejectedWith(errMsg);
+            await expect(poller).rejects.toThrow(errMsg);
           });
           it("should work properly when mixing catch and await", async () => {
             const body = { status: "canceled", results: [1, 2] };
@@ -3247,9 +3245,9 @@ matrix(
               err = e;
             });
             assert.equal(err.message, errMsg);
-            await expect(poller).to.be.rejectedWith(errMsg);
+            await expect(poller).rejects.toThrow(errMsg);
             assert.equal(callbackCounts, 1);
-            await expect(poller.finally(() => callbackCounts++)).to.be.rejectedWith(errMsg);
+            await expect(poller.finally(() => callbackCounts++)).rejects.toThrow(errMsg);
             assert.equal(callbackCounts, 2);
           });
         });

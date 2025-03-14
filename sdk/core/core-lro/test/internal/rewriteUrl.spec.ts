@@ -51,4 +51,18 @@ describe("rewriteUrl", () => {
     const result = rewriteUrl({ url: inputUrl, baseUrl });
     assert.equal(result, "https://new.example.com/a%20b?query=hello%20world#section%20one");
   });
+
+  it("should change the protocol from https to http", () => {
+    const inputUrl = "https://old.example.com/path/to/resource";
+    const baseUrl = "http://new.example.com";
+    const result = rewriteUrl({ url: inputUrl, baseUrl });
+    assert.equal(result, "http://new.example.com/path/to/resource");
+  });
+
+  it("should change the port when specified", () => {
+    const inputUrl = "https://old.example.com/path";
+    const baseUrl = "https://new.example.com:8080";
+    const result = rewriteUrl({ url: inputUrl, baseUrl });
+    assert.equal(result, "https://new.example.com:8080/path");
+  });
 });
