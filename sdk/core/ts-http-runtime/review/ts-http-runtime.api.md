@@ -159,7 +159,7 @@ export type HttpMethods = "GET" | "PUT" | "POST" | "DELETE" | "PATCH" | "HEAD" |
 
 // @public
 export type HttpNodeStreamResponse = HttpResponse & {
-    body?: NodeJS.ReadableStream;
+    body?: NodeJSReadableStream;
 };
 
 // @public
@@ -201,6 +201,11 @@ export interface LogPolicyOptions {
 export interface MultipartRequestBody {
     boundary?: string;
     parts: BodyPart[];
+}
+
+// @public
+export interface NodeJSReadableStream extends NodeJS.ReadableStream {
+    destroy(error?: Error): void;
 }
 
 // @public
@@ -326,7 +331,7 @@ export interface PipelineResponse {
     bodyAsText?: string | null;
     browserStreamBody?: ReadableStream<Uint8Array>;
     headers: HttpHeaders;
-    readableStreamBody?: NodeJS.ReadableStream;
+    readableStreamBody?: NodeJSReadableStream;
     request: PipelineRequest;
     status: number;
 }
