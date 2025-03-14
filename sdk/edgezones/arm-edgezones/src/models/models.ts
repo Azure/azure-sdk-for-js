@@ -49,9 +49,7 @@ export interface ExtendedZoneProperties {
 
 export function extendedZonePropertiesDeserializer(item: any): ExtendedZoneProperties {
   return {
-    provisioningState: !item["provisioningState"]
-      ? item["provisioningState"]
-      : provisioningStateDeserializer(item["provisioningState"]),
+    provisioningState: item["provisioningState"],
     registrationState: item["registrationState"],
     displayName: item["displayName"],
     regionalDisplayName: item["regionalDisplayName"],
@@ -65,43 +63,38 @@ export function extendedZonePropertiesDeserializer(item: any): ExtendedZonePrope
   };
 }
 
-/** Alias for ProvisioningState */
-export type ProvisioningState =
-  | string
-  | ResourceProvisioningState
-  | "Provisioning"
-  | "Updating"
-  | "Deleting"
-  | "Accepted";
-
-export function provisioningStateSerializer(item: ProvisioningState): any {
-  return item;
-}
-
-export function provisioningStateDeserializer(item: any): ProvisioningState {
-  return item;
-}
-
-/** The provisioning state of a resource type. */
-export enum KnownResourceProvisioningState {
+/** The status of the current operation. */
+export enum KnownProvisioningState {
   /** Resource has been created. */
   Succeeded = "Succeeded",
   /** Resource creation failed. */
   Failed = "Failed",
   /** Resource creation was canceled. */
   Canceled = "Canceled",
+  /** Provisioning State */
+  Provisioning = "Provisioning",
+  /** Updating State */
+  Updating = "Updating",
+  /** Deleting State */
+  Deleting = "Deleting",
+  /** Accepted State */
+  Accepted = "Accepted",
 }
 
 /**
- * The provisioning state of a resource type. \
- * {@link KnownResourceProvisioningState} can be used interchangeably with ResourceProvisioningState,
+ * The status of the current operation. \
+ * {@link KnownProvisioningState} can be used interchangeably with ProvisioningState,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Succeeded**: Resource has been created. \
  * **Failed**: Resource creation failed. \
- * **Canceled**: Resource creation was canceled.
+ * **Canceled**: Resource creation was canceled. \
+ * **Provisioning**: Provisioning State \
+ * **Updating**: Updating State \
+ * **Deleting**: Deleting State \
+ * **Accepted**: Accepted State
  */
-export type ResourceProvisioningState = string;
+export type ProvisioningState = string;
 
 /** The Azure Extended Zone registration status for a subscription */
 export enum KnownRegistrationState {
@@ -261,6 +254,12 @@ export function errorDetailArrayDeserializer(result: Array<ErrorDetail>): any[] 
   });
 }
 
+export function errorAdditionalInfoArrayDeserializer(result: Array<ErrorAdditionalInfo>): any[] {
+  return result.map((item) => {
+    return errorAdditionalInfoDeserializer(item);
+  });
+}
+
 /** The resource management error additional info. */
 export interface ErrorAdditionalInfo {
   /** The additional info type. */
@@ -281,12 +280,6 @@ export interface _ErrorAdditionalInfoInfo {}
 
 export function _errorAdditionalInfoInfoDeserializer(item: any): _ErrorAdditionalInfoInfo {
   return item;
-}
-
-export function errorAdditionalInfoArrayDeserializer(result: Array<ErrorAdditionalInfo>): any[] {
-  return result.map((item) => {
-    return errorAdditionalInfoDeserializer(item);
-  });
 }
 
 /** The response of a ExtendedZone list operation. */
@@ -325,6 +318,12 @@ export function _operationListResultDeserializer(item: any): _OperationListResul
   };
 }
 
+export function operationArrayDeserializer(result: Array<Operation>): any[] {
+  return result.map((item) => {
+    return operationDeserializer(item);
+  });
+}
+
 /** Details of a REST API operation, returned from the Resource Provider Operations API */
 export interface Operation {
   /** The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action" */
@@ -332,11 +331,11 @@ export interface Operation {
   /** Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for Azure Resource Manager/control-plane operations. */
   readonly isDataAction?: boolean;
   /** Localized display information for this particular operation. */
-  readonly display?: OperationDisplay;
+  display?: OperationDisplay;
   /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
   readonly origin?: Origin;
   /** Extensible enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
-  actionType?: ActionType;
+  readonly actionType?: ActionType;
 }
 
 export function operationDeserializer(item: any): Operation {
@@ -373,11 +372,11 @@ export function operationDisplayDeserializer(item: any): OperationDisplay {
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export enum KnownOrigin {
   /** Indicates the operation is initiated by a user. */
-  user = "user",
+  User = "user",
   /** Indicates the operation is initiated by a system. */
-  system = "system",
+  System = "system",
   /** Indicates the operation is initiated by a user or system. */
-  "user,system" = "user,system",
+  UserSystem = "user,system",
 }
 
 /**
@@ -406,8 +405,8 @@ export enum KnownActionType {
  */
 export type ActionType = string;
 
-export function operationArrayDeserializer(result: Array<Operation>): any[] {
-  return result.map((item) => {
-    return operationDeserializer(item);
-  });
+/** Api versions */
+export enum KnownVersions {
+  /** 2024-04-01-preview api version */
+  _20240401Preview = "2024-04-01-preview",
 }

@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { getOperationsOperations, OperationsOperations } from "./classic/operations/index.js";
 import {
-  getExtendedZonesOperations,
+  _getExtendedZonesOperations,
   ExtendedZonesOperations,
 } from "./classic/extendedZones/index.js";
+import { _getOperationsOperations, OperationsOperations } from "./classic/operations/index.js";
 import { createEdgeZones, EdgeZonesContext, EdgeZonesClientOptionalParams } from "./api/index.js";
 import { Pipeline } from "@azure/core-rest-pipeline";
 import { TokenCredential } from "@azure/core-auth";
@@ -26,17 +26,17 @@ export class EdgeZonesClient {
     const userAgentPrefix = prefixFromOptions
       ? `${prefixFromOptions} azsdk-js-client`
       : `azsdk-js-client`;
-    this._client = createEdgeZones(credential, {
+    this._client = createEdgeZones(credential, subscriptionId, {
       ...options,
       userAgentOptions: { userAgentPrefix },
     });
     this.pipeline = this._client.pipeline;
-    this.operations = getOperationsOperations(this._client);
-    this.extendedZones = getExtendedZonesOperations(this._client, subscriptionId);
+    this.extendedZones = _getExtendedZonesOperations(this._client);
+    this.operations = _getOperationsOperations(this._client);
   }
 
-  /** The operation groups for Operations */
-  public readonly operations: OperationsOperations;
-  /** The operation groups for ExtendedZones */
+  /** The operation groups for extendedZones */
   public readonly extendedZones: ExtendedZonesOperations;
+  /** The operation groups for operations */
+  public readonly operations: OperationsOperations;
 }

@@ -4,9 +4,8 @@
 export {
   ExtendedZone,
   ExtendedZoneProperties,
+  KnownProvisioningState,
   ProvisioningState,
-  KnownResourceProvisioningState,
-  ResourceProvisioningState,
   KnownRegistrationState,
   RegistrationState,
   ProxyResource,
@@ -23,4 +22,5 @@ export {
   Origin,
   KnownActionType,
   ActionType,
+  KnownVersions,
 } from "./models.js";

@@ -1,15 +1,24 @@
 # Release History
-
-## 1.0.0-beta.4 (Unreleased)
-
+    
+## 1.0.0-beta.4 (2025-03-14)
+Compared with version 1.0.0-beta.3
+    
 ### Features Added
+
+  - Added Enum KnownProvisioningState
+  - Added Enum KnownVersions
+  - Enum KnownOrigin has a new value System
+  - Enum KnownOrigin has a new value User
+  - Enum KnownOrigin has a new value UserSystem
 
 ### Breaking Changes
 
-### Bugs Fixed
-
-### Other Changes
-
+  - Removed Enum KnownResourceProvisioningState
+  - Enum KnownOrigin no longer has value "user,system"
+  - Enum KnownOrigin no longer has value system
+  - Enum KnownOrigin no longer has value user
+    
+    
 ## 1.0.0-beta.3 (2024-11-07)
 
 ### Bugs Fixed
