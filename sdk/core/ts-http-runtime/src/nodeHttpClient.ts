@@ -9,7 +9,6 @@ import { AbortError } from "./abort-controller/AbortError.js";
 import type {
   HttpClient,
   HttpHeaders,
-  NodeJSReadableStream,
   PipelineRequest,
   PipelineResponse,
   RequestBodyType,
@@ -24,11 +23,11 @@ import { Sanitizer } from "./util/sanitizer.js";
 
 const DEFAULT_TLS_SETTINGS = {};
 
-function isReadableStream(body: any): body is NodeJSReadableStream {
+function isReadableStream(body: any): body is NodeJS.ReadableStream {
   return body && typeof body.pipe === "function";
 }
 
-function isStreamComplete(stream: NodeJSReadableStream): Promise<void> {
+function isStreamComplete(stream: NodeJS.ReadableStream): Promise<void> {
   if (stream.readable === false) {
     return Promise.resolve();
   }
@@ -122,7 +121,7 @@ class NodeHttpClient implements HttpClient {
       }
     }
 
-    let responseStream: NodeJSReadableStream | undefined;
+    let responseStream: NodeJS.ReadableStream | undefined;
     try {
       if (body && request.onUploadProgress) {
         const onUploadProgress = request.onUploadProgress;
@@ -333,7 +332,7 @@ function getResponseHeaders(res: IncomingMessage): HttpHeaders {
 function getDecodedResponseStream(
   stream: IncomingMessage,
   headers: HttpHeaders,
-): NodeJSReadableStream {
+): NodeJS.ReadableStream {
   const contentEncoding = headers.get("Content-Encoding");
   if (contentEncoding === "gzip") {
     const unzip = zlib.createGunzip();
@@ -348,7 +347,7 @@ function getDecodedResponseStream(
   return stream;
 }
 
-function streamToText(stream: NodeJSReadableStream): Promise<string> {
+function streamToText(stream: NodeJS.ReadableStream): Promise<string> {
   return new Promise<string>((resolve, reject) => {
     const buffer: Buffer[] = [];
 

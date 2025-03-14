@@ -5,8 +5,9 @@ import { createSseStream } from "../../../src/index.js";
 import { type Client, getClient } from "@azure-rest/core-client";
 import { assert, beforeAll, beforeEach, afterEach, describe, it } from "vitest";
 import { port } from "../../server/config.mjs";
+import type { IncomingMessage } from "http";
 import { matrix } from "@azure-tools/test-utils-vitest";
-import { isRestError, type NodeJSReadableStream } from "@azure/core-rest-pipeline";
+import { isRestError } from "@azure/core-rest-pipeline";
 
 const contentType = "text/event-stream";
 function getEndpoint(): string {
@@ -17,7 +18,7 @@ async function sendRequest(
   client: Client,
   path: string,
   abortSignal?: AbortSignal,
-): Promise<NodeJSReadableStream> {
+): Promise<IncomingMessage> {
   const res = await client
     .pathUnchecked(path)
     .get({ accept: contentType, abortSignal })
@@ -32,7 +33,7 @@ async function sendRequest(
   if (!receivedContentType.includes(contentType)) {
     throw new Error(`Expected a text/event-stream content but received"${receivedContentType}"`);
   }
-  return res.body;
+  return res.body as IncomingMessage;
 }
 
 describe("[Node] Connections", () => {
@@ -70,7 +71,7 @@ describe("[Node] Connections", () => {
         });
 
         it("loop until stream ends and then break", async function () {
-          let stream: NodeJSReadableStream;
+          let stream: IncomingMessage;
           try {
             stream = await sendRequest(client, path);
           } catch (e) {
@@ -87,7 +88,7 @@ describe("[Node] Connections", () => {
               ran = true;
               if (sse.data === "[DONE]") {
                 if (path.includes("no-fin")) {
-                  assert.isNull((stream as any).socket);
+                  assert.isNull(stream.socket);
                 }
                 break;
               }
@@ -99,7 +100,7 @@ describe("[Node] Connections", () => {
         });
 
         it("break early from loop", async function () {
-          let stream: NodeJSReadableStream;
+          let stream: IncomingMessage;
           try {
             // sometimes the server gets into a bad state and doesn't respond so we need to timeout
             stream = await sendRequest(client, path, AbortSignal.timeout(25000));
