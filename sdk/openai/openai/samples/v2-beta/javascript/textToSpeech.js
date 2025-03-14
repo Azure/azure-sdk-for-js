@@ -10,7 +10,7 @@
 require("openai/shims/node");
 const { AzureOpenAI } = require("openai");
 const { DefaultAzureCredential, getBearerTokenProvider } = require("@azure/identity");
-const { writeFile } = require("fs/promises");
+const { writeFile } = require("node:fs/promises");
 
 // Set AZURE_OPENAI_ENDPOINT to the endpoint of your
 // OpenAI resource. You can find this in the Azure portal.
