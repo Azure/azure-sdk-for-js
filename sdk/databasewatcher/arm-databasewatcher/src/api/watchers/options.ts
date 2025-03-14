@@ -16,12 +16,10 @@ export interface WatchersStartOptionalParams extends OperationOptions {
 }
 
 /** Optional parameters. */
-export interface WatchersListBySubscriptionOptionalParams
-  extends OperationOptions {}
+export interface WatchersListBySubscriptionOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface WatchersListByResourceGroupOptionalParams
-  extends OperationOptions {}
+export interface WatchersListByResourceGroupOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface WatchersDeleteOptionalParams extends OperationOptions {

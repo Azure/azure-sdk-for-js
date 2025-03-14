@@ -64,14 +64,7 @@ function _getAlertRuleResources(context: DatabaseWatcherContext) {
       watcherName: string,
       alertRuleResourceName: string,
       options?: AlertRuleResourcesDeleteOptionalParams,
-    ) =>
-      $delete(
-        context,
-        resourceGroupName,
-        watcherName,
-        alertRuleResourceName,
-        options,
-      ),
+    ) => $delete(context, resourceGroupName, watcherName, alertRuleResourceName, options),
     createOrUpdate: (
       resourceGroupName: string,
       watcherName: string,
@@ -92,14 +85,7 @@ function _getAlertRuleResources(context: DatabaseWatcherContext) {
       watcherName: string,
       alertRuleResourceName: string,
       options?: AlertRuleResourcesGetOptionalParams,
-    ) =>
-      get(
-        context,
-        resourceGroupName,
-        watcherName,
-        alertRuleResourceName,
-        options,
-      ),
+    ) => get(context, resourceGroupName, watcherName, alertRuleResourceName, options),
   };
 }
 
