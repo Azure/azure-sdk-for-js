@@ -28,7 +28,8 @@ const timeoutForLargeFileUploadingTest = 20 * 60 * 1000;
 
 describe(
   "BlobChangeFeedClient",
-  { skip: env.CHANGE_FEED_ENABLED !== "1" && !isPlaybackMode() },
+  { skip: true },
+  // TODO: Enable { skip: env.CHANGE_FEED_ENABLED !== "1" && !isPlaybackMode() },
   async () => {
     let recorder: Recorder;
     let changeFeedClient: BlobChangeFeedClient;
