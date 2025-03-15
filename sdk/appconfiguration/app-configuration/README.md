@@ -11,8 +11,6 @@ Use *@azure/app-configuration* (this library) to:
 - Replay settings from any point in time
 - Manage snapshots of an app's configuration
 
-## Getting started
-
 Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/appconfiguration/app-configuration/)
@@ -20,6 +18,8 @@ Key links:
 - [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/app-configuration)
 - [Product documentation](https://learn.microsoft.com/azure/azure-app-configuration/)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/appconfiguration/app-configuration/samples)
+
+## Getting started
 
 ### Install the package
 
