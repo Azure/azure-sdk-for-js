@@ -9,10 +9,7 @@ import { CredentialUnavailableError } from "../errors.js";
 import type { WorkloadIdentityCredentialOptions } from "./workloadIdentityCredentialOptions.js";
 import { checkTenantId } from "../util/tenantIdUtils.js";
 import { readFile } from "node:fs/promises";
-import * as forge from "node-forge";
-import { readFileSync } from "node:fs";
-import { IdentityClient } from "../client/identityClient.js";
-
+import { sniIdentityClient } from "../client/sniIdentityClient.js";
 const credentialName = "WorkloadIdentityCredential";
 /**
  * Contains the list of all supported environment variable names so that an
@@ -46,7 +43,7 @@ export class WorkloadIdentityCredential implements TokenCredential {
   private azureFederatedTokenFileContent: string | undefined = undefined;
   private cacheDate: number | undefined = undefined;
   private federatedTokenFilePath: string | undefined;
-  private sniIdentityClient: IdentityClient | undefined; // this is the http client that will be used to make the request to the token endpoint - sni+https
+  private sniIdentityClient: sniIdentityClient | undefined; // this is the http client that will be used to make the request to the token endpoint - sni+https
   /**
    * WorkloadIdentityCredential supports Microsoft Entra Workload ID on Kubernetes.
    *
@@ -89,15 +86,12 @@ export class WorkloadIdentityCredential implements TokenCredential {
     logger.info(
       `Invoking ClientAssertionCredential with tenant ID: ${tenantId}, clientId: ${workloadIdentityCredentialOptions.clientId} and federated token path: [REDACTED]`,
     );
- 
-
+    // check if the environment variables are set for sniIdentityClient
+    // if they are set, then set the sniIdentityClient to use the new implementation of INetworkInterface
     const sni = process.env.AZURE_KUBERNETES_SNI_NAME;
     const host = process.env.AZURE_KUBERNETES_TOKEN_ENDPOINT;
     if (sni && host) {
-      // var aksSNIPolicyCA *x509.CertPool
-      const certPool = forge.pki.createCaStore();
-      //const aksSNIPolicyCAData = forge.pki.certificateToPem(certPool);
-
+      logger.info(`Found the following environment variables: ${sni} and ${host}`);
       const caFile = process.env.AZURE_KUBERNETES_CA_FILE;
       const caData = process.env.AZURE_KUBERNETES_CA_DATA;
       if (caFile && caData) {
@@ -105,37 +99,34 @@ export class WorkloadIdentityCredential implements TokenCredential {
           `${credentialName}: is unavailable. Both AZURE_KUBERNETES_CA_FILE and AZURE_KUBERNETES_CA_DATA are provided. Please provide only one of them.`,
         );
       }
-      if(caFile) {
-        const caData = readFileSync(caFile);
-        certPool.addCert(forge.pki.certificateFromPem(caData));
-      }
       // set the this.sniIdentityClient
       // new implementation of INetworkInterface
-      // which network interface will be used to make ClientAssertionCredential request
-      this.sniIdentityClient = new IdentityClient({
-        endpoint: host,
-        options: {
-          httpClient: new HttpClient({
-            ca: caData ? forge.pki.certificateFromPem(caData) : undefined,
-            sni: sni,
-          }),
-        });
-
-    this.client = new ClientAssertionCredential(
-      tenantId,
-      clientId,
-      this.readFileContents.bind(this),
-      options,
-    );
-  
+      if (caFile) {
+        this.sniIdentityClient = new sniIdentityClient("file", caFile, options);
+      } else if (caData) {
+        this.sniIdentityClient = new sniIdentityClient("data", caData, options);
+      }
+    }
+    // which network interface will be used to make ClientAssertionCredential request
+    if (this.sniIdentityClient) {
+      this.client = new ClientAssertionCredential(
+        tenantId,
+        clientId,
+        this.readFileContents.bind(this),
+        {
+          ...options,
+          httpClient: this.sniIdentityClient,
+        },
+      );
+    } else {
+      this.client = new ClientAssertionCredential(
+        tenantId,
+        clientId,
+        this.readFileContents.bind(this),
+        options,
+      );
+    }
   }
-// if i can modify 
-// extra boolean which is uninitiliazed - check the env vars, if they are not set, set initialize to true
-// if they are set, do all the logic and set initialize to true
-// ultimately, we should be able to configure the http transport layer passing to msal client
-// you should be able to intercept the http request with the new token request and pass the settings to msal client
-
-
 
   /**
    * Authenticates with Microsoft Entra ID and returns an access token if successful.

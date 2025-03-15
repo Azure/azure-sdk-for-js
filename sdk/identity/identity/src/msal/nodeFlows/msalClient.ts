@@ -30,6 +30,7 @@ import type { TokenCachePersistenceOptions } from "./tokenCachePersistenceOption
 import { calculateRegionalAuthority } from "../../regionalAuthority.js";
 import { getLogLevel } from "@azure/logger";
 import { resolveTenantId } from "../../util/tenantIdUtils.js";
+import { sniIdentityClient } from "../../client/sniIdentityClient.js";
 
 /**
  * The default logger used if no logger was passed in by the credential.
@@ -241,6 +242,8 @@ export interface MsalClientOptions {
    * The authentication record for the MsalClient.
    */
   authenticationRecord?: AuthenticationRecord;
+
+  sniClient?: sniIdentityClient;
 }
 
 /**
@@ -266,12 +269,16 @@ export function generateMsalConfiguration(
   const authority = getAuthority(resolvedTenant, getAuthorityHost(msalClientOptions));
 
   // it should take this identity client as a parameter and should be able to set this from WI constructor while making ClientAssertionCredential
-  const httpClient = new IdentityClient({
-    ...msalClientOptions.tokenCredentialOptions,
-    authorityHost: authority,
-    loggingOptions: msalClientOptions.loggingOptions,
-  });
-
+  let httpClient: IdentityClient | sniIdentityClient;
+  if (!msalClientOptions.sniClient) {
+    httpClient = new IdentityClient({
+      ...msalClientOptions.tokenCredentialOptions,
+      authorityHost: authority,
+      loggingOptions: msalClientOptions.loggingOptions,
+    });
+  } else {
+    httpClient = msalClientOptions.sniClient;
+  }
   const msalConfig: msal.Configuration = {
     auth: {
       clientId,

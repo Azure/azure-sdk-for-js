@@ -61,7 +61,7 @@ export function getIdentityClientAuthorityHost(options?: TokenCredentialOptions)
  *
  */
 
-// extend this IdentityClient that overrides 
+// extend this IdentityClient that overrides
 export class IdentityClient extends ServiceClient implements INetworkModule {
   public authorityHost: string;
   private allowLoggingAccountIdentifiers?: boolean;
