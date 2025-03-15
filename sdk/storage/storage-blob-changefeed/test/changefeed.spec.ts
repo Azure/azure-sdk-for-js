@@ -66,7 +66,9 @@ describe("Change Feed", async () => {
       // TODO: rewrite for browser
       download: vi
         .fn()
-        .mockResolvedValue({ readableStreamBody: fs.createReadStream(manifestFilePath) }),
+        .mockImplementation(() =>
+          Promise.resolve({ readableStreamBody: fs.createReadStream(manifestFilePath) }),
+        ),
     } as any as BlobClient;
 
     const segmentStubByName = new Map<string, StubSegment>();
@@ -259,9 +261,11 @@ describe("Change Feed", async () => {
     assert.equal(event, 3 as unknown as BlobChangeFeedEvent | undefined);
 
     // lastConsumable changed
-    vi.mocked(blobClientStub.download).mockResolvedValue({
-      readableStreamBody: fs.createReadStream(manifestFilePath2),
-    } as any);
+    vi.mocked(blobClientStub.download).mockImplementation(() =>
+      Promise.resolve({
+        readableStreamBody: fs.createReadStream(manifestFilePath2),
+      } as any),
+    );
     vi.mocked(segmentStubs[3].hasNext).mockReturnValue(false);
     vi.mocked(segmentStubs[3].getChange).mockResolvedValue(undefined);
     const changeFeed3 = await changeFeedFactory.create(serviceClientStub, continuation);
