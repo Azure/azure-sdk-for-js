@@ -120,6 +120,7 @@ describe("#AzureMonitorStatsbeatExporter", () => {
         statsbeat.countSuccess(100);
         const metric = statsbeat["networkStatsbeatCollection"][0];
         assert.strictEqual(metric.intervalRequestExecutionTime, 100);
+        assert.strictEqual(metric.totalSuccesfulRequestCount, 1);
 
         // Ensure network statsbeat attributes are populated
         assert.strictEqual(statsbeat["attach"], "Manual");
@@ -346,7 +347,7 @@ describe("#AzureMonitorStatsbeatExporter", () => {
 
         await new Promise((resolve) => setTimeout(resolve, 500));
         expect(mockExport).toHaveBeenCalled();
-        const resourceMetrics = mockExport.mock.calls[1][0];
+        const resourceMetrics = mockExport.mock.calls[0][0];
         const scopeMetrics = resourceMetrics.scopeMetrics;
         const metrics = scopeMetrics[0].metrics;
 
