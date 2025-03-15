@@ -477,6 +477,7 @@ export interface TlsSettings {
     key?: string | Buffer | Array<Buffer | KeyObject> | undefined;
     passphrase?: string | undefined;
     pfx?: string | Buffer | Array<string | Buffer | PxfObject> | undefined;
+    servername?: string;
 }
 
 // @public
