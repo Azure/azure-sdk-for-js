@@ -99,17 +99,15 @@ describe("Change Feed", async () => {
 
     segmentStubs = [];
 
-    let segmentIndex = 0;
-    for (const item of [...segmentsIn2019, ...segmentsIn2020]) {
+    for (const [index, item] of [...segmentsIn2019, ...segmentsIn2020].entries()) {
       const segment: StubSegment = {
         hasNext: vi.fn(() => true),
-        getChange: vi.fn(() => Promise.resolve(segmentIndex)),
+        getChange: vi.fn(() => Promise.resolve(index)),
         getCursor: vi.fn(),
-        dateTime: segmentTimes[segmentIndex],
+        dateTime: segmentTimes[index],
       };
       segmentStubByName.set(item.name, segment);
       segmentStubs.push(segment);
-      segmentIndex++;
     }
   });
 
@@ -261,9 +259,9 @@ describe("Change Feed", async () => {
     assert.equal(event, 3 as unknown as BlobChangeFeedEvent | undefined);
 
     // lastConsumable changed
-    vi.mocked(blobClientStub.download).mockImplementation(() => {
-      return Promise.resolve({ readableStreamBody: fs.createReadStream(manifestFilePath2) } as any);
-    });
+    vi.mocked(blobClientStub.download).mockResolvedValue({
+      readableStreamBody: fs.createReadStream(manifestFilePath2),
+    } as any);
     vi.mocked(segmentStubs[3].hasNext).mockReturnValue(false);
     vi.mocked(segmentStubs[3].getChange).mockResolvedValue(undefined);
     const changeFeed3 = await changeFeedFactory.create(serviceClientStub, continuation);
@@ -273,10 +271,8 @@ describe("Change Feed", async () => {
   });
 
   it("getChange - no meta", async () => {
-    vi.mocked(blobClientStub.download).mockImplementation(() => {
-      throw {
-        statusCode: 404,
-      };
+    vi.mocked(blobClientStub.download).mockRejectedValue({
+      statusCode: 404,
     });
     const changeFeed = await changeFeedFactory.create(serviceClientStub, undefined);
     assert.ok(!changeFeed.hasNext(), "Should return empty change feed");
