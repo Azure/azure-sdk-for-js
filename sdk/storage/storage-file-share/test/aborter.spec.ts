@@ -25,7 +25,8 @@ describe("Aborter", () => {
     await recorder.stop();
   });
 
-  it("Should abort after aborter timeout", async () => {
+  // TODO: Investigate the recorder failure
+  it("Should abort after aborter timeout", { skip: true }, async () => {
     try {
       await shareClient.create({ abortSignal: AbortSignal.timeout(1) });
       assert.fail();
