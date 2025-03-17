@@ -36,11 +36,28 @@ export type ExpandEnum = string;
 export type GetPurchasedPhoneNumberOptions = OperationOptions;
 
 // @public
+export interface Health {
+    overall: OverallHealth;
+    ping: Ping;
+    tls: Tls;
+}
+
+// @public
+export type InactiveStatusReason = string;
+
+// @public
 export type IpAddressVersion = string;
 
 // @public
 export enum KnownExpandEnum {
     TrunksHealth = "trunks/health"
+}
+
+// @public
+export enum KnownInactiveStatusReason {
+    NoRecentCalls = "noRecentCalls",
+    NoRecentCallsAndPings = "noRecentCallsAndPings",
+    NoRecentPings = "noRecentPings"
 }
 
 // @public
@@ -50,9 +67,32 @@ export enum KnownIpAddressVersion {
 }
 
 // @public
+export enum KnownOverallHealthStatus {
+    Active = "active",
+    Inactive = "inactive",
+    Unknown = "unknown"
+}
+
+// @public
+export enum KnownPingStatus {
+    Error = "error",
+    Expired = "expired",
+    Ok = "ok",
+    Unknown = "unknown"
+}
+
+// @public
 export enum KnownPrivacyHeader {
     Id = "id",
     None = "none"
+}
+
+// @public
+export enum KnownTlsStatus {
+    CertExpired = "certExpired",
+    CertExpiring = "certExpiring",
+    Ok = "ok",
+    Unknown = "unknown"
 }
 
 // @public
@@ -122,6 +162,15 @@ export interface OperatorInformationResult {
 
 // @public
 export type OperatorNumberType = "unknown" | "other" | "geographic" | "mobile";
+
+// @public
+export interface OverallHealth {
+    reason?: InactiveStatusReason;
+    status: OverallHealthStatus;
+}
+
+// @public
+export type OverallHealthStatus = string;
 
 // @public
 export interface PhoneNumberAdministrativeDivision {
@@ -237,6 +286,14 @@ export interface PhoneNumbersListAreaCodesOptionalParams extends coreClient.Oper
 export type PhoneNumberType = "geographic" | "tollFree";
 
 // @public
+export interface Ping {
+    status: PingStatus;
+}
+
+// @public
+export type PingStatus = string;
+
+// @public
 export type PrivacyHeader = string;
 
 // @public
@@ -281,7 +338,7 @@ export class SipRoutingClient {
     constructor(endpoint: string, credential: KeyCredential, options?: SipRoutingClientOptions);
     constructor(endpoint: string, credential: TokenCredential, options?: SipRoutingClientOptions);
     deleteTrunk(fqdn: string, options?: OperationOptions): Promise<void>;
-    getTrunk(fqdn: string, options?: OperationOptions): Promise<SipTrunk>;
+    getTrunk(fqdn: string, options?: ListSipTrunksOptions): Promise<SipTrunk>;
     listRoutes(options?: ListSipRoutesOptions): PagedAsyncIterableIterator<SipTrunkRoute>;
     listTrunks(options?: ListSipTrunksOptions): PagedAsyncIterableIterator<SipTrunk>;
     setRoutes(routes: SipTrunkRoute[], options?: OperationOptions): Promise<SipTrunkRoute[]>;
@@ -313,6 +370,7 @@ export interface SipTrunk {
     directTransfer?: boolean;
     enabled?: boolean;
     fqdn: string;
+    health?: Health;
     ipAddressVersion?: IpAddressVersion;
     privacyHeader?: PrivacyHeader;
     sipSignalingPort: number;
@@ -330,6 +388,14 @@ export interface SipTrunkRoute {
 // @public
 export interface TestRoutesWithNumberResponse extends RoutesForNumber {
 }
+
+// @public
+export interface Tls {
+    status: TlsStatus;
+}
+
+// @public
+export type TlsStatus = string;
 
 // (No @packageDocumentation comment for this package)
 

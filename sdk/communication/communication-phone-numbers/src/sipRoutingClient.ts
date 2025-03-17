@@ -149,7 +149,8 @@ export class SipRoutingClient {
    * @param fqdn - The trunk's FQDN.
    * @param options - The options parameters.
    */
-  public async getTrunk(fqdn: string, options: OperationOptions = {}): Promise<SipTrunk> {
+  // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
+  public async getTrunk(fqdn: string, options: ListSipTrunksOptions = {}): Promise<SipTrunk> {
     return tracingClient.withSpan("SipRoutingClient-getTrunk", options, async (updatedOptions) => {
       const trunks = await this.getTrunksInternal(updatedOptions);
       const trunk = trunks.find((value: SipTrunk) => value.fqdn === fqdn);

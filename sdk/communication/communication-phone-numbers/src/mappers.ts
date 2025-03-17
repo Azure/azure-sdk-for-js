@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import type { SipTrunk } from "./models.js";
-import type { TrunkUpdate as RestSipTrunk } from "./generated/src/siprouting/models/index.js";
+import type { SipTrunk as RestSipTrunk } from "./generated/src/siprouting/models/index.js";
 
 /**
  * @internal
@@ -17,6 +17,7 @@ export function transformFromRestModel(
     Object.keys(trunks).forEach((fqdn: string) => {
       const port = trunks[fqdn].sipSignalingPort;
       const enabled = trunks[fqdn].enabled;
+      const health = trunks[fqdn].health;
       const directTransfer = trunks[fqdn].directTransfer;
       const privacyHeader = trunks[fqdn].privacyHeader;
       const ipAddressVersion = trunks[fqdn].ipAddressVersion;
@@ -24,6 +25,7 @@ export function transformFromRestModel(
         fqdn: fqdn,
         sipSignalingPort: port,
         enabled: enabled,
+        health: health,
         directTransfer: directTransfer,
         privacyHeader: privacyHeader,
         ipAddressVersion: ipAddressVersion,

@@ -46,6 +46,7 @@ matrix([[true, false]], async (useAad) => {
         sipSignalingPort: 5678,
         directTransfer: false,
         enabled: false,
+        health: undefined,
         privacyHeader: KnownPrivacyHeader.Id,
         ipAddressVersion: KnownIpAddressVersion.Ipv4,
       };
