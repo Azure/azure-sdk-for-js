@@ -22,7 +22,7 @@ import {
   populateValuesFromServiceUrl,
 } from "../../src/utils/utils.js";
 import * as EntraIdAccessTokenModule from "../../src/common/entraIdAccessToken.js";
-import { expect } from "@azure-tools/test-utils";
+import { expect } from "@azure-tools/test-utils-vitest";
 import * as packageManager from "../../src/utils/packageManager.js";
 import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
 

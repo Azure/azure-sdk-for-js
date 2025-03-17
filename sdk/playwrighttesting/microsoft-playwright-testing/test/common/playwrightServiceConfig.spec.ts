@@ -6,7 +6,7 @@ import {
   InternalEnvironmentVariables,
 } from "../../src/common/constants.js";
 import { PlaywrightServiceConfig } from "../../src/common/playwrightServiceConfig.js";
-import { expect } from "@azure-tools/test-utils";
+import { expect } from "@azure-tools/test-utils-vitest";
 import { getAndSetRunId } from "../../src/utils/utils.js";
 import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
 

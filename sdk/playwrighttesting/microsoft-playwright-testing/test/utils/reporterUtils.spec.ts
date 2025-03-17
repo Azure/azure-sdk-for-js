@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { expect } from "@azure-tools/test-utils";
+import { expect } from "@azure-tools/test-utils-vitest";
 import ReporterUtils from "../../src/utils/reporterUtils.js";
 import { TestResult as MPTTestResult } from "../../src/model/testResult.js";
 import { TestCase, TestResult } from "@playwright/test/reporter";

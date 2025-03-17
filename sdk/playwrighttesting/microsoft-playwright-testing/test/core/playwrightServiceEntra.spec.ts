@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { expect } from "@azure-tools/test-utils";
+import { expect } from "@azure-tools/test-utils-vitest";
 import * as utils from "../../src/utils/utils.js";
 import {
   EntraIdAccessTokenConstants,

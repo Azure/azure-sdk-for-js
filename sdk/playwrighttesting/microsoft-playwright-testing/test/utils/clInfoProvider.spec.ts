@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { expect } from "@azure-tools/test-utils";
+import { expect } from "@azure-tools/test-utils-vitest";
 import { CIInfoProvider, CI_PROVIDERS } from "../../src/utils/cIInfoProvider.js";
 import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
 
