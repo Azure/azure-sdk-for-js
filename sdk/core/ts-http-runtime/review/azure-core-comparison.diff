@@ -915,10 +915,10 @@ index 56cb7b8..da27584 100644
  
  export const apiVersionPolicyName = "ApiVersionPolicy";
 diff --git a/src/client/clientHelpers.ts b/src/client/clientHelpers.ts
-index 30dac33..f7e4696 100644
+index 30dac33..74a3905 100644
 --- a/src/client/clientHelpers.ts
 +++ b/src/client/clientHelpers.ts
-@@ -1,84 +1,47 @@
+@@ -1,84 +1,48 @@
  // Copyright (c) Microsoft Corporation.
  // Licensed under the MIT License.
  
@@ -1014,6 +1014,7 @@ index 30dac33..f7e4696 100644
 +  const { credential, authSchemes } = options;
 +  if (credential) {
 +    if (isApiKeyCredential(credential)) {
++      console.log("GET HERE");
 +      pipeline.addPolicy(apiKeyAuthenticationPolicy({ authSchemes, credential }));
 +    } else if (isBasicCredential(credential)) {
 +      pipeline.addPolicy(basicAuthenticationPolicy({ authSchemes, credential }));
@@ -2099,10 +2100,10 @@ index 5947165..6c09a01 100644
  
 diff --git a/src/policies/auth/apiKeyAuthenticationPolicy.ts b/src/policies/auth/apiKeyAuthenticationPolicy.ts
 new file mode 100644
-index 0000000..1169b27
+index 0000000..f9fd2b8
 --- /dev/null
 +++ b/src/policies/auth/apiKeyAuthenticationPolicy.ts
-@@ -0,0 +1,61 @@
+@@ -0,0 +1,60 @@
 +// Copyright (c) Microsoft Corporation.
 +// Licensed under the MIT License.
 +
@@ -2154,7 +2155,6 @@ index 0000000..1169b27
 +      if (!scheme) {
 +        return next(request);
 +      }
-+
 +      if (scheme.apiKeyLocation !== "header") {
 +        throw new Error(`Unsupported API key location: ${scheme.apiKeyLocation}`);
 +      }

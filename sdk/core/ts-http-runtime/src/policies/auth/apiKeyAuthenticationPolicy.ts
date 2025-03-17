@@ -49,7 +49,6 @@ export function apiKeyAuthenticationPolicy(
       if (!scheme) {
         return next(request);
       }
-
       if (scheme.apiKeyLocation !== "header") {
         throw new Error(`Unsupported API key location: ${scheme.apiKeyLocation}`);
       }
