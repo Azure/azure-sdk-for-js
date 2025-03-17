@@ -19,8 +19,8 @@ export interface CommunicationAccessToken {
 // @public
 export interface CommunicationIdentity {
     externalId?: string;
-    id: string;
     lastTokenIssuedAt?: Date;
+    user: CommunicationUserIdentifier;
 }
 
 // @public

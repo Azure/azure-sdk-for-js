@@ -155,7 +155,12 @@ export class CommunicationIdentityClient {
           const result = await this.client.communicationIdentityOperations.get(user.communicationUserId,{
             ...updatedOptions,
           });
-          return result;
+
+          return {
+            user: { communicationUserId: result.id },
+            externalId: result.externalId,
+            lastTokenIssuedAt: result.lastTokenIssuedAt
+          };
         },
       );
     }

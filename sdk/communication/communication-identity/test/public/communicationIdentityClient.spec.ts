@@ -34,8 +34,7 @@ matrix([[true, false]], async (useAad: boolean) => {
 
     beforeEach(async (ctx) => {
       if (useAad) {
-        // ({ client, recorder } = await createRecordedCommunicationIdentityClientWithToken(ctx));
-        ({ client, recorder } = await createRecordedCommunicationIdentityClient(ctx));
+        ({ client, recorder } = await createRecordedCommunicationIdentityClientWithToken(ctx));
       } else {
         ({ client, recorder } = await createRecordedCommunicationIdentityClient(ctx));
       }

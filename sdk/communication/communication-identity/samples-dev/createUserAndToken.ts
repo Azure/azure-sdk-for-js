@@ -30,7 +30,7 @@ export async function main(): Promise<void> {
 
   // Get user
   const userResult = await client.getUser(communicationUserToken.user);
-  console.log(`Got user with id: ${userResult.id} externalId: ${userResult.externalId} lastTokenIssuedAt: ${userResult.lastTokenIssuedAt}`);
+  console.log(`Got user with id: ${userResult.user.communicationUserId} externalId: ${userResult.externalId} lastTokenIssuedAt: ${userResult.lastTokenIssuedAt}`);
   
   // Create user with token with custom expiration
   console.log("Creating User and Token with custom expiration.");
