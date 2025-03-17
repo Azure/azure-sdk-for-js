@@ -2,7 +2,11 @@
 // Licensed under the MIT License.
 
 import { createClient, createRecorder } from "./utils/recordedClient.js";
-import type { AzureLoadTestingClient } from "../../src/index.js";
+import type {
+  AppComponent,
+  AzureLoadTestingClient,
+  TestAppComponentsOutput,
+} from "../../src/index.js";
 import { isUnexpected } from "../../src/index.js";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { env, isPlaybackMode } from "@azure-tools/test-recorder";
@@ -11,11 +15,10 @@ import { isNodeLike } from "@azure/core-util";
 import { getLongRunningPoller } from "../../src/pollingHelper.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
-describe("Test Creation", () => {
+describe("Test Administration Operations", () => {
   let recorder: Recorder;
   let client: AzureLoadTestingClient;
-  let readStreamTestFile: fs.ReadStream;
-  let readStreamAdditionalFile: fs.ReadStream;
+  const testId = "sample-sdk-test-20250317";
 
   beforeEach(async (ctx) => {
     recorder = await createRecorder(ctx);
@@ -23,21 +26,19 @@ describe("Test Creation", () => {
       ctx.skip();
     }
     client = createClient(recorder);
-    readStreamTestFile = fs.createReadStream("./test/public/sample.jmx");
-    readStreamAdditionalFile = fs.createReadStream("./test/public/additional-data.csv");
   });
 
   afterEach(async () => {
     await recorder.stop();
   });
 
-  // patch/put
-  it("should create a loadtest", async () => {
-    const result = await client.path("/tests/{testId}", "abc").patch({
+  // patch
+  it("should create a load test", async () => {
+    const result = await client.path("/tests/{testId}", testId).patch({
       contentType: "application/merge-patch+json",
       body: {
-        displayName: "sample_test",
-        description: "",
+        displayName: "Sample Load Test",
+        description: "Sample Load Test Description",
         loadTestConfiguration: {
           engineInstances: 1,
           splitAllCSVs: false,
@@ -49,8 +50,11 @@ describe("Test Creation", () => {
   });
 
   it("should upload the additional file without LRO", async () => {
+    const readStreamAdditionalFile: fs.ReadStream = fs.createReadStream(
+      "./test/public/additional-data.csv",
+    );
     const result = await client
-      .path("/tests/{testId}/files/{fileName}", "abc", "additional-data.csv")
+      .path("/tests/{testId}/files/{fileName}", testId, "additional-data.csv")
       .put({
         contentType: "application/octet-stream",
         body: readStreamAdditionalFile,
@@ -62,9 +66,10 @@ describe("Test Creation", () => {
     assert.include(["201"], result.status);
   });
 
-  it("should not upload the test file with LRO(timeout)", async () => {
+  it("should fail file upload due to LRO timeout", async () => {
+    const readStreamTestFile: fs.ReadStream = fs.createReadStream("./test/public/sample.jmx");
     const fileUploadResult = await client
-      .path("/tests/{testId}/files/{fileName}", "abc", "sample.jmx")
+      .path("/tests/{testId}/files/{fileName}", testId, "sample.jmx")
       .put({
         contentType: "application/octet-stream",
         body: readStreamTestFile,
@@ -88,8 +93,9 @@ describe("Test Creation", () => {
   });
 
   it("should upload the test file with LRO", async () => {
+    const readStreamTestFile: fs.ReadStream = fs.createReadStream("./test/public/sample.jmx");
     const fileUploadResult = await client
-      .path("/tests/{testId}/files/{fileName}", "abc", "sample.jmx")
+      .path("/tests/{testId}/files/{fileName}", testId, "sample.jmx")
       .put({
         contentType: "application/octet-stream",
         body: readStreamTestFile,
@@ -108,20 +114,19 @@ describe("Test Creation", () => {
 
   it("should create the app components", async () => {
     const SUBSCRIPTION_ID = env["SUBSCRIPTION_ID"] || "";
-    const result = await client.path("/tests/{testId}/app-components", "abc").patch({
+
+    const appCompResourceId = `/subscriptions/${SUBSCRIPTION_ID}/resourceGroups/contoso-sampleapp-rg/providers/Microsoft.Web/sites/contoso-sampleapp`;
+    const appComponent: AppComponent = {
+      resourceName: "contoso-sampleapp",
+      resourceType: "Microsoft.Web/sites",
+    };
+    const appComps: Record<string, AppComponent> = {};
+
+    appComps[appCompResourceId] = appComponent;
+    const result = await client.path("/tests/{testId}/app-components", testId).patch({
       contentType: "application/merge-patch+json",
       body: {
-        testId: "abc",
-        components: {
-          "/subscriptions/{SUBSCRIPTION_ID}/resourceGroups/App-Service-Sample-Demo-rg/providers/Microsoft.Web/sites/App-Service-Sample-Demo":
-            {
-              resourceId:
-                "/subscriptions/{SUBSCRIPTION_ID}/resourceGroups/App-Service-Sample-Demo-rg/providers/Microsoft.Web/sites/App-Service-Sample-Demo",
-              resourceName: "App-Service-Sample-Demo",
-              resourceType: "Microsoft.Web/sites",
-              subscriptionId: SUBSCRIPTION_ID,
-            },
-        },
+        components: appComps,
       },
     });
 
@@ -130,34 +135,38 @@ describe("Test Creation", () => {
 
   // get
   it("should get the test file", async () => {
-    const result = await client.path("/tests/{testId}/files/{fileName}", "abc", "sample.jmx").get();
+    const result = await client
+      .path("/tests/{testId}/files/{fileName}", testId, "sample.jmx")
+      .get();
 
     assert.include(["200"], result.status);
   });
 
   it("should get the test", async () => {
-    const result = await client.path("/tests/{testId}", "abc").get();
+    const result = await client.path("/tests/{testId}", testId).get();
 
     assert.include(["200"], result.status);
   });
 
   it("should get the test app components", async () => {
-    const result = await client.path("/tests/{testId}/app-components", "abc").get();
+    const result = await client.path("/tests/{testId}/app-components", testId).get();
 
     assert.include(["200"], result.status);
+    const output = result.body as TestAppComponentsOutput;
+    assert.isNotEmpty(output.components);
   });
 
   // delete
   it("should delete the test file", async () => {
     const result = await client
-      .path("/tests/{testId}/files/{fileName}", "abc", "sample.jmx")
+      .path("/tests/{testId}/files/{fileName}", testId, "sample.jmx")
       .delete();
 
     assert.include(["204"], result.status);
   });
 
   it("should delete the test", async () => {
-    const result = await client.path("/tests/{testId}", "abc").delete();
+    const result = await client.path("/tests/{testId}", testId).delete();
 
     assert.include(["204"], result.status);
   });
