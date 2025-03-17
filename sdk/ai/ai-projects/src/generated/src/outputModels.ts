@@ -1,8 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Paged } from "@azure/core-paging";
-
 /** An abstract representation of an input tool definition that an agent can use. */
 export interface ToolDefinitionOutputParent {
   type: string;
@@ -281,7 +279,7 @@ export interface MessageAttachmentOutput {
   /** Azure asset ID. */
   data_sources?: Array<VectorStoreDataSourceOutput>;
   /** The tools to add to this file. */
-  tools: MessageAttachmentToolDefinitionOutput[];
+  tools: Array<MessageAttachmentToolDefinitionOutput>;
 }
 
 /** Information about a single thread associated with an agent. */
@@ -1318,6 +1316,14 @@ export interface EvaluatorConfigurationOutput {
   dataMapping?: Record<string, string>;
 }
 
+/** Paged collection of Evaluation items */
+export interface PagedEvaluationOutput {
+  /** The Evaluation items on this page */
+  value: Array<EvaluationOutput>;
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
 /** Evaluation Schedule Definition */
 export interface EvaluationScheduleOutput {
   /** Name of the schedule, which also serves as the unique identifier for the evaluation */
@@ -1379,6 +1385,14 @@ export interface CronTriggerOutput extends TriggerOutputParent {
   readonly type: "Cron";
   /** Cron expression for the trigger. */
   expression: string;
+}
+
+/** Paged collection of EvaluationSchedule items */
+export interface PagedEvaluationScheduleOutput {
+  /** The EvaluationSchedule items on this page */
+  value: Array<EvaluationScheduleOutput>;
+  /** The link to the next page of items */
+  nextLink?: string;
 }
 
 /** An abstract representation of an input tool definition that an agent can use. */
@@ -1517,11 +1531,7 @@ export type ConnectionTypeOutput =
   | "CognitiveSearch";
 /** Authentication type used by Azure AI service to connect to another service */
 export type AuthenticationTypeOutput = "ApiKey" | "AAD" | "SAS";
-/** Paged collection of Evaluation items */
-export type PagedEvaluationOutput = Paged<EvaluationOutput>;
 /** Alias for FrequencyOutput */
 export type FrequencyOutput = string;
 /** Alias for WeekDaysOutput */
 export type WeekDaysOutput = string;
-/** Paged collection of EvaluationSchedule items */
-export type PagedEvaluationScheduleOutput = Paged<EvaluationScheduleOutput>;

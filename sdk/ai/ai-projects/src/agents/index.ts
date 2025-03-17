@@ -130,12 +130,12 @@ export interface AgentsOperations {
   /** Gets a list of agents that were previously created. */
   listAgents: (options?: ListAgentsOptionalParams) => Promise<OpenAIPageableListOfAgentOutput>;
   /** Retrieves an existing agent. */
-  getAgent: (assistantId: string, options?: GetAgentOptionalParams) => Promise<AgentOutput>;
+  getAgent: (agentId: string, options?: GetAgentOptionalParams) => Promise<AgentOutput>;
   /** Modifies an existing agent. */
-  updateAgent: (assistantId: string, options: UpdateAgentOptionalParams) => Promise<AgentOutput>;
+  updateAgent: (agentId: string, options: UpdateAgentOptionalParams) => Promise<AgentOutput>;
   /** Deletes an agent. */
   deleteAgent: (
-    assistantId: string,
+    agentId: string,
     options?: DeleteAgentOptionalParams,
   ) => Promise<AgentDeletionStatusOutput>;
 
@@ -160,7 +160,7 @@ export interface AgentsOperations {
   /** Creates and starts a new run of the specified thread using the specified agent. */
   createRun: (
     threadId: string,
-    assistantId: string,
+    agentId: string,
     options?: CreateRunOptionalParams,
   ) => AgentRunResponse;
 
@@ -197,7 +197,7 @@ export interface AgentsOperations {
   ) => Promise<ThreadRunOutput>;
   /** Creates a new thread and immediately starts a run of that thread. */
   createThreadAndRun: (
-    assistantId: string,
+    agentId: string,
     options?: CreateAndRunThreadOptionalParams,
   ) => AgentRunResponse;
 
@@ -354,12 +354,12 @@ function getAgents(context: Client): AgentsOperations {
     createAgent: (model: string, options?: CreateAgentOptionalParams) =>
       createAgent(context, model, options),
     listAgents: (options?: ListAgentsOptionalParams) => listAgents(context, options),
-    getAgent: (assistantId: string, options?: GetAgentOptionalParams) =>
-      getAgent(context, assistantId, options),
-    updateAgent: (assistantId: string, options: UpdateAgentOptionalParams) =>
-      updateAgent(context, assistantId, options),
-    deleteAgent: (assistantId: string, options?: DeleteAgentOptionalParams) =>
-      deleteAgent(context, assistantId, options),
+    getAgent: (agentId: string, options?: GetAgentOptionalParams) =>
+      getAgent(context, agentId, options),
+    updateAgent: (agentId: string, options: UpdateAgentOptionalParams) =>
+      updateAgent(context, agentId, options),
+    deleteAgent: (agentId: string, options?: DeleteAgentOptionalParams) =>
+      deleteAgent(context, agentId, options),
 
     createThread: (options?: CreateAgentThreadOptionalParams) => createThread(context, options),
     getThread: (threadId: string, options?: GetAgentThreadOptionalParams) =>
@@ -369,8 +369,8 @@ function getAgents(context: Client): AgentsOperations {
     deleteThread: (threadId: string, options?: DeleteAgentThreadOptionalParams) =>
       deleteThread(context, threadId, options),
 
-    createRun: (threadId: string, assistantId: string, options?: CreateRunOptionalParams) =>
-      createRun(context, threadId, assistantId, options ?? {}),
+    createRun: (threadId: string, agentId: string, options?: CreateRunOptionalParams) =>
+      createRun(context, threadId, agentId, options ?? {}),
     listRuns: (threadId: string, options?: ListRunQueryOptionalParams) =>
       listRuns(context, threadId, options ?? {}),
     getRun: (threadId: string, runId: string, options?: GetRunOptionalParams) =>
@@ -385,8 +385,8 @@ function getAgents(context: Client): AgentsOperations {
     ) => submitToolOutputsToRun(context, threadId, runId, toolOutputs, options),
     cancelRun: (threadId: string, runId: string, options?: CancelRunOptionalParams) =>
       cancelRun(context, threadId, runId, options),
-    createThreadAndRun: (assistantId: string, options?: CreateAndRunThreadOptionalParams) =>
-      createThreadAndRun(context, assistantId, options ?? {}),
+    createThreadAndRun: (agentId: string, options?: CreateAndRunThreadOptionalParams) =>
+      createThreadAndRun(context, agentId, options ?? {}),
 
     createMessage: (
       threadId: string,

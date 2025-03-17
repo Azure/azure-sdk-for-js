@@ -315,7 +315,7 @@ export interface MessageAttachment {
   /** Azure asset ID. */
   data_sources?: Array<VectorStoreDataSource>;
   /** The tools to add to this file. */
-  tools: MessageAttachmentToolDefinition[];
+  tools: Array<MessageAttachmentToolDefinition>;
 }
 
 /** The details used to update an existing agent thread */
@@ -867,7 +867,7 @@ export type AgentsApiResponseFormatOption =
   | AgentsApiResponseFormatMode
   | AgentsApiResponseFormat;
 /** Alias for ListSortOrder */
-export type ListSortOrder = "asc" | "desc";
+export type ListSortOrder = string;
 /** Alias for MessageRole */
 export type MessageRole = string;
 /** Alias for MessageAttachmentToolDefinition */

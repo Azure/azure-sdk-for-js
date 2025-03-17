@@ -336,7 +336,7 @@ export interface ThreadMessageOutput {
   /** The list of content items associated with the agent thread message. */
   content: Array<MessageContentOutput>;
   /** If applicable, the ID of the agent that authored this message. */
-  assistantId: string | null;
+  agentId: string | null;
   /** If applicable, the ID of the run associated with the authoring of this message. */
   runId: string | null;
   /** A list of files attached to the message, and the tools they were added to. */
@@ -496,7 +496,7 @@ export interface ThreadRunOutput {
   /** The ID of the thread associated with this run. */
   threadId: string;
   /** The ID of the agent associated with the thread this run was performed against. */
-  assistantId: string;
+  agentId: string;
   /**
    * The status of the agent thread run.
    *
@@ -667,7 +667,7 @@ export interface RunStepOutput {
    */
   type: RunStepTypeOutput;
   /** The ID of the agent associated with the run step. */
-  assistantId: string;
+  agentId: string;
   /** The ID of the thread that was run. */
   threadId: string;
   /** The ID of the run that this run step is a part of. */

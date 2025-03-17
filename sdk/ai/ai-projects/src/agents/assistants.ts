@@ -101,20 +101,20 @@ export async function listAgents(
 /** Retrieves an existing agent. */
 export async function getAgent(
   context: Client,
-  assistantId: string,
+  agentId: string,
   options: GetAgentOptionalParams = {},
 ): Promise<AgentOutput> {
   const getAgentOptions: GeneratedParameters.GetAgentParameters = {
     ...operationOptionsToRequestParameters(options),
   };
 
-  validateAssistantId(assistantId);
+  validateAssistantId(agentId);
   const response = await TracingUtility.withSpan(
     "GetAgent",
     getAgentOptions,
     async (updateOptions) => {
       const result = await context
-        .path("/assistants/{assistantId}", assistantId)
+        .path("/assistants/{agentId}", agentId)
         .get(updateOptions);
       if (!expectedStatuses.includes(result.status)) {
         throw createOpenAIError(result);
@@ -124,7 +124,7 @@ export async function getAgent(
     (span, updatedOptions) =>
       traceStartAgentGeneric(span, {
         ...updatedOptions,
-        tracingAttributeOptions: { agentId: assistantId },
+        tracingAttributeOptions: { agentId: agentId },
       }),
   );
 
@@ -134,7 +134,7 @@ export async function getAgent(
 /** Modifies an existing agent. */
 export async function updateAgent(
   context: Client,
-  assistantId: string,
+  agentId: string,
   options: UpdateAgentOptionalParams = {},
 ): Promise<AgentOutput> {
   const updateAgentOptions: GeneratedParameters.UpdateAgentParameters = {
@@ -144,20 +144,20 @@ export async function updateAgent(
     },
   };
 
-  validateUpdateAgentParameters(assistantId, updateAgentOptions);
+  validateUpdateAgentParameters(agentId, updateAgentOptions);
   const response = await TracingUtility.withSpan(
     "UpdateAgent",
     updateAgentOptions,
     async (updateOptions) => {
       const result = await context
-        .path("/assistants/{assistantId}", assistantId)
+        .path("/assistants/{agentId}", agentId)
         .post(updateOptions);
       if (!expectedStatuses.includes(result.status)) {
         throw createOpenAIError(result);
       }
       return result.body;
     },
-    (span, updatedOptions) => traceStartCreateOrUpdateAgent(span, updatedOptions, assistantId),
+    (span, updatedOptions) => traceStartCreateOrUpdateAgent(span, updatedOptions, agentId),
     traceEndCreateOrUpdateAgent,
   );
   return ConvertFromWire.convertAgentOutput(response);
@@ -166,20 +166,20 @@ export async function updateAgent(
 /** Deletes an agent. */
 export async function deleteAgent(
   context: Client,
-  assistantId: string,
+  agentId: string,
   options: DeleteAgentOptionalParams = {},
 ): Promise<AgentDeletionStatusOutput> {
   const deleteAgentOptions: GeneratedParameters.DeleteAgentParameters = {
     ...operationOptionsToRequestParameters(options),
   };
 
-  validateAssistantId(assistantId);
+  validateAssistantId(agentId);
   const response = await TracingUtility.withSpan(
     "DeleteAgent",
     deleteAgentOptions,
     async (updateOptions) => {
       const result = await context
-        .path("/assistants/{assistantId}", assistantId)
+        .path("/assistants/{agentId}", agentId)
         .delete(updateOptions);
       if (!expectedStatuses.includes(result.status)) {
         throw createOpenAIError(result);
@@ -262,17 +262,17 @@ function validateListAgentsParameters(options?: GeneratedParameters.ListAgentsPa
   }
 }
 
-function validateAssistantId(assistantId: string): void {
-  if (!assistantId) {
+function validateAssistantId(agentId: string): void {
+  if (!agentId) {
     throw new Error("Assistant ID is required");
   }
 }
 
 function validateUpdateAgentParameters(
-  assistantId: string,
+  agentId: string,
   options?: GeneratedParameters.UpdateAgentParameters,
 ): void {
-  validateAssistantId(assistantId);
+  validateAssistantId(agentId);
   if (options) {
     validateCreateAgentParameters(options);
   }

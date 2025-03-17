@@ -49,7 +49,7 @@ describe("Agents - streaming", () => {
       hasEventMessages = true;
       switch (eventMessage.event) {
         case RunStreamEvent.ThreadRunCreated:
-          console.log(`Thread Run Created - ${(eventMessage.data as ThreadRunOutput).assistantId}`);
+          console.log(`Thread Run Created - ${(eventMessage.data as ThreadRunOutput).agentId}`);
           break;
         case MessageStreamEvent.ThreadMessageDelta:
           console.log(`Thread Message Delta, thread ID: ${thread.id}`);
