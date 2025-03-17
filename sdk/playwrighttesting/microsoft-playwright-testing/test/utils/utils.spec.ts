@@ -145,10 +145,8 @@ describe("Service Utils", () => {
 
   it("should exit with error message if invalid token is set in env variable", () => {
     process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = "test";
-    
-                  vi.spyOn(utils, "parseJwt")
-                  .mockReturnValue({})
-                ;
+
+    vi.spyOn(utils, "parseJwt").mockReturnValue({});
     const exitStub = sandbox.stub(process, "exit").callsFake(() => {
       throw new Error();
     });
@@ -161,10 +159,8 @@ describe("Service Utils", () => {
 
   it("should exit with error message if MPT PAT is expired", () => {
     process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = "test";
-    
-                  vi.spyOn(utils, "parseJwt")
-                  .mockReturnValue({ exp: Date.now() / 1000 - 10 })
-                ;
+
+    vi.spyOn(utils, "parseJwt").mockReturnValue({ exp: Date.now() / 1000 - 10 });
     const exitStub = sandbox.stub(process, "exit").callsFake(() => {
       throw new Error();
     });
@@ -178,10 +174,8 @@ describe("Service Utils", () => {
   it("should be no-op if MPT PAT is valid", () => {
     const processExitStub = vi.spyOn(process, "exit");
     process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = "test";
-    
-                  vi.spyOn(utils, "parseJwt")
-                  .mockReturnValue({ exp: Date.now() / 1000 + 10 })
-                ;
+
+    vi.spyOn(utils, "parseJwt").mockReturnValue({ exp: Date.now() / 1000 + 10 });
 
     expect(() => validateMptPAT(exitWithFailureMessage)).not.to.throw();
     processExitStub.restore();
@@ -190,14 +184,15 @@ describe("Service Utils", () => {
 
   it("Should exit with an error message if the MPT PAT and service URL are from different workspaces", () => {
     process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = "test";
-    
-                  vi.spyOn(utils, "parseJwt")
-                  .mockReturnValue({ aid: "eastasia_c24330dd-9249-4ae8-9ba9-b5766060427c" })
-                ;
-    
-                  vi.spyOn(utils, "populateValuesFromServiceUrl")
-                  .mockReturnValue({ region: "", accountId: "eastasia_8bda26b5-300f-4f4f-810d-eae055e4a69b" })
-                ;
+
+    vi.spyOn(utils, "parseJwt").mockReturnValue({
+      aid: "eastasia_c24330dd-9249-4ae8-9ba9-b5766060427c",
+    });
+
+    vi.spyOn(utils, "populateValuesFromServiceUrl").mockReturnValue({
+      region: "",
+      accountId: "eastasia_8bda26b5-300f-4f4f-810d-eae055e4a69b",
+    });
     const exitStub = sandbox.stub(process, "exit").callsFake(() => {
       throw new Error();
     });
@@ -208,15 +203,11 @@ describe("Service Utils", () => {
   it("should log a warning if the token is close to expiry", () => {
     process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = "test";
     const currentTime = Date.now();
-    
-                  vi.spyOn(Date, "now")
-                  .mockReturnValue(currentTime)
-                ;
+
+    vi.spyOn(Date, "now").mockReturnValue(currentTime);
     const fiveDaysFromNow = Math.floor((currentTime + 5 * 24 * 60 * 60 * 1000) / 1000);
-    
-                  vi.spyOn(utils, "parseJwt")
-                  .mockReturnValue({ exp: fiveDaysFromNow })
-                ;
+
+    vi.spyOn(utils, "parseJwt").mockReturnValue({ exp: fiveDaysFromNow });
     const consoleWarningSpy = vi.spyOn(console, "warn");
     warnIfAccessTokenCloseToExpiry();
     const expirationTime = fiveDaysFromNow * 1000;
@@ -231,14 +222,13 @@ describe("Service Utils", () => {
   it("should not log a warning if the token is not close to expiry", () => {
     process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = "test";
     const thirtyDaysFromNow = Math.ceil((Date.now() + 30 * 24 * 60 * 60 * 1000) / 1000);
-    
-                  vi.spyOn(utils, "parseJwt")
-                  .mockReturnValue({ exp: thirtyDaysFromNow })
-                ;
-    
-                  vi.spyOn(utils, "populateValuesFromServiceUrl")
-                  .mockReturnValue({ region: "eastus", accountId: "123456789" })
-                ;
+
+    vi.spyOn(utils, "parseJwt").mockReturnValue({ exp: thirtyDaysFromNow });
+
+    vi.spyOn(utils, "populateValuesFromServiceUrl").mockReturnValue({
+      region: "eastus",
+      accountId: "123456789",
+    });
 
     const consoleWarningSpy = vi.spyOn(console, "warn");
 
@@ -251,14 +241,15 @@ describe("Service Utils", () => {
   it("should be no-op if the MPT PAT and service URL are from same workspaces", () => {
     const processExitStub = vi.spyOn(process, "exit");
     process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = "test";
-    
-                  vi.spyOn(utils, "parseJwt")
-                  .mockReturnValue({ aid: "eastasia_8bda26b5-300f-4f4f-810d-eae055e4a69b" })
-                ;
-    
-                  vi.spyOn(utils, "populateValuesFromServiceUrl")
-                  .mockReturnValue({ region: "", accountId: "eastasia_8bda26b5-300f-4f4f-810d-eae055e4a69b" })
-                ;
+
+    vi.spyOn(utils, "parseJwt").mockReturnValue({
+      aid: "eastasia_8bda26b5-300f-4f4f-810d-eae055e4a69b",
+    });
+
+    vi.spyOn(utils, "populateValuesFromServiceUrl").mockReturnValue({
+      region: "",
+      accountId: "eastasia_8bda26b5-300f-4f4f-810d-eae055e4a69b",
+    });
 
     expect(() => validateMptPAT(exitWithFailureMessage)).not.to.throw();
     processExitStub.restore();
@@ -278,17 +269,11 @@ describe("Service Utils", () => {
     process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = tokenMock;
     const entraIdAccessToken = {
       token: tokenMock,
-      doesEntraIdAccessTokenNeedRotation: 
-                  vi.fn()
-                  .mockReturnValue(false)
-                ,
+      doesEntraIdAccessTokenNeedRotation: vi.fn().mockReturnValue(false),
       fetchEntraIdAccessToken: vi.fn(),
     };
 
-    
-                  vi.spyOn(EntraIdAccessTokenModule, "EntraIdAccessToken")
-                  .mockReturnValue(entraIdAccessToken)
-                ;
+    vi.spyOn(EntraIdAccessTokenModule, "EntraIdAccessToken").mockReturnValue(entraIdAccessToken);
 
     const token = await fetchOrValidateAccessToken();
     expect(entraIdAccessToken.doesEntraIdAccessTokenNeedRotation.called).to.be.true;
@@ -305,19 +290,13 @@ describe("Service Utils", () => {
     process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = tokenMock;
     const entraIdAccessToken = {
       token: tokenMock,
-      doesEntraIdAccessTokenNeedRotation: 
-                  vi.fn()
-                  .mockReturnValue(true)
-                ,
+      doesEntraIdAccessTokenNeedRotation: vi.fn().mockReturnValue(true),
       fetchEntraIdAccessToken: sinon.stub().callsFake(() => {
         process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = newTokenMock;
       }),
     };
 
-    
-                  vi.spyOn(EntraIdAccessTokenModule, "EntraIdAccessToken")
-                  .mockReturnValue(entraIdAccessToken)
-                ;
+    vi.spyOn(EntraIdAccessTokenModule, "EntraIdAccessToken").mockReturnValue(entraIdAccessToken);
 
     const token = await fetchOrValidateAccessToken();
     expect(entraIdAccessToken.doesEntraIdAccessTokenNeedRotation.called).to.be.true;
@@ -333,18 +312,13 @@ describe("Service Utils", () => {
     const newTokenMock = "newTest";
     process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = tokenMock;
     const expiry = Date.now();
-    
-                  vi.spyOn(utils, "parseJwt")
-                  .mockReturnValue({ exp: expiry / 1000 })
-                ;
+
+    vi.spyOn(utils, "parseJwt").mockReturnValue({ exp: expiry / 1000 });
     const credential = {
-      getToken: 
-                    vi.fn()
-                    .mockResolvedValue({
-                token: newTokenMock,
-                expiresOnTimestamp: Date.now() / 1000,
-              })
-                  ,
+      getToken: vi.fn().mockResolvedValue({
+        token: newTokenMock,
+        expiresOnTimestamp: Date.now() / 1000,
+      }),
     };
 
     const token = await fetchOrValidateAccessToken(credential);
@@ -360,17 +334,11 @@ describe("Service Utils", () => {
     process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = tokenMock;
     const entraIdAccessToken = {
       token: "",
-      doesEntraIdAccessTokenNeedRotation: 
-                  vi.fn()
-                  .mockReturnValue(false)
-                ,
+      doesEntraIdAccessTokenNeedRotation: vi.fn().mockReturnValue(false),
       fetchEntraIdAccessToken: vi.fn(),
     };
 
-    
-                  vi.spyOn(EntraIdAccessTokenModule, "EntraIdAccessToken")
-                  .mockReturnValue(entraIdAccessToken)
-                ;
+    vi.spyOn(EntraIdAccessTokenModule, "EntraIdAccessToken").mockReturnValue(entraIdAccessToken);
 
     const token = await fetchOrValidateAccessToken();
     expect(entraIdAccessToken.doesEntraIdAccessTokenNeedRotation.called).to.be.false;
@@ -387,10 +355,7 @@ describe("Service Utils", () => {
       token: "",
     };
 
-    
-                  vi.spyOn(EntraIdAccessTokenModule, "EntraIdAccessToken")
-                  .mockReturnValue(entraIdAccessToken)
-                ;
+    vi.spyOn(EntraIdAccessTokenModule, "EntraIdAccessToken").mockReturnValue(entraIdAccessToken);
 
     await expect(fetchOrValidateAccessToken()).to.be.rejected;
 
@@ -485,10 +450,7 @@ describe("Service Utils", () => {
   });
 
   it("should exit with error message if installed version is less than minimum supported version", () => {
-    
-                  vi.spyOn(utils, "getPlaywrightVersion")
-                  .mockReturnValue("1.46.0")
-                ;
+    vi.spyOn(utils, "getPlaywrightVersion").mockReturnValue("1.46.0");
     const exitStub = sandbox.stub(process, "exit").callsFake(() => {
       throw new Error();
     });
@@ -498,10 +460,7 @@ describe("Service Utils", () => {
   });
 
   it("should be no-op if installed version is greater than minimum supported version (patch change)", () => {
-    
-                  vi.spyOn(utils, "getPlaywrightVersion")
-                  .mockReturnValue("1.47.1")
-                ;
+    vi.spyOn(utils, "getPlaywrightVersion").mockReturnValue("1.47.1");
     const exitStub = sandbox.stub(process, "exit").callsFake(() => {
       throw new Error();
     });
@@ -511,10 +470,7 @@ describe("Service Utils", () => {
   });
 
   it("should be no-op if installed version is greater than minimum supported version (minor change)", () => {
-    
-                  vi.spyOn(utils, "getPlaywrightVersion")
-                  .mockReturnValue("1.48.0")
-                ;
+    vi.spyOn(utils, "getPlaywrightVersion").mockReturnValue("1.48.0");
     const exitStub = sandbox.stub(process, "exit").callsFake(() => {
       throw new Error();
     });
@@ -524,10 +480,7 @@ describe("Service Utils", () => {
   });
 
   it("should be no-op if installed version is greater than minimum supported version (major change)", () => {
-    
-                  vi.spyOn(utils, "getPlaywrightVersion")
-                  .mockReturnValue("2.0.0")
-                ;
+    vi.spyOn(utils, "getPlaywrightVersion").mockReturnValue("2.0.0");
     const exitStub = sandbox.stub(process, "exit").callsFake(() => {
       throw new Error();
     });
@@ -537,10 +490,7 @@ describe("Service Utils", () => {
   });
 
   it("should be no-op if installed version is equal to minimum supported version", () => {
-    
-                  vi.spyOn(utils, "getPlaywrightVersion")
-                  .mockReturnValue(MINIMUM_SUPPORTED_PLAYWRIGHT_VERSION)
-                ;
+    vi.spyOn(utils, "getPlaywrightVersion").mockReturnValue(MINIMUM_SUPPORTED_PLAYWRIGHT_VERSION);
     const exitStub = sandbox.stub(process, "exit").callsFake(() => {
       throw new Error();
     });
@@ -557,13 +507,11 @@ describe("Service Utils", () => {
   it("should fetch playwright version and set it in env variable", () => {
     const mockVersion = "1.2.3";
     delete process.env[InternalEnvironmentVariables.MPT_PLAYWRIGHT_VERSION];
-    
-                  vi.spyOn(packageManager, "getPackageManager")
-                  .mockReturnValue({
-            runCommand: sinon.stub().returns("echo"),
-            getVersionFromStdout: sinon.stub().returns(mockVersion),
-          })
-                ;
+
+    vi.spyOn(packageManager, "getPackageManager").mockReturnValue({
+      runCommand: sinon.stub().returns("echo"),
+      getVersionFromStdout: sinon.stub().returns(mockVersion),
+    });
 
     const version = utils.getPlaywrightVersion();
     expect(version).to.equal(mockVersion);

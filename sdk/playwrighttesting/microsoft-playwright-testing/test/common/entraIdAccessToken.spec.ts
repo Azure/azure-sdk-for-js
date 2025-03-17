@@ -32,12 +32,10 @@ describe("EntraIdAccessToken", () => {
     const token = "token";
     const expiry = Date.now();
     process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = token;
-    
-                  vi.spyOn(utils, "parseJwt")
-                  .mockReturnValue({
-            exp: expiry / 1000,
-          })
-                ;
+
+    vi.spyOn(utils, "parseJwt").mockReturnValue({
+      exp: expiry / 1000,
+    });
     const entraIdAccessToken = new EntraIdAccessToken();
     expect(entraIdAccessToken.token).to.equal(token);
     expect(entraIdAccessToken["_expiryTimestamp"]).to.equal(expiry);
@@ -53,12 +51,10 @@ describe("EntraIdAccessToken", () => {
   it("should not set entra id access token if mpt pat is set in environment variable on object creation", () => {
     const token = "token";
     process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = token;
-    
-                  vi.spyOn(utils, "parseJwt")
-                  .mockReturnValue({
-            aid: "aid",
-          })
-                ;
+
+    vi.spyOn(utils, "parseJwt").mockReturnValue({
+      aid: "aid",
+    });
     const entraIdAccessToken = new EntraIdAccessToken();
     expect(entraIdAccessToken.token).to.be.undefined;
     expect(entraIdAccessToken["_expiryTimestamp"]).to.be.undefined;
@@ -68,12 +64,10 @@ describe("EntraIdAccessToken", () => {
   it("should not set entra id access token if mpt back compat pat is set in environment variable on object creation", () => {
     const token = "token";
     process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = token;
-    
-                  vi.spyOn(utils, "parseJwt")
-                  .mockReturnValue({
-            accountId: "accountId",
-          })
-                ;
+
+    vi.spyOn(utils, "parseJwt").mockReturnValue({
+      accountId: "accountId",
+    });
     const entraIdAccessToken = new EntraIdAccessToken();
     expect(entraIdAccessToken.token).to.be.undefined;
     expect(entraIdAccessToken["_expiryTimestamp"]).to.be.undefined;
@@ -98,10 +92,7 @@ describe("EntraIdAccessToken", () => {
       expiresOnTimestamp: expiry,
     };
     const credential = {
-      getToken: 
-                    vi.fn()
-                    .mockResolvedValue(accessToken)
-                  ,
+      getToken: vi.fn().mockResolvedValue(accessToken),
     };
     const entraIdAccessToken = new EntraIdAccessToken(credential);
     await entraIdAccessToken.fetchEntraIdAccessToken();
@@ -117,10 +108,7 @@ describe("EntraIdAccessToken", () => {
       token,
     };
     const credential = {
-      getToken: 
-                    vi.fn()
-                    .mockResolvedValue(accessToken)
-                  ,
+      getToken: vi.fn().mockResolvedValue(accessToken),
     };
     const entraIdAccessToken = new EntraIdAccessToken(credential);
     entraIdAccessToken.token = token;

@@ -271,10 +271,8 @@ describe("getServiceConfig", () => {
 
   it("should not set service global setup and teardown for mpt pat authentication if pat is set", () => {
     const processExitStub = vi.spyOn(process, "exit");
-    
-                  vi.spyOn(utils, "parseJwt")
-                  .mockReturnValue({ exp: Date.now() / 1000 + 10000 })
-                ;
+
+    vi.spyOn(utils, "parseJwt").mockReturnValue({ exp: Date.now() / 1000 + 10000 });
     const { getServiceConfig } = require("../../src/core/playwrightService");
     process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = "token";
     const config = getServiceConfig(samplePlaywrightConfigInput, {
@@ -326,10 +324,7 @@ describe("getServiceConfig", () => {
     const { getServiceConfig } = require("../../src/core/playwrightService");
     const playwrightServiceEntra = require("../../src/core/playwrightServiceEntra");
     const credential = {
-      getToken: 
-                    vi.fn()
-                    .mockResolvedValue(accessToken)
-                  ,
+      getToken: vi.fn().mockResolvedValue(accessToken),
     };
     getServiceConfig(samplePlaywrightConfigInput, {
       credential,
@@ -394,15 +389,12 @@ describe("getConnectOptions", () => {
   it("should fetch entra token using credentials passed by customer", async () => {
     const accessToken = "token";
     process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = accessToken;
-    
-                  vi.spyOn(utils, "parseJwt")
-                  .mockReturnValue({ exp: Date.now() / 1000 })
-                ;
+
+    vi.spyOn(utils, "parseJwt").mockReturnValue({ exp: Date.now() / 1000 });
     const credential = {
-      getToken: 
-                    vi.fn()
-                    .mockResolvedValue({ token: accessToken, expiresOnTimestamp: Date.now() + 10000 })
-                  ,
+      getToken: vi
+        .fn()
+        .mockResolvedValue({ token: accessToken, expiresOnTimestamp: Date.now() + 10000 }),
     };
     const { getConnectOptions } = require("../../src/core/playwrightService");
     await getConnectOptions({
