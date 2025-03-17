@@ -24,7 +24,7 @@ import {
 import * as EntraIdAccessTokenModule from "../../src/common/entraIdAccessToken.js";
 import { expect } from "@azure-tools/test-utils";
 import * as packageManager from "../../src/utils/packageManager.js";
-import { describe, it, expect, beforeEach, afterEach } from "vitest";
+import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
 
 describe("Service Utils", () => {
   let sandbox: sinon.SinonSandbox;

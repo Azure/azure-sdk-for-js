@@ -13,7 +13,7 @@ import * as utils from "../../src/utils/utils.js";
 import { getServiceConfig } from "../../src/core/playwrightService.js";
 import { PlaywrightServiceConfig } from "../../src/common/playwrightServiceConfig.js";
 import { expect } from "@azure-tools/test-utils";
-import { describe, it, expect, beforeEach, afterEach } from "vitest";
+import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
 
 const samplePlaywrightConfigInput = {
   globalSetup: "sample-setup.ts",

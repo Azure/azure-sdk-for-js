@@ -8,7 +8,7 @@ import {
 import { PlaywrightServiceConfig } from "../../src/common/playwrightServiceConfig.js";
 import { expect } from "@azure-tools/test-utils";
 import { getAndSetRunId } from "../../src/utils/utils.js";
-import { describe, it, expect, beforeEach, afterEach } from "vitest";
+import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
 
 describe("PlaywrightServiceConfig", () => {
   let sandbox: sinon.SinonSandbox;

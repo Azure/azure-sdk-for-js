@@ -9,7 +9,7 @@ import {
 import * as utils from "../../src/utils/utils.js";
 import { EntraIdAccessToken } from "../../src/common/entraIdAccessToken.js";
 import { expect } from "@azure-tools/test-utils";
-import { describe, it, expect, beforeEach, afterEach } from "vitest";
+import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
 
 describe("EntraIdAccessToken", () => {
   let sandbox: sinon.SinonSandbox;

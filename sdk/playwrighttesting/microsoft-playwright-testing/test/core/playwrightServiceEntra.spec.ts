@@ -7,7 +7,7 @@ import {
   EntraIdAccessTokenConstants,
   ServiceEnvironmentVariable,
 } from "../../src/common/constants.js";
-import { describe, it, expect, beforeEach, afterEach } from "vitest";
+import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
 
 const playwrightServiceEntra = require("../../src/core/playwrightServiceEntra").default;
 
