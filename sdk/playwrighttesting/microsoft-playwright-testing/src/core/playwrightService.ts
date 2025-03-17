@@ -22,13 +22,7 @@ import {
 } from "../utils/utils.js";
 import { ServiceErrorMessageConstants } from "../common/messages.js";
 import type { PlaywrightTestConfig } from "@playwright/test";
-import path from "node:path";
-import { fileURLToPath } from "node:url";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-const globalSetupPath = path.join(__dirname, "./global/playwright-service-global-setup.js");
-const globalTeardownPath = path.join(__dirname, "./global/playwright-service-global-teardown.js");
+import { globalSetupPath, globalTeardownPath } from "./playwrightServiceUtils.js";
 
 const performOneTimeOperation = (options?: PlaywrightServiceAdditionalOptions): void => {
   const oneTimeOperationFlag =
