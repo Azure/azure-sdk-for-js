@@ -31,11 +31,11 @@ export class EncryptionKeyStoreProvider {
     algorithm: KeyEncryptionAlgorithm,
     key: Buffer,
   ): Promise<Buffer> {
-    const Uint8ArrayKey = new Uint8Array(key);
+    const uInt8ArrayKey = new Uint8Array(key);
     const wrappedEncryptionKey = await this.keyEncryptionKeyResolver.wrapKey(
       encryptionKeyId,
       algorithm,
-      Uint8ArrayKey,
+      uInt8ArrayKey,
     );
     return Buffer.from(wrappedEncryptionKey);
   }
