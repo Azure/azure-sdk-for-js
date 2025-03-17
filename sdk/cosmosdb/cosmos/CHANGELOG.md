@@ -37,7 +37,10 @@ Example of using Client-Side Encryption:
     encryptionAlgorithm: EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
   };
   const paths = [path1, path2];
-  const clientEncryptionPolicy = new ClientEncryptionPolicy(paths, 2);
+  const clientEncryptionPolicy = {
+      includedPaths: [path],
+      policyFormatVersion: 2,
+  };
   const containerDefinition = {
       id: "my-container",
       partitionKey: {
