@@ -340,7 +340,8 @@ function assertTokenLogProbability(tokenLogprob: ChatCompletionTokenLogprob): vo
 function assertUsage(usage: CompletionUsage | undefined): void {
   assert.isDefined(usage);
   const castUsage = usage as CompletionUsage;
-  assert.isNumber(castUsage.completion_tokens);
+  // Some models don't return completion tokens
+  ifDefined(castUsage.completion_tokens, assert.isNumber);
   assert.isNumber(castUsage.prompt_tokens);
   assert.isNumber(castUsage.total_tokens);
 }

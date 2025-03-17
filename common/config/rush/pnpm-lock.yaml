@@ -1319,6 +1319,10 @@ packages:
     resolution: {integrity: sha512-wQyuhL8WQsLkW/KMdik8bLJIJCz3Z6mg/+AKm0KedgK73SKhicSqYP+ed3t+43tLlRFltcrmGKMcHLQ+Jhv/6A==}
     engines: {node: '>=14.0.0'}
 
+  '@azure/arm-search@3.2.0':
+    resolution: {integrity: sha512-KxbVA8jsoBj/PrtF7Dh/1mGNatGzKIHooYiKD59K78io3jE7jT0Y6L0ngUx4hImW5G+AGlZBB8rSeGIvIfjuDA==}
+    engines: {node: '>=16.0.0'}
+
   '@azure/communication-signaling@1.0.0-beta.29':
     resolution: {integrity: sha512-bTNxJaS000wjtbLlH/nju3Off9uSybYeRVLvx1Y5k3ajb1rqVGUcsIduSEz1JBf+dRQx9pHRDCAEAXs/hOvzpg==}
     engines: {node: '>=8.0.0'}
@@ -3775,7 +3779,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/openai@file:projects/openai.tgz':
-    resolution: {integrity: sha512-RQM+7+Hj6gpMhGJG2q01z9cG1Q0Qe75ooIlxZvUw3NTyW7pVUQSklnrSFvhzH/tnxZca9LaxXazcd92lfKNuKg==, tarball: file:projects/openai.tgz}
+    resolution: {integrity: sha512-j9VBaJayiIhrokqnoKXDew0LTqtPMRYEFIOMNPcuqy25U5VOfT9zn2HwfZcXreNkK1ve1f2CgjsJ5tbwxiW0qw==, tarball: file:projects/openai.tgz}
     version: 0.0.0
 
   '@rush-temp/opentelemetry-instrumentation-azure-sdk@file:projects/opentelemetry-instrumentation-azure-sdk.tgz':
@@ -8225,6 +8229,18 @@ snapshots:
       - supports-color
 
   '@azure/arm-resources@5.2.0':
+    dependencies:
+      '@azure/abort-controller': 1.1.0
+      '@azure/core-auth': 1.9.0
+      '@azure/core-client': 1.9.3
+      '@azure/core-lro': 2.7.2
+      '@azure/core-paging': 1.6.2
+      '@azure/core-rest-pipeline': 1.19.1
+      tslib: 2.8.1
+    transitivePeerDependencies:
+      - supports-color
+
+  '@azure/arm-search@3.2.0':
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/core-auth': 1.9.0
@@ -21966,6 +21982,8 @@ snapshots:
 
   '@rush-temp/openai@file:projects/openai.tgz(@types/debug@4.1.12)(msw@2.7.3(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.3)(vite@6.2.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(ws@8.18.1)(yaml@2.7.0)':
     dependencies:
+      '@azure/arm-search': 3.2.0
+      '@azure/search-documents': 12.1.0
       '@types/node': 18.19.80
       '@vitest/browser': 3.0.9(@types/node@18.19.80)(playwright@1.51.0)(typescript@5.7.3)(vite@6.2.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.9)
       '@vitest/coverage-istanbul': 3.0.9(vitest@3.0.9)
