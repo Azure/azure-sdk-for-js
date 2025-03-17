@@ -1085,7 +1085,7 @@ export enum EncryptionKeyResolverName {
 }
 
 // @public
-export class EncryptionKeyWrapMetadata {
+export interface EncryptionKeyWrapMetadata {
     algorithm: KeyEncryptionAlgorithm;
     name: string;
     type: EncryptionKeyResolverName;

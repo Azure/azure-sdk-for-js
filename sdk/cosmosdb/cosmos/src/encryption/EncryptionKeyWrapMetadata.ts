@@ -6,7 +6,7 @@ import type { EncryptionKeyResolverName, KeyEncryptionAlgorithm } from "./enums"
 /**
  * Metadata used to wrap/unwrap data encryption key using a customer managed key
  */
-export class EncryptionKeyWrapMetadata {
+export interface EncryptionKeyWrapMetadata {
   /** Identifier of the key resolver */
   type: EncryptionKeyResolverName;
   /** Identifier of customer managed key */
