@@ -249,10 +249,10 @@
 /sdk/cognitivelanguage/ @quentinRobinson
 
 # ServiceLabel: %OpenAI
-# ServiceOwners: @glharper
+# ServiceOwners: @trrwilson
 
 # PRLabel: %OpenAI
-/sdk/openai/ @glharper @deyaaeldeen @minhanh-phan
+/sdk/openai/ @mikhail @deyaaeldeen @minhanh-phan
 
 # PRLabel: %AI Model Inference
 sdk/ai/ai-inference-rest @glharper @dargilco @jhakulin
