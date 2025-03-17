@@ -15,16 +15,16 @@ describe("PlaywrightServiceConfig", () => {
 
   beforeEach(() => {
     sandbox = sinon.createSandbox();
-    sandbox.stub(console, "error");
-    sandbox.stub(console, "log");
+    vi.spyOn(console, "error");
+    vi.spyOn(console, "log");
   });
 
   afterEach(() => {
-    sandbox.restore();
+    vi.restoreAllMocks();
   });
 
   after(() => {
-    sandbox.restore();
+    vi.restoreAllMocks();
   });
 
   it("should set service config object with default values", () => {

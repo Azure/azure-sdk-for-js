@@ -25,23 +25,23 @@ describe("getServiceConfig", () => {
 
   beforeEach(() => {
     sandbox = sinon.createSandbox();
-    sandbox.stub(console, "error");
-    sandbox.stub(console, "log");
+    vi.spyOn(console, "error");
+    vi.spyOn(console, "log");
     process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_URL] =
       "wss://eastus.playwright.microsoft.com/accounts/1234/browsers";
     process.env[InternalEnvironmentVariables.MPT_PLAYWRIGHT_VERSION] = "1.47.0";
   });
 
   afterEach(() => {
-    sandbox.restore();
+    vi.restoreAllMocks();
     delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_URL];
     delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN];
   });
 
   it("should exit with error message when fetching service config if service endpoint is not set", () => {
     delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_URL];
-    sandbox.restore();
-    const consoleErrorSpy = sandbox.stub(console, "error");
+    vi.restoreAllMocks();
+    const consoleErrorSpy = vi.spyOn(console, "error");
     sandbox.stub(process, "exit").throws(new Error());
     expect(() => getServiceConfig(samplePlaywrightConfigInput)).to.throw();
     expect(consoleErrorSpy.calledWith(ServiceErrorMessageConstants.NO_SERVICE_URL_ERROR.message)).to
@@ -226,10 +226,7 @@ describe("getServiceConfig", () => {
     process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = "token";
     process.env[InternalEnvironmentVariables.ONE_TIME_OPERATION_FLAG] = "true";
 
-    const warnIfAccessTokenCloseToExpiryStub = sandbox.stub(
-      utils,
-      "warnIfAccessTokenCloseToExpiry",
-    );
+    const warnIfAccessTokenCloseToExpiryStub = vi.spyOn(utils, "warnIfAccessTokenCloseToExpiry");
 
     sandbox.stub(utils, "validateMptPAT").returns();
 
@@ -246,10 +243,7 @@ describe("getServiceConfig", () => {
   it("should call warnIfAccessTokenCloseToExpiry if ONE_TIME_OPERATION_FLAG is not set", () => {
     process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = "token";
 
-    const warnIfAccessTokenCloseToExpiryStub = sandbox.stub(
-      utils,
-      "warnIfAccessTokenCloseToExpiry",
-    );
+    const warnIfAccessTokenCloseToExpiryStub = vi.spyOn(utils, "warnIfAccessTokenCloseToExpiry");
 
     sandbox.stub(utils, "validateMptPAT").returns();
 
@@ -276,8 +270,11 @@ describe("getServiceConfig", () => {
   });
 
   it("should not set service global setup and teardown for mpt pat authentication if pat is set", () => {
-    const processExitStub = sandbox.stub(process, "exit");
-    sandbox.stub(utils, "parseJwt").returns({ exp: Date.now() / 1000 + 10000 });
+    const processExitStub = vi.spyOn(process, "exit");
+    
+                  vi.spyOn(utils, "parseJwt")
+                  .mockReturnValue({ exp: Date.now() / 1000 + 10000 })
+                ;
     const { getServiceConfig } = require("../../src/core/playwrightService");
     process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = "token";
     const config = getServiceConfig(samplePlaywrightConfigInput, {
@@ -329,7 +326,10 @@ describe("getServiceConfig", () => {
     const { getServiceConfig } = require("../../src/core/playwrightService");
     const playwrightServiceEntra = require("../../src/core/playwrightServiceEntra");
     const credential = {
-      getToken: sinon.stub().resolves(accessToken),
+      getToken: 
+                    vi.fn()
+                    .mockResolvedValue(accessToken)
+                  ,
     };
     getServiceConfig(samplePlaywrightConfigInput, {
       credential,
@@ -380,7 +380,7 @@ describe("getConnectOptions", () => {
         slowMo: new PlaywrightServiceConfig().slowMo,
       },
     });
-    sandbox.restore();
+    vi.restoreAllMocks();
   });
 
   it("should throw error if token is not set", async () => {
@@ -392,20 +392,23 @@ describe("getConnectOptions", () => {
   });
 
   it("should fetch entra token using credentials passed by customer", async () => {
-    const sandbox = sinon.createSandbox();
     const accessToken = "token";
     process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = accessToken;
-    sandbox.stub(utils, "parseJwt").returns({ exp: Date.now() / 1000 });
+    
+                  vi.spyOn(utils, "parseJwt")
+                  .mockReturnValue({ exp: Date.now() / 1000 })
+                ;
     const credential = {
-      getToken: sandbox
-        .stub()
-        .resolves({ token: accessToken, expiresOnTimestamp: Date.now() + 10000 }),
+      getToken: 
+                    vi.fn()
+                    .mockResolvedValue({ token: accessToken, expiresOnTimestamp: Date.now() + 10000 })
+                  ,
     };
     const { getConnectOptions } = require("../../src/core/playwrightService");
     await getConnectOptions({
       credential,
     });
     expect(credential.getToken.called).to.be.true;
-    sandbox.restore();
+    vi.restoreAllMocks();
   });
 });

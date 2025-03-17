@@ -23,16 +23,17 @@ describe("playwrightServiceEntra", () => {
   });
 
   afterEach(() => {
-    sandbox.restore();
+    vi.restoreAllMocks();
     delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_URL];
     delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN];
   });
 
   it("should fetch entra id access token and setup rotation handler", async () => {
-    sandbox
-      .stub(playwrightServiceEntra["_entraIdAccessToken"], "fetchEntraIdAccessToken")
-      .resolves(true);
-    sandbox.stub(playwrightServiceEntra, "entraIdGlobalSetupRotationHandler");
+    
+                  vi.spyOn(playwrightServiceEntra["_entraIdAccessToken"], "fetchEntraIdAccessToken")
+                  .mockResolvedValue(true)
+                ;
+    vi.spyOn(playwrightServiceEntra, "entraIdGlobalSetupRotationHandler");
 
     await playwrightServiceEntra.globalSetup();
 
@@ -43,9 +44,12 @@ describe("playwrightServiceEntra", () => {
 
   it("should throw error if entra id access token fetch fails", async () => {
     process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = "test";
-    sandbox.stub(utils, "parseJwt").returns({ exp: new Date().getTime() / 1000 + 10000 });
+    
+                  vi.spyOn(utils, "parseJwt")
+                  .mockReturnValue({ exp: new Date().getTime() / 1000 + 10000 })
+                ;
     sandbox.stub(playwrightServiceEntra["_entraIdAccessToken"], "fetchEntraIdAccessToken").throws();
-    sandbox.stub(playwrightServiceEntra, "entraIdGlobalSetupRotationHandler");
+    vi.spyOn(playwrightServiceEntra, "entraIdGlobalSetupRotationHandler");
 
     await expect(playwrightServiceEntra.globalSetup()).to.be.rejected;
 
@@ -55,7 +59,7 @@ describe("playwrightServiceEntra", () => {
   });
 
   it("should be no-op if entra id access token rotation interval doesn't exist", () => {
-    const clearIntervalStub = sandbox.stub(global, "clearInterval");
+    const clearIntervalStub = vi.spyOn(global, "clearInterval");
 
     playwrightServiceEntra.globalTeardown();
 
@@ -64,7 +68,7 @@ describe("playwrightServiceEntra", () => {
 
   it("should clear entra id access token rotation interval", () => {
     const intervalId = 1;
-    const clearIntervalStub = sandbox.stub(global, "clearInterval");
+    const clearIntervalStub = vi.spyOn(global, "clearInterval");
 
     playwrightServiceEntra["_entraIdAccessTokenRotationInterval"] = intervalId;
     playwrightServiceEntra.globalTeardown();
@@ -90,12 +94,14 @@ describe("playwrightServiceEntra", () => {
   });
 
   it("should rotate entra id access token if needed", async () => {
-    sandbox
-      .stub(playwrightServiceEntra["_entraIdAccessToken"], "doesEntraIdAccessTokenNeedRotation")
-      .returns(true);
-    sandbox
-      .stub(playwrightServiceEntra["_entraIdAccessToken"], "fetchEntraIdAccessToken")
-      .resolves(true);
+    
+                  vi.spyOn(playwrightServiceEntra["_entraIdAccessToken"], "doesEntraIdAccessTokenNeedRotation")
+                  .mockReturnValue(true)
+                ;
+    
+                  vi.spyOn(playwrightServiceEntra["_entraIdAccessToken"], "fetchEntraIdAccessToken")
+                  .mockResolvedValue(true)
+                ;
 
     await playwrightServiceEntra.entraIdAccessTokenRotation();
 
@@ -107,9 +113,10 @@ describe("playwrightServiceEntra", () => {
   });
 
   it("should not throw error during entra id access token rotation if fetch fails", async () => {
-    sandbox
-      .stub(playwrightServiceEntra["_entraIdAccessToken"], "doesEntraIdAccessTokenNeedRotation")
-      .returns(true);
+    
+                  vi.spyOn(playwrightServiceEntra["_entraIdAccessToken"], "doesEntraIdAccessTokenNeedRotation")
+                  .mockReturnValue(true)
+                ;
     sandbox.stub(playwrightServiceEntra["_entraIdAccessToken"], "fetchEntraIdAccessToken").throws();
 
     await playwrightServiceEntra.entraIdAccessTokenRotation();
@@ -122,10 +129,11 @@ describe("playwrightServiceEntra", () => {
   });
 
   it("should not rotate entra id access token if not needed", async () => {
-    sandbox
-      .stub(playwrightServiceEntra["_entraIdAccessToken"], "doesEntraIdAccessTokenNeedRotation")
-      .returns(false);
-    sandbox.stub(playwrightServiceEntra["_entraIdAccessToken"], "fetchEntraIdAccessToken");
+    
+                  vi.spyOn(playwrightServiceEntra["_entraIdAccessToken"], "doesEntraIdAccessTokenNeedRotation")
+                  .mockReturnValue(false)
+                ;
+    vi.spyOn(playwrightServiceEntra["_entraIdAccessToken"], "fetchEntraIdAccessToken");
 
     await playwrightServiceEntra.entraIdAccessTokenRotation();
 

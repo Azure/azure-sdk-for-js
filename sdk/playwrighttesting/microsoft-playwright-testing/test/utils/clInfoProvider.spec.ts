@@ -15,7 +15,7 @@ describe("CIInfoProvider", () => {
   });
 
   afterEach(() => {
-    sandbox.restore();
+    vi.restoreAllMocks();
     process.env = { ...environmentVariables };
   });
 

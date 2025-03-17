@@ -15,7 +15,7 @@ describe("Package Manager", () => {
   });
 
   afterEach(() => {
-    sandbox.restore();
+    vi.restoreAllMocks();
     delete process.env["npm_config_user_agent"];
   });
 
