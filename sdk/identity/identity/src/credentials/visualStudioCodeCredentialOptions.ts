@@ -5,6 +5,8 @@ import type { MultiTenantTokenCredentialOptions } from "./multiTenantTokenCreden
 
 /**
  * Provides options to configure the Visual Studio Code credential.
+ * 
+ * @deprecated VisualStudioCodeCredential is deprecated.
  */
 export interface VisualStudioCodeCredentialOptions extends MultiTenantTokenCredentialOptions {
   /**

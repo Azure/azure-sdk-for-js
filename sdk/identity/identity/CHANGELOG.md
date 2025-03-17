@@ -9,6 +9,7 @@
 ### Bugs Fixed
 
 ### Other Changes
+- Deprecated `VisualStudioCodeCredential`.
 
 ## 4.8.0 (2025-03-11)
 

@@ -19,6 +19,8 @@ export const vsCodeCredentialControl = {
 
 /**
  * Connects to Azure using the credential provided by the VSCode extension 'Azure Account'.
+ * 
+ * @deprecated VisualStudioCodeCredential is deprecated.
  */
 export class VisualStudioCodeCredential implements TokenCredential {
   /**
