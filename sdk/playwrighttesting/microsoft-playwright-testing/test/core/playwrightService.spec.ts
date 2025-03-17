@@ -7,11 +7,11 @@ import {
   ServiceAuth,
   ServiceEnvironmentVariable,
   ServiceOS,
-} from "../../src/common/constants";
-import { ServiceErrorMessageConstants } from "../../src/common/messages";
-import * as utils from "../../src/utils/utils";
-import { getServiceConfig } from "../../src/core/playwrightService";
-import { PlaywrightServiceConfig } from "../../src/common/playwrightServiceConfig";
+} from "../../src/common/constants.js";
+import { ServiceErrorMessageConstants } from "../../src/common/messages.js";
+import * as utils from "../../src/utils/utils.js";
+import { getServiceConfig } from "../../src/core/playwrightService.js";
+import { PlaywrightServiceConfig } from "../../src/common/playwrightServiceConfig.js";
 import { expect } from "@azure-tools/test-utils";
 import sinon from "sinon";
 

@@ -5,9 +5,9 @@ import {
   EntraIdAccessTokenConstants,
   InternalEnvironmentVariables,
   ServiceEnvironmentVariable,
-} from "../../src/common/constants";
-import * as utils from "../../src/utils/utils";
-import { EntraIdAccessToken } from "../../src/common/entraIdAccessToken";
+} from "../../src/common/constants.js";
+import * as utils from "../../src/utils/utils.js";
+import { EntraIdAccessToken } from "../../src/common/entraIdAccessToken.js";
 import { expect } from "@azure-tools/test-utils";
 import sinon from "sinon";
 

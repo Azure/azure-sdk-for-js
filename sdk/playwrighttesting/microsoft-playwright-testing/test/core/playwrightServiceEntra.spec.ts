@@ -3,11 +3,11 @@
 
 import { expect } from "@azure-tools/test-utils";
 import sinon from "sinon";
-import * as utils from "../../src/utils/utils";
+import * as utils from "../../src/utils/utils.js";
 import {
   EntraIdAccessTokenConstants,
   ServiceEnvironmentVariable,
-} from "../../src/common/constants";
+} from "../../src/common/constants.js";
 const playwrightServiceEntra = require("../../src/core/playwrightServiceEntra").default;
 
 describe("playwrightServiceEntra", () => {

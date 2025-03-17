@@ -1,22 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { JwtPayload, VersionInfo } from "../common/types";
+import type { JwtPayload, VersionInfo } from "../common/types.js";
 import {
   API_VERSION,
   Constants,
   InternalEnvironmentVariables,
   MINIMUM_SUPPORTED_PLAYWRIGHT_VERSION,
   ServiceEnvironmentVariable,
-} from "../common/constants";
-import { ServiceErrorMessageConstants } from "../common/messages";
-import { EntraIdAccessToken } from "../common/entraIdAccessToken";
-import { coreLogger } from "../common/logger";
+} from "../common/constants.js";
+import { ServiceErrorMessageConstants } from "../common/messages.js";
+import { EntraIdAccessToken } from "../common/entraIdAccessToken.js";
+import { coreLogger } from "../common/logger.js";
 import type { TokenCredential } from "@azure/identity";
-import ReporterUtils from "./reporterUtils";
-import { CIInfoProvider } from "./cIInfoProvider";
-import { getPackageManager } from "./packageManager";
-import { execSync } from "child_process";
+import ReporterUtils from "./reporterUtils.js";
+import { CIInfoProvider } from "./cIInfoProvider.js";
+import { getPackageManager } from "./packageManager.js";
+import { execSync } from "node:child_process";
 
 export const exitWithFailureMessage = (error: { key: string; message: string }): never => {
   console.log();

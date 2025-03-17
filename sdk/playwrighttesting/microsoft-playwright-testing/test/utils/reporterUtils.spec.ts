@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 import { expect } from "@azure-tools/test-utils";
-import ReporterUtils from "../../src/utils/reporterUtils";
-import { TestResult as MPTTestResult } from "../../src/model/testResult";
+import ReporterUtils from "../../src/utils/reporterUtils.js";
+import { TestResult as MPTTestResult } from "../../src/model/testResult.js";
 import { TestCase, TestResult } from "@playwright/test/reporter";
 
 describe("Reporter Utils", () => {

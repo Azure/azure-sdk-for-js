@@ -4,11 +4,11 @@
 import {
   DefaultConnectOptionsConstants,
   InternalEnvironmentVariables,
-} from "../../src/common/constants";
-import { PlaywrightServiceConfig } from "../../src/common/playwrightServiceConfig";
+} from "../../src/common/constants.js";
+import { PlaywrightServiceConfig } from "../../src/common/playwrightServiceConfig.js";
 import { expect } from "@azure-tools/test-utils";
 import sinon from "sinon";
-import { getAndSetRunId } from "../../src/utils/utils";
+import { getAndSetRunId } from "../../src/utils/utils.js";
 
 describe("PlaywrightServiceConfig", () => {
   let sandbox: sinon.SinonSandbox;

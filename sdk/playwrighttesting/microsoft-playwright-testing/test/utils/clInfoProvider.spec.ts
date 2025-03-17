@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { expect } from "@azure-tools/test-utils";
-import { CIInfoProvider, CI_PROVIDERS } from "../../src/utils/cIInfoProvider";
+import { CIInfoProvider, CI_PROVIDERS } from "../../src/utils/cIInfoProvider.js";
 import sinon from "sinon";
 
 describe("CIInfoProvider", () => {

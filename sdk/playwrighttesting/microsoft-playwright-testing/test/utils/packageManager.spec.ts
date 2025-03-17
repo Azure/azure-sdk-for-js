@@ -3,7 +3,7 @@
 
 import { expect } from "@azure-tools/test-utils";
 import sinon from "sinon";
-import { getPackageManager } from "../../src/utils/packageManager";
+import { getPackageManager } from "../../src/utils/packageManager.js";
 
 describe("Package Manager", () => {
   let sandbox: sinon.SinonSandbox;

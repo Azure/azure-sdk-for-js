@@ -6,8 +6,8 @@ import {
   InternalEnvironmentVariables,
   MINIMUM_SUPPORTED_PLAYWRIGHT_VERSION,
   ServiceEnvironmentVariable,
-} from "../../src/common/constants";
-import * as utils from "../../src/utils/utils";
+} from "../../src/common/constants.js";
+import * as utils from "../../src/utils/utils.js";
 import {
   getAccessToken,
   getServiceBaseURL,
@@ -20,11 +20,11 @@ import {
   fetchOrValidateAccessToken,
   emitReportingUrl,
   populateValuesFromServiceUrl,
-} from "../../src/utils/utils";
-import * as EntraIdAccessTokenModule from "../../src/common/entraIdAccessToken";
+} from "../../src/utils/utils.js";
+import * as EntraIdAccessTokenModule from "../../src/common/entraIdAccessToken.js";
 import sinon from "sinon";
 import { expect } from "@azure-tools/test-utils";
-import * as packageManager from "../../src/utils/packageManager";
+import * as packageManager from "../../src/utils/packageManager.js";
 
 describe("Service Utils", () => {
   let sandbox: sinon.SinonSandbox;
