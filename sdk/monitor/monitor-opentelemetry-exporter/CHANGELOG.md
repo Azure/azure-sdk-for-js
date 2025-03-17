@@ -1,15 +1,25 @@
 # Release History
 
-## 1.0.0-beta.29 ()
+## 1.0.0-beta.30 ()
+
+### Other Changes
+
+- Filter OpenTelemetry semantic attributes from being double recorded as custom dimensions.
+- Add support for detecting the Application Insights shim on internal verison.
+
+## 1.0.0-beta.29 (2025-03-04)
 
 ### Features Added
 
 - Support the AMW de-duping flag in AKS auto-attach scenarios.
+- Support sending custom events via specifying `microsoft.custom_event.name` on logs.
 - Support the stable OpenTelemetry HTTP semantic conventions.
 
 ### Other Changes
 
 - Removed faulty span exception exporting logic.
+- Remove applying cloud.* tags to statsbeat telemetry.
+- Correctly capture attach type on statsbeat metrics.
 
 ## 1.0.0-beta.28 (2025-01-28)
 

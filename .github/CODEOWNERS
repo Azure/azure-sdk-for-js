@@ -69,7 +69,7 @@
 
 # PRLabel: %Communication - Alpha IDs
 # ServiceLabel: %Communication - Alpha IDs
-/sdk/communication/communication-alpha-ids/ @miguhern @whisper6284
+/sdk/communication/communication-alpha-ids/ @Arazan @whisper6284 @danielortega-msft @sofiar-msft
 
 # PRLabel: %Communication - Call Automation
 # ServiceLabel: %Communication - Call Automation
@@ -97,7 +97,7 @@
 
 # PRLabel: %Communication - Phone Numbers
 # ServiceLabel: %Communication - Phone Numbers
-/sdk/communication/communication-phone-numbers/ @miguhern @whisper6284 @danielav7
+/sdk/communication/communication-phone-numbers/ @Arazan @whisper6284 @danielortega-msft @sofiar-msft
 
 # PRLabel: %Communication - Rooms
 # ServiceLabel: %Communication - Rooms
@@ -109,11 +109,11 @@
 
 # PRLabel: %Communication - Short Codes
 # ServiceLabel: %Communication - Short Codes
-/sdk/communication/communication-short-codes/ @miguhern @whisper6284
+/sdk/communication/communication-short-codes/ @Arazan @whisper6284 @danielortega-msft @sofiar-msft
 
 # PRLabel: %Communication - Toll Free Verification
 # ServiceLabel: %Communication - Toll Free Verification
-/sdk/communication/communication-toll-free-verification/ @miguhern @whisper6284
+/sdk/communication/communication-toll-free-verification/ @Arazan @whisper6284 @danielortega-msft @sofiar-msft
 
 # PRLabel: %Communication - Common
 # ServiceLabel: %Communication - Common
@@ -222,7 +222,7 @@
 # AzureSdkOwners: @joheredi
 
 # PRLabel: %Cognitive - Translator
-/sdk/translation/ai-translation-document-rest/ @hamshavathimunibyraiah
+/sdk/translation/ai-translation-document-rest/ @Han-msft @zihyunting
 
 # PRLabel: %WebPubSub
 # ServiceLabel: %WebPubSub
@@ -468,6 +468,9 @@ sdk/ai/ai-projects @ganeshyb @GraceBrigham
 /sdk/customer-insights/arm-customerinsights/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/databasewatcher/arm-databasewatcher/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/databox/arm-databox/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
@@ -610,6 +613,9 @@ sdk/ai/ai-projects @ganeshyb @GraceBrigham
 
 # PRLabel: %Mgmt
 /sdk/hybridkubernetes/arm-hybridkubernetes/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
+/sdk/impactreporting/arm-impactreporting @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
 /sdk/informatica/arm-informaticadatamanagement @qiaozha @MaryGao

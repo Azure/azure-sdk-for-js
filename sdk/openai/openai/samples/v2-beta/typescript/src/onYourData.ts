@@ -20,7 +20,7 @@ import "dotenv/config";
 const azureSearchEndpoint = process.env["AZURE_SEARCH_ENDPOINT"] || "<search endpoint>";
 const azureSearchIndexName = process.env["AZURE_SEARCH_INDEX"] || "<search index>";
 
-export async function main() {
+export async function main(): Promise<void> {
   console.log("== On Your Data Sample ==");
 
   const scope = "https://cognitiveservices.azure.com/.default";
@@ -55,7 +55,9 @@ export async function main() {
 
   for await (const event of events) {
     for (const choice of event.choices) {
-      console.log(choice.delta?.content);
+      if (choice.delta?.content) {
+        process.stdout.write(choice.delta.content);
+      }
     }
   }
 }

@@ -15,7 +15,7 @@ describe("Vision", function () {
     describe(`[${apiVersion}] Client`, () => {
       let clientsAndDeployments: ClientsAndDeploymentsInfo;
 
-      beforeEach(async function () {
+      beforeEach(async () => {
         clientsAndDeployments = createClientsAndDeployments(
           apiVersion,
           { chatCompletion: "true" },
@@ -26,7 +26,7 @@ describe("Vision", function () {
       });
 
       describe("chat.completions.create", function () {
-        it("Describes an image", async function () {
+        it("Describes an image", async () => {
           const url =
             "https://www.nasa.gov/wp-content/uploads/2023/11/53296469002-a92ea42cb9-o.jpg";
           await withDeployments(

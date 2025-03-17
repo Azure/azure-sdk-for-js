@@ -14,14 +14,13 @@ export class EncryptionKeyStoreProvider {
 
   // cache to store the unwrapped encryption key. Key is the path of the encryption key
   public unwrappedEncryptionKeyCache: { [key: string]: [Date, Buffer] };
-
+  public providerName: string;
   constructor(
     private keyEncryptionKeyResolver: EncryptionKeyResolver,
-    public providerName: string,
     private cacheTimeToLive: number,
   ) {
     this.keyEncryptionKeyResolver = keyEncryptionKeyResolver;
-    this.providerName = providerName;
+    this.providerName = keyEncryptionKeyResolver.encryptionKeyResolverName;
     this.unwrappedEncryptionKeyCache = {};
     this.cacheTimeToLive = cacheTimeToLive;
     this.clearCacheOnTtlExpiry();

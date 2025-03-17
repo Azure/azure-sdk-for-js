@@ -15,7 +15,7 @@ import { DefaultAzureCredential, getBearerTokenProvider } from "@azure/identity"
 // Load the .env file if it exists
 import "dotenv/config";
 
-export async function main() {
+export async function main(): Promise<void> {
   console.log("== Streaming Chat Completions Sample ==");
 
   const scope = "https://cognitiveservices.azure.com/.default";
@@ -37,7 +37,9 @@ export async function main() {
 
   for await (const event of events) {
     for (const choice of event.choices) {
-      console.log(choice.delta?.content);
+      if (choice.delta?.content) {
+        process.stdout.write(choice.delta.content);
+      }
     }
   }
 }
