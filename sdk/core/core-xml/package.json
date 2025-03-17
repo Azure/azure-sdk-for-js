@@ -83,12 +83,12 @@
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@types/node": "^18.0.0",
     "@types/trusted-types": "^2.0.0",
-    "@vitest/browser": "^3.0.6",
-    "@vitest/coverage-istanbul": "^3.0.6",
+    "@vitest/browser": "^3.0.9",
+    "@vitest/coverage-istanbul": "^3.0.9",
     "eslint": "^9.9.0",
     "playwright": "^1.50.1",
     "typescript": "~5.7.2",
-    "vitest": "^3.0.6"
+    "vitest": "^3.0.9"
   },
   "//metadata": {
     "migrationDate": "2023-03-08T18:36:03.000Z"

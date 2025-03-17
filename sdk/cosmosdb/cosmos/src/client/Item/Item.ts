@@ -47,8 +47,8 @@ export class Item {
    */
   constructor(
     public readonly container: Container,
+    public readonly id: string,
     private readonly clientContext: ClientContext,
-    public readonly id?: string,
     partitionKey?: PartitionKey,
   ) {
     this.partitionKey =

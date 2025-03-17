@@ -92,7 +92,7 @@ export class CosmosClient {
       }
       this.encryptionManager = new EncryptionManager(
         optionsOrConnectionString.clientEncryptionOptions.keyEncryptionKeyResolver,
-        optionsOrConnectionString.clientEncryptionOptions.encryptionKeyTimeToLive,
+        optionsOrConnectionString.clientEncryptionOptions.encryptionKeyTimeToLiveInSeconds,
       );
     }
 
