@@ -47,6 +47,7 @@
   },
   "files": [
     "dist/",
+    "!dist/**/*.d.*ts.map",
     "README.md",
     "LICENSE"
   ],
@@ -72,7 +73,7 @@
     "build:samples": "echo Obsolete",
     "build:test": "dev-tool run build-package && dev-tool run build-test",
     "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\"  \"samples-dev/**/*.ts\" \"scripts/**/*.mjs\" \"*.{js,json}\"",
-    "clean": "dev-tool run vendored rimraf --glob dist dist-* temp types *.tgz *.log",
+    "clean": "dev-tool run vendored rimraf --glob dist dist-* *.tsbuildinfo temp types *.tgz *.log",
     "execute:samples": "dev-tool samples run samples-dev",
     "extract-api": "dev-tool run build-package && dev-tool run extract-api",
     "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"scripts/**/*.mjs\" \"*.{js,json}\"",
@@ -136,7 +137,6 @@
     "zod": "^3.24.2"
   },
   "dependencies": {
-    "@azure-rest/core-client": "^2.2.0",
     "tslib": "^2.8.1"
   },
   "//sampleConfiguration": {
