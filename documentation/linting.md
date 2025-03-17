@@ -20,6 +20,8 @@ This is done by running `rushx lint` under the package directory.
 
 # Fixing linting issues
 
+You should NEVER turn off a rule in `eslint-plugin-azure-sdk` to resolve linting issues.
+
 Some linting rules provide auto fixer. To use them, run `rushx lint:fix` under the package directory.
 
 For linting issues that `lint:fix` script could not resolve, you will need to examine the code and fix the issue accordingly.
