@@ -48,7 +48,8 @@ function replaceWithViFn(node: Node, traversal: ForEachDescendantTraversalContro
 function replaceWithViSpyOn(
   node: Node,
   traversal: ForEachDescendantTraversalControl,
-  args: Node<ts.Node>[],
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  args: any[], //  Node<ts.Node>[],
 ) {
   const obj = args[0].getText(); // Extract text before replacing the node
   const methodName = args[1].getText(); // Extract text before replacing the node
@@ -119,6 +120,8 @@ export default function replaceSinonStub(sourceFile: SourceFile) {
   sourceFile.forEachDescendant((node, traversal) => {
     if (node.isKind(SyntaxKind.CallExpression)) {
       const callee = node.getExpression();
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const calleeCompilerNode = callee.compilerNode as any;
       // Check if the callee is a PropertyAccessExpression with 'sinon' and 'stub'
       if (
         Node.isPropertyAccessExpression(callee) &&
@@ -133,9 +136,9 @@ export default function replaceSinonStub(sourceFile: SourceFile) {
           replaceWithViSpyOn(node, traversal, args);
         }
       } else if (
-        ts.isPropertyAccessExpression(callee.compilerNode) &&
-        isSinonIdentifier(callee.compilerNode.expression.getText()) &&
-        callee.compilerNode.name.getText() === "restore"
+        ts.isPropertyAccessExpression(calleeCompilerNode) &&
+        isSinonIdentifier(calleeCompilerNode.expression.getText()) &&
+        calleeCompilerNode.name.getText() === "restore"
       ) {
         // Replace with vi.restoreAllMocks()
         node.replaceWithText("vi.restoreAllMocks()");
