@@ -2189,7 +2189,7 @@ index 4f54b0d..0000000
 -  }
 -}
 diff --git a/src/restError.ts b/src/restError.ts
-index 0b2e69f..bc09e78 100644
+index a3d36bc..722db2a 100644
 --- a/src/restError.ts
 +++ b/src/restError.ts
 @@ -1,7 +1,7 @@
