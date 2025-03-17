@@ -456,10 +456,10 @@ async function addNewPackages(packageJson: any, options: { browser: boolean }): 
   }
 
   // add workaround to fix nmet peer dependencies issue
-  packageJson.devDependencies["vitest"] = "^3.0.6";
-  packageJson.devDependencies["@vitest/coverage-istanbul"] = "^3.0.6";
+  packageJson.devDependencies["vitest"] = "^3.0.9";
+  packageJson.devDependencies["@vitest/coverage-istanbul"] = "^3.0.9";
   if (options.browser) {
-    packageJson.devDependencies["@vitest/browser"] = "^3.0.6";
+    packageJson.devDependencies["@vitest/browser"] = "^3.0.9";
   }
 
   // Freeze these packages until we have a chance to update them
