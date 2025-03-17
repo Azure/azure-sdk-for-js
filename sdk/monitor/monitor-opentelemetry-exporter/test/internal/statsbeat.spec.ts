@@ -120,7 +120,7 @@ describe("#AzureMonitorStatsbeatExporter", () => {
         statsbeat.countSuccess(100);
         const metric = statsbeat["networkStatsbeatCollection"][0];
         assert.strictEqual(metric.intervalRequestExecutionTime, 100);
-        assert.strictEqual(metric.totalSuccesfulRequestCount, 1);
+        assert.strictEqual(metric.totalSuccessfulRequestCount, 1);
 
         // Ensure network statsbeat attributes are populated
         assert.strictEqual(statsbeat["attach"], "Manual");
