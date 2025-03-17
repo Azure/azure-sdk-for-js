@@ -3,7 +3,7 @@
 
 import { expect } from "@azure-tools/test-utils";
 import { CIInfoProvider, CI_PROVIDERS } from "../../src/utils/cIInfoProvider.js";
-import sinon from "sinon";
+import { describe, it, expect, beforeEach, afterEach } from "vitest";
 
 describe("CIInfoProvider", () => {
   let sandbox: sinon.SinonSandbox;

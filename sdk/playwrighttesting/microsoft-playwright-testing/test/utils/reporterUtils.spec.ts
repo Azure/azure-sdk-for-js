@@ -5,6 +5,7 @@ import { expect } from "@azure-tools/test-utils";
 import ReporterUtils from "../../src/utils/reporterUtils.js";
 import { TestResult as MPTTestResult } from "../../src/model/testResult.js";
 import { TestCase, TestResult } from "@playwright/test/reporter";
+import { describe, it } from "vitest";
 
 describe("Reporter Utils", () => {
   let reporterUtils: ReporterUtils;

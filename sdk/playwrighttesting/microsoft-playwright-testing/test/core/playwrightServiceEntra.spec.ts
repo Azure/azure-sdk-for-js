@@ -2,12 +2,13 @@
 // Licensed under the MIT License.
 
 import { expect } from "@azure-tools/test-utils";
-import sinon from "sinon";
 import * as utils from "../../src/utils/utils.js";
 import {
   EntraIdAccessTokenConstants,
   ServiceEnvironmentVariable,
 } from "../../src/common/constants.js";
+import { describe, it, expect, beforeEach, afterEach } from "vitest";
+
 const playwrightServiceEntra = require("../../src/core/playwrightServiceEntra").default;
 
 describe("playwrightServiceEntra", () => {
