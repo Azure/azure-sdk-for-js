@@ -15,7 +15,7 @@ It also gets built as a dependency of any SDK packages.
 
 This is done by running `rushx lint` under the package directory.
 
-1. `cd sdk/<service-directory>/<package-directory>` if you are not under the package directory yet.
+1. `cd sdk/<service-directory>/<package-directory>` if your current directory is not the package directory yet.
 2. `rushx lint`
 
 # Fixing linting issues
@@ -24,7 +24,7 @@ You should NEVER turn off a rule in `eslint-plugin-azure-sdk` to resolve linting
 
 Some linting rules provide auto fixer. To use them, run `rushx lint:fix` under the package directory.
 
-For linting issues that `lint:fix` script could not resolve, you will need to examine the code and fix the issue accordingly.
+For linting issues that `lint:fix` script could not resolve, you will need to examine the code and fix the issues accordingly.
 
 For documentation on `eslint` rules, refer to https://eslint.org/docs/latest/rules/.
 
