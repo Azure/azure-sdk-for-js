@@ -22,17 +22,18 @@ import {
   populateValuesFromServiceUrl,
 } from "../../src/utils/utils.js";
 import * as EntraIdAccessTokenModule from "../../src/common/entraIdAccessToken.js";
-import { expect } from "@azure-tools/test-utils-vitest";
 import * as packageManager from "../../src/utils/packageManager.js";
 import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
 
-describe("Service Utils", () => {
-  let sandbox: sinon.SinonSandbox;
+vi.mock("node:process", { spy: true });
 
+describe("Service Utils", () => {
   beforeEach(() => {
-    process.env[InternalEnvironmentVariables.MPT_PLAYWRIGHT_VERSION] =
-      MINIMUM_SUPPORTED_PLAYWRIGHT_VERSION;
-    sandbox = sinon.createSandbox();
+    vi.unstubAllEnvs();
+    vi.stubEnv(
+      InternalEnvironmentVariables.MPT_PLAYWRIGHT_VERSION,
+      MINIMUM_SUPPORTED_PLAYWRIGHT_VERSION,
+    );
     vi.spyOn(console, "error");
     vi.spyOn(console, "log");
   });
@@ -42,148 +43,129 @@ describe("Service Utils", () => {
   });
 
   it("should return access token set in env variable", () => {
-    process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = "test";
+    vi.stubEnv(ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN, "test");
     expect(getAccessToken()).to.equal("test");
-
-    delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN];
   });
 
   it("should return undefined if access token is not set in env variable", () => {
-    expect(getAccessToken()).to.be.undefined;
+    expect(getAccessToken()).toBeUndefined();
   });
 
   it("should return service base url set in env variable", () => {
-    process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_URL] = "test";
+    vi.stubEnv(ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_URL, "test");
     expect(getServiceBaseURL()).to.equal("test");
-
-    delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_URL];
   });
 
   it("should return undefined if service base url is not set in env variable", () => {
-    expect(getServiceBaseURL()).to.be.undefined;
+    expect(getServiceBaseURL()).toBeUndefined();
   });
 
   it("should return and set run id set in env variable", () => {
     const runId = getAndSetRunId();
     expect(runId).to.be.a("string");
     expect(process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_ID]).to.equal(runId);
-
-    delete process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_ID];
   });
 
   it("should return service base url with query params and should escape runID", () => {
-    process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_URL] =
-      "wss://eastus.api.playwright.microsoft.com/accounts/1234/browsers";
+    vi.stubEnv(
+      ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_URL,
+      "wss://eastus.api.playwright.microsoft.com/accounts/1234/browsers",
+    );
     const runId = "2021-10-11T07:00:00.000Z";
     const escapeRunId = encodeURIComponent(runId);
     const os = "windows";
     const expected = `wss://eastus.api.playwright.microsoft.com/accounts/1234/browsers?runId=${escapeRunId}&os=${os}&api-version=${API_VERSION}`;
     expect(getServiceWSEndpoint(runId, os)).to.equal(expected);
-
-    delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_URL];
   });
 
   it("should escape special character in runId", () => {
-    process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_URL] =
-      "wss://eastus.api.playwright.microsoft.com/accounts/1234/browsers";
+    vi.stubEnv(
+      ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_URL,
+      "wss://eastus.api.playwright.microsoft.com/accounts/1234/browsers",
+    );
     const runId = "2021-10-11T07:00:00.000Z";
     const escapeRunId = encodeURIComponent(runId);
     const os = "windows";
     const expected = `wss://eastus.api.playwright.microsoft.com/accounts/1234/browsers?runId=${escapeRunId}&os=${os}&api-version=${API_VERSION}`;
     expect(getServiceWSEndpoint(runId, os)).to.equal(expected);
-
-    delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_URL];
   });
 
   it("should exit with error message if service url is not set", () => {
-    process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_URL] = "";
-    const exitStub = sandbox.stub(process, "exit").callsFake(() => {
+    vi.stubEnv(ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_URL, "");
+    const exitStub = vi.spyOn(process, "exit").mockImplementation(() => {
       throw new Error();
     });
 
     expect(() => validateServiceUrl()).to.throw();
-    expect(exitStub.calledWith(1)).to.be.true;
-
-    delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_URL];
+    expect(exitStub).toBeCalledWith(1);
   });
 
   it("should be no-op if service url is set", () => {
-    process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_URL] = "test";
-    const exitStub = sandbox.stub(process, "exit").callsFake(() => {
+    vi.stubEnv(ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_URL, "test");
+    const exitStub = vi.spyOn(process, "exit").mockImplementation(() => {
       throw new Error();
     });
 
     expect(() => validateServiceUrl()).not.to.throw();
-    expect(exitStub.called).to.be.false;
-
-    delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_URL];
+    expect(exitStub).not.toBeCalled();
   });
 
   it("should exit with error message if MPT PAT is not set", () => {
-    process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = "";
-    const exitStub = sandbox.stub(process, "exit").callsFake(() => {
+    vi.stubEnv(ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN, "");
+    const exitStub = vi.spyOn(process, "exit").mockImplementation(() => {
       throw new Error();
     });
 
     expect(() => validateMptPAT(exitWithFailureMessage)).to.throw();
-    expect(exitStub.calledWith(1)).to.be.true;
-
-    delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN];
+    expect(exitStub).toBeCalledWith(1);
   });
 
   it("should exit with error message if MPT PAT is not valid", () => {
-    process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = "test";
-    const exitStub = sandbox.stub(process, "exit").callsFake(() => {
+    vi.stubEnv(ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN, "test");
+    const exitStub = vi.spyOn(process, "exit").mockImplementation(() => {
       throw new Error();
     });
 
     expect(() => validateMptPAT(exitWithFailureMessage)).to.throw();
-    expect(exitStub.calledWith(1)).to.be.true;
-
-    delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN];
+    expect(exitStub).toBeCalledWith(1);
   });
 
   it("should exit with error message if invalid token is set in env variable", () => {
-    process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = "test";
+    vi.stubEnv(ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN, "test");
 
     vi.spyOn(utils, "parseJwt").mockReturnValue({});
-    const exitStub = sandbox.stub(process, "exit").callsFake(() => {
+    const exitStub = vi.spyOn(process, "exit").mockImplementation(() => {
       throw new Error();
     });
 
     expect(() => validateMptPAT(exitWithFailureMessage)).to.throw();
-    expect(exitStub.calledWith(1)).to.be.true;
-
-    delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN];
+    expect(exitStub).toBeCalledWith(1);
   });
 
   it("should exit with error message if MPT PAT is expired", () => {
-    process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = "test";
+    vi.stubEnv(ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN, "test");
 
     vi.spyOn(utils, "parseJwt").mockReturnValue({ exp: Date.now() / 1000 - 10 });
-    const exitStub = sandbox.stub(process, "exit").callsFake(() => {
+    const exitStub = vi.spyOn(process, "exit").mockImplementation(() => {
       throw new Error();
     });
 
     expect(() => validateMptPAT(exitWithFailureMessage)).to.throw();
-    expect(exitStub.calledWith(1)).to.be.true;
-
-    delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN];
+    expect(exitStub).toBeCalledWith(1);
   });
 
   it("should be no-op if MPT PAT is valid", () => {
     const processExitStub = vi.spyOn(process, "exit");
-    process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = "test";
+    vi.stubEnv(ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN, "test");
 
     vi.spyOn(utils, "parseJwt").mockReturnValue({ exp: Date.now() / 1000 + 10 });
 
     expect(() => validateMptPAT(exitWithFailureMessage)).not.to.throw();
-    processExitStub.restore();
-    delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN];
+    processExitStub.mockReset();
   });
 
   it("Should exit with an error message if the MPT PAT and service URL are from different workspaces", () => {
-    process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = "test";
+    vi.stubEnv(ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN, "test");
 
     vi.spyOn(utils, "parseJwt").mockReturnValue({
       aid: "eastasia_c24330dd-9249-4ae8-9ba9-b5766060427c",
@@ -193,15 +175,15 @@ describe("Service Utils", () => {
       region: "",
       accountId: "eastasia_8bda26b5-300f-4f4f-810d-eae055e4a69b",
     });
-    const exitStub = sandbox.stub(process, "exit").callsFake(() => {
+    const exitStub = vi.spyOn(process, "exit").mockImplementation(() => {
       throw new Error();
     });
     expect(() => validateMptPAT(exitWithFailureMessage)).to.throw();
-    expect(exitStub.calledWith(1)).to.be.true;
-    delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN];
+    expect(exitStub).toBeCalledWith(1);
   });
+
   it("should log a warning if the token is close to expiry", () => {
-    process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = "test";
+    vi.stubEnv(ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN, "test");
     const currentTime = Date.now();
 
     vi.spyOn(Date, "now").mockReturnValue(currentTime);
@@ -214,13 +196,12 @@ describe("Service Utils", () => {
     const daysToExpiration = Math.ceil((expirationTime - currentTime) / (24 * 60 * 60 * 1000));
     const expirationDate = new Date(expirationTime).toLocaleDateString();
     const expirationWarning = `Warning: The access token used for this test run will expire in ${daysToExpiration} days on ${expirationDate}. Generate a new token from the portal to avoid failures. For a simpler, more secure solution, switch to Microsoft Entra ID and eliminate token management. https://learn.microsoft.com/en-us/entra/identity/`;
-    expect(consoleWarningSpy.calledOnce).to.be.true;
-    expect(consoleWarningSpy.calledWithExactly(expirationWarning)).to.be.true;
-    delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN];
+    expect(consoleWarningSpy).toHaveBeenCalledOnce();
+    expect(consoleWarningSpy).toHaveBeenCalledWith(expirationWarning);
   });
 
   it("should not log a warning if the token is not close to expiry", () => {
-    process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = "test";
+    vi.stubEnv(ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN, "test");
     const thirtyDaysFromNow = Math.ceil((Date.now() + 30 * 24 * 60 * 60 * 1000) / 1000);
 
     vi.spyOn(utils, "parseJwt").mockReturnValue({ exp: thirtyDaysFromNow });
@@ -233,14 +214,12 @@ describe("Service Utils", () => {
     const consoleWarningSpy = vi.spyOn(console, "warn");
 
     warnIfAccessTokenCloseToExpiry();
-    expect(consoleWarningSpy.called).to.be.false;
-
-    delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN];
+    expect(consoleWarningSpy).not.toHaveBeenCalled();
   });
 
   it("should be no-op if the MPT PAT and service URL are from same workspaces", () => {
     const processExitStub = vi.spyOn(process, "exit");
-    process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = "test";
+    vi.stubEnv(ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN, "test");
 
     vi.spyOn(utils, "parseJwt").mockReturnValue({
       aid: "eastasia_8bda26b5-300f-4f4f-810d-eae055e4a69b",
@@ -252,65 +231,61 @@ describe("Service Utils", () => {
     });
 
     expect(() => validateMptPAT(exitWithFailureMessage)).not.to.throw();
-    processExitStub.restore();
-    delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN];
+    processExitStub.mockReset();
   });
   it("should not exit the process if workspace URL is mismatched", () => {
     const exitStub = vi.spyOn(process, "exit");
-    process.env["PLAYWRIGHT_SERVICE_URL"] =
-      "wss://eastus.api.playwright.microsoft.com/accounts/wrong-id/browsers";
+    vi.stubEnv(
+      "PLAYWRIGHT_SERVICE_URL",
+      "wss://eastus.api.playwright.microsoft.com/accounts/wrong-id/browsers",
+    );
     const result = populateValuesFromServiceUrl();
     expect(result).to.deep.equal({ region: "eastus", accountId: "wrong-id" });
-    expect(exitStub.notCalled).to.be.true;
-    delete process.env["PLAYWRIGHT_SERVICE_URL"];
+    expect(exitStub).not.toHaveBeenCalled();
   });
   it("should return entra access token (not close to expiry)", async () => {
     const tokenMock = "test";
-    process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = tokenMock;
+    vi.stubEnv(ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN, tokenMock);
     const entraIdAccessToken = {
       token: tokenMock,
       doesEntraIdAccessTokenNeedRotation: vi.fn().mockReturnValue(false),
       fetchEntraIdAccessToken: vi.fn(),
-    };
+    } as any as EntraIdAccessTokenModule.EntraIdAccessToken;
 
     vi.spyOn(EntraIdAccessTokenModule, "EntraIdAccessToken").mockReturnValue(entraIdAccessToken);
 
     const token = await fetchOrValidateAccessToken();
-    expect(entraIdAccessToken.doesEntraIdAccessTokenNeedRotation.called).to.be.true;
-    expect(entraIdAccessToken.fetchEntraIdAccessToken.called).to.be.false;
+    expect(entraIdAccessToken.doesEntraIdAccessTokenNeedRotation).toHaveBeenCalled();
+    expect(entraIdAccessToken.fetchEntraIdAccessToken).not.toHaveBeenCalled();
 
     expect(token).to.equal(tokenMock);
-
-    delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN];
   });
 
   it("should fetch entra access token if expired", async () => {
     const tokenMock = "test";
     const newTokenMock = "newTest";
-    process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = tokenMock;
+    vi.stubEnv(ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN, tokenMock);
     const entraIdAccessToken = {
       token: tokenMock,
       doesEntraIdAccessTokenNeedRotation: vi.fn().mockReturnValue(true),
-      fetchEntraIdAccessToken: sinon.stub().callsFake(() => {
-        process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = newTokenMock;
+      fetchEntraIdAccessToken: vi.fn().mockImplementation(() => {
+        vi.stubEnv(ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN, newTokenMock);
       }),
-    };
+    } as any as EntraIdAccessTokenModule.EntraIdAccessToken;
 
     vi.spyOn(EntraIdAccessTokenModule, "EntraIdAccessToken").mockReturnValue(entraIdAccessToken);
 
     const token = await fetchOrValidateAccessToken();
-    expect(entraIdAccessToken.doesEntraIdAccessTokenNeedRotation.called).to.be.true;
-    expect(entraIdAccessToken.fetchEntraIdAccessToken.called).to.be.true;
+    expect(entraIdAccessToken.doesEntraIdAccessTokenNeedRotation).toHaveBeenCalled();
+    expect(entraIdAccessToken.fetchEntraIdAccessToken).toHaveBeenCalled();
 
     expect(token).to.equal(newTokenMock);
-
-    delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN];
   });
 
   it("should fetch entra access token using passed credentials if expired", async () => {
     const tokenMock = "test";
     const newTokenMock = "newTest";
-    process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = tokenMock;
+    vi.stubEnv(ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN, tokenMock);
     const expiry = Date.now();
 
     vi.spyOn(utils, "parseJwt").mockReturnValue({ exp: expiry / 1000 });
@@ -323,56 +298,50 @@ describe("Service Utils", () => {
 
     const token = await fetchOrValidateAccessToken(credential);
 
-    expect(credential.getToken.called).to.be.true;
+    expect(credential.getToken).toHaveBeenCalled();
     expect(token).to.equal(newTokenMock);
-
-    delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN];
   });
 
   it("should return mpt pat", async () => {
     const tokenMock = "test";
-    process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = tokenMock;
+    vi.stubEnv(ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN, tokenMock);
     const entraIdAccessToken = {
       token: "",
       doesEntraIdAccessTokenNeedRotation: vi.fn().mockReturnValue(false),
       fetchEntraIdAccessToken: vi.fn(),
-    };
+    } as any as EntraIdAccessTokenModule.EntraIdAccessToken;
 
     vi.spyOn(EntraIdAccessTokenModule, "EntraIdAccessToken").mockReturnValue(entraIdAccessToken);
 
     const token = await fetchOrValidateAccessToken();
-    expect(entraIdAccessToken.doesEntraIdAccessTokenNeedRotation.called).to.be.false;
-    expect(entraIdAccessToken.fetchEntraIdAccessToken.called).to.be.false;
+    expect(entraIdAccessToken.doesEntraIdAccessTokenNeedRotation).not.toHaveBeenCalled();
+    expect(entraIdAccessToken.fetchEntraIdAccessToken).not.toHaveBeenCalled();
 
     expect(token).to.equal(tokenMock);
-
-    delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN];
   });
 
   it("should throw error if no auth token is set", async () => {
-    process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = "";
+    vi.stubEnv(ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN, "");
     const entraIdAccessToken = {
       token: "",
-    };
+    } as any as EntraIdAccessTokenModule.EntraIdAccessToken;
 
     vi.spyOn(EntraIdAccessTokenModule, "EntraIdAccessToken").mockReturnValue(entraIdAccessToken);
 
-    await expect(fetchOrValidateAccessToken()).to.be.rejected;
-
-    delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN];
+    await expect(() => fetchOrValidateAccessToken()).rejects.toThrowError();
   });
 
   it("should print error message and exit", () => {
     vi.restoreAllMocks();
-    const exitStub = sandbox.stub(process, "exit").callsFake(() => {
+    const exitStub = vi.spyOn(process, "exit").mockImplementation(() => {
       return undefined as never;
     });
     const consoleErrorSpy = vi.spyOn(console, "error");
 
     exitWithFailureMessage({ key: "error", message: "error message" });
 
-    expect(exitStub.called).to.be.true;
-    expect(consoleErrorSpy.calledWith("error message")).to.be.true;
+    expect(exitStub).toHaveBeenCalled();
+    expect(consoleErrorSpy).toHaveBeenCalledWith("error message");
   });
 
   it("should be able to parse and set reporting environment url", () => {
@@ -400,12 +369,11 @@ describe("Service Utils", () => {
     ];
 
     testRubrics.forEach(({ serviceUrl, reportingUrl }) => {
-      process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_URL] = serviceUrl;
+      vi.stubEnv(ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_URL, serviceUrl);
       emitReportingUrl();
       expect(process.env[InternalEnvironmentVariables.MPT_SERVICE_REPORTING_URL]).to.equal(
         reportingUrl,
       );
-      delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_URL];
     });
   });
 
@@ -451,52 +419,52 @@ describe("Service Utils", () => {
 
   it("should exit with error message if installed version is less than minimum supported version", () => {
     vi.spyOn(utils, "getPlaywrightVersion").mockReturnValue("1.46.0");
-    const exitStub = sandbox.stub(process, "exit").callsFake(() => {
+    const exitStub = vi.spyOn(process, "exit").mockImplementation(() => {
       throw new Error();
     });
 
     expect(() => utils.validatePlaywrightVersion()).to.throw();
-    expect(exitStub.calledWith(1)).to.be.true;
+    expect(exitStub).toBeCalledWith(1);
   });
 
   it("should be no-op if installed version is greater than minimum supported version (patch change)", () => {
     vi.spyOn(utils, "getPlaywrightVersion").mockReturnValue("1.47.1");
-    const exitStub = sandbox.stub(process, "exit").callsFake(() => {
+    const exitStub = vi.spyOn(process, "exit").mockImplementation(() => {
       throw new Error();
     });
 
     expect(() => utils.validatePlaywrightVersion()).not.to.throw();
-    expect(exitStub.called).to.be.false;
+    expect(exitStub).not.toHaveBeenCalled();
   });
 
   it("should be no-op if installed version is greater than minimum supported version (minor change)", () => {
     vi.spyOn(utils, "getPlaywrightVersion").mockReturnValue("1.48.0");
-    const exitStub = sandbox.stub(process, "exit").callsFake(() => {
+    const exitStub = vi.spyOn(process, "exit").mockImplementation(() => {
       throw new Error();
     });
 
     expect(() => utils.validatePlaywrightVersion()).not.to.throw();
-    expect(exitStub.called).to.be.false;
+    expect(exitStub).not.toHaveBeenCalled();
   });
 
   it("should be no-op if installed version is greater than minimum supported version (major change)", () => {
     vi.spyOn(utils, "getPlaywrightVersion").mockReturnValue("2.0.0");
-    const exitStub = sandbox.stub(process, "exit").callsFake(() => {
+    const exitStub = vi.spyOn(process, "exit").mockImplementation(() => {
       throw new Error();
     });
 
     expect(() => utils.validatePlaywrightVersion()).not.to.throw();
-    expect(exitStub.called).to.be.false;
+    expect(exitStub).not.toHaveBeenCalled();
   });
 
   it("should be no-op if installed version is equal to minimum supported version", () => {
     vi.spyOn(utils, "getPlaywrightVersion").mockReturnValue(MINIMUM_SUPPORTED_PLAYWRIGHT_VERSION);
-    const exitStub = sandbox.stub(process, "exit").callsFake(() => {
+    const exitStub = vi.spyOn(process, "exit").mockImplementation(() => {
       throw new Error();
     });
 
     expect(() => utils.validatePlaywrightVersion()).not.to.throw();
-    expect(exitStub.called).to.be.false;
+    expect(exitStub).not.toHaveBeenCalled();
   });
 
   it("should return playwright version from env variable", () => {
@@ -509,8 +477,8 @@ describe("Service Utils", () => {
     delete process.env[InternalEnvironmentVariables.MPT_PLAYWRIGHT_VERSION];
 
     vi.spyOn(packageManager, "getPackageManager").mockReturnValue({
-      runCommand: sinon.stub().returns("echo"),
-      getVersionFromStdout: sinon.stub().returns(mockVersion),
+      runCommand: vi.fn().mockReturnValue("echo"),
+      getVersionFromStdout: vi.fn().mockReturnValue(mockVersion),
     });
 
     const version = utils.getPlaywrightVersion();
@@ -532,19 +500,20 @@ describe("Service Utils", () => {
     process.env["PLAYWRIGHT_SERVICE_URL"] = "invalid-url";
 
     const result = populateValuesFromServiceUrl();
-    expect(result).to.be.null;
+    expect(result).toBeNull();
 
     delete process.env["PLAYWRIGHT_SERVICE_URL"];
   });
 
   it("should return null if PLAYWRIGHT_SERVICE_URL is not set", () => {
     const result = populateValuesFromServiceUrl();
-    expect(result).to.be.null;
+    expect(result).toBeNull();
   });
   it("should return the correct version from package.json", async () => {
     const mockVersion = "1.0.0";
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
     const packageJson = require("../../package.json");
-    sandbox.stub(packageJson, "version").value(mockVersion);
+    vi.spyOn(packageJson, "version", "get").mockReturnValue(mockVersion);
     const version = utils.getPackageVersion();
     expect(version).to.equal(mockVersion);
   });

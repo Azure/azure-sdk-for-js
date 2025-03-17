@@ -22,6 +22,13 @@ import {
 } from "../utils/utils.js";
 import { ServiceErrorMessageConstants } from "../common/messages.js";
 import type { PlaywrightTestConfig } from "@playwright/test";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const globalSetupPath = path.join(__dirname, "./global/playwright-service-global-setup.js");
+const globalTeardownPath = path.join(__dirname, "./global/playwright-service-global-teardown.js");
 
 const performOneTimeOperation = (options?: PlaywrightServiceAdditionalOptions): void => {
   const oneTimeOperationFlag =
@@ -136,16 +143,12 @@ const getServiceConfig = (
       if (customerConfig.globalTeardown) {
         globalFunctions.globalTeardown.push(...(customerConfig.globalTeardown as string[]));
       }
-      globalFunctions.globalSetup.push(require.resolve("./global/playwright-service-global-setup"));
-      globalFunctions.globalTeardown.push(
-        require.resolve("./global/playwright-service-global-teardown"),
-      );
+      globalFunctions.globalSetup.push(globalSetupPath);
+      globalFunctions.globalTeardown.push(globalTeardownPath);
     } else {
       // If multiple global file is not supported, wrap playwright-service global setup/teardown with customer provided global setup/teardown
-      globalFunctions.globalSetup = require.resolve("./global/playwright-service-global-setup");
-      globalFunctions.globalTeardown = require.resolve(
-        "./global/playwright-service-global-teardown",
-      );
+      globalFunctions.globalSetup = globalSetupPath;
+      globalFunctions.globalTeardown = globalTeardownPath;
     }
   }
   performOneTimeOperation(options);

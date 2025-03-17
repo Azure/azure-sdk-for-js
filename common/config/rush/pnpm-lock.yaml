@@ -69,7 +69,7 @@ importers:
         version: file:projects/ai-vision-image-analysis.tgz(@types/debug@4.1.12)(msw@2.7.3(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.3)(vite@6.2.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)
       '@rush-temp/api-management-custom-widgets-scaffolder':
         specifier: file:./projects/api-management-custom-widgets-scaffolder.tgz
-        version: file:projects/api-management-custom-widgets-scaffolder.tgz(@types/debug@4.1.12)(msw@2.7.3(@types/node@22.7.9)(typescript@5.7.3))(playwright@1.51.0)(tsx@4.19.3)(vite@6.2.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)
+        version: file:projects/api-management-custom-widgets-scaffolder.tgz(@types/debug@4.1.12)(@vitest/browser@3.0.9)(msw@2.7.3(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.3)(yaml@2.7.0)
       '@rush-temp/api-management-custom-widgets-tools':
         specifier: file:./projects/api-management-custom-widgets-tools.tgz
         version: file:projects/api-management-custom-widgets-tools.tgz(@types/debug@4.1.12)(msw@2.7.3(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.3)(vite@6.2.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)
@@ -927,7 +927,7 @@ importers:
         version: file:projects/cosmos.tgz
       '@rush-temp/create-microsoft-playwright-testing':
         specifier: file:./projects/create-microsoft-playwright-testing.tgz
-        version: file:projects/create-microsoft-playwright-testing.tgz(@types/debug@4.1.12)(msw@2.7.3(@types/node@22.7.9)(typescript@5.7.3))(playwright@1.51.0)(tsx@4.19.3)(vite@6.2.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)
+        version: file:projects/create-microsoft-playwright-testing.tgz(@types/debug@4.1.12)(@vitest/browser@3.0.9)(msw@2.7.3(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.3)(yaml@2.7.0)
       '@rush-temp/data-tables':
         specifier: file:./projects/data-tables.tgz
         version: file:projects/data-tables.tgz(@types/debug@4.1.12)(msw@2.7.3(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.3)(vite@6.2.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)
@@ -1038,7 +1038,7 @@ importers:
         version: file:projects/maps-timezone.tgz(@types/debug@4.1.12)(msw@2.7.3(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.3)(vite@6.2.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)
       '@rush-temp/microsoft-playwright-testing':
         specifier: file:./projects/microsoft-playwright-testing.tgz
-        version: file:projects/microsoft-playwright-testing.tgz
+        version: file:projects/microsoft-playwright-testing.tgz(msw@2.7.3(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.3)(vite@6.2.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)
       '@rush-temp/mixed-reality-authentication':
         specifier: file:./projects/mixed-reality-authentication.tgz
         version: file:projects/mixed-reality-authentication.tgz(@types/debug@4.1.12)(msw@2.7.3(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.3)(vite@6.2.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)
@@ -1249,18 +1249,9 @@ importers:
       '@rush-temp/web-pubsub-express':
         specifier: file:./projects/web-pubsub-express.tgz
         version: file:projects/web-pubsub-express.tgz(@types/debug@4.1.12)(msw@2.7.3(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.3)(vite@6.2.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)
-      '@vitest/browser':
-        specifier: 3.0.9
-        version: 3.0.9(@types/node@22.7.9)(playwright@1.51.0)(typescript@5.7.3)(vite@6.2.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.9)
-      '@vitest/coverage-istanbul':
-        specifier: 3.0.9
-        version: 3.0.9(vitest@3.0.9)
       typescript:
         specifier: ~5.7.3
         version: 5.7.3
-      vitest:
-        specifier: 3.0.9
-        version: 3.0.9(@types/debug@4.1.12)(@types/node@22.7.9)(@vitest/browser@3.0.9)(msw@2.7.3(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.3)(yaml@2.7.0)
 
 packages:
 
@@ -2456,7 +2447,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/api-management-custom-widgets-scaffolder@file:projects/api-management-custom-widgets-scaffolder.tgz':
-    resolution: {integrity: sha512-lOUwPBKqL/lmiA6wZNHBeHCADTCv+zUjXaKmOdmnLpg3oEwG1+rH1UelXHpXxX9T+p9LEOYTIdkXfYlPARTJ3w==, tarball: file:projects/api-management-custom-widgets-scaffolder.tgz}
+    resolution: {integrity: sha512-dPK/v+RYPwgFXD3t0zUOlpIN0m3aTUO6UrUPGZwhvaYooBG5jLGCfTyw/hugw/fWPvKgax/fVDojWV3/NZUvNw==, tarball: file:projects/api-management-custom-widgets-scaffolder.tgz}
     version: 0.0.0
 
   '@rush-temp/api-management-custom-widgets-tools@file:projects/api-management-custom-widgets-tools.tgz':
@@ -3600,7 +3591,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/create-microsoft-playwright-testing@file:projects/create-microsoft-playwright-testing.tgz':
-    resolution: {integrity: sha512-3oIaUMRilVojbGO2W5JbiZWciu3J3+fmODTmLDZdaobcratfBO1QJ9Bl2VnEDUnsgZS2O5B7gr4ze3MoB/2C+Q==, tarball: file:projects/create-microsoft-playwright-testing.tgz}
+    resolution: {integrity: sha512-UWklDuyCKrppBDvpROfBccd3H12nQqFbceu4O2amVirx9ChBGsTWgw2KCNsLgHoDCIPggQVFVdza8Pl3jdGuLQ==, tarball: file:projects/create-microsoft-playwright-testing.tgz}
     version: 0.0.0
 
   '@rush-temp/data-tables@file:projects/data-tables.tgz':
@@ -3748,7 +3739,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/microsoft-playwright-testing@file:projects/microsoft-playwright-testing.tgz':
-    resolution: {integrity: sha512-40h1FHAwlBMDYIlyYtNZ9p1WLtWhVWGDIJ8PC7dIS8MucwNAOKmABM5R0e1wZW9ZGeahsUV2WgGwENI1OJhmoQ==, tarball: file:projects/microsoft-playwright-testing.tgz}
+    resolution: {integrity: sha512-j/nAiXXkrEBKfGPFwl882ndB3lUrruDgNZMYTRBkC1u3N2C1v3qMN77fihVtedlon6kiAJZqMOhmqQbUTxDvzQ==, tarball: file:projects/microsoft-playwright-testing.tgz}
     version: 0.0.0
 
   '@rush-temp/mixed-reality-authentication@file:projects/mixed-reality-authentication.tgz':
@@ -3784,7 +3775,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/openai@file:projects/openai.tgz':
-    resolution: {integrity: sha512-uq5whow/Oa9r+ywWZIiAMU3pHp6MaaS0523bkCeSsZzhUPk7JIVuJripm4jA3i9VWdZdqgWg65yc6JY0U3poqg==, tarball: file:projects/openai.tgz}
+    resolution: {integrity: sha512-RQM+7+Hj6gpMhGJG2q01z9cG1Q0Qe75ooIlxZvUw3NTyW7pVUQSklnrSFvhzH/tnxZca9LaxXazcd92lfKNuKg==, tarball: file:projects/openai.tgz}
     version: 0.0.0
 
   '@rush-temp/opentelemetry-instrumentation-azure-sdk@file:projects/opentelemetry-instrumentation-azure-sdk.tgz':
@@ -6862,8 +6853,18 @@ packages:
     engines: {node: '>=18'}
     hasBin: true
 
+  playwright-core@1.51.1:
+    resolution: {integrity: sha512-/crRMj8+j/Nq5s8QcvegseuyeZPxpQCZb6HNk3Sos3BlZyAknRjoyJPFWkpNn8v0+P3WiwqFF8P+zQo4eqiNuw==}
+    engines: {node: '>=18'}
+    hasBin: true
+
   playwright@1.51.0:
     resolution: {integrity: sha512-442pTfGM0xxfCYxuBa/Pu6B2OqxqqaYq39JS8QDMGThUvIOCd6s0ANDog3uwA0cHavVlnTQzGCN7Id2YekDSXA==}
+    engines: {node: '>=18'}
+    hasBin: true
+
+  playwright@1.51.1:
+    resolution: {integrity: sha512-kkx+MB2KQRkyxjYPc3a0wLZZoDczmppyGJIvQ43l+aZihkaVvmu/21kiyaHeHjiFxjxNNFnUncKmcGIyOojsaw==}
     engines: {node: '>=18'}
     hasBin: true
 
@@ -10247,7 +10248,7 @@ snapshots:
       - webdriverio
       - yaml
 
-  '@rush-temp/api-management-custom-widgets-scaffolder@file:projects/api-management-custom-widgets-scaffolder.tgz(@types/debug@4.1.12)(msw@2.7.3(@types/node@22.7.9)(typescript@5.7.3))(playwright@1.51.0)(tsx@4.19.3)(vite@6.2.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)':
+  '@rush-temp/api-management-custom-widgets-scaffolder@file:projects/api-management-custom-widgets-scaffolder.tgz(@types/debug@4.1.12)(@vitest/browser@3.0.9)(msw@2.7.3(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.3)(yaml@2.7.0)':
     dependencies:
       '@rollup/plugin-node-resolve': 15.3.1(rollup@4.35.0)
       '@types/inquirer': 9.0.7
@@ -10255,7 +10256,6 @@ snapshots:
       '@types/node': 18.19.80
       '@types/yargs': 17.0.33
       '@types/yargs-parser': 21.0.3
-      '@vitest/browser': 3.0.9(@types/node@18.19.80)(playwright@1.51.0)(typescript@5.7.3)(vite@6.2.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.9)
       '@vitest/coverage-istanbul': 3.0.9(vitest@3.0.9)
       chalk: 4.1.2
       eslint: 9.22.0
@@ -10273,16 +10273,14 @@ snapshots:
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@types/debug'
+      - '@vitest/browser'
       - '@vitest/ui'
-      - bufferutil
       - happy-dom
       - jiti
       - jsdom
       - less
       - lightningcss
       - msw
-      - playwright
-      - safaridriver
       - sass
       - sass-embedded
       - stylus
@@ -10290,9 +10288,6 @@ snapshots:
       - supports-color
       - terser
       - tsx
-      - utf-8-validate
-      - vite
-      - webdriverio
       - yaml
 
   '@rush-temp/api-management-custom-widgets-tools@file:projects/api-management-custom-widgets-tools.tgz(@types/debug@4.1.12)(msw@2.7.3(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.3)(vite@6.2.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)':
@@ -20205,11 +20200,10 @@ snapshots:
       - jiti
       - supports-color
 
-  '@rush-temp/create-microsoft-playwright-testing@file:projects/create-microsoft-playwright-testing.tgz(@types/debug@4.1.12)(msw@2.7.3(@types/node@22.7.9)(typescript@5.7.3))(playwright@1.51.0)(tsx@4.19.3)(vite@6.2.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)':
+  '@rush-temp/create-microsoft-playwright-testing@file:projects/create-microsoft-playwright-testing.tgz(@types/debug@4.1.12)(@vitest/browser@3.0.9)(msw@2.7.3(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.3)(yaml@2.7.0)':
     dependencies:
       '@types/node': 20.17.24
       '@types/prompts': 2.4.9
-      '@vitest/browser': 3.0.9(@types/node@20.17.24)(playwright@1.51.0)(typescript@5.7.3)(vite@6.2.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.9)
       '@vitest/coverage-istanbul': 3.0.9(vitest@3.0.9)
       eslint: 9.22.0
       prompts: 2.4.2
@@ -20219,16 +20213,14 @@ snapshots:
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@types/debug'
+      - '@vitest/browser'
       - '@vitest/ui'
-      - bufferutil
       - happy-dom
       - jiti
       - jsdom
       - less
       - lightningcss
       - msw
-      - playwright
-      - safaridriver
       - sass
       - sass-embedded
       - stylus
@@ -20236,9 +20228,6 @@ snapshots:
       - supports-color
       - terser
       - tsx
-      - utf-8-validate
-      - vite
-      - webdriverio
       - yaml
 
   '@rush-temp/data-tables@file:projects/data-tables.tgz(@types/debug@4.1.12)(msw@2.7.3(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.3)(vite@6.2.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)':
@@ -21639,21 +21628,40 @@ snapshots:
       - webdriverio
       - yaml
 
-  '@rush-temp/microsoft-playwright-testing@file:projects/microsoft-playwright-testing.tgz':
+  '@rush-temp/microsoft-playwright-testing@file:projects/microsoft-playwright-testing.tgz(msw@2.7.3(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.3)(vite@6.2.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)':
     dependencies:
       '@playwright/test': 1.51.0
       '@types/debug': 4.1.12
-      '@types/mocha': 10.0.10
       '@types/node': 20.17.24
-      '@types/sinon': 17.0.4
+      '@vitest/browser': 3.0.9(@types/node@20.17.24)(playwright@1.51.1)(typescript@5.7.3)(vite@6.2.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.9)
+      '@vitest/coverage-istanbul': 3.0.9(vitest@3.0.9)
       eslint: 9.22.0
-      mocha: 11.1.0
-      sinon: 17.0.1
+      playwright: 1.51.1
       tslib: 2.8.1
       typescript: 5.7.3
+      vitest: 3.0.9(@types/debug@4.1.12)(@types/node@20.17.24)(@vitest/browser@3.0.9)(msw@2.7.3(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.3)(yaml@2.7.0)
     transitivePeerDependencies:
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
+      - bufferutil
+      - happy-dom
       - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
       - supports-color
+      - terser
+      - tsx
+      - utf-8-validate
+      - vite
+      - webdriverio
+      - yaml
 
   '@rush-temp/mixed-reality-authentication@file:projects/mixed-reality-authentication.tgz(@types/debug@4.1.12)(msw@2.7.3(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.3)(vite@6.2.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)':
     dependencies:
@@ -24153,7 +24161,7 @@ snapshots:
       - utf-8-validate
       - vite
 
-  '@vitest/browser@3.0.9(@types/node@20.17.24)(playwright@1.51.0)(typescript@5.7.3)(vite@6.2.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.9)':
+  '@vitest/browser@3.0.9(@types/node@20.17.24)(playwright@1.51.1)(typescript@5.7.3)(vite@6.2.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.9)':
     dependencies:
       '@testing-library/dom': 10.4.0
       '@testing-library/user-event': 14.6.1(@testing-library/dom@10.4.0)
@@ -24166,7 +24174,7 @@ snapshots:
       vitest: 3.0.9(@types/debug@4.1.12)(@types/node@22.7.9)(@vitest/browser@3.0.9)(msw@2.7.3(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.3)(yaml@2.7.0)
       ws: 8.18.1
     optionalDependencies:
-      playwright: 1.51.0
+      playwright: 1.51.1
     transitivePeerDependencies:
       - '@types/node'
       - bufferutil
@@ -24194,6 +24202,28 @@ snapshots:
       - typescript
       - utf-8-validate
       - vite
+
+  '@vitest/browser@3.0.9(@types/node@22.7.9)(playwright@1.51.1)(typescript@5.7.3)(vite@6.2.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.9)':
+    dependencies:
+      '@testing-library/dom': 10.4.0
+      '@testing-library/user-event': 14.6.1(@testing-library/dom@10.4.0)
+      '@vitest/mocker': 3.0.9(msw@2.7.3(@types/node@22.7.9)(typescript@5.7.3))(vite@6.2.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))
+      '@vitest/utils': 3.0.9
+      magic-string: 0.30.17
+      msw: 2.7.3(@types/node@22.7.9)(typescript@5.7.3)
+      sirv: 3.0.1
+      tinyrainbow: 2.0.0
+      vitest: 3.0.9(@types/debug@4.1.12)(@types/node@22.7.9)(@vitest/browser@3.0.9)(msw@2.7.3(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.3)(yaml@2.7.0)
+      ws: 8.18.1
+    optionalDependencies:
+      playwright: 1.51.1
+    transitivePeerDependencies:
+      - '@types/node'
+      - bufferutil
+      - typescript
+      - utf-8-validate
+      - vite
+    optional: true
 
   '@vitest/coverage-istanbul@3.0.9(vitest@3.0.9)':
     dependencies:
@@ -26918,9 +26948,17 @@ snapshots:
 
   playwright-core@1.51.0: {}
 
+  playwright-core@1.51.1: {}
+
   playwright@1.51.0:
     dependencies:
       playwright-core: 1.51.0
+    optionalDependencies:
+      fsevents: 2.3.2
+
+  playwright@1.51.1:
+    dependencies:
+      playwright-core: 1.51.1
     optionalDependencies:
       fsevents: 2.3.2
 
@@ -28082,7 +28120,7 @@ snapshots:
     optionalDependencies:
       '@types/debug': 4.1.12
       '@types/node': 18.19.80
-      '@vitest/browser': 3.0.9(@types/node@22.7.9)(playwright@1.51.0)(typescript@5.7.3)(vite@6.2.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.9)
+      '@vitest/browser': 3.0.9(@types/node@22.7.9)(playwright@1.51.1)(typescript@5.7.3)(vite@6.2.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.9)
     transitivePeerDependencies:
       - jiti
       - less
@@ -28122,7 +28160,7 @@ snapshots:
     optionalDependencies:
       '@types/debug': 4.1.12
       '@types/node': 20.17.24
-      '@vitest/browser': 3.0.9(@types/node@22.7.9)(playwright@1.51.0)(typescript@5.7.3)(vite@6.2.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.9)
+      '@vitest/browser': 3.0.9(@types/node@22.7.9)(playwright@1.51.1)(typescript@5.7.3)(vite@6.2.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.9)
     transitivePeerDependencies:
       - jiti
       - less
@@ -28162,7 +28200,7 @@ snapshots:
     optionalDependencies:
       '@types/debug': 4.1.12
       '@types/node': 22.7.9
-      '@vitest/browser': 3.0.9(@types/node@22.7.9)(playwright@1.51.0)(typescript@5.7.3)(vite@6.2.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.9)
+      '@vitest/browser': 3.0.9(@types/node@22.7.9)(playwright@1.51.1)(typescript@5.7.3)(vite@6.2.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.9)
     transitivePeerDependencies:
       - jiti
       - less
