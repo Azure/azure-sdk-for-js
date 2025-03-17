@@ -17,10 +17,7 @@
      */
     // "some-library": "1.2.3"
     "typescript": "~5.7.3",
-    "@microsoft/api-extractor": "7.51.1",
-    "vitest": "3.0.7",
-    "@vitest/browser": "3.0.7",
-    "@vitest/coverage-istanbul": "3.0.7"
+    "@microsoft/api-extractor": "7.51.1"
   },
   /**
    * When set to true, for all projects in the repo, all dependencies will be automatically added as preferredVersions,
