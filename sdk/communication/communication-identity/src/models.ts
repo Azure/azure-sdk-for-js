@@ -86,7 +86,6 @@ export declare interface CreateUserOptions extends OperationOptions {
   externalId?: string;
 }
 
-
 /**
  * Options to create a scoped user token.
  */

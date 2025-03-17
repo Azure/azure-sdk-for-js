@@ -23,15 +23,19 @@ export async function main(): Promise<void> {
 
   // Create user with default token
   console.log("Creating User and Token");
-  const communicationUserToken = await client.createUserAndToken(scopes, { externalId: externalId });
+  const communicationUserToken = await client.createUserAndToken(scopes, {
+    externalId: externalId,
+  });
   console.log(`Created user with id: ${communicationUserToken.user.communicationUserId}`);
   console.log(`Issued token: ${communicationUserToken.token}`);
   console.log(`Token expires on: ${communicationUserToken.expiresOn}`);
 
   // Get user
   const userResult = await client.getUser(communicationUserToken.user);
-  console.log(`Got user with id: ${userResult.user.communicationUserId} externalId: ${userResult.externalId} lastTokenIssuedAt: ${userResult.lastTokenIssuedAt}`);
-  
+  console.log(
+    `Got user with id: ${userResult.user.communicationUserId} externalId: ${userResult.externalId} lastTokenIssuedAt: ${userResult.lastTokenIssuedAt}`,
+  );
+
   // Create user with token with custom expiration
   console.log("Creating User and Token with custom expiration.");
   const userAndTokenOptions: CreateUserAndTokenOptions = { tokenExpiresInMinutes: 60 };

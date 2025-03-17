@@ -141,29 +141,35 @@ export class CommunicationIdentityClient {
     );
   }
 
-    /**
+  /**
    * Get an identity by its id.
-   * 
+   *
    * @param user - The user to get.
    * @param options - Additional options for the request.
    */
-    public getUser(user: CommunicationUserIdentifier, options: OperationOptions = {}): Promise<CommunicationIdentity> {
-      return tracingClient.withSpan(
-        "CommunicationIdentity-getUser",
-        options,
-        async (updatedOptions) => {
-          const result = await this.client.communicationIdentityOperations.get(user.communicationUserId,{
+  public getUser(
+    user: CommunicationUserIdentifier,
+    options: OperationOptions = {},
+  ): Promise<CommunicationIdentity> {
+    return tracingClient.withSpan(
+      "CommunicationIdentity-getUser",
+      options,
+      async (updatedOptions) => {
+        const result = await this.client.communicationIdentityOperations.get(
+          user.communicationUserId,
+          {
             ...updatedOptions,
-          });
+          },
+        );
 
-          return {
-            user: { communicationUserId: result.id },
-            externalId: result.externalId,
-            lastTokenIssuedAt: result.lastTokenIssuedAt
-          };
-        },
-      );
-    }
+        return {
+          user: { communicationUserId: result.id },
+          externalId: result.externalId,
+          lastTokenIssuedAt: result.lastTokenIssuedAt,
+        };
+      },
+    );
+  }
 
   /**
    * Creates a single user.
