@@ -372,7 +372,7 @@ function setFilesSection(packageJson: any): void {
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function addTypeScriptHybridizer(packageJson: any, options: { browser: boolean }): void {
-  // skip exports replacement if pacakge.json already have tshy config
+  // Do not remove subpath exports for modular package's package.json
   if (packageJson["tshy"]) {
     packageJson["tshy"].project = "./tsconfig.src.json";
     return;
