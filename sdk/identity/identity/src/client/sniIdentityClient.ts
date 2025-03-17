@@ -20,7 +20,7 @@ export class sniIdentityClient extends IdentityClient {
     url: string,
     options?: NetworkRequestOptions,
   ): Promise<NetworkResponse<T>> {
-    if (url.includes("/token")) {
+    if (!url.includes("/token")) {
       return super.sendGetRequestAsync(url, options);
     } else {
       const certPool = forge.pki.createCaStore();
