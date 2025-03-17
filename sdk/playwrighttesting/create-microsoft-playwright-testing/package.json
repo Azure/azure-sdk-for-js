@@ -68,10 +68,10 @@
     "@azure/logger": "^1.1.4",
     "@types/node": "^20.12.12",
     "@types/prompts": "^2.4.9",
-    "@vitest/coverage-istanbul": "^3.0.5",
+    "@vitest/coverage-istanbul": "^3.0.9",
     "eslint": "^9.9.0",
     "typescript": "~5.7.2",
-    "vitest": "^3.0.5"
+    "vitest": "^3.0.9"
   },
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "//sampleConfiguration": {
