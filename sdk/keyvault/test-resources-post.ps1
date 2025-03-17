@@ -15,20 +15,17 @@ param (
     [Parameter()]
     [hashtable] $DeploymentOutputs,
 
-    [Parameter(Mandatory = $true)]
-    [ValidateNotNullOrEmpty()]
+    [Parameter()]
     [string] $SubscriptionId,
 
-    [Parameter(Mandatory = $true)]
-    [ValidateNotNullOrEmpty()]
+    [Parameter()]
     [string] $TenantId,
 
     [Parameter()]
     [ValidatePattern('^[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}$')]
     [string] $TestApplicationId,
 
-    [Parameter(Mandatory = $true)]
-    [ValidateNotNullOrEmpty()]
+    [Parameter()]
     [string] $Environment,
 
     [Parameter()]
