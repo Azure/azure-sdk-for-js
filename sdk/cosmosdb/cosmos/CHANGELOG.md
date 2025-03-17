@@ -1,6 +1,6 @@
 # Release History
 
-## 4.3.0 (2025-03-11)
+## 4.3.0 (2025-03-17)
 
 ### Features Added
 #### Client-side Encryption (Preview) [#28760](https://github.com/Azure/azure-sdk-for-js/issues/28760)
@@ -12,31 +12,35 @@ Example of using Client-Side Encryption:
   const keyResolver = new AzureKeyVaultEncryptionKeyResolver(credentials);
   const cosmosClient = new CosmosClient({connectionString: "<ConnectionString>", clientEncryptionOptions: { keyEncryptionKeyResolver: keyResolver }});
   const database = cosmosClient.database("my-database");
-  const metadata = new EncryptionKeyWrapMetadata(
-      EncryptionKeyResolverName.AzureKeyVault, 
-      "akvKey", 
-      "https://<my-key-vault>.vault.azure.net/keys/<key>/<version>",
-      KeyEncryptionAlgorithm.RSA_OAEP);
+  const metadata: EncryptionKeyWrapMetadata = {
+      type: EncryptionKeyResolverName.AzureKeyVault, 
+      name: "akvKey", 
+      value: "https://<my-key-vault>.vault.azure.net/keys/<key>/<version>",
+      algorithm: KeyEncryptionAlgorithm.RSA_OAEP
+  };
 
   await database.createClientEncryptionKey(
       "my-key",
       EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
       metadata);
 
-  const path1 = new ClientEncryptionIncludedPath(
-    "/property1",
-    "my-key",
-    EncryptionType.DETERMINISTIC,
-    EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
-  );
-  const path2 = new ClientEncryptionIncludedPath(
-    "/property2",
-    "my-key",
-    EncryptionType.DETERMINISTIC,
-    EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
-  );
+  const path1 : ClientEncryptionIncludedPath = {
+    path: "/property1",
+    clientEncryptionKeyId: "my-key",
+    encryptionType: EncryptionType.DETERMINISTIC,
+    encryptionAlgorithm: EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
+  };
+  const path2 : ClientEncryptionIncludedPath = {
+    path: "/property2",
+    clientEncryptionKeyId: "my-key",
+    encryptionType: EncryptionType.DETERMINISTIC,
+    encryptionAlgorithm: EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
+  };
   const paths = [path1, path2];
-  const clientEncryptionPolicy = new ClientEncryptionPolicy(paths, 2);
+  const clientEncryptionPolicy = {
+      includedPaths: [path],
+      policyFormatVersion: 2,
+  };
   const containerDefinition = {
       id: "my-container",
       partitionKey: {
@@ -107,9 +111,6 @@ Example output of version V2
 ```js
 {"UtilizedIndexes":{"SingleIndexes":[{"IndexSpec":"/Item/?"},{"IndexSpec":"/Price/?"}],"CompositeIndexes":[]},"PotentialIndexes":{"SingleIndexes":[],"CompositeIndexes":[{"IndexSpecs":["/Item ASC","/Price ASC"],"IndexImpactScore":"High"}]}}
 ```
-
-#### Add `contentResponseOnWriteEnabled` in RequestOptions
-`contentResponseOnWriteEnabled` can now be set to false to disable content Response for write operations.
 
 #### Add `connectionString` in CosmosClientOptions
 ConnectionString can now be configured in CosmosClientOptions along with other configurations for client initialization.
