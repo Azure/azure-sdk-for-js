@@ -35,8 +35,8 @@ git status
 echo '-------------- git status end'
 
 cd tools/js-sdk-release-tools
-pnpm install
-pnpm run build
+npm install
+npm run build
 cd ../../..
 
 cd azure-sdk-for-js
