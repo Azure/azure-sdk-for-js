@@ -1,6 +1,6 @@
 # Release History
 
-## 4.3.0 (2025-03-11)
+## 4.3.0 (2025-03-17)
 
 ### Features Added
 #### Client-side Encryption (Preview) [#28760](https://github.com/Azure/azure-sdk-for-js/issues/28760)
@@ -108,9 +108,6 @@ Example output of version V2
 ```js
 {"UtilizedIndexes":{"SingleIndexes":[{"IndexSpec":"/Item/?"},{"IndexSpec":"/Price/?"}],"CompositeIndexes":[]},"PotentialIndexes":{"SingleIndexes":[],"CompositeIndexes":[{"IndexSpecs":["/Item ASC","/Price ASC"],"IndexImpactScore":"High"}]}}
 ```
-
-#### Add `contentResponseOnWriteEnabled` in RequestOptions
-`contentResponseOnWriteEnabled` can now be set to false to disable content Response for write operations.
 
 #### Add `connectionString` in CosmosClientOptions
 ConnectionString can now be configured in CosmosClientOptions along with other configurations for client initialization.
