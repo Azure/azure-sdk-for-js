@@ -126,9 +126,9 @@ await client.path("/tests/{testId}", TEST_ID).patch({
 });
 ```
 
-### Uploading .jmx file to a Test
+### Uploading Test script file to a Test
 
-```ts snippet:ReadmeSampleUploadJmxFile
+```ts snippet:ReadmeSampleUploadTestScriptFile
 import AzureLoadTesting, { isUnexpected, getLongRunningPoller } from "@azure-rest/load-testing";
 import { DefaultAzureCredential } from "@azure/identity";
 import { createReadStream } from "node:fs";
@@ -233,7 +233,7 @@ if (isUnexpected(metricsResult)) {
   throw metricsResult.body.error;
 }
 
-for (const timeSeries of metricsResult.body.timeseries) {
+for (const timeSeries of metricsResult.body.value) {
   console.log(timeSeries);
 }
 ```
@@ -275,7 +275,7 @@ For details on contributing to this repository, see the [contributing guide](htt
 <!-- LINKS -->
 
 [source_code]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/loadtesting/load-testing-rest/src
-[sample_code]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/loadtesting/load-testing-rest/samples/v1-beta
+[sample_code]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/loadtesting/load-testing-rest/samples/v1
 [api_reference_doc]: https://learn.microsoft.com/rest/api/loadtesting/
 [obtaining_data_plane_uri]: https://learn.microsoft.com/rest/api/loadtesting/data-plane-uri
 [product_documentation]: https://azure.microsoft.com/services/load-testing/

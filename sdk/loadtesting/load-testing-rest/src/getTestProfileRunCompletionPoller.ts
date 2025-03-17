@@ -22,10 +22,14 @@ import { sleep, isTestProfileRunInProgress } from "./util/LROUtil.js";
  */
 export async function getTestProfileRunCompletionPoller(
   client: AzureLoadTestingClient,
-  createTestProfileRunResponse: TestProfileRunAdministrationCreateOrUpdateTestProfileRun200Response | TestProfileRunAdministrationCreateOrUpdateTestProfileRun201Response,
+  createTestProfileRunResponse:
+    | TestProfileRunAdministrationCreateOrUpdateTestProfileRun200Response
+    | TestProfileRunAdministrationCreateOrUpdateTestProfileRun201Response,
   polledOperationOptions: PolledOperationOptions = {},
 ): Promise<TestProfileRunCompletionPoller> {
-  type Handler = (state: OperationState<TestProfileRunAdministrationGetTestProfileRun200Response>) => void;
+  type Handler = (
+    state: OperationState<TestProfileRunAdministrationGetTestProfileRun200Response>,
+  ) => void;
 
   const state: OperationState<TestProfileRunAdministrationGetTestProfileRun200Response> = {
     status: "notStarted",
@@ -40,14 +44,19 @@ export async function getTestProfileRunCompletionPoller(
   const currentPollIntervalInMs = polledOperationOptions.updateIntervalInMs ?? 2000;
   const testProfileRunId = createTestProfileRunResponse.body.testProfileRunId;
 
-  const poller: SimplePollerLike<OperationState<TestProfileRunAdministrationGetTestProfileRun200Response>, TestProfileRunAdministrationGetTestProfileRun200Response> = {
+  const poller: SimplePollerLike<
+    OperationState<TestProfileRunAdministrationGetTestProfileRun200Response>,
+    TestProfileRunAdministrationGetTestProfileRun200Response
+  > = {
     async poll(options?: { abortSignal?: AbortSignalLike }): Promise<void> {
       if (options?.abortSignal?.aborted) {
         throw new AbortError("The polling was aborted.");
       }
 
       if (testProfileRunId) {
-        const getTestProfileRunResult = await client.path("/test-profile-runs/{testProfileRunId}", testProfileRunId).get();
+        const getTestProfileRunResult = await client
+          .path("/test-profile-runs/{testProfileRunId}", testProfileRunId)
+          .get();
         if (isUnexpected(getTestProfileRunResult)) {
           state.status = "failed";
           state.error = new Error(getTestProfileRunResult.body.error.message);
@@ -75,7 +84,9 @@ export async function getTestProfileRunCompletionPoller(
       }
     },
 
-    pollUntilDone(pollOptions?: { abortSignal?: AbortSignalLike }): Promise<TestProfileRunAdministrationGetTestProfileRun200Response> {
+    pollUntilDone(pollOptions?: {
+      abortSignal?: AbortSignalLike;
+    }): Promise<TestProfileRunAdministrationGetTestProfileRun200Response> {
       return (resultPromise ??= (async () => {
         const { abortSignal: inputAbortSignal } = pollOptions || {};
         // In the future we can use AbortSignal.any() instead
@@ -119,7 +130,11 @@ export async function getTestProfileRunCompletionPoller(
       }));
     },
 
-    onProgress(callback: (state: OperationState<TestProfileRunAdministrationGetTestProfileRun200Response>) => void): CancelOnProgress {
+    onProgress(
+      callback: (
+        state: OperationState<TestProfileRunAdministrationGetTestProfileRun200Response>,
+      ) => void,
+    ): CancelOnProgress {
       const s = Symbol();
       progressCallbacks.set(s, callback);
 

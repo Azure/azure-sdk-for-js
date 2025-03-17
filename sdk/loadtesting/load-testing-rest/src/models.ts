@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import type { OperationState, SimplePollerLike } from "@azure/core-lro";
-import type { 
+import type {
   LoadTestAdministrationGetTestFile200Response,
   LoadTestAdministrationUploadTestFile201Response,
   LoadTestRunCreateOrUpdateTestRun200Response,
@@ -10,7 +10,7 @@ import type {
   LoadTestRunGetTestRun200Response,
   TestProfileRunAdministrationCreateOrUpdateTestProfileRun200Response,
   TestProfileRunAdministrationCreateOrUpdateTestProfileRun201Response,
-  TestProfileRunAdministrationGetTestProfileRun200Response
+  TestProfileRunAdministrationGetTestProfileRun200Response,
 } from "./responses.js";
 
 /** Load test model. */
@@ -641,8 +641,7 @@ export interface TestsNotificationEventFilterParent {
 }
 
 /** The notification event filter when the event type is TestRunEnded and scope is Tests. */
-export interface TestRunEndedNotificationEventFilter
-  extends TestsNotificationEventFilterParent {
+export interface TestRunEndedNotificationEventFilter extends TestsNotificationEventFilterParent {
   /** Event type for test run ended event. */
   kind: "TestRunEnded";
   /** Event filtering condition. */
@@ -658,8 +657,7 @@ export interface TestRunEndedEventCondition {
 }
 
 /** The notification event filter when the event type is TestRunStarted and scope is Tests. */
-export interface TestRunStartedNotificationEventFilter
-  extends TestsNotificationEventFilterParent {
+export interface TestRunStartedNotificationEventFilter extends TestsNotificationEventFilterParent {
   /** Event type for test run started event. */
   kind: "TestRunStarted";
 }
@@ -672,8 +670,7 @@ export interface TriggerCompletedNotificationEventFilter
 }
 
 /** The notification event filter when the event type is TriggerDisabled. */
-export interface TriggerDisabledNotificationEventFilter
-  extends TestsNotificationEventFilterParent {
+export interface TriggerDisabledNotificationEventFilter extends TestsNotificationEventFilterParent {
   /** Event type for trigger disabled event. */
   kind: "TriggerDisabled";
 }
@@ -759,7 +756,7 @@ export type NotificationEventType = string;
 export type FileUploadAndValidatePoller = SimplePollerLike<
   OperationState<LoadTestAdministrationGetTestFile200Response>,
   LoadTestAdministrationGetTestFile200Response
-  >;
+>;
 
 /**
  * Poller for Test Run Completion

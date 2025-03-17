@@ -63,8 +63,8 @@ export interface LoadTestAdministrationListTestsQueryParam {
   queryParameters?: LoadTestAdministrationListTestsQueryParamProperties;
 }
 
-export type LoadTestAdministrationListTestsParameters =
-  LoadTestAdministrationListTestsQueryParam & RequestParameters;
+export type LoadTestAdministrationListTestsParameters = LoadTestAdministrationListTestsQueryParam &
+  RequestParameters;
 
 export interface LoadTestAdministrationUploadTestFileBodyParam {
   /**
@@ -72,11 +72,7 @@ export interface LoadTestAdministrationUploadTestFileBodyParam {
    *
    * Value may contain any sequence of octets
    */
-  body:
-    | string
-    | Uint8Array
-    | ReadableStream<Uint8Array>
-    | NodeJS.ReadableStream;
+  body: string | Uint8Array | ReadableStream<Uint8Array> | NodeJS.ReadableStream;
 }
 
 export interface LoadTestAdministrationUploadTestFileQueryParamProperties {
@@ -122,8 +118,7 @@ export type LoadTestAdministrationCreateOrUpdateAppComponentsParameters =
   LoadTestAdministrationCreateOrUpdateAppComponentsMediaTypesParam &
     LoadTestAdministrationCreateOrUpdateAppComponentsBodyParam &
     RequestParameters;
-export type LoadTestAdministrationGetAppComponentsParameters =
-  RequestParameters;
+export type LoadTestAdministrationGetAppComponentsParameters = RequestParameters;
 /** Server metric configuration model. */
 export type TestServerMetricsConfigurationResourceMergeAndPatch =
   Partial<TestServerMetricsConfiguration>;
@@ -142,8 +137,7 @@ export type LoadTestAdministrationCreateOrUpdateServerMetricsConfigParameters =
   LoadTestAdministrationCreateOrUpdateServerMetricsConfigMediaTypesParam &
     LoadTestAdministrationCreateOrUpdateServerMetricsConfigBodyParam &
     RequestParameters;
-export type LoadTestAdministrationGetServerMetricsConfigParameters =
-  RequestParameters;
+export type LoadTestAdministrationGetServerMetricsConfigParameters = RequestParameters;
 /** The resource instance. */
 export type TestProfileResourceMergeAndPatch = Partial<TestProfile>;
 
@@ -161,10 +155,8 @@ export type TestProfileAdministrationCreateOrUpdateTestProfileParameters =
   TestProfileAdministrationCreateOrUpdateTestProfileMediaTypesParam &
     TestProfileAdministrationCreateOrUpdateTestProfileBodyParam &
     RequestParameters;
-export type TestProfileAdministrationDeleteTestProfileParameters =
-  RequestParameters;
-export type TestProfileAdministrationGetTestProfileParameters =
-  RequestParameters;
+export type TestProfileAdministrationDeleteTestProfileParameters = RequestParameters;
+export type TestProfileAdministrationGetTestProfileParameters = RequestParameters;
 
 /** This is the wrapper object for the parameter `testProfileIds` with explode set to false and style set to form. */
 export interface TestProfileAdministrationListTestProfilesTestProfileIdsQueryParam {
@@ -194,13 +186,9 @@ export interface TestProfileAdministrationListTestProfilesQueryParamProperties {
   /** End DateTime(RFC 3339 literal format) of the last updated time range to filter test profiles. */
   lastModifiedEndTime?: Date | string;
   /** Comma separated list of IDs of the test profiles to filter. */
-  testProfileIds?:
-    | string[]
-    | TestProfileAdministrationListTestProfilesTestProfileIdsQueryParam;
+  testProfileIds?: string[] | TestProfileAdministrationListTestProfilesTestProfileIdsQueryParam;
   /** Comma separated list IDs of the tests which should be associated with the test profiles to fetch. */
-  testIds?:
-    | string[]
-    | TestProfileAdministrationListTestProfilesTestIdsQueryParam;
+  testIds?: string[] | TestProfileAdministrationListTestProfilesTestIdsQueryParam;
 }
 
 export interface TestProfileAdministrationListTestProfilesQueryParam {
@@ -272,8 +260,8 @@ export interface LoadTestRunListTestRunsQueryParam {
   queryParameters?: LoadTestRunListTestRunsQueryParamProperties;
 }
 
-export type LoadTestRunListTestRunsParameters =
-  LoadTestRunListTestRunsQueryParam & RequestParameters;
+export type LoadTestRunListTestRunsParameters = LoadTestRunListTestRunsQueryParam &
+  RequestParameters;
 export type LoadTestRunGetTestRunFileParameters = RequestParameters;
 export type LoadTestRunStopParameters = RequestParameters;
 export type LoadTestRunListMetricNamespacesParameters = RequestParameters;
@@ -316,10 +304,9 @@ export interface LoadTestRunListMetricsQueryParam {
   queryParameters: LoadTestRunListMetricsQueryParamProperties;
 }
 
-export type LoadTestRunListMetricsParameters =
-  LoadTestRunListMetricsQueryParam &
-    LoadTestRunListMetricsBodyParam &
-    RequestParameters;
+export type LoadTestRunListMetricsParameters = LoadTestRunListMetricsQueryParam &
+  LoadTestRunListMetricsBodyParam &
+  RequestParameters;
 
 export interface LoadTestRunListMetricDimensionValuesQueryParamProperties {
   /** Metric name */
@@ -343,8 +330,7 @@ export interface LoadTestRunListMetricDimensionValuesQueryParam {
 export type LoadTestRunListMetricDimensionValuesParameters =
   LoadTestRunListMetricDimensionValuesQueryParam & RequestParameters;
 /** App Component model. */
-export type TestRunAppComponentsResourceMergeAndPatch =
-  Partial<TestRunAppComponents>;
+export type TestRunAppComponentsResourceMergeAndPatch = Partial<TestRunAppComponents>;
 
 export interface LoadTestRunCreateOrUpdateAppComponentsBodyParam {
   /** App Component model. */
@@ -380,8 +366,7 @@ export type LoadTestRunCreateOrUpdateServerMetricsConfigParameters =
     LoadTestRunCreateOrUpdateServerMetricsConfigBodyParam &
     RequestParameters;
 export type LoadTestRunGetServerMetricsConfigParameters = RequestParameters;
-export type TestProfileRunAdministrationGetTestProfileRunParameters =
-  RequestParameters;
+export type TestProfileRunAdministrationGetTestProfileRunParameters = RequestParameters;
 /** The resource instance. */
 export type TestProfileRunResourceMergeAndPatch = Partial<TestProfileRun>;
 
@@ -399,8 +384,7 @@ export type TestProfileRunAdministrationCreateOrUpdateTestProfileRunParameters =
   TestProfileRunAdministrationCreateOrUpdateTestProfileRunMediaTypesParam &
     TestProfileRunAdministrationCreateOrUpdateTestProfileRunBodyParam &
     RequestParameters;
-export type TestProfileRunAdministrationDeleteTestProfileRunParameters =
-  RequestParameters;
+export type TestProfileRunAdministrationDeleteTestProfileRunParameters = RequestParameters;
 export type TestProfileRunAdministrationStopParameters = RequestParameters;
 
 /** This is the wrapper object for the parameter `testProfileRunIds` with explode set to false and style set to form. */
@@ -457,9 +441,7 @@ export interface TestProfileRunAdministrationListTestProfileRunsQueryParamProper
     | string[]
     | TestProfileRunAdministrationListTestProfileRunsTestProfileIdsQueryParam;
   /** Comma separated list of Statuses of the test profile runs to filter. */
-  statuses?:
-    | string[]
-    | TestProfileRunAdministrationListTestProfileRunsStatusesQueryParam;
+  statuses?: string[] | TestProfileRunAdministrationListTestProfileRunsStatusesQueryParam;
 }
 
 export interface TestProfileRunAdministrationListTestProfileRunsQueryParam {
@@ -511,8 +493,7 @@ export interface TriggerAdministrationListTriggerQueryParam {
 
 export type TriggerAdministrationListTriggerParameters =
   TriggerAdministrationListTriggerQueryParam & RequestParameters;
-export type NotificationRuleAdministrationGetNotificationRuleParameters =
-  RequestParameters;
+export type NotificationRuleAdministrationGetNotificationRuleParameters = RequestParameters;
 /** The resource instance. */
 export type NotificationRuleResourceMergeAndPatch = Partial<NotificationRule>;
 
@@ -530,8 +511,7 @@ export type NotificationRuleAdministrationCreateOrUpdateNotificationRuleParamete
   NotificationRuleAdministrationCreateOrUpdateNotificationRuleMediaTypesParam &
     NotificationRuleAdministrationCreateOrUpdateNotificationRuleBodyParam &
     RequestParameters;
-export type NotificationRuleAdministrationDeleteNotificationRuleParameters =
-  RequestParameters;
+export type NotificationRuleAdministrationDeleteNotificationRuleParameters = RequestParameters;
 
 export interface NotificationRuleAdministrationListNotificationRuleQueryParamProperties {
   /** Search based on notification rules associated with the provided test ids. */
@@ -551,5 +531,4 @@ export interface NotificationRuleAdministrationListNotificationRuleQueryParam {
 }
 
 export type NotificationRuleAdministrationListNotificationRuleParameters =
-  NotificationRuleAdministrationListNotificationRuleQueryParam &
-    RequestParameters;
+  NotificationRuleAdministrationListNotificationRuleQueryParam & RequestParameters;

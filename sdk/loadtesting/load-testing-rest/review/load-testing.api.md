@@ -8,11 +8,11 @@ import type { Client } from '@azure-rest/core-client';
 import type { ClientOptions } from '@azure-rest/core-client';
 import type { ErrorResponse } from '@azure-rest/core-client';
 import type { HttpResponse } from '@azure-rest/core-client';
-import { OperationState } from '@azure/core-lro';
+import type { OperationState } from '@azure/core-lro';
 import type { PathUncheckedResponse } from '@azure-rest/core-client';
 import type { RawHttpHeaders } from '@azure/core-rest-pipeline';
 import type { RequestParameters } from '@azure-rest/core-client';
-import { SimplePollerLike } from '@azure/core-lro';
+import type { SimplePollerLike } from '@azure/core-lro';
 import type { StreamableMethod } from '@azure-rest/core-client';
 import type { TokenCredential } from '@azure/core-auth';
 
@@ -191,6 +191,15 @@ export interface FunctionFlexConsumptionTargetResourceConfigurationsOutput exten
 
 // @public
 export type GetArrayType<T> = T extends Array<infer TData> ? TData : never;
+
+// @public (undocumented)
+export function getLongRunningPoller(client: AzureLoadTestingClient, initialResponse: TestUploadFileSuccessResponse): Promise<FileUploadAndValidatePoller>;
+
+// @public (undocumented)
+export function getLongRunningPoller(client: AzureLoadTestingClient, initialResponse: TestRunCreateOrUpdateSuccessResponse): Promise<TestRunCompletionPoller>;
+
+// @public (undocumented)
+export function getLongRunningPoller(client: AzureLoadTestingClient, initialResponse: TestProfileRunCreateOrUpdateSuccessResponse): Promise<TestProfileRunCompletionPoller>;
 
 // @public
 export type GetPage<TPage> = (pageLink: string) => Promise<{

@@ -2,14 +2,14 @@
 // Licensed under the MIT License.
 
 /**
- * This sample demonstrates how to create a load test
+ * This sample demonstrates how to stop a test run's execution
  *
- * @summary Demonstrates how to create a load test
+ * @summary Demonstrates how to stop a running load test
  */
 
-const AzureLoadTesting /* , { isUnexpected }*/ = require("@azure-rest/load-testing").default;
+const AzureLoadTesting = require("@azure-rest/load-testing").default,
+  { isUnexpected } = require("@azure-rest/load-testing");
 const { DefaultAzureCredential } = require("@azure/identity");
-const { randomUUID } = require("node:crypto");
 
 async function main() {
   /**
@@ -23,25 +23,15 @@ async function main() {
    * In this sample you can populate the three AZURE_CLIENT_ID, AZURE_CLIENT_SECRET & AZURE_TENANT_ID variables for Microsoft Entra ID auth
    */
   const credential = new DefaultAzureCredential();
-
-  const testId = randomUUID(); // ID to be assigned to a test
-  const displayName = "Sample Load Test";
-  const description = "Sample Test Description";
+  const testRunId = process.env["LOADTESTSERVICE_TESTRUNID"] || ""; // TestRunId of an already started test run
 
   // Build a client through AAD
   const client = AzureLoadTesting(endpoint, credential);
 
-  // Creating the Load test
-  await client.path("/tests/{testId}", testId).patch({
-    contentType: "application/merge-patch+json",
-    body: {
-      displayName: displayName,
-      description: description,
-      loadTestConfiguration: {
-        engineInstances: 1, // number of engine instances to run test
-      },
-    },
-  });
-}
+  const stopTestRunResult = await client.path("/test-runs/{testRunId}:stop", testRunId).post();
 
+  if (isUnexpected(stopTestRunResult)) {
+    throw stopTestRunResult.body.error;
+  }
+}
 main().catch(console.error);
