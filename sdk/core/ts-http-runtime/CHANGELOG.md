@@ -14,10 +14,6 @@
 - Change `ClientOptions` to use `authSchemes` and `credential` instead of the previous `credentials` property
 - Update to use standard `AbortSignal` instead of custom `AbortSignalLike` interface
 
-### Bugs Fixed
-
-### Other Changes
-
 ## 0.1.0 (2024-12-03)
 
 ### Features Added
