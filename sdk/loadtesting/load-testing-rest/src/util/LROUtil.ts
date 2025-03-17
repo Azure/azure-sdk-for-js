@@ -54,13 +54,13 @@ export function isTestRunInProgress(testRunOutput: TestRunOutput): boolean {
 }
 
 export function isTestProfileRunInProgress(testProfileRunOutput: TestProfileRunOutput): boolean {
-    switch (testProfileRunOutput.status) {
-      case "ACCEPTED":
-      case "NOTSTARTED":
-      case "EXECUTING":
-      case "CANCELLING":
-        return true;
-      default:
-        return false;
-    }
+  switch (testProfileRunOutput.status) {
+    case "ACCEPTED":
+    case "NOTSTARTED":
+    case "EXECUTING":
+    case "CANCELLING":
+      return true;
+    default:
+      return false;
   }
+}
