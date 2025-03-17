@@ -16,7 +16,10 @@ These sample programs show how to use the JavaScript client libraries for Azure 
 | --------------------------------------------------------- | ----------------------------------------------------------- |
 | [addAppComponents.js][addappcomponents]                   | Demonstrates how to add app components to an existing test. |
 | [createOrUpdateTest.js][createorupdatetest]               | Demonstrates how to create a load test                      |
+| [createTestProfile.js][createtestprofile]                 | Demonstrates how to create a test profile.                  |
+| [startTestProfileRun.js][starttestprofilerun]             | Demonstrates how to start a test profile run.               |
 | [startTestRunAndGetMetrics.js][starttestrunandgetmetrics] | Demonstrates how to start a test run and get metrics.       |
+| [stopTestProfileRun.js][stoptestprofilerun]               | Demonstrates how to stop a running test profile run         |
 | [stopTestRun.js][stoptestrun]                             | Demonstrates how to stop a running load test                |
 | [uploadTestScript.js][uploadtestscript]                   | Demonstrates how to upload a test script file.              |
 
@@ -62,7 +65,10 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 
 [addappcomponents]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/loadtesting/load-testing-rest/samples/v1/javascript/addAppComponents.js
 [createorupdatetest]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/loadtesting/load-testing-rest/samples/v1/javascript/createOrUpdateTest.js
+[createtestprofile]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/loadtesting/load-testing-rest/samples/v1/javascript/createTestProfile.js
+[starttestprofilerun]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/loadtesting/load-testing-rest/samples/v1/javascript/startTestProfileRun.js
 [starttestrunandgetmetrics]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/loadtesting/load-testing-rest/samples/v1/javascript/startTestRunAndGetMetrics.js
+[stoptestprofilerun]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/loadtesting/load-testing-rest/samples/v1/javascript/stopTestProfileRun.js
 [stoptestrun]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/loadtesting/load-testing-rest/samples/v1/javascript/stopTestRun.js
 [uploadtestscript]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/loadtesting/load-testing-rest/samples/v1/javascript/uploadTestScript.js
 [apiref]: https://learn.microsoft.com/javascript/api/@azure-rest/load-testing

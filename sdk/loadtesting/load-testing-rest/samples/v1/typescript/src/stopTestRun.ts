@@ -9,7 +9,6 @@
 
 import AzureLoadTesting, { isUnexpected } from "@azure-rest/load-testing";
 import { DefaultAzureCredential } from "@azure/identity";
-import { randomUUID } from "node:crypto";
 
 async function main(): Promise<void> {
   /**
