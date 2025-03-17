@@ -26,7 +26,9 @@ function escapeQuotesIfString(input: unknown, previous: string): string | unknow
 /**
  * Escapes an odata filter expression to avoid errors with quoting string literals.
  * Example usage:
- * ```ts
+ * ```ts snippet:ODataExample
+ * import { odata } from "@azure/search-documents";
+ *
  * const baseRateMax = 200;
  * const ratingMin = 4;
  * const filter = odata`Rooms/any(room: room/BaseRate lt ${baseRateMax}) and Rating ge ${ratingMin}`;

@@ -5,7 +5,7 @@ import type { SynonymMap } from "../../../src/serviceModels.js";
 import { describe, it, assert } from "vitest";
 
 describe("synonymmap", function () {
-  it("create synonymmap from file(node)", async function () {
+  it("create synonymmap from file(node)", async () => {
     const synonymMap: SynonymMap = await createSynonymMapFromFile(
       "my-synonym-map-1",
       "./test/internal/synonymMap.txt",

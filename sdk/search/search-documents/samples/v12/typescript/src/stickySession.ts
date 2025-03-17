@@ -8,12 +8,10 @@
 
 import { DefaultAzureCredential } from "@azure/identity";
 import { odata, SearchClient, SearchIndexClient } from "@azure/search-documents";
-import { Hotel } from "./interfaces";
-import { createIndex, delay, WAIT_TIME } from "./setup";
+import { Hotel } from "./interfaces.js";
+import { createIndex, delay, WAIT_TIME } from "./setup.js";
 
-import * as dotenv from "dotenv";
-dotenv.config();
-
+import "dotenv/config";
 /**
  * If you're querying a replicated index, Azure AI Search may target any replica with your queries.
  * As these replicas may not be in a consistent state, the service may appear to have inconsistent
