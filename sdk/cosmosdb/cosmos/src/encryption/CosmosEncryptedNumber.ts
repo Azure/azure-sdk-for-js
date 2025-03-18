@@ -14,7 +14,7 @@ export class CosmosEncryptedNumber {
   value: string;
   constructor(input: string) {
     if (!Number(input)) {
-      throw new Error("Invalid number");
+      throw new Error("Invalid number passed to CosmosEncryptedNumber");
     }
     this.value = input;
   }
