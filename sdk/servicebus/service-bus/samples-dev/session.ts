@@ -58,6 +58,8 @@ export async function main(): Promise<void> {
     await sendMessage(sbClient, listOfScientists[8], "session-2");
     await sendMessage(sbClient, listOfScientists[9], "session-2");
 
+    await listSessions(sbClient);
+
     await receiveMessages(sbClient, "session-1");
     await receiveMessages(sbClient, "session-2");
   } finally {
@@ -126,10 +128,18 @@ async function receiveMessages(sbClient: ServiceBusClient, sessionId: string): P
 
       await receiver.close();
       break;
-    } catch (err: any) {
+    } catch {
       // `err` was already logged part of `processError` above.
       await receiver.close();
     }
+  }
+}
+
+async function listSessions(sbClient: ServiceBusClient): Promise<void> {
+  const sessionIterator = sbClient.listSessions();
+  console.log(`Listing sessions:`);
+  for await (const id of sessionIterator) {
+    console.log(`    ${id}`);
   }
 }
 
