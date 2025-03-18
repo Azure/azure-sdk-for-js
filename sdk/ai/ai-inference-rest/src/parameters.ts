@@ -68,7 +68,7 @@ export interface GetEmbeddingsHeaders {
 }
 
 export interface GetEmbeddingsBodyParam {
-  body: {
+  body?: {
     input: string[];
     dimensions?: number;
     encoding_format?: EmbeddingEncodingFormat;

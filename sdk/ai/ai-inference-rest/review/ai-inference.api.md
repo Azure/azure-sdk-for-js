@@ -351,7 +351,7 @@ export interface GetEmbeddings200Response extends HttpResponse {
 // @public (undocumented)
 export interface GetEmbeddingsBodyParam {
     // (undocumented)
-    body: {
+    body?: {
         input: string[];
         dimensions?: number;
         encoding_format?: EmbeddingEncodingFormat;
