@@ -11,11 +11,11 @@ import {
   getRandomTestClientTypeWithNoSessions,
 } from "../public/utils/testutils2.js";
 import type { ServiceBusSender, ServiceBusSenderImpl } from "../../src/sender.js";
-import { getEnvVarValue } from "../public/utils/envVarUtils.js";
 import { delay } from "@azure/core-util";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { afterAll, afterEach, beforeAll, describe, it } from "vitest";
 import { assert, should } from "../public/utils/chai.js";
+import { getConnectionStringPremium } from "../utils/injectables.js";
 
 describe("Send Batch", () => {
   let sender: ServiceBusSender;
@@ -514,7 +514,7 @@ describe("Send Batch", () => {
   });
 });
 
-const premiumNamespace = getEnvVarValue("SERVICEBUS_FQDN_PREMIUM");
+const premiumNamespace = getConnectionStringPremium();
 describe.runIf(premiumNamespace)("Premium namespaces - Sending", () => {
   let atomClient: ServiceBusAdministrationClient;
 
