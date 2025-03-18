@@ -1,4 +1,3 @@
-
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
@@ -9,6 +8,7 @@ export default mergeConfig(
   viteConfig,
   defineConfig({
     test: {
+      fileParallelism: false,
       testTimeout: 1200000,
       hookTimeout: 1200000,
     },

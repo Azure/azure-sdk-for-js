@@ -15,19 +15,19 @@ import { coreLogger } from "../common/logger.js";
 import type { TokenCredential } from "@azure/identity";
 import ReporterUtils from "./reporterUtils.js";
 import { CIInfoProvider } from "./cIInfoProvider.js";
-import { getPackageManager } from "./packageManager.js";
-import { execSync } from "node:child_process";
+import * as process from "node:process";
+import { parseJwt } from "./parseJwt.js";
+import { getPlaywrightVersion } from "./getPlaywrightVersion.js";
+
+// Re-exporting for backward compatibility
+export { getPlaywrightVersion } from "./getPlaywrightVersion.js";
+export { parseJwt } from "./parseJwt.js";
 
 export const exitWithFailureMessage = (error: { key: string; message: string }): never => {
   console.log();
   console.error(error.message);
   // eslint-disable-next-line n/no-process-exit
   process.exit(1);
-};
-export const base64UrlDecode = (base64Url: string): string => {
-  const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
-  const buffer = Buffer.from(base64, "base64");
-  return buffer.toString("utf-8");
 };
 
 export const populateValuesFromServiceUrl = (): { region: string; accountId: string } | null => {
@@ -45,14 +45,6 @@ export const populateValuesFromServiceUrl = (): { region: string; accountId: str
     }
   }
   return null;
-};
-export const parseJwt = <T = JwtPayload>(token: string): T => {
-  const parts = token.split(".");
-  if (parts.length !== 3) {
-    throw new Error("Invalid JWT token.");
-  }
-  const payload = base64UrlDecode(parts[1]!);
-  return JSON.parse(payload) as T;
 };
 
 export const getAccessToken = (): string | undefined => {
@@ -147,22 +139,6 @@ export const emitReportingUrl = (): void => {
   }
 };
 
-export const getPlaywrightVersion = (): string => {
-  if (process.env[InternalEnvironmentVariables.MPT_PLAYWRIGHT_VERSION]) {
-    return process.env[InternalEnvironmentVariables.MPT_PLAYWRIGHT_VERSION]!;
-  }
-
-  const packageManager = getPackageManager();
-  const command = packageManager.runCommand("playwright", "--version");
-  const stdout = execSync(command).toString().trim();
-  const version = packageManager.getVersionFromStdout(stdout);
-  process.env[InternalEnvironmentVariables.MPT_PLAYWRIGHT_VERSION] = version;
-  coreLogger.info(
-    `Playwright version being used - ${process.env[InternalEnvironmentVariables.MPT_PLAYWRIGHT_VERSION]}`,
-  );
-  return process.env[InternalEnvironmentVariables.MPT_PLAYWRIGHT_VERSION]!;
-};
-
 export const getPackageVersion = (): string => {
   try {
     // eslint-disable-next-line @typescript-eslint/no-require-imports
@@ -193,6 +169,14 @@ export const validatePlaywrightVersion = (): void => {
 
   const minimumSupportedVersionInfo = getVersionInfo(minimumSupportedVersion);
   const installedVersionInfo = getVersionInfo(installedVersion);
+
+  console.log(
+    `Minimum supported Playwright version: ${minimumSupportedVersionInfo.major}.${minimumSupportedVersionInfo.minor}.${minimumSupportedVersionInfo.patch}`,
+  );
+  console.log(
+    `Installed Playwright version: ${installedVersionInfo.major}.${installedVersionInfo.minor}.${installedVersionInfo.patch}`,
+  );
+
   const isInstalledVersionGreater =
     installedVersionInfo.major > minimumSupportedVersionInfo.major ||
     (installedVersionInfo.major === minimumSupportedVersionInfo.major &&

@@ -1,3 +1,9 @@
 {
-  "extends": ["./tsconfig.src.json", "../../../tsconfig.test.base.json"]
+  "extends": [
+    "./tsconfig.src.json",
+    "../../../tsconfig.test.base.json"
+  ],
+  "compilerOptions": {
+    "resolveJsonModule": true,
+  }
 }

@@ -36,7 +36,7 @@ class PlaywrightServiceEntra {
     coreLogger.info("Entra id access token teardown start");
     if (this._entraIdAccessTokenRotationInterval) {
       clearInterval(this._entraIdAccessTokenRotationInterval);
-      coreLogger.info("Entra id access token roation interval cleared");
+      coreLogger.info("Entra id access token rotation interval cleared");
     }
   };
 
