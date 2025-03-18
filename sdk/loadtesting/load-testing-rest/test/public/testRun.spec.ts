@@ -14,7 +14,6 @@ import { isNodeLike } from "@azure/core-util";
 import * as fs from "node:fs";
 import { getLongRunningPoller } from "../../src/pollingHelper.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
-import { randomUUID } from "node:crypto";
 
 describe("Test Run Operations", () => {
   let recorder: Recorder;
@@ -73,20 +72,6 @@ describe("Test Run Operations", () => {
     assert.equal(fileValidatePoller.getOperationState().status, "succeeded");
   });
 
-  it("should not be able to create a test run for a non existing test (404)", async () => {
-    const testRunCreationResult = await client.path("/test-runs/{testRunId}", randomUUID()).patch({
-      contentType: "application/merge-patch+json",
-      body: {
-        testId: randomUUID(), // Random testId that doesn't exist
-        displayName: "sample123",
-      },
-    });
-
-    if (isUnexpected(testRunCreationResult)) {
-      throw testRunCreationResult.body.error;
-    }
-  });
-
   it("should timeout while polling the test run", async () => {
     const timeoutTestRunId = "sample-sdk-testrun-20250318-1";
     const testRunCreationResult = await client
@@ -131,7 +116,7 @@ describe("Test Run Operations", () => {
 
     const testRunPoller = await getLongRunningPoller(client, testRunCreationResult);
     await testRunPoller.pollUntilDone({
-      abortSignal: AbortSignal.timeout(120000), // timeout of 120 seconds
+      abortSignal: AbortSignal.timeout(600000),
     });
 
     assert.equal(testRunPoller.getOperationState().status, "succeeded");

@@ -32,7 +32,6 @@ describe("Test Administration Operations", () => {
     await recorder.stop();
   });
 
-  // patch
   it("should create a load test", async () => {
     const result = await client.path("/tests/{testId}", testId).patch({
       contentType: "application/merge-patch+json",
@@ -92,7 +91,7 @@ describe("Test Administration Operations", () => {
     assert.fail();
   });
 
-  it("should upload the test file with LRO", async () => {
+  it("should upload the test script file with LRO", async () => {
     const readStreamTestFile: fs.ReadStream = fs.createReadStream("./test/public/sample.jmx");
     const fileUploadResult = await client
       .path("/tests/{testId}/files/{fileName}", testId, "sample.jmx")
@@ -133,7 +132,6 @@ describe("Test Administration Operations", () => {
     assert.include(["200", "201"], result.status);
   });
 
-  // get
   it("should get the test file", async () => {
     const result = await client
       .path("/tests/{testId}/files/{fileName}", testId, "sample.jmx")
@@ -156,7 +154,6 @@ describe("Test Administration Operations", () => {
     assert.isNotEmpty(output.components);
   });
 
-  // delete
   it("should delete the test file", async () => {
     const result = await client
       .path("/tests/{testId}/files/{fileName}", testId, "sample.jmx")
@@ -169,5 +166,122 @@ describe("Test Administration Operations", () => {
     const result = await client.path("/tests/{testId}", testId).delete();
 
     assert.include(["204"], result.status);
+  });
+});
+
+describe("Test Profile Administration Operations", () => {
+  let recorder: Recorder;
+  let client: AzureLoadTestingClient;
+  const testId = "sample-sdk-test-20250318";
+  const testProfileId = "sample-sdk-testprofile-20250319";
+
+  beforeEach(async (ctx) => {
+    recorder = await createRecorder(ctx);
+    if (!isNodeLike || isPlaybackMode()) {
+      ctx.skip();
+    }
+    client = createClient(recorder);
+  });
+
+  afterEach(async () => {
+    await recorder.stop();
+  });
+
+  it("should create a load test", async () => {
+    const result = await client.path("/tests/{testId}", testId).patch({
+      contentType: "application/merge-patch+json",
+      body: {
+        displayName: "Sample Load Test",
+        description: "Sample Load Test Description",
+        loadTestConfiguration: {
+          engineInstances: 1,
+          splitAllCSVs: false,
+        },
+      },
+    });
+
+    assert.include(["200", "201"], result.status);
+  });
+
+  it("should upload the test script file with LRO", async () => {
+    const readStreamTestFile: fs.ReadStream = fs.createReadStream("./test/public/sample.jmx");
+    const fileUploadResult = await client
+      .path("/tests/{testId}/files/{fileName}", testId, "sample.jmx")
+      .put({
+        contentType: "application/octet-stream",
+        body: readStreamTestFile,
+      });
+
+    if (isUnexpected(fileUploadResult)) {
+      throw fileUploadResult.body.error;
+    }
+
+    const fileValidatePoller = await getLongRunningPoller(client, fileUploadResult);
+    await fileValidatePoller.pollUntilDone({
+      abortSignal: AbortSignal.timeout(60000), // timeout of 60 seconds
+    });
+    assert.equal(fileValidatePoller.getOperationState().status, "succeeded");
+  });
+
+  it("should create a test profile with the given test", async () => {
+    const flexFunctionsResourceId = env["LOADTESTSERVICE_FLEXFUNCTIONSRESOURCEID"] || "";
+    const testProfileDisplayName = "Sample Test Profile";
+    const testProfileDescription = "Sample Test Profile Description";
+
+    const testProfileCreationResult = await client
+      .path("/test-profiles/{testProfileId}", testProfileId)
+      .patch({
+        contentType: "application/merge-patch+json",
+        body: {
+          testId: testId,
+          displayName: testProfileDisplayName,
+          description: testProfileDescription,
+          targetResourceId: flexFunctionsResourceId,
+          targetResourceConfigurations: {
+            kind: "FunctionsFlexConsumption",
+            configurations: {
+              config1: {
+                instanceMemoryMB: 2048,
+                httpConcurrency: 20,
+              },
+              config2: {
+                instanceMemoryMB: 4096,
+                httpConcurrency: 40,
+              },
+            },
+          },
+        },
+      });
+
+    if (isUnexpected(testProfileCreationResult)) {
+      throw testProfileCreationResult.body.error;
+    }
+
+    assert.include(["200", "201"], testProfileCreationResult.status);
+  });
+
+  it("should get a test profile", async () => {
+    const testProfileResult = await client
+      .path("/test-profiles/{testProfileId}", testProfileId)
+      .get();
+
+    if (isUnexpected(testProfileResult)) {
+      throw testProfileResult.body.error;
+    }
+
+    assert.equal("200", testProfileResult.status);
+    assert.isNotNull(testProfileResult.body);
+  });
+
+  it("should delete a test profile", async () => {
+    const testProfileResult = await client
+      .path("/test-profiles/{testProfileId}", testProfileId)
+      .delete();
+
+    if (isUnexpected(testProfileResult)) {
+      throw testProfileResult.body.error;
+    }
+
+    assert.equal("204", testProfileResult.status);
   });
 });
