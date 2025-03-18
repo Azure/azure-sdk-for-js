@@ -4,9 +4,7 @@
 import { createLiveCredential } from "@azure-tools/test-credential";
 import type { TestProject } from "vitest/node";
 import { EnvVarKeys } from "./constants.js";
-import * as MOCKS from "./constants.js";
 import { ServiceBusManagementClient } from "@azure/arm-servicebus";
-import { logger } from "./logger.js";
 
 declare module "vitest" {
   type MyEnvVarKeys = {
@@ -18,23 +16,32 @@ declare module "vitest" {
   }
 }
 
-function assertEnvironmentVariable(key: string): string {
+function assertEnvironmentVariable<
+  T extends Pick<
+    typeof EnvVarKeys,
+    "SERVICEBUS_CONNECTION_STRING" | "SERVICEBUS_CONNECTION_STRING_PREMIUM"
+  >,
+>(key: T): string | undefined;
+function assertEnvironmentVariable(key: string): string;
+function assertEnvironmentVariable(key: string): string | undefined {
   const value = process.env[key];
   if (key === EnvVarKeys.TEST_MODE) {
-    return !value ? "mock" : value.toLowerCase();
+    return !value ? value : value.toLowerCase();
+  }
+  if (
+    (
+      [
+        EnvVarKeys.SERVICEBUS_CONNECTION_STRING,
+        EnvVarKeys.SERVICEBUS_CONNECTION_STRING_PREMIUM,
+      ] as string[]
+    ).includes(key)
+  ) {
+    return value;
   }
   if (!value) {
     throw new Error(`Environment variable ${key} is not defined.`);
   }
   return value;
-}
-
-function setEnvVar(key: string, value: string | undefined, warningMessage: string): void {
-  if (!value) {
-    logger.warning(warningMessage);
-  } else {
-    process.env[key] = value;
-  }
 }
 
 export default async function ({ provide }: TestProject): Promise<void> {
@@ -47,23 +54,23 @@ export default async function ({ provide }: TestProject): Promise<void> {
     const namespaceNamePremium = assertEnvironmentVariable("NAMESPACE_NAME_PREMIUM");
     const cred = createLiveCredential();
     const sbMgmtClient = new ServiceBusManagementClient(cred, subId);
-    const { primaryConnectionString: connectionString } = await sbMgmtClient.namespaces.listKeys(
+    const { disableLocalAuth } = await sbMgmtClient.namespaces.get(rgName, namespaceName);
+    const { disableLocalAuth: disableLocalAuthPremium } = await sbMgmtClient.namespaces.get(
       rgName,
-      namespaceName,
-      authRule,
+      namespaceNamePremium,
     );
-    const { primaryConnectionString: connectionStringPremium } =
-      await sbMgmtClient.namespaces.listKeys(rgName, namespaceNamePremium, authRulePremium);
-    setEnvVar(
-      EnvVarKeys.SERVICEBUS_CONNECTION_STRING,
-      connectionString,
-      "There is no connection string",
-    );
-    setEnvVar(
-      EnvVarKeys.SERVICEBUS_CONNECTION_STRING_PREMIUM,
-      connectionStringPremium,
-      "There is no connection string for the premium namespace",
-    );
+    if (!disableLocalAuth && !disableLocalAuthPremium) {
+      const { primaryConnectionString: connectionString } = await sbMgmtClient.namespaces.listKeys(
+        rgName,
+        namespaceName,
+        authRule,
+      );
+      const { primaryConnectionString: connectionStringPremium } =
+        await sbMgmtClient.namespaces.listKeys(rgName, namespaceNamePremium, authRulePremium);
+      process.env[EnvVarKeys.SERVICEBUS_CONNECTION_STRING] = connectionString;
+      process.env[EnvVarKeys.SERVICEBUS_CONNECTION_STRING_PREMIUM] = connectionStringPremium;
+    }
+
     for (const key of Object.values(EnvVarKeys)) {
       provide(key, assertEnvironmentVariable(key));
     }
