@@ -13,8 +13,20 @@
 export class CosmosEncryptedNumber {
   value: string;
   constructor(input: string) {
-    if (!Number(input)) {
-      throw new Error("Invalid number passed to CosmosEncryptedNumber");
+    if (input.trim() === "") {
+      throw new Error("CosmosEncryptedNumber error: Input cannot be an empty string.");
+    }
+    const num = Number(input);
+    if (isNaN(num)) {
+      throw new Error(`CosmosEncryptedNumber error: The input '${input}' is not a valid number.`);
+    }
+    if (!isFinite(num)) {
+      throw new Error(`CosmosEncryptedNumber error: The number '${input}' must be finite.`);
+    }
+    if (/e/i.test(input)) {
+      throw new Error(
+        `CosmosEncryptedNumber error: Exponential notation is not allowed. Received '${input}'.`,
+      );
     }
     this.value = input;
   }

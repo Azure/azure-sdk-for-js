@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 import * as assert from "assert";
 import { EncryptionQueryBuilder, CosmosEncryptedNumber } from "../../../../src/encryption";
 import { TypeMarker } from "../../../../src/encryption/enums/TypeMarker";
