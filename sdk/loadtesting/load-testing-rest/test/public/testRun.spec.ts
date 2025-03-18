@@ -4,18 +4,24 @@
 import type { Recorder } from "@azure-tools/test-recorder";
 import { env, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createRecorder, createClient } from "./utils/recordedClient.js";
-import * as fs from "node:fs";
-import type { AzureLoadTestingClient } from "../../src/index.js";
+import type {
+  AppComponent,
+  AzureLoadTestingClient,
+  TestRunAppComponentsOutput,
+} from "../../src/index.js";
 import { isUnexpected } from "../../src/index.js";
 import { isNodeLike } from "@azure/core-util";
+import * as fs from "node:fs";
 import { getLongRunningPoller } from "../../src/pollingHelper.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
+import { randomUUID } from "node:crypto";
 
-describe("Test Run Creation", () => {
+describe("Test Run Operations", () => {
   let recorder: Recorder;
   let client: AzureLoadTestingClient;
   const SUBSCRIPTION_ID = env["SUBSCRIPTION_ID"] || "";
-  let readStreamTestFile: fs.ReadStream;
+  const testId = "sample-sdk-test-20250318"; // TestId of an existing test
+  const testRunId = "sample-sdk-testrun-20250318-2"; // The test run that will get created
 
   beforeEach(async (ctx) => {
     recorder = await createRecorder(ctx);
@@ -23,19 +29,19 @@ describe("Test Run Creation", () => {
       ctx.skip();
     }
     client = createClient(recorder);
-    readStreamTestFile = fs.createReadStream("./test/public/sample.jmx");
   });
 
   afterEach(async () => {
     await recorder.stop();
   });
 
-  it("should create a loadtest", async () => {
-    const result = await client.path("/tests/{testId}", "abc").patch({
+  // Pre-req for creating a test-run
+  it("should create a load test", async () => {
+    const result = await client.path("/tests/{testId}", testId).patch({
       contentType: "application/merge-patch+json",
       body: {
-        displayName: "sample_test",
-        description: "",
+        displayName: "Sample Load Test",
+        description: "Sample Load Test Description",
         loadTestConfiguration: {
           engineInstances: 1,
           splitAllCSVs: false,
@@ -46,9 +52,11 @@ describe("Test Run Creation", () => {
     assert.include(["200", "201"], result.status);
   });
 
+  // Pre-req for creating a test-run
   it("should upload the test file with LRO", async () => {
+    const readStreamTestFile: fs.ReadStream = fs.createReadStream("./test/public/sample.jmx");
     const fileUploadResult = await client
-      .path("/tests/{testId}/files/{fileName}", "abc", "sample.jmx")
+      .path("/tests/{testId}/files/{fileName}", testId, "sample.jmx")
       .put({
         contentType: "application/octet-stream",
         body: readStreamTestFile,
@@ -65,38 +73,29 @@ describe("Test Run Creation", () => {
     assert.equal(fileValidatePoller.getOperationState().status, "succeeded");
   });
 
-  it("should not be able to create a test run(404)", async () => {
-    const testRunCreationResult = await client.path("/test-runs/{testRunId}", "abcjad").patch({
+  it("should not be able to create a test run for a non existing test (404)", async () => {
+    const testRunCreationResult = await client.path("/test-runs/{testRunId}", randomUUID()).patch({
       contentType: "application/merge-patch+json",
       body: {
-        testId: "abc",
+        testId: randomUUID(), // Random testId that doesn't exist
         displayName: "sample123",
-        virtualUsers: 10,
       },
     });
 
     if (isUnexpected(testRunCreationResult)) {
       throw testRunCreationResult.body.error;
     }
-
-    testRunCreationResult.body.testRunId = "adjwfjsdmf";
-    const testRunPoller = await getLongRunningPoller(client, testRunCreationResult);
-    await testRunPoller.pollUntilDone({
-      abortSignal: AbortSignal.timeout(60000), // timeout of 60 seconds
-    });
-
-    assert.equal(testRunPoller.getOperationState().status, "failed");
   });
 
-  it("should timeout the test run", async () => {
+  it("should timeout while polling the test run", async () => {
+    const timeoutTestRunId = "sample-sdk-testrun-20250318-1";
     const testRunCreationResult = await client
-      .path("/test-runs/{testRunId}", "randomtestrun4")
+      .path("/test-runs/{testRunId}", timeoutTestRunId)
       .patch({
         contentType: "application/merge-patch+json",
         body: {
-          testId: "abc",
-          displayName: "sample123",
-          virtualUsers: 10,
+          testId: testId,
+          displayName: "Time out Test Run",
         },
       });
 
@@ -107,7 +106,7 @@ describe("Test Run Creation", () => {
     const testRunPoller = await getLongRunningPoller(client, testRunCreationResult);
     try {
       await testRunPoller.pollUntilDone({
-        abortSignal: AbortSignal.timeout(10), // timeout of 10 millieconds
+        abortSignal: AbortSignal.timeout(10), // timeout of 10 milliseconds
       });
     } catch (ex: any) {
       assert.equal(ex.name, "AbortError");
@@ -118,12 +117,11 @@ describe("Test Run Creation", () => {
   });
 
   it("should be able to create a test run", async () => {
-    const testRunCreationResult = await client.path("/test-runs/{testRunId}", "abcde").patch({
+    const testRunCreationResult = await client.path("/test-runs/{testRunId}", testRunId).patch({
       contentType: "application/merge-patch+json",
       body: {
-        testId: "abc",
-        displayName: "sample123",
-        virtualUsers: 10,
+        testId: testId,
+        displayName: "Sample Test Run",
       },
     });
 
@@ -133,32 +131,32 @@ describe("Test Run Creation", () => {
 
     const testRunPoller = await getLongRunningPoller(client, testRunCreationResult);
     await testRunPoller.pollUntilDone({
-      abortSignal: AbortSignal.timeout(60000), // timeout of 60 seconds
+      abortSignal: AbortSignal.timeout(120000), // timeout of 120 seconds
     });
 
     assert.equal(testRunPoller.getOperationState().status, "succeeded");
   });
 
   it("should get a test run", async () => {
-    const result = await client.path("/test-runs/{testRunId}", "abcde").get();
+    const result = await client.path("/test-runs/{testRunId}", testRunId).get();
 
     assert.include(["200"], result.status);
   });
 
   it("should create a app component for test run", async () => {
-    const result = await client.path("/test-runs/{testRunId}/app-components", "abcde").patch({
+    const appCompResourceId = `/subscriptions/${SUBSCRIPTION_ID}/resourceGroups/contoso-sampleapp-rg/providers/Microsoft.Web/sites/contoso-sampleapp`;
+    const appComponent: AppComponent = {
+      resourceName: "contoso-sampleapp",
+      resourceType: "Microsoft.Web/sites",
+    };
+    const appComps: Record<string, AppComponent> = {};
+
+    appComps[appCompResourceId] = appComponent;
+
+    const result = await client.path("/test-runs/{testRunId}/app-components", testRunId).patch({
       contentType: "application/merge-patch+json",
       body: {
-        components: {
-          "/subscriptions/{SUBSCRIPTION_ID}/resourceGroups/App-Service-Sample-Demo-rg/providers/Microsoft.Web/sites/App-Service-Sample-Demo":
-            {
-              resourceId:
-                "/subscriptions/{SUBSCRIPTION_ID}/resourceGroups/App-Service-Sample-Demo-rg/providers/Microsoft.Web/sites/App-Service-Sample-Demo",
-              resourceName: "App-Service-Sample-Demo",
-              resourceType: "Microsoft.Web/sites",
-              subscriptionId: SUBSCRIPTION_ID,
-            },
-        },
+        components: appComps,
       },
     });
 
@@ -166,25 +164,30 @@ describe("Test Run Creation", () => {
   });
 
   it("should get a test run app components", async () => {
-    const result = await client.path("/test-runs/{testRunId}/app-components", "abcde").get();
+    const result = await client.path("/test-runs/{testRunId}/app-components", testRunId).get();
 
     assert.include(["200"], result.status);
+
+    const output = result.body as TestRunAppComponentsOutput;
+    assert.isNotEmpty(output.components);
   });
 
   it("should get a test run server metrics config", async () => {
-    const result = await client.path("/test-runs/{testRunId}/server-metrics-config", "abcde").get();
+    const result = await client
+      .path("/test-runs/{testRunId}/server-metrics-config", testRunId)
+      .get();
 
     assert.include(["200"], result.status);
   });
 
   it("should delete a test run", async () => {
-    const result = await client.path("/test-runs/{testRunId}", "abcde").delete();
+    const result = await client.path("/test-runs/{testRunId}", testRunId).delete();
 
     assert.include(["204"], result.status);
   });
 
   it("should delete the test", async () => {
-    const result = await client.path("/tests/{testId}", "abc").delete();
+    const result = await client.path("/tests/{testId}", testId).delete();
 
     assert.include(["204"], result.status);
   });

@@ -18,7 +18,7 @@ import { describe, it, assert, beforeEach, afterEach } from "vitest";
 describe("Test Administration Operations", () => {
   let recorder: Recorder;
   let client: AzureLoadTestingClient;
-  const testId = "sample-sdk-test-20250317";
+  const testId = "sample-sdk-test-20250318";
 
   beforeEach(async (ctx) => {
     recorder = await createRecorder(ctx);
