@@ -48,6 +48,32 @@ import type { GetChatCompletionsBodyParam } from "./parameters.js";
   droppedAttributesCount: 0
 }  
 */
+
+enum TracingAttributesEnum {
+  Operation_Name = "gen_ai.operation.name",
+  Request_Model = "gen_ai.request.model",
+  System = "gen_ai.system",
+  Error_Type = "error.type",
+  Server_Port = "server.port",
+  Request_Frequency_Penalty = "gen_ai.request.frequency_penalty",
+  Request_Max_Tokens = "gen_ai.request.max_tokens",
+  Request_Presence_Penalty = "gen_ai.request.presence_penalty",
+  Request_Stop_Sequences = "gen_ai.request.stop_sequences",
+  Request_Temperature = "gen_ai.request.temperature",
+  Request_Top_P = "gen_ai.request.top_p",
+  Response_Finish_Reasons = "gen_ai.response.finish_reasons",
+  Response_Id = "gen_ai.response.id",
+  Response_Model = "gen_ai.response.model",
+  Usage_Input_Tokens = "gen_ai.usage.input_tokens",
+  Usage_Output_Tokens = "gen_ai.usage.output_tokens",
+  Server_Address = "server.address",
+}
+
+const INFERENCE_GEN_AI_SYSTEM_NAME = "az.ai.inference";
+
+const isContentRecordingEnabled = (): boolean =>
+  envVarToBoolean("AZURE_TRACING_GEN_AI_CONTENT_RECORDING_ENABLED");
+
 export function getRequestBody(request: PipelineRequest): GetChatCompletionsBodyParam {
   return { body: JSON.parse(request.body as string) };
 }
@@ -217,27 +243,3 @@ function envVarToBoolean(key: string): boolean {
   const value = process.env[key] ?? process.env[key.toLowerCase()];
   return value !== "false" && value !== "0" && Boolean(value);
 }
-
-enum TracingAttributesEnum {
-  Operation_Name = "gen_ai.operation.name",
-  Request_Model = "gen_ai.request.model",
-  System = "gen_ai.system",
-  Error_Type = "error.type",
-  Server_Port = "server.port",
-  Request_Frequency_Penalty = "gen_ai.request.frequency_penalty",
-  Request_Max_Tokens = "gen_ai.request.max_tokens",
-  Request_Presence_Penalty = "gen_ai.request.presence_penalty",
-  Request_Stop_Sequences = "gen_ai.request.stop_sequences",
-  Request_Temperature = "gen_ai.request.temperature",
-  Request_Top_P = "gen_ai.request.top_p",
-  Response_Finish_Reasons = "gen_ai.response.finish_reasons",
-  Response_Id = "gen_ai.response.id",
-  Response_Model = "gen_ai.response.model",
-  Usage_Input_Tokens = "gen_ai.usage.input_tokens",
-  Usage_Output_Tokens = "gen_ai.usage.output_tokens",
-  Server_Address = "server.address",
-}
-
-const INFERENCE_GEN_AI_SYSTEM_NAME = "az.ai.inference";
-const isContentRecordingEnabled = (): boolean =>
-  envVarToBoolean("AZURE_TRACING_GEN_AI_CONTENT_RECORDING_ENABLED");

@@ -33,6 +33,11 @@ import {
 } from "./tracingHelper.js";
 
 /**
+ * The programmatic identifier of the tracingPolicy.
+ */
+export const tracingPolicyName = "inferenceTracingPolicy";
+
+/**
  * A simple policy to create OpenTelemetry Spans for each request made by the pipeline
  * that has SpanOptions with a parent.
  * Requests made without a parent Span will not be recorded.
@@ -100,7 +105,3 @@ function tryCreateSpan(
   }
 }
 
-/**
- * The programmatic identifier of the tracingPolicy.
- */
-export const tracingPolicyName = "inferenceTracingPolicy";

@@ -20,6 +20,13 @@ import type {
   GetModelInfoDefaultResponse,
 } from "./responses.js";
 
+const responseMap: Record<string, string[]> = {
+  "POST /chat/completions": ["200"],
+  "GET /info": ["200"],
+  "POST /embeddings": ["200"],
+  "POST /images/embeddings": ["200"],
+};
+
 export function isUnexpected(
   response: GetChatCompletions200Response | GetChatCompletionsDefaultResponse,
 ): response is GetChatCompletionsDefaultResponse;
@@ -117,10 +124,3 @@ function getPathFromMapKey(mapKey: string): string {
   const pathStart = mapKey.indexOf("/");
   return mapKey.slice(pathStart);
 }
-
-const responseMap: Record<string, string[]> = {
-  "POST /chat/completions": ["200"],
-  "GET /info": ["200"],
-  "POST /embeddings": ["200"],
-  "POST /images/embeddings": ["200"],
-};
