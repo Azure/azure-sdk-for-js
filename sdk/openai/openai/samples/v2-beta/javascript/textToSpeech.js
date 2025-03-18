@@ -10,7 +10,7 @@
 require("openai/shims/node");
 const { AzureOpenAI } = require("openai");
 const { DefaultAzureCredential, getBearerTokenProvider } = require("@azure/identity");
-const { writeFile } = require("fs/promises");
+const { writeFile } = require("node:fs/promises");
 
 // Set AZURE_OPENAI_ENDPOINT to the endpoint of your
 // OpenAI resource. You can find this in the Azure portal.
@@ -23,7 +23,7 @@ const speechFilePath = process.env["SPEECH_FILE_PATH"] || "<path to save the spe
 // Corresponds to your Model deployment within your OpenAI resource
 // Navigate to the Azure OpenAI Studio to deploy a model.
 const deployment = "tts";
-const apiVersion = "2024-11-01-preview";
+const apiVersion = "2025-01-01-preview";
 const credential = new DefaultAzureCredential();
 const scope = "https://cognitiveservices.azure.com/.default";
 const azureADTokenProvider = getBearerTokenProvider(credential, scope);
