@@ -1,15 +1,61 @@
 # Release History
-
-## 22.3.1 (Unreleased)
-
+    
+## 22.4.0 (2025-03-18)
+    
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added operation AvailabilitySets.beginConvertToVirtualMachineScaleSet
+  - Added operation AvailabilitySets.beginConvertToVirtualMachineScaleSetAndWait
+  - Added operation AvailabilitySets.cancelMigrationToVirtualMachineScaleSet
+  - Added operation AvailabilitySets.startMigrationToVirtualMachineScaleSet
+  - Added operation AvailabilitySets.validateMigrationToVirtualMachineScaleSet
+  - Added operation VirtualMachineImages.listWithProperties
+  - Added operation VirtualMachines.beginMigrateToVMScaleSet
+  - Added operation VirtualMachines.beginMigrateToVMScaleSetAndWait
+  - Added Interface AutomaticZoneRebalancingPolicy
+  - Added Interface AvailabilitySetsCancelMigrationToVirtualMachineScaleSetOptionalParams
+  - Added Interface AvailabilitySetsConvertToVirtualMachineScaleSetOptionalParams
+  - Added Interface AvailabilitySetsStartMigrationToVirtualMachineScaleSetOptionalParams
+  - Added Interface AvailabilitySetsValidateMigrationToVirtualMachineScaleSetOptionalParams
+  - Added Interface ConvertToVirtualMachineScaleSetInput
+  - Added Interface DefaultVirtualMachineScaleSetInfo
+  - Added Interface HostEndpointSettings
+  - Added Interface MigrateToVirtualMachineScaleSetInput
+  - Added Interface MigrateVMToVirtualMachineScaleSetInput
+  - Added Interface Placement
+  - Added Interface VirtualMachineImagesListWithPropertiesNextOptionalParams
+  - Added Interface VirtualMachineImagesListWithPropertiesOptionalParams
+  - Added Interface VirtualMachineImagesWithPropertiesListResult
+  - Added Interface VirtualMachineScaleSetMigrationInfo
+  - Added Interface VirtualMachinesMigrateToVMScaleSetOptionalParams
+  - Added Type Alias Expand
+  - Added Type Alias Modes
+  - Added Type Alias RebalanceBehavior
+  - Added Type Alias RebalanceStrategy
+  - Added Type Alias ResilientVMDeletionStatus
+  - Added Type Alias VirtualMachineImagesListWithPropertiesNextResponse
+  - Added Type Alias VirtualMachineImagesListWithPropertiesResponse
+  - Added Type Alias ZonePlacementPolicyType
+  - Interface AvailabilitySet has a new optional parameter virtualMachineScaleSetMigrationInfo
+  - Interface AvailabilitySetUpdate has a new optional parameter virtualMachineScaleSetMigrationInfo
+  - Interface ProxyAgentSettings has a new optional parameter imds
+  - Interface ProxyAgentSettings has a new optional parameter wireServer
+  - Interface ResiliencyPolicy has a new optional parameter automaticZoneRebalancingPolicy
+  - Interface ScaleInPolicy has a new optional parameter prioritizeUnhealthyVMs
+  - Interface SkuProfileVMSize has a new optional parameter rank
+  - Interface StorageProfile has a new optional parameter alignRegionalDisksToVMZone
+  - Interface VirtualMachine has a new optional parameter placement
+  - Interface VirtualMachineScaleSetVM has a new optional parameter resilientVMDeletionStatus
+  - Added Enum KnownExpand
+  - Added Enum KnownModes
+  - Added Enum KnownRebalanceBehavior
+  - Added Enum KnownRebalanceStrategy
+  - Added Enum KnownResilientVMDeletionStatus
+  - Added Enum KnownZonePlacementPolicyType
+  - Enum KnownAllocationStrategy has a new value Prioritized
+  - Enum KnownNetworkApiVersion has a new value TwoThousandTwentyTwo1101
+    
+    
 ## 22.3.0 (2025-01-09)
     
 ### Features Added

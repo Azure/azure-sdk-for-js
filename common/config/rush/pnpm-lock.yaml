@@ -2602,7 +2602,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-compute-1@file:projects/arm-compute-1.tgz':
-    resolution: {integrity: sha512-xI9K4aM8D0briFaDNP4JnK84YSbM7dwYGcpIDew2HhPxsKUjdHEfr2KCMcwxsLv/X9jvYcICePD3J3NrYLHokw==, tarball: file:projects/arm-compute-1.tgz}
+    resolution: {integrity: sha512-PPqoinsB7QIQZvcBEYS/9loHJHL6NCMiKgCTHJXorG2WYfIC6PAgX0HsLGLbMM3apLE61UWdBGKIgUTMGO1a2A==, tarball: file:projects/arm-compute-1.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-compute-profile-2020-09-01-hybrid@file:projects/arm-compute-profile-2020-09-01-hybrid.tgz':
@@ -11547,12 +11547,12 @@ snapshots:
       '@azure/arm-network': 32.2.0
       '@azure/core-lro': 2.7.2
       '@types/node': 18.19.80
-      '@vitest/browser': 3.0.9(@types/node@18.19.80)(playwright@1.51.1)(typescript@5.8.2)(vite@6.2.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.9)
+      '@vitest/browser': 3.0.9(@types/node@18.19.80)(playwright@1.51.1)(typescript@5.6.3)(vite@6.2.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.9)
       '@vitest/coverage-istanbul': 3.0.9(vitest@3.0.9)
       dotenv: 16.4.7
       playwright: 1.51.1
       tslib: 2.8.1
-      typescript: 5.8.2
+      typescript: 5.6.3
       vitest: 3.0.9(@types/debug@4.1.12)(@types/node@18.19.80)(@vitest/browser@3.0.9)(msw@2.7.3(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(yaml@2.7.0)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
@@ -23661,7 +23661,7 @@ snapshots:
 
   '@types/chai-as-promised@7.1.8':
     dependencies:
-      '@types/chai': 4.3.20
+      '@types/chai': 5.2.0
 
   '@types/chai-as-promised@8.0.2':
     dependencies:
