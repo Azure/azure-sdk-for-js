@@ -6,6 +6,7 @@
 
 import type { Client } from '@azure-rest/core-client';
 import type { ClientOptions } from '@azure-rest/core-client';
+import { ErrorModel } from '@azure-rest/core-client';
 import type { ErrorResponse } from '@azure-rest/core-client';
 import type { HttpResponse } from '@azure-rest/core-client';
 import type { KeyCredential } from '@azure/core-auth';
@@ -247,6 +248,8 @@ export interface EmbeddingsUsageOutput {
     prompt_tokens: number;
     total_tokens: number;
 }
+
+export { ErrorModel }
 
 // @public
 export type ExtraParameters = string;
