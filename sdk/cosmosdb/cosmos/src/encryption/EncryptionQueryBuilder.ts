@@ -9,7 +9,7 @@ import {
   JSONValue,
 } from "../queryExecutionContext";
 import { TypeMarker } from "./enums/TypeMarker";
-import { CosmosEncryptedNumber } from "./CosmosEncryptedNumber";
+import { CosmosEncryptedNumber, CosmosEncryptedNumberType } from "./CosmosEncryptedNumber";
 
 export interface EncryptionSqlParameter extends SqlParameter {
   type?: TypeMarker;
@@ -66,20 +66,20 @@ export class EncryptionQueryBuilder {
         });
         break;
       }
-      case value instanceof CosmosEncryptedNumber: {
-        const encryptedNumber = Number(value.value);
-        if (value.value.includes(".")) {
+      case isCosmosEncryptedNumber(value): {
+        const num = value.value;
+        if (value.numberType === CosmosEncryptedNumberType.Integer) {
           this.parameters.push({
             name,
-            value: encryptedNumber,
-            type: TypeMarker.Double,
+            value: num,
+            type: TypeMarker.Long,
             path,
           });
-        } else {
+        } else if (value.numberType === CosmosEncryptedNumberType.Float) {
           this.parameters.push({
             name,
-            value: encryptedNumber,
-            type: TypeMarker.Long,
+            value: num,
+            type: TypeMarker.Double,
             path,
           });
         }
@@ -110,4 +110,15 @@ export class EncryptionQueryBuilder {
       parameters: this.parameters,
     };
   }
+}
+
+function isCosmosEncryptedNumber(val: any): val is CosmosEncryptedNumber {
+  return (
+    val !== null &&
+    typeof val === "object" &&
+    typeof val.value === "number" &&
+    typeof val.numberType === "string" &&
+    (val.numberType === CosmosEncryptedNumberType.Integer ||
+      val.numberType === CosmosEncryptedNumberType.Float)
+  );
 }

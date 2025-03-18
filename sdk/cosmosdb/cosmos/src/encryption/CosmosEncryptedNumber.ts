@@ -2,32 +2,34 @@
 // Licensed under the MIT License.
 
 /**
- * This class represents an encrypted number in the Cosmos DB SDK.
- * Use an instance of this class to represent a number that is encrypted in CosmosDB backend.
- * Input to the constructor should be a string representation of the number.
- * @example
- * const encryptedNumber = new CosmosEncryptedNumber("4");
- * const encryptedNumber2 = new CosmosEncryptedNumber("4.1");
- * const encryptedNumber3 = new CosmosEncryptedNumber("4.0");
+ * This enum represents the type of number in the Cosmos DB SDK.
  */
-export class CosmosEncryptedNumber {
-  value: string;
-  constructor(input: string) {
-    if (input.trim() === "") {
-      throw new Error("CosmosEncryptedNumber error: Input cannot be an empty string.");
-    }
-    const num = Number(input);
-    if (isNaN(num)) {
-      throw new Error(`CosmosEncryptedNumber error: The input '${input}' is not a valid number.`);
-    }
-    if (!isFinite(num)) {
-      throw new Error(`CosmosEncryptedNumber error: The number '${input}' must be finite.`);
-    }
-    if (/e/i.test(input)) {
-      throw new Error(
-        `CosmosEncryptedNumber error: Exponential notation is not allowed. Received '${input}'.`,
-      );
-    }
-    this.value = input;
-  }
+export enum CosmosEncryptedNumberType {
+  /**
+   * Represents an integer number.
+   */
+  Integer = "Integer",
+  /**
+   * Represents a floating-point number.
+   */
+  Float = "Float",
+}
+
+/**
+ * This interface represents an encrypted number in the Cosmos DB SDK.
+ * @example
+ * const encryptedNumber1 : CosmosEncryptedNumber = { value: 4, numberType: CosmosEncryptedNumberType.Integer };
+ * const encryptedNumber2 : CosmosEncryptedNumber = { value: 4.1, numberType: CosmosEncryptedNumberType.Float };
+ * const encryptedNumber3 : CosmosEncryptedNumber = { value: 4, numberType: CosmosEncryptedNumberType.Float }; // represents 4.0
+ */
+export interface CosmosEncryptedNumber {
+  /**
+   * The value to be encrypted.
+   */
+  value: number;
+  /**
+   * The type of number (Integer or Float).
+   * Use CosmosEncryptedNumberType.Integer for integers and CosmosEncryptedNumberType.Float for floating-point numbers.
+   */
+  numberType: CosmosEncryptedNumberType;
 }

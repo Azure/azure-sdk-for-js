@@ -2,7 +2,11 @@
 // Licensed under the MIT License.
 
 import * as assert from "assert";
-import { EncryptionQueryBuilder, CosmosEncryptedNumber } from "../../../../src/encryption";
+import {
+  EncryptionQueryBuilder,
+  CosmosEncryptedNumber,
+  CosmosEncryptedNumberType,
+} from "../../../../src/encryption";
 import { TypeMarker } from "../../../../src/encryption/enums/TypeMarker";
 import { JSONArray, JSONObject } from "../../../../src";
 
@@ -55,7 +59,10 @@ describe("EncryptionQueryBuilder.addParameter", () => {
 
   it("should add a CosmosEncryptedNumber parameter as Double when value contains decimals", () => {
     const builder = new EncryptionQueryBuilder("SELECT * FROM c");
-    const encryptedNumDecimal = new CosmosEncryptedNumber("12.34");
+    const encryptedNumDecimal: CosmosEncryptedNumber = {
+      value: 12.34,
+      numberType: CosmosEncryptedNumberType.Float,
+    };
     builder.addParameter("@encryptedDecimal", encryptedNumDecimal, "/encryptedPath");
     const spec = builder.toEncryptionSqlQuerySpec();
     assert.deepStrictEqual(spec.parameters[0], {
@@ -68,7 +75,10 @@ describe("EncryptionQueryBuilder.addParameter", () => {
 
   it("should add a CosmosEncryptedNumber parameter as Long when value is whole", () => {
     const builder = new EncryptionQueryBuilder("SELECT * FROM c");
-    const encryptedNumWhole = new CosmosEncryptedNumber("123");
+    const encryptedNumWhole: CosmosEncryptedNumber = {
+      value: 123,
+      numberType: CosmosEncryptedNumberType.Integer,
+    };
     builder.addParameter("@encryptedWhole", encryptedNumWhole, "/encryptedPath");
     const spec = builder.toEncryptionSqlQuerySpec();
     assert.deepStrictEqual(spec.parameters[0], {

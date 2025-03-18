@@ -15,4 +15,4 @@ export { ProtectedDataEncryptionKey } from "./EncryptionKey";
 export { EncryptionProcessor } from "./EncryptionProcessor";
 export { EncryptionQueryBuilder } from "./EncryptionQueryBuilder";
 export { ClientEncryptionOptions } from "./ClientEncryptionOptions";
-export { CosmosEncryptedNumber } from "./CosmosEncryptedNumber";
+export { CosmosEncryptedNumber, CosmosEncryptedNumberType } from "./CosmosEncryptedNumber";

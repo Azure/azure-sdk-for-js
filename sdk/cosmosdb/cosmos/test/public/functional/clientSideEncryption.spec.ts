@@ -51,7 +51,10 @@ import {
 } from "../common/encryptionTestHelpers";
 import { removeAllDatabases } from "../common/TestHelpers";
 import { assert } from "chai";
-import { CosmosEncryptedNumber } from "../../../src/encryption/CosmosEncryptedNumber";
+import {
+  CosmosEncryptedNumber,
+  CosmosEncryptedNumberType,
+} from "../../../src/encryption/CosmosEncryptedNumber";
 
 let encryptionClient: CosmosClient;
 let metadata1: EncryptionKeyWrapMetadata;
@@ -587,22 +590,27 @@ describe("ClientSideEncryption", function (this: Suite) {
       "/sensitive_StringFormat",
     );
     queryBuilder.addParameter("@sensitive_ArrayFormat", null, "/sensitive_ArrayFormat");
-    queryBuilder.addParameter(
-      "@sensitive_IntFormat",
-      new CosmosEncryptedNumber(testDoc.sensitive_IntFormat.toString()),
-      "/sensitive_IntFormat",
-    );
+    const intParam: CosmosEncryptedNumber = {
+      value: testDoc.sensitive_IntFormat,
+      numberType: CosmosEncryptedNumberType.Integer,
+    };
+    queryBuilder.addParameter("@sensitive_IntFormat", intParam, "/sensitive_IntFormat");
     queryBuilder.addParameter(
       "@sensitive_StringFormatL2",
       testDoc.sensitive_NestedObjectFormatL1.sensitive_NestedObjectFormatL2
         .sensitive_StringFormatL2,
       "/sensitive_NestedObjectFormatL1",
     );
+    const decimalParam: CosmosEncryptedNumber = {
+      value:
+        testDoc.sensitive_NestedObjectFormatL1.sensitive_NestedObjectFormatL2
+          .sensitive_DecimalFormatL2,
+      numberType: CosmosEncryptedNumberType.Float,
+    };
+
     queryBuilder.addParameter(
       "@sensitive_DecimalFormatL2",
-      new CosmosEncryptedNumber(
-        testDoc.sensitive_NestedObjectFormatL1.sensitive_NestedObjectFormatL2.sensitive_DecimalFormatL2.toString(),
-      ),
+      decimalParam,
       "/sensitive_NestedObjectFormatL1",
     );
 
@@ -690,7 +698,7 @@ describe("ClientSideEncryption", function (this: Suite) {
     );
     queryBuilder.addParameter(
       "@sensitive_FloatFormat",
-      new CosmosEncryptedNumber(testDoc1.sensitive_FloatFormat.toString()),
+      { value: testDoc1.sensitive_FloatFormat, numberType: CosmosEncryptedNumberType.Float },
       "/sensitive_FloatFormat",
     );
     await validateQueryResults(
@@ -709,7 +717,7 @@ describe("ClientSideEncryption", function (this: Suite) {
     queryBuilder.addParameter("@nonsensitive", testDoc4.nonsensitive, "/nonsensitive");
     queryBuilder.addParameter(
       "@sensitive_IntFormat",
-      new CosmosEncryptedNumber(testDoc4.sensitive_IntFormat.toString()),
+      { value: testDoc4.sensitive_IntFormat, numberType: CosmosEncryptedNumberType.Integer },
       "/sensitive_IntFormat",
     );
     await validateQueryResults(encryptionQueryContainer, queryBuilder, [testDoc4]);
@@ -1179,7 +1187,10 @@ describe("ClientSideEncryption", function (this: Suite) {
     );
     queryBuilder.addParameter(
       "@sensitive_IntFormat",
-      new CosmosEncryptedNumber(testDoc.sensitive_IntFormat.toString()),
+      {
+        value: testDoc.sensitive_IntFormat.toString(),
+        numberType: CosmosEncryptedNumberType.Integer,
+      },
       "/sensitive_IntFormat",
     );
     const expectedDocList = [testDoc];
@@ -2048,7 +2059,7 @@ describe("ClientSideEncryption", function (this: Suite) {
 
     withEncryptedParameter.addParameter(
       "@Sensitive_IntFormat",
-      new CosmosEncryptedNumber(testDoc1.sensitive_IntFormat.toString()),
+      { value: testDoc1.sensitive_IntFormat, numberType: CosmosEncryptedNumberType.Integer },
       "/sensitive_IntFormat",
     );
 
@@ -2182,7 +2193,7 @@ describe("ClientSideEncryption", function (this: Suite) {
     );
     query.addParameter(
       "@sensitive_LongFormat",
-      new CosmosEncryptedNumber(testDoc.sensitive_LongFormat.toString()),
+      { value: testDoc.sensitive_LongFormat, numberType: CosmosEncryptedNumberType.Float },
       "/sensitive_LongFormat",
     );
     iterator = await container.items.getEncryptionQueryIterator(query);

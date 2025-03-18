@@ -824,10 +824,15 @@ export class CosmosDiagnostics {
 }
 
 // @public
-export class CosmosEncryptedNumber {
-    constructor(input: string);
-    // (undocumented)
-    value: string;
+export interface CosmosEncryptedNumber {
+    numberType: CosmosEncryptedNumberType;
+    value: number;
+}
+
+// @public
+export enum CosmosEncryptedNumberType {
+    Float = "Float",
+    Integer = "Integer"
 }
 
 // @public (undocumented)

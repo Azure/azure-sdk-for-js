@@ -156,4 +156,5 @@ export {
   EncryptionKeyResolverName,
   ClientEncryptionOptions,
   CosmosEncryptedNumber,
+  CosmosEncryptedNumberType,
 } from "./encryption";
