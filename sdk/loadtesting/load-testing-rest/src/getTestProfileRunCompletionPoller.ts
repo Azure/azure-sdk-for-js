@@ -41,7 +41,7 @@ export async function getTestProfileRunCompletionPoller(
   let resultPromise: Promise<TestProfileRunAdministrationGetTestProfileRun200Response> | undefined;
   let cancelJob: (() => void) | undefined;
   const abortController = new AbortController();
-  const currentPollIntervalInMs = polledOperationOptions.updateIntervalInMs ?? 2000;
+  const currentPollIntervalInMs = polledOperationOptions.updateIntervalInMs ?? 10000;
   const testProfileRunId = createTestProfileRunResponse.body.testProfileRunId;
 
   const poller: SimplePollerLike<

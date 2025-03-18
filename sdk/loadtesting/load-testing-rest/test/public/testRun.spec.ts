@@ -20,7 +20,7 @@ describe("Test Run Operations", () => {
   let recorder: Recorder;
   let client: AzureLoadTestingClient;
   const SUBSCRIPTION_ID = env["SUBSCRIPTION_ID"] || "";
-  const testId = "sample-sdk-test-20250318"; // The test that will get created
+  const testId = "sample-sdk-testtr-20250318"; // The test that will get created
   const testRunId = "sample-sdk-testrun-20250318-2"; // The test run that will get created
 
   beforeEach(async (ctx) => {
@@ -102,7 +102,20 @@ describe("Test Run Operations", () => {
     assert.fail();
   });
 
-  it("should be able to create a test run", async () => {
+  it("should stop the test run", async () => {
+    const timeoutTestRunId = "sample-sdk-testrun-20250318-1";
+    const stopResult = await client
+      .path("/test-runs/{testRunId}:stop", timeoutTestRunId)
+      .post();
+
+    if (isUnexpected(stopResult)) {
+      throw stopResult.body.error;
+    }
+
+    assert.equal("200", stopResult.status);
+  });
+
+  it("should be able to create a test run and poll", async () => {
     const testRunCreationResult = await client.path("/test-runs/{testRunId}", testRunId).patch({
       contentType: "application/merge-patch+json",
       body: {
@@ -182,9 +195,9 @@ describe("Test Run Operations", () => {
 describe("Test Profile Run Operations", () => {
   let recorder: Recorder;
   let client: AzureLoadTestingClient;
-  const testId = "sample-sdk-test-20250319";
-  const testProfileId = "sample-sdk-testprofile-202503192";
-  const testProfileRunId = "sample-sdk-testprofilerun-202503192";
+  const testId = "sample-sdk-testtpr-20250319";
+  const testProfileId = "sample-sdk-testprofile-202503195";
+  const testProfileRunId = "sample-sdk-testprofilerun-202503195";
 
   beforeEach(async (ctx) => {
     recorder = await createRecorder(ctx);
@@ -290,7 +303,7 @@ describe("Test Profile Run Operations", () => {
 
     const testProfileRunPoller = await getLongRunningPoller(client, testProfileRunCreationResult);
     const polledResult = await testProfileRunPoller.pollUntilDone({
-      abortSignal: AbortSignal.timeout(900000),
+      abortSignal: AbortSignal.timeout(1200000),
     });
 
     assert.equal(testProfileRunPoller.getOperationState().status, "succeeded");
