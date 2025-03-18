@@ -117,9 +117,11 @@ if ($CI) {
     Connect-AzAccount -ServicePrincipal `
                       -TenantId $TenantId `
                       -ApplicationId $TestApplicationId `
-                      -FederatedToken $env:ARM_OIDC_TOKEN `
+                      -FederatedToken $env:ARM_OIDC_TOKEN
 
     Select-AzSubscription -Subscription $SubscriptionId
+
+    Log "Successfully logged in to service principal"
 }
 
 Export-AzKeyVaultSecurityDomain -Name $hsmName -Quorum 2 -Certificates $wrappingFiles -OutputPath $sdPath -ErrorAction SilentlyContinue -Verbose
