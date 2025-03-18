@@ -7,14 +7,10 @@
 - Adding azure functions and openai tool support
 - Upgrading core-lro package
 
-### Breaking Changes
-
 ### Bugs Fixed
 
 - Addresses issue in search tool deserialization step during streaming.
 - Addresses issue running samples
-
-### Other Changes
 
 ## 1.0.0-beta.2 (2024-12-19)
 
