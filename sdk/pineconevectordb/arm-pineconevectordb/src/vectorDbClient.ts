@@ -5,15 +5,8 @@ import {
   _getOrganizationsOperations,
   OrganizationsOperations,
 } from "./classic/organizations/index.js";
-import {
-  _getOperationsOperations,
-  OperationsOperations,
-} from "./classic/operations/index.js";
-import {
-  createVectorDb,
-  VectorDbContext,
-  VectorDbClientOptionalParams,
-} from "./api/index.js";
+import { _getOperationsOperations, OperationsOperations } from "./classic/operations/index.js";
+import { createVectorDb, VectorDbContext, VectorDbClientOptionalParams } from "./api/index.js";
 import { Pipeline } from "@azure/core-rest-pipeline";
 import { TokenCredential } from "@azure/core-auth";
 

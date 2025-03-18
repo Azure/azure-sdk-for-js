@@ -56,8 +56,5 @@ export {
   OperationsListOptionalParams,
   VectorDbClientOptionalParams,
 } from "./api/index.js";
-export {
-  OperationsOperations,
-  OrganizationsOperations,
-} from "./classic/index.js";
+export { OperationsOperations, OrganizationsOperations } from "./classic/index.js";
 export { PageSettings, ContinuablePage, PagedAsyncIterableIterator };

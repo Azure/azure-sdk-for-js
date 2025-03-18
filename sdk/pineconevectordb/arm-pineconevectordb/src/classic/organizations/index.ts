@@ -10,10 +10,7 @@ import {
   organizationsCreateOrUpdate,
   organizationsGet,
 } from "../../api/organizations/index.js";
-import {
-  OrganizationResource,
-  OrganizationResourceUpdate,
-} from "../../models/models.js";
+import { OrganizationResource, OrganizationResourceUpdate } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 import {
@@ -66,9 +63,8 @@ export interface OrganizationsOperations {
 
 function _getOrganizations(context: VectorDbContext) {
   return {
-    listBySubscription: (
-      options?: OrganizationsListBySubscriptionOptionalParams,
-    ) => organizationsListBySubscription(context, options),
+    listBySubscription: (options?: OrganizationsListBySubscriptionOptionalParams) =>
+      organizationsListBySubscription(context, options),
     listByResourceGroup: (
       resourceGroupName: string,
       options?: OrganizationsListByResourceGroupOptionalParams,
@@ -77,51 +73,29 @@ function _getOrganizations(context: VectorDbContext) {
       resourceGroupName: string,
       organizationname: string,
       options?: OrganizationsDeleteOptionalParams,
-    ) =>
-      organizationsDelete(
-        context,
-        resourceGroupName,
-        organizationname,
-        options,
-      ),
+    ) => organizationsDelete(context, resourceGroupName, organizationname, options),
     update: (
       resourceGroupName: string,
       organizationname: string,
       properties: OrganizationResourceUpdate,
       options?: OrganizationsUpdateOptionalParams,
-    ) =>
-      organizationsUpdate(
-        context,
-        resourceGroupName,
-        organizationname,
-        properties,
-        options,
-      ),
+    ) => organizationsUpdate(context, resourceGroupName, organizationname, properties, options),
     createOrUpdate: (
       resourceGroupName: string,
       organizationname: string,
       resource: OrganizationResource,
       options?: OrganizationsCreateOrUpdateOptionalParams,
     ) =>
-      organizationsCreateOrUpdate(
-        context,
-        resourceGroupName,
-        organizationname,
-        resource,
-        options,
-      ),
+      organizationsCreateOrUpdate(context, resourceGroupName, organizationname, resource, options),
     get: (
       resourceGroupName: string,
       organizationname: string,
       options?: OrganizationsGetOptionalParams,
-    ) =>
-      organizationsGet(context, resourceGroupName, organizationname, options),
+    ) => organizationsGet(context, resourceGroupName, organizationname, options),
   };
 }
 
-export function _getOrganizationsOperations(
-  context: VectorDbContext,
-): OrganizationsOperations {
+export function _getOrganizationsOperations(context: VectorDbContext): OrganizationsOperations {
   return {
     ..._getOrganizations(context),
   };

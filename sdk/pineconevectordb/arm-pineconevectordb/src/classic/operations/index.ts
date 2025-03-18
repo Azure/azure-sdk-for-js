@@ -10,21 +10,16 @@ import { OperationsListOptionalParams } from "../../api/options.js";
 /** Interface representing a Operations operations. */
 export interface OperationsOperations {
   /** List the operations for the provider */
-  list: (
-    options?: OperationsListOptionalParams,
-  ) => PagedAsyncIterableIterator<Operation>;
+  list: (options?: OperationsListOptionalParams) => PagedAsyncIterableIterator<Operation>;
 }
 
 function _getOperations(context: VectorDbContext) {
   return {
-    list: (options?: OperationsListOptionalParams) =>
-      operationsList(context, options),
+    list: (options?: OperationsListOptionalParams) => operationsList(context, options),
   };
 }
 
-export function _getOperationsOperations(
-  context: VectorDbContext,
-): OperationsOperations {
+export function _getOperationsOperations(context: VectorDbContext): OperationsOperations {
   return {
     ..._getOperations(context),
   };
