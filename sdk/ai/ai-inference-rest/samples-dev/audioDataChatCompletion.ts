@@ -74,7 +74,9 @@ function createModelClient(): ModelClient {
   // auth scope for MaaS and MaaP is currently https://ml.azure.com
   // (Do not use for Serverless API or Managed Computer Endpoints)
   if (key) {
-    return ModelClient(endpoint, new AzureKeyCredential(key));
+    return ModelClient(endpoint, new AzureKeyCredential(key), {
+      apiVersion: "2025-01-01-preview",
+    });
   } else {
     const scopes: string[] = [];
     if (endpoint.includes(".models.ai.azure.com")) {
@@ -83,7 +85,7 @@ function createModelClient(): ModelClient {
       scopes.push("https://cognitiveservices.azure.com");
     }
 
-    const clientOptions = { credentials: { scopes } };
+    const clientOptions = { apiVersion: "2025-01-01-preview", credentials: { scopes } };
     return ModelClient(endpoint, new DefaultAzureCredential(), clientOptions);
   }
 }

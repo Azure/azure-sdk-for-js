@@ -18,5 +18,6 @@ export * from "./models.js";
 export * from "./outputModels.js";
 export * from "./parameters.js";
 export * from "./responses.js";
+export type { ErrorModel } from "@azure-rest/core-client";
 
 export default ModelClient;
