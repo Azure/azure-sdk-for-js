@@ -16,7 +16,9 @@ function execCommand(command) {
 
 console.log("Setting up the environment...");
 
-// Workaround for src-folder support in emitter:
+// Workaround for src-folder support in emitter, tracked in:
+// - https://github.com/microsoft/typespec/issues/5605
+// - https://github.com/Azure/autorest.typescript/issues/3011
 // End state: src/generated/* contains generated code (instead of src/generated/src/*)
 
 // Step 1: Remove all files in src/generated/*

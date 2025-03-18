@@ -1,8 +1,10 @@
-# App Configuration client library for JavaScript
+# Azure App Configuration client library for JavaScript
 
 [Azure App Configuration](https://learn.microsoft.com/azure/azure-app-configuration/overview) is a managed service that helps developers centralize their application and feature settings simply and securely.
 
-Use the client library for App Configuration to:
+For applications that **only need to read configuration values**, we suggest using the [*`@azure/app-configuration-provider`*](https://www.npmjs.com/package/@azure/app-configuration-provider) library instead.
+
+Use *@azure/app-configuration* (this library) to:
 
 - Create flexible key representations and mappings
 - Tag keys with labels
@@ -75,22 +77,25 @@ More information about `@azure/identity` can be found [here](https://github.com/
 
 #### Sovereign Clouds
 
-To authenticate with a resource in a [Sovereign Cloud](https://learn.microsoft.com/azure/active-directory/develop/authentication-national-cloud), you will need to set the `authorityHost` in the credential options or via the `AZURE_AUTHORITY_HOST` environment variable.
+To authenticate with a resource in a [Sovereign Cloud](https://learn.microsoft.com/azure/active-directory/develop/authentication-national-cloud), you will need to set the `audience` in the `AppConfigurationClient` constructor options.
 
 ```ts snippet:AuthenticatingWithAzureSovereignCloud
 import { AppConfigurationClient } from "@azure/app-configuration";
-import { DefaultAzureCredential, AzureAuthorityHosts } from "@azure/identity";
+import { DefaultAzureCredential } from "@azure/identity";
 
 // The endpoint for your App Configuration resource
 const endpoint = "https://example.azconfig.azure.cn";
 // Create an AppConfigurationClient that will authenticate through AAD in the China cloud
 const client = new AppConfigurationClient(
   endpoint,
-  new DefaultAzureCredential({ authorityHost: AzureAuthorityHosts.AzureChina }),
+  new DefaultAzureCredential(),
+  {
+    audience: KnownAppConfigurationAudience.AzureChina
+  }
 );
 ```
 
-More information about `@azure/identity` can be found [here](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/README.md)
+Note: When `audience` property is not defined, the SDK will default to Azure Public Cloud.
 
 #### Authenticating with a connection string
 

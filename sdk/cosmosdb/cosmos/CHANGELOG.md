@@ -1,18 +1,135 @@
 # Release History
 
-## 4.2.1 (Unreleased)
+## 4.3.0 (2025-03-18)
 
 ### Features Added
+#### Client-side Encryption (Preview) [#28760](https://github.com/Azure/azure-sdk-for-js/issues/28760)
+Add support for Client-Side Encryption. Read more here: [docs](https://learn.microsoft.com/azure/cosmos-db/how-to-always-encrypted)
+ 
+Example of using Client-Side Encryption:
+ ```js
+  const credentials = new DefaultAzureCredential();
+  const keyResolver = new AzureKeyVaultEncryptionKeyResolver(credentials);
+  const cosmosClient = new CosmosClient({connectionString: "<ConnectionString>", clientEncryptionOptions: { keyEncryptionKeyResolver: keyResolver }});
+  const database = cosmosClient.database("my-database");
+  const metadata: EncryptionKeyWrapMetadata = {
+      type: EncryptionKeyResolverName.AzureKeyVault, 
+      name: "akvKey", 
+      value: "https://<my-key-vault>.vault.azure.net/keys/<key>/<version>",
+      algorithm: KeyEncryptionAlgorithm.RSA_OAEP
+  };
 
-- Partition merge support: This feature adds support for Partition merge (preview) feature. Requests from JS SDK will not be blocked, when the feature is enabled. [docs](https://learn.microsoft.com/azure/cosmos-db/merge)
+  await database.createClientEncryptionKey(
+      "my-key",
+      EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
+      metadata);
 
-### Breaking Changes
+  const path1 : ClientEncryptionIncludedPath = {
+    path: "/property1",
+    clientEncryptionKeyId: "my-key",
+    encryptionType: EncryptionType.DETERMINISTIC,
+    encryptionAlgorithm: EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
+  };
+  const path2 : ClientEncryptionIncludedPath = {
+    path: "/property2",
+    clientEncryptionKeyId: "my-key",
+    encryptionType: EncryptionType.DETERMINISTIC,
+    encryptionAlgorithm: EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
+  };
+  const paths = [path1, path2];
+  const clientEncryptionPolicy = {
+      includedPaths: [path],
+      policyFormatVersion: 2,
+  };
+  const containerDefinition = {
+      id: "my-container",
+      partitionKey: {
+        paths: ["/id"],
+      },
+      clientEncryptionPolicy: clientEncryptionPolicy,
+  };
+  await database.containers.createIfNotExists(containerDefinition);
+ ```
+
+#### New Query Pipeline
+Introduced `enableQueryControl` flag to enhance query pipeline, giving users more control over their query execution.
+
+By default, value of `enableQueryControl` is set as `false` keeping query pipeline older behavior as default, as explained below:
+
+Previously, the SDK guaranteed that each fetchNext call would return `maxItemCount` number of results, provided those many results existed in the backend. While this behavior ensured a predictable output, the SDK may query backend partitions multiple times in a single `fetchNext` iteration. This can sometimes lead to higher RU consumption with no user control, especially when results are scattered across partitions. Also queries could run for extended periods as the SDK worked to fulfil the `maxItemCount` guarantee.
+
+When `enableQueryControl` is set to `true`, Each `fetchNext` call will now query up to `maxDegreeOfParallelism` physical partitions. If no results are found, the SDK will return empty pages instead of continuing to search all partitions. Returning fewer or empty results in each iteration consumes less RUs and hands control back to the users, allowing them to decide whether to continue fetching more data. This approach provides more granular control over RU consumption.
+
+Eg. usage of this flag to enable new query pipeline:
+```js
+const options : FeedOptions = {
+  enableQueryControl: true, // Flag to enable new query pipeline. Default value is false
+  maxItemCount: 100,
+  maxDegreeOfParallelism: 10,
+  forceQueryPlan: true,
+}
+const queryIterator = container.items.query("query text", options);
+const res = await queryIterator.fetchNext();
+```
+
+#### Partition merge support
+ This feature adds support for Partition merge (preview) feature. Requests from SDK will not be blocked, when the feature is enabled on the CosmosDB account. 
+ Read more about merge here: [docs](https://learn.microsoft.com/azure/cosmos-db/merge)
+
+#### RU Bucketing (Preview)
+Read more about RU Bucketing here: https://aka.ms/cosmsodb-bucketing
+
+#### Partial hierarchical partition key support in Change Feed [#27059](https://github.com/Azure/azure-sdk-for-js/issues/27059)
+This feature adds support for partial hierarchical partition key in Change Feed allowing the SDK to work seamlessly with partial Hierarchical partition keys, returning accurate change feed results regardless of which partition key components are provided in the iterator. 
+
+Eg. Container has partition key ["/name", "/zip", "/state"], change feed will work if, only value of name and zip is provided eg: ["john", "11011"]
+
+#### Index Metrics V2 support
+This feature adds support for V2 version of index metrics that returns the response in JSON format.
+
+Example output of older version
+
+```js
+Index Utilization Information
+  Utilized Single Indexes
+    Index Spec: /Item/?
+    Index Impact Score: High
+    ---
+    Index Spec: /Price/?
+    Index Impact Score: High
+    ---
+  Potential Single Indexes
+  Utilized Composite Indexes
+  Potential Composite Indexes
+    Index Spec: /Item ASC, /Price ASC
+    Index Impact Score: High
+    ---
+```
+
+Example output of version V2
+
+```js
+{"UtilizedIndexes":{"SingleIndexes":[{"IndexSpec":"/Item/?"},{"IndexSpec":"/Price/?"}],"CompositeIndexes":[]},"PotentialIndexes":{"SingleIndexes":[],"CompositeIndexes":[{"IndexSpecs":["/Item ASC","/Price ASC"],"IndexImpactScore":"High"}]}}
+```
+
+#### Add `connectionString` in CosmosClientOptions
+ConnectionString can now be configured in CosmosClientOptions along with other configurations for client initialization.
+Eg. usage: 
+```js
+const options = {
+  connectionString: "<ConnectionString>",
+  consistencyLevel: ConsistencyLevel.Strong
+}
+```
 
 ### Bugs Fixed
 
 - Fixed issue for incorrect `ParallelizeCrossPartitionQuery` header value. It was set to true if `maxDegreeOfParallelism` was set to 0 or 1 in `FeedOptions` while executing a query. [#31232](https://github.com/Azure/azure-sdk-for-js/issues/31232)
-
+- Fixed the issue for incorrect results in Changefeed in case of internal TimeoutErrors [#32652](https://github.com/Azure/azure-sdk-for-js/issues/32652)
+- Fix RequestOptions and SharedOptions [#27336](https://github.com/Azure/azure-sdk-for-js/issues/27336)
+- Set default values in RetryOptions [#27312](https://github.com/Azure/azure-sdk-for-js/issues/27312)
 ### Other Changes
+- Deprecate the older `changeFeed` iterator in favor of the newer `getChangeFeedIterator()` method. [#32650](https://github.com/Azure/azure-sdk-for-js/issues/32650)
 
 ## 4.2.0 (2024-11-19)
 

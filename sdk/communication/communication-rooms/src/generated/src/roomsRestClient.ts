@@ -38,7 +38,7 @@ export class RoomsRestClient extends coreClient.ServiceClient {
       requestContentType: "application/json; charset=utf-8",
     };
 
-    const packageDetails = `azsdk-js-communication-rooms/1.1.1`;
+    const packageDetails = `azsdk-js-communication-rooms/1.2.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -57,7 +57,7 @@ export class RoomsRestClient extends coreClient.ServiceClient {
     this.endpoint = endpoint;
 
     // Assigning values to Constant parameters
-    this.apiVersion = options.apiVersion || "2024-04-15";
+    this.apiVersion = options.apiVersion || "2025-03-13";
     this.rooms = new RoomsImpl(this);
     this.participants = new ParticipantsImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
