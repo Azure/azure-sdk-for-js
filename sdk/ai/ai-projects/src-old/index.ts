@@ -1,14 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { FileContents } from "./static-helpers/multipartHelpers.js";
 import {
   PageSettings,
   ContinuablePage,
   PagedAsyncIterableIterator,
 } from "./static-helpers/pagingHelpers.js";
+import { FileContents } from "./static-helpers/multipartHelpers.js";
 
-export { AIProjectClient } from "./aiProjectClient.js";
+// import { AIProjectClient } from "./aiProjectClient.js";
+export { AIProjectClient as AIProjectsClient } from "./aiProjectClient.js";
 export {
   Evaluation,
   InputData,
@@ -43,7 +44,6 @@ export {
   InternalConnectionPropertiesApiKeyAuth,
   CredentialsApiKeyAuth,
   InternalConnectionPropertiesAADAuth,
-  InternalConnectionPropertiesCustomAuth,
   InternalConnectionPropertiesSASAuth,
   CredentialsSASAuth,
   InternalConnectionPropertiesNoAuth,

@@ -1571,7 +1571,7 @@ export interface ToolConnectionOutput {
 export type ToolDefinition = ToolDefinitionParent | CodeInterpreterToolDefinition | FileSearchToolDefinition | FunctionToolDefinition | BingGroundingToolDefinition | MicrosoftFabricToolDefinition | SharepointToolDefinition | AzureAISearchToolDefinition;
 
 // @public
-export type ToolDefinitionOutput = ToolDefinitionOutputParent | CodeInterpreterToolDefinitionOutput | FileSearchToolDefinitionOutput | FunctionToolDefinitionOutput | BingGroundingToolDefinitionOutput | MicrosoftFabricToolDefinitionOutput | SharepointToolDefinitionOutput | AzureAISearchToolDefinitionOutput;
+export type ToolDefinitionOutput = ToolDefinitionOutputParent | CodeInterpreterToolDefinitionOutput | FileSearchToolDefinitionOutput | FunctionToolDefinition | BingGroundingToolDefinitionOutput | MicrosoftFabricToolDefinitionOutput | SharepointToolDefinitionOutput | AzureAISearchToolDefinitionOutput;
 
 // @public
 export interface ToolDefinitionOutputParent {

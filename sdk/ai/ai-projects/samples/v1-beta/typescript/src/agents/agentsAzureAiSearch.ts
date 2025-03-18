@@ -70,7 +70,7 @@ export async function main(): Promise<void> {
   // Fetch and log all messages
   const messages = await client.agents.listMessages(thread.id);
   console.log(`Messages:`);
-  const agentMessage: MessageContentOutput = messages.data[0].content[0];
+  const agentMessage: MessageContent = messages.data[0].content[0];
   if (isOutputOfType<MessageTextContentOutput>(agentMessage, "text")) {
     const textContent = agentMessage as MessageTextContentOutput;
     console.log(`Text Message Content - ${textContent.text.value}`);

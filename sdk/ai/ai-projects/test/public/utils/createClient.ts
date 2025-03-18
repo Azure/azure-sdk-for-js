@@ -4,7 +4,7 @@
 import type { RecorderStartOptions, VitestTestContext } from "@azure-tools/test-recorder";
 import { Recorder } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { AIProjectsClient } from "../../../src/index.js";
+import { AIProjectClient } from "../../../src/index.js";
 import type { ClientOptions } from "@azure-rest/core-client";
 import type { PipelineRequest, PipelineResponse } from "@azure/core-rest-pipeline";
 import { createHttpHeaders } from "@azure/core-rest-pipeline";
@@ -95,10 +95,10 @@ export async function createRecorder(context: VitestTestContext): Promise<Record
 export function createProjectsClient(
   recorder?: Recorder,
   options?: ClientOptions,
-): AIProjectsClient {
+): AIProjectClient {
   const credential = createTestCredential();
   const connectionString = process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] || "";
-  return AIProjectsClient.fromConnectionString(
+  return AIProjectClient.fromConnectionString(
     connectionString,
     credential,
     recorder ? recorder.configureClientOptions(options ?? {}) : options,
@@ -107,7 +107,7 @@ export function createProjectsClient(
 
 export function createMockProjectsClient(
   responseFn: (request: PipelineRequest) => Partial<PipelineResponse>,
-): AIProjectsClient {
+): AIProjectClient {
   const options: ClientOptions = { additionalPolicies: [] };
   options.additionalPolicies?.push({
     policy: {
@@ -126,5 +126,5 @@ export function createMockProjectsClient(
   });
   const credential = createTestCredential();
   const connectionString = process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] || "";
-  return AIProjectsClient.fromConnectionString(connectionString, credential, options);
+  return AIProjectClient.fromConnectionString(connectionString, credential, options);
 }

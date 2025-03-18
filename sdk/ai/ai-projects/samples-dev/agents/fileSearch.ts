@@ -9,7 +9,7 @@
  */
 
 import type {
-  MessageContentOutput,
+  MessageContent,
   MessageImageFileContentOutput,
   MessageTextContentOutput,
 } from "@azure/ai-projects";
@@ -83,7 +83,7 @@ export async function main(): Promise<void> {
     console.log(
       `Thread Message Created at  - ${threadMessage.createdAt} - Role - ${threadMessage.role}`,
     );
-    threadMessage.content.forEach((content: MessageContentOutput) => {
+    threadMessage.content.forEach((content: MessageContent) => {
       if (isOutputOfType<MessageTextContentOutput>(content, "text")) {
         const textContent = content as MessageTextContentOutput;
         console.log(`Text Message Content - ${textContent.text.value}`);

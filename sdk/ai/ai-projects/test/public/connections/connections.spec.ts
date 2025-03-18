@@ -2,13 +2,13 @@
 // Licensed under the MIT License.
 
 import type { Recorder, VitestTestContext } from "@azure-tools/test-recorder";
-import type { AIProjectsClient, ConnectionsOperations } from "../../../src/index.js";
+import type { AIProjectClient, ConnectionsOperations } from "../../../src/index.js";
 import { createRecorder, createProjectsClient } from "../utils/createClient.js";
 import { assert, beforeEach, afterEach, it, describe } from "vitest";
 
 describe("Agents - assistants", () => {
   let recorder: Recorder;
-  let projectsClient: AIProjectsClient;
+  let projectsClient: AIProjectClient;
   let connections: ConnectionsOperations;
 
   beforeEach(async function (context: VitestTestContext) {
@@ -28,7 +28,8 @@ describe("Agents - assistants", () => {
 
   it("should list connections", async function () {
     // List connections
-    const connectionsList = await connections.listConnections();
+    const { value: connectionsList } = await connections.listConnections();
+    console.log(`Connections list: ${JSON.stringify(connectionsList)}`);
     assert.isNotNull(connectionsList);
     assert.isAtLeast(connectionsList.length, 1);
     console.log(`Retrieved ${connectionsList.length} connections`);
@@ -36,7 +37,7 @@ describe("Agents - assistants", () => {
 
   it("should retrieve a connection without secrets", async function () {
     // List connections
-    const connectionsList = await connections.listConnections();
+    const { value: connectionsList } = await connections.listConnections();
     assert.isNotNull(connectionsList);
     assert.isAtLeast(connectionsList.length, 1);
 
@@ -52,14 +53,14 @@ describe("Agents - assistants", () => {
 
   it("should retrieve a connection with secrets", async function () {
     // List connections
-    const connectionsList = await connections.listConnections();
+    const { value: connectionsList } = await connections.listConnections();
     assert.isNotNull(connectionsList);
     assert.isAtLeast(connectionsList.length, 1);
 
     // Retrieve one connection with secrets
     for (const _connection of connectionsList) {
       const connectionName = _connection.name;
-      const connection = await connections.getConnectionWithSecrets(connectionName);
+      const connection = await connections.getConnectionWithSecrets(connectionName, "");
       assert.isNotNull(connection);
       assert.equal(connection.name, connectionName);
       console.log(`Retrieved connection with secrets, connection name: ${connection.name}`);

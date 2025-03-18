@@ -12,8 +12,8 @@
 
 import type {
   FunctionToolDefinition,
-  FunctionToolDefinitionOutput,
-  MessageContentOutput,
+  // FunctionToolDefinitionOutput,
+  MessageContent,
   MessageImageFileContentOutput,
   MessageTextContentOutput,
   RequiredToolCallOutput,
@@ -92,7 +92,7 @@ export async function main(): Promise<void> {
     }
 
     public invokeTool(
-      toolCall: RequiredToolCallOutput & FunctionToolDefinitionOutput,
+      toolCall: RequiredToolCallOutput & FunctionToolDefinition,
     ): ToolOutput | undefined {
       console.log(`Function tool call - ${toolCall.function.name}`);
       const args = [];
@@ -165,7 +165,7 @@ export async function main(): Promise<void> {
         const toolCalls = submitToolOutputsActionOutput.submitToolOutputs.toolCalls;
         const toolResponses = [];
         for (const toolCall of toolCalls) {
-          if (isOutputOfType<FunctionToolDefinitionOutput>(toolCall, "function")) {
+          if (isOutputOfType<FunctionToolDefinition>(toolCall, "function")) {
             const toolResponse = functionToolExecutor.invokeTool(toolCall);
             if (toolResponse) {
               toolResponses.push(toolResponse);
@@ -186,7 +186,7 @@ export async function main(): Promise<void> {
     console.log(
       `Thread Message Created at  - ${threadMessage.createdAt} - Role - ${threadMessage.role}`,
     );
-    threadMessage.content.forEach((content: MessageContentOutput) => {
+    threadMessage.content.forEach((content: MessageContent) => {
       if (isOutputOfType<MessageTextContentOutput>(content, "text")) {
         const textContent = content as MessageTextContentOutput;
         console.log(`Text Message Content - ${textContent.text.value}`);

@@ -13,7 +13,7 @@
 
 import type {
   FunctionToolDefinition,
-  FunctionToolDefinitionOutput,
+  // FunctionToolDefinitionOutput,
   MessageContentOutput,
   MessageImageFileContentOutput,
   MessageTextContentOutput,
@@ -93,7 +93,7 @@ export async function main(): Promise<void> {
     }
 
     public invokeTool(
-      toolCall: RequiredToolCallOutput & FunctionToolDefinitionOutput,
+      toolCall: RequiredToolCallOutput & FunctionToolDefinition,
     ): ToolOutput | undefined {
       console.log(`Function tool call - ${toolCall.function.name}`);
       const args = [];
@@ -166,7 +166,7 @@ export async function main(): Promise<void> {
         const toolCalls = submitToolOutputsActionOutput.submitToolOutputs.toolCalls;
         const toolResponses = [];
         for (const toolCall of toolCalls) {
-          if (isOutputOfType<FunctionToolDefinitionOutput>(toolCall, "function")) {
+          if (isOutputOfType<FunctionToolDefinition>(toolCall, "function")) {
             const toolResponse = functionToolExecutor.invokeTool(toolCall);
             if (toolResponse) {
               toolResponses.push(toolResponse);

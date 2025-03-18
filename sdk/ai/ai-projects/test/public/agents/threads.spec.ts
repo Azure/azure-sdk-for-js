@@ -2,13 +2,13 @@
 // Licensed under the MIT License.
 
 import type { Recorder, VitestTestContext } from "@azure-tools/test-recorder";
-import type { AgentsOperations, AIProjectsClient } from "../../../src/index.js";
+import type { AgentsOperations, AIProjectClient } from "../../../src/index.js";
 import { createRecorder, createProjectsClient } from "../utils/createClient.js";
 import { assert, beforeEach, afterEach, it, describe } from "vitest";
 
 describe("Agents - threads", () => {
   let recorder: Recorder;
-  let projectsClient: AIProjectsClient;
+  let projectsClient: AIProjectClient;
   let agents: AgentsOperations;
 
   beforeEach(async function (context: VitestTestContext) {
