@@ -36,7 +36,7 @@
     "@azure/identity": "^4.5.0",
     "@types/node": "^18.0.0",
     "@vitest/coverage-istanbul": "^3.0.9",
-    "typescript": "~5.7.2",
+    "typescript": "~5.8.2",
     "vitest": "^3.0.9"
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/agrifood/arm-agrifood",

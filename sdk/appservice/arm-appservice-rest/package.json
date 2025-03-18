@@ -91,7 +91,7 @@
     "dotenv": "^16.0.0",
     "eslint": "^9.9.0",
     "playwright": "^1.49.1",
-    "typescript": "~5.7.2",
+    "typescript": "~5.8.2",
     "vitest": "^3.0.9"
   },
   "browser": "./dist/browser/index.js",
