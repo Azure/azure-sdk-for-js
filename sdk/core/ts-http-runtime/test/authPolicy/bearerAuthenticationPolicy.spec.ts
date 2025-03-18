@@ -8,7 +8,7 @@ import type {
   PipelineResponse,
   SendRequest,
 } from "../../src/index.js";
-import { AuthType, createHttpHeaders, createPipelineRequest } from "../../src/index.js";
+import { createHttpHeaders, createPipelineRequest } from "../../src/index.js";
 import { bearerAuthenticationPolicy } from "../../src/policies/auth/bearerAuthenticationPolicy.js";
 
 describe("bearerAuthenticationPolicy", function () {
@@ -79,7 +79,7 @@ describe("bearerAuthenticationPolicy", function () {
       credential,
       authSchemes: [
         {
-          type: AuthType.Http,
+          type: "http",
           scheme: "bearer",
         },
       ],

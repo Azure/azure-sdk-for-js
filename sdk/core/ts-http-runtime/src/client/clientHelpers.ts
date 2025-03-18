@@ -31,7 +31,6 @@ export function createDefaultPipeline(options: ClientOptions = {}): Pipeline {
   const { credential, authSchemes } = options;
   if (credential) {
     if (isApiKeyCredential(credential)) {
-      console.log("GET HERE");
       pipeline.addPolicy(apiKeyAuthenticationPolicy({ authSchemes, credential }));
     } else if (isBasicCredential(credential)) {
       pipeline.addPolicy(basicAuthenticationPolicy({ authSchemes, credential }));

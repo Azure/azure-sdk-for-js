@@ -6,17 +6,15 @@ import type { OAuth2Flow } from "./authFlows.js";
 /**
  * Options used when creating and sending get OAuth 2 requests for this operation.
  */
-export interface GetOAuth2TokenOptions extends GetTokenOptions {}
+export interface GetOAuth2TokenOptions {
+  /** Abort signal for the request */
+  abortSignal?: AbortSignal;
+}
 
 /**
  * Options used when creating and sending get bearer token requests for this operation.
  */
-export interface GetBearTokenOptions extends GetTokenOptions {}
-
-/**
- * Options used when creating and sending HTTP requests for this operation.
- */
-export interface GetTokenOptions {
+export interface GetBearerTokenOptions {
   /** Abort signal for the request */
   abortSignal?: AbortSignal;
 }
@@ -27,8 +25,9 @@ export interface GetTokenOptions {
 export interface OAuth2TokenCredential<TFlows extends OAuth2Flow> {
   /**
    * Gets an OAuth2 token for the specified flows.
-   * @param flows - The OAuth2 flows to use
+   * @param flows - The OAuth2 flows to use.
    * @param options - Options for the request.
+   * @returns - a valid access token which was obtained through one of the flows specified in `flows`.
    */
   getOAuth2Token(flows: TFlows[], options?: GetOAuth2TokenOptions): Promise<string>;
 }
@@ -40,8 +39,9 @@ export interface BearerTokenCredential {
   /**
    * Gets a Bearer token for the specified flows.
    * @param options - Options for the request.
+   * @returns - a valid access token.
    */
-  getBearerToken(options?: GetBearTokenOptions): Promise<string>;
+  getBearerToken(options?: GetBearerTokenOptions): Promise<string>;
 }
 
 /**

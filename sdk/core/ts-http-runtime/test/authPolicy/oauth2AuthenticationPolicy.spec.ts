@@ -3,20 +3,15 @@
 
 import { describe, it, expect, vi } from "vitest";
 import type { AuthScheme, PipelineResponse, SendRequest } from "../../src/index.js";
-import {
-  AuthType,
-  createHttpHeaders,
-  createPipelineRequest,
-  OAuth2FlowType,
-} from "../../src/index.js";
+import { createHttpHeaders, createPipelineRequest } from "../../src/index.js";
 import { oauth2AuthenticationPolicy } from "../../src/policies/auth/oauth2AuthenticationPolicy.js";
 import type { OAuth2Flow } from "../../src/auth/authFlows.js";
 
 const exampleScheme: AuthScheme = {
-  type: AuthType.OAuth2,
+  type: "oauth2",
   flows: [
     {
-      type: OAuth2FlowType.ClientCredentials,
+      type: "clientCredentials",
       tokenUrl: "https://example.com/token",
     },
   ],
@@ -73,7 +68,7 @@ describe("oauth2AuthenticationPolicy", () => {
     expect(getTokenSpy).toHaveBeenCalledWith(
       [
         {
-          type: OAuth2FlowType.ClientCredentials,
+          type: "clientCredentials",
           tokenUrl: "https://example.com/token",
         },
       ],

@@ -3,7 +3,7 @@
 
 import { describe, it, expect, vi } from "vitest";
 import type { PipelinePolicy, PipelineResponse, SendRequest } from "../../src/index.js";
-import { AuthType, createHttpHeaders, createPipelineRequest } from "../../src/index.js";
+import { createHttpHeaders, createPipelineRequest } from "../../src/index.js";
 import { basicAuthenticationPolicy } from "../../src/policies/auth/basicAuthenticationPolicy.js";
 
 describe("basicAuthenticationPolicy", () => {
@@ -53,7 +53,7 @@ function createBasicAuthPolicy(username: string, password: string): PipelinePoli
     credential: { username, password },
     authSchemes: [
       {
-        type: AuthType.Http,
+        type: "http",
         scheme: "basic",
       },
     ],

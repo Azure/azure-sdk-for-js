@@ -1,27 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/** Supported OAuth2 flow types */
-export enum OAuth2FlowType {
-  /** Authorization Code flow */
-  AuthorizationCode = "authorizationCode",
-
-  /** Client Credentials flow */
-  ClientCredentials = "clientCredentials",
-
-  /** Implicit flow */
-  Implicit = "implicit",
-
-  /** Password flow */
-  Password = "password",
-}
-
 /**
  * Represents OAuth2 Authorization Code flow configuration.
  */
 export interface AuthorizationCodeFlow {
   /** Type of OAuth2 flow */
-  type: OAuth2FlowType.AuthorizationCode;
+  type: "authorizationCode";
   /** Authorization endpoint */
   authorizationUrl: string;
   /** Token endpoint */
@@ -37,7 +22,7 @@ export interface AuthorizationCodeFlow {
  */
 export interface ClientCredentialsFlow {
   /** Type of OAuth2 flow */
-  type: OAuth2FlowType.ClientCredentials;
+  type: "clientCredentials";
   /** Token endpoint */
   tokenUrl: string;
   /** Refresh token endpoints */
@@ -51,7 +36,7 @@ export interface ClientCredentialsFlow {
  */
 export interface ImplicitFlow {
   /** Type of OAuth2 flow */
-  type: OAuth2FlowType.Implicit;
+  type: "implicit";
   /** Authorization endpoint */
   authorizationUrl: string;
   /** Refresh token endpoint */
@@ -65,7 +50,7 @@ export interface ImplicitFlow {
  */
 export interface PasswordFlow {
   /** Type of OAuth2 flow */
-  type: OAuth2FlowType.Password;
+  type: "password";
   /** Token endpoint */
   tokenUrl: string;
   /** Refresh token endpoint */

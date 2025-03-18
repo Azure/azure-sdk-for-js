@@ -46,8 +46,7 @@ export {
   type BearerTokenCredential,
   type OAuth2TokenCredential,
   type GetOAuth2TokenOptions,
-  type GetBearTokenOptions,
-  type GetTokenOptions,
+  type GetBearerTokenOptions,
   type ApiKeyCredential,
   type AuthCredential,
 } from "./auth/credentials.js";

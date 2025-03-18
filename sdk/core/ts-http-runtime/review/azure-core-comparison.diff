@@ -141,34 +141,19 @@ index f8d603b..0000000
 -}
 diff --git a/src/auth/authFlows.ts b/src/auth/authFlows.ts
 new file mode 100644
-index 0000000..45cca71
+index 0000000..c3b70f1
 --- /dev/null
 +++ b/src/auth/authFlows.ts
-@@ -0,0 +1,82 @@
+@@ -0,0 +1,67 @@
 +// Copyright (c) Microsoft Corporation.
 +// Licensed under the MIT License.
-+
-+/** Supported OAuth2 flow types */
-+export enum OAuth2FlowType {
-+  /** Authorization Code flow */
-+  AuthorizationCode = "authorizationCode",
-+
-+  /** Client Credentials flow */
-+  ClientCredentials = "clientCredentials",
-+
-+  /** Implicit flow */
-+  Implicit = "implicit",
-+
-+  /** Password flow */
-+  Password = "password",
-+}
 +
 +/**
 + * Represents OAuth2 Authorization Code flow configuration.
 + */
 +export interface AuthorizationCodeFlow {
 +  /** Type of OAuth2 flow */
-+  type: OAuth2FlowType.AuthorizationCode;
++  type: "authorizationCode";
 +  /** Authorization endpoint */
 +  authorizationUrl: string;
 +  /** Token endpoint */
@@ -184,7 +169,7 @@ index 0000000..45cca71
 + */
 +export interface ClientCredentialsFlow {
 +  /** Type of OAuth2 flow */
-+  type: OAuth2FlowType.ClientCredentials;
++  type: "clientCredentials";
 +  /** Token endpoint */
 +  tokenUrl: string;
 +  /** Refresh token endpoints */
@@ -198,7 +183,7 @@ index 0000000..45cca71
 + */
 +export interface ImplicitFlow {
 +  /** Type of OAuth2 flow */
-+  type: OAuth2FlowType.Implicit;
++  type: "implicit";
 +  /** Authorization endpoint */
 +  authorizationUrl: string;
 +  /** Refresh token endpoint */
@@ -212,7 +197,7 @@ index 0000000..45cca71
 + */
 +export interface PasswordFlow {
 +  /** Type of OAuth2 flow */
-+  type: OAuth2FlowType.Password;
++  type: "password";
 +  /** Token endpoint */
 +  tokenUrl: string;
 +  /** Refresh token endpoint */
@@ -450,7 +435,7 @@ index 045c639..0000000
 -}
 diff --git a/src/auth/credentials.ts b/src/auth/credentials.ts
 new file mode 100644
-index 0000000..baa36c2
+index 0000000..3f419eb
 --- /dev/null
 +++ b/src/auth/credentials.ts
 @@ -0,0 +1,106 @@
@@ -462,17 +447,15 @@ index 0000000..baa36c2
 +/**
 + * Options used when creating and sending get OAuth 2 requests for this operation.
 + */
-+export interface GetOAuth2TokenOptions extends GetTokenOptions {}
++export interface GetOAuth2TokenOptions {
++  /** Abort signal for the request */
++  abortSignal?: AbortSignal;
++}
 +
 +/**
 + * Options used when creating and sending get bearer token requests for this operation.
 + */
-+export interface GetBearTokenOptions extends GetTokenOptions {}
-+
-+/**
-+ * Options used when creating and sending HTTP requests for this operation.
-+ */
-+export interface GetTokenOptions {
++export interface GetBearerTokenOptions {
 +  /** Abort signal for the request */
 +  abortSignal?: AbortSignal;
 +}
@@ -483,8 +466,9 @@ index 0000000..baa36c2
 +export interface OAuth2TokenCredential<TFlows extends OAuth2Flow> {
 +  /**
 +   * Gets an OAuth2 token for the specified flows.
-+   * @param flows - The OAuth2 flows to use
++   * @param flows - The OAuth2 flows to use.
 +   * @param options - Options for the request.
++   * @returns - a valid access token which was obtained through one of the flows specified in `flows`.
 +   */
 +  getOAuth2Token(flows: TFlows[], options?: GetOAuth2TokenOptions): Promise<string>;
 +}
@@ -496,8 +480,9 @@ index 0000000..baa36c2
 +  /**
 +   * Gets a Bearer token for the specified flows.
 +   * @param options - Options for the request.
++   * @returns - a valid access token.
 +   */
-+  getBearerToken(options?: GetBearTokenOptions): Promise<string>;
++  getBearerToken(options?: GetBearerTokenOptions): Promise<string>;
 +}
 +
 +/**
@@ -617,26 +602,14 @@ index 9db25cf..0000000
 -}
 diff --git a/src/auth/schemes.ts b/src/auth/schemes.ts
 new file mode 100644
-index 0000000..777f0b1
+index 0000000..e1ee6eb
 --- /dev/null
 +++ b/src/auth/schemes.ts
-@@ -0,0 +1,88 @@
+@@ -0,0 +1,76 @@
 +// Copyright (c) Microsoft Corporation.
 +// Licensed under the MIT License.
 +
 +import type { OAuth2Flow } from "./authFlows.js";
-+
-+/** Supported authentication types */
-+export enum AuthType {
-+  /** HTTP authentication scheme */
-+  Http = "http",
-+  /** API Key authentication scheme */
-+  ApiKey = "apiKey",
-+  /** OAuth2 authentication scheme */
-+  OAuth2 = "oauth2",
-+  /** No authentication required */
-+  NoAuth = "noAuth",
-+}
 +
 +/** Supported API key locations */
 +export enum ApiKeyLocation {
@@ -655,7 +628,7 @@ index 0000000..777f0b1
 + */
 +export interface BasicAuthScheme {
 +  /** Type of auth scheme */
-+  type: AuthType.Http;
++  type: "http";
 +  /** Basic authentication scheme */
 +  scheme: "basic";
 +}
@@ -667,7 +640,7 @@ index 0000000..777f0b1
 + */
 +export interface BearerAuthScheme {
 +  /** Type of auth scheme */
-+  type: AuthType.Http;
++  type: "http";
 +  /** Bearer authentication scheme */
 +  scheme: "bearer";
 +}
@@ -677,7 +650,7 @@ index 0000000..777f0b1
 + */
 +export interface NoAuthAuthScheme {
 +  /** Type of auth scheme */
-+  type: AuthType.NoAuth;
++  type: "noAuth";
 +}
 +
 +/**
@@ -687,7 +660,7 @@ index 0000000..777f0b1
 + */
 +export interface ApiKeyAuthScheme {
 +  /** Type of auth scheme */
-+  type: AuthType.ApiKey;
++  type: "apiKey";
 +  /** Location of the API key */
 +  apiKeyLocation: ApiKeyLocation;
 +  /** Name of the API key parameter */
@@ -697,7 +670,7 @@ index 0000000..777f0b1
 +/** Represents OAuth2 authentication scheme with specified flows */
 +export interface OAuth2AuthScheme<TFlows extends OAuth2Flow[]> {
 +  /** Type of auth scheme */
-+  type: AuthType.OAuth2;
++  type: "oauth2";
 +  /** Supported OAuth2 flows */
 +  flows: TFlows;
 +}
@@ -915,10 +888,10 @@ index 56cb7b8..da27584 100644
  
  export const apiVersionPolicyName = "ApiVersionPolicy";
 diff --git a/src/client/clientHelpers.ts b/src/client/clientHelpers.ts
-index 30dac33..74a3905 100644
+index 30dac33..f7e4696 100644
 --- a/src/client/clientHelpers.ts
 +++ b/src/client/clientHelpers.ts
-@@ -1,84 +1,48 @@
+@@ -1,84 +1,47 @@
  // Copyright (c) Microsoft Corporation.
  // Licensed under the MIT License.
  
@@ -1014,7 +987,6 @@ index 30dac33..74a3905 100644
 +  const { credential, authSchemes } = options;
 +  if (credential) {
 +    if (isApiKeyCredential(credential)) {
-+      console.log("GET HERE");
 +      pipeline.addPolicy(apiKeyAuthenticationPolicy({ authSchemes, credential }));
 +    } else if (isBasicCredential(credential)) {
 +      pipeline.addPolicy(basicAuthenticationPolicy({ authSchemes, credential }));
@@ -1539,10 +1511,10 @@ index ad162e3..ae5349c 100644
    HttpClient,
    HttpHeaders as PipelineHeaders,
 diff --git a/src/index.ts b/src/index.ts
-index 92a7ee9..caf4819 100644
+index 92a7ee9..a2c86e2 100644
 --- a/src/index.ts
 +++ b/src/index.ts
-@@ -9,116 +9,75 @@ declare global {
+@@ -9,116 +9,74 @@ declare global {
    interface TransformStream<I = any, O = any> {}
  }
  
@@ -1642,8 +1614,7 @@ index 92a7ee9..caf4819 100644
 +  type BearerTokenCredential,
 +  type OAuth2TokenCredential,
 +  type GetOAuth2TokenOptions,
-+  type GetBearTokenOptions,
-+  type GetTokenOptions,
++  type GetBearerTokenOptions,
 +  type ApiKeyCredential,
 +  type AuthCredential,
 +} from "./auth/credentials.js";

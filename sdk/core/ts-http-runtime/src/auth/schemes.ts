@@ -3,18 +3,6 @@
 
 import type { OAuth2Flow } from "./authFlows.js";
 
-/** Supported authentication types */
-export enum AuthType {
-  /** HTTP authentication scheme */
-  Http = "http",
-  /** API Key authentication scheme */
-  ApiKey = "apiKey",
-  /** OAuth2 authentication scheme */
-  OAuth2 = "oauth2",
-  /** No authentication required */
-  NoAuth = "noAuth",
-}
-
 /** Supported API key locations */
 export enum ApiKeyLocation {
   /** API key is included in the query string */
@@ -32,7 +20,7 @@ export enum ApiKeyLocation {
  */
 export interface BasicAuthScheme {
   /** Type of auth scheme */
-  type: AuthType.Http;
+  type: "http";
   /** Basic authentication scheme */
   scheme: "basic";
 }
@@ -44,7 +32,7 @@ export interface BasicAuthScheme {
  */
 export interface BearerAuthScheme {
   /** Type of auth scheme */
-  type: AuthType.Http;
+  type: "http";
   /** Bearer authentication scheme */
   scheme: "bearer";
 }
@@ -54,7 +42,7 @@ export interface BearerAuthScheme {
  */
 export interface NoAuthAuthScheme {
   /** Type of auth scheme */
-  type: AuthType.NoAuth;
+  type: "noAuth";
 }
 
 /**
@@ -64,7 +52,7 @@ export interface NoAuthAuthScheme {
  */
 export interface ApiKeyAuthScheme {
   /** Type of auth scheme */
-  type: AuthType.ApiKey;
+  type: "apiKey";
   /** Location of the API key */
   apiKeyLocation: ApiKeyLocation;
   /** Name of the API key parameter */
@@ -74,7 +62,7 @@ export interface ApiKeyAuthScheme {
 /** Represents OAuth2 authentication scheme with specified flows */
 export interface OAuth2AuthScheme<TFlows extends OAuth2Flow[]> {
   /** Type of auth scheme */
-  type: AuthType.OAuth2;
+  type: "oauth2";
   /** Supported OAuth2 flows */
   flows: TFlows;
 }

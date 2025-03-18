@@ -36,7 +36,7 @@ export interface Agent {
 export interface ApiKeyAuthScheme {
     apiKeyLocation: ApiKeyLocation;
     name: string;
-    type: AuthType.ApiKey;
+    type: "apiKey";
 }
 
 // @public
@@ -60,24 +60,16 @@ export interface AuthorizationCodeFlow {
     refreshUrl?: string;
     scopes?: string[];
     tokenUrl: string;
-    type: OAuth2FlowType.AuthorizationCode;
+    type: "authorizationCode";
 }
 
 // @public
 export type AuthScheme = BasicAuthScheme | BearerAuthScheme | NoAuthAuthScheme | ApiKeyAuthScheme | OAuth2AuthScheme<OAuth2Flow[]>;
 
 // @public
-export enum AuthType {
-    ApiKey = "apiKey",
-    Http = "http",
-    NoAuth = "noAuth",
-    OAuth2 = "oauth2"
-}
-
-// @public
 export interface BasicAuthScheme {
     scheme: "basic";
-    type: AuthType.Http;
+    type: "http";
 }
 
 // @public
@@ -89,12 +81,12 @@ export interface BasicCredential {
 // @public
 export interface BearerAuthScheme {
     scheme: "bearer";
-    type: AuthType.Http;
+    type: "http";
 }
 
 // @public
 export interface BearerTokenCredential {
-    getBearerToken(options?: GetBearTokenOptions): Promise<string>;
+    getBearerToken(options?: GetBearerTokenOptions): Promise<string>;
 }
 
 // @public
@@ -115,7 +107,7 @@ export interface ClientCredentialsFlow {
     refreshUrl?: string[];
     scopes?: string[];
     tokenUrl: string;
-    type: OAuth2FlowType.ClientCredentials;
+    type: "clientCredentials";
 }
 
 // @public
@@ -174,18 +166,15 @@ export interface FullOperationResponse extends PipelineResponse {
 }
 
 // @public
-export interface GetBearTokenOptions extends GetTokenOptions {
+export interface GetBearerTokenOptions {
+    abortSignal?: AbortSignal;
 }
 
 // @public
 export function getClient(endpoint: string, clientOptions?: ClientOptions): Client;
 
 // @public
-export interface GetOAuth2TokenOptions extends GetTokenOptions {
-}
-
-// @public
-export interface GetTokenOptions {
+export interface GetOAuth2TokenOptions {
     abortSignal?: AbortSignal;
 }
 
@@ -231,7 +220,7 @@ export interface ImplicitFlow {
     authorizationUrl: string;
     refreshUrl?: string;
     scopes?: string[];
-    type: OAuth2FlowType.Implicit;
+    type: "implicit";
 }
 
 // @public
@@ -258,25 +247,17 @@ export interface MultipartRequestBody {
 
 // @public
 export interface NoAuthAuthScheme {
-    type: AuthType.NoAuth;
+    type: "noAuth";
 }
 
 // @public
 export interface OAuth2AuthScheme<TFlows extends OAuth2Flow[]> {
     flows: TFlows;
-    type: AuthType.OAuth2;
+    type: "oauth2";
 }
 
 // @public
 export type OAuth2Flow = AuthorizationCodeFlow | ClientCredentialsFlow | ImplicitFlow | PasswordFlow;
-
-// @public
-export enum OAuth2FlowType {
-    AuthorizationCode = "authorizationCode",
-    ClientCredentials = "clientCredentials",
-    Implicit = "implicit",
-    Password = "password"
-}
 
 // @public
 export interface OAuth2TokenCredential<TFlows extends OAuth2Flow> {
@@ -308,7 +289,7 @@ export interface PasswordFlow {
     refreshUrl?: string;
     scopes?: string[];
     tokenUrl: string;
-    type: OAuth2FlowType.Password;
+    type: "password";
 }
 
 // @public

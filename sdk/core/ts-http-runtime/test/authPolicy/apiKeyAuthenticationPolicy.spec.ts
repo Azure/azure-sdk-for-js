@@ -3,12 +3,7 @@
 
 import { describe, it, expect, vi } from "vitest";
 import type { PipelinePolicy, PipelineResponse, SendRequest } from "../../src/index.js";
-import {
-  ApiKeyLocation,
-  AuthType,
-  createHttpHeaders,
-  createPipelineRequest,
-} from "../../src/index.js";
+import { ApiKeyLocation, createHttpHeaders, createPipelineRequest } from "../../src/index.js";
 import { apiKeyAuthenticationPolicy } from "../../src/policies/auth/apiKeyAuthenticationPolicy.js";
 
 describe("apiKeyAuthenticationPolicy", () => {
@@ -53,7 +48,7 @@ function createApiKeyPolicy(apiKey: string, apiKeyLocation: ApiKeyLocation): Pip
     credential: { key: apiKey },
     authSchemes: [
       {
-        type: AuthType.ApiKey,
+        type: "apiKey",
         name: "api-key",
         apiKeyLocation,
       },
