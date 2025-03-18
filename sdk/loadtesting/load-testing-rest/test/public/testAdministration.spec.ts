@@ -9,7 +9,7 @@ import type {
 } from "../../src/index.js";
 import { isUnexpected } from "../../src/index.js";
 import type { Recorder } from "@azure-tools/test-recorder";
-import { env, isPlaybackMode } from "@azure-tools/test-recorder";
+import { env } from "@azure-tools/test-recorder";
 import * as fs from "node:fs";
 import { isNodeLike } from "@azure/core-util";
 import { getLongRunningPoller } from "../../src/pollingHelper.js";
@@ -22,7 +22,7 @@ describe("Test Administration Operations", () => {
 
   beforeEach(async (ctx) => {
     recorder = await createRecorder(ctx);
-    if (!isNodeLike || isPlaybackMode()) {
+    if (!isNodeLike) {
       ctx.skip();
     }
     client = createClient(recorder);
@@ -173,11 +173,11 @@ describe("Test Profile Administration Operations", () => {
   let recorder: Recorder;
   let client: AzureLoadTestingClient;
   const testId = "sample-sdk-test-20250318";
-  const testProfileId = "sample-sdk-testprofile-20250319";
+  const testProfileId = "sample-sdk-testprofile-202503183";
 
   beforeEach(async (ctx) => {
     recorder = await createRecorder(ctx);
-    if (!isNodeLike || isPlaybackMode()) {
+    if (!isNodeLike) {
       ctx.skip();
     }
     client = createClient(recorder);

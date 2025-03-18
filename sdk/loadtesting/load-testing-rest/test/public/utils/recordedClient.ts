@@ -13,7 +13,7 @@ const credential = createTestCredential();
 
 const envSetupForPlayback: Record<string, string> = {
   LOADTESTSERVICE_ENDPOINT:
-    "https://00000000-0000-0000-0000-000000000000.eastus.cnt-prod.loadtesting.azure.com",
+    "00000000-0000-0000-0000-000000000000.eastus.cnt-prod.loadtesting.azure.com",
   SUBSCRIPTION_ID: "azure_subscription_id",
   LOADTESTSERVICE_FLEXFUNCTIONSRESOURCEID:
     "/subscriptions/azure_subscription_id/resourceGroups/resource_group_name/providers/Microsoft.Web/sites/func_resource_name",
