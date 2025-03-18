@@ -1,5 +1,7 @@
 param baseName string = resourceGroup().name
 param testApplicationOid string
+param supportsSafeSecretStandard bool = false
+
 
 var apiVersion = '2022-10-01-preview'
 var location = resourceGroup().location
@@ -8,7 +10,7 @@ var sasAuthorizationRuleName = '${baseName}/SasAccessKey'
 var baseNamePremium = '${baseName}premium'
 var authorizationRuleNamePremium = '${baseName}premium/RootManageSharedAccessKey'
 
-resource serviceBusNamespace 'Microsoft.ServiceBus/namespaces@2022-10-01-preview' = {
+resource serviceBusNamespace 'Microsoft.ServiceBus/namespaces@2024-01-01' = {
   name: baseName
   location: location
   sku: {
@@ -17,10 +19,11 @@ resource serviceBusNamespace 'Microsoft.ServiceBus/namespaces@2022-10-01-preview
   }
   properties: {
     zoneRedundant: false
+    disableLocalAuth: supportsSafeSecretStandard
   }
 }
 
-resource serviceBusNamespacePremium 'Microsoft.ServiceBus/namespaces@2022-10-01-preview' = {
+resource serviceBusNamespacePremium 'Microsoft.ServiceBus/namespaces@2024-01-01' = {
   name: baseNamePremium
   location: location
   sku: {
@@ -29,10 +32,11 @@ resource serviceBusNamespacePremium 'Microsoft.ServiceBus/namespaces@2022-10-01-
   }
   properties: {
     zoneRedundant: false
+    disableLocalAuth: supportsSafeSecretStandard
   }
 }
 
-resource authorizationRulePremium 'Microsoft.ServiceBus/namespaces/AuthorizationRules@2022-10-01-preview' = {
+resource authorizationRulePremium 'Microsoft.ServiceBus/namespaces/AuthorizationRules@2024-01-01' = {
   name: authorizationRuleNamePremium
   dependsOn: [
     serviceBusNamespacePremium
@@ -46,7 +50,7 @@ resource authorizationRulePremium 'Microsoft.ServiceBus/namespaces/Authorization
   }
 }
 
-resource authorizationRule 'Microsoft.ServiceBus/namespaces/AuthorizationRules@2022-10-01-preview' = {
+resource authorizationRule 'Microsoft.ServiceBus/namespaces/AuthorizationRules@2024-01-01' = {
   name: authorizationRuleName
   dependsOn: [
     serviceBusNamespace
@@ -60,7 +64,7 @@ resource authorizationRule 'Microsoft.ServiceBus/namespaces/AuthorizationRules@2
   }
 }
 
-resource sasAuthorizationRule 'Microsoft.ServiceBus/namespaces/AuthorizationRules@2022-10-01-preview' = {
+resource sasAuthorizationRule 'Microsoft.ServiceBus/namespaces/AuthorizationRules@2024-01-01' = {
   name: sasAuthorizationRuleName
   dependsOn: [
     serviceBusNamespace
@@ -84,7 +88,7 @@ resource roleAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
   }
 }
 
-resource testQueue 'Microsoft.ServiceBus/namespaces/queues@2022-10-01-preview' = {
+resource testQueue 'Microsoft.ServiceBus/namespaces/queues@2024-01-01' = {
   name: 'testQueue'
   properties: {
     lockDuration: 'PT5M'
@@ -102,7 +106,7 @@ resource testQueue 'Microsoft.ServiceBus/namespaces/queues@2022-10-01-preview' =
   parent: serviceBusNamespace
 }
 
-resource testQueueWithSessions 'Microsoft.ServiceBus/namespaces/queues@2017-04-01' = {
+resource testQueueWithSessions 'Microsoft.ServiceBus/namespaces/queues@2024-01-01' = {
   name: 'testQueueWithSessions'
   properties: {
     lockDuration: 'PT5M'

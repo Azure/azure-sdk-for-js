@@ -17,6 +17,7 @@ import type {
   ContentFilterDetailedResults,
   ContentFilterCompletionTextSpanResultOutput,
   ContentFilterCompletionTextSpan,
+  ErrorModel,
 } from "../../src/types/index.js";
 import type { Assistant, AssistantCreateParams } from "openai/resources/beta/assistants.mjs";
 import type {
@@ -32,7 +33,6 @@ import type {
   CreateEmbeddingResponse,
   ImagesResponse,
 } from "openai/resources/index";
-import type { ErrorModel } from "@azure-rest/core-client";
 import type {
   ChatCompletion,
   ChatCompletionMessageToolCall,
@@ -340,7 +340,8 @@ function assertTokenLogProbability(tokenLogprob: ChatCompletionTokenLogprob): vo
 function assertUsage(usage: CompletionUsage | undefined): void {
   assert.isDefined(usage);
   const castUsage = usage as CompletionUsage;
-  assert.isNumber(castUsage.completion_tokens);
+  // Some models don't return completion tokens
+  ifDefined(castUsage.completion_tokens, assert.isNumber);
   assert.isNumber(castUsage.prompt_tokens);
   assert.isNumber(castUsage.total_tokens);
 }
