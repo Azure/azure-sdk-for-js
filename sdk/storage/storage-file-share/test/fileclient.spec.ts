@@ -3274,7 +3274,26 @@ describe("FileClient - NFS", () => {
     assert.ok(getResp.fileParentId);
   });
 
-  it("file mode test", async () => {
+  it.only("createSymbolicLink & getSymbolicLink", async function () {
+    const owner = "123";
+    const group = "456";
+    const expectedFileMode = parseSymbolicFileMode("rwxrwxrwx")
+    const resp = await fileClient.createSymbolicLink("APath", { owner: owner, group: group });
+    assert.deepEqual(resp.owner, owner);
+    assert.deepEqual(resp.group, group);
+    assert.deepEqual(resp.fileMode, expectedFileMode);
+    assert.deepEqual(resp.nfsFileType, "SymLink");
+    assert.ok(resp.fileCreationTime);
+    assert.ok(resp.fileLastWriteTime);
+    assert.ok(resp.fileChangeTime);
+    assert.ok(resp.fileId);
+    assert.ok(resp.fileParentId);
+
+    const getResp = await fileClient.getSymbolicLink();
+    assert.deepEqual(getResp.linkText, "APath");
+  });
+
+  it("file mode test", async function () {
     const posixProperties = {
       fileMode: parseOctalFileMode("2755"),
     };
