@@ -43,7 +43,7 @@
     "mkdirp": "^3.0.1",
     "playwright": "^1.50.1",
     "rimraf": "^5.0.0",
-    "typescript": "~5.7.2",
+    "typescript": "~5.8.2",
     "vitest": "^3.0.9"
   },
   "repository": "github:Azure/azure-sdk-for-js",
