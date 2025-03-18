@@ -19,7 +19,6 @@ import { describe, it, assert, beforeEach, afterEach } from "vitest";
 describe("Test Run Operations", () => {
   let recorder: Recorder;
   let client: AzureLoadTestingClient;
-  const SUBSCRIPTION_ID = env["SUBSCRIPTION_ID"] || "";
   const testId = "sample-sdk-testtr-20250318"; // The test that will get created
   const testRunId = "sample-sdk-testrun-20250318-2"; // The test run that will get created
 
@@ -143,6 +142,8 @@ describe("Test Run Operations", () => {
   });
 
   it("should create a app component for test run", async () => {
+    const SUBSCRIPTION_ID = env["SUBSCRIPTION_ID"] || "";
+
     const appCompResourceId = `/subscriptions/${SUBSCRIPTION_ID}/resourceGroups/contoso-sampleapp-rg/providers/Microsoft.Web/sites/contoso-sampleapp`;
     const appComponent: AppComponent = {
       resourceName: "contoso-sampleapp",
@@ -196,8 +197,8 @@ describe("Test Profile Run Operations", () => {
   let recorder: Recorder;
   let client: AzureLoadTestingClient;
   const testId = "sample-sdk-testtpr-20250319";
-  const testProfileId = "sample-sdk-testprofile-202503195";
-  const testProfileRunId = "sample-sdk-testprofilerun-202503195";
+  const testProfileId = "sample-sdk-testprofile-202503197";
+  const testProfileRunId = "sample-sdk-testprofilerun-202503197";
 
   beforeEach(async (ctx) => {
     recorder = await createRecorder(ctx);
