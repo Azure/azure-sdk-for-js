@@ -22,12 +22,21 @@ import {
   emitReportingUrl,
   populateValuesFromServiceUrl,
 } from "../../src/utils/utils.js";
-import * as EntraIdAccessTokenModule from "../../src/common/entraIdAccessToken.js";
 import * as packageManager from "../../src/utils/packageManager.js";
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import * as process from "node:process";
 import { getPlaywrightVersion } from "../../src/utils/getPlaywrightVersion.js";
 import { parseJwt } from "../../src/utils/parseJwt.js";
+import { EntraIdAccessToken } from "../../src/common/entraIdAccessToken.js";
+import { createEntraIdAccessToken } from "../../src/common/entraIdAccessToken.js";
+
+vi.mock("../../src/common/entraIdAccessToken.js", async (importActual) => {
+  const actual = await importActual<typeof import("../../src/common/entraIdAccessToken.js")>();
+  return {
+    ...actual,
+    createEntraIdAccessToken: vi.fn(),
+  };
+});
 
 vi.mock("node:process", async (importActual) => {
   const actual = await importActual<typeof import("node:process")>();
@@ -73,7 +82,7 @@ describe("Service Utils", () => {
 
   afterEach(() => {
     vi.unstubAllEnvs();
-    vi.resetAllMocks();
+    vi.restoreAllMocks();
   });
 
   it("should return access token set in env variable", () => {
@@ -300,9 +309,9 @@ describe("Service Utils", () => {
       token: tokenMock,
       doesEntraIdAccessTokenNeedRotation: vi.fn().mockReturnValue(false),
       fetchEntraIdAccessToken: vi.fn(),
-    } as any as EntraIdAccessTokenModule.EntraIdAccessToken;
+    } as any as EntraIdAccessToken;
 
-    vi.spyOn(EntraIdAccessTokenModule, "EntraIdAccessToken").mockReturnValue(entraIdAccessToken);
+    vi.mocked(createEntraIdAccessToken).mockReturnValue(entraIdAccessToken);
 
     const token = await fetchOrValidateAccessToken();
     expect(entraIdAccessToken.doesEntraIdAccessTokenNeedRotation).toHaveBeenCalled();
@@ -323,9 +332,9 @@ describe("Service Utils", () => {
       fetchEntraIdAccessToken: vi.fn().mockImplementation(() => {
         process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = newTokenMock;
       }),
-    } as any as EntraIdAccessTokenModule.EntraIdAccessToken;
+    } as any as EntraIdAccessToken;
 
-    vi.spyOn(EntraIdAccessTokenModule, "EntraIdAccessToken").mockReturnValue(entraIdAccessToken);
+    vi.mocked(createEntraIdAccessToken).mockReturnValue(entraIdAccessToken);
 
     const token = await fetchOrValidateAccessToken();
     expect(entraIdAccessToken.doesEntraIdAccessTokenNeedRotation).toHaveBeenCalled();
@@ -343,11 +352,14 @@ describe("Service Utils", () => {
     const expiry = Date.now();
     vi.mocked(parseJwt).mockReturnValue({ exp: expiry / 1000 });
     const credential = {
+      token: tokenMock,
       getToken: vi.fn().mockResolvedValue({
         token: newTokenMock,
         expiresOnTimestamp: Date.now() / 1000,
       }),
     };
+
+    vi.mocked(createEntraIdAccessToken).mockReturnValue(new EntraIdAccessToken(credential));
 
     const token = await fetchOrValidateAccessToken(credential);
 
@@ -364,9 +376,9 @@ describe("Service Utils", () => {
       token: "",
       doesEntraIdAccessTokenNeedRotation: vi.fn().mockReturnValue(false),
       fetchEntraIdAccessToken: vi.fn(),
-    } as any as EntraIdAccessTokenModule.EntraIdAccessToken;
+    } as any as EntraIdAccessToken;
 
-    vi.spyOn(EntraIdAccessTokenModule, "EntraIdAccessToken").mockReturnValue(entraIdAccessToken);
+    vi.mocked(createEntraIdAccessToken).mockReturnValue(entraIdAccessToken);
 
     const token = await fetchOrValidateAccessToken();
     expect(entraIdAccessToken.doesEntraIdAccessTokenNeedRotation).not.toHaveBeenCalled();
@@ -381,9 +393,9 @@ describe("Service Utils", () => {
     process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = "";
     const entraIdAccessToken = {
       token: "",
-    } as any as EntraIdAccessTokenModule.EntraIdAccessToken;
+    } as any as EntraIdAccessToken;
 
-    vi.spyOn(EntraIdAccessTokenModule, "EntraIdAccessToken").mockReturnValue(entraIdAccessToken);
+    vi.mocked(createEntraIdAccessToken).mockReturnValue(entraIdAccessToken);
 
     await expect(() => fetchOrValidateAccessToken()).rejects.toThrowError();
 

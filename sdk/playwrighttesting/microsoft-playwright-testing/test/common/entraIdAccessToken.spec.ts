@@ -6,9 +6,13 @@ import {
   InternalEnvironmentVariables,
   ServiceEnvironmentVariable,
 } from "../../src/common/constants.js";
-import * as utils from "../../src/utils/utils.js";
 import { EntraIdAccessToken } from "../../src/common/entraIdAccessToken.js";
 import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
+import { parseJwt } from "../../src/utils/parseJwt.js";
+
+vi.mock("../../src/utils/parseJwt.js", () => ({
+  parseJwt: vi.fn(),
+}));
 
 describe("EntraIdAccessToken", () => {
   beforeEach(() => {
@@ -25,7 +29,7 @@ describe("EntraIdAccessToken", () => {
     const expiry = Date.now();
     process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = token;
 
-    vi.spyOn(utils, "parseJwt").mockReturnValue({
+    vi.mocked(parseJwt).mockReturnValue({
       exp: expiry / 1000,
     });
     const entraIdAccessToken = new EntraIdAccessToken();
@@ -44,7 +48,7 @@ describe("EntraIdAccessToken", () => {
     const token = "token";
     process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = token;
 
-    vi.spyOn(utils, "parseJwt").mockReturnValue({
+    vi.mocked(parseJwt).mockReturnValue({
       aid: "aid",
     });
     const entraIdAccessToken = new EntraIdAccessToken();
@@ -57,7 +61,7 @@ describe("EntraIdAccessToken", () => {
     const token = "token";
     process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = token;
 
-    vi.spyOn(utils, "parseJwt").mockReturnValue({
+    vi.mocked(parseJwt).mockReturnValue({
       accountId: "accountId",
     });
     const entraIdAccessToken = new EntraIdAccessToken();
@@ -69,7 +73,7 @@ describe("EntraIdAccessToken", () => {
   it("should not set entra id access token if jwt decode throws error on object creation", () => {
     const token = "token";
     process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = token;
-    vi.spyOn(utils, "parseJwt").mockImplementation(() => {
+    vi.mocked(parseJwt).mockImplementation(() => {
       throw new Error();
     });
     const entraIdAccessToken = new EntraIdAccessToken();

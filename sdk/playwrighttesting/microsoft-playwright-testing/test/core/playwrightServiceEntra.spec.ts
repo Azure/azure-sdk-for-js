@@ -7,7 +7,6 @@ import {
   ServiceEnvironmentVariable,
 } from "../../src/common/constants.js";
 import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
-import playwrightServiceEntra from "../../src/core/playwrightServiceEntra.js";
 
 describe("playwrightServiceEntra", () => {
   beforeEach(() => {
@@ -24,6 +23,10 @@ describe("playwrightServiceEntra", () => {
   });
 
   it("should fetch entra id access token and setup rotation handler", async () => {
+    const playwrightServiceEntraModule = await import("../../src/core/playwrightServiceEntra.js");
+    const playwrightServiceEntra = playwrightServiceEntraModule.default;
+    (playwrightServiceEntra as any)._entraIdAccessTokenRotationInterval = undefined;
+
     vi.spyOn(
       (playwrightServiceEntra as any)["_entraIdAccessToken"],
       "fetchEntraIdAccessToken",
@@ -41,6 +44,9 @@ describe("playwrightServiceEntra", () => {
   });
 
   it("should throw error if entra id access token fetch fails", async () => {
+    const playwrightServiceEntraModule = await import("../../src/core/playwrightServiceEntra.js");
+    const playwrightServiceEntra = playwrightServiceEntraModule.default;
+    (playwrightServiceEntra as any)._entraIdAccessTokenRotationInterval = undefined;
     process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = "test";
 
     vi.spyOn(utils, "parseJwt").mockReturnValue({ exp: new Date().getTime() / 1000 + 10000 });
@@ -62,7 +68,11 @@ describe("playwrightServiceEntra", () => {
     ).not.toHaveBeenCalled();
   });
 
-  it("should be no-op if entra id access token rotation interval doesn't exist", () => {
+  it("should be no-op if entra id access token rotation interval doesn't exist", async () => {
+    const playwrightServiceEntraModule = await import("../../src/core/playwrightServiceEntra.js");
+    const playwrightServiceEntra = playwrightServiceEntraModule.default;
+    (playwrightServiceEntra as any)._entraIdAccessTokenRotationInterval = undefined;
+
     const clearIntervalStub = vi.spyOn(global, "clearInterval");
 
     playwrightServiceEntra.globalTeardown();
@@ -70,7 +80,11 @@ describe("playwrightServiceEntra", () => {
     expect(clearIntervalStub).not.toHaveBeenCalled();
   });
 
-  it("should clear entra id access token rotation interval", () => {
+  it("should clear entra id access token rotation interval", async () => {
+    const playwrightServiceEntraModule = await import("../../src/core/playwrightServiceEntra.js");
+    const playwrightServiceEntra = playwrightServiceEntraModule.default;
+    (playwrightServiceEntra as any)._entraIdAccessTokenRotationInterval = undefined;
+
     const intervalId = 1;
     const clearIntervalStub = vi.spyOn(global, "clearInterval");
 
@@ -80,7 +94,11 @@ describe("playwrightServiceEntra", () => {
     expect(clearIntervalStub).toHaveBeenCalledWith(intervalId);
   });
 
-  it("should setup entra id access token rotation handler", () => {
+  it("should setup entra id access token rotation handler", async () => {
+    const playwrightServiceEntraModule = await import("../../src/core/playwrightServiceEntra.js");
+    const playwrightServiceEntra = playwrightServiceEntraModule.default;
+    (playwrightServiceEntra as any)._entraIdAccessTokenRotationInterval = undefined;
+
     const newInterval = setInterval(() => {}, 100000);
     const setIntervalStub = vi.spyOn(global, "setInterval").mockImplementation(() => newInterval);
 
@@ -98,6 +116,10 @@ describe("playwrightServiceEntra", () => {
   });
 
   it("should rotate entra id access token if needed", async () => {
+    const playwrightServiceEntraModule = await import("../../src/core/playwrightServiceEntra.js");
+    const playwrightServiceEntra = playwrightServiceEntraModule.default;
+    (playwrightServiceEntra as any)._entraIdAccessTokenRotationInterval = undefined;
+
     vi.spyOn(
       (playwrightServiceEntra as any)["_entraIdAccessToken"],
       "doesEntraIdAccessTokenNeedRotation",
@@ -119,6 +141,10 @@ describe("playwrightServiceEntra", () => {
   });
 
   it("should not throw error during entra id access token rotation if fetch fails", async () => {
+    const playwrightServiceEntraModule = await import("../../src/core/playwrightServiceEntra.js");
+    const playwrightServiceEntra = playwrightServiceEntraModule.default;
+    (playwrightServiceEntra as any)._entraIdAccessTokenRotationInterval = undefined;
+
     vi.spyOn(
       (playwrightServiceEntra as any)["_entraIdAccessToken"],
       "doesEntraIdAccessTokenNeedRotation",
@@ -141,6 +167,10 @@ describe("playwrightServiceEntra", () => {
   });
 
   it("should not rotate entra id access token if not needed", async () => {
+    const playwrightServiceEntraModule = await import("../../src/core/playwrightServiceEntra.js");
+    const playwrightServiceEntra = playwrightServiceEntraModule.default;
+    (playwrightServiceEntra as any)._entraIdAccessTokenRotationInterval = undefined;
+
     vi.spyOn(
       (playwrightServiceEntra as any)["_entraIdAccessToken"],
       "doesEntraIdAccessTokenNeedRotation",

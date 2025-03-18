@@ -10,7 +10,6 @@ import {
   ServiceEnvironmentVariable,
 } from "../common/constants.js";
 import { ServiceErrorMessageConstants } from "../common/messages.js";
-import { EntraIdAccessToken } from "../common/entraIdAccessToken.js";
 import { coreLogger } from "../common/logger.js";
 import type { TokenCredential } from "@azure/identity";
 import ReporterUtils from "./reporterUtils.js";
@@ -18,6 +17,7 @@ import { CIInfoProvider } from "./cIInfoProvider.js";
 import * as process from "node:process";
 import { parseJwt } from "./parseJwt.js";
 import { getPlaywrightVersion } from "./getPlaywrightVersion.js";
+import { createEntraIdAccessToken } from "../common/entraIdAccessToken.js";
 
 // Re-exporting for backward compatibility
 export { getPlaywrightVersion } from "./getPlaywrightVersion.js";
@@ -117,7 +117,7 @@ export const warnIfAccessTokenCloseToExpiry = (): void => {
 };
 
 export const fetchOrValidateAccessToken = async (credential?: TokenCredential): Promise<string> => {
-  const entraIdAccessToken = new EntraIdAccessToken(credential);
+  const entraIdAccessToken = createEntraIdAccessToken(credential);
   if (entraIdAccessToken.token && entraIdAccessToken.doesEntraIdAccessTokenNeedRotation()) {
     await entraIdAccessToken.fetchEntraIdAccessToken();
   }
@@ -169,13 +169,6 @@ export const validatePlaywrightVersion = (): void => {
 
   const minimumSupportedVersionInfo = getVersionInfo(minimumSupportedVersion);
   const installedVersionInfo = getVersionInfo(installedVersion);
-
-  console.log(
-    `Minimum supported Playwright version: ${minimumSupportedVersionInfo.major}.${minimumSupportedVersionInfo.minor}.${minimumSupportedVersionInfo.patch}`,
-  );
-  console.log(
-    `Installed Playwright version: ${installedVersionInfo.major}.${installedVersionInfo.minor}.${installedVersionInfo.patch}`,
-  );
 
   const isInstalledVersionGreater =
     installedVersionInfo.major > minimumSupportedVersionInfo.major ||

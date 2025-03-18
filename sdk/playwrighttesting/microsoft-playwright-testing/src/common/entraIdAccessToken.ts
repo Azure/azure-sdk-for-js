@@ -10,12 +10,12 @@ import {
   ServiceEnvironmentVariable,
 } from "./constants.js";
 import type { AccessTokenClaims } from "./types.js";
-import { parseJwt } from "../utils/utils.js";
+import { parseJwt } from "../utils/parseJwt.js";
 import { ServiceErrorMessageConstants } from "./messages.js";
 
-class EntraIdAccessToken {
+export class EntraIdAccessToken {
   public token?: string;
-  private _expiryTimestamp?: number; // in milli seconds
+  private _expiryTimestamp?: number; // in milliseconds
   private _credential?: TokenCredential;
 
   constructor(credential?: TokenCredential) {
@@ -86,4 +86,6 @@ class EntraIdAccessToken {
   };
 }
 
-export { EntraIdAccessToken };
+export function createEntraIdAccessToken(credential?: TokenCredential): EntraIdAccessToken {
+  return new EntraIdAccessToken(credential);
+}
