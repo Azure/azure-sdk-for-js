@@ -1,12 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { VectorDbContext as Client, OperationsListOptionalParams } from "../index.js";
 import {
+  VectorDbContext as Client,
+  OperationsListOptionalParams,
+} from "../index.js";
+import {
+  errorResponseDeserializer,
   _OperationListResult,
   _operationListResultDeserializer,
   Operation,
 } from "../../models/models.js";
+import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
   PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
@@ -18,40 +23,52 @@ import {
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";
 
-export function _listSend(
+export function _operationsListSend(
   context: Client,
   options: OperationsListOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  return context.path("/providers/Pinecone.VectorDb/operations").get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
+  const path = expandUrlTemplate(
+    "/providers/Pinecone.VectorDb/operations{?api-version}",
+    {
+      "api-version": context.apiVersion,
     },
-    queryParameters: { "api-version": context.apiVersion },
-  });
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
-export async function _listDeserialize(
+export async function _operationsListDeserialize(
   result: PathUncheckedResponse,
 ): Promise<_OperationListResult> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
+    const error = createRestError(result);
+    error.details = errorResponseDeserializer(result.body);
+    throw error;
   }
 
   return _operationListResultDeserializer(result.body);
 }
 
 /** List the operations for the provider */
-export function list(
+export function operationsList(
   context: Client,
   options: OperationsListOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<Operation> {
   return buildPagedAsyncIterator(
     context,
-    () => _listSend(context, options),
-    _listDeserialize,
+    () => _operationsListSend(context, options),
+    _operationsListDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },
   );

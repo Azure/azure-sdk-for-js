@@ -34,6 +34,9 @@ export {
   SystemData,
   KnownCreatedByType,
   CreatedByType,
+  ErrorResponse,
+  ErrorDetail,
+  ErrorAdditionalInfo,
   OrganizationResourceUpdate,
   Operation,
   OperationDisplay,
@@ -53,5 +56,8 @@ export {
   OperationsListOptionalParams,
   VectorDbClientOptionalParams,
 } from "./api/index.js";
-export { OperationsOperations, OrganizationsOperations } from "./classic/index.js";
+export {
+  OperationsOperations,
+  OrganizationsOperations,
+} from "./classic/index.js";
 export { PageSettings, ContinuablePage, PagedAsyncIterableIterator };

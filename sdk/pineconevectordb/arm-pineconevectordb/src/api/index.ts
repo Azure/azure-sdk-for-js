@@ -15,3 +15,12 @@ export {
   VectorDbContext,
   VectorDbClientOptionalParams,
 } from "./vectorDbContext.js";
+export { operationsList } from "./operations/index.js";
+export {
+  organizationsListBySubscription,
+  organizationsListByResourceGroup,
+  organizationsDelete,
+  organizationsUpdate,
+  organizationsCreateOrUpdate,
+  organizationsGet,
+} from "./organizations/index.js";

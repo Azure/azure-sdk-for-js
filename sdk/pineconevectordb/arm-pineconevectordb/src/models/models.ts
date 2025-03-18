@@ -9,7 +9,9 @@ export interface OrganizationResource extends TrackedResource {
   identity?: ManagedServiceIdentity;
 }
 
-export function organizationResourceSerializer(item: OrganizationResource): any {
+export function organizationResourceSerializer(
+  item: OrganizationResource,
+): any {
   return {
     tags: item["tags"],
     location: item["location"],
@@ -22,7 +24,9 @@ export function organizationResourceSerializer(item: OrganizationResource): any 
   };
 }
 
-export function organizationResourceDeserializer(item: any): OrganizationResource {
+export function organizationResourceDeserializer(
+  item: any,
+): OrganizationResource {
   return {
     tags: item["tags"],
     location: item["location"],
@@ -55,7 +59,9 @@ export interface OrganizationProperties {
   singleSignOnProperties?: SingleSignOnPropertiesV2;
 }
 
-export function organizationPropertiesSerializer(item: OrganizationProperties): any {
+export function organizationPropertiesSerializer(
+  item: OrganizationProperties,
+): any {
   return {
     marketplace: marketplaceDetailsSerializer(item["marketplace"]),
     user: userDetailsSerializer(item["user"]),
@@ -68,7 +74,9 @@ export function organizationPropertiesSerializer(item: OrganizationProperties): 
   };
 }
 
-export function organizationPropertiesDeserializer(item: any): OrganizationProperties {
+export function organizationPropertiesDeserializer(
+  item: any,
+): OrganizationProperties {
   return {
     marketplace: marketplaceDetailsDeserializer(item["marketplace"]),
     user: userDetailsDeserializer(item["user"]),
@@ -85,7 +93,7 @@ export function organizationPropertiesDeserializer(item: any): OrganizationPrope
 /** Marketplace details for an organization */
 export interface MarketplaceDetails {
   /** Azure subscription id for the the marketplace offer is purchased from */
-  subscriptionId: string;
+  subscriptionId?: string;
   /** Marketplace subscription status */
   readonly subscriptionStatus?: MarketplaceSubscriptionStatus;
   /** Offer details for the marketplace that is selected by the user */
@@ -172,11 +180,11 @@ export function offerDetailsDeserializer(item: any): OfferDetails {
 /** User details for an organization */
 export interface UserDetails {
   /** First name of the user */
-  firstName: string;
+  firstName?: string;
   /** Last name of the user */
-  lastName: string;
+  lastName?: string;
   /** Email address of the user */
-  emailAddress: string;
+  emailAddress?: string;
   /** User's principal name */
   upn?: string;
   /** User's phone number */
@@ -254,7 +262,9 @@ export interface SingleSignOnPropertiesV2 {
   aadDomains?: string[];
 }
 
-export function singleSignOnPropertiesV2Serializer(item: SingleSignOnPropertiesV2): any {
+export function singleSignOnPropertiesV2Serializer(
+  item: SingleSignOnPropertiesV2,
+): any {
   return {
     type: item["type"],
     state: item["state"],
@@ -268,7 +278,9 @@ export function singleSignOnPropertiesV2Serializer(item: SingleSignOnPropertiesV
   };
 }
 
-export function singleSignOnPropertiesV2Deserializer(item: any): SingleSignOnPropertiesV2 {
+export function singleSignOnPropertiesV2Deserializer(
+  item: any,
+): SingleSignOnPropertiesV2 {
   return {
     type: item["type"],
     state: item["state"],
@@ -333,14 +345,18 @@ export interface ManagedServiceIdentity {
   userAssignedIdentities?: Record<string, UserAssignedIdentity | null>;
 }
 
-export function managedServiceIdentitySerializer(item: ManagedServiceIdentity): any {
+export function managedServiceIdentitySerializer(
+  item: ManagedServiceIdentity,
+): any {
   return {
     type: item["type"],
     userAssignedIdentities: item["userAssignedIdentities"],
   };
 }
 
-export function managedServiceIdentityDeserializer(item: any): ManagedServiceIdentity {
+export function managedServiceIdentityDeserializer(
+  item: any,
+): ManagedServiceIdentity {
   return {
     principalId: item["principalId"],
     tenantId: item["tenantId"],
@@ -375,20 +391,24 @@ export type ManagedServiceIdentityType = string;
 
 /** User assigned identity properties */
 export interface UserAssignedIdentity {
-  /** The principal ID of the assigned identity. */
-  readonly principalId?: string;
   /** The client ID of the assigned identity. */
   readonly clientId?: string;
+  /** The principal ID of the assigned identity. */
+  readonly principalId?: string;
 }
 
-export function userAssignedIdentitySerializer(item: UserAssignedIdentity): any {
+export function userAssignedIdentitySerializer(
+  item: UserAssignedIdentity,
+): any {
   return item;
 }
 
-export function userAssignedIdentityDeserializer(item: any): UserAssignedIdentity {
+export function userAssignedIdentityDeserializer(
+  item: any,
+): UserAssignedIdentity {
   return {
-    principalId: item["principalId"],
     clientId: item["clientId"],
+    principalId: item["principalId"],
   };
 }
 
@@ -464,7 +484,9 @@ export function systemDataDeserializer(item: any): SystemData {
   return {
     createdBy: item["createdBy"],
     createdByType: item["createdByType"],
-    createdAt: !item["createdAt"] ? item["createdAt"] : new Date(item["createdAt"]),
+    createdAt: !item["createdAt"]
+      ? item["createdAt"]
+      : new Date(item["createdAt"]),
     lastModifiedBy: item["lastModifiedBy"],
     lastModifiedByType: item["lastModifiedByType"],
     lastModifiedAt: !item["lastModifiedAt"]
@@ -497,6 +519,92 @@ export enum KnownCreatedByType {
  */
 export type CreatedByType = string;
 
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. */
+export interface ErrorResponse {
+  /** The error object. */
+  error?: ErrorDetail;
+}
+
+export function errorResponseDeserializer(item: any): ErrorResponse {
+  return {
+    error: !item["error"]
+      ? item["error"]
+      : errorDetailDeserializer(item["error"]),
+  };
+}
+
+/** The error detail. */
+export interface ErrorDetail {
+  /** The error code. */
+  readonly code?: string;
+  /** The error message. */
+  readonly message?: string;
+  /** The error target. */
+  readonly target?: string;
+  /** The error details. */
+  readonly details?: ErrorDetail[];
+  /** The error additional info. */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
+}
+
+export function errorDetailDeserializer(item: any): ErrorDetail {
+  return {
+    code: item["code"],
+    message: item["message"],
+    target: item["target"],
+    details: !item["details"]
+      ? item["details"]
+      : errorDetailArrayDeserializer(item["details"]),
+    additionalInfo: !item["additionalInfo"]
+      ? item["additionalInfo"]
+      : errorAdditionalInfoArrayDeserializer(item["additionalInfo"]),
+  };
+}
+
+export function errorDetailArrayDeserializer(
+  result: Array<ErrorDetail>,
+): any[] {
+  return result.map((item) => {
+    return errorDetailDeserializer(item);
+  });
+}
+
+export function errorAdditionalInfoArrayDeserializer(
+  result: Array<ErrorAdditionalInfo>,
+): any[] {
+  return result.map((item) => {
+    return errorAdditionalInfoDeserializer(item);
+  });
+}
+
+/** The resource management error additional info. */
+export interface ErrorAdditionalInfo {
+  /** The additional info type. */
+  readonly type?: string;
+  /** The additional info. */
+  readonly info?: Record<string, any>;
+}
+
+export function errorAdditionalInfoDeserializer(
+  item: any,
+): ErrorAdditionalInfo {
+  return {
+    type: item["type"],
+    info: !item["info"]
+      ? item["info"]
+      : _errorAdditionalInfoInfoDeserializer(item["info"]),
+  };
+}
+
+/** model interface _ErrorAdditionalInfoInfo */
+export interface _ErrorAdditionalInfoInfo {}
+
+export function _errorAdditionalInfoInfoDeserializer(
+  item: any,
+): _ErrorAdditionalInfoInfo {
+  return item;
+}
+
 /** The type used for update operations of the Organization Resource. */
 export interface OrganizationResourceUpdate {
   /** Resource tags. */
@@ -505,7 +613,9 @@ export interface OrganizationResourceUpdate {
   identity?: ManagedServiceIdentity;
 }
 
-export function organizationResourceUpdateSerializer(item: OrganizationResourceUpdate): any {
+export function organizationResourceUpdateSerializer(
+  item: OrganizationResourceUpdate,
+): any {
   return {
     tags: item["tags"],
     identity: !item["identity"]
@@ -531,13 +641,17 @@ export function _organizationResourceListResultDeserializer(
   };
 }
 
-export function organizationResourceArraySerializer(result: Array<OrganizationResource>): any[] {
+export function organizationResourceArraySerializer(
+  result: Array<OrganizationResource>,
+): any[] {
   return result.map((item) => {
     return organizationResourceSerializer(item);
   });
 }
 
-export function organizationResourceArrayDeserializer(result: Array<OrganizationResource>): any[] {
+export function organizationResourceArrayDeserializer(
+  result: Array<OrganizationResource>,
+): any[] {
   return result.map((item) => {
     return organizationResourceDeserializer(item);
   });
@@ -551,7 +665,9 @@ export interface _OperationListResult {
   nextLink?: string;
 }
 
-export function _operationListResultDeserializer(item: any): _OperationListResult {
+export function _operationListResultDeserializer(
+  item: any,
+): _OperationListResult {
   return {
     value: operationArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
@@ -582,7 +698,9 @@ export function operationDeserializer(item: any): Operation {
   return {
     name: item["name"],
     isDataAction: item["isDataAction"],
-    display: !item["display"] ? item["display"] : operationDisplayDeserializer(item["display"]),
+    display: !item["display"]
+      ? item["display"]
+      : operationDisplayDeserializer(item["display"]),
     origin: item["origin"],
     actionType: item["actionType"],
   };
@@ -648,5 +766,5 @@ export type ActionType = string;
 /** The available API versions. */
 export enum KnownVersions {
   /** 2024-10-22-preview version */
-  V2024_10_22_Preview = "2024-10-22-preview",
+  V20241022Preview = "2024-10-22-preview",
 }
