@@ -1188,7 +1188,7 @@ describe("ClientSideEncryption", function (this: Suite) {
     queryBuilder.addParameter(
       "@sensitive_IntFormat",
       {
-        value: testDoc.sensitive_IntFormat.toString(),
+        value: testDoc.sensitive_IntFormat,
         numberType: CosmosEncryptedNumberType.Integer,
       },
       "/sensitive_IntFormat",
@@ -2193,7 +2193,7 @@ describe("ClientSideEncryption", function (this: Suite) {
     );
     query.addParameter(
       "@sensitive_LongFormat",
-      { value: testDoc.sensitive_LongFormat, numberType: CosmosEncryptedNumberType.Float },
+      { value: testDoc.sensitive_LongFormat, numberType: CosmosEncryptedNumberType.Integer },
       "/sensitive_LongFormat",
     );
     iterator = await container.items.getEncryptionQueryIterator(query);
