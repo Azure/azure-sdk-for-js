@@ -51,6 +51,7 @@ import {
 } from "../common/encryptionTestHelpers";
 import { removeAllDatabases } from "../common/TestHelpers";
 import { assert } from "chai";
+import { CosmosEncryptedNumber } from "../../../src/encryption/CosmosEncryptedNumber";
 
 let encryptionClient: CosmosClient;
 let metadata1: EncryptionKeyWrapMetadata;
@@ -580,27 +581,28 @@ describe("ClientSideEncryption", function (this: Suite) {
         " AND c.sensitive_NestedObjectFormatL1.sensitive_NestedObjectFormatL2.sensitive_DecimalFormatL2 = @sensitive_DecimalFormatL2",
     );
     // null parameters should also work with other add methods
-    queryBuilder.addStringParameter(
+    queryBuilder.addParameter(
       "@sensitive_StringFormat",
       testDoc.sensitive_StringFormat,
       "/sensitive_StringFormat",
     );
-    queryBuilder.addNullParameter("@sensitive_ArrayFormat", "/sensitive_ArrayFormat");
-    queryBuilder.addIntegerParameter(
+    queryBuilder.addParameter("@sensitive_ArrayFormat", null, "/sensitive_ArrayFormat");
+    queryBuilder.addParameter(
       "@sensitive_IntFormat",
-      testDoc.sensitive_IntFormat,
+      new CosmosEncryptedNumber(testDoc.sensitive_IntFormat.toString()),
       "/sensitive_IntFormat",
     );
-    queryBuilder.addStringParameter(
+    queryBuilder.addParameter(
       "@sensitive_StringFormatL2",
       testDoc.sensitive_NestedObjectFormatL1.sensitive_NestedObjectFormatL2
         .sensitive_StringFormatL2,
       "/sensitive_NestedObjectFormatL1",
     );
-    queryBuilder.addFloatParameter(
+    queryBuilder.addParameter(
       "@sensitive_DecimalFormatL2",
-      testDoc.sensitive_NestedObjectFormatL1.sensitive_NestedObjectFormatL2
-        .sensitive_DecimalFormatL2,
+      new CosmosEncryptedNumber(
+        testDoc.sensitive_NestedObjectFormatL1.sensitive_NestedObjectFormatL2.sensitive_DecimalFormatL2.toString(),
+      ),
       "/sensitive_NestedObjectFormatL1",
     );
 
@@ -623,8 +625,8 @@ describe("ClientSideEncryption", function (this: Suite) {
       "select * from c where c.id = @theId and c.PK = @thePK",
     );
 
-    queryBuilder.addStringParameter("@theId", expectedDoc.id, "/id");
-    queryBuilder.addStringParameter("@thePK", expectedDoc.PK, "/PK");
+    queryBuilder.addParameter("@theId", expectedDoc.id, "/id");
+    queryBuilder.addParameter("@thePK", expectedDoc.PK, "/PK");
 
     await validateQueryResults(encryptionContainer, queryBuilder, expectedDocList);
 
@@ -666,12 +668,12 @@ describe("ClientSideEncryption", function (this: Suite) {
     queryBuilder = new EncryptionQueryBuilder(
       "SELECT * FROM c where array_contains(@sensitive_StringFormat, c.sensitive_StringFormat) AND c.sensitive_NestedObjectFormatL1 = @sensitive_NestedObjectFormatL1",
     );
-    queryBuilder.addArrayParameter(
+    queryBuilder.addParameter(
       "@sensitive_StringFormat",
       arrayOfStringValues,
       "/sensitive_StringFormat",
     );
-    queryBuilder.addObjectParameter(
+    queryBuilder.addParameter(
       "@sensitive_NestedObjectFormatL1",
       testDoc1.sensitive_NestedObjectFormatL1,
       "/sensitive_NestedObjectFormatL1",
@@ -681,14 +683,14 @@ describe("ClientSideEncryption", function (this: Suite) {
     queryBuilder = new EncryptionQueryBuilder(
       "SELECT * FROM c where c.sensitive_BoolFormat = @sensitive_BoolFormat and c.sensitive_FloatFormat = @sensitive_FloatFormat",
     );
-    queryBuilder.addBooleanParameter(
+    queryBuilder.addParameter(
       "@sensitive_BoolFormat",
       testDoc1.sensitive_BoolFormat,
       "/sensitive_BoolFormat",
     );
-    queryBuilder.addFloatParameter(
+    queryBuilder.addParameter(
       "@sensitive_FloatFormat",
-      testDoc1.sensitive_FloatFormat,
+      new CosmosEncryptedNumber(testDoc1.sensitive_FloatFormat.toString()),
       "/sensitive_FloatFormat",
     );
     await validateQueryResults(
@@ -704,10 +706,10 @@ describe("ClientSideEncryption", function (this: Suite) {
     queryBuilder = new EncryptionQueryBuilder(
       "SELECT * FROM c where c.nonsensitive = @nonsensitive and c.sensitive_IntFormat = @sensitive_IntFormat",
     );
-    queryBuilder.addStringParameter("@nonsensitive", testDoc4.nonsensitive, "/nonsensitive");
-    queryBuilder.addIntegerParameter(
+    queryBuilder.addParameter("@nonsensitive", testDoc4.nonsensitive, "/nonsensitive");
+    queryBuilder.addParameter(
       "@sensitive_IntFormat",
-      testDoc4.sensitive_IntFormat,
+      new CosmosEncryptedNumber(testDoc4.sensitive_IntFormat.toString()),
       "/sensitive_IntFormat",
     );
     await validateQueryResults(encryptionQueryContainer, queryBuilder, [testDoc4]);
@@ -1170,14 +1172,14 @@ describe("ClientSideEncryption", function (this: Suite) {
     const queryBuilder = new EncryptionQueryBuilder(
       `SELECT * FROM c where c.sensitive_StringFormat = @sensitive_StringFormat AND c.sensitive_IntFormat = @sensitive_IntFormat`,
     );
-    queryBuilder.addStringParameter(
+    queryBuilder.addParameter(
       "@sensitive_StringFormat",
       testDoc.sensitive_StringFormat,
       "/sensitive_StringFormat",
     );
-    queryBuilder.addIntegerParameter(
+    queryBuilder.addParameter(
       "@sensitive_IntFormat",
-      testDoc.sensitive_IntFormat,
+      new CosmosEncryptedNumber(testDoc.sensitive_IntFormat.toString()),
       "/sensitive_IntFormat",
     );
     const expectedDocList = [testDoc];
@@ -2033,7 +2035,7 @@ describe("ClientSideEncryption", function (this: Suite) {
       `SELECT COUNT(c.id), c.PK FROM c WHERE c.PK = @PK GROUP BY c.PK`,
     );
 
-    query.addStringParameter("@PK", partitionKey, "/PK");
+    query.addParameter("@PK", partitionKey, "/PK");
     let iterator = await encryptionContainer.items.getEncryptionQueryIterator(query);
     while (iterator.hasMoreResults()) {
       const response = await iterator.fetchNext();
@@ -2044,9 +2046,9 @@ describe("ClientSideEncryption", function (this: Suite) {
       "SELECT COUNT(c.id), c.sensitive_IntFormat FROM c WHERE c.sensitive_IntFormat = @Sensitive_IntFormat GROUP BY c.sensitive_IntFormat",
     );
 
-    withEncryptedParameter.addIntegerParameter(
+    withEncryptedParameter.addParameter(
       "@Sensitive_IntFormat",
-      testDoc1.sensitive_IntFormat,
+      new CosmosEncryptedNumber(testDoc1.sensitive_IntFormat.toString()),
       "/sensitive_IntFormat",
     );
 
@@ -2165,7 +2167,7 @@ describe("ClientSideEncryption", function (this: Suite) {
     query = new EncryptionQueryBuilder(
       "SELECT * FROM c WHERE c.sensitive_StringFormat= @sensitive_StringFormat",
     );
-    query.addStringParameter(
+    query.addParameter(
       "@sensitive_StringFormat",
       testDoc.sensitive_StringFormat,
       "/sensitive_StringFormat",
@@ -2178,9 +2180,9 @@ describe("ClientSideEncryption", function (this: Suite) {
     query = new EncryptionQueryBuilder(
       "SELECT * FROM c WHERE c.sensitive_LongFormat= @sensitive_LongFormat",
     );
-    query.addIntegerParameter(
+    query.addParameter(
       "@sensitive_LongFormat",
-      testDoc.sensitive_LongFormat,
+      new CosmosEncryptedNumber(testDoc.sensitive_LongFormat.toString()),
       "/sensitive_LongFormat",
     );
     iterator = await container.items.getEncryptionQueryIterator(query);
@@ -2191,7 +2193,7 @@ describe("ClientSideEncryption", function (this: Suite) {
     query = new EncryptionQueryBuilder(
       "SELECT * FROM c WHERE c.sensitive_NestedObjectFormatL1= @sensitive_NestedObjectFormatL1",
     );
-    query.addObjectParameter(
+    query.addParameter(
       "@sensitive_NestedObjectFormatL1",
       testDoc.sensitive_NestedObjectFormatL1,
       "/sensitive_NestedObjectFormatL1",
