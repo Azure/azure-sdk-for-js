@@ -1,12 +1,18 @@
 # Release History
 
-## 1.0.0-beta.3 (Unreleased)
+## 1.0.0-beta.3 (2025-03-18)
 
 ### Features Added
+
+- Adding azure functions and openai tool support
+- Upgrading core-lro package
 
 ### Breaking Changes
 
 ### Bugs Fixed
+
+- Addresses issue in search tool deserialization step during streaming.
+- Addresses issue running samples
 
 ### Other Changes
 
