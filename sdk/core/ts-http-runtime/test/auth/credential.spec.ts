@@ -9,7 +9,6 @@ import {
   isBearerTokenCredential,
   isOAuth2TokenCredential,
 } from "../../src/auth/credentials.js";
-import type { OAuth2FlowType } from "../../src/index.js";
 
 const fakeApiKeyCredential: AuthCredential = {
   key: "fakeKey",
@@ -22,9 +21,8 @@ const fakeBearerTokenCredential: AuthCredential = {
   getBearerToken: async () => "fakeBearerToken",
 };
 const fakeOAuth2TokenCredential: AuthCredential = {
-  getOAuth2Token: async (
-    _flows: [{ type: OAuth2FlowType.Implicit; authorizationUrl: "example.com" }],
-  ) => "fakeOAuth2Token",
+  getOAuth2Token: async (_flows: [{ type: "implicit"; authorizationUrl: "example.com" }]) =>
+    "fakeOAuth2Token",
 };
 
 describe("isApiKeyCredential", function () {
