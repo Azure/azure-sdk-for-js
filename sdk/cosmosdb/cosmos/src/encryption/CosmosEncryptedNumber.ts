@@ -17,10 +17,24 @@ export enum CosmosEncryptedNumberType {
 
 /**
  * This interface represents an encrypted number in the Cosmos DB SDK.
+ *
  * @example
- * const encryptedNumber1 : CosmosEncryptedNumber = { value: 4, numberType: CosmosEncryptedNumberType.Integer };
- * const encryptedNumber2 : CosmosEncryptedNumber = { value: 4.1, numberType: CosmosEncryptedNumberType.Float };
- * const encryptedNumber3 : CosmosEncryptedNumber = { value: 4, numberType: CosmosEncryptedNumberType.Float }; // represents 4.0
+ * ```ts
+ * const encryptedNumber1: CosmosEncryptedNumber = {
+ *   value: 4,
+ *   numberType: CosmosEncryptedNumberType.Integer
+ * };
+ *
+ * const encryptedNumber2: CosmosEncryptedNumber = {
+ *   value: 4.1,
+ *   numberType: CosmosEncryptedNumberType.Float
+ * };
+ *
+ * const encryptedNumber3: CosmosEncryptedNumber = {
+ *   value: 4,
+ *   numberType: CosmosEncryptedNumberType.Float // represents 4.0
+ * };
+ * ```
  */
 export interface CosmosEncryptedNumber {
   /**
