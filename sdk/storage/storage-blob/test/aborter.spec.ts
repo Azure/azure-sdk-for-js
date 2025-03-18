@@ -3,7 +3,7 @@
 
 import type { ContainerClient } from "../src/index.js";
 import { getBSU, getUniqueName, recorderEnvSetup, uriSanitizers } from "./utils/index.js";
-import { Recorder } from "@azure-tools/test-recorder";
+import { isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("Aborter", () => {
@@ -30,7 +30,17 @@ describe("Aborter", () => {
       await containerClient.create({ abortSignal: AbortSignal.timeout(1) });
       assert.fail();
     } catch (err: any) {
-      assert.equal(err.name, "AbortError");
+      if (!isPlaybackMode()) {
+        assert.equal(err.name, "AbortError");
+      } else {
+        // Race condition in playback mode:
+        // During playback, the test recorder attempts to replay recorded responses but won't find matching entries
+        // for aborted requests as the recording is empty.
+        // In this case, two possible exceptions can occur: either the AbortController's timeout
+        // triggers first (AbortError) or the recorder fails to find matching entries first (RecorderError).
+        // We need to handle both possible outcomes to prevent test flakiness.
+        assert.include(["RecorderError", "AbortError"], err.name);
+      }
     }
   });
 
