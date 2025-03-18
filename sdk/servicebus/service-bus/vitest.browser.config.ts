@@ -5,6 +5,8 @@ import { defineConfig, mergeConfig } from "vitest/config";
 import viteConfig from "../../../vitest.browser.shared.config.ts";
 import browserMap from "@azure-tools/vite-plugin-browser-test-map";
 import inject from "@rollup/plugin-inject";
+import { fileURLToPath } from "url";
+import path from "path";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
