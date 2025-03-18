@@ -95,7 +95,7 @@ export function getPropertyFromVSCode(property: string): string | undefined {
  * work with [Azure Account extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode.azure-account)
  * versions newer than **0.9.11**. A long-term fix to this problem is in progress. In the meantime, consider
  * authenticating with {@link AzureCliCredential}.
- * 
+ *
  * @deprecated VisualStudioCodeCredential is deprecated.
  */
 export class VisualStudioCodeCredential implements TokenCredential {
