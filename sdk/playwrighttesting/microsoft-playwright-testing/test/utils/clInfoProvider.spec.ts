@@ -2,24 +2,30 @@
 // Licensed under the MIT License.
 
 import { CIInfoProvider, CI_PROVIDERS } from "../../src/utils/cIInfoProvider.js";
-import { describe, it, expect, afterEach, vi } from "vitest";
+import { describe, it, expect, afterEach, beforeEach } from "vitest";
 
 describe("CIInfoProvider", () => {
+  const environmentVariables = process.env;
+
+  beforeEach(() => {
+    process.env = {};
+  });
+
   afterEach(() => {
-    vi.unstubAllEnvs();
+    process.env = { ...environmentVariables };
   });
 
   it("should return GitHub CIInfo when  GitHub environment variables are set", () => {
-    vi.stubEnv("GITHUB_ACTIONS", "true");
-    vi.stubEnv("GITHUB_REPOSITORY_ID", "repoID");
-    vi.stubEnv("GITHUB_REPOSITORY", "repo");
-    vi.stubEnv("GITHUB_ACTOR", "testAuthor");
-    vi.stubEnv("GITHUB_SHA", "sampleSha");
-    vi.stubEnv("GITHUB_SERVER_URL", "https://github.com");
-    vi.stubEnv("GITHUB_RUN_ID", "runId123");
-    vi.stubEnv("GITHUB_RUN_ATTEMPT", "1");
-    vi.stubEnv("GITHUB_JOB", "testJob");
-    vi.stubEnv("GITHUB_REF_NAME", "main");
+    process.env["GITHUB_ACTIONS"] = "true";
+    process.env["GITHUB_REPOSITORY_ID"] = "repoID";
+    process.env["GITHUB_REPOSITORY"] = "repo";
+    process.env["GITHUB_ACTOR"] = "testAuthor";
+    process.env["GITHUB_SHA"] = "sampleSha";
+    process.env["GITHUB_SERVER_URL"] = "https://github.com";
+    process.env["GITHUB_RUN_ID"] = "runId123";
+    process.env["GITHUB_RUN_ATTEMPT"] = "1";
+    process.env["GITHUB_JOB"] = "testJob";
+    process.env["GITHUB_REF_NAME"] = "main";
 
     const ciInfo = CIInfoProvider.getCIInfo();
 
@@ -35,7 +41,7 @@ describe("CIInfoProvider", () => {
   });
 
   it("should return GitHub CIInfo with null fields when Github environment variables are not set", () => {
-    vi.stubEnv("GITHUB_ACTIONS", "true");
+    process.env["GITHUB_ACTIONS"] = "true";
 
     const ciInfo = CIInfoProvider.getCIInfo();
 
@@ -51,22 +57,22 @@ describe("CIInfoProvider", () => {
   });
 
   it("should return Azure DevOps CIInfo when Azure DevOps environment variables are set", () => {
-    vi.stubEnv("AZURE_HTTP_USER_AGENT", "someAgent");
-    vi.stubEnv("TF_BUILD", "true");
-    vi.stubEnv("BUILD_REPOSITORY_ID", "repo123");
-    vi.stubEnv("BUILD_SOURCEBRANCH", "refs/head/main");
-    vi.stubEnv("BUILD_SOURCEBRANCHNAME", "main");
-    vi.stubEnv("BUILD_REQUESTEDFOR", "testAuthor");
-    vi.stubEnv("BUILD_SOURCEVERSION", "commitSha123");
-    vi.stubEnv("SYSTEM_TEAMFOUNDATIONCOLLECTIONURI", "https://dev.azure.com/");
-    vi.stubEnv("SYSTEM_TEAMPROJECT", "project123");
-    vi.stubEnv("BUILD_REPOSITORY_NAME", "repo123");
-    vi.stubEnv("SYSTEM_JOBID", "job123");
-    vi.stubEnv("SYSTEM_DEFINITIONID", "def123");
-    vi.stubEnv("SYSTEM_JOBATTEMPT", "1");
-    vi.stubEnv("RELEASE_DEFINITIONID", "Rdef123");
-    vi.stubEnv("SYSTEM_JOBDISPLAYNAME", "jobName123");
-    vi.stubEnv("RELEASE_DEPLOYMENTID", "Rdep123");
+    process.env["AZURE_HTTP_USER_AGENT"] = "someAgent";
+    process.env["TF_BUILD"] = "true";
+    process.env["BUILD_REPOSITORY_ID"] = "repo123";
+    process.env["BUILD_SOURCEBRANCH"] = "refs/head/main";
+    process.env["BUILD_SOURCEBRANCHNAME"] = "main";
+    process.env["BUILD_REQUESTEDFOR"] = "testAuthor";
+    process.env["BUILD_SOURCEVERSION"] = "commitSha123";
+    process.env["SYSTEM_TEAMFOUNDATIONCOLLECTIONURI"] = "https://dev.azure.com/";
+    process.env["SYSTEM_TEAMPROJECT"] = "project123";
+    process.env["BUILD_REPOSITORY_NAME"] = "repo123";
+    process.env["SYSTEM_JOBID"] = "job123";
+    process.env["SYSTEM_DEFINITIONID"] = "def123";
+    process.env["SYSTEM_JOBATTEMPT"] = "1";
+    process.env["RELEASE_DEFINITIONID"] = "Rdef123";
+    process.env["SYSTEM_JOBDISPLAYNAME"] = "jobName123";
+    process.env["RELEASE_DEPLOYMENTID"] = "Rdep123";
 
     const ciInfo = CIInfoProvider.getCIInfo();
 
@@ -83,21 +89,21 @@ describe("CIInfoProvider", () => {
   });
 
   it("should return Azure DevOps CIInfo when Azure DevOps environment variables are set (SYSTEM_JOBDISPLAYNAME not set)", () => {
-    vi.stubEnv("AZURE_HTTP_USER_AGENT", "someAgent");
-    vi.stubEnv("TF_BUILD", "true");
-    vi.stubEnv("BUILD_REPOSITORY_ID", "repo123");
-    vi.stubEnv("BUILD_SOURCEBRANCH", "refs/head/main");
-    vi.stubEnv("BUILD_SOURCEBRANCHNAME", "main");
-    vi.stubEnv("BUILD_REQUESTEDFOR", "testAuthor");
-    vi.stubEnv("BUILD_SOURCEVERSION", "commitSha123");
-    vi.stubEnv("SYSTEM_TEAMFOUNDATIONCOLLECTIONURI", "https://dev.azure.com/");
-    vi.stubEnv("SYSTEM_TEAMPROJECT", "project123");
-    vi.stubEnv("BUILD_REPOSITORY_NAME", "repo123");
-    vi.stubEnv("SYSTEM_JOBID", "job123");
-    vi.stubEnv("SYSTEM_DEFINITIONID", "def123");
-    vi.stubEnv("SYSTEM_JOBATTEMPT", "1");
-    vi.stubEnv("RELEASE_DEFINITIONID", "Rdef123");
-    vi.stubEnv("RELEASE_DEPLOYMENTID", "Rdep123");
+    process.env["AZURE_HTTP_USER_AGENT"] = "someAgent";
+    process.env["TF_BUILD"] = "true";
+    process.env["BUILD_REPOSITORY_ID"] = "repo123";
+    process.env["BUILD_SOURCEBRANCH"] = "refs/head/main";
+    process.env["BUILD_SOURCEBRANCHNAME"] = "main";
+    process.env["BUILD_REQUESTEDFOR"] = "testAuthor";
+    process.env["BUILD_SOURCEVERSION"] = "commitSha123";
+    process.env["SYSTEM_TEAMFOUNDATIONCOLLECTIONURI"] = "https://dev.azure.com/";
+    process.env["SYSTEM_TEAMPROJECT"] = "project123";
+    process.env["BUILD_REPOSITORY_NAME"] = "repo123";
+    process.env["SYSTEM_JOBID"] = "job123";
+    process.env["SYSTEM_DEFINITIONID"] = "def123";
+    process.env["SYSTEM_JOBATTEMPT"] = "1";
+    process.env["RELEASE_DEFINITIONID"] = "Rdef123";
+    process.env["RELEASE_DEPLOYMENTID"] = "Rdep123";
 
     const ciInfo = CIInfoProvider.getCIInfo();
 
@@ -114,8 +120,8 @@ describe("CIInfoProvider", () => {
   });
 
   it("should return Azure DevOps CIInfo with null fields when Azure DevOps environment variables are not set", () => {
-    vi.stubEnv("AZURE_HTTP_USER_AGENT", "someAgent");
-    vi.stubEnv("TF_BUILD", "true");
+    process.env["AZURE_HTTP_USER_AGENT"] = "someAgent";
+    process.env["TF_BUILD"] = "true";
 
     const ciInfo = CIInfoProvider.getCIInfo();
 
@@ -130,14 +136,14 @@ describe("CIInfoProvider", () => {
   });
 
   it("should return default CIInfo when no supported CI environment is detected", () => {
-    vi.stubEnv("REPO", "defaultRepo");
-    vi.stubEnv("BRANCH", "defaultBranch");
-    vi.stubEnv("AUTHOR", "defaultAuthor");
-    vi.stubEnv("COMMIT_ID", "defaultCommit");
-    vi.stubEnv("REVISION_URL", "https://default.com/repo/commit/defaultCommit");
-    vi.stubEnv("RUN_ID", "defaultRunId");
-    vi.stubEnv("RUN_ATTEMPT", "2");
-    vi.stubEnv("JOB_ID", "defaultJobId");
+    process.env["REPO"] = "defaultRepo";
+    process.env["BRANCH"] = "defaultBranch";
+    process.env["AUTHOR"] = "defaultAuthor";
+    process.env["COMMIT_ID"] = "defaultCommit";
+    process.env["REVISION_URL"] = "https://default.com/repo/commit/defaultCommit";
+    process.env["RUN_ID"] = "defaultRunId";
+    process.env["RUN_ATTEMPT"] = "2";
+    process.env["JOB_ID"] = "defaultJobId";
 
     const ciInfo = CIInfoProvider.getCIInfo();
 
