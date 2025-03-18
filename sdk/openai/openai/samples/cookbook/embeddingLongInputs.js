@@ -24,7 +24,7 @@ const { AzureOpenAI } = require("openai");
 const { getBearerTokenProvider, DefaultAzureCredential } = require("@azure/identity");
 
 // Load the .env file if it exists
-require("dotenv").config();
+require("dotenv/config");
 
 const deployment = "text-embedding-ada-002";
 
@@ -35,7 +35,7 @@ const scope = "https://cognitiveservices.azure.com/.default";
 const azureADTokenProvider = getBearerTokenProvider(new DefaultAzureCredential(), scope);
 
 // Set the AZURE_OPENAI_ENDPOINT environment variable to the Azure OpenAI endpoint
-const client = new AzureOpenAI({ azureADTokenProvider, apiVersion: "2024-11-01-preview" });
+const client = new AzureOpenAI({ azureADTokenProvider, apiVersion: "2025-01-01-preview" });
 
 async function getEmbeddings(text, model = deployment) {
   const res = await client.embeddings.create({ input: text, model });
@@ -108,7 +108,7 @@ Using the following chunking function, we can break up our long text into chunks
 function* batched(arr, size) {
   if (size <= 0) throw new Error("size must be at least one");
   for (let i = 0; i < arr.length;) {
-    yield arr.slice(i, i+=size);
+    yield arr.slice(i, i += size);
   }
 }
 
