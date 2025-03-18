@@ -19,7 +19,7 @@ import {
   CapacityReservationGroupsDeleteOptionalParams,
   CapacityReservationGroupsGetOptionalParams,
   CapacityReservationGroupsGetResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a CapacityReservationGroups. */

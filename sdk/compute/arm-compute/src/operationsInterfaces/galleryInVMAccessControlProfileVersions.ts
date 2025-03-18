@@ -20,7 +20,7 @@ import {
   GalleryInVMAccessControlProfileVersionsGetResponse,
   GalleryInVMAccessControlProfileVersionsDeleteOptionalParams,
   GalleryInVMAccessControlProfileVersionsDeleteResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a GalleryInVMAccessControlProfileVersions. */

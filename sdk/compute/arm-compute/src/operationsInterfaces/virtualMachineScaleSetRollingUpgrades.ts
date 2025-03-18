@@ -13,7 +13,7 @@ import {
   VirtualMachineScaleSetRollingUpgradesStartExtensionUpgradeOptionalParams,
   VirtualMachineScaleSetRollingUpgradesGetLatestOptionalParams,
   VirtualMachineScaleSetRollingUpgradesGetLatestResponse,
-} from "../models/index.js";
+} from "../models";
 
 /** Interface representing a VirtualMachineScaleSetRollingUpgrades. */
 export interface VirtualMachineScaleSetRollingUpgrades {

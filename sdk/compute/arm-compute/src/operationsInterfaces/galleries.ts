@@ -20,7 +20,7 @@ import {
   GalleriesGetOptionalParams,
   GalleriesGetResponse,
   GalleriesDeleteOptionalParams,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Galleries. */

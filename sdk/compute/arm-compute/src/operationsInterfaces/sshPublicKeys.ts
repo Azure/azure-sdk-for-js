@@ -21,7 +21,7 @@ import {
   SshPublicKeysGetResponse,
   SshPublicKeysGenerateKeyPairOptionalParams,
   SshPublicKeysGenerateKeyPairResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a SshPublicKeys. */

@@ -11,7 +11,7 @@ import {
   SharingUpdate,
   GallerySharingProfileUpdateOptionalParams,
   GallerySharingProfileUpdateResponse,
-} from "../models/index.js";
+} from "../models";
 
 /** Interface representing a GallerySharingProfile. */
 export interface GallerySharingProfile {
