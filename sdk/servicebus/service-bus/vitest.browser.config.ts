@@ -6,6 +6,9 @@ import viteConfig from "../../../vitest.browser.shared.config.ts";
 import browserMap from "@azure-tools/vite-plugin-browser-test-map";
 import inject from "@rollup/plugin-inject";
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 const config = mergeConfig(
   viteConfig,
   defineConfig({
@@ -21,6 +24,7 @@ const config = mergeConfig(
     ],
     test: {
       fileParallelism: false,
+      globalSetup: [path.resolve(__dirname, "test/utils/setup.ts")],
       include: ["dist-test/browser/test/**/*.spec.js"],
       testTimeout: 1200000,
       hookTimeout: 1200000,
