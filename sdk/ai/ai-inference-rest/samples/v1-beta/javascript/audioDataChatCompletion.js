@@ -4,6 +4,7 @@
 /**
  * Demonstrates how to get chat completions using audio data.
  * NOTE: Audio data completions currently work only with GPT audio models.
+ * For more information, see https://learn.microsoft.com/en-us/azure/ai-foundry/model-inference/concepts/models
  *
  * @summary Get chat completions using Audio data.
  */
@@ -72,7 +73,9 @@ function createModelClient() {
   // auth scope for MaaS and MaaP is currently https://ml.azure.com
   // (Do not use for Serverless API or Managed Computer Endpoints)
   if (key) {
-    return ModelClient(endpoint, new AzureKeyCredential(key));
+    return ModelClient(endpoint, new AzureKeyCredential(key), {
+      apiVersion: "2025-01-01-preview",
+    });
   } else {
     const scopes = [];
     if (endpoint.includes(".models.ai.azure.com")) {
@@ -81,7 +84,7 @@ function createModelClient() {
       scopes.push("https://cognitiveservices.azure.com");
     }
 
-    const clientOptions = { credentials: { scopes } };
+    const clientOptions = { apiVersion: "2025-01-01-preview", credentials: { scopes } };
     return ModelClient(endpoint, new DefaultAzureCredential(), clientOptions);
   }
 }
