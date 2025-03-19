@@ -53,6 +53,7 @@ import type {
   SessionCreatedEvent,
 } from "openai/resources/beta/realtime/realtime.mjs";
 import type { Session } from "openai/resources/beta/realtime/sessions.mjs";
+import { ParsedResponseFunctionToolCall, ParsedResponseOutputItem, ParsedResponseOutputMessage, ResponseComputerToolCall, ResponseFileSearchToolCall, ResponseFunctionWebSearch, ResponseReasoningItem } from "openai/resources/responses/responses.mjs";
 
 export function assertAudioResult(responseFormat: AudioResultFormat, result: Transcription): void {
   switch (responseFormat) {
@@ -307,8 +308,7 @@ async function assertAsyncIterable<T>(
       validate(item);
     } catch (e: any) {
       throw new Error(
-        `Error validating item:\n ${JSON.stringify(item, undefined, 2)}\n\n${
-          e.message
+        `Error validating item:\n ${JSON.stringify(item, undefined, 2)}\n\n${e.message
         }.\n\nPrevious items:\n\n${items
           .map((x) => JSON.stringify(x, undefined, 2))
           .join("\n")}\n\n Stack trace: ${e.stack}`,
@@ -354,7 +354,7 @@ function assertIf<T>(condition: boolean, val: T, check: (x: T) => void): void {
   }
 }
 
-function ifDefined<T>(
+export function ifDefined<T>(
   val: T | undefined | null,
   validate: (x: T) => void,
   { defined }: { defined?: boolean } = {},
@@ -651,6 +651,89 @@ function assertTurnDetection(turnDetection: Session.TurnDetection): void {
   ifDefined(turnDetection.silence_duration_ms, assert.isNumber);
   ifDefined(turnDetection.threshold, assert.isNumber);
   ifDefined(turnDetection.type, (type) => assert.equal(type, "server_vad"));
+}
+// TODO
+export function assertParsedResponseOutput<ParsedT>(result: { output: ParsedResponseOutputItem<ParsedT>[] }): void {
+  assert.isDefined(result.output);
+  assert.isArray(result.output);
+  result.output.forEach((item) => assertParsedResponseOutputItem(item));
+}
+
+function assertParsedResponseOutputItem<ParsedT>(item: ParsedResponseOutputItem<ParsedT>): void {
+  assert.isDefined(item.type);
+  switch (item.type) {
+    case "message":
+      assertParsedResponseOutputMessage(item);
+      break;
+    case "function_call":
+      assertParsedResponseFunctionToolCall(item);
+      break;
+    case "file_search_call":
+      assertResponseFileSearchToolCall(item);
+      break;
+    case "web_search_call":
+      assertResponseFunctionWebSearch(item);
+      break;
+    case "computer_call":
+      assertResponseComputerToolCall(item);
+      break;
+    case "reasoning":
+      assertResponseReasoningItem(item);
+      break;
+    default:
+      throw new Error(`Unknown response output item type: ${(item as any).type}`);
+  }
+}
+
+function assertParsedResponseOutputMessage<ParsedT>(item: ParsedResponseOutputMessage<ParsedT>): void {
+  assert.equal(item.type, "message");
+  assert.isDefined(item.content);
+  // Removed reference to 'parsed' as it does not exist on the type
+  ifDefined(item.content, (content) => {
+    // Verify content exists
+    assert.isDefined(content);
+  });
+}
+
+function assertParsedResponseFunctionToolCall(item: ParsedResponseFunctionToolCall): void {
+  assert.equal(item.type, "function_call");
+  assert.isDefined(item.name);
+  assert.isDefined(item.arguments);
+  assert.isDefined(item.parsed_arguments);
+}
+
+function assertResponseFileSearchToolCall(item: ResponseFileSearchToolCall): void {
+  assert.equal(item.type, "file_search_call");
+  assert.isDefined(item.queries);
+  assert.isArray(item.queries);
+  ifDefined(item.results, (results) => {
+    assert.isArray(results);
+    results.forEach((result) => {
+      ifDefined(result.file_id, assert.isString);
+      ifDefined(result.text, assert.isString);
+    });
+  });
+}
+
+function assertResponseFunctionWebSearch(item: ResponseFunctionWebSearch): void {
+  assert.equal(item.type, "web_search_call");
+  assert.isDefined(item.status);
+}
+
+function assertResponseComputerToolCall(item: ResponseComputerToolCall): void {
+  assert.equal(item.type, "computer_call");
+  assert.isDefined(item.action);
+  assert.isDefined(item.call_id);
+  assert.isArray(item.pending_safety_checks);
+}
+
+function assertResponseReasoningItem(item: ResponseReasoningItem): void {
+  assert.equal(item.type, "reasoning");
+  assert.isArray(item.summary);
+  item.summary.forEach(summary => {
+    assert.equal(summary.type, "summary_text");
+    assert.isString(summary.text);
+  });
 }
 
 interface CompletionTestOptions {
