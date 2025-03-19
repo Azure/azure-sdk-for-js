@@ -50,8 +50,8 @@
     "tslib": "^2.8.1"
   },
   "devDependencies": {
-    "@azure-tools/test-utils-vitest": "^1.0.0",
     "@azure/dev-tool": "^1.0.0",
+    "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@types/node": "^18.0.0",
     "eslint": "^9.9.0",
     "typescript": "~5.8.2"
@@ -60,14 +60,14 @@
     "build": "npm run clean && dev-tool run build-package",
     "build:samples": "echo skipped",
     "build:test": "echo skipped",
-    "check-format": "dev-tool run vendored prettier --list-different --config ../../../../.prettierrc.json --ignore-path ../../../../.prettierignore \"src/**/*.ts\" \"*.{js,json}\"",
+    "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../../.prettierignore \"src/**/*.ts\" \"*.{js,json}\"",
     "clean": "dev-tool run vendored rimraf --glob dist dist-esm test-dist types *.tgz *.log",
-    "format": "dev-tool run vendored prettier --write --config ../../../../.prettierrc.json --ignore-path ../../../../.prettierignore \"src/**/*.ts\" \"*.{js,json}\"",
+    "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../../.prettierignore \"src/**/*.ts\" \"*.{js,json}\"",
     "integration-test": "echo skipped",
     "integration-test:browser": "echo skipped",
     "integration-test:node": "echo skipped",
-    "lint": "dev-tool run vendored eslint -c ../../../../common/tools/eslint-plugin-azure-sdk/eslint.perftests.config.mjs src",
-    "lint:fix": "dev-tool run vendored eslint -c ../../../../common/tools/eslint-plugin-azure-sdk/eslint.perftests.config.mjs src --fix --fix-type [problem,suggestion]",
+    "lint": "dev-tool run vendored eslint -c ../../../common/tools/eslint-plugin-azure-sdk/eslint.perftests.config.mjs src",
+    "lint:fix": "dev-tool run vendored eslint -c ../../../common/tools/eslint-plugin-azure-sdk/eslint.perftests.config.mjs src --fix --fix-type [problem,suggestion]",
     "pack": "npm pack 2>&1",
     "perf-test:node": "npm run build && node dist/esm/index.js",
     "test": "echo skipped",
