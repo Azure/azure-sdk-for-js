@@ -140,7 +140,7 @@ export async function main(): Promise<void> {
   if (fileContent) {
     const chunks: Buffer[] = [];
     for await (const chunk of fileContent) {
-      chunks.push(Buffer.from(chunk));
+      chunks.push(Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk));
     }
     const buffer = Buffer.concat(chunks);
     fs.writeFileSync(imageFileName, buffer);

@@ -7,7 +7,6 @@
  * @summary demonstrates how to create the batch vector store with the list of files using polling operation.
  */
 
-import type { VectorStoreFileBatchOutput } from "@azure/ai-projects";
 import { AIProjectsClient } from "@azure/ai-projects";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";

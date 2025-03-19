@@ -7,7 +7,6 @@
  * @summary demonstrates how to create the vector store using polling operation.
  */
 
-import type { VectorStoreOutput } from "@azure/ai-projects";
 import { AIProjectsClient } from "@azure/ai-projects";
 import { DefaultAzureCredential } from "@azure/identity";
 

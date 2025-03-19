@@ -7,7 +7,6 @@
  * @summary demonstrates how to upload a file and poll for its status.
  */
 
-import type { OpenAIFileOutput } from "@azure/ai-projects";
 import { AIProjectsClient } from "@azure/ai-projects";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
