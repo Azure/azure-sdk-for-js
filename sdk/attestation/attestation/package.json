@@ -88,15 +88,15 @@
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure/identity": "^4.5.0",
     "@types/node": "^18.0.0",
-    "@vitest/browser": "^3.0.3",
-    "@vitest/coverage-istanbul": "^3.0.3",
+    "@vitest/browser": "^3.0.9",
+    "@vitest/coverage-istanbul": "^3.0.9",
     "buffer": "^6.0.0",
     "dotenv": "^16.0.0",
     "eslint": "^9.9.0",
     "playwright": "^1.48.1",
     "safe-buffer": "^5.2.1",
-    "typescript": "~5.7.2",
-    "vitest": "^3.0.3"
+    "typescript": "~5.8.2",
+    "vitest": "^3.0.9"
   },
   "//sampleConfiguration": {
     "skipFolder": false,

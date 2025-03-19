@@ -1,8 +1,10 @@
-# App Configuration client library for JavaScript
+# Azure App Configuration client library for JavaScript
 
 [Azure App Configuration](https://learn.microsoft.com/azure/azure-app-configuration/overview) is a managed service that helps developers centralize their application and feature settings simply and securely.
 
-Use the client library for App Configuration to:
+For applications that **only need to read configuration values**, we suggest using the [*`@azure/app-configuration-provider`*](https://www.npmjs.com/package/@azure/app-configuration-provider) library instead.
+
+Use *@azure/app-configuration* (this library) to:
 
 - Create flexible key representations and mappings
 - Tag keys with labels

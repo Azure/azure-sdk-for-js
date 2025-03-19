@@ -10,7 +10,7 @@ import { basename, dirname, resolve } from "node:path";
 import { run } from "../../util/run";
 import stripJsonComments from "strip-json-comments";
 import { codemods } from "../../util/admin/migrate-package/codemods";
-import { existsSync } from "node:fs";
+import { existsSync, readdirSync } from "node:fs";
 import { isWindows } from "../../util/platform";
 
 const log = createPrinter("migrate-package");
@@ -315,10 +315,15 @@ async function upgradePackageJson(
   // Set files
   setFilesSection(packageJson);
 
+  const testDirectoryPath = resolve(projectFolder, "test");
+  const emptyTestDirectory =
+    !existsSync(testDirectoryPath) || readdirSync(testDirectoryPath).length === 0;
+
   // Set scripts
   setScriptsSection(packageJson.scripts, {
     ...options,
     isArm: packageJson.name.includes("@azure/arm-"),
+    formatTests: !emptyTestDirectory,
   });
 
   // Rename files and rewrite browser field
@@ -338,7 +343,7 @@ async function upgradePackageJson(
 
 function setScriptsSection(
   scripts: PackageJson["scripts"],
-  options: { browser: boolean; isArm: boolean },
+  options: { browser: boolean; isArm: boolean; formatTests: boolean },
 ): void {
   scripts["build"] = "npm run clean && dev-tool run build-package && dev-tool run extract-api";
 
@@ -352,6 +357,12 @@ function setScriptsSection(
   if (options.isArm) {
     scripts["unit-test:browser"] = "echo skipped";
     scripts["integration-test:node"] = "dev-tool run test:vitest --esm";
+  }
+
+  if (!options.formatTests) {
+    scripts["format"] = scripts["format"]
+      .replaceAll(`"test/**/*.{ts,cts,mts}" `, "")
+      .replaceAll(`"test/**/*.ts" `, "");
   }
 
   for (const script of Object.keys(scripts)) {
@@ -456,10 +467,10 @@ async function addNewPackages(packageJson: any, options: { browser: boolean }): 
   }
 
   // add workaround to fix nmet peer dependencies issue
-  packageJson.devDependencies["vitest"] = "^3.0.6";
-  packageJson.devDependencies["@vitest/coverage-istanbul"] = "^3.0.6";
+  packageJson.devDependencies["vitest"] = "^3.0.9";
+  packageJson.devDependencies["@vitest/coverage-istanbul"] = "^3.0.9";
   if (options.browser) {
-    packageJson.devDependencies["@vitest/browser"] = "^3.0.6";
+    packageJson.devDependencies["@vitest/browser"] = "^3.0.9";
   }
 
   // Freeze these packages until we have a chance to update them
