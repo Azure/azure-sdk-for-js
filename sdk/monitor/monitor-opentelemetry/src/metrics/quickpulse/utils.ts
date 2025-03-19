@@ -62,6 +62,7 @@ import { SDK_INFO, hrTimeToMilliseconds } from "@opentelemetry/core";
 import type { Histogram, ResourceMetrics } from "@opentelemetry/sdk-metrics";
 import { DataPointType } from "@opentelemetry/sdk-metrics";
 import {
+  APPLICATION_INSIGHTS_SHIM_VERSION,
   AZURE_MONITOR_AUTO_ATTACH,
   AZURE_MONITOR_OPENTELEMETRY_VERSION,
   AZURE_MONITOR_PREFIX,
@@ -85,9 +86,18 @@ import { Logger } from "../../shared/logging";
 export function getSdkVersion(): string {
   const { nodeVersion } = process.versions;
   const opentelemetryVersion = SDK_INFO[SEMRESATTRS_TELEMETRY_SDK_VERSION];
-  const version = `ext${AZURE_MONITOR_OPENTELEMETRY_VERSION}`;
+  const version = getSdkVersionType();
   const internalSdkVersion = `${process.env[AZURE_MONITOR_PREFIX] ?? ""}node${nodeVersion}:otel${opentelemetryVersion}:${version}`;
   return internalSdkVersion;
+}
+
+/** Get the internal SDK version type */
+export function getSdkVersionType(): string {
+  if (process.env[APPLICATION_INSIGHTS_SHIM_VERSION]) {
+    return `sha${process.env[APPLICATION_INSIGHTS_SHIM_VERSION]}`;
+  } else {
+    return `dst${AZURE_MONITOR_OPENTELEMETRY_VERSION}`;
+  }
 }
 
 // eslint-disable-next-line tsdoc/syntax

@@ -104,6 +104,10 @@ export interface CreateHttpPollerOptions<TResult, TState> {
    */
   resourceLocationConfig?: ResourceLocationConfig;
   /**
+   * The base URL to use when making requests.
+   */
+  baseUrl?: string;
+  /**
    * A function to process the result of the LRO.
    */
   processResult?: (result: unknown, state: TState) => Promise<TResult>;

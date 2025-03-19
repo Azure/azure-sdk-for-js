@@ -5,8 +5,13 @@ import { defineConfig, mergeConfig } from "vitest/config";
 import viteConfig from "../../../vitest.browser.shared.config.ts";
 import browserMap from "@azure-tools/vite-plugin-browser-test-map";
 import inject from "@rollup/plugin-inject";
+import { fileURLToPath } from "url";
+import path from "path";
 
-export default mergeConfig(
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const config = mergeConfig(
   viteConfig,
   defineConfig({
     define: {
@@ -21,9 +26,14 @@ export default mergeConfig(
     ],
     test: {
       fileParallelism: false,
+      globalSetup: [path.resolve(__dirname, "test/utils/setup.ts")],
       include: ["dist-test/browser/test/**/*.spec.js"],
       testTimeout: 1200000,
       hookTimeout: 1200000,
     },
   }),
 );
+
+delete config.test.fakeTimers;
+
+export default config;

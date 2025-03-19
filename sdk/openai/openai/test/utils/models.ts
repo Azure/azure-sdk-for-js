@@ -12,6 +12,3 @@ export const completionsModelsToSkip = [
   { name: "gpt-4", version: "0613" },
   { name: "gpt-4", version: "0125-Preview" },
 ];
-
-// TODO: Remove this when "completion_tokens" is consistently returned
-export const jsonResponseModelsToSkip = [{ name: "gpt-4", version: "0125-Preview" }];

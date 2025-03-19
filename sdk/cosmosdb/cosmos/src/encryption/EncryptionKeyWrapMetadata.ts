@@ -6,25 +6,13 @@ import type { EncryptionKeyResolverName, KeyEncryptionAlgorithm } from "./enums"
 /**
  * Metadata used to wrap/unwrap data encryption key using a customer managed key
  */
-export class EncryptionKeyWrapMetadata {
+export interface EncryptionKeyWrapMetadata {
   /** Identifier of the key resolver */
-  public type: EncryptionKeyResolverName;
+  type: EncryptionKeyResolverName;
   /** Identifier of customer managed key */
-  public name: string;
+  name: string;
   /** Path to customer managed key. */
-  public value: string;
+  value: string;
   /** Algorithm to be used for wrapping/unwrapping the data encryption key */
-  public algorithm: KeyEncryptionAlgorithm;
-
-  constructor(
-    type: EncryptionKeyResolverName,
-    name: string,
-    value: string,
-    algorithm: KeyEncryptionAlgorithm,
-  ) {
-    this.type = type;
-    this.name = name;
-    this.value = value;
-    this.algorithm = algorithm;
-  }
+  algorithm: KeyEncryptionAlgorithm;
 }
