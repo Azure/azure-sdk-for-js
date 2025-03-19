@@ -3,17 +3,17 @@
 
 import type { Recorder } from "@azure-tools/test-recorder";
 import { env } from "@azure-tools/test-recorder";
-import { createRecorder, createClient } from "./utils/recordedClient.js";
+import { createRecorder, createClient } from "../utils/recordedClient.js";
 import type {
   AppComponent,
   AzureLoadTestingClient,
   TestProfileRunOutput,
   TestRunAppComponentsOutput,
-} from "../../src/index.js";
-import { isUnexpected } from "../../src/index.js";
+} from "../../../src/index.js";
+import { isUnexpected } from "../../../src/index.js";
 import { isNodeLike } from "@azure/core-util";
 import * as fs from "node:fs";
-import { getLongRunningPoller } from "../../src/pollingHelper.js";
+import { getLongRunningPoller } from "../../../src/pollingHelper.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("Test Run Operations", () => {
@@ -24,9 +24,6 @@ describe("Test Run Operations", () => {
 
   beforeEach(async (ctx) => {
     recorder = await createRecorder(ctx);
-    if (!isNodeLike) {
-      ctx.skip();
-    }
     client = createClient(recorder);
   });
 
@@ -103,9 +100,7 @@ describe("Test Run Operations", () => {
 
   it("should stop the test run", async () => {
     const timeoutTestRunId = "sample-sdk-testrun-20250318-1";
-    const stopResult = await client
-      .path("/test-runs/{testRunId}:stop", timeoutTestRunId)
-      .post();
+    const stopResult = await client.path("/test-runs/{testRunId}:stop", timeoutTestRunId).post();
 
     if (isUnexpected(stopResult)) {
       throw stopResult.body.error;
@@ -298,9 +293,9 @@ describe("Test Profile Run Operations", () => {
         },
       });
 
-      if (isUnexpected(testProfileRunCreationResult)) {
-        throw testProfileRunCreationResult.body.error;
-      }
+    if (isUnexpected(testProfileRunCreationResult)) {
+      throw testProfileRunCreationResult.body.error;
+    }
 
     const testProfileRunPoller = await getLongRunningPoller(client, testProfileRunCreationResult);
     const polledResult = await testProfileRunPoller.pollUntilDone({

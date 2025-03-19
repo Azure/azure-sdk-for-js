@@ -1,18 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { createClient, createRecorder } from "./utils/recordedClient.js";
+import { createClient, createRecorder } from "../utils/recordedClient.js";
 import type {
   AppComponent,
   AzureLoadTestingClient,
   TestAppComponentsOutput,
-} from "../../src/index.js";
-import { isUnexpected } from "../../src/index.js";
+} from "../../../src/index.js";
+import { isUnexpected } from "../../../src/index.js";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { env } from "@azure-tools/test-recorder";
 import * as fs from "node:fs";
 import { isNodeLike } from "@azure/core-util";
-import { getLongRunningPoller } from "../../src/pollingHelper.js";
+import { getLongRunningPoller } from "../../../src/pollingHelper.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("Test Administration Operations", () => {
@@ -22,9 +22,6 @@ describe("Test Administration Operations", () => {
 
   beforeEach(async (ctx) => {
     recorder = await createRecorder(ctx);
-    if (!isNodeLike) {
-      ctx.skip();
-    }
     client = createClient(recorder);
   });
 
