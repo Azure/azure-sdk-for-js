@@ -7,6 +7,8 @@ import {
   ChangeFeedStartFrom,
   CosmosClient,
   CosmosDbDiagnosticLevel,
+  CosmosEncryptedNumber,
+  CosmosEncryptedNumberType,
   EncryptionQueryBuilder,
   ErrorResponse,
   OperationInput,
@@ -564,6 +566,21 @@ describe("snippets", () => {
     });
   });
 
+  it("ContainerItem", async () => {
+    const endpoint = "https://your-account.documents.azure.com";
+    const key = "<database account masterkey>";
+    const client = new CosmosClient({ endpoint, key });
+    // @ts-preserve-whitespace
+    const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+    // @ts-preserve-whitespace
+    const { container } = await database.containers.createIfNotExists({ id: "Test Database" });
+    // @ts-preserve-whitespace
+    // @ts-ignore
+    const { body: replacedItem } = await container
+      .item("<item id>", "<partition key value>")
+      .replace({ id: "<item id>", title: "Updated post", authorID: 5 });
+  });
+
   it("ContainersQueryAllContainers", async () => {
     const endpoint = "https://your-account.documents.azure.com";
     const key = "<database account masterkey>";
@@ -679,9 +696,9 @@ describe("snippets", () => {
     const { container } = await database.containers.createIfNotExists({ id: "Test Database" });
     // @ts-preserve-whitespace
     const queryBuilder = new EncryptionQueryBuilder(
-      "SELECT firstname FROM Families f WHERE f.lastName = @lastName",
+      `SELECT firstname FROM Families f WHERE f.lastName = @lastName`,
     );
-    queryBuilder.addStringParameter("@lastName", "Hendricks", "/lastname");
+    queryBuilder.addParameter("@lastName", "Hendricks", "/lastname");
     const queryIterator = await container.items.getEncryptionQueryIterator(queryBuilder);
     // @ts-ignore
     const { resources: items } = await queryIterator.fetchAll();
@@ -843,5 +860,22 @@ describe("snippets", () => {
     const { resources: udfList } = await container.scripts.userDefinedFunctions
       .readAll()
       .fetchAll();
+  });
+
+  it("CosmosEncryptedNumber", async () => {
+    const encryptedNumber1: CosmosEncryptedNumber = {
+      value: 4,
+      numberType: CosmosEncryptedNumberType.Integer,
+    };
+    // @ts-preserve-whitespace
+    const encryptedNumber2: CosmosEncryptedNumber = {
+      value: 4.1,
+      numberType: CosmosEncryptedNumberType.Float,
+    };
+    // @ts-preserve-whitespace
+    const encryptedNumber3: CosmosEncryptedNumber = {
+      value: 4,
+      numberType: CosmosEncryptedNumberType.Float, // represents 4.0
+    };
   });
 });

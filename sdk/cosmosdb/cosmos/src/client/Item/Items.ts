@@ -201,9 +201,9 @@ export class Items {
    * const { container } = await database.containers.createIfNotExists({ id: "Test Database" });
    *
    * const queryBuilder = new EncryptionQueryBuilder(
-   *   "SELECT firstname FROM Families f WHERE f.lastName = @lastName",
+   *   `SELECT firstname FROM Families f WHERE f.lastName = @lastName`,
    * );
-   * queryBuilder.addStringParameter("@lastName", "Hendricks", "/lastname");
+   * queryBuilder.addParameter("@lastName", "Hendricks", "/lastname");
    * const queryIterator = await container.items.getEncryptionQueryIterator(queryBuilder);
    * const { resources: items } = await queryIterator.fetchAll();
    * ```

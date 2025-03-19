@@ -19,7 +19,9 @@ export enum CosmosEncryptedNumberType {
  * This interface represents an encrypted number in the Cosmos DB SDK.
  *
  * @example
- * ```ts
+ * ```ts snippet:CosmosEncryptedNumber
+ * import { CosmosEncryptedNumber } from "@azure/cosmos";
+ *
  * const encryptedNumber1: CosmosEncryptedNumber = {
  *   value: 4,
  *   numberType: CosmosEncryptedNumberType.Integer
