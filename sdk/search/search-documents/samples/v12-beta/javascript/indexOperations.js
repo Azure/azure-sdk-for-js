@@ -7,8 +7,7 @@
 
 const { DefaultAzureCredential } = require("@azure/identity");
 const { SearchIndexClient } = require("@azure/search-documents");
-
-require("dotenv").config();
+require("dotenv/config");
 
 const endpoint = process.env.ENDPOINT || "";
 const TEST_INDEX_NAME = "example-index-sample-1";
@@ -59,7 +58,7 @@ async function createIndex(indexName, client) {
 async function getAndUpdateIndex(indexName, client) {
   console.log(`Get And Update Index Operation`);
   const index = await client.getIndex(indexName);
-  index.fields.push({
+  await index.fields.push({
     type: "Edm.DateTimeOffset",
     name: "lastUpdatedOn",
     filterable: true,
