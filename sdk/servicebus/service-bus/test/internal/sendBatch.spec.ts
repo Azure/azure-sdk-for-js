@@ -15,7 +15,7 @@ import { delay } from "@azure/core-util";
 import { createLiveCredential, createTestCredential } from "@azure-tools/test-credential";
 import { afterAll, afterEach, beforeAll, describe, it } from "vitest";
 import { assert, should } from "../public/utils/chai.js";
-import { getConnectionStringPremium } from "../utils/injectables.js";
+import { getFullyQualifiedNamespacePremium } from "../utils/injectables.js";
 
 describe("Send Batch", () => {
   let sender: ServiceBusSender;
@@ -514,15 +514,12 @@ describe("Send Batch", () => {
   });
 });
 
-const premiumNamespaceConnectionString = getConnectionStringPremium();
-describe.runIf(premiumNamespaceConnectionString)("Premium namespaces - Sending", () => {
+describe("Premium namespaces - Sending", () => {
+  const premiumNamespaceFQNS = getFullyQualifiedNamespacePremium();
   let atomClient: ServiceBusAdministrationClient;
 
   beforeAll(function () {
-    atomClient = new ServiceBusAdministrationClient(
-      premiumNamespaceConnectionString!,
-      createLiveCredential(),
-    );
+    atomClient = new ServiceBusAdministrationClient(premiumNamespaceFQNS, createLiveCredential());
   });
   let sender: ServiceBusSender;
   let serviceBusClient: ServiceBusClient;
@@ -539,10 +536,7 @@ describe.runIf(premiumNamespaceConnectionString)("Premium namespaces - Sending",
       : TestClientType.UnpartitionedTopicWithSessions;
 
   beforeAll(() => {
-    serviceBusClient = new ServiceBusClient(
-      premiumNamespaceConnectionString!,
-      createLiveCredential(),
-    );
+    serviceBusClient = new ServiceBusClient(premiumNamespaceFQNS, createLiveCredential());
   });
 
   afterAll(async () => {
@@ -550,10 +544,7 @@ describe.runIf(premiumNamespaceConnectionString)("Premium namespaces - Sending",
   });
 
   async function beforeEachTest(entityType: TestClientType): Promise<void> {
-    atomClient = new ServiceBusAdministrationClient(
-      premiumNamespaceConnectionString!,
-      createTestCredential(),
-    );
+    atomClient = new ServiceBusAdministrationClient(premiumNamespaceFQNS, createTestCredential());
     withSessions = entityType.includes("WithSessions");
     const randomSeed = Math.ceil(Math.random() * 10000 + 1000);
     const isQueue = entityType.includes("Queue");
