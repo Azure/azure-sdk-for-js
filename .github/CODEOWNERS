@@ -753,9 +753,6 @@ sdk/ai/ai-projects @ganeshyb @GraceBrigham
 /sdk/networkcloud/arm-networkcloud/      @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/networkanalytics/arm-networkanalytics/      @qiaozha @MaryGao
-
-# PRLabel: %Mgmt
 /sdk/network/arm-network-profile-2020-09-01-hybrid/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
@@ -1605,7 +1602,6 @@ sdk/ai/ai-projects @ganeshyb @GraceBrigham
 # Make sure to not check in anymore test-resources.json files
 # and review bicep scripts for any exposed secrets
 /sdk/**/*.bicep @deyaaeldeen @jeremymeng @Azure/azure-sdk-for-js-core
-/sdk/**/test-resources.json @deyaaeldeen @jeremymeng @Azure/azure-sdk-for-js-core
 
 #########################
 # Eng Sys and CODEOWNERS
