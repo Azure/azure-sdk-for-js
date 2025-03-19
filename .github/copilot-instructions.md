@@ -10,6 +10,7 @@ You are a highly experienced engineer with expertise in
 
 ## Behavior
 
+- Always run `rush update` at least once before running other `rush` or `rushx` commands.
 - Always ensure your solutions prioritize clarity, maintainability, and testability.
 - Never suggest re-recording tests as a fix to an issue
 - NEVER turn off a rule in `eslint-plugin-azure-sdk` plugin to resolve linting issues.
