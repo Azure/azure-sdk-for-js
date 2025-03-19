@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { getEnvVar, PerfOptionDictionary } from "@azure-tools/test-perf";
+import type { PerfOptionDictionary } from "@azure-tools/test-perf";
+import { getEnvVar } from "@azure-tools/test-perf";
 import { MonitorIngestionPerfTest } from "./monitorIngestionPerfTest.spec.js";
 
 interface UploadLogsOptions {
