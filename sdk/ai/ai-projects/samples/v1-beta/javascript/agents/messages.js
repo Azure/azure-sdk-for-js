@@ -1,3 +1,12 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+/**
+ * This sample demonstrates how to use basic message agent operations from the Azure Agents service.
+ *
+ * @summary demonstrates how to use basic message agent operations.
+ */
+
 const { AIProjectsClient } = require("@azure/ai-projects");
 const { DefaultAzureCredential } = require("@azure/identity");
 
