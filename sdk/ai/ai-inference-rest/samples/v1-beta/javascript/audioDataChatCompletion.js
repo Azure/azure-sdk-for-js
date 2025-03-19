@@ -14,7 +14,7 @@ const ModelClient = require("@azure-rest/ai-inference").default,
 const { AzureKeyCredential } = require("@azure/core-auth");
 const { DefaultAzureCredential } = require("@azure/identity");
 const { createRestError } = require("@azure-rest/core-client");
-const fs = require("node:fs");
+const fs = require("node:fs/promises");
 
 // Load the .env file if it exists
 require("dotenv/config");
