@@ -7,6 +7,7 @@
 import assert from "assert";
 import type { EncryptionKeyResolver } from "../../../../src/encryption";
 import {
+  EncryptionKeyResolverName,
   EncryptionKeyStoreProvider,
   KeyEncryptionKey,
   ProtectedDataEncryptionKey,
@@ -15,6 +16,7 @@ import { ProtectedDataEncryptionKeyCache } from "../../../../src/encryption/Cach
 import { ErrorResponse, StatusCodes } from "../../../../src";
 
 export class MockKeyVaultEncryptionKeyResolver implements EncryptionKeyResolver {
+  encryptionKeyResolverName = EncryptionKeyResolverName.AzureKeyVault;
   private keyInfo: { [key: string]: number } = {
     tempmetadata1: 1,
     tempmetadata2: 2,
@@ -64,7 +66,7 @@ describe("ProtectedDataEncryptionKeyCache", function () {
 
   beforeEach(async function () {
     const resolver = new MockKeyVaultEncryptionKeyResolver();
-    keyStoreProvider = new EncryptionKeyStoreProvider(resolver, "keyStoreProvider", 0);
+    keyStoreProvider = new EncryptionKeyStoreProvider(resolver, 0);
     keyEncryptionKey = new KeyEncryptionKey("metadataName", "metadataPath", keyStoreProvider);
     const cacheTTL = 5000;
     protectedDataEncryptionKeyCache = new ProtectedDataEncryptionKeyCache(cacheTTL);

@@ -24,10 +24,10 @@ export interface CommunicationGetTokenOptions {
 }
 
 // @public
-export type CommunicationIdentifier = CommunicationUserIdentifier | PhoneNumberIdentifier | MicrosoftTeamsUserIdentifier | MicrosoftTeamsAppIdentifier | UnknownIdentifier;
+export type CommunicationIdentifier = CommunicationUserIdentifier | PhoneNumberIdentifier | MicrosoftTeamsUserIdentifier | MicrosoftTeamsAppIdentifier | TeamsExtensionUserIdentifier | UnknownIdentifier;
 
 // @public
-export type CommunicationIdentifierKind = CommunicationUserKind | PhoneNumberKind | MicrosoftTeamsUserKind | MicrosoftTeamsAppKind | UnknownIdentifierKind;
+export type CommunicationIdentifierKind = CommunicationUserKind | PhoneNumberKind | MicrosoftTeamsUserKind | MicrosoftTeamsAppKind | TeamsExtensionUserKind | UnknownIdentifierKind;
 
 // @public
 export interface CommunicationTokenCredential {
@@ -92,6 +92,9 @@ export const isMicrosoftTeamsUserIdentifier: (identifier: CommunicationIdentifie
 export const isPhoneNumberIdentifier: (identifier: CommunicationIdentifier) => identifier is PhoneNumberIdentifier;
 
 // @public
+export const isTeamsExtensionUserIdentifier: (identifier: CommunicationIdentifier) => identifier is TeamsExtensionUserIdentifier;
+
+// @public
 export const isUnknownIdentifier: (identifier: CommunicationIdentifier) => identifier is UnknownIdentifier;
 
 // @public
@@ -127,6 +130,8 @@ export const parseConnectionString: (connectionString: string) => EndpointCreden
 
 // @public
 export interface PhoneNumberIdentifier {
+    assertedId?: string;
+    isAnonymous?: boolean;
     phoneNumber: string;
     rawId?: string;
 }
@@ -150,6 +155,7 @@ export interface SerializedCommunicationIdentifier {
     microsoftTeamsUser?: SerializedMicrosoftTeamsUserIdentifier;
     phoneNumber?: SerializedPhoneNumberIdentifier;
     rawId?: string;
+    teamsExtensionUser?: SerializedTeamsExtensionUserIdentifier;
 }
 
 // @public
@@ -172,7 +178,31 @@ export interface SerializedMicrosoftTeamsUserIdentifier {
 
 // @public
 export interface SerializedPhoneNumberIdentifier {
+    assertedId?: string;
+    isAnonymous?: boolean;
     value: string;
+}
+
+// @public
+export interface SerializedTeamsExtensionUserIdentifier {
+    cloud?: SerializedCommunicationCloudEnvironment;
+    resourceId: string;
+    tenantId: string;
+    userId: string;
+}
+
+// @public
+export interface TeamsExtensionUserIdentifier {
+    cloud?: "public" | "dod" | "gcch";
+    rawId?: string;
+    resourceId: string;
+    tenantId: string;
+    userId: string;
+}
+
+// @public
+export interface TeamsExtensionUserKind extends TeamsExtensionUserIdentifier {
+    kind: "teamsExtensionUser";
 }
 
 // @public

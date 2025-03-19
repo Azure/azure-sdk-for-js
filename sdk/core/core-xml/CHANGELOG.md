@@ -1,6 +1,6 @@
 # Release History
 
-## 1.4.5 (Unreleased)
+## 1.4.6 (Unreleased)
 
 ### Features Added
 
@@ -8,9 +8,13 @@
 
 ### Bugs Fixed
 
-- Fix an issue where leading and trailing spaces are not preserved in parsed result [PR #33020](https://github.com/Azure/azure-sdk-for-js/pull/33020)
-
 ### Other Changes
+
+## 1.4.5 (2025-03-06)
+
+### Bugs Fixed
+
+- Fix an issue where leading and trailing spaces are not preserved in parsed result [PR #33020](https://github.com/Azure/azure-sdk-for-js/pull/33020)
 
 ## 1.4.4 (2024-10-03)
 

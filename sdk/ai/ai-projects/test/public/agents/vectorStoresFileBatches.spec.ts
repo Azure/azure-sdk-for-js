@@ -5,6 +5,7 @@ import type { Recorder, VitestTestContext } from "@azure-tools/test-recorder";
 import type { AgentsOperations, AIProjectsClient } from "../../../src/index.js";
 import { createRecorder, createProjectsClient } from "../utils/createClient.js";
 import { assert, beforeEach, afterEach, it, describe } from "vitest";
+import { isNodeLike } from "@azure/core-util";
 
 describe("Agents - vector stores file batches", () => {
   let recorder: Recorder;
@@ -32,23 +33,10 @@ describe("Agents - vector stores file batches", () => {
     console.log(`Created vector store, vector store ID: ${vectorStore.id}`);
 
     // Upload files
-    const file1Content = new ReadableStream({
-      start(controller) {
-        controller.enqueue(new TextEncoder().encode("fileContent"));
-        controller.close();
-      },
-    });
-    const file1 = await agents.uploadFile(file1Content, "assistants", { fileName: "file1.txt" });
-    console.log(`Uploaded file1, file1 ID: ${file1.id}`);
-
-    const file2Content = new ReadableStream({
-      start(controller) {
-        controller.enqueue(new TextEncoder().encode("fileContent"));
-        controller.close();
-      },
-    });
-    const file2 = await agents.uploadFile(file2Content, "assistants", { fileName: "file2.txt" });
-    console.log(`Uploaded file2, file2 ID: ${file2.id}`);
+    const fileContent1 = await generateFileStream();
+    const file1 = await agents.uploadFile(fileContent1, "assistants", { fileName: "filename.txt" });
+    const fileContent2 = await generateFileStream();
+    const file2 = await agents.uploadFile(fileContent2, "assistants", { fileName: "filename.txt" });
 
     // Create vector store file batch
     const vectorStoreFileBatch = await agents.createVectorStoreFileBatch(vectorStore.id, {
@@ -63,9 +51,9 @@ describe("Agents - vector stores file batches", () => {
 
     // Clean up
     await agents.deleteFile(file1.id);
-    console.log(`Deleted file1, file1 ID: ${file1.id}`);
+    console.log(`Deleted file, file ID: ${file1.id}`);
     await agents.deleteFile(file2.id);
-    console.log(`Deleted file2, file2 ID: ${file2.id}`);
+    console.log(`Deleted file, file ID: ${file2.id}`);
     await agents.deleteVectorStore(vectorStore.id);
     console.log(`Deleted vector store, vector store ID: ${vectorStore.id}`);
   });
@@ -76,23 +64,10 @@ describe("Agents - vector stores file batches", () => {
     console.log(`Created vector store, vector store ID: ${vectorStore.id}`);
 
     // Upload files
-    const file1Content = new ReadableStream({
-      start(controller) {
-        controller.enqueue(new TextEncoder().encode("fileContent"));
-        controller.close();
-      },
-    });
-    const file1 = await agents.uploadFile(file1Content, "assistants", { fileName: "file1.txt" });
-    console.log(`Uploaded file1, file1 ID: ${file1.id}`);
-
-    const file2Content = new ReadableStream({
-      start(controller) {
-        controller.enqueue(new TextEncoder().encode("fileContent"));
-        controller.close();
-      },
-    });
-    const file2 = await agents.uploadFile(file2Content, "assistants", { fileName: "file2.txt" });
-    console.log(`Uploaded file2, file2 ID: ${file2.id}`);
+    const fileContent1 = await generateFileStream();
+    const file1 = await agents.uploadFile(fileContent1, "assistants", { fileName: "filename.txt" });
+    const fileContent2 = await generateFileStream();
+    const file2 = await agents.uploadFile(fileContent2, "assistants", { fileName: "filename.txt" });
 
     // Create vector store file batch
     const vectorStoreFileBatch = await agents.createVectorStoreFileBatch(vectorStore.id, {
@@ -115,9 +90,9 @@ describe("Agents - vector stores file batches", () => {
 
     // Clean up
     await agents.deleteFile(file1.id);
-    console.log(`Deleted file1, file1 ID: ${file1.id}`);
+    console.log(`Deleted file, file ID: ${file1.id}`);
     await agents.deleteFile(file2.id);
-    console.log(`Deleted file2, file2 ID: ${file2.id}`);
+    console.log(`Deleted file, file ID: ${file2.id}`);
     await agents.deleteVectorStore(vectorStore.id);
     console.log(`Deleted vector store, vector store ID: ${vectorStore.id}`);
   });
@@ -128,23 +103,10 @@ describe("Agents - vector stores file batches", () => {
     console.log(`Created vector store, vector store ID: ${vectorStore.id}`);
 
     // Upload files
-    const file1Content = new ReadableStream({
-      start(controller) {
-        controller.enqueue(new TextEncoder().encode("fileContent"));
-        controller.close();
-      },
-    });
-    const file1 = await agents.uploadFile(file1Content, "assistants", { fileName: "file1.txt" });
-    console.log(`Uploaded file1, file1 ID: ${file1.id}`);
-
-    const file2Content = new ReadableStream({
-      start(controller) {
-        controller.enqueue(new TextEncoder().encode("fileContent"));
-        controller.close();
-      },
-    });
-    const file2 = await agents.uploadFile(file2Content, "assistants", { fileName: "file2.txt" });
-    console.log(`Uploaded file2, file2 ID: ${file2.id}`);
+    const fileContent1 = await generateFileStream();
+    const file1 = await agents.uploadFile(fileContent1, "assistants", { fileName: "filename.txt" });
+    const fileContent2 = await generateFileStream();
+    const file2 = await agents.uploadFile(fileContent2, "assistants", { fileName: "filename.txt" });
 
     // Create vector store file batch
     const vectorStoreFileBatch = await agents.createVectorStoreFileBatch(vectorStore.id, {
@@ -167,9 +129,9 @@ describe("Agents - vector stores file batches", () => {
 
     // Clean up
     await agents.deleteFile(file1.id);
-    console.log(`Deleted file1, file1 ID: ${file1.id}`);
+    console.log(`Deleted file, file ID: ${file1.id}`);
     await agents.deleteFile(file2.id);
-    console.log(`Deleted file2, file2 ID: ${file2.id}`);
+    console.log(`Deleted file, file ID: ${file2.id}`);
     await agents.deleteVectorStore(vectorStore.id);
     console.log(`Deleted vector store, vector store ID: ${vectorStore.id}`);
   });
@@ -180,23 +142,10 @@ describe("Agents - vector stores file batches", () => {
     console.log(`Created vector store, vector store ID: ${vectorStore.id}`);
 
     // Upload files
-    const file1Content = new ReadableStream({
-      start(controller) {
-        controller.enqueue(new TextEncoder().encode("fileContent"));
-        controller.close();
-      },
-    });
-    const file1 = await agents.uploadFile(file1Content, "assistants", { fileName: "file1.txt" });
-    console.log(`Uploaded file1, file1 ID: ${file1.id}`);
-
-    const file2Content = new ReadableStream({
-      start(controller) {
-        controller.enqueue(new TextEncoder().encode("fileContent"));
-        controller.close();
-      },
-    });
-    const file2 = await agents.uploadFile(file2Content, "assistants", { fileName: "file2.txt" });
-    console.log(`Uploaded file2, file2 ID: ${file2.id}`);
+    const fileContent1 = await generateFileStream();
+    const file1 = await agents.uploadFile(fileContent1, "assistants", { fileName: "filename.txt" });
+    const fileContent2 = await generateFileStream();
+    const file2 = await agents.uploadFile(fileContent2, "assistants", { fileName: "filename.txt" });
 
     // Create vector store file batch
     const vectorStoreFileBatch = await agents.createVectorStoreFileBatch(vectorStore.id, {
@@ -215,42 +164,32 @@ describe("Agents - vector stores file batches", () => {
 
     // Clean up
     await agents.deleteFile(file1.id);
-    console.log(`Deleted file1, file1 ID: ${file1.id}`);
+    console.log(`Deleted file, file ID: ${file1.id}`);
     await agents.deleteFile(file2.id);
-    console.log(`Deleted file2, file2 ID: ${file2.id}`);
+    console.log(`Deleted file, file ID: ${file2.id}`);
     await agents.deleteVectorStore(vectorStore.id);
     console.log(`Deleted vector store, vector store ID: ${vectorStore.id}`);
   });
 
-  it("should create a vector store file batch and poll", async function () {
+  it("should create a vector store file batch and poll (through original method)", async function () {
     // Create vector store
     const vectorStore = await agents.createVectorStore();
     console.log(`Created vector store, vector store ID: ${vectorStore.id}`);
 
     // Upload files
-    const file1Content = new ReadableStream({
-      start(controller) {
-        controller.enqueue(new TextEncoder().encode("fileContent"));
-        controller.close();
-      },
-    });
-    const file1 = await agents.uploadFile(file1Content, "assistants", { fileName: "file1.txt" });
-    console.log(`Uploaded file1, file1 ID: ${file1.id}`);
-
-    const file2Content = new ReadableStream({
-      start(controller) {
-        controller.enqueue(new TextEncoder().encode("fileContent"));
-        controller.close();
-      },
-    });
-    const file2 = await agents.uploadFile(file2Content, "assistants", { fileName: "file2.txt" });
-    console.log(`Uploaded file2, file2 ID: ${file2.id}`);
+    const fileContent1 = await generateFileStream();
+    const file1 = await agents.uploadFile(fileContent1, "assistants", { fileName: "filename.txt" });
+    const fileContent2 = await generateFileStream();
+    const file2 = await agents.uploadFile(fileContent2, "assistants", { fileName: "filename.txt" });
 
     // Create vector store file batch
-    const poller = agents.createVectorStoreFileBatchAndPoll(vectorStore.id, {
+    const vectorStoreFileBatchPoller = agents.createVectorStoreFileBatchAndPoll(vectorStore.id, {
       fileIds: [file1.id, file2.id],
     });
-    const vectorStoreFileBatch = await poller.pollUntilDone();
+    assert.isNotNull(vectorStoreFileBatchPoller);
+    const initialState = vectorStoreFileBatchPoller.poll();
+    assert.isNotNull(initialState);
+    const vectorStoreFileBatch = await vectorStoreFileBatchPoller.pollUntilDone();
     assert.isNotNull(vectorStoreFileBatch);
     assert.isNotEmpty(vectorStoreFileBatch.id);
     assert.equal(vectorStoreFileBatch.vectorStoreId, vectorStore.id);
@@ -261,10 +200,59 @@ describe("Agents - vector stores file batches", () => {
 
     // Clean up
     await agents.deleteFile(file1.id);
-    console.log(`Deleted file1, file1 ID: ${file1.id}`);
+    console.log(`Deleted file, file ID: ${file1.id}`);
     await agents.deleteFile(file2.id);
-    console.log(`Deleted file2, file2 ID: ${file2.id}`);
+    console.log(`Deleted file, file ID: ${file2.id}`);
+    await agents.deleteVectorStore(vectorStore.id);
+    console.log(`Deleted vector store, vector store ID: ${vectorStore.id}`);
+  });
+
+  it("should create a vector store file batch and poll (through creation method)", async function () {
+    // Create vector store
+    const vectorStore = await agents.createVectorStore();
+    console.log(`Created vector store, vector store ID: ${vectorStore.id}`);
+
+    // Upload files
+    const fileContent1 = await generateFileStream();
+    const file1 = await agents.uploadFile(fileContent1, "assistants", { fileName: "filename.txt" });
+    const fileContent2 = await generateFileStream();
+    const file2 = await agents.uploadFile(fileContent2, "assistants", { fileName: "filename.txt" });
+
+    // Create vector store file batch
+    const vectorStoreFileBatchPoller = agents.createVectorStoreFileBatch(vectorStore.id, {
+      fileIds: [file1.id, file2.id],
+    });
+    assert.isNotNull(vectorStoreFileBatchPoller);
+    const initialState = vectorStoreFileBatchPoller.poll();
+    assert.isNotNull(initialState);
+    const vectorStoreFileBatch = await vectorStoreFileBatchPoller.pollUntilDone();
+    assert.isNotEmpty(vectorStoreFileBatch.id);
+    assert.equal(vectorStoreFileBatch.vectorStoreId, vectorStore.id);
+    assert.notEqual(vectorStoreFileBatch.status, "in_progress");
+    console.log(
+      `Created vector store file batch with status ${vectorStoreFileBatch.status}, vector store file batch ID: ${vectorStoreFileBatch.id}`,
+    );
+
+    // Clean up
+    await agents.deleteFile(file1.id);
+    console.log(`Deleted file, file ID: ${file1.id}`);
+    await agents.deleteFile(file2.id);
+    console.log(`Deleted file, file ID: ${file2.id}`);
     await agents.deleteVectorStore(vectorStore.id);
     console.log(`Deleted vector store, vector store ID: ${vectorStore.id}`);
   });
 });
+
+async function generateFileStream(): Promise<ReadableStream | NodeJS.ReadableStream> {
+  if (isNodeLike) {
+    const stream = await import("stream");
+    return stream.Readable.from("fileContent");
+  } else {
+    return new ReadableStream({
+      start(controller) {
+        controller.enqueue(new TextEncoder().encode("fileContent"));
+        controller.close();
+      },
+    });
+  }
+}

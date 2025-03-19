@@ -161,7 +161,7 @@ If you'd like to contribute to this library, please read the [contributing guide
 
 [account_product_documentation]: https://azure.microsoft.com/services/purview/
 [rest_client]: https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/rest-clients.md
-[source_code]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/purview/purview-catalog-rest
+[source_code]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/purview/purview-administration-rest
 [account_npm]: https://www.npmjs.com/org/azure-rest
 [account_ref_docs]: https://azure.github.io/azure-sdk-for-js
 [azure_subscription]: https://azure.microsoft.com/free/

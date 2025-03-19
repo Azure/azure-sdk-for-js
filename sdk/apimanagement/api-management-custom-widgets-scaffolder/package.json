@@ -61,13 +61,13 @@
     "@types/node": "^18.0.0",
     "@types/yargs": "^17.0.32",
     "@types/yargs-parser": "^21.0.3",
-    "@vitest/coverage-istanbul": "^3.0.3",
+    "@vitest/coverage-istanbul": "^3.0.9",
     "eslint": "^9.9.0",
     "magic-string": "^0.30.8",
     "prettier": "^3.3.3",
     "rollup": "^4.14.0",
-    "typescript": "~5.7.2",
-    "vitest": "^3.0.3"
+    "typescript": "~5.8.2",
+    "vitest": "^3.0.9"
   },
   "dependencies": {
     "chalk": "^4.1.2",

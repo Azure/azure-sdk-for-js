@@ -543,7 +543,7 @@ async function executeQueryAndVerifyOrder(
   assert.equal(count, size);
 }
 
-describe.skip("Full text search feature", async () => {
+describe("Full text search feature", async () => {
   let database: Database;
 
   before(async function () {

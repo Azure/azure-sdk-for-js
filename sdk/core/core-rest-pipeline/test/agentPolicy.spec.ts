@@ -2,14 +2,8 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert, vi } from "vitest";
-import {
-  type PipelineResponse,
-  type SendRequest,
-  createHttpHeaders,
-  createPipelineRequest,
-  agentPolicy,
-  Agent,
-} from "../src/index.js";
+import { type PipelineResponse, type SendRequest, type Agent } from "../src/index.js";
+import { createHttpHeaders, createPipelineRequest, agentPolicy } from "../src/index.js";
 
 describe("agentPolicy", function () {
   it("should set custom agent", async () => {

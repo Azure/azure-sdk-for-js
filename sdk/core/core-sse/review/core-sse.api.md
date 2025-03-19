@@ -13,6 +13,9 @@ export function createSseStream(chunkStream: ReadableStream<Uint8Array>): EventM
 export function createSseStream(chunkStream: IncomingMessage): EventMessageStream;
 
 // @public
+export function createSseStream(chunkStream: NodeJSReadableStream): EventMessageStream;
+
+// @public
 export interface EventMessage {
     data: string;
     event: string;
@@ -22,6 +25,11 @@ export interface EventMessage {
 
 // @public
 export interface EventMessageStream extends ReadableStream<EventMessage>, AsyncDisposable, AsyncIterable<EventMessage> {
+}
+
+// @public
+export interface NodeJSReadableStream extends NodeJS.ReadableStream {
+    destroy(error?: Error): void;
 }
 
 // (No @packageDocumentation comment for this package)

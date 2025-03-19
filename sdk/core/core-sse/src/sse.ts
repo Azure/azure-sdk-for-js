@@ -2,7 +2,12 @@
 // Licensed under the MIT License.
 
 import type { IncomingMessage } from "node:http";
-import type { EventMessage, EventMessageStream, PartialSome } from "./models.js";
+import type {
+  EventMessage,
+  EventMessageStream,
+  NodeJSReadableStream,
+  PartialSome,
+} from "./models.js";
 import { createStream, ensureAsyncIterable } from "./utils.js";
 
 enum ControlChars {
@@ -15,17 +20,23 @@ enum ControlChars {
 /**
  * Processes a response stream into a stream of events.
  * @param chunkStream - A stream of Uint8Array chunks
- * @returns An async iterable of EventMessage objects
+ * @returns A stream of EventMessage objects
  */
 export function createSseStream(chunkStream: ReadableStream<Uint8Array>): EventMessageStream;
 /**
  * Processes a response stream into a stream of events.
- * @param chunkStream - An async iterable of Uint8Array chunks
- * @returns An async iterable of EventMessage objects
+ * @param chunkStream - A NodeJS HTTP response
+ * @returns A stream of EventMessage objects
  */
 export function createSseStream(chunkStream: IncomingMessage): EventMessageStream;
+/**
+ * Processes a response stream into a stream of events.
+ * @param chunkStream - A NodeJS Readable stream
+ * @returns A stream of EventMessage objects
+ */
+export function createSseStream(chunkStream: NodeJSReadableStream): EventMessageStream;
 export function createSseStream(
-  chunkStream: IncomingMessage | ReadableStream<Uint8Array>,
+  chunkStream: IncomingMessage | NodeJSReadableStream | ReadableStream<Uint8Array>,
 ): EventMessageStream {
   const { cancel, iterable } = ensureAsyncIterable(chunkStream);
   const asyncIter = toMessage(toLine(iterable));

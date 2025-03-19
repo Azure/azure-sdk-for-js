@@ -84,21 +84,21 @@ export class CosmosClient {
       throw new Error("Invalid endpoint specified");
     }
 
-    if (optionsOrConnectionString.encryptionPolicy?.enableEncryption) {
-      if (!optionsOrConnectionString.encryptionPolicy.keyEncryptionKeyResolver) {
+    if (optionsOrConnectionString.clientEncryptionOptions) {
+      if (!optionsOrConnectionString.clientEncryptionOptions.keyEncryptionKeyResolver) {
         throw new Error(
           "KeyEncryptionKeyResolver needs to be provided to enable client-side encryption.",
         );
       }
-      if (!optionsOrConnectionString.encryptionPolicy.encryptionKeyResolverName) {
-        throw new Error(
-          "EncryptionKeyResolverName needs to be provided to enable client-side encryption.",
-        );
+      if (
+        optionsOrConnectionString.clientEncryptionOptions.encryptionKeyTimeToLiveInSeconds &&
+        optionsOrConnectionString.clientEncryptionOptions.encryptionKeyTimeToLiveInSeconds < 60
+      ) {
+        throw new Error("EncryptionKeyTimeToLiveInSeconds needs to be >= 60 seconds.");
       }
       this.encryptionManager = new EncryptionManager(
-        optionsOrConnectionString.encryptionPolicy.keyEncryptionKeyResolver,
-        optionsOrConnectionString.encryptionPolicy.encryptionKeyResolverName,
-        optionsOrConnectionString.encryptionPolicy.encryptionKeyTimeToLive,
+        optionsOrConnectionString.clientEncryptionOptions.keyEncryptionKeyResolver,
+        optionsOrConnectionString.clientEncryptionOptions.encryptionKeyTimeToLiveInSeconds,
       );
     }
 
@@ -118,6 +118,11 @@ export class CosmosClient {
     if (optionsOrConnectionString.consistencyLevel !== undefined) {
       optionsOrConnectionString.defaultHeaders[Constants.HttpHeaders.ConsistencyLevel] =
         optionsOrConnectionString.consistencyLevel;
+    }
+
+    if (optionsOrConnectionString.throughputBucket !== undefined) {
+      optionsOrConnectionString.defaultHeaders[Constants.HttpHeaders.ThroughputBucket] =
+        optionsOrConnectionString.throughputBucket;
     }
 
     const userAgent = getUserAgent(optionsOrConnectionString.userAgentSuffix);

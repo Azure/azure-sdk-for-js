@@ -57,6 +57,10 @@ describe("RoomsClient", () => {
             id: testUser1,
             role: "Presenter",
           },
+          {
+            id: testUser2,
+            role: "Collaborator",
+          },
         ],
       };
 
@@ -64,7 +68,7 @@ describe("RoomsClient", () => {
       verifyRoomsAttributes(createRoomResult, options);
       roomId = createRoomResult.id;
       const addParticipantsResult = await listParticipants(roomId, client);
-      verifyRoomsParticipantsAttributes(addParticipantsResult, 1, 1, 0, 0);
+      verifyRoomsParticipantsAttributes(addParticipantsResult, 2, 1, 0, 0, 1);
     });
 
     it("successfully creates a room with an invalid MRI attribute", async () => {
@@ -105,7 +109,7 @@ describe("RoomsClient", () => {
       verifyRoomsAttributes(createRoomResult, options);
       roomId = createRoomResult.id;
       const addParticipantsResult = await listParticipants(roomId, client);
-      verifyRoomsParticipantsAttributes(addParticipantsResult, 0, 0, 0, 0);
+      verifyRoomsParticipantsAttributes(addParticipantsResult, 0, 0, 0, 0, 0);
     });
 
     it("successfully creates a room with an expired validUntil", async () => {
@@ -161,7 +165,7 @@ describe("RoomsClient", () => {
 
       roomId = createRoomResult.id;
       const addParticipantsResult = await listParticipants(roomId, client);
-      verifyRoomsParticipantsAttributes(addParticipantsResult, 0, 0, 0, 0);
+      verifyRoomsParticipantsAttributes(addParticipantsResult, 0, 0, 0, 0, 0);
     });
 
     it("successfully creates a room with PSTN Dial-Out and valid time range attributes", async () => {
@@ -184,7 +188,7 @@ describe("RoomsClient", () => {
 
       roomId = createRoomResult.id;
       const addParticipantsResult = await listParticipants(roomId, client);
-      verifyRoomsParticipantsAttributes(addParticipantsResult, 0, 0, 0, 0);
+      verifyRoomsParticipantsAttributes(addParticipantsResult, 0, 0, 0, 0, 0);
     });
 
     it("successfully creates a room with PSTN Dial-Out and Valid Particpants attributes", async () => {
@@ -212,7 +216,7 @@ describe("RoomsClient", () => {
 
       roomId = createRoomResult.id;
       const addParticipantsResult = await listParticipants(roomId, client);
-      verifyRoomsParticipantsAttributes(addParticipantsResult, 1, 1, 0, 0);
+      verifyRoomsParticipantsAttributes(addParticipantsResult, 1, 1, 0, 0, 0);
     });
 
     it("successfully creates a room with all optional attributes", async () => {
@@ -234,7 +238,7 @@ describe("RoomsClient", () => {
       verifyRoomsAttributes(createRoomResult, options);
       roomId = createRoomResult.id;
       const addParticipantsResult = await listParticipants(roomId, client);
-      verifyRoomsParticipantsAttributes(addParticipantsResult, 1, 1, 0, 0);
+      verifyRoomsParticipantsAttributes(addParticipantsResult, 1, 1, 0, 0, 0);
     });
 
     it("successfully gets a valid room", async () => {
@@ -508,7 +512,7 @@ describe("Participants Operations", () => {
     await client.addOrUpdateParticipants(curRoomId, participants);
 
     const addParticipantsResult = await listParticipants(curRoomId, client);
-    verifyRoomsParticipantsAttributes(addParticipantsResult, 1, 1, 0, 0);
+    verifyRoomsParticipantsAttributes(addParticipantsResult, 1, 1, 0, 0, 0);
 
     roomId = curRoomId;
   });
@@ -531,7 +535,7 @@ describe("Participants Operations", () => {
     await client.addOrUpdateParticipants(curRoomId, participants as any);
 
     const addParticipantsResult = await listParticipants(curRoomId, client);
-    verifyRoomsParticipantsAttributes(addParticipantsResult, 1, 0, 1, 0);
+    verifyRoomsParticipantsAttributes(addParticipantsResult, 1, 0, 1, 0, 0);
 
     roomId = curRoomId;
   });
@@ -554,7 +558,30 @@ describe("Participants Operations", () => {
     await client.addOrUpdateParticipants(curRoomId, participants);
 
     const allParticipants = await listParticipants(curRoomId, client);
-    verifyRoomsParticipantsAttributes(allParticipants, 1, 0, 1, 0);
+    verifyRoomsParticipantsAttributes(allParticipants, 1, 0, 1, 0, 0);
+
+    roomId = curRoomId;
+  });
+
+  it("successfully adds collaborator participants to the room", async () => {
+    testUser1 = (await createTestUser(recorder)).user;
+    const participants: RoomParticipantPatch[] = [
+      {
+        id: testUser1,
+        role: "Collaborator",
+      },
+    ];
+
+    // Create a room
+    const createRoomResult = await client.createRoom({});
+    assert.isDefined(createRoomResult);
+    const curRoomId = createRoomResult.id;
+
+    // Patch participants
+    await client.addOrUpdateParticipants(curRoomId, participants);
+
+    const addParticipantsResult = await listParticipants(curRoomId, client);
+    verifyRoomsParticipantsAttributes(addParticipantsResult, 1, 0, 0, 0, 1);
 
     roomId = curRoomId;
   });
@@ -572,7 +599,7 @@ describe("Participants Operations", () => {
     await client.removeParticipants(curRoomId, participantIdentifiers);
 
     const participants = await listParticipants(curRoomId, client);
-    verifyRoomsParticipantsAttributes(participants, 0, 0, 0, 0);
+    verifyRoomsParticipantsAttributes(participants, 0, 0, 0, 0, 0);
 
     roomId = curRoomId;
   });
@@ -599,7 +626,7 @@ describe("Participants Operations", () => {
     await client.removeParticipants(curRoomId, removeParticipants);
 
     const participants = await listParticipants(curRoomId, client);
-    verifyRoomsParticipantsAttributes(participants, 0, 0, 0, 0);
+    verifyRoomsParticipantsAttributes(participants, 0, 0, 0, 0, 0);
 
     roomId = curRoomId;
   });
@@ -642,6 +669,7 @@ async function verifyRoomsParticipantsAttributes(
   expectPresenter: number,
   expectAttendee: number,
   expectConsumer: number,
+  expectCollaborator: number,
 ): Promise<void> {
   // Assert
   assert.isDefined(actualRoomParticipant);
@@ -650,6 +678,7 @@ async function verifyRoomsParticipantsAttributes(
   let presenterCount = 0;
   let attendeeCount = 0;
   let consumerCount = 0;
+  let collaboratorCount = 0;
 
   for await (const participant of actualRoomParticipant) {
     count++;
@@ -660,6 +689,8 @@ async function verifyRoomsParticipantsAttributes(
       attendeeCount++;
     } else if (participant.role === "Consumer") {
       consumerCount++;
+    } else if (participant.role === "Collaborator") {
+      collaboratorCount++;
     }
 
     // rawId is sanitized so skip this check in playback mode
@@ -672,4 +703,5 @@ async function verifyRoomsParticipantsAttributes(
   assert.equal(presenterCount, expectPresenter);
   assert.equal(attendeeCount, expectAttendee);
   assert.equal(consumerCount, expectConsumer);
+  assert.equal(collaboratorCount, expectCollaborator);
 }

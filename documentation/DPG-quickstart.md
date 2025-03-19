@@ -54,8 +54,8 @@ The `package name` is used when publishing to [npmjs](https://www.npmjs.com/). I
    options:
      "@azure-tools/typespec-ts":
        package-dir: "YOUR_SERVICE_FOLDER"
-       isModularLibrary: true
-       packageDetails:
+       is-modular-library: true
+       package-details:
          name: YOUR_PACKAGE_NAME
          description: "SHORT_DESCRIPTION"
          version: "1.0.0-beta.1"
