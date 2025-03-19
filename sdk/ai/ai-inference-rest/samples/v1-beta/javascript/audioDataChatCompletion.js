@@ -96,7 +96,7 @@ function createModelClient() {
  */
 function getAudioData(audioFile) {
   try {
-    const audioBuffer = fs.readFileSync(audioFile);
+    const audioBuffer = await fs.readFile(audioFile);
     return audioBuffer.toString("base64");
   } catch (error) {
     console.error(`Could not read '${audioFile}'.`);
