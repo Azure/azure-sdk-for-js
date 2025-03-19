@@ -13,7 +13,7 @@ import "dotenv/config";
  * @summary List all SKUs available for a virtual appliance.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/NetworkVirtualApplianceSkuList.json
  */
-async function networkVirtualApplianceSkuListResult() {
+async function networkVirtualApplianceSkuListResult(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

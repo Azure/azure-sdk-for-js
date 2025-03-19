@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Triggers a policy evaluation scan for all the resources under the subscription
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2024-10-01/examples/PolicyStates_TriggerSubscriptionEvaluation.json
  */
-async function triggerEvaluationsForAllResourcesInASubscription() {
+async function triggerEvaluationsForAllResourcesInASubscription(): Promise<void> {
   const subscriptionId = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential);
@@ -29,7 +29,7 @@ async function triggerEvaluationsForAllResourcesInASubscription() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   triggerEvaluationsForAllResourcesInASubscription();
 }
 

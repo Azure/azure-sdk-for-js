@@ -11,6 +11,9 @@ import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
+export type ActivationState = string;
+
+// @public
 export interface AnalysisCreate {
     // (undocumented)
     config: AnalysisCreateConfig;
@@ -23,7 +26,7 @@ export interface AnalysisCreateConfig {
     // (undocumented)
     package?: NginxConfigurationPackage;
     // (undocumented)
-    protectedFiles?: NginxConfigurationFile[];
+    protectedFiles?: NginxConfigurationProtectedFileRequest[];
     rootFile?: string;
 }
 
@@ -53,8 +56,51 @@ export interface AnalysisResult {
 // @public (undocumented)
 export interface AnalysisResultData {
     // (undocumented)
+    diagnostics?: DiagnosticItem[];
+    // (undocumented)
     errors?: AnalysisDiagnostic[];
 }
+
+// @public
+export interface ApiKeys {
+    createOrUpdate(resourceGroupName: string, deploymentName: string, apiKeyName: string, options?: ApiKeysCreateOrUpdateOptionalParams): Promise<ApiKeysCreateOrUpdateResponse>;
+    delete(resourceGroupName: string, deploymentName: string, apiKeyName: string, options?: ApiKeysDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, deploymentName: string, apiKeyName: string, options?: ApiKeysGetOptionalParams): Promise<ApiKeysGetResponse>;
+    list(resourceGroupName: string, deploymentName: string, options?: ApiKeysListOptionalParams): PagedAsyncIterableIterator<NginxDeploymentApiKeyResponse>;
+}
+
+// @public
+export interface ApiKeysCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    body?: NginxDeploymentApiKeyRequest;
+}
+
+// @public
+export type ApiKeysCreateOrUpdateResponse = NginxDeploymentApiKeyResponse;
+
+// @public
+export interface ApiKeysDeleteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface ApiKeysGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ApiKeysGetResponse = NginxDeploymentApiKeyResponse;
+
+// @public
+export interface ApiKeysListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ApiKeysListNextResponse = NginxDeploymentApiKeyListResponse;
+
+// @public
+export interface ApiKeysListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ApiKeysListResponse = NginxDeploymentApiKeyListResponse;
 
 // @public
 export interface AutoUpgradeProfile {
@@ -116,7 +162,7 @@ export interface Configurations {
     beginDelete(resourceGroupName: string, deploymentName: string, configurationName: string, options?: ConfigurationsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, deploymentName: string, configurationName: string, options?: ConfigurationsDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, deploymentName: string, configurationName: string, options?: ConfigurationsGetOptionalParams): Promise<ConfigurationsGetResponse>;
-    list(resourceGroupName: string, deploymentName: string, options?: ConfigurationsListOptionalParams): PagedAsyncIterableIterator<NginxConfiguration>;
+    list(resourceGroupName: string, deploymentName: string, options?: ConfigurationsListOptionalParams): PagedAsyncIterableIterator<NginxConfigurationResponse>;
 }
 
 // @public
@@ -129,13 +175,13 @@ export type ConfigurationsAnalysisResponse = AnalysisResult;
 
 // @public
 export interface ConfigurationsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    body?: NginxConfiguration;
+    body?: NginxConfigurationRequest;
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ConfigurationsCreateOrUpdateResponse = NginxConfiguration;
+export type ConfigurationsCreateOrUpdateResponse = NginxConfigurationResponse;
 
 // @public
 export interface ConfigurationsDeleteOptionalParams extends coreClient.OperationOptions {
@@ -148,7 +194,7 @@ export interface ConfigurationsGetOptionalParams extends coreClient.OperationOpt
 }
 
 // @public
-export type ConfigurationsGetResponse = NginxConfiguration;
+export type ConfigurationsGetResponse = NginxConfigurationResponse;
 
 // @public
 export interface ConfigurationsListNextOptionalParams extends coreClient.OperationOptions {
@@ -244,6 +290,24 @@ export interface DeploymentsUpdateOptionalParams extends coreClient.OperationOpt
 export type DeploymentsUpdateResponse = NginxDeployment;
 
 // @public
+export interface DiagnosticItem {
+    category?: string;
+    // (undocumented)
+    description: string;
+    // (undocumented)
+    directive: string;
+    file: string;
+    id?: string;
+    level: Level;
+    // (undocumented)
+    line: number;
+    // (undocumented)
+    message: string;
+    // (undocumented)
+    rule: string;
+}
+
+// @public
 export interface ErrorAdditionalInfo {
     readonly info?: Record<string, unknown>;
     readonly type?: string;
@@ -256,6 +320,11 @@ export interface ErrorDetail {
     readonly details?: ErrorDetail[];
     readonly message?: string;
     readonly target?: string;
+}
+
+// @public
+export interface ErrorResponse {
+    error?: ErrorDetail;
 }
 
 // @public
@@ -276,6 +345,12 @@ export interface IdentityProperties {
 export type IdentityType = string;
 
 // @public
+export enum KnownActivationState {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
 export enum KnownCreatedByType {
     Application = "Application",
     Key = "Key",
@@ -289,6 +364,12 @@ export enum KnownIdentityType {
     SystemAssigned = "SystemAssigned",
     SystemAssignedUserAssigned = "SystemAssigned, UserAssigned",
     UserAssigned = "UserAssigned"
+}
+
+// @public
+export enum KnownLevel {
+    Info = "Info",
+    Warning = "Warning"
 }
 
 // @public
@@ -309,6 +390,9 @@ export enum KnownProvisioningState {
     Succeeded = "Succeeded",
     Updating = "Updating"
 }
+
+// @public
+export type Level = string;
 
 // @public (undocumented)
 export interface NginxCertificate {
@@ -355,18 +439,6 @@ export interface NginxCertificateProperties {
 }
 
 // @public (undocumented)
-export interface NginxConfiguration {
-    readonly id?: string;
-    // (undocumented)
-    location?: string;
-    readonly name?: string;
-    // (undocumented)
-    properties?: NginxConfigurationProperties;
-    readonly systemData?: SystemData;
-    readonly type?: string;
-}
-
-// @public (undocumented)
 export interface NginxConfigurationFile {
     // (undocumented)
     content?: string;
@@ -377,7 +449,7 @@ export interface NginxConfigurationFile {
 // @public
 export interface NginxConfigurationListResponse {
     nextLink?: string;
-    value?: NginxConfiguration[];
+    value?: NginxConfigurationResponse[];
 }
 
 // @public (undocumented)
@@ -389,13 +461,59 @@ export interface NginxConfigurationPackage {
 }
 
 // @public (undocumented)
-export interface NginxConfigurationProperties {
+export interface NginxConfigurationProtectedFileRequest {
+    content?: string;
+    contentHash?: string;
+    virtualPath?: string;
+}
+
+// @public (undocumented)
+export interface NginxConfigurationProtectedFileResponse {
+    contentHash?: string;
+    virtualPath?: string;
+}
+
+// @public (undocumented)
+export interface NginxConfigurationRequest {
+    readonly id?: string;
+    readonly name?: string;
+    // (undocumented)
+    properties?: NginxConfigurationRequestProperties;
+    readonly systemData?: SystemData;
+    readonly type?: string;
+}
+
+// @public (undocumented)
+export interface NginxConfigurationRequestProperties {
     // (undocumented)
     files?: NginxConfigurationFile[];
     // (undocumented)
     package?: NginxConfigurationPackage;
     // (undocumented)
-    protectedFiles?: NginxConfigurationFile[];
+    protectedFiles?: NginxConfigurationProtectedFileRequest[];
+    readonly provisioningState?: ProvisioningState;
+    // (undocumented)
+    rootFile?: string;
+}
+
+// @public (undocumented)
+export interface NginxConfigurationResponse {
+    readonly id?: string;
+    readonly name?: string;
+    // (undocumented)
+    properties?: NginxConfigurationResponseProperties;
+    readonly systemData?: SystemData;
+    readonly type?: string;
+}
+
+// @public (undocumented)
+export interface NginxConfigurationResponseProperties {
+    // (undocumented)
+    files?: NginxConfigurationFile[];
+    // (undocumented)
+    package?: NginxConfigurationPackage;
+    // (undocumented)
+    protectedFiles?: NginxConfigurationProtectedFileResponse[];
     readonly provisioningState?: ProvisioningState;
     // (undocumented)
     rootFile?: string;
@@ -421,6 +539,44 @@ export interface NginxDeployment {
 }
 
 // @public (undocumented)
+export interface NginxDeploymentApiKeyListResponse {
+    // (undocumented)
+    nextLink?: string;
+    // (undocumented)
+    value?: NginxDeploymentApiKeyResponse[];
+}
+
+// @public (undocumented)
+export interface NginxDeploymentApiKeyRequest {
+    readonly id?: string;
+    readonly name?: string;
+    // (undocumented)
+    properties?: NginxDeploymentApiKeyRequestProperties;
+    readonly type?: string;
+}
+
+// @public (undocumented)
+export interface NginxDeploymentApiKeyRequestProperties {
+    endDateTime?: Date;
+    secretText?: string;
+}
+
+// @public (undocumented)
+export interface NginxDeploymentApiKeyResponse {
+    readonly id?: string;
+    readonly name?: string;
+    // (undocumented)
+    properties?: NginxDeploymentApiKeyResponseProperties;
+    readonly type?: string;
+}
+
+// @public (undocumented)
+export interface NginxDeploymentApiKeyResponseProperties {
+    endDateTime?: Date;
+    readonly hint?: string;
+}
+
+// @public (undocumented)
 export interface NginxDeploymentListResponse {
     // (undocumented)
     nextLink?: string;
@@ -431,19 +587,26 @@ export interface NginxDeploymentListResponse {
 // @public (undocumented)
 export interface NginxDeploymentProperties {
     autoUpgradeProfile?: AutoUpgradeProfile;
+    readonly dataplaneApiEndpoint?: string;
     // (undocumented)
     enableDiagnosticsSupport?: boolean;
     readonly ipAddress?: string;
     // (undocumented)
     logging?: NginxLogging;
-    managedResourceGroup?: string;
     // (undocumented)
     networkProfile?: NginxNetworkProfile;
+    nginxAppProtect?: NginxDeploymentPropertiesNginxAppProtect;
     readonly nginxVersion?: string;
     readonly provisioningState?: ProvisioningState;
     scalingProperties?: NginxDeploymentScalingProperties;
     // (undocumented)
     userProfile?: NginxDeploymentUserProfile;
+}
+
+// @public
+export interface NginxDeploymentPropertiesNginxAppProtect {
+    webApplicationFirewallSettings: WebApplicationFirewallSettings;
+    readonly webApplicationFirewallStatus?: WebApplicationFirewallStatus;
 }
 
 // @public
@@ -476,9 +639,17 @@ export interface NginxDeploymentUpdateProperties {
     enableDiagnosticsSupport?: boolean;
     // (undocumented)
     logging?: NginxLogging;
+    // (undocumented)
+    networkProfile?: NginxNetworkProfile;
+    nginxAppProtect?: NginxDeploymentUpdatePropertiesNginxAppProtect;
     scalingProperties?: NginxDeploymentScalingProperties;
     // (undocumented)
     userProfile?: NginxDeploymentUserProfile;
+}
+
+// @public
+export interface NginxDeploymentUpdatePropertiesNginxAppProtect {
+    webApplicationFirewallSettings?: WebApplicationFirewallSettings;
 }
 
 // @public (undocumented)
@@ -505,6 +676,8 @@ export class NginxManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     $host: string;
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: NginxManagementClientOptionalParams);
+    // (undocumented)
+    apiKeys: ApiKeys;
     // (undocumented)
     apiVersion: string;
     // (undocumented)
@@ -611,11 +784,6 @@ export type OperationsListResponse = OperationListResult;
 export type ProvisioningState = string;
 
 // @public (undocumented)
-export interface ResourceProviderDefaultErrorResponse {
-    error?: ErrorDetail;
-}
-
-// @public (undocumented)
 export interface ResourceSku {
     name: string;
 }
@@ -647,6 +815,31 @@ export interface SystemData {
 export interface UserIdentityProperties {
     readonly clientId?: string;
     readonly principalId?: string;
+}
+
+// @public
+export interface WebApplicationFirewallComponentVersions {
+    wafEngineVersion: string;
+    wafNginxVersion: string;
+}
+
+// @public
+export interface WebApplicationFirewallPackage {
+    revisionDatetime: Date;
+    version: string;
+}
+
+// @public
+export interface WebApplicationFirewallSettings {
+    activationState?: ActivationState;
+}
+
+// @public
+export interface WebApplicationFirewallStatus {
+    readonly attackSignaturesPackage?: WebApplicationFirewallPackage;
+    readonly botSignaturesPackage?: WebApplicationFirewallPackage;
+    readonly componentVersions?: WebApplicationFirewallComponentVersions;
+    readonly threatCampaignsPackage?: WebApplicationFirewallPackage;
 }
 
 // (No @packageDocumentation comment for this package)

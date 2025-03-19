@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { env, Recorder, RecorderStartOptions, isPlaybackMode } from "@azure-tools/test-recorder";
+import type { RecorderStartOptions } from "@azure-tools/test-recorder";
+import { env, Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { ServiceFabricManagementClient } from "../src/serviceFabricManagementClient.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
@@ -155,7 +156,7 @@ describe("ServiceFabric test", () => {
 
   it("clusters list test", async () => {
     const resArray = new Array();
-    for await (let item of client.clusters.listByResourceGroup(resourceGroup)) {
+    for await (const item of client.clusters.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 1);
@@ -163,7 +164,7 @@ describe("ServiceFabric test", () => {
 
   it("applicationTypes list test", async () => {
     const resArray = new Array();
-    for await (let item of client.applicationTypes.list(resourceGroup, clusterName)) {
+    for await (const item of client.applicationTypes.list(resourceGroup, clusterName)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 1);
@@ -231,7 +232,7 @@ describe("ServiceFabric test", () => {
       applicationTypeName,
       testPollingOptions,
     );
-    for await (let item of client.applicationTypes.list(resourceGroup, clusterName)) {
+    for await (const item of client.applicationTypes.list(resourceGroup, clusterName)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 0);
@@ -240,7 +241,7 @@ describe("ServiceFabric test", () => {
   it("clusters delete test", async () => {
     const resArray = new Array();
     await client.clusters.delete(resourceGroup, clusterName);
-    for await (let item of client.clusters.listByResourceGroup(resourceGroup)) {
+    for await (const item of client.clusters.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 0);

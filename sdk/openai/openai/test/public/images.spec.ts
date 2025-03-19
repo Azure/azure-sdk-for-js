@@ -26,7 +26,7 @@ describe("Images", function () {
         const width = 1024;
         const size = `${height}x${width}`;
 
-        it("generates image URLs", async function () {
+        it("generates image URLs", async () => {
           await withDeployments(
             clientsAndDeployments,
             (client, deploymentName) =>
@@ -40,7 +40,7 @@ describe("Images", function () {
           );
         });
 
-        it("generates image strings", async function () {
+        it("generates image strings", async () => {
           await withDeployments(
             clientsAndDeployments,
             (client, deploymentName) =>

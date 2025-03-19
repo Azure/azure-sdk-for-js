@@ -343,6 +343,7 @@ export {
   ApiCenterApiDefinitionUpdatedEventData,
   ApiCenterApiSpecification,
   AcsMessageDeliveryStatusUpdatedEventData,
+  AcsMessageReactionContent,
   AcsMessageReceivedEventData,
   AcsRouterWorkerUpdatedEventData,
   AcsMessageEventData,

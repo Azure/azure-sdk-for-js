@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { ResourceConnectorManagementClient } from "@azure/arm-resourceconnector";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists all available Appliances operations.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Lists all available Appliances operations.
  * x-ms-original-file: specification/resourceconnector/resource-manager/Microsoft.ResourceConnector/stable/2022-10-27/examples/AppliancesListOperations.json
  */
-async function listAppliancesOperations() {
+async function listAppliancesOperations(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ResourceConnectorManagementClient(credential);
   const resArray = new Array();
@@ -30,7 +28,7 @@ async function listAppliancesOperations() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listAppliancesOperations();
 }
 

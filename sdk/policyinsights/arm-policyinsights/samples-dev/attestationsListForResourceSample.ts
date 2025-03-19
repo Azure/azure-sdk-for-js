@@ -16,7 +16,7 @@ import "dotenv/config";
  * @summary Gets all attestations for a resource.
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2024-10-01/examples/Attestations_ListResourceScope.json
  */
-async function listAttestationsAtIndividualResourceScope() {
+async function listAttestationsAtIndividualResourceScope(): Promise<void> {
   const resourceId =
     "subscriptions/35ee058e-5fa0-414c-8145-3ebb8d09b6e2/resourcegroups/myrg/providers/microsoft.compute/virtualMachines/devVM";
   const credential = new DefaultAzureCredential();
@@ -34,7 +34,7 @@ async function listAttestationsAtIndividualResourceScope() {
  * @summary Gets all attestations for a resource.
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2024-10-01/examples/Attestations_ListResourceScope_WithQuery.json
  */
-async function listAttestationsAtIndividualResourceScopeWithQueryParameters() {
+async function listAttestationsAtIndividualResourceScopeWithQueryParameters(): Promise<void> {
   const resourceId =
     "subscriptions/35ee058e-5fa0-414c-8145-3ebb8d09b6e2/resourcegroups/myrg/providers/microsoft.compute/virtualMachines/devVM";
   const top = 1;
@@ -50,7 +50,7 @@ async function listAttestationsAtIndividualResourceScopeWithQueryParameters() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await listAttestationsAtIndividualResourceScope();
   await listAttestationsAtIndividualResourceScopeWithQueryParameters();
 }

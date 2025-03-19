@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Lists all the Azure Cosmos DB accounts available under the subscription.
  * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-12-01-preview/examples/throughputPool/CosmosDBThroughputPoolAccountsList.json
  */
-async function cosmosDbThroughputPoolAccountList() {
+async function cosmosDbThroughputPoolAccountList(): Promise<void> {
   const subscriptionId =
     process.env["COSMOSDB_SUBSCRIPTION_ID"] ||
     "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -33,7 +33,7 @@ async function cosmosDbThroughputPoolAccountList() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   cosmosDbThroughputPoolAccountList();
 }
 

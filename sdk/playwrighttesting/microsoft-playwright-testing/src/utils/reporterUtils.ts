@@ -10,27 +10,27 @@ import type {
   FullConfig,
   Suite,
 } from "@playwright/test/reporter";
-import { exec } from "child_process";
-import { reporterLogger } from "../common/logger";
-import { createHash, randomUUID } from "crypto";
-import type { IBackOffOptions } from "../common/types";
-import fs from "fs";
-import path from "path";
-import { Constants } from "../common/constants";
-import type { EnvironmentVariables } from "../common/environmentVariables";
-import type { DedupedStep, RawTestStep } from "../common/types";
-import { TokenType } from "../model/mptTokenDetails";
-import type { UploadMetadata } from "../model/shard";
-import { Shard, TestRunStatus } from "../model/shard";
-import type { RawTestResult } from "../model/testResult";
-import { TestResult as MPTTestResult } from "../model/testResult";
-import type { TestRunConfig } from "../model/testRun";
-import { TestRun } from "../model/testRun";
-import type { CIInfo } from "./cIInfoProvider";
-import { CI_PROVIDERS } from "./cIInfoProvider";
-import { CIInfoProvider } from "./cIInfoProvider";
-import type { StorageUri } from "../model/storageUri";
-import { getPackageVersion } from "./utils";
+import { exec } from "node:child_process";
+import { reporterLogger } from "../common/logger.js";
+import { createHash, randomUUID } from "node:crypto";
+import type { IBackOffOptions } from "../common/types.js";
+import fs from "node:fs";
+import path from "node:path";
+import { Constants } from "../common/constants.js";
+import type { EnvironmentVariables } from "../common/environmentVariables.js";
+import type { DedupedStep, RawTestStep } from "../common/types.js";
+import { TokenType } from "../model/mptTokenDetails.js";
+import type { UploadMetadata } from "../model/shard.js";
+import { Shard, TestRunStatus } from "../model/shard.js";
+import type { RawTestResult } from "../model/testResult.js";
+import { TestResult as MPTTestResult } from "../model/testResult.js";
+import type { TestRunConfig } from "../model/testRun.js";
+import { TestRun } from "../model/testRun.js";
+import type { CIInfo } from "./cIInfoProvider.js";
+import { CI_PROVIDERS } from "./cIInfoProvider.js";
+import { CIInfoProvider } from "./cIInfoProvider.js";
+import type { StorageUri } from "../model/storageUri.js";
+import { getPackageVersion } from "./utils.js";
 class ReporterUtils {
   private envVariables: EnvironmentVariables;
 

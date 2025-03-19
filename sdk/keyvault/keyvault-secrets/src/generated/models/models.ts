@@ -145,29 +145,47 @@ export interface KeyVaultError {
 
 export function keyVaultErrorDeserializer(item: any): KeyVaultError {
   return {
-    error: !item["error"] ? item["error"] : errorDeserializer(item["error"]),
+    error: !item["error"]
+      ? item["error"]
+      : _keyVaultErrorErrorDeserializer(item["error"]),
   };
 }
 
-/** The key vault server error. */
-export interface ErrorModel {
+/** Alias for ErrorModel */
+export type ErrorModel = {
+  code?: string;
+  message?: string;
+  innerError?: ErrorModel_1;
+} | null;
+
+/** model interface _KeyVaultErrorError */
+export interface _KeyVaultErrorError {
   /** The error code. */
   readonly code?: string;
   /** The error message. */
   readonly message?: string;
   /** The key vault server error. */
-  readonly innerError?: ErrorModel;
+  readonly innerError?: ErrorModel_1;
 }
 
-export function errorDeserializer(item: any): ErrorModel {
+export function _keyVaultErrorErrorDeserializer(
+  item: any,
+): _KeyVaultErrorError {
   return {
     code: item["code"],
     message: item["message"],
     innerError: !item["innererror"]
       ? item["innererror"]
-      : errorDeserializer(item["innererror"]),
+      : _keyVaultErrorErrorDeserializer(item["innererror"]),
   };
 }
+
+/** Alias for ErrorModel */
+export type ErrorModel_1 = {
+  code?: string;
+  message?: string;
+  innerError?: ErrorModel_1;
+} | null;
 
 /** A Deleted Secret consisting of its previous id, attributes and its tags, as well as information on when it will be purged. */
 export interface DeletedSecretBundle {
@@ -385,6 +403,6 @@ export function secretRestoreParametersSerializer(
 export enum KnownVersions {
   /** The 7.5 API version. */
   "v7.5" = "7.5",
-  /** The 7.6-preview.1 API version. */
-  "v7.6_preview.1" = "7.6-preview.1",
+  /** The 7.6-preview.2 API version. */
+  "v7.6_preview.2" = "7.6-preview.2",
 }

@@ -43,7 +43,7 @@ import {
   RegistriesScheduleRunOptionalParams,
   RegistriesScheduleRunResponse,
   RegistriesGetBuildSourceUploadUrlOptionalParams,
-  RegistriesGetBuildSourceUploadUrlResponse
+  RegistriesGetBuildSourceUploadUrlResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -54,7 +54,7 @@ export interface Registries {
    * @param options The options parameters.
    */
   list(
-    options?: RegistriesListOptionalParams
+    options?: RegistriesListOptionalParams,
   ): PagedAsyncIterableIterator<Registry>;
   /**
    * Lists all the container registries under the specified resource group.
@@ -63,7 +63,7 @@ export interface Registries {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: RegistriesListByResourceGroupOptionalParams
+    options?: RegistriesListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<Registry>;
   /**
    * Lists the private link resources for a container registry.
@@ -74,7 +74,7 @@ export interface Registries {
   listPrivateLinkResources(
     resourceGroupName: string,
     registryName: string,
-    options?: RegistriesListPrivateLinkResourcesOptionalParams
+    options?: RegistriesListPrivateLinkResourcesOptionalParams,
   ): PagedAsyncIterableIterator<PrivateLinkResource>;
   /**
    * Copies an image to this container registry from the specified container registry.
@@ -87,7 +87,7 @@ export interface Registries {
     resourceGroupName: string,
     registryName: string,
     parameters: ImportImageParameters,
-    options?: RegistriesImportImageOptionalParams
+    options?: RegistriesImportImageOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Copies an image to this container registry from the specified container registry.
@@ -100,7 +100,7 @@ export interface Registries {
     resourceGroupName: string,
     registryName: string,
     parameters: ImportImageParameters,
-    options?: RegistriesImportImageOptionalParams
+    options?: RegistriesImportImageOptionalParams,
   ): Promise<void>;
   /**
    * Checks whether the container registry name is available for use. The name must contain only
@@ -110,7 +110,7 @@ export interface Registries {
    */
   checkNameAvailability(
     registryNameCheckRequest: RegistryNameCheckRequest,
-    options?: RegistriesCheckNameAvailabilityOptionalParams
+    options?: RegistriesCheckNameAvailabilityOptionalParams,
   ): Promise<RegistriesCheckNameAvailabilityResponse>;
   /**
    * Gets the properties of the specified container registry.
@@ -121,7 +121,7 @@ export interface Registries {
   get(
     resourceGroupName: string,
     registryName: string,
-    options?: RegistriesGetOptionalParams
+    options?: RegistriesGetOptionalParams,
   ): Promise<RegistriesGetResponse>;
   /**
    * Creates a container registry with the specified parameters.
@@ -134,7 +134,7 @@ export interface Registries {
     resourceGroupName: string,
     registryName: string,
     registry: Registry,
-    options?: RegistriesCreateOptionalParams
+    options?: RegistriesCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<RegistriesCreateResponse>,
@@ -152,7 +152,7 @@ export interface Registries {
     resourceGroupName: string,
     registryName: string,
     registry: Registry,
-    options?: RegistriesCreateOptionalParams
+    options?: RegistriesCreateOptionalParams,
   ): Promise<RegistriesCreateResponse>;
   /**
    * Deletes a container registry.
@@ -163,7 +163,7 @@ export interface Registries {
   beginDelete(
     resourceGroupName: string,
     registryName: string,
-    options?: RegistriesDeleteOptionalParams
+    options?: RegistriesDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a container registry.
@@ -174,7 +174,7 @@ export interface Registries {
   beginDeleteAndWait(
     resourceGroupName: string,
     registryName: string,
-    options?: RegistriesDeleteOptionalParams
+    options?: RegistriesDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Updates a container registry with the specified parameters.
@@ -187,7 +187,7 @@ export interface Registries {
     resourceGroupName: string,
     registryName: string,
     registryUpdateParameters: RegistryUpdateParameters,
-    options?: RegistriesUpdateOptionalParams
+    options?: RegistriesUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<RegistriesUpdateResponse>,
@@ -205,7 +205,7 @@ export interface Registries {
     resourceGroupName: string,
     registryName: string,
     registryUpdateParameters: RegistryUpdateParameters,
-    options?: RegistriesUpdateOptionalParams
+    options?: RegistriesUpdateOptionalParams,
   ): Promise<RegistriesUpdateResponse>;
   /**
    * Gets the quota usages for the specified container registry.
@@ -216,7 +216,7 @@ export interface Registries {
   listUsages(
     resourceGroupName: string,
     registryName: string,
-    options?: RegistriesListUsagesOptionalParams
+    options?: RegistriesListUsagesOptionalParams,
   ): Promise<RegistriesListUsagesResponse>;
   /**
    * Gets a private link resource by a specified group name for a container registry.
@@ -229,7 +229,7 @@ export interface Registries {
     resourceGroupName: string,
     registryName: string,
     groupName: string,
-    options?: RegistriesGetPrivateLinkResourceOptionalParams
+    options?: RegistriesGetPrivateLinkResourceOptionalParams,
   ): Promise<RegistriesGetPrivateLinkResourceResponse>;
   /**
    * Lists the login credentials for the specified container registry.
@@ -240,7 +240,7 @@ export interface Registries {
   listCredentials(
     resourceGroupName: string,
     registryName: string,
-    options?: RegistriesListCredentialsOptionalParams
+    options?: RegistriesListCredentialsOptionalParams,
   ): Promise<RegistriesListCredentialsResponse>;
   /**
    * Regenerates one of the login credentials for the specified container registry.
@@ -254,7 +254,7 @@ export interface Registries {
     resourceGroupName: string,
     registryName: string,
     regenerateCredentialParameters: RegenerateCredentialParameters,
-    options?: RegistriesRegenerateCredentialOptionalParams
+    options?: RegistriesRegenerateCredentialOptionalParams,
   ): Promise<RegistriesRegenerateCredentialResponse>;
   /**
    * Generate keys for a token of a specified container registry.
@@ -267,7 +267,7 @@ export interface Registries {
     resourceGroupName: string,
     registryName: string,
     generateCredentialsParameters: GenerateCredentialsParameters,
-    options?: RegistriesGenerateCredentialsOptionalParams
+    options?: RegistriesGenerateCredentialsOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<RegistriesGenerateCredentialsResponse>,
@@ -285,7 +285,7 @@ export interface Registries {
     resourceGroupName: string,
     registryName: string,
     generateCredentialsParameters: GenerateCredentialsParameters,
-    options?: RegistriesGenerateCredentialsOptionalParams
+    options?: RegistriesGenerateCredentialsOptionalParams,
   ): Promise<RegistriesGenerateCredentialsResponse>;
   /**
    * Schedules a new run based on the request parameters and add it to the run queue.
@@ -298,7 +298,7 @@ export interface Registries {
     resourceGroupName: string,
     registryName: string,
     runRequest: RunRequestUnion,
-    options?: RegistriesScheduleRunOptionalParams
+    options?: RegistriesScheduleRunOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<RegistriesScheduleRunResponse>,
@@ -316,7 +316,7 @@ export interface Registries {
     resourceGroupName: string,
     registryName: string,
     runRequest: RunRequestUnion,
-    options?: RegistriesScheduleRunOptionalParams
+    options?: RegistriesScheduleRunOptionalParams,
   ): Promise<RegistriesScheduleRunResponse>;
   /**
    * Get the upload location for the user to be able to upload the source.
@@ -327,6 +327,6 @@ export interface Registries {
   getBuildSourceUploadUrl(
     resourceGroupName: string,
     registryName: string,
-    options?: RegistriesGetBuildSourceUploadUrlOptionalParams
+    options?: RegistriesGetBuildSourceUploadUrlOptionalParams,
   ): Promise<RegistriesGetBuildSourceUploadUrlResponse>;
 }

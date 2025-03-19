@@ -30,10 +30,9 @@
     "init": "dist/commonjs/index.js"
   },
   "files": [
-    "dist",
+    "dist/",
     "README.md",
-    "LICENSE",
-    "CHANGELOG.md"
+    "LICENSE"
   ],
   "scripts": {
     "build": "npm run clean && dev-tool run build-package",
@@ -56,22 +55,23 @@
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
     "unit-test:browser": "echo skipped",
     "unit-test:node": "dev-tool run test:vitest --no-test-proxy",
-    "update-snippets": "echo skipped"
+    "update-snippets": "dev-tool run update-snippets"
   },
   "dependencies": {
     "prompts": "^2.4.2",
-    "tslib": "^2.6.0"
+    "tslib": "^2.8.1"
   },
   "devDependencies": {
-    "@azure-tools/test-utils": "^1.0.1",
+    "@azure-tools/test-utils-vitest": "^1.0.0",
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
+    "@azure/logger": "^1.1.4",
     "@types/node": "^20.12.12",
     "@types/prompts": "^2.4.9",
-    "@vitest/coverage-istanbul": "^3.0.3",
+    "@vitest/coverage-istanbul": "^3.0.9",
     "eslint": "^9.9.0",
-    "typescript": "~5.7.2",
-    "vitest": "^3.0.3"
+    "typescript": "~5.8.2",
+    "vitest": "^3.0.9"
   },
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "//sampleConfiguration": {
@@ -84,6 +84,7 @@
     }
   },
   "tshy": {
+    "project": "./tsconfig.src.json",
     "exports": {
       "./package.json": "./package.json",
       ".": "./src/index.ts"
@@ -92,8 +93,7 @@
       "esm",
       "commonjs"
     ],
-    "selfLink": false,
-    "project": "./tsconfig.src.json"
+    "selfLink": false
   },
   "exports": {
     "./package.json": "./package.json",

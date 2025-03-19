@@ -11,8 +11,8 @@
 import { AzureOpenAI } from "openai";
 import { getBearerTokenProvider, DefaultAzureCredential } from "@azure/identity";
 
-export async function main() {
-  const apiVersion = "2024-11-01-preview";
+export async function main(): Promise<void> {
+  const apiVersion = "2025-01-01-preview";
   // Create AzureOpenAI client with Microsoft Entra ID
   const credential = new DefaultAzureCredential();
   const scope = "https://cognitiveservices.azure.com/.default";
@@ -46,7 +46,7 @@ export async function main() {
 
   // Start a new run with instructions
   const instructions = "Please address the user as Jane Doe. The user has a premium account.";
-  let run = await client.beta.threads.runs.createAndPoll(thread.id, {
+  const run = await client.beta.threads.runs.createAndPoll(thread.id, {
     assistant_id: assistant.id,
     instructions,
   });

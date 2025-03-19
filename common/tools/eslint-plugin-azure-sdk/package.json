@@ -86,8 +86,8 @@
   "prettier": "./prettier.json",
   "peerDependencies": {
     "@eslint/eslintrc": "^3.2.0",
-    "@typescript-eslint/eslint-plugin": "~8.23.0",
-    "@typescript-eslint/parser": "~8.23.0",
+    "@typescript-eslint/eslint-plugin": "~8.26.0",
+    "@typescript-eslint/parser": "~8.26.0",
     "eslint": "^9.9.0",
     "eslint-plugin-markdown": "^5.0.0",
     "eslint-plugin-n": "^17.15.0",
@@ -100,31 +100,30 @@
     "@eslint/js": "^9.9.0",
     "@types/eslint": "^9.6.0",
     "@types/estree": "~1.0.0",
-    "@typescript-eslint/typescript-estree": "~8.23.0",
+    "@typescript-eslint/typescript-estree": "~8.26.0",
     "eslint-config-prettier": "^10.0.1",
     "glob": "^10.3.10",
     "tslib": "^2.6.2",
-    "typescript": "~5.7.2",
-    "typescript-eslint": "~8.23.0"
+    "typescript": "~5.8.2",
+    "typescript-eslint": "~8.26.0"
   },
   "devDependencies": {
     "@types/eslint": "^9.6.0",
-    "@types/eslint__js": "8.42.3",
     "@types/eslint-config-prettier": "6.11.3",
     "@types/node": "^18.0.0",
-    "@typescript-eslint/eslint-plugin": "~8.23.0",
-    "@typescript-eslint/parser": "~8.23.0",
-    "@typescript-eslint/rule-tester": "~8.23.0",
-    "@typescript-eslint/utils": "~8.23.0",
-    "@vitest/browser": "^3.0.3",
-    "@vitest/coverage-istanbul": "^3.0.3",
+    "@typescript-eslint/eslint-plugin": "~8.26.0",
+    "@typescript-eslint/parser": "~8.26.0",
+    "@typescript-eslint/rule-tester": "~8.26.0",
+    "@typescript-eslint/utils": "~8.26.0",
+    "@vitest/browser": "^3.0.9",
+    "@vitest/coverage-istanbul": "^3.0.9",
     "eslint": "^9.9.0",
     "eslint-plugin-markdown": "^5.0.0",
     "playwright": "^1.49.1",
     "prettier": "^3.3.3",
     "rimraf": "^5.0.5",
     "tshy": "^2.0.0",
-    "vitest": "^3.0.3"
+    "vitest": "^3.0.9"
   },
   "tshy": {
     "exports": {

@@ -7,9 +7,7 @@
  */
 import { PrivateDnsManagementClient } from "@azure/arm-privatedns";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets a virtual network link to the specified Private DNS zone.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Gets a virtual network link to the specified Private DNS zone.
  * x-ms-original-file: specification/privatedns/resource-manager/Microsoft.Network/stable/2024-06-01/examples/VirtualNetworkLinkGet.json
  */
-async function getPrivateDnsZoneVirtualNetworkLink() {
+async function getPrivateDnsZoneVirtualNetworkLink(): Promise<void> {
   const subscriptionId = process.env["PRIVATEDNS_SUBSCRIPTION_ID"] || "subscriptionId";
   const resourceGroupName = process.env["PRIVATEDNS_RESOURCE_GROUP"] || "resourceGroup1";
   const privateZoneName = "privatezone1.com";
@@ -32,7 +30,7 @@ async function getPrivateDnsZoneVirtualNetworkLink() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await getPrivateDnsZoneVirtualNetworkLink();
 }
 

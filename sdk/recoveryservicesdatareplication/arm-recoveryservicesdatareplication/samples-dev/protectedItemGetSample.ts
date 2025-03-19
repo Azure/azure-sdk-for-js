@@ -7,9 +7,7 @@
  */
 import { AzureSiteRecoveryManagementServiceAPI } from "@azure/arm-recoveryservicesdatareplication";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets the details of the protected item.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Gets the details of the protected item.
  * x-ms-original-file: specification/recoveryservicesdatareplication/resource-manager/Microsoft.DataReplication/preview/2021-02-16-preview/examples/ProtectedItem_Get.json
  */
-async function protectedItemGet() {
+async function protectedItemGet(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICESDATAREPLICATION_SUBSCRIPTION_ID"] ||
     "930CEC23-4430-4513-B855-DBA237E2F3BF";
@@ -32,7 +30,7 @@ async function protectedItemGet() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await protectedItemGet();
 }
 

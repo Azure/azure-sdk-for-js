@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Gets all private endpoint connections on a server.
  * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2024-08-01/examples/PrivateEndpointConnectionList.json
  */
-async function getsListOfPrivateEndpointConnectionsOnAServer() {
+async function getsListOfPrivateEndpointConnectionsOnAServer(): Promise<void> {
   const subscriptionId =
     process.env["POSTGRESQL_SUBSCRIPTION_ID"] || "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const resourceGroupName = process.env["POSTGRESQL_RESOURCE_GROUP"] || "Default";
@@ -32,7 +32,7 @@ async function getsListOfPrivateEndpointConnectionsOnAServer() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await getsListOfPrivateEndpointConnectionsOnAServer();
 }
 

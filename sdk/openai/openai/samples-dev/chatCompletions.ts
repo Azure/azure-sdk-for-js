@@ -16,13 +16,13 @@ import { DefaultAzureCredential, getBearerTokenProvider } from "@azure/identity"
 // Load the .env file if it exists
 import "dotenv/config";
 
-export async function main() {
+export async function main(): Promise<void> {
   console.log("== Chat Completions Sample ==");
 
   const scope = "https://cognitiveservices.azure.com/.default";
   const azureADTokenProvider = getBearerTokenProvider(new DefaultAzureCredential(), scope);
   const deployment = "gpt-35-turbo";
-  const apiVersion = "2024-11-01-preview";
+  const apiVersion = "2025-01-01-preview";
   const client = new AzureOpenAI({ azureADTokenProvider, deployment, apiVersion });
   const result = await client.chat.completions.create({
     messages: [

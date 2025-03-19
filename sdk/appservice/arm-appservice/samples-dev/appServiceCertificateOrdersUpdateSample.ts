@@ -21,8 +21,7 @@ async function updateCertificateOrder(): Promise<void> {
     process.env["APPSERVICE_SUBSCRIPTION_ID"] || "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
   const resourceGroupName = process.env["APPSERVICE_RESOURCE_GROUP"] || "testrg123";
   const certificateOrderName = "SampleCertificateOrderName";
-  const certificateDistinguishedName: AppServiceCertificateOrderPatchResource =
-  {
+  const certificateDistinguishedName: AppServiceCertificateOrderPatchResource = {
     autoRenew: true,
     certificates: {
       sampleCertName1: {

@@ -27,7 +27,7 @@ import {
   LoadBalancersListInboundNatRulePortMappingsResponse,
   LoadBalancersMigrateToIpBasedOptionalParams,
   LoadBalancersMigrateToIpBasedResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a LoadBalancers. */

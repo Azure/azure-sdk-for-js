@@ -16,7 +16,7 @@ import "dotenv/config";
  * @summary Queries policy events for the resources under the subscription.
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2024-10-01/examples/PolicyEvents_FilterAndAggregateOnly.json
  */
-async function filterAndAggregateOnly() {
+async function filterAndAggregateOnly(): Promise<void> {
   const policyEventsResource = "default";
   const subscriptionId = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
   const fromParam = new Date("2018-02-05T18:00:00Z");
@@ -46,7 +46,7 @@ async function filterAndAggregateOnly() {
  * @summary Queries policy events for the resources under the subscription.
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2024-10-01/examples/PolicyEvents_FilterAndGroupByWithAggregate.json
  */
-async function filterAndGroupWithAggregate() {
+async function filterAndGroupWithAggregate(): Promise<void> {
   const policyEventsResource = "default";
   const subscriptionId = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
   const top = 2;
@@ -79,7 +79,7 @@ async function filterAndGroupWithAggregate() {
  * @summary Queries policy events for the resources under the subscription.
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2024-10-01/examples/PolicyEvents_FilterAndGroupByWithoutAggregate.json
  */
-async function filterAndGroupWithoutAggregate() {
+async function filterAndGroupWithoutAggregate(): Promise<void> {
   const policyEventsResource = "default";
   const subscriptionId = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
   const top = 2;
@@ -112,7 +112,7 @@ async function filterAndGroupWithoutAggregate() {
  * @summary Queries policy events for the resources under the subscription.
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2024-10-01/examples/PolicyEvents_FilterAndMultipleGroups.json
  */
-async function filterAndMultipleGroups() {
+async function filterAndMultipleGroups(): Promise<void> {
   const policyEventsResource = "default";
   const subscriptionId = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
   const top = 10;
@@ -147,7 +147,7 @@ async function filterAndMultipleGroups() {
  * @summary Queries policy events for the resources under the subscription.
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2024-10-01/examples/PolicyEvents_QuerySubscriptionScope.json
  */
-async function queryAtSubscriptionScope() {
+async function queryAtSubscriptionScope(): Promise<void> {
   const policyEventsResource = "default";
   const subscriptionId = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
   const credential = new DefaultAzureCredential();
@@ -168,7 +168,7 @@ async function queryAtSubscriptionScope() {
  * @summary Queries policy events for the resources under the subscription.
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2024-10-01/examples/PolicyEvents_QuerySubscriptionScopeNextLink.json
  */
-async function queryAtSubscriptionScopeWithNextLink() {
+async function queryAtSubscriptionScopeWithNextLink(): Promise<void> {
   const policyEventsResource = "default";
   const subscriptionId = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
   const skipToken = "WpmWfBSvPhkAK6QD";
@@ -194,7 +194,7 @@ async function queryAtSubscriptionScopeWithNextLink() {
  * @summary Queries policy events for the resources under the subscription.
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2024-10-01/examples/PolicyEvents_TimeRangeSortSelectTop.json
  */
-async function timeRangeSortSelectAndLimit() {
+async function timeRangeSortSelectAndLimit(): Promise<void> {
   const policyEventsResource = "default";
   const subscriptionId = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
   const top = 2;
@@ -224,7 +224,7 @@ async function timeRangeSortSelectAndLimit() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await filterAndAggregateOnly();
   await filterAndGroupWithAggregate();
   await filterAndGroupWithoutAggregate();

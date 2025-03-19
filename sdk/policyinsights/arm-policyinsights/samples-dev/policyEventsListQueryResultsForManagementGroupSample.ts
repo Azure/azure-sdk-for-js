@@ -16,7 +16,7 @@ import "dotenv/config";
  * @summary Queries policy events for the resources under the management group.
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2024-10-01/examples/PolicyEvents_QueryManagementGroupScope.json
  */
-async function queryAtManagementGroupScope() {
+async function queryAtManagementGroupScope(): Promise<void> {
   const policyEventsResource = "default";
   const managementGroupName = "myManagementGroup";
   const credential = new DefaultAzureCredential();
@@ -37,7 +37,7 @@ async function queryAtManagementGroupScope() {
  * @summary Queries policy events for the resources under the management group.
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2024-10-01/examples/PolicyEvents_QueryManagementGroupScopeNextLink.json
  */
-async function queryAtManagementGroupScopeWithNextLink() {
+async function queryAtManagementGroupScopeWithNextLink(): Promise<void> {
   const policyEventsResource = "default";
   const managementGroupName = "myManagementGroup";
   const skipToken = "WpmWfBSvPhkAK6QD";
@@ -55,7 +55,7 @@ async function queryAtManagementGroupScopeWithNextLink() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await queryAtManagementGroupScope();
   await queryAtManagementGroupScopeWithNextLink();
 }

@@ -11,7 +11,7 @@ import "dotenv/config";
  * @summary Starts packet capture on vpn gateway in the specified resource group.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/VpnGatewayStartPacketCaptureFilterData.json
  */
-async function startPacketCaptureOnVpnGatewayWithFilter() {
+async function startPacketCaptureOnVpnGatewayWithFilter(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -44,7 +44,7 @@ startPacketCaptureOnVpnGatewayWithFilter().catch(console.error);
  * @summary Starts packet capture on vpn gateway in the specified resource group.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/VpnGatewayStartPacketCapture.json
  */
-async function startPacketCaptureOnVpnGatewayWithoutFilter() {
+async function startPacketCaptureOnVpnGatewayWithoutFilter(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

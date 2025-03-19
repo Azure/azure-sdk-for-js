@@ -4,8 +4,8 @@
 import type { Recorder } from "@azure-tools/test-recorder";
 import type { ContainerClient } from "@azure/storage-blob";
 import { BlobServiceClient } from "@azure/storage-blob";
-import type { TestDocument } from "../utils/TestDocument";
-import { createTestDocument } from "../utils/TestDocument";
+import type { TestDocument } from "../utils/TestDocument.js";
+import { createTestDocument } from "../utils/TestDocument.js";
 import type { Pipeline } from "@azure/core-rest-pipeline";
 import { createTestCredential } from "@azure-tools/test-credential";
 
@@ -102,7 +102,10 @@ function configureBlobStorageClient(
   return;
 }
 
-async function uploadDocuments(containerClient: ContainerClient, documents: TestDocument[]) {
+async function uploadDocuments(
+  containerClient: ContainerClient,
+  documents: TestDocument[],
+): Promise<void> {
   for (const document of documents) {
     const blobClient = containerClient.getBlobClient(document.name);
     const blockBlobClient = blobClient.getBlockBlobClient();
@@ -143,7 +146,7 @@ async function streamToBuffer(readableStream: NodeJS.ReadableStream | undefined)
   return new Promise((resolve, reject) => {
     const chunks: Buffer[] = [];
     readableStream?.on("data", (data: Buffer | string) => {
-      chunks.push(data instanceof Buffer ? data : Buffer.from(data));
+      chunks.push(typeof data === "string" ? Buffer.from(data) : data);
     });
     readableStream?.on("end", () => {
       resolve(Buffer.concat(chunks));
