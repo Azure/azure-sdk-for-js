@@ -22,7 +22,6 @@ import type {
   PipelineCreatePipelineRunResponse,
 } from "../models/index.js";
 
-/// <reference lib="esnext.asynciterable" />
 /** Interface representing a PipelineOperations. */
 export interface PipelineOperations {
   /**

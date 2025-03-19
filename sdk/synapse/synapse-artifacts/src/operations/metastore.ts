@@ -132,7 +132,7 @@ export class MetastoreImpl implements Metastore {
 
   /**
    * Gets status of the database
-   * @param id -
+   * @param id - the name of the database.
    * @param options - The options parameters.
    */
   async getDatabaseOperations(
@@ -154,7 +154,7 @@ export class MetastoreImpl implements Metastore {
   /**
    * Update files in Syms
    * @param id - The name of the database to be updated
-   * @param updateBody - - The body for the update request
+   * @param updateBody - The body for the update request
    * @param options - The options parameters.
    */
   async update(
@@ -176,7 +176,7 @@ export class MetastoreImpl implements Metastore {
 
   /**
    * Remove files in Syms
-   * @param id -
+   * @param id - The name of the database to be deleted
    * @param options - The options parameters.
    */
   async delete(id: string, options?: MetastoreDeleteOptionalParams): Promise<void> {

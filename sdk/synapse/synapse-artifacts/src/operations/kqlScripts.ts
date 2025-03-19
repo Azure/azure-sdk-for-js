@@ -57,7 +57,6 @@ const getAllNextOperationSpec: coreClient.OperationSpec = {
   serializer,
 };
 
-/// <reference lib="esnext.asynciterable" />
 /** Class containing KqlScripts operations. */
 export class KqlScriptsImpl implements KqlScripts {
   private readonly client: ArtifactsClient;

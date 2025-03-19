@@ -264,7 +264,6 @@ const listByWorkspaceNextOperationSpec: coreClient.OperationSpec = {
   serializer,
 };
 
-/// <reference lib="esnext.asynciterable" />
 /** Class containing LinkConnectionOperations operations. */
 export class LinkConnectionOperationsImpl implements LinkConnectionOperations {
   private readonly client: ArtifactsClient;
@@ -352,8 +351,8 @@ export class LinkConnectionOperationsImpl implements LinkConnectionOperations {
 
   /**
    * Creates or updates a link connection
-   * @param linkConnection - - Name - The link connection name
-   * @param linkConnection - - Link connection resource definition
+   * @param linkConnectionName - The link connection name
+   * @param linkConnection - Link connection resource definition
    * @param options - The options parameters.
    */
   async createOrUpdate(
@@ -375,7 +374,7 @@ export class LinkConnectionOperationsImpl implements LinkConnectionOperations {
 
   /**
    * Get a link connection
-   * @param linkConnection - - Name - The link connection name
+   * @param linkConnectionName - The link connection name
    * @param options - The options parameters.
    */
   async get(
@@ -392,7 +391,7 @@ export class LinkConnectionOperationsImpl implements LinkConnectionOperations {
 
   /**
    * Delete a link connection
-   * @param linkConnection - - Name - The link connection name
+   * @param linkConnectionName - The link connection name
    * @param options - The options parameters.
    */
   async delete(
@@ -413,7 +412,7 @@ export class LinkConnectionOperationsImpl implements LinkConnectionOperations {
 
   /**
    * Edit tables for a link connection
-   * @param linkConnection - - Name - The link connection name
+   * @param linkConnectionName - The link connection name
    * @param editTablesRequest - Edit tables request
    * @param options - The options parameters.
    */
@@ -437,7 +436,7 @@ export class LinkConnectionOperationsImpl implements LinkConnectionOperations {
   /**
    * Start a link connection. It may take a few minutes from Starting to Running, monitor the status with
    * LinkConnection_GetDetailedStatus.
-   * @param linkConnection - - Name - The link connection name
+   * @param linkConnectionName - The link connection name
    * @param options - The options parameters.
    */
   async start(
@@ -459,7 +458,7 @@ export class LinkConnectionOperationsImpl implements LinkConnectionOperations {
   /**
    * Stop a link connection. It may take a few minutes from Stopping to stopped, monitor the status with
    * LinkConnection_GetDetailedStatus.
-   * @param linkConnection - - Name - The link connection name
+   * @param linkConnectionName - The link connection name
    * @param options - The options parameters.
    */
   async stop(
@@ -476,7 +475,7 @@ export class LinkConnectionOperationsImpl implements LinkConnectionOperations {
 
   /**
    * Get the detailed status of a link connection
-   * @param linkConnection - - Name - The link connection name
+   * @param linkConnectionName - The link connection name
    * @param options - The options parameters.
    */
   async getDetailedStatus(
@@ -497,7 +496,7 @@ export class LinkConnectionOperationsImpl implements LinkConnectionOperations {
 
   /**
    * List the link tables of a link connection
-   * @param linkConnection - - Name - The link connection name
+   * @param linkConnectionName - The link connection name
    * @param options - The options parameters.
    */
   async listLinkTables(
@@ -518,7 +517,7 @@ export class LinkConnectionOperationsImpl implements LinkConnectionOperations {
 
   /**
    * Query the link table status of a link connection
-   * @param linkConnection - - Name - The link connection name
+   * @param linkConnectionName - The link connection name
    * @param queryTableStatusRequest - Query table status request
    * @param options - The options parameters.
    */
@@ -541,7 +540,7 @@ export class LinkConnectionOperationsImpl implements LinkConnectionOperations {
 
   /**
    * Update landing zone credential of a link connection
-   * @param linkConnection - - Name - The link connection name
+   * @param linkConnectionName - The link connection name
    * @param updateLandingZoneCredentialRequest - update landing zone credential request
    * @param options - The options parameters.
    */
@@ -565,7 +564,7 @@ export class LinkConnectionOperationsImpl implements LinkConnectionOperations {
   /**
    * Pause a link connection. It may take a few minutes from Pausing to Paused, monitor the status with
    * LinkConnection_GetDetailedStatus.
-   * @param linkConnection - - Name - The link connection name
+   * @param linkConnectionName - The link connection name
    * @param options - The options parameters.
    */
   async pause(
@@ -587,7 +586,7 @@ export class LinkConnectionOperationsImpl implements LinkConnectionOperations {
   /**
    * Resume a link connection. It may take a few minutes from Resuming to Running, monitor the status
    * with LinkConnection_GetDetailedStatus.
-   * @param linkConnection - - Name - The link connection name
+   * @param linkConnectionName - The link connection name
    * @param options - The options parameters.
    */
   async resume(

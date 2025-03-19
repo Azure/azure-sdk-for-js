@@ -23,8 +23,7 @@ import type {
 export interface RunNotebook {
   /**
    * Run notebook
-   * @param runId - Notebook run id. For Create Run, you can generate a new GUID and use it here. For other
-   *              actions, this is the same ID used in Create Run.
+   * @param runId - Notebook run id.
    * @param runNotebookRequest - Run notebook request payload.
    * @param options - The options parameters.
    */
@@ -37,8 +36,7 @@ export interface RunNotebook {
   >;
   /**
    * Run notebook
-   * @param runId - Notebook run id. For Create Run, you can generate a new GUID and use it here. For other
-   *              actions, this is the same ID used in Create Run.
+   * @param runId - Notebook run id.
    * @param runNotebookRequest - Run notebook request payload.
    * @param options - The options parameters.
    */
@@ -49,8 +47,7 @@ export interface RunNotebook {
   ): Promise<RunNotebookCreateRunResponse>;
   /**
    * Get RunNotebook Status for run id.
-   * @param runId - Notebook run id. For Create Run, you can generate a new GUID and use it here. For other
-   *              actions, this is the same ID used in Create Run.
+   * @param runId - Notebook run id.
    * @param options - The options parameters.
    */
   getStatus(
@@ -59,8 +56,7 @@ export interface RunNotebook {
   ): Promise<RunNotebookGetStatusResponse>;
   /**
    * Cancel notebook run.
-   * @param runId - Notebook run id. For Create Run, you can generate a new GUID and use it here. For other
-   *              actions, this is the same ID used in Create Run.
+   * @param runId - Notebook run id.
    * @param options - The options parameters.
    */
   cancelRun(
@@ -69,8 +65,7 @@ export interface RunNotebook {
   ): Promise<RunNotebookCancelRunResponse>;
   /**
    * Get RunNotebook Snapshot for run id.
-   * @param runId - Notebook run id. For Create Run, you can generate a new GUID and use it here. For other
-   *              actions, this is the same ID used in Create Run.
+   * @param runId - Notebook run id.
    * @param options - The options parameters.
    */
   getSnapshot(

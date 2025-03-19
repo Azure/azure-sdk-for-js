@@ -176,7 +176,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   serializer,
 };
 
-/// <reference lib="esnext.asynciterable" />
 /** Class containing Library operations. */
 export class LibraryImpl implements Library {
   private readonly client: ArtifactsClient;
@@ -279,7 +278,14 @@ export class LibraryImpl implements Library {
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ) => {
+    ): Promise<{
+      flatResponse: void;
+      rawResponse: {
+        statusCode: number;
+        body: any;
+        headers: coreRestPipeline.RawHttpHeaders;
+      };
+    }> => {
       let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
@@ -376,7 +382,14 @@ export class LibraryImpl implements Library {
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ) => {
+    ): Promise<{
+      flatResponse: void;
+      rawResponse: {
+        statusCode: number;
+        body: any;
+        headers: coreRestPipeline.RawHttpHeaders;
+      };
+    }> => {
       let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
@@ -467,7 +480,14 @@ export class LibraryImpl implements Library {
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ) => {
+    ): Promise<{
+      flatResponse: void;
+      rawResponse: {
+        statusCode: number;
+        body: any;
+        headers: coreRestPipeline.RawHttpHeaders;
+      };
+    }> => {
       let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
@@ -527,7 +547,7 @@ export class LibraryImpl implements Library {
    * size is 4MiB. Content larger than 4MiB must be appended in 4MiB chunks
    * @param libraryName - file name to upload. Minimum length of the filename should be 1 excluding the
    *                    extension length.
-   * @param content - - Library file chunk.
+   * @param content - Library file chunk.
    * @param options - The options parameters.
    */
   async append(

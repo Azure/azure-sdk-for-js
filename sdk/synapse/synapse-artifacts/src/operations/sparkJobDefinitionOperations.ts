@@ -34,7 +34,9 @@ import type {
   SparkJobDefinitionDebugSparkJobDefinitionOptionalParams,
   SparkJobDefinitionDebugSparkJobDefinitionResponse,
   SparkJobDefinitionGetSparkJobDefinitionsByWorkspaceNextResponse,
+  SparkBatchJob,
 } from "../models/index.js";
+import type { RawHttpHeaders } from "@azure/core-rest-pipeline";
 
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
@@ -203,7 +205,6 @@ const getSparkJobDefinitionsByWorkspaceNextOperationSpec: coreClient.OperationSp
   serializer,
 };
 
-/// <reference lib="esnext.asynciterable" />
 /** Class containing SparkJobDefinitionOperations operations. */
 export class SparkJobDefinitionOperationsImpl implements SparkJobDefinitionOperations {
   private readonly client: ArtifactsClient;
@@ -212,6 +213,7 @@ export class SparkJobDefinitionOperationsImpl implements SparkJobDefinitionOpera
    * Initialize a new instance of the class SparkJobDefinitionOperations class.
    * @param client - Reference to the service client
    */
+  // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
   constructor(client: ArtifactsClient) {
     this.client = client;
   }
@@ -323,7 +325,14 @@ export class SparkJobDefinitionOperationsImpl implements SparkJobDefinitionOpera
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ) => {
+    ): Promise<{
+      flatResponse: SparkJobDefinitionResource;
+      rawResponse: {
+        statusCode: number;
+        body: any;
+        headers: RawHttpHeaders;
+      };
+    }> => {
       let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
@@ -431,7 +440,14 @@ export class SparkJobDefinitionOperationsImpl implements SparkJobDefinitionOpera
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ) => {
+    ): Promise<{
+      flatResponse: void;
+      rawResponse: {
+        statusCode: number;
+        body: any;
+        headers: RawHttpHeaders;
+      };
+    }> => {
       let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
@@ -517,7 +533,14 @@ export class SparkJobDefinitionOperationsImpl implements SparkJobDefinitionOpera
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ) => {
+    ): Promise<{
+      flatResponse: SparkBatchJob;
+      rawResponse: {
+        statusCode: number;
+        body: any;
+        headers: RawHttpHeaders;
+      };
+    }> => {
       let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
@@ -601,7 +624,14 @@ export class SparkJobDefinitionOperationsImpl implements SparkJobDefinitionOpera
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ) => {
+    ): Promise<{
+      flatResponse: void;
+      rawResponse: {
+        statusCode: number;
+        body: any;
+        headers: RawHttpHeaders;
+      };
+    }> => {
       let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
@@ -693,7 +723,14 @@ export class SparkJobDefinitionOperationsImpl implements SparkJobDefinitionOpera
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ) => {
+    ): Promise<{
+      flatResponse: SparkBatchJob;
+      rawResponse: {
+        statusCode: number;
+        body: any;
+        headers: RawHttpHeaders;
+      };
+    }> => {
       let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (

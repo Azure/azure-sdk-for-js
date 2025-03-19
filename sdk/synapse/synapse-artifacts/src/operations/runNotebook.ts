@@ -26,6 +26,7 @@ import type {
   RunNotebookGetSnapshotOptionalParams,
   RunNotebookGetSnapshotResponse,
 } from "../models/index.js";
+import type { RawHttpHeaders } from "@azure/core-rest-pipeline";
 
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
@@ -128,8 +129,7 @@ export class RunNotebookImpl implements RunNotebook {
 
   /**
    * Run notebook
-   * @param runId - Notebook run id. For Create Run, you can generate a new GUID and use it here. For other
-   *              actions, this is the same ID used in Create Run.
+   * @param runId - Notebook run id.
    * @param runNotebookRequest - Run notebook request payload.
    * @param options - The options parameters.
    */
@@ -154,7 +154,14 @@ export class RunNotebookImpl implements RunNotebook {
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ) => {
+    ): Promise<{
+      flatResponse: RunNotebookCreateRunResponse;
+      rawResponse: {
+        statusCode: number;
+        body: any;
+        headers: RawHttpHeaders;
+      };
+    }> => {
       let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
@@ -200,8 +207,7 @@ export class RunNotebookImpl implements RunNotebook {
 
   /**
    * Run notebook
-   * @param runId - Notebook run id. For Create Run, you can generate a new GUID and use it here. For other
-   *              actions, this is the same ID used in Create Run.
+   * @param runId - Notebook run id.
    * @param runNotebookRequest - Run notebook request payload.
    * @param options - The options parameters.
    */
@@ -216,8 +222,7 @@ export class RunNotebookImpl implements RunNotebook {
 
   /**
    * Get RunNotebook Status for run id.
-   * @param runId - Notebook run id. For Create Run, you can generate a new GUID and use it here. For other
-   *              actions, this is the same ID used in Create Run.
+   * @param runId - Notebook run id.
    * @param options - The options parameters.
    */
   async getStatus(
@@ -238,8 +243,7 @@ export class RunNotebookImpl implements RunNotebook {
 
   /**
    * Cancel notebook run.
-   * @param runId - Notebook run id. For Create Run, you can generate a new GUID and use it here. For other
-   *              actions, this is the same ID used in Create Run.
+   * @param runId - Notebook run id.
    * @param options - The options parameters.
    */
   async cancelRun(
@@ -260,8 +264,7 @@ export class RunNotebookImpl implements RunNotebook {
 
   /**
    * Get RunNotebook Snapshot for run id.
-   * @param runId - Notebook run id. For Create Run, you can generate a new GUID and use it here. For other
-   *              actions, this is the same ID used in Create Run.
+   * @param runId - Notebook run id.
    * @param options - The options parameters.
    */
   async getSnapshot(

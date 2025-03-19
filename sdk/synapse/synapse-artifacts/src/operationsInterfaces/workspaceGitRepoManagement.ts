@@ -16,7 +16,7 @@ import type {
 export interface WorkspaceGitRepoManagement {
   /**
    * Get the GitHub access token.
-   * @param gitHubAccessTokenRequest -
+   * @param gitHubAccessTokenRequest - The GitHub access token request
    * @param options - The options parameters.
    */
   getGitHubAccessToken(

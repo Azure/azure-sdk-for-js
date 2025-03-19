@@ -37,6 +37,7 @@ import type {
   TriggerStopTriggerOptionalParams,
   TriggerGetTriggersByWorkspaceNextResponse,
 } from "../models/index.js";
+import type { RawHttpHeaders } from "@azure/core-rest-pipeline";
 
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
@@ -234,7 +235,6 @@ const getTriggersByWorkspaceNextOperationSpec: coreClient.OperationSpec = {
   serializer,
 };
 
-/// <reference lib="esnext.asynciterable" />
 /** Class containing TriggerOperations operations. */
 export class TriggerOperationsImpl implements TriggerOperations {
   private readonly client: ArtifactsClient;
@@ -243,6 +243,7 @@ export class TriggerOperationsImpl implements TriggerOperations {
    * Initialize a new instance of the class TriggerOperations class.
    * @param client - Reference to the service client
    */
+  // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
   constructor(client: ArtifactsClient) {
     this.client = client;
   }
@@ -354,7 +355,14 @@ export class TriggerOperationsImpl implements TriggerOperations {
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ) => {
+    ): Promise<{
+      flatResponse: TriggerResource;
+      rawResponse: {
+        statusCode: number;
+        body: any;
+        headers: RawHttpHeaders;
+      };
+    }> => {
       let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
@@ -458,7 +466,14 @@ export class TriggerOperationsImpl implements TriggerOperations {
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ) => {
+    ): Promise<{
+      flatResponse: void;
+      rawResponse: {
+        statusCode: number;
+        body: any;
+        headers: RawHttpHeaders;
+      };
+    }> => {
       let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
@@ -735,7 +750,14 @@ export class TriggerOperationsImpl implements TriggerOperations {
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ) => {
+    ): Promise<{
+      flatResponse: void;
+      rawResponse: {
+        statusCode: number;
+        body: any;
+        headers: RawHttpHeaders;
+      };
+    }> => {
       let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
@@ -809,7 +831,14 @@ export class TriggerOperationsImpl implements TriggerOperations {
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ) => {
+    ): Promise<{
+      flatResponse: void;
+      rawResponse: {
+        statusCode: number;
+        body: any;
+        headers: RawHttpHeaders;
+      };
+    }> => {
       let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (

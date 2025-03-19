@@ -31,6 +31,7 @@ import type {
   SqlScriptRenameSqlScriptOptionalParams,
   SqlScriptGetSqlScriptsByWorkspaceNextResponse,
 } from "../models/index.js";
+import type { RawHttpHeaders } from "@azure/core-rest-pipeline";
 
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
@@ -147,7 +148,6 @@ const getSqlScriptsByWorkspaceNextOperationSpec: coreClient.OperationSpec = {
   serializer,
 };
 
-/// <reference lib="esnext.asynciterable" />
 /** Class containing SqlScriptOperations operations. */
 export class SqlScriptOperationsImpl implements SqlScriptOperations {
   private readonly client: ArtifactsClient;
@@ -156,6 +156,7 @@ export class SqlScriptOperationsImpl implements SqlScriptOperations {
    * Initialize a new instance of the class SqlScriptOperations class.
    * @param client - Reference to the service client
    */
+  // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
   constructor(client: ArtifactsClient) {
     this.client = client;
   }
@@ -267,7 +268,14 @@ export class SqlScriptOperationsImpl implements SqlScriptOperations {
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ) => {
+    ): Promise<{
+      flatResponse: SqlScriptResource;
+      rawResponse: {
+        statusCode: number;
+        body: any;
+        headers: RawHttpHeaders;
+      };
+    }> => {
       let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
@@ -371,7 +379,14 @@ export class SqlScriptOperationsImpl implements SqlScriptOperations {
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ) => {
+    ): Promise<{
+      flatResponse: void;
+      rawResponse: {
+        statusCode: number;
+        body: any;
+        headers: RawHttpHeaders;
+      };
+    }> => {
       let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
@@ -451,7 +466,14 @@ export class SqlScriptOperationsImpl implements SqlScriptOperations {
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ) => {
+    ): Promise<{
+      flatResponse: void;
+      rawResponse: {
+        statusCode: number;
+        body: any;
+        headers: RawHttpHeaders;
+      };
+    }> => {
       let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (

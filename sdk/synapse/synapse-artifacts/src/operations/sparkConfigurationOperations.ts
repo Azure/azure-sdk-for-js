@@ -31,6 +31,7 @@ import type {
   SparkConfigurationRenameSparkConfigurationOptionalParams,
   SparkConfigurationGetSparkConfigurationsByWorkspaceNextResponse,
 } from "../models/index.js";
+import type { RawHttpHeaders } from "@azure/core-rest-pipeline";
 
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
@@ -147,7 +148,6 @@ const getSparkConfigurationsByWorkspaceNextOperationSpec: coreClient.OperationSp
   serializer,
 };
 
-/// <reference lib="esnext.asynciterable" />
 /** Class containing SparkConfigurationOperations operations. */
 export class SparkConfigurationOperationsImpl implements SparkConfigurationOperations {
   private readonly client: ArtifactsClient;
@@ -235,8 +235,8 @@ export class SparkConfigurationOperationsImpl implements SparkConfigurationOpera
 
   /**
    * Creates or updates a sparkconfiguration.
-   * @param sparkConfiguration- Name - The spark Configuration name.
-   * @param sparkConfiguration-  SparkConfiguration resource definition.
+   * @param sparkConfigurationName - The spark Configuration name.
+   * @param sparkConfiguration - SparkConfiguration resource definition.
    * @param options - The options parameters.
    */
   async beginCreateOrUpdateSparkConfiguration(
@@ -267,7 +267,14 @@ export class SparkConfigurationOperationsImpl implements SparkConfigurationOpera
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ) => {
+    ): Promise<{
+      flatResponse: SparkConfigurationResource;
+      rawResponse: {
+        statusCode: number;
+        body: any;
+        headers: RawHttpHeaders;
+      };
+    }> => {
       let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
@@ -313,8 +320,8 @@ export class SparkConfigurationOperationsImpl implements SparkConfigurationOpera
 
   /**
    * Creates or updates a sparkconfiguration.
-   * @param sparkConfiguration- Name - The spark Configuration name.
-   * @param sparkConfiguration-  SparkConfiguration resource definition.
+   * @param sparkConfigurationName - The spark Configuration name.
+   * @param sparkConfiguration - SparkConfiguration resource definition.
    * @param options - The options parameters.
    */
   async beginCreateOrUpdateSparkConfigurationAndWait(
@@ -332,7 +339,7 @@ export class SparkConfigurationOperationsImpl implements SparkConfigurationOpera
 
   /**
    * Gets a sparkConfiguration.
-   * @param sparkConfiguration- Name - The spark Configuration name.
+   * @param sparkConfigurationName - The spark Configuration name.
    * @param options - The options parameters.
    */
   async getSparkConfiguration(
@@ -353,7 +360,7 @@ export class SparkConfigurationOperationsImpl implements SparkConfigurationOpera
 
   /**
    * Deletes a sparkConfiguration.
-   * @param sparkConfiguration- Name - The spark Configuration name.
+   * @param sparkConfigurationName - The spark Configuration name.
    * @param options - The options parameters.
    */
   async beginDeleteSparkConfiguration(
@@ -375,7 +382,14 @@ export class SparkConfigurationOperationsImpl implements SparkConfigurationOpera
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ) => {
+    ): Promise<{
+      flatResponse: void;
+      rawResponse: {
+        statusCode: number;
+        body: any;
+        headers: RawHttpHeaders;
+      };
+    }> => {
       let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
@@ -418,7 +432,7 @@ export class SparkConfigurationOperationsImpl implements SparkConfigurationOpera
 
   /**
    * Deletes a sparkConfiguration.
-   * @param sparkConfiguration- Name - The spark Configuration name.
+   * @param sparkConfigurationName - The spark Configuration name.
    * @param options - The options parameters.
    */
   async beginDeleteSparkConfigurationAndWait(
@@ -431,7 +445,7 @@ export class SparkConfigurationOperationsImpl implements SparkConfigurationOpera
 
   /**
    * Renames a sparkConfiguration.
-   * @param sparkConfiguration- Name - The spark Configuration name.
+   * @param sparkConfigurationName - The spark Configuration name.
    * @param request - proposed new name.
    * @param options - The options parameters.
    */
@@ -455,7 +469,14 @@ export class SparkConfigurationOperationsImpl implements SparkConfigurationOpera
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ) => {
+    ): Promise<{
+      flatResponse: void;
+      rawResponse: {
+        statusCode: number;
+        body: any;
+        headers: RawHttpHeaders;
+      };
+    }> => {
       let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
@@ -498,7 +519,7 @@ export class SparkConfigurationOperationsImpl implements SparkConfigurationOpera
 
   /**
    * Renames a sparkConfiguration.
-   * @param sparkConfiguration- Name - The spark Configuration name.
+   * @param sparkConfigurationName - The spark Configuration name.
    * @param request - proposed new name.
    * @param options - The options parameters.
    */

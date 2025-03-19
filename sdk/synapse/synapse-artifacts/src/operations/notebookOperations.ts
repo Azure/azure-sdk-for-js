@@ -35,6 +35,7 @@ import type {
   NotebookGetNotebooksByWorkspaceNextResponse,
   NotebookGetNotebookSummaryByWorkSpaceNextResponse,
 } from "../models/index.js";
+import type { RawHttpHeaders } from "@azure/core-rest-pipeline";
 
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
@@ -182,7 +183,6 @@ const getNotebookSummaryByWorkSpaceNextOperationSpec: coreClient.OperationSpec =
   serializer,
 };
 
-/// <reference lib="esnext.asynciterable" />
 /** Class containing NotebookOperations operations. */
 export class NotebookOperationsImpl implements NotebookOperations {
   private readonly client: ArtifactsClient;
@@ -343,8 +343,8 @@ export class NotebookOperationsImpl implements NotebookOperations {
 
   /**
    * Creates or updates a Note Book.
-   * @param notebookName - The notebook name.
-   * @param notebook - Note book resource definition.
+   * @param notebookName - - The notebook name.
+   * @param notebook - - Note book resource definition.
    * @param options - The options parameters.
    */
   async beginCreateOrUpdateNotebook(
@@ -375,7 +375,14 @@ export class NotebookOperationsImpl implements NotebookOperations {
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ) => {
+    ): Promise<{
+      flatResponse: NotebookResource;
+      rawResponse: {
+        statusCode: number;
+        body: any;
+        headers: RawHttpHeaders;
+      };
+    }> => {
       let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
@@ -479,7 +486,14 @@ export class NotebookOperationsImpl implements NotebookOperations {
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ) => {
+    ): Promise<{
+      flatResponse: void;
+      rawResponse: {
+        statusCode: number;
+        body: any;
+        headers: RawHttpHeaders;
+      };
+    }> => {
       let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
@@ -559,7 +573,14 @@ export class NotebookOperationsImpl implements NotebookOperations {
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ) => {
+    ): Promise<{
+      flatResponse: void;
+      rawResponse: {
+        statusCode: number;
+        body: any;
+        headers: RawHttpHeaders;
+      };
+    }> => {
       let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (

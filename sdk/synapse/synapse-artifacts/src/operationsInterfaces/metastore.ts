@@ -34,7 +34,7 @@ export interface Metastore {
   ): Promise<MetastoreRegisterResponse>;
   /**
    * Gets status of the database
-   * @param id -
+   * @param id - The name of the database to be fetched
    * @param options - The options parameters.
    */
   getDatabaseOperations(
@@ -54,7 +54,7 @@ export interface Metastore {
   ): Promise<MetastoreUpdateResponse>;
   /**
    * Remove files in Syms
-   * @param id -
+   * @param id - The name of the database to be updated
    * @param options - The options parameters.
    */
   delete(id: string, options?: MetastoreDeleteOptionalParams): Promise<void>;

@@ -42,6 +42,7 @@ export class WorkspaceOperationsImpl implements WorkspaceOperations {
    * Initialize a new instance of the class WorkspaceOperations class.
    * @param client - Reference to the service client
    */
+  // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
   constructor(client: ArtifactsClient) {
     this.client = client;
   }

@@ -9,7 +9,6 @@
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 import type { KqlScriptResource, KqlScriptsGetAllOptionalParams } from "../models/index.js";
 
-/// <reference lib="esnext.asynciterable" />
 /** Interface representing a KqlScripts. */
 export interface KqlScripts {
   /**

@@ -20,7 +20,6 @@ import type {
   DatasetRenameDatasetOptionalParams,
 } from "../models/index.js";
 
-/// <reference lib="esnext.asynciterable" />
 /** Interface representing a DatasetOperations. */
 export interface DatasetOperations {
   /**

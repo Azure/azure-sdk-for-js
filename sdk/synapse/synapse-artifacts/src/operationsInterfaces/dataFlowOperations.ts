@@ -20,7 +20,6 @@ import type {
   DataFlowRenameDataFlowOptionalParams,
 } from "../models/index.js";
 
-/// <reference lib="esnext.asynciterable" />
 /** Interface representing a DataFlowOperations. */
 export interface DataFlowOperations {
   /**

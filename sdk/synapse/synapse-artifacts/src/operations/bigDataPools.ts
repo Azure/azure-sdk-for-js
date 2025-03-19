@@ -82,7 +82,7 @@ export class BigDataPoolsImpl implements BigDataPools {
 
   /**
    * Get Big Data Pool
-   * @param bigDataPoolName - - The Big Data Pool name
+   * @param bigDataPoolName - The Big Data Pool name
    * @param options - The options parameters.
    */
   async get(

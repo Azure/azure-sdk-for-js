@@ -20,7 +20,6 @@ import type {
   SqlScriptRenameSqlScriptOptionalParams,
 } from "../models/index.js";
 
-/// <reference lib="esnext.asynciterable" />
 /** Interface representing a SqlScriptOperations. */
 export interface SqlScriptOperations {
   /**

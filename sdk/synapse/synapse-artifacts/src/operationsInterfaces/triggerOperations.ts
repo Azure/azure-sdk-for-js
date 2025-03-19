@@ -26,7 +26,6 @@ import type {
   TriggerStopTriggerOptionalParams,
 } from "../models/index.js";
 
-/// <reference lib="esnext.asynciterable" />
 /** Interface representing a TriggerOperations. */
 export interface TriggerOperations {
   /**

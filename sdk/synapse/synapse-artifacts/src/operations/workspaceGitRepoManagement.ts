@@ -45,13 +45,14 @@ export class WorkspaceGitRepoManagementImpl implements WorkspaceGitRepoManagemen
    * Initialize a new instance of the class WorkspaceGitRepoManagement class.
    * @param client - Reference to the service client
    */
+  // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
   constructor(client: ArtifactsClient) {
     this.client = client;
   }
 
   /**
    * Get the GitHub access token.
-   * @param gitHubAccessTokenRequest -
+   * @param gitHubAccessTokenRequest - The GitHub access token request
    * @param options - The options parameters.
    */
   async getGitHubAccessToken(

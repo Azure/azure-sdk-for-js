@@ -84,7 +84,7 @@ export class IntegrationRuntimesImpl implements IntegrationRuntimes {
 
   /**
    * Get Integration Runtime
-   * @param integrationRuntimeName - - The Integration Runtime name
+   * @param integrationRuntimeName - The Integration Runtime name
    * @param options - The options parameters.
    */
   async get(

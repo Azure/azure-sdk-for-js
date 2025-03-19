@@ -32,7 +32,6 @@ import type {
   LinkConnectionResumeOptionalParams,
 } from "../models/index.js";
 
-/// <reference lib="esnext.asynciterable" />
 /** Interface representing a LinkConnectionOperations. */
 export interface LinkConnectionOperations {
   /**
