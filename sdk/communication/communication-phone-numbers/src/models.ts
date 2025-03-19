@@ -105,6 +105,7 @@ export {
   PhoneNumberOffering,
   PhoneNumberSearchRequest,
   PhoneNumberSearchResult,
+  PhoneNumberSearchResultError,
   PhoneNumberType,
   PurchasedPhoneNumber,
   OperatorDetails,
