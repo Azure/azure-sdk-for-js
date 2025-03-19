@@ -71,13 +71,13 @@ Migrated code:
 ```typescript
 import { AzureOpenAI } from "openai";
 const deployment = "Your Azure OpenAI deployment";
-const apiVersion = "2024-11-01-preview";
+const apiVersion = "2025-01-01-preview";
 const options = { azureADTokenProvider, deployment, apiVersion };
 const client = new AzureOpenAI(options);
 ```
 
 The endpoint of the Azure OpenAI resource can be specified by setting the `endpoint` option but it can also be loaded by the client from the environment variable `AZURE_OPENAI_ENDPOINT`. This is the recommended way to set the endpoint because it allows the client to be used in different environments without changing the code and also to protect the endpoint from being exposed in the code.
-Note that the API version is required to be specified, this is necessary to ensure that existing code doesn't break between preview API versions. Refer to [API Versions Documentation](https://learn.microsoft.com/azure/ai-services/openai/api-version-deprecation) to learn more about Azure OpenAI API versions. Additionally, the `deployment` property is not required but it is recommended to be set. Once `deployment` is set, it is used as the default deployment for all operations that require it. If the client is not created with the `deployment` option, the `model` property in the options object should be set with the deployment name. However, audio operations such as `audio.transcriptions.create` require the client to be created with the `deployment` option set to the deployment name.
+Note that the API version is required to be specified, this is necessary to ensure that existing code doesn't break between preview API versions. Refer to [API Versions Documentation](https://learn.microsoft.com/azure/ai-services/openai/api-version-deprecation) to learn more about Azure OpenAI API versions. Additionally, the `deployment` property is not required but it is recommended to be set. Once `deployment` is set, it is used as the default deployment for all operations that require it. If the client is not created with the `deployment` option, the `model` property in the options object should be set with the deployment name.
 
 ## API differences
 
@@ -219,7 +219,6 @@ const result = await client.audio.transcriptions.create({
 Notice that:
 
 - The `getAudioTranscription` method has been replaced with the `audio.transcriptions.create` method
-- The `AzureOpenAI` has to be constructed with the `deployment` option set to the deployment name in order to use audio operations such as `audio.transcriptions.create`
 - The `model` property is required to be set in the options object but its value is not used in the operation so feel free to set it to any value
 - The `file` property accepts a variety of types including `Buffer`, `fs.ReadaStream`, and `Blob` but in this example, a file is streamed from disk using `fs.createReadStream`
 
@@ -341,7 +340,7 @@ let runResponse = await assistantsClient.createRun(assistantThread.id, {
 });
 
 do {
-  await new Promise((r) => setTimeout(r, 500));
+  await new Promise((resolve) => setTimeout(resolve, 500));
   runResponse = await assistantsClient.getRun(
     assistantThread.id,
     runResponse.id
@@ -349,6 +348,7 @@ do {
 } while (
   runResponse.status === "queued" ||
   runResponse.status === "in_progress"
+)
 ```
 
 This code can be migrated and simplified by using the `createAndPoll` method which creates a run and polls it until it is in a terminal state.
@@ -379,7 +379,7 @@ Original code:
 ```typescript
 for (const runMessageDatum of runMessages.data) {
   for (const item of runMessageDatum.content) {
-    ...
+    // ...
   }
 }
 ```
@@ -391,7 +391,7 @@ Migration code:
 ```typescript
 for await (const runMessageDatum of runMessages) {
   for (const item of runMessageDatum.content) {
-    ...
+    // ...
   }
 }
 ```
@@ -458,7 +458,7 @@ for (const choice of results.choices) {
       `Content filter ran into the error ${choice.contentFilterResults.error.code}: ${choice.contentFilterResults.error.message}`);
   }
   const { hate, sexual, selfHarm, violence } = choice.contentFilterResults;
-  ...
+  // ...
 }
 ```
 
@@ -481,7 +481,7 @@ for (const choice of results.choices) {
       `Content filter ran into the error ${filterResults.error.code}: ${filterResults.error.message}`);
   }
   const { hate, sexual, self_harm, violence } = filterResults;
-  ...
+  // ...
 }
 ```
 

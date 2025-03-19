@@ -5,15 +5,12 @@ import { CosmosDiagnostics } from "../../CosmosDiagnostics";
 import { CosmosHeaders } from "../../queryExecutionContext";
 import { ResourceResponse } from "../../request/ResourceResponse";
 import { Resource } from "../../client/Resource";
-import { ClientEncryptionKeyDefinition } from "./ClientEncryptionKeyDefinition";
 import { ClientEncryptionKeyProperties } from "./ClientEncryptionKeyProperties";
 
 /** Response object for ClientEncryptionKey operations */
-export class ClientEncryptionKeyResponse extends ResourceResponse<
-  ClientEncryptionKeyDefinition & Resource
-> {
+export class ClientEncryptionKeyResponse extends ResourceResponse<Resource> {
   constructor(
-    resource: ClientEncryptionKeyDefinition & Resource,
+    resource: Resource,
     headers: CosmosHeaders,
     statusCode: number,
     clientEncryptionKeyProperties: ClientEncryptionKeyProperties,

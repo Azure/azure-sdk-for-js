@@ -1286,7 +1286,7 @@ export class DataLakeFileClient extends DataLakePathClient {
    *   return new Promise((resolve, reject) => {
    *     const chunks = [];
    *     readableStream.on("data", (data) => {
-   *       chunks.push(data instanceof Buffer ? data : Buffer.from(data));
+   *       chunks.push(typeof data === "string" ? Buffer.from(data) : data);
    *     });
    *     readableStream.on("end", () => {
    *       resolve(Buffer.concat(chunks));
@@ -1864,7 +1864,7 @@ export class DataLakeFileClient extends DataLakePathClient {
    *   return new Promise((resolve, reject) => {
    *     const chunks = [];
    *     readableStream.on("data", (data) => {
-   *       chunks.push(data instanceof Buffer ? data : Buffer.from(data));
+   *       chunks.push(typeof data === "string" ? Buffer.from(data) : data);
    *     });
    *     readableStream.on("end", () => {
    *       resolve(Buffer.concat(chunks));

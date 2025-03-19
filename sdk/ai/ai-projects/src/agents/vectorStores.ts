@@ -13,8 +13,7 @@ import type {
   VectorStoreDeletionStatusOutput,
   VectorStoreOutput,
 } from "../customization/outputModels.js";
-import { AgentsPoller } from "./poller.js";
-import type { CreateVectorStoreWithPollingOptionalParams } from "./customModels.js";
+import { createPoller } from "./poller.js";
 import {
   type CreateVectorStoreOptionalParams,
   type DeleteVectorStoreOptionalParams,
@@ -33,7 +32,7 @@ import * as ConvertFromWire from "../customization/convertOutputModelsFromWire.j
 import * as ConvertToWire from "../customization/convertModelsToWrite.js";
 import { convertToListQueryParameters } from "../customization/convertParametersToWire.js";
 import { createOpenAIError } from "./openAIError.js";
-import type { PollerLike, PollOperationState } from "@azure/core-lro";
+import type { OperationState, OperationStatus, PollerLike } from "@azure/core-lro";
 
 const expectedStatuses = ["200"];
 
@@ -57,22 +56,20 @@ export async function listVectorStores(
 }
 
 /** Creates a vector store. */
-export async function createVectorStore(
+export function createVectorStore(
   context: Client,
   options: CreateVectorStoreOptionalParams = {},
-): Promise<VectorStoreOutput> {
-  const createOptions: GeneratedParameters.CreateVectorStoreParameters = {
-    ...operationOptionsToRequestParameters(options),
-    body: ConvertToWire.convertVectorStoreOptions(options),
-  };
-
-  validateCreateVectorStoreParameters(createOptions);
-  const result = await context.path("/vector_stores").post(createOptions);
-
-  if (!expectedStatuses.includes(result.status)) {
-    throw createOpenAIError(result);
-  }
-  return ConvertFromWire.convertVectorStoreOutput(result.body);
+): PollerLike<OperationState<VectorStoreOutput>, VectorStoreOutput> {
+  return createPoller<VectorStoreOutput>({
+    initOperation: async () => {
+      return createVectorStoreInternal(context, options);
+    },
+    pollOperation: async (currentResult: VectorStoreOutput) => {
+      return getVectorStore(context, currentResult.id, options);
+    },
+    getOperationStatus: getLroOperationStatus,
+    intervalInMs: options.pollingOptions?.sleepIntervalInMs,
+  });
 }
 
 /** Returns the vector store object matching the specified ID. */
@@ -145,30 +142,49 @@ export async function deleteVectorStore(
  */
 export function createVectorStoreAndPoll(
   context: Client,
-  options: CreateVectorStoreWithPollingOptionalParams = {},
-): PollerLike<PollOperationState<VectorStoreOutput>, VectorStoreOutput> {
-  async function updateCreateVectorStorePoll(
-    currentResult?: VectorStoreOutput,
-  ): Promise<{ result: VectorStoreOutput; completed: boolean }> {
-    let vectorStore: VectorStoreOutput;
-    if (!currentResult) {
-      vectorStore = await createVectorStore(context, options);
-    } else {
-      const getOptions: GetVectorStoreOptionalParams = {
-        ...operationOptionsToRequestParameters(options),
-      };
-      vectorStore = await getVectorStore(context, currentResult.id, getOptions);
-    }
-    return {
-      result: vectorStore,
-      completed: vectorStore.status !== "in_progress",
-    };
-  }
-
-  return new AgentsPoller<VectorStoreOutput>({
-    update: updateCreateVectorStorePoll,
-    pollingOptions: options.pollingOptions,
+  options: CreateVectorStoreOptionalParams = {},
+): PollerLike<OperationState<VectorStoreOutput>, VectorStoreOutput> {
+  return createPoller<VectorStoreOutput>({
+    initOperation: async () => {
+      return createVectorStoreInternal(context, options);
+    },
+    pollOperation: async (currentResult: VectorStoreOutput) => {
+      return getVectorStore(context, currentResult.id, options);
+    },
+    getOperationStatus: getLroOperationStatus,
+    intervalInMs: options.pollingOptions?.sleepIntervalInMs,
   });
+}
+
+async function createVectorStoreInternal(
+  context: Client,
+  options: CreateVectorStoreOptionalParams = {},
+): Promise<VectorStoreOutput> {
+  const createOptions: GeneratedParameters.CreateVectorStoreParameters = {
+    ...operationOptionsToRequestParameters(options),
+    body: ConvertToWire.convertVectorStoreOptions(options),
+  };
+
+  validateCreateVectorStoreParameters(createOptions);
+  const result = await context.path("/vector_stores").post(createOptions);
+
+  if (!expectedStatuses.includes(result.status)) {
+    throw createOpenAIError(result);
+  }
+  return ConvertFromWire.convertVectorStoreOutput(result.body);
+}
+
+function getLroOperationStatus(result: VectorStoreOutput): OperationStatus {
+  switch (result.status) {
+    case "in_progress":
+      return "running";
+    case "completed":
+      return "succeeded";
+    case "expired":
+      return "failed";
+    default:
+      return "failed";
+  }
 }
 
 function validateListVectorStoresParameters(options?: ListVectorStoresParameters): void {

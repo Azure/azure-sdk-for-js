@@ -173,8 +173,7 @@ describe("AppConfigurationClient", () => {
     });
 
     // Skipping all "accepts operation options flaky tests" https://github.com/Azure/azure-sdk-for-js/issues/26447
-    it.skip("accepts  operation options", async (ctx) => {
-      if (isPlaybackMode()) ctx.skip();
+    it.skip("accepts operation options", async () => {
       const key = recorder.variable(
         "addConfigTestTwice",
         `addConfigTestTwice${Math.floor(Math.random() * 1000)}`,
@@ -327,7 +326,7 @@ describe("AppConfigurationClient", () => {
     });
 
     // Skipping all "accepts operation options flaky tests" https://github.com/Azure/azure-sdk-for-js/issues/26447
-    it.skip("accepts  operation options", { skip: isPlaybackMode() }, async () => {
+    it.skip("accepts  operation options", async () => {
       // Recorder checks for the recording and complains before core-rest-pipeline could throw the AbortError (Recorder v2 should help here)
       const key = recorder.variable(
         "deleteConfigTest",
@@ -455,7 +454,7 @@ describe("AppConfigurationClient", () => {
     });
 
     // Skipping all "accepts operation options flaky tests" https://github.com/Azure/azure-sdk-for-js/issues/26447
-    it.skip("accepts  operation options", { skip: isPlaybackMode() }, async () => {
+    it.skip("accepts  operation options", async () => {
       const key = recorder.variable(
         "getConfigTest",
         `getConfigTest${Math.floor(Math.random() * 1000)}`,
@@ -1134,7 +1133,7 @@ describe("AppConfigurationClient", () => {
     });
 
     // Skipping all "accepts operation options flaky tests" https://github.com/Azure/azure-sdk-for-js/issues/26447
-    it.skip("accepts  operation options", { skip: isPlaybackMode() }, async () => {
+    it.skip("accepts  operation options", async () => {
       await assertThrowsAbortError(async () => {
         const settingsIterator = client.listConfigurationSettings({
           requestOptions: { timeout: 1 },
@@ -1310,7 +1309,7 @@ describe("AppConfigurationClient", () => {
     });
 
     // Skipping all "accepts operation options flaky tests" https://github.com/Azure/azure-sdk-for-js/issues/26447
-    it.skip("accepts  operation options", { skip: isPlaybackMode() }, async () => {
+    it.skip("accepts  operation options", async () => {
       await assertThrowsAbortError(async () => {
         const iter = client.listRevisions({ labelFilter: labelA, requestOptions: { timeout: 1 } });
         await iter.next();
@@ -1582,7 +1581,7 @@ describe("AppConfigurationClient", () => {
     });
 
     // Skipping all "accepts operation options flaky tests" https://github.com/Azure/azure-sdk-for-js/issues/26447
-    it.skip("accepts  operation options", { skip: isPlaybackMode() }, async () => {
+    it.skip("accepts  operation options", async () => {
       const key = recorder.variable(
         `setConfigTestNA`,
         `setConfigTestNA${Math.floor(Math.random() * 1000)}`,

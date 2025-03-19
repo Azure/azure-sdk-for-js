@@ -17,7 +17,11 @@ describe("Legacy Completions", function () {
       let clientsAndDeployments: ClientsAndDeploymentsInfo;
 
       beforeEach(async () => {
-        clientsAndDeployments = createClientsAndDeployments(apiVersion, { completion: "true" });
+        clientsAndDeployments = createClientsAndDeployments(
+          apiVersion,
+          { completion: "true" },
+          { clientOptions: { maxRetries: 0 }, deploymentsToSkip: ["computer-use-preview"] },
+        );
       });
 
       describe("completions.create", function () {

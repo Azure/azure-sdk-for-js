@@ -10,6 +10,5 @@ export function createStream(
   const stream = new PassThrough();
   cb((c) => stream.write(c));
   stream.end();
-  // This is a mock test that doesn't need a true IncomingMessage object
-  return createSseStream(stream as any);
+  return createSseStream(stream);
 }

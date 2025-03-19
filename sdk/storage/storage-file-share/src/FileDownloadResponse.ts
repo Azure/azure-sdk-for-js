@@ -10,7 +10,7 @@ import type {
   LeaseStateType,
   LeaseStatusType,
 } from "./generatedModels";
-import type { Metadata, NfsFileMode } from "./models";
+import type { FilePosixProperties, Metadata } from "./models";
 import type {
   ReadableStreamGetter,
   RetriableReadableStreamOptions,
@@ -382,31 +382,10 @@ export class FileDownloadResponse implements FileDownloadResponseModel {
   }
 
   /**
-   * NFS only. The mode of the file or directory.
+   * Properties of NFS files
    */
-  public get fileMode(): NfsFileMode | undefined {
-    return this.originalResponse.fileMode;
-  }
-
-  /**
-   * TNFS only. The owner of the file or directory.
-   */
-  public get owner(): string | undefined {
-    return this.originalResponse.owner;
-  }
-
-  /**
-   * NFS only. The owning group of the file or directory.
-   */
-  public get group(): string | undefined {
-    return this.originalResponse.group;
-  }
-
-  /**
-   * NFS only. The link count of the file or directory.
-   */
-  public get linkCount(): number | undefined {
-    return this.originalResponse.linkCount;
+  public get posixProperties(): FilePosixProperties | undefined {
+    return this.originalResponse.posixProperties;
   }
 
   /**

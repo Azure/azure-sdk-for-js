@@ -1,6 +1,6 @@
 # Azure TextAuthoring REST client library for JavaScript
 
-Text Authoring Client
+*Note: This is an internal library that is used by Azure Cognitive Service for Language SDK.*
 
 \*\*If you are not familiar with our REST client, please spend 5 minutes to take a look at our [REST client docs](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/rest-clients.md) to use this library, the REST client provides a light-weighted & developer friendly way to call azure rest api
 

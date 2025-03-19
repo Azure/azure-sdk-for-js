@@ -86,7 +86,7 @@
     "eslint": "^9.9.0",
     "mocha": "^11.0.2",
     "sinon": "^17.0.0",
-    "typescript": "~5.7.2"
+    "typescript": "~5.8.2"
   },
   "peerDependencies": {
     "@playwright/test": "^1.47.0"

@@ -11,20 +11,19 @@
  * @summary Demonstrates scenarios as to how a Service Bus message can be explicitly moved to
  * the DLQ
  */
-import { ServiceBusClient, ServiceBusMessage } from "@azure/service-bus";
+import type { ServiceBusMessage } from "@azure/service-bus";
+import { ServiceBusClient } from "@azure/service-bus";
 import { DefaultAzureCredential } from "@azure/identity";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
-
+import "dotenv/config";
 // Define connection string and related Service Bus entity names here
 const fqdn = process.env.SERVICEBUS_FQDN || "<your-servicebus-namespace>.servicebus.windows.net";
 const queueName = process.env.QUEUE_NAME || "<queue name>";
 const credential = new DefaultAzureCredential();
 const sbClient: ServiceBusClient = new ServiceBusClient(fqdn, credential);
 
-export async function main() {
+export async function main(): Promise<void> {
   try {
     // Sending a message to ensure that there is atleast one message in the main queue
     await sendMessage();
@@ -35,7 +34,7 @@ export async function main() {
   }
 }
 
-async function sendMessage() {
+async function sendMessage(): Promise<void> {
   // createSender() can also be used to create a sender for a topic.
   const sender = sbClient.createSender(queueName);
 
@@ -51,7 +50,7 @@ async function sendMessage() {
   await sender.close();
 }
 
-async function receiveMessage() {
+async function receiveMessage(): Promise<void> {
   // If receiving from a subscription you can use the createReceiver(topicName, subscriptionName) overload
   const receiver = sbClient.createReceiver(queueName);
 

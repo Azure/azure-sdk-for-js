@@ -170,9 +170,9 @@ export interface FailedRequestAttemptDiagnostic {
  */
 export interface EncryptionDiagnostics {
   /** shows start time, duration and properties count for encryption*/
-  encryptContent: { [key: string]: any };
+  encryptContent: Record<string, any>;
   /** shows start time, duration and properties count for decryption*/
-  decryptContent: { [key: string]: any };
+  decryptContent: Record<string, any>;
   /** represents total processing duration for encryption/decryption*/
   processingDurationInMs: number;
 }

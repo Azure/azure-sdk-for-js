@@ -5,7 +5,7 @@
 import type { ClientContext } from "./ClientContext";
 import { DiagnosticNodeInternal, DiagnosticNodeType } from "./diagnostics/DiagnosticNodeInternal";
 import { getPathFromLink, ResourceType, StatusCodes } from "./common";
-import {
+import type {
   CosmosHeaders,
   ExecutionContext,
   FetchFunctionCallback,
@@ -49,7 +49,7 @@ export class QueryIterator<T> {
   private correlatedActivityId: string;
   private partitionKeyRangeCache: PartitionKeyRangeCache;
   /**
-   * @internal
+   * @hidden
    */
   constructor(
     private clientContext: ClientContext,
@@ -248,7 +248,6 @@ export class QueryIterator<T> {
       diagnosticNode,
       MetadataLookUpType.QueryPlanLookUp,
     );
-
     // this.queryPlanPromise = this.fetchQueryPlan(diagnosticNode);
     if (!this.isInitialized) {
       await this.init(diagnosticNode);

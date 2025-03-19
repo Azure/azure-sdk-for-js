@@ -54,7 +54,7 @@ export const ParticipantProperties: coreClient.CompositeMapper = {
         required: true,
         type: {
           name: "Enum",
-          allowedValues: ["Presenter", "Attendee", "Consumer"],
+          allowedValues: ["Presenter", "Attendee", "Consumer", "Collaborator"],
         },
       },
     },
@@ -271,7 +271,7 @@ export const RoomParticipant: coreClient.CompositeMapper = {
         required: true,
         type: {
           name: "Enum",
-          allowedValues: ["Presenter", "Attendee", "Consumer"],
+          allowedValues: ["Presenter", "Attendee", "Consumer", "Collaborator"],
         },
       },
     },

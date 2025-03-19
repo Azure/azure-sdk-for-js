@@ -6,6 +6,7 @@ extends:
       PackageName: "@azure/keyvault-keys"
       ServiceDirectory: keyvault
       TimeoutInMinutes: 90
+      PersistOidcToken: true
       CloudConfig:
         Public:
           Location: 'eastus2'

@@ -62,7 +62,7 @@ function findResourceLocation(inputs: {
     }
   }
 
-  function getDefault() {
+  function getDefault(): string | undefined {
     switch (resourceLocationConfig) {
       case "operation-location":
       case "azure-async-operation": {
