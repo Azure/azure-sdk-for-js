@@ -2,7 +2,8 @@
 // Licensed under the MIT License.
 
 import { PerfTest } from "@azure-tools/test-perf";
-import { useAzureMonitor, AzureMonitorOpenTelemetryOptions } from "@azure/monitor-opentelemetry";
+import type { AzureMonitorOpenTelemetryOptions } from "@azure/monitor-opentelemetry";
+import { useAzureMonitor } from "@azure/monitor-opentelemetry";
 import "dotenv/config";
 
 export abstract class MonitorOpenTelemetryTest<TOptions> extends PerfTest<TOptions> {

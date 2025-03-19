@@ -1,27 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { PerfOptionDictionary } from "@azure-tools/test-perf";
+import type { PerfOptionDictionary } from "@azure-tools/test-perf";
 import { MonitorOpenTelemetryTest } from "./monitorOpenTelemetry.spec.js";
-import { trace, Span, Tracer, context } from "@opentelemetry/api";
+import type { Span, Tracer } from "@opentelemetry/api";
+import { trace, context } from "@opentelemetry/api";
 
 type MonitorOpenTelemetryTestOptions = Record<string, unknown>;
 
 export class SpanExportTest extends MonitorOpenTelemetryTest<MonitorOpenTelemetryTestOptions> {
   public options: PerfOptionDictionary<MonitorOpenTelemetryTestOptions> = {};
-  constructor() {
-    super();
-  }
 
   async run(): Promise<void> {
-    async function main() {
+    async function main(): Promise<void> {
       const tracer = trace.getTracer("testTracer");
       const parentSpan = tracer.startSpan("main");
       doWork(parentSpan, tracer);
       parentSpan.end();
     }
 
-    function doWork(parent: Span, tracer: Tracer) {
+    function doWork(parent: Span, tracer: Tracer): void {
       const ctx = trace.setSpan(context.active(), parent);
       const span = tracer.startSpan("doWork", undefined, ctx);
       for (let i = 0; i <= 1; i += 1) {
