@@ -2,17 +2,17 @@
 // Licensed under the MIT License.
 
 import type { FullResult } from "@playwright/test/reporter";
-import { Constants, InternalEnvironmentVariables } from "../common/constants";
-import type { EnvironmentVariables } from "../common/environmentVariables";
-import { HttpService } from "../common/httpService";
-import type { Shard, UploadMetadata } from "../model/shard";
-import type { StorageUri } from "../model/storageUri";
-import type { TestResult } from "../model/testResult";
-import type { TestRun } from "../model/testRun";
-import type { CIInfo } from "./cIInfoProvider";
-import type ReporterUtils from "./reporterUtils";
+import { Constants, InternalEnvironmentVariables } from "../common/constants.js";
+import type { EnvironmentVariables } from "../common/environmentVariables.js";
+import { HttpService } from "../common/httpService.js";
+import type { Shard, UploadMetadata } from "../model/shard.js";
+import type { StorageUri } from "../model/storageUri.js";
+import type { TestResult } from "../model/testResult.js";
+import type { TestRun } from "../model/testRun.js";
+import type { CIInfo } from "./cIInfoProvider.js";
+import type ReporterUtils from "./reporterUtils.js";
 import type { PipelineResponse } from "@azure/core-rest-pipeline";
-import { reporterLogger } from "../common/logger";
+import { reporterLogger } from "../common/logger.js";
 
 export class ServiceClient {
   private httpService: HttpService;

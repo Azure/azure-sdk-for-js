@@ -11,8 +11,6 @@ The Azure resource that is used by the tests in this project is:
 To run the live tests, you will also need to set the below environment variables:
 
 - `TEST_MODE`: Should have `live` assigned.
-- `SEARCH_API_ADMIN_KEY`: The primary key of your Azure Search account.
-- `SEARCH_API_ADMIN_KEY_ALT` (optional): The secondary key of your Azure Search account.
 - `ENDPOINT`: The endpoint of your Azure Search account.
 
 The live tests in this project will create, populate and search over search indexes inside of the provided Azure Cognitive Search account.

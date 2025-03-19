@@ -5,10 +5,11 @@
  * Defines the utility methods.
  */
 
+import "dotenv/config";
 import type { SearchIndex, SearchIndexClient } from "@azure/search-documents";
 import { KnownAnalyzerNames } from "@azure/search-documents";
-import { env } from "process";
-import type { Hotel } from "./interfaces";
+import { env } from "node:process";
+import type { Hotel } from "./interfaces.js";
 
 export const WAIT_TIME = 4000;
 
@@ -25,7 +26,6 @@ export function delay(timeInMs: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, timeInMs));
 }
 
-// eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
 export async function createIndex(client: SearchIndexClient, name: string): Promise<void> {
   const hotelIndex: SearchIndex = {
     name,
