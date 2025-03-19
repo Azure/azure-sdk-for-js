@@ -2,13 +2,8 @@ param baseName string = resourceGroup().name
 param testApplicationOid string
 param supportsSafeSecretStandard bool = false
 
-
-var apiVersion = '2022-10-01-preview'
 var location = resourceGroup().location
-var authorizationRuleName = '${baseName}/RootManageSharedAccessKey'
-var sasAuthorizationRuleName = '${baseName}/SasAccessKey'
 var baseNamePremium = '${baseName}premium'
-var authorizationRuleNamePremium = '${baseName}premium/RootManageSharedAccessKey'
 
 resource serviceBusNamespace 'Microsoft.ServiceBus/namespaces@2024-01-01' = {
   name: baseName
@@ -37,10 +32,8 @@ resource serviceBusNamespacePremium 'Microsoft.ServiceBus/namespaces@2024-01-01'
 }
 
 resource authorizationRulePremium 'Microsoft.ServiceBus/namespaces/AuthorizationRules@2024-01-01' = {
-  name: authorizationRuleNamePremium
-  dependsOn: [
-    serviceBusNamespacePremium
-  ]
+  parent: serviceBusNamespacePremium
+  name: 'RootManageSharedAccessKey'
   properties: {
     rights: [
       'Listen'
@@ -51,10 +44,8 @@ resource authorizationRulePremium 'Microsoft.ServiceBus/namespaces/Authorization
 }
 
 resource authorizationRule 'Microsoft.ServiceBus/namespaces/AuthorizationRules@2024-01-01' = {
-  name: authorizationRuleName
-  dependsOn: [
-    serviceBusNamespace
-  ]
+  parent: serviceBusNamespace
+  name: 'RootManageSharedAccessKey'
   properties: {
     rights: [
       'Listen'
@@ -65,10 +56,8 @@ resource authorizationRule 'Microsoft.ServiceBus/namespaces/AuthorizationRules@2
 }
 
 resource sasAuthorizationRule 'Microsoft.ServiceBus/namespaces/AuthorizationRules@2024-01-01' = {
-  name: sasAuthorizationRuleName
-  dependsOn: [
-    serviceBusNamespace
-  ]
+  parent: serviceBusNamespace
+  name: 'SasAccessKey'
   properties: {
     rights: [
       'Listen'
@@ -78,10 +67,7 @@ resource sasAuthorizationRule 'Microsoft.ServiceBus/namespaces/AuthorizationRule
 }
 
 resource roleAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
-  name: guid('dataOwnerRoleId', baseName)
-  dependsOn: [
-    serviceBusNamespace
-  ]
+  name: guid('dataOwnerRoleId', serviceBusNamespace.name)
   properties: {
     roleDefinitionId: resourceId('Microsoft.Authorization/roleDefinitions', '090c5cfd-751d-490a-894a-3ce6f1109419')
     principalId: testApplicationOid
@@ -89,6 +75,7 @@ resource roleAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
 }
 
 resource testQueue 'Microsoft.ServiceBus/namespaces/queues@2024-01-01' = {
+  parent: serviceBusNamespace
   name: 'testQueue'
   properties: {
     lockDuration: 'PT5M'
@@ -103,10 +90,10 @@ resource testQueue 'Microsoft.ServiceBus/namespaces/queues@2024-01-01' = {
     enablePartitioning: false
     enableExpress: false
   }
-  parent: serviceBusNamespace
 }
 
 resource testQueueWithSessions 'Microsoft.ServiceBus/namespaces/queues@2024-01-01' = {
+  parent: serviceBusNamespace
   name: 'testQueueWithSessions'
   properties: {
     lockDuration: 'PT5M'
@@ -121,15 +108,16 @@ resource testQueueWithSessions 'Microsoft.ServiceBus/namespaces/queues@2024-01-0
     enablePartitioning: false
     enableExpress: false
   }
-  parent: serviceBusNamespace
 }
 
-output SERVICEBUS_CONNECTION_STRING string = listKeys(authorizationRule.id, apiVersion).primaryConnectionString
-output SERVICEBUS_CONNECTION_STRING_PREMIUM string = listKeys(authorizationRulePremium.id, apiVersion).primaryConnectionString
+output SUBSCRIPTION_ID string = subscription().subscriptionId
+output RESOURCE_GROUP string = resourceGroup().name
 output SERVICEBUS_ENDPOINT string = replace(serviceBusNamespace.properties.serviceBusEndpoint, ':443/', '')
 output SERVICEBUS_FQDN string = replace(replace(serviceBusNamespace.properties.serviceBusEndpoint, ':443/', ''), 'https://', '')
 output SERVICEBUS_FQDN_PREMIUM string = replace(replace(serviceBusNamespacePremium.properties.serviceBusEndpoint, ':443/', ''), 'https://', '')
+output AUTHORIZATION_RULE_NAME string = authorizationRule.name
+output AUTHORIZATION_RULE_NAME_PREMIUM string = authorizationRulePremium.name
+output NAMESPACE_NAME string = serviceBusNamespace.name
+output NAMESPACE_NAME_PREMIUM string = serviceBusNamespacePremium.name
 output QUEUE_NAME string = testQueue.name
 output QUEUE_NAME_WITH_SESSIONS string = testQueueWithSessions.name
-output SERVICEBUS_SAS_POLICY string = 'SasAccessKey'
-output SERVICEBUS_SAS_KEY string = listKeys(sasAuthorizationRule.id, apiVersion).primaryKey
