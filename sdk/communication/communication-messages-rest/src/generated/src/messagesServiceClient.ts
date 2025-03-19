@@ -8,7 +8,9 @@ import type {
   TokenCredential,
   KeyCredential,
 } from "@azure/core-auth";
-import { isKeyCredential } from "@azure/core-auth";
+import {
+  isKeyCredential,
+} from "@azure/core-auth";
 import type { MessagesServiceClient } from "./clientDefinitions.js";
 
 /** The optional parameters for the client */
@@ -27,7 +29,7 @@ export default function createClient(
   endpointParam: string,
   credentials: TokenCredential | KeyCredential,
   {
-    apiVersion = "2025-03-01-preview",
+    apiVersion = "2025-04-01-preview",
     ...options
   }: MessagesServiceClientOptions = {},
 ): MessagesServiceClient {

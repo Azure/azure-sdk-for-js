@@ -512,7 +512,7 @@ export interface SendConversationMessageOptions {
   /** Details of a send conversation message request. */
   request: ConversationMessageContent;
   /**
-   * The options of the outbound delivery strategy for messages sent by emplyees in a conversation.
+   * The options of the outbound delivery strategy for messages sent by participants in a conversation.
    * Supports internalOnly, allChannels.
    *
    * Possible values: "internalOnly", "allParticipants"
