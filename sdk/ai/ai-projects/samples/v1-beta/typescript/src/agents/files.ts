@@ -11,7 +11,7 @@ import { AIProjectsClient } from "@azure/ai-projects";
 import { DefaultAzureCredential } from "@azure/identity";
 
 import * as dotenv from "dotenv";
-import { Readable } from "stream";
+import { Readable } from "node:stream";
 dotenv.config();
 
 const connectionString =
@@ -25,9 +25,8 @@ export async function main(): Promise<void> {
 
   // Create and upload file
   const fileContent = "Hello, World!";
-  const readable = new Readable();
-  await readable.push(fileContent);
-  await readable.push(null); // end the stream
+  // Create a readable stream from the string content
+  const readable = Readable.from(Buffer.from(fileContent));
   const file = await client.agents.uploadFile(readable, "assistants", { fileName: "myFile.txt" });
   console.log(`Uploaded file, file ID : ${file.id}`);
 

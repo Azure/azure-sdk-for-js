@@ -11,7 +11,7 @@ const { AIProjectsClient } = require("@azure/ai-projects");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 const dotenv = require("dotenv");
-const { Readable } = require("stream");
+const { Readable } = require("node:stream");
 dotenv.config();
 
 const connectionString =
@@ -25,9 +25,8 @@ async function main() {
 
   // Create and upload file
   const fileContent = "Hello, World!";
-  const readable = new Readable();
-  await readable.push(fileContent);
-  await readable.push(null); // end the stream
+  // Create a readable stream from the string content
+  const readable = Readable.from(Buffer.from(fileContent));
   const file = await client.agents.uploadFile(readable, "assistants", { fileName: "myFile.txt" });
   console.log(`Uploaded file, file ID : ${file.id}`);
 
