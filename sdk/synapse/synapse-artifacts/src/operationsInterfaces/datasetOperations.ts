@@ -25,16 +25,16 @@ import type {
 export interface DatasetOperations {
   /**
    * Lists datasets.
-   * @param options The options parameters.
+   * @param options - The options parameters.
    */
   listDatasetsByWorkspace(
     options?: DatasetGetDatasetsByWorkspaceOptionalParams,
   ): PagedAsyncIterableIterator<DatasetResource>;
   /**
    * Creates or updates a dataset.
-   * @param datasetName The dataset name.
-   * @param dataset Dataset resource definition.
-   * @param options The options parameters.
+   * @param datasetName - The dataset name.
+   * @param dataset - Dataset resource definition.
+   * @param options - The options parameters.
    */
   beginCreateOrUpdateDataset(
     datasetName: string,
@@ -48,9 +48,9 @@ export interface DatasetOperations {
   >;
   /**
    * Creates or updates a dataset.
-   * @param datasetName The dataset name.
-   * @param dataset Dataset resource definition.
-   * @param options The options parameters.
+   * @param datasetName - The dataset name.
+   * @param dataset - Dataset resource definition.
+   * @param options - The options parameters.
    */
   beginCreateOrUpdateDatasetAndWait(
     datasetName: string,
@@ -59,8 +59,8 @@ export interface DatasetOperations {
   ): Promise<DatasetCreateOrUpdateDatasetResponse>;
   /**
    * Gets a dataset.
-   * @param datasetName The dataset name.
-   * @param options The options parameters.
+   * @param datasetName - The dataset name.
+   * @param options - The options parameters.
    */
   getDataset(
     datasetName: string,
@@ -68,8 +68,8 @@ export interface DatasetOperations {
   ): Promise<DatasetGetDatasetResponse>;
   /**
    * Deletes a dataset.
-   * @param datasetName The dataset name.
-   * @param options The options parameters.
+   * @param datasetName - The dataset name.
+   * @param options - The options parameters.
    */
   beginDeleteDataset(
     datasetName: string,
@@ -77,8 +77,8 @@ export interface DatasetOperations {
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a dataset.
-   * @param datasetName The dataset name.
-   * @param options The options parameters.
+   * @param datasetName - The dataset name.
+   * @param options - The options parameters.
    */
   beginDeleteDatasetAndWait(
     datasetName: string,
@@ -86,9 +86,9 @@ export interface DatasetOperations {
   ): Promise<void>;
   /**
    * Renames a dataset.
-   * @param datasetName The dataset name.
-   * @param request proposed new name.
-   * @param options The options parameters.
+   * @param datasetName - The dataset name.
+   * @param request - proposed new name.
+   * @param options - The options parameters.
    */
   beginRenameDataset(
     datasetName: string,
@@ -97,9 +97,9 @@ export interface DatasetOperations {
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Renames a dataset.
-   * @param datasetName The dataset name.
-   * @param request proposed new name.
-   * @param options The options parameters.
+   * @param datasetName - The dataset name.
+   * @param request - proposed new name.
+   * @param options - The options parameters.
    */
   beginRenameDatasetAndWait(
     datasetName: string,

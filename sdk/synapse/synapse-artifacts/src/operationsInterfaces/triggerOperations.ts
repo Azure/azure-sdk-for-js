@@ -31,16 +31,16 @@ import type {
 export interface TriggerOperations {
   /**
    * Lists triggers.
-   * @param options The options parameters.
+   * @param options - The options parameters.
    */
   listTriggersByWorkspace(
     options?: TriggerGetTriggersByWorkspaceOptionalParams,
   ): PagedAsyncIterableIterator<TriggerResource>;
   /**
    * Creates or updates a trigger.
-   * @param triggerName The trigger name.
-   * @param trigger Trigger resource definition.
-   * @param options The options parameters.
+   * @param triggerName - The trigger name.
+   * @param trigger - Trigger resource definition.
+   * @param options - The options parameters.
    */
   beginCreateOrUpdateTrigger(
     triggerName: string,
@@ -54,9 +54,9 @@ export interface TriggerOperations {
   >;
   /**
    * Creates or updates a trigger.
-   * @param triggerName The trigger name.
-   * @param trigger Trigger resource definition.
-   * @param options The options parameters.
+   * @param triggerName - The trigger name.
+   * @param trigger - Trigger resource definition.
+   * @param options - The options parameters.
    */
   beginCreateOrUpdateTriggerAndWait(
     triggerName: string,
@@ -65,8 +65,8 @@ export interface TriggerOperations {
   ): Promise<TriggerCreateOrUpdateTriggerResponse>;
   /**
    * Gets a trigger.
-   * @param triggerName The trigger name.
-   * @param options The options parameters.
+   * @param triggerName - The trigger name.
+   * @param options - The options parameters.
    */
   getTrigger(
     triggerName: string,
@@ -74,8 +74,8 @@ export interface TriggerOperations {
   ): Promise<TriggerGetTriggerResponse>;
   /**
    * Deletes a trigger.
-   * @param triggerName The trigger name.
-   * @param options The options parameters.
+   * @param triggerName - The trigger name.
+   * @param options - The options parameters.
    */
   beginDeleteTrigger(
     triggerName: string,
@@ -83,8 +83,8 @@ export interface TriggerOperations {
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a trigger.
-   * @param triggerName The trigger name.
-   * @param options The options parameters.
+   * @param triggerName - The trigger name.
+   * @param options - The options parameters.
    */
   beginDeleteTriggerAndWait(
     triggerName: string,
@@ -92,8 +92,8 @@ export interface TriggerOperations {
   ): Promise<void>;
   /**
    * Subscribe event trigger to events.
-   * @param triggerName The trigger name.
-   * @param options The options parameters.
+   * @param triggerName - The trigger name.
+   * @param options - The options parameters.
    */
   beginSubscribeTriggerToEvents(
     triggerName: string,
@@ -106,8 +106,8 @@ export interface TriggerOperations {
   >;
   /**
    * Subscribe event trigger to events.
-   * @param triggerName The trigger name.
-   * @param options The options parameters.
+   * @param triggerName - The trigger name.
+   * @param options - The options parameters.
    */
   beginSubscribeTriggerToEventsAndWait(
     triggerName: string,
@@ -115,8 +115,8 @@ export interface TriggerOperations {
   ): Promise<TriggerSubscribeTriggerToEventsResponse>;
   /**
    * Get a trigger's event subscription status.
-   * @param triggerName The trigger name.
-   * @param options The options parameters.
+   * @param triggerName - The trigger name.
+   * @param options - The options parameters.
    */
   getEventSubscriptionStatus(
     triggerName: string,
@@ -124,8 +124,8 @@ export interface TriggerOperations {
   ): Promise<TriggerGetEventSubscriptionStatusResponse>;
   /**
    * Unsubscribe event trigger from events.
-   * @param triggerName The trigger name.
-   * @param options The options parameters.
+   * @param triggerName - The trigger name.
+   * @param options - The options parameters.
    */
   beginUnsubscribeTriggerFromEvents(
     triggerName: string,
@@ -138,8 +138,8 @@ export interface TriggerOperations {
   >;
   /**
    * Unsubscribe event trigger from events.
-   * @param triggerName The trigger name.
-   * @param options The options parameters.
+   * @param triggerName - The trigger name.
+   * @param options - The options parameters.
    */
   beginUnsubscribeTriggerFromEventsAndWait(
     triggerName: string,
@@ -147,8 +147,8 @@ export interface TriggerOperations {
   ): Promise<TriggerUnsubscribeTriggerFromEventsResponse>;
   /**
    * Starts a trigger.
-   * @param triggerName The trigger name.
-   * @param options The options parameters.
+   * @param triggerName - The trigger name.
+   * @param options - The options parameters.
    */
   beginStartTrigger(
     triggerName: string,
@@ -156,8 +156,8 @@ export interface TriggerOperations {
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Starts a trigger.
-   * @param triggerName The trigger name.
-   * @param options The options parameters.
+   * @param triggerName - The trigger name.
+   * @param options - The options parameters.
    */
   beginStartTriggerAndWait(
     triggerName: string,
@@ -165,8 +165,8 @@ export interface TriggerOperations {
   ): Promise<void>;
   /**
    * Stops a trigger.
-   * @param triggerName The trigger name.
-   * @param options The options parameters.
+   * @param triggerName - The trigger name.
+   * @param options - The options parameters.
    */
   beginStopTrigger(
     triggerName: string,
@@ -174,8 +174,8 @@ export interface TriggerOperations {
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Stops a trigger.
-   * @param triggerName The trigger name.
-   * @param options The options parameters.
+   * @param triggerName - The trigger name.
+   * @param options - The options parameters.
    */
   beginStopTriggerAndWait(
     triggerName: string,
