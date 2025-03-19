@@ -13,7 +13,7 @@ import ModelClient, { isUnexpected } from "@azure-rest/ai-inference";
 import { AzureKeyCredential } from "@azure/core-auth";
 import { DefaultAzureCredential } from "@azure/identity";
 import { createRestError } from "@azure-rest/core-client";
-import fs from "node:fs";
+import fs from "node:fs/promises";
 
 // Load the .env file if it exists
 import "dotenv/config";
