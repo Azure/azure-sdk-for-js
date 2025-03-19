@@ -205,132 +205,21 @@ export enum KnownExpandEnum {
  * **trunks\/health**: Health state of a SIP trunk for routing calls.
  */
 export type ExpandEnum = string;
-
-/** Known values of {@link TlsStatus} that the service accepts. */
-export enum KnownTlsStatus {
-  /** Indicates an unknown status. */
-  Unknown = "unknown",
-  /** Indicates the status is okay. */
-  Ok = "ok",
-  /** Indicates the Trunk certificate is expiring. */
-  CertExpiring = "certExpiring",
-  /** Indicates the Trunk certificate is expired. */
-  CertExpired = "certExpired",
-}
-
-/**
- * Defines values for TlsStatus. \
- * {@link KnownTlsStatus} can be used interchangeably with TlsStatus,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **unknown**: Indicates an unknown status. \
- * **ok**: Indicates the status is okay. \
- * **certExpiring**: Indicates the Trunk certificate is expiring. \
- * **certExpired**: Indicates the Trunk certificate is expired.
- */
-export type TlsStatus = string;
-
-/** Known values of {@link PingStatus} that the service accepts. */
-export enum KnownPingStatus {
-  /** Indicates an unknown status. */
-  Unknown = "unknown",
-  /** Indicates the status is okay. */
-  Ok = "ok",
-  /** Indicates the status is expired. */
-  Expired = "expired",
-  /** Indicates the status is at an error level. */
-  Error = "error",
-}
-
-/**
- * Defines values for PingStatus. \
- * {@link KnownPingStatus} can be used interchangeably with PingStatus,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **unknown**: Indicates an unknown status. \
- * **ok**: Indicates the status is okay. \
- * **expired**: Indicates the status is expired. \
- * **error**: Indicates the status is at an error level.
- */
-export type PingStatus = string;
-
-/** Known values of {@link OverallHealthStatus} that the service accepts. */
-export enum KnownOverallHealthStatus {
-  /** Indicates an unknown health status. */
-  Unknown = "unknown",
-  /** Indicates the Trunk is active. */
-  Active = "active",
-  /** Indicates the Trunk is inactive. */
-  Inactive = "inactive",
-}
-
-/**
- * Defines values for OverallHealthStatus. \
- * {@link KnownOverallHealthStatus} can be used interchangeably with OverallHealthStatus,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **unknown**: Indicates an unknown health status. \
- * **active**: Indicates the Trunk is active. \
- * **inactive**: Indicates the Trunk is inactive.
- */
-export type OverallHealthStatus = string;
-
-/** Known values of {@link InactiveStatusReason} that the service accepts. */
-export enum KnownInactiveStatusReason {
-  /** Indicates no recent calls. */
-  NoRecentCalls = "noRecentCalls",
-  /** Indicates ping status is expired. */
-  NoRecentPings = "noRecentPings",
-  /** Indicates no recent calls and ping status is expired. */
-  NoRecentCallsAndPings = "noRecentCallsAndPings",
-}
-
-/**
- * Defines values for InactiveStatusReason. \
- * {@link KnownInactiveStatusReason} can be used interchangeably with InactiveStatusReason,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **noRecentCalls**: Indicates no recent calls. \
- * **noRecentPings**: Indicates ping status is expired. \
- * **noRecentCallsAndPings**: Indicates no recent calls and ping status is expired.
- */
-export type InactiveStatusReason = string;
-
-/** Known values of {@link PrivacyHeader} that the service accepts. */
-export enum KnownPrivacyHeader {
-  /** Id */
-  Id = "id",
-  /** None */
-  None = "none",
-}
-
-/**
- * Defines values for PrivacyHeader. \
- * {@link KnownPrivacyHeader} can be used interchangeably with PrivacyHeader,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **id** \
- * **none**
- */
-export type PrivacyHeader = string;
-
-/** Known values of {@link IpAddressVersion} that the service accepts. */
-export enum KnownIpAddressVersion {
-  /** Ipv4 */
-  Ipv4 = "ipv4",
-  /** Ipv6 */
-  Ipv6 = "ipv6",
-}
-
-/**
- * Defines values for IpAddressVersion. \
- * {@link KnownIpAddressVersion} can be used interchangeably with IpAddressVersion,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **ipv4** \
- * **ipv6**
- */
-export type IpAddressVersion = string;
+/** Defines values for TlsStatus. */
+export type TlsStatus = "unknown" | "ok" | "certExpiring" | "certExpired";
+/** Defines values for PingStatus. */
+export type PingStatus = "unknown" | "ok" | "expired" | "error";
+/** Defines values for OverallHealthStatus. */
+export type OverallHealthStatus = "unknown" | "active" | "inactive";
+/** Defines values for InactiveStatusReason. */
+export type InactiveStatusReason =
+  | "noRecentCalls"
+  | "noRecentPings"
+  | "noRecentCallsAndPings";
+/** Defines values for PrivacyHeader. */
+export type PrivacyHeader = "id" | "none";
+/** Defines values for IpAddressVersion. */
+export type IpAddressVersion = "ipv4" | "ipv6";
 
 /** Optional parameters. */
 export interface SipRoutingGetOptionalParams

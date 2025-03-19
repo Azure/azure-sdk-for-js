@@ -91,6 +91,11 @@ export interface ListSipRoutesOptions extends OperationOptions {}
 export interface ListSipTrunksOptions extends SipRoutingGetOptionalParams {}
 
 /**
+ * Additional options that can be passed to get SIP trunks.
+ */
+export interface GetSipTrunksOptions extends SipRoutingGetOptionalParams {}
+
+/**
  * Additional options that can be passed to the available offerings request.
  */
 export interface ListOfferingsOptions extends OperationOptions {
@@ -136,14 +141,8 @@ export {
   PingStatus,
   OverallHealthStatus,
   InactiveStatusReason,
-  KnownTlsStatus,
-  KnownPingStatus,
-  KnownOverallHealthStatus,
-  KnownInactiveStatusReason,
   PrivacyHeader,
   IpAddressVersion,
-  KnownPrivacyHeader,
-  KnownIpAddressVersion,
 } from "./generated/src/siprouting/models/index.js";
 
 /**

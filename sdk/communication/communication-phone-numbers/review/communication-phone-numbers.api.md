@@ -36,6 +36,10 @@ export type ExpandEnum = string;
 export type GetPurchasedPhoneNumberOptions = OperationOptions;
 
 // @public
+export interface GetSipTrunksOptions extends SipRoutingGetOptionalParams {
+}
+
+// @public
 export interface Health {
     overall: OverallHealth;
     ping: Ping;
@@ -43,56 +47,14 @@ export interface Health {
 }
 
 // @public
-export type InactiveStatusReason = string;
+export type InactiveStatusReason = "noRecentCalls" | "noRecentPings" | "noRecentCallsAndPings";
 
 // @public
-export type IpAddressVersion = string;
+export type IpAddressVersion = "ipv4" | "ipv6";
 
 // @public
 export enum KnownExpandEnum {
     TrunksHealth = "trunks/health"
-}
-
-// @public
-export enum KnownInactiveStatusReason {
-    NoRecentCalls = "noRecentCalls",
-    NoRecentCallsAndPings = "noRecentCallsAndPings",
-    NoRecentPings = "noRecentPings"
-}
-
-// @public
-export enum KnownIpAddressVersion {
-    Ipv4 = "ipv4",
-    Ipv6 = "ipv6"
-}
-
-// @public
-export enum KnownOverallHealthStatus {
-    Active = "active",
-    Inactive = "inactive",
-    Unknown = "unknown"
-}
-
-// @public
-export enum KnownPingStatus {
-    Error = "error",
-    Expired = "expired",
-    Ok = "ok",
-    Unknown = "unknown"
-}
-
-// @public
-export enum KnownPrivacyHeader {
-    Id = "id",
-    None = "none"
-}
-
-// @public
-export enum KnownTlsStatus {
-    CertExpired = "certExpired",
-    CertExpiring = "certExpiring",
-    Ok = "ok",
-    Unknown = "unknown"
 }
 
 // @public
@@ -170,7 +132,7 @@ export interface OverallHealth {
 }
 
 // @public
-export type OverallHealthStatus = string;
+export type OverallHealthStatus = "unknown" | "active" | "inactive";
 
 // @public
 export interface PhoneNumberAdministrativeDivision {
@@ -291,10 +253,10 @@ export interface Ping {
 }
 
 // @public
-export type PingStatus = string;
+export type PingStatus = "unknown" | "ok" | "expired" | "error";
 
 // @public
-export type PrivacyHeader = string;
+export type PrivacyHeader = "id" | "none";
 
 // @public
 export interface PurchasedPhoneNumber {
@@ -338,7 +300,7 @@ export class SipRoutingClient {
     constructor(endpoint: string, credential: KeyCredential, options?: SipRoutingClientOptions);
     constructor(endpoint: string, credential: TokenCredential, options?: SipRoutingClientOptions);
     deleteTrunk(fqdn: string, options?: OperationOptions): Promise<void>;
-    getTrunk(fqdn: string, options?: ListSipTrunksOptions): Promise<SipTrunk>;
+    getTrunk(fqdn: string, options?: GetSipTrunksOptions): Promise<SipTrunk>;
     listRoutes(options?: ListSipRoutesOptions): PagedAsyncIterableIterator<SipTrunkRoute>;
     listTrunks(options?: ListSipTrunksOptions): PagedAsyncIterableIterator<SipTrunk>;
     setRoutes(routes: SipTrunkRoute[], options?: OperationOptions): Promise<SipTrunkRoute[]>;
@@ -395,7 +357,7 @@ export interface Tls {
 }
 
 // @public
-export type TlsStatus = string;
+export type TlsStatus = "unknown" | "ok" | "certExpiring" | "certExpired";
 
 // (No @packageDocumentation comment for this package)
 

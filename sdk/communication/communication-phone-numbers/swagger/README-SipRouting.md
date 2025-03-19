@@ -14,7 +14,7 @@ output-folder: ../src/generated
 source-code-folder-path: src/siprouting
 clear-output-folder: false
 tag: package-2024-11-15-preview
-require: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/8a218b1c6203d1ea118c3e0bcb4ae95bd44e1014/specification/communication/data-plane/SipRouting/readme.md
+require: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/8056e0ba6bbe2f00ad0aca066236871ae5e04c23/specification/communication/data-plane/SipRouting/readme.md
 optional-response-headers: true
 payload-flattening-threshold: 10
 use-extension:
@@ -24,6 +24,7 @@ azure-arm: false
 title: Sip Routing Client
 v3: true
 module-kind: esm
+skip-enum-validation: true
 ```
 
 ### Directive renaming "Trunk" model to "SipTrunk"
@@ -81,4 +82,23 @@ directive:
       }
     }
     $.responses = newResponses;
+```
+```yaml
+directive:
+  from: swagger-document
+  where: $.definitions[*].properties[*]["x-ms-enum"]
+  transform: >
+    if ($.modelAsString) {
+      $.modelAsString = false
+    }
+```
+
+```yaml
+directive:
+  from: swagger-document
+  where: $.definitions[*].["x-ms-enum"]
+  transform: >
+    if ($.modelAsString) {
+      $.modelAsString = false
+    }
 ```

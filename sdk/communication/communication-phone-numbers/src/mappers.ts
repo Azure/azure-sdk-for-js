@@ -2,7 +2,10 @@
 // Licensed under the MIT License.
 
 import type { SipTrunk } from "./models.js";
-import type { SipTrunk as RestSipTrunk } from "./generated/src/siprouting/models/index.js";
+import type {
+  SipTrunk as RestSipTrunk,
+  TrunkUpdate as RestTrunkUpdate,
+} from "./generated/src/siprouting/models/index.js";
 
 /**
  * @internal
@@ -41,9 +44,9 @@ export function transformFromRestModel(
  * Transforming SIP trunks SDK model to REST model
  */
 export function transformIntoRestModel(trunks: SipTrunk[]): {
-  [propertyName: string]: RestSipTrunk;
+  [propertyName: string]: RestTrunkUpdate;
 } {
-  const result: { [propertyName: string]: RestSipTrunk } = {};
+  const result: { [propertyName: string]: RestTrunkUpdate } = {};
 
   trunks.forEach((trunk: SipTrunk) => {
     result[trunk.fqdn] = {
@@ -52,7 +55,7 @@ export function transformIntoRestModel(trunks: SipTrunk[]): {
       directTransfer: trunk.directTransfer,
       privacyHeader: trunk.privacyHeader,
       ipAddressVersion: trunk.ipAddressVersion,
-    } as RestSipTrunk;
+    } as RestTrunkUpdate;
   });
 
   return result;

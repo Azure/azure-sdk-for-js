@@ -4,7 +4,7 @@
 import type { SipRoutingClient } from "../../../src/index.js";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { isPlaybackMode } from "@azure-tools/test-recorder";
-import { KnownIpAddressVersion, KnownPrivacyHeader, type SipTrunk } from "../../../src/models.js";
+import { type SipTrunk } from "../../../src/models.js";
 import {
   clearSipConfiguration,
   createRecordedClient,
@@ -47,8 +47,8 @@ matrix([[true, false]], async (useAad) => {
         directTransfer: false,
         enabled: false,
         health: undefined,
-        privacyHeader: KnownPrivacyHeader.Id,
-        ipAddressVersion: KnownIpAddressVersion.Ipv4,
+        privacyHeader: "id",
+        ipAddressVersion: "ipv4",
       };
       const storedTrunk = await client.setTrunk(trunk);
       assert.deepEqual(storedTrunk, trunk);

@@ -16,6 +16,7 @@ import type {
   SipRoutingError,
 } from "./generated/src/siprouting/models/index.js";
 import type {
+  GetSipTrunksOptions,
   ListSipRoutesOptions,
   ListSipTrunksOptions,
   SipTrunk,
@@ -150,7 +151,7 @@ export class SipRoutingClient {
    * @param options - The options parameters.
    */
   // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-  public async getTrunk(fqdn: string, options: ListSipTrunksOptions = {}): Promise<SipTrunk> {
+  public async getTrunk(fqdn: string, options: GetSipTrunksOptions = {}): Promise<SipTrunk> {
     return tracingClient.withSpan("SipRoutingClient-getTrunk", options, async (updatedOptions) => {
       const trunks = await this.getTrunksInternal(updatedOptions);
       const trunk = trunks.find((value: SipTrunk) => value.fqdn === fqdn);
@@ -338,7 +339,7 @@ export class SipRoutingClient {
     return config.routes || [];
   }
 
-  private async getTrunksInternal(options: ListSipTrunksOptions): Promise<SipTrunk[]> {
+  private async getTrunksInternal(options: GetSipTrunksOptions): Promise<SipTrunk[]> {
     const optionalParams = {
       expand: options.expand !== undefined ? options.expand : undefined,
       ...options,

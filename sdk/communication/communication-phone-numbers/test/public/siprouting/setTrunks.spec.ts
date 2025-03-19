@@ -4,12 +4,7 @@ import type { SipRoutingClient } from "../../../src/index.js";
 
 import type { Recorder } from "@azure-tools/test-recorder";
 import { isPlaybackMode } from "@azure-tools/test-recorder";
-import {
-  KnownIpAddressVersion,
-  KnownPrivacyHeader,
-  type SipTrunk,
-  type SipTrunkRoute,
-} from "../../../src/models.js";
+import { type SipTrunk, type SipTrunkRoute } from "../../../src/models.js";
 import {
   clearSipConfiguration,
   createRecordedClient,
@@ -55,8 +50,8 @@ matrix([[true, false]], async (useAad) => {
         directTransfer: false,
         health: undefined,
         enabled: false,
-        privacyHeader: KnownPrivacyHeader.Id,
-        ipAddressVersion: KnownIpAddressVersion.Ipv4,
+        privacyHeader: "id",
+        ipAddressVersion: "ipv4",
       };
 
       const setTrunk = await client.setTrunk(trunk);
@@ -73,8 +68,8 @@ matrix([[true, false]], async (useAad) => {
         directTransfer: false,
         health: undefined,
         enabled: false,
-        privacyHeader: KnownPrivacyHeader.Id,
-        ipAddressVersion: KnownIpAddressVersion.Ipv4,
+        privacyHeader: "id",
+        ipAddressVersion: "ipv4",
       };
       await client.setTrunk(trunk);
 
@@ -97,8 +92,8 @@ matrix([[true, false]], async (useAad) => {
           directTransfer: false,
           health: undefined,
           enabled: false,
-          privacyHeader: KnownPrivacyHeader.Id,
-          ipAddressVersion: KnownIpAddressVersion.Ipv4,
+          privacyHeader: "id",
+          ipAddressVersion: "ipv4",
         },
         {
           fqdn: secondFqdn,
@@ -106,8 +101,8 @@ matrix([[true, false]], async (useAad) => {
           directTransfer: false,
           health: undefined,
           enabled: false,
-          privacyHeader: KnownPrivacyHeader.Id,
-          ipAddressVersion: KnownIpAddressVersion.Ipv4,
+          privacyHeader: "id",
+          ipAddressVersion: "ipv4",
         },
       ];
 
@@ -126,8 +121,8 @@ matrix([[true, false]], async (useAad) => {
           directTransfer: false,
           health: undefined,
           enabled: false,
-          privacyHeader: KnownPrivacyHeader.Id,
-          ipAddressVersion: KnownIpAddressVersion.Ipv4,
+          privacyHeader: "id",
+          ipAddressVersion: "ipv4",
         },
         {
           fqdn: secondFqdn,
@@ -135,8 +130,8 @@ matrix([[true, false]], async (useAad) => {
           directTransfer: false,
           health: undefined,
           enabled: false,
-          privacyHeader: KnownPrivacyHeader.Id,
-          ipAddressVersion: KnownIpAddressVersion.Ipv4,
+          privacyHeader: "id",
+          ipAddressVersion: "ipv4",
         },
       ];
       await client.setTrunks(trunks);
@@ -169,16 +164,16 @@ matrix([[true, false]], async (useAad) => {
           sipSignalingPort: 8239,
           directTransfer: false,
           enabled: false,
-          privacyHeader: KnownPrivacyHeader.Id,
-          ipAddressVersion: KnownIpAddressVersion.Ipv4,
+          privacyHeader: "id",
+          ipAddressVersion: "ipv4",
         },
         {
           fqdn: secondFqdn,
           sipSignalingPort: 7348,
           directTransfer: false,
           enabled: false,
-          privacyHeader: KnownPrivacyHeader.Id,
-          ipAddressVersion: KnownIpAddressVersion.Ipv4,
+          privacyHeader: "id",
+          ipAddressVersion: "ipv4",
         },
       ];
       await client.setTrunks(trunks);
@@ -293,8 +288,8 @@ matrix([[true, false]], async (useAad) => {
           directTransfer: false,
           health: undefined,
           enabled: false,
-          privacyHeader: KnownPrivacyHeader.Id,
-          ipAddressVersion: KnownIpAddressVersion.Ipv4,
+          privacyHeader: "id",
+          ipAddressVersion: "ipv4",
         },
         {
           fqdn: getUniqueFqdn(recorder),
@@ -302,8 +297,8 @@ matrix([[true, false]], async (useAad) => {
           directTransfer: false,
           health: undefined,
           enabled: false,
-          privacyHeader: KnownPrivacyHeader.Id,
-          ipAddressVersion: KnownIpAddressVersion.Ipv4,
+          privacyHeader: "id",
+          ipAddressVersion: "ipv4",
         },
       ];
       await client.setTrunks(trunks);
