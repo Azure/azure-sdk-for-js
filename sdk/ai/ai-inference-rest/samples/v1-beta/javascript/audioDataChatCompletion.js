@@ -30,7 +30,7 @@ async function main() {
 
   const client = createModelClient();
 
-  const data = getAudioData(audioFilePath);
+  const data = await getAudioData(audioFilePath);
 
   const systemMessage = { role: "system", content: "You are a helpful assistant." };
   const audioMessage = {
@@ -94,7 +94,7 @@ function createModelClient() {
  * @param {string} audioFile - The path to the image file.
  * @returns {string} Base64 data of the audio.
  */
-function getAudioData(audioFile) {
+async function getAudioData(audioFile) {
   try {
     const audioBuffer = await fs.readFile(audioFile);
     return audioBuffer.toString("base64");

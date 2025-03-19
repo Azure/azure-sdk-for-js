@@ -13,7 +13,7 @@ import ModelClient, { isUnexpected } from "@azure-rest/ai-inference";
 import { AzureKeyCredential } from "@azure/core-auth";
 import { DefaultAzureCredential } from "@azure/identity";
 import { createRestError } from "@azure-rest/core-client";
-import fs from "node:fs";
+import fs from "node:fs/promises";
 
 // Load the .env file if it exists
 import "dotenv/config";
@@ -29,7 +29,7 @@ export async function main(): Promise<void> {
 
   const client = createModelClient();
 
-  const data = getAudioData(audioFilePath);
+  const data = await getAudioData(audioFilePath);
 
   const systemMessage = { role: "system", content: "You are a helpful assistant." };
   const audioMessage = { 
@@ -96,9 +96,9 @@ function createModelClient(): ModelClient {
  * @param {string} audioFile - The path to the image file.
  * @returns {string} Base64 data of the audio.
  */
-function getAudioData(audioFile: string): string {
+async function getAudioData(audioFile: string): Promise<string> {
   try {
-    const audioBuffer = fs.readFileSync(audioFile);
+    const audioBuffer = await fs.readFile(audioFile);
     return audioBuffer.toString("base64");
   } catch (error) {
     console.error(`Could not read '${audioFile}'.`);

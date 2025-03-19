@@ -29,7 +29,7 @@ export async function main(): Promise<void> {
 
   const client = createModelClient();
 
-  const data = getAudioData(audioFilePath);
+  const data = await getAudioData(audioFilePath);
 
   const systemMessage = { role: "system", content: "You are a helpful assistant." };
   const audioMessage = { 
@@ -96,7 +96,7 @@ function createModelClient(): ModelClient {
  * @param {string} audioFile - The path to the image file.
  * @returns {string} Base64 data of the audio.
  */
-function getAudioData(audioFile: string): string {
+async function getAudioData(audioFile: string): Promise<string> {
   try {
     const audioBuffer = await fs.readFile(audioFile);
     return audioBuffer.toString("base64");
