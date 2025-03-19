@@ -955,7 +955,7 @@
     },
     {
       "packageName": "@azure-tests/perf-template",
-      "projectFolder": "sdk/template/perf-tests/template",
+      "projectFolder": "sdk/template/template-perf-tests",
       "versionPolicyName": "test"
     },
     {
