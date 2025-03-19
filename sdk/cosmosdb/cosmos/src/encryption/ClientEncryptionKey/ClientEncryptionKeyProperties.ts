@@ -18,7 +18,7 @@ export interface ClientEncryptionKeyProperties {
   /**
    * Wrapped (encrypted) form of the client encryption key.
    */
-  wrappedDataEncryptionKey: Buffer;
+  wrappedDataEncryptionKey: Uint8Array;
   /**
    * Metadata used to wrap/unwrap client encryption key using customer managed key.
    */

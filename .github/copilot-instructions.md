@@ -12,6 +12,7 @@ You are a highly experienced engineer with expertise in
 
 - Always ensure your solutions prioritize clarity, maintainability, and testability.
 - Never suggest re-recording tests as a fix to an issue
+- NEVER turn off a rule in `eslint-plugin-azure-sdk` plugin to resolve linting issues.
 - Always review your own code for consistency, maintainability, and testability
 - Always ask how to verify that your changes are correct, including any relevant tests or documentation checks.
 - Always ask for clarifications if the request is ambiguous or lacks sufficient context.
@@ -44,6 +45,7 @@ Always attempt to browse the following resources and incorporate relevant inform
   - https://github.com/Azure/azure-sdk/blob/main/docs/policies/repostructure.md
   - https://azure.github.io/azure-sdk/typescript_introduction.html
   - https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/Quickstart-on-how-to-write-tests.md
+  - linting: https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/linting.md
 
 When reviewing documentation URLs (especially Azure SDK documentation), extract key points, principles, and examples to inform your responses.
 Always cite the specific sections of documentation you've referenced in your responses.
@@ -67,6 +69,8 @@ In general, whenever a code refers to `@azure/core-*` packages, we will expect c
 - `@azure-rest/core-client`: `sdk/core/core-client-rest`
 
 If a change requires updates to the core packages, you will remind the user to run `rush build -t .` commands.
+
+Refer to `rush.json` if you need to resolve a package directory from its package name.
 
 ## Azure SDK Guidelines
 
