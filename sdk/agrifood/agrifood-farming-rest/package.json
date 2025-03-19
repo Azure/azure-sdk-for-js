@@ -17,10 +17,10 @@
   "module": "./dist/esm/index.js",
   "types": "./dist/commonjs/index.d.ts",
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/agrifood/agrifood-farming/README.md",
+  "repository": "github:Azure/azure-sdk-for-js",
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
-  "repository": "github:Azure/azure-sdk-for-js",
   "files": [
     "dist/",
     "README.md",

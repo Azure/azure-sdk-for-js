@@ -20,6 +20,11 @@
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
+  "files": [
+    "dist/",
+    "README.md",
+    "LICENSE"
+  ],
   "scripts": {
     "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
     "build:samples": "echo Obsolete.",
@@ -44,11 +49,6 @@
     "unit-test:node": "dev-tool run test:vitest -- --test-timeout 180000",
     "update-snippets": "dev-tool run update-snippets"
   },
-  "files": [
-    "dist/",
-    "README.md",
-    "LICENSE"
-  ],
   "engines": {
     "node": ">=18.0.0"
   },
