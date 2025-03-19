@@ -11,7 +11,6 @@ import { isUnexpected } from "../../../src/index.js";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { env } from "@azure-tools/test-recorder";
 import * as fs from "node:fs";
-import { isNodeLike } from "@azure/core-util";
 import { getLongRunningPoller } from "../../../src/pollingHelper.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
@@ -174,9 +173,6 @@ describe("Test Profile Administration Operations", () => {
 
   beforeEach(async (ctx) => {
     recorder = await createRecorder(ctx);
-    if (!isNodeLike) {
-      ctx.skip();
-    }
     client = createClient(recorder);
   });
 

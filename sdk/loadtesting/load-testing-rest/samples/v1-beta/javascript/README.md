@@ -5,10 +5,10 @@ languages:
 products:
   - azure
   - azure-load-testing
-urlFragment: load-testing-javascript
+urlFragment: load-testing-javascript-beta
 ---
 
-# Azure Load Testing client library samples for JavaScript
+# Azure Load Testing client library samples for JavaScript (Beta)
 
 These sample programs show how to use the JavaScript client libraries for Azure Load Testing in some common scenarios.
 
@@ -63,15 +63,15 @@ npx dev-tool run vendored cross-env LOADTESTSERVICE_ENDPOINT="<loadtestservice e
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[addappcomponents]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/loadtesting/load-testing-rest/samples/v1/javascript/addAppComponents.js
-[createorupdatetest]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/loadtesting/load-testing-rest/samples/v1/javascript/createOrUpdateTest.js
-[createtestprofile]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/loadtesting/load-testing-rest/samples/v1/javascript/createTestProfile.js
-[starttestprofilerun]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/loadtesting/load-testing-rest/samples/v1/javascript/startTestProfileRun.js
-[starttestrunandgetmetrics]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/loadtesting/load-testing-rest/samples/v1/javascript/startTestRunAndGetMetrics.js
-[stoptestprofilerun]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/loadtesting/load-testing-rest/samples/v1/javascript/stopTestProfileRun.js
-[stoptestrun]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/loadtesting/load-testing-rest/samples/v1/javascript/stopTestRun.js
-[uploadtestscript]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/loadtesting/load-testing-rest/samples/v1/javascript/uploadTestScript.js
-[apiref]: https://learn.microsoft.com/javascript/api/@azure-rest/load-testing
+[addappcomponents]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/loadtesting/load-testing-rest/samples/v1-beta/javascript/addAppComponents.js
+[createorupdatetest]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/loadtesting/load-testing-rest/samples/v1-beta/javascript/createOrUpdateTest.js
+[createtestprofile]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/loadtesting/load-testing-rest/samples/v1-beta/javascript/createTestProfile.js
+[starttestprofilerun]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/loadtesting/load-testing-rest/samples/v1-beta/javascript/startTestProfileRun.js
+[starttestrunandgetmetrics]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/loadtesting/load-testing-rest/samples/v1-beta/javascript/startTestRunAndGetMetrics.js
+[stoptestprofilerun]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/loadtesting/load-testing-rest/samples/v1-beta/javascript/stopTestProfileRun.js
+[stoptestrun]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/loadtesting/load-testing-rest/samples/v1-beta/javascript/stopTestRun.js
+[uploadtestscript]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/loadtesting/load-testing-rest/samples/v1-beta/javascript/uploadTestScript.js
+[apiref]: https://learn.microsoft.com/javascript/api/@azure-rest/load-testing?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azureloadtestingresource]: https://learn.microsoft.com/azure/load-testing/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/loadtesting/load-testing-rest/README.md

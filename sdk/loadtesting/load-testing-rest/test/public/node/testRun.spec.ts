@@ -11,7 +11,6 @@ import type {
   TestRunAppComponentsOutput,
 } from "../../../src/index.js";
 import { isUnexpected } from "../../../src/index.js";
-import { isNodeLike } from "@azure/core-util";
 import * as fs from "node:fs";
 import { getLongRunningPoller } from "../../../src/pollingHelper.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
@@ -197,9 +196,6 @@ describe("Test Profile Run Operations", () => {
 
   beforeEach(async (ctx) => {
     recorder = await createRecorder(ctx);
-    if (!isNodeLike) {
-      ctx.skip();
-    }
     client = createClient(recorder);
   });
 
