@@ -54,6 +54,7 @@ async function main(): Promise<void> {
     body: {
       displayName: testProfileDisplayName,
       description: testProfileDescription,
+      testId: testId,
       targetResourceId: functionsResourceId,
       targetResourceConfigurations: {
         kind: "FunctionsFlexConsumption",
