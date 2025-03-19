@@ -2,12 +2,15 @@
 // Licensed under the MIT License.
 
 import { assert, describe, it } from "vitest";
-import { createClientsAndDeployments } from "../utils/createClients.js";
+import {
+  createClientsAndDeployments,
+  filterClientsAndDeployments,
+} from "../utils/createClients.js";
 import type { APIVersion } from "../utils/utils.js";
 import {
   APIMatrix,
   bufferAsyncIterable,
-  createAzureSearchExtension,
+  createAzureSearchExtensions,
   testWithDeployments,
   withDeployments,
 } from "../utils/utils.js";
@@ -18,21 +21,23 @@ import {
 } from "../utils/asserts.js";
 import { z } from "zod";
 import { zodResponseFormat } from "openai/helpers/zod";
-import { type ChatCompletionMessageParam } from "openai/resources/chat/completions.mjs";
-import { functionCallModelsToSkip, jsonResponseModelsToSkip } from "../utils/models.js";
+import type { ChatCompletionMessageParam } from "openai/resources/chat/completions.mjs";
+import { functionCallModelsToSkip } from "../utils/models.js";
 import "../../src/types/index.js";
-import type { ClientsAndDeploymentsInfo } from "../utils/types.js";
 import { assertMathResponseOutput, type MathResponse } from "../utils/structuredOutputUtils.js";
 
 describe.shuffle.each(APIMatrix)("Chat Completions [%s]", (apiVersion: APIVersion) => {
-  let clientsAndDeploymentsInfo: ClientsAndDeploymentsInfo;
-
-  clientsAndDeploymentsInfo = createClientsAndDeployments(
+  const clientsAndDeploymentsInfo = createClientsAndDeployments(
     apiVersion,
     { chatCompletion: "true" },
     {
+      clientOptions: { maxRetries: 0 },
       deploymentsToSkip: ["o1" /** It gets stuck and never returns */],
-      modelsToSkip: [{ name: "gpt-4o-audio-preview" }, { name: "o3-mini" }],
+      modelsToSkip: [
+        { name: "gpt-4o-audio-preview" },
+        { name: "gpt-4o-mini-audio-preview" },
+        { name: "o3-mini" /** Unsupported with this API version */ },
+      ],
     },
   );
 
@@ -229,12 +234,10 @@ describe.shuffle.each(APIMatrix)("Chat Completions [%s]", (apiVersion: APIVersio
     });
 
     it("respects json_object responseFormat", async () => {
-      clientsAndDeploymentsInfo = createClientsAndDeployments(apiVersion, {
-        chatCompletion: "true",
-        jsonObjectResponse: "true",
-      });
       await withDeployments(
-        clientsAndDeploymentsInfo,
+        filterClientsAndDeployments(clientsAndDeploymentsInfo, {
+          jsonObjectResponse: "true",
+        }),
         (client, deploymentName) =>
           client.chat.completions.create({
             model: deploymentName,
@@ -257,33 +260,37 @@ describe.shuffle.each(APIMatrix)("Chat Completions [%s]", (apiVersion: APIVersio
             assert.fail(`Invalid JSON: ${content}`);
           }
         },
-        jsonResponseModelsToSkip,
       );
     });
 
-    describe("works with custom data sources", async () => {
-      assert.isNotEmpty(clientsAndDeploymentsInfo.clientsAndDeployments, "No deployments found");
-      await testWithDeployments({
-        clientsAndDeployments: clientsAndDeploymentsInfo,
-        run: (client, model) =>
-          client.chat.completions.create({
-            model: model,
-            messages: byodMessages,
-            data_sources: [createAzureSearchExtension()],
-          }),
-        validate: assertChatCompletions,
-        modelsListToSkip: [
-          { name: "gpt-35-turbo-0613" }, // Unsupported model
-          { name: "gpt-4-32k" }, // Managed identity is not enabled
-          { name: "o1-preview" }, // o-series models are not supported with OYD.
-        ],
-        acceptableErrors: {
-          messageSubstring: [
-            "Invalid AzureCognitiveSearch configuration detected", // gpt-4-1106-preview and others
+    describe.concurrent.each(createAzureSearchExtensions())(
+      "works with data sources [%o]",
+      async (config) => {
+        await testWithDeployments({
+          clientsAndDeploymentsInfo,
+          run: (client, model) =>
+            client.chat.completions.create({
+              model: model,
+              messages: byodMessages,
+              data_sources: [config],
+            }),
+          validate: assertChatCompletions,
+          modelsListToSkip: [
+            { name: "gpt-35-turbo-0613" }, // Unsupported model
+            { name: "gpt-4-32k" }, // Managed identity is not enabled
+            { name: "o1-preview" }, // o-series models are not supported with OYD.
+            { name: "o1-mini" },
+            { name: "gpt-4", version: "vision-preview" },
           ],
-        },
-      });
-    });
+          acceptableErrors: {
+            messageSubstring: [
+              "Invalid AzureCognitiveSearch configuration detected", // gpt-4-1106-preview and others
+              "Managed Identity (MI) is not set for this account while the encryption key source is 'Microsoft.KeyVault', customer managed storage or Network Security Perimeter is used.",
+            ],
+          },
+        });
+      },
+    );
 
     describe("return stream", () => {
       it("returns completions across all models", async () => {
@@ -353,28 +360,44 @@ describe.shuffle.each(APIMatrix)("Chat Completions [%s]", (apiVersion: APIVersio
         );
       });
 
-      it("bring your data", async () => {
-        const dataSources = { data_sources: [createAzureSearchExtension()] };
-        await withDeployments(
-          clientsAndDeploymentsInfo,
-          async (client, deploymentName) =>
-            bufferAsyncIterable(
-              await client.chat.completions.create({
-                model: deploymentName,
-                messages: byodMessages,
-                stream: true,
-                ...dataSources,
-              }),
-            ),
-          assertChatCompletionsList,
-          [{ name: "gpt-4", version: "vision-preview" }],
-        );
-      });
+      describe.concurrent.each(createAzureSearchExtensions())(
+        "works with data sources [%o])",
+        async (config) => {
+          await testWithDeployments({
+            clientsAndDeploymentsInfo,
+            run: async (client, model) =>
+              bufferAsyncIterable(
+                await client.chat.completions.create({
+                  model: model,
+                  messages: byodMessages,
+                  stream: true,
+                  data_sources: [config],
+                }),
+              ),
+            validate: assertChatCompletionsList,
+            modelsListToSkip: [
+              { name: "gpt-35-turbo-0613" }, // Unsupported model
+              { name: "gpt-4-32k" }, // Managed identity is not enabled
+              { name: "o1-preview" }, // o-series models are not supported with OYD.
+              { name: "o1-mini" },
+              { name: "gpt-4", version: "vision-preview" },
+            ],
+            acceptableErrors: {
+              messageSubstring: [
+                "Invalid AzureCognitiveSearch configuration detected", // gpt-4-1106-preview and others
+                "Managed Identity (MI) is not set for this account while the encryption key source is 'Microsoft.KeyVault', customer managed storage or Network Security Perimeter is used.",
+              ],
+            },
+          });
+        },
+      );
 
       describe("chat.completions.parse", () => {
         describe("structured output for chat completions", async () => {
           await testWithDeployments({
-            clientsAndDeployments: clientsAndDeploymentsInfo,
+            clientsAndDeploymentsInfo: filterClientsAndDeployments(clientsAndDeploymentsInfo, {
+              jsonSchemaResponse: "true",
+            }),
             run: async (client, deploymentName) => {
               const step = z.object({
                 explanation: z.string(),
@@ -404,16 +427,6 @@ describe.shuffle.each(APIMatrix)("Chat Completions [%s]", (apiVersion: APIVersio
                 allowEmptyChoices: true,
               });
             },
-            modelsListToSkip: [
-              // structured output is not supported
-              { name: "gpt-35-turbo" },
-              { name: "gpt-4" },
-              { name: "gpt-4-32k" },
-              { name: "gpt-35-turbo-16k" },
-              { name: "o1-preview" },
-              { name: "gpt-4-32k" },
-              { name: "gpt-4o", version: "2024-05-13" },
-            ],
           });
         });
       });
