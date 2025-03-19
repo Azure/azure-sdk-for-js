@@ -453,14 +453,20 @@ describe("Library/Config", () => {
       const config = new InternalConfig();
       config.azureMonitorExporterOptions.connectionString =
         "InstrumentationKey=1aa11111bbbb1ccc8dddeeeeffff3333";
-      assert.ok(warnStub.calledOn, "warning was raised");
+      // passes
+      // assert.ok(warnStub.calledOn, "warning was raised");
+      // fails
+      assert.ok(warnStub.calledOnce, "warning was raised");
     });
 
     it("instrumentation key validation-invalid key passed", () => {
       const warnStub = sandbox.stub(console, "warn");
       const config = new InternalConfig();
       config.azureMonitorExporterOptions.connectionString = "abc";
-      assert.ok(warnStub.calledOn, "warning was raised");
+      // passes
+      // assert.ok(warnStub.calledOn, "warning was raised");
+      // fails (calledOn is truthy but not true)
+      assert.equal(warnStub.calledOn, true, "warning was raised");
     });
   });
 });
