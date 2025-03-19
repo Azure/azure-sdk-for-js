@@ -1,7 +1,7 @@
 /**
  * This is the main configuration file for Rush.
  * For full documentation, please see https://rushjs.io
- */{
+ */ {
   "$schema": "https://developer.microsoft.com/json-schemas/rush/v5/rush.schema.json",
   /**
    * (Required) This specifies the version of the Rush engine to be used in this repo.
@@ -560,9 +560,7 @@
       "projectFolder": "common/tools/dev-tool",
       "versionPolicyName": "utility",
       // Add Identity to decoupledLocalDependencies so that dev-tool uses the package from npm, avoiding a cyclic dependency.
-      "decoupledLocalDependencies": [
-        "@azure/identity"
-      ]
+      "decoupledLocalDependencies": ["@azure/identity"]
     },
     {
       "packageName": "@azure/eventgrid",
@@ -602,9 +600,7 @@
     {
       "packageName": "@azure/identity",
       "projectFolder": "sdk/identity/identity",
-      "decoupledLocalDependencies": [
-        "@azure/keyvault-keys"
-      ],
+      "decoupledLocalDependencies": ["@azure/keyvault-keys"],
       "versionPolicyName": "client"
     },
     {
@@ -949,12 +945,12 @@
     },
     {
       "packageName": "@azure-tests/perf-monitor-query",
-      "projectFolder": "sdk/monitor/perf-tests/monitor-query",
+      "projectFolder": "sdk/monitor/monitor-query-perf-tests",
       "versionPolicyName": "test"
     },
     {
       "packageName": "@azure-tests/perf-monitor-ingestion",
-      "projectFolder": "sdk/monitor/perf-tests/monitor-ingestion",
+      "projectFolder": "sdk/monitor/monitor-ingestion-perf-tests",
       "versionPolicyName": "test"
     },
     {
@@ -2124,7 +2120,7 @@
     },
     {
       "packageName": "@azure-tests/perf-monitor-opentelemetry",
-      "projectFolder": "sdk/monitor/perf-tests/monitor-opentelemetry",
+      "projectFolder": "sdk/monitor/monitor-opentelemetry-perf-tests",
       "versionPolicyName": "test"
     },
     {
