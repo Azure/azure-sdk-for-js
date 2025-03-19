@@ -22,6 +22,9 @@ describe("Test Administration Operations", () => {
 
   beforeEach(async (ctx) => {
     recorder = await createRecorder(ctx);
+    if (!isNodeLike) {
+      ctx.skip();
+    }
     client = createClient(recorder);
   });
 
@@ -169,8 +172,8 @@ describe("Test Administration Operations", () => {
 describe("Test Profile Administration Operations", () => {
   let recorder: Recorder;
   let client: AzureLoadTestingClient;
-  const testId = "sample-sdk-testpr-202503184";
-  const testProfileId = "sample-sdk-testprofile-202503188";
+  const testId = "sample-sdk-testpr-202503183";
+  const testProfileId = "sample-sdk-testprofile-202503187";
 
   beforeEach(async (ctx) => {
     recorder = await createRecorder(ctx);

@@ -24,6 +24,9 @@ describe("Test Run Operations", () => {
 
   beforeEach(async (ctx) => {
     recorder = await createRecorder(ctx);
+    if (!isNodeLike) {
+      ctx.skip();
+    }
     client = createClient(recorder);
   });
 
@@ -100,7 +103,9 @@ describe("Test Run Operations", () => {
 
   it("should stop the test run", async () => {
     const timeoutTestRunId = "sample-sdk-testrun-20250318-1";
-    const stopResult = await client.path("/test-runs/{testRunId}:stop", timeoutTestRunId).post();
+    const stopResult = await client
+      .path("/test-runs/{testRunId}:stop", timeoutTestRunId)
+      .post();
 
     if (isUnexpected(stopResult)) {
       throw stopResult.body.error;
@@ -192,8 +197,8 @@ describe("Test Profile Run Operations", () => {
   let recorder: Recorder;
   let client: AzureLoadTestingClient;
   const testId = "sample-sdk-testtpr-20250319";
-  const testProfileId = "sample-sdk-testprofile-202503198";
-  const testProfileRunId = "sample-sdk-testprofilerun-202503198";
+  const testProfileId = "sample-sdk-testprofile-202503197";
+  const testProfileRunId = "sample-sdk-testprofilerun-202503197";
 
   beforeEach(async (ctx) => {
     recorder = await createRecorder(ctx);
@@ -293,9 +298,9 @@ describe("Test Profile Run Operations", () => {
         },
       });
 
-    if (isUnexpected(testProfileRunCreationResult)) {
-      throw testProfileRunCreationResult.body.error;
-    }
+      if (isUnexpected(testProfileRunCreationResult)) {
+        throw testProfileRunCreationResult.body.error;
+      }
 
     const testProfileRunPoller = await getLongRunningPoller(client, testProfileRunCreationResult);
     const polledResult = await testProfileRunPoller.pollUntilDone({
