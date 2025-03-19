@@ -275,7 +275,7 @@ For details on contributing to this repository, see the [contributing guide](htt
 <!-- LINKS -->
 
 [source_code]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/loadtesting/load-testing-rest/src
-[sample_code]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/loadtesting/load-testing-rest/samples/v1
+[sample_code]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/loadtesting/load-testing-rest/samples/v1-beta
 [api_reference_doc]: https://learn.microsoft.com/rest/api/loadtesting/
 [obtaining_data_plane_uri]: https://learn.microsoft.com/rest/api/loadtesting/data-plane-uri
 [product_documentation]: https://azure.microsoft.com/services/load-testing/
