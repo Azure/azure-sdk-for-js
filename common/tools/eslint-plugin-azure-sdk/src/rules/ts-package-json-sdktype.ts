@@ -26,7 +26,7 @@ export default createRule({
       ...VerifierMessages,
       SdkTypeNotString: "sdk-type is not set to a string",
       SdkTypeNotValid:
-        "unrecognized sdk-type value: {{actual}}. Expected one of 'client', 'mgmt', 'perf-test', or'utility.'",
+        "unrecognized sdk-type value: {{actual}}. Expected one of 'client', 'mgmt', 'perf-test', or 'utility.'",
     },
     schema: [],
     fixable: "code",
