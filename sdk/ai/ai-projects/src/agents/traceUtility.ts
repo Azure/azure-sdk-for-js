@@ -4,12 +4,14 @@
 import type {
   AgentsApiResponseFormat,
   AgentsApiResponseFormatOption,
-  MessageContent,
-  ThreadMessage,
   ThreadMessageOptions,
   ToolOutput,
 } from "../generated/src/models.js";
-import type { RunStepCompletionUsageOutput } from "../generated/src/outputModels.js";
+import type {
+  MessageContentOutput,
+  RunStepCompletionUsageOutput,
+  ThreadMessageOutput,
+} from "../generated/src/outputModels.js";
 import type { OptionsWithTracing, Span, TracingAttributeOptions } from "../tracing.js";
 import { TracingAttributes, TracingUtility } from "../tracing.js";
 import { getTelemetryOptions } from "../telemetry/telemetry.js";
@@ -47,7 +49,7 @@ export function UpdateWithAgentAttributes(
  */
 export function addMessageEvent(
   span: Span,
-  messageAttributes: ThreadMessageOptions | ThreadMessage,
+  messageAttributes: ThreadMessageOptions | ThreadMessageOutput,
   usage?: RunStepCompletionUsageOutput,
 ): void {
   const eventBody: Record<string, unknown> = {};
@@ -64,12 +66,12 @@ export function addMessageEvent(
       };
     });
   }
-  const threadId = (messageAttributes as ThreadMessage).thread_id;
-  const agentId = (messageAttributes as ThreadMessage).assistant_id ?? undefined;
-  const threadRunId = (messageAttributes as ThreadMessage).run_id;
-  const messageStatus = (messageAttributes as ThreadMessage).status;
-  const messageId = (messageAttributes as ThreadMessage).id;
-  const incompleteDetails = (messageAttributes as ThreadMessage).incomplete_details;
+  const threadId = (messageAttributes as ThreadMessageOutput).thread_id;
+  const agentId = (messageAttributes as ThreadMessageOutput).assistant_id ?? undefined;
+  const threadRunId = (messageAttributes as ThreadMessageOutput).run_id;
+  const messageStatus = (messageAttributes as ThreadMessageOutput).status;
+  const messageId = (messageAttributes as ThreadMessageOutput).id;
+  const incompleteDetails = (messageAttributes as ThreadMessageOutput).incomplete_details;
   if (incompleteDetails) {
     eventBody.incomplete_details = incompleteDetails;
   }
@@ -86,6 +88,7 @@ export function addMessageEvent(
     usageCompletionTokens,
     genAiSystem: TracingAttributes.AZ_AI_AGENT_SYSTEM,
   };
+
   TracingUtility.addSpanEvent(span, `gen_ai.${messageAttributes.role}.message`, attributes);
 }
 
@@ -155,8 +158,8 @@ export function addToolMessagesEvent(span: Span, tool_outputs: Array<ToolOutput>
   });
 }
 
-function getMessageContent(messageContent: string | MessageContent[]): string | {} {
-  type MessageContentExtended = MessageContent & { [key: string]: any };
+function getMessageContent(messageContent: string | MessageContentOutput[]): string | {} {
+  type MessageContentExtended = MessageContentOutput & { [key: string]: any };
   if (!Array.isArray(messageContent)) {
     return messageContent;
   }

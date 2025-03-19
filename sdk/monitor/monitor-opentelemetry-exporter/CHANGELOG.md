@@ -1,6 +1,13 @@
 # Release History
 
-## 1.0.0-beta.29 ()
+## 1.0.0-beta.30 ()
+
+### Other Changes
+
+- Filter OpenTelemetry semantic attributes from being double recorded as custom dimensions.
+- Add support for detecting the Application Insights shim on internal verison.
+
+## 1.0.0-beta.29 (2025-03-04)
 
 ### Features Added
 
@@ -12,6 +19,7 @@
 
 - Removed faulty span exception exporting logic.
 - Remove applying cloud.* tags to statsbeat telemetry.
+- Correctly capture attach type on statsbeat metrics.
 
 ## 1.0.0-beta.28 (2025-01-28)
 

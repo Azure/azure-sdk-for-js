@@ -14,14 +14,13 @@ export class EncryptionKeyStoreProvider {
 
   // cache to store the unwrapped encryption key. Key is the path of the encryption key
   public unwrappedEncryptionKeyCache: { [key: string]: [Date, Buffer] };
-
+  public providerName: string;
   constructor(
     private keyEncryptionKeyResolver: EncryptionKeyResolver,
-    public providerName: string,
     private cacheTimeToLive: number,
   ) {
     this.keyEncryptionKeyResolver = keyEncryptionKeyResolver;
-    this.providerName = providerName;
+    this.providerName = keyEncryptionKeyResolver.encryptionKeyResolverName;
     this.unwrappedEncryptionKeyCache = {};
     this.cacheTimeToLive = cacheTimeToLive;
     this.clearCacheOnTtlExpiry();
@@ -32,12 +31,13 @@ export class EncryptionKeyStoreProvider {
     algorithm: KeyEncryptionAlgorithm,
     key: Buffer,
   ): Promise<Buffer> {
+    const uInt8ArrayKey = new Uint8Array(key);
     const wrappedEncryptionKey = await this.keyEncryptionKeyResolver.wrapKey(
       encryptionKeyId,
       algorithm,
-      key,
+      uInt8ArrayKey,
     );
-    return wrappedEncryptionKey;
+    return Buffer.from(wrappedEncryptionKey);
   }
 
   public async unwrapKey(
@@ -46,15 +46,22 @@ export class EncryptionKeyStoreProvider {
     wrappedKey: Buffer,
   ): Promise<Buffer> {
     if (this.cacheTimeToLive === 0) {
-      return this.keyEncryptionKeyResolver.unwrapKey(encryptionKeyId, algorithm, wrappedKey);
-    }
-    if (!this.unwrappedEncryptionKeyCache[encryptionKeyId]) {
-      const plainEncryptionKey = await this.keyEncryptionKeyResolver.unwrapKey(
+      const res = await this.keyEncryptionKeyResolver.unwrapKey(
         encryptionKeyId,
         algorithm,
         wrappedKey,
       );
-      this.unwrappedEncryptionKeyCache[encryptionKeyId] = [new Date(), plainEncryptionKey];
+      return Buffer.from(res);
+    }
+    if (!this.unwrappedEncryptionKeyCache[encryptionKeyId]) {
+      const wrappedKeyUint8Array = new Uint8Array(wrappedKey);
+      const plainEncryptionKey = await this.keyEncryptionKeyResolver.unwrapKey(
+        encryptionKeyId,
+        algorithm,
+        wrappedKeyUint8Array,
+      );
+      const plainEncryptionKeyBuffer = Buffer.from(plainEncryptionKey);
+      this.unwrappedEncryptionKeyCache[encryptionKeyId] = [new Date(), plainEncryptionKeyBuffer];
     }
     return this.unwrappedEncryptionKeyCache[encryptionKeyId][1];
   }

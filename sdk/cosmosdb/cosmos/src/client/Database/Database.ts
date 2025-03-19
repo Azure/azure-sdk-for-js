@@ -28,7 +28,6 @@ import {
   ClientEncryptionKeyProperties,
   EncryptionAlgorithm,
   KeyEncryptionAlgorithm,
-  EncryptionKeyResolverName,
 } from "../../encryption";
 import type { EncryptionManager } from "../../encryption/EncryptionManager";
 /**
@@ -75,7 +74,7 @@ export class Database {
   /** Returns a new {@link Database} instance.
    *
    * Note: the intention is to get this object from {@link CosmosClient} via `client.database(id)`, not to instantiate it yourself.
-   * @internal
+   * @hidden
    */
   constructor(
     public readonly client: CosmosClient,
@@ -209,11 +208,11 @@ export class Database {
    * Create Encryption key for database account
    */
   public async createClientEncryptionKey(
-    id: string,
+    clientEncryptionKeyId: string,
     encryptionAlgorithm: EncryptionAlgorithm,
     keyWrapMetadata: EncryptionKeyWrapMetadata,
   ): Promise<ClientEncryptionKeyResponse> {
-    if (id == null || !id.trim()) {
+    if (clientEncryptionKeyId == null || !clientEncryptionKeyId.trim()) {
       throw new Error("encryption key id cannot be null or empty");
     }
     if (encryptionAlgorithm !== EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256) {
@@ -240,14 +239,14 @@ export class Database {
 
     const protectedDataEncryptionKey =
       await this.encryptionManager.protectedDataEncryptionKeyCache.getOrCreate(
-        id,
+        clientEncryptionKeyId,
         keyEncryptionKey,
       );
 
     const wrappedDataEncryptionKey = protectedDataEncryptionKey.encryptedValue;
 
     const body: ClientEncryptionKeyRequest = {
-      id: id,
+      id: clientEncryptionKeyId,
       encryptionAlgorithm: encryptionAlgorithm,
       keyWrapMetadata: keyWrapMetadata,
       wrappedDataEncryptionKey: wrappedDataEncryptionKey.toString("base64"),
@@ -267,7 +266,9 @@ export class Database {
         id: response.result.id,
         encryptionAlgorithm: response.result.encryptionAlgorithm,
         etag: response.result._etag,
-        wrappedDataEncryptionKey: Buffer.from(response.result.wrappedDataEncryptionKey, "base64"),
+        wrappedDataEncryptionKey: new Uint8Array(
+          Buffer.from(response.result.wrappedDataEncryptionKey, "base64"),
+        ),
         encryptionKeyWrapMetadata: response.result.keyWrapMetadata,
       };
       return new ClientEncryptionKeyResponse(
@@ -283,35 +284,41 @@ export class Database {
   /**
    * Read Encryption key for database account
    */
-  public async readClientEncryptionKey(id: string): Promise<ClientEncryptionKeyResponse> {
-    if (id == null || !id.trim()) {
+  public async readClientEncryptionKey(
+    clientEncryptionKeyId: string,
+  ): Promise<ClientEncryptionKeyResponse> {
+    if (clientEncryptionKeyId == null || !clientEncryptionKeyId.trim()) {
       throw new ErrorResponse("encryption key id cannot be null or empty");
     }
     return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
       if (!this._rid) {
         const databaseResponse = await this.readInternal(diagnosticNode);
         if (!databaseResponse || !databaseResponse.resource) {
-          throw new ErrorResponse(`Error reading database with id ${id}`);
+          throw new ErrorResponse(`Error reading database with id ${clientEncryptionKeyId}`);
         }
         this._rid = databaseResponse.resource._rid;
       }
       const path = getPathFromLink(this.url, ResourceType.clientencryptionkey);
       const resourceid = getIdFromLink(this.url);
       const response = await this.clientContext.read<ClientEncryptionKeyRequest>({
-        path: path + `/${id}`,
+        path: path + `/${clientEncryptionKeyId}`,
         resourceType: ResourceType.clientencryptionkey,
-        resourceId: resourceid + `/${ResourceType.clientencryptionkey}/${id}`,
+        resourceId: resourceid + `/${ResourceType.clientencryptionkey}/${clientEncryptionKeyId}`,
         options: { databaseRid: this._rid },
         diagnosticNode,
       });
       if (!response || !response.result) {
-        throw new ErrorResponse(`Error reading client encryption key with id ${id}`);
+        throw new ErrorResponse(
+          `Error reading client encryption key with id ${clientEncryptionKeyId}`,
+        );
       }
       const ref: ClientEncryptionKeyProperties = {
         id: response.result.id,
         encryptionAlgorithm: response.result.encryptionAlgorithm,
         etag: response.result._etag,
-        wrappedDataEncryptionKey: Buffer.from(response.result.wrappedDataEncryptionKey, "base64"),
+        wrappedDataEncryptionKey: new Uint8Array(
+          Buffer.from(response.result.wrappedDataEncryptionKey, "base64"),
+        ),
         encryptionKeyWrapMetadata: response.result.keyWrapMetadata,
       };
       return new ClientEncryptionKeyResponse(
@@ -330,10 +337,10 @@ export class Database {
    * @returns rewrapped client encryption key with new customer managed key
    */
   public async rewrapClientEncryptionKey(
-    id: string,
+    clientEncryptionKeyId: string,
     newKeyWrapMetadata: EncryptionKeyWrapMetadata,
   ): Promise<ClientEncryptionKeyResponse> {
-    if (id == null || !id.trim()) {
+    if (clientEncryptionKeyId == null || !clientEncryptionKeyId.trim()) {
       throw new ErrorResponse("encryption key id cannot be null or empty");
     }
     if (!newKeyWrapMetadata) {
@@ -346,21 +353,15 @@ export class Database {
     }
     if (!this.clientContext.enableEncryption) {
       throw new ErrorResponse(
-        "Creating a client encryption key requires the use of an encryption-enabled client.",
+        "Rewrapping a client encryption key requires the use of an encryption-enabled client.",
       );
     }
-    if (newKeyWrapMetadata.type === EncryptionKeyResolverName.AzureKeyVault) {
-      // https://KEYVAULTNAME.vault.azure.net/keys/KEYNAME/KEYVERSION
-      const keyVaultUriSegments: string[] = new URL(newKeyWrapMetadata.value).pathname.split("/");
 
-      if (keyVaultUriSegments.length !== 4 || keyVaultUriSegments[1] !== "keys") {
-        throw new Error(`Invalid Key Vault URI '${newKeyWrapMetadata.value}' passed.`);
-      }
-    }
-
-    const res = await this.readClientEncryptionKey(id);
+    const res = await this.readClientEncryptionKey(clientEncryptionKeyId);
     if (!res || !res.clientEncryptionKeyProperties) {
-      throw new ErrorResponse(`Error reading client encryption key with id ${id}`);
+      throw new ErrorResponse(
+        `Error reading client encryption key with id ${clientEncryptionKeyId}`,
+      );
     }
     let clientEncryptionKeyProperties = res.clientEncryptionKeyProperties;
 
@@ -370,7 +371,7 @@ export class Database {
       this.encryptionManager.encryptionKeyStoreProvider,
     );
     const unwrappedKey = await keyEncryptionKey.unwrapEncryptionKey(
-      clientEncryptionKeyProperties.wrappedDataEncryptionKey,
+      Buffer.from(clientEncryptionKeyProperties.wrappedDataEncryptionKey),
     );
 
     keyEncryptionKey = this.encryptionManager.keyEncryptionKeyCache.getOrCreate(
@@ -380,14 +381,14 @@ export class Database {
     );
     const rewrappedKey = await keyEncryptionKey.wrapEncryptionKey(unwrappedKey);
     clientEncryptionKeyProperties = {
-      id: id,
+      id: clientEncryptionKeyId,
       encryptionAlgorithm: clientEncryptionKeyProperties.encryptionAlgorithm,
       etag: clientEncryptionKeyProperties.etag,
       wrappedDataEncryptionKey: rewrappedKey,
       encryptionKeyWrapMetadata: newKeyWrapMetadata,
     };
     const body: ClientEncryptionKeyRequest = {
-      id: id,
+      id: clientEncryptionKeyId,
       encryptionAlgorithm: clientEncryptionKeyProperties.encryptionAlgorithm,
       keyWrapMetadata: newKeyWrapMetadata,
       wrappedDataEncryptionKey: rewrappedKey.toString("base64"),
@@ -400,22 +401,26 @@ export class Database {
       };
       const response = await this.clientContext.replace<ClientEncryptionKeyRequest>({
         body,
-        path: path + `/${id}`,
+        path: path + `/${clientEncryptionKeyId}`,
         resourceType: ResourceType.clientencryptionkey,
-        resourceId: resourceid + `/${ResourceType.clientencryptionkey}/${id}`,
+        resourceId: resourceid + `/${ResourceType.clientencryptionkey}/${clientEncryptionKeyId}`,
         options,
         diagnosticNode,
       });
 
       if (!response || !response.result) {
-        throw new ErrorResponse(`Error rewrapping client encryption key with id ${id}`);
+        throw new ErrorResponse(
+          `Error rewrapping client encryption key with id ${clientEncryptionKeyId}`,
+        );
       }
 
       const ref: ClientEncryptionKeyProperties = {
         id: response.result.id,
         encryptionAlgorithm: response.result.encryptionAlgorithm,
         etag: response.result._etag,
-        wrappedDataEncryptionKey: Buffer.from(response.result.wrappedDataEncryptionKey, "base64"),
+        wrappedDataEncryptionKey: new Uint8Array(
+          Buffer.from(response.result.wrappedDataEncryptionKey, "base64"),
+        ),
         encryptionKeyWrapMetadata: response.result.keyWrapMetadata,
       };
       return new ClientEncryptionKeyResponse(

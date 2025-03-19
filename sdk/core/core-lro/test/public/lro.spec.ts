@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ImplementationName, Result } from "./utils/utils.js";
-import { assertDivergentBehavior, assertError, createDoubleHeaders } from "./utils/utils.js";
+import type { ImplementationName, Result } from "../utils/utils.js";
+import { assertDivergentBehavior, assertError, createDoubleHeaders } from "../utils/utils.js";
 import { describe, it, assert, expect } from "vitest";
-import { createRunLroWith, createTestPoller } from "./utils/router.js";
+import { createRunLroWith, createTestPoller } from "../utils/router.js";
 import { delay } from "@azure/core-util";
 import { matrix } from "@azure-tools/test-utils-vitest";
 
@@ -2345,7 +2345,7 @@ matrix(
             implName,
             throwOnNon2xxResponse,
           });
-          assert.isUndefined(poller.operationState);
+          assert.isUndefined(poller.operationState as any);
           const serialized = await poller.serialize();
           const expectedSerialized = JSON.stringify({
             state: {
@@ -2369,7 +2369,7 @@ matrix(
             throwOnNon2xxResponse,
           });
           assert.equal(serialized, await restoredPoller.serialize());
-          assert.equal(poller.operationState!.status, "succeeded");
+          assert.equal(poller.operationState.status, "succeeded");
           assert.deepEqual(poller.result, retResult);
         });
 
@@ -2445,7 +2445,7 @@ matrix(
           assert.equal(pollCount, 0);
           assert.deepEqual(retResult, await restoredPoller);
           assert.equal(pollCount, 11);
-          assert.equal(restoredPoller.operationState.status, "succeeded");
+          assert.equal(restoredPoller.operationState?.status, "succeeded");
           assert.deepEqual(restoredPoller.result, retResult);
           assert.isUndefined(poller.result);
           // duplicate awaitting would not trigger extra pollings
@@ -2949,6 +2949,44 @@ matrix(
             throwOnNon2xxResponse,
           });
           assert.equal(poller.result?.properties?.provisioningState, "Canceled");
+        });
+        it("polling URL is rewritten if the baseUrl option is provided ", async function () {
+          const baseUrl = "https://example2.com";
+          const initialRequestUrl = `${baseUrl}/path`;
+          const poller = createTestPoller({
+            routes: [
+              {
+                method: "POST",
+                status: 200,
+                body: JSON.stringify({ status: "Running" }),
+                headers: {
+                  "operation-location": "https://example1.com/path/polling",
+                  location: "https://example1.com/location",
+                },
+                path: initialRequestUrl,
+              },
+              {
+                method: "GET",
+                status: 200,
+                body: JSON.stringify({ status: "Succeeded" }),
+                path: `${baseUrl}/path/polling`,
+              },
+              {
+                method: "GET",
+                status: 200,
+                body: "",
+                path: `${baseUrl}/location`,
+              },
+            ],
+            baseUrl,
+            throwOnNon2xxResponse,
+          });
+          const pollerState = JSON.parse(await poller.serialize());
+          assert.equal(pollerState.state.config.operationLocation, `${baseUrl}/path/polling`);
+          assert.equal(pollerState.state.config.resourceLocation, `${baseUrl}/location`);
+          assert.equal(pollerState.state.config.initialRequestUrl, initialRequestUrl);
+          const res = await poller.pollUntilDone();
+          assert.equal(res.statusCode, 200);
         });
         it("prints an error message based on the error in the status monitor", async () => {
           const pollingPath = "/postlocation/retry/succeeded/operationResults/200/";

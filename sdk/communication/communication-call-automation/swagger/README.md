@@ -164,43 +164,6 @@ directive:
   - rename-model:
       from: HoldFailed
       to: RestHoldFailed
-  - rename-model:
-      from: ConnectFailed
-      to: RestConnectFailed
-  - rename-model:
-      from: MediaStreamingStarted
-      to: RestMediaStreamingStarted
-  - rename-model:
-      from: MediaStreamingStopped
-      to: RestMediaStreamingStopped
-  - rename-model:
-      from: MediaStreamingFailed
-      to: RestMediaStreamingFailed
-  - rename-model:
-      from: StartRecordingFailed
-      to: RestStartRecordingFailed
-  - rename-model:
-      from: PlayStarted
-      to: RestPlayStarted
-  - rename-model:
-      from: PlayPaused
-      to: RestPlayPaused
-  - rename-model:
-      from: PlayResumed
-      to: RestPlayResumed
-  - rename-model:
-      from: HoldAudioStarted
-      to: RestHoldAudioStarted
-  - rename-model:
-      from: HoldAudioPaused
-      to: RestHoldAudioPaused
-  - rename-model:
-      from: HoldAudioResumed
-      to: RestHoldAudioResumed
-  - rename-model:
-      from: HoldAudioCompleted
-      to: RestHoldAudioCompleted
-module-kind: esm
 ```
 
 ```yaml

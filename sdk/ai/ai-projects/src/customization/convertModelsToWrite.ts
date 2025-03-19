@@ -31,6 +31,9 @@ function convertToolResources(source: PublicModels.ToolResources): GeneratedMode
     ...(source.azureAISearch && {
       azure_ai_search: convertAzureAISearchResource(source.azureAISearch),
     }),
+    ...(source.azureFunction && {
+      name: source.azureFunction.name,
+    }),
   };
 }
 
@@ -71,6 +74,10 @@ function convertToolDefinition(
       return convertSharepointToolDefinition(source as PublicModels.SharepointToolDefinition);
     case "azure_ai_search":
       return convertAzureAISearchToolDefinition(source as PublicModels.AzureAISearchToolDefinition);
+    case "openapi":
+      return convertOpenApiToolDefinition(source as PublicModels.OpenApiToolDefinition);
+    case "azure_function":
+      return convertAzureFunctionToolDefinition(source as PublicModels.AzureFunctionToolDefinition);
     default:
       throw new Error(`Unknown tool type: ${source.type}`);
   }
@@ -118,7 +125,7 @@ function convertMicrosoftFabricToolDefinition(
 ): GeneratedModels.MicrosoftFabricToolDefinition {
   return {
     type: source.type,
-    microsoft_fabric: convertToolConnectionList(source.microsoftFabric),
+    fabric_aiskill: convertToolConnectionList(source.fabricAISkill),
   };
 }
 
@@ -136,6 +143,15 @@ function convertAzureAISearchToolDefinition(
 ): GeneratedModels.AzureAISearchToolDefinition {
   return {
     type: source.type,
+  };
+}
+
+function convertOpenApiToolDefinition(
+  source: PublicModels.OpenApiToolDefinition,
+): GeneratedModels.OpenApiToolDefinition {
+  return {
+    type: source.type,
+    openapi: source.openapi,
   };
 }
 
@@ -187,6 +203,37 @@ function convertFileSearchToolResource(
     ...(source.vectorStores && {
       vector_stores: source.vectorStores.map(convertVectorStoreConfigurations),
     }),
+  };
+}
+
+function convertAzureFunctionToolDefinition(
+  source: PublicModels.AzureFunctionToolDefinition,
+): GeneratedModels.AzureFunctionToolDefinition {
+  return {
+    type: source.type,
+    azure_function: convertAzureFunctionDefinition(source.azureFunction),
+  };
+}
+
+function convertAzureFunctionDefinition(
+  source: PublicModels.AzureFunctionDefinition,
+): GeneratedModels.AzureFunctionDefinition {
+  return {
+    function: source.function,
+    input_binding: {
+      type: source.inputBinding.type,
+      storage_queue: {
+        queue_service_endpoint: source.inputBinding.storageQueue.queueServiceEndpoint,
+        queue_name: source.inputBinding.storageQueue.queueName,
+      },
+    },
+    output_binding: {
+      type: source.outputBinding.type,
+      storage_queue: {
+        queue_service_endpoint: source.outputBinding.storageQueue.queueServiceEndpoint,
+        queue_name: source.outputBinding.storageQueue.queueName,
+      },
+    },
   };
 }
 
@@ -274,8 +321,8 @@ function convertMessageAttachment(
 ): GeneratedModels.MessageAttachment {
   return {
     file_id: source.fileId,
-    ...(source.dataSources && {
-      data_sources: source.dataSources.map(convertVectorStoreDataSource),
+    ...(source.dataSource && {
+      data_source: convertVectorStoreDataSource(source.dataSource),
     }),
     ...(source.tools && { tools: source.tools.map(convertMessageAttachmentToolDefinition) }),
   };
@@ -292,7 +339,7 @@ export function convertCreateRunOptions(
       additional_instructions: source.additionalInstructions,
     }),
     ...(source.additionalMessages && {
-      additional_messages: source.additionalMessages.map(convertThreadMessage),
+      additional_messages: source.additionalMessages.map(convertThreadMessageOptions),
     }),
     ...(source.tools && { tools: source.tools.map(convertToolDefinition) }),
     ...(source.stream !== undefined && { stream: source.stream }),
@@ -483,142 +530,5 @@ function convertToolConnection(
 ): GeneratedModels.ToolConnection {
   return {
     connection_id: source.connectionId,
-  };
-}
-
-function convertThreadMessage(source: PublicModels.ThreadMessage): GeneratedModels.ThreadMessage {
-  return {
-    id: source.id,
-    object: source.object,
-    created_at: source.createdAt,
-    thread_id: source.threadId,
-    status: source.status,
-    incomplete_details: !source.incompleteDetails
-      ? source.incompleteDetails
-      : convertMessageIncompleteDetails(source.incompleteDetails),
-    completed_at: source.completedAt,
-    incomplete_at: source.incompleteAt,
-    role: source.role,
-    content: source.content.map(convertMessageContent),
-    assistant_id: source.assistantId,
-    run_id: source.runId,
-    attachments: !source.attachments
-      ? source.attachments
-      : source.attachments?.map(convertMessageAttachment),
-    metadata: source.metadata,
-  };
-}
-
-function convertMessageIncompleteDetails(
-  source: PublicModels.MessageIncompleteDetails,
-): GeneratedModels.MessageIncompleteDetails {
-  return {
-    reason: source.reason,
-  };
-}
-
-function convertMessageContent(
-  source: PublicModels.MessageContent,
-): GeneratedModels.MessageContent {
-  switch (source.type) {
-    case "text":
-      return convertMessageTextContent(source as PublicModels.MessageTextContent);
-    case "image_file":
-      return convertMessageImageFileContent(source as PublicModels.MessageImageFileContent);
-    default:
-      throw new Error(`Unknown message content type: ${source.type}`);
-  }
-}
-
-function convertMessageTextContent(
-  source: PublicModels.MessageTextContent,
-): GeneratedModels.MessageTextContent {
-  return {
-    type: "text",
-    text: convertMessageTextDetails(source.text),
-  };
-}
-
-function convertMessageTextDetails(
-  source: PublicModels.MessageTextDetails,
-): GeneratedModels.MessageTextDetails {
-  return {
-    value: source.value,
-    annotations: source.annotations.map(convertMessageTextAnnotation),
-  };
-}
-
-function convertMessageTextAnnotation(
-  source: PublicModels.MessageTextAnnotation,
-): GeneratedModels.MessageTextAnnotation {
-  switch (source.type) {
-    case "file_citation":
-      return convertMessageTextFileCitationAnnotation(
-        source as PublicModels.MessageTextFileCitationAnnotation,
-      );
-    case "file_path":
-      return convertMessageTextFilePathAnnotation(
-        source as PublicModels.MessageTextFilePathAnnotation,
-      );
-    default:
-      throw new Error(`Unknown message text annotation type: ${source.type}`);
-  }
-}
-
-function convertMessageTextFileCitationAnnotation(
-  source: PublicModels.MessageTextFileCitationAnnotation,
-): GeneratedModels.MessageTextFileCitationAnnotation {
-  return {
-    text: source.text,
-    type: "file_citation",
-    file_citation: convertMessageTextFileCitationDetails(source.fileCitation),
-    ...(source.startIndex && { start_index: source.startIndex }),
-    ...(source.endIndex && { end_index: source.endIndex }),
-  };
-}
-
-function convertMessageTextFileCitationDetails(
-  source: PublicModels.MessageTextFileCitationDetails,
-): GeneratedModels.MessageTextFileCitationDetails {
-  return {
-    file_id: source.fileId,
-    quote: source.quote,
-  };
-}
-
-function convertMessageTextFilePathAnnotation(
-  source: PublicModels.MessageTextFilePathAnnotation,
-): GeneratedModels.MessageTextFilePathAnnotation {
-  return {
-    text: source.text,
-    type: "file_path",
-    file_path: convertMessageTextFilePathDetails(source.filePath),
-    ...(source.startIndex && { start_index: source.startIndex }),
-    ...(source.endIndex && { end_index: source.endIndex }),
-  };
-}
-
-function convertMessageTextFilePathDetails(
-  source: PublicModels.MessageTextFilePathDetails,
-): GeneratedModels.MessageTextFilePathDetails {
-  return {
-    file_id: source.fileId,
-  };
-}
-
-function convertMessageImageFileContent(
-  source: PublicModels.MessageImageFileContent,
-): GeneratedModels.MessageImageFileContent {
-  return {
-    type: "image_file",
-    image_file: convertMessageImageFileDetails(source.imageFile),
-  };
-}
-
-function convertMessageImageFileDetails(
-  source: PublicModels.MessageImageFileDetails,
-): GeneratedModels.MessageImageFileDetails {
-  return {
-    file_id: source.fileId,
   };
 }

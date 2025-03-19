@@ -3,11 +3,14 @@
 
 import type {
   AzureAISearchToolDefinition,
+  AzureFunctionToolDefinition,
   CodeInterpreterToolDefinition,
   FileSearchToolDefinition,
   FileSearchToolDefinitionDetails,
   FunctionDefinition,
   FunctionToolDefinition,
+  OpenApiFunctionDefinition,
+  OpenApiToolDefinition,
   RequiredActionOutput,
   RequiredToolCallOutput,
   ToolDefinition,
@@ -15,12 +18,14 @@ import type {
   ToolResources,
   VectorStoreConfigurations,
   VectorStoreDataSource,
+  AzureFunctionStorageQueue,
+  AzureFunctionDefinition,
 } from "./inputOutputs.js";
 
 /**
  * Determines if the given output is of the specified type.
  *
- * @typeparam T - The type to check against, which extends one of the possible output parent types.
+ * @typeParam T - The type to check against, which extends one of the possible output parent types.
  * @param output - The action to check, which can be of type `RequiredActionOutput`, `RequiredToolCallOutput`, or `ToolDefinitionOutputParent`.
  * @param type - The type to check the action against.
  * @returns A boolean indicating whether the action is of the specified type.
@@ -40,12 +45,15 @@ export enum connectionToolType {
   MicrosoftFabric = "microsoft_fabric",
   /** Sharepoint tool */
   SharepointGrounding = "sharepoint_grounding",
+  /** Azure Function tool */
+  AzureFunction = "azure_function",
 }
 
 const toolMap = {
   bing_grounding: "bingGrounding",
   microsoft_fabric: "microsoftFabric",
   sharepoint_grounding: "sharepointGrounding",
+  azure_function: "azureFunction",
 };
 
 /**
@@ -116,6 +124,36 @@ export class ToolUtility {
   }
 
   /**
+   * Creates an Azure Function tool
+   * @param name - The name of the Azure Function.
+   * @param description - The description of the Azure Function.
+   * @param parameters - The parameters of the Azure Function.
+   * @param inputQueue - The input queue configuration.
+   * @param outputQueue - The output queue configuration.
+   * @returns An object containing the definition and resources for the Azure Function tool.
+   */
+  static createAzureFunctionTool(
+    name: string,
+    description: string,
+    parameters: unknown,
+    inputQueue: AzureFunctionStorageQueue,
+    outputQueue: AzureFunctionStorageQueue,
+    definitionDetails: AzureFunctionDefinition,
+  ): { definition: AzureFunctionToolDefinition; resources: ToolResources } {
+    return {
+      definition: { type: "azure_function", azureFunction: definitionDetails },
+      resources: {
+        azureFunction: {
+          name: name,
+          description: description,
+          parameters: parameters,
+          inputQueue: inputQueue,
+          outputQueue: outputQueue,
+        },
+      },
+    };
+  }
+  /**
    * Creates an Azure AI search tool
    *
    * @param indexConnectionId - The connection ID of the Azure AI search index.
@@ -151,6 +189,24 @@ export class ToolUtility {
       definition: {
         type: "function",
         function: functionDefinition,
+      },
+    };
+  }
+
+  /**
+   * Creates an OpenApi tool
+   *
+   * @param openApiFunctionDefinition - The OpenApi function definition to use.
+   *
+   * @returns An object containing the definition for the OpenApi tool.
+   */
+  static createOpenApiTool(openApiFunctionDefinition: OpenApiFunctionDefinition): {
+    definition: OpenApiToolDefinition;
+  } {
+    return {
+      definition: {
+        type: "openapi",
+        openapi: openApiFunctionDefinition,
       },
     };
   }
@@ -234,6 +290,53 @@ export class ToolSet {
     indexName: string,
   ): { definition: AzureAISearchToolDefinition; resources: ToolResources } {
     const tool = ToolUtility.createAzureAISearchTool(indexConnectionId, indexName);
+    this.toolDefinitions.push(tool.definition);
+    this.toolResources = { ...this.toolResources, ...tool.resources };
+    return tool;
+  }
+
+  /**
+   * Adds an OpenApi tool to the tool set.
+   *
+   * @param openApiFunctionDefinition - The OpenApi function definition to use.
+   *
+   * @returns An object containing the definition for the OpenApi tool
+   */
+  addOpenApiTool(openApiFunctionDefinition: OpenApiFunctionDefinition): {
+    definition: OpenApiToolDefinition;
+  } {
+    const tool = ToolUtility.createOpenApiTool(openApiFunctionDefinition);
+    this.toolDefinitions.push(tool.definition);
+    return tool;
+  }
+
+  /**
+   * Adds an Azure Function tool to the tool set.
+   *
+   * @param name - The name of the Azure Function.
+   * @param description - The description of the Azure Function.
+   * @param parameters - The parameters of the Azure Function.
+   * @param inputQueue - The input queue configuration.
+   * @param outputQueue - The output queue configuration.
+   *
+   * @returns An object containing the definition and resources for the Azure Function tool.
+   */
+  addAzureFunctionTool(
+    name: string,
+    description: string,
+    parameters: unknown,
+    inputQueue: AzureFunctionStorageQueue,
+    outputQueue: AzureFunctionStorageQueue,
+    definitionDetails: AzureFunctionDefinition,
+  ): { definition: AzureFunctionToolDefinition; resources: ToolResources } {
+    const tool = ToolUtility.createAzureFunctionTool(
+      name,
+      description,
+      parameters,
+      inputQueue,
+      outputQueue,
+      definitionDetails,
+    );
     this.toolDefinitions.push(tool.definition);
     this.toolResources = { ...this.toolResources, ...tool.resources };
     return tool;
