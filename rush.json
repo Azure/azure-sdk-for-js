@@ -860,17 +860,17 @@
     },
     {
       "packageName": "@azure-tests/perf-storage-blob",
-      "projectFolder": "sdk/storage/perf-tests/storage-blob",
+      "projectFolder": "sdk/storage/storage-blob-perf-tests",
       "versionPolicyName": "test"
     },
     {
       "packageName": "@azure-tests/perf-storage-file-share",
-      "projectFolder": "sdk/storage/perf-tests/storage-file-share",
+      "projectFolder": "sdk/storage/storage-file-share-perf-tests",
       "versionPolicyName": "test"
     },
     {
       "packageName": "@azure-tests/perf-storage-file-datalake",
-      "projectFolder": "sdk/storage/perf-tests/storage-file-datalake",
+      "projectFolder": "sdk/storage/storage-file-datalake-perf-tests",
       "versionPolicyName": "test"
     },
     {
