@@ -1,5 +1,11 @@
 # Release History
 
+## 1.9.1 ()
+
+## Other Changes
+
+- Add support for detecting the Application Insights shim on internal verison.
+
 ## 1.9.0 (2025-03-04)
 
 ### Features Added

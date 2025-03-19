@@ -106,9 +106,15 @@ export class CosmosClient {
           "KeyEncryptionKeyResolver needs to be provided to enable client-side encryption.",
         );
       }
+      if (
+        optionsOrConnectionString.clientEncryptionOptions.encryptionKeyTimeToLiveInSeconds &&
+        optionsOrConnectionString.clientEncryptionOptions.encryptionKeyTimeToLiveInSeconds < 60
+      ) {
+        throw new Error("EncryptionKeyTimeToLiveInSeconds needs to be >= 60 seconds.");
+      }
       this.encryptionManager = new EncryptionManager(
         optionsOrConnectionString.clientEncryptionOptions.keyEncryptionKeyResolver,
-        optionsOrConnectionString.clientEncryptionOptions.encryptionKeyTimeToLive,
+        optionsOrConnectionString.clientEncryptionOptions.encryptionKeyTimeToLiveInSeconds,
       );
     }
 
