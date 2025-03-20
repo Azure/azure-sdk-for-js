@@ -2,9 +2,10 @@
 // Licensed under the MIT License.
 
 import express from "express";
-import { PerfOptionDictionary, PerfTest } from "@azure-tools/test-perf";
-import { Server } from "node:http";
-import { AddressInfo } from "node:net";
+import type { PerfOptionDictionary } from "@azure-tools/test-perf";
+import { PerfTest } from "@azure-tools/test-perf";
+import type { Server } from "node:http";
+import type { AddressInfo } from "node:net";
 
 let app: express.Application;
 let server: Server;
@@ -24,7 +25,7 @@ export abstract class BaseHttpTest extends PerfTest<BaseHttpTestOptions> {
     },
   };
 
-  async globalSetup() {
+  async globalSetup(): Promise<void> {
     if (this.parsedOptions.url.value) {
       this.url = this.parsedOptions.url.value;
     } else {
@@ -43,7 +44,7 @@ export abstract class BaseHttpTest extends PerfTest<BaseHttpTestOptions> {
     }
   }
 
-  async globalCleanup() {
+  async globalCleanup(): Promise<void> {
     if (!this.parsedOptions.url.value) {
       // URL is not specified on the command-line, means we created the test server, closing that now
       server.close();

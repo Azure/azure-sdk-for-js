@@ -935,7 +935,7 @@
     },
     {
       "packageName": "@azure-tests/perf-core-rest-pipeline",
-      "projectFolder": "sdk/core/perf-tests/core-rest-pipeline",
+      "projectFolder": "sdk/core/core-rest-pipeline-perf-tests",
       "versionPolicyName": "test"
     },
     {

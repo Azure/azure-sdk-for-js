@@ -1,12 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  createDefaultHttpClient,
-  HttpClient,
-  createPipelineRequest,
-  PipelineRequest,
-} from "@azure/core-rest-pipeline";
+import type { HttpClient, PipelineRequest } from "@azure/core-rest-pipeline";
+import { createDefaultHttpClient, createPipelineRequest } from "@azure/core-rest-pipeline";
 import { BaseHttpTest } from "./baseHttpTest.js";
 
 export class CoreRestPipelineTest extends BaseHttpTest {
@@ -17,7 +13,7 @@ export class CoreRestPipelineTest extends BaseHttpTest {
     this.client = createDefaultHttpClient();
   }
 
-  async globalSetup() {
+  async globalSetup(): Promise<void> {
     await super.globalSetup();
     this.request = createPipelineRequest({
       url: this.url,
@@ -27,7 +23,7 @@ export class CoreRestPipelineTest extends BaseHttpTest {
 
   async run(): Promise<void> {
     const response = await this.client.sendRequest(this.request);
-    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-    response.bodyAsText; // Hello World!
+
+    console.log(response.bodyAsText); // Hello World!
   }
 }
