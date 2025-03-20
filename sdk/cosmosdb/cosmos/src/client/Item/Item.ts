@@ -78,7 +78,7 @@ export class Item {
    *
    * const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
    *
-   * const { container } = await database.containers.createIfNotExists({ id: "Test Database" });
+   * const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
    *
    * interface TodoItem {
    *   title: string;

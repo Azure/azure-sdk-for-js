@@ -105,7 +105,7 @@ export class Items {
    *
    * const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
    *
-   * const { container } = await database.containers.createIfNotExists({ id: "Test Database" });
+   * const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
    *
    * const querySpec: SqlQuerySpec = {
    *   query: "SELECT * FROM Families f WHERE f.lastName = @lastName",
@@ -131,7 +131,7 @@ export class Items {
    *
    * const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
    *
-   * const { container } = await database.containers.createIfNotExists({ id: "Test Database" });
+   * const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
    *
    * const querySpec: SqlQuerySpec = {
    *   query: "SELECT * FROM Families f WHERE f.lastName = @lastName",
@@ -198,12 +198,12 @@ export class Items {
    *
    * const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
    *
-   * const { container } = await database.containers.createIfNotExists({ id: "Test Database" });
+   * const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
    *
    * const queryBuilder = new EncryptionQueryBuilder(
    *   "SELECT firstname FROM Families f WHERE f.lastName = @lastName",
    * );
-   * queryBuilder.addStringParameter("@lastName", "Hendricks", "/lastname");
+   * queryBuilder.addParameter("@lastName", "Hendricks", "/lastname");
    * const queryIterator = await container.items.getEncryptionQueryIterator(queryBuilder);
    * const { resources: items } = await queryIterator.fetchAll();
    * ```
@@ -378,7 +378,7 @@ export class Items {
    *
    * const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
    *
-   * const { container } = await database.containers.createIfNotExists({ id: "Test Database" });
+   * const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
    *
    * const { resources: containerList } = await container.items.readAll().fetchAll();
    * ```
@@ -403,7 +403,7 @@ export class Items {
    *
    * const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
    *
-   * const { container } = await database.containers.createIfNotExists({ id: "Test Database" });
+   * const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
    *
    * const { resources: containerList } = await container.items.readAll().fetchAll();
    * ```
@@ -664,7 +664,7 @@ export class Items {
    *
    * const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
    *
-   * const { container } = await database.containers.createIfNotExists({ id: "Test Database" });
+   * const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
    *
    * // partitionKey is optional at the top level if present in the resourceBody
    * const operations: OperationInput[] = [
@@ -972,7 +972,7 @@ export class Items {
    *
    * const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
    *
-   * const { container } = await database.containers.createIfNotExists({ id: "Test Database" });
+   * const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
    *
    * // The partitionKey is a required second argument. If it’s undefined, it defaults to the expected partition key format.
    * const operations: OperationInput[] = [

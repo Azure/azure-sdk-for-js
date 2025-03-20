@@ -41,7 +41,7 @@ export class StoredProcedures {
    *
    * const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
    *
-   * const { container } = await database.containers.createIfNotExists({ id: "Test Database" });
+   * const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
    *
    * const querySpec: SqlQuerySpec = {
    *   query: "SELECT FROM root r WHERE r.id = @sproc",
@@ -66,7 +66,7 @@ export class StoredProcedures {
    *
    * const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
    *
-   * const { container } = await database.containers.createIfNotExists({ id: "Test Database" });
+   * const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
    *
    * const querySpec: SqlQuerySpec = {
    *   query: "SELECT FROM root r WHERE r.id = @sproc",
@@ -107,7 +107,7 @@ export class StoredProcedures {
    *
    * const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
    *
-   * const { container } = await database.containers.createIfNotExists({ id: "Test Database" });
+   * const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
    *
    * const { resources: storedProceduresList } = await container.scripts.storedProcedures
    *   .readAll()

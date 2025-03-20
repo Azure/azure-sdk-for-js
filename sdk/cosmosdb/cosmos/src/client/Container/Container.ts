@@ -72,7 +72,7 @@ export class Container {
    *
    * const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
    *
-   * const { container } = await database.containers.createIfNotExists({ id: "Test Database" });
+   * const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
    *
    * const { resource: createdItem } = await container.items.create({
    *   id: "<item id>",
@@ -163,7 +163,21 @@ export class Container {
    * @param id - The id of the {@link Item}.
    * @param partitionKeyValue - The value of the {@link Item} partition key
    * @example Replace an item
-   * `const {body: replacedItem} = await container.item("<item id>", "<partition key value>").replace({id: "<item id>", title: "Updated post", authorID: 5});`
+   * ```ts snippet:ContainerItem
+   * import { CosmosClient } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   *
+   * const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+   *
+   * const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
+   *
+   * const { body: replacedItem } = await container
+   *   .item("<item id>", "<partition key value>")
+   *   .replace({ id: "<item id>", title: "Updated post", authorID: 5 });
+   * ```
    */
   public item(id: string, partitionKeyValue?: PartitionKey): Item {
     return new Item(this, id, this.clientContext, partitionKeyValue);
