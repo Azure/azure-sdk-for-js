@@ -3,16 +3,18 @@
 
 import { PerfTest } from "@azure-tools/test-perf";
 import type { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
-import {
+import type {
   AuthorizeRequestOnChallengeOptions,
-  bearerTokenAuthenticationPolicy,
-  createEmptyPipeline,
-  createHttpHeaders,
-  createPipelineRequest,
   HttpClient,
   Pipeline,
   PipelineRequest,
   PipelineResponse,
+} from "@azure/core-rest-pipeline";
+import {
+  bearerTokenAuthenticationPolicy,
+  createEmptyPipeline,
+  createHttpHeaders,
+  createPipelineRequest,
 } from "@azure/core-rest-pipeline";
 import { TextDecoder } from "node:util";
 
@@ -53,7 +55,8 @@ export function decodeString(value: string): Uint8Array {
 //     [ { a: 'b', c: 'd' }, { d: 'e', f: 'g"' } ]
 // Important:
 //     Do not use this in production, as values might contain the strings we use to split things up.
-/* eslint-disable-next-line @typescript-eslint/no-explicit-any */
+
+/* eslint-disable @typescript-eslint/no-explicit-any */
 function parseCAEChallenge(challenges: string): any[] {
   return challenges
     .split("Bearer ")
@@ -123,10 +126,6 @@ class MockRefreshAzureCredential implements TokenCredential {
 export class BearerTokenAuthenticationPolicyChallengeTest extends PerfTest {
   options = {};
 
-  constructor() {
-    super();
-  }
-
   static pipeline?: Pipeline;
   static testHttpsClient?: HttpClient;
   static request?: PipelineRequest;
@@ -165,9 +164,9 @@ export class BearerTokenAuthenticationPolicyChallengeTest extends PerfTest {
       scopes: [""],
       credential,
       challengeCallbacks: {
-        async authorizeRequest({ request }) {
+        async authorizeRequest({ request: innerRequest }) {
           if (cachedToken) {
-            request.headers.set("Authorization", `Bearer ${cachedToken}`);
+            innerRequest.headers.set("Authorization", `Bearer ${cachedToken}`);
           }
         },
         authorizeRequestOnChallenge,
