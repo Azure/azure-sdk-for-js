@@ -4,7 +4,7 @@ import type { SipRoutingClient } from "../../../src/index.js";
 
 import type { Recorder } from "@azure-tools/test-recorder";
 import { isPlaybackMode } from "@azure-tools/test-recorder";
-import type { SipTrunk } from "../../../src/models.js";
+import { type SipTrunk } from "../../../src/models.js";
 import {
   clearSipConfiguration,
   createRecordedClient,
@@ -15,6 +15,7 @@ import {
 } from "./utils/recordedClient.js";
 import { matrix } from "@azure-tools/test-utils-vitest";
 import { describe, it, assert, beforeEach, afterEach, beforeAll } from "vitest";
+import { H } from "vitest/dist/chunks/reporters.DTtkbAtP.js";
 
 matrix([[true, false]], async (useAad) => {
   describe(`SipRoutingClient - get trunks${useAad ? " [AAD]" : ""}`, () => {
@@ -80,10 +81,34 @@ matrix([[true, false]], async (useAad) => {
     });
 
     it("can retrieve not empty trunks", async () => {
-      const expectedTrunks = [
-        { fqdn: firstFqdn, sipSignalingPort: 1239 },
-        { fqdn: secondFqdn, sipSignalingPort: 2348 },
-        { fqdn: thirdFqdn, sipSignalingPort: 3457 },
+      const expectedTrunks: SipTrunk[] = [
+        {
+          fqdn: firstFqdn,
+          sipSignalingPort: 1239,
+          directTransfer: false,
+          health: undefined,
+          enabled: false,
+          privacyHeader: "id",
+          ipAddressVersion: "ipv4",
+        },
+        {
+          fqdn: secondFqdn,
+          sipSignalingPort: 2348,
+          directTransfer: false,
+          health: undefined,
+          enabled: false,
+          privacyHeader: "id",
+          ipAddressVersion: "ipv4",
+        },
+        {
+          fqdn: thirdFqdn,
+          sipSignalingPort: 3457,
+          directTransfer: false,
+          health: undefined,
+          enabled: false,
+          privacyHeader: "id",
+          ipAddressVersion: "ipv4",
+        },
       ];
       await client.setTrunks(expectedTrunks);
 
