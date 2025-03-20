@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ServiceBusReceiver, ServiceBusSender } from "@azure/service-bus";
-import { PerfOptionDictionary } from "@azure-tools/test-perf";
+import type { ServiceBusReceiver, ServiceBusSender } from "@azure/service-bus";
+import type { PerfOptionDictionary } from "@azure-tools/test-perf";
 import { ServiceBusTest } from "./sbBase.spec.js";
 
 interface ReceiverOptions {
@@ -64,7 +64,7 @@ export class BatchReceiveTest extends ServiceBusTest<ReceiverOptions> {
       { maxWaitTimeInMs: 500 },
     );
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+     
     for (const _ in messages) {
       // This is to represent the bare minimum user scenario where one would
       // iterate over the messages and process them
@@ -77,7 +77,7 @@ export async function sendMessages(
   sender: ServiceBusSender,
   numberOfMessages: number,
   messageBodySize: number,
-) {
+): Promise<void> {
   let count = 0;
   while (count <= numberOfMessages) {
     const currentBatch = await sender.createMessageBatch();

@@ -895,7 +895,7 @@
     },
     {
       "packageName": "@azure-tests/perf-service-bus",
-      "projectFolder": "sdk/servicebus/perf-tests/service-bus",
+      "projectFolder": "sdk/servicebus/service-bus-perf-tests",
       "versionPolicyName": "test"
     },
     {

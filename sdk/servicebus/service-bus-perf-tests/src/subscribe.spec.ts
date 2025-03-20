@@ -1,12 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   ProcessErrorArgs,
   ServiceBusReceivedMessage,
   ServiceBusReceiver,
 } from "@azure/service-bus";
-import { PerfOptionDictionary, EventPerfTest } from "@azure-tools/test-perf";
+import type { PerfOptionDictionary} from "@azure-tools/test-perf";
+import { EventPerfTest } from "@azure-tools/test-perf";
 import { sendMessages } from "./receiveBatch.spec.js";
 import { ServiceBusTest } from "./sbBase.spec.js";
 
@@ -67,7 +68,7 @@ export class SubscribeTest extends EventPerfTest<ReceiverOptions> {
     await sender.close();
   }
 
-  setup() {
+  setup(): void {
     this.subscriber = this.receiver.subscribe(
       {
         processMessage: async (_message: ServiceBusReceivedMessage) => {
@@ -82,7 +83,7 @@ export class SubscribeTest extends EventPerfTest<ReceiverOptions> {
     );
   }
 
-  async cleanup() {
+  async cleanup(): Promise<void> {
     await this.subscriber?.close();
     await this.receiver.close();
   }
