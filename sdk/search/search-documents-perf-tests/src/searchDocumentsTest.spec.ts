@@ -1,11 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  SearchDocumentsBase,
-  SearchDocumentsTestOptions,
-} from "./core/searchDocumentsBase.spec.js";
-import { PerfOptionDictionary } from "@azure-tools/test-perf";
+import type { SearchDocumentsTestOptions } from "./core/searchDocumentsBase.spec.js";
+import { SearchDocumentsBase } from "./core/searchDocumentsBase.spec.js";
+import type { PerfOptionDictionary } from "@azure-tools/test-perf";
 
 export class SearchDocumentsTest extends SearchDocumentsBase<SearchDocumentsTestOptions> {
   public options: PerfOptionDictionary<SearchDocumentsTestOptions> = {
@@ -18,11 +16,7 @@ export class SearchDocumentsTest extends SearchDocumentsBase<SearchDocumentsTest
     },
   };
 
-  constructor() {
-    super();
-  }
-
-  public async globalSetup() {
+  public async globalSetup(): Promise<void> {
     await super.globalSetup();
     await super.populateIndex(this.parsedOptions.documentsCount.value!);
   }

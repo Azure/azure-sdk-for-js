@@ -920,7 +920,7 @@
     },
     {
       "packageName": "@azure-tests/perf-search-documents",
-      "projectFolder": "sdk/search/perf-tests/search-documents",
+      "projectFolder": "sdk/search/search-documents-perf-tests",
       "versionPolicyName": "test"
     },
     {
