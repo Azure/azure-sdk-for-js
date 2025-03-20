@@ -875,17 +875,17 @@
     },
     {
       "packageName": "@azure-tests/perf-keyvault-keys",
-      "projectFolder": "sdk/keyvault/keyvault-keys-perf-tests",
+      "projectFolder": "sdk/keyvault/perf-tests/keyvault-keys",
       "versionPolicyName": "test"
     },
     {
       "packageName": "@azure-tests/perf-keyvault-certificates",
-      "projectFolder": "sdk/keyvault/keyvault-certificates-perf-tests",
+      "projectFolder": "sdk/keyvault/perf-tests/keyvault-certificates",
       "versionPolicyName": "test"
     },
     {
       "packageName": "@azure-tests/perf-keyvault-secrets",
-      "projectFolder": "sdk/keyvault/keyvault-secrets-perf-tests",
+      "projectFolder": "sdk/keyvault/perf-tests/keyvault-secrets",
       "versionPolicyName": "test"
     },
     {
