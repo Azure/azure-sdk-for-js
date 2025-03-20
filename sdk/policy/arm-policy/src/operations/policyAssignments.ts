@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper.js";
-import { PolicyAssignments } from "../operationsInterfaces/index.js";
+import { setContinuationToken } from "../pagingHelper";
+import { PolicyAssignments } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers.js";
-import * as Parameters from "../models/parameters.js";
-import { PolicyClient } from "../policyClient.js";
+import * as Mappers from "../models/mappers";
+import * as Parameters from "../models/parameters";
+import { PolicyClient } from "../policyClient";
 import {
   PolicyAssignment,
   PolicyAssignmentsListForResourceGroupNextOptionalParams,
@@ -47,8 +47,8 @@ import {
   PolicyAssignmentsListForResourceGroupNextResponse,
   PolicyAssignmentsListForResourceNextResponse,
   PolicyAssignmentsListForManagementGroupNextResponse,
-  PolicyAssignmentsListNextResponse
-} from "../models/index.js";
+  PolicyAssignmentsListNextResponse,
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing PolicyAssignments operations. */
@@ -80,7 +80,7 @@ export class PolicyAssignmentsImpl implements PolicyAssignments {
    */
   public listForResourceGroup(
     resourceGroupName: string,
-    options?: PolicyAssignmentsListForResourceGroupOptionalParams
+    options?: PolicyAssignmentsListForResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<PolicyAssignment> {
     const iter = this.listForResourceGroupPagingAll(resourceGroupName, options);
     return {
@@ -97,16 +97,16 @@ export class PolicyAssignmentsImpl implements PolicyAssignments {
         return this.listForResourceGroupPagingPage(
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listForResourceGroupPagingPage(
     resourceGroupName: string,
     options?: PolicyAssignmentsListForResourceGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<PolicyAssignment[]> {
     let result: PolicyAssignmentsListForResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -121,7 +121,7 @@ export class PolicyAssignmentsImpl implements PolicyAssignments {
       result = await this._listForResourceGroupNext(
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -132,11 +132,11 @@ export class PolicyAssignmentsImpl implements PolicyAssignments {
 
   private async *listForResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: PolicyAssignmentsListForResourceGroupOptionalParams
+    options?: PolicyAssignmentsListForResourceGroupOptionalParams,
   ): AsyncIterableIterator<PolicyAssignment> {
     for await (const page of this.listForResourceGroupPagingPage(
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -180,7 +180,7 @@ export class PolicyAssignmentsImpl implements PolicyAssignments {
     parentResourcePath: string,
     resourceType: string,
     resourceName: string,
-    options?: PolicyAssignmentsListForResourceOptionalParams
+    options?: PolicyAssignmentsListForResourceOptionalParams,
   ): PagedAsyncIterableIterator<PolicyAssignment> {
     const iter = this.listForResourcePagingAll(
       resourceGroupName,
@@ -188,7 +188,7 @@ export class PolicyAssignmentsImpl implements PolicyAssignments {
       parentResourcePath,
       resourceType,
       resourceName,
-      options
+      options,
     );
     return {
       next() {
@@ -208,9 +208,9 @@ export class PolicyAssignmentsImpl implements PolicyAssignments {
           resourceType,
           resourceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -221,7 +221,7 @@ export class PolicyAssignmentsImpl implements PolicyAssignments {
     resourceType: string,
     resourceName: string,
     options?: PolicyAssignmentsListForResourceOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<PolicyAssignment[]> {
     let result: PolicyAssignmentsListForResourceResponse;
     let continuationToken = settings?.continuationToken;
@@ -232,7 +232,7 @@ export class PolicyAssignmentsImpl implements PolicyAssignments {
         parentResourcePath,
         resourceType,
         resourceName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -247,7 +247,7 @@ export class PolicyAssignmentsImpl implements PolicyAssignments {
         resourceType,
         resourceName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -262,7 +262,7 @@ export class PolicyAssignmentsImpl implements PolicyAssignments {
     parentResourcePath: string,
     resourceType: string,
     resourceName: string,
-    options?: PolicyAssignmentsListForResourceOptionalParams
+    options?: PolicyAssignmentsListForResourceOptionalParams,
   ): AsyncIterableIterator<PolicyAssignment> {
     for await (const page of this.listForResourcePagingPage(
       resourceGroupName,
@@ -270,7 +270,7 @@ export class PolicyAssignmentsImpl implements PolicyAssignments {
       parentResourcePath,
       resourceType,
       resourceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -290,11 +290,11 @@ export class PolicyAssignmentsImpl implements PolicyAssignments {
    */
   public listForManagementGroup(
     managementGroupId: string,
-    options?: PolicyAssignmentsListForManagementGroupOptionalParams
+    options?: PolicyAssignmentsListForManagementGroupOptionalParams,
   ): PagedAsyncIterableIterator<PolicyAssignment> {
     const iter = this.listForManagementGroupPagingAll(
       managementGroupId,
-      options
+      options,
     );
     return {
       next() {
@@ -310,16 +310,16 @@ export class PolicyAssignmentsImpl implements PolicyAssignments {
         return this.listForManagementGroupPagingPage(
           managementGroupId,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listForManagementGroupPagingPage(
     managementGroupId: string,
     options?: PolicyAssignmentsListForManagementGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<PolicyAssignment[]> {
     let result: PolicyAssignmentsListForManagementGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -334,7 +334,7 @@ export class PolicyAssignmentsImpl implements PolicyAssignments {
       result = await this._listForManagementGroupNext(
         managementGroupId,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -345,11 +345,11 @@ export class PolicyAssignmentsImpl implements PolicyAssignments {
 
   private async *listForManagementGroupPagingAll(
     managementGroupId: string,
-    options?: PolicyAssignmentsListForManagementGroupOptionalParams
+    options?: PolicyAssignmentsListForManagementGroupOptionalParams,
   ): AsyncIterableIterator<PolicyAssignment> {
     for await (const page of this.listForManagementGroupPagingPage(
       managementGroupId,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -370,7 +370,7 @@ export class PolicyAssignmentsImpl implements PolicyAssignments {
    * @param options The options parameters.
    */
   public list(
-    options?: PolicyAssignmentsListOptionalParams
+    options?: PolicyAssignmentsListOptionalParams,
   ): PagedAsyncIterableIterator<PolicyAssignment> {
     const iter = this.listPagingAll(options);
     return {
@@ -385,13 +385,13 @@ export class PolicyAssignmentsImpl implements PolicyAssignments {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     options?: PolicyAssignmentsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<PolicyAssignment[]> {
     let result: PolicyAssignmentsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -412,7 +412,7 @@ export class PolicyAssignmentsImpl implements PolicyAssignments {
   }
 
   private async *listPagingAll(
-    options?: PolicyAssignmentsListOptionalParams
+    options?: PolicyAssignmentsListOptionalParams,
   ): AsyncIterableIterator<PolicyAssignment> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
@@ -434,11 +434,11 @@ export class PolicyAssignmentsImpl implements PolicyAssignments {
   delete(
     scope: string,
     policyAssignmentName: string,
-    options?: PolicyAssignmentsDeleteOptionalParams
+    options?: PolicyAssignmentsDeleteOptionalParams,
   ): Promise<PolicyAssignmentsDeleteResponse> {
     return this.client.sendOperationRequest(
       { scope, policyAssignmentName, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -459,11 +459,11 @@ export class PolicyAssignmentsImpl implements PolicyAssignments {
     scope: string,
     policyAssignmentName: string,
     parameters: PolicyAssignment,
-    options?: PolicyAssignmentsCreateOptionalParams
+    options?: PolicyAssignmentsCreateOptionalParams,
   ): Promise<PolicyAssignmentsCreateResponse> {
     return this.client.sendOperationRequest(
       { scope, policyAssignmentName, parameters, options },
-      createOperationSpec
+      createOperationSpec,
     );
   }
 
@@ -480,11 +480,11 @@ export class PolicyAssignmentsImpl implements PolicyAssignments {
   get(
     scope: string,
     policyAssignmentName: string,
-    options?: PolicyAssignmentsGetOptionalParams
+    options?: PolicyAssignmentsGetOptionalParams,
   ): Promise<PolicyAssignmentsGetResponse> {
     return this.client.sendOperationRequest(
       { scope, policyAssignmentName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -505,11 +505,11 @@ export class PolicyAssignmentsImpl implements PolicyAssignments {
     scope: string,
     policyAssignmentName: string,
     parameters: PolicyAssignmentUpdate,
-    options?: PolicyAssignmentsUpdateOptionalParams
+    options?: PolicyAssignmentsUpdateOptionalParams,
   ): Promise<PolicyAssignmentsUpdateResponse> {
     return this.client.sendOperationRequest(
       { scope, policyAssignmentName, parameters, options },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 
@@ -530,11 +530,11 @@ export class PolicyAssignmentsImpl implements PolicyAssignments {
    */
   private _listForResourceGroup(
     resourceGroupName: string,
-    options?: PolicyAssignmentsListForResourceGroupOptionalParams
+    options?: PolicyAssignmentsListForResourceGroupOptionalParams,
   ): Promise<PolicyAssignmentsListForResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listForResourceGroupOperationSpec
+      listForResourceGroupOperationSpec,
     );
   }
 
@@ -576,7 +576,7 @@ export class PolicyAssignmentsImpl implements PolicyAssignments {
     parentResourcePath: string,
     resourceType: string,
     resourceName: string,
-    options?: PolicyAssignmentsListForResourceOptionalParams
+    options?: PolicyAssignmentsListForResourceOptionalParams,
   ): Promise<PolicyAssignmentsListForResourceResponse> {
     return this.client.sendOperationRequest(
       {
@@ -585,9 +585,9 @@ export class PolicyAssignmentsImpl implements PolicyAssignments {
         parentResourcePath,
         resourceType,
         resourceName,
-        options
+        options,
       },
-      listForResourceOperationSpec
+      listForResourceOperationSpec,
     );
   }
 
@@ -605,11 +605,11 @@ export class PolicyAssignmentsImpl implements PolicyAssignments {
    */
   private _listForManagementGroup(
     managementGroupId: string,
-    options?: PolicyAssignmentsListForManagementGroupOptionalParams
+    options?: PolicyAssignmentsListForManagementGroupOptionalParams,
   ): Promise<PolicyAssignmentsListForManagementGroupResponse> {
     return this.client.sendOperationRequest(
       { managementGroupId, options },
-      listForManagementGroupOperationSpec
+      listForManagementGroupOperationSpec,
     );
   }
 
@@ -628,7 +628,7 @@ export class PolicyAssignmentsImpl implements PolicyAssignments {
    * @param options The options parameters.
    */
   private _list(
-    options?: PolicyAssignmentsListOptionalParams
+    options?: PolicyAssignmentsListOptionalParams,
   ): Promise<PolicyAssignmentsListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
@@ -647,11 +647,11 @@ export class PolicyAssignmentsImpl implements PolicyAssignments {
    */
   deleteById(
     policyAssignmentId: string,
-    options?: PolicyAssignmentsDeleteByIdOptionalParams
+    options?: PolicyAssignmentsDeleteByIdOptionalParams,
   ): Promise<PolicyAssignmentsDeleteByIdResponse> {
     return this.client.sendOperationRequest(
       { policyAssignmentId, options },
-      deleteByIdOperationSpec
+      deleteByIdOperationSpec,
     );
   }
 
@@ -673,11 +673,11 @@ export class PolicyAssignmentsImpl implements PolicyAssignments {
   createById(
     policyAssignmentId: string,
     parameters: PolicyAssignment,
-    options?: PolicyAssignmentsCreateByIdOptionalParams
+    options?: PolicyAssignmentsCreateByIdOptionalParams,
   ): Promise<PolicyAssignmentsCreateByIdResponse> {
     return this.client.sendOperationRequest(
       { policyAssignmentId, parameters, options },
-      createByIdOperationSpec
+      createByIdOperationSpec,
     );
   }
 
@@ -695,11 +695,11 @@ export class PolicyAssignmentsImpl implements PolicyAssignments {
    */
   getById(
     policyAssignmentId: string,
-    options?: PolicyAssignmentsGetByIdOptionalParams
+    options?: PolicyAssignmentsGetByIdOptionalParams,
   ): Promise<PolicyAssignmentsGetByIdResponse> {
     return this.client.sendOperationRequest(
       { policyAssignmentId, options },
-      getByIdOperationSpec
+      getByIdOperationSpec,
     );
   }
 
@@ -721,11 +721,11 @@ export class PolicyAssignmentsImpl implements PolicyAssignments {
   updateById(
     policyAssignmentId: string,
     parameters: PolicyAssignmentUpdate,
-    options?: PolicyAssignmentsUpdateByIdOptionalParams
+    options?: PolicyAssignmentsUpdateByIdOptionalParams,
   ): Promise<PolicyAssignmentsUpdateByIdResponse> {
     return this.client.sendOperationRequest(
       { policyAssignmentId, parameters, options },
-      updateByIdOperationSpec
+      updateByIdOperationSpec,
     );
   }
 
@@ -738,11 +738,11 @@ export class PolicyAssignmentsImpl implements PolicyAssignments {
   private _listForResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: PolicyAssignmentsListForResourceGroupNextOptionalParams
+    options?: PolicyAssignmentsListForResourceGroupNextOptionalParams,
   ): Promise<PolicyAssignmentsListForResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listForResourceGroupNextOperationSpec
+      listForResourceGroupNextOperationSpec,
     );
   }
 
@@ -765,7 +765,7 @@ export class PolicyAssignmentsImpl implements PolicyAssignments {
     resourceType: string,
     resourceName: string,
     nextLink: string,
-    options?: PolicyAssignmentsListForResourceNextOptionalParams
+    options?: PolicyAssignmentsListForResourceNextOptionalParams,
   ): Promise<PolicyAssignmentsListForResourceNextResponse> {
     return this.client.sendOperationRequest(
       {
@@ -775,9 +775,9 @@ export class PolicyAssignmentsImpl implements PolicyAssignments {
         resourceType,
         resourceName,
         nextLink,
-        options
+        options,
       },
-      listForResourceNextOperationSpec
+      listForResourceNextOperationSpec,
     );
   }
 
@@ -790,11 +790,11 @@ export class PolicyAssignmentsImpl implements PolicyAssignments {
   private _listForManagementGroupNext(
     managementGroupId: string,
     nextLink: string,
-    options?: PolicyAssignmentsListForManagementGroupNextOptionalParams
+    options?: PolicyAssignmentsListForManagementGroupNextOptionalParams,
   ): Promise<PolicyAssignmentsListForManagementGroupNextResponse> {
     return this.client.sendOperationRequest(
       { managementGroupId, nextLink, options },
-      listForManagementGroupNextOperationSpec
+      listForManagementGroupNextOperationSpec,
     );
   }
 
@@ -805,11 +805,11 @@ export class PolicyAssignmentsImpl implements PolicyAssignments {
    */
   private _listNext(
     nextLink: string,
-    options?: PolicyAssignmentsListNextOptionalParams
+    options?: PolicyAssignmentsListNextOptionalParams,
   ): Promise<PolicyAssignmentsListNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -817,322 +817,334 @@ export class PolicyAssignmentsImpl implements PolicyAssignments {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{scope}/providers/Microsoft.Authorization/policyAssignments/{policyAssignmentName}",
+  path: "/{scope}/providers/Microsoft.Authorization/policyAssignments/{policyAssignmentName}",
   httpMethod: "DELETE",
   responses: {
     200: {
-      bodyMapper: Mappers.PolicyAssignment
+      bodyMapper: Mappers.PolicyAssignment,
     },
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.scope,
-    Parameters.policyAssignmentName
+    Parameters.policyAssignmentName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{scope}/providers/Microsoft.Authorization/policyAssignments/{policyAssignmentName}",
+  path: "/{scope}/providers/Microsoft.Authorization/policyAssignments/{policyAssignmentName}",
   httpMethod: "PUT",
   responses: {
     201: {
-      bodyMapper: Mappers.PolicyAssignment
+      bodyMapper: Mappers.PolicyAssignment,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  requestBody: Parameters.parameters,
+  requestBody: Parameters.parameters4,
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.scope,
-    Parameters.policyAssignmentName
+    Parameters.policyAssignmentName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{scope}/providers/Microsoft.Authorization/policyAssignments/{policyAssignmentName}",
+  path: "/{scope}/providers/Microsoft.Authorization/policyAssignments/{policyAssignmentName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PolicyAssignment
+      bodyMapper: Mappers.PolicyAssignment,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion1, Parameters.expand],
   urlParameters: [
     Parameters.$host,
     Parameters.scope,
-    Parameters.policyAssignmentName
+    Parameters.policyAssignmentName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{scope}/providers/Microsoft.Authorization/policyAssignments/{policyAssignmentName}",
+  path: "/{scope}/providers/Microsoft.Authorization/policyAssignments/{policyAssignmentName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.PolicyAssignment
+      bodyMapper: Mappers.PolicyAssignment,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  requestBody: Parameters.parameters1,
+  requestBody: Parameters.parameters5,
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.scope,
-    Parameters.policyAssignmentName
+    Parameters.policyAssignmentName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listForResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Authorization/policyAssignments",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Authorization/policyAssignments",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PolicyAssignmentListResult
+      bodyMapper: Mappers.PolicyAssignmentListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  queryParameters: [Parameters.filter, Parameters.apiVersion1, Parameters.top],
+  queryParameters: [
+    Parameters.filter,
+    Parameters.apiVersion1,
+    Parameters.top,
+    Parameters.expand,
+  ],
   urlParameters: [
     Parameters.$host,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.subscriptionId
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listForResourceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{parentResourcePath}/{resourceType}/{resourceName}/providers/Microsoft.Authorization/policyAssignments",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{parentResourcePath}/{resourceType}/{resourceName}/providers/Microsoft.Authorization/policyAssignments",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PolicyAssignmentListResult
+      bodyMapper: Mappers.PolicyAssignmentListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  queryParameters: [Parameters.filter, Parameters.apiVersion1, Parameters.top],
+  queryParameters: [
+    Parameters.filter,
+    Parameters.apiVersion1,
+    Parameters.top,
+    Parameters.expand,
+  ],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.resourceProviderNamespace,
     Parameters.parentResourcePath,
     Parameters.resourceType,
-    Parameters.resourceName
+    Parameters.resourceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listForManagementGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Authorization/policyAssignments",
+  path: "/providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Authorization/policyAssignments",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PolicyAssignmentListResult
+      bodyMapper: Mappers.PolicyAssignmentListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  queryParameters: [Parameters.filter, Parameters.apiVersion1, Parameters.top],
+  queryParameters: [
+    Parameters.filter,
+    Parameters.apiVersion1,
+    Parameters.top,
+    Parameters.expand,
+  ],
   urlParameters: [Parameters.$host, Parameters.managementGroupId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Authorization/policyAssignments",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Authorization/policyAssignments",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PolicyAssignmentListResult
+      bodyMapper: Mappers.PolicyAssignmentListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  queryParameters: [Parameters.filter, Parameters.apiVersion1, Parameters.top],
+  queryParameters: [
+    Parameters.filter,
+    Parameters.apiVersion1,
+    Parameters.top,
+    Parameters.expand,
+  ],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const deleteByIdOperationSpec: coreClient.OperationSpec = {
   path: "/{policyAssignmentId}",
   httpMethod: "DELETE",
   responses: {
     200: {
-      bodyMapper: Mappers.PolicyAssignment
+      bodyMapper: Mappers.PolicyAssignment,
     },
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [Parameters.$host, Parameters.policyAssignmentId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createByIdOperationSpec: coreClient.OperationSpec = {
   path: "/{policyAssignmentId}",
   httpMethod: "PUT",
   responses: {
     201: {
-      bodyMapper: Mappers.PolicyAssignment
+      bodyMapper: Mappers.PolicyAssignment,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  requestBody: Parameters.parameters,
+  requestBody: Parameters.parameters4,
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [Parameters.$host, Parameters.policyAssignmentId],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getByIdOperationSpec: coreClient.OperationSpec = {
   path: "/{policyAssignmentId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PolicyAssignment
+      bodyMapper: Mappers.PolicyAssignment,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion1, Parameters.expand],
   urlParameters: [Parameters.$host, Parameters.policyAssignmentId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateByIdOperationSpec: coreClient.OperationSpec = {
   path: "/{policyAssignmentId}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.PolicyAssignment
+      bodyMapper: Mappers.PolicyAssignment,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  requestBody: Parameters.parameters1,
+  requestBody: Parameters.parameters5,
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [Parameters.$host, Parameters.policyAssignmentId],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listForResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PolicyAssignmentListResult
+      bodyMapper: Mappers.PolicyAssignmentListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.subscriptionId
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listForResourceNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PolicyAssignmentListResult
+      bodyMapper: Mappers.PolicyAssignmentListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.resourceProviderNamespace,
     Parameters.parentResourcePath,
     Parameters.resourceType,
-    Parameters.resourceName
+    Parameters.resourceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listForManagementGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PolicyAssignmentListResult
+      bodyMapper: Mappers.PolicyAssignmentListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
-    Parameters.managementGroupId
+    Parameters.managementGroupId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PolicyAssignmentListResult
+      bodyMapper: Mappers.PolicyAssignmentListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

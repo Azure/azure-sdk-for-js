@@ -11,8 +11,8 @@ import {
   DataPolicyManifest,
   DataPolicyManifestsListOptionalParams,
   DataPolicyManifestsGetByPolicyModeOptionalParams,
-  DataPolicyManifestsGetByPolicyModeResponse
-} from "../models/index.js";
+  DataPolicyManifestsGetByPolicyModeResponse,
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a DataPolicyManifests. */
@@ -26,7 +26,7 @@ export interface DataPolicyManifests {
    * @param options The options parameters.
    */
   list(
-    options?: DataPolicyManifestsListOptionalParams
+    options?: DataPolicyManifestsListOptionalParams,
   ): PagedAsyncIterableIterator<DataPolicyManifest>;
   /**
    * This operation retrieves the data policy manifest with the given policy mode.
@@ -35,6 +35,6 @@ export interface DataPolicyManifests {
    */
   getByPolicyMode(
     policyMode: string,
-    options?: DataPolicyManifestsGetByPolicyModeOptionalParams
+    options?: DataPolicyManifestsGetByPolicyModeOptionalParams,
   ): Promise<DataPolicyManifestsGetByPolicyModeResponse>;
 }
