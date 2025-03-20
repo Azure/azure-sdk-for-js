@@ -845,7 +845,7 @@
     },
     {
       "packageName": "@azure-tests/perf-eventgrid",
-      "projectFolder": "sdk/eventgrid/perf-tests/eventgrid",
+      "projectFolder": "sdk/eventgrid/eventgrid-perf-tests",
       "versionPolicyName": "test"
     },
     {
