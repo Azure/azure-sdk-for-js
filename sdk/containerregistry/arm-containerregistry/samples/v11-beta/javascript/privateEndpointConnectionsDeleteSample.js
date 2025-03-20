@@ -10,13 +10,13 @@
 // Licensed under the MIT License.
 const { ContainerRegistryManagementClient } = require("@azure/arm-containerregistry");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Deletes the specified private endpoint connection associated with the container registry.
  *
  * @summary Deletes the specified private endpoint connection associated with the container registry.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2023-11-01-preview/examples/PrivateEndpointConnectionDelete.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2024-11-01-preview/examples/PrivateEndpointConnectionDelete.json
  */
 async function privateEndpointConnectionDelete() {
   const subscriptionId =
@@ -29,13 +29,13 @@ async function privateEndpointConnectionDelete() {
   const result = await client.privateEndpointConnections.beginDeleteAndWait(
     resourceGroupName,
     registryName,
-    privateEndpointConnectionName
+    privateEndpointConnectionName,
   );
   console.log(result);
 }
 
 async function main() {
-  privateEndpointConnectionDelete();
+  await privateEndpointConnectionDelete();
 }
 
 main().catch(console.error);

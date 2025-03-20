@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Gets the status of service.
  * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-12-01-preview/examples/CosmosDBDataTransferServiceGet.json
  */
-async function dataTransferServiceGet() {
+async function dataTransferServiceGet(): Promise<void> {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";
   const accountName = "ddb1";
@@ -36,7 +36,7 @@ async function dataTransferServiceGet() {
  * @summary Gets the status of service.
  * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-12-01-preview/examples/CosmosDBGraphAPIComputeServiceGet.json
  */
-async function graphApiComputeServiceGet() {
+async function graphApiComputeServiceGet(): Promise<void> {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";
   const accountName = "ddb1";
@@ -57,7 +57,7 @@ async function graphApiComputeServiceGet() {
  * @summary Gets the status of service.
  * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-12-01-preview/examples/CosmosDBMaterializedViewsBuilderServiceGet.json
  */
-async function materializedViewsBuilderServiceGet() {
+async function materializedViewsBuilderServiceGet(): Promise<void> {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";
   const accountName = "ddb1";
@@ -78,7 +78,7 @@ async function materializedViewsBuilderServiceGet() {
  * @summary Gets the status of service.
  * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-12-01-preview/examples/services/sqldedicatedgateway/CosmosDBSqlDedicatedGatewayServiceGet.json
  */
-async function sqlDedicatedGatewayServiceGet() {
+async function sqlDedicatedGatewayServiceGet(): Promise<void> {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";
   const accountName = "ddb1";
@@ -93,7 +93,7 @@ async function sqlDedicatedGatewayServiceGet() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   dataTransferServiceGet();
   graphApiComputeServiceGet();
   materializedViewsBuilderServiceGet();

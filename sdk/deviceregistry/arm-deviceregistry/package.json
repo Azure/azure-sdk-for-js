@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-deviceregistry",
-  "version": "1.0.0-beta.2",
+  "version": "1.0.0",
   "description": "A generated SDK for DeviceRegistryClient.",
   "engines": {
     "node": ">=18.0.0"
@@ -62,7 +62,7 @@
     "@azure/abort-controller": "^2.1.2",
     "@azure/core-auth": "^1.9.0",
     "@azure/core-lro": "^3.1.0",
-    "@azure/core-rest-pipeline": "^1.18.2",
+    "@azure/core-rest-pipeline": "^1.19.0",
     "@azure/core-util": "^1.11.0",
     "@azure/logger": "^1.1.4",
     "tslib": "^2.8.1"
@@ -75,13 +75,13 @@
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure/identity": "^4.6.0",
     "@types/node": "^18.0.0",
-    "@vitest/browser": "^3.0.3",
-    "@vitest/coverage-istanbul": "^3.0.3",
+    "@vitest/browser": "^3.0.9",
+    "@vitest/coverage-istanbul": "^3.0.9",
     "dotenv": "^16.0.0",
     "eslint": "^9.9.0",
-    "playwright": "^1.50.0",
-    "typescript": "~5.7.2",
-    "vitest": "^3.0.3"
+    "playwright": "^1.50.1",
+    "typescript": "~5.6.2",
+    "vitest": "^3.0.9"
   },
   "scripts": {
     "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
@@ -116,6 +116,8 @@
     "disableDocsMs": true,
     "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-deviceregistry?view=azure-node-preview"
   },
+  "browser": "./dist/browser/index.js",
+  "react-native": "./dist/react-native/index.js",
   "exports": {
     "./package.json": "./package.json",
     ".": {
@@ -157,7 +159,5 @@
   },
   "main": "./dist/commonjs/index.js",
   "types": "./dist/commonjs/index.d.ts",
-  "module": "./dist/esm/index.js",
-  "browser": "./dist/browser/index.js",
-  "react-native": "./dist/react-native/index.js"
+  "module": "./dist/esm/index.js"
 }

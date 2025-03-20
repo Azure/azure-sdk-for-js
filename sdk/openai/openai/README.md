@@ -40,29 +40,29 @@ There are several ways to authenticate with the Azure OpenAI service and the rec
 
 1. Install the [Azure Identity package](https://www.npmjs.com/package/@azure/identity):
 
-    ```bash
-    npm install @azure/identity
-    ```
+   ```bash
+   npm install @azure/identity
+   ```
 
 2. Create a token provider by calling the `getBearerTokenProvider` with the desired credential type. For example, [DefaultAzureCredential][azure_identity_dac]:
 
-    ```ts
-    import { DefaultAzureCredential, getBearerTokenProvider } from "@azure/identity";
+   ```ts snippet:ignore
+   import { DefaultAzureCredential, getBearerTokenProvider } from "@azure/identity";
 
-    const credential = new DefaultAzureCredential();
-    const scope = "https://cognitiveservices.azure.com/.default";
-    const azureADTokenProvider = getBearerTokenProvider(credential, scope);
-    ```
+   const credential = new DefaultAzureCredential();
+   const scope = "https://cognitiveservices.azure.com/.default";
+   const azureADTokenProvider = getBearerTokenProvider(credential, scope);
+   ```
 
 3. Create the client by passing in the token provider:
 
-    ```ts
-    import { AzureOpenAI } from "openai";
+   ```ts snippet:ignore
+   import { AzureOpenAI } from "openai";
 
-    const deployment = "Your deployment name";
-    const apiVersion = "2024-11-01-preview";
-    const client = new AzureOpenAI({ azureADTokenProvider, deployment, apiVersion });
-    ```
+   const deployment = "Your deployment name";
+   const apiVersion = "2025-01-01-preview";
+   const client = new AzureOpenAI({ azureADTokenProvider, deployment, apiVersion });
+   ```
 
 Grant access to your Azure OpenAI resource to your trusted entities by following instructions in [How to configure Azure OpenAI Service with Microsoft Entra ID authentication](https://learn.microsoft.com/azure/ai-services/openai/how-to/managed-identity).
 
@@ -107,126 +107,116 @@ This section provides examples of using the features of the Azure OpenAI Service
 
 This TypeScript example generates chat responses to input chat questions about your business data. The business data is provided through an Azure Cognitive Search index. To learn more about how to setup an Azure Cognitive Search index as a data source, see Quickstart: [Chat with Azure OpenAI models using your own data][oyd].
 
-```ts
-import { AzureOpenAI } from "openai";
+```ts snippet:ReadmeSampleAnalyzeBusinessData
 import { DefaultAzureCredential, getBearerTokenProvider } from "@azure/identity";
+import { AzureOpenAI } from "openai";
+
+// Import OpenAI Type Helpers
 import "@azure/openai/types";
 
-// Set AZURE_OPENAI_ENDPOINT to the endpoint of your
-// Azure OpenAI resource. You can find this in the Azure portal.
-import "dotenv/config";
+const credential = new DefaultAzureCredential();
+const scope = "https://cognitiveservices.azure.com/.default";
+const azureADTokenProvider = getBearerTokenProvider(credential, scope);
 
 // Your Azure Cognitive Search endpoint, and index name
-const azureSearchEndpoint = process.env["AZURE_SEARCH_ENDPOINT"] || "<search endpoint>";
-const azureSearchIndexName = process.env["AZURE_SEARCH_INDEX"] || "<search index>";
+const azureSearchEndpoint = "<search endpoint>";
+const azureSearchIndexName = "<search index>";
 
-export async function main() {
-  console.log("== Azure On Your Data Sample ==");
-
-  const scope = "https://cognitiveservices.azure.com/.default";
-  const azureADTokenProvider = getBearerTokenProvider(new DefaultAzureCredential(), scope);
-  const deployment = "gpt-4-1106-preview";
-  const apiVersion = "2024-11-01-preview";
-  const client = new AzureOpenAI({ azureADTokenProvider, deployment, apiVersion });
-  const events = await client.chat.completions.create({
-    stream: true,
-    messages: [
-      {
-        role: "user",
-        content:
-          "What's the most common feedback we received from our customers about the product?",
-      },
-    ],
-    max_tokens: 128,
-    model: "",
-    data_sources: [
-      {
-        type: "azure_search",
-        parameters: {
-          endpoint: azureSearchEndpoint,
-          index_name: azureSearchIndexName,
-          authentication: {
-            type: "system_assigned_managed_identity",
-          },
+const deployment = "gpt-4-1106-preview";
+const apiVersion = "2025-01-01-preview";
+const client = new AzureOpenAI({ azureADTokenProvider, deployment, apiVersion });
+const events = await client.chat.completions.create({
+  stream: true,
+  messages: [
+    {
+      role: "user",
+      content: "What's the most common feedback we received from our customers about the product?",
+    },
+  ],
+  max_tokens: 128,
+  model: "",
+  data_sources: [
+    {
+      type: "azure_search",
+      parameters: {
+        endpoint: azureSearchEndpoint,
+        index_name: azureSearchIndexName,
+        authentication: {
+          type: "system_assigned_managed_identity",
         },
       },
-    ],
-  });
+    },
+  ],
+});
 
-  for await (const event of events) {
-    for (const choice of event.choices) {
-      console.log(choice.delta?.content);
-    }
+for await (const event of events) {
+  for (const choice of event.choices) {
+    console.log(choice.delta?.content);
   }
 }
-
-main();
 ```
 
 ### Content-filtered Chat Completions
 
 Azure OpenAI Service includes a content filtering system that works alongside core models. This system detects and takes action on specific categories of potentially harmful content in both input prompts and output completions. This example shows how to access those content filtering results.
 
-```ts
-import { AzureOpenAI } from "openai";
+```ts snippet:ReadmeSampleContentFilteredChatCompletions
 import { DefaultAzureCredential, getBearerTokenProvider } from "@azure/identity";
+import { AzureOpenAI } from "openai";
+
+// Import OpenAI Type Helpers
 import "@azure/openai/types";
 
-// Set AZURE_OPENAI_ENDPOINT to the endpoint of your
-// OpenAI resource. You can find this in the Azure portal.
-import "dotenv/config";
+const credential = new DefaultAzureCredential();
+const scope = "https://cognitiveservices.azure.com/.default";
+const azureADTokenProvider = getBearerTokenProvider(credential, scope);
 
-async function main() {
-  console.log("== Streaming Chat Completions Sample ==");
+// Your Azure Cognitive Search endpoint, and index name
+const azureSearchEndpoint = "<search endpoint>";
+const azureSearchIndexName = "<search index>";
 
-  const scope = "https://cognitiveservices.azure.com/.default";
-  const azureADTokenProvider = getBearerTokenProvider(new DefaultAzureCredential(), scope);
-  const deployment = "gpt-35-turbo";
-  const apiVersion = "2024-11-01-preview";
-  const client = new AzureOpenAI({ azureADTokenProvider, deployment, apiVersion });
-  const events = await client.chat.completions.create({
-    messages: [
-      { role: "system", content: "You are a helpful assistant. You will talk like a pirate." },
-      { role: "user", content: "Can you help me?" },
-      { role: "assistant", content: "Arrrr! Of course, me hearty! What can I do for ye?" },
-      { role: "user", content: "What's the best way to train a parrot?" },
-    ],
-    model: "",
-    max_tokens: 128,
-    stream: true,
-  });
-
-  for await (const event of events) {
-    for (const choice of event.choices) {
-      console.log(`Chunk: ${choice.delta?.content}`);
-      const filterResults = choice.content_filter_results;
-      if (!filterResults) {
-        continue;
-      }
-      if (filterResults.error) {
-        console.log(
-          `\tContent filter ran into an error ${filterResults.error.code}: ${filterResults.error.message}`,
-        );
-      } else {
-        const { hate, sexual, selfHarm, violence } = filterResults;
-        console.log(
-          `\tHate category is filtered: ${hate?.filtered}, with ${hate?.severity} severity`,
-        );
-        console.log(
-          `\tSexual category is filtered: ${sexual?.filtered}, with ${sexual?.severity} severity`,
-        );
-        console.log(
-          `\tSelf-harm category is filtered: ${selfHarm?.filtered}, with ${selfHarm?.severity} severity`,
-        );
-        console.log(
-          `\tViolence category is filtered: ${violence?.filtered}, with ${violence?.severity} severity`,
-        );
-      }
+const deployment = "gpt-4-1106-preview";
+const apiVersion = "2025-01-01-preview";
+const client = new AzureOpenAI({ azureADTokenProvider, deployment, apiVersion });
+const events = await client.chat.completions.create({
+  messages: [
+    { role: "system", content: "You are a helpful assistant. You will talk like a pirate." },
+    { role: "user", content: "Can you help me?" },
+    { role: "assistant", content: "Arrrr! Of course, me hearty! What can I do for ye?" },
+    { role: "user", content: "What's the best way to train a parrot?" },
+  ],
+  model: "",
+  max_tokens: 128,
+  stream: true,
+});
+for await (const event of events) {
+  for (const choice of event.choices) {
+    console.log(`Chunk: ${choice.delta?.content}`);
+    const filterResults = choice.content_filter_results;
+    if (!filterResults) {
+      continue;
+    }
+    if (filterResults.error) {
+      console.log(
+        `\tContent filter ran into an error ${filterResults.error.code}: ${filterResults.error.message}`,
+      );
+    } else {
+      const { hate, sexual, self_harm, violence } = filterResults;
+      console.log(
+        `\tHate category is filtered: ${hate?.filtered}, with ${hate?.severity} severity`,
+      );
+      console.log(
+        `\tSexual category is filtered: ${sexual?.filtered}, with ${sexual?.severity} severity`,
+      );
+      console.log(
+        `\tSelf-harm category is filtered: ${self_harm?.filtered}, with ${self_harm?.severity} severity`,
+      );
+      console.log(
+        `\tViolence category is filtered: ${violence?.filtered}, with ${violence?.severity} severity`,
+      );
     }
   }
 }
-
-main();
 ```
 
 ## Next steps
@@ -246,6 +236,7 @@ When you submit a pull request, a CLA-bot will automatically determine whether y
 This project has adopted the [Microsoft Open Source Code of Conduct][code_of_conduct]. For more information, see the [Code of Conduct FAQ][code_of_conduct_faq] or contact [opencode@microsoft.com][email_opencode] with any additional questions or comments.
 
 <!-- LINKS -->
+
 [openai_pkg]: https://www.npmjs.com/package/openai
 [service_overview]: https://azure.microsoft.com/products/ai-services/openai-service
 [azure_identity]: https://learn.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest

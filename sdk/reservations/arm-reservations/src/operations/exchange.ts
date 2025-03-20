@@ -6,22 +6,22 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { Exchange } from "../operationsInterfaces";
+import { Exchange } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { AzureReservationAPI } from "../azureReservationAPI";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { AzureReservationAPI } from "../azureReservationAPI.js";
 import {
   SimplePollerLike,
   OperationState,
   createHttpPoller
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl";
+import { createLroSpec } from "../lroImpl.js";
 import {
   ExchangeRequest,
   ExchangePostOptionalParams,
   ExchangePostResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Class containing Exchange operations. */
 export class ExchangeImpl implements Exchange {

@@ -90,7 +90,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [stickysession]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/search-documents/samples/v12-beta/typescript/src/stickySession.ts
 [synonymmapoperations]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/search-documents/samples/v12-beta/typescript/src/synonymMapOperations.ts
 [vectorsearch]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/search-documents/samples/v12-beta/typescript/src/vectorSearch.ts
-[apiref]: https://learn.microsoft.com/javascript/api/@azure/search-documents
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/search-documents?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azuresearchdocumentsinstance]: https://learn.microsoft.com/azure/search/search-create-service-portal
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/search/search-documents/README.md

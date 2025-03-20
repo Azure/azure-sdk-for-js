@@ -9,7 +9,7 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
-  NginxConfiguration,
+  NginxConfigurationResponse,
   ConfigurationsListOptionalParams,
   ConfigurationsGetOptionalParams,
   ConfigurationsGetResponse,
@@ -33,7 +33,7 @@ export interface Configurations {
     resourceGroupName: string,
     deploymentName: string,
     options?: ConfigurationsListOptionalParams,
-  ): PagedAsyncIterableIterator<NginxConfiguration>;
+  ): PagedAsyncIterableIterator<NginxConfigurationResponse>;
   /**
    * Get the NGINX configuration of given NGINX deployment
    * @param resourceGroupName The name of the resource group. The name is case insensitive.

@@ -15,7 +15,7 @@ import {
   ConfigureAlertRequest,
   ReplicationAlertSettingsCreateOptionalParams,
   ReplicationAlertSettingsCreateResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ReplicationAlertSettings. */

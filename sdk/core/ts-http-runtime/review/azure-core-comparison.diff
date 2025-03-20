@@ -489,7 +489,7 @@ index 30dac33..66ea99c 100644
    if (!cachedHttpClient) {
      cachedHttpClient = createDefaultHttpClient();
 diff --git a/src/client/common.ts b/src/client/common.ts
-index 3676fc6..03dcd50 100644
+index 58f6eba..da6742a 100644
 --- a/src/client/common.ts
 +++ b/src/client/common.ts
 @@ -3,19 +3,17 @@
@@ -572,7 +572,35 @@ index 3676fc6..03dcd50 100644
     *
     * type MyClient = Client & {
     *   path: Routes;
-@@ -326,11 +307,9 @@ export type ClientOptions = PipelineOptions & {
+@@ -217,18 +198,6 @@ export interface Client {
+   pathUnchecked: PathUnchecked;
+ }
+ 
+-/**
+- * A Node.js Readable stream that also has a `destroy` method.
+- */
+-export interface NodeJSReadableStream extends NodeJS.ReadableStream {
+-  /**
+-   * Destroy the stream. Optionally emit an 'error' event, and emit a
+-   * 'close' event (unless emitClose is set to false). After this call,
+-   * internal resources will be released.
+-   */
+-  destroy(error?: Error): void;
+-}
+-
+ /**
+  * Http Response which body is a NodeJS stream object
+  */
+@@ -236,7 +205,7 @@ export type HttpNodeStreamResponse = HttpResponse & {
+   /**
+    * Streamable body
+    */
+-  body?: NodeJSReadableStream;
++  body?: NodeJS.ReadableStream;
+ };
+ 
+ /**
+@@ -345,11 +314,9 @@ export type ClientOptions = PipelineOptions & {
       */
      apiKeyHeaderName?: string;
    };
@@ -598,7 +626,7 @@ index eabe718..0000000
 -
 -/// <reference lib="dom" />
 diff --git a/src/client/getClient.ts b/src/client/getClient.ts
-index f6415d8..2e4f603 100644
+index 05bd395..0e6bb11 100644
 --- a/src/client/getClient.ts
 +++ b/src/client/getClient.ts
 @@ -1,9 +1,12 @@
@@ -617,7 +645,7 @@ index f6415d8..2e4f603 100644
  import { createDefaultPipeline } from "./clientHelpers.js";
  import type {
    Client,
-@@ -11,10 +14,12 @@ import type {
+@@ -11,11 +14,13 @@ import type {
    HttpBrowserStreamResponse,
    HttpNodeStreamResponse,
    RequestParameters,
@@ -626,11 +654,13 @@ index f6415d8..2e4f603 100644
  } from "./common.js";
  import { sendRequest } from "./sendRequest.js";
  import { buildRequestUrl } from "./urlHelpers.js";
+-import { isNodeLike } from "@azure/core-util";
 +import type { PipelineOptions } from "../createPipelineFromOptions.js";
++import { isNodeLike } from "../util/checkEnvironment.js";
  
  /**
   * Creates a client with a default pipeline
-@@ -61,8 +66,8 @@ export function getClient(
+@@ -62,8 +67,8 @@ export function getClient(
  
    const { allowInsecureConnection, httpClient } = clientOptions;
    const endpointUrl = clientOptions.endpoint ?? endpoint;
@@ -849,14 +879,14 @@ index 4ee4778..dc3b0f5 100644
      onUploadProgress: options.onUploadProgress,
      onDownloadProgress: options.onDownloadProgress,
 diff --git a/src/constants.ts b/src/constants.ts
-index 261e271..e81a30d 100644
+index 201ff0d..e81a30d 100644
 --- a/src/constants.ts
 +++ b/src/constants.ts
 @@ -1,6 +1,6 @@
  // Copyright (c) Microsoft Corporation.
  // Licensed under the MIT License.
  
--export const SDK_VERSION: string = "1.19.1";
+-export const SDK_VERSION: string = "1.19.2";
 +export const SDK_VERSION: string = "0.1.0";
  
  export const DEFAULT_RETRY_POLICY_COUNT = 3;
@@ -900,7 +930,7 @@ index fefe550..fb56a78 100644
      // Both XHR and Fetch expect to handle redirects automatically,
      // so only include this policy when we're in Node.
 diff --git a/src/fetchHttpClient.ts b/src/fetchHttpClient.ts
-index e9751e2..e4f8769 100644
+index ad162e3..ae5349c 100644
 --- a/src/fetchHttpClient.ts
 +++ b/src/fetchHttpClient.ts
 @@ -1,7 +1,7 @@
@@ -1089,7 +1119,7 @@ index 92a7ee9..65e7734 100644
 +export type { RedirectPolicyOptions } from "./policies/redirectPolicy.js";
 +export type { UserAgentPolicyOptions } from "./policies/userAgentPolicy.js";
 diff --git a/src/interfaces.ts b/src/interfaces.ts
-index 26b806d..5d790ad 100644
+index ae5513d..f8367e5 100644
 --- a/src/interfaces.ts
 +++ b/src/interfaces.ts
 @@ -1,9 +1,7 @@
@@ -1335,7 +1365,7 @@ index 3e33a3b..3654566 100644
 +  return TYPESPEC_RUNTIME_LOG_LEVELS.includes(logLevel as any);
  }
 diff --git a/src/nodeHttpClient.ts b/src/nodeHttpClient.ts
-index 1ac007a..66abe50 100644
+index 264a28e..2b974db 100644
 --- a/src/nodeHttpClient.ts
 +++ b/src/nodeHttpClient.ts
 @@ -5,7 +5,7 @@ import * as http from "node:http";
@@ -2187,7 +2217,7 @@ index 4f54b0d..0000000
 -  }
 -}
 diff --git a/src/restError.ts b/src/restError.ts
-index 0b2e69f..bc09e78 100644
+index a3d36bc..722db2a 100644
 --- a/src/restError.ts
 +++ b/src/restError.ts
 @@ -1,7 +1,7 @@
@@ -3208,7 +3238,7 @@ index bd11d61..3f6a12b 100644
  interface Crypto {
    randomUUID(): string;
 diff --git a/src/xhrHttpClient.ts b/src/xhrHttpClient.ts
-index 71bc439..c82fcb7 100644
+index 4a0acaa..2a8f850 100644
 --- a/src/xhrHttpClient.ts
 +++ b/src/xhrHttpClient.ts
 @@ -1,7 +1,7 @@

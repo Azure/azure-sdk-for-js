@@ -24,7 +24,7 @@ export interface CancelablePromiseLike<T> extends PromiseLike<T> {
  *
  * ### Example:
  *
- * ```javascript
+ * ```ts snippet:ignore
  * let toCancel;
  *
  * // Wait 20 seconds, and optionally allow the function to be cancelled.

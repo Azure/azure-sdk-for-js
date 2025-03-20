@@ -7,9 +7,7 @@
  */
 import { SiteRecoveryManagementClient } from "@azure/arm-recoveryservices-siterecovery";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets the list of vault setting. This includes the Migration Hub connection settings.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Gets the list of vault setting. This includes the Migration Hub connection settings.
  * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationVaultSetting_List.json
  */
-async function getsTheListOfVaultSetting() {
+async function getsTheListOfVaultSetting(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICESSITERECOVERY_SUBSCRIPTION_ID"] ||
     "c183865e-6077-46f2-a3b1-deb0f4f4650a";
@@ -33,7 +31,7 @@ async function getsTheListOfVaultSetting() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await getsTheListOfVaultSetting();
 }
 

@@ -8,11 +8,8 @@ export default mergeConfig(
   viteConfig,
   defineConfig({
     test: {
-      hookTimeout: 500000,
-      testTimeout: 500000,
-      typecheck: {
-        enabled: false,
-      },
+      testTimeout: 1200000,
+      hookTimeout: 1200000,
     },
   }),
 );

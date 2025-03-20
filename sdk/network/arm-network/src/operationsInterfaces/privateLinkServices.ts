@@ -32,7 +32,7 @@ import {
   PrivateLinkServicesCheckPrivateLinkServiceVisibilityResponse,
   PrivateLinkServicesCheckPrivateLinkServiceVisibilityByResourceGroupOptionalParams,
   PrivateLinkServicesCheckPrivateLinkServiceVisibilityByResourceGroupResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a PrivateLinkServices. */

@@ -13,7 +13,7 @@ import "dotenv/config";
  * @summary Swaps VIPs between two load balancers.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/LoadBalancersSwapPublicIpAddresses.json
  */
-async function swapViPsBetweenTwoLoadBalancers() {
+async function swapViPsBetweenTwoLoadBalancers(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

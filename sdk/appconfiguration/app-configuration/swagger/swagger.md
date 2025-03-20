@@ -4,7 +4,7 @@
 
 ```yaml
 package-name: app-configuration
-package-version: "1.8.1"
+package-version: "1.9.0-beta.2"
 title: AppConfiguration
 description: App Configuration client
 enable-xml: true

@@ -240,7 +240,7 @@ const { BlobServiceClient } = require("@azure/storage-blob");
 const account = "<account name>";
 const sas = "<service Shared Access Signature Token>";
 
-const blobServiceClient = new BlobServiceClient(`https://${account}.blob.core.windows.net${sas}`);
+const blobServiceClient = new BlobServiceClient(`https://${account}.blob.core.windows.net?${sas}`);
 ```
 
 ### Create a new container
@@ -451,7 +451,7 @@ async function main() {
     return new Promise((resolve, reject) => {
       const chunks = [];
       readableStream.on("data", (data) => {
-        chunks.push(data instanceof Buffer ? data : Buffer.from(data));
+        chunks.push(typeof data === "string" ? Buffer.from(data) : data);
       });
       readableStream.on("end", () => {
         resolve(Buffer.concat(chunks));
@@ -476,7 +476,7 @@ const sas = "<service Shared Access Signature Token>";
 const containerName = "<container name>";
 const blobName = "<blob name>";
 
-const blobServiceClient = new BlobServiceClient(`https://${account}.blob.core.windows.net${sas}`);
+const blobServiceClient = new BlobServiceClient(`https://${account}.blob.core.windows.net?${sas}`);
 
 async function main() {
   const containerClient = blobServiceClient.getContainerClient(containerName);

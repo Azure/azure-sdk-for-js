@@ -6,17 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { ReplicationEligibilityResultsOperations } from "../operationsInterfaces";
+import { ReplicationEligibilityResultsOperations } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { SiteRecoveryManagementClient } from "../siteRecoveryManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { SiteRecoveryManagementClient } from "../siteRecoveryManagementClient.js";
 import {
   ReplicationEligibilityResultsListOptionalParams,
   ReplicationEligibilityResultsListResponse,
   ReplicationEligibilityResultsGetOptionalParams,
   ReplicationEligibilityResultsGetResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Class containing ReplicationEligibilityResultsOperations operations. */
 export class ReplicationEligibilityResultsOperationsImpl

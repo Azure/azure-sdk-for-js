@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { RecoveryServicesClient } from "@azure/arm-recoveryservices";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get the vault extended info.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Get the vault extended info.
  * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/GETVaultExtendedInfo.json
  */
-async function getExtendedInfoOfResource() {
+async function getExtendedInfoOfResource(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICES_SUBSCRIPTION_ID"] ||
     "77777777-b0c6-47a2-b37c-d8e65a629c18";
@@ -37,7 +35,7 @@ async function getExtendedInfoOfResource() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getExtendedInfoOfResource();
 }
 

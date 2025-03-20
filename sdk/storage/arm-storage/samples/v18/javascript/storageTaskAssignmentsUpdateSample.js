@@ -6,17 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { StorageManagementClient } = require("@azure/arm-storage");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Update storage task assignment properties
  *
  * @summary Update storage task assignment properties
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/storageTaskAssignmentsCrud/PatchStorageTaskAssignment.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2024-01-01/examples/storageTaskAssignmentsCrud/PatchStorageTaskAssignment.json
  */
 async function patchStorageTaskAssignment() {
   const subscriptionId =
@@ -50,7 +48,7 @@ async function patchStorageTaskAssignment() {
 }
 
 async function main() {
-  patchStorageTaskAssignment();
+  await patchStorageTaskAssignment();
 }
 
 main().catch(console.error);

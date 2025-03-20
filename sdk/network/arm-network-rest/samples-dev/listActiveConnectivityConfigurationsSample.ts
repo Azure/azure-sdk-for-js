@@ -11,7 +11,7 @@ import "dotenv/config";
  * @summary Lists active connectivity configurations in a network manager.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/NetworkManagerActiveConnectivityConfigurationsList.json
  */
-async function listActiveConnectivityConfigurations() {
+async function listActiveConnectivityConfigurations(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

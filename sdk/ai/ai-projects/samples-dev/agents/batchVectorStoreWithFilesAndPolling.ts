@@ -8,6 +8,7 @@
  *
  */
 
+import type { VectorStoreFileBatchOutput } from "@azure/ai-projects";
 import { AIProjectsClient } from "@azure/ai-projects";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -47,38 +48,39 @@ export async function main(): Promise<void> {
   });
   console.log(`Uploaded file2, file ID: ${file2.id}`);
 
-  // Set up abort controller (optional)
-  // Polling can then be stopped using abortController.abort()
-  const abortController = new AbortController();
+  // (Optional) Define an onResponse callback to monitor the progress of polling
+  function onResponse(response: any): void {
+    console.log(`Received response with status: ${response.parsedBody?.status}`);
+  }
 
-  // Create vector store file batch
-  const vectorStoreFileBatchOptions = {
+  // Create vector store file batch, which will automatically poll until the operation is complete
+  const vectorStoreFileBatch1 = await client.agents.createVectorStoreFileBatch(vectorStore.id, {
     fileIds: [file1.id, file2.id],
-    pollingOptions: { abortSignal: abortController.signal },
-  };
-  const poller = client.agents.createVectorStoreFileBatchAndPoll(
-    vectorStore.id,
-    vectorStoreFileBatchOptions,
-  );
-  const vectorStoreFileBatch = await poller.pollUntilDone();
+    onResponse: onResponse,
+  });
   console.log(
-    `Created vector store file batch with status ${vectorStoreFileBatch.status}, vector store file batch ID: ${vectorStoreFileBatch.id}`,
+    `Created vector store file batch with status ${vectorStoreFileBatch1.status}, vector store file batch ID: ${vectorStoreFileBatch1.id}`,
   );
 
-  // Retrieve vector store file batch
-  const _vectorStoreFileBatch = await client.agents.getVectorStoreFileBatch(
-    vectorStore.id,
-    vectorStoreFileBatch.id,
-  );
+  // Alternatively, polling can be done using .poll() and .pollUntilDone() methods.
+  // This approach allows for more control over the polling process.
+  // (Optional) AbortController can be used to stop polling if needed.
+  const abortController = new AbortController();
+  const vectorStoreFileBatchPoller = client.agents.createVectorStoreFileBatch(vectorStore.id, {
+    fileIds: [file1.id, file2.id],
+    onResponse: onResponse,
+  });
+  const vectorStoreFileBatch2 = await vectorStoreFileBatchPoller.pollUntilDone({
+    abortSignal: abortController.signal,
+  });
   console.log(
-    `Retrieved vector store file batch, vector store file batch ID: ${_vectorStoreFileBatch.id}`,
+    `Created vector store file batch with status ${vectorStoreFileBatch2.status}, vector store file batch ID: ${vectorStoreFileBatch2.id}`,
   );
 
   // Delete files
   await client.agents.deleteFile(file1.id);
-  console.log(`Deleted file1, file ID: ${file1.id}`);
   await client.agents.deleteFile(file2.id);
-  console.log(`Deleted file2, file ID: ${file2.id}`);
+  console.log(`Deleted files, file IDs: ${file1.id} & ${file2.id}`);
 
   // Delete vector store
   await client.agents.deleteVectorStore(vectorStore.id);
