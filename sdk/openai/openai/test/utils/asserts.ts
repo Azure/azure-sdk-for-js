@@ -935,7 +935,7 @@ function assertCodeInterpreterCall(call: ResponseCodeInterpreterToolCall): void 
   });
 }
 
-function assertResponse(response: Response): void {
+export function assertResponse(response: Response): void {
   // Required properties
   assert.isString(response.id);
   assert.isNumber(response.created_at);

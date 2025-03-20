@@ -36,6 +36,7 @@ const GlobalAcceptedErrors: AcceptableErrors = {
 export const maxRetriesOption = { maxRetries: 0 };
 
 export enum APIVersion {
+  Latest = "2025-03-01-preview",
   Preview = "2025-01-01-preview",
   Stable = "2024-10-21",
   OpenAI = "OpenAI",

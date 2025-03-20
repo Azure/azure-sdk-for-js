@@ -2,19 +2,19 @@
 // Licensed under the MIT License.
 
 import { assert, describe, it } from "vitest";
-import { APIMatrix, testWithDeployments, withDeployments } from "../utils/utils.js";
+import { testWithDeployments, withDeployments } from "../utils/utils.js";
 import { createClientsAndDeployments } from "../utils/createClients.js";
-import type { APIVersion } from "../utils/utils.js";
+import { APIVersion } from "../utils/utils.js";
 import { z } from "zod";
 import { zodResponsesFunction, zodTextFormat } from "openai/helpers/zod";
 import {
   assertParsedResponseOutput,
+  assertResponse,
   assertResponseStreamEvent,
-  ifDefined,
 } from "../utils/asserts.js";
-import { Response, ResponseStreamEvent } from "openai/resources/responses/responses.mjs";
+import { ResponseStreamEvent } from "openai/resources/responses/responses.mjs";
 
-describe.shuffle.each(APIMatrix)("Responses [%s]", (apiVersion: APIVersion) => {
+describe.shuffle.each([APIVersion.Latest])("Responses [%s]", (apiVersion: APIVersion) => {
   const clientsAndDeploymentsInfo = createClientsAndDeployments(apiVersion, { responses: "true" });
 
   describe("responses.create", () => {
@@ -267,10 +267,5 @@ describe.shuffle.each(APIMatrix)("Responses [%s]", (apiVersion: APIVersion) => {
         },
       );
     });
-
-    // TODO: parallel tool output
   });
 });
-function assertResponse(res: Response & { _request_id?: string | null }) {
-  throw new Error("Function not implemented.");
-}
