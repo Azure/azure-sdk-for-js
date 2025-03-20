@@ -1,11 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { PerfTest, PerfOptionDictionary, getEnvVar } from "@azure-tools/test-perf";
+import type { PerfOptionDictionary } from "@azure-tools/test-perf";
+import { PerfTest, getEnvVar } from "@azure-tools/test-perf";
+import type { LanguageDetectionAction } from "@azure/ai-language-text";
 import {
   AzureKeyCredential,
   TextAnalysisClient,
-  LanguageDetectionAction,
   AnalyzeActionNames,
 } from "@azure/ai-language-text";
 import { DefaultAzureCredential } from "@azure/identity";

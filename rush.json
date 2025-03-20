@@ -855,7 +855,7 @@
     },
     {
       "packageName": "@azure-tests/perf-ai-language-text",
-      "projectFolder": "sdk/cognitivelanguage/perf-tests/ai-language-text",
+      "projectFolder": "sdk/cognitivelanguage/ai-language-text-perf-tests",
       "versionPolicyName": "test"
     },
     {
