@@ -2,7 +2,7 @@
   "name": "@azure-rest/load-testing",
   "sdk-type": "client",
   "author": "Microsoft Corporation",
-  "version": "1.0.2-beta.1",
+  "version": "1.1.0-beta.1",
   "description": "This package contains Microsoft Azure LoadTestingClient client library.",
   "keywords": [
     "node",

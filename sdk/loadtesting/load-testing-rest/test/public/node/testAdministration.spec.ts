@@ -169,7 +169,7 @@ describe("Test Profile Administration Operations", () => {
   let recorder: Recorder;
   let client: AzureLoadTestingClient;
   const testId = "sample-sdk-testpr-202503183";
-  const testProfileId = "sample-sdk-testprofile-202503187";
+  const testProfileId = "sample-sdk-testprofile-202503188";
 
   beforeEach(async (ctx) => {
     recorder = await createRecorder(ctx);

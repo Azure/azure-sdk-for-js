@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.2-beta.1 (2025-03-19)
+## 1.1.0-beta.1 (2025-03-20)
 
 Updated the client library to use API Version 2025-05-01-preview. This adds all the capabilities that were introduced until this API version.
 

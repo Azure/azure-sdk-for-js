@@ -191,8 +191,8 @@ describe("Test Profile Run Operations", () => {
   let recorder: Recorder;
   let client: AzureLoadTestingClient;
   const testId = "sample-sdk-testtpr-20250319";
-  const testProfileId = "sample-sdk-testprofile-202503197";
-  const testProfileRunId = "sample-sdk-testprofilerun-202503197";
+  const testProfileId = "sample-sdk-testprofile-202503198";
+  const testProfileRunId = "sample-sdk-testprofilerun-202503198";
 
   beforeEach(async (ctx) => {
     recorder = await createRecorder(ctx);

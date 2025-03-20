@@ -11,8 +11,8 @@ import type { Recorder } from "@azure-tools/test-recorder";
 import { env } from "@azure-tools/test-recorder";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
-// NOTE: Since file upload is not supported, this only tests the API calls without them
-describe("Test Administration Operations", () => {
+// NOTE: Since file upload is not supported, this only tests the API calls that don't require file upload
+describe("Test Administration Operations Browser", () => {
   let recorder: Recorder;
   let client: AzureLoadTestingClient;
   const testId = "sample-sdk-testbr-20250318";
@@ -24,6 +24,22 @@ describe("Test Administration Operations", () => {
 
   afterEach(async () => {
     await recorder.stop();
+  });
+
+  it("should create a load test", async () => {
+    const result = await client.path("/tests/{testId}", testId).patch({
+      contentType: "application/merge-patch+json",
+      body: {
+        displayName: "Sample Load Test",
+        description: "Sample Load Test Description",
+        loadTestConfiguration: {
+          engineInstances: 1,
+          splitAllCSVs: false,
+        },
+      },
+    });
+
+    assert.include(["200", "201"], result.status);
   });
 
   it("should create the app components", async () => {
