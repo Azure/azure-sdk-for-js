@@ -25,6 +25,7 @@
   "sideEffects": false,
   "files": [
     "dist/",
+    "!dist/**/*.d.*ts.map",
     "bin/",
     "LICENSE"
   ],
