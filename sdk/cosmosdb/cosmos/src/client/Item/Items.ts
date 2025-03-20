@@ -108,7 +108,7 @@ export class Items {
    * const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
    *
    * const querySpec: SqlQuerySpec = {
-   *   query: "SELECT * FROM Families f WHERE f.lastName = @lastName",
+   *   query: `SELECT * FROM Families f WHERE f.lastName = @lastName`,
    *   parameters: [{ name: "@lastName", value: "Hendricks" }],
    * };
    * const { resources: items } = await container.items.query(querySpec).fetchAll();
@@ -134,7 +134,7 @@ export class Items {
    * const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
    *
    * const querySpec: SqlQuerySpec = {
-   *   query: "SELECT * FROM Families f WHERE f.lastName = @lastName",
+   *   query: `SELECT * FROM Families f WHERE f.lastName = @lastName`,
    *   parameters: [{ name: "@lastName", value: "Hendricks" }],
    * };
    * const { resources: items } = await container.items.query(querySpec).fetchAll();
@@ -201,7 +201,7 @@ export class Items {
    * const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
    *
    * const queryBuilder = new EncryptionQueryBuilder(
-   *   "SELECT firstname FROM Families f WHERE f.lastName = @lastName",
+   *   `SELECT firstname FROM Families f WHERE f.lastName = @lastName`,
    * );
    * queryBuilder.addParameter("@lastName", "Hendricks", "/lastname");
    * const queryIterator = await container.items.getEncryptionQueryIterator(queryBuilder);

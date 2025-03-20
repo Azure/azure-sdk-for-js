@@ -511,7 +511,7 @@ describe("snippets", () => {
   it("SqlQuerySpecParameterizedSqlQuery", async () => {
     // @ts-ignore
     const query: SqlQuerySpec = {
-      query: "SELECT * FROM Families f where f.lastName = @lastName",
+      query: `SELECT * FROM Families f where f.lastName = @lastName`,
       parameters: [{ name: "@lastName", value: "Wakefield" }],
     };
   });
@@ -587,7 +587,7 @@ describe("snippets", () => {
     const client = new CosmosClient({ endpoint, key });
     // @ts-preserve-whitespace
     const querySpec: SqlQuerySpec = {
-      query: "SELECT * FROM root r WHERE r.id = @container",
+      query: `SELECT * FROM root r WHERE r.id = @container`,
       parameters: [{ name: "@container", value: "Todo" }],
     };
     // @ts-ignore
@@ -634,8 +634,8 @@ describe("snippets", () => {
     const client = new CosmosClient({ endpoint, key });
     // @ts-preserve-whitespace
     const querySpec: SqlQuerySpec = {
-      query: "SELECT * FROM root r WHERE r.id = @container",
-      parameters: [{ name: "@container", value: "Todo" }],
+      query: `SELECT * FROM root r WHERE r.id = @database`,
+      parameters: [{ name: "@database", value: "Todo" }],
     };
     // @ts-ignore
     const { resources: databaseList } = await client.databases.query(querySpec).fetchAll();
@@ -660,7 +660,7 @@ describe("snippets", () => {
     const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
     // @ts-preserve-whitespace
     const querySpec: SqlQuerySpec = {
-      query: "SELECT * FROM Families f WHERE f.lastName = @lastName",
+      query: `SELECT * FROM Families f WHERE f.lastName = @lastName`,
       parameters: [{ name: "@lastName", value: "Hendricks" }],
     };
     // @ts-ignore
@@ -696,7 +696,7 @@ describe("snippets", () => {
     const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
     // @ts-preserve-whitespace
     const queryBuilder = new EncryptionQueryBuilder(
-      "SELECT firstname FROM Families f WHERE f.lastName = @lastName",
+      `SELECT firstname FROM Families f WHERE f.lastName = @lastName`,
     );
     queryBuilder.addParameter("@lastName", "Hendricks", "/lastname");
     const queryIterator = await container.items.getEncryptionQueryIterator(queryBuilder);
@@ -799,7 +799,7 @@ describe("snippets", () => {
     const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
     // @ts-preserve-whitespace
     const querySpec: SqlQuerySpec = {
-      query: "SELECT * FROM root r WHERE r.id = @sproc",
+      query: `SELECT * FROM root r WHERE r.id = @sproc`,
       parameters: [{ name: "@sproc", value: "Todo" }],
     };
     // @ts-ignore
