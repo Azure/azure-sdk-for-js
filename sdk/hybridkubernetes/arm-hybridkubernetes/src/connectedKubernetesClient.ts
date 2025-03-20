@@ -64,7 +64,7 @@ export class ConnectedKubernetesClient extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-hybridkubernetes/1.0.0-beta.1`;
+    const packageDetails = `azsdk-js-arm-hybridkubernetes/3.0.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
