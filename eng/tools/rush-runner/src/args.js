@@ -17,6 +17,10 @@ export function parseArgs() {
   let isPackageFilter = false;
   let artifactNames = "";
   let ciFlag = false;
+  let isPackageInfo = false;
+  let packageInfoPath = "";
+  let isChangeInfo = false;
+  let changeInfoPath = "";
   const services = [],
     flags = [];
   const [_scriptPath, action, ...givenArgs] = process.argv.slice(1);
@@ -27,6 +31,10 @@ export function parseArgs() {
       continue;
     } else if (!inFlags && arg.startsWith("-")) {
       inFlags = true;
+    } else if (arg === "packageInfo") {
+      isPackageInfo = true;
+    } else if (arg === "changeInfo") {
+      isChangeInfo = true;
     }
 
     if (inFlags) {
@@ -38,6 +46,12 @@ export function parseArgs() {
     } else if (isPackageFilter) {
       artifactNames = arg;
       isPackageFilter = false;
+    } else if (isPackageInfo) {
+      packageInfoPath = arg;
+      isPackageInfo = false;
+    } else if (isChangeInfo) {
+      changeInfoPath = arg;
+      isChangeInfo = false;
     } else {
       if (arg && arg !== "*") {
         // exclude empty value and special value "*" meaning all libraries
