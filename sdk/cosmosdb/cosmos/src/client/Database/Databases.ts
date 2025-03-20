@@ -52,8 +52,8 @@ export class Databases {
    * const client = new CosmosClient({ endpoint, key });
    *
    * const querySpec: SqlQuerySpec = {
-   *   query: "SELECT FROM root r WHERE r.id = @container",
-   *   parameters: [{ name: "@container", value: "Todo" }],
+   *   query: `SELECT FROM root r WHERE r.id = @database`,
+   *   parameters: [{ name: "@database", value: "Todo" }],
    * };
    * const { resources: databaseList } = await client.databases.query(querySpec).fetchAll();
    * ```
@@ -73,8 +73,8 @@ export class Databases {
    * const client = new CosmosClient({ endpoint, key });
    *
    * const querySpec: SqlQuerySpec = {
-   *   query: "SELECT FROM root r WHERE r.id = @container",
-   *   parameters: [{ name: "@container", value: "Todo" }],
+   *   query: `SELECT FROM root r WHERE r.id = @database`,
+   *   parameters: [{ name: "@database", value: "Todo" }],
    * };
    * const { resources: databaseList } = await client.databases.query(querySpec).fetchAll();
    * ```

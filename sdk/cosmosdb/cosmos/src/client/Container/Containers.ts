@@ -61,7 +61,7 @@ export class Containers {
    * const client = new CosmosClient({ endpoint, key });
    *
    * const querySpec: SqlQuerySpec = {
-   *   query: "SELECT FROM root r WHERE r.id = @container",
+   *   query: `SELECT FROM root r WHERE r.id = @container`,
    *   parameters: [{ name: "@container", value: "Todo" }],
    * };
    * const { resources: containerList } = await client
@@ -85,7 +85,7 @@ export class Containers {
    * const client = new CosmosClient({ endpoint, key });
    *
    * const querySpec: SqlQuerySpec = {
-   *   query: "SELECT FROM root r WHERE r.id = @container",
+   *   query: `SELECT FROM root r WHERE r.id = @container`,
    *   parameters: [{ name: "@container", value: "Todo" }],
    * };
    * const { resources: containerList } = await client
