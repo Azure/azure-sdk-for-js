@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { TableEntity, TransactionAction } from "@azure/data-tables";
-import { randomUUID } from "@azure/core-util";
+import type { TableEntity, TransactionAction } from "@azure/data-tables";
+import { randomUUID } from "node:crypto";
 
 const stringValue = "This is a string";
 const dateProperty = new Date("1970-10-04T00:00:00+00:00");
