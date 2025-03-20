@@ -1,9 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { PerfOptionDictionary, getEnvVar } from "@azure-tools/test-perf";
-import { ContainerRepository } from "@azure/container-registry";
-import { ContainerRegistryTest, ContainerRegistryTestOptions } from "./client.spec.js";
+import type { PerfOptionDictionary } from "@azure-tools/test-perf";
+import { getEnvVar } from "@azure-tools/test-perf";
+import type { ContainerRepository } from "@azure/container-registry";
+import type { ContainerRegistryTestOptions } from "./client.spec.js";
+import { ContainerRegistryTest } from "./client.spec.js";
 
 export class ArtifactListTest extends ContainerRegistryTest<ContainerRegistryTestOptions> {
   repository: ContainerRepository;
