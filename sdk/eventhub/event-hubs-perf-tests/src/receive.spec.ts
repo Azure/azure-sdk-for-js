@@ -14,11 +14,10 @@ Measures the maximum throughput of `receiver.receive()` in package `@azure/event
 6. Example: `ts-node test/receive.spec.ts 1024 10000`
  */
 
+import type { EventData, PartitionContext } from "@azure/event-hubs";
 import {
   EventHubConsumerClient,
   earliestEventPosition,
-  EventData,
-  PartitionContext,
   EventHubProducerClient,
 } from "@azure/event-hubs";
 import { getEnvVar } from "@azure-tools/test-perf";
