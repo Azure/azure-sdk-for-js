@@ -19,7 +19,7 @@ import {
   PolicyExemptionsImpl,
   VariablesImpl,
   VariableValuesImpl,
-} from "./operations";
+} from "./operations/index.js";
 import {
   DataPolicyManifests,
   PolicyDefinitions,
@@ -30,8 +30,8 @@ import {
   PolicyExemptions,
   Variables,
   VariableValues,
-} from "./operationsInterfaces";
-import { PolicyClientOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { PolicyClientOptionalParams } from "./models/index.js";
 
 export class PolicyClient extends coreClient.ServiceClient {
   $host: string;

@@ -21,7 +21,7 @@ import {
   VariablesCreateOrUpdateAtManagementGroupResponse,
   VariablesGetAtManagementGroupOptionalParams,
   VariablesGetAtManagementGroupResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Variables. */

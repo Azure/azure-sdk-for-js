@@ -30,7 +30,7 @@ import {
   PolicyDefinitionVersionsDeleteAtManagementGroupOptionalParams,
   PolicyDefinitionVersionsGetAtManagementGroupOptionalParams,
   PolicyDefinitionVersionsGetAtManagementGroupResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a PolicyDefinitionVersions. */

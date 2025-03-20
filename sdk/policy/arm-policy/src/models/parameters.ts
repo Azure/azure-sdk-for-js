@@ -22,7 +22,7 @@ import {
   PolicyExemptionUpdate as PolicyExemptionUpdateMapper,
   Variable as VariableMapper,
   VariableValue as VariableValueMapper,
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",

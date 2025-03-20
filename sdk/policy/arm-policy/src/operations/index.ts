@@ -6,12 +6,12 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./dataPolicyManifests";
-export * from "./policyDefinitions";
-export * from "./policyDefinitionVersions";
-export * from "./policySetDefinitions";
-export * from "./policySetDefinitionVersions";
-export * from "./policyAssignments";
-export * from "./policyExemptions";
-export * from "./variables";
-export * from "./variableValues";
+export * from "./dataPolicyManifests.js";
+export * from "./policyDefinitions.js";
+export * from "./policyDefinitionVersions.js";
+export * from "./policySetDefinitions.js";
+export * from "./policySetDefinitionVersions.js";
+export * from "./policyAssignments.js";
+export * from "./policyExemptions.js";
+export * from "./variables.js";
+export * from "./variableValues.js";
