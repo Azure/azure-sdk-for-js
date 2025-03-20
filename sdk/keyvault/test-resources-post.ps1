@@ -15,20 +15,17 @@ param (
     [Parameter()]
     [hashtable] $DeploymentOutputs,
 
-    [Parameter(Mandatory = $true)]
-    [ValidateNotNullOrEmpty()]
+    [Parameter()]
     [string] $SubscriptionId,
 
-    [Parameter(Mandatory = $true)]
-    [ValidateNotNullOrEmpty()]
+    [Parameter()]
     [string] $TenantId,
 
     [Parameter()]
     [ValidatePattern('^[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}$')]
     [string] $TestApplicationId,
 
-    [Parameter(Mandatory = $true)]
-    [ValidateNotNullOrEmpty()]
+    [Parameter()]
     [string] $Environment,
 
     [Parameter()]
@@ -120,9 +117,11 @@ if ($CI) {
     Connect-AzAccount -ServicePrincipal `
                       -TenantId $TenantId `
                       -ApplicationId $TestApplicationId `
-                      -FederatedToken $env:ARM_OIDC_TOKEN `
+                      -FederatedToken $env:ARM_OIDC_TOKEN
 
     Select-AzSubscription -Subscription $SubscriptionId
+
+    Log "Successfully logged in to service principal"
 }
 
 Export-AzKeyVaultSecurityDomain -Name $hsmName -Quorum 2 -Certificates $wrappingFiles -OutputPath $sdPath -ErrorAction SilentlyContinue -Verbose
