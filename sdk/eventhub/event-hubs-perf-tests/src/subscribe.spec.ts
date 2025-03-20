@@ -149,7 +149,7 @@ async function sendBatch(
   partitionIds = partitionIds.slice(0, numberOfPartitions);
 
   let totalEvents = 0;
-  for (const partition in partitionIds) {
+  for (const partition of partitionIds) {
     const { lastEnqueuedSequenceNumber, beginningSequenceNumber } =
       await producer.getPartitionProperties(partition);
     totalEvents += lastEnqueuedSequenceNumber - beginningSequenceNumber;
