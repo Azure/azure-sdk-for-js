@@ -31,10 +31,12 @@ export function parseArgs() {
       continue;
     } else if (!inFlags && arg.startsWith("-")) {
       inFlags = true;
-    } else if (arg === "packageInfo") {
+    } else if (arg === "-packageInfo") {
       isPackageInfo = true;
-    } else if (arg === "changeInfo") {
+      continue;
+    } else if (arg === "-changeInfo") {
       isChangeInfo = true;
+      continue;
     }
 
     if (inFlags) {

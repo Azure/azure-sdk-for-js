@@ -25,7 +25,7 @@ steps:
   # Option "-p max" ensures parallelism is set to the number of cores on all platforms, which improves build times.
   # The default on Windows is "cores - 1" (microsoft/rushstack#436).
   - script: |
-      node eng/tools/rush-runner/index.js build $(ChangedServices) -packages "$(ArtifactPackageNames)" --verbose -p max --packageInfo "$(Build.ArtifactStagingDirectory)/PackageInfo" --changeInfo "$(Build.ArtifactStagingDirectory)/diff/diff.json"
+      node eng/tools/rush-runner/index.js build $(ChangedServices) -packages "$(ArtifactPackageNames)" --packageInfo "$(Build.ArtifactStagingDirectory)/PackageInfo" --changeInfo "$(Build.ArtifactStagingDirectory)/diff/diff.json" --verbose -p max
     displayName: "Build libraries"
 
   # Option "-p max" ensures parallelism is set to the number of cores on all platforms, which improves build times.
