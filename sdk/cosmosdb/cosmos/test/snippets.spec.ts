@@ -511,7 +511,7 @@ describe("snippets", () => {
   it("SqlQuerySpecParameterizedSqlQuery", async () => {
     // @ts-ignore
     const query: SqlQuerySpec = {
-      query: "SELECT FROM Families f where f.lastName = @lastName",
+      query: "SELECT * FROM Families f where f.lastName = @lastName",
       parameters: [{ name: "@lastName", value: "Wakefield" }],
     };
   });
@@ -587,7 +587,7 @@ describe("snippets", () => {
     const client = new CosmosClient({ endpoint, key });
     // @ts-preserve-whitespace
     const querySpec: SqlQuerySpec = {
-      query: "SELECT FROM root r WHERE r.id = @container",
+      query: "SELECT * FROM root r WHERE r.id = @container",
       parameters: [{ name: "@container", value: "Todo" }],
     };
     // @ts-ignore
@@ -634,7 +634,7 @@ describe("snippets", () => {
     const client = new CosmosClient({ endpoint, key });
     // @ts-preserve-whitespace
     const querySpec: SqlQuerySpec = {
-      query: "SELECT FROM root r WHERE r.id = @container",
+      query: "SELECT * FROM root r WHERE r.id = @container",
       parameters: [{ name: "@container", value: "Todo" }],
     };
     // @ts-ignore
@@ -799,7 +799,7 @@ describe("snippets", () => {
     const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
     // @ts-preserve-whitespace
     const querySpec: SqlQuerySpec = {
-      query: "SELECT FROM root r WHERE r.id = @sproc",
+      query: "SELECT * FROM root r WHERE r.id = @sproc",
       parameters: [{ name: "@sproc", value: "Todo" }],
     };
     // @ts-ignore
