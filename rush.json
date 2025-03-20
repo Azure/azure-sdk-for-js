@@ -850,7 +850,7 @@
     },
     {
       "packageName": "@azure-tests/perf-ai-text-analytics",
-      "projectFolder": "sdk/textanalytics/perf-tests/ai-text-analytics",
+      "projectFolder": "sdk/textanalytics/ai-text-analytics-perf-tests",
       "versionPolicyName": "test"
     },
     {
