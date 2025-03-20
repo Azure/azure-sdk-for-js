@@ -27,9 +27,9 @@ To add perf tests for the `sdk/<service>/<service-sdk>` package, follow the step
 
     Path- `sdk/<service>/<service-sdk>-perf-tests`
 
-    (Create the `perf-tests` folder if that doesn't exist)
+    (Create the `<service-sdk>-perf-tests` folder if that doesn't exist)
 
-2.  This new perf test project will be managed by the rush infrastructure in the repository, with the package name `@azure-tests/<service-sdk>`. To allow rush to manage the project, add the following entry in `rush.json`
+2.  This new perf test project will be managed by the rush infrastructure in the repository, with the package name `@azure-tests/perf-<service-sdk>`. To allow rush to manage the project, add the following entry in `rush.json`
 
     ```
         {
@@ -63,28 +63,8 @@ To add perf tests for the `sdk/<service>/<service-sdk>` package, follow the step
     ```
 
 5.  Run `rush update` and commit the changes to the `pnpm-lock` file.
-6.  Copy the `tsconfig.json`, `sample.env`(and `.env`) files that are present at the `sdk/<service>/<service-sdk>` to `sdk/<service>/<service-sdk>-perf-tests`.
-
-    TSCONFIG
-
-    - Modify the "extends" string in the copied tsconfig by adding ".." since the perf tests project is located a level below the actual SDK.
-    - Set the `compilerOptions.module` to `commonjs` in the `tsconfig` to allow running the tests with `ts-node`.
-
-    In the end, your tsconfig may look something like below.
-
-    ```
-         {
-           "extends": "../../../../tsconfig",
-           "compilerOptions": {
-             "module": "CommonJS",
-             "declarationDir": "./typings/latest",
-             "lib": ["ES6", "ESNext.AsyncIterable"],
-             "noEmit": true
-           },
-           "compileOnSave": true,
-           "include": ["./test/**/*.ts"]
-         }
-    ```
+6.  Copy the `tsconfig.json` and `tsconfig.src.json` from [the sample project](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/template/template-perf-tests).
+7.  Copy `sample.env`(and `.env`) files that are present at the `sdk/<service>/<service-sdk>` to `sdk/<service>/<service-sdk>-perf-tests`.
 
 ## [Writing perf tests](#writing-perf-tests)
 
@@ -98,8 +78,7 @@ import { `ServiceNameAPI1Name`Test } from "./api1-name.spec";
 import { `ServiceNameAPI2Name`Test } from "./api2-name.spec";
 
 // Expects the .env file at the same level
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
 console.log("=== Starting the perf test ===");
 
@@ -221,7 +200,7 @@ Example: Currently `@azure/<service-sdk>` is at 12.4.0 on master and you want to
 - Add a new exception in `common\config\rush\common-versions.json` under `allowedAlternativeVersions`
   - `"@azure/<service-sdk>": [..., "12.2.0"]`
 - `rush update` (generates a new pnpm-lock file)
-- Navigate to `sdk\storage\perf-tests\<service-sdk>`
+- Navigate to `sdk\storage\<service-sdk>-perf-tests`
 - `rush build -t perf-<service-sdk>`
 - Run the tests as suggested before, example `npm run perf-test:node -- TestClassName --warmup 2 --duration 7 --iterations 2 --parallel 50`
 
