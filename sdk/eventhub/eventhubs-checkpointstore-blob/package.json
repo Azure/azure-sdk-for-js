@@ -90,8 +90,8 @@
     "@types/chai-as-promised": "^8.0.1",
     "@types/debug": "^4.1.12",
     "@types/node": "^18.0.0",
-    "@vitest/browser": "^3.0.3",
-    "@vitest/coverage-istanbul": "^3.0.3",
+    "@vitest/browser": "^3.0.9",
+    "@vitest/coverage-istanbul": "^3.0.9",
     "buffer": "^6.0.3",
     "chai": "^5.1.1",
     "chai-as-promised": "^8.0.0",
@@ -101,8 +101,8 @@
     "playwright": "^1.45.3",
     "process": "^0.11.10",
     "stream": "^0.0.3",
-    "typescript": "~5.7.2",
-    "vitest": "^3.0.3"
+    "typescript": "~5.8.2",
+    "vitest": "^3.0.9"
   },
   "//sampleConfiguration": {
     "skipFolder": true,

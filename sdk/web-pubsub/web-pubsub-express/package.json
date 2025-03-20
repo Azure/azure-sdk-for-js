@@ -60,14 +60,14 @@
     "@types/express-serve-static-core": "^4.19.5",
     "@types/jsonwebtoken": "^9.0.0",
     "@types/node": "^18.0.0",
-    "@vitest/browser": "^3.0.6",
-    "@vitest/coverage-istanbul": "^3.0.6",
+    "@vitest/browser": "^3.0.9",
+    "@vitest/coverage-istanbul": "^3.0.9",
     "dotenv": "^16.0.0",
     "eslint": "^9.9.0",
     "express": "^4.21.2",
     "playwright": "^1.50.1",
-    "typescript": "~5.7.2",
-    "vitest": "^3.0.6"
+    "typescript": "~5.8.2",
+    "vitest": "^3.0.9"
   },
   "//sampleConfiguration": {
     "productName": "Azure Web PubSub CloudEvents Handlers for Express",
