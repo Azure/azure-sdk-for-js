@@ -35,7 +35,8 @@
   "author": "Microsoft Corporation",
   "license": "MIT",
   "files": [
-    "dist",
+    "dist/",
+    "!dist/**/*.d.*ts.map",
     "README.md",
     "LICENSE"
   ],

@@ -26,6 +26,7 @@
   "types": "./dist/commonjs/index.d.ts",
   "files": [
     "dist/",
+    "!dist/**/*.d.*ts.map",
     "README.md",
     "LICENSE"
   ],
