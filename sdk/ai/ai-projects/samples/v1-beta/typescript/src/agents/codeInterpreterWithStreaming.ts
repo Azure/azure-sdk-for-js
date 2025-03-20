@@ -25,10 +25,9 @@ import {
 } from "@azure/ai-projects";
 import { DefaultAzureCredential } from "@azure/identity";
 
-import * as dotenv from "dotenv";
 import * as fs from "fs";
 import path from "node:path";
-dotenv.config();
+import  "dotenv/config";
 
 const connectionString =
   process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] || "<project connection string>";
