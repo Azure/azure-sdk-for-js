@@ -9,6 +9,7 @@ import {
   JSONValue,
 } from "../queryExecutionContext";
 import { TypeMarker } from "./enums/TypeMarker";
+import { CosmosEncryptedNumber, CosmosEncryptedNumberType } from "./CosmosEncryptedNumber";
 
 export interface EncryptionSqlParameter extends SqlParameter {
   type?: TypeMarker;
@@ -26,44 +27,73 @@ export class EncryptionQueryBuilder {
     this.query = query;
     this.parameters = [];
   }
-  /** Adds boolean parameter to the query */
-  public addBooleanParameter(name: string, value: boolean, path: string): void {
-    this.parameters.push({ name: name, value: value, type: TypeMarker.Boolean, path: path });
-  }
-  /** Adds integer parameter to query  */
-  public addIntegerParameter(name: string, value: number, path: string): void {
-    this.parameters.push({ name: name, value: value, type: TypeMarker.Long, path: path });
-  }
-  /** Adds float parameter to query */
-  public addFloatParameter(name: string, value: number, path: string): void {
-    this.parameters.push({ name: name, value: value, type: TypeMarker.Double, path: path });
-  }
-  /** Adds string parameter to query */
-  public addStringParameter(name: string, value: string, path: string): void {
-    this.parameters.push({ name: name, value: value, type: TypeMarker.String, path: path });
-  }
-  /** Adds array parameter to query */
-  public addArrayParameter(name: string, value: JSONArray, path: string): void {
-    this.parameters.push({ name: name, value: value, path: path });
-  }
-  /** Adds object parameter to query */
-  public addObjectParameter(name: string, value: JSONObject, path: string): void {
-    this.parameters.push({ name: name, value: value, path: path });
-  }
-  /** Adds date parameter to query */
-  public addDateParameter(name: string, value: Date, path: string): void {
-    const date = value.toISOString();
-    this.parameters.push({
-      name: name,
-      value: date,
-      type: TypeMarker.String,
-      path: path,
-    });
-  }
-
-  /** Adds null parameter to query */
-  public addNullParameter(name: string, path: string): void {
-    this.parameters.push({ name: name, value: null, path: path });
+  /**
+   * Adds parameter to query
+   */
+  public addParameter(
+    name: string,
+    value: boolean | string | null | JSONArray | JSONObject | Date | CosmosEncryptedNumber,
+    path: string,
+  ): void {
+    if (value === null) {
+      this.parameters.push({ name: name, value: null, path: path });
+      return;
+    }
+    switch (true) {
+      case typeof value === "boolean":
+        this.parameters.push({
+          name,
+          value,
+          type: TypeMarker.Boolean,
+          path,
+        });
+        break;
+      case typeof value === "string":
+        this.parameters.push({
+          name,
+          value,
+          type: TypeMarker.String,
+          path,
+        });
+        break;
+      case value instanceof Date: {
+        const date = value.toISOString();
+        this.parameters.push({
+          name: name,
+          value: date,
+          type: TypeMarker.String,
+          path: path,
+        });
+        break;
+      }
+      case isCosmosEncryptedNumber(value): {
+        const num = value.value;
+        if (value.numberType === CosmosEncryptedNumberType.Integer) {
+          this.parameters.push({
+            name,
+            value: num,
+            type: TypeMarker.Long,
+            path,
+          });
+        } else if (value.numberType === CosmosEncryptedNumberType.Float) {
+          this.parameters.push({
+            name,
+            value: num,
+            type: TypeMarker.Double,
+            path,
+          });
+        }
+        break;
+      }
+      case Array.isArray(value):
+        this.parameters.push({ name, value, path });
+        break;
+      case typeof value === "object":
+        this.parameters.push({ name, value, path });
+        break;
+      default:
+        throw new Error(`Unsupported parameter type for parameter "${name}": ${typeof value}`);
+    }
   }
 
   /** Adds unencrypted parameter to query */
@@ -80,4 +110,15 @@ export class EncryptionQueryBuilder {
       parameters: this.parameters,
     };
   }
+}
+
+function isCosmosEncryptedNumber(val: any): val is CosmosEncryptedNumber {
+  return (
+    val !== null &&
+    typeof val === "object" &&
+    typeof val.value === "number" &&
+    typeof val.numberType === "string" &&
+    (val.numberType === CosmosEncryptedNumberType.Integer ||
+      val.numberType === CosmosEncryptedNumberType.Float)
+  );
 }
