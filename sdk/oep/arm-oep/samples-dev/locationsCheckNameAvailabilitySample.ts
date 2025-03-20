@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Checks the name availability of the resource with requested resource name.
  * x-ms-original-file: specification/oep/resource-manager/Microsoft.OpenEnergyPlatform/preview/2021-06-01-preview/examples/Locations_CheckNameAvailability.json
  */
-async function locationsCheckNameAvailability() {
+async function locationsCheckNameAvailability(): Promise<void> {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const body: CheckNameAvailabilityRequest = {
     name: "sample-name",

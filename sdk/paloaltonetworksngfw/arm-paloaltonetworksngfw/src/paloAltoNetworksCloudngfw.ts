@@ -29,7 +29,7 @@ import {
   FqdnListLocalRulestackImpl,
   LocalRulesImpl,
   PrefixListLocalRulestackImpl
-} from "./operations";
+} from "./operations/index.js";
 import {
   GlobalRulestack,
   CertificateObjectGlobalRulestack,
@@ -45,8 +45,8 @@ import {
   FqdnListLocalRulestack,
   LocalRules,
   PrefixListLocalRulestack
-} from "./operationsInterfaces";
-import { PaloAltoNetworksCloudngfwOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { PaloAltoNetworksCloudngfwOptionalParams } from "./models/index.js";
 
 export class PaloAltoNetworksCloudngfw extends coreClient.ServiceClient {
   $host: string;

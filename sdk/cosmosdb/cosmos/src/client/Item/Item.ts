@@ -3,6 +3,8 @@
 import type { ClientContext } from "../../ClientContext";
 import type { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
 import {
+  Constants,
+  copyObject,
   createDocumentUri,
   getIdFromLink,
   getPathFromLink,
@@ -13,7 +15,9 @@ import {
 import type { PartitionKey, PartitionKeyInternal } from "../../documents";
 import { convertToInternalPartitionKey } from "../../documents";
 import type { RequestOptions, Response } from "../../request";
+import { ErrorResponse } from "../../request";
 import type { PatchRequestBody } from "../../utils/patch";
+import { PatchOperationType } from "../../utils/patch";
 import type { Container } from "../Container";
 import type { Resource } from "../Resource";
 import type { ItemDefinition } from "./ItemDefinition";
@@ -43,8 +47,8 @@ export class Item {
    */
   constructor(
     public readonly container: Container,
+    public readonly id: string,
     private readonly clientContext: ClientContext,
-    public readonly id?: string,
     partitionKey?: PartitionKey,
   ) {
     this.partitionKey =
@@ -84,25 +88,63 @@ export class Item {
         this.container,
         this.partitionKey,
       );
-      const path = getPathFromLink(this.url);
-      const id = getIdFromLink(this.url);
+      let url = this.url;
+      let partitionKey = this.partitionKey;
       let response: Response<T & Resource>;
       try {
+        if (this.clientContext.enableEncryption) {
+          await this.container.checkAndInitializeEncryption();
+          options.containerRid = this.container._rid;
+          let count = 0;
+          diagnosticNode.beginEncryptionDiagnostics(
+            Constants.Encryption.DiagnosticsEncryptOperation,
+          );
+          const { partitionKeyList: encryptedPartitionKey, encryptedCount } =
+            await this.container.encryptionProcessor.getEncryptedPartitionKeyValue(
+              this.partitionKey,
+            );
+          partitionKey = encryptedPartitionKey;
+          count += encryptedCount;
+          if (await this.container.encryptionProcessor.isPathEncrypted("/id")) {
+            url = await this.container.encryptionProcessor.getEncryptedUrl(this.url);
+            count++;
+          }
+          diagnosticNode.endEncryptionDiagnostics(
+            Constants.Encryption.DiagnosticsEncryptOperation,
+            count,
+          );
+        }
+        const path = getPathFromLink(url);
+        const id = getIdFromLink(url);
+
         response = await this.clientContext.read<T>({
           path,
           resourceType: ResourceType.item,
           resourceId: id,
           options,
-          partitionKey: this.partitionKey,
+          partitionKey: partitionKey,
           diagnosticNode,
         });
       } catch (error: any) {
+        if (this.clientContext.enableEncryption) {
+          await this.container.throwIfRequestNeedsARetryPostPolicyRefresh(error);
+        }
         if (error.code !== StatusCodes.NotFound) {
           throw error;
         }
         response = error;
       }
-
+      if (this.clientContext.enableEncryption) {
+        diagnosticNode.beginEncryptionDiagnostics(Constants.Encryption.DiagnosticsDecryptOperation);
+        const { body, propertiesDecryptedCount } = await this.container.encryptionProcessor.decrypt(
+          response.result,
+        );
+        diagnosticNode.endEncryptionDiagnostics(
+          Constants.Encryption.DiagnosticsDecryptOperation,
+          propertiesDecryptedCount,
+        );
+        response.result = body;
+      }
       return new ItemResponse(
         response.result,
         response.headers,
@@ -151,23 +193,83 @@ export class Item {
         this.container,
         this.partitionKey,
       );
+      let partitionKey = this.partitionKey;
       const err = {};
       if (!isItemResourceValid(body, err)) {
         throw err;
       }
+      let url = this.url;
 
-      const path = getPathFromLink(this.url);
-      const id = getIdFromLink(this.url);
+      let response: Response<T & Resource>;
+      try {
+        if (this.clientContext.enableEncryption) {
+          // returns copy to avoid encryption of original body passed
+          body = copyObject(body);
+          options = options || {};
+          await this.container.checkAndInitializeEncryption();
+          options.containerRid = this.container._rid;
+          let count = 0;
+          diagnosticNode.beginEncryptionDiagnostics(
+            Constants.Encryption.DiagnosticsEncryptOperation,
+          );
+          const { body: encryptedBody, propertiesEncryptedCount } =
+            await this.container.encryptionProcessor.encrypt(body);
+          body = encryptedBody;
+          count += propertiesEncryptedCount;
+          const { partitionKeyList: encryptedPartitionKeyList, encryptedCount } =
+            await this.container.encryptionProcessor.getEncryptedPartitionKeyValue(
+              this.partitionKey,
+            );
+          partitionKey = encryptedPartitionKeyList;
+          count += encryptedCount;
+          if (await this.container.encryptionProcessor.isPathEncrypted("/id")) {
+            url = await this.container.encryptionProcessor.getEncryptedUrl(this.url);
+            count++;
+          }
+          diagnosticNode.endEncryptionDiagnostics(
+            Constants.Encryption.DiagnosticsEncryptOperation,
+            count,
+          );
+        }
+        const path = getPathFromLink(url);
+        const id = getIdFromLink(url);
 
-      const response = await this.clientContext.replace<T>({
-        body,
-        path,
-        resourceType: ResourceType.item,
-        resourceId: id,
-        options,
-        partitionKey: this.partitionKey,
-        diagnosticNode,
-      });
+        response = await this.clientContext.replace<T>({
+          body,
+          path,
+          resourceType: ResourceType.item,
+          resourceId: id,
+          options,
+          partitionKey: partitionKey,
+          diagnosticNode,
+        });
+      } catch (error: any) {
+        if (this.clientContext.enableEncryption) {
+          await this.container.throwIfRequestNeedsARetryPostPolicyRefresh(error);
+        }
+        throw error;
+      }
+      if (this.clientContext.enableEncryption) {
+        try {
+          // try block for decrypting response. This is done so that we can throw special error message in case of decryption failure
+          diagnosticNode.beginEncryptionDiagnostics(
+            Constants.Encryption.DiagnosticsDecryptOperation,
+          );
+          const { body: result, propertiesDecryptedCount } =
+            await this.container.encryptionProcessor.decrypt(response.result);
+          response.result = result;
+          diagnosticNode.endEncryptionDiagnostics(
+            Constants.Encryption.DiagnosticsDecryptOperation,
+            propertiesDecryptedCount,
+          );
+        } catch (error) {
+          const decryptionError = new ErrorResponse(
+            `Item replace operation was successful but response decryption failed: + ${error.message}`,
+          );
+          decryptionError.code = StatusCodes.ServiceUnavailable;
+          throw decryptionError;
+        }
+      }
       return new ItemResponse(
         response.result,
         response.headers,
@@ -196,18 +298,49 @@ export class Item {
         this.container,
         this.partitionKey,
       );
+      let partitionKey = this.partitionKey;
+      let url = this.url;
+      let response: Response<T & Resource>;
+      try {
+        if (this.clientContext.enableEncryption) {
+          await this.container.checkAndInitializeEncryption();
+          options.containerRid = this.container._rid;
+          let count = 0;
+          diagnosticNode.beginEncryptionDiagnostics(
+            Constants.Encryption.DiagnosticsEncryptOperation,
+          );
+          const { partitionKeyList, encryptedCount } =
+            await this.container.encryptionProcessor.getEncryptedPartitionKeyValue(
+              this.partitionKey,
+            );
+          partitionKey = partitionKeyList;
+          count += encryptedCount;
+          if (await this.container.encryptionProcessor.isPathEncrypted("/id")) {
+            url = await this.container.encryptionProcessor.getEncryptedUrl(this.url);
+            count++;
+          }
+          diagnosticNode.endEncryptionDiagnostics(
+            Constants.Encryption.DiagnosticsEncryptOperation,
+            count,
+          );
+        }
+        const path = getPathFromLink(url);
+        const id = getIdFromLink(url);
 
-      const path = getPathFromLink(this.url);
-      const id = getIdFromLink(this.url);
-
-      const response = await this.clientContext.delete<T>({
-        path,
-        resourceType: ResourceType.item,
-        resourceId: id,
-        options,
-        partitionKey: this.partitionKey,
-        diagnosticNode,
-      });
+        response = await this.clientContext.delete<T>({
+          path,
+          resourceType: ResourceType.item,
+          resourceId: id,
+          options,
+          partitionKey: partitionKey,
+          diagnosticNode,
+        });
+      } catch (error: any) {
+        if (this.clientContext.enableEncryption) {
+          await this.container.throwIfRequestNeedsARetryPostPolicyRefresh(error);
+        }
+        throw error;
+      }
 
       return new ItemResponse(
         response.result,
@@ -238,18 +371,93 @@ export class Item {
         this.container,
         this.partitionKey,
       );
-      const path = getPathFromLink(this.url);
-      const id = getIdFromLink(this.url);
-
-      const response = await this.clientContext.patch<T>({
-        body,
-        path,
-        resourceType: ResourceType.item,
-        resourceId: id,
-        options,
-        partitionKey: this.partitionKey,
-        diagnosticNode,
-      });
+      let url = this.url;
+      let partitionKey = this.partitionKey;
+      let response: Response<T & Resource>;
+      try {
+        if (this.clientContext.enableEncryption) {
+          await this.container.checkAndInitializeEncryption();
+          options.containerRid = this.container._rid;
+          // returns copy to avoid encryption of original body passed
+          body = copyObject(body);
+          const operations = Array.isArray(body) ? body : body.operations;
+          diagnosticNode.beginEncryptionDiagnostics(
+            Constants.Encryption.DiagnosticsEncryptOperation,
+          );
+          let propertiesEncryptedCount = 0;
+          for (const operation of operations) {
+            if (operation.op === PatchOperationType.remove) {
+              continue;
+            }
+            const isPathEncrypted = await this.container.encryptionProcessor.isPathEncrypted(
+              operation.path,
+            );
+            if (!isPathEncrypted) {
+              continue;
+            }
+            if (operation.op === PatchOperationType.incr) {
+              throw new ErrorResponse(
+                `Increment patch operation is not allowed for encrypted path '${operation.path}'`,
+              );
+            }
+            if ("value" in operation) {
+              operation.value = await this.container.encryptionProcessor.encryptProperty(
+                operation.path,
+                operation.value,
+              );
+            }
+            propertiesEncryptedCount++;
+          }
+          const { partitionKeyList, encryptedCount } =
+            await this.container.encryptionProcessor.getEncryptedPartitionKeyValue(partitionKey);
+          partitionKey = partitionKeyList;
+          propertiesEncryptedCount += encryptedCount;
+          if (await this.container.encryptionProcessor.isPathEncrypted("/id")) {
+            url = await this.container.encryptionProcessor.getEncryptedUrl(this.url);
+            propertiesEncryptedCount++;
+          }
+          diagnosticNode.endEncryptionDiagnostics(
+            Constants.Encryption.DiagnosticsEncryptOperation,
+            propertiesEncryptedCount,
+          );
+        }
+        const path = getPathFromLink(url);
+        const id = getIdFromLink(url);
+        response = await this.clientContext.patch<T>({
+          body,
+          path,
+          resourceType: ResourceType.item,
+          resourceId: id,
+          options,
+          partitionKey: partitionKey,
+          diagnosticNode,
+        });
+      } catch (error: any) {
+        if (this.clientContext.enableEncryption) {
+          await this.container.throwIfRequestNeedsARetryPostPolicyRefresh(error);
+        }
+        throw error;
+      }
+      if (this.clientContext.enableEncryption) {
+        try {
+          diagnosticNode.beginEncryptionDiagnostics(
+            Constants.Encryption.DiagnosticsDecryptOperation,
+          );
+          const { body: result, propertiesDecryptedCount } =
+            await this.container.encryptionProcessor.decrypt(response.result);
+          response.result = result;
+          diagnosticNode.endEncryptionDiagnostics(
+            Constants.Encryption.DiagnosticsDecryptOperation,
+            propertiesDecryptedCount,
+          );
+        } catch (error) {
+          const decryptionError = new ErrorResponse(
+            `Item patch operation was successful but response decryption failed: + ${error.message}`,
+          );
+          decryptionError.code = StatusCodes.ServiceUnavailable;
+          throw decryptionError;
+        }
+      }
 
       return new ItemResponse(
         response.result,

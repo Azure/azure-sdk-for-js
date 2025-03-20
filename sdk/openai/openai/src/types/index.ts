@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 // Disable eslint for declaration merging using namespace
-/* eslint-disable @typescript-eslint/no-shadow */
 /* eslint-disable @typescript-eslint/no-namespace */
 
 import type {

@@ -13,9 +13,7 @@ import {
   AzureMachineLearningServicesManagementClient,
 } from "@azure/arm-machinelearning";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates/updates a batch inference deployment (asynchronous).
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Creates/updates a batch inference deployment (asynchronous).
  * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2024-04-01/examples/Workspace/BatchDeployment/createOrUpdate.json
  */
-async function createOrUpdateWorkspaceBatchDeployment() {
+async function createOrUpdateWorkspaceBatchDeployment(): Promise<void> {
   const subscriptionId =
     process.env["MACHINELEARNING_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -86,7 +84,7 @@ async function createOrUpdateWorkspaceBatchDeployment() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createOrUpdateWorkspaceBatchDeployment();
 }
 

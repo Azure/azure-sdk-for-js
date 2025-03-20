@@ -6,24 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import {
-  env,
-  Recorder,
-  RecorderStartOptions,
-  delay,
-  isPlaybackMode,
-} from "@azure-tools/test-recorder";
+import { env, Recorder, RecorderStartOptions, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { assert } from "chai";
-import { Context } from "mocha";
-import { ResourceMoverServiceAPI } from "../src/resourceMoverServiceAPI";
-import { MoveCollection, MoveCollectionsCreateOptionalParams } from "../src/models";
+import { ResourceMoverServiceAPI } from "../src/resourceMoverServiceAPI.js";
+import { MoveCollection, MoveCollectionsCreateOptionalParams } from "../src/models/index.js";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 const replaceableVariables: Record<string, string> = {
   AZURE_CLIENT_ID: "azure_client_id",
   AZURE_CLIENT_SECRET: "azure_client_secret",
   AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
-  SUBSCRIPTION_ID: "azure_subscription_id"
+  SUBSCRIPTION_ID: "azure_subscription_id",
 };
 
 const recorderOptions: RecorderStartOptions = {
@@ -46,63 +39,64 @@ describe("ResourceMover test", () => {
   let resourceGroup: string;
   let resourcename: string;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async (ctx) => {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderOptions);
-    subscriptionId = env.SUBSCRIPTION_ID || '';
+    subscriptionId = env.SUBSCRIPTION_ID || "";
     // This is an example of how the environment variables are used
     const credential = createTestCredential();
-    client = new ResourceMoverServiceAPI(credential, subscriptionId, recorder.configureClientOptions({}));
+    client = new ResourceMoverServiceAPI(
+      credential,
+      subscriptionId,
+      recorder.configureClientOptions({}),
+    );
     location = "eastus2";
     resourceGroup = "myjstest";
     resourcename = "resourcetest";
-
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
-  it("moveCollections create test", async function () {
+  it("moveCollections create test", async () => {
     const body: MoveCollection = {
       identity: { type: "SystemAssigned" },
       location,
       properties: {
         moveType: "RegionToRegion",
         sourceRegion: "eastus",
-        targetRegion: "westus"
-      }
+        targetRegion: "westus",
+      },
     };
     const options: MoveCollectionsCreateOptionalParams = { body };
-    const res = await client.moveCollections.create(
-      resourceGroup,
-      resourcename,
-      options
-    );
+    const res = await client.moveCollections.create(resourceGroup, resourcename, options);
     assert.equal(res.name, resourcename);
   });
 
-  it("moveCollections get test", async function () {
-    const res = await client.moveCollections.get(resourceGroup,
-      resourcename);
+  it("moveCollections get test", async () => {
+    const res = await client.moveCollections.get(resourceGroup, resourcename);
     assert.equal(res.name, resourcename);
   });
 
-  it("moveCollections list test", async function () {
+  it("moveCollections list test", async () => {
     const resArray = new Array();
-    for await (let item of client.moveCollections.listMoveCollectionsByResourceGroup(resourceGroup)) {
+    for await (let item of client.moveCollections.listMoveCollectionsByResourceGroup(
+      resourceGroup,
+    )) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 1);
   });
 
-  it("moveCollections delete test", async function () {
+  it("moveCollections delete test", async () => {
     const resArray = new Array();
-    const res = await client.moveCollections.beginDeleteAndWait(resourceGroup, resourcename
-    )
-    for await (let item of client.moveCollections.listMoveCollectionsByResourceGroup(resourceGroup)) {
+    await client.moveCollections.beginDeleteAndWait(resourceGroup, resourcename);
+    for await (let item of client.moveCollections.listMoveCollectionsByResourceGroup(
+      resourceGroup,
+    )) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 0);
   });
-})
+});

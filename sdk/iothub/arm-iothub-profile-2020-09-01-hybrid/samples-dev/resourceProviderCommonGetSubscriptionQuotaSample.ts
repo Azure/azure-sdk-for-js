@@ -7,9 +7,7 @@
  */
 import { IotHubClient } from "@azure/arm-iothub-profile-2020-09-01-hybrid";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get the number of free and paid iot hubs in the subscription
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Get the number of free and paid iot hubs in the subscription
  * x-ms-original-file: specification/iothub/resource-manager/Microsoft.Devices/preview/2019-07-01-preview/examples/iothub_usages.json
  */
-async function resourceProviderCommonGetSubscriptionQuota() {
+async function resourceProviderCommonGetSubscriptionQuota(): Promise<void> {
   const subscriptionId =
     process.env["IOTHUB_SUBSCRIPTION_ID"] || "91d12660-3dec-467a-be2a-213b5544ddc0";
   const credential = new DefaultAzureCredential();
@@ -26,7 +24,7 @@ async function resourceProviderCommonGetSubscriptionQuota() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await resourceProviderCommonGetSubscriptionQuota();
 }
 

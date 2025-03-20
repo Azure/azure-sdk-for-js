@@ -9,7 +9,7 @@
 import {
   ResourceProviderCommonGetSubscriptionQuotaOptionalParams,
   ResourceProviderCommonGetSubscriptionQuotaResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a ResourceProviderCommon. */
 export interface ResourceProviderCommon {

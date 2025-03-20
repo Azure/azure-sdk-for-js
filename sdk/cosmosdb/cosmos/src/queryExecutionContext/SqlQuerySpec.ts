@@ -32,7 +32,7 @@ export interface SqlParameter {
   value: JSONValue;
 }
 
-export type JSONValue = boolean | number | string | null | JSONArray | JSONObject;
+export type JSONValue = boolean | number | string | null | JSONArray | JSONObject | Date;
 export interface JSONObject {
   [key: string]: JSONValue;
 }

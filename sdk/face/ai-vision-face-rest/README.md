@@ -136,15 +136,6 @@ Current long-running face operations:
 - Person group operations
   - [Train large person group](https://learn.microsoft.com/rest/api/face/person-group-operations/update-large-person-group?view=rest-face-v1.1-preview.1&tabs=HTTP)
   - [Train person group](https://learn.microsoft.com/rest/api/face/person-group-operations/train-person-group?view=rest-face-v1.1-preview.1&tabs=HTTP)
-- Person directory operations
-  - [Add person face](https://learn.microsoft.com/rest/api/face/person-directory-operations/add-person-face?view=rest-face-v1.1-preview.1&tabs=HTTP)
-  - [Add person face from URL](https://learn.microsoft.com/rest/api/face/person-directory-operations/add-person-face-from-url?view=rest-face-v1.1-preview.1&tabs=HTTP)
-  - [Create dynamic person group with person](https://learn.microsoft.com/rest/api/face/person-directory-operations/create-dynamic-person-group-with-person?view=rest-face-v1.1-preview.1&tabs=HTTP)
-  - [Create person](https://learn.microsoft.com/rest/api/face/person-directory-operations/create-person?view=rest-face-v1.1-preview.1&tabs=HTTP)
-  - [Delete dynamic person group](https://learn.microsoft.com/rest/api/face/person-directory-operations/delete-dynamic-person-group?view=rest-face-v1.1-preview.1&tabs=HTTP)
-  - [Delete person](https://learn.microsoft.com/rest/api/face/person-directory-operations/delete-person?view=rest-face-v1.1-preview.1&tabs=HTTP)
-  - [Delete person face](https://learn.microsoft.com/rest/api/face/person-directory-operations/delete-person-face?view=rest-face-v1.1-preview.1&tabs=HTTP)
-  - [Update dynamic person group with person changes](https://learn.microsoft.com/rest/api/face/person-directory-operations/update-dynamic-person-group-with-person-changes?view=rest-face-v1.1-preview.1&tabs=HTTP)
 
 ## Examples
 
@@ -386,13 +377,12 @@ const client = FaceClient(endpoint, credential);
 
 console.log("Create a new liveness session.");
 const createLivenessSessionResponse = await client
-  .path("/detectLiveness/singleModal/sessions")
+  .path("/detectLiveness-sessions")
   .post({
     body: {
       livenessOperationMode: "Passive",
       deviceCorrelationId: randomUUID(),
-      sendResultsToClient: false,
-      authTokenTimeToLiveInSeconds: 60,
+      enableSessionImage: true,
     },
   });
 
@@ -405,7 +395,7 @@ const { sessionId } = createLivenessSessionResponse.body;
 
 console.log("Get liveness detection results.");
 const getLivenessSessionResponse = await client
-  .path("/detectLiveness/singleModal/sessions/{sessionId}", sessionId)
+  .path("/detectLiveness-sessions/{sessionId}", sessionId)
   .get();
 
 if (isUnexpected(getLivenessSessionResponse)) {
@@ -428,22 +418,26 @@ const client = FaceClient(endpoint, credential);
 
 console.log("Create a new liveness with verify session with verify image.");
 const createLivenessSessionResponse = await client
-  .path("/detectLivenessWithVerify/singleModal/sessions")
+  .path("/detectLivenessWithVerify-sessions")
   .post({
     contentType: "multipart/form-data",
     body: [
       {
-        name: "VerifyImage",
+        name: "verifyImage",
         body: readFileSync("path/to/verify/image"),
+        filename: "verifyImage.jpg",
       },
       {
-        name: "Parameters",
-        body: {
-          livenessOperationMode: "Passive",
-          sendResultsToClient: false,
-          authTokenTimeToLiveInSeconds: 60,
-          deviceCorrelationId: randomUUID(),
-        },
+        name: "livenessOperationMode",
+        body: "Passive",
+      },
+      {
+        name: "deviceCorrelationId",
+        body: randomUUID(),
+      },
+      {
+        name: "enableSessionImage",
+        body: true,
       },
     ],
   });
@@ -457,7 +451,7 @@ const { sessionId } = createLivenessSessionResponse.body;
 
 console.log("Get the liveness detection and verification result.");
 const getLivenessSessionResultResponse = await client
-  .path("/detectLivenessWithVerify/singleModal/sessions/{sessionId}", sessionId)
+  .path("/detectLivenessWithVerify-sessions/{sessionId}", sessionId)
   .get();
 
 if (isUnexpected(getLivenessSessionResultResponse)) {

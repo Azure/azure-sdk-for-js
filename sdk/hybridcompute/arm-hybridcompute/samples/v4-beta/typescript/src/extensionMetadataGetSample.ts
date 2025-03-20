@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { HybridComputeManagementClient } from "@azure/arm-hybridcompute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets an Extension Metadata based on location, publisher, extensionType and version
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Gets an Extension Metadata based on location, publisher, extensionType and version
  * x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2024-07-31-preview/examples/extension/ExtensionMetadata_Get.json
  */
-async function getAnExtensionsMetadata() {
+async function getAnExtensionsMetadata(): Promise<void> {
   const subscriptionId =
     process.env["HYBRIDCOMPUTE_SUBSCRIPTION_ID"] ||
     "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx";
@@ -39,7 +37,7 @@ async function getAnExtensionsMetadata() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getAnExtensionsMetadata();
 }
 

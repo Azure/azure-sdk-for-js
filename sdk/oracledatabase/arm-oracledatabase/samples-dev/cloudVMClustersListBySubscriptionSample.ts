@@ -7,9 +7,7 @@
  */
 import { OracleDatabaseManagementClient } from "@azure/arm-oracledatabase";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to List CloudVmCluster resources by subscription ID
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary List CloudVmCluster resources by subscription ID
  * x-ms-original-file: specification/oracle/resource-manager/Oracle.Database/stable/2023-09-01/examples/vmClusters_listBySubscription.json
  */
-async function listVMClustersBySubscription() {
+async function listVMClustersBySubscription(): Promise<void> {
   const subscriptionId =
     process.env["ORACLEDATABASE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
@@ -29,7 +27,7 @@ async function listVMClustersBySubscription() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await listVMClustersBySubscription();
 }
 

@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { SpatialAnchorsAccounts } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { SpatialAnchorsAccounts } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { MixedRealityClient } from "../mixedRealityClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { MixedRealityClient } from "../mixedRealityClient.js";
 import {
   SpatialAnchorsAccount,
   SpatialAnchorsAccountsListBySubscriptionNextOptionalParams,
@@ -35,7 +35,7 @@ import {
   SpatialAnchorsAccountsRegenerateKeysResponse,
   SpatialAnchorsAccountsListBySubscriptionNextResponse,
   SpatialAnchorsAccountsListByResourceGroupNextResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing SpatialAnchorsAccounts operations. */

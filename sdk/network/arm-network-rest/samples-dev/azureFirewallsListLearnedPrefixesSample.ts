@@ -11,7 +11,7 @@ import "dotenv/config";
  * @summary Retrieves a list of all IP prefixes that azure firewall has learned to not SNAT.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/AzureFirewallListLearnedIPPrefixes.json
  */
-async function azureFirewallListLearnedPrefixes() {
+async function azureFirewallListLearnedPrefixes(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

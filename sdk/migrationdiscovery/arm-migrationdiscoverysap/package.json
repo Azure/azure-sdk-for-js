@@ -8,65 +8,54 @@
     "node": ">=18.0.0"
   },
   "dependencies": {
-    "@azure/abort-controller": "^1.0.0",
-    "@azure/core-auth": "^1.6.0",
-    "@azure/core-client": "^1.7.0",
+    "@azure/abort-controller": "^2.1.2",
+    "@azure/core-auth": "^1.9.0",
+    "@azure/core-client": "^1.9.2",
     "@azure/core-lro": "^2.5.4",
-    "@azure/core-paging": "^1.2.0",
-    "@azure/core-rest-pipeline": "^1.14.0",
-    "tslib": "^2.2.0"
+    "@azure/core-paging": "^1.6.2",
+    "@azure/core-rest-pipeline": "^1.19.0",
+    "tslib": "^2.8.1"
   },
   "keywords": [
     "node",
     "azure",
     "typescript",
     "browser",
-    "isomorphic"
+    "isomorphic",
+    "cloud"
   ],
   "license": "MIT",
-  "main": "./dist/index.js",
-  "module": "./dist-esm/src/index.js",
-  "types": "./types/arm-migrationdiscoverysap.d.ts",
+  "main": "./dist/commonjs/index.js",
+  "module": "./dist/esm/index.js",
+  "types": "./dist/commonjs/index.d.ts",
   "devDependencies": {
-    "@azure-tools/test-credential": "^1.0.0",
-    "@azure-tools/test-recorder": "^3.0.0",
+    "@azure-tools/test-credential": "^2.0.0",
+    "@azure-tools/test-recorder": "^4.1.0",
+    "@azure-tools/test-utils-vitest": "^1.0.0",
     "@azure/dev-tool": "^1.0.0",
-    "@azure/identity": "^4.0.1",
-    "@types/chai": "^4.2.8",
-    "@types/mocha": "^10.0.0",
+    "@azure/identity": "^4.6.0",
+    "@azure/logger": "^1.1.4",
     "@types/node": "^18.0.0",
-    "chai": "^4.2.0",
+    "@vitest/browser": "^3.0.9",
+    "@vitest/coverage-istanbul": "^3.0.9",
     "dotenv": "^16.0.0",
-    "mocha": "^11.0.2",
-    "ts-node": "^10.0.0",
-    "typescript": "~5.7.2"
+    "playwright": "^1.50.1",
+    "typescript": "~5.8.2",
+    "vitest": "^3.0.9"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/Azure/azure-sdk-for-js.git"
-  },
+  "repository": "github:Azure/azure-sdk-for-js",
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
   "files": [
-    "dist/**/*.js",
-    "dist/**/*.js.map",
-    "dist/**/*.d.ts",
-    "dist/**/*.d.ts.map",
-    "dist-esm/**/*.js",
-    "dist-esm/**/*.js.map",
-    "dist-esm/**/*.d.ts",
-    "dist-esm/**/*.d.ts.map",
-    "src/**/*.ts",
+    "dist/",
     "README.md",
     "LICENSE",
-    "tsconfig.json",
-    "review/*",
-    "CHANGELOG.md",
-    "types/*"
+    "review/",
+    "CHANGELOG.md"
   ],
   "scripts": {
-    "build": "npm run clean && tsc && dev-tool run bundle && npm run minify && npm run extract-api",
+    "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
     "build:browser": "echo skipped",
     "build:node": "echo skipped",
     "build:samples": "echo skipped.",
@@ -78,7 +67,7 @@
     "format": "echo skipped",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "integration-test:browser": "echo skipped",
-    "integration-test:node": "dev-tool run test:node-ts-input -- --timeout 1200000 'test/*.ts'",
+    "integration-test:node": "dev-tool run test:vitest --esm",
     "lint": "echo skipped",
     "minify": "dev-tool run vendored uglifyjs -c -m --comments --source-map \"content='./dist/index.js.map'\" -o ./dist/index.min.js ./dist/index.js",
     "pack": "npm pack 2>&1",
@@ -88,8 +77,8 @@
     "test:node": "echo skipped",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
     "unit-test:browser": "echo skipped",
-    "unit-test:node": "dev-tool run vendored cross-env TEST_MODE=playback npm run integration-test:node",
-    "update-snippets": "echo skipped"
+    "unit-test:node": "dev-tool run test:vitest",
+    "update-snippets": "dev-tool run update-snippets"
   },
   "sideEffects": false,
   "//metadata": {
@@ -109,5 +98,45 @@
     ],
     "disableDocsMs": true,
     "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-migrationdiscoverysap?view=azure-node-preview"
+  },
+  "type": "module",
+  "tshy": {
+    "project": "./tsconfig.src.json",
+    "exports": {
+      "./package.json": "./package.json",
+      ".": "./src/index.ts"
+    },
+    "dialects": [
+      "esm",
+      "commonjs"
+    ],
+    "esmDialects": [
+      "browser",
+      "react-native"
+    ],
+    "selfLink": false
+  },
+  "browser": "./dist/browser/index.js",
+  "react-native": "./dist/react-native/index.js",
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "browser": {
+        "types": "./dist/browser/index.d.ts",
+        "default": "./dist/browser/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/index.d.ts",
+        "default": "./dist/react-native/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/index.d.ts",
+        "default": "./dist/esm/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/index.d.ts",
+        "default": "./dist/commonjs/index.js"
+      }
+    }
   }
 }

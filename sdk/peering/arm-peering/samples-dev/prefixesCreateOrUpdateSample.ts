@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Creates a new prefix with the specified name under the given subscription, resource group and peering service.
  * x-ms-original-file: specification/peering/resource-manager/Microsoft.Peering/stable/2021-06-01/examples/CreatePeeringServicePrefix.json
  */
-async function createOrUpdateAPrefixForThePeeringService() {
+async function createOrUpdateAPrefixForThePeeringService(): Promise<void> {
   const subscriptionId = "subId";
   const resourceGroupName = "rgName";
   const peeringServiceName = "peeringServiceName";

@@ -1,6 +1,6 @@
 {
   "name": "@azure/identity-cache-persistence",
-  "version": "1.1.2",
+  "version": "1.2.1",
   "sdk-type": "client",
   "description": "A secure, persistent token cache for Azure Identity credentials that uses the OS secret-management API",
   "main": "./dist/commonjs/index.js",
@@ -27,7 +27,7 @@
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
     "unit-test:browser": "echo skipped",
     "unit-test:node": "echo skipped",
-    "update-snippets": "echo skipped"
+    "update-snippets": "dev-tool run update-snippets"
   },
   "files": [
     "dist/",
@@ -57,8 +57,8 @@
   "sideEffects": false,
   "dependencies": {
     "@azure/core-auth": "^1.9.0",
-    "@azure/identity": "^4.5.0",
-    "@azure/msal-node": "^2.16.2",
+    "@azure/identity": "^4.7.0",
+    "@azure/msal-node": "^3.2.2",
     "@azure/msal-node-extensions": "^1.5.0",
     "keytar": "^7.6.0",
     "tslib": "^2.8.1"
@@ -71,16 +71,17 @@
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure/logger": "^1.1.4",
     "@types/node": "^18.0.0",
-    "@vitest/browser": "^3.0.3",
-    "@vitest/coverage-istanbul": "^3.0.3",
+    "@vitest/browser": "^3.0.9",
+    "@vitest/coverage-istanbul": "^3.0.9",
     "dotenv": "^16.0.0",
     "eslint": "^9.9.0",
-    "playwright": "^1.49.0",
-    "typescript": "~5.7.2",
-    "vitest": "^3.0.3"
+    "playwright": "^1.50.1",
+    "typescript": "~5.8.2",
+    "vitest": "^3.0.9"
   },
   "type": "module",
   "tshy": {
+    "project": "./tsconfig.src.json",
     "exports": {
       "./package.json": "./package.json",
       ".": "./src/index.ts"
@@ -93,8 +94,7 @@
       "browser",
       "react-native"
     ],
-    "selfLink": false,
-    "project": "./tsconfig.src.json"
+    "selfLink": false
   },
   "browser": "./dist/browser/index.js",
   "exports": {
@@ -117,5 +117,6 @@
         "default": "./dist/commonjs/index.js"
       }
     }
-  }
+  },
+  "react-native": "./dist/react-native/index.js"
 }

@@ -13,9 +13,7 @@ import {
   MicrosoftSupport,
 } from "@azure/arm-support";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Check the availability of a resource name. This API should be used to check the uniqueness of the name for adding a new communication to the support ticket.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Check the availability of a resource name. This API should be used to check the uniqueness of the name for adding a new communication to the support ticket.
  * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/stable/2024-04-01/examples/CheckNameAvailabilityForSupportTicketCommunication.json
  */
-async function checksWhetherNameIsAvailableForCommunicationResourceForASubscriptionSupportTicket() {
+async function checksWhetherNameIsAvailableForCommunicationResourceForASubscriptionSupportTicket(): Promise<void> {
   const subscriptionId =
     process.env["SUPPORT_SUBSCRIPTION_ID"] ||
     "132d901f-189d-4381-9214-fe68e27e05a1";
@@ -41,7 +39,7 @@ async function checksWhetherNameIsAvailableForCommunicationResourceForASubscript
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   checksWhetherNameIsAvailableForCommunicationResourceForASubscriptionSupportTicket();
 }
 

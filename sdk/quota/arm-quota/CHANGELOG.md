@@ -1,6 +1,6 @@
 # Release History
 
-## 1.1.0-beta.3 (Unreleased)
+## 1.1.1 (Unreleased)
 
 ### Features Added
 
@@ -10,6 +10,136 @@
 
 ### Other Changes
 
+## 1.1.0 (2025-02-18)
+    
+### Features Added
+
+  - Added operation group GroupQuotaLimits
+  - Added operation group GroupQuotaLimitsRequest
+  - Added operation group GroupQuotas
+  - Added operation group GroupQuotaSubscriptionAllocation
+  - Added operation group GroupQuotaSubscriptionAllocationRequest
+  - Added operation group GroupQuotaSubscriptionRequests
+  - Added operation group GroupQuotaSubscriptions
+  - Added Interface AllocatedQuotaToSubscriptionList
+  - Added Interface AllocatedToSubscription
+  - Added Interface ErrorAdditionalInfo
+  - Added Interface ErrorDetail
+  - Added Interface ErrorResponse
+  - Added Interface GroupQuotaDetails
+  - Added Interface GroupQuotaDetailsName
+  - Added Interface GroupQuotaLimit
+  - Added Interface GroupQuotaLimitList
+  - Added Interface GroupQuotaLimitListProperties
+  - Added Interface GroupQuotaLimitProperties
+  - Added Interface GroupQuotaLimitsListOptionalParams
+  - Added Interface GroupQuotaLimitsRequestGetOptionalParams
+  - Added Interface GroupQuotaLimitsRequestListNextOptionalParams
+  - Added Interface GroupQuotaLimitsRequestListOptionalParams
+  - Added Interface GroupQuotaLimitsRequestUpdateHeaders
+  - Added Interface GroupQuotaLimitsRequestUpdateOptionalParams
+  - Added Interface GroupQuotaList
+  - Added Interface GroupQuotaRequestBase
+  - Added Interface GroupQuotaRequestBaseProperties
+  - Added Interface GroupQuotaRequestBasePropertiesName
+  - Added Interface GroupQuotasCreateOrUpdateHeaders
+  - Added Interface GroupQuotasCreateOrUpdateOptionalParams
+  - Added Interface GroupQuotasDeleteHeaders
+  - Added Interface GroupQuotasDeleteOptionalParams
+  - Added Interface GroupQuotasEntity
+  - Added Interface GroupQuotasEntityBase
+  - Added Interface GroupQuotasEntityBasePatch
+  - Added Interface GroupQuotasEntityPatch
+  - Added Interface GroupQuotasEntityPatchProperties
+  - Added Interface GroupQuotasEntityProperties
+  - Added Interface GroupQuotasGetOptionalParams
+  - Added Interface GroupQuotasListNextOptionalParams
+  - Added Interface GroupQuotasListOptionalParams
+  - Added Interface GroupQuotaSubscriptionAllocationListOptionalParams
+  - Added Interface GroupQuotaSubscriptionAllocationRequestGetOptionalParams
+  - Added Interface GroupQuotaSubscriptionAllocationRequestListNextOptionalParams
+  - Added Interface GroupQuotaSubscriptionAllocationRequestListOptionalParams
+  - Added Interface GroupQuotaSubscriptionAllocationRequestUpdateHeaders
+  - Added Interface GroupQuotaSubscriptionAllocationRequestUpdateOptionalParams
+  - Added Interface GroupQuotaSubscriptionId
+  - Added Interface GroupQuotaSubscriptionIdList
+  - Added Interface GroupQuotaSubscriptionIdProperties
+  - Added Interface GroupQuotaSubscriptionRequestsGetOptionalParams
+  - Added Interface GroupQuotaSubscriptionRequestsListNextOptionalParams
+  - Added Interface GroupQuotaSubscriptionRequestsListOptionalParams
+  - Added Interface GroupQuotaSubscriptionRequestStatus
+  - Added Interface GroupQuotaSubscriptionRequestStatusList
+  - Added Interface GroupQuotaSubscriptionRequestStatusProperties
+  - Added Interface GroupQuotaSubscriptionsCreateOrUpdateHeaders
+  - Added Interface GroupQuotaSubscriptionsCreateOrUpdateOptionalParams
+  - Added Interface GroupQuotaSubscriptionsDeleteHeaders
+  - Added Interface GroupQuotaSubscriptionsDeleteOptionalParams
+  - Added Interface GroupQuotaSubscriptionsGetOptionalParams
+  - Added Interface GroupQuotaSubscriptionsListNextOptionalParams
+  - Added Interface GroupQuotaSubscriptionsListOptionalParams
+  - Added Interface GroupQuotaSubscriptionsUpdateHeaders
+  - Added Interface GroupQuotaSubscriptionsUpdateOptionalParams
+  - Added Interface GroupQuotasUpdateHeaders
+  - Added Interface GroupQuotasUpdateOptionalParams
+  - Added Interface GroupQuotaUsagesBase
+  - Added Interface GroupQuotaUsagesBaseName
+  - Added Interface LROResponse
+  - Added Interface LROResponseProperties
+  - Added Interface ProxyResource
+  - Added Interface QuotaAllocationRequestBase
+  - Added Interface QuotaAllocationRequestBaseProperties
+  - Added Interface QuotaAllocationRequestBasePropertiesName
+  - Added Interface QuotaAllocationRequestStatus
+  - Added Interface QuotaAllocationRequestStatusList
+  - Added Interface QuotaAllocationRequestStatusProperties
+  - Added Interface Resource
+  - Added Interface ResourceBaseRequest
+  - Added Interface ResourceUsageList
+  - Added Interface ResourceUsages
+  - Added Interface SubmittedResourceRequestStatus
+  - Added Interface SubmittedResourceRequestStatusList
+  - Added Interface SubmittedResourceRequestStatusProperties
+  - Added Interface SubscriptionGroupQuotaAssignment
+  - Added Interface SubscriptionQuotaAllocationRequestList
+  - Added Interface SubscriptionQuotaAllocations
+  - Added Interface SubscriptionQuotaAllocationsList
+  - Added Interface SubscriptionQuotaAllocationsListProperties
+  - Added Interface SubscriptionQuotaAllocationsProperties
+  - Added Interface SubscriptionQuotaAllocationsStatusList
+  - Added Interface SubscriptionQuotaDetails
+  - Added Interface SubscriptionQuotaDetailsName
+  - Added Interface SystemData
+  - Added Type Alias CreatedByType
+  - Added Type Alias GroupQuotaLimitsListResponse
+  - Added Type Alias GroupQuotaLimitsRequestGetResponse
+  - Added Type Alias GroupQuotaLimitsRequestListNextResponse
+  - Added Type Alias GroupQuotaLimitsRequestListResponse
+  - Added Type Alias GroupQuotaLimitsRequestUpdateResponse
+  - Added Type Alias GroupQuotasCreateOrUpdateResponse
+  - Added Type Alias GroupQuotasDeleteResponse
+  - Added Type Alias GroupQuotasGetResponse
+  - Added Type Alias GroupQuotasListNextResponse
+  - Added Type Alias GroupQuotasListResponse
+  - Added Type Alias GroupQuotaSubscriptionAllocationListResponse
+  - Added Type Alias GroupQuotaSubscriptionAllocationRequestGetResponse
+  - Added Type Alias GroupQuotaSubscriptionAllocationRequestListNextResponse
+  - Added Type Alias GroupQuotaSubscriptionAllocationRequestListResponse
+  - Added Type Alias GroupQuotaSubscriptionAllocationRequestUpdateResponse
+  - Added Type Alias GroupQuotaSubscriptionRequestsGetResponse
+  - Added Type Alias GroupQuotaSubscriptionRequestsListNextResponse
+  - Added Type Alias GroupQuotaSubscriptionRequestsListResponse
+  - Added Type Alias GroupQuotaSubscriptionsCreateOrUpdateResponse
+  - Added Type Alias GroupQuotaSubscriptionsDeleteResponse
+  - Added Type Alias GroupQuotaSubscriptionsGetResponse
+  - Added Type Alias GroupQuotaSubscriptionsListNextResponse
+  - Added Type Alias GroupQuotaSubscriptionsListResponse
+  - Added Type Alias GroupQuotaSubscriptionsUpdateResponse
+  - Added Type Alias GroupQuotasUpdateResponse
+  - Added Type Alias RequestState
+  - Added Enum KnownCreatedByType
+  - Added Enum KnownRequestState
+    
+    
 ## 1.1.0-beta.2 (2025-01-22)
 Compared with version 1.0.0
     

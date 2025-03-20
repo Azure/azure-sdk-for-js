@@ -14,7 +14,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Gets all the storage account credentials in a manager.
  * x-ms-original-file: specification/storsimple8000series/resource-manager/Microsoft.StorSimple/stable/2017-06-01/examples/StorageAccountCredentialsListByManager.json
  */
-async function storageAccountCredentialsListByManager() {
+async function storageAccountCredentialsListByManager(): Promise<void> {
   const subscriptionId = "4385cf00-2d3a-425a-832f-f4285b1c9dce";
   const resourceGroupName = "ResourceGroupForSDKTest";
   const managerName = "ManagerForSDKTest1";

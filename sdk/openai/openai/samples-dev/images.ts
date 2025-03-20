@@ -23,13 +23,13 @@ const size = "1024x1024";
 // The number of images to generate
 const n = 1;
 
-export async function main() {
+export async function main(): Promise<void> {
   console.log("== Batch Image Generation ==");
 
   const scope = "https://cognitiveservices.azure.com/.default";
   const azureADTokenProvider = getBearerTokenProvider(new DefaultAzureCredential(), scope);
   const deployment = "dall-e-3";
-  const apiVersion = "2024-11-01-preview";
+  const apiVersion = "2025-01-01-preview";
   const client = new AzureOpenAI({ azureADTokenProvider, deployment, apiVersion });
   const results = await client.images.generate({ prompt, model: "", n, size });
 

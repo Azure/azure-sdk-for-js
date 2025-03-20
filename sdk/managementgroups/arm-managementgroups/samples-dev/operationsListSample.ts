@@ -14,7 +14,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Lists all of the available Management REST API operations.
  * x-ms-original-file: specification/managementgroups/resource-manager/Microsoft.Management/stable/2021-04-01/examples/ListOperations.json
  */
-async function listOperations() {
+async function listOperations(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ManagementGroupsAPI(credential);
   const resArray = new Array();

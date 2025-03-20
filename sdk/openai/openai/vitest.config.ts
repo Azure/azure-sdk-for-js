@@ -13,7 +13,7 @@ export default mergeConfig(
   viteConfig,
   defineConfig({
     test: {
-      testTimeout: 300000,
+      testTimeout: 500000,
       hookTimeout: 25000,
       fileParallelism: false,
       globalSetup: [resolve(__dirname, "test/utils/setup.ts")],

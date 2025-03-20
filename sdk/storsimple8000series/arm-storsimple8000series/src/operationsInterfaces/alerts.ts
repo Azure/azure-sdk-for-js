@@ -14,7 +14,7 @@ import {
   AlertsClearOptionalParams,
   SendTestAlertEmailRequest,
   AlertsSendTestEmailOptionalParams
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Alerts. */

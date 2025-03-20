@@ -13,9 +13,7 @@ import {
   SqlManagementClient,
 } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets a recoverable database.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Gets a recoverable database.
  * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/RecoverableDatabaseGet.json
  */
-async function getARecoverableDatabase() {
+async function getARecoverableDatabase(): Promise<void> {
   const subscriptionId =
     process.env["SQL_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -47,7 +45,7 @@ async function getARecoverableDatabase() {
  * @summary Gets a recoverable database.
  * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/RecoverableDatabaseGetWithExpandEqualsKeys.json
  */
-async function getsARecoverableDatabaseWithExpandEqualsKeys() {
+async function getsARecoverableDatabaseWithExpandEqualsKeys(): Promise<void> {
   const subscriptionId =
     process.env["SQL_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -68,7 +66,7 @@ async function getsARecoverableDatabaseWithExpandEqualsKeys() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getARecoverableDatabase();
   getsARecoverableDatabaseWithExpandEqualsKeys();
 }

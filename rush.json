@@ -291,11 +291,6 @@
       "versionPolicyName": "client"
     },
     {
-      "packageName": "@azure-rest/purview-catalog",
-      "projectFolder": "sdk/purview/purview-catalog-rest",
-      "versionPolicyName": "client"
-    },
-    {
       "packageName": "@azure-rest/purview-datamap",
       "projectFolder": "sdk/purview/purview-datamap-rest",
       "versionPolicyName": "client"
@@ -865,37 +860,37 @@
     },
     {
       "packageName": "@azure-tests/perf-storage-blob",
-      "projectFolder": "sdk/storage/perf-tests/storage-blob",
+      "projectFolder": "sdk/storage/storage-blob-perf-tests",
       "versionPolicyName": "test"
     },
     {
       "packageName": "@azure-tests/perf-storage-file-share",
-      "projectFolder": "sdk/storage/perf-tests/storage-file-share",
+      "projectFolder": "sdk/storage/storage-file-share-perf-tests",
       "versionPolicyName": "test"
     },
     {
       "packageName": "@azure-tests/perf-storage-file-datalake",
-      "projectFolder": "sdk/storage/perf-tests/storage-file-datalake",
+      "projectFolder": "sdk/storage/storage-file-datalake-perf-tests",
       "versionPolicyName": "test"
     },
     {
       "packageName": "@azure-tests/perf-keyvault-keys",
-      "projectFolder": "sdk/keyvault/perf-tests/keyvault-keys",
+      "projectFolder": "sdk/keyvault/keyvault-keys-perf-tests",
       "versionPolicyName": "test"
     },
     {
       "packageName": "@azure-tests/perf-keyvault-certificates",
-      "projectFolder": "sdk/keyvault/perf-tests/keyvault-certificates",
+      "projectFolder": "sdk/keyvault/keyvault-certificates-perf-tests",
       "versionPolicyName": "test"
     },
     {
       "packageName": "@azure-tests/perf-keyvault-secrets",
-      "projectFolder": "sdk/keyvault/perf-tests/keyvault-secrets",
+      "projectFolder": "sdk/keyvault/keyvault-secrets-perf-tests",
       "versionPolicyName": "test"
     },
     {
       "packageName": "@azure-tests/perf-identity",
-      "projectFolder": "sdk/identity/perf-tests/identity",
+      "projectFolder": "sdk/identity/identity-perf-tests",
       "versionPolicyName": "test"
     },
     {
@@ -950,17 +945,17 @@
     },
     {
       "packageName": "@azure-tests/perf-monitor-query",
-      "projectFolder": "sdk/monitor/perf-tests/monitor-query",
+      "projectFolder": "sdk/monitor/monitor-query-perf-tests",
       "versionPolicyName": "test"
     },
     {
       "packageName": "@azure-tests/perf-monitor-ingestion",
-      "projectFolder": "sdk/monitor/perf-tests/monitor-ingestion",
+      "projectFolder": "sdk/monitor/monitor-ingestion-perf-tests",
       "versionPolicyName": "test"
     },
     {
       "packageName": "@azure-tests/perf-template",
-      "projectFolder": "sdk/template/perf-tests/template",
+      "projectFolder": "sdk/template/template-perf-tests",
       "versionPolicyName": "test"
     },
     {
@@ -2125,7 +2120,7 @@
     },
     {
       "packageName": "@azure-tests/perf-monitor-opentelemetry",
-      "projectFolder": "sdk/monitor/perf-tests/monitor-opentelemetry",
+      "projectFolder": "sdk/monitor/monitor-opentelemetry-perf-tests",
       "versionPolicyName": "test"
     },
     {
@@ -2146,11 +2141,6 @@
     {
       "packageName": "@azure/arm-hybridnetwork",
       "projectFolder": "sdk/hybridnetwork/arm-hybridnetwork",
-      "versionPolicyName": "management"
-    },
-    {
-      "packageName": "@azure/arm-networkanalytics",
-      "projectFolder": "sdk/networkanalytics/arm-networkanalytics",
       "versionPolicyName": "management"
     },
     {
@@ -2322,6 +2312,21 @@
       "packageName": "@azure/ai-projects",
       "projectFolder": "sdk/ai/ai-projects",
       "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/arm-impactreporting",
+      "projectFolder": "sdk/impactreporting/arm-impactreporting",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-pineconevectordb",
+      "projectFolder": "sdk/pineconevectordb/arm-pineconevectordb",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-databasewatcher",
+      "projectFolder": "sdk/databasewatcher/arm-databasewatcher",
+      "versionPolicyName": "management"
     }
   ]
 }

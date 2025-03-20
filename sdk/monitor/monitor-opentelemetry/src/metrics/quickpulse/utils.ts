@@ -22,15 +22,6 @@ import type { Attributes } from "@opentelemetry/api";
 import { SpanKind, SpanStatusCode } from "@opentelemetry/api";
 import {
   SEMATTRS_EXCEPTION_MESSAGE,
-  SEMATTRS_EXCEPTION_TYPE,
-  SEMATTRS_HTTP_HOST,
-  SEMATTRS_HTTP_METHOD,
-  SEMATTRS_HTTP_SCHEME,
-  SEMATTRS_HTTP_STATUS_CODE,
-  SEMATTRS_HTTP_TARGET,
-  SEMATTRS_HTTP_URL,
-  SEMATTRS_NET_PEER_IP,
-  SEMATTRS_NET_PEER_NAME,
   SEMATTRS_NET_PEER_PORT,
   SEMATTRS_RPC_GRPC_STATUS_CODE,
   SEMRESATTRS_TELEMETRY_SDK_VERSION,
@@ -44,11 +35,34 @@ import {
   SEMATTRS_DB_NAME,
   SEMATTRS_DB_OPERATION,
   SEMATTRS_DB_STATEMENT,
+  ATTR_CLIENT_ADDRESS,
+  SEMATTRS_NET_PEER_NAME,
+  SEMATTRS_HTTP_HOST,
+  ATTR_SERVER_ADDRESS,
+  SEMATTRS_HTTP_TARGET,
+  ATTR_URL_QUERY,
+  ATTR_URL_PATH,
+  SEMATTRS_HTTP_SCHEME,
+  ATTR_URL_SCHEME,
+  ATTR_HTTP_RESPONSE_STATUS_CODE,
+  SEMATTRS_HTTP_STATUS_CODE,
+  ATTR_HTTP_REQUEST_METHOD,
+  SEMATTRS_HTTP_METHOD,
+  ATTR_URL_FULL,
+  SEMATTRS_HTTP_URL,
+  ATTR_NETWORK_PEER_ADDRESS,
+  SEMATTRS_NET_PEER_IP,
+  ATTR_USER_AGENT_ORIGINAL,
+  SEMATTRS_HTTP_USER_AGENT,
+  ATTR_SERVER_PORT,
+  ATTR_CLIENT_PORT,
+  SEMATTRS_NET_HOST_PORT,
 } from "@opentelemetry/semantic-conventions";
 import { SDK_INFO, hrTimeToMilliseconds } from "@opentelemetry/core";
 import type { Histogram, ResourceMetrics } from "@opentelemetry/sdk-metrics";
 import { DataPointType } from "@opentelemetry/sdk-metrics";
 import {
+  APPLICATION_INSIGHTS_SHIM_VERSION,
   AZURE_MONITOR_AUTO_ATTACH,
   AZURE_MONITOR_OPENTELEMETRY_VERSION,
   AZURE_MONITOR_PREFIX,
@@ -59,6 +73,8 @@ import {
   QuickPulseMetricNames,
   QuickPulseOpenTelemetryMetricNames,
   DependencyTypes,
+  legacySemanticValues,
+  httpSemanticValues,
 } from "./types";
 import { getOsPrefix } from "../../utils/common";
 import { getResourceProvider } from "../../utils/common";
@@ -70,9 +86,18 @@ import { Logger } from "../../shared/logging";
 export function getSdkVersion(): string {
   const { nodeVersion } = process.versions;
   const opentelemetryVersion = SDK_INFO[SEMRESATTRS_TELEMETRY_SDK_VERSION];
-  const version = `ext${AZURE_MONITOR_OPENTELEMETRY_VERSION}`;
+  const version = getSdkVersionType();
   const internalSdkVersion = `${process.env[AZURE_MONITOR_PREFIX] ?? ""}node${nodeVersion}:otel${opentelemetryVersion}:${version}`;
   return internalSdkVersion;
+}
+
+/** Get the internal SDK version type */
+export function getSdkVersionType(): string {
+  if (process.env[APPLICATION_INSIGHTS_SHIM_VERSION]) {
+    return `sha${process.env[APPLICATION_INSIGHTS_SHIM_VERSION]}`;
+  } else {
+    return `dst${AZURE_MONITOR_OPENTELEMETRY_VERSION}`;
+  }
 }
 
 // eslint-disable-next-line tsdoc/syntax
@@ -225,7 +250,7 @@ function getRequestData(span: ReadableSpan): RequestData {
     CustomDimensions: createCustomDimsFromAttributes(span.attributes),
   };
 
-  const httpMethod = span.attributes[SEMATTRS_HTTP_METHOD];
+  const httpMethod = getHttpMethod(span.attributes);
   const grpcStatusCode = span.attributes[SEMATTRS_RPC_GRPC_STATUS_CODE];
   if (httpMethod) {
     requestData.Url = getUrl(span.attributes);
@@ -235,7 +260,7 @@ function getRequestData(span: ReadableSpan): RequestData {
     } else {
       Logger.getInstance().info("Request data sent to live metrics has no valid URL field.");
     }
-    const httpStatusCode = span.attributes[SEMATTRS_HTTP_STATUS_CODE];
+    const httpStatusCode = getHttpStatusCode(span.attributes);
     if (httpStatusCode) {
       requestData.ResponseCode = Number(httpStatusCode);
     }
@@ -266,12 +291,12 @@ function getDependencyData(span: ReadableSpan): DependencyData {
     dependencyData.Type = DependencyTypes.InProc;
   }
 
-  const httpMethod = span.attributes[SEMATTRS_HTTP_METHOD];
+  const httpMethod = getHttpMethod(span.attributes);
   const dbSystem = span.attributes[SEMATTRS_DB_SYSTEM];
   const rpcSystem = span.attributes[SEMATTRS_RPC_SYSTEM];
   // HTTP Dependency
   if (httpMethod) {
-    const httpUrl = span.attributes[SEMATTRS_HTTP_URL];
+    const httpUrl = getHttpUrl(span.attributes);
     if (httpUrl) {
       if (URL.canParse(String(httpUrl))) {
         const dependencyUrl = new URL(String(httpUrl));
@@ -282,7 +307,7 @@ function getDependencyData(span: ReadableSpan): DependencyData {
     }
     dependencyData.Type = DependencyTypes.Http;
     dependencyData.Data = getUrl(span.attributes);
-    const httpStatusCode = span.attributes[SEMATTRS_HTTP_STATUS_CODE];
+    const httpStatusCode = getHttpStatusCode(span.attributes);
     if (httpStatusCode) {
       dependencyData.ResultCode = Number(httpStatusCode);
     }
@@ -451,16 +476,8 @@ function createCustomDimsFromAttributes(
       if (
         !(
           key.startsWith("_MS.") ||
-          key === SEMATTRS_NET_PEER_IP ||
-          key === SEMATTRS_NET_PEER_NAME ||
-          key === SEMATTRS_HTTP_METHOD ||
-          key === SEMATTRS_HTTP_URL ||
-          key === SEMATTRS_HTTP_STATUS_CODE ||
-          key === SEMATTRS_HTTP_HOST ||
-          key === SEMATTRS_HTTP_URL ||
-          key === SEMATTRS_EXCEPTION_TYPE ||
-          key === SEMATTRS_EXCEPTION_MESSAGE ||
-          key === SEMATTRS_EXCEPTION_STACKTRACE
+          legacySemanticValues.includes(key) ||
+          httpSemanticValues.includes(key as any)
         )
       ) {
         // eslint-disable-next-line @typescript-eslint/no-base-to-string
@@ -483,26 +500,26 @@ function getUrl(attributes: Attributes): string {
   if (!attributes) {
     return "";
   }
-  const httpMethod = attributes[SEMATTRS_HTTP_METHOD];
+  const httpMethod = getHttpMethod(attributes);
   if (httpMethod) {
-    const httpUrl = attributes[SEMATTRS_HTTP_URL];
+    const httpUrl = getHttpUrl(attributes);
     if (httpUrl) {
       return String(httpUrl);
     } else {
-      const httpScheme = attributes[SEMATTRS_HTTP_SCHEME];
-      const httpTarget = attributes[SEMATTRS_HTTP_TARGET];
+      const httpScheme = getHttpScheme(attributes);
+      const httpTarget = getHttpTarget(attributes);
       if (httpScheme && httpTarget) {
-        const httpHost = attributes[SEMATTRS_HTTP_HOST];
+        const httpHost = getHttpHost(attributes);
         if (httpHost) {
           return `${httpScheme}://${httpHost}${httpTarget}`;
         } else {
-          const netPeerPort = attributes[SEMATTRS_NET_PEER_PORT];
+          const netPeerPort = getNetPeerPort(attributes);
           if (netPeerPort) {
-            const netPeerName = attributes[SEMATTRS_NET_PEER_NAME];
+            const netPeerName = getNetPeerName(attributes);
             if (netPeerName) {
               return `${httpScheme}://${netPeerName}:${netPeerPort}${httpTarget}`;
             } else {
-              const netPeerIp = attributes[SEMATTRS_NET_PEER_IP];
+              const netPeerIp = getPeerIp(attributes);
               if (netPeerIp) {
                 return `${httpScheme}://${netPeerIp}:${netPeerPort}${httpTarget}`;
               }
@@ -550,4 +567,94 @@ export function getMsFromFilterTimestampString(timestamp: string): number {
   }
 
   return seconds * 1000 + minutes * 60000 + hours * 3600000 + days * 86400000;
+}
+
+export function getPeerIp(attributes: Attributes): string | undefined {
+  if (attributes) {
+    return String(attributes[ATTR_NETWORK_PEER_ADDRESS] || attributes[SEMATTRS_NET_PEER_IP]);
+  }
+  return;
+}
+
+export function getUserAgent(attributes: Attributes): string | undefined {
+  if (attributes) {
+    return String(attributes[ATTR_USER_AGENT_ORIGINAL] || attributes[SEMATTRS_HTTP_USER_AGENT]);
+  }
+  return;
+}
+
+export function getHttpUrl(attributes: Attributes): string {
+  // Stable sem conv only supports populating url from `url.full`
+  if (attributes) {
+    return String(attributes[ATTR_URL_FULL] || attributes[SEMATTRS_HTTP_URL] || "");
+  }
+  return "";
+}
+
+export function getHttpMethod(attributes: Attributes): string | undefined {
+  if (attributes) {
+    return String(attributes[ATTR_HTTP_REQUEST_METHOD] || attributes[SEMATTRS_HTTP_METHOD]);
+  }
+  return;
+}
+
+export function getHttpStatusCode(attributes: Attributes): string | undefined {
+  if (attributes) {
+    return String(
+      attributes[ATTR_HTTP_RESPONSE_STATUS_CODE] || attributes[SEMATTRS_HTTP_STATUS_CODE],
+    );
+  }
+  return;
+}
+
+export function getHttpScheme(attributes: Attributes): string | undefined {
+  if (attributes) {
+    return String(attributes[ATTR_URL_SCHEME] || attributes[SEMATTRS_HTTP_SCHEME]);
+  }
+  return;
+}
+
+export function getHttpTarget(attributes: Attributes): string {
+  if (attributes) {
+    if (attributes[ATTR_URL_PATH]) {
+      return String(attributes[ATTR_URL_PATH]);
+    }
+    if (attributes[ATTR_URL_QUERY]) {
+      return String(attributes[ATTR_URL_QUERY]);
+    }
+    return String(attributes[SEMATTRS_HTTP_TARGET] || "");
+  }
+  return "";
+}
+
+export function getHttpHost(attributes: Attributes): string | undefined {
+  if (attributes) {
+    return String(attributes[ATTR_SERVER_ADDRESS] || attributes[SEMATTRS_HTTP_HOST]);
+  }
+  return;
+}
+
+export function getNetPeerName(attributes: Attributes): string {
+  if (attributes) {
+    return String(attributes[ATTR_CLIENT_ADDRESS] || attributes[SEMATTRS_NET_PEER_NAME] || "");
+  }
+  return "";
+}
+
+export function getNetHostPort(attributes: Attributes): string {
+  if (attributes) {
+    return String(attributes[ATTR_SERVER_PORT] || attributes[SEMATTRS_NET_HOST_PORT] || "");
+  }
+  return "";
+}
+
+export function getNetPeerPort(attributes: Attributes): string | undefined {
+  if (attributes) {
+    return String(
+      attributes[ATTR_CLIENT_PORT] ||
+        attributes[ATTR_SERVER_PORT] ||
+        attributes[SEMATTRS_NET_PEER_PORT],
+    );
+  }
+  return;
 }

@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Queries component policy states under subscription scope.
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2024-10-01/examples/ComponentPolicyStates_QuerySubscriptionScopeGroupByComponentTypeWithAggregate.json
  */
-async function queryLatestComponentPolicyComplianceStateCountGroupedByComponentTypeAtSubscriptionScopeFilteredByGivenAssignment() {
+async function queryLatestComponentPolicyComplianceStateCountGroupedByComponentTypeAtSubscriptionScopeFilteredByGivenAssignment(): Promise<void> {
   const subscriptionId = "e78961ba-36fe-4739-9212-e3031b4c8db7";
   const componentPolicyStatesResource = "latest";
   const filter =
@@ -47,7 +47,7 @@ async function queryLatestComponentPolicyComplianceStateCountGroupedByComponentT
  * @summary Queries component policy states under subscription scope.
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2024-10-01/examples/ComponentPolicyStates_QuerySubscriptionScope.json
  */
-async function queryLatestComponentPolicyStatesAtSubscriptionScope() {
+async function queryLatestComponentPolicyStatesAtSubscriptionScope(): Promise<void> {
   const subscriptionId = "fff10b27-fff3-fff5-fff8-fffbe01e86a5";
   const componentPolicyStatesResource = "latest";
   const credential = new DefaultAzureCredential();
@@ -60,7 +60,7 @@ async function queryLatestComponentPolicyStatesAtSubscriptionScope() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   queryLatestComponentPolicyComplianceStateCountGroupedByComponentTypeAtSubscriptionScopeFilteredByGivenAssignment();
   queryLatestComponentPolicyStatesAtSubscriptionScope();
 }

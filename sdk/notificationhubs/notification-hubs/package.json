@@ -22,7 +22,6 @@
     "build:test": "dev-tool run build-package && dev-tool run build-test",
     "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"samples-dev/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "dev-tool run vendored rimraf --glob dist dist-* temp types *.tgz *.log",
-    "execute:samples": "tsx",
     "extract-api": "dev-tool run build-package && dev-tool run extract-api",
     "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
@@ -59,6 +58,16 @@
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/notificationhubs/notification-hubs/README.md",
+  "//sampleConfiguration": {
+    "productName": "",
+    "productSlugs": [
+      "azure",
+      "azure-notification-hubs"
+    ],
+    "disableDocsMs": true,
+    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/notification-hubs"
+  },
+  "autoPublish": true,
   "sideEffects": false,
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "devDependencies": {
@@ -66,27 +75,26 @@
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@types/node": "^18.0.0",
-    "@vitest/browser": "^3.0.3",
-    "@vitest/coverage-istanbul": "^3.0.3",
-    "dotenv": "^16.4.5",
+    "@vitest/browser": "^3.0.9",
+    "@vitest/coverage-istanbul": "^3.0.9",
+    "dotenv": "^16.0.0",
     "eslint": "^9.9.0",
     "playwright": "^1.43.0",
-    "tsx": "^4.19.1",
-    "typescript": "~5.7.2",
-    "vitest": "^3.0.3"
+    "typescript": "~5.8.2",
+    "vitest": "^3.0.9"
   },
   "dependencies": {
-    "@azure-rest/core-client": "^2.0.0",
+    "@azure-rest/core-client": "^2.3.3",
     "@azure/abort-controller": "^2.1.2",
-    "@azure/core-auth": "^1.7.2",
-    "@azure/core-lro": "^3.0.0",
+    "@azure/core-auth": "^1.9.0",
+    "@azure/core-lro": "^3.1.0",
     "@azure/core-paging": "^1.6.2",
-    "@azure/core-rest-pipeline": "^1.15.2",
+    "@azure/core-rest-pipeline": "^1.19.0",
     "@azure/core-tracing": "^1.1.2",
-    "@azure/core-util": "^1.9.0",
-    "@azure/core-xml": "^1.4.2",
+    "@azure/core-util": "^1.11.0",
+    "@azure/core-xml": "^1.4.4",
     "@azure/logger": "^1.1.2",
-    "tslib": "^2.6.2"
+    "tslib": "^2.8.1"
   },
   "tshy": {
     "project": "./tsconfig.src.json",

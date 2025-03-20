@@ -15,7 +15,7 @@ import {
   LoadBalancerLoadBalancingRulesGetResponse,
   LoadBalancerLoadBalancingRulesHealthOptionalParams,
   LoadBalancerLoadBalancingRulesHealthResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a LoadBalancerLoadBalancingRules. */

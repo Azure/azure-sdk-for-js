@@ -8,9 +8,7 @@
 import type { FqdnListGlobalRulestackResource } from "@azure/arm-paloaltonetworksngfw";
 import { PaloAltoNetworksCloudngfw } from "@azure/arm-paloaltonetworksngfw";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create a FqdnListGlobalRulestackResource
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Create a FqdnListGlobalRulestackResource
  * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/FqdnListGlobalRulestack_CreateOrUpdate_MaximumSet_Gen.json
  */
-async function fqdnListGlobalRulestackCreateOrUpdateMaximumSetGen() {
+async function fqdnListGlobalRulestackCreateOrUpdateMaximumSetGen(): Promise<void> {
   const globalRulestackName = "praval";
   const name = "armid1";
   const resource: FqdnListGlobalRulestackResource = {
@@ -44,7 +42,7 @@ async function fqdnListGlobalRulestackCreateOrUpdateMaximumSetGen() {
  * @summary Create a FqdnListGlobalRulestackResource
  * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/FqdnListGlobalRulestack_CreateOrUpdate_MinimumSet_Gen.json
  */
-async function fqdnListGlobalRulestackCreateOrUpdateMinimumSetGen() {
+async function fqdnListGlobalRulestackCreateOrUpdateMinimumSetGen(): Promise<void> {
   const globalRulestackName = "praval";
   const name = "armid1";
   const resource: FqdnListGlobalRulestackResource = {
@@ -60,7 +58,7 @@ async function fqdnListGlobalRulestackCreateOrUpdateMinimumSetGen() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await fqdnListGlobalRulestackCreateOrUpdateMaximumSetGen();
   await fqdnListGlobalRulestackCreateOrUpdateMinimumSetGen();
 }

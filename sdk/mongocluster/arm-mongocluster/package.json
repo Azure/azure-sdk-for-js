@@ -8,6 +8,7 @@
   "sideEffects": false,
   "autoPublish": false,
   "tshy": {
+    "project": "./tsconfig.src.json",
     "exports": {
       "./package.json": "./package.json",
       ".": "./src/index.ts",
@@ -21,8 +22,7 @@
       "browser",
       "react-native"
     ],
-    "selfLink": false,
-    "project": "./tsconfig.src.json"
+    "selfLink": false
   },
   "type": "module",
   "keywords": [
@@ -36,10 +36,10 @@
   "author": "Microsoft Corporation",
   "license": "MIT",
   "files": [
-    "dist",
+    "dist/",
     "README.md",
     "LICENSE",
-    "review/*",
+    "review/",
     "CHANGELOG.md"
   ],
   "sdk-type": "mgmt",
@@ -59,29 +59,30 @@
   "dependencies": {
     "@azure-rest/core-client": "^2.1.0",
     "@azure/abort-controller": "^2.1.2",
-    "@azure/core-auth": "^1.6.0",
+    "@azure/core-auth": "^1.9.0",
     "@azure/core-lro": "^3.0.0",
-    "@azure/core-rest-pipeline": "^1.5.0",
-    "@azure/core-util": "^1.9.2",
-    "@azure/logger": "^1.0.0",
-    "tslib": "^2.6.2"
+    "@azure/core-rest-pipeline": "^1.19.0",
+    "@azure/core-util": "^1.11.0",
+    "@azure/logger": "^1.1.4",
+    "tslib": "^2.8.1"
   },
   "devDependencies": {
     "@azure-tools/test-credential": "^2.0.0",
-    "@azure-tools/test-recorder": "^4.0.0",
+    "@azure-tools/test-recorder": "^4.1.0",
+    "@azure-tools/test-utils-vitest": "^1.0.0",
     "@azure/arm-network": "^33.2.0",
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
-    "@azure/identity": "^4.2.1",
+    "@azure/identity": "^4.6.0",
     "@types/node": "^18.0.0",
-    "@vitest/browser": "^3.0.3",
-    "@vitest/coverage-istanbul": "^3.0.3",
+    "@vitest/browser": "^3.0.9",
+    "@vitest/coverage-istanbul": "^3.0.9",
     "dotenv": "^16.0.0",
     "eslint": "^9.9.0",
-    "playwright": "^1.41.2",
+    "playwright": "^1.50.1",
     "prettier": "^3.2.5",
-    "typescript": "~5.7.2",
-    "vitest": "^3.0.3"
+    "typescript": "~5.8.2",
+    "vitest": "^3.0.9"
   },
   "scripts": {
     "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
@@ -95,7 +96,7 @@
     "generate:client": "echo skipped",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "integration-test:browser": "echo skipped",
-    "integration-test:node": "echo skipped",
+    "integration-test:node": "dev-tool run test:vitest --esm",
     "lint": "echo skipped",
     "lint:fix": "echo skipped",
     "minify": "dev-tool run vendored uglifyjs -c -m --comments --source-map \"content='./dist/index.js.map'\" -o ./dist/index.min.js ./dist/index.js",
@@ -104,9 +105,9 @@
     "test:browser": "npm run clean && npm run build:test && npm run unit-test:browser && npm run integration-test:browser",
     "test:node": "npm run clean && dev-tool run build-package && npm run unit-test:node && npm run integration-test:node",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
-    "unit-test:browser": "npm run build:test && dev-tool run test:vitest --browser",
+    "unit-test:browser": "echo skipped",
     "unit-test:node": "dev-tool run test:vitest",
-    "update-snippets": "echo skipped"
+    "update-snippets": "dev-tool run update-snippets"
   },
   "//sampleConfiguration": {
     "productName": "@azure/arm-mongocluster",
@@ -157,5 +158,7 @@
   },
   "main": "./dist/commonjs/index.js",
   "types": "./dist/commonjs/index.d.ts",
-  "module": "./dist/esm/index.js"
+  "module": "./dist/esm/index.js",
+  "browser": "./dist/browser/index.js",
+  "react-native": "./dist/react-native/index.js"
 }

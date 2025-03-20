@@ -8,9 +8,7 @@
 import type { Secret } from "@azure/arm-redhatopenshift";
 import { AzureRedHatOpenShiftClient } from "@azure/arm-redhatopenshift";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to The operation returns properties of a Secret.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary The operation returns properties of a Secret.
  * x-ms-original-file: specification/redhatopenshift/resource-manager/Microsoft.RedHatOpenShift/openshiftclusters/stable/2023-11-22/examples/Secrets_CreateOrUpdate.json
  */
-async function createsOrUpdatesASecretWithTheSpecifiedSubscriptionResourceGroupAndResourceName() {
+async function createsOrUpdatesASecretWithTheSpecifiedSubscriptionResourceGroupAndResourceName(): Promise<void> {
   const subscriptionId = process.env["REDHATOPENSHIFT_SUBSCRIPTION_ID"] || "subscriptionId";
   const resourceGroupName = process.env["REDHATOPENSHIFT_RESOURCE_GROUP"] || "resourceGroup";
   const resourceName = "resourceName";
@@ -35,7 +33,7 @@ async function createsOrUpdatesASecretWithTheSpecifiedSubscriptionResourceGroupA
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await createsOrUpdatesASecretWithTheSpecifiedSubscriptionResourceGroupAndResourceName();
 }
 

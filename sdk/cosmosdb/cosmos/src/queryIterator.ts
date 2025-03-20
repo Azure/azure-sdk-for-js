@@ -48,7 +48,6 @@ export class QueryIterator<T> {
   private isInitialized: boolean;
   private correlatedActivityId: string;
   private partitionKeyRangeCache: PartitionKeyRangeCache;
-
   /**
    * @hidden
    */
@@ -93,12 +92,20 @@ export class QueryIterator<T> {
    * ```
    */
   public async *getAsyncIterator(): AsyncIterable<FeedResponse<T>> {
-    this.reset();
-    let diagnosticNode = new DiagnosticNodeInternal(
+    const diagnosticNode = new DiagnosticNodeInternal(
       this.clientContext.diagnosticLevel,
       DiagnosticNodeType.CLIENT_REQUEST_NODE,
       null,
     );
+    yield* this.getAsyncIteratorInternal(diagnosticNode);
+  }
+  /**
+   * @internal
+   */
+  public async *getAsyncIteratorInternal(
+    diagnosticNode: DiagnosticNodeInternal,
+  ): AsyncIterable<FeedResponse<T>> {
+    this.reset();
     this.queryPlanPromise = this.fetchQueryPlan(diagnosticNode);
     while (this.queryExecutionContext.hasMoreResults()) {
       let response: Response<any>;
@@ -176,39 +183,44 @@ export class QueryIterator<T> {
    */
   public async fetchNext(): Promise<FeedResponse<T>> {
     return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
-      this.queryPlanPromise = withMetadataDiagnostics(
-        async (metadataNode: DiagnosticNodeInternal) => {
-          return this.fetchQueryPlan(metadataNode);
-        },
-        diagnosticNode,
-        MetadataLookUpType.QueryPlanLookUp,
-      );
-      if (!this.isInitialized) {
-        await this.init(diagnosticNode);
-      }
-      let response: Response<any>;
-      try {
-        response = await this.queryExecutionContext.fetchMore(diagnosticNode);
-      } catch (error: any) {
-        if (this.needsQueryPlan(error)) {
-          await this.createExecutionContext(diagnosticNode);
-          try {
-            response = await this.queryExecutionContext.fetchMore(diagnosticNode);
-          } catch (queryError: any) {
-            this.handleSplitError(queryError);
-          }
-        } else {
-          throw error;
-        }
-      }
-
-      return new FeedResponse<T>(
-        response.result,
-        response.headers,
-        this.queryExecutionContext.hasMoreResults(),
-        getEmptyCosmosDiagnostics(),
-      );
+      return this.fetchNextInternal(diagnosticNode);
     }, this.clientContext);
+  }
+  /**
+   * @internal
+   */
+  public async fetchNextInternal(diagnosticNode: DiagnosticNodeInternal): Promise<FeedResponse<T>> {
+    this.queryPlanPromise = withMetadataDiagnostics(
+      async (metadataNode: DiagnosticNodeInternal) => {
+        return this.fetchQueryPlan(metadataNode);
+      },
+      diagnosticNode,
+      MetadataLookUpType.QueryPlanLookUp,
+    );
+    if (!this.isInitialized) {
+      await this.init(diagnosticNode);
+    }
+    let response: Response<any>;
+    try {
+      response = await this.queryExecutionContext.fetchMore(diagnosticNode);
+    } catch (error: any) {
+      if (this.needsQueryPlan(error)) {
+        await this.createExecutionContext(diagnosticNode);
+        try {
+          response = await this.queryExecutionContext.fetchMore(diagnosticNode);
+        } catch (queryError: any) {
+          this.handleSplitError(queryError);
+        }
+      } else {
+        throw error;
+      }
+    }
+    return new FeedResponse<T>(
+      response.result,
+      response.headers,
+      this.queryExecutionContext.hasMoreResults(),
+      getEmptyCosmosDiagnostics(),
+    );
   }
 
   /**
@@ -236,7 +248,6 @@ export class QueryIterator<T> {
       diagnosticNode,
       MetadataLookUpType.QueryPlanLookUp,
     );
-
     // this.queryPlanPromise = this.fetchQueryPlan(diagnosticNode);
     if (!this.isInitialized) {
       await this.init(diagnosticNode);
@@ -358,7 +369,10 @@ export class QueryIterator<T> {
   }
 
   private initPromise: Promise<void>;
-  private async init(diagnosticNode: DiagnosticNodeInternal): Promise<void> {
+  /**
+   * @internal
+   */
+  public async init(diagnosticNode: DiagnosticNodeInternal): Promise<void> {
     if (this.isInitialized === true) {
       return;
     }

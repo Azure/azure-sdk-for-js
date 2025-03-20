@@ -7,9 +7,7 @@
  */
 import { HybridComputeManagementClient } from "@azure/arm-hybridcompute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets a list of Azure Arc PrivateLinkScopes within a resource group.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Gets a list of Azure Arc PrivateLinkScopes within a resource group.
  * x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2024-07-31-preview/examples/privateLinkScope/PrivateLinkScopes_ListByResourceGroup.json
  */
-async function privateLinkScopeListByResourceGroup() {
+async function privateLinkScopeListByResourceGroup(): Promise<void> {
   const subscriptionId =
     process.env["HYBRIDCOMPUTE_SUBSCRIPTION_ID"] || "86dc51d3-92ed-4d7e-947a-775ea79b4919";
   const resourceGroupName = process.env["HYBRIDCOMPUTE_RESOURCE_GROUP"] || "my-resource-group";
@@ -30,7 +28,7 @@ async function privateLinkScopeListByResourceGroup() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await privateLinkScopeListByResourceGroup();
 }
 

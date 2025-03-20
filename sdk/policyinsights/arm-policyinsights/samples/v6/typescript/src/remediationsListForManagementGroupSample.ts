@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Gets all remediations for the management group.
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2024-10-01/examples/Remediations_ListManagementGroupScope.json
  */
-async function listRemediationsAtManagementGroupScope() {
+async function listRemediationsAtManagementGroupScope(): Promise<void> {
   const managementGroupId = "financeMg";
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential);
@@ -40,7 +40,7 @@ async function listRemediationsAtManagementGroupScope() {
  * @summary Gets all remediations for the management group.
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2024-10-01/examples/Remediations_ListManagementGroupScope_WithQuery.json
  */
-async function listRemediationsAtManagementGroupScopeWithQueryParameters() {
+async function listRemediationsAtManagementGroupScopeWithQueryParameters(): Promise<void> {
   const managementGroupId = "financeMg";
   const top = 1;
   const filter =
@@ -61,7 +61,7 @@ async function listRemediationsAtManagementGroupScopeWithQueryParameters() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listRemediationsAtManagementGroupScope();
   listRemediationsAtManagementGroupScopeWithQueryParameters();
 }

@@ -22,6 +22,31 @@ export interface AppConfigurationClientOptions extends CommonClientOptions {
    * Note that overriding this default value may result in unsupported behavior.
    */
   apiVersion?: string;
+
+  /**
+   * The Audience to use for authentication with Azure Active Directory (AAD).
+   * {@link KnownAppConfigAudience} can be used interchangeably with audience.
+   * If not specified, the default audience will be set to Azure Public Cloud.
+   */
+  audience?: string;
+}
+
+/**
+ * Known values for Azure App Configuration Audience
+ */
+export enum KnownAppConfigAudience {
+  /**
+   * Audience for Azure China
+   */
+  AzureChina = "https://appconfig.azure.cn",
+  /**
+   * Audience for Azure Government
+   */
+  AzureGovernment = "https://appconfig.azure.us",
+  /**
+   * Audience for Azure Public
+   */
+  AzurePublicCloud = "https://appconfig.azure.com",
 }
 
 /**

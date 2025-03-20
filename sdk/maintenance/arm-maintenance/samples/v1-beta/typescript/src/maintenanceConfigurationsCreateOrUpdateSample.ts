@@ -13,9 +13,7 @@ import {
   MaintenanceManagementClient,
 } from "@azure/arm-maintenance";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create or Update configuration record
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Create or Update configuration record
  * x-ms-original-file: specification/maintenance/resource-manager/Microsoft.Maintenance/preview/2023-10-01-preview/examples/MaintenanceConfigurations_CreateOrUpdateForResource.json
  */
-async function maintenanceConfigurationsCreateOrUpdateForResource() {
+async function maintenanceConfigurationsCreateOrUpdateForResource(): Promise<void> {
   const subscriptionId =
     process.env["MAINTENANCE_SUBSCRIPTION_ID"] ||
     "5b4b650e-28b9-4790-b3ab-ddbd88d727c4";
@@ -51,7 +49,7 @@ async function maintenanceConfigurationsCreateOrUpdateForResource() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   maintenanceConfigurationsCreateOrUpdateForResource();
 }
 

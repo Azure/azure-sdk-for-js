@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Checks if the peering service provider is present within 1000 miles of customer's location
  * x-ms-original-file: specification/peering/resource-manager/Microsoft.Peering/stable/2021-06-01/examples/CheckServiceProviderAvailability.json
  */
-async function checkIfPeeringServiceProviderIsAvailableInCustomerLocation() {
+async function checkIfPeeringServiceProviderIsAvailableInCustomerLocation(): Promise<void> {
   const subscriptionId = "subId";
   const checkServiceProviderAvailabilityInput: CheckServiceProviderAvailabilityInput = {
     peeringServiceLocation: "peeringServiceLocation1",

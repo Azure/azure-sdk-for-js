@@ -21,13 +21,13 @@ import "dotenv/config";
 const azureSearchEndpoint = process.env["AZURE_SEARCH_ENDPOINT"] || "<search endpoint>";
 const azureSearchIndexName = process.env["AZURE_SEARCH_INDEX"] || "<search index>";
 
-export async function main() {
+export async function main(): Promise<void> {
   console.log("== On Your Data Sample ==");
 
   const scope = "https://cognitiveservices.azure.com/.default";
   const azureADTokenProvider = getBearerTokenProvider(new DefaultAzureCredential(), scope);
   const deployment = "gpt-4-1106-preview";
-  const apiVersion = "2024-11-01-preview";
+  const apiVersion = "2025-01-01-preview";
   const client = new AzureOpenAI({ azureADTokenProvider, deployment, apiVersion });
   const events = await client.chat.completions.create({
     stream: true,
@@ -56,7 +56,9 @@ export async function main() {
 
   for await (const event of events) {
     for (const choice of event.choices) {
-      console.log(choice.delta?.content);
+      if (choice.delta?.content) {
+        process.stdout.write(choice.delta.content);
+      }
     }
   }
 }

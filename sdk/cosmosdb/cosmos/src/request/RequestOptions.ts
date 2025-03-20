@@ -37,9 +37,13 @@ export interface RequestOptions extends SharedOptions {
   urlConnection?: string;
   /** Disable automatic id generation (will cause creates to fail if id isn't on the definition) */
   disableAutomaticIdGeneration?: boolean;
+
   /**
-   * If set to false, service doesn't return payload in the response. It reduces networking and CPU load
-   * by not sending the payload back over the network. Default value is true.
-   */
-  contentResponseOnWriteEnabled?: boolean;
+   * @internal
+   * database rid for setting DatabaseRidHeader */
+  databaseRid?: string;
+  /**
+   * @internal
+   * collection rid for setting CollectionRidHeader */
+  containerRid?: string;
 }

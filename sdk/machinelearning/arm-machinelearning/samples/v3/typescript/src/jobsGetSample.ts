@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { AzureMachineLearningServicesManagementClient } from "@azure/arm-machinelearning";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets a Job by name/id.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Gets a Job by name/id.
  * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2024-04-01/examples/Job/AutoMLJob/get.json
  */
-async function getAutoMlJob() {
+async function getAutoMlJob(): Promise<void> {
   const subscriptionId =
     process.env["MACHINELEARNING_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -43,7 +41,7 @@ async function getAutoMlJob() {
  * @summary Gets a Job by name/id.
  * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2024-04-01/examples/Job/CommandJob/get.json
  */
-async function getCommandJob() {
+async function getCommandJob(): Promise<void> {
   const subscriptionId =
     process.env["MACHINELEARNING_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -66,7 +64,7 @@ async function getCommandJob() {
  * @summary Gets a Job by name/id.
  * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2024-04-01/examples/Job/PipelineJob/get.json
  */
-async function getPipelineJob() {
+async function getPipelineJob(): Promise<void> {
   const subscriptionId =
     process.env["MACHINELEARNING_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -89,7 +87,7 @@ async function getPipelineJob() {
  * @summary Gets a Job by name/id.
  * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2024-04-01/examples/Job/SweepJob/get.json
  */
-async function getSweepJob() {
+async function getSweepJob(): Promise<void> {
   const subscriptionId =
     process.env["MACHINELEARNING_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -106,7 +104,7 @@ async function getSweepJob() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getAutoMlJob();
   getCommandJob();
   getPipelineJob();

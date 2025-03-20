@@ -28,7 +28,7 @@ import {
   AgentPoolsImpl,
   RunsImpl,
   TaskRunsImpl,
-  TasksImpl
+  TasksImpl,
 } from "./operations/index.js";
 import {
   Archives,
@@ -49,7 +49,7 @@ import {
   AgentPools,
   Runs,
   TaskRuns,
-  Tasks
+  Tasks,
 } from "./operationsInterfaces/index.js";
 import { ContainerRegistryManagementClientOptionalParams } from "./models/index.js";
 
@@ -66,7 +66,7 @@ export class ContainerRegistryManagementClient extends coreClient.ServiceClient 
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
-    options?: ContainerRegistryManagementClientOptionalParams
+    options?: ContainerRegistryManagementClientOptionalParams,
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
@@ -81,7 +81,7 @@ export class ContainerRegistryManagementClient extends coreClient.ServiceClient 
     }
     const defaults: ContainerRegistryManagementClientOptionalParams = {
       requestContentType: "application/json; charset=utf-8",
-      credential: credentials
+      credential: credentials,
     };
 
     const packageDetails = `azsdk-js-arm-containerregistry/11.0.0-beta.4`;
@@ -94,20 +94,21 @@ export class ContainerRegistryManagementClient extends coreClient.ServiceClient 
       ...defaults,
       ...options,
       userAgentOptions: {
-        userAgentPrefix
+        userAgentPrefix,
       },
       endpoint:
-        options.endpoint ?? options.baseUri ?? "https://management.azure.com"
+        options.endpoint ?? options.baseUri ?? "https://management.azure.com",
     };
     super(optionsWithDefaults);
 
     let bearerTokenAuthenticationPolicyFound: boolean = false;
     if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
-      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
+      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] =
+        options.pipeline.getOrderedPolicies();
       bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
           pipelinePolicy.name ===
-          coreRestPipeline.bearerTokenAuthenticationPolicyName
+          coreRestPipeline.bearerTokenAuthenticationPolicyName,
       );
     }
     if (
@@ -117,7 +118,7 @@ export class ContainerRegistryManagementClient extends coreClient.ServiceClient 
       !bearerTokenAuthenticationPolicyFound
     ) {
       this.pipeline.removePolicy({
-        name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+        name: coreRestPipeline.bearerTokenAuthenticationPolicyName,
       });
       this.pipeline.addPolicy(
         coreRestPipeline.bearerTokenAuthenticationPolicy({
@@ -127,9 +128,9 @@ export class ContainerRegistryManagementClient extends coreClient.ServiceClient 
             `${optionsWithDefaults.endpoint}/.default`,
           challengeCallbacks: {
             authorizeRequestOnChallenge:
-              coreClient.authorizeRequestOnClaimChallenge
-          }
-        })
+              coreClient.authorizeRequestOnClaimChallenge,
+          },
+        }),
       );
     }
     // Parameter assignments

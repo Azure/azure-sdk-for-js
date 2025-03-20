@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Deletes a workflow
  * x-ms-original-file: specification/developerhub/resource-manager/Microsoft.DevHub/preview/2022-10-11-preview/examples/Workflow_Delete.json
  */
-async function deleteWorkflow() {
+async function deleteWorkflow(): Promise<void> {
   const subscriptionId =
     process.env["DEVHUB_SUBSCRIPTION_ID"] || "subscriptionId1";
   const resourceGroupName =
@@ -30,7 +30,7 @@ async function deleteWorkflow() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   deleteWorkflow();
 }
 

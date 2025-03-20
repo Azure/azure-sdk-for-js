@@ -8,9 +8,7 @@
 import type { CreateProtectionIntentInput } from "@azure/arm-recoveryservices-siterecovery";
 import { SiteRecoveryManagementClient } from "@azure/arm-recoveryservices-siterecovery";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to The operation to create an ASR replication protection intent item.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary The operation to create an ASR replication protection intent item.
  * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationProtectionIntents_Create.json
  */
-async function createProtectionIntentResource() {
+async function createProtectionIntentResource(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICESSITERECOVERY_SUBSCRIPTION_ID"] ||
     "509099b2-9d2c-4636-b43e-bd5cafb6be69";
@@ -52,7 +50,7 @@ async function createProtectionIntentResource() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await createProtectionIntentResource();
 }
 

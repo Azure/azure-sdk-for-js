@@ -15,7 +15,7 @@ import type { ListClusterUserCredentialProperties } from "@azure/arm-hybridkuber
 import { ConnectedKubernetesClient } from "@azure/arm-hybridkubernetes";
 import { DefaultAzureCredential } from "@azure/identity";
 
-async function listClusterUserCredentialCspExample() {
+async function listClusterUserCredentialCspExample(): Promise<void> {
   const subscriptionId = "1bfbb5d0-917e-4346-9026-1d3b344417f5";
   const resourceGroupName = "k8sc-rg";
   const clusterName = "testCluster";

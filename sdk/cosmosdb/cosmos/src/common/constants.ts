@@ -182,16 +182,20 @@ export const Constants = {
     // Cache Refresh header
     ForceRefresh: "x-ms-force-refresh",
 
-    // Priority Based throttling header
+    // Throughput related headers
     PriorityLevel: "x-ms-cosmos-priority-level",
+    ThroughputBucket: "x-ms-cosmos-throughput-bucket",
+
+    // Encryption Headers
+    IsClientEncryptedHeader: "x-ms-cosmos-is-client-encrypted",
+    IntendedCollectionHeader: "x-ms-cosmos-intended-collection-rid",
+    DatabaseRidHeader: "x-ms-cosmos-database-rid",
+    AllowCachedReadsHeader: "x-ms-cosmos-allow-cachedreads",
   },
   // ThrottledRequests Retry policy default values
   ThrottledRequestMaxRetryAttemptCount: 9,
   ThrottledRequestMaxWaitTimeInSeconds: 30,
   ThrottledRequestFixedRetryIntervalInMs: 0,
-
-  // HttpHeaders Values
-  PREFER_RETURN_MINIMAL: "return=minimal",
 
   // GlobalDB related constants
   WritableLocations: "writableLocations",
@@ -213,13 +217,24 @@ export const Constants = {
   AzureNamespace: "Azure.Cosmos",
   AzurePackageName: "@azure/cosmos",
   SDKName: "azure-cosmos-js",
-  SDKVersion: "4.2.1",
+  SDKVersion: "4.3.0",
 
   // Diagnostics
   CosmosDbDiagnosticLevelEnvVarName: "AZURE_COSMOSDB_DIAGNOSTICS_LEVEL",
 
   // Bulk Operations
   DefaultMaxBulkRequestBodySizeInBytes: 220201,
+
+  // Encryption
+  Encryption: {
+    DiagnosticsDecryptOperation: "Decrypt",
+    DiagnosticsDuration: "Duration in milliseconds",
+    DiagnosticsEncryptionDiagnostics: "EncryptionDiagnostics",
+    DiagnosticsEncryptOperation: "Encrypt",
+    DiagnosticsPropertiesEncryptedCount: "Properties Encrypted Count",
+    DiagnosticsPropertiesDecryptedCount: "Properties Decrypted Count",
+    DiagnosticsStartTime: "Start time",
+  },
 
   Quota: {
     CollectionSize: "collectionSize",
@@ -274,6 +289,10 @@ export const Constants = {
   // Changefeed AllVersionsAndDeletesMode formatting version
   AllVersionsAndDeletesChangeFeedWireFormatVersion: "2021-09-15",
   ChangeFeedIfNoneMatchStartFromNowHeader: "*",
+  // Default TTL for encryption caches is 2 hrs (7200 sec)
+  DefaultEncryptionCacheTimeToLiveInSeconds: 7200,
+  // Timeout to clear encryption related cache
+  EncryptionCacheRefreshIntervalInMs: 60000, // 1 minute
 };
 
 /**
@@ -293,6 +312,8 @@ export enum ResourceType {
   item = "docs",
   pkranges = "pkranges",
   partitionkey = "partitionKey",
+  /** resource representing client encryption keys to encrypt/decrypt data */
+  clientencryptionkey = "clientencryptionkeys",
 }
 
 /**

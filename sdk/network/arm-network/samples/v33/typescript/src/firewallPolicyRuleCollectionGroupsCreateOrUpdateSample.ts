@@ -13,9 +13,7 @@ import {
   NetworkManagementClient,
 } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates or updates the specified FirewallPolicyRuleCollectionGroup.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Creates or updates the specified FirewallPolicyRuleCollectionGroup.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/FirewallPolicyNatRuleCollectionGroupPut.json
  */
-async function createFirewallPolicyNatRuleCollectionGroup() {
+async function createFirewallPolicyNatRuleCollectionGroup(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const firewallPolicyName = "firewallPolicy";
@@ -70,7 +68,7 @@ async function createFirewallPolicyNatRuleCollectionGroup() {
  * @summary Creates or updates the specified FirewallPolicyRuleCollectionGroup.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/FirewallPolicyRuleCollectionGroupPut.json
  */
-async function createFirewallPolicyRuleCollectionGroup() {
+async function createFirewallPolicyRuleCollectionGroup(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const firewallPolicyName = "firewallPolicy";
@@ -114,7 +112,7 @@ async function createFirewallPolicyRuleCollectionGroup() {
  * @summary Creates or updates the specified FirewallPolicyRuleCollectionGroup.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/FirewallPolicyRuleCollectionGroupWithIpGroupsPut.json
  */
-async function createFirewallPolicyRuleCollectionGroupWithIPGroups() {
+async function createFirewallPolicyRuleCollectionGroupWithIPGroups(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const firewallPolicyName = "firewallPolicy";
@@ -161,7 +159,7 @@ async function createFirewallPolicyRuleCollectionGroupWithIPGroups() {
  * @summary Creates or updates the specified FirewallPolicyRuleCollectionGroup.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/FirewallPolicyRuleCollectionGroupWithWebCategoriesPut.json
  */
-async function createFirewallPolicyRuleCollectionGroupWithWebCategories() {
+async function createFirewallPolicyRuleCollectionGroupWithWebCategories(): Promise<void> {
   const subscriptionId =
     process.env["NETWORK_SUBSCRIPTION_ID"] ||
     "e747cc13-97d4-4a79-b463-42d7f4e558f2";
@@ -206,7 +204,7 @@ async function createFirewallPolicyRuleCollectionGroupWithWebCategories() {
  * @summary Creates or updates the specified FirewallPolicyRuleCollectionGroup.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/FirewallPolicyRuleCollectionGroupWithHttpHeadersToInsert.json
  */
-async function createFirewallPolicyRuleCollectionGroupWithHttpHeaderToInsert() {
+async function createFirewallPolicyRuleCollectionGroupWithHttpHeaderToInsert(): Promise<void> {
   const subscriptionId =
     process.env["NETWORK_SUBSCRIPTION_ID"] ||
     "e747cc13-97d4-4a79-b463-42d7f4e558f2";
@@ -251,7 +249,7 @@ async function createFirewallPolicyRuleCollectionGroupWithHttpHeaderToInsert() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createFirewallPolicyNatRuleCollectionGroup();
   createFirewallPolicyRuleCollectionGroup();
   createFirewallPolicyRuleCollectionGroupWithIPGroups();

@@ -8,9 +8,7 @@
 import type { HubIpConfiguration } from "@azure/arm-network";
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates a VirtualHubIpConfiguration resource if it doesn't exist else updates the existing VirtualHubIpConfiguration.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Creates a VirtualHubIpConfiguration resource if it doesn't exist else updates the existing VirtualHubIpConfiguration.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/VirtualHubIpConfigurationPut.json
  */
-async function virtualHubIPConfigurationPut() {
+async function virtualHubIPConfigurationPut(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const virtualHubName = "hub1";
@@ -39,7 +37,7 @@ async function virtualHubIPConfigurationPut() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await virtualHubIPConfigurationPut();
 }
 

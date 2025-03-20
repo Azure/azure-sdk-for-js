@@ -8,9 +8,7 @@
 import type { ExportDevicesRequest } from "@azure/arm-iothub-profile-2020-09-01-hybrid";
 import { IotHubClient } from "@azure/arm-iothub-profile-2020-09-01-hybrid";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Exports all the device identities in the IoT hub identity registry to an Azure Storage blob container. For more information, see: https://learn.microsoft.com/azure/iot-hub/iot-hub-devguide-identity-registry#import-and-export-device-identities.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Exports all the device identities in the IoT hub identity registry to an Azure Storage blob container. For more information, see: https://learn.microsoft.com/azure/iot-hub/iot-hub-devguide-identity-registry#import-and-export-device-identities.
  * x-ms-original-file: specification/iothub/resource-manager/Microsoft.Devices/preview/2019-07-01-preview/examples/iothub_exportdevices.json
  */
-async function iotHubResourceExportDevices() {
+async function iotHubResourceExportDevices(): Promise<void> {
   const subscriptionId =
     process.env["IOTHUB_SUBSCRIPTION_ID"] || "91d12660-3dec-467a-be2a-213b5544ddc0";
   const resourceGroupName = process.env["IOTHUB_RESOURCE_GROUP"] || "myResourceGroup";
@@ -37,7 +35,7 @@ async function iotHubResourceExportDevices() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await iotHubResourceExportDevices();
 }
 

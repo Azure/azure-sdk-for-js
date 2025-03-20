@@ -7,9 +7,7 @@
  */
 import { AzureMachineLearningServicesManagementClient } from "@azure/arm-machinelearning";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Prepare a notebook.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Prepare a notebook.
  * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2024-04-01/examples/Notebook/prepare.json
  */
-async function prepareNotebook() {
+async function prepareNotebook(): Promise<void> {
   const subscriptionId =
     process.env["MACHINELEARNING_SUBSCRIPTION_ID"] || "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee";
   const resourceGroupName = process.env["MACHINELEARNING_RESOURCE_GROUP"] || "testrg123";
@@ -31,7 +29,7 @@ async function prepareNotebook() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await prepareNotebook();
 }
 

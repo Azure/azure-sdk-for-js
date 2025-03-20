@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { Operation, MonitorOperationsListOptionalParams } from "../models";
+import { Operation, MonitorOperationsListOptionalParams } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a MonitorOperations. */

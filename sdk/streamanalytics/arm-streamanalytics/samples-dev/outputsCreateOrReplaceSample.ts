@@ -8,9 +8,7 @@
 import type { Output } from "@azure/arm-streamanalytics";
 import { StreamAnalyticsManagementClient } from "@azure/arm-streamanalytics";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates an output or replaces an already existing output under an existing streaming job.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Creates an output or replaces an already existing output under an existing streaming job.
  * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/preview/2021-10-01-preview/examples/Output_Create_DeltaLake.json
  */
-async function createADeltaLakeOutput() {
+async function createADeltaLakeOutput(): Promise<void> {
   const subscriptionId =
     process.env["STREAMANALYTICS_SUBSCRIPTION_ID"] || "56b5e0a9-b645-407d-99b0-c64f86013e3d";
   const resourceGroupName = process.env["STREAMANALYTICS_RESOURCE_GROUP"] || "sjrg";
@@ -56,7 +54,7 @@ async function createADeltaLakeOutput() {
  * @summary Creates an output or replaces an already existing output under an existing streaming job.
  * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/preview/2021-10-01-preview/examples/Output_Create_DocumentDB.json
  */
-async function createADocumentDbOutput() {
+async function createADocumentDbOutput(): Promise<void> {
   const subscriptionId =
     process.env["STREAMANALYTICS_SUBSCRIPTION_ID"] || "56b5e0a9-b645-407d-99b0-c64f86013e3d";
   const resourceGroupName = process.env["STREAMANALYTICS_RESOURCE_GROUP"] || "sjrg7983";
@@ -91,7 +89,7 @@ async function createADocumentDbOutput() {
  * @summary Creates an output or replaces an already existing output under an existing streaming job.
  * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/preview/2021-10-01-preview/examples/Output_Create_GatewayMessageBus.json
  */
-async function createAGatewayMessageBusOutput() {
+async function createAGatewayMessageBusOutput(): Promise<void> {
   const subscriptionId =
     process.env["STREAMANALYTICS_SUBSCRIPTION_ID"] || "56b5e0a9-b645-407d-99b0-c64f86013e3d";
   const resourceGroupName = process.env["STREAMANALYTICS_RESOURCE_GROUP"] || "sjrg7983";
@@ -117,7 +115,7 @@ async function createAGatewayMessageBusOutput() {
  * @summary Creates an output or replaces an already existing output under an existing streaming job.
  * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/preview/2021-10-01-preview/examples/Output_Create_PostgreSQL.json
  */
-async function createAPostgreSqlOutput() {
+async function createAPostgreSqlOutput(): Promise<void> {
   const subscriptionId =
     process.env["STREAMANALYTICS_SUBSCRIPTION_ID"] || "56b5e0a9-b645-407d-99b0-c64f86013e3d";
   const resourceGroupName = process.env["STREAMANALYTICS_RESOURCE_GROUP"] || "sjrg7983";
@@ -152,7 +150,7 @@ async function createAPostgreSqlOutput() {
  * @summary Creates an output or replaces an already existing output under an existing streaming job.
  * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/preview/2021-10-01-preview/examples/Output_Create_PowerBI.json
  */
-async function createAPowerBiOutput() {
+async function createAPowerBiOutput(): Promise<void> {
   const subscriptionId =
     process.env["STREAMANALYTICS_SUBSCRIPTION_ID"] || "56b5e0a9-b645-407d-99b0-c64f86013e3d";
   const resourceGroupName = process.env["STREAMANALYTICS_RESOURCE_GROUP"] || "sjrg7983";
@@ -187,7 +185,7 @@ async function createAPowerBiOutput() {
  * @summary Creates an output or replaces an already existing output under an existing streaming job.
  * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/preview/2021-10-01-preview/examples/Output_Create_ServiceBusQueue_Avro.json
  */
-async function createAServiceBusQueueOutputWithAvroSerialization() {
+async function createAServiceBusQueueOutputWithAvroSerialization(): Promise<void> {
   const subscriptionId =
     process.env["STREAMANALYTICS_SUBSCRIPTION_ID"] || "56b5e0a9-b645-407d-99b0-c64f86013e3d";
   const resourceGroupName = process.env["STREAMANALYTICS_RESOURCE_GROUP"] || "sjrg3410";
@@ -222,7 +220,7 @@ async function createAServiceBusQueueOutputWithAvroSerialization() {
  * @summary Creates an output or replaces an already existing output under an existing streaming job.
  * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/preview/2021-10-01-preview/examples/Output_Create_ServiceBusTopic_CSV.json
  */
-async function createAServiceBusTopicOutputWithCsvSerialization() {
+async function createAServiceBusTopicOutputWithCsvSerialization(): Promise<void> {
   const subscriptionId =
     process.env["STREAMANALYTICS_SUBSCRIPTION_ID"] || "56b5e0a9-b645-407d-99b0-c64f86013e3d";
   const resourceGroupName = process.env["STREAMANALYTICS_RESOURCE_GROUP"] || "sjrg6450";
@@ -256,7 +254,7 @@ async function createAServiceBusTopicOutputWithCsvSerialization() {
  * @summary Creates an output or replaces an already existing output under an existing streaming job.
  * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/preview/2021-10-01-preview/examples/Output_Create_Blob_CSV.json
  */
-async function createABlobOutputWithCsvSerialization() {
+async function createABlobOutputWithCsvSerialization(): Promise<void> {
   const subscriptionId =
     process.env["STREAMANALYTICS_SUBSCRIPTION_ID"] || "56b5e0a9-b645-407d-99b0-c64f86013e3d";
   const resourceGroupName = process.env["STREAMANALYTICS_RESOURCE_GROUP"] || "sjrg5023";
@@ -292,7 +290,7 @@ async function createABlobOutputWithCsvSerialization() {
  * @summary Creates an output or replaces an already existing output under an existing streaming job.
  * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/preview/2021-10-01-preview/examples/Output_Create_AzureDataExplorer.json
  */
-async function createAnAzureDataExplorerOutput() {
+async function createAnAzureDataExplorerOutput(): Promise<void> {
   const subscriptionId =
     process.env["STREAMANALYTICS_SUBSCRIPTION_ID"] || "56b5e0a9-b645-407d-99b0-c64f86013e3d";
   const resourceGroupName = process.env["STREAMANALYTICS_RESOURCE_GROUP"] || "sjrg";
@@ -324,7 +322,7 @@ async function createAnAzureDataExplorerOutput() {
  * @summary Creates an output or replaces an already existing output under an existing streaming job.
  * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/preview/2021-10-01-preview/examples/Output_Create_AzureDataLakeStore_JSON.json
  */
-async function createAnAzureDataLakeStoreOutputWithJsonSerialization() {
+async function createAnAzureDataLakeStoreOutputWithJsonSerialization(): Promise<void> {
   const subscriptionId =
     process.env["STREAMANALYTICS_SUBSCRIPTION_ID"] || "56b5e0a9-b645-407d-99b0-c64f86013e3d";
   const resourceGroupName = process.env["STREAMANALYTICS_RESOURCE_GROUP"] || "sjrg6912";
@@ -361,7 +359,7 @@ async function createAnAzureDataLakeStoreOutputWithJsonSerialization() {
  * @summary Creates an output or replaces an already existing output under an existing streaming job.
  * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/preview/2021-10-01-preview/examples/Output_Create_DataWarehouse.json
  */
-async function createAnAzureDataWarehouseOutput() {
+async function createAnAzureDataWarehouseOutput(): Promise<void> {
   const subscriptionId =
     process.env["STREAMANALYTICS_SUBSCRIPTION_ID"] || "56b5e0a9-b645-407d-99b0-c64f86013e3d";
   const resourceGroupName = process.env["STREAMANALYTICS_RESOURCE_GROUP"] || "sjrg";
@@ -395,7 +393,7 @@ async function createAnAzureDataWarehouseOutput() {
  * @summary Creates an output or replaces an already existing output under an existing streaming job.
  * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/preview/2021-10-01-preview/examples/Output_Create_AzureFunction.json
  */
-async function createAnAzureFunctionOutput() {
+async function createAnAzureFunctionOutput(): Promise<void> {
   const subscriptionId =
     process.env["STREAMANALYTICS_SUBSCRIPTION_ID"] || "56b5e0a9-b645-407d-99b0-c64f86013e3d";
   const resourceGroupName = process.env["STREAMANALYTICS_RESOURCE_GROUP"] || "sjrg";
@@ -428,7 +426,7 @@ async function createAnAzureFunctionOutput() {
  * @summary Creates an output or replaces an already existing output under an existing streaming job.
  * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/preview/2021-10-01-preview/examples/Output_Create_AzureSQL.json
  */
-async function createAnAzureSqlDatabaseOutput() {
+async function createAnAzureSqlDatabaseOutput(): Promise<void> {
   const subscriptionId =
     process.env["STREAMANALYTICS_SUBSCRIPTION_ID"] || "56b5e0a9-b645-407d-99b0-c64f86013e3d";
   const resourceGroupName = process.env["STREAMANALYTICS_RESOURCE_GROUP"] || "sjrg2157";
@@ -461,7 +459,7 @@ async function createAnAzureSqlDatabaseOutput() {
  * @summary Creates an output or replaces an already existing output under an existing streaming job.
  * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/preview/2021-10-01-preview/examples/Output_Create_AzureTable.json
  */
-async function createAnAzureTableOutput() {
+async function createAnAzureTableOutput(): Promise<void> {
   const subscriptionId =
     process.env["STREAMANALYTICS_SUBSCRIPTION_ID"] || "56b5e0a9-b645-407d-99b0-c64f86013e3d";
   const resourceGroupName = process.env["STREAMANALYTICS_RESOURCE_GROUP"] || "sjrg5176";
@@ -496,7 +494,7 @@ async function createAnAzureTableOutput() {
  * @summary Creates an output or replaces an already existing output under an existing streaming job.
  * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/preview/2021-10-01-preview/examples/Output_Create_EventHub_JSON.json
  */
-async function createAnEventHubOutputWithJsonSerialization() {
+async function createAnEventHubOutputWithJsonSerialization(): Promise<void> {
   const subscriptionId =
     process.env["STREAMANALYTICS_SUBSCRIPTION_ID"] || "56b5e0a9-b645-407d-99b0-c64f86013e3d";
   const resourceGroupName = process.env["STREAMANALYTICS_RESOURCE_GROUP"] || "sjrg6912";
@@ -528,7 +526,7 @@ async function createAnEventHubOutputWithJsonSerialization() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await createADeltaLakeOutput();
   await createADocumentDbOutput();
   await createAGatewayMessageBusOutput();

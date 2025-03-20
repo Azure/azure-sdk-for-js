@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { SourceControlConfigurationClient } from "@azure/arm-kubernetesconfiguration";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to This will delete the YAML file used to set up the Flux Configuration, thus stopping future sync from the source repo.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary This will delete the YAML file used to set up the Flux Configuration, thus stopping future sync from the source repo.
  * x-ms-original-file: specification/kubernetesconfiguration/resource-manager/Microsoft.KubernetesConfiguration/stable/2023-05-01/examples/DeleteFluxConfiguration.json
  */
-async function deleteFluxConfiguration() {
+async function deleteFluxConfiguration(): Promise<void> {
   const subscriptionId =
     process.env["KUBERNETESCONFIGURATION_SUBSCRIPTION_ID"] || "subId1";
   const resourceGroupName =
@@ -44,7 +42,7 @@ async function deleteFluxConfiguration() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   deleteFluxConfiguration();
 }
 

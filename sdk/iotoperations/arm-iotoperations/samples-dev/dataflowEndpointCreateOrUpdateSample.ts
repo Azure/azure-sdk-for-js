@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary create a DataflowEndpointResource
  * x-ms-original-file: 2024-11-01/DataflowEndpoint_CreateOrUpdate_ADLSv2.json
  */
-async function dataflowEndpointCreateOrUpdateADLSv2() {
+async function dataflowEndpointCreateOrUpdateADLSv2(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "F8C729F9-DF9C-4743-848F-96EE433D8E53";
   const client = new IoTOperationsClient(credential, subscriptionId);
@@ -44,7 +44,7 @@ async function dataflowEndpointCreateOrUpdateADLSv2() {
  * @summary create a DataflowEndpointResource
  * x-ms-original-file: 2024-11-01/DataflowEndpoint_CreateOrUpdate_ADX.json
  */
-async function dataflowEndpointCreateOrUpdateAdx() {
+async function dataflowEndpointCreateOrUpdateAdx(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "F8C729F9-DF9C-4743-848F-96EE433D8E53";
   const client = new IoTOperationsClient(credential, subscriptionId);
@@ -80,7 +80,7 @@ async function dataflowEndpointCreateOrUpdateAdx() {
  * @summary create a DataflowEndpointResource
  * x-ms-original-file: 2024-11-01/DataflowEndpoint_CreateOrUpdate_AIO.json
  */
-async function dataflowEndpointCreateOrUpdateAio() {
+async function dataflowEndpointCreateOrUpdateAio(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "F8C729F9-DF9C-4743-848F-96EE433D8E53";
   const client = new IoTOperationsClient(credential, subscriptionId);
@@ -118,7 +118,7 @@ async function dataflowEndpointCreateOrUpdateAio() {
  * @summary create a DataflowEndpointResource
  * x-ms-original-file: 2024-11-01/DataflowEndpoint_CreateOrUpdate_EventGrid.json
  */
-async function dataflowEndpointCreateOrUpdateEventGrid() {
+async function dataflowEndpointCreateOrUpdateEventGrid(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "F8C729F9-DF9C-4743-848F-96EE433D8E53";
   const client = new IoTOperationsClient(credential, subscriptionId);
@@ -153,7 +153,7 @@ async function dataflowEndpointCreateOrUpdateEventGrid() {
  * @summary create a DataflowEndpointResource
  * x-ms-original-file: 2024-11-01/DataflowEndpoint_CreateOrUpdate_EventHub.json
  */
-async function dataflowEndpointCreateOrUpdateEventHub() {
+async function dataflowEndpointCreateOrUpdateEventHub(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "F8C729F9-DF9C-4743-848F-96EE433D8E53";
   const client = new IoTOperationsClient(credential, subscriptionId);
@@ -189,7 +189,7 @@ async function dataflowEndpointCreateOrUpdateEventHub() {
  * @summary create a DataflowEndpointResource
  * x-ms-original-file: 2024-11-01/DataflowEndpoint_CreateOrUpdate_Fabric.json
  */
-async function dataflowEndpointCreateOrUpdateFabric() {
+async function dataflowEndpointCreateOrUpdateFabric(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "F8C729F9-DF9C-4743-848F-96EE433D8E53";
   const client = new IoTOperationsClient(credential, subscriptionId);
@@ -228,7 +228,7 @@ async function dataflowEndpointCreateOrUpdateFabric() {
  * @summary create a DataflowEndpointResource
  * x-ms-original-file: 2024-11-01/DataflowEndpoint_CreateOrUpdate_Kafka.json
  */
-async function dataflowEndpointCreateOrUpdateKafka() {
+async function dataflowEndpointCreateOrUpdateKafka(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "F8C729F9-DF9C-4743-848F-96EE433D8E53";
   const client = new IoTOperationsClient(credential, subscriptionId);
@@ -278,7 +278,7 @@ async function dataflowEndpointCreateOrUpdateKafka() {
  * @summary create a DataflowEndpointResource
  * x-ms-original-file: 2024-11-01/DataflowEndpoint_CreateOrUpdate_LocalStorage.json
  */
-async function dataflowEndpointCreateOrUpdateLocalStorage() {
+async function dataflowEndpointCreateOrUpdateLocalStorage(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "F8C729F9-DF9C-4743-848F-96EE433D8E53";
   const client = new IoTOperationsClient(credential, subscriptionId);
@@ -306,7 +306,7 @@ async function dataflowEndpointCreateOrUpdateLocalStorage() {
  * @summary create a DataflowEndpointResource
  * x-ms-original-file: 2024-11-01/DataflowEndpoint_CreateOrUpdate_MaximumSet_Gen.json
  */
-async function dataflowEndpointCreateOrUpdate() {
+async function dataflowEndpointCreateOrUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "F8C729F9-DF9C-4743-848F-96EE433D8E53";
   const client = new IoTOperationsClient(credential, subscriptionId);
@@ -444,7 +444,7 @@ async function dataflowEndpointCreateOrUpdate() {
  * @summary create a DataflowEndpointResource
  * x-ms-original-file: 2024-11-01/DataflowEndpoint_CreateOrUpdate_MQTT.json
  */
-async function dataflowEndpointCreateOrUpdateMqtt() {
+async function dataflowEndpointCreateOrUpdateMqtt(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "F8C729F9-DF9C-4743-848F-96EE433D8E53";
   const client = new IoTOperationsClient(credential, subscriptionId);
@@ -480,7 +480,7 @@ async function dataflowEndpointCreateOrUpdateMqtt() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await dataflowEndpointCreateOrUpdateADLSv2();
   await dataflowEndpointCreateOrUpdateAdx();
   await dataflowEndpointCreateOrUpdateAio();

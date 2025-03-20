@@ -13,9 +13,7 @@ import {
   SecurityCenter,
 } from "@azure/arm-security";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Initiate a JIT access from a specific Just-in-Time policy configuration.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Initiate a JIT access from a specific Just-in-Time policy configuration.
  * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/stable/2020-01-01/examples/JitNetworkAccessPolicies/InitiateJitNetworkAccessPolicy_example.json
  */
-async function initiateAnActionOnAJitNetworkAccessPolicy() {
+async function initiateAnActionOnAJitNetworkAccessPolicy(): Promise<void> {
   const subscriptionId =
     process.env["SECURITY_SUBSCRIPTION_ID"] ||
     "20ff7fc3-e762-44dd-bd96-b71116dcdc23";
@@ -50,7 +48,7 @@ async function initiateAnActionOnAJitNetworkAccessPolicy() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   initiateAnActionOnAJitNetworkAccessPolicy();
 }
 

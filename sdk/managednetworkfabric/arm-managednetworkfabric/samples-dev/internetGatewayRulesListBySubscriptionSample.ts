@@ -7,9 +7,7 @@
  */
 import { AzureNetworkFabricManagementServiceAPI } from "@azure/arm-managednetworkfabric";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to List all Internet Gateway rules in the given subscription.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary List all Internet Gateway rules in the given subscription.
  * x-ms-original-file: specification/managednetworkfabric/resource-manager/Microsoft.ManagedNetworkFabric/stable/2023-06-15/examples/InternetGatewayRules_ListBySubscription_MaximumSet_Gen.json
  */
-async function internetGatewayRulesListBySubscriptionMaximumSetGen() {
+async function internetGatewayRulesListBySubscriptionMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["MANAGEDNETWORKFABRIC_SUBSCRIPTION_ID"] || "1234ABCD-0A1B-1234-5678-123456ABCDEF";
   const credential = new DefaultAzureCredential();
@@ -29,7 +27,7 @@ async function internetGatewayRulesListBySubscriptionMaximumSetGen() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await internetGatewayRulesListBySubscriptionMaximumSetGen();
 }
 

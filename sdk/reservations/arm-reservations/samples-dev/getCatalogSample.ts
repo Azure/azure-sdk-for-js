@@ -8,9 +8,7 @@
 import type { GetCatalogOptionalParams } from "@azure/arm-reservations";
 import { AzureReservationAPI } from "@azure/arm-reservations";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get the regions and skus that are available for RI purchase for the specified Azure subscription.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Get the regions and skus that are available for RI purchase for the specified Azure subscription.
  * x-ms-original-file: specification/reservations/resource-manager/Microsoft.Capacity/stable/2022-11-01/examples/GetCatalog.json
  */
-async function catalog() {
+async function catalog(): Promise<void> {
   const subscriptionId = "23bc208b-083f-4901-ae85-4f98c0c3b4b6";
   const reservedResourceType = "VirtualMachines";
   const location = "eastus";
@@ -32,7 +30,7 @@ async function catalog() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await catalog();
 }
 

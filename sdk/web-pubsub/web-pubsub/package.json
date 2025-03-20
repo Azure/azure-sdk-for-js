@@ -28,7 +28,7 @@
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
     "unit-test:browser": "echo skipped",
     "unit-test:node": "dev-tool run test:vitest",
-    "update-snippets": "echo skipped"
+    "update-snippets": "dev-tool run update-snippets"
   },
   "files": [
     "dist/",
@@ -65,7 +65,7 @@
   "dependencies": {
     "@azure/core-auth": "^1.9.0",
     "@azure/core-client": "^1.9.2",
-    "@azure/core-rest-pipeline": "^1.18.0",
+    "@azure/core-rest-pipeline": "^1.19.0",
     "@azure/core-tracing": "^1.2.0",
     "@azure/logger": "^1.1.4",
     "jsonwebtoken": "^9.0.2",
@@ -77,16 +77,17 @@
     "@azure-tools/test-utils-vitest": "^1.0.0",
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
+    "@azure/identity": "^4.7.0",
     "@types/jsonwebtoken": "^9.0.7",
     "@types/node": "^18.0.0",
     "@types/ws": "^8.5.13",
-    "@vitest/browser": "^3.0.3",
-    "@vitest/coverage-istanbul": "^3.0.3",
+    "@vitest/browser": "^3.0.9",
+    "@vitest/coverage-istanbul": "^3.0.9",
     "dotenv": "^16.0.0",
     "eslint": "^9.9.0",
-    "playwright": "^1.49.0",
-    "typescript": "~5.7.2",
-    "vitest": "^3.0.3",
+    "playwright": "^1.50.1",
+    "typescript": "~5.8.2",
+    "vitest": "^3.0.9",
     "ws": "^8.18.0"
   },
   "//sampleConfiguration": {
@@ -100,6 +101,7 @@
   },
   "type": "module",
   "tshy": {
+    "project": "./tsconfig.src.json",
     "exports": {
       "./package.json": "./package.json",
       ".": "./src/index.ts"
@@ -108,8 +110,7 @@
       "esm",
       "commonjs"
     ],
-    "selfLink": false,
-    "project": "./tsconfig.src.json"
+    "selfLink": false
   },
   "exports": {
     "./package.json": "./package.json",

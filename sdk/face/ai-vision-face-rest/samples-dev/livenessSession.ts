@@ -58,13 +58,11 @@ async function main(): Promise<void> {
 
   // 2.Send a request to Face API to create a liveness detection session.
   const createLivenessSessionResponse = await client
-    .path("/detectLiveness/singleModal/sessions")
+    .path("/detectLiveness-sessions")
     .post({
       body: {
         livenessOperationMode: "Passive",
         deviceCorrelationId: randomUUID(),
-        sendResultsToClient: false,
-        authTokenTimeToLiveInSeconds: 60,
       },
     });
   if (isUnexpected(createLivenessSessionResponse)) {
@@ -85,7 +83,7 @@ async function main(): Promise<void> {
   // 8. After client devices perform the action, we can get the result from the following APIs.
   // Get session results.
   const getLivenessSessionResultResponse = await client
-    .path("/detectLiveness/singleModal/sessions/{sessionId}", sessionId)
+    .path("/detectLiveness-sessions/{sessionId}", sessionId)
     .get();
   if (isUnexpected(getLivenessSessionResultResponse)) {
     throw new Error(getLivenessSessionResultResponse.body.error.message);
@@ -93,29 +91,9 @@ async function main(): Promise<void> {
   console.log("Get liveness detection results:");
   console.log(JSON.stringify(getLivenessSessionResultResponse.body, null, 2));
 
-  // Get audit entries.
-  const getAuditEntryResponse = await client
-    .path("/detectLiveness/singleModal/sessions/{sessionId}/audit", sessionId)
-    .get();
-  if (isUnexpected(getAuditEntryResponse)) {
-    throw new Error(getAuditEntryResponse.body.error.message);
-  }
-  console.log("Get audit entries:");
-  console.log(JSON.stringify(getAuditEntryResponse.body, null, 2));
-
-  // We can also list all liveness sessions of this face account.
-  const getLivenessSessionsResponse = await client
-    .path("/detectLiveness/singleModal/sessions")
-    .get();
-  if (isUnexpected(getLivenessSessionsResponse)) {
-    throw new Error(getLivenessSessionsResponse.body.error.message);
-  }
-  console.log("Get liveness sessions:");
-  console.log(JSON.stringify(getLivenessSessionsResponse.body, null, 2));
-
   // Delete session.
   const deleteLivenessSessionResponse = await client
-    .path("/detectLiveness/singleModal/sessions/{sessionId}", sessionId)
+    .path("/detectLiveness-sessions/{sessionId}", sessionId)
     .delete();
   if (isUnexpected(deleteLivenessSessionResponse)) {
     throw new Error(deleteLivenessSessionResponse.body.error.message);

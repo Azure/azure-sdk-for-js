@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { AzureMachineLearningServicesManagementClient } from "@azure/arm-machinelearning";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Returns supported VM Sizes in a location
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Returns supported VM Sizes in a location
  * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2024-04-01/examples/VirtualMachineSize/list.json
  */
-async function listVMSizes() {
+async function listVMSizes(): Promise<void> {
   const subscriptionId =
     process.env["MACHINELEARNING_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -34,7 +32,7 @@ async function listVMSizes() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listVMSizes();
 }
 

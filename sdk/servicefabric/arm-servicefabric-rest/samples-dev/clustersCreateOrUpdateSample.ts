@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Create or update a Service Fabric cluster resource with the specified name.
  * x-ms-original-file: specification/servicefabric/resource-manager/Microsoft.ServiceFabric/stable/2021-06-01/examples/ClusterPutOperation_example_max.json
  */
-async function putAClusterWithMaximumParameters() {
+async function putAClusterWithMaximumParameters(): Promise<void> {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = "resRg";
   const clusterName = "myCluster";
@@ -200,7 +200,7 @@ putAClusterWithMaximumParameters().catch(console.error);
  * @summary Create or update a Service Fabric cluster resource with the specified name.
  * x-ms-original-file: specification/servicefabric/resource-manager/Microsoft.ServiceFabric/stable/2021-06-01/examples/ClusterPutOperation_example_min.json
  */
-async function putAClusterWithMinimumParameters() {
+async function putAClusterWithMinimumParameters(): Promise<void> {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = "resRg";
   const clusterName = "myCluster";

@@ -7,20 +7,20 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { HardwareComponentGroups } from "../operationsInterfaces";
+import { HardwareComponentGroups } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { StorSimple8000SeriesManagementClient } from "../storSimple8000SeriesManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { StorSimple8000SeriesManagementClient } from "../storSimple8000SeriesManagementClient.js";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import { LroImpl } from "../lroImpl.js";
 import {
   HardwareComponentGroup,
   HardwareComponentGroupsListByDeviceOptionalParams,
   HardwareComponentGroupsListByDeviceResponse,
   ControllerPowerStateChangeRequest,
   HardwareComponentGroupsChangeControllerPowerStateOptionalParams
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing HardwareComponentGroups operations. */

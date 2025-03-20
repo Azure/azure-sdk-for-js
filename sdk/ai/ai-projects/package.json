@@ -64,7 +64,7 @@
     "@azure/core-rest-pipeline": "^1.5.0",
     "@azure/core-util": "^1.9.0",
     "@azure/logger": "^1.1.4",
-    "@azure/core-lro": "^2.0.0",
+    "@azure/core-lro": "^3.0.0",
     "tslib": "^2.6.2",
     "@azure/core-paging": "^1.5.0",
     "@azure/core-sse": "^2.1.3",
@@ -75,34 +75,34 @@
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure/identity": "^4.3.0",
     "@azure/opentelemetry-instrumentation-azure-sdk": "^1.0.0-beta.7",
-    "@azure/monitor-opentelemetry-exporter": "^1.0.0-beta.28",
+    "@azure/monitor-opentelemetry-exporter": "^1.0.0-beta.29",
     "@azure-tools/test-credential": "^2.0.0",
     "@azure-tools/test-recorder": "^4.1.0",
     "@azure-tools/test-utils-vitest": "^1.0.0",
     "@opentelemetry/api": "^1.9.0",
     "@opentelemetry/instrumentation": "0.57.0",
     "@opentelemetry/sdk-trace-node": "^1.30.0",
-    "@vitest/browser": "^3.0.3",
-    "@vitest/coverage-istanbul": "^3.0.3",
+    "@vitest/browser": "^3.0.9",
+    "@vitest/coverage-istanbul": "^3.0.9",
     "@types/node": "^18.0.0",
     "dotenv": "^16.0.0",
     "eslint": "^9.9.0",
     "prettier": "^3.2.5",
     "playwright": "^1.41.2",
-    "typescript": "~5.7.2",
-    "vitest": "^3.0.3"
+    "typescript": "~5.8.2",
+    "vitest": "^3.0.9"
   },
   "scripts": {
-    "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
-    "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
+    "build": "npm run clean && dev-tool run build-package && dev-tool run vendored mkdirp ./review && dev-tool run extract-api",
     "build:samples": "echo skipped",
     "build:test": "npm run clean && dev-tool run build-package && dev-tool run build-test",
     "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"samples-dev/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\" ",
     "clean": "dev-tool run vendored rimraf --glob dist dist-* test-dist temp types *.tgz *.log",
+    "copy:yaml": "cp tsp-location.yaml ./src/generated/tsp-location.yaml",
     "execute:samples": "dev-tool samples run samples-dev",
-    "extract-api": "dev-tool run vendored rimraf review && dev-tool run extract-api",
+    "extract-api": "dev-tool run vendored rimraf review && dev-tool run vendored mkdirp ./review && dev-tool run extract-api",
     "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"samples-dev/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\" ",
-    "generate": "dev-tool run vendored rimraf ./src/generated && dev-tool run vendored mkdirp ./src/generated && cp tsp-location.yaml ./src/generated && tsp-client update -o ./src/generated && dev-tool run vendored rimraf ./src/generated/tsp-location.yaml",
+    "generate": "dev-tool run vendored rimraf ./src/generated && dev-tool run vendored mkdirp ./src/generated && npm run copy:yaml && npm run tsp:update && dev-tool run vendored rimraf ./src/generated/test && dev-tool run vendored rimraf ./src/generated/tsp-location.yaml",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "integration-test:browser": "npm run unit-test:browser --no-test-proxy",
     "integration-test:node": "npm run unit-test:node --no-test-proxy",
@@ -112,9 +112,12 @@
     "test": "npm run clean && dev-tool run build-package && npm run unit-test:node && dev-tool run bundle && npm run unit-test:browser && npm run integration-test",
     "test:browser": "npm run clean && npm run unit-test:browser && npm run integration-test:browser",
     "test:node": "npm run clean && dev-tool run build-package && npm run unit-test:node && npm run integration-test:node",
+    "tsp:update": "tsp-client update -o ./src/generated",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
     "unit-test:browser": "npm run build:test && dev-tool run test:vitest --browser",
-    "unit-test:node": "dev-tool run test:vitest"
+    "unit-test:node": "dev-tool run test:vitest",
+    "update-snippets": "dev-tool run update-snippets",
+    "generate-samples": "dev-tool samples publish -f"
   },
   "exports": {
     "./package.json": "./package.json",
@@ -143,9 +146,9 @@
       "azure"
     ],
     "extraFiles": {
-      "./samples-dev/data": [
+      "./data": [
         "javascript/data",
-        "typescript/src/data"
+        "typescript/data"
       ]
     },
     "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/ai-projects"

@@ -3,7 +3,7 @@
   "sdk-type": "client",
   "author": "Microsoft Corporation",
   "description": "Device Update for IoT Hub is an Azure service that enables customers to publish update for their IoT devices to the cloud, and then deploy that update to their devices (approve updates to groups of devices managed and provisioned in IoT Hub). It leverages the proven security and reliability of the Windows Update platform, optimized for IoT devices. It works globally and knows when and how to update devices, enabling customers to focus on their business goals and let Device Update for IoT Hub handle the updates.",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "keywords": [
     "node",
     "azure",
@@ -94,13 +94,13 @@
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure/identity": "^4.6.0",
     "@types/node": "^18.0.0",
-    "@vitest/browser": "^3.0.3",
-    "@vitest/coverage-istanbul": "^3.0.3",
+    "@vitest/browser": "^3.0.9",
+    "@vitest/coverage-istanbul": "^3.0.9",
     "dotenv": "^16.0.0",
     "eslint": "^9.9.0",
     "playwright": "^1.50.0",
-    "typescript": "~5.7.2",
-    "vitest": "^3.0.3"
+    "typescript": "~5.8.2",
+    "vitest": "^3.0.9"
   },
   "type": "module",
   "tshy": {

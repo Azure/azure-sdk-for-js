@@ -16,7 +16,7 @@ import { AzureOpenAI } from "openai";
 // Load the .env file if it exists
 import "dotenv/config";
 
-async function main() {
+async function main(): Promise<void> {
   const cred = new DefaultAzureCredential();
   const scope = "https://cognitiveservices.azure.com/.default";
   const deploymentName = "gpt-4o-realtime-preview-1001";

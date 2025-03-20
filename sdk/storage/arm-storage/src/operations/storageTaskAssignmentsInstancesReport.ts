@@ -7,19 +7,19 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { StorageTaskAssignmentsInstancesReport } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { StorageTaskAssignmentsInstancesReport } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { StorageManagementClient } from "../storageManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { StorageManagementClient } from "../storageManagementClient.js";
 import {
   StorageTaskReportInstance,
   StorageTaskAssignmentsInstancesReportListNextOptionalParams,
   StorageTaskAssignmentsInstancesReportListOptionalParams,
   StorageTaskAssignmentsInstancesReportListResponse,
   StorageTaskAssignmentsInstancesReportListNextResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing StorageTaskAssignmentsInstancesReport operations. */
@@ -171,7 +171,7 @@ const listOperationSpec: coreClient.OperationSpec = {
   queryParameters: [
     Parameters.apiVersion,
     Parameters.filter,
-    Parameters.maxpagesize2,
+    Parameters.maxpagesize1,
   ],
   urlParameters: [
     Parameters.$host,

@@ -682,6 +682,59 @@ describe("deserializationPolicy", function () {
       }
     });
 
+    it(`heuristic for error body without default body mapper`, async function () {
+      const bodyMapper: CompositeMapper = {
+        type: {
+          name: "Composite",
+          className: "Subscription",
+          modelProperties: {
+            id: {
+              serializedName: "id",
+              readOnly: true,
+              type: {
+                name: "String",
+              },
+            },
+          },
+        },
+      };
+
+      const serializer = createSerializer(undefined, true);
+
+      const operationSpec: OperationSpec = {
+        path: "/subscriptions/{subscriptionId}",
+        httpMethod: "GET",
+        responses: {
+          200: {
+            bodyMapper,
+          },
+        },
+        serializer,
+      };
+
+      try {
+        await getDeserializedResponse({
+          operationSpec,
+          headers: {},
+          bodyAsText: `{"error":{"code":"SubscriptionNotFound","message":"The subscription 'ae0a5678-da86-4bd9-a3a2-9a7558415de5' could not be found."}}`,
+          status: 404,
+        });
+        assert.fail();
+      } catch (e: any) {
+        assert.exists(e);
+        assert.strictEqual(e.code, "SubscriptionNotFound");
+        assert.strictEqual(
+          e.message,
+          "The subscription 'ae0a5678-da86-4bd9-a3a2-9a7558415de5' could not be found.",
+        );
+        assert.strictEqual(e.response.parsedBody.error.code, "SubscriptionNotFound");
+        assert.strictEqual(
+          e.response.parsedBody.error.message,
+          "The subscription 'ae0a5678-da86-4bd9-a3a2-9a7558415de5' could not be found.",
+        );
+      }
+    });
+
     it(`json response with headers`, async function () {
       const BodyMapper: CompositeMapper = {
         serializedName: "getproperties-body",

@@ -14,7 +14,7 @@ import "dotenv/config";
  * This sample demonstrates how to Description for Creates an invitation link for a user with the role
  *
  * @summary Description for Creates an invitation link for a user with the role
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/CreateUserRolesInvitationLink.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2024-04-01/examples/CreateUserRolesInvitationLink.json
  */
 async function createAnInvitationLinkForAUserForAStaticSite(): Promise<void> {
   const subscriptionId =

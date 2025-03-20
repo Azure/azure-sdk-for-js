@@ -1,6 +1,6 @@
 {
   "name": "@azure/core-xml",
-  "version": "1.4.5",
+  "version": "1.4.6",
   "description": "Core library for interacting with XML payloads",
   "sdk-type": "client",
   "type": "module",
@@ -75,20 +75,20 @@
     "update-snippets": "dev-tool run update-snippets"
   },
   "dependencies": {
-    "fast-xml-parser": "^4.4.1",
-    "tslib": "^2.6.2"
+    "fast-xml-parser": "^5.0.7",
+    "tslib": "^2.8.1"
   },
   "devDependencies": {
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@types/node": "^18.0.0",
     "@types/trusted-types": "^2.0.0",
-    "@vitest/browser": "^3.0.3",
-    "@vitest/coverage-istanbul": "^3.0.3",
+    "@vitest/browser": "^3.0.9",
+    "@vitest/coverage-istanbul": "^3.0.9",
     "eslint": "^9.9.0",
-    "playwright": "^1.41.2",
-    "typescript": "~5.7.2",
-    "vitest": "^3.0.3"
+    "playwright": "^1.50.1",
+    "typescript": "~5.8.2",
+    "vitest": "^3.0.9"
   },
   "//metadata": {
     "migrationDate": "2023-03-08T18:36:03.000Z"

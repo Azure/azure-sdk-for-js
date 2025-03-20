@@ -11,12 +11,12 @@
     "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
     "build:samples": "echo Obsolete",
     "build:test": "echo skipped. actual commands inlined in browser test scripts",
-    "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"*.{js,json}\"",
+    "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "ci": "npm run build && npm run check-format && npm run lint",
     "clean": "dev-tool run vendored rimraf --glob dist dist-* temp types *.tgz *.log coverage coverage-browser",
     "execute:samples": "echo skipped",
     "extract-api": "dev-tool run build-package && dev-tool run extract-api",
-    "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"*.{js,json}\"",
+    "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "generate:client": "echo skipped",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "integration-test:browser": "echo skipped",
@@ -29,8 +29,8 @@
     "test:node": "echo skipped",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
     "unit-test:browser": "echo skipped",
-    "unit-test:node": "echo skipped",
-    "update-snippets": "echo skipped"
+    "unit-test:node": "dev-tool run test:vitest --no-test-proxy",
+    "update-snippets": "dev-tool run update-snippets"
   },
   "files": [
     "dist/",
@@ -58,26 +58,28 @@
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "dependencies": {
     "@azure/abort-controller": "^2.1.2",
-    "@azure/core-auth": "^1.8.0",
+    "@azure/core-auth": "^1.9.0",
     "@azure/core-client": "^1.9.2",
     "@azure/core-lro": "^2.2.0",
-    "@azure/core-rest-pipeline": "^1.17.0",
-    "tslib": "^2.7.0"
+    "@azure/core-rest-pipeline": "^1.19.0",
+    "tslib": "^2.8.1"
   },
   "devDependencies": {
     "@azure-tools/test-utils-vitest": "^1.0.0",
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
+    "@azure/logger": "^1.1.4",
     "@types/node": "^18.0.0",
-    "@vitest/browser": "^3.0.3",
-    "@vitest/coverage-istanbul": "^3.0.3",
+    "@vitest/browser": "^3.0.9",
+    "@vitest/coverage-istanbul": "^3.0.9",
     "eslint": "^9.9.0",
-    "playwright": "^1.48.0",
-    "typescript": "~5.7.2",
-    "vitest": "^3.0.3"
+    "playwright": "^1.50.1",
+    "typescript": "~5.8.2",
+    "vitest": "^3.0.9"
   },
   "type": "module",
   "tshy": {
+    "project": "./tsconfig.src.json",
     "exports": {
       "./package.json": "./package.json",
       ".": "./src/index.ts"
@@ -112,5 +114,6 @@
         "default": "./dist/commonjs/index.js"
       }
     }
-  }
+  },
+  "react-native": "./dist/react-native/index.js"
 }

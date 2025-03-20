@@ -9,7 +9,7 @@
   "dependencies": {
     "@azure-rest/core-client": "^2.3.1",
     "@azure/core-auth": "^1.9.0",
-    "@azure/core-rest-pipeline": "^1.18.0",
+    "@azure/core-rest-pipeline": "^1.19.0",
     "tslib": "^2.8.1"
   },
   "//metadata": {
@@ -37,22 +37,22 @@
   "module": "./dist/esm/index.js",
   "types": "./dist/commonjs/index.d.ts",
   "devDependencies": {
-    "@azure/logger": "^1.0.0",
     "@azure-tools/test-credential": "^2.0.0",
     "@azure-tools/test-recorder": "^4.1.0",
     "@azure-tools/test-utils-vitest": "^1.0.0",
     "@azure/core-util": "^1.11.0",
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
-    "@azure/identity": "^4.0.1",
+    "@azure/identity": "^4.7.0",
+    "@azure/logger": "^1.1.4",
     "@types/node": "^18.0.0",
-    "@vitest/browser": "^3.0.3",
-    "@vitest/coverage-istanbul": "^3.0.3",
+    "@vitest/browser": "^3.0.9",
+    "@vitest/coverage-istanbul": "^3.0.9",
     "dotenv": "^16.0.0",
     "eslint": "^9.9.0",
-    "playwright": "^1.49.0",
-    "typescript": "~5.7.2",
-    "vitest": "^3.0.3"
+    "playwright": "^1.50.1",
+    "typescript": "~5.8.2",
+    "vitest": "^3.0.9"
   },
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
@@ -82,7 +82,7 @@
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
     "unit-test:browser": "npm run clean && dev-tool run build-package && dev-tool run build-test && dev-tool run test:vitest --browser",
     "unit-test:node": "dev-tool run test:vitest",
-    "update-snippets": "echo skipped"
+    "update-snippets": "dev-tool run update-snippets"
   },
   "//sampleConfiguration": {
     "productName": "Azure Synapse Access Control Rest",
@@ -99,6 +99,7 @@
   "sideEffects": false,
   "type": "module",
   "tshy": {
+    "project": "./tsconfig.src.json",
     "exports": {
       "./package.json": "./package.json",
       ".": "./src/index.ts"
@@ -111,8 +112,7 @@
       "browser",
       "react-native"
     ],
-    "selfLink": false,
-    "project": "./tsconfig.src.json"
+    "selfLink": false
   },
   "exports": {
     "./package.json": "./package.json",
@@ -134,5 +134,6 @@
         "default": "./dist/commonjs/index.js"
       }
     }
-  }
+  },
+  "react-native": "./dist/react-native/index.js"
 }

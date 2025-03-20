@@ -81,6 +81,7 @@
   },
   "devDependencies": {
     "@azure/core-rest-pipeline": "^1.18.1",
+    "@azure/core-util": "^1.11.0",
     "@azure-rest/core-client": "^2.2.0",
     "@azure-tools/test-utils-vitest": "^1.0.0",
     "@azure-tools/vite-plugin-browser-test-map": "^1.0.0",
@@ -89,22 +90,21 @@
     "@azure/logger": "^1.1.4",
     "@types/express": "^4.17.21",
     "@types/node": "^18.0.0",
-    "@vitest/browser": "^3.0.3",
-    "@vitest/coverage-istanbul": "^3.0.3",
+    "@vitest/browser": "^3.0.9",
+    "@vitest/coverage-istanbul": "^3.0.9",
     "dotenv": "^16.0.0",
     "eslint": "^9.9.0",
     "express": "^4.19.2",
     "playwright": "^1.46.0",
     "tsx": "^4.17.0",
-    "typescript": "~5.7.2",
-    "vitest": "^3.0.3"
+    "typescript": "~5.8.2",
+    "vitest": "^3.0.9"
   },
   "dependencies": {
     "tslib": "^2.6.2"
   },
   "//metadata": {
     "sampleConfiguration": {
-      "skipFolder": true,
       "disableDocsMs": true,
       "productName": "Azure SDK Core",
       "productSlugs": [

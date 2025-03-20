@@ -8,6 +8,7 @@ import {
   isResourceValid,
   ResourceType,
   StatusCodes,
+  validateClientEncryptionPolicy,
 } from "../../common";
 import { DEFAULT_PARTITION_KEY_PATH } from "../../common/partitionKeys";
 import type { SqlQuerySpec } from "../../queryExecutionContext";
@@ -23,6 +24,7 @@ import { ContainerResponse } from "./ContainerResponse";
 import { validateOffer } from "../../utils/offers";
 import type { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
 import { getEmptyCosmosDiagnostics, withDiagnostics } from "../../utils/diagnostics";
+import type { EncryptionManager } from "../../encryption/EncryptionManager";
 
 /**
  * Operations for creating new containers, and reading/querying all containers
@@ -35,9 +37,14 @@ import { getEmptyCosmosDiagnostics, withDiagnostics } from "../../utils/diagnost
  * do this once on application start up.
  */
 export class Containers {
+  /**
+   * @hidden
+   * @param database - The parent {@link Database}.
+   */
   constructor(
     public readonly database: Database,
     private readonly clientContext: ClientContext,
+    private encryptionManager?: EncryptionManager,
   ) {}
 
   /**
@@ -184,6 +191,12 @@ export class Containers {
       };
     }
 
+    if (this.clientContext.enableEncryption && body.clientEncryptionPolicy) {
+      body.clientEncryptionPolicy.policyFormatVersion =
+        body.clientEncryptionPolicy.policyFormatVersion ?? 1;
+      validateClientEncryptionPolicy(body.clientEncryptionPolicy, body.partitionKey);
+    }
+
     const response = await this.clientContext.create<ContainerRequest, ContainerDefinition>({
       body,
       path,
@@ -192,7 +205,13 @@ export class Containers {
       diagnosticNode,
       options,
     });
-    const ref = new Container(this.database, response.result.id, this.clientContext);
+    const ref = new Container(
+      this.database,
+      response.result.id,
+      this.clientContext,
+      this.encryptionManager,
+      response.result._rid,
+    );
     return new ContainerResponse(
       response.result,
       response.headers,

@@ -10,13 +10,13 @@
 // Licensed under the MIT License.
 const { ContainerRegistryManagementClient } = require("@azure/arm-containerregistry");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Copies an image to this container registry from the specified container registry.
  *
  * @summary Copies an image to this container registry from the specified container registry.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2023-11-01-preview/examples/ImportImageByManifestDigest.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2024-11-01-preview/examples/ImportImageByManifestDigest.json
  */
 async function importImageByManifestDigest() {
   const subscriptionId =
@@ -39,7 +39,7 @@ async function importImageByManifestDigest() {
   const result = await client.registries.beginImportImageAndWait(
     resourceGroupName,
     registryName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -48,7 +48,7 @@ async function importImageByManifestDigest() {
  * This sample demonstrates how to Copies an image to this container registry from the specified container registry.
  *
  * @summary Copies an image to this container registry from the specified container registry.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2023-11-01-preview/examples/ImportImageByTag.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2024-11-01-preview/examples/ImportImageByTag.json
  */
 async function importImageByTag() {
   const subscriptionId =
@@ -70,7 +70,7 @@ async function importImageByTag() {
   const result = await client.registries.beginImportImageAndWait(
     resourceGroupName,
     registryName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -79,7 +79,7 @@ async function importImageByTag() {
  * This sample demonstrates how to Copies an image to this container registry from the specified container registry.
  *
  * @summary Copies an image to this container registry from the specified container registry.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2023-11-01-preview/examples/ImportImageFromPublicRegistry.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2024-11-01-preview/examples/ImportImageFromPublicRegistry.json
  */
 async function importImageFromPublicRegistry() {
   const subscriptionId =
@@ -100,15 +100,15 @@ async function importImageFromPublicRegistry() {
   const result = await client.registries.beginImportImageAndWait(
     resourceGroupName,
     registryName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
 
 async function main() {
-  importImageByManifestDigest();
-  importImageByTag();
-  importImageFromPublicRegistry();
+  await importImageByManifestDigest();
+  await importImageByTag();
+  await importImageFromPublicRegistry();
 }
 
 main().catch(console.error);

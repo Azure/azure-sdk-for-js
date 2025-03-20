@@ -13,9 +13,7 @@ import {
   StorageImportExport
 } from "@azure/arm-storageimportexport";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates a new job or updates an existing job in the specified subscription.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Creates a new job or updates an existing job in the specified subscription.
  * x-ms-original-file: specification/storageimportexport/resource-manager/Microsoft.ImportExport/preview/2021-01-01/examples/CreateExportJob.json
  */
-async function createExportJob() {
+async function createExportJob(): Promise<void> {
   const subscriptionId =
     process.env["STORAGEIMPORTEXPORT_SUBSCRIPTION_ID"] ||
     "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx";
@@ -66,7 +64,7 @@ async function createExportJob() {
  * @summary Creates a new job or updates an existing job in the specified subscription.
  * x-ms-original-file: specification/storageimportexport/resource-manager/Microsoft.ImportExport/preview/2021-01-01/examples/CreateJob.json
  */
-async function createImportJob() {
+async function createImportJob(): Promise<void> {
   const subscriptionId =
     process.env["STORAGEIMPORTEXPORT_SUBSCRIPTION_ID"] ||
     "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx";
@@ -114,7 +112,7 @@ async function createImportJob() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createExportJob();
   createImportJob();
 }

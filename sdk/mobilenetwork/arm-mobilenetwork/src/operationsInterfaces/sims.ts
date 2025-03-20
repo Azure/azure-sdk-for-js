@@ -31,7 +31,7 @@ import {
   SimClone,
   SimsCloneOptionalParams,
   SimsCloneResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Sims. */

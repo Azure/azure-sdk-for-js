@@ -7,9 +7,7 @@
  */
 import { LoadTestClient } from "@azure/arm-loadtesting";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get a LoadTest resource.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Get a LoadTest resource.
  * x-ms-original-file: specification/loadtestservice/resource-manager/Microsoft.LoadTestService/stable/2022-12-01/examples/LoadTests_Get.json
  */
-async function loadTestsGet() {
+async function loadTestsGet(): Promise<void> {
   const subscriptionId =
     process.env["LOADTESTSERVICE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = process.env["LOADTESTSERVICE_RESOURCE_GROUP"] || "dummyrg";
@@ -28,7 +26,7 @@ async function loadTestsGet() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await loadTestsGet();
 }
 

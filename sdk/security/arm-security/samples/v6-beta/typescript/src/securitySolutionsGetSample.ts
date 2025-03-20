@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { SecurityCenter } from "@azure/arm-security";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets a specific Security Solution.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Gets a specific Security Solution.
  * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/stable/2020-01-01/examples/SecuritySolutions/GetSecuritySolutionsResourceGroupLocation_example.json
  */
-async function getASecuritySolutionFromASecurityDataLocation() {
+async function getASecuritySolutionFromASecurityDataLocation(): Promise<void> {
   const subscriptionId =
     process.env["SECURITY_SUBSCRIPTION_ID"] ||
     "20ff7fc3-e762-44dd-bd96-b71116dcdc23";
@@ -37,7 +35,7 @@ async function getASecuritySolutionFromASecurityDataLocation() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getASecuritySolutionFromASecurityDataLocation();
 }
 

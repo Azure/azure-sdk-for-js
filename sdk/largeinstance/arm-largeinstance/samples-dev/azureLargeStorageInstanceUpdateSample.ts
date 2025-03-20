@@ -8,9 +8,7 @@
 import type { AzureLargeStorageInstanceTagsUpdate } from "@azure/arm-largeinstance";
 import { LargeInstanceManagementClient } from "@azure/arm-largeinstance";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Patches the Tags field of a Azure Large Storage Instance for the specified
@@ -20,7 +18,7 @@ subscription, resource group, and instance name.
 subscription, resource group, and instance name.
  * x-ms-original-file: specification/azurelargeinstance/resource-manager/Microsoft.AzureLargeInstance/preview/2023-07-20-preview/examples/AzureLargeStorageInstance_PatchTags_Delete.json
  */
-async function azureLargeStorageInstanceDeleteTag() {
+async function azureLargeStorageInstanceDeleteTag(): Promise<void> {
   const subscriptionId =
     process.env["LARGEINSTANCE_SUBSCRIPTION_ID"] || "f0f4887f-d13c-4943-a8ba-d7da28d2a3fd";
   const resourceGroupName = process.env["LARGEINSTANCE_RESOURCE_GROUP"] || "myResourceGroup";
@@ -44,7 +42,7 @@ subscription, resource group, and instance name.
 subscription, resource group, and instance name.
  * x-ms-original-file: specification/azurelargeinstance/resource-manager/Microsoft.AzureLargeInstance/preview/2023-07-20-preview/examples/AzureLargeStorageInstance_PatchTags.json
  */
-async function azureLargeStorageInstanceUpdateTag() {
+async function azureLargeStorageInstanceUpdateTag(): Promise<void> {
   const subscriptionId =
     process.env["LARGEINSTANCE_SUBSCRIPTION_ID"] || "f0f4887f-d13c-4943-a8ba-d7da28d2a3fd";
   const resourceGroupName = process.env["LARGEINSTANCE_RESOURCE_GROUP"] || "myResourceGroup";
@@ -62,7 +60,7 @@ async function azureLargeStorageInstanceUpdateTag() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await azureLargeStorageInstanceDeleteTag();
   await azureLargeStorageInstanceUpdateTag();
 }

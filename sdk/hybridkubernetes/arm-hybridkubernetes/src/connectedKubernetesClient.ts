@@ -14,9 +14,9 @@ import {
   SendRequest
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
-import { ConnectedClusterOperationsImpl, OperationsImpl } from "./operations";
-import { ConnectedClusterOperations, Operations } from "./operationsInterfaces";
-import { ConnectedKubernetesClientOptionalParams } from "./models";
+import { ConnectedClusterOperationsImpl, OperationsImpl } from "./operations/index.js";
+import { ConnectedClusterOperations, Operations } from "./operationsInterfaces/index.js";
+import { ConnectedKubernetesClientOptionalParams } from "./models/index.js";
 
 export class ConnectedKubernetesClient extends coreClient.ServiceClient {
   $host: string;

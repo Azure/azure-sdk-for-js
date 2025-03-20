@@ -14,7 +14,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Backup the backup policy now.
  * x-ms-original-file: specification/storsimple8000series/resource-manager/Microsoft.StorSimple/stable/2017-06-01/examples/BackupPoliciesBackupNow.json
  */
-async function backupPoliciesBackupNow() {
+async function backupPoliciesBackupNow(): Promise<void> {
   const subscriptionId = "4385cf00-2d3a-425a-832f-f4285b1c9dce";
   const deviceName = "Device05ForSDKTest";
   const backupPolicyName = "BkUpPolicy01ForSDKTest";

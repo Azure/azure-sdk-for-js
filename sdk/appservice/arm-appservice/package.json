@@ -3,7 +3,7 @@
   "sdk-type": "mgmt",
   "author": "Microsoft Corporation",
   "description": "A generated SDK for WebSiteManagementClient.",
-  "version": "15.0.1",
+  "version": "16.0.1",
   "engines": {
     "node": ">=18.0.0"
   },
@@ -11,10 +11,10 @@
     "@azure/abort-controller": "^2.1.2",
     "@azure/core-auth": "^1.9.0",
     "@azure/core-client": "^1.9.2",
-    "@azure/core-lro": "^2.7.2",
+    "@azure/core-lro": "^2.5.4",
     "@azure/core-paging": "^1.6.2",
-    "@azure/core-rest-pipeline": "^1.18.1",
-    "tslib": "^2.2.0"
+    "@azure/core-rest-pipeline": "^1.19.0",
+    "tslib": "^2.8.1"
   },
   "keywords": [
     "node",
@@ -33,14 +33,15 @@
     "@azure-tools/test-recorder": "^4.1.0",
     "@azure-tools/test-utils-vitest": "^1.0.0",
     "@azure/dev-tool": "^1.0.0",
-    "@azure/identity": "^4.5.0",
+    "@azure/identity": "^4.7.0",
+    "@azure/logger": "^1.1.4",
     "@types/node": "^18.0.0",
-    "@vitest/browser": "^3.0.3",
-    "@vitest/coverage-istanbul": "^3.0.3",
+    "@vitest/browser": "^3.0.9",
+    "@vitest/coverage-istanbul": "^3.0.9",
     "dotenv": "^16.0.0",
-    "playwright": "^1.49.1",
-    "typescript": "~5.7.2",
-    "vitest": "^3.0.3"
+    "playwright": "^1.50.1",
+    "typescript": "~5.6.2",
+    "vitest": "^3.0.9"
   },
   "repository": "github:Azure/azure-sdk-for-js",
   "bugs": {

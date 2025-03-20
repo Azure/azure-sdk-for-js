@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Get a server's Advanced Threat Protection settings.
  * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2024-08-01/examples/ServerThreatProtectionSettingsGet.json
  */
-async function getAServerThreatProtectionSettings() {
+async function getAServerThreatProtectionSettings(): Promise<void> {
   const subscriptionId =
     process.env["POSTGRESQL_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -36,7 +36,7 @@ async function getAServerThreatProtectionSettings() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getAServerThreatProtectionSettings();
 }
 

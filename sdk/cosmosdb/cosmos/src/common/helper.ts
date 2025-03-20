@@ -1,8 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { CosmosClientOptions } from "../CosmosClientOptions";
-import type { ResourceType } from "./constants";
-import { OperationType } from "./constants";
+import { CosmosClientOptions } from "../CosmosClientOptions";
+import { PartitionKeyDefinition } from "../documents";
+import { ClientEncryptionPolicy } from "../encryption/ClientEncryptionPolicy";
+import {
+  Serializer,
+  NumberSerializer,
+  FloatSerializer,
+  StringSerializer,
+  BooleanSerializer,
+} from "../encryption/Serializers";
+import { EncryptionType } from "../encryption/enums/EncryptionType";
+import { TypeMarker } from "../encryption/enums/TypeMarker";
+import { ErrorResponse } from "../request/ErrorResponse";
+import { OperationType, ResourceType } from "./constants";
 
 const trimLeftSlashes = new RegExp("^[/]+");
 const trimRightSlashes = new RegExp("[/]+$");
@@ -360,4 +371,171 @@ export function parseConnectionString(connectionString: string): CosmosClientOpt
     endpoint: AccountEndpoint,
     key: AccountKey,
   };
+}
+
+/**
+ * utility function to return copy of object to avoid encryption of original object passed
+ * in the CRUD methods.
+ * @hidden
+ */
+/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-shadow, no-prototype-builtins */
+export function copyObject(obj: any): any {
+  return JSON.parse(
+    JSON.stringify(obj, (_, value) => {
+      if (typeof value === "bigint") {
+        throw new Error(`BigInt type is not supported`);
+      }
+      return value;
+    }),
+  );
+}
+
+/**
+ * @hidden
+ */
+export function createDeserializer(typeMarker: TypeMarker): Serializer {
+  switch (typeMarker) {
+    case TypeMarker.Long: {
+      // return instance
+      return new NumberSerializer();
+    }
+    case TypeMarker.Double:
+      return new FloatSerializer();
+    case TypeMarker.String:
+      return new StringSerializer();
+    case TypeMarker.Boolean:
+      return new BooleanSerializer();
+    default:
+      throw new Error("Invalid or Unsupported data type passed.");
+  }
+}
+
+/**
+ * @hidden
+ * extracts the top-level path
+ */
+export function extractPath(path: string): string {
+  const secondSlashIndex = path.indexOf("/", path.indexOf("/") + 1);
+  return secondSlashIndex === -1 ? path : path.substring(0, secondSlashIndex);
+}
+
+export function createSerializer(
+  propertyValue: boolean | string | number | Date,
+  type?: TypeMarker,
+): [TypeMarker, Serializer] {
+  if (type) {
+    if (type === TypeMarker.Long) {
+      return [TypeMarker.Long, new NumberSerializer()];
+    } else if (type === TypeMarker.Double) {
+      return [TypeMarker.Double, new FloatSerializer()];
+    } else if (type === TypeMarker.String) {
+      return [TypeMarker.String, new StringSerializer()];
+    } else if (type === TypeMarker.Boolean) {
+      return [TypeMarker.Boolean, new BooleanSerializer()];
+    } else {
+      throw new Error("Invalid or Unsupported data type passed.");
+    }
+  } else {
+    switch (typeof propertyValue) {
+      case "boolean":
+        return [TypeMarker.Boolean, new BooleanSerializer()];
+      case "string":
+        return [TypeMarker.String, new StringSerializer()];
+      case "object":
+        if (propertyValue.constructor === Date) {
+          return [TypeMarker.String, new StringSerializer()];
+        }
+        throw new Error("Invalid or Unsupported data type passed.");
+      case "number":
+        if (!Number.isInteger(propertyValue)) {
+          return [TypeMarker.Double, new FloatSerializer()];
+        } else {
+          return [TypeMarker.Long, new NumberSerializer()];
+        }
+      default:
+        throw new Error("Invalid or Unsupported data type passed.");
+    }
+  }
+}
+/**
+ * @hidden
+ * verifies policy format version, included paths and ensures that id and partition key paths specified in the client encryption policy
+ * for encryption are encrypted using Deterministic encryption algorithm.
+ */
+export function validateClientEncryptionPolicy(
+  clientEncryptionPolicy: ClientEncryptionPolicy,
+  partitionKey: PartitionKeyDefinition,
+) {
+  const policyFormatVersion = clientEncryptionPolicy.policyFormatVersion;
+  if (policyFormatVersion < 1 || policyFormatVersion > 2) {
+    throw new ErrorResponse("Supported versions of client encryption policy are 1 and 2.");
+  }
+  const paths = new Set<string>();
+  // checks for duplicate paths and validates the path format and clientEncryptionKeyId
+  for (const includedPath of clientEncryptionPolicy.includedPaths) {
+    if (paths.has(includedPath.path)) {
+      throw new ErrorResponse(
+        `Duplicate path found: ${includedPath.path} in client encryption policy.`,
+      );
+    }
+    if (
+      includedPath.path === undefined ||
+      includedPath.path === null ||
+      includedPath.path === "" ||
+      includedPath.path === "/"
+    ) {
+      throw new ErrorResponse("Path needs to be defined in ClientEncryptionIncludedPath.");
+    }
+    if (
+      includedPath.clientEncryptionKeyId === undefined ||
+      includedPath.clientEncryptionKeyId === null ||
+      includedPath.clientEncryptionKeyId === "" ||
+      typeof includedPath.clientEncryptionKeyId !== "string"
+    ) {
+      throw new ErrorResponse(
+        "ClientEncryptionKeyId needs to be defined as string type in ClientEncryptionIncludedPath.",
+      );
+    }
+    if (includedPath.path[0] !== "/") {
+      throw new ErrorResponse("Path in ClientEncryptionIncludedPath must start with '/'.");
+    }
+    const pathSegments = includedPath.path.split("/").filter((segment) => segment.length > 0);
+    if (pathSegments.length > 1) {
+      throw new ErrorResponse("Only top-level paths are currently supported for encryption");
+    }
+    paths.add(includedPath.path);
+  }
+
+  // checks if id and partition key paths are encrypted using Deterministic encryption algorithm.
+  const encryptedPaths = clientEncryptionPolicy.includedPaths;
+  const partitionKeyPaths = partitionKey.paths.map(extractPath);
+  let isPartitionKeyEncrypted = false;
+  let isIdEncrypted = false;
+  for (const encryptedPath of encryptedPaths) {
+    if (encryptedPath.path === "/id") {
+      isIdEncrypted = true;
+      if (encryptedPath.encryptionType !== EncryptionType.DETERMINISTIC) {
+        throw new ErrorResponse(
+          "The '/id' property must be encrypted using Deterministic encryption.",
+        );
+      }
+    }
+    if (partitionKeyPaths.includes(encryptedPath.path)) {
+      isPartitionKeyEncrypted = true;
+      if (encryptedPath.encryptionType !== EncryptionType.DETERMINISTIC) {
+        throw new ErrorResponse(
+          `Path: ${encryptedPath.path} which is part of the partition key has to be encrypted with Deterministic type Encryption.`,
+        );
+      }
+    }
+  }
+  // Ensures that the policy format version is 2 if id or partition key paths are encrypted.
+  if (
+    (isPartitionKeyEncrypted || isIdEncrypted) &&
+    clientEncryptionPolicy.policyFormatVersion === 1
+  ) {
+    throw new ErrorResponse(
+      "Encryption of partition key or id is only supported with policy format version 2.",
+    );
+  }
 }
