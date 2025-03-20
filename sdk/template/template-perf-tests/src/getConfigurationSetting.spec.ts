@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { randomUUID } from "@azure/core-util";
-import { PerfOptionDictionary } from "@azure-tools/test-perf";
+import { randomUUID } from "node:crypto";
+import type { PerfOptionDictionary } from "@azure-tools/test-perf";
 import { TemplateTest } from "./templateBase.spec.js";
 
 interface GetConfigurationSettingTestOptions {
