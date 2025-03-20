@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { describe, it, assert } from "vitest";
+import { describe, it, assert, expectTypeOf } from "vitest";
+import type { HttpClient, HttpHeaders, PipelinePolicy, PipelineResponse } from "../src/index.js";
 import {
-  type HttpClient,
-  type PipelinePolicy,
+  createDefaultHttpClient,
   createEmptyPipeline,
   createHttpHeaders,
   createPipelineFromOptions,
@@ -438,5 +438,29 @@ describe("HttpsPipeline", function () {
     pipeline.addPolicy(testPolicy2, { phase: "Sign" });
     const policies = pipeline.getOrderedPolicies();
     assert.deepStrictEqual(policies, [testPolicy, testPolicy2]);
+  });
+
+  it("assert pipeline response shape", async function () {
+    const p = createEmptyPipeline();
+    p.addPolicy({
+      name: "test",
+      sendRequest: async (request) => {
+        return {
+          headers: {} as HttpHeaders,
+          status: 0 as number,
+          request,
+          bodyAsText: "" as string,
+          readableStreamBody: {} as NodeJS.ReadableStream,
+          blobBody: {} as Promise<Blob>,
+          browserStreamBody: {} as ReadableStream<Uint8Array<ArrayBufferLike>>,
+        };
+      },
+    });
+    expectTypeOf(
+      await p.sendRequest(
+        createDefaultHttpClient(),
+        createPipelineRequest({ url: "https://example.com" }),
+      ),
+    ).toEqualTypeOf<PipelineResponse>();
   });
 });
