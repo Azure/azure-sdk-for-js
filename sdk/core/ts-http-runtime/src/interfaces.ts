@@ -47,18 +47,6 @@ export interface HttpHeaders extends Iterable<[string, string]> {
 }
 
 /**
- * A Node.js Readable stream that also has a `destroy` method.
- */
-export interface NodeJSReadableStream extends NodeJS.ReadableStream {
-  /**
-   * Destroy the stream. Optionally emit an 'error' event, and emit a
-   * 'close' event (unless emitClose is set to false). After this call,
-   * internal resources will be released.
-   */
-  destroy(error?: Error): void;
-}
-
-/**
  * A part of the request body in a multipart request.
  */
 export interface BodyPart {
@@ -291,7 +279,7 @@ export interface PipelineResponse {
    * The response body as a node.js Readable stream.
    * Always undefined in the browser.
    */
-  readableStreamBody?: NodeJSReadableStream;
+  readableStreamBody?: NodeJS.ReadableStream;
 }
 
 /**
@@ -341,6 +329,7 @@ export type HttpMethods =
 export interface ProxySettings {
   /**
    * The proxy's host address.
+   * Must include the protocol (e.g., http:// or https://).
    */
   host: string;
 

@@ -159,7 +159,7 @@ export type HttpMethods = "GET" | "PUT" | "POST" | "DELETE" | "PATCH" | "HEAD" |
 
 // @public
 export type HttpNodeStreamResponse = HttpResponse & {
-    body?: NodeJSReadableStream;
+    body?: NodeJS.ReadableStream;
 };
 
 // @public
@@ -201,11 +201,6 @@ export interface LogPolicyOptions {
 export interface MultipartRequestBody {
     boundary?: string;
     parts: BodyPart[];
-}
-
-// @public
-export interface NodeJSReadableStream extends NodeJS.ReadableStream {
-    destroy(error?: Error): void;
 }
 
 // @public
@@ -331,7 +326,7 @@ export interface PipelineResponse {
     bodyAsText?: string | null;
     browserStreamBody?: ReadableStream<Uint8Array>;
     headers: HttpHeaders;
-    readableStreamBody?: NodeJSReadableStream;
+    readableStreamBody?: NodeJS.ReadableStream;
     request: PipelineRequest;
     status: number;
 }
@@ -408,8 +403,6 @@ export interface ResourceMethods<TResponse = PromiseLike<PathUncheckedResponse>>
 // @public
 export class RestError extends Error {
     constructor(message: string, options?: RestErrorOptions);
-    // (undocumented)
-    [x: symbol]: () => string;
     code?: string;
     details?: unknown;
     static readonly PARSE_ERROR: string;

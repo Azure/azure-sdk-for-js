@@ -76,7 +76,8 @@ export function ensureAsyncIterable(
   } else {
     return {
       cancel: async () => {
-        if ("socket" in stream) {
+        // socket could be null if the connection is already closed
+        if ("socket" in stream && stream.socket) {
           stream.socket.end();
         } else {
           stream.destroy();

@@ -1,15 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * THIS IS AN AUTO-GENERATED FILE - DO NOT EDIT!
+ *
+ * Any changes you make here may be lost.
+ *
+ * If you need to make changes, please do so in the original source file, \{project-root\}/sources/custom
+ */
+
 import type {
   GetChatCompletions200Response,
   GetChatCompletionsDefaultResponse,
-  GetModelInfo200Response,
-  GetModelInfoDefaultResponse,
   GetEmbeddings200Response,
   GetEmbeddingsDefaultResponse,
   GetImageEmbeddings200Response,
   GetImageEmbeddingsDefaultResponse,
+  GetModelInfo200Response,
+  GetModelInfoDefaultResponse,
 } from "./responses.js";
 
 const responseMap: Record<string, string[]> = {
@@ -53,19 +61,14 @@ export function isUnexpected(
   if (!pathDetails) {
     pathDetails = getParametrizedPathSuccess(method, url.pathname);
   }
+
   return !pathDetails.includes(response.status);
 }
 
 function getParametrizedPathSuccess(method: string, path: string): string[] {
   const pathParts = path.split("/");
-
-  // Traverse list to match the longest candidate
-  // matchedLen: the length of candidate path
-  // matchedValue: the matched status code array
   let matchedLen = -1,
     matchedValue: string[] = [];
-
-  // Iterate the responseMap to find a match
   for (const [key, value] of Object.entries(responseMap)) {
     // Extracting the path from the map key which is in format
     // GET /path/foo

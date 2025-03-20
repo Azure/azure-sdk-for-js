@@ -4,7 +4,7 @@ import { ServiceBusAdministrationClient } from "../../src/index.js";
 import { createPipelineRequest } from "@azure/core-rest-pipeline";
 import { executeAtomXmlOperation } from "../../src/util/atomXmlHelper.js";
 import { NamespaceResourceSerializer } from "../../src/serializers/namespaceResourceSerializer.js";
-import { getFullyQualifiedNamespace } from "../public/utils/testutils2.js";
+import { getFullyQualifiedNamespace } from "../utils/injectables.js";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { describe, it } from "vitest";
 import { assert } from "../public/utils/chai.js";

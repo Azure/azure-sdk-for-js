@@ -4,7 +4,6 @@
 import type {
   HttpClient,
   LogPolicyOptions,
-  NodeJSReadableStream,
   Pipeline,
   PipelineOptions,
   PipelinePolicy,
@@ -216,6 +215,18 @@ export interface Client {
    * This method allows arbitrary paths and doesn't provide strong types
    */
   pathUnchecked: PathUnchecked;
+}
+
+/**
+ * A Node.js Readable stream that also has a `destroy` method.
+ */
+export interface NodeJSReadableStream extends NodeJS.ReadableStream {
+  /**
+   * Destroy the stream. Optionally emit an 'error' event, and emit a
+   * 'close' event (unless emitClose is set to false). After this call,
+   * internal resources will be released.
+   */
+  destroy(error?: Error): void;
 }
 
 /**
