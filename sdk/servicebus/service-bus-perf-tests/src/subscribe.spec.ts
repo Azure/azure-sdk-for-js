@@ -6,7 +6,7 @@ import type {
   ServiceBusReceivedMessage,
   ServiceBusReceiver,
 } from "@azure/service-bus";
-import type { PerfOptionDictionary} from "@azure-tools/test-perf";
+import type { PerfOptionDictionary } from "@azure-tools/test-perf";
 import { EventPerfTest } from "@azure-tools/test-perf";
 import { sendMessages } from "./receiveBatch.spec.js";
 import { ServiceBusTest } from "./sbBase.spec.js";

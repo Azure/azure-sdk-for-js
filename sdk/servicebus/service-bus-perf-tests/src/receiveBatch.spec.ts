@@ -64,7 +64,6 @@ export class BatchReceiveTest extends ServiceBusTest<ReceiverOptions> {
       { maxWaitTimeInMs: 500 },
     );
 
-     
     for (const _ in messages) {
       // This is to represent the bare minimum user scenario where one would
       // iterate over the messages and process them
