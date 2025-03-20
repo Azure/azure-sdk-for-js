@@ -24,7 +24,7 @@ export interface SharedOptions {
    *
    * const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
    *
-   * const { container } = await database.containers.createIfNotExists({ id: "Test Database" });
+   * const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
    *
    * const controller = new AbortController();
    * const results = container.items.query("SELECT * from c", {
