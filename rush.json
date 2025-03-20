@@ -930,7 +930,7 @@
     },
     {
       "packageName": "@azure-tests/perf-container-registry",
-      "projectFolder": "sdk/containerregistry/perf-tests/container-registry",
+      "projectFolder": "sdk/containerregistry/container-registry-perf-tests",
       "versionPolicyName": "test"
     },
     {
