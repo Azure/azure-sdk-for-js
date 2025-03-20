@@ -32,6 +32,7 @@ import type {
   CompletionUsage,
   CreateEmbeddingResponse,
   ImagesResponse,
+  Metadata,
 } from "openai/resources/index";
 import type {
   ChatCompletion,
@@ -45,7 +46,6 @@ import type {
 } from "openai/resources/beta/chat/completions.mjs";
 import type { Transcription } from "openai/resources/audio/transcriptions.mjs";
 import type { AudioSegment, AudioResultVerboseJson, AudioResultFormat } from "./audioTypes.js";
-import type { Metadata } from "./types.js";
 import { logger } from "./logger.js";
 import type {
   ResponseTextDeltaEvent,
@@ -53,7 +53,31 @@ import type {
   SessionCreatedEvent,
 } from "openai/resources/beta/realtime/realtime.mjs";
 import type { Session } from "openai/resources/beta/realtime/sessions.mjs";
-import { ParsedResponseFunctionToolCall, ParsedResponseOutputItem, ParsedResponseOutputMessage, ResponseComputerToolCall, ResponseFileSearchToolCall, ResponseFunctionWebSearch, ResponseReasoningItem } from "openai/resources/responses/responses.mjs";
+import {
+  ParsedResponseFunctionToolCall,
+  ParsedResponseOutputItem,
+  ParsedResponseOutputMessage,
+  ResponseCodeInterpreterToolCall,
+  ResponseComputerToolCall,
+  ResponseError,
+  ResponseFileSearchToolCall,
+  ResponseFunctionWebSearch,
+  ResponseOutputItem,
+  ResponseOutputRefusal,
+  ResponseOutputText,
+  ResponseReasoningItem,
+  ResponseStreamEvent,
+  ResponseTextAnnotationDeltaEvent,
+  ResponseUsage,
+  Response,
+  ResponseFunctionToolCall,
+  ResponseOutputMessage,
+  Tool,
+  ToolChoiceFunction,
+  ToolChoiceOptions,
+  ToolChoiceTypes,
+  ResponseTextConfig,
+} from "openai/resources/responses/responses.mjs";
 
 export function assertAudioResult(responseFormat: AudioResultFormat, result: Transcription): void {
   switch (responseFormat) {
@@ -308,7 +332,8 @@ async function assertAsyncIterable<T>(
       validate(item);
     } catch (e: any) {
       throw new Error(
-        `Error validating item:\n ${JSON.stringify(item, undefined, 2)}\n\n${e.message
+        `Error validating item:\n ${JSON.stringify(item, undefined, 2)}\n\n${
+          e.message
         }.\n\nPrevious items:\n\n${items
           .map((x) => JSON.stringify(x, undefined, 2))
           .join("\n")}\n\n Stack trace: ${e.stack}`,
@@ -652,8 +677,10 @@ function assertTurnDetection(turnDetection: Session.TurnDetection): void {
   ifDefined(turnDetection.threshold, assert.isNumber);
   ifDefined(turnDetection.type, (type) => assert.equal(type, "server_vad"));
 }
-// TODO
-export function assertParsedResponseOutput<ParsedT>(result: { output: ParsedResponseOutputItem<ParsedT>[] }): void {
+
+export function assertParsedResponseOutput<ParsedT>(result: {
+  output: ParsedResponseOutputItem<ParsedT>[];
+}): void {
   assert.isDefined(result.output);
   assert.isArray(result.output);
   result.output.forEach((item) => assertParsedResponseOutputItem(item));
@@ -685,55 +712,505 @@ function assertParsedResponseOutputItem<ParsedT>(item: ParsedResponseOutputItem<
   }
 }
 
-function assertParsedResponseOutputMessage<ParsedT>(item: ParsedResponseOutputMessage<ParsedT>): void {
-  assert.equal(item.type, "message");
-  assert.isDefined(item.content);
-  // Removed reference to 'parsed' as it does not exist on the type
-  ifDefined(item.content, (content) => {
-    // Verify content exists
-    assert.isDefined(content);
+function assertParsedResponseOutputMessage<ParsedT>(
+  message: ParsedResponseOutputMessage<ParsedT>,
+): void {
+  assertResponseOutputMessage(message);
+}
+
+function assertResponseOutputMessage(response: ResponseOutputMessage): void {
+  assert.isString(response.id);
+  assert.isArray(response.content);
+  response.content.forEach((content) => {
+    assert.isString(content.type);
+    switch (content.type) {
+      case "output_text":
+        assert.isString(content.text);
+        assert.isArray(content.annotations);
+        content.annotations.forEach((annotation) => assertResponseOutputAnnotation(annotation));
+        break;
+      case "refusal":
+        assert.isString(content.refusal);
+        break;
+    }
+  });
+  assert.equal(response.role, "assistant");
+  assert.oneOf(response.status, ["in_progress", "completed", "incomplete"]);
+}
+function assertParsedResponseFunctionToolCall(response: ParsedResponseFunctionToolCall): void {
+  assert.isDefined(response.parsed_arguments);
+  assertResponseFunctionToolCall(response);
+}
+
+function assertResponseFunctionToolCall(item: ResponseFunctionToolCall): void {
+  assert.equal(item.type, "function_call");
+  assert.isString(item.id);
+  assert.isString(item.arguments);
+  assert.isString(item.name);
+  assert.isString(item.call_id);
+  ifDefined(item.status, (status) => {
+    assert.oneOf(status, ["in_progress", "completed", "incomplete"]);
   });
 }
 
-function assertParsedResponseFunctionToolCall(item: ParsedResponseFunctionToolCall): void {
-  assert.equal(item.type, "function_call");
-  assert.isDefined(item.name);
-  assert.isDefined(item.arguments);
-  assert.isDefined(item.parsed_arguments);
-}
-
-function assertResponseFileSearchToolCall(item: ResponseFileSearchToolCall): void {
-  assert.equal(item.type, "file_search_call");
-  assert.isDefined(item.queries);
-  assert.isArray(item.queries);
-  ifDefined(item.results, (results) => {
+function assertResponseFileSearchToolCall(response: ResponseFileSearchToolCall): void {
+  assert.isString(response.id);
+  assert.isArray(response.queries);
+  response.queries.forEach((query) => {
+    assert.isString(query);
+  });
+  assert.oneOf(response.status, ["in_progress", "searching", "completed", "incomplete", "failed"]);
+  ifDefined(response.results, (results) => {
     assert.isArray(results);
     results.forEach((result) => {
-      ifDefined(result.file_id, assert.isString);
-      ifDefined(result.text, assert.isString);
+      assertResponseFileSearchToolCallResult(result);
     });
   });
 }
 
+function assertResponseFileSearchToolCallResult(result: ResponseFileSearchToolCall.Result) {
+  ifDefined(result.file_id, assert.isString);
+  ifDefined(result.filename, assert.isString);
+  ifDefined(result.score, assert.isNumber);
+  ifDefined(result.text, assert.isString);
+  ifDefined(result.attributes, (attrs) => {
+    assert.isObject(attrs);
+    Object.entries(attrs).forEach(([key, value]) => {
+      assert.isString(key);
+      assert.oneOf(typeof value, ["string", "number", "boolean"]);
+    });
+  });
+}
 function assertResponseFunctionWebSearch(item: ResponseFunctionWebSearch): void {
-  assert.equal(item.type, "web_search_call");
-  assert.isDefined(item.status);
+  assert.isString(item.id);
+  assert.oneOf(item.status, ["in_progress", "searching", "completed", "failed"]);
 }
 
 function assertResponseComputerToolCall(item: ResponseComputerToolCall): void {
-  assert.equal(item.type, "computer_call");
-  assert.isDefined(item.action);
-  assert.isDefined(item.call_id);
+  assert.isString(item.id);
+  assertComputerAction(item.action);
+  assert.isString(item.call_id);
   assert.isArray(item.pending_safety_checks);
+  item.pending_safety_checks.forEach((check) => {
+    assert.isString(check.id);
+    assert.isString(check.code);
+    assert.isString(check.message);
+  });
+  assert.oneOf(item.status, ["in_progress", "completed", "incomplete"]);
 }
 
 function assertResponseReasoningItem(item: ResponseReasoningItem): void {
-  assert.equal(item.type, "reasoning");
+  assert.isString(item.id);
   assert.isArray(item.summary);
-  item.summary.forEach(summary => {
+  item.summary.forEach((summary) => {
     assert.equal(summary.type, "summary_text");
     assert.isString(summary.text);
   });
+  assert.oneOf(item.status, ["in_progress", "completed", "incomplete"]);
+}
+
+export function assertResponseStreamEvent(event: ResponseStreamEvent): void {
+  assert.isString(event.type);
+  switch (event.type) {
+    case "response.audio.transcript.delta":
+    case "response.audio.delta":
+      assert.isString(event.delta);
+      break;
+    case "response.audio.done":
+    case "response.audio.transcript.done":
+      break;
+    case "response.code_interpreter_call.code.delta":
+      assert.isString(event.delta);
+      assert.isNumber(event.output_index);
+      break;
+    case "response.code_interpreter_call.code.done":
+      assert.isString(event.code);
+      assert.isNumber(event.output_index);
+      break;
+    case "response.code_interpreter_call.completed":
+    case "response.code_interpreter_call.in_progress":
+    case "response.code_interpreter_call.interpreting":
+      assertCodeInterpreterCall(event.code_interpreter_call);
+      assert.isNumber(event.output_index);
+      break;
+    case "response.created":
+    case "response.completed":
+    case "response.failed":
+    case "response.in_progress":
+    case "response.incomplete":
+      assertResponse(event.response);
+      break;
+    case "response.content_part.added":
+    case "response.content_part.done":
+      assert.isNumber(event.content_index);
+      assert.isString(event.item_id);
+      assert.isNumber(event.output_index);
+      assertResponseContentPart(event.part);
+      break;
+    case "error":
+      assert.isString(event.message);
+      ifDefined(event.code, assert.isString);
+      ifDefined(event.param, assert.isString);
+      break;
+    case "response.file_search_call.completed":
+    case "response.file_search_call.in_progress":
+    case "response.file_search_call.searching":
+      assert.isString(event.item_id);
+      assert.isNumber(event.output_index);
+      break;
+    case "response.function_call_arguments.delta":
+      assert.isString(event.delta);
+      assert.isString(event.item_id);
+      assert.isNumber(event.output_index);
+      break;
+    case "response.function_call_arguments.done":
+      assert.isString(event.arguments);
+      assert.isString(event.item_id);
+      assert.isNumber(event.output_index);
+      break;
+    case "response.output_text.annotation.added":
+      assert.isNumber(event.annotation_index);
+      assert.isNumber(event.content_index);
+      assert.isString(event.item_id);
+      assert.isNumber(event.output_index);
+      assertTextAnnotation(event.annotation);
+      break;
+    case "response.output_item.added":
+    case "response.output_item.done":
+      assertResponseOutputItem(event.item);
+      assert.isNumber(event.output_index);
+      break;
+    case "response.output_text.delta":
+      assert.isNumber(event.content_index);
+      assert.isString(event.delta);
+      assert.isString(event.item_id);
+      assert.isNumber(event.output_index);
+      break;
+    case "response.output_text.done":
+      assert.isNumber(event.content_index);
+      assert.isString(event.item_id);
+      assert.isNumber(event.output_index);
+      assert.isString(event.text);
+      break;
+    case "response.refusal.delta":
+      assert.isNumber(event.content_index);
+      assert.isString(event.delta);
+      assert.isString(event.item_id);
+      assert.isNumber(event.output_index);
+      break;
+    case "response.refusal.done":
+      assert.isNumber(event.content_index);
+      assert.isString(event.item_id);
+      assert.isNumber(event.output_index);
+      assert.isString(event.refusal);
+      break;
+    case "response.web_search_call.completed":
+    case "response.web_search_call.in_progress":
+    case "response.web_search_call.searching":
+      assert.isString(event.item_id);
+      assert.isNumber(event.output_index);
+      break;
+    default:
+      throw new Error(`Unknown response stream event type: ${(event as any).type}`);
+  }
+}
+
+function assertCodeInterpreterCall(call: ResponseCodeInterpreterToolCall): void {
+  assert.isString(call.id);
+  assert.isString(call.code);
+  assert.isArray(call.results);
+  assert.oneOf(call.status, ["in_progress", "interpreting", "completed"]);
+  assert.equal(call.type, "code_interpreter_call");
+
+  call.results.forEach((result) => {
+    if (result.type === "logs") {
+      assert.isString(result.logs);
+    } else if (result.type === "files") {
+      assert.isArray(result.files);
+      result.files.forEach((file) => {
+        assert.isString(file.file_id);
+        assert.isString(file.mime_type);
+      });
+    }
+  });
+}
+
+function assertResponse(response: Response): void {
+  // Required properties
+  assert.isString(response.id);
+  assert.isNumber(response.created_at);
+  assert.isArray(response.output);
+  response.output.forEach(assertResponseOutputItem);
+  assert.isString(response.output_text);
+  assert.isBoolean(response.parallel_tool_calls);
+  assert.isString(response.model);
+  assert.equal(response.object, "response");
+
+  // Optional properties
+  ifDefined(response.error, assertErrorResponse);
+  ifDefined(response.incomplete_details, (details) => {
+    ifDefined(details.reason, (reason) => {
+      assert.oneOf(reason, ["max_output_tokens", "content_filter"]);
+    });
+  });
+  ifDefined(response.instructions, assert.isString);
+  ifDefined(response.metadata, (metadata) => {
+    assertResponseMetadata(metadata);
+  });
+  ifDefined(response.previous_response_id, assert.isString);
+  ifDefined(response.reasoning, (reasoning) => {
+    // Validate reasoning config based on Shared.Reasoning type
+    assert.isObject(reasoning);
+  });
+  ifDefined(response.status, (status) => {
+    assert.oneOf(status, ["completed", "failed", "in_progress", "incomplete"]);
+  });
+  ifDefined(response.temperature, assert.isNumber);
+  ifDefined(response.text, (textConfig) => {
+    assertResponseTextConfig(textConfig);
+  });
+  ifDefined(response.tool_choice, (toolChoice) => {
+    assertResponseToolChoice(toolChoice);
+  });
+  ifDefined(response.tools, (tools) => {
+    assertResponseTools(tools);
+  });
+  ifDefined(response.top_p, assert.isNumber);
+  ifDefined(response.truncation, (truncation) => {
+    assert.oneOf(truncation, ["auto", "disabled"]);
+  });
+  ifDefined(response.usage, assertResponseUsage);
+  ifDefined(response.user, assert.isString);
+  ifDefined(response.max_output_tokens, assert.isNumber);
+}
+
+function assertResponseTools(tools: Tool[]): void {
+  assert.isArray(tools);
+  tools.forEach((tool) => {
+    assertResponseTool(tool);
+  });
+}
+
+function assertResponseTool(tool: Tool) {
+  assert.isString(tool.type);
+  switch (tool.type) {
+    case "function":
+      assert.isString(tool.name);
+      assert.isObject(tool.parameters);
+      assert.isBoolean(tool.strict);
+      ifDefined(tool.description, assert.isString);
+      break;
+    case "file_search":
+      assert.isArray(tool.vector_store_ids);
+      ifDefined(tool.max_num_results, assert.isNumber);
+      ifDefined(tool.ranking_options, (options) => {
+        ifDefined(options.ranker, (ranker) => {
+          assert.oneOf(ranker, ["auto", "default-2024-11-15"]);
+        });
+        ifDefined(options.score_threshold, assert.isNumber);
+      });
+      break;
+    case "computer-preview":
+      assert.isNumber(tool.display_height);
+      assert.isNumber(tool.display_width);
+      assert.oneOf(tool.environment, ["mac", "windows", "ubuntu", "browser"]);
+      break;
+    default:
+      throw new Error(`Unknown tool type: ${tool.type}`);
+  }
+}
+
+function assertResponseToolChoice(
+  toolChoice: ToolChoiceOptions | ToolChoiceTypes | ToolChoiceFunction,
+) {
+  if (typeof toolChoice === "string") {
+    assert.oneOf(toolChoice, ["none", "auto", "required"]);
+  } else if ("type" in toolChoice) {
+    assert.oneOf(toolChoice.type, [
+      "file_search",
+      "web_search_preview",
+      "computer_use_preview",
+      "web_search_preview_2025_03_11",
+    ]);
+    if (toolChoice.type === "function") {
+      assert.isString(toolChoice.name);
+    }
+  }
+}
+
+function assertResponseTextConfig(textConfig: ResponseTextConfig): void {
+  assert.isObject(textConfig);
+  ifDefined(textConfig.format, (format) => {
+    assert.isObject(format);
+    assert.oneOf(format.type, ["text", "json_schema", "json_object"]);
+  });
+}
+
+function assertResponseMetadata(metadata: Metadata): void {
+  assert.isObject(metadata);
+  Object.entries(metadata).forEach(([key, value]) => {
+    assert.isString(key);
+    assert.isTrue(key.length <= 64);
+    assert.isString(value);
+    assert.isTrue(value.length <= 512);
+  });
+}
+
+function assertErrorResponse(error: ResponseError): void {
+  assert.isString(error.code);
+  assert.isString(error.message);
+}
+
+function assertResponseUsage(usage: ResponseUsage): void {
+  assert.isNumber(usage.input_tokens);
+  assert.isNumber(usage.output_tokens);
+  // TODO: Fix this create a new function
+  assert.isDefined(usage.output_tokens_details);
+  assert.isNumber(usage.output_tokens_details.reasoning_tokens);
+  assert.isNumber(usage.total_tokens);
+}
+
+function assertResponseContentPart(part: ResponseOutputText | ResponseOutputRefusal): void {
+  if ("text" in part) {
+    assert.isString(part.text);
+    assert.isArray(part.annotations);
+    assert.equal(part.type, "output_text");
+    part.annotations.forEach((annotation) => {
+      if (annotation.type === "file_citation") {
+        assert.isString(annotation.file_id);
+        assert.isNumber(annotation.index);
+      } else if (annotation.type === "file_path") {
+        assert.isString(annotation.file_id);
+        assert.isNumber(annotation.index);
+      } else if (annotation.type === "url_citation") {
+        assert.isNumber(annotation.start_index);
+        assert.isNumber(annotation.end_index);
+        assert.isString(annotation.title);
+        assert.isString(annotation.url);
+      }
+    });
+  } else {
+    assert.isString(part.refusal);
+    assert.equal(part.type, "refusal");
+  }
+}
+
+function assertResponseOutputItem(item: ResponseOutputItem): void {
+  assert.isDefined(item.type);
+  switch (item.type) {
+    case "message":
+      assertResponseOutputMessage(item);
+      break;
+    case "function_call":
+      assertResponseFunctionToolCall(item);
+      break;
+    case "file_search_call":
+      assertResponseFileSearchToolCall(item);
+      break;
+    case "web_search_call":
+      assertResponseFunctionWebSearch(item);
+      break;
+    case "computer_call":
+      assertResponseComputerToolCall(item);
+      break;
+    case "reasoning":
+      assertResponseReasoningItem(item);
+      break;
+    default:
+      throw new Error(`Unknown response output item type: ${(item as any).type}`);
+  }
+}
+
+function assertComputerAction(action: ResponseComputerToolCall["action"]): void {
+  assert.isDefined(action.type);
+  switch (action.type) {
+    case "click":
+      assert.oneOf(action.button, ["left", "right", "wheel", "back", "forward"]);
+      assert.isNumber(action.x);
+      assert.isNumber(action.y);
+      break;
+    case "double_click":
+      assert.isNumber(action.x);
+      assert.isNumber(action.y);
+      break;
+    case "drag":
+      assert.isArray(action.path);
+      action.path.forEach((point) => {
+        assert.isNumber(point.x);
+        assert.isNumber(point.y);
+      });
+      break;
+    case "keypress":
+      assert.isArray(action.keys);
+      action.keys.forEach((key) => assert.isString(key));
+      break;
+    case "move":
+      assert.isNumber(action.x);
+      assert.isNumber(action.y);
+      break;
+    case "screenshot":
+      break;
+    case "scroll":
+      assert.isNumber(action.scroll_x);
+      assert.isNumber(action.scroll_y);
+      assert.isNumber(action.x);
+      assert.isNumber(action.y);
+      break;
+    case "type":
+      assert.isString(action.text);
+      break;
+    case "wait":
+      break;
+    default:
+      throw new Error(`Unknown computer action type: ${(action as any).type}`);
+  }
+}
+
+function assertTextAnnotation(annotation: ResponseTextAnnotationDeltaEvent["annotation"]): void {
+  switch (annotation.type) {
+    case "file_citation":
+      assert.isString(annotation.file_id);
+      assert.isNumber(annotation.index);
+      break;
+    case "url_citation":
+      assert.isNumber(annotation.start_index);
+      assert.isNumber(annotation.end_index);
+      assert.isString(annotation.title);
+      assert.isString(annotation.url);
+      break;
+    case "file_path":
+      assert.isString(annotation.file_id);
+      assert.isNumber(annotation.index);
+      break;
+    default:
+      throw new Error(`Unknown annotation type: ${(annotation as any).type}`);
+  }
+}
+
+function assertResponseOutputAnnotation(
+  annotation:
+    | ResponseOutputText.FileCitation
+    | ResponseOutputText.URLCitation
+    | ResponseOutputText.FilePath,
+): void {
+  switch (annotation.type) {
+    case "file_citation":
+      assert.isString(annotation.file_id);
+      assert.isNumber(annotation.index);
+      break;
+    case "url_citation":
+      assert.isNumber(annotation.start_index);
+      assert.isNumber(annotation.end_index);
+      assert.isString(annotation.title);
+      assert.isString(annotation.url);
+      break;
+    case "file_path":
+      assert.isString(annotation.file_id);
+      assert.isNumber(annotation.index);
+      break;
+    default:
+      throw new Error(`Unknown annotation type: ${(annotation as any).type}`);
+  }
 }
 
 interface CompletionTestOptions {

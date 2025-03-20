@@ -15,21 +15,21 @@ import { DefaultAzureCredential, getBearerTokenProvider } from "@azure/identity"
 // OpenAI resource. You can find this in the Azure portal.
 // Load the .env file if it exists
 
-import { zodResponsesFunction } from 'openai/helpers/zod';
-import { z } from 'zod';
+import { zodResponsesFunction } from "openai/helpers/zod";
+import { z } from "zod";
 
-const Table = z.enum(['orders', 'customers', 'products']);
+const Table = z.enum(["orders", "customers", "products"]);
 const Column = z.enum([
-  'id',
-  'status',
-  'expected_delivery_date',
-  'delivered_at',
-  'shipped_at',
-  'ordered_at',
-  'canceled_at',
+  "id",
+  "status",
+  "expected_delivery_date",
+  "delivered_at",
+  "shipped_at",
+  "ordered_at",
+  "canceled_at",
 ]);
-const Operator = z.enum(['=', '>', '<', '<=', '>=', '!=']);
-const OrderBy = z.enum(['asc', 'desc']);
+const Operator = z.enum(["=", ">", "<", "<=", ">=", "!="]);
+const OrderBy = z.enum(["asc", "desc"]);
 const DynamicValue = z.object({
   column_name: Column,
 });
@@ -54,11 +54,12 @@ async function main() {
   const apiVersion = "2024-11-01-preview";
   const client = new AzureOpenAI({ azureADTokenProvider, deployment, apiVersion });
 
-  const tool = zodResponsesFunction({ name: 'query', parameters: Query });
+  const tool = zodResponsesFunction({ name: "query", parameters: Query });
 
   const stream = client.responses.stream({
-    model: 'gpt-4o-2024-08-06',
-    input: 'look up all my orders in november of last year that were fulfilled but not delivered on time',
+    model: "gpt-4o-2024-08-06",
+    input:
+      "look up all my orders in november of last year that were fulfilled but not delivered on time",
     tools: [tool],
   });
 

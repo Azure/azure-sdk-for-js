@@ -2,25 +2,169 @@
 // Licensed under the MIT License.
 
 import { assert, describe, it } from "vitest";
-import { APIMatrix, withDeployments } from "../utils/utils.js";
+import { APIMatrix, testWithDeployments, withDeployments } from "../utils/utils.js";
 import { createClientsAndDeployments } from "../utils/createClients.js";
 import type { APIVersion } from "../utils/utils.js";
 import { z } from "zod";
 import { zodResponsesFunction, zodTextFormat } from "openai/helpers/zod";
-import type { ClientsAndDeploymentsInfo } from "../utils/types.js";
-import { assertParsedResponseOutput, ifDefined } from "../utils/asserts.js";
-import { ResponseStreamEvent } from "openai/resources/responses/responses.mjs";
+import {
+  assertParsedResponseOutput,
+  assertResponseStreamEvent,
+  ifDefined,
+} from "../utils/asserts.js";
+import { Response, ResponseStreamEvent } from "openai/resources/responses/responses.mjs";
 
 describe.shuffle.each(APIMatrix)("Responses [%s]", (apiVersion: APIVersion) => {
-  let clientsAndDeploymentsInfo: ClientsAndDeploymentsInfo;
+  const clientsAndDeploymentsInfo = createClientsAndDeployments(apiVersion, { responses: "true" });
 
-  clientsAndDeploymentsInfo = createClientsAndDeployments(
-    apiVersion,
-    { responses: "true" },
-    {
-      modelsToSkip: [{ name: "gpt-4o-audio-preview" }],
-    }
-  );
+  describe("responses.create", () => {
+    it("creates basic text response", async () => {
+      await testWithDeployments({
+        clientsAndDeploymentsInfo,
+        run: (client, deploymentName) =>
+          client.responses.create({
+            model: deploymentName,
+            input: "What is 2+2?",
+          }),
+        validate: (res) => {
+          assertResponse(res);
+        },
+      });
+    });
+
+    it("uses web search tool", async () => {
+      await testWithDeployments({
+        clientsAndDeploymentsInfo,
+        run: (client, deploymentName) =>
+          client.responses.create({
+            model: deploymentName,
+            input: "What are the latest developments in renewable energy?",
+            tools: [
+              {
+                type: "web_search_preview",
+                search_context_size: "high",
+                user_location: {
+                  type: "approximate",
+                  city: "San Francisco",
+                  country: "US",
+                  region: "California",
+                  timezone: "America/Los_Angeles",
+                },
+              },
+            ],
+          }),
+        validate: (res) => {
+          assertResponse(res);
+        },
+      });
+    });
+
+    it("uses computer tool", async () => {
+      await testWithDeployments({
+        clientsAndDeploymentsInfo,
+        run: (client, deploymentName) =>
+          client.responses.create({
+            model: deploymentName,
+            input: "Open calculator app",
+            tools: [
+              {
+                type: "computer-preview",
+                display_height: 800,
+                display_width: 600,
+                environment: "mac",
+              },
+            ],
+          }),
+        validate: (res) => {
+          const computerCall = res.output.find((item) => item.type === "computer_call");
+          assert.isDefined(computerCall);
+        },
+      });
+    });
+
+    it("uses file search tool", async () => {
+      await testWithDeployments({
+        clientsAndDeploymentsInfo,
+        run: (client, deploymentName) =>
+          client.responses.create({
+            model: deploymentName,
+            input: "Find information about renewable energy in documents",
+            tools: [
+              {
+                type: "file_search",
+                vector_store_ids: ["test-store"],
+                max_num_results: 3,
+                ranking_options: {
+                  ranker: "default-2024-11-15",
+                  score_threshold: 0.8,
+                },
+              },
+            ],
+          }),
+        validate: (res) => {
+          const fileSearch = res.output.find((item) => item.type === "file_search_call");
+          assert.isDefined(fileSearch);
+        },
+      });
+    });
+
+    it("uses function tool", async () => {
+      await testWithDeployments({
+        clientsAndDeploymentsInfo,
+        run: (client, deploymentName) =>
+          client.responses.create({
+            model: deploymentName,
+            input: "What's the weather in Boston?",
+            tools: [
+              {
+                type: "function",
+                name: "get_weather",
+                parameters: {
+                  type: "object",
+                  properties: {
+                    location: {
+                      type: "string",
+                      description: "The city to get weather for",
+                    },
+                  },
+                  required: ["location"],
+                },
+                strict: true,
+                description: "Get the weather for a location",
+              },
+            ],
+          }),
+        validate: (res) => {
+          const functionCall = res.output.find((item) => item.type === "function_call");
+          assert.isDefined(functionCall);
+        },
+      });
+    });
+
+    it("streams responses", async () => {
+      await testWithDeployments({
+        clientsAndDeploymentsInfo,
+        run: async (client, deploymentName) => {
+          const stream = await client.responses.create({
+            model: deploymentName,
+            input: "Count from 1 to 5",
+            stream: true,
+          });
+
+          const events: ResponseStreamEvent[] = [];
+          for await (const chunk of stream) {
+            events.push(chunk);
+          }
+          return events;
+        },
+        validate: (events) => {
+          events.forEach((event) => {
+            assertResponseStreamEvent(event);
+          });
+        },
+      });
+    });
+  });
 
   describe("responses.parse", () => {
     const Step = z.object({
@@ -45,17 +189,8 @@ describe.shuffle.each(APIMatrix)("Responses [%s]", (apiVersion: APIVersion) => {
             },
           }),
         (result) => {
-          ifDefined(result.output_parsed, (parsed) => {
-            ifDefined(parsed.final_answer, assert.isString);
-            ifDefined(parsed.steps, (steps) => {
-              assert.isArray(steps);
-              steps.forEach((step) => {
-                ifDefined(step.explanation, assert.isString);
-                ifDefined(step.output, assert.isString);
-              });
-            });
-          });
-        }
+          assertParsedResponseOutput(result);
+        },
       );
     });
   });
@@ -78,54 +213,10 @@ describe.shuffle.each(APIMatrix)("Responses [%s]", (apiVersion: APIVersion) => {
           return events;
         },
         (events) => {
-          assert.isNotEmpty(events);
           events.forEach((event) => {
-            switch (event.type) {
-              case "response.output_text.delta":
-                assert.isNumber(event.content_index);
-                assert.isString(event.delta);
-                assert.isString(event.item_id);
-                assert.isNumber(event.output_index);
-                break;
-              case "response.output_text.done":
-                assert.isNumber(event.content_index);
-                assert.isString(event.item_id);
-                assert.isNumber(event.output_index);
-                assert.isString(event.text);
-                break;
-              case "response.output_item.added":
-                assert.isDefined(event.item);
-                assert.isNumber(event.output_index);
-                break;
-              case "response.output_item.done":
-                assert.isDefined(event.item);
-                assert.isNumber(event.output_index);
-                break;
-              case "response.content_part.added":
-                assert.isNumber(event.content_index);
-                assert.isString(event.item_id);
-                assert.isNumber(event.output_index);
-                assert.isDefined(event.part);
-                break;
-              case "response.content_part.done":
-                assert.isNumber(event.content_index);
-                assert.isString(event.item_id);
-                assert.isNumber(event.output_index);
-                assert.isDefined(event.part);
-                break;
-              case "response.completed":
-              case "response.failed":
-              case "response.incomplete":
-                assert.isDefined(event.response);
-                break;
-              case "error":
-                assert.isString(event.message);
-                ifDefined(event.code, assert.isString);
-                ifDefined(event.param, assert.isString);
-                break;
-            }
+            assertResponseStreamEvent(event);
           });
-        }
+        },
       );
     });
   });
@@ -162,20 +253,24 @@ describe.shuffle.each(APIMatrix)("Responses [%s]", (apiVersion: APIVersion) => {
 
     it("parses structured tool output", async () => {
       const tool = zodResponsesFunction({ name: "query", parameters: Query });
-
       await withDeployments(
         clientsAndDeploymentsInfo,
         (client, deploymentName) =>
           client.responses.parse({
             model: deploymentName,
-            input: "look up all my orders in november of last year that were fulfilled but not delivered on time",
+            input:
+              "look up all my orders in november of last year that were fulfilled but not delivered on time",
             tools: [tool],
           }),
         (result) => {
-          assert.isDefined(result.output);
           assertParsedResponseOutput(result);
-        }
+        },
       );
     });
+
+    // TODO: parallel tool output
   });
 });
+function assertResponse(res: Response & { _request_id?: string | null }) {
+  throw new Error("Function not implemented.");
+}

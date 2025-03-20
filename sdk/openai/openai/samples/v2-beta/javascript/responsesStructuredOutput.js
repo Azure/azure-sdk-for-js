@@ -5,17 +5,16 @@
  * Demonstrates how to use structured output parsing with Azure OpenAI.
  *
  * @summary parses mathematical solutions into structured output using Azure OpenAI.
- * @azsdk-weight 100
  */
 
-import { AzureOpenAI } from "openai";
-import { DefaultAzureCredential, getBearerTokenProvider } from "@azure/identity";
+const { AzureOpenAI } = require("openai");
+const { DefaultAzureCredential, getBearerTokenProvider } = require("@azure/identity");
 
 // Set AZURE_OPENAI_ENDPOINT to the endpoint of your
 // OpenAI resource. You can find this in the Azure portal.
 // Load the .env file if it exists
-import { zodTextFormat } from "openai/helpers/zod";
-import { z } from "zod";
+const { zodTextFormat } = require("openai/helpers/zod");
+const { z } = require("zod");
 
 const Step = z.object({
   explanation: z.string(),

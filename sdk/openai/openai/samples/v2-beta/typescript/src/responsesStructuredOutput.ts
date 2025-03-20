@@ -5,7 +5,6 @@
  * Demonstrates how to use structured output parsing with Azure OpenAI.
  *
  * @summary parses mathematical solutions into structured output using Azure OpenAI.
- * @azsdk-weight 100
  */
 
 import { AzureOpenAI } from "openai";

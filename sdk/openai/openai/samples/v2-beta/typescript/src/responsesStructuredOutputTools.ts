@@ -5,7 +5,6 @@
  * Demonstrates how to use structured output with tools/functions using Azure OpenAI.
  *
  * @summary parses function calls for database queries using Azure OpenAI.
- * @azsdk-weight 100
  */
 
 import { AzureOpenAI } from "openai";

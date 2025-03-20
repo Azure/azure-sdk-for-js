@@ -2,10 +2,9 @@
 // Licensed under the MIT License.
 
 /**
- * Demonstrates how to use structured output with tools/functions using Azure OpenAI.
+ * Demonstrates how to use streaming responses with tools/functions using Azure OpenAI.
  *
- * @summary parses function calls for database queries using Azure OpenAI.
- * @azsdk-weight 100
+ * @summary streams function calls for database queries using Azure OpenAI.
  */
 
 import { AzureOpenAI } from "openai";
@@ -14,6 +13,7 @@ import { DefaultAzureCredential, getBearerTokenProvider } from "@azure/identity"
 // Set AZURE_OPENAI_ENDPOINT to the endpoint of your
 // OpenAI resource. You can find this in the Azure portal.
 // Load the .env file if it exists
+
 import { zodResponsesFunction } from "openai/helpers/zod";
 import { z } from "zod";
 
@@ -52,26 +52,19 @@ async function main() {
   const deployment = "gpt-4-1106-preview";
   const apiVersion = "2024-11-01-preview";
   const client = new AzureOpenAI({ azureADTokenProvider, deployment, apiVersion });
+
   const tool = zodResponsesFunction({ name: "query", parameters: Query });
 
-  const rsp = await client.responses.parse({
+  const stream = client.responses.stream({
     model: "gpt-4o-2024-08-06",
     input:
       "look up all my orders in november of last year that were fulfilled but not delivered on time",
     tools: [tool],
   });
 
-  console.log(rsp);
-
-  const functionCall = rsp.output[0]!;
-
-  if (functionCall.type !== "function_call") {
-    throw new Error("Expected function call");
+  for await (const event of stream) {
+    console.dir(event, { depth: 10 });
   }
-
-  const query = functionCall.parsed_arguments;
-
-  console.log(query);
 }
 
 main();

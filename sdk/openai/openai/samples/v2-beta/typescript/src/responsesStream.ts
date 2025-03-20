@@ -5,7 +5,6 @@
  * Demonstrates how to stream text responses from Azure OpenAI.
  *
  * @summary streams text completions from Azure OpenAI.
- * @azsdk-weight 100
  */
 
 import { AzureOpenAI } from "openai";

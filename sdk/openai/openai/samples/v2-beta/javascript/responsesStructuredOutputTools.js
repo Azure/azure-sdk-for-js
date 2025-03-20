@@ -5,17 +5,16 @@
  * Demonstrates how to use structured output with tools/functions using Azure OpenAI.
  *
  * @summary parses function calls for database queries using Azure OpenAI.
- * @azsdk-weight 100
  */
 
-import { AzureOpenAI } from "openai";
-import { DefaultAzureCredential, getBearerTokenProvider } from "@azure/identity";
+const { AzureOpenAI } = require("openai");
+const { DefaultAzureCredential, getBearerTokenProvider } = require("@azure/identity");
 
 // Set AZURE_OPENAI_ENDPOINT to the endpoint of your
 // OpenAI resource. You can find this in the Azure portal.
 // Load the .env file if it exists
-import { zodResponsesFunction } from "openai/helpers/zod";
-import { z } from "zod";
+const { zodResponsesFunction } = require("openai/helpers/zod");
+const { z } = require("zod");
 
 const Table = z.enum(["orders", "customers", "products"]);
 const Column = z.enum([
@@ -63,7 +62,7 @@ async function main() {
 
   console.log(rsp);
 
-  const functionCall = rsp.output[0]!;
+  const functionCall = rsp.output[0];
 
   if (functionCall.type !== "function_call") {
     throw new Error("Expected function call");
