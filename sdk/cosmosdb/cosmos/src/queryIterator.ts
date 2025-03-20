@@ -50,7 +50,7 @@ export class QueryIterator<T> {
   private correlatedActivityId: string;
   private partitionKeyRangeCache: PartitionKeyRangeCache;
   /**
-   * @internal
+   * @hidden
    */
   constructor(
     private clientContext: ClientContext,

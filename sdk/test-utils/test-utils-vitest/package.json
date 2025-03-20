@@ -54,18 +54,18 @@
     "@azure/core-tracing": "^1.1.2",
     "@opentelemetry/api": "^1.9.0",
     "tslib": "^2.6.3",
-    "vitest": "^3.0.3"
+    "vitest": "^3.0.9"
   },
   "devDependencies": {
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@types/node": "^18.0.0",
-    "@vitest/browser": "^3.0.3",
-    "@vitest/coverage-istanbul": "^3.0.3",
-    "@vitest/expect": "^3.0.3",
+    "@vitest/browser": "^3.0.9",
+    "@vitest/coverage-istanbul": "^3.0.9",
+    "@vitest/expect": "^3.0.9",
     "eslint": "^9.9.0",
     "playwright": "^1.46.0",
-    "typescript": "~5.7.2"
+    "typescript": "~5.8.2"
   },
   "tshy": {
     "exports": {

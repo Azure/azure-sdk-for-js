@@ -28,7 +28,7 @@ async function main() {
 
   console.log(`Created agent, agent ID : ${agent.id}`);
 
-  client.agents.deleteAgent(agent.id);
+  await client.agents.deleteAgent(agent.id);
 
   console.log(`Deleted agent, agent ID: ${agent.id}`);
 }

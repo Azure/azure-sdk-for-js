@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { randomUUID } from "crypto";
-import { InternalEnvironmentVariables } from "./constants";
+import { randomUUID } from "node:crypto";
+import { InternalEnvironmentVariables } from "./constants.js";
 
 export class EnvironmentVariables {
   get accessToken(): string {

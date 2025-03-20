@@ -11,9 +11,9 @@
 # Misc.
 ################
 
-/.devcontainer/ @jeremymeng
-/documentation/ @jeremymeng
-/samples/       @jeremymeng
+/.devcontainer/ @jeremymeng @Azure/azure-sdk-eng @Azure/azure-sdk-for-js-core
+/documentation/ @jeremymeng @Azure/azure-sdk-js-dev
+/samples/       @jeremymeng @Azure/azure-sdk-js-dev
 
 ################
 # Architecture
@@ -69,7 +69,7 @@
 
 # PRLabel: %Communication - Alpha IDs
 # ServiceLabel: %Communication - Alpha IDs
-/sdk/communication/communication-alpha-ids/ @miguhern @whisper6284
+/sdk/communication/communication-alpha-ids/ @Arazan @whisper6284 @danielortega-msft @sofiar-msft
 
 # PRLabel: %Communication - Call Automation
 # ServiceLabel: %Communication - Call Automation
@@ -97,7 +97,7 @@
 
 # PRLabel: %Communication - Phone Numbers
 # ServiceLabel: %Communication - Phone Numbers
-/sdk/communication/communication-phone-numbers/ @miguhern @whisper6284 @danielav7
+/sdk/communication/communication-phone-numbers/ @Arazan @whisper6284 @danielortega-msft @sofiar-msft
 
 # PRLabel: %Communication - Rooms
 # ServiceLabel: %Communication - Rooms
@@ -109,11 +109,11 @@
 
 # PRLabel: %Communication - Short Codes
 # ServiceLabel: %Communication - Short Codes
-/sdk/communication/communication-short-codes/ @miguhern @whisper6284
+/sdk/communication/communication-short-codes/ @Arazan @whisper6284 @danielortega-msft @sofiar-msft
 
 # PRLabel: %Communication - Toll Free Verification
 # ServiceLabel: %Communication - Toll Free Verification
-/sdk/communication/communication-toll-free-verification/ @miguhern @whisper6284
+/sdk/communication/communication-toll-free-verification/ @Arazan @whisper6284 @danielortega-msft @sofiar-msft
 
 # PRLabel: %Communication - Common
 # ServiceLabel: %Communication - Common
@@ -249,10 +249,10 @@
 /sdk/cognitivelanguage/ @quentinRobinson
 
 # ServiceLabel: %OpenAI
-# ServiceOwners: @glharper
+# ServiceOwners: @trrwilson
 
 # PRLabel: %OpenAI
-/sdk/openai/ @glharper @deyaaeldeen @minhanh-phan
+/sdk/openai/ @mikhail @deyaaeldeen @minhanh-phan
 
 # PRLabel: %AI Model Inference
 sdk/ai/ai-inference-rest @glharper @dargilco @jhakulin
@@ -751,9 +751,6 @@ sdk/ai/ai-projects @ganeshyb @GraceBrigham
 
 # PRLabel: %Mgmt
 /sdk/networkcloud/arm-networkcloud/      @qiaozha @MaryGao
-
-# PRLabel: %Mgmt
-/sdk/networkanalytics/arm-networkanalytics/      @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
 /sdk/network/arm-network-profile-2020-09-01-hybrid/ @qiaozha @MaryGao
@@ -1605,7 +1602,6 @@ sdk/ai/ai-projects @ganeshyb @GraceBrigham
 # Make sure to not check in anymore test-resources.json files
 # and review bicep scripts for any exposed secrets
 /sdk/**/*.bicep @deyaaeldeen @jeremymeng @Azure/azure-sdk-for-js-core
-/sdk/**/test-resources.json @deyaaeldeen @jeremymeng @Azure/azure-sdk-for-js-core
 
 #########################
 # Eng Sys and CODEOWNERS
