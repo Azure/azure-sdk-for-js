@@ -105,6 +105,7 @@ TestResults/*
 **/*Bundle.js.map
 **/package-lock.json
 **/yarn.lock
+**/pnpm-lock.yaml
 npm-debug.log.*
 azure_error
 checkstyle-result.xml

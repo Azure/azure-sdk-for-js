@@ -3,11 +3,12 @@
 
 // @ts-check
 
-export function parseArgs() {
-  if (
-    process.argv.length < 3 ||
-    process.argv.some((a) => ["-h", "--help"].includes(a.toLowerCase()))
-  ) {
+export function parseProcessArgs() {
+  return parseArgs(process.argv);
+}
+
+export function parseArgs(argv) {
+  if (argv.length < 3 || argv.some((a) => ["-h", "--help"].includes(a.toLowerCase()))) {
     console.error("Usage: rush-runner/index.js <action> [<servicename>...] [args...]");
     console.error("Example: rush-runner/index.js build keyvault storage --verbose");
     process.exit(1);
@@ -23,20 +24,20 @@ export function parseArgs() {
   let changeInfoPath = "";
   const services = [],
     flags = [];
-  const [_scriptPath, action, ...givenArgs] = process.argv.slice(1);
+  const [_scriptPath, action, ...givenArgs] = argv.slice(1);
 
   for (const arg of givenArgs) {
     if (arg === "-packages") {
       isPackageFilter = true;
       continue;
-    } else if (!inFlags && arg.startsWith("-")) {
-      inFlags = true;
     } else if (arg === "-packageInfo") {
       isPackageInfo = true;
       continue;
     } else if (arg === "-changeInfo") {
       isChangeInfo = true;
       continue;
+    } else if (!inFlags && arg.startsWith("-")) {
+      inFlags = true;
     }
 
     if (inFlags) {
@@ -62,5 +63,13 @@ export function parseArgs() {
     }
   }
 
-  return { action, serviceDirs: services, rushParams: flags, artifactNames, ciFlag };
+  return {
+    action,
+    serviceDirs: services,
+    rushParams: flags,
+    artifactNames,
+    ciFlag,
+    packageInfoPath,
+    changeInfoPath,
+  };
 }
