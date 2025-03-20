@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { PerfOptionDictionary } from "@azure-tools/test-perf";
-import { ServiceBusMessage, ServiceBusSender } from "@azure/service-bus";
+import type { PerfOptionDictionary } from "@azure-tools/test-perf";
+import type { ServiceBusMessage, ServiceBusSender } from "@azure/service-bus";
 import { ServiceBusTest } from "./sbBase.spec.js";
 
 interface SendTestOptions {
