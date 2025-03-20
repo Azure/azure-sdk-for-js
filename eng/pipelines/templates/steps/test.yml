@@ -25,7 +25,7 @@ steps:
   # Option "-p max" ensures parallelism is set to the number of cores on all platforms, which improves build times.
   # The default on Windows is "cores - 1" (microsoft/rushstack#436).
   - script: |
-      node eng/tools/rush-runner/index.js build $(ChangedServices) -packages "$(ArtifactPackageNames)" --verbose -p max
+      node eng/tools/rush-runner/index.js build $(ChangedServices) -packages "$(ArtifactPackageNames)" --verbose -p max --packageInfo "$(Build.ArtifactStagingDirectory)/PackageInfo" --changeInfo "$(Build.ArtifactStagingDirectory)/diff/diff.json"
     displayName: "Build libraries"
 
   # Option "-p max" ensures parallelism is set to the number of cores on all platforms, which improves build times.
@@ -35,7 +35,7 @@ steps:
   # "IncludedForValidation" being set to true or false. True means the package is indirectly changed. False means that
   # the package was directly changed in a PR. This will inform the usage of --from or --to within rush-runner.
   - script: |
-      node eng/tools/rush-runner/index.js build:test $(ChangedServices) -packages "$(ArtifactPackageNames)" --verbose -p max --packageInfo "$(Build.ArtifactStagingDirectory)/PackageInfo"
+      node eng/tools/rush-runner/index.js build:test $(ChangedServices) -packages "$(ArtifactPackageNames)" --verbose -p max --packageInfo "$(Build.ArtifactStagingDirectory)/PackageInfo" --changeInfo "$(Build.ArtifactStagingDirectory)/diff/diff.json"
     displayName: "Build test assets"
 
   - template: ../steps/use-node-test-version.yml
@@ -46,14 +46,14 @@ steps:
   # Option "-p max" ensures parallelism is set to the number of cores on all platforms, which improves build times.
   # The default on Windows is "cores - 1" (microsoft/rushstack#436).
   - script: |
-      node eng/tools/rush-runner/index.js unit-test:node $(ChangedServices) -packages "$(ArtifactPackageNames)" --ci --verbose -p max
+      node eng/tools/rush-runner/index.js unit-test:node $(ChangedServices) -packages "$(ArtifactPackageNames)" --ci --verbose -p max --packageInfo "$(Build.ArtifactStagingDirectory)/PackageInfo" --changeInfo "$(Build.ArtifactStagingDirectory)/diff/diff.json"
     displayName: "Test libraries"
     condition: and(succeeded(),eq(variables['TestType'], 'node'))
 
   # Option "-p max" ensures parallelism is set to the number of cores on all platforms, which improves build times.
   # The default on Windows is "cores - 1" (microsoft/rushstack#436).
   - script: |
-      node eng/tools/rush-runner/index.js unit-test:browser $(ChangedServices) -packages "$(ArtifactPackageNames)" --ci --verbose -p max
+      node eng/tools/rush-runner/index.js unit-test:browser $(ChangedServices) -packages "$(ArtifactPackageNames)" --ci --verbose -p max --packageInfo "$(Build.ArtifactStagingDirectory)/PackageInfo" --changeInfo "$(Build.ArtifactStagingDirectory)/diff/diff.json"
     displayName: "Test libraries"
     condition: and(succeeded(),eq(variables['TestType'], 'browser'))
 
