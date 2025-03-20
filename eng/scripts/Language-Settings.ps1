@@ -173,6 +173,19 @@ function Get-javascript-PackageInfoFromRepo ($pkgPath, $serviceDirectory) {
   return $packageProps
 }
 
+function Get-PackageInfoNameOverride {
+  param(
+    [Parameter(Mandatory = $true)]
+    [PackageProps] $PkgProps
+  )
+  if ($PkgProps.ArtifactName) {
+    return $PkgProps.ArtifactName
+  }
+  else {
+    LogError "In Get-PackageInfoNameOverride-PkgProps, PkgProps with name $($PkgProps.Name) did not contain an ArtifactName"
+  }
+}
+
 # Returns the npm publish status of a package id and version.
 function IsNPMPackageVersionPublished ($pkgId, $pkgVersion) {
   Confirm-NodeInstallation
