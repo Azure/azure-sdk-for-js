@@ -925,7 +925,7 @@
     },
     {
       "packageName": "@azure-tests/perf-ai-metrics-advisor",
-      "projectFolder": "sdk/metricsadvisor/perf-tests/ai-metrics-advisor",
+      "projectFolder": "sdk/metricsadvisor/ai-metrics-advisor-perf-tests",
       "versionPolicyName": "test"
     },
     {

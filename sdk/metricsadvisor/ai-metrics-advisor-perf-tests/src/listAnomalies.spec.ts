@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { PerfOptionDictionary, getEnvVar } from "@azure-tools/test-perf";
+import type { PerfOptionDictionary } from "@azure-tools/test-perf";
+import { getEnvVar } from "@azure-tools/test-perf";
 import { MetricsAdvisorTest } from "./metricsAdvisor.spec.js";
 
 type MetricsAdvisorTestOptions = Record<string, unknown>;
@@ -21,8 +22,8 @@ export class AnomaliesListTest extends MetricsAdvisorTest<MetricsAdvisorTestOpti
       alertConfigId: this.alertConfigId,
       id: this.alertId,
     });
-    // eslint-disable-next-line no-empty
     for await (const _anomaly of listIterator) {
+      // Do nothing
     }
   }
 }
