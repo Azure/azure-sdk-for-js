@@ -890,7 +890,7 @@
     },
     {
       "packageName": "@azure-tests/perf-identity",
-      "projectFolder": "sdk/identity/perf-tests/identity",
+      "projectFolder": "sdk/identity/identity-perf-tests",
       "versionPolicyName": "test"
     },
     {
