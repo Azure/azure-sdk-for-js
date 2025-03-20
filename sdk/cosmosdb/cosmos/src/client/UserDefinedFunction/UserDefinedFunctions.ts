@@ -67,7 +67,7 @@ export class UserDefinedFunctions {
    *
    * const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
    *
-   * const { container } = await database.containers.createIfNotExists({ id: "Test Database" });
+   * const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
    *
    * const { resources: udfList } = await container.scripts.userDefinedFunctions.readAll().fetchAll();
    * ```

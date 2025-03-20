@@ -26,7 +26,7 @@ export interface ChangeFeedPullModelIterator<T> {
    *
    * const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
    *
-   * const { container } = await database.containers.createIfNotExists({ id: "Test Database" });
+   * const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
    *
    * const options = { changeFeedStartFrom: ChangeFeedStartFrom.Now() };
    * for await (const results of container.items.getChangeFeedIterator(options).getAsyncIterator()) {

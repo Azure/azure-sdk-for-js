@@ -20,21 +20,19 @@ export enum CosmosEncryptedNumberType {
  *
  * @example
  * ```ts snippet:CosmosEncryptedNumber
- * import { CosmosEncryptedNumber } from "@azure/cosmos";
+ * import { CosmosEncryptedNumber, CosmosEncryptedNumberType } from "@azure/cosmos";
  *
  * const encryptedNumber1: CosmosEncryptedNumber = {
  *   value: 4,
- *   numberType: CosmosEncryptedNumberType.Integer
+ *   numberType: CosmosEncryptedNumberType.Integer,
  * };
- *
  * const encryptedNumber2: CosmosEncryptedNumber = {
  *   value: 4.1,
- *   numberType: CosmosEncryptedNumberType.Float
+ *   numberType: CosmosEncryptedNumberType.Float,
  * };
- *
  * const encryptedNumber3: CosmosEncryptedNumber = {
  *   value: 4,
- *   numberType: CosmosEncryptedNumberType.Float // represents 4.0
+ *   numberType: CosmosEncryptedNumberType.Float, // represents 4.0
  * };
  * ```
  */

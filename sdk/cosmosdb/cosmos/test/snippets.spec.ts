@@ -16,7 +16,7 @@ import {
   PartitionKeyKind,
   RestError,
   SqlQuerySpec,
-} from "../src";
+} from "@azure/cosmos";
 
 describe("snippets", () => {
   it("ReadmeSampleCreateClient", () => {
@@ -42,7 +42,7 @@ describe("snippets", () => {
     // @ts-preserve-whitespace
     const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
     // @ts-preserve-whitespace
-    const { container } = await database.containers.createIfNotExists({ id: "Test Database" });
+    const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
     console.log(container.id);
   });
 
@@ -53,7 +53,7 @@ describe("snippets", () => {
     // @ts-preserve-whitespace
     const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
     // @ts-preserve-whitespace
-    const { container } = await database.containers.createIfNotExists({ id: "Test Database" });
+    const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
     // @ts-preserve-whitespace
     await container.item("id", "1").read(); // string type
     await container.item("id", 2).read(); // number type
@@ -70,7 +70,7 @@ describe("snippets", () => {
     // @ts-preserve-whitespace
     const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
     // @ts-preserve-whitespace
-    const { container } = await database.containers.createIfNotExists({ id: "Test Database" });
+    const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
     // @ts-preserve-whitespace
     await container.item("id", "1").read();
     await container.item("id", ["1"]).read();
@@ -83,7 +83,7 @@ describe("snippets", () => {
     // @ts-preserve-whitespace
     const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
     // @ts-preserve-whitespace
-    const { container } = await database.containers.createIfNotExists({ id: "Test Database" });
+    const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
     // @ts-preserve-whitespace
     await container.item("id", ["a", "b"]).read();
     await container.item("id", ["a", 2]).read();
@@ -99,7 +99,7 @@ describe("snippets", () => {
     // @ts-preserve-whitespace
     const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
     // @ts-preserve-whitespace
-    const { container } = await database.containers.createIfNotExists({ id: "Test Database" });
+    const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
     // @ts-preserve-whitespace
     const cities = [
       { id: "1", name: "Olympia", state: "WA", isCapitol: true },
@@ -118,7 +118,7 @@ describe("snippets", () => {
     // @ts-preserve-whitespace
     const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
     // @ts-preserve-whitespace
-    const { container } = await database.containers.createIfNotExists({ id: "Test Database" });
+    const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
     // @ts-preserve-whitespace
     await container.item("1", "1").read();
   });
@@ -224,7 +224,7 @@ describe("snippets", () => {
     // @ts-preserve-whitespace
     const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
     // @ts-preserve-whitespace
-    const { container } = await database.containers.createIfNotExists({ id: "Test Database" });
+    const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
     // @ts-preserve-whitespace
     // Delete the first item returned by the query above
     await container.item("1").delete();
@@ -237,7 +237,7 @@ describe("snippets", () => {
     // @ts-preserve-whitespace
     const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
     // @ts-preserve-whitespace
-    const { container } = await database.containers.createIfNotExists({ id: "Test Database" });
+    const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
     // @ts-preserve-whitespace
     const { resources } = await container.items
       .query("SELECT * from c WHERE c.isCapitol = true")
@@ -254,7 +254,7 @@ describe("snippets", () => {
     // @ts-preserve-whitespace
     const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
     // @ts-preserve-whitespace
-    const { container } = await database.containers.createIfNotExists({ id: "Test Database" });
+    const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
     // @ts-preserve-whitespace
     const { resources } = await container.items
       .query({
@@ -353,7 +353,7 @@ describe("snippets", () => {
     // @ts-preserve-whitespace
     const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
     // @ts-preserve-whitespace
-    const { container } = await database.containers.createIfNotExists({ id: "Test Database" });
+    const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
     // @ts-preserve-whitespace
     try {
       await container.items.create({ id: "existing-item-id" });
@@ -434,7 +434,7 @@ describe("snippets", () => {
     // @ts-preserve-whitespace
     const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
     // @ts-preserve-whitespace
-    const { container } = await database.containers.createIfNotExists({ id: "Test Database" });
+    const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
     // @ts-preserve-whitespace
     const querySpec = {
       query: "SELECT c.status, COUNT(c.id) AS count FROM c GROUP BY c.status",
@@ -511,7 +511,7 @@ describe("snippets", () => {
   it("SqlQuerySpecParameterizedSqlQuery", async () => {
     // @ts-ignore
     const query: SqlQuerySpec = {
-      query: "SELECT FROM Families f where f.lastName = @lastName",
+      query: "SELECT * FROM Families f where f.lastName = @lastName",
       parameters: [{ name: "@lastName", value: "Wakefield" }],
     };
   });
@@ -523,7 +523,7 @@ describe("snippets", () => {
     // @ts-preserve-whitespace
     const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
     // @ts-preserve-whitespace
-    const { container } = await database.containers.createIfNotExists({ id: "Test Database" });
+    const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
     // @ts-preserve-whitespace
     const controller = new AbortController();
     // @ts-ignore
@@ -539,7 +539,7 @@ describe("snippets", () => {
     // @ts-preserve-whitespace
     const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
     // @ts-preserve-whitespace
-    const { container } = await database.containers.createIfNotExists({ id: "Test Database" });
+    const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
     // @ts-preserve-whitespace
     const options = { changeFeedStartFrom: ChangeFeedStartFrom.Now() };
     for await (const results of container.items.getChangeFeedIterator(options).getAsyncIterator()) {
@@ -557,7 +557,7 @@ describe("snippets", () => {
     // @ts-preserve-whitespace
     const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
     // @ts-preserve-whitespace
-    const { container } = await database.containers.createIfNotExists({ id: "Test Database" });
+    const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
     // @ts-preserve-whitespace
     // @ts-ignore
     const { resource: createdItem } = await container.items.create({
@@ -573,7 +573,7 @@ describe("snippets", () => {
     // @ts-preserve-whitespace
     const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
     // @ts-preserve-whitespace
-    const { container } = await database.containers.createIfNotExists({ id: "Test Database" });
+    const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
     // @ts-preserve-whitespace
     // @ts-ignore
     const { body: replacedItem } = await container
@@ -587,7 +587,7 @@ describe("snippets", () => {
     const client = new CosmosClient({ endpoint, key });
     // @ts-preserve-whitespace
     const querySpec: SqlQuerySpec = {
-      query: "SELECT FROM root r WHERE r.id = @container",
+      query: "SELECT * FROM root r WHERE r.id = @container",
       parameters: [{ name: "@container", value: "Todo" }],
     };
     // @ts-ignore
@@ -634,7 +634,7 @@ describe("snippets", () => {
     const client = new CosmosClient({ endpoint, key });
     // @ts-preserve-whitespace
     const querySpec: SqlQuerySpec = {
-      query: "SELECT FROM root r WHERE r.id = @container",
+      query: "SELECT * FROM root r WHERE r.id = @container",
       parameters: [{ name: "@container", value: "Todo" }],
     };
     // @ts-ignore
@@ -657,7 +657,7 @@ describe("snippets", () => {
     // @ts-preserve-whitespace
     const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
     // @ts-preserve-whitespace
-    const { container } = await database.containers.createIfNotExists({ id: "Test Database" });
+    const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
     // @ts-preserve-whitespace
     const querySpec: SqlQuerySpec = {
       query: "SELECT * FROM Families f WHERE f.lastName = @lastName",
@@ -674,7 +674,7 @@ describe("snippets", () => {
     // @ts-preserve-whitespace
     const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
     // @ts-preserve-whitespace
-    const { container } = await database.containers.createIfNotExists({ id: "Test Database" });
+    const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
     // @ts-preserve-whitespace
     interface TodoItem {
       title: string;
@@ -693,7 +693,7 @@ describe("snippets", () => {
     // @ts-preserve-whitespace
     const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
     // @ts-preserve-whitespace
-    const { container } = await database.containers.createIfNotExists({ id: "Test Database" });
+    const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
     // @ts-preserve-whitespace
     const queryBuilder = new EncryptionQueryBuilder(
       `SELECT firstname FROM Families f WHERE f.lastName = @lastName`,
@@ -711,7 +711,7 @@ describe("snippets", () => {
     // @ts-preserve-whitespace
     const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
     // @ts-preserve-whitespace
-    const { container } = await database.containers.createIfNotExists({ id: "Test Database" });
+    const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
     // @ts-preserve-whitespace
     // @ts-ignore
     const { resources: containerList } = await container.items.readAll().fetchAll();
@@ -724,7 +724,7 @@ describe("snippets", () => {
     // @ts-preserve-whitespace
     const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
     // @ts-preserve-whitespace
-    const { container } = await database.containers.createIfNotExists({ id: "Test Database" });
+    const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
     // @ts-preserve-whitespace
     // partitionKey is optional at the top level if present in the resourceBody
     const operations: OperationInput[] = [
@@ -749,7 +749,7 @@ describe("snippets", () => {
     // @ts-preserve-whitespace
     const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
     // @ts-preserve-whitespace
-    const { container } = await database.containers.createIfNotExists({ id: "Test Database" });
+    const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
     // @ts-preserve-whitespace
     // The partitionKey is a required second argument. If it’s undefined, it defaults to the expected partition key format.
     const operations: OperationInput[] = [
@@ -796,10 +796,10 @@ describe("snippets", () => {
     // @ts-preserve-whitespace
     const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
     // @ts-preserve-whitespace
-    const { container } = await database.containers.createIfNotExists({ id: "Test Database" });
+    const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
     // @ts-preserve-whitespace
     const querySpec: SqlQuerySpec = {
-      query: "SELECT FROM root r WHERE r.id = @sproc",
+      query: "SELECT * FROM root r WHERE r.id = @sproc",
       parameters: [{ name: "@sproc", value: "Todo" }],
     };
     // @ts-ignore
@@ -815,7 +815,7 @@ describe("snippets", () => {
     // @ts-preserve-whitespace
     const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
     // @ts-preserve-whitespace
-    const { container } = await database.containers.createIfNotExists({ id: "Test Database" });
+    const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
     // @ts-preserve-whitespace
     // @ts-ignore
     const { resources: storedProceduresList } = await container.scripts.storedProcedures
@@ -830,7 +830,7 @@ describe("snippets", () => {
     // @ts-preserve-whitespace
     const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
     // @ts-preserve-whitespace
-    const { container } = await database.containers.createIfNotExists({ id: "Test Database" });
+    const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
     // @ts-preserve-whitespace
     // @ts-ignore
     const { resources: triggerList } = await container.scripts.triggers.readAll().fetchAll();
@@ -854,7 +854,7 @@ describe("snippets", () => {
     // @ts-preserve-whitespace
     const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
     // @ts-preserve-whitespace
-    const { container } = await database.containers.createIfNotExists({ id: "Test Database" });
+    const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
     // @ts-preserve-whitespace
     // @ts-ignore
     const { resources: udfList } = await container.scripts.userDefinedFunctions
@@ -863,16 +863,17 @@ describe("snippets", () => {
   });
 
   it("CosmosEncryptedNumber", async () => {
+    // @ts-ignore
     const encryptedNumber1: CosmosEncryptedNumber = {
       value: 4,
       numberType: CosmosEncryptedNumberType.Integer,
     };
-    // @ts-preserve-whitespace
+    // @ts-ignore
     const encryptedNumber2: CosmosEncryptedNumber = {
       value: 4.1,
       numberType: CosmosEncryptedNumberType.Float,
     };
-    // @ts-preserve-whitespace
+    // @ts-ignore
     const encryptedNumber3: CosmosEncryptedNumber = {
       value: 4,
       numberType: CosmosEncryptedNumberType.Float, // represents 4.0

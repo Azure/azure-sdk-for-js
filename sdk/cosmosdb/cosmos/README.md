@@ -124,7 +124,7 @@ const client = new CosmosClient({ endpoint, key });
 
 const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
 
-const { container } = await database.containers.createIfNotExists({ id: "Test Database" });
+const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
 console.log(container.id);
 ```
 
@@ -141,7 +141,7 @@ const client = new CosmosClient({ endpoint, key });
 
 const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
 
-const { container } = await database.containers.createIfNotExists({ id: "Test Database" });
+const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
 
 await container.item("id", "1").read(); // string type
 await container.item("id", 2).read(); // number type
@@ -162,7 +162,7 @@ const client = new CosmosClient({ endpoint, key });
 
 const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
 
-const { container } = await database.containers.createIfNotExists({ id: "Test Database" });
+const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
 
 await container.item("id", "1").read();
 await container.item("id", ["1"]).read();
@@ -179,7 +179,7 @@ const client = new CosmosClient({ endpoint, key });
 
 const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
 
-const { container } = await database.containers.createIfNotExists({ id: "Test Database" });
+const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
 
 await container.item("id", ["a", "b"]).read();
 await container.item("id", ["a", 2]).read();
@@ -203,7 +203,7 @@ const client = new CosmosClient({ endpoint, key });
 
 const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
 
-const { container } = await database.containers.createIfNotExists({ id: "Test Database" });
+const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
 
 const cities = [
   { id: "1", name: "Olympia", state: "WA", isCapitol: true },
@@ -228,7 +228,7 @@ const client = new CosmosClient({ endpoint, key });
 
 const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
 
-const { container } = await database.containers.createIfNotExists({ id: "Test Database" });
+const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
 
 await container.item("1", "1").read();
 ```
@@ -358,7 +358,7 @@ const client = new CosmosClient({ endpoint, key });
 
 const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
 
-const { container } = await database.containers.createIfNotExists({ id: "Test Database" });
+const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
 
 // Delete the first item returned by the query above
 await container.item("1").delete();
@@ -377,7 +377,7 @@ const client = new CosmosClient({ endpoint, key });
 
 const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
 
-const { container } = await database.containers.createIfNotExists({ id: "Test Database" });
+const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
 
 const { resources } = await container.items
   .query("SELECT * from c WHERE c.isCapitol = true")
@@ -398,7 +398,7 @@ const client = new CosmosClient({ endpoint, key });
 
 const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
 
-const { container } = await database.containers.createIfNotExists({ id: "Test Database" });
+const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
 
 const { resources } = await container.items
   .query({
@@ -563,7 +563,7 @@ const client = new CosmosClient({ endpoint, key });
 
 const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
 
-const { container } = await database.containers.createIfNotExists({ id: "Test Database" });
+const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
 
 try {
   await container.items.create({ id: "existing-item-id" });
@@ -748,7 +748,7 @@ const client = new CosmosClient({ endpoint, key });
 
 const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
 
-const { container } = await database.containers.createIfNotExists({ id: "Test Database" });
+const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
 
 const querySpec = {
   query: "SELECT c.status, COUNT(c.id) AS count FROM c GROUP BY c.status",

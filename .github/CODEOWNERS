@@ -11,9 +11,9 @@
 # Misc.
 ################
 
-/.devcontainer/ @jeremymeng
-/documentation/ @jeremymeng
-/samples/       @jeremymeng
+/.devcontainer/ @jeremymeng @Azure/azure-sdk-eng @Azure/azure-sdk-for-js-core
+/documentation/ @jeremymeng @Azure/azure-sdk-js-dev
+/samples/       @jeremymeng @Azure/azure-sdk-js-dev
 
 ################
 # Architecture
