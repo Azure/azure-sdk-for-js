@@ -90,7 +90,7 @@ To add perf tests for the `sdk/<service>/<service-sdk>` package, follow the step
 
 ### [Entry Point](#entry-point)
 
-Add an `index.ts` at `sdk/<service>/<service-sdk>-perf-tests/test/`.
+Add an `index.ts` at `sdk/<service>/<service-sdk>-perf-tests/src/`.
 
 ```js
 import { createPerfProgram } from "@azure-tools/test-perf";
