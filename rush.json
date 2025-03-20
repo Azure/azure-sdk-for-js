@@ -840,7 +840,7 @@
     },
     {
       "packageName": "@azure-tests/perf-ai-form-recognizer",
-      "projectFolder": "sdk/formrecognizer/perf-tests/ai-form-recognizer",
+      "projectFolder": "sdk/formrecognizer/ai-form-recognizer-perf-tests",
       "versionPolicyName": "test"
     },
     {
