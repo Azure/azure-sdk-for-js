@@ -4,7 +4,7 @@ In this document, we describe how to address common linting issues for a package
 
 # Azure SDK eslint plugin
 
-Our custom linting rules and recommended configurations is hosted in the `eslint-plugin-azure-sdk` package. This package needs to be built first before linting any SDK packages.
+Our custom linting rules and recommended configurations is hosted in the `eslint-plugin-azure-sdk` package. You MUST build it first before linting any SDK packages.
 
 - `rush update`
 - `rush build -t eslint-plugin-azure-sdk`
