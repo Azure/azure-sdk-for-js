@@ -1,15 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import type { MessagingError, PartitionContext, ReceivedEventData } from "@azure/event-hubs";
 import {
   earliestEventPosition,
   EventHubConsumerClient,
   EventHubProducerClient,
-  MessagingError,
-  PartitionContext,
-  ReceivedEventData,
 } from "@azure/event-hubs";
-import { PerfOptionDictionary, EventPerfTest, getEnvVar } from "@azure-tools/test-perf";
+import type { PerfOptionDictionary } from "@azure-tools/test-perf";
+import { EventPerfTest, getEnvVar } from "@azure-tools/test-perf";
 
 interface ReceiverOptions {
   "number-of-events": number;
@@ -90,7 +89,7 @@ export class SubscribeTest extends EventPerfTest<ReceiverOptions> {
     await sendBatch(numberOfEvents, eventSize, this.parsedOptions["partitions"].value);
   }
 
-  setup() {
+  setup(): void {
     this.subscriber = this.receiver.subscribe(
       {
         processEvents: async (events: ReceivedEventData[], _context: PartitionContext) => {
@@ -113,7 +112,7 @@ export class SubscribeTest extends EventPerfTest<ReceiverOptions> {
     );
   }
 
-  async cleanup() {
+  async cleanup(): Promise<void> {
     await this.subscriber?.close();
     await this.receiver.close();
   }
@@ -150,7 +149,7 @@ async function sendBatch(
   partitionIds = partitionIds.slice(0, numberOfPartitions);
 
   let totalEvents = 0;
-  for (const partition in partitionIds) {
+  for (const partition of partitionIds) {
     const { lastEnqueuedSequenceNumber, beginningSequenceNumber } =
       await producer.getPartitionProperties(partition);
     totalEvents += lastEnqueuedSequenceNumber - beginningSequenceNumber;
@@ -171,7 +170,7 @@ async function sendBatch(
   await producer.close();
 }
 
-function median(values: number[]) {
+function median(values: number[]): number {
   if (values.length === 0) throw new Error("No inputs while calculating median");
 
   values.sort(function (a, b) {

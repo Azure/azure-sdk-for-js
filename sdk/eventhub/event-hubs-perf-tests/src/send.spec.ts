@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { getEnvVar, PerfOptionDictionary, BatchPerfTest } from "@azure-tools/test-perf";
-import { EventHubProducerClient, EventData } from "@azure/event-hubs";
-
-// Expects the .env file at the same level as the "test" folder
+import type { PerfOptionDictionary } from "@azure-tools/test-perf";
+import { getEnvVar, BatchPerfTest } from "@azure-tools/test-perf";
+import type { EventData } from "@azure/event-hubs";
+import { EventHubProducerClient } from "@azure/event-hubs";
 import "dotenv/config";
 
 interface SendTestOptions {
