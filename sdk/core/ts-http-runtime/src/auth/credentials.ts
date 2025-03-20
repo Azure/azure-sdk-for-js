@@ -79,7 +79,7 @@ export type AuthCredential =
 export function isOAuth2TokenCredential(
   credential: AuthCredential,
 ): credential is OAuth2TokenCredential<OAuth2Flow> {
-  return "getOAuth2Token" in credential && credential.getOAuth2Token.length > 0;
+  return "getOAuth2Token" in credential;
 }
 
 /**

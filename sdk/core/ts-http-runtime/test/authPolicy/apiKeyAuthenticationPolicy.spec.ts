@@ -3,7 +3,7 @@
 
 import { describe, it, expect, vi } from "vitest";
 import type { PipelinePolicy, PipelineResponse, SendRequest } from "../../src/index.js";
-import { ApiKeyLocation, createHttpHeaders, createPipelineRequest } from "../../src/index.js";
+import { createHttpHeaders, createPipelineRequest } from "../../src/index.js";
 import { apiKeyAuthenticationPolicy } from "../../src/policies/auth/apiKeyAuthenticationPolicy.js";
 
 describe("apiKeyAuthenticationPolicy", () => {
@@ -18,7 +18,7 @@ describe("apiKeyAuthenticationPolicy", () => {
     const next = vi.fn<SendRequest>();
     next.mockResolvedValue(successResponse);
 
-    const policy = createApiKeyPolicy(apiKey, ApiKeyLocation.Header);
+    const policy = createApiKeyPolicy(apiKey, "header");
     await policy.sendRequest(request, next);
 
     expect(request.headers.get("api-key")).toBe(apiKey);
@@ -36,14 +36,17 @@ describe("apiKeyAuthenticationPolicy", () => {
     const next = vi.fn<SendRequest>();
     next.mockResolvedValue(successResponse);
 
-    const policy = createApiKeyPolicy(apiKey, ApiKeyLocation.Query);
+    const policy = createApiKeyPolicy(apiKey, "query");
     expect(policy.sendRequest(request, next)).rejects.toThrowError(
       "Unsupported API key location: query",
     );
   });
 });
 
-function createApiKeyPolicy(apiKey: string, apiKeyLocation: ApiKeyLocation): PipelinePolicy {
+function createApiKeyPolicy(
+  apiKey: string,
+  apiKeyLocation: "query" | "header" | "cookie",
+): PipelinePolicy {
   return apiKeyAuthenticationPolicy({
     credential: { key: apiKey },
     authSchemes: [

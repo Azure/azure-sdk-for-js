@@ -3,16 +3,6 @@
 
 import type { OAuth2Flow } from "./authFlows.js";
 
-/** Supported API key locations */
-export enum ApiKeyLocation {
-  /** API key is included in the query string */
-  Query = "query",
-  /** API key is included in the request header */
-  Header = "header",
-  /** API key is included in the cookie */
-  Cookie = "cookie",
-}
-
 /**
  * Represents HTTP Basic authentication scheme.
  * Basic authentication scheme requires a username and password to be provided with each request.
@@ -54,7 +44,7 @@ export interface ApiKeyAuthScheme {
   /** Type of auth scheme */
   type: "apiKey";
   /** Location of the API key */
-  apiKeyLocation: ApiKeyLocation;
+  apiKeyLocation: "query" | "header" | "cookie";
   /** Name of the API key parameter */
   name: string;
 }

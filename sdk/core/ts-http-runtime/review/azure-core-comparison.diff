@@ -435,7 +435,7 @@ index 045c639..0000000
 -}
 diff --git a/src/auth/credentials.ts b/src/auth/credentials.ts
 new file mode 100644
-index 0000000..3f419eb
+index 0000000..b0bad69
 --- /dev/null
 +++ b/src/auth/credentials.ts
 @@ -0,0 +1,106 @@
@@ -520,7 +520,7 @@ index 0000000..3f419eb
 +export function isOAuth2TokenCredential(
 +  credential: AuthCredential,
 +): credential is OAuth2TokenCredential<OAuth2Flow> {
-+  return "getOAuth2Token" in credential && credential.getOAuth2Token.length > 0;
++  return "getOAuth2Token" in credential;
 +}
 +
 +/**
@@ -602,24 +602,14 @@ index 9db25cf..0000000
 -}
 diff --git a/src/auth/schemes.ts b/src/auth/schemes.ts
 new file mode 100644
-index 0000000..e1ee6eb
+index 0000000..4d63edc
 --- /dev/null
 +++ b/src/auth/schemes.ts
-@@ -0,0 +1,76 @@
+@@ -0,0 +1,66 @@
 +// Copyright (c) Microsoft Corporation.
 +// Licensed under the MIT License.
 +
 +import type { OAuth2Flow } from "./authFlows.js";
-+
-+/** Supported API key locations */
-+export enum ApiKeyLocation {
-+  /** API key is included in the query string */
-+  Query = "query",
-+  /** API key is included in the request header */
-+  Header = "header",
-+  /** API key is included in the cookie */
-+  Cookie = "cookie",
-+}
 +
 +/**
 + * Represents HTTP Basic authentication scheme.
@@ -662,7 +652,7 @@ index 0000000..e1ee6eb
 +  /** Type of auth scheme */
 +  type: "apiKey";
 +  /** Location of the API key */
-+  apiKeyLocation: ApiKeyLocation;
++  apiKeyLocation: "query" | "header" | "cookie";
 +  /** Name of the API key parameter */
 +  name: string;
 +}
