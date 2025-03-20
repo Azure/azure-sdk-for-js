@@ -1,17 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { PerfOptionDictionary } from "@azure-tools/test-perf";
+import type { PerfOptionDictionary } from "@azure-tools/test-perf";
 import { TablesTest } from "./tables.spec.js";
-import { TransactionAction } from "@azure/data-tables";
+import type { TransactionAction } from "@azure/data-tables";
 import { createBatch } from "./utils/createBaseEntity.js";
 
-interface TablesCreateComplexEntityBatchTestOptions {
+interface TablesCreateSimpleEntityBatchTestOptions {
   batchSize: number;
 }
 
-export class CreateComplexEntityBatchTest extends TablesTest<TablesCreateComplexEntityBatchTestOptions> {
-  public options: PerfOptionDictionary<TablesCreateComplexEntityBatchTestOptions> = {
+export class CreateSimpleEntityBatchTest extends TablesTest<TablesCreateSimpleEntityBatchTestOptions> {
+  public options: PerfOptionDictionary<TablesCreateSimpleEntityBatchTestOptions> = {
     batchSize: {
       defaultValue: 100,
       longName: "batchSize",
@@ -21,20 +21,20 @@ export class CreateComplexEntityBatchTest extends TablesTest<TablesCreateComplex
   };
 
   constructor() {
-    super("CreateComplexEntityBatchPerf");
+    super("CreateSimpleEntityBatchPerf");
   }
 
-  public async globalSetup() {
+  public async globalSetup(): Promise<void> {
     await super.globalSetup(); // Calling base class' setup
   }
 
-  public async globalCleanup() {
+  public async globalCleanup(): Promise<void> {
     await super.globalCleanup();
   }
 
   async run(): Promise<void> {
     const batches: TransactionAction[][] = createBatch(
-      "complex",
+      "simple",
       this.parsedOptions.batchSize.value!,
     );
 

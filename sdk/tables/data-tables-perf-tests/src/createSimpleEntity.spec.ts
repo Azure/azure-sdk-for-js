@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { PerfOptionDictionary } from "@azure-tools/test-perf";
+import type { PerfOptionDictionary } from "@azure-tools/test-perf";
 import { TablesTest } from "./tables.spec.js";
-import { TableEntity } from "@azure/data-tables";
+import type { TableEntity } from "@azure/data-tables";
 import { createSimpleEntity } from "./utils/createBaseEntity.js";
 
 export class CreateSimpleEntityTest extends TablesTest {
@@ -13,11 +13,11 @@ export class CreateSimpleEntityTest extends TablesTest {
     super("SimpleEntityPerf");
   }
 
-  public async globalSetup() {
+  public async globalSetup(): Promise<void> {
     await super.globalSetup(); // Calling base class' setup
   }
 
-  public async globalCleanup() {
+  public async globalCleanup(): Promise<void> {
     await super.globalCleanup();
   }
 

@@ -780,7 +780,7 @@
     },
     {
       "packageName": "@azure-tests/perf-data-tables",
-      "projectFolder": "sdk/tables/perf-tests/data-tables",
+      "projectFolder": "sdk/tables/data-tables-perf-tests",
       "versionPolicyName": "test"
     },
     {
