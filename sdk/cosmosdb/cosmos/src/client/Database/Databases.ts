@@ -52,7 +52,7 @@ export class Databases {
    * const client = new CosmosClient({ endpoint, key });
    *
    * const querySpec: SqlQuerySpec = {
-   *   query: `SELECT FROM root r WHERE r.id = @database`,
+   *   query: `SELECT * FROM root r WHERE r.id = @database`,
    *   parameters: [{ name: "@database", value: "Todo" }],
    * };
    * const { resources: databaseList } = await client.databases.query(querySpec).fetchAll();

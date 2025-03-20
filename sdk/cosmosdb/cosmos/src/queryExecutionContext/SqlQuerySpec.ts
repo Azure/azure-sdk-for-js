@@ -10,7 +10,7 @@
  * import { SqlQuerySpec } from "@azure/cosmos";
  *
  * const query: SqlQuerySpec = {
- *   query: `SELECT FROM Families f where f.lastName = @lastName`,
+ *   query: `SELECT * FROM Families f where f.lastName = @lastName`,
  *   parameters: [{ name: "@lastName", value: "Wakefield" }],
  * };
  * ```
