@@ -1,14 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { PerfOptionDictionary, PerfTest, getEnvVar } from "@azure-tools/test-perf";
+import type { PerfOptionDictionary } from "@azure-tools/test-perf";
+import { PerfTest, getEnvVar } from "@azure-tools/test-perf";
+import type { DocumentModelDetails } from "@azure/ai-form-recognizer";
 import {
   AzureKeyCredential,
-  DocumentModelDetails,
   DocumentAnalysisClient,
   DocumentModelAdministrationClient,
 } from "@azure/ai-form-recognizer";
-import { DefaultAzureCredential, TokenCredential } from "@azure/identity";
+import type { TokenCredential } from "@azure/identity";
+import { DefaultAzureCredential } from "@azure/identity";
 import { randomUUID } from "node:crypto";
 
 function unreachable(message?: string): never {
