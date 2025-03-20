@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { randomUUID } from "@azure/core-util";
-import { PerfOptionDictionary, executeParallel } from "@azure-tools/test-perf";
+import { randomUUID } from "node:crypto";
+import type { PerfOptionDictionary } from "@azure-tools/test-perf";
+import { executeParallel } from "@azure-tools/test-perf";
 import { AppConfigTest } from "./appConfigBase.spec.js";
 
 interface ListTestOptions {
