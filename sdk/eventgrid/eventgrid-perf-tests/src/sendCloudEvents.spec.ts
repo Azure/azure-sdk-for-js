@@ -1,12 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { PerfTest, PerfOptionDictionary, getEnvVar } from "@azure-tools/test-perf";
-import {
-  EventGridPublisherClient,
-  AzureKeyCredential,
-  SendCloudEventInput,
-} from "@azure/eventgrid";
+import type { PerfOptionDictionary } from "@azure-tools/test-perf";
+import { PerfTest, getEnvVar } from "@azure-tools/test-perf";
+import type { SendCloudEventInput } from "@azure/eventgrid";
+import { EventGridPublisherClient, AzureKeyCredential } from "@azure/eventgrid";
 
 interface SendCloudEventsPerfTestOptions {
   "event-count": number;
