@@ -2,13 +2,14 @@
 // Licensed under the MIT License.
 
 import { AvroSerializerTest } from "./avroSerializerTest.spec.js";
-import { PerfOptionDictionary } from "@azure-tools/test-perf";
+import type { PerfOptionDictionary } from "@azure-tools/test-perf";
+import type { MessageContent } from "@azure/schema-registry-avro";
 
 interface SerializePerfTestOptions {
   "items-count": number;
 }
 
-export class SerializeTest extends AvroSerializerTest<SerializePerfTestOptions> {
+export class DeserializeTest extends AvroSerializerTest<SerializePerfTestOptions> {
   options: PerfOptionDictionary<SerializePerfTestOptions> = {
     "items-count": {
       required: false,
@@ -18,21 +19,24 @@ export class SerializeTest extends AvroSerializerTest<SerializePerfTestOptions> 
       defaultValue: 1000,
     },
   };
-  array: number[];
+  private serialized: MessageContent | undefined;
 
   constructor() {
     super();
     this.options = this.parsedOptions;
-    this.array = [...Array(this.options["items-count"].value).keys()];
   }
 
-  async run(): Promise<void> {
-    await this.serializer.serialize(
+  async setup(): Promise<void> {
+    this.serialized = await this.serializer.serialize(
       {
         name: "test",
-        favoriteNumbers: this.array,
+        favoriteNumbers: [...Array(this.options["items-count"].value).keys()],
       },
       AvroSerializerTest.schema,
     );
+  }
+
+  async run(): Promise<void> {
+    await this.serializer.deserialize(this.serialized!);
   }
 }

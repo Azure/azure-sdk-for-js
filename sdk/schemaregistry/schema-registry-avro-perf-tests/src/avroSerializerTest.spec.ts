@@ -4,9 +4,7 @@
 import { PerfTest, getEnvVar } from "@azure-tools/test-perf";
 import { AvroSerializer } from "@azure/schema-registry-avro";
 import { SchemaRegistryClient } from "@azure/schema-registry";
-import "dotenv/config";
 import { DefaultAzureCredential } from "@azure/identity";
-
 export abstract class AvroSerializerTest<TOptions> extends PerfTest<TOptions> {
   static schema = JSON.stringify({
     type: "record",
