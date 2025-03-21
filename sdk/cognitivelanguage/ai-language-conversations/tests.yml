@@ -6,7 +6,9 @@ extends:
       PackageName: "@azure/ai-language-conversations"
       EnvVars:
         ENDPOINT: $(clu-uri)
-        LANGUAGE_API_KEY: $(clu-key)
+        ACCOUNT_NAME: $(clu-account-name)
+        RESOURCE_GROUP: $(rg-name)
+        SUBSCRIPTION_ID: $(subscription-id)
         LANGUAGE_CLU_PROJECT_NAME: $(clu-project)
         LANGUAGE_CLU_DEPLOYMENT_NAME: $(clu-project-deployment)
         LANGUAGE_ORCHESTRATION_PROJECT_NAME: $(clu-workflow-project)

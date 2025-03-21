@@ -6,8 +6,13 @@ import { createClient, startRecorder } from "./utils/recordedClient.js";
 import { matrix } from "@azure-tools/test-utils-vitest";
 import type { ConversationAnalysisClient } from "../../src/index.js";
 import type { Recorder } from "@azure-tools/test-recorder";
-import { assertEnvironmentVariable } from "@azure-tools/test-recorder";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
+import {
+  getCluDeploymentName,
+  getCluProjectName,
+  getOrchestrationDeploymentName,
+  getOrchestrationProjectName,
+} from "../utils/injectables.js";
 
 matrix([["APIKey"]] as const, async (authMethod: AuthMethod) => {
   describe(`[${authMethod}] ConversationAnalysisClient`, () => {
@@ -16,10 +21,15 @@ matrix([["APIKey"]] as const, async (authMethod: AuthMethod) => {
 
     beforeEach(async (ctx) => {
       recorder = await startRecorder(ctx);
-      client = createClient({
+      const c = createClient({
         authMethod,
         recorder,
       });
+      if (!c) {
+        ctx.skip();
+      } else {
+        client = c;
+      }
     });
 
     afterEach(async () => {
@@ -40,8 +50,8 @@ matrix([["APIKey"]] as const, async (authMethod: AuthMethod) => {
             },
           },
           parameters: {
-            projectName: assertEnvironmentVariable("LANGUAGE_CLU_PROJECT_NAME"),
-            deploymentName: assertEnvironmentVariable("LANGUAGE_CLU_DEPLOYMENT_NAME"),
+            projectName: getCluProjectName(),
+            deploymentName: getCluDeploymentName(),
             verbose: true,
             isLoggingEnabled: false,
           },
@@ -78,8 +88,8 @@ matrix([["APIKey"]] as const, async (authMethod: AuthMethod) => {
             },
           },
           parameters: {
-            projectName: assertEnvironmentVariable("LANGUAGE_ORCHESTRATION_PROJECT_NAME"),
-            deploymentName: assertEnvironmentVariable("LANGUAGE_ORCHESTRATION_DEPLOYMENT_NAME"),
+            projectName: getOrchestrationProjectName(),
+            deploymentName: getOrchestrationDeploymentName(),
             verbose: true,
             isLoggingEnabled: false,
           },
@@ -128,8 +138,8 @@ matrix([["APIKey"]] as const, async (authMethod: AuthMethod) => {
             },
           },
           parameters: {
-            projectName: assertEnvironmentVariable("LANGUAGE_ORCHESTRATION_PROJECT_NAME"),
-            deploymentName: assertEnvironmentVariable("LANGUAGE_ORCHESTRATION_DEPLOYMENT_NAME"),
+            projectName: getOrchestrationProjectName(),
+            deploymentName: getOrchestrationDeploymentName(),
             verbose: true,
             isLoggingEnabled: false,
           },
@@ -176,8 +186,8 @@ matrix([["APIKey"]] as const, async (authMethod: AuthMethod) => {
             },
           },
           parameters: {
-            projectName: assertEnvironmentVariable("LANGUAGE_ORCHESTRATION_PROJECT_NAME"),
-            deploymentName: assertEnvironmentVariable("LANGUAGE_ORCHESTRATION_DEPLOYMENT_NAME"),
+            projectName: getOrchestrationProjectName(),
+            deploymentName: getOrchestrationDeploymentName(),
             verbose: true,
             isLoggingEnabled: false,
           },

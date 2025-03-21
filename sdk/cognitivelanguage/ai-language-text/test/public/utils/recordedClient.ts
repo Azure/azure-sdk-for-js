@@ -4,22 +4,13 @@
 import type { TextAnalysisClientOptions } from "../../../src/index.js";
 import { AzureKeyCredential, TextAnalysisClient } from "../../../src/index.js";
 import type { RecorderStartOptions, TestInfo } from "@azure-tools/test-recorder";
-import { Recorder, assertEnvironmentVariable } from "@azure-tools/test-recorder";
+import { Recorder } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
+import { getEndpoint, getKey1 } from "../../utils/injectables.js";
 
 const envSetupForPlayback: { [k: string]: string } = {
-  LANGUAGE_API_KEY: "api_key",
-  // Second API key
-  LANGUAGE_API_KEY_ALT: "api_key_alt",
+  KEY1: "api_key",
   ENDPOINT: "https://endpoint",
-  AZURE_LANGUAGE_ENDPOINT: "https://endpoint",
-  AZURE_LANGUAGE_KEY: "api_key",
-  CUSTOM_ENTITIES_PROJECT_NAME: "sanitized",
-  CUSTOM_ENTITIES_DEPLOYMENT_NAME: "sanitized",
-  SINGLE_LABEL_CLASSIFY_PROJECT_NAME: "sanitized",
-  SINGLE_LABEL_CLASSIFY_DEPLOYMENT_NAME: "sanitized",
-  MULTI_LABEL_CLASSIFY_PROJECT_NAME: "sanitized",
-  MULTI_LABEL_CLASSIFY_DEPLOYMENT_NAME: "sanitized",
 };
 
 const recorderStartOptions: RecorderStartOptions = {
@@ -35,18 +26,18 @@ export function createClient(
     recorder?: Recorder;
     clientOptions?: TextAnalysisClientOptions;
   },
-): TextAnalysisClient {
+): TextAnalysisClient | undefined {
   const { recorder, clientOptions = {} } = options;
-  const endpoint = assertEnvironmentVariable("ENDPOINT");
+  const endpoint = getEndpoint();
   const updatedOptions = recorder ? recorder.configureClientOptions(clientOptions) : clientOptions;
 
   switch (authMethod) {
     case "APIKey": {
-      return new TextAnalysisClient(
-        endpoint,
-        new AzureKeyCredential(assertEnvironmentVariable("LANGUAGE_API_KEY")),
-        updatedOptions,
-      );
+      const key = getKey1();
+      if (!key) {
+        return undefined;
+      }
+      return new TextAnalysisClient(endpoint, new AzureKeyCredential(key), updatedOptions);
     }
     case "AAD": {
       return new TextAnalysisClient(endpoint, createTestCredential(), updatedOptions);
