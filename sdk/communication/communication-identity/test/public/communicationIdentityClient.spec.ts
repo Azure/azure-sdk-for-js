@@ -49,12 +49,12 @@ matrix([[true, false]], async (useAad: boolean) => {
       assert.isString(user.communicationUserId);
     });
 
-    it("successfully creates and gets a user with externalId", async () => {
-      const externalId = "alice@contoso.com";
-      const user: CommunicationUserIdentifier = await client.createUser({ externalId: externalId });
+    it("successfully creates and gets a user with customId", async () => {
+      const customId = "alice@contoso.com";
+      const user: CommunicationUserIdentifier = await client.createUser({ for: customId });
       assert.isString(user.communicationUserId);
-      const getResult = await client.getUser(user);
-      assert.equal(getResult.externalId, externalId);
+      const getResult = await client.getUserDetail(user);
+      assert.equal(getResult.customId, customId);
     });
 
     tokenScopeScenarios.forEach((scenario) =>

@@ -41,7 +41,8 @@ export class CommunicationIdentityOperationsImpl
   }
 
   /**
-   * Create a new identity, and optionally, an access token.
+   * Create a new identity with an optional customId mapping, and optionally, an access token. If called
+   * again with the same customId, the returned identity will be the same as the one returned previously.
    * @param options The options parameters.
    */
   async create(
@@ -123,14 +124,14 @@ export class CommunicationIdentityOperationsImpl
   }
 
   /**
-   * Exchange an Azure Active Directory (Azure AD) access token of a Teams user for a new Communication
-   * Identity access token with a matching expiration time.
-   * @param token Azure AD access token of a Teams User to acquire a new Communication Identity access
+   * Exchange an Entra ID access token of a Teams user for a new Communication Identity access token with
+   * a matching expiration time.
+   * @param token Entra ID access token of a Teams User to acquire a new Communication Identity access
    *              token.
-   * @param appId Client ID of an Azure AD application to be verified against the appid claim in the
-   *              Azure AD access token.
-   * @param userId Object ID of an Azure AD user (Teams User) to be verified against the oid claim in the
-   *               Azure AD access token.
+   * @param appId Client ID of an Entra ID application to be verified against the appid claim in the
+   *              Entra ID access token.
+   * @param userId Object ID of an Entra ID user (Teams User) to be verified against the oid claim in the
+   *               Entra ID access token.
    * @param options The options parameters.
    */
   async exchangeTeamsUserAccessToken(
@@ -181,9 +182,6 @@ const createOperationSpec: coreClient.OperationSpec = {
   path: "/identities",
   httpMethod: "POST",
   responses: {
-    200: {
-      bodyMapper: Mappers.CommunicationIdentityAccessTokenResult,
-    },
     201: {
       bodyMapper: Mappers.CommunicationIdentityAccessTokenResult,
     },
@@ -193,7 +191,7 @@ const createOperationSpec: coreClient.OperationSpec = {
   },
   requestBody: {
     parameterPath: {
-      externalId: ["options", "externalId"],
+      customId: ["options", "customId"],
       createTokenWithScopes: ["options", "createTokenWithScopes"],
       expiresInMinutes: ["options", "expiresInMinutes"],
     },

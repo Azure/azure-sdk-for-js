@@ -15,6 +15,8 @@ import {
   CommunicationIdentityCreateRequest as CommunicationIdentityCreateRequestMapper,
   TeamsUserExchangeTokenRequest as TeamsUserExchangeTokenRequestMapper,
   CommunicationIdentityAccessTokenRequest as CommunicationIdentityAccessTokenRequestMapper,
+  TeamsExtensionAssignmentCreateOrUpdateRequest as TeamsExtensionAssignmentCreateOrUpdateRequestMapper,
+  EntraAssignmentCreateOrUpdateRequest as EntraAssignmentCreateOrUpdateRequestMapper,
 } from "../models/mappers.js";
 
 export const contentType: OperationParameter = {
@@ -41,8 +43,8 @@ export const accept: OperationParameter = {
   },
 };
 
-export const externalId: OperationParameter = {
-  parameterPath: ["options", "externalId"],
+export const customId: OperationParameter = {
+  parameterPath: ["options", "customId"],
   mapper: CommunicationIdentityCreateRequestMapper,
 };
 
@@ -114,4 +116,104 @@ export const scopes: OperationParameter = {
 export const expiresInMinutes1: OperationParameter = {
   parameterPath: ["options", "expiresInMinutes"],
   mapper: CommunicationIdentityAccessTokenRequestMapper,
+};
+
+export const body3: OperationParameter = {
+  parameterPath: "body",
+  mapper: {
+    serializedName: "body",
+    required: true,
+    type: {
+      name: "Dictionary",
+      value: { type: { name: "any" } },
+    },
+  },
+};
+
+export const tenantId: OperationURLParameter = {
+  parameterPath: "tenantId",
+  mapper: {
+    serializedName: "tenantId",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const objectId: OperationURLParameter = {
+  parameterPath: "objectId",
+  mapper: {
+    serializedName: "objectId",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const principalType: OperationParameter = {
+  parameterPath: "principalType",
+  mapper: TeamsExtensionAssignmentCreateOrUpdateRequestMapper,
+};
+
+export const clientIds: OperationParameter = {
+  parameterPath: ["options", "clientIds"],
+  mapper: TeamsExtensionAssignmentCreateOrUpdateRequestMapper,
+};
+
+export const contentType1: OperationParameter = {
+  parameterPath: ["options", "contentType"],
+  mapper: {
+    defaultValue: "application/merge-patch+json",
+    isConstant: true,
+    serializedName: "Content-Type",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const body5: OperationParameter = {
+  parameterPath: "body",
+  mapper: {
+    serializedName: "body",
+    required: true,
+    type: {
+      name: "Dictionary",
+      value: {
+        type: {
+          name: "Composite",
+          className: "EntraAssignmentCreateOrUpdateRequest",
+        },
+      },
+    },
+  },
+};
+
+export const nextLink: OperationURLParameter = {
+  parameterPath: "nextLink",
+  mapper: {
+    serializedName: "nextLink",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+  skipEncoding: true,
+};
+
+export const tenantId1: OperationParameter = {
+  parameterPath: "tenantId",
+  mapper: EntraAssignmentCreateOrUpdateRequestMapper,
+};
+
+export const principalType1: OperationParameter = {
+  parameterPath: "principalType",
+  mapper: EntraAssignmentCreateOrUpdateRequestMapper,
+};
+
+export const clientIds1: OperationParameter = {
+  parameterPath: "clientIds",
+  mapper: EntraAssignmentCreateOrUpdateRequestMapper,
 };

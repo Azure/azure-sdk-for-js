@@ -10,7 +10,7 @@ import type {
   GetTokenOptions,
   TokenScope,
   CreateUserOptions,
-  CommunicationIdentity,
+  CommunicationUserDetail,
 } from "./models.js";
 import type { CommunicationUserIdentifier } from "@azure/communication-common";
 import {
@@ -147,10 +147,10 @@ export class CommunicationIdentityClient {
    * @param user - The user to get.
    * @param options - Additional options for the request.
    */
-  public getUser(
+  public getUserDetail(
     user: CommunicationUserIdentifier,
     options: OperationOptions = {},
-  ): Promise<CommunicationIdentity> {
+  ): Promise<CommunicationUserDetail> {
     return tracingClient.withSpan(
       "CommunicationIdentity-getUser",
       options,
@@ -164,7 +164,7 @@ export class CommunicationIdentityClient {
 
         return {
           user: { communicationUserId: result.id },
-          externalId: result.externalId,
+          customId: result.customId,
           lastTokenIssuedAt: result.lastTokenIssuedAt,
         };
       },
@@ -183,7 +183,7 @@ export class CommunicationIdentityClient {
       async (updatedOptions) => {
         const result = await this.client.communicationIdentityOperations.create({
           expiresInMinutes: undefined,
-          externalId: options.externalId,
+          customId: options.for,
           ...updatedOptions,
         });
         return {
@@ -210,7 +210,7 @@ export class CommunicationIdentityClient {
         const { identity, accessToken } = await this.client.communicationIdentityOperations.create({
           createTokenWithScopes: scopes,
           expiresInMinutes: options.tokenExpiresInMinutes,
-          externalId: options.externalId,
+          customId: options.for,
           ...updatedOptions,
         });
         return {

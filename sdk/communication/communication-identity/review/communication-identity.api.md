@@ -17,13 +17,6 @@ export interface CommunicationAccessToken {
 }
 
 // @public
-export interface CommunicationIdentity {
-    externalId?: string;
-    lastTokenIssuedAt?: Date;
-    user: CommunicationUserIdentifier;
-}
-
-// @public
 export class CommunicationIdentityClient {
     constructor(connectionString: string, options?: CommunicationIdentityClientOptions);
     constructor(endpoint: string, credential: KeyCredential, options?: CommunicationIdentityClientOptions);
@@ -33,12 +26,19 @@ export class CommunicationIdentityClient {
     deleteUser(user: CommunicationUserIdentifier, options?: OperationOptions): Promise<void>;
     getToken(user: CommunicationUserIdentifier, scopes: TokenScope[], options?: GetTokenOptions): Promise<CommunicationAccessToken>;
     getTokenForTeamsUser(options: GetTokenForTeamsUserOptions): Promise<CommunicationAccessToken>;
-    getUser(user: CommunicationUserIdentifier, options?: OperationOptions): Promise<CommunicationIdentity>;
+    getUserDetail(user: CommunicationUserIdentifier, options?: OperationOptions): Promise<CommunicationUserDetail>;
     revokeTokens(user: CommunicationUserIdentifier, options?: OperationOptions): Promise<void>;
 }
 
 // @public
 export interface CommunicationIdentityClientOptions extends CommonClientOptions {
+}
+
+// @public
+export interface CommunicationUserDetail {
+    customId?: string;
+    lastTokenIssuedAt?: Date;
+    user: CommunicationUserIdentifier;
 }
 
 // @public
@@ -48,13 +48,13 @@ export interface CommunicationUserToken extends CommunicationAccessToken {
 
 // @public
 export interface CreateUserAndTokenOptions extends OperationOptions {
-    externalId?: string;
+    for?: string;
     tokenExpiresInMinutes?: number;
 }
 
 // @public
 export interface CreateUserOptions extends OperationOptions {
-    externalId?: string;
+    for?: string;
 }
 
 // @public

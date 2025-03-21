@@ -12,8 +12,22 @@ import {
   PipelineResponse,
   SendRequest,
 } from "@azure/core-rest-pipeline";
-import { CommunicationIdentityOperationsImpl } from "./operations/index.js";
-import { CommunicationIdentityOperations } from "./operationsInterfaces/index.js";
+import {
+  CommunicationIdentityOperationsImpl,
+  TeamsExtensionTokenImpl,
+  TeamsExtensionAssignmentImpl,
+  EntraIdTokenImpl,
+  EntraIdAssignmentsImpl,
+  EntraIdAssignmentImpl,
+} from "./operations/index.js";
+import {
+  CommunicationIdentityOperations,
+  TeamsExtensionToken,
+  TeamsExtensionAssignment,
+  EntraIdToken,
+  EntraIdAssignments,
+  EntraIdAssignment,
+} from "./operationsInterfaces/index.js";
 import { IdentityRestClientOptionalParams } from "./models/index.js";
 
 export class IdentityRestClient extends coreClient.ServiceClient {
@@ -60,6 +74,11 @@ export class IdentityRestClient extends coreClient.ServiceClient {
     this.apiVersion = options.apiVersion || "2025-03-02-preview";
     this.communicationIdentityOperations =
       new CommunicationIdentityOperationsImpl(this);
+    this.teamsExtensionToken = new TeamsExtensionTokenImpl(this);
+    this.teamsExtensionAssignment = new TeamsExtensionAssignmentImpl(this);
+    this.entraIdToken = new EntraIdTokenImpl(this);
+    this.entraIdAssignments = new EntraIdAssignmentsImpl(this);
+    this.entraIdAssignment = new EntraIdAssignmentImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -92,4 +111,9 @@ export class IdentityRestClient extends coreClient.ServiceClient {
   }
 
   communicationIdentityOperations: CommunicationIdentityOperations;
+  teamsExtensionToken: TeamsExtensionToken;
+  teamsExtensionAssignment: TeamsExtensionAssignment;
+  entraIdToken: EntraIdToken;
+  entraIdAssignments: EntraIdAssignments;
+  entraIdAssignment: EntraIdAssignment;
 }

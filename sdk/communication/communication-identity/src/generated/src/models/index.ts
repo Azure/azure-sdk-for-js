@@ -9,8 +9,8 @@
 import * as coreClient from "@azure/core-client";
 
 export interface CommunicationIdentityCreateRequest {
-  /** Set to tag the identity with your own id. */
-  externalId?: string;
+  /** Set to tag the identity with your own id, Maximum length is 256 characters. */
+  customId?: string;
   /** Also create access token for the created identity. */
   createTokenWithScopes?: CommunicationIdentityTokenScope[];
   /** Optional custom validity period of the token within [60,1440] minutes range. If not provided, the default value of 1440 minutes (24 hours) will be used. */
@@ -23,18 +23,16 @@ export interface CommunicationIdentityAccessTokenResult {
   identity: CommunicationIdentity;
   /** An access token. */
   accessToken?: CommunicationIdentityAccessToken;
-  /** Last time a token has been issued for the identity. */
-  lastTokenIssuedAt?: Date;
 }
 
 /** A communication identity. */
 export interface CommunicationIdentity {
-  /** The external Id if one has been associated with the identity. */
-  externalId?: string;
-  /** Identifier of the identity. */
-  id: string;
+  /** The custom Id if one has been associated with the identity. */
+  customId?: string;
   /** Last time a token has been issued for the identity. */
   lastTokenIssuedAt?: Date;
+  /** Identifier of the identity. */
+  id: string;
 }
 
 /** An access token. */
@@ -74,12 +72,13 @@ export interface CommunicationError {
   readonly innerError?: CommunicationError;
 }
 
+/** A request to create or update a Teams Phone assignment. */
 export interface TeamsUserExchangeTokenRequest {
-  /** Azure AD access token of a Teams User to acquire a new Communication Identity access token. */
+  /** Entra ID access token of a Teams User to acquire a new Communication Identity access token. */
   token: string;
-  /** Client ID of an Azure AD application to be verified against the appid claim in the Azure AD access token. */
+  /** Client ID of an Entra ID application to be verified against the appid claim in the Entra ID access token. */
   appId: string;
-  /** Object ID of an Azure AD user (Teams User) to be verified against the oid claim in the Azure AD access token. */
+  /** Object ID of an Entra ID user (Teams User) to be verified against the oid claim in the Entra ID access token. */
   userId: string;
 }
 
@@ -88,6 +87,38 @@ export interface CommunicationIdentityAccessTokenRequest {
   scopes: CommunicationIdentityTokenScope[];
   /** Optional custom validity period of the token within [60,1440] minutes range. If not provided, the default value of 1440 minutes (24 hours) will be used. */
   expiresInMinutes?: number;
+}
+
+export interface TeamsExtensionAssignmentResponse {
+  objectId: string;
+  tenantId: string;
+  /** The type of principal the assignment is for. */
+  principalType: TeamsExtensionPrincipalType;
+  clientIds?: string[];
+}
+
+export interface TeamsExtensionAssignmentCreateOrUpdateRequest {
+  /** The type of principal the assignment is for. */
+  principalType: TeamsExtensionPrincipalType;
+  clientIds?: string[];
+}
+
+export interface EntraAssignmentCreateOrUpdateRequest {
+  tenantId: string;
+  principalType: EntraPrincipalType;
+  clientIds: string[];
+}
+
+export interface EntraAssignmentsResponse {
+  value: EntraAssignment[];
+  nextLink?: string;
+}
+
+export interface EntraAssignment {
+  objectId: string;
+  tenantId: string;
+  principalType: EntraPrincipalType;
+  clientIds: string[];
 }
 
 /** Known values of {@link CommunicationIdentityTokenScope} that the service accepts. */
@@ -117,11 +148,50 @@ export enum KnownCommunicationIdentityTokenScope {
  */
 export type CommunicationIdentityTokenScope = string;
 
+/** Known values of {@link TeamsExtensionPrincipalType} that the service accepts. */
+export enum KnownTeamsExtensionPrincipalType {
+  /** ResourceAccount */
+  ResourceAccount = "resourceAccount",
+  /** User */
+  User = "user",
+}
+
+/**
+ * Defines values for TeamsExtensionPrincipalType. \
+ * {@link KnownTeamsExtensionPrincipalType} can be used interchangeably with TeamsExtensionPrincipalType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **resourceAccount** \
+ * **user**
+ */
+export type TeamsExtensionPrincipalType = string;
+
+/** Known values of {@link EntraPrincipalType} that the service accepts. */
+export enum KnownEntraPrincipalType {
+  /** User */
+  User = "user",
+  /** Group */
+  Group = "group",
+  /** Tenant */
+  Tenant = "tenant",
+}
+
+/**
+ * Defines values for EntraPrincipalType. \
+ * {@link KnownEntraPrincipalType} can be used interchangeably with EntraPrincipalType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **user** \
+ * **group** \
+ * **tenant**
+ */
+export type EntraPrincipalType = string;
+
 /** Optional parameters. */
 export interface CommunicationIdentityCreateOptionalParams
   extends coreClient.OperationOptions {
-  /** Set to tag the identity with your own id. */
-  externalId?: string;
+  /** Set to tag the identity with your own id, Maximum length is 256 characters. */
+  customId?: string;
   /** Also create access token for the created identity. */
   createTokenWithScopes?: CommunicationIdentityTokenScope[];
   /** Optional custom validity period of the token within [60,1440] minutes range. If not provided, the default value of 1440 minutes (24 hours) will be used. */
@@ -165,6 +235,84 @@ export interface CommunicationIdentityIssueAccessTokenOptionalParams
 /** Contains response data for the issueAccessToken operation. */
 export type CommunicationIdentityIssueAccessTokenResponse =
   CommunicationIdentityAccessToken;
+
+/** Optional parameters. */
+export interface TeamsExtensionTokenExchangeOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the exchange operation. */
+export type TeamsExtensionTokenExchangeResponse =
+  CommunicationIdentityAccessTokenResult;
+
+/** Optional parameters. */
+export interface TeamsExtensionAssignmentGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type TeamsExtensionAssignmentGetResponse =
+  TeamsExtensionAssignmentResponse;
+
+/** Optional parameters. */
+export interface TeamsExtensionAssignmentUpsertOptionalParams
+  extends coreClient.OperationOptions {
+  /** Array of TeamsExtensionAssignmentCreateOrUpdateRequestClientIdsItem */
+  clientIds?: string[];
+}
+
+/** Contains response data for the upsert operation. */
+export type TeamsExtensionAssignmentUpsertResponse =
+  TeamsExtensionAssignmentResponse;
+
+/** Optional parameters. */
+export interface TeamsExtensionAssignmentDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface EntraIdTokenExchangeOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the exchange operation. */
+export type EntraIdTokenExchangeResponse =
+  CommunicationIdentityAccessTokenResult;
+
+/** Optional parameters. */
+export interface EntraIdAssignmentsUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the update operation. */
+export type EntraIdAssignmentsUpdateResponse = EntraAssignmentsResponse;
+
+/** Optional parameters. */
+export interface EntraIdAssignmentsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type EntraIdAssignmentsListResponse = EntraAssignmentsResponse;
+
+/** Optional parameters. */
+export interface EntraIdAssignmentsUpdateNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the updateNext operation. */
+export type EntraIdAssignmentsUpdateNextResponse = EntraAssignmentsResponse;
+
+/** Optional parameters. */
+export interface EntraIdAssignmentGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type EntraIdAssignmentGetResponse = EntraAssignment;
+
+/** Optional parameters. */
+export interface EntraIdAssignmentUpsertOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the upsert operation. */
+export type EntraIdAssignmentUpsertResponse = EntraAssignment;
+
+/** Optional parameters. */
+export interface EntraIdAssignmentDeleteOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface IdentityRestClientOptionalParams
