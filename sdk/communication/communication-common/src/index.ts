@@ -11,3 +11,4 @@ export { CommunicationTokenRefreshOptions } from "./autoRefreshTokenCredential.j
 export * from "./credential/index.js";
 export * from "./identifierModels.js";
 export * from "./identifierModelSerializer.js";
+export { CommunicationIdentifier } from "./identifierModels.js";

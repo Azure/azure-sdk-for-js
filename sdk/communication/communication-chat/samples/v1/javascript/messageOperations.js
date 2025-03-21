@@ -6,30 +6,26 @@
  */
 
 const { ChatClient } = require("@azure/communication-chat");
-const {
-  AzureCommunicationTokenCredential,
-  parseConnectionString
-} = require("@azure/communication-common");
+const { AzureCommunicationTokenCredential } = require("@azure/communication-common");
 const { CommunicationIdentityClient } = require("@azure/communication-identity");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 // Load the .env file if it exists
-const dotenv = require("dotenv");
-dotenv.config();
+require("dotenv/config");
 
 async function main() {
-  const connectionString =
-    process.env["COMMUNICATION_CONNECTION_STRING"] ||
-    "endpoint=https://<resource-name>.communication.azure.com/;<access-key>";
-  const endpoint = parseConnectionString(connectionString).endpoint;
+  const endpoint =
+    process.env["COMMUNICATION_SERVICE_ENDPOINT"] ||
+    "https://<resource-name>.communication.azure.com/";
 
-  const identityClient = new CommunicationIdentityClient(connectionString);
+  const identityClient = new CommunicationIdentityClient(endpoint, new DefaultAzureCredential());
   const user = await identityClient.createUser();
   const userToken = await identityClient.getToken(user, ["chat"]);
 
   // create ChatClient
   const chatClient = new ChatClient(
     endpoint,
-    new AzureCommunicationTokenCredential(userToken.token)
+    new AzureCommunicationTokenCredential(userToken.token),
   );
   const createChatThreadResult = await chatClient.createChatThread({ topic: "Hello, World!" });
   const threadId = createChatThreadResult.chatThread ? createChatThreadResult.chatThread.id : "";
@@ -45,8 +41,8 @@ async function main() {
 
   // list all messages with newest first
   let i = 0;
-  for await (const message of chatThreadClient.listMessages()) {
-    console.log(`Message ${++i}:`, message);
+  for await (const messageItem of chatThreadClient.listMessages()) {
+    console.log(`Message ${++i}:`, messageItem);
   }
 
   // update a message
@@ -62,3 +58,5 @@ main().catch((error) => {
   console.error("Encountered an error in message operations: ", error);
   process.exit(1);
 });
+
+module.exports = { main };

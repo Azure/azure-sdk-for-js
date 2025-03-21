@@ -6,22 +6,19 @@
  */
 
 import { ChatClient } from "@azure/communication-chat";
-import {
-  AzureCommunicationTokenCredential,
-  parseConnectionString,
-} from "@azure/communication-common";
+import { AzureCommunicationTokenCredential } from "@azure/communication-common";
 import { CommunicationIdentityClient } from "@azure/communication-identity";
+import { DefaultAzureCredential } from "@azure/identity";
 
 // Load the .env file if it exists
 import "dotenv/config";
 
 export async function main(): Promise<void> {
-  const connectionString =
-    process.env["COMMUNICATION_CONNECTION_STRING"] ||
-    "endpoint=https://<resource-name>.communication.azure.com/;<access-key>";
-  const endpoint = parseConnectionString(connectionString).endpoint;
+  const endpoint =
+    process.env["COMMUNICATION_SERVICE_ENDPOINT"] ||
+    "https://<resource-name>.communication.azure.com/";
 
-  const identityClient = new CommunicationIdentityClient(connectionString);
+  const identityClient = new CommunicationIdentityClient(endpoint, new DefaultAzureCredential());
   const user = await identityClient.createUser();
   const userToken = await identityClient.getToken(user, ["chat"]);
 

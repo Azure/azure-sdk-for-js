@@ -1,24 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import * as dotenv from "dotenv";
-import { isNodeLike } from "@azure/core-util";
 import fs from "node:fs";
 import type { RecorderStartOptions, TestInfo } from "@azure-tools/test-recorder";
 import {
   Recorder,
-  env,
   assertEnvironmentVariable,
   isRecordMode,
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
+import { createTestCredential } from "@azure-tools/test-credential";
 import { generateToken } from "./connectionUtils.js";
 import type { CommunicationIdentityClientOptions } from "@azure/communication-identity";
 import { CommunicationIdentityClient } from "@azure/communication-identity";
 import type {
   CommunicationUserIdentifier,
   CommunicationIdentifier,
-  CommunicationIdentifierKind,
 } from "@azure/communication-common";
 import {
   serializeCommunicationIdentifier,
@@ -33,7 +30,6 @@ import {
   createHttpHeaders,
   createPipelineRequest,
 } from "@azure/core-rest-pipeline";
-import { AzureCliCredential } from "@azure/identity";
 import type {
   ServiceBusReceiver,
   ServiceBusReceivedMessage,
@@ -44,35 +40,21 @@ import type { PhoneNumbersClientOptions } from "@azure/communication-phone-numbe
 import { PhoneNumbersClient } from "@azure/communication-phone-numbers";
 import { assert } from "vitest";
 
-if (isNodeLike) {
-  dotenv.config();
-}
-
 const envSetupForPlayback: Record<string, string> = {
-  COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING: "endpoint=https://Sanitized/;accesskey=redacted",
+  COMMUNICATION_SERVICE_ENDPOINT: "https://Sanitized",
   DISPATCHER_ENDPOINT: "https://Sanitized",
-  SERVICEBUS_STRING: "redacted.servicebus.windows.net",
+  SERVICEBUS_FQDN: "redacted.servicebus.windows.net",
   FILE_SOURCE_URL: "https:///Sanitized/audio/test.wav",
   TRANSPORT_URL: "https://Sanitized",
   COGNITIVE_SERVICE_ENDPOINT: "https://Sanitized",
 };
 
 const fakeToken = generateToken();
-const dispatcherEndpoint: string = !isPlaybackMode()
-  ? (env["DISPATCHER_ENDPOINT"] ?? envSetupForPlayback["DISPATCHER_ENDPOINT"])
-  : envSetupForPlayback["DISPATCHER_ENDPOINT"];
-const serviceBusString: string = !isPlaybackMode()
-  ? (env["SERVICEBUS_STRING"] ?? envSetupForPlayback["SERVICEBUS_STRING"])
-  : envSetupForPlayback["SERVICEBUS_STRING"];
-export const fileSourceUrl: string = !isPlaybackMode()
-  ? (env["FILE_SOURCE_URL"] ?? envSetupForPlayback["FILE_SOURCE_URL"])
-  : envSetupForPlayback["FILE_SOURCE_URL"];
-export const transportUrl: string = !isPlaybackMode()
-  ? (env["TRANSPORT_URL"] ?? envSetupForPlayback["TRANSPORT_URL"])
-  : envSetupForPlayback["TRANSPORT_URL"];
-export const cognitiveServiceEndpoint: string = !isPlaybackMode()
-  ? (env["COGNITIVE_SERVICE_ENDPOINT"] ?? envSetupForPlayback["COGNITIVE_SERVICE_ENDPOINT"])
-  : envSetupForPlayback["COGNITIVE_SERVICE_ENDPOINT"];
+const dispatcherEndpoint = assertEnvironmentVariable("DISPATCHER_ENDPOINT");
+const serviceBusString = assertEnvironmentVariable("SERVICEBUS_FQDN");
+export const fileSourceUrl = assertEnvironmentVariable("FILE_SOURCE_URL");
+export const transportUrl = assertEnvironmentVariable("TRANSPORT_URL");
+export const cognitiveServiceEndpoint = assertEnvironmentVariable("COGNITIVE_SERVICE_ENDPOINT");
 
 export const dispatcherCallback: string = dispatcherEndpoint + "/api/servicebuscallback/events";
 export const dummyFileSource: string = !isPlaybackMode()
@@ -111,19 +93,13 @@ export function parseIdsFromIdentifier(identifier: CommunicationIdentifier): str
 }
 
 function createServiceBusClient(): ServiceBusClient {
-  const credential = new AzureCliCredential();
+  const credential = createTestCredential();
   return new ServiceBusClient(serviceBusString, credential);
 }
 
 export const recorderOptions: RecorderStartOptions = {
   envSetupForPlayback,
   sanitizerOptions: {
-    connectionStringSanitizers: [
-      {
-        fakeConnString: envSetupForPlayback["COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING"],
-        actualConnString: env["COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING"] || undefined,
-      },
-    ],
     bodyKeySanitizers: [
       {
         jsonPath: "$.accessToken.token",
@@ -172,7 +148,8 @@ export async function createRecorder(context: TestInfo | undefined): Promise<Rec
 
 export async function createTestUser(recorder: Recorder): Promise<CommunicationUserIdentifier> {
   const identityClient = new CommunicationIdentityClient(
-    assertEnvironmentVariable("COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING"),
+    assertEnvironmentVariable("COMMUNICATION_SERVICE_ENDPOINT"),
+    createTestCredential(),
     recorder.configureClientOptions({}) as CommunicationIdentityClientOptions,
   );
   return identityClient.createUser();
@@ -182,24 +159,25 @@ export function createCallAutomationClient(
   recorder: Recorder,
   sourceIdentity: CommunicationUserIdentifier,
 ): CallAutomationClient {
-  const connectionString = assertEnvironmentVariable(
-    "COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING",
-  );
   const options: CallAutomationClientOptions = {
     sourceIdentity: sourceIdentity,
   };
-  return new CallAutomationClient(connectionString, recorder.configureClientOptions(options));
+  return new CallAutomationClient(
+    assertEnvironmentVariable("COMMUNICATION_SERVICE_ENDPOINT"),
+    createTestCredential(),
+    recorder.configureClientOptions(options),
+  );
 }
 
 async function eventBodyHandler(body: any): Promise<void> {
   if (body.incomingCallContext) {
     const incomingCallContext: string = body.incomingCallContext;
-    const callerRawId: CommunicationIdentifierKind = createIdentifierFromRawId(body.from.rawId);
-    const calleeRawId: CommunicationIdentifierKind = createIdentifierFromRawId(body.to.rawId);
-    const key: string = parseIdsFromIdentifier(callerRawId) + parseIdsFromIdentifier(calleeRawId);
+    const callerRawId = createIdentifierFromRawId(body.from.rawId);
+    const calleeRawId = createIdentifierFromRawId(body.to.rawId);
+    const key = parseIdsFromIdentifier(callerRawId) + parseIdsFromIdentifier(calleeRawId);
     incomingCallContexts.set(key, incomingCallContext);
   } else {
-    const event: CallAutomationEvent = await parseCallAutomationEvent(body);
+    const event = parseCallAutomationEvent(body);
     if (event.callConnectionId) {
       if (events.has(event.callConnectionId)) {
         events.get(event.callConnectionId)?.set(event.kind, event);
@@ -347,7 +325,8 @@ export async function loadPersistedEvents(testName: string): Promise<void> {
 
 export async function getPhoneNumbers(recorder: Recorder): Promise<string[]> {
   const phoneNumbersClient = new PhoneNumbersClient(
-    assertEnvironmentVariable("COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING"),
+    assertEnvironmentVariable("COMMUNICATION_SERVICE_ENDPOINT"),
+    createTestCredential(),
     recorder.configureClientOptions({}) as PhoneNumbersClientOptions,
   );
   const purchasedPhoneNumbers = phoneNumbersClient.listPurchasedPhoneNumbers();

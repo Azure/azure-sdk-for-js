@@ -6,30 +6,26 @@
  */
 
 import { ChatClient } from "@azure/communication-chat";
-import {
-  AzureCommunicationTokenCredential,
-  parseConnectionString
-} from "@azure/communication-common";
+import { AzureCommunicationTokenCredential } from "@azure/communication-common";
 import { CommunicationIdentityClient } from "@azure/communication-identity";
+import { DefaultAzureCredential } from "@azure/identity";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
-export async function main() {
-  const connectionString =
-    process.env["COMMUNICATION_CONNECTION_STRING"] ||
-    "endpoint=https://<resource-name>.communication.azure.com/;<access-key>";
-  const endpoint = parseConnectionString(connectionString).endpoint;
+export async function main(): Promise<void> {
+  const endpoint =
+    process.env["COMMUNICATION_SERVICE_ENDPOINT"] ||
+    "https://<resource-name>.communication.azure.com/";
 
-  const identityClient = new CommunicationIdentityClient(connectionString);
+  const identityClient = new CommunicationIdentityClient(endpoint, new DefaultAzureCredential());
   const user = await identityClient.createUser();
   const userToken = await identityClient.getToken(user, ["chat"]);
 
   // create ChatClient
   const chatClient = new ChatClient(
     endpoint,
-    new AzureCommunicationTokenCredential(userToken.token)
+    new AzureCommunicationTokenCredential(userToken.token),
   );
   const createChatThreadResult = await chatClient.createChatThread({ topic: "Hello, World!" });
   const threadId = createChatThreadResult.chatThread ? createChatThreadResult.chatThread.id : "";
@@ -45,8 +41,8 @@ export async function main() {
 
   // list all messages with newest first
   let i = 0;
-  for await (const message of chatThreadClient.listMessages()) {
-    console.log(`Message ${++i}:`, message);
+  for await (const messageItem of chatThreadClient.listMessages()) {
+    console.log(`Message ${++i}:`, messageItem);
   }
 
   // update a message

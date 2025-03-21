@@ -85,7 +85,7 @@ describe("Call Automation Main Client Live Tests", { skip: !isNodeLike }, () => 
       createCallOption,
     );
     const incomingCallContext = await waitForIncomingCallContext(uniqueId, 8000);
-    const callConnectionId: string = result.callConnectionProperties.callConnectionId
+    const callConnectionId = result.callConnectionProperties.callConnectionId
       ? result.callConnectionProperties.callConnectionId
       : "";
     assert.isDefined(incomingCallContext);

@@ -3,8 +3,8 @@
 
 import { AzureKeyCredential } from "@azure/core-auth";
 import { AlphaIdsClient } from "../../src/index.js";
-import { createMockToken } from "./utils/recordedClient.js";
 import { describe, it, assert } from "vitest";
+import { createTestCredential } from "@azure-tools/test-credential";
 
 describe("AlphaIdsClient - constructor", function () {
   const endpoint = "https://contoso.spool.azure.local";
@@ -27,7 +27,7 @@ describe("AlphaIdsClient - constructor", function () {
   });
 
   it("successfully instantiates with with endpoint and managed identity", function () {
-    const client = new AlphaIdsClient(endpoint, createMockToken());
+    const client = new AlphaIdsClient(endpoint, createTestCredential());
     assert.instanceOf(client, AlphaIdsClient);
   });
 });

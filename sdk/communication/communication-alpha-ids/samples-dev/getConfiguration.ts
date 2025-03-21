@@ -8,6 +8,7 @@
 import type { DynamicAlphaIdConfiguration } from "@azure-tools/communication-alpha-ids";
 import { AlphaIdsClient } from "@azure-tools/communication-alpha-ids";
 import { RestError } from "@azure/core-rest-pipeline";
+import { DefaultAzureCredential } from "@azure/identity";
 
 // Load the .env file if it exists
 import "dotenv/config";
@@ -16,12 +17,12 @@ export async function main(): Promise<void> {
   console.log("\n== Get the Alpha IDs configuration that's applied for the current resource ==\n");
 
   // You will need to set this environment variable or edit the following values
-  const connectionString =
-    process.env.COMMUNICATION_SAMPLES_CONNECTION_STRING ||
-    "endpoint=https://resourceName.communication.azure.net/;accessKey=test-key";
+  const endpoint =
+    process.env.COMMUNICATION_SERVICE_ENDPOINT ||
+    "https://resourceName.communication.azure.net/";
 
   // create new client
-  const client = new AlphaIdsClient(connectionString);
+  const client = new AlphaIdsClient(endpoint, new DefaultAzureCredential());
   let usageIsEnabled: boolean = false;
 
   try {

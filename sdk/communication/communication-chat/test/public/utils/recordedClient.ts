@@ -2,22 +2,14 @@
 // Licensed under the MIT License.
 
 import type { RecorderStartOptions, TestInfo } from "@azure-tools/test-recorder";
-import {
-  Recorder,
-  assertEnvironmentVariable,
-  env,
-  isPlaybackMode,
-} from "@azure-tools/test-recorder";
+import { Recorder, assertEnvironmentVariable, isPlaybackMode } from "@azure-tools/test-recorder";
 import { ChatClient } from "../../../src/index.js";
 import type { CommunicationUserIdentifier } from "@azure/communication-common";
-import {
-  AzureCommunicationTokenCredential,
-  parseClientArguments,
-} from "@azure/communication-common";
+import { AzureCommunicationTokenCredential } from "@azure/communication-common";
 import type { CommunicationUserToken } from "@azure/communication-identity";
 import { CommunicationIdentityClient } from "@azure/communication-identity";
 import { generateToken } from "./connectionUtils.js";
-import { NoOpCredential } from "@azure-tools/test-credential";
+import { createTestCredential, NoOpCredential } from "@azure-tools/test-credential";
 
 export interface RecordedClient {
   chatClient: ChatClient;
@@ -25,7 +17,7 @@ export interface RecordedClient {
 }
 
 const envSetupForPlayback: { [k: string]: string } = {
-  COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING: "endpoint=https://endpoint/;accesskey=banana",
+  COMMUNICATION_SERVICE_ENDPOINT: "https://endpoint",
 };
 
 const fakeToken =
@@ -33,12 +25,6 @@ const fakeToken =
 export const recorderOptions: RecorderStartOptions = {
   envSetupForPlayback,
   sanitizerOptions: {
-    connectionStringSanitizers: [
-      {
-        fakeConnString: envSetupForPlayback["COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING"],
-        actualConnString: env["COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING"] || undefined,
-      },
-    ],
     bodyKeySanitizers: [{ jsonPath: "$.accessToken.token", value: fakeToken }],
   },
   removeCentralSanitizers: [
@@ -50,7 +36,8 @@ export const recorderOptions: RecorderStartOptions = {
 
 export async function createTestUser(recorder: Recorder): Promise<CommunicationUserToken> {
   const identityClient = new CommunicationIdentityClient(
-    assertEnvironmentVariable("COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING"),
+    assertEnvironmentVariable("COMMUNICATION_SERVICE_ENDPOINT"),
+    createTestCredential(),
     recorder.configureClientOptions({}),
   );
   return identityClient.createUserAndToken(["chat"]);
@@ -59,7 +46,8 @@ export async function createTestUser(recorder: Recorder): Promise<CommunicationU
 export async function deleteTestUser(testUser: CommunicationUserIdentifier): Promise<void> {
   if (testUser) {
     const identityClient = new CommunicationIdentityClient(
-      assertEnvironmentVariable("COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING"),
+      assertEnvironmentVariable("COMMUNICATION_SERVICE_ENDPOINT"),
+      createTestCredential(),
     );
     await identityClient.deleteUser(testUser);
   }
@@ -75,12 +63,9 @@ export function createChatClient(userToken: string, recorder: Recorder): ChatCli
   if (userToken === "token") {
     userToken = generateToken();
   }
-  const { url } = parseClientArguments(
-    assertEnvironmentVariable("COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING"),
-  );
 
   return new ChatClient(
-    url,
+    assertEnvironmentVariable("COMMUNICATION_SERVICE_ENDPOINT"),
     isPlaybackMode()
       ? new NoOpAzureCommunicationTokenCredential()
       : new AzureCommunicationTokenCredential(userToken),

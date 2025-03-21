@@ -6,48 +6,44 @@
  */
 
 const { ChatClient } = require("@azure/communication-chat");
-const {
-  AzureCommunicationTokenCredential,
-  parseConnectionString
-} = require("@azure/communication-common");
+const { AzureCommunicationTokenCredential } = require("@azure/communication-common");
 const { CommunicationIdentityClient } = require("@azure/communication-identity");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 // Load the .env file if it exists
-const dotenv = require("dotenv");
-dotenv.config();
+require("dotenv/config");
 
 async function main() {
-  const connectionString =
-    process.env["COMMUNICATION_CONNECTION_STRING"] ||
-    "endpoint=https://<resource-name>.communication.azure.com/;<access-key>";
-  const endpoint = parseConnectionString(connectionString).endpoint;
+  const endpoint =
+    process.env["COMMUNICATION_SERVICE_ENDPOINT"] ||
+    "https://<resource-name>.communication.azure.com/";
 
-  const identityClient = new CommunicationIdentityClient(connectionString);
+  const identityClient = new CommunicationIdentityClient(endpoint, new DefaultAzureCredential());
   const user = await identityClient.createUser();
   const userToken = await identityClient.getToken(user, ["chat"]);
 
   // create ChatClient
   const chatClient = new ChatClient(
     endpoint,
-    new AzureCommunicationTokenCredential(userToken.token)
+    new AzureCommunicationTokenCredential(userToken.token),
   );
 
   // create chat thread
   console.log("Creating Thread...");
   const createChatThreadRequest = {
-    topic: "Hello, World!"
+    topic: "Hello, World!",
   };
   const createChatThreadOptions = {
     participants: [
       {
         id: user,
-        displayName: "Jack"
-      }
-    ]
+        displayName: "Jack",
+      },
+    ],
   };
   const createChatThreadResult = await chatClient.createChatThread(
     createChatThreadRequest,
-    createChatThreadOptions
+    createChatThreadOptions,
   );
   const threadId = createChatThreadResult.chatThread ? createChatThreadResult.chatThread.id : "";
 
@@ -72,3 +68,5 @@ main().catch((error) => {
   console.error("Encountered an error in thread operations: ", error);
   process.exit(1);
 });
+
+module.exports = { main };

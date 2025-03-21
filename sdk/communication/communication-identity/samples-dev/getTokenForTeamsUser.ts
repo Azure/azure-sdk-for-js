@@ -8,13 +8,14 @@
 import type { CommunicationAccessToken } from "@azure/communication-identity";
 import { CommunicationIdentityClient } from "@azure/communication-identity";
 import { PublicClientApplication } from "@azure/msal-node";
+import { DefaultAzureCredential } from "@azure/identity";
 
 // Load the .env file if it exists
 import "dotenv/config";
 
 // You will need to set this environment variables or edit the following values
-const connectionString =
-  process.env["COMMUNICATION_CONNECTION_STRING"] || "<communication service connection string>";
+const endpoint =
+  process.env["COMMUNICATION_SERVICE_ENDPOINT"] || "<communication service connection string>";
 const aadTenant =
   process.env["COMMUNICATION_M365_AAD_TENANT"] || "<azure active directory tenant id>";
 const aadAppId = process.env["COMMUNICATION_M365_APP_ID"] || "<azure active directory app id>";
@@ -24,13 +25,9 @@ const msalUsername = process.env["COMMUNICATION_MSAL_USERNAME"] || "<msal userna
 const msalPassword = process.env["COMMUNICATION_MSAL_PASSWORD"] || "<msal password>";
 
 export async function main(): Promise<void> {
-  if (process.env["SKIP_INT_IDENTITY_EXCHANGE_TOKEN_TEST"] === "true") {
-    console.log("Skipping the Get Access Token for Teams User sample");
-    return;
-  }
   console.log("\n== Get Access Token for Teams User sample ==\n");
 
-  const client = new CommunicationIdentityClient(connectionString);
+  const client = new CommunicationIdentityClient(endpoint, new DefaultAzureCredential());
 
   // Get an AAD token and object ID of a Teams user
   console.log("Getting an AAD token and an object ID of a Teams user");

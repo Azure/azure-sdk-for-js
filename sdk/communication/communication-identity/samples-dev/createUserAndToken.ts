@@ -7,17 +7,18 @@
 
 import type { TokenScope, CreateUserAndTokenOptions } from "@azure/communication-identity";
 import { CommunicationIdentityClient } from "@azure/communication-identity";
+import { DefaultAzureCredential } from "@azure/identity";
 
 // Load the .env file if it exists
 import "dotenv/config";
 
 // You will need to set this environment variables or edit the following values
-const connectionString =
-  process.env["COMMUNICATION_CONNECTION_STRING"] || "<communication service connection string>";
+const endpoint =
+  process.env["COMMUNICATION_SERVICE_ENDPOINT"] || "<communication service endpoint>";
 
 export async function main(): Promise<void> {
   console.log("\n== Create User and Token Sample ==\n");
-  const client = new CommunicationIdentityClient(connectionString);
+  const client = new CommunicationIdentityClient(endpoint, new DefaultAzureCredential());
   const scopes: TokenScope[] = ["chat"];
 
   // Create user with default token
