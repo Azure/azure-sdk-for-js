@@ -1,0 +1,62 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "ui": "tui",
+  "tasks": {
+    "build": {
+      "dependsOn": ["^build"],
+      "outputs": ["dist/**", "dist-esm/**", "dist-test/**", "types/**"]
+    },
+    "check-format": {
+      "dependsOn": ["^check-format"],
+      "cache": false
+    },
+    "clean": {
+      "dependsOn": ["^clean"],
+      "cache": false
+    },
+    "format": {
+      "dependsOn": ["^format"],
+      "cache": false
+    },
+    "integration-test": {
+      "dependsOn": ["^integration-test"]
+    },
+    "integration-test:browser": {
+      "dependsOn": ["^integration-test:browser"]
+    },
+    "integration-test:node": {
+      "dependsOn": ["^integration-test:node"]
+    },
+    "lint": {
+      "dependsOn": ["^lint"],
+      "cache": false
+    },
+    "lint:fix": {
+      "dependsOn": ["^lint:fix"],
+      "cache": false
+    },
+    "test": {
+      "dependsOn": ["^test"]
+    },
+    "typecheck": {
+      "dependsOn": ["^typecheck"]
+    },
+    "unit-test": {
+      "dependsOn": ["^unit-test"]
+    },
+    "unit-test:browser": {
+      "dependsOn": ["^unit-test:browser"]
+    },
+    "unit-test:node": {
+      "dependsOn": ["^unit-test:node"]
+    },
+    "update-snippets": {
+      "dependsOn": ["^update-snippets"],
+      "cache": false
+    },
+    "dev": {
+      "cache": true,
+      "persistent": true
+    }
+  }
+}
