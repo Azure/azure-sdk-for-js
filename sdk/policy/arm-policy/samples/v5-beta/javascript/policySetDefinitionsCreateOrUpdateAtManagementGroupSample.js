@@ -16,13 +16,11 @@ require("dotenv/config");
  * This sample demonstrates how to This operation creates or updates a policy set definition in the given management group with the given name.
  *
  * @summary This operation creates or updates a policy set definition in the given management group with the given name.
- * x-ms-original-file: specification/resources/resource-manager/Microsoft.Authorization/stable/2021-06-01/examples/createOrUpdatePolicySetDefinitionAtManagementGroup.json
+ * x-ms-original-file: specification/resources/resource-manager/Microsoft.Authorization/stable/2023-04-01/examples/createOrUpdatePolicySetDefinitionAtManagementGroup.json
  */
 async function createOrUpdateAPolicySetDefinitionAtManagementGroupLevel() {
-  const subscriptionId =
-    process.env["POLICY_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
-  const policySetDefinitionName = "CostManagement";
   const managementGroupId = "MyManagementGroup";
+  const policySetDefinitionName = "CostManagement";
   const parameters = {
     description: "Policies to enforce low cost storage SKUs",
     displayName: "Cost Management",
@@ -45,10 +43,10 @@ async function createOrUpdateAPolicySetDefinitionAtManagementGroupLevel() {
     ],
   };
   const credential = new DefaultAzureCredential();
-  const client = new PolicyClient(credential, subscriptionId);
+  const client = new PolicyClient(credential);
   const result = await client.policySetDefinitions.createOrUpdateAtManagementGroup(
-    policySetDefinitionName,
     managementGroupId,
+    policySetDefinitionName,
     parameters,
   );
   console.log(result);
@@ -58,13 +56,11 @@ async function createOrUpdateAPolicySetDefinitionAtManagementGroupLevel() {
  * This sample demonstrates how to This operation creates or updates a policy set definition in the given management group with the given name.
  *
  * @summary This operation creates or updates a policy set definition in the given management group with the given name.
- * x-ms-original-file: specification/resources/resource-manager/Microsoft.Authorization/stable/2021-06-01/examples/createOrUpdatePolicySetDefinitionWithGroupsAtManagementGroup.json
+ * x-ms-original-file: specification/resources/resource-manager/Microsoft.Authorization/stable/2023-04-01/examples/createOrUpdatePolicySetDefinitionWithGroupsAtManagementGroup.json
  */
 async function createOrUpdateAPolicySetDefinitionWithGroupsAtManagementGroupLevel() {
-  const subscriptionId =
-    process.env["POLICY_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
-  const policySetDefinitionName = "CostManagement";
   const managementGroupId = "MyManagementGroup";
+  const policySetDefinitionName = "CostManagement";
   const parameters = {
     description: "Policies to enforce low cost storage SKUs",
     displayName: "Cost Management",
@@ -102,18 +98,18 @@ async function createOrUpdateAPolicySetDefinitionWithGroupsAtManagementGroupLeve
     ],
   };
   const credential = new DefaultAzureCredential();
-  const client = new PolicyClient(credential, subscriptionId);
+  const client = new PolicyClient(credential);
   const result = await client.policySetDefinitions.createOrUpdateAtManagementGroup(
-    policySetDefinitionName,
     managementGroupId,
+    policySetDefinitionName,
     parameters,
   );
   console.log(result);
 }
 
 async function main() {
-  createOrUpdateAPolicySetDefinitionAtManagementGroupLevel();
-  createOrUpdateAPolicySetDefinitionWithGroupsAtManagementGroupLevel();
+  await createOrUpdateAPolicySetDefinitionAtManagementGroupLevel();
+  await createOrUpdateAPolicySetDefinitionWithGroupsAtManagementGroupLevel();
 }
 
 main().catch(console.error);

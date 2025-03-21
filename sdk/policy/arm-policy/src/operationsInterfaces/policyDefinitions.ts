@@ -23,7 +23,7 @@ import {
   PolicyDefinitionsCreateOrUpdateAtManagementGroupResponse,
   PolicyDefinitionsDeleteAtManagementGroupOptionalParams,
   PolicyDefinitionsGetAtManagementGroupOptionalParams,
-  PolicyDefinitionsGetAtManagementGroupResponse
+  PolicyDefinitionsGetAtManagementGroupResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -43,7 +43,7 @@ export interface PolicyDefinitions {
    * @param options The options parameters.
    */
   list(
-    options?: PolicyDefinitionsListOptionalParams
+    options?: PolicyDefinitionsListOptionalParams,
   ): PagedAsyncIterableIterator<PolicyDefinition>;
   /**
    * This operation retrieves a list of all the built-in policy definitions that match the optional given
@@ -54,7 +54,7 @@ export interface PolicyDefinitions {
    * @param options The options parameters.
    */
   listBuiltIn(
-    options?: PolicyDefinitionsListBuiltInOptionalParams
+    options?: PolicyDefinitionsListBuiltInOptionalParams,
   ): PagedAsyncIterableIterator<PolicyDefinition>;
   /**
    * This operation retrieves a list of all the policy definitions in a given management group that match
@@ -72,7 +72,7 @@ export interface PolicyDefinitions {
    */
   listByManagementGroup(
     managementGroupId: string,
-    options?: PolicyDefinitionsListByManagementGroupOptionalParams
+    options?: PolicyDefinitionsListByManagementGroupOptionalParams,
   ): PagedAsyncIterableIterator<PolicyDefinition>;
   /**
    * This operation creates or updates a policy definition in the given subscription with the given name.
@@ -83,7 +83,7 @@ export interface PolicyDefinitions {
   createOrUpdate(
     policyDefinitionName: string,
     parameters: PolicyDefinition,
-    options?: PolicyDefinitionsCreateOrUpdateOptionalParams
+    options?: PolicyDefinitionsCreateOrUpdateOptionalParams,
   ): Promise<PolicyDefinitionsCreateOrUpdateResponse>;
   /**
    * This operation deletes the policy definition in the given subscription with the given name.
@@ -92,7 +92,7 @@ export interface PolicyDefinitions {
    */
   delete(
     policyDefinitionName: string,
-    options?: PolicyDefinitionsDeleteOptionalParams
+    options?: PolicyDefinitionsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * This operation retrieves the policy definition in the given subscription with the given name.
@@ -101,7 +101,7 @@ export interface PolicyDefinitions {
    */
   get(
     policyDefinitionName: string,
-    options?: PolicyDefinitionsGetOptionalParams
+    options?: PolicyDefinitionsGetOptionalParams,
   ): Promise<PolicyDefinitionsGetResponse>;
   /**
    * This operation retrieves the built-in policy definition with the given name.
@@ -110,42 +110,42 @@ export interface PolicyDefinitions {
    */
   getBuiltIn(
     policyDefinitionName: string,
-    options?: PolicyDefinitionsGetBuiltInOptionalParams
+    options?: PolicyDefinitionsGetBuiltInOptionalParams,
   ): Promise<PolicyDefinitionsGetBuiltInResponse>;
   /**
    * This operation creates or updates a policy definition in the given management group with the given
    * name.
-   * @param policyDefinitionName The name of the policy definition to create.
    * @param managementGroupId The ID of the management group.
+   * @param policyDefinitionName The name of the policy definition to create.
    * @param parameters The policy definition properties.
    * @param options The options parameters.
    */
   createOrUpdateAtManagementGroup(
-    policyDefinitionName: string,
     managementGroupId: string,
+    policyDefinitionName: string,
     parameters: PolicyDefinition,
-    options?: PolicyDefinitionsCreateOrUpdateAtManagementGroupOptionalParams
+    options?: PolicyDefinitionsCreateOrUpdateAtManagementGroupOptionalParams,
   ): Promise<PolicyDefinitionsCreateOrUpdateAtManagementGroupResponse>;
   /**
    * This operation deletes the policy definition in the given management group with the given name.
-   * @param policyDefinitionName The name of the policy definition to delete.
    * @param managementGroupId The ID of the management group.
+   * @param policyDefinitionName The name of the policy definition to delete.
    * @param options The options parameters.
    */
   deleteAtManagementGroup(
-    policyDefinitionName: string,
     managementGroupId: string,
-    options?: PolicyDefinitionsDeleteAtManagementGroupOptionalParams
+    policyDefinitionName: string,
+    options?: PolicyDefinitionsDeleteAtManagementGroupOptionalParams,
   ): Promise<void>;
   /**
    * This operation retrieves the policy definition in the given management group with the given name.
-   * @param policyDefinitionName The name of the policy definition to get.
    * @param managementGroupId The ID of the management group.
+   * @param policyDefinitionName The name of the policy definition to get.
    * @param options The options parameters.
    */
   getAtManagementGroup(
-    policyDefinitionName: string,
     managementGroupId: string,
-    options?: PolicyDefinitionsGetAtManagementGroupOptionalParams
+    policyDefinitionName: string,
+    options?: PolicyDefinitionsGetAtManagementGroupOptionalParams,
   ): Promise<PolicyDefinitionsGetAtManagementGroupResponse>;
 }

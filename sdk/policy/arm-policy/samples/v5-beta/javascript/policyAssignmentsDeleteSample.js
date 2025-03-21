@@ -16,21 +16,19 @@ require("dotenv/config");
  * This sample demonstrates how to This operation deletes a policy assignment, given its name and the scope it was created in. The scope of a policy assignment is the part of its ID preceding '/providers/Microsoft.Authorization/policyAssignments/{policyAssignmentName}'.
  *
  * @summary This operation deletes a policy assignment, given its name and the scope it was created in. The scope of a policy assignment is the part of its ID preceding '/providers/Microsoft.Authorization/policyAssignments/{policyAssignmentName}'.
- * x-ms-original-file: specification/resources/resource-manager/Microsoft.Authorization/stable/2021-06-01/examples/deletePolicyAssignment.json
+ * x-ms-original-file: specification/resources/resource-manager/Microsoft.Authorization/stable/2023-04-01/examples/deletePolicyAssignment.json
  */
 async function deleteAPolicyAssignment() {
-  const subscriptionId =
-    process.env["POLICY_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const scope = "subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2";
   const policyAssignmentName = "EnforceNaming";
   const credential = new DefaultAzureCredential();
-  const client = new PolicyClient(credential, subscriptionId);
+  const client = new PolicyClient(credential);
   const result = await client.policyAssignments.delete(scope, policyAssignmentName);
   console.log(result);
 }
 
 async function main() {
-  deleteAPolicyAssignment();
+  await deleteAPolicyAssignment();
 }
 
 main().catch(console.error);

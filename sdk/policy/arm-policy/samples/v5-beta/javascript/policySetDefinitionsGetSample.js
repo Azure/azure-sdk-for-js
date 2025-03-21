@@ -16,7 +16,7 @@ require("dotenv/config");
  * This sample demonstrates how to This operation retrieves the policy set definition in the given subscription with the given name.
  *
  * @summary This operation retrieves the policy set definition in the given subscription with the given name.
- * x-ms-original-file: specification/resources/resource-manager/Microsoft.Authorization/stable/2021-06-01/examples/getPolicySetDefinition.json
+ * x-ms-original-file: specification/resources/resource-manager/Microsoft.Authorization/stable/2023-04-01/examples/getPolicySetDefinition.json
  */
 async function retrieveAPolicySetDefinition() {
   const subscriptionId =
@@ -29,7 +29,7 @@ async function retrieveAPolicySetDefinition() {
 }
 
 async function main() {
-  retrieveAPolicySetDefinition();
+  await retrieveAPolicySetDefinition();
 }
 
 main().catch(console.error);

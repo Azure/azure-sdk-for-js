@@ -16,20 +16,20 @@ require("dotenv/config");
  * This sample demonstrates how to This operation retrieves the list of all policy assignments applicable to the management group that match the given $filter. Valid values for $filter are: 'atScope()', 'atExactScope()' or 'policyDefinitionId eq '{value}''. If $filter=atScope() is provided, the returned list includes all policy assignments that are assigned to the management group or the management group's ancestors. If $filter=atExactScope() is provided, the returned list only includes all policy assignments that at the management group. If $filter=policyDefinitionId eq '{value}' is provided, the returned list includes all policy assignments of the policy definition whose id is {value} that apply to the management group.
  *
  * @summary This operation retrieves the list of all policy assignments applicable to the management group that match the given $filter. Valid values for $filter are: 'atScope()', 'atExactScope()' or 'policyDefinitionId eq '{value}''. If $filter=atScope() is provided, the returned list includes all policy assignments that are assigned to the management group or the management group's ancestors. If $filter=atExactScope() is provided, the returned list only includes all policy assignments that at the management group. If $filter=policyDefinitionId eq '{value}' is provided, the returned list includes all policy assignments of the policy definition whose id is {value} that apply to the management group.
- * x-ms-original-file: specification/resources/resource-manager/Microsoft.Authorization/stable/2021-06-01/examples/listPolicyAssignmentsForManagementGroup.json
+ * x-ms-original-file: specification/resources/resource-manager/Microsoft.Authorization/stable/2023-04-01/examples/listPolicyAssignmentsForManagementGroup.json
  */
 async function listPolicyAssignmentsThatApplyToAManagementGroup() {
-  const subscriptionId =
-    process.env["POLICY_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const managementGroupId = "TestManagementGroup";
   const filter = "atScope()";
+  const expand = "LatestDefinitionVersion, EffectiveDefinitionVersion";
   const options = {
     filter,
+    expand,
   };
   const credential = new DefaultAzureCredential();
-  const client = new PolicyClient(credential, subscriptionId);
+  const client = new PolicyClient(credential);
   const resArray = new Array();
-  for await (let item of client.policyAssignments.listForManagementGroup(
+  for await (const item of client.policyAssignments.listForManagementGroup(
     managementGroupId,
     options,
   )) {
@@ -39,7 +39,7 @@ async function listPolicyAssignmentsThatApplyToAManagementGroup() {
 }
 
 async function main() {
-  listPolicyAssignmentsThatApplyToAManagementGroup();
+  await listPolicyAssignmentsThatApplyToAManagementGroup();
 }
 
 main().catch(console.error);
