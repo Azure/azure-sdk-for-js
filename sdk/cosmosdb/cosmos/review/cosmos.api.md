@@ -869,7 +869,6 @@ export class Database {
     readonly client: CosmosClient;
     container(id: string): Container;
     readonly containers: Containers;
-    // (undocumented)
     createClientEncryptionKey(clientEncryptionKeyId: string, encryptionAlgorithm: EncryptionAlgorithm, keyWrapMetadata: EncryptionKeyWrapMetadata): Promise<ClientEncryptionKeyResponse>;
     delete(options?: RequestOptions): Promise<DatabaseResponse>;
     // (undocumented)

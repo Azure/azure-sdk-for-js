@@ -24,6 +24,8 @@ import {
   EncryptionKeyResolverName,
   EncryptionKeyWrapMetadata,
   KeyEncryptionAlgorithm,
+  PermissionDefinition,
+  PermissionMode,
 } from "@azure/cosmos";
 import { ClientSecretCredential } from "@azure/identity";
 
@@ -1109,6 +1111,19 @@ describe("snippets", () => {
     await container.items.batch(operations, "A");
   });
 
+  it("OffersQuery", async () => {
+    const endpoint = "https://your-account.documents.azure.com";
+    const key = "<database account masterkey>";
+    const client = new CosmosClient({ endpoint, key });
+    // @ts-preserve-whitespace
+    const querySpec: SqlQuerySpec = {
+      query: `SELECT * FROM root r WHERE r.id = @offer`,
+      parameters: [{ name: "@offer", value: "<offer-id>" }],
+    };
+    // @ts-ignore
+    const { resources: offer } = await client.offers.query(querySpec).fetchAll();
+  });
+
   it("OffersReadAll", async () => {
     const endpoint = "https://your-account.documents.azure.com";
     const key = "<database account masterkey>";
@@ -1116,6 +1131,42 @@ describe("snippets", () => {
     // @ts-preserve-whitespace
     // @ts-ignore
     const { resources: offerList } = await client.offers.readAll().fetchAll();
+  });
+
+  it("OfferRead", async () => {
+    const endpoint = "https://your-account.documents.azure.com";
+    const key = "<database account masterkey>";
+    const client = new CosmosClient({ endpoint, key });
+    // @ts-preserve-whitespace
+    // @ts-ignore
+    const { resource: offer } = await client.offer("<offer-id>").read();
+  });
+
+  it("OfferReplace", async () => {
+    const endpoint = "https://your-account.documents.azure.com";
+    const key = "<database account masterkey>";
+    const client = new CosmosClient({ endpoint, key });
+    const { resource: offer } = await client.offer("<offer-id>").read();
+    // @ts-preservewhitespace
+    offer.content.offerThroughput = 1000;
+    await client.offer("<offer-id>").replace(offer);
+  });
+
+  it("PermissionsQuery", async () => {
+    const endpoint = "https://your-account.documents.azure.com";
+    const key = "<database account masterkey>";
+    const client = new CosmosClient({ endpoint, key });
+    const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+    // @ts-preserve-whitespace
+    const querySpec: SqlQuerySpec = {
+      query: `SELECT * FROM root r WHERE r.id = @permission`,
+      parameters: [{ name: "@permission", value: "<permission-id>" }],
+    };
+    // @ts-ignore
+    const { resources: permisssion } = await database
+      .user("<user-id>")
+      .permissions.query(querySpec)
+      .fetchAll();
   });
 
   it("PermissionsReadAll", async () => {
@@ -1130,6 +1181,71 @@ describe("snippets", () => {
       .user("user1")
       .permissions.readAll()
       .fetchAll();
+  });
+
+  it("PermissionsCreate", async () => {
+    const endpoint = "https://your-account.documents.azure.com";
+    const key = "<database account masterkey>";
+    const client = new CosmosClient({ endpoint, key });
+    const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+    const { user } = await database.users.create({ id: "<user-id>" });
+    // @ts-preserve-whitespace
+    const permissionDefinition: PermissionDefinition = {
+      id: "<permission-id>",
+      permissionMode: PermissionMode.Read,
+      resource: "<resource-url>",
+    };
+    await user.permissions.create(permissionDefinition);
+  });
+
+  it("PermissionsUpsert", async () => {
+    const endpoint = "https://your-account.documents.azure.com";
+    const key = "<database account masterkey>";
+    const client = new CosmosClient({ endpoint, key });
+    const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+    const user = database.user("<user-id>");
+    const permissionDefinitionToUpsert: PermissionDefinition = {
+      id: "<permission-id>",
+      permissionMode: PermissionMode.Read,
+      resource: "<resource-url>",
+    };
+    // @ts-preserve-whitespace
+    await user.permissions.upsert(permissionDefinitionToUpsert);
+  });
+
+  it("PermissionRead", async () => {
+    const endpoint = "https://your-account.documents.azure.com";
+    const key = "<database account masterkey>";
+    const client = new CosmosClient({ endpoint, key });
+    const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+    const user = database.user("<user-id>");
+    // @ts-preserve-whitespace
+    // @ts-ignore
+    const { resource: permission } = await user.permission("<permission-id>").read();
+  });
+
+  it("PermissionReplace", async () => {
+    const endpoint = "https://your-account.documents.azure.com";
+    const key = "<database account masterkey>";
+    const client = new CosmosClient({ endpoint, key });
+    const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+    const user = database.user("<user-id>");
+    const { resource: permission } = await user.permission("<permission-id>").read();
+    permission.resource = "<new-resource-url>";
+    // @ts-preserve-whitespace
+    // @ts-ignore
+    await user.permission("<permission-id>").replace(permission);
+  });
+
+  it("PermissionDelete", async () => {
+    const endpoint = "https://your-account.documents.azure.com";
+    const key = "<database account masterkey>";
+    const client = new CosmosClient({ endpoint, key });
+    const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+    const user = database.user("<user-id>");
+    // @ts-preserve-whitespace
+    // @ts-ignore
+    await user.permission("<permission-id>").delete();
   });
 
   it("StoredProceduresQueryStoredProcedures", async () => {
@@ -1179,6 +1295,20 @@ describe("snippets", () => {
     const { resources: triggerList } = await container.scripts.triggers.readAll().fetchAll();
   });
 
+  it("UsersQuery", async () => {
+    const endpoint = "https://your-account.documents.azure.com";
+    const key = "<database account masterkey>";
+    const client = new CosmosClient({ endpoint, key });
+    const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+    // @ts-preserve-whitespace
+    const querySpec: SqlQuerySpec = {
+      query: `SELECT * FROM root r WHERE r.id = @user`,
+      parameters: [{ name: "@user", value: "<user-id>" }],
+    };
+    // @ts-ignore
+    const { resources: permisssion } = await database.users.query(querySpec).fetchAll();
+  });
+
   it("UsersReadAll", async () => {
     const endpoint = "https://your-account.documents.azure.com";
     const key = "<database account masterkey>";
@@ -1188,6 +1318,54 @@ describe("snippets", () => {
     // @ts-preserve-whitespace
     // @ts-ignore
     const { resources: usersList } = await database.users.readAll().fetchAll();
+  });
+
+  it("UsersCreate", async () => {
+    const endpoint = "https://your-account.documents.azure.com";
+    const key = "<database account masterkey>";
+    const client = new CosmosClient({ endpoint, key });
+    const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+    // @ts-preserve-whitespace
+    await database.users.create({ id: "<user-id>" });
+  });
+
+  it("UsersUpsert", async () => {
+    const endpoint = "https://your-account.documents.azure.com";
+    const key = "<database account masterkey>";
+    const client = new CosmosClient({ endpoint, key });
+    const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+    // @ts-preserve-whitespace
+    await database.users.upsert({ id: "<user-id>" });
+  });
+
+  it("UserRead", async () => {
+    const endpoint = "https://your-account.documents.azure.com";
+    const key = "<database account masterkey>";
+    const client = new CosmosClient({ endpoint, key });
+    const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+    // @ts-preserve-whitespace
+    // @ts-ignore
+    const { resource: user } = await database.user("<user-id>").read();
+  });
+
+  it("UserReplace", async () => {
+    const endpoint = "https://your-account.documents.azure.com";
+    const key = "<database account masterkey>";
+    const client = new CosmosClient({ endpoint, key });
+    const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+    const { resource: user } = await database.user("<user-id>").read();
+    user.id = "<new user id>";
+    // @ts-preserve-whitespace
+    await database.user("<user-id>").replace(user);
+  });
+
+  it("UserDelete", async () => {
+    const endpoint = "https://your-account.documents.azure.com";
+    const key = "<database account masterkey>";
+    const client = new CosmosClient({ endpoint, key });
+    const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+    // @ts-preserve-whitespace
+    await database.user("<user-id>").delete();
   });
 
   it("UserDefinedFunctionsReadAll", async () => {

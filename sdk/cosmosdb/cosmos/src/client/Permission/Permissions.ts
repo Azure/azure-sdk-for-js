@@ -37,6 +37,24 @@ export class Permissions {
   /**
    * Query all permissions.
    * @param query - Query configuration for the operation. See {@link SqlQuerySpec} for more info on how to configure a query.
+   * @example Query permission with id.
+   * ```ts snippet:PermissionsQuery
+   * import { CosmosClient, SqlQuerySpec } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   * const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+   *
+   * const querySpec: SqlQuerySpec = {
+   *   query: `SELECT * FROM root r WHERE r.id = @permission`,
+   *   parameters: [{ name: "@permission", value: "<permission-id>" }],
+   * };
+   * const { resources: permisssion } = await database
+   *   .user("<user-id>")
+   *   .permissions.query(querySpec)
+   *   .fetchAll();
+   * ```
    */
   public query<T>(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<T>;
   public query<T>(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<T> {
@@ -81,6 +99,23 @@ export class Permissions {
    * A permission represents a per-User Permission to access a specific resource
    * e.g. Item or Container.
    * @param body - Represents the body of the permission.
+   * @example
+   * ```ts snippet:PermissionsCreate
+   * import { CosmosClient, PermissionDefinition, PermissionMode } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   * const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+   * const { user } = await database.users.create({ id: "<user-id>" });
+   *
+   * const permissionDefinition: PermissionDefinition = {
+   *   id: "<permission-id>",
+   *   permissionMode: PermissionMode.Read,
+   *   resource: "<resource-url>",
+   * };
+   * await user.permissions.create(permissionDefinition);
+   * ```
    */
   public async create(
     body: PermissionDefinition,
@@ -116,9 +151,25 @@ export class Permissions {
 
   /**
    * Upsert a permission.
-   *
    * A permission represents a per-User Permission to access a
    * specific resource e.g. Item or Container.
+   * @example
+   * ```ts snippet:PermissionsUpsert
+   * import { CosmosClient, PermissionDefinition, PermissionMode } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   * const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+   * const user = database.user("<user-id>");
+   * const permissionDefinitionToUpsert: PermissionDefinition = {
+   *   id: "<permission-id>",
+   *   permissionMode: PermissionMode.Read,
+   *   resource: "<resource-url>",
+   * };
+   *
+   * await user.permissions.upsert(permissionDefinitionToUpsert);
+   * ```
    */
   public async upsert(
     body: PermissionDefinition,

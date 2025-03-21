@@ -258,7 +258,9 @@ export class Database {
     }, this.clientContext);
   }
 
-  /* @example
+  /**
+   * Create Encryption key for database account
+   * @example
    * ```ts snippet:DatabaseCreateClientEncryptionKey
    * import { ClientSecretCredential } from "@azure/identity";
    * import {
