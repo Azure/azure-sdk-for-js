@@ -1,0 +1,998 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites name="vitest tests" tests="41" failures="0" errors="0" time="269.988553">
+    <testsuite name="test/public/SampleAgeMismatchInferenceAsync.spec.ts" timestamp="2025-03-21T13:52:03.750Z" hostname="NU-kgellynck" tests="1" failures="0" errors="0" skipped="0" time="12.4038766">
+        <testcase classname="test/public/SampleAgeMismatchInferenceAsync.spec.ts" name="Age Mismatch Inference Test &gt; age mismatch inference test" time="12.4022939">
+            <system-out>
+{
+  request: PipelineRequestImpl {
+    url: [32m&apos;https://koensdk.cognitiveservices.azure.com/health-insights/radiology-insights/jobs/jobId-17138794618263?api-version=2024-10-01&apos;[39m,
+    body: [90mundefined[39m,
+    headers: HttpHeadersImpl { _headersMap: [36m[Map][39m },
+    method: [32m&apos;GET&apos;[39m,
+    timeout: [33m0[39m,
+    multipartBody: [90mundefined[39m,
+    formData: [90mundefined[39m,
+    disableKeepAlive: [33mfalse[39m,
+    proxySettings: [90mundefined[39m,
+    streamResponseStatusCodes: [90mundefined[39m,
+    withCredentials: [33mfalse[39m,
+    abortSignal: [90mundefined[39m,
+    tracingOptions: [90mundefined[39m,
+    onUploadProgress: [90mundefined[39m,
+    onDownloadProgress: [90mundefined[39m,
+    requestId: [32m&apos;ccddbc08-9c4c-450b-8647-e0daf60ed023&apos;[39m,
+    allowInsecureConnection: [33mtrue[39m,
+    enableBrowserStreams: [33mtrue[39m,
+    agent: [90mundefined[39m,
+    tlsSettings: [90mundefined[39m
+  },
+  headers: {
+    [32m&apos;content-length&apos;[39m: [32m&apos;60463&apos;[39m,
+    [32m&apos;content-type&apos;[39m: [32m&apos;application/json; charset=utf-8&apos;[39m,
+    date: [32m&apos;Fri, 21 Mar 2025 13:51:46 GMT&apos;[39m,
+    server: [32m&apos;Kestrel&apos;[39m,
+    [32m&apos;x-ms-request-id&apos;[39m: [32m&apos;5aca6c3b-bbca-464a-abfe-53108c0906e6&apos;[39m,
+    [32m&apos;x-envoy-upstream-service-time&apos;[39m: [32m&apos;36&apos;[39m,
+    [32m&apos;apim-request-id&apos;[39m: [32m&apos;5aca6c3b-bbca-464a-abfe-53108c0906e6&apos;[39m,
+    [32m&apos;strict-transport-security&apos;[39m: [32m&apos;max-age=31536000; includeSubDomains; preload&apos;[39m,
+    [32m&apos;x-content-type-options&apos;[39m: [32m&apos;nosniff&apos;[39m,
+    [32m&apos;x-ms-region&apos;[39m: [32m&apos;West US 2&apos;[39m,
+    [32m&apos;x-ms-original-url&apos;[39m: [32m&apos;https://koensdk.cognitiveservices.azure.com/health-insights/radiology-insights/jobs/jobId-17138794618263?api-version=2024-10-01&apos;[39m
+  },
+  status: [32m&apos;200&apos;[39m,
+  body: {
+    result: { patientResults: [36m[Array][39m, modelVersion: [32m&apos;2024-12-01&apos;[39m },
+    id: [32m&apos;jobId-17138794618263&apos;[39m,
+    createdAt: [32m&apos;2025-03-21T13:51:41Z&apos;[39m,
+    expiresAt: [32m&apos;2025-03-22T13:51:41Z&apos;[39m,
+    updatedAt: [32m&apos;2025-03-21T13:51:44Z&apos;[39m,
+    status: [32m&apos;succeeded&apos;[39m
+  }
+}
+Age Mismatch Inference found: 
+   Evidence: 20 - year - old 
+
+            </system-out>
+        </testcase>
+    </testsuite>
+    <testsuite name="test/public/SampleCompleteOrderDiscrepancyInferenceAsync.spec.ts" timestamp="2025-03-21T13:52:03.751Z" hostname="NU-kgellynck" tests="1" failures="0" errors="0" skipped="0" time="25.6276807">
+        <testcase classname="test/public/SampleCompleteOrderDiscrepancyInferenceAsync.spec.ts" name="Complete Order Discrepancy Inference Test &gt; complete order discrepancy inference test" time="25.6258832">
+            <system-out>
+{
+  request: PipelineRequestImpl {
+    url: [32m&apos;https://koensdk.cognitiveservices.azure.com/health-insights/radiology-insights/jobs/jobId-17138794703804?api-version=2024-10-01&apos;[39m,
+    body: [90mundefined[39m,
+    headers: HttpHeadersImpl { _headersMap: [36m[Map][39m },
+    method: [32m&apos;GET&apos;[39m,
+    timeout: [33m0[39m,
+    multipartBody: [90mundefined[39m,
+    formData: [90mundefined[39m,
+    disableKeepAlive: [33mfalse[39m,
+    proxySettings: [90mundefined[39m,
+    streamResponseStatusCodes: [90mundefined[39m,
+    withCredentials: [33mfalse[39m,
+    abortSignal: [90mundefined[39m,
+    tracingOptions: [90mundefined[39m,
+    onUploadProgress: [90mundefined[39m,
+    onDownloadProgress: [90mundefined[39m,
+    requestId: [32m&apos;8302da1a-f97a-40fa-a746-ea19014d57e2&apos;[39m,
+    allowInsecureConnection: [33mtrue[39m,
+    enableBrowserStreams: [33mtrue[39m,
+    agent: [90mundefined[39m,
+    tlsSettings: [90mundefined[39m
+  },
+  headers: {
+    [32m&apos;content-length&apos;[39m: [32m&apos;60463&apos;[39m,
+    [32m&apos;content-type&apos;[39m: [32m&apos;application/json; charset=utf-8&apos;[39m,
+    date: [32m&apos;Fri, 21 Mar 2025 13:51:40 GMT&apos;[39m,
+    server: [32m&apos;Kestrel&apos;[39m,
+    [32m&apos;x-ms-request-id&apos;[39m: [32m&apos;1ff9d154-2457-4426-964d-9a0f839c19ee&apos;[39m,
+    [32m&apos;x-envoy-upstream-service-time&apos;[39m: [32m&apos;41&apos;[39m,
+    [32m&apos;apim-request-id&apos;[39m: [32m&apos;1ff9d154-2457-4426-964d-9a0f839c19ee&apos;[39m,
+    [32m&apos;strict-transport-security&apos;[39m: [32m&apos;max-age=31536000; includeSubDomains; preload&apos;[39m,
+    [32m&apos;x-content-type-options&apos;[39m: [32m&apos;nosniff&apos;[39m,
+    [32m&apos;x-ms-region&apos;[39m: [32m&apos;West US 2&apos;[39m,
+    [32m&apos;x-ms-original-url&apos;[39m: [32m&apos;https://koensdk.cognitiveservices.azure.com/health-insights/radiology-insights/jobs/jobId-17138794703804?api-version=2024-10-01&apos;[39m
+  },
+  status: [32m&apos;200&apos;[39m,
+  body: {
+    result: { patientResults: [36m[Array][39m, modelVersion: [32m&apos;2024-12-01&apos;[39m },
+    id: [32m&apos;jobId-17138794703804&apos;[39m,
+    createdAt: [32m&apos;2025-03-21T13:51:31Z&apos;[39m,
+    expiresAt: [32m&apos;2025-03-22T13:51:31Z&apos;[39m,
+    updatedAt: [32m&apos;2025-03-21T13:51:39Z&apos;[39m,
+    status: [32m&apos;succeeded&apos;[39m
+  }
+}
+Complete Order Discrepancy Inference found: 
+   Ordertype: 
+      Coding: 24869-0, US Pelvis (http://loinc.org)
+   Missing Body Part Measurements: 
+      Coding: RID302, UTERUS (http://radlex.org)
+   Missing Body Part Measurements: 
+      Coding: RID30958, ENDOMETRIUM (http://radlex.org)
+
+            </system-out>
+        </testcase>
+    </testsuite>
+    <testsuite name="test/public/SampleCriticalResultInferenceAsync.spec.ts" timestamp="2025-03-21T13:52:03.753Z" hostname="NU-kgellynck" tests="1" failures="0" errors="0" skipped="0" time="12.3159795">
+        <testcase classname="test/public/SampleCriticalResultInferenceAsync.spec.ts" name="Critical Result Inference Test &gt; critical result inference test" time="12.314258">
+            <system-out>
+{
+  request: PipelineRequestImpl {
+    url: [32m&apos;https://koensdk.cognitiveservices.azure.com/health-insights/radiology-insights/jobs/jobId-17138794753465?api-version=2024-10-01&apos;[39m,
+    body: [90mundefined[39m,
+    headers: HttpHeadersImpl { _headersMap: [36m[Map][39m },
+    method: [32m&apos;GET&apos;[39m,
+    timeout: [33m0[39m,
+    multipartBody: [90mundefined[39m,
+    formData: [90mundefined[39m,
+    disableKeepAlive: [33mfalse[39m,
+    proxySettings: [90mundefined[39m,
+    streamResponseStatusCodes: [90mundefined[39m,
+    withCredentials: [33mfalse[39m,
+    abortSignal: [90mundefined[39m,
+    tracingOptions: [90mundefined[39m,
+    onUploadProgress: [90mundefined[39m,
+    onDownloadProgress: [90mundefined[39m,
+    requestId: [32m&apos;f736a4ac-895d-4aff-a932-887f6f507ffb&apos;[39m,
+    allowInsecureConnection: [33mtrue[39m,
+    enableBrowserStreams: [33mtrue[39m,
+    agent: [90mundefined[39m,
+    tlsSettings: [90mundefined[39m
+  },
+  headers: {
+    [32m&apos;content-length&apos;[39m: [32m&apos;60463&apos;[39m,
+    [32m&apos;content-type&apos;[39m: [32m&apos;application/json; charset=utf-8&apos;[39m,
+    date: [32m&apos;Fri, 21 Mar 2025 13:52:02 GMT&apos;[39m,
+    server: [32m&apos;Kestrel&apos;[39m,
+    [32m&apos;x-ms-request-id&apos;[39m: [32m&apos;09a746b8-c3ec-4a94-baf5-5849a59424fd&apos;[39m,
+    [32m&apos;x-envoy-upstream-service-time&apos;[39m: [32m&apos;34&apos;[39m,
+    [32m&apos;apim-request-id&apos;[39m: [32m&apos;09a746b8-c3ec-4a94-baf5-5849a59424fd&apos;[39m,
+    [32m&apos;strict-transport-security&apos;[39m: [32m&apos;max-age=31536000; includeSubDomains; preload&apos;[39m,
+    [32m&apos;x-content-type-options&apos;[39m: [32m&apos;nosniff&apos;[39m,
+    [32m&apos;x-ms-region&apos;[39m: [32m&apos;West US 2&apos;[39m,
+    [32m&apos;x-ms-original-url&apos;[39m: [32m&apos;https://koensdk.cognitiveservices.azure.com/health-insights/radiology-insights/jobs/jobId-17138794753465?api-version=2024-10-01&apos;[39m
+  },
+  status: [32m&apos;200&apos;[39m,
+  body: {
+    result: { patientResults: [36m[Array][39m, modelVersion: [32m&apos;2024-12-01&apos;[39m },
+    id: [32m&apos;jobId-17138794753465&apos;[39m,
+    createdAt: [32m&apos;2025-03-21T13:51:58Z&apos;[39m,
+    expiresAt: [32m&apos;2025-03-22T13:51:58Z&apos;[39m,
+    updatedAt: [32m&apos;2025-03-21T13:52:01Z&apos;[39m,
+    status: [32m&apos;succeeded&apos;[39m
+  }
+}
+Critical Result Inference found: TESTICULAR TORSION
+
+            </system-out>
+        </testcase>
+    </testsuite>
+    <testsuite name="test/public/SampleFindingInferenceAsync.spec.ts" timestamp="2025-03-21T13:52:03.754Z" hostname="NU-kgellynck" tests="1" failures="0" errors="0" skipped="0" time="17.2728545">
+        <testcase classname="test/public/SampleFindingInferenceAsync.spec.ts" name="Finding Inference Test &gt; finding inference test" time="17.2711818">
+            <system-out>
+{
+  request: PipelineRequestImpl {
+    url: [32m&apos;https://koensdk.cognitiveservices.azure.com/health-insights/radiology-insights/jobs/jobId-17138794807336?api-version=2024-10-01&apos;[39m,
+    body: [90mundefined[39m,
+    headers: HttpHeadersImpl { _headersMap: [36m[Map][39m },
+    method: [32m&apos;GET&apos;[39m,
+    timeout: [33m0[39m,
+    multipartBody: [90mundefined[39m,
+    formData: [90mundefined[39m,
+    disableKeepAlive: [33mfalse[39m,
+    proxySettings: [90mundefined[39m,
+    streamResponseStatusCodes: [90mundefined[39m,
+    withCredentials: [33mfalse[39m,
+    abortSignal: [90mundefined[39m,
+    tracingOptions: [90mundefined[39m,
+    onUploadProgress: [90mundefined[39m,
+    onDownloadProgress: [90mundefined[39m,
+    requestId: [32m&apos;d7ad419b-2609-4896-9464-5ee66b729b6a&apos;[39m,
+    allowInsecureConnection: [33mtrue[39m,
+    enableBrowserStreams: [33mtrue[39m,
+    agent: [90mundefined[39m,
+    tlsSettings: [90mundefined[39m
+  },
+  headers: {
+    [32m&apos;content-length&apos;[39m: [32m&apos;10404&apos;[39m,
+    [32m&apos;content-type&apos;[39m: [32m&apos;application/json; charset=utf-8&apos;[39m,
+    date: [32m&apos;Fri, 21 Mar 2025 13:51:33 GMT&apos;[39m,
+    server: [32m&apos;Kestrel&apos;[39m,
+    [32m&apos;x-ms-request-id&apos;[39m: [32m&apos;3f9a29ef-e712-424f-8141-15cc4a543f94&apos;[39m,
+    [32m&apos;x-envoy-upstream-service-time&apos;[39m: [32m&apos;103&apos;[39m,
+    [32m&apos;apim-request-id&apos;[39m: [32m&apos;3f9a29ef-e712-424f-8141-15cc4a543f94&apos;[39m,
+    [32m&apos;strict-transport-security&apos;[39m: [32m&apos;max-age=31536000; includeSubDomains; preload&apos;[39m,
+    [32m&apos;x-content-type-options&apos;[39m: [32m&apos;nosniff&apos;[39m,
+    [32m&apos;x-ms-region&apos;[39m: [32m&apos;West US 2&apos;[39m,
+    [32m&apos;x-ms-original-url&apos;[39m: [32m&apos;https://koensdk.cognitiveservices.azure.com/health-insights/radiology-insights/jobs/jobId-17138794807336?api-version=2024-10-01&apos;[39m
+  },
+  status: [32m&apos;200&apos;[39m,
+  body: {
+    result: { patientResults: [36m[Array][39m, modelVersion: [32m&apos;2024-12-01&apos;[39m },
+    id: [32m&apos;jobId-17138794807336&apos;[39m,
+    createdAt: [32m&apos;2025-03-21T13:51:31Z&apos;[39m,
+    expiresAt: [32m&apos;2025-03-22T13:51:31Z&apos;[39m,
+    updatedAt: [32m&apos;2025-03-21T13:51:33Z&apos;[39m,
+    status: [32m&apos;succeeded&apos;[39m
+  }
+}
+Finding Inference found: 
+   Code: 
+      Coding: 404684003, CLINICAL FINDING (FINDING) (http://snomed.info/sct)
+   Interpretation: 
+      Coding: 260413007, NONE (QUALIFIER VALUE) (http://snomed.info/sct)
+   Component code: 
+      Coding: 131195008, SUBJECT OF INFORMATION (ATTRIBUTE) (http://snomed.info/sct)
+     Value component codeable concept: 
+      Coding: 6920004, DEFECT (MORPHOLOGIC ABNORMALITY) (http://snomed.info/sct)
+   Component code: 
+      Coding: 131195008, SUBJECT OF INFORMATION (ATTRIBUTE) (http://snomed.info/sct)
+     Value component codeable concept: 
+      Coding: 43468004, FILLING DEFECT (FINDING) (http://snomed.info/sct)
+   Component code: 
+      Coding: 722871000000108, ANATOMY (QUALIFIER VALUE) (http://snomed.info/sct)
+     Value component codeable concept: 
+      Coding: RID1178, INFERIOR VENA CAVA (http://radlex.org)
+   Component code: 
+      Coding: 46150521, MULTIPLE (QUALIFIER VALUE) (http://snomed.info/sct)
+   Section:
+      code: 30954-2
+      codingSystem: 2.16.840.1.113883.6.1
+      codingSystemName: http://loinc.org
+      displayName: RESULTS
+Finding Inference found: 
+   Code: 
+      Coding: 404684003, CLINICAL FINDING (FINDING) (http://snomed.info/sct)
+   Interpretation: 
+      Coding: 260413007, NONE (QUALIFIER VALUE) (http://snomed.info/sct)
+   Component code: 
+      Coding: 131195008, SUBJECT OF INFORMATION (ATTRIBUTE) (http://snomed.info/sct)
+     Value component codeable concept: 
+      Coding: 396339007, THROMBUS (MORPHOLOGIC ABNORMALITY) (http://snomed.info/sct)
+   Component code: 
+      Coding: 722871000000108, ANATOMY (QUALIFIER VALUE) (http://snomed.info/sct)
+     Value component codeable concept: 
+      Coding: RID1178, INFERIOR VENA CAVA (http://radlex.org)
+   Component code: 
+      Coding: 46150521, MULTIPLE (QUALIFIER VALUE) (http://snomed.info/sct)
+   Section:
+      code: 30954-2
+      codingSystem: 2.16.840.1.113883.6.1
+      codingSystemName: http://loinc.org
+      displayName: RESULTS
+Finding Inference found: 
+   Code: 
+      Coding: 404684003, CLINICAL FINDING (FINDING) (http://snomed.info/sct)
+   Interpretation: 
+      Coding: 17621005, NORMAL (QUALIFIER VALUE) (http://snomed.info/sct)
+   Component code: 
+      Coding: 722871000000108, ANATOMY (QUALIFIER VALUE) (http://snomed.info/sct)
+     Value component codeable concept: 
+      Coding: RID1178, INFERIOR VENA CAVA (http://radlex.org)
+   Component code: 
+      Coding: 46150521, MULTIPLE (QUALIFIER VALUE) (http://snomed.info/sct)
+   Section:
+      code: 30954-2
+      codingSystem: 2.16.840.1.113883.6.1
+      codingSystemName: http://loinc.org
+      displayName: RESULTS
+
+            </system-out>
+        </testcase>
+    </testsuite>
+    <testsuite name="test/public/SampleFollowUpCommunicationAsync.spec.ts" timestamp="2025-03-21T13:52:03.755Z" hostname="NU-kgellynck" tests="1" failures="0" errors="0" skipped="0" time="14.9048515">
+        <testcase classname="test/public/SampleFollowUpCommunicationAsync.spec.ts" name="Follow Up Communication Inference Test &gt; follow up communication inference test" time="14.902223">
+            <system-out>
+{
+  request: PipelineRequestImpl {
+    url: [32m&apos;https://koensdk.cognitiveservices.azure.com/health-insights/radiology-insights/jobs/jobId-17138794923687?api-version=2024-10-01&apos;[39m,
+    body: [90mundefined[39m,
+    headers: HttpHeadersImpl { _headersMap: [36m[Map][39m },
+    method: [32m&apos;GET&apos;[39m,
+    timeout: [33m0[39m,
+    multipartBody: [90mundefined[39m,
+    formData: [90mundefined[39m,
+    disableKeepAlive: [33mfalse[39m,
+    proxySettings: [90mundefined[39m,
+    streamResponseStatusCodes: [90mundefined[39m,
+    withCredentials: [33mfalse[39m,
+    abortSignal: [90mundefined[39m,
+    tracingOptions: [90mundefined[39m,
+    onUploadProgress: [90mundefined[39m,
+    onDownloadProgress: [90mundefined[39m,
+    requestId: [32m&apos;48f5afd4-0d4b-4dad-8372-79b43795549f&apos;[39m,
+    allowInsecureConnection: [33mtrue[39m,
+    enableBrowserStreams: [33mtrue[39m,
+    agent: [90mundefined[39m,
+    tlsSettings: [90mundefined[39m
+  },
+  headers: {
+    [32m&apos;content-length&apos;[39m: [32m&apos;60463&apos;[39m,
+    [32m&apos;content-type&apos;[39m: [32m&apos;application/json; charset=utf-8&apos;[39m,
+    date: [32m&apos;Fri, 21 Mar 2025 13:51:51 GMT&apos;[39m,
+    server: [32m&apos;Kestrel&apos;[39m,
+    [32m&apos;x-ms-request-id&apos;[39m: [32m&apos;73659599-7f2a-4da6-ac25-d38a80b838e0&apos;[39m,
+    [32m&apos;x-envoy-upstream-service-time&apos;[39m: [32m&apos;38&apos;[39m,
+    [32m&apos;apim-request-id&apos;[39m: [32m&apos;73659599-7f2a-4da6-ac25-d38a80b838e0&apos;[39m,
+    [32m&apos;strict-transport-security&apos;[39m: [32m&apos;max-age=31536000; includeSubDomains; preload&apos;[39m,
+    [32m&apos;x-content-type-options&apos;[39m: [32m&apos;nosniff&apos;[39m,
+    [32m&apos;x-ms-region&apos;[39m: [32m&apos;West US 2&apos;[39m,
+    [32m&apos;x-ms-original-url&apos;[39m: [32m&apos;https://koensdk.cognitiveservices.azure.com/health-insights/radiology-insights/jobs/jobId-17138794923687?api-version=2024-10-01&apos;[39m
+  },
+  status: [32m&apos;200&apos;[39m,
+  body: {
+    result: { patientResults: [36m[Array][39m, modelVersion: [32m&apos;2024-12-01&apos;[39m },
+    id: [32m&apos;jobId-17138794923687&apos;[39m,
+    createdAt: [32m&apos;2025-03-21T13:51:47Z&apos;[39m,
+    expiresAt: [32m&apos;2025-03-22T13:51:47Z&apos;[39m,
+    updatedAt: [32m&apos;2025-03-21T13:51:50Z&apos;[39m,
+    status: [32m&apos;succeeded&apos;[39m
+  }
+}
+Followup Communication Inference found
+Communicated At: 2020-11-05T15:00:00
+Recipient: doctor
+Aknowledged: true
+
+            </system-out>
+        </testcase>
+    </testsuite>
+    <testsuite name="test/public/SampleFollowUpRecommendationAsync.spec.ts" timestamp="2025-03-21T13:52:03.756Z" hostname="NU-kgellynck" tests="1" failures="0" errors="0" skipped="0" time="23.1093749">
+        <testcase classname="test/public/SampleFollowUpRecommendationAsync.spec.ts" name="Follow Up Recommendation Inference Test &gt; follow up recommendation inference test" time="23.1071818">
+            <system-out>
+{
+  request: PipelineRequestImpl {
+    url: [32m&apos;https://koensdk.cognitiveservices.azure.com/health-insights/radiology-insights/jobs/jobId-17138794993579?api-version=2024-10-01&apos;[39m,
+    body: [90mundefined[39m,
+    headers: HttpHeadersImpl { _headersMap: [36m[Map][39m },
+    method: [32m&apos;GET&apos;[39m,
+    timeout: [33m0[39m,
+    multipartBody: [90mundefined[39m,
+    formData: [90mundefined[39m,
+    disableKeepAlive: [33mfalse[39m,
+    proxySettings: [90mundefined[39m,
+    streamResponseStatusCodes: [90mundefined[39m,
+    withCredentials: [33mfalse[39m,
+    abortSignal: [90mundefined[39m,
+    tracingOptions: [90mundefined[39m,
+    onUploadProgress: [90mundefined[39m,
+    onDownloadProgress: [90mundefined[39m,
+    requestId: [32m&apos;5d689e7d-453f-4a35-b902-e075118cd8d8&apos;[39m,
+    allowInsecureConnection: [33mtrue[39m,
+    enableBrowserStreams: [33mtrue[39m,
+    agent: [90mundefined[39m,
+    tlsSettings: [90mundefined[39m
+  },
+  headers: {
+    [32m&apos;content-length&apos;[39m: [32m&apos;60463&apos;[39m,
+    [32m&apos;content-type&apos;[39m: [32m&apos;application/json; charset=utf-8&apos;[39m,
+    date: [32m&apos;Fri, 21 Mar 2025 13:51:38 GMT&apos;[39m,
+    server: [32m&apos;Kestrel&apos;[39m,
+    [32m&apos;x-ms-request-id&apos;[39m: [32m&apos;a4022f38-809c-4969-b323-0c0f9cfb688b&apos;[39m,
+    [32m&apos;x-envoy-upstream-service-time&apos;[39m: [32m&apos;41&apos;[39m,
+    [32m&apos;apim-request-id&apos;[39m: [32m&apos;a4022f38-809c-4969-b323-0c0f9cfb688b&apos;[39m,
+    [32m&apos;strict-transport-security&apos;[39m: [32m&apos;max-age=31536000; includeSubDomains; preload&apos;[39m,
+    [32m&apos;x-content-type-options&apos;[39m: [32m&apos;nosniff&apos;[39m,
+    [32m&apos;x-ms-region&apos;[39m: [32m&apos;West US 2&apos;[39m,
+    [32m&apos;x-ms-original-url&apos;[39m: [32m&apos;https://koensdk.cognitiveservices.azure.com/health-insights/radiology-insights/jobs/jobId-17138794993579?api-version=2024-10-01&apos;[39m
+  },
+  status: [32m&apos;200&apos;[39m,
+  body: {
+    result: { patientResults: [36m[Array][39m, modelVersion: [32m&apos;2024-12-01&apos;[39m },
+    id: [32m&apos;jobId-17138794993579&apos;[39m,
+    createdAt: [32m&apos;2025-03-21T13:51:31Z&apos;[39m,
+    expiresAt: [32m&apos;2025-03-22T13:51:31Z&apos;[39m,
+    updatedAt: [32m&apos;2025-03-21T13:51:36Z&apos;[39m,
+    status: [32m&apos;succeeded&apos;[39m
+  }
+}
+Follow Up Recommendation Inference found
+   Is conditional:  [33mfalse[39m
+   Is guidline:  [33mfalse[39m
+   Is hedging:  [33mfalse[39m
+   Is option:  [33mfalse[39m
+   Recommended Procedure Codes: 
+       Coding: 24869-0, US PELVIS (http://loinc.org)
+   Recommended Imaging Procedure Codes: 
+     Modality Codes: 
+       Coding: 16310003, DIAGNOSTIC ULTRASONOGRAPHY (PROCEDURE) (http://snomed.info/sct)
+     Anatomy Codes: 
+       Coding: 12921003, PELVIC STRUCTURE (BODY STRUCTURE) (http://snomed.info/sct)
+
+            </system-out>
+        </testcase>
+    </testsuite>
+    <testsuite name="test/public/SampleGuidanceInferenceAsync.spec.ts" timestamp="2025-03-21T13:52:03.757Z" hostname="NU-kgellynck" tests="1" failures="0" errors="0" skipped="0" time="20.2083404">
+        <testcase classname="test/public/SampleGuidanceInferenceAsync.spec.ts" name="Guidance Inference Test &gt; guidance inference test" time="20.2059534">
+            <system-out>
+{
+  request: PipelineRequestImpl {
+    url: [32m&apos;https://koensdk.cognitiveservices.azure.com/health-insights/radiology-insights/jobs/jobId-17138794807347?api-version=2024-10-01&apos;[39m,
+    body: [90mundefined[39m,
+    headers: HttpHeadersImpl { _headersMap: [36m[Map][39m },
+    method: [32m&apos;GET&apos;[39m,
+    timeout: [33m0[39m,
+    multipartBody: [90mundefined[39m,
+    formData: [90mundefined[39m,
+    disableKeepAlive: [33mfalse[39m,
+    proxySettings: [90mundefined[39m,
+    streamResponseStatusCodes: [90mundefined[39m,
+    withCredentials: [33mfalse[39m,
+    abortSignal: [90mundefined[39m,
+    tracingOptions: [90mundefined[39m,
+    onUploadProgress: [90mundefined[39m,
+    onDownloadProgress: [90mundefined[39m,
+    requestId: [32m&apos;4f336865-6d26-4e07-9a91-71b3ba3a2c55&apos;[39m,
+    allowInsecureConnection: [33mtrue[39m,
+    enableBrowserStreams: [33mtrue[39m,
+    agent: [90mundefined[39m,
+    tlsSettings: [90mundefined[39m
+  },
+  headers: {
+    [32m&apos;content-length&apos;[39m: [32m&apos;35892&apos;[39m,
+    [32m&apos;content-type&apos;[39m: [32m&apos;application/json; charset=utf-8&apos;[39m,
+    date: [32m&apos;Fri, 21 Mar 2025 13:51:36 GMT&apos;[39m,
+    server: [32m&apos;Kestrel&apos;[39m,
+    [32m&apos;x-ms-request-id&apos;[39m: [32m&apos;e53c3ce2-08a8-4280-9548-8dd136a5f068&apos;[39m,
+    [32m&apos;x-envoy-upstream-service-time&apos;[39m: [32m&apos;103&apos;[39m,
+    [32m&apos;apim-request-id&apos;[39m: [32m&apos;e53c3ce2-08a8-4280-9548-8dd136a5f068&apos;[39m,
+    [32m&apos;strict-transport-security&apos;[39m: [32m&apos;max-age=31536000; includeSubDomains; preload&apos;[39m,
+    [32m&apos;x-content-type-options&apos;[39m: [32m&apos;nosniff&apos;[39m,
+    [32m&apos;x-ms-region&apos;[39m: [32m&apos;West US 2&apos;[39m,
+    [32m&apos;x-ms-original-url&apos;[39m: [32m&apos;https://koensdk.cognitiveservices.azure.com/health-insights/radiology-insights/jobs/jobId-17138794807347?api-version=2024-10-01&apos;[39m
+  },
+  status: [32m&apos;200&apos;[39m,
+  body: {
+    result: { patientResults: [36m[Array][39m, modelVersion: [32m&apos;2024-12-01&apos;[39m },
+    id: [32m&apos;jobId-17138794807347&apos;[39m,
+    createdAt: [32m&apos;2025-03-21T13:51:31Z&apos;[39m,
+    expiresAt: [32m&apos;2025-03-22T13:51:31Z&apos;[39m,
+    updatedAt: [32m&apos;2025-03-21T13:51:34Z&apos;[39m,
+    status: [32m&apos;succeeded&apos;[39m
+  }
+}
+Guidance Inference found: 
+   Finding Code: 
+      Coding: 404684003, CLINICAL FINDING (FINDING) (http://snomed.info/sct)
+   Identifier: 
+      Coding: 79131000119100, KIDNEY LESION (FINDING) (http://snomed.info/sct)
+   Present Guidance Information: 
+     Present Guidance Information Item:  SIDE
+     Present Guidance Value:  RIGHT
+     Extension: 
+   Present Guidance Information: 
+     Present Guidance Information Item:  CALCIFICATIONS
+     Present Guidance Value:  THICK OR NODULAR
+     Extension: 
+   Ranking:  high
+   Missing Guidance Information:  LESION APPEARANCE
+   Missing Guidance Information:  SIZE
+
+            </system-out>
+        </testcase>
+    </testsuite>
+    <testsuite name="test/public/SampleLateralityDiscrepancyInferenceAsync.spec.ts" timestamp="2025-03-21T13:52:03.759Z" hostname="NU-kgellynck" tests="1" failures="0" errors="0" skipped="0" time="12.3905692">
+        <testcase classname="test/public/SampleLateralityDiscrepancyInferenceAsync.spec.ts" name="Laterality Discrepancy Inference Test &gt; laterality discrepancy inference test" time="12.388358">
+            <system-out>
+{
+  request: PipelineRequestImpl {
+    url: [32m&apos;https://koensdk.cognitiveservices.azure.com/health-insights/radiology-insights/jobs/jobId-17138795064698?api-version=2024-10-01&apos;[39m,
+    body: [90mundefined[39m,
+    headers: HttpHeadersImpl { _headersMap: [36m[Map][39m },
+    method: [32m&apos;GET&apos;[39m,
+    timeout: [33m0[39m,
+    multipartBody: [90mundefined[39m,
+    formData: [90mundefined[39m,
+    disableKeepAlive: [33mfalse[39m,
+    proxySettings: [90mundefined[39m,
+    streamResponseStatusCodes: [90mundefined[39m,
+    withCredentials: [33mfalse[39m,
+    abortSignal: [90mundefined[39m,
+    tracingOptions: [90mundefined[39m,
+    onUploadProgress: [90mundefined[39m,
+    onDownloadProgress: [90mundefined[39m,
+    requestId: [32m&apos;1550c1bf-229f-48d6-84fc-56259d5ad43c&apos;[39m,
+    allowInsecureConnection: [33mtrue[39m,
+    enableBrowserStreams: [33mtrue[39m,
+    agent: [90mundefined[39m,
+    tlsSettings: [90mundefined[39m
+  },
+  headers: {
+    [32m&apos;content-length&apos;[39m: [32m&apos;16905&apos;[39m,
+    [32m&apos;content-type&apos;[39m: [32m&apos;application/json; charset=utf-8&apos;[39m,
+    date: [32m&apos;Fri, 21 Mar 2025 13:51:57 GMT&apos;[39m,
+    server: [32m&apos;Kestrel&apos;[39m,
+    [32m&apos;x-ms-request-id&apos;[39m: [32m&apos;2804390a-0c1a-4b85-812e-d05279e2090e&apos;[39m,
+    [32m&apos;x-envoy-upstream-service-time&apos;[39m: [32m&apos;27&apos;[39m,
+    [32m&apos;apim-request-id&apos;[39m: [32m&apos;2804390a-0c1a-4b85-812e-d05279e2090e&apos;[39m,
+    [32m&apos;strict-transport-security&apos;[39m: [32m&apos;max-age=31536000; includeSubDomains; preload&apos;[39m,
+    [32m&apos;x-content-type-options&apos;[39m: [32m&apos;nosniff&apos;[39m,
+    [32m&apos;x-ms-region&apos;[39m: [32m&apos;West US 2&apos;[39m,
+    [32m&apos;x-ms-original-url&apos;[39m: [32m&apos;https://koensdk.cognitiveservices.azure.com/health-insights/radiology-insights/jobs/jobId-17138795064698?api-version=2024-10-01&apos;[39m
+  },
+  status: [32m&apos;200&apos;[39m,
+  body: {
+    result: { patientResults: [36m[Array][39m, modelVersion: [32m&apos;2024-12-01&apos;[39m },
+    id: [32m&apos;jobId-17138795064698&apos;[39m,
+    createdAt: [32m&apos;2025-03-21T13:51:55Z&apos;[39m,
+    expiresAt: [32m&apos;2025-03-22T13:51:55Z&apos;[39m,
+    updatedAt: [32m&apos;2025-03-21T13:51:58Z&apos;[39m,
+    status: [32m&apos;succeeded&apos;[39m
+  }
+}
+Laterality Discrepancy Inference found: 
+   Coding: 24028007, RIGHT (QUALIFIER VALUE) (http://snomed.info/sct), type: undefined
+
+            </system-out>
+        </testcase>
+    </testsuite>
+    <testsuite name="test/public/SampleLimitedOrderDiscrepancyInferenceAsync.spec.ts" timestamp="2025-03-21T13:52:03.760Z" hostname="NU-kgellynck" tests="1" failures="0" errors="0" skipped="0" time="33.7419188">
+        <testcase classname="test/public/SampleLimitedOrderDiscrepancyInferenceAsync.spec.ts" name="Limited Order Discrepancy Inference Test &gt; limited order discrepancy inference test" time="33.7389859">
+            <system-out>
+{
+  request: PipelineRequestImpl {
+    url: [32m&apos;https://koensdk.cognitiveservices.azure.com/health-insights/radiology-insights/jobs/jobId-17138795112952?api-version=2024-10-01&apos;[39m,
+    body: [90mundefined[39m,
+    headers: HttpHeadersImpl { _headersMap: [36m[Map][39m },
+    method: [32m&apos;GET&apos;[39m,
+    timeout: [33m0[39m,
+    multipartBody: [90mundefined[39m,
+    formData: [90mundefined[39m,
+    disableKeepAlive: [33mfalse[39m,
+    proxySettings: [90mundefined[39m,
+    streamResponseStatusCodes: [90mundefined[39m,
+    withCredentials: [33mfalse[39m,
+    abortSignal: [90mundefined[39m,
+    tracingOptions: [90mundefined[39m,
+    onUploadProgress: [90mundefined[39m,
+    onDownloadProgress: [90mundefined[39m,
+    requestId: [32m&apos;02a9dcc8-3a89-4965-9b27-9b037922a9bd&apos;[39m,
+    allowInsecureConnection: [33mtrue[39m,
+    enableBrowserStreams: [33mtrue[39m,
+    agent: [90mundefined[39m,
+    tlsSettings: [90mundefined[39m
+  },
+  headers: {
+    [32m&apos;content-length&apos;[39m: [32m&apos;483919&apos;[39m,
+    [32m&apos;content-type&apos;[39m: [32m&apos;application/json; charset=utf-8&apos;[39m,
+    date: [32m&apos;Fri, 21 Mar 2025 13:51:40 GMT&apos;[39m,
+    server: [32m&apos;Kestrel&apos;[39m,
+    [32m&apos;x-ms-request-id&apos;[39m: [32m&apos;c78c2309-bccd-48a9-8cba-cdf0ecc9d7e3&apos;[39m,
+    [32m&apos;x-envoy-upstream-service-time&apos;[39m: [32m&apos;241&apos;[39m,
+    [32m&apos;apim-request-id&apos;[39m: [32m&apos;c78c2309-bccd-48a9-8cba-cdf0ecc9d7e3&apos;[39m,
+    [32m&apos;strict-transport-security&apos;[39m: [32m&apos;max-age=31536000; includeSubDomains; preload&apos;[39m,
+    [32m&apos;x-content-type-options&apos;[39m: [32m&apos;nosniff&apos;[39m,
+    [32m&apos;x-ms-region&apos;[39m: [32m&apos;West US 2&apos;[39m,
+    [32m&apos;x-ms-original-url&apos;[39m: [32m&apos;https://koensdk.cognitiveservices.azure.com/health-insights/radiology-insights/jobs/jobId-17138795112952?api-version=2024-10-01&apos;[39m
+  },
+  status: [32m&apos;200&apos;[39m,
+  body: {
+    result: { patientResults: [36m[Array][39m, modelVersion: [32m&apos;2024-12-01&apos;[39m },
+    id: [32m&apos;jobId-17138795112952&apos;[39m,
+    createdAt: [32m&apos;2025-03-21T13:51:31Z&apos;[39m,
+    expiresAt: [32m&apos;2025-03-22T13:51:31Z&apos;[39m,
+    updatedAt: [32m&apos;2025-03-21T13:51:37Z&apos;[39m,
+    status: [32m&apos;succeeded&apos;[39m
+  }
+}
+Limited Order Discrepancy Inference found: 
+ Ordertype: 
+      Coding: 24558-9, US Abdomen (http://loinc.org)
+   Present Body Parts: 
+      Coding: RID58, LIVER (http://radlex.org)
+   Present Body Parts: 
+      Coding: RID187, GALLBLADDER (http://radlex.org)
+   Present Body Parts: 
+      Coding: RID199, COMMON BILE DUCT (http://radlex.org)
+   Present Body Parts: 
+      Coding: RID170, PANCREAS (http://radlex.org)
+   Present Body Parts: 
+      Coding: RID86, SPLEEN (http://radlex.org)
+   Present Body Parts: 
+      Coding: RID29663, LEFT KIDNEY (http://radlex.org)
+   Present Body Parts: 
+      Coding: RID29662, RIGHT KIDNEY (http://radlex.org)
+   Present Body Parts: 
+      Coding: RID905, ABDOMINAL AORTA (http://radlex.org)
+   Present Body Parts: 
+      Coding: RID1178, INFERIOR VENA CAVA (http://radlex.org)
+
+            </system-out>
+        </testcase>
+    </testsuite>
+    <testsuite name="test/public/SampleQualityMeasureInferenceAsync.spec.ts" timestamp="2025-03-21T13:52:03.762Z" hostname="NU-kgellynck" tests="1" failures="0" errors="0" skipped="0" time="33.8647058">
+        <testcase classname="test/public/SampleQualityMeasureInferenceAsync.spec.ts" name="Quality Measure Inference Test &gt; quality measure inference test" time="33.862716">
+            <system-out>
+{
+  request: PipelineRequestImpl {
+    url: [32m&apos;https://koensdk.cognitiveservices.azure.com/health-insights/radiology-insights/jobs/jobId-17138795260278?api-version=2024-10-01&apos;[39m,
+    body: [90mundefined[39m,
+    headers: HttpHeadersImpl { _headersMap: [36m[Map][39m },
+    method: [32m&apos;GET&apos;[39m,
+    timeout: [33m0[39m,
+    multipartBody: [90mundefined[39m,
+    formData: [90mundefined[39m,
+    disableKeepAlive: [33mfalse[39m,
+    proxySettings: [90mundefined[39m,
+    streamResponseStatusCodes: [90mundefined[39m,
+    withCredentials: [33mfalse[39m,
+    abortSignal: [90mundefined[39m,
+    tracingOptions: [90mundefined[39m,
+    onUploadProgress: [90mundefined[39m,
+    onDownloadProgress: [90mundefined[39m,
+    requestId: [32m&apos;2c5c2df9-adfd-456d-b523-d53bc31766e0&apos;[39m,
+    allowInsecureConnection: [33mtrue[39m,
+    enableBrowserStreams: [33mtrue[39m,
+    agent: [90mundefined[39m,
+    tlsSettings: [90mundefined[39m
+  },
+  headers: {
+    [32m&apos;content-length&apos;[39m: [32m&apos;386854&apos;[39m,
+    [32m&apos;content-type&apos;[39m: [32m&apos;application/json; charset=utf-8&apos;[39m,
+    date: [32m&apos;Fri, 21 Mar 2025 13:51:42 GMT&apos;[39m,
+    server: [32m&apos;Kestrel&apos;[39m,
+    [32m&apos;x-ms-request-id&apos;[39m: [32m&apos;76b4a8c5-35eb-494d-af86-5ca8d5e5c612&apos;[39m,
+    [32m&apos;x-envoy-upstream-service-time&apos;[39m: [32m&apos;236&apos;[39m,
+    [32m&apos;apim-request-id&apos;[39m: [32m&apos;76b4a8c5-35eb-494d-af86-5ca8d5e5c612&apos;[39m,
+    [32m&apos;strict-transport-security&apos;[39m: [32m&apos;max-age=31536000; includeSubDomains; preload&apos;[39m,
+    [32m&apos;x-content-type-options&apos;[39m: [32m&apos;nosniff&apos;[39m,
+    [32m&apos;x-ms-region&apos;[39m: [32m&apos;West US 2&apos;[39m,
+    [32m&apos;x-ms-original-url&apos;[39m: [32m&apos;https://koensdk.cognitiveservices.azure.com/health-insights/radiology-insights/jobs/jobId-17138795260278?api-version=2024-10-01&apos;[39m
+  },
+  status: [32m&apos;200&apos;[39m,
+  body: {
+    result: { patientResults: [36m[Array][39m, modelVersion: [32m&apos;2024-12-01&apos;[39m },
+    id: [32m&apos;jobId-17138795260278&apos;[39m,
+    createdAt: [32m&apos;2025-03-21T13:51:31Z&apos;[39m,
+    expiresAt: [32m&apos;2025-03-22T13:51:31Z&apos;[39m,
+    updatedAt: [32m&apos;2025-03-21T13:51:38Z&apos;[39m,
+    status: [32m&apos;succeeded&apos;[39m
+  }
+}
+Quality Measure Inference found:
+   Quality Measure Denominator:  INCIDENTAL PULMONARY NODULE
+   Compliance Type:  performanceMet
+   Quality Criterium:  FOLLOW-UP RECOMMENDATION
+Quality Measure Inference found:
+   Quality Measure Denominator:  HIGH DOSE RADIATION IMAGING
+   Compliance Type:  performanceMet
+   Quality Criterium:  COUNT OF STUDIES
+Quality Measure Inference found:
+   Quality Measure Denominator:  DOSE LOWERING TECHNIQUE
+   Compliance Type:  performanceMet
+   Quality Criterium:  DOSE OPTIMIZATION TECHNIQUE
+
+            </system-out>
+        </testcase>
+    </testsuite>
+    <testsuite name="test/public/SampleRadiologyProcedureInferenceAsync.spec.ts" timestamp="2025-03-21T13:52:03.763Z" hostname="NU-kgellynck" tests="1" failures="0" errors="0" skipped="0" time="19.4845002">
+        <testcase classname="test/public/SampleRadiologyProcedureInferenceAsync.spec.ts" name="Radiology Procedure Inference Test &gt; radiology procedure inference test" time="19.4814639">
+            <system-out>
+{
+  request: PipelineRequestImpl {
+    url: [32m&apos;https://koensdk.cognitiveservices.azure.com/health-insights/radiology-insights/jobs/jobId-17138795206163?api-version=2024-10-01&apos;[39m,
+    body: [90mundefined[39m,
+    headers: HttpHeadersImpl { _headersMap: [36m[Map][39m },
+    method: [32m&apos;GET&apos;[39m,
+    timeout: [33m0[39m,
+    multipartBody: [90mundefined[39m,
+    formData: [90mundefined[39m,
+    disableKeepAlive: [33mfalse[39m,
+    proxySettings: [90mundefined[39m,
+    streamResponseStatusCodes: [90mundefined[39m,
+    withCredentials: [33mfalse[39m,
+    abortSignal: [90mundefined[39m,
+    tracingOptions: [90mundefined[39m,
+    onUploadProgress: [90mundefined[39m,
+    onDownloadProgress: [90mundefined[39m,
+    requestId: [32m&apos;7ecaa6a7-5263-4cbd-881e-740de3c2a5b0&apos;[39m,
+    allowInsecureConnection: [33mtrue[39m,
+    enableBrowserStreams: [33mtrue[39m,
+    agent: [90mundefined[39m,
+    tlsSettings: [90mundefined[39m
+  },
+  headers: {
+    [32m&apos;content-length&apos;[39m: [32m&apos;21536&apos;[39m,
+    [32m&apos;content-type&apos;[39m: [32m&apos;application/json; charset=utf-8&apos;[39m,
+    date: [32m&apos;Fri, 21 Mar 2025 13:51:35 GMT&apos;[39m,
+    server: [32m&apos;Kestrel&apos;[39m,
+    [32m&apos;x-ms-request-id&apos;[39m: [32m&apos;71aa8178-1226-42b7-9264-7a789783e0d4&apos;[39m,
+    [32m&apos;x-envoy-upstream-service-time&apos;[39m: [32m&apos;16&apos;[39m,
+    [32m&apos;apim-request-id&apos;[39m: [32m&apos;71aa8178-1226-42b7-9264-7a789783e0d4&apos;[39m,
+    [32m&apos;strict-transport-security&apos;[39m: [32m&apos;max-age=31536000; includeSubDomains; preload&apos;[39m,
+    [32m&apos;x-content-type-options&apos;[39m: [32m&apos;nosniff&apos;[39m,
+    [32m&apos;x-ms-region&apos;[39m: [32m&apos;West US 2&apos;[39m,
+    [32m&apos;x-ms-original-url&apos;[39m: [32m&apos;https://koensdk.cognitiveservices.azure.com/health-insights/radiology-insights/jobs/jobId-17138795206163?api-version=2024-10-01&apos;[39m
+  },
+  status: [32m&apos;200&apos;[39m,
+  body: {
+    result: { patientResults: [36m[Array][39m, modelVersion: [32m&apos;2024-12-01&apos;[39m },
+    id: [32m&apos;jobId-17138795206163&apos;[39m,
+    createdAt: [32m&apos;2025-03-21T13:51:30Z&apos;[39m,
+    expiresAt: [32m&apos;2025-03-22T13:51:30Z&apos;[39m,
+    updatedAt: [32m&apos;2025-03-21T13:51:34Z&apos;[39m,
+    status: [32m&apos;succeeded&apos;[39m
+  }
+}
+Radiology Procedure Inference found
+   Procedure Codes: 
+      Coding: 24727-0, CT HEAD W CONTRAST IV (http://loinc.org)
+   Imaging Procedure Codes: 
+     Modality Codes: 
+      Coding: 77477000, COMPUTERIZED AXIAL TOMOGRAPHY (PROCEDURE) (http://snomed.info/sct)
+     Anatomy Codes: 
+      Coding: 69536005, HEAD STRUCTURE (BODY STRUCTURE) (http://snomed.info/sct)
+     Contrast Codes: 
+      Coding: RID39045, IMAGING WITH CONTRAST (http://radlex.org)
+   Ordered procedures: 
+   Description: CT HEAD W CONTRAST IV
+
+            </system-out>
+        </testcase>
+    </testsuite>
+    <testsuite name="test/public/SampleScoringAndAssessmentInferenceAsync.spec.ts" timestamp="2025-03-21T13:52:03.764Z" hostname="NU-kgellynck" tests="1" failures="0" errors="0" skipped="0" time="18.7984338">
+        <testcase classname="test/public/SampleScoringAndAssessmentInferenceAsync.spec.ts" name="Scoring and Assessment Inference Test &gt; scoring and assessment inference test" time="18.7954493">
+            <system-out>
+{
+  request: PipelineRequestImpl {
+    url: [32m&apos;https://koensdk.cognitiveservices.azure.com/health-insights/radiology-insights/jobs/jobId-17138795260271?api-version=2024-10-01&apos;[39m,
+    body: [90mundefined[39m,
+    headers: HttpHeadersImpl { _headersMap: [36m[Map][39m },
+    method: [32m&apos;GET&apos;[39m,
+    timeout: [33m0[39m,
+    multipartBody: [90mundefined[39m,
+    formData: [90mundefined[39m,
+    disableKeepAlive: [33mfalse[39m,
+    proxySettings: [90mundefined[39m,
+    streamResponseStatusCodes: [90mundefined[39m,
+    withCredentials: [33mfalse[39m,
+    abortSignal: [90mundefined[39m,
+    tracingOptions: [90mundefined[39m,
+    onUploadProgress: [90mundefined[39m,
+    onDownloadProgress: [90mundefined[39m,
+    requestId: [32m&apos;223292b6-b0b8-4ffa-a704-f44901163ea1&apos;[39m,
+    allowInsecureConnection: [33mtrue[39m,
+    enableBrowserStreams: [33mtrue[39m,
+    agent: [90mundefined[39m,
+    tlsSettings: [90mundefined[39m
+  },
+  headers: {
+    [32m&apos;content-length&apos;[39m: [32m&apos;204173&apos;[39m,
+    [32m&apos;content-type&apos;[39m: [32m&apos;application/json; charset=utf-8&apos;[39m,
+    date: [32m&apos;Fri, 21 Mar 2025 13:51:54 GMT&apos;[39m,
+    server: [32m&apos;Kestrel&apos;[39m,
+    [32m&apos;x-ms-request-id&apos;[39m: [32m&apos;b232268c-7c30-43bf-94e9-ff56c099aabf&apos;[39m,
+    [32m&apos;x-envoy-upstream-service-time&apos;[39m: [32m&apos;125&apos;[39m,
+    [32m&apos;apim-request-id&apos;[39m: [32m&apos;b232268c-7c30-43bf-94e9-ff56c099aabf&apos;[39m,
+    [32m&apos;strict-transport-security&apos;[39m: [32m&apos;max-age=31536000; includeSubDomains; preload&apos;[39m,
+    [32m&apos;x-content-type-options&apos;[39m: [32m&apos;nosniff&apos;[39m,
+    [32m&apos;x-ms-region&apos;[39m: [32m&apos;West US 2&apos;[39m,
+    [32m&apos;x-ms-original-url&apos;[39m: [32m&apos;https://koensdk.cognitiveservices.azure.com/health-insights/radiology-insights/jobs/jobId-17138795260271?api-version=2024-10-01&apos;[39m
+  },
+  status: [32m&apos;200&apos;[39m,
+  body: {
+    result: { patientResults: [36m[Array][39m, modelVersion: [32m&apos;2024-12-01&apos;[39m },
+    id: [32m&apos;jobId-17138795260271&apos;[39m,
+    createdAt: [32m&apos;2025-03-21T13:51:49Z&apos;[39m,
+    expiresAt: [32m&apos;2025-03-22T13:51:49Z&apos;[39m,
+    updatedAt: [32m&apos;2025-03-21T13:51:52Z&apos;[39m,
+    status: [32m&apos;succeeded&apos;[39m
+  }
+}
+Scoring and Assessment Inference found:
+   Category:  TI-RADS
+   Category Description:  ACR THYROID IMAGING REPORTING AND DATA SYSTEM
+   Singe Value:  2
+Scoring and Assessment Inference found:
+   Category:  TI-RADS
+   Category Description:  ACR THYROID IMAGING REPORTING AND DATA SYSTEM
+   Singe Value:  3
+Scoring and Assessment Inference found:
+   Category:  TI-RADS
+   Category Description:  ACR THYROID IMAGING REPORTING AND DATA SYSTEM
+   Singe Value:  3
+
+            </system-out>
+        </testcase>
+    </testsuite>
+    <testsuite name="test/public/SampleSexMismatchInferenceAsync.spec.ts" timestamp="2025-03-21T13:52:03.766Z" hostname="NU-kgellynck" tests="1" failures="0" errors="0" skipped="0" time="17.1497499">
+        <testcase classname="test/public/SampleSexMismatchInferenceAsync.spec.ts" name="Sex Mismatch Inference Test &gt; sex mismatch inference test" time="17.147429">
+            <system-out>
+{
+  request: PipelineRequestImpl {
+    url: [32m&apos;https://koensdk.cognitiveservices.azure.com/health-insights/radiology-insights/jobs/jobId-17138795260254?api-version=2024-10-01&apos;[39m,
+    body: [90mundefined[39m,
+    headers: HttpHeadersImpl { _headersMap: [36m[Map][39m },
+    method: [32m&apos;GET&apos;[39m,
+    timeout: [33m0[39m,
+    multipartBody: [90mundefined[39m,
+    formData: [90mundefined[39m,
+    disableKeepAlive: [33mfalse[39m,
+    proxySettings: [90mundefined[39m,
+    streamResponseStatusCodes: [90mundefined[39m,
+    withCredentials: [33mfalse[39m,
+    abortSignal: [90mundefined[39m,
+    tracingOptions: [90mundefined[39m,
+    onUploadProgress: [90mundefined[39m,
+    onDownloadProgress: [90mundefined[39m,
+    requestId: [32m&apos;9595ad7a-a6a5-4c98-9e0c-f4f870737d39&apos;[39m,
+    allowInsecureConnection: [33mtrue[39m,
+    enableBrowserStreams: [33mtrue[39m,
+    agent: [90mundefined[39m,
+    tlsSettings: [90mundefined[39m
+  },
+  headers: {
+    [32m&apos;content-length&apos;[39m: [32m&apos;60463&apos;[39m,
+    [32m&apos;content-type&apos;[39m: [32m&apos;application/json; charset=utf-8&apos;[39m,
+    date: [32m&apos;Fri, 21 Mar 2025 13:51:58 GMT&apos;[39m,
+    server: [32m&apos;Kestrel&apos;[39m,
+    [32m&apos;x-ms-request-id&apos;[39m: [32m&apos;72d567d0-9291-491f-aac6-d6ec607225c9&apos;[39m,
+    [32m&apos;x-envoy-upstream-service-time&apos;[39m: [32m&apos;34&apos;[39m,
+    [32m&apos;apim-request-id&apos;[39m: [32m&apos;72d567d0-9291-491f-aac6-d6ec607225c9&apos;[39m,
+    [32m&apos;strict-transport-security&apos;[39m: [32m&apos;max-age=31536000; includeSubDomains; preload&apos;[39m,
+    [32m&apos;x-content-type-options&apos;[39m: [32m&apos;nosniff&apos;[39m,
+    [32m&apos;x-ms-region&apos;[39m: [32m&apos;West US 2&apos;[39m,
+    [32m&apos;x-ms-original-url&apos;[39m: [32m&apos;https://koensdk.cognitiveservices.azure.com/health-insights/radiology-insights/jobs/jobId-17138795260254?api-version=2024-10-01&apos;[39m
+  },
+  status: [32m&apos;200&apos;[39m,
+  body: {
+    result: { patientResults: [36m[Array][39m, modelVersion: [32m&apos;2024-12-01&apos;[39m },
+    id: [32m&apos;jobId-17138795260254&apos;[39m,
+    createdAt: [32m&apos;2025-03-21T13:51:54Z&apos;[39m,
+    expiresAt: [32m&apos;2025-03-22T13:51:54Z&apos;[39m,
+    updatedAt: [32m&apos;2025-03-21T13:51:56Z&apos;[39m,
+    status: [32m&apos;succeeded&apos;[39m
+  }
+}
+Sex Mismatch Inference found: 
+   Coding: 248153007, MALE (FINDING) (http://snomed.info/sct)
+
+            </system-out>
+        </testcase>
+    </testsuite>
+    <testsuite name="test/public/Test_RadiologyInsights_async.spec.ts" timestamp="2025-03-21T13:52:03.767Z" hostname="NU-kgellynck" tests="1" failures="0" errors="0" skipped="0" time="8.7157172">
+        <testcase classname="test/public/Test_RadiologyInsights_async.spec.ts" name="Radiology Insights Test &gt; radiology Insights test" time="8.7133212">
+            <system-out>
+{
+  request: PipelineRequestImpl {
+    url: [32m&apos;https://koensdk.cognitiveservices.azure.com/health-insights/radiology-insights/jobs/jobId-17138795314335?api-version=2024-10-01&apos;[39m,
+    body: [90mundefined[39m,
+    headers: HttpHeadersImpl { _headersMap: [36m[Map][39m },
+    method: [32m&apos;GET&apos;[39m,
+    timeout: [33m0[39m,
+    multipartBody: [90mundefined[39m,
+    formData: [90mundefined[39m,
+    disableKeepAlive: [33mfalse[39m,
+    proxySettings: [90mundefined[39m,
+    streamResponseStatusCodes: [90mundefined[39m,
+    withCredentials: [33mfalse[39m,
+    abortSignal: [90mundefined[39m,
+    tracingOptions: [90mundefined[39m,
+    onUploadProgress: [90mundefined[39m,
+    onDownloadProgress: [90mundefined[39m,
+    requestId: [32m&apos;72df5457-fca0-4b5f-907a-24642946ae4d&apos;[39m,
+    allowInsecureConnection: [33mtrue[39m,
+    enableBrowserStreams: [33mtrue[39m,
+    agent: [90mundefined[39m,
+    tlsSettings: [90mundefined[39m
+  },
+  headers: {
+    [32m&apos;content-length&apos;[39m: [32m&apos;3204&apos;[39m,
+    [32m&apos;content-type&apos;[39m: [32m&apos;application/json; charset=utf-8&apos;[39m,
+    date: [32m&apos;Fri, 21 Mar 2025 13:52:01 GMT&apos;[39m,
+    server: [32m&apos;Kestrel&apos;[39m,
+    [32m&apos;x-ms-request-id&apos;[39m: [32m&apos;1613c5e7-65f0-4940-8d9f-7b94a93917e2&apos;[39m,
+    [32m&apos;x-envoy-upstream-service-time&apos;[39m: [32m&apos;11&apos;[39m,
+    [32m&apos;apim-request-id&apos;[39m: [32m&apos;1613c5e7-65f0-4940-8d9f-7b94a93917e2&apos;[39m,
+    [32m&apos;strict-transport-security&apos;[39m: [32m&apos;max-age=31536000; includeSubDomains; preload&apos;[39m,
+    [32m&apos;x-content-type-options&apos;[39m: [32m&apos;nosniff&apos;[39m,
+    [32m&apos;x-ms-region&apos;[39m: [32m&apos;West US 2&apos;[39m,
+    [32m&apos;x-ms-original-url&apos;[39m: [32m&apos;https://koensdk.cognitiveservices.azure.com/health-insights/radiology-insights/jobs/jobId-17138795314335?api-version=2024-10-01&apos;[39m
+  },
+  status: [32m&apos;200&apos;[39m,
+  body: {
+    result: { patientResults: [36m[Array][39m, modelVersion: [32m&apos;2024-12-01&apos;[39m },
+    id: [32m&apos;jobId-17138795314335&apos;[39m,
+    createdAt: [32m&apos;2025-03-21T13:52:00Z&apos;[39m,
+    expiresAt: [32m&apos;2025-03-22T13:52:00Z&apos;[39m,
+    updatedAt: [32m&apos;2025-03-21T13:52:02Z&apos;[39m,
+    status: [32m&apos;succeeded&apos;[39m
+  }
+}
+
+            </system-out>
+        </testcase>
+    </testsuite>
+    <testsuite name="test/snippets.spec.ts" timestamp="2025-03-21T13:52:03.768Z" hostname="NU-kgellynck" tests="13" failures="0" errors="0" skipped="0" time="0">
+        <testcase classname="test/snippets.spec.ts" name="snippets &gt; ReadmeSampleCreateClient_Node" time="0">
+        </testcase>
+        <testcase classname="test/snippets.spec.ts" name="snippets &gt; ReadmeSampleCriticalResultInference" time="0">
+        </testcase>
+        <testcase classname="test/snippets.spec.ts" name="snippets &gt; ReadmeSampleAgeMismatch" time="0">
+        </testcase>
+        <testcase classname="test/snippets.spec.ts" name="snippets &gt; ReadmeSampleCompleteOrderDiscrepancy" time="0">
+        </testcase>
+        <testcase classname="test/snippets.spec.ts" name="snippets &gt; ReadmeSampleFindingInference" time="0">
+        </testcase>
+        <testcase classname="test/snippets.spec.ts" name="snippets &gt; ReadmeSampleFollowUpCommunication" time="0">
+        </testcase>
+        <testcase classname="test/snippets.spec.ts" name="snippets &gt; ReadmeSampleFollowUpRecommendation" time="0">
+        </testcase>
+        <testcase classname="test/snippets.spec.ts" name="snippets &gt; ReadmeSampleLateralityDiscrepancy" time="0">
+        </testcase>
+        <testcase classname="test/snippets.spec.ts" name="snippets &gt; ReadmeSampleLimitedOrderDiscrepancy" time="0">
+        </testcase>
+        <testcase classname="test/snippets.spec.ts" name="snippets &gt; ReadmeSampleRadiologyProcedure" time="0">
+        </testcase>
+        <testcase classname="test/snippets.spec.ts" name="snippets &gt; ReadmeSampleSexMismatch" time="0">
+        </testcase>
+        <testcase classname="test/snippets.spec.ts" name="snippets &gt; ReadmeSampleManagedIdentity" time="0">
+        </testcase>
+        <testcase classname="test/snippets.spec.ts" name="snippets &gt; SetLogLevel" time="0">
+        </testcase>
+    </testsuite>
+    <testsuite name="test/public/SampleAgeMismatchInferenceAsync.spec.ts" timestamp="2025-03-21T13:52:03.772Z" hostname="NU-kgellynck" tests="1" failures="0" errors="0" skipped="0" time="0">
+        <testcase classname="test/public/SampleAgeMismatchInferenceAsync.spec.ts" name="Age Mismatch Inference Test &gt; age mismatch inference test" time="0">
+        </testcase>
+    </testsuite>
+    <testsuite name="test/public/SampleCompleteOrderDiscrepancyInferenceAsync.spec.ts" timestamp="2025-03-21T13:52:03.772Z" hostname="NU-kgellynck" tests="1" failures="0" errors="0" skipped="0" time="0">
+        <testcase classname="test/public/SampleCompleteOrderDiscrepancyInferenceAsync.spec.ts" name="Complete Order Discrepancy Inference Test &gt; complete order discrepancy inference test" time="0">
+        </testcase>
+    </testsuite>
+    <testsuite name="test/public/SampleCriticalResultInferenceAsync.spec.ts" timestamp="2025-03-21T13:52:03.773Z" hostname="NU-kgellynck" tests="1" failures="0" errors="0" skipped="0" time="0">
+        <testcase classname="test/public/SampleCriticalResultInferenceAsync.spec.ts" name="Critical Result Inference Test &gt; critical result inference test" time="0">
+        </testcase>
+    </testsuite>
+    <testsuite name="test/public/SampleFindingInferenceAsync.spec.ts" timestamp="2025-03-21T13:52:03.774Z" hostname="NU-kgellynck" tests="1" failures="0" errors="0" skipped="0" time="0">
+        <testcase classname="test/public/SampleFindingInferenceAsync.spec.ts" name="Finding Inference Test &gt; finding inference test" time="0">
+        </testcase>
+    </testsuite>
+    <testsuite name="test/public/SampleFollowUpCommunicationAsync.spec.ts" timestamp="2025-03-21T13:52:03.775Z" hostname="NU-kgellynck" tests="1" failures="0" errors="0" skipped="0" time="0">
+        <testcase classname="test/public/SampleFollowUpCommunicationAsync.spec.ts" name="Follow Up Communication Inference Test &gt; follow up communication inference test" time="0">
+        </testcase>
+    </testsuite>
+    <testsuite name="test/public/SampleFollowUpRecommendationAsync.spec.ts" timestamp="2025-03-21T13:52:03.777Z" hostname="NU-kgellynck" tests="1" failures="0" errors="0" skipped="0" time="0">
+        <testcase classname="test/public/SampleFollowUpRecommendationAsync.spec.ts" name="Follow Up Recommendation Inference Test &gt; follow up recommendation inference test" time="0">
+        </testcase>
+    </testsuite>
+    <testsuite name="test/public/SampleGuidanceInferenceAsync.spec.ts" timestamp="2025-03-21T13:52:03.778Z" hostname="NU-kgellynck" tests="1" failures="0" errors="0" skipped="0" time="0">
+        <testcase classname="test/public/SampleGuidanceInferenceAsync.spec.ts" name="Guidance Inference Test &gt; guidance inference test" time="0">
+        </testcase>
+    </testsuite>
+    <testsuite name="test/public/SampleLateralityDiscrepancyInferenceAsync.spec.ts" timestamp="2025-03-21T13:52:03.778Z" hostname="NU-kgellynck" tests="1" failures="0" errors="0" skipped="0" time="0">
+        <testcase classname="test/public/SampleLateralityDiscrepancyInferenceAsync.spec.ts" name="Laterality Discrepancy Inference Test &gt; laterality discrepancy inference test" time="0">
+        </testcase>
+    </testsuite>
+    <testsuite name="test/public/SampleLimitedOrderDiscrepancyInferenceAsync.spec.ts" timestamp="2025-03-21T13:52:03.779Z" hostname="NU-kgellynck" tests="1" failures="0" errors="0" skipped="0" time="0">
+        <testcase classname="test/public/SampleLimitedOrderDiscrepancyInferenceAsync.spec.ts" name="Limited Order Discrepancy Inference Test &gt; limited order discrepancy inference test" time="0">
+        </testcase>
+    </testsuite>
+    <testsuite name="test/public/SampleQualityMeasureInferenceAsync.spec.ts" timestamp="2025-03-21T13:52:03.780Z" hostname="NU-kgellynck" tests="1" failures="0" errors="0" skipped="0" time="0">
+        <testcase classname="test/public/SampleQualityMeasureInferenceAsync.spec.ts" name="Quality Measure Inference Test &gt; quality measure inference test" time="0">
+        </testcase>
+    </testsuite>
+    <testsuite name="test/public/SampleRadiologyProcedureInferenceAsync.spec.ts" timestamp="2025-03-21T13:52:03.781Z" hostname="NU-kgellynck" tests="1" failures="0" errors="0" skipped="0" time="0">
+        <testcase classname="test/public/SampleRadiologyProcedureInferenceAsync.spec.ts" name="Radiology Procedure Inference Test &gt; radiology procedure inference test" time="0">
+        </testcase>
+    </testsuite>
+    <testsuite name="test/public/SampleScoringAndAssessmentInferenceAsync.spec.ts" timestamp="2025-03-21T13:52:03.781Z" hostname="NU-kgellynck" tests="1" failures="0" errors="0" skipped="0" time="0">
+        <testcase classname="test/public/SampleScoringAndAssessmentInferenceAsync.spec.ts" name="Scoring and Assessment Inference Test &gt; scoring and assessment inference test" time="0">
+        </testcase>
+    </testsuite>
+    <testsuite name="test/public/SampleSexMismatchInferenceAsync.spec.ts" timestamp="2025-03-21T13:52:03.782Z" hostname="NU-kgellynck" tests="1" failures="0" errors="0" skipped="0" time="0">
+        <testcase classname="test/public/SampleSexMismatchInferenceAsync.spec.ts" name="Sex Mismatch Inference Test &gt; sex mismatch inference test" time="0">
+        </testcase>
+    </testsuite>
+    <testsuite name="test/public/Test_RadiologyInsights_async.spec.ts" timestamp="2025-03-21T13:52:03.783Z" hostname="NU-kgellynck" tests="1" failures="0" errors="0" skipped="0" time="0">
+        <testcase classname="test/public/Test_RadiologyInsights_async.spec.ts" name="Radiology Insights Test &gt; radiology Insights test" time="0">
+        </testcase>
+    </testsuite>
+    <testsuite name="test/public/utils/env-browser.mts" timestamp="2025-03-21T13:52:03.783Z" hostname="NU-kgellynck" tests="0" failures="0" errors="0" skipped="0" time="0">
+    </testsuite>
+    <testsuite name="test/public/utils/env.ts" timestamp="2025-03-21T13:52:03.784Z" hostname="NU-kgellynck" tests="0" failures="0" errors="0" skipped="0" time="0">
+    </testsuite>
+    <testsuite name="test/public/utils/recordedClient.ts" timestamp="2025-03-21T13:52:03.784Z" hostname="NU-kgellynck" tests="0" failures="0" errors="0" skipped="0" time="0">
+    </testsuite>
+</testsuites>

@@ -4,7 +4,7 @@
 import type { Recorder } from "@azure-tools/test-recorder";
 import type { AzureHealthInsightsClient } from "../../src/index.js";
 import { getLongRunningPoller } from "../../src/index.js";
-import { createRecorder, createTestClient } from "./utils/recordedClient.js";
+import { createRecorder, createManagedClient } from "./utils/recordedClient.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 const codingData = {
@@ -206,7 +206,7 @@ describe("Limited Order Discrepancy Inference Test", () => {
 
   beforeEach(async (ctx) => {
     recorder = await createRecorder(ctx);
-    client = await createTestClient(recorder);
+    client = await createManagedClient(recorder);
   });
 
   afterEach(async () => {

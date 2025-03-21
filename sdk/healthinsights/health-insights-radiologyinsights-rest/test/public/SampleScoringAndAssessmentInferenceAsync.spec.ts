@@ -4,7 +4,7 @@
 import type { Recorder } from "@azure-tools/test-recorder";
 import type { AzureHealthInsightsClient } from "../../src/index.js";
 import { getLongRunningPoller } from "../../src/index.js";
-import { createRecorder, createTestClient } from "./utils/recordedClient.js";
+import { createRecorder, createManagedClient } from "./utils/recordedClient.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 const codingData = {
@@ -187,22 +187,22 @@ function findSAInference(res: any): void {
 
 }
 
-describe("Sex Mismatch Inference Test", () => {
+describe("Scoring and Assessment Inference Test", () => {
   let recorder: Recorder;
   let client: AzureHealthInsightsClient;
 
   beforeEach(async (ctx) => {
     recorder = await createRecorder(ctx);
-    client = await createTestClient(recorder);
+    client = await createManagedClient(recorder);
   });
 
   afterEach(async () => {
     await recorder.stop();
   });
 
-  it("sex mismatch inference test", async () => {
+  it("scoring and assessment inference test", async () => {
     const result = await client
-      .path("/radiology-insights/jobs/{id}", "jobId-17138795260264")
+      .path("/radiology-insights/jobs/{id}", "jobId-17138795260271")
       .put(param);
     const poller = await getLongRunningPoller(client, result);
     const res = await poller.pollUntilDone();

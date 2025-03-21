@@ -4,7 +4,7 @@
 import type { Recorder } from "@azure-tools/test-recorder";
 import type { AzureHealthInsightsClient } from "../../src/index.js";
 import { getLongRunningPoller } from "../../src/index.js";
-import { createRecorder, createTestClient } from "./utils/recordedClient.js";
+import { createRecorder, createManagedClient } from "./utils/recordedClient.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 const codingData = {
@@ -80,7 +80,7 @@ const patientDocumentData = {
   specialtyType: "radiology",
   administrativeMetadata: administrativeMetadata,
   content: content,
-  createdAt: "2021-05-31T16:00:00.000Z",
+  createdAt: "2014-2-20T00:00:00Z",
   orderedProceduresAsCsv: "CT CHEST WO CONTRAST",
 };
 
@@ -118,9 +118,19 @@ const findingOptions = {
   provideFocusedSentenceEvidence: true,
 };
 
+const qualityMeasureOptions = {
+  measureTypes: ["mips364", "mips360", "mips436"],
+}
+
+const guidancOptions = {
+  showGuidanceInHistory: true,
+};
+
 const inferenceOptions = {
   followupRecommendationOptions: followupRecommendationOptions,
   findingOptions: findingOptions,
+  GuidanceOptions: guidancOptions,
+  QualityMeasureOptions: qualityMeasureOptions,
 };
 
 // Create RI Configuration
@@ -146,7 +156,7 @@ const param = {
 
 /**
  *
- * Display the Scoring and Assessment Inference of the Radiology Insights request.
+ * Display the Quality Measure Inference of the Radiology Insights request.
  *
  */
 
@@ -178,22 +188,22 @@ function findQMInference(res: any): void {
 
 }
 
-describe("Sex Mismatch Inference Test", () => {
+describe("Quality Measure Inference Test", () => {
   let recorder: Recorder;
   let client: AzureHealthInsightsClient;
 
   beforeEach(async (ctx) => {
     recorder = await createRecorder(ctx);
-    client = await createTestClient(recorder);
+    client = await createManagedClient(recorder);
   });
 
   afterEach(async () => {
     await recorder.stop();
   });
 
-  it("sex mismatch inference test", async () => {
+  it("quality measure inference test", async () => {
     const result = await client
-      .path("/radiology-insights/jobs/{id}", "jobId-17138795260264")
+      .path("/radiology-insights/jobs/{id}", "jobId-17138795260278")
       .put(param);
     const poller = await getLongRunningPoller(client, result);
     const res = await poller.pollUntilDone();

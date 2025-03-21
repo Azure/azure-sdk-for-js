@@ -4,7 +4,7 @@
 import type { Recorder } from "@azure-tools/test-recorder";
 import type { AzureHealthInsightsClient } from "../../src/index.js";
 import { getLongRunningPoller } from "../../src/index.js";
-import { createRecorder, createTestClient } from "./utils/recordedClient.js";
+import { createRecorder, createManagedClient } from "./utils/recordedClient.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 const codingData = {
@@ -142,7 +142,7 @@ function findGuidance(res: any): void {
             console.log("Guidance Inference found: ");
 
             if ("finding" in inference) {
-              const find = inference.finding;
+              const find = inference.finding.finding;
               if ("code" in find) {
                 const fcode = find.code;
                 console.log("   Finding Code: ");
@@ -151,10 +151,8 @@ function findGuidance(res: any): void {
             }
 
             if ("identifier" in inference) {
-              console.log("   Identifier: ", inference.identifier);
-              if ("code" in inference.identifier) {
-                displayCodes(inference.identifier.code);
-              }
+              console.log("   Identifier: ");
+              displayCodes(inference.identifier);
             }
 
             inference.presentGuidanceInformation?.forEach((presentInfo: any) => {
@@ -251,7 +249,7 @@ describe("Guidance Inference Test", () => {
 
   beforeEach(async (ctx) => {
     recorder = await createRecorder(ctx);
-    client = await createTestClient(recorder);
+    client = await createManagedClient(recorder);
   });
 
   afterEach(async () => {
