@@ -322,6 +322,10 @@ sdk/ai/ai-projects @ganeshyb @GraceBrigham
 # ServiceLabel: %Microsoft Playwright Testing
 /sdk/playwrighttesting/ @Sid200026 @puagarwa @ShreyaAnand
 
+# PRLabel: %Azure Load Testing
+# ServiceLabel: %Azure Load Testing
+/sdk/loadtesting/ @prativen @mitsha-microsoft @ninallam
+
 # API review files
 /sdk/**/review/*api.md @bterlson @Azure/azure-sdk-for-js-core
 

@@ -960,7 +960,7 @@
     },
     {
       "packageName": "@azure-tests/perf-schema-registry-avro",
-      "projectFolder": "sdk/schemaregistry/perf-tests/schema-registry-avro",
+      "projectFolder": "sdk/schemaregistry/schema-registry-avro-perf-tests",
       "versionPolicyName": "test"
     },
     {
