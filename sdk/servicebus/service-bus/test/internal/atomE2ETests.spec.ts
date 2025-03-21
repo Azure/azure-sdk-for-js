@@ -9,7 +9,7 @@ import type {
 import { ServiceBusClient, ServiceBusAdministrationClient } from "../../src/index.js";
 import { DEFAULT_RULE_NAME } from "../../src/util/constants.js";
 import { recreateSubscription, recreateTopic } from "../public/utils/managementUtils.js";
-import { getFullyQualifiedNamespace } from "../public/utils/testutils2.js";
+import { getFullyQualifiedNamespace } from "../utils/injectables.js";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { afterAll, beforeEach, describe, it } from "vitest";
 import { assert, should } from "../public/utils/chai.js";

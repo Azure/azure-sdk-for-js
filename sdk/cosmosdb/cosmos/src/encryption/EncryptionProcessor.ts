@@ -410,7 +410,9 @@ export class EncryptionProcessor {
       const clientEncryptionKeyProperties: ClientEncryptionKeyProperties = {
         id: response.result.id,
         encryptionAlgorithm: response.result.encryptionAlgorithm,
-        wrappedDataEncryptionKey: Buffer.from(response.result.wrappedDataEncryptionKey, "base64"),
+        wrappedDataEncryptionKey: new Uint8Array(
+          Buffer.from(response.result.wrappedDataEncryptionKey, "base64"),
+        ),
         encryptionKeyWrapMetadata: response.result.keyWrapMetadata,
         etag: response.result._etag,
       };
