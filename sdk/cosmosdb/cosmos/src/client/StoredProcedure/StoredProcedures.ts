@@ -44,7 +44,7 @@ export class StoredProcedures {
    * const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
    *
    * const querySpec: SqlQuerySpec = {
-   *   query: `SELECT FROM root r WHERE r.id = @sproc`,
+   *   query: `SELECT * FROM root r WHERE r.id = @sproc`,
    *   parameters: [{ name: "@sproc", value: "Todo" }],
    * };
    * const { resources: storedProceduresList } = await container.scripts.storedProcedures

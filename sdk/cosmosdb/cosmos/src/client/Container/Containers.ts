@@ -61,7 +61,7 @@ export class Containers {
    * const client = new CosmosClient({ endpoint, key });
    *
    * const querySpec: SqlQuerySpec = {
-   *   query: `SELECT FROM root r WHERE r.id = @container`,
+   *   query: `SELECT * FROM root r WHERE r.id = @container`,
    *   parameters: [{ name: "@container", value: "Todo" }],
    * };
    * const { resources: containerList } = await client
@@ -85,7 +85,7 @@ export class Containers {
    * const client = new CosmosClient({ endpoint, key });
    *
    * const querySpec: SqlQuerySpec = {
-   *   query: `SELECT FROM root r WHERE r.id = @container`,
+   *   query: `SELECT * FROM root r WHERE r.id = @container`,
    *   parameters: [{ name: "@container", value: "Todo" }],
    * };
    * const { resources: containerList } = await client
@@ -133,6 +133,17 @@ export class Containers {
    *
    * @param body - Represents the body of the container.
    * @param options - Use to set options like response page size, continuation tokens, etc.
+   * @example
+   * ```ts snippet:CosmosClientDatabaseCreateContainer
+   * import { CosmosClient } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   * const container = client.database("<database id>").containers.create({
+   *   id: "<name here>",
+   * });
+   * ```
    */
   public async create(
     body: ContainerRequest,
@@ -253,6 +264,19 @@ export class Containers {
    *
    * @param body - Represents the body of the container.
    * @param options - Use to set options like response page size, continuation tokens, etc.
+   * @example
+   * ```ts snippet:ReadmeSampleCreateContainer
+   * import { CosmosClient } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   *
+   * const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+   *
+   * const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
+   * console.log(container.id);
+   * ```
    */
   public async createIfNotExists(
     body: ContainerRequest,

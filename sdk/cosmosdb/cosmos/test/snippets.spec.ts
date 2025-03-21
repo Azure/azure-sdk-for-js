@@ -566,6 +566,34 @@ describe("snippets", () => {
     });
   });
 
+  it("ItemsUpsert", async () => {
+    const endpoint = "https://your-account.documents.azure.com";
+    const key = "<database account masterkey>";
+    const client = new CosmosClient({ endpoint, key });
+    // @ts-preserve-whitespace
+    const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+    // @ts-preserve-whitespace
+    const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
+    // @ts-preserve-whitespace
+    // @ts-ignore
+    const { resource: createdItem1 } = await container.items.create({
+      id: "<item id 1>",
+      properties: {},
+    });
+    // @ts-preserve-whitespace
+    // @ts-ignore
+    const { resource: upsertItem1 } = await container.items.upsert({
+      id: "<item id 1>",
+      updated_properties: {},
+    });
+    // @ts-preserve-whitespace
+    // @ts-ignore
+    const { resource: upsertItem2 } = await container.items.upsert({
+      id: "<item id 2>",
+      properties: {},
+    });
+  });
+
   it("ContainerItem", async () => {
     const endpoint = "https://your-account.documents.azure.com";
     const key = "<database account masterkey>";
@@ -684,6 +712,83 @@ describe("snippets", () => {
     // @ts-preserve-whitespace
     // @ts-ignore
     const { resource: item } = await container.item("id").read<TodoItem>();
+  });
+
+  it("ItemReplace", async () => {
+    const endpoint = "https://your-account.documents.azure.com";
+    const key = "<database account masterkey>";
+    const client = new CosmosClient({ endpoint, key });
+    // @ts-preserve-whitespace
+    const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+    // @ts-preserve-whitespace
+    const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
+    // @ts-preserve-whitespace
+    interface TodoItem {
+      title: string;
+      done: boolean;
+      id: string;
+    }
+    // @ts-preserve-whitespace
+    // @ts-ignore
+    const { resource: item } = await container.item("id").read<TodoItem>();
+    // @ts-preserve-whitespace
+    item.done = true;
+    // @ts-ignore
+    const { resource: replacedItem } = await container.item("id").replace<TodoItem>(item);
+  });
+
+  it("ItemDelete", async () => {
+    const endpoint = "https://your-account.documents.azure.com";
+    const key = "<database account masterkey>";
+    const client = new CosmosClient({ endpoint, key });
+    // @ts-preserve-whitespace
+    const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+    // @ts-preserve-whitespace
+    const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
+    // @ts-preserve-whitespace
+    interface TodoItem {
+      title: string;
+      done: boolean;
+      id: string;
+    }
+    // @ts-preserve-whitespace
+    // @ts-ignore
+    const { resource: item } = await container.item("id").read<TodoItem>();
+    // @ts-preserve-whitespace
+    // @ts-ignore
+    await container.item("id").delete<TodoItem>();
+  });
+
+  it("ItemPatch", async () => {
+    const endpoint = "https://your-account.documents.azure.com";
+    const key = "<database account masterkey>";
+    const client = new CosmosClient({ endpoint, key });
+    // @ts-preserve-whitespace
+    interface TodoItem {
+      title: string;
+      done: boolean;
+      id: string;
+    }
+    // @ts-preserve-whitespace
+    const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+    // @ts-preserve-whitespace
+    const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
+    // @ts-preserve-whitespace
+    // @ts-ignore
+    const { resource: item } = await container.item("id").read<TodoItem>();
+    // @ts-preserve-whitespace
+    // @ts-ignore
+    const { resource: patchedItem } = await container.item("id").patch<TodoItem>([
+      {
+        op: "replace", // Operation type (can be replace, add, remove, set, incr)
+        path: "/title", // The path to the property to update
+        value: "new-title", // New value for the property
+      },
+      {
+        op: "remove",
+        path: "/done",
+      },
+    ]);
   });
 
   it("ItemsQueryEncryptedItems", async () => {

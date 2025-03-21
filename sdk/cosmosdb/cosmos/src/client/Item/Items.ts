@@ -347,6 +347,44 @@ export class Items {
 
   /**
    * Returns an iterator to iterate over pages of changes. The iterator returned can be used to fetch changes for a single partition key, feed range or an entire container.
+   *
+   * @example
+   * ```ts snippet:ReadmeSampleChangeFeedPullModelIteratorPartitionKey
+   * import {
+   *   CosmosClient,
+   *   PartitionKeyDefinitionVersion,
+   *   PartitionKeyKind,
+   *   ChangeFeedStartFrom,
+   * } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   *
+   * const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+   *
+   * const containerDefinition = {
+   *   id: "Test Database",
+   *   partitionKey: {
+   *     paths: ["/name", "/address/zip"],
+   *     version: PartitionKeyDefinitionVersion.V2,
+   *     kind: PartitionKeyKind.MultiHash,
+   *   },
+   * };
+   * const { container } = await database.containers.createIfNotExists(containerDefinition);
+   *
+   * const partitionKey = "some-partition-Key-value";
+   * const options = {
+   *   changeFeedStartFrom: ChangeFeedStartFrom.Beginning(partitionKey),
+   * };
+   *
+   * const iterator = container.items.getChangeFeedIterator(options);
+   *
+   * while (iterator.hasMoreResults) {
+   *   const response = await iterator.readNext();
+   *   // process this response
+   * }
+   * ```
    */
   public getChangeFeedIterator<T>(
     changeFeedIteratorOptions?: ChangeFeedIteratorOptions,
@@ -423,6 +461,23 @@ export class Items {
    *
    * @param body - Represents the body of the item. Can contain any number of user defined properties.
    * @param options - Used for modifying the request (for instance, specifying the partition key).
+   * @example Create an item.
+   * ```ts snippet:ContainerItems
+   * import { CosmosClient } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   *
+   * const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+   *
+   * const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
+   *
+   * const { resource: createdItem } = await container.items.create({
+   *   id: "<item id>",
+   *   properties: {},
+   * });
+   * ```
    */
   public async create<T extends ItemDefinition = any>(
     body: T,
@@ -544,6 +599,33 @@ export class Items {
    *
    * @param body - Represents the body of the item. Can contain any number of user defined properties.
    * @param options - Used for modifying the request (for instance, specifying the partition key).
+   * @example Upsert an item.
+   * ```ts snippet:ItemsUpsert
+   * import { CosmosClient } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   *
+   * const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+   *
+   * const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
+   *
+   * const { resource: createdItem1 } = await container.items.create({
+   *   id: "<item id 1>",
+   *   properties: {},
+   * });
+   *
+   * const { resource: upsertItem1 } = await container.items.upsert({
+   *   id: "<item id 1>",
+   *   updated_properties: {},
+   * });
+   *
+   * const { resource: upsertItem2 } = await container.items.upsert({
+   *   id: "<item id 2>",
+   *   properties: {},
+   * });
+   * ```
    */
   public async upsert<T extends ItemDefinition>(
     body: T,
