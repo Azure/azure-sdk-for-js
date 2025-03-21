@@ -4,15 +4,15 @@
 import type { ConversationAnalysisOptions } from "../../../src/index.js";
 import { ConversationAnalysisClient } from "../../../src/index.js";
 import type { RecorderStartOptions, TestInfo } from "@azure-tools/test-recorder";
-import { Recorder, assertEnvironmentVariable } from "@azure-tools/test-recorder";
+import { Recorder } from "@azure-tools/test-recorder";
 import { AzureKeyCredential } from "@azure/core-auth";
 import { createTestCredential } from "@azure-tools/test-credential";
+import { getEndpoint, getKey1 } from "../../utils/injectables.js";
 
 const envSetupForPlayback: { [k: string]: string } = {
-  LANGUAGE_API_KEY: "sanitized",
-  // Second API key
-  LANGUAGE_API_KEY_ALT: "sanitized",
   ENDPOINT: "https://endpoint",
+  KEY1: "fakekey",
+  KEY2: "fakekey",
   LANGUAGE_CLU_PROJECT_NAME: "<project-name>",
   LANGUAGE_CLU_DEPLOYMENT_NAME: "<deployment-name>",
   LANGUAGE_ORCHESTRATION_PROJECT_NAME: "<project-name>",
@@ -30,16 +30,20 @@ export function createClient(options: {
   authMethod: AuthMethod;
   recorder?: Recorder;
   clientOptions?: ConversationAnalysisOptions;
-}): ConversationAnalysisClient {
+}): ConversationAnalysisClient | undefined {
   const { authMethod, recorder, clientOptions = {} } = options;
-  const endpoint = assertEnvironmentVariable("ENDPOINT");
+  const endpoint = getEndpoint();
   const updatedOptions = recorder ? recorder.configureClientOptions(clientOptions) : clientOptions;
 
   switch (authMethod) {
     case "APIKey": {
+      const apiKey = getKey1();
+      if (!apiKey) {
+        return undefined;
+      }
       return new ConversationAnalysisClient(
         endpoint,
-        new AzureKeyCredential(assertEnvironmentVariable("LANGUAGE_API_KEY")),
+        new AzureKeyCredential(apiKey),
         updatedOptions,
       );
     }
