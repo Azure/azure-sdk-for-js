@@ -26,7 +26,7 @@ export default createRule({
       ...VerifierMessages,
       SdkTypeNotString: "sdk-type is not set to a string",
       SdkTypeNotValid:
-        "unrecognized sdk-type value: {{actual}}. Expected one of 'client', 'mgmt', or 'utility.'",
+        "unrecognized sdk-type value: {{actual}}. Expected one of 'client', 'mgmt', 'perf-test', or 'utility.'",
     },
     schema: [],
     fixable: "code",
@@ -59,7 +59,7 @@ export default createRule({
 
         const strValue = stripPath(value.value);
 
-        if (!["client", "mgmt", "utility"].includes(strValue)) {
+        if (!["client", "mgmt", "perf-test", "utility"].includes(strValue)) {
           return context.report({
             node: node.value,
             messageId: "SdkTypeNotValid",

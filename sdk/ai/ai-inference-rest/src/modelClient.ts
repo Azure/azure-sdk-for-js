@@ -1,6 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * THIS IS AN AUTO-GENERATED FILE - DO NOT EDIT!
+ *
+ * Any changes you make here may be lost.
+ *
+ * If you need to make changes, please do so in the original source file, \{project-root\}/sources/custom
+ */
+
 import type { ClientOptions } from "@azure-rest/core-client";
 import { getClient } from "@azure-rest/core-client";
 import { logger } from "./logger.js";
@@ -27,7 +35,7 @@ export default function createClient(
   { apiVersion = "2024-05-01-preview", ...options }: ModelClientOptions = {},
 ): ModelClient {
   const endpointUrl = options.endpoint ?? options.baseUrl ?? `${endpointParam}`;
-  const userAgentInfo = `azsdk-js-ai-inference/1.0.0-beta.3`;
+  const userAgentInfo = `azsdk-js-ai-inference-rest/1.0.0-beta.6`;
   const userAgentPrefix =
     options.userAgentOptions && options.userAgentOptions.userAgentPrefix
       ? `${options.userAgentOptions.userAgentPrefix} ${userAgentInfo}`

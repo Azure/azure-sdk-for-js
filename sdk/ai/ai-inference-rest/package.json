@@ -1,6 +1,6 @@
 {
   "name": "@azure-rest/ai-inference",
-  "version": "1.0.0-beta.5",
+  "version": "1.0.0-beta.6",
   "description": "Inference API for Azure-supported AI models",
   "exports": {
     "./package.json": "./package.json",
@@ -108,7 +108,7 @@
     "dotenv": "^16.4.5",
     "eslint": "^9.9.0",
     "playwright": "^1.50.1",
-    "typescript": "~5.7.2",
+    "typescript": "~5.8.2",
     "vitest": "^3.0.9"
   },
   "scripts": {
@@ -117,6 +117,7 @@
     "build:test": "npm run clean && dev-tool run build-package && dev-tool run build-test",
     "check-format": "echo skipped",
     "clean": "dev-tool run vendored rimraf --glob dist dist-* test-dist temp types *.tgz *.log",
+    "customize": "dev-tool customization apply -s ./generated -c ./src && npm run format",
     "execute:samples": "dev-tool samples run samples-dev",
     "extract-api": "dev-tool run vendored rimraf review && dev-tool run extract-api",
     "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",

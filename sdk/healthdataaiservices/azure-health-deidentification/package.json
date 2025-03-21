@@ -89,7 +89,7 @@
     "eslint": "^9.9.0",
     "loupe": "~3.1.1",
     "playwright": "^1.50.1",
-    "typescript": "~5.7.2",
+    "typescript": "~5.8.2",
     "vitest": "^3.0.9"
   },
   "scripts": {

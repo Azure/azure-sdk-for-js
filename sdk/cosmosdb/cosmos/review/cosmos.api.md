@@ -823,6 +823,18 @@ export class CosmosDiagnostics {
     readonly diagnosticNode: DiagnosticNode;
 }
 
+// @public
+export interface CosmosEncryptedNumber {
+    numberType: CosmosEncryptedNumberType;
+    value: number;
+}
+
+// @public
+export enum CosmosEncryptedNumberType {
+    Float = "Float",
+    Integer = "Integer"
+}
+
 // @public (undocumented)
 export interface CosmosHeaders {
     // (undocumented)
@@ -1095,14 +1107,7 @@ export interface EncryptionKeyWrapMetadata {
 // @public
 export class EncryptionQueryBuilder {
     constructor(query: string);
-    addArrayParameter(name: string, value: JSONArray, path: string): void;
-    addBooleanParameter(name: string, value: boolean, path: string): void;
-    addDateParameter(name: string, value: Date, path: string): void;
-    addFloatParameter(name: string, value: number, path: string): void;
-    addIntegerParameter(name: string, value: number, path: string): void;
-    addNullParameter(name: string, path: string): void;
-    addObjectParameter(name: string, value: JSONObject, path: string): void;
-    addStringParameter(name: string, value: string, path: string): void;
+    addParameter(name: string, value: boolean | string | null | JSONArray | JSONObject | Date | CosmosEncryptedNumber, path: string): void;
     addUnencryptedParameter(name: string, value: JSONValue, path: string): void;
 }
 
