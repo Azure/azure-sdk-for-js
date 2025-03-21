@@ -68,7 +68,7 @@ export default async (...args: string[]): Promise<boolean> => {
   if (!status) {
     // opportunity to log recommendations for the commands
     if (args[0] === "prettier" && args[1] === "--list-different") {
-      log.warn(`Invoke "rushx format" in package directory to fix formatting.`);
+      log.warn(`Invoke "npm run format" in package directory to fix formatting.`);
     }
   }
 
