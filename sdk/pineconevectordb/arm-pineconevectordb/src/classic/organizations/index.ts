@@ -3,12 +3,12 @@
 
 import { VectorDbContext } from "../../api/vectorDbContext.js";
 import {
-  listBySubscription,
-  listByResourceGroup,
-  $delete,
-  update,
-  createOrUpdate,
-  get,
+  organizationsListBySubscription,
+  organizationsListByResourceGroup,
+  organizationsDelete,
+  organizationsUpdate,
+  organizationsCreateOrUpdate,
+  organizationsGet,
 } from "../../api/organizations/index.js";
 import { OrganizationResource, OrganizationResourceUpdate } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
@@ -34,11 +34,6 @@ export interface OrganizationsOperations {
     options?: OrganizationsListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<OrganizationResource>;
   /** Delete a OrganizationResource */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     organizationname: string,
@@ -66,41 +61,42 @@ export interface OrganizationsOperations {
   ) => Promise<OrganizationResource>;
 }
 
-export function getOrganizations(context: VectorDbContext) {
+function _getOrganizations(context: VectorDbContext) {
   return {
     listBySubscription: (options?: OrganizationsListBySubscriptionOptionalParams) =>
-      listBySubscription(context, options),
+      organizationsListBySubscription(context, options),
     listByResourceGroup: (
       resourceGroupName: string,
       options?: OrganizationsListByResourceGroupOptionalParams,
-    ) => listByResourceGroup(context, resourceGroupName, options),
+    ) => organizationsListByResourceGroup(context, resourceGroupName, options),
     delete: (
       resourceGroupName: string,
       organizationname: string,
       options?: OrganizationsDeleteOptionalParams,
-    ) => $delete(context, resourceGroupName, organizationname, options),
+    ) => organizationsDelete(context, resourceGroupName, organizationname, options),
     update: (
       resourceGroupName: string,
       organizationname: string,
       properties: OrganizationResourceUpdate,
       options?: OrganizationsUpdateOptionalParams,
-    ) => update(context, resourceGroupName, organizationname, properties, options),
+    ) => organizationsUpdate(context, resourceGroupName, organizationname, properties, options),
     createOrUpdate: (
       resourceGroupName: string,
       organizationname: string,
       resource: OrganizationResource,
       options?: OrganizationsCreateOrUpdateOptionalParams,
-    ) => createOrUpdate(context, resourceGroupName, organizationname, resource, options),
+    ) =>
+      organizationsCreateOrUpdate(context, resourceGroupName, organizationname, resource, options),
     get: (
       resourceGroupName: string,
       organizationname: string,
       options?: OrganizationsGetOptionalParams,
-    ) => get(context, resourceGroupName, organizationname, options),
+    ) => organizationsGet(context, resourceGroupName, organizationname, options),
   };
 }
 
-export function getOrganizationsOperations(context: VectorDbContext): OrganizationsOperations {
+export function _getOrganizationsOperations(context: VectorDbContext): OrganizationsOperations {
   return {
-    ...getOrganizations(context),
+    ..._getOrganizations(context),
   };
 }

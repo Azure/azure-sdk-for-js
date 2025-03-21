@@ -15,7 +15,7 @@ async function organizationsListByResourceGroupMaximumSet() {
   const subscriptionId = "76a38ef6-c8c1-4f0d-bfe0-00ec782c8077";
   const client = new VectorDbClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.organizations.listByResourceGroup("rgopenapi")) {
+  for await (const item of client.organizations.listByResourceGroup("rgopenapi")) {
     resArray.push(item);
   }
 
@@ -23,7 +23,7 @@ async function organizationsListByResourceGroupMaximumSet() {
 }
 
 async function main() {
-  organizationsListByResourceGroupMaximumSet();
+  await organizationsListByResourceGroupMaximumSet();
 }
 
 main().catch(console.error);

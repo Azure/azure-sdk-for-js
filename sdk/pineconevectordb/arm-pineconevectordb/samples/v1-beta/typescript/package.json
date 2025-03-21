@@ -32,7 +32,7 @@
   "dependencies": {
     "@azure/arm-pineconevectordb": "next",
     "dotenv": "latest",
-    "@azure/identity": "^4.2.1"
+    "@azure/identity": "^4.8.0"
   },
   "devDependencies": {
     "@types/node": "^18.0.0",
