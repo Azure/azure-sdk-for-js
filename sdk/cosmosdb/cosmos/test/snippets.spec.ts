@@ -17,6 +17,14 @@ import {
   RestError,
   SqlQuerySpec,
 } from "@azure/cosmos";
+import {
+  AzureKeyVaultEncryptionKeyResolver,
+  EncryptionAlgorithm,
+  EncryptionKeyResolverName,
+  EncryptionKeyWrapMetadata,
+  KeyEncryptionAlgorithm,
+} from "../src";
+import { ClientSecretCredential } from "@azure/identity";
 
 describe("snippets", () => {
   it("ReadmeSampleCreateClient", () => {
@@ -648,12 +656,105 @@ describe("snippets", () => {
       .containers.create({ id: "<container id>" });
   });
 
+  it("DatabaseDeleteUser", async () => {
+    const endpoint = "https://your-account.documents.azure.com";
+    const key = "<database account masterkey>";
+    const client = new CosmosClient({ endpoint, key });
+    await client.database("<db id>").user("<user id>").delete();
+  });
+
   it("DatabaseDeleteContainer", async () => {
     const endpoint = "https://your-account.documents.azure.com";
     const key = "<database account masterkey>";
     const client = new CosmosClient({ endpoint, key });
     // @ts-preserve-whitespace
     await client.database("<db id>").container("<container id>").delete();
+  });
+
+  it("DatabaseRead", async () => {
+    const endpoint = "https://your-account.documents.azure.com";
+    const key = "<database account masterkey>";
+    const client = new CosmosClient({ endpoint, key });
+    // @ts-preserve-whitespace
+    // @ts-ignore
+    const { resource: database } = await client.database("<db id>").read();
+  });
+
+  it("DatabaseReadOffer", async () => {
+    const endpoint = "https://your-account.documents.azure.com";
+    const key = "<database account masterkey>";
+    const client = new CosmosClient({ endpoint, key });
+    // @ts-preserve-whitespace
+    // @ts-ignore
+    const { resource: offer } = await client.database("<db id>").readOffer();
+  });
+
+  it("DatabaseCreateClientEncryptionKey", async () => {
+    const endpoint = "https://your-account.documents.azure.com";
+    const key = "<database account masterkey>";
+    const credentials = new ClientSecretCredential("<tenant-id>", "<client-id>", "<app-secret>");
+    const keyResolver = new AzureKeyVaultEncryptionKeyResolver(credentials);
+    const client = new CosmosClient({
+      endpoint,
+      key,
+      clientEncryptionOptions: {
+        keyEncryptionKeyResolver: keyResolver,
+      },
+    });
+    const { database } = await client.databases.createIfNotExists({ id: "<db id>" });
+    const metadata: EncryptionKeyWrapMetadata = {
+      type: EncryptionKeyResolverName.AzureKeyVault,
+      name: "<key-name>",
+      value: "<key-vault-url>",
+      algorithm: KeyEncryptionAlgorithm.RSA_OAEP,
+    };
+    // @ts-preserve-whitespace
+    await database.createClientEncryptionKey(
+      "<cek-id>",
+      EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
+      metadata,
+    );
+  });
+
+  it("DatabaseReadClientEncryptionKey", async () => {
+    const endpoint = "https://your-account.documents.azure.com";
+    const key = "<database account masterkey>";
+    const credentials = new ClientSecretCredential("<tenant-id>", "<client-id>", "<app-secret>");
+    const keyResolver = new AzureKeyVaultEncryptionKeyResolver(credentials);
+    const client = new CosmosClient({
+      endpoint,
+      key,
+      clientEncryptionOptions: {
+        keyEncryptionKeyResolver: keyResolver,
+      },
+    });
+    const { database } = await client.databases.createIfNotExists({ id: "<db id>" });
+    // @ts-preserve-whitespace
+    // @ts-ignore
+    const { resource: clientEncryptionKey } = await database.readClientEncryptionKey("<cek-id>");
+  });
+
+  it("DatabaseRewrapClientEncryptionKey", async () => {
+    const endpoint = "https://your-account.documents.azure.com";
+    const key = "<database account masterkey>";
+    const credentials = new ClientSecretCredential("<tenant-id>", "<client-id>", "<app-secret>");
+    const keyResolver = new AzureKeyVaultEncryptionKeyResolver(credentials);
+    const client = new CosmosClient({
+      endpoint,
+      key,
+      clientEncryptionOptions: {
+        keyEncryptionKeyResolver: keyResolver,
+      },
+    });
+    const { database } = await client.databases.createIfNotExists({ id: "<db id>" });
+    const newMetadata: EncryptionKeyWrapMetadata = {
+      type: EncryptionKeyResolverName.AzureKeyVault,
+      name: "<key-name>",
+      value: "<key-vault-url>",
+      algorithm: KeyEncryptionAlgorithm.RSA_OAEP,
+    };
+    // @ts-preserve-whitespace
+    await database.rewrapClientEncryptionKey("<new-cek-id>", newMetadata);
   });
 
   it("DatabasesQueryDatabases", async () => {

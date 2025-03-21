@@ -108,6 +108,17 @@ export class Databases {
    *
    * @param body - The {@link DatabaseDefinition} that represents the {@link Database} to be created.
    * @param options - Use to set options like response page size, continuation tokens, etc.
+   * @example
+   * ```ts snippet:CosmosClientDatabases
+   * import { CosmosClient } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   * const { resource: databaseDefinition, database } = await client.databases.create({
+   *   id: "<name here>",
+   * });
+   * ```
    */
   public async create(
     body: DatabaseRequest,
@@ -201,6 +212,17 @@ export class Databases {
    *
    * @param body - The {@link DatabaseDefinition} that represents the {@link Database} to be created.
    * @param options - Additional options for the request
+   * @example
+   * ```ts snippet:ReadmeSampleCreateDatabase
+   * import { CosmosClient } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   *
+   * const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+   * console.log(database.id);
+   * ```
    */
   public async createIfNotExists(
     body: DatabaseRequest,
