@@ -4,7 +4,6 @@
 import { describe, it, assert, vi, beforeEach, afterEach } from "vitest";
 import { PassThrough, Writable } from "node:stream";
 import type { ClientRequest, IncomingHttpHeaders, IncomingMessage } from "http";
-import type { AbortSignalLike } from "../../src/abort-controller/AbortSignalLike.js";
 import { createPipelineRequest } from "../../src/index.js";
 
 vi.mock("https", async () => {
@@ -469,36 +468,29 @@ describe("NodeHttpClient", function () {
 
     const controller = new AbortController();
     let listenerRemoved = false;
-    const abortSignal: AbortSignalLike = {
-      aborted: false,
-      addEventListener: function (
-        _type: "abort",
-        listener: (this: AbortSignalLike, ev: any) => any,
-        options?: any,
-      ): void {
-        controller.signal.addEventListener("abort", listener, options);
-      },
-      removeEventListener: function (
-        _type: "abort",
-        listener: (this: AbortSignalLike, ev: any) => any,
-        options?: any,
-      ): void {
+    const originalRemoveEventListener = controller.signal.removeEventListener;
+    controller.signal.removeEventListener = function (
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | EventListenerOptions,
+    ) {
+      if (type === "abort") {
         listenerRemoved = true;
-        controller.signal.removeEventListener("abort", listener, options);
-      },
+      }
+      return originalRemoveEventListener.call(this, type, listener, options);
     };
 
     const stream = new PassThrough();
     stream.end();
-    const body = stream;
     const request = createPipelineRequest({
       url: "https://example.com",
-      body,
-      abortSignal,
+      body: stream,
+      abortSignal: controller.signal,
     });
+
     const promise = client.sendRequest(request);
     yieldHttpsResponse(createResponse(200));
     await Promise.all([promise, delay(10)]);
-    assert.equal(listenerRemoved, true);
+    assert.isTrue(listenerRemoved, "Abort listener should have been removed");
   });
 });
