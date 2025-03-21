@@ -4,7 +4,7 @@
 
 ### Features Added
 
-- Adding azure functions and openai tool support
+- Adding Azure Functions and OpenAPI tool support
 - Upgrading core-lro package
 
 ### Bugs Fixed
