@@ -18,7 +18,7 @@ import {
   OperationsGetNextOptionalParams,
   OperationsGetOptionalParams,
   OperationsGetResponse,
-  OperationsGetNextResponse
+  OperationsGetNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -39,7 +39,7 @@ export class OperationsImpl implements Operations {
    * @param options The options parameters.
    */
   public list(
-    options?: OperationsGetOptionalParams
+    options?: OperationsGetOptionalParams,
   ): PagedAsyncIterableIterator<Operation> {
     const iter = this.getPagingAll(options);
     return {
@@ -54,13 +54,13 @@ export class OperationsImpl implements Operations {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.getPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *getPagingPage(
     options?: OperationsGetOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Operation[]> {
     let result: OperationsGetResponse;
     let continuationToken = settings?.continuationToken;
@@ -81,7 +81,7 @@ export class OperationsImpl implements Operations {
   }
 
   private async *getPagingAll(
-    options?: OperationsGetOptionalParams
+    options?: OperationsGetOptionalParams,
   ): AsyncIterableIterator<Operation> {
     for await (const page of this.getPagingPage(options)) {
       yield* page;
@@ -93,7 +93,7 @@ export class OperationsImpl implements Operations {
    * @param options The options parameters.
    */
   private _get(
-    options?: OperationsGetOptionalParams
+    options?: OperationsGetOptionalParams,
   ): Promise<OperationsGetResponse> {
     return this.client.sendOperationRequest({ options }, getOperationSpec);
   }
@@ -105,11 +105,11 @@ export class OperationsImpl implements Operations {
    */
   private _getNext(
     nextLink: string,
-    options?: OperationsGetNextOptionalParams
+    options?: OperationsGetNextOptionalParams,
   ): Promise<OperationsGetNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      getNextOperationSpec
+      getNextOperationSpec,
     );
   }
 }
@@ -121,30 +121,29 @@ const getOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.OperationList
+      bodyMapper: Mappers.OperationList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.OperationList
+      bodyMapper: Mappers.OperationList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.nextLink],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

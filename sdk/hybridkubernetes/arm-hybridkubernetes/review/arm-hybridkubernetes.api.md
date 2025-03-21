@@ -6,39 +6,94 @@
 
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
+import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
+import { SimplePollerLike } from '@azure/core-lro';
+
+// @public
+export interface AadProfile {
+    adminGroupObjectIDs?: string[];
+    enableAzureRbac?: boolean;
+    tenantID?: string;
+}
+
+// @public
+export interface AgentError {
+    readonly component?: string;
+    readonly message?: string;
+    readonly severity?: string;
+    readonly time?: Date;
+}
+
+// @public
+export interface ArcAgentProfile {
+    agentAutoUpgrade?: AutoUpgradeOptions;
+    agentErrors?: AgentError[];
+    readonly agentState?: string;
+    desiredAgentVersion?: string;
+    systemComponents?: SystemComponent[];
+}
+
+// @public (undocumented)
+export interface ArcAgentryConfigurations {
+    feature?: string;
+    protectedSettings?: {
+        [propertyName: string]: string;
+    };
+    settings?: {
+        [propertyName: string]: string;
+    };
+}
 
 // @public
 export type AuthenticationMethod = string;
 
 // @public
+export type AutoUpgradeOptions = string;
+
+// @public
+export type AzureHybridBenefit = string;
+
+// @public
 export interface ConnectedCluster extends TrackedResource {
+    aadProfile?: AadProfile;
     agentPublicKeyCertificate: string;
     readonly agentVersion?: string;
+    arcAgentProfile?: ArcAgentProfile;
+    arcAgentryConfigurations?: ArcAgentryConfigurations[];
+    azureHybridBenefit?: AzureHybridBenefit;
     readonly connectivityStatus?: ConnectivityStatus;
     distribution?: string;
+    distributionVersion?: string;
+    gateway?: Gateway;
     identity: ConnectedClusterIdentity;
     infrastructure?: string;
+    kind?: ConnectedClusterKind;
     readonly kubernetesVersion?: string;
     readonly lastConnectivityTime?: Date;
     readonly managedIdentityCertificateExpirationTime?: Date;
+    readonly miscellaneousProperties?: {
+        [propertyName: string]: string;
+    };
     readonly offering?: string;
+    oidcIssuerProfile?: OidcIssuerProfile;
+    privateLinkScopeResourceId?: string;
+    privateLinkState?: PrivateLinkState;
     provisioningState?: ProvisioningState;
+    securityProfile?: SecurityProfile;
     readonly systemData?: SystemData;
     readonly totalCoreCount?: number;
     readonly totalNodeCount?: number;
 }
 
 // @public
-export interface ConnectedClusterCreateOptionalParams extends coreClient.OperationOptions {
+export interface ConnectedClusterCreateOrReplaceOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ConnectedClusterCreateResponse = ConnectedCluster;
+export type ConnectedClusterCreateOrReplaceResponse = ConnectedCluster;
 
 // @public
 export interface ConnectedClusterDeleteOptionalParams extends coreClient.OperationOptions {
@@ -59,6 +114,9 @@ export interface ConnectedClusterIdentity {
     readonly tenantId?: string;
     type: ResourceIdentityType;
 }
+
+// @public
+export type ConnectedClusterKind = string;
 
 // @public
 export interface ConnectedClusterList {
@@ -103,9 +161,9 @@ export type ConnectedClusterListClusterUserCredentialResponse = CredentialResult
 
 // @public
 export interface ConnectedClusterOperations {
-    beginCreate(resourceGroupName: string, clusterName: string, connectedCluster: ConnectedCluster, options?: ConnectedClusterCreateOptionalParams): Promise<PollerLike<PollOperationState<ConnectedClusterCreateResponse>, ConnectedClusterCreateResponse>>;
-    beginCreateAndWait(resourceGroupName: string, clusterName: string, connectedCluster: ConnectedCluster, options?: ConnectedClusterCreateOptionalParams): Promise<ConnectedClusterCreateResponse>;
-    beginDelete(resourceGroupName: string, clusterName: string, options?: ConnectedClusterDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginCreateOrReplace(resourceGroupName: string, clusterName: string, connectedCluster: ConnectedCluster, options?: ConnectedClusterCreateOrReplaceOptionalParams): Promise<SimplePollerLike<OperationState<ConnectedClusterCreateOrReplaceResponse>, ConnectedClusterCreateOrReplaceResponse>>;
+    beginCreateOrReplaceAndWait(resourceGroupName: string, clusterName: string, connectedCluster: ConnectedCluster, options?: ConnectedClusterCreateOrReplaceOptionalParams): Promise<ConnectedClusterCreateOrReplaceResponse>;
+    beginDelete(resourceGroupName: string, clusterName: string, options?: ConnectedClusterDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, clusterName: string, options?: ConnectedClusterDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, clusterName: string, options?: ConnectedClusterGetOptionalParams): Promise<ConnectedClusterGetResponse>;
     listByResourceGroup(resourceGroupName: string, options?: ConnectedClusterListByResourceGroupOptionalParams): PagedAsyncIterableIterator<ConnectedCluster>;
@@ -116,7 +174,9 @@ export interface ConnectedClusterOperations {
 
 // @public
 export interface ConnectedClusterPatch {
-    properties?: Record<string, unknown>;
+    azureHybridBenefit?: AzureHybridBenefit;
+    distribution?: string;
+    distributionVersion?: string;
     tags?: {
         [propertyName: string]: string;
     };
@@ -134,6 +194,7 @@ export class ConnectedKubernetesClient extends coreClient.ServiceClient {
     // (undocumented)
     $host: string;
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: ConnectedKubernetesClientOptionalParams);
+    constructor(credentials: coreAuth.TokenCredential, options?: ConnectedKubernetesClientOptionalParams);
     // (undocumented)
     apiVersion: string;
     // (undocumented)
@@ -141,7 +202,7 @@ export class ConnectedKubernetesClient extends coreClient.ServiceClient {
     // (undocumented)
     operations: Operations;
     // (undocumented)
-    subscriptionId: string;
+    subscriptionId?: string;
 }
 
 // @public
@@ -189,6 +250,12 @@ export interface ErrorResponse {
     error?: ErrorDetail;
 }
 
+// @public (undocumented)
+export interface Gateway {
+    enabled?: boolean;
+    resourceId?: string;
+}
+
 // @public
 export function getContinuationToken(page: unknown): string | undefined;
 
@@ -197,6 +264,8 @@ export interface HybridConnectionConfig {
     readonly expirationTime?: number;
     readonly hybridConnectionName?: string;
     readonly relay?: string;
+    readonly relayTid?: string;
+    readonly relayType?: string;
     readonly token?: string;
 }
 
@@ -207,7 +276,27 @@ export enum KnownAuthenticationMethod {
 }
 
 // @public
+export enum KnownAutoUpgradeOptions {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
+export enum KnownAzureHybridBenefit {
+    False = "False",
+    NotApplicable = "NotApplicable",
+    True = "True"
+}
+
+// @public
+export enum KnownConnectedClusterKind {
+    AWS = "AWS",
+    ProvisionedCluster = "ProvisionedCluster"
+}
+
+// @public
 export enum KnownConnectivityStatus {
+    AgentNotInstalled = "AgentNotInstalled",
     Connected = "Connected",
     Connecting = "Connecting",
     Expired = "Expired",
@@ -231,6 +320,12 @@ export enum KnownLastModifiedByType {
 }
 
 // @public
+export enum KnownPrivateLinkState {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
 export enum KnownProvisioningState {
     Accepted = "Accepted",
     Canceled = "Canceled",
@@ -248,6 +343,13 @@ export type LastModifiedByType = string;
 export interface ListClusterUserCredentialProperties {
     authenticationMethod: AuthenticationMethod;
     clientProxy: boolean;
+}
+
+// @public
+export interface OidcIssuerProfile {
+    enabled?: boolean;
+    readonly issuerUrl?: string;
+    selfHostedIssuerUrl?: string;
 }
 
 // @public
@@ -290,6 +392,9 @@ export interface OperationsGetOptionalParams extends coreClient.OperationOptions
 export type OperationsGetResponse = OperationList;
 
 // @public
+export type PrivateLinkState = string;
+
+// @public
 export type ProvisioningState = string;
 
 // @public
@@ -301,6 +406,24 @@ export interface Resource {
 
 // @public
 export type ResourceIdentityType = "None" | "SystemAssigned";
+
+// @public
+export interface SecurityProfile {
+    workloadIdentity?: SecurityProfileWorkloadIdentity;
+}
+
+// @public
+export interface SecurityProfileWorkloadIdentity {
+    enabled?: boolean;
+}
+
+// @public
+export interface SystemComponent {
+    readonly currentVersion?: string;
+    majorVersion?: number;
+    type?: string;
+    userSpecifiedVersion?: string;
+}
 
 // @public
 export interface SystemData {

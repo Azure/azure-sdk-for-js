@@ -24,6 +24,113 @@ export interface ConnectedClusterIdentity {
   type: ResourceIdentityType;
 }
 
+/** AAD Profile specifies attributes for Azure Active Directory integration. */
+export interface AadProfile {
+  /** Whether to enable Azure RBAC for Kubernetes authorization. */
+  enableAzureRbac?: boolean;
+  /** The list of AAD group object IDs that will have admin role of the cluster. */
+  adminGroupObjectIDs?: string[];
+  /** The AAD tenant ID to use for authentication. If not specified, will use the tenant of the deployment subscription. */
+  tenantID?: string;
+}
+
+/** Defines the Arc Agent properties for the clusters. */
+export interface ArcAgentProfile {
+  /** Version of the Arc agents to be installed on the cluster resource */
+  desiredAgentVersion?: string;
+  /** Indicates whether the Arc agents on the be upgraded automatically to the latest version. Defaults to Enabled. */
+  agentAutoUpgrade?: AutoUpgradeOptions;
+  /** List of system extensions that are installed on the cluster resource. */
+  systemComponents?: SystemComponent[];
+  /** List of arc agentry and system components errors on the cluster resource. */
+  agentErrors?: AgentError[];
+  /**
+   * Represents the current state of the Arc agentry and its dependent components.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly agentState?: string;
+}
+
+/** System extensions and its current versions installed on the cluster resource. */
+export interface SystemComponent {
+  /** Type of the system extension */
+  type?: string;
+  /** Version of the system extension to be installed on the cluster resource. */
+  userSpecifiedVersion?: string;
+  /** Major Version of the system extension that is currently installed on the cluster resource. */
+  majorVersion?: number;
+  /**
+   * Version of the system extension that is currently installed on the cluster resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly currentVersion?: string;
+}
+
+/** Agent Errors if any during agent or system component upgrade. */
+export interface AgentError {
+  /**
+   * Agent error message.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+  /**
+   * Severity of the error message.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly severity?: string;
+  /**
+   * Agent component where error message occured.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly component?: string;
+  /**
+   * The timestamp of error occured (UTC).
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly time?: Date;
+}
+
+/** Security Profile specifies attributes for cluster security features. */
+export interface SecurityProfile {
+  /** The workload identity feature webhook. */
+  workloadIdentity?: SecurityProfileWorkloadIdentity;
+}
+
+/** The workload identity feature webhook. */
+export interface SecurityProfileWorkloadIdentity {
+  /** Whether to enable or disable the workload identity Webhook */
+  enabled?: boolean;
+}
+
+/** OIDC Issuer Profile specifies attributes for workload identity integration. */
+export interface OidcIssuerProfile {
+  /** Whether to enable oidc issuer for workload identity integration. */
+  enabled?: boolean;
+  /**
+   * The issuer url for hybrid clusters connected to Arc used for the workload identity feature.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly issuerUrl?: string;
+  /** The issuer url for public cloud clusters - AKS, EKS, GKE - used for the workload identity feature. */
+  selfHostedIssuerUrl?: string;
+}
+
+export interface Gateway {
+  /** Indicates whether the gateway for arc router connectivity is enabled. */
+  enabled?: boolean;
+  /** The resource ID of the gateway used for the Arc router feature. */
+  resourceId?: string;
+}
+
+export interface ArcAgentryConfigurations {
+  /** Specifies the name of the feature for the configuration setting. */
+  feature?: string;
+  /** The configuration settings for the feature that do not contain any sensitive or secret information. */
+  settings?: { [propertyName: string]: string };
+  /** The configuration settings for the feature that contain any sensitive or secret information. */
+  protectedSettings?: { [propertyName: string]: string };
+}
+
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
@@ -112,8 +219,12 @@ export interface ErrorAdditionalInfo {
 export interface ConnectedClusterPatch {
   /** Resource tags. */
   tags?: { [propertyName: string]: string };
-  /** Describes the connected cluster resource properties that can be updated during PATCH operation. */
-  properties?: Record<string, unknown>;
+  /** Represents the distribution of the connected cluster */
+  distribution?: string;
+  /** Represents the Kubernetes distribution version on this connected cluster. */
+  distributionVersion?: string;
+  /** Indicates whether Azure Hybrid Benefit is opted in */
+  azureHybridBenefit?: AzureHybridBenefit;
 }
 
 export interface ListClusterUserCredentialProperties {
@@ -159,6 +270,16 @@ export interface HybridConnectionConfig {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly token?: string;
+  /**
+   * TenantID of the relay
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly relayTid?: string;
+  /**
+   * Type of relay
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly relayType?: string;
 }
 
 /** The credential result response. */
@@ -179,7 +300,7 @@ export interface CredentialResult {
 export interface ConnectedClusterList {
   /** The list of connected clusters */
   value?: ConnectedCluster[];
-  /** The link to fetch the next page of connected cluster */
+  /** The link to fetch the next page of connected clusters */
   nextLink?: string;
 }
 
@@ -210,7 +331,7 @@ export interface Operation {
 
 /** The object that represents the operation. */
 export interface OperationDisplay {
-  /** Service provider: Microsoft.connectedClusters */
+  /** Service provider: Microsoft.Kubernetes */
   provider?: string;
   /** Connected Cluster Resource on which the operation is performed */
   resource?: string;
@@ -232,6 +353,8 @@ export interface TrackedResource extends Resource {
 export interface ConnectedCluster extends TrackedResource {
   /** The identity of the connected cluster. */
   identity: ConnectedClusterIdentity;
+  /** The kind of connected cluster. */
+  kind?: ConnectedClusterKind;
   /**
    * Metadata pertaining to creation and last modification of the resource
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -263,6 +386,8 @@ export interface ConnectedCluster extends TrackedResource {
   provisioningState?: ProvisioningState;
   /** The Kubernetes distribution running on this connected cluster. */
   distribution?: string;
+  /** The Kubernetes distribution version on this connected cluster. */
+  distributionVersion?: string;
   /** The infrastructure on which the Kubernetes cluster represented by this connected cluster is running on. */
   infrastructure?: string;
   /**
@@ -285,7 +410,48 @@ export interface ConnectedCluster extends TrackedResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly connectivityStatus?: ConnectivityStatus;
+  /** Property which describes the state of private link on a connected cluster resource. */
+  privateLinkState?: PrivateLinkState;
+  /** This is populated only if privateLinkState is enabled. The resource id of the private link scope this connected cluster is assigned to, if any. */
+  privateLinkScopeResourceId?: string;
+  /** Indicates whether Azure Hybrid Benefit is opted in */
+  azureHybridBenefit?: AzureHybridBenefit;
+  /** AAD profile for the connected cluster. */
+  aadProfile?: AadProfile;
+  /** Arc agentry configuration for the provisioned cluster. */
+  arcAgentProfile?: ArcAgentProfile;
+  /** Security profile for the connected cluster. */
+  securityProfile?: SecurityProfile;
+  /** Open ID Connect (OIDC) Issuer Profile for the connected cluster. */
+  oidcIssuerProfile?: OidcIssuerProfile;
+  /** Details of the gateway used by the Arc router for connectivity. */
+  gateway?: Gateway;
+  /** Configuration settings for customizing the behavior of the connected cluster. */
+  arcAgentryConfigurations?: ArcAgentryConfigurations[];
+  /**
+   * More properties related to the Connected Cluster
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly miscellaneousProperties?: { [propertyName: string]: string };
 }
+
+/** Known values of {@link ConnectedClusterKind} that the service accepts. */
+export enum KnownConnectedClusterKind {
+  /** ProvisionedCluster */
+  ProvisionedCluster = "ProvisionedCluster",
+  /** AWS */
+  AWS = "AWS",
+}
+
+/**
+ * Defines values for ConnectedClusterKind. \
+ * {@link KnownConnectedClusterKind} can be used interchangeably with ConnectedClusterKind,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **ProvisionedCluster** \
+ * **AWS**
+ */
+export type ConnectedClusterKind = string;
 
 /** Known values of {@link ProvisioningState} that the service accepts. */
 export enum KnownProvisioningState {
@@ -302,7 +468,7 @@ export enum KnownProvisioningState {
   /** Deleting */
   Deleting = "Deleting",
   /** Accepted */
-  Accepted = "Accepted"
+  Accepted = "Accepted",
 }
 
 /**
@@ -329,7 +495,9 @@ export enum KnownConnectivityStatus {
   /** Offline */
   Offline = "Offline",
   /** Expired */
-  Expired = "Expired"
+  Expired = "Expired",
+  /** AgentNotInstalled */
+  AgentNotInstalled = "AgentNotInstalled",
 }
 
 /**
@@ -340,9 +508,67 @@ export enum KnownConnectivityStatus {
  * **Connecting** \
  * **Connected** \
  * **Offline** \
- * **Expired**
+ * **Expired** \
+ * **AgentNotInstalled**
  */
 export type ConnectivityStatus = string;
+
+/** Known values of {@link PrivateLinkState} that the service accepts. */
+export enum KnownPrivateLinkState {
+  /** Enabled */
+  Enabled = "Enabled",
+  /** Disabled */
+  Disabled = "Disabled",
+}
+
+/**
+ * Defines values for PrivateLinkState. \
+ * {@link KnownPrivateLinkState} can be used interchangeably with PrivateLinkState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled** \
+ * **Disabled**
+ */
+export type PrivateLinkState = string;
+
+/** Known values of {@link AzureHybridBenefit} that the service accepts. */
+export enum KnownAzureHybridBenefit {
+  /** True */
+  True = "True",
+  /** False */
+  False = "False",
+  /** NotApplicable */
+  NotApplicable = "NotApplicable",
+}
+
+/**
+ * Defines values for AzureHybridBenefit. \
+ * {@link KnownAzureHybridBenefit} can be used interchangeably with AzureHybridBenefit,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **True** \
+ * **False** \
+ * **NotApplicable**
+ */
+export type AzureHybridBenefit = string;
+
+/** Known values of {@link AutoUpgradeOptions} that the service accepts. */
+export enum KnownAutoUpgradeOptions {
+  /** Enabled */
+  Enabled = "Enabled",
+  /** Disabled */
+  Disabled = "Disabled",
+}
+
+/**
+ * Defines values for AutoUpgradeOptions. \
+ * {@link KnownAutoUpgradeOptions} can be used interchangeably with AutoUpgradeOptions,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled** \
+ * **Disabled**
+ */
+export type AutoUpgradeOptions = string;
 
 /** Known values of {@link CreatedByType} that the service accepts. */
 export enum KnownCreatedByType {
@@ -353,7 +579,7 @@ export enum KnownCreatedByType {
   /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
   /** Key */
-  Key = "Key"
+  Key = "Key",
 }
 
 /**
@@ -377,7 +603,7 @@ export enum KnownLastModifiedByType {
   /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
   /** Key */
-  Key = "Key"
+  Key = "Key",
 }
 
 /**
@@ -397,7 +623,7 @@ export enum KnownAuthenticationMethod {
   /** Token */
   Token = "Token",
   /** AAD */
-  AAD = "AAD"
+  AAD = "AAD",
 }
 
 /**
@@ -413,7 +639,7 @@ export type AuthenticationMethod = string;
 export type ResourceIdentityType = "None" | "SystemAssigned";
 
 /** Optional parameters. */
-export interface ConnectedClusterCreateOptionalParams
+export interface ConnectedClusterCreateOrReplaceOptionalParams
   extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
@@ -421,8 +647,8 @@ export interface ConnectedClusterCreateOptionalParams
   resumeFrom?: string;
 }
 
-/** Contains response data for the create operation. */
-export type ConnectedClusterCreateResponse = ConnectedCluster;
+/** Contains response data for the createOrReplace operation. */
+export type ConnectedClusterCreateOrReplaceResponse = ConnectedCluster;
 
 /** Optional parameters. */
 export interface ConnectedClusterUpdateOptionalParams
@@ -452,7 +678,8 @@ export interface ConnectedClusterListClusterUserCredentialOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listClusterUserCredential operation. */
-export type ConnectedClusterListClusterUserCredentialResponse = CredentialResults;
+export type ConnectedClusterListClusterUserCredentialResponse =
+  CredentialResults;
 
 /** Optional parameters. */
 export interface ConnectedClusterListByResourceGroupOptionalParams
@@ -473,14 +700,16 @@ export interface ConnectedClusterListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type ConnectedClusterListByResourceGroupNextResponse = ConnectedClusterList;
+export type ConnectedClusterListByResourceGroupNextResponse =
+  ConnectedClusterList;
 
 /** Optional parameters. */
 export interface ConnectedClusterListBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
-export type ConnectedClusterListBySubscriptionNextResponse = ConnectedClusterList;
+export type ConnectedClusterListBySubscriptionNextResponse =
+  ConnectedClusterList;
 
 /** Optional parameters. */
 export interface OperationsGetOptionalParams
