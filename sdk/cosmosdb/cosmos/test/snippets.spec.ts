@@ -852,7 +852,7 @@ describe("snippets", () => {
     // @ts-preserve-whitespace
     containerDefinition.throughput = 400;
     // @ts-ignore
-    const { replacedContainer } = await container.replace(containerDefinition);
+    const { container: replacedContainer } = await container.replace(containerDefinition);
   });
 
   it("ContainerIntializeEncryption", async () => {
