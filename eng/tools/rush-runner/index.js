@@ -5,10 +5,10 @@
 
 import { exit } from "node:process";
 import { executeActions } from "./src/actions.js";
-import { parseArgs } from "./src/args.js";
+import { parseProcessArgs } from "./src/args.js";
 
 function main() {
-  const { action, serviceDirs, rushParams, artifactNames, ciFlag } = parseArgs();
+  const { action, serviceDirs, rushParams, artifactNames, ciFlag } = parseProcessArgs();
   exit(executeActions(action, serviceDirs, rushParams, artifactNames, ciFlag));
 }
 
