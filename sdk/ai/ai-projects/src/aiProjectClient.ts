@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+/* eslint-disable @typescript-eslint/consistent-type-imports */
 
 import {
   _getEvaluationsOperations,
@@ -29,6 +30,8 @@ export { AIProjectClientOptionalParams } from "./api/aiProjectContext.js";
 
 export class AIProjectClient {
   private _client: AIProjectContext;
+  private _connectionClient: AIProjectContext;
+  private _telemetryClient: AIProjectContext;
   /** The pipeline used by this client to make requests */
   public readonly pipeline: Pipeline;
 
@@ -40,6 +43,9 @@ export class AIProjectClient {
     credential: TokenCredential,
     options: AIProjectClientOptionalParams = {},
   ) {
+
+    const connectionEndPoint = `https://management.azure.com/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/${projectName}`;
+
     const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
     const userAgentPrefix = prefixFromOptions
       ? `${prefixFromOptions} azsdk-js-client`
@@ -52,10 +58,28 @@ export class AIProjectClient {
       credential,
       { ...options, userAgentOptions: { userAgentPrefix } },
     );
+
+    this._connectionClient = createAIProject(
+      endpointParam,
+      subscriptionId,
+      resourceGroupName,
+      projectName,
+      credential,
+      { ...options, userAgentOptions: { userAgentPrefix }, endpoint: connectionEndPoint },
+    );
+
+    this._telemetryClient = createAIProject(
+      endpointParam,
+      subscriptionId,
+      resourceGroupName,
+      projectName,
+      credential,
+      { ...options, apiVersion: "2020-02-02", endpoint: "https://management.azure.com" },
+    );
     this.pipeline = this._client.pipeline;
     this.evaluations = _getEvaluationsOperations(this._client);
-    this.telemetry = _getTelemetryOperations(this._client);
-    this.connections = _getConnectionsOperations(this._client);
+    this.telemetry = _getTelemetryOperations(this._telemetryClient);
+    this.connections = _getConnectionsOperations(this._connectionClient);
     this.agents = _getAgentsOperations(this._client);
   }
 
@@ -69,11 +93,11 @@ export class AIProjectClient {
   public readonly agents: AgentsOperations;
 
   /**
-     * Creates a new instance of AzureAIProjectsClient
-     * @param connectionString - Connection string with the endpoint, subscriptionId, resourceGroupName, and projectName
-     * @param credential - The credential to use
-     * @param options - The parameter for all optional parameters
-     */
+   * Creates a new instance of AzureAIProjectsClient
+   * @param connectionString - Connection string with the endpoint, subscriptionId, resourceGroupName, and projectName
+   * @param credential - The credential to use
+   * @param options - The parameter for all optional parameters
+   */
   static fromConnectionString(
     connectionString: string,
     credential: TokenCredential,

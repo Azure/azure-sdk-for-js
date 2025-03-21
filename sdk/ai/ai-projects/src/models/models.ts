@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+/* eslint-disable @typescript-eslint/naming-convention */
 
 import {
   CodeInterpreterToolDefinition,
@@ -774,7 +775,7 @@ export function getConnectionResponseDeserializer(
 /** Connection properties */
 export interface InternalConnectionProperties {
   /** Authentication type of the connection target */
-  /** The discriminator possible values: ApiKey, AAD, CustomKeys, SAS, None */
+  /** The discriminator possible values: ApiKey, AAD, SAS, None */
   authType: AuthenticationType;
   /** Category of the connection */
   category: ConnectionType;
@@ -796,7 +797,6 @@ export function internalConnectionPropertiesDeserializer(
 export type InternalConnectionPropertiesUnion =
   | InternalConnectionPropertiesApiKeyAuth
   | InternalConnectionPropertiesAADAuth
-  | InternalConnectionPropertiesCustomAuth
   | InternalConnectionPropertiesSASAuth
   | InternalConnectionPropertiesNoAuth
   | InternalConnectionProperties;
@@ -815,11 +815,6 @@ export function internalConnectionPropertiesUnionDeserializer(
         item as InternalConnectionPropertiesAADAuth,
       );
 
-    case "CustomKeys":
-      return internalConnectionPropertiesCustomAuthDeserializer(
-        item as InternalConnectionPropertiesCustomAuth,
-      );
-
     case "SAS":
       return internalConnectionPropertiesSASAuthDeserializer(
         item as InternalConnectionPropertiesSASAuth,
@@ -836,12 +831,7 @@ export function internalConnectionPropertiesUnionDeserializer(
 }
 
 /** Authentication type used by Azure AI service to connect to another service */
-export type AuthenticationType =
-  | "ApiKey"
-  | "AAD"
-  | "SAS"
-  | "CustomKeys"
-  | "None";
+export type AuthenticationType = "ApiKey" | "AAD" | "SAS" | "None";
 /** The Type (or category) of the connection */
 export type ConnectionType =
   | "AzureOpenAI"
@@ -849,9 +839,7 @@ export type ConnectionType =
   | "AzureBlob"
   | "AIServices"
   | "CognitiveSearch"
-  | "ApiKey"
-  | "CustomKeys"
-  | "CognitiveService";
+  | "ApiKey";
 
 /** Connection properties for connections with API key authentication */
 export interface InternalConnectionPropertiesApiKeyAuth
@@ -883,7 +871,7 @@ export function credentialsApiKeyAuthDeserializer(
   item: any,
 ): CredentialsApiKeyAuth {
   return {
-    key: item["key"],
+    key: item?.["key"] ? item["key"] : "",
   };
 }
 
@@ -897,23 +885,6 @@ export interface InternalConnectionPropertiesAADAuth
 export function internalConnectionPropertiesAADAuthDeserializer(
   item: any,
 ): InternalConnectionPropertiesAADAuth {
-  return {
-    authType: item["authType"],
-    category: item["category"],
-    target: item["target"],
-  };
-}
-
-/** Connection properties for connections with Custom authentication */
-export interface InternalConnectionPropertiesCustomAuth
-  extends InternalConnectionProperties {
-  /** Authentication type of the connection target */
-  authType: "CustomKeys";
-}
-
-export function internalConnectionPropertiesCustomAuthDeserializer(
-  item: any,
-): InternalConnectionPropertiesCustomAuth {
   return {
     authType: item["authType"],
     category: item["category"],

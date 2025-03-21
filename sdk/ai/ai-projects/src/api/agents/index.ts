@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import type { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
   AgentsCancelRunOptionalParams,
   AgentsCancelVectorStoreFileBatchOptionalParams,
@@ -114,6 +115,13 @@ import {
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";
 import { uint8ArrayToString, stringToUint8Array } from "@azure/core-util";
+import { AgentsPoller } from "./poller.js";
+import type {
+  AgentUploadFileWithPollingOptionalParams,
+  AgentsCreateVectorStoreFileBatchWithPollingOptionalParams,
+  AgentsCreateVectorStoreFileWithPollingOptionalParams,
+  AgentsCreateVectorStoreWithPollingOptionalParams
+} from "./customModels.ts";
 
 export function _listVectorStoreFileBatchFilesSend(
   context: Client,
@@ -347,7 +355,7 @@ export async function _createVectorStoreFileBatchDeserialize(
 export async function createVectorStoreFileBatch(
   context: Client,
   vectorStoreId: string,
-  options: AgentsCreateVectorStoreFileBatchOptionalParams = {
+  options: AgentsCreateVectorStoreFileBatchWithPollingOptionalParams = {
     requestOptions: {},
   },
 ): Promise<VectorStoreFileBatch> {
@@ -357,6 +365,51 @@ export async function createVectorStoreFileBatch(
     options,
   );
   return _createVectorStoreFileBatchDeserialize(result);
+}
+
+/** Create a vector store file batch and poll. */
+export function createVectorStoreFileBatchAndPoll(
+  context: Client,
+  vectorStoreId: string,
+  options: AgentsCreateVectorStoreFileBatchWithPollingOptionalParams = {
+    requestOptions: {},
+  },
+): PollerLike<
+  PollOperationState<VectorStoreFileBatch>,
+  VectorStoreFileBatch
+> {
+  async function updateCreateVectorStoreFileBatchPoll(
+    currentResult?: VectorStoreFileBatch,
+  ): Promise<{ result: VectorStoreFileBatch; completed: boolean }> {
+    let vectorStore: VectorStoreFileBatch;
+    if (!currentResult) {
+      vectorStore = await createVectorStoreFileBatch(context, vectorStoreId, options);
+    } else {
+      vectorStore = await getVectorStoreFileBatch(
+        context,
+        vectorStoreId,
+        currentResult.id,
+        options,
+      );
+    }
+    return {
+      result: vectorStore,
+      completed: vectorStore.status !== "in_progress",
+    };
+  }
+
+  async function cancelCreateVectorStoreFileBatchPoll(
+    currentResult: VectorStoreFileBatch,
+  ): Promise<boolean> {
+    const result = await cancelVectorStoreFileBatch(context, vectorStoreId, currentResult.id);
+    return result.status === "cancelled";
+  }
+
+  return new AgentsPoller<VectorStoreFileBatch>({
+    update: updateCreateVectorStoreFileBatchPoll,
+    cancel: cancelCreateVectorStoreFileBatchPoll,
+    pollingOptions: options.pollingOptions,
+  });
 }
 
 export function _deleteVectorStoreFileSend(
@@ -525,7 +578,7 @@ export async function _createVectorStoreFileDeserialize(
 export async function createVectorStoreFile(
   context: Client,
   vectorStoreId: string,
-  options: AgentsCreateVectorStoreFileOptionalParams = { requestOptions: {} },
+  options: AgentsCreateVectorStoreFileWithPollingOptionalParams = { requestOptions: {} },
 ): Promise<VectorStoreFile> {
   const result = await _createVectorStoreFileSend(
     context,
@@ -533,6 +586,32 @@ export async function createVectorStoreFile(
     options,
   );
   return _createVectorStoreFileDeserialize(result);
+}
+
+export function createVectorStoreFileAndPoll(
+  context: Client,
+  vectorStoreId: string,
+  options: AgentsCreateVectorStoreFileWithPollingOptionalParams = { requestOptions: {} },
+): PollerLike<PollOperationState<VectorStoreFile>, VectorStoreFile> {
+  async function updateCreateVectorStoreFilePoll(
+    currentResult?: VectorStoreFile,
+  ): Promise<{ result: VectorStoreFile; completed: boolean }> {
+    let vectorStoreFile: VectorStoreFile;
+    if (!currentResult) {
+      vectorStoreFile = await createVectorStoreFile(context, vectorStoreId, options);
+    } else {
+      vectorStoreFile = await getVectorStoreFile(context, vectorStoreId, currentResult.id, options);
+    }
+    return {
+      result: vectorStoreFile,
+      completed: vectorStoreFile.status !== "in_progress",
+    };
+  }
+
+  return new AgentsPoller<VectorStoreFile>({
+    update: updateCreateVectorStoreFilePoll,
+    pollingOptions: options.pollingOptions,
+  });
 }
 
 export function _listVectorStoreFilesSend(
@@ -794,10 +873,38 @@ export async function _createVectorStoreDeserialize(
 /** Creates a vector store. */
 export async function createVectorStore(
   context: Client,
-  options: AgentsCreateVectorStoreOptionalParams = { requestOptions: {} },
+  options: AgentsCreateVectorStoreWithPollingOptionalParams = { requestOptions: {} },
 ): Promise<VectorStore> {
   const result = await _createVectorStoreSend(context, options);
   return _createVectorStoreDeserialize(result);
+}
+
+export function createVectorStoreAndPoll(
+  context: Client,
+  options: AgentsCreateVectorStoreWithPollingOptionalParams = { requestOptions: {} },
+): PollerLike<PollOperationState<VectorStore>, VectorStore> {
+  async function updateCreateVectorStorePoll(
+    currentResult?: VectorStore,
+  ): Promise<{ result: VectorStore; completed: boolean }> {
+    let vectorStore: VectorStore;
+    if (!currentResult) {
+      vectorStore = await createVectorStore(context, options);
+    } else {
+      const getOptions: AgentsGetVectorStoreOptionalParams = {
+        ...operationOptionsToRequestParameters(options),
+      };
+      vectorStore = await getVectorStore(context, currentResult.id, getOptions);
+    }
+    return {
+      result: vectorStore,
+      completed: vectorStore.status !== "in_progress",
+    };
+  }
+
+  return new AgentsPoller<VectorStore>({
+    update: updateCreateVectorStorePoll,
+    pollingOptions: options.pollingOptions,
+  });
 }
 
 export function _listVectorStoresSend(
@@ -1015,11 +1122,15 @@ export function _uploadFileSend(
         accept: "application/json",
         ...options.requestOptions?.headers,
       },
-      body: {
-        file: uint8ArrayToString(file, "base64"),
-        purpose: purpose,
-        filename: options?.filename,
-      },
+      // body: {
+      //   file: uint8ArrayToString(file, "base64"),
+      //   purpose: purpose,
+      //   filename: options?.filename,
+      // },
+      body: [
+        { name: "file" as const, body: uint8ArrayToString(file, "base64"), filename: options?.filename ?? "test-file" },
+        { name: "purpose" as const, body: purpose },
+      ],
     });
 }
 
@@ -1039,11 +1150,39 @@ export async function uploadFile(
   context: Client,
   file: Uint8Array,
   purpose: FilePurpose,
-  options: AgentsUploadFileOptionalParams = { requestOptions: {} },
+  options: AgentUploadFileWithPollingOptionalParams = { requestOptions: {} },
 ): Promise<OpenAIFile> {
   const result = await _uploadFileSend(context, file, purpose, options);
   return _uploadFileDeserialize(result);
 }
+
+export function uploadFileAndPoll(
+  context: Client,
+  file: Uint8Array,
+  purpose: FilePurpose,
+  options: AgentUploadFileWithPollingOptionalParams = { requestOptions: {} },
+): PollerLike<PollOperationState<OpenAIFile>, OpenAIFile> {
+  async function updateUploadFileAndPoll(
+    currentResult?: OpenAIFile,
+  ): Promise<{ result: OpenAIFile; completed: boolean }> {
+    let outputFile: OpenAIFile;
+    if (!currentResult) {
+      outputFile = await uploadFile(context, file, purpose, options);
+    } else {
+      outputFile = await getFile(context, currentResult.id, options);
+    }
+    return {
+      result: outputFile,
+      completed:
+        outputFile.status === "uploaded" || outputFile.status === "processed" || outputFile.status === "deleted",
+    };
+  }
+
+  return new AgentsPoller<OpenAIFile>({
+    update: updateUploadFileAndPoll,
+    pollingOptions: options.pollingOptions ?? {},
+  });
+};
 
 export function _listFilesSend(
   context: Client,
@@ -1215,7 +1354,7 @@ export async function getRunStep(
 
 export function _createThreadAndRunSend(
   context: Client,
-  assistantId: string,
+  agentId: string,
   options: AgentsCreateThreadAndRunOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -1237,7 +1376,7 @@ export function _createThreadAndRunSend(
         ...options.requestOptions?.headers,
       },
       body: {
-        assistant_id: assistantId,
+        assistant_id: agentId,
         thread: !options?.thread
           ? options?.thread
           : agentThreadCreationOptionsSerializer(options?.thread),
@@ -1283,10 +1422,10 @@ export async function _createThreadAndRunDeserialize(
 /** Creates a new agent thread and immediately starts a run using that new thread. */
 export async function createThreadAndRun(
   context: Client,
-  assistantId: string,
+  agentId: string,
   options: AgentsCreateThreadAndRunOptionalParams = { requestOptions: {} },
 ): Promise<ThreadRun> {
-  const result = await _createThreadAndRunSend(context, assistantId, options);
+  const result = await _createThreadAndRunSend(context, agentId, options);
   return _createThreadAndRunDeserialize(result);
 }
 
@@ -1559,7 +1698,7 @@ export async function listRuns(
 export function _createRunSend(
   context: Client,
   threadId: string,
-  assistantId: string,
+  agentId: string,
   options: AgentsCreateRunOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -1587,7 +1726,7 @@ export function _createRunSend(
         ...options.requestOptions?.headers,
       },
       body: {
-        assistant_id: assistantId,
+        assistant_id: agentId,
         model: options?.model,
         instructions: options?.instructions,
         additional_instructions: options?.additionalInstructions,
@@ -1632,10 +1771,11 @@ export async function _createRunDeserialize(
 export async function createRun(
   context: Client,
   threadId: string,
-  assistantId: string,
+  agentId: string,
   options: AgentsCreateRunOptionalParams = { requestOptions: {} },
 ): Promise<ThreadRun> {
-  const result = await _createRunSend(context, threadId, assistantId, options);
+  const result = await _createRunSend(context, threadId, agentId, options);
+  console.log("createRun result", result);
   return _createRunDeserialize(result);
 }
 
@@ -2068,13 +2208,13 @@ export async function createThread(
 
 export function _deleteAgentSend(
   context: Client,
-  assistantId: string,
+  agentId: string,
   options: AgentsDeleteAgentOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/assistants/{assistantId}{?api-version}",
+    "/assistants/{agentId}{?api-version}",
     {
-      assistantId: assistantId,
+      agentId: agentId,
       "api-version": context.apiVersion,
     },
     {
@@ -2106,22 +2246,22 @@ export async function _deleteAgentDeserialize(
 /** Deletes an agent. */
 export async function deleteAgent(
   context: Client,
-  assistantId: string,
+  agentId: string,
   options: AgentsDeleteAgentOptionalParams = { requestOptions: {} },
 ): Promise<AgentDeletionStatus> {
-  const result = await _deleteAgentSend(context, assistantId, options);
+  const result = await _deleteAgentSend(context, agentId, options);
   return _deleteAgentDeserialize(result);
 }
 
 export function _updateAgentSend(
   context: Client,
-  assistantId: string,
+  agentId: string,
   options: AgentsUpdateAgentOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/assistants/{assistantId}{?api-version}",
+    "/assistants/{agentId}{?api-version}",
     {
-      assistantId: assistantId,
+      agentId: agentId,
       "api-version": context.apiVersion,
     },
     {
@@ -2172,22 +2312,22 @@ export async function _updateAgentDeserialize(
 /** Modifies an existing agent. */
 export async function updateAgent(
   context: Client,
-  assistantId: string,
+  agentId: string,
   options: AgentsUpdateAgentOptionalParams = { requestOptions: {} },
 ): Promise<Agent> {
-  const result = await _updateAgentSend(context, assistantId, options);
+  const result = await _updateAgentSend(context, agentId, options);
   return _updateAgentDeserialize(result);
 }
 
 export function _getAgentSend(
   context: Client,
-  assistantId: string,
+  agentId: string,
   options: AgentsGetAgentOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/assistants/{assistantId}{?api-version}",
+    "/assistants/{agentId}{?api-version}",
     {
-      assistantId: assistantId,
+      agentId: agentId,
       "api-version": context.apiVersion,
     },
     {
@@ -2219,10 +2359,10 @@ export async function _getAgentDeserialize(
 /** Retrieves an existing agent. */
 export async function getAgent(
   context: Client,
-  assistantId: string,
+  agentId: string,
   options: AgentsGetAgentOptionalParams = { requestOptions: {} },
 ): Promise<Agent> {
-  const result = await _getAgentSend(context, assistantId, options);
+  const result = await _getAgentSend(context, agentId, options);
   return _getAgentDeserialize(result);
 }
 

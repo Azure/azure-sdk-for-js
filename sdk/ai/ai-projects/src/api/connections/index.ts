@@ -162,7 +162,6 @@ export async function _listConnectionsDeserialize(
   result: PathUncheckedResponse,
 ): Promise<ListConnectionsResponse> {
   const expectedStatuses = ["200"];
-  console.log("result ", JSON.stringify(result));
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
   }

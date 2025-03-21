@@ -29,7 +29,6 @@ describe("Agents - assistants", () => {
   it("should list connections", async function () {
     // List connections
     const { value: connectionsList } = await connections.listConnections();
-    console.log(`Connections list: ${JSON.stringify(connectionsList)}`);
     assert.isNotNull(connectionsList);
     assert.isAtLeast(connectionsList.length, 1);
     console.log(`Retrieved ${connectionsList.length} connections`);

@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 
 /** An abstract representation of an input tool definition that an agent can use. */
 export interface ToolDefinition {
@@ -1299,7 +1300,7 @@ export function agentDeserializer(item: any): Agent {
     description: item["description"],
     model: item["model"],
     instructions: item["instructions"],
-    tools: toolDefinitionUnionArrayDeserializer(item["tools"]),
+    tools: toolDefinitionUnionArrayDeserializer(item["tools"] ?? []),
     toolResources: !item["tool_resources"]
       ? item["tool_resources"]
       : toolResourcesDeserializer(item["tool_resources"]),
@@ -3666,9 +3667,10 @@ export function vectorStoreFileDeserializer(item: any): VectorStoreFile {
     lastError: !item["last_error"]
       ? item["last_error"]
       : vectorStoreFileErrorDeserializer(item["last_error"]),
-    chunkingStrategy: vectorStoreChunkingStrategyResponseUnionDeserializer(
-      item["chunking_strategy"],
-    ),
+    chunkingStrategy: !item["chunking_strategy"] ? item["chunking_strategy"] :
+      vectorStoreChunkingStrategyResponseUnionDeserializer(
+        item["chunking_strategy"],
+      ),
   };
 }
 

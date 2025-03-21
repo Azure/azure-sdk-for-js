@@ -35,7 +35,6 @@ export {
   InternalConnectionPropertiesApiKeyAuth,
   CredentialsApiKeyAuth,
   InternalConnectionPropertiesAADAuth,
-  InternalConnectionPropertiesCustomAuth,
   InternalConnectionPropertiesSASAuth,
   CredentialsSASAuth,
   InternalConnectionPropertiesNoAuth,

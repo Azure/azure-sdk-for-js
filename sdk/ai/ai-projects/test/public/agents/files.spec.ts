@@ -38,30 +38,30 @@ describe("Agents - files", () => {
     assert.isNotEmpty(file);
   });
 
-  // it("should upload file and poll", async function () {
-  //   const fileContent = new Uint8Array(new TextEncoder().encode("fileContent"));
-  //   const poller = agents.uploadFileAndPoll(fileContent, "assistants", {
-  //     filename: "fileName",
-  //     pollingOptions: { sleepIntervalInMs: 1000 },
-  //   });
-  //   const file = await poller.pollUntilDone();
-  //   assert.notInclude(["uploaded", "pending", "running"], file.status);
-  //   assert.isNotEmpty(file);
-  // });
+  it("should upload file and poll", async function () {
+    const fileContent = new Uint8Array(new TextEncoder().encode("fileContent"));
+    const poller = agents.uploadFileAndPoll(fileContent, "assistants", {
+      filename: "fileName",
+      pollingOptions: { sleepIntervalInMs: 1000 },
+    });
+    const file = await poller.pollUntilDone();
+    assert.notInclude(["uploaded", "pending", "running"], file.status);
+    assert.isNotEmpty(file);
+  });
 
-  // it("should delete file", async function () {
-  //   const fileContent = new Uint8Array(new TextEncoder().encode("fileContent"));
-  //   const file = await agents.uploadFile(fileContent, "assistants", { filename: "fileName" });
-  //   const deleted = await agents.deleteFile(file.id);
-  //   assert.isNotNull(deleted);
-  // });
+  it("should delete file", async function () {
+    const fileContent = new Uint8Array(new TextEncoder().encode("fileContent"));
+    const file = await agents.uploadFile(fileContent, "assistants", { filename: "fileName" });
+    const deleted = await agents.deleteFile(file.id);
+    assert.isNotNull(deleted);
+  });
 
-  // it("should retrieve file", async function () {
-  //   const fileContent = new Uint8Array(new TextEncoder().encode("fileContent"));
-  //   const file = await agents.uploadFile(fileContent, "assistants", { filename: "fileName" });
-  //   const _file = await agents.getFile(file.id);
-  //   assert.isNotEmpty(_file);
-  //   assert.equal(_file.id, file.id);
-  //   await agents.deleteFile(file.id);
-  // });
+  it("should retrieve file", async function () {
+    const fileContent = new Uint8Array(new TextEncoder().encode("fileContent"));
+    const file = await agents.uploadFile(fileContent, "assistants", { filename: "fileName" });
+    const _file = await agents.getFile(file.id);
+    assert.isNotEmpty(_file);
+    assert.equal(_file.id, file.id);
+    await agents.deleteFile(file.id);
+  });
 });

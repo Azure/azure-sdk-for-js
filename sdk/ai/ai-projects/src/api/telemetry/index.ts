@@ -17,6 +17,44 @@ import {
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";
 
+/**
+ * Telemetry options
+ */
+export interface TelemetryOptions {
+  /** Enable content recording */
+  enableContentRecording: boolean;
+}
+
+const telemetryOptions: TelemetryOptions & { connectionString: string | undefined, appInsightsResourceUrl: string | undefined } = {
+  enableContentRecording: false,
+  connectionString: undefined,
+  appInsightsResourceUrl: undefined,
+};
+
+/**
+ * Update the telemetry settings
+ * @param options - The telemetry options
+ */
+export function updateTelemetryOptions(options: TelemetryOptions): void {
+  telemetryOptions.enableContentRecording = options.enableContentRecording;
+}
+
+/**
+ * Get the telemetry options
+ * @returns The telemetry options
+ */
+export function getTelemetryOptions(): TelemetryOptions {
+  return { ...telemetryOptions };
+}
+
+/**
+ * Reset the telemetry options
+ */
+export function resetTelemetryOptions(): void {
+  telemetryOptions.connectionString = undefined;
+  telemetryOptions.enableContentRecording = false;
+}
+
 export function _getAppInsightsSend(
   context: Client,
   appInsightsResourceUrl: string,
@@ -65,5 +103,26 @@ export async function getAppInsights(
     appInsightsResourceUrl,
     options,
   );
-  return _getAppInsightsDeserialize(result);
+
+  const appInsights = await _getAppInsightsDeserialize(result);
+  telemetryOptions.appInsightsResourceUrl = appInsightsResourceUrl;
+  telemetryOptions.connectionString = appInsights.properties?.connectionString;
+  return appInsights;
+}
+
+export async function getConnectionString(
+  context: Client,
+  appInsightsResourceUrl: string,
+  options: TelemetryGetAppInsightsOptionalParams = { requestOptions: {} },
+): Promise<string | undefined> {
+  if (telemetryOptions.connectionString) {
+    return telemetryOptions.connectionString;
+  }
+
+  await getAppInsights(
+    context,
+    appInsightsResourceUrl,
+    options,
+  );
+  return telemetryOptions.connectionString;
 }

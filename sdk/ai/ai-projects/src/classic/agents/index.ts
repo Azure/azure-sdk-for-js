@@ -1,25 +1,30 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AIProjectContext } from "../../api/aiProjectContext.js";
+import type { PollerLike, PollOperationState } from "@azure/core-lro";
+import type { AIProjectContext } from "../../api/aiProjectContext.js";
 import {
   listVectorStoreFileBatchFiles,
   cancelVectorStoreFileBatch,
   getVectorStoreFileBatch,
   createVectorStoreFileBatch,
+  createVectorStoreFileBatchAndPoll,
   deleteVectorStoreFile,
   getVectorStoreFile,
   createVectorStoreFile,
+  createVectorStoreFileAndPoll,
   listVectorStoreFiles,
   deleteVectorStore,
   modifyVectorStore,
   getVectorStore,
   createVectorStore,
+  createVectorStoreAndPoll,
   listVectorStores,
   getFileContent,
   getFile,
   deleteFile,
   uploadFile,
+  uploadFileAndPoll,
   listFiles,
   listRunSteps,
   getRunStep,
@@ -44,7 +49,7 @@ import {
   listAgents,
   createAgent,
 } from "../../api/agents/index.js";
-import {
+import type {
   Agent,
   OpenAIPageableListOfAgent,
   AgentDeletionStatus,
@@ -70,24 +75,20 @@ import {
   VectorStoreFileDeletionStatus,
   VectorStoreFileBatch,
 } from "../../models/agents/models.js";
-import {
+import type {
   AgentsListVectorStoreFileBatchFilesOptionalParams,
   AgentsCancelVectorStoreFileBatchOptionalParams,
   AgentsGetVectorStoreFileBatchOptionalParams,
-  AgentsCreateVectorStoreFileBatchOptionalParams,
   AgentsDeleteVectorStoreFileOptionalParams,
   AgentsGetVectorStoreFileOptionalParams,
-  AgentsCreateVectorStoreFileOptionalParams,
   AgentsListVectorStoreFilesOptionalParams,
   AgentsDeleteVectorStoreOptionalParams,
   AgentsModifyVectorStoreOptionalParams,
   AgentsGetVectorStoreOptionalParams,
-  AgentsCreateVectorStoreOptionalParams,
   AgentsListVectorStoresOptionalParams,
   AgentsGetFileContentOptionalParams,
   AgentsGetFileOptionalParams,
   AgentsDeleteFileOptionalParams,
-  AgentsUploadFileOptionalParams,
   AgentsListFilesOptionalParams,
   AgentsListRunStepsOptionalParams,
   AgentsGetRunStepOptionalParams,
@@ -113,6 +114,13 @@ import {
   AgentsCreateAgentOptionalParams,
 } from "../../api/options.js";
 
+import type {
+  AgentUploadFileWithPollingOptionalParams,
+  AgentsCreateVectorStoreFileBatchWithPollingOptionalParams,
+  AgentsCreateVectorStoreFileWithPollingOptionalParams,
+  AgentsCreateVectorStoreWithPollingOptionalParams,
+} from "../../api/agents/customModels.js";
+
 /** Interface representing a Agents operations. */
 export interface AgentsOperations {
   /** Returns a list of vector store files in a batch. */
@@ -136,8 +144,12 @@ export interface AgentsOperations {
   /** Create a vector store file batch. */
   createVectorStoreFileBatch: (
     vectorStoreId: string,
-    options?: AgentsCreateVectorStoreFileBatchOptionalParams,
+    options?: AgentsCreateVectorStoreFileBatchWithPollingOptionalParams,
   ) => Promise<VectorStoreFileBatch>;
+  createVectorStoreFileBatchAndPoll: (
+    vectorStoreId: string,
+    options?: AgentsCreateVectorStoreFileBatchWithPollingOptionalParams,
+  ) => PollerLike<PollOperationState<VectorStoreFileBatch>, VectorStoreFileBatch>;
   /**
    * Delete a vector store file. This will remove the file from the vector store but the file itself will not be deleted.
    * To delete the file, use the delete file endpoint.
@@ -156,8 +168,12 @@ export interface AgentsOperations {
   /** Create a vector store file by attaching a file to a vector store. */
   createVectorStoreFile: (
     vectorStoreId: string,
-    options?: AgentsCreateVectorStoreFileOptionalParams,
+    options?: AgentsCreateVectorStoreFileWithPollingOptionalParams,
   ) => Promise<VectorStoreFile>;
+  createVectorStoreFileAndPoll: (
+    vectorStoreId: string,
+    options?: AgentsCreateVectorStoreFileWithPollingOptionalParams,
+  ) => PollerLike<PollOperationState<VectorStoreFile>, VectorStoreFile>;
   /** Returns a list of vector store files. */
   listVectorStoreFiles: (
     vectorStoreId: string,
@@ -180,8 +196,11 @@ export interface AgentsOperations {
   ) => Promise<VectorStore>;
   /** Creates a vector store. */
   createVectorStore: (
-    options?: AgentsCreateVectorStoreOptionalParams,
+    options?: AgentsCreateVectorStoreWithPollingOptionalParams,
   ) => Promise<VectorStore>;
+  createVectorStoreAndPoll: (
+    options?: AgentsCreateVectorStoreWithPollingOptionalParams,
+  ) => PollerLike<PollOperationState<VectorStore>, VectorStore>;
   /** Returns a list of vector stores. */
   listVectorStores: (
     options?: AgentsListVectorStoresOptionalParams,
@@ -205,8 +224,13 @@ export interface AgentsOperations {
   uploadFile: (
     file: Uint8Array,
     purpose: FilePurpose,
-    options?: AgentsUploadFileOptionalParams,
+    options?: AgentUploadFileWithPollingOptionalParams,
   ) => Promise<OpenAIFile>;
+  uploadFileAndPoll: (
+    file: Uint8Array,
+    purpose: FilePurpose,
+    options?: AgentUploadFileWithPollingOptionalParams,
+  ) => PollerLike<PollOperationState<OpenAIFile>, OpenAIFile>;
   /** Gets a list of previously uploaded files. */
   listFiles: (
     options?: AgentsListFilesOptionalParams,
@@ -354,8 +378,12 @@ function _getAgents(context: AIProjectContext) {
     ) => getVectorStoreFileBatch(context, vectorStoreId, batchId, options),
     createVectorStoreFileBatch: (
       vectorStoreId: string,
-      options?: AgentsCreateVectorStoreFileBatchOptionalParams,
+      options?: AgentsCreateVectorStoreFileBatchWithPollingOptionalParams,
     ) => createVectorStoreFileBatch(context, vectorStoreId, options),
+    createVectorStoreFileBatchAndPoll: (
+      vectorStoreId: string,
+      options?: AgentsCreateVectorStoreFileBatchWithPollingOptionalParams,
+    ) => createVectorStoreFileBatchAndPoll(context, vectorStoreId, options),
     deleteVectorStoreFile: (
       vectorStoreId: string,
       fileId: string,
@@ -368,8 +396,13 @@ function _getAgents(context: AIProjectContext) {
     ) => getVectorStoreFile(context, vectorStoreId, fileId, options),
     createVectorStoreFile: (
       vectorStoreId: string,
-      options?: AgentsCreateVectorStoreFileOptionalParams,
+      options?: AgentsCreateVectorStoreFileWithPollingOptionalParams,
     ) => createVectorStoreFile(context, vectorStoreId, options),
+    createVectorStoreFileAndPoll: (
+      vectorStoreId: string,
+      options?: AgentsCreateVectorStoreFileWithPollingOptionalParams,
+    ) => createVectorStoreFileAndPoll(context, vectorStoreId, options),
+
     listVectorStoreFiles: (
       vectorStoreId: string,
       options?: AgentsListVectorStoreFilesOptionalParams,
@@ -386,8 +419,10 @@ function _getAgents(context: AIProjectContext) {
       vectorStoreId: string,
       options?: AgentsGetVectorStoreOptionalParams,
     ) => getVectorStore(context, vectorStoreId, options),
-    createVectorStore: (options?: AgentsCreateVectorStoreOptionalParams) =>
+    createVectorStore: (options?: AgentsCreateVectorStoreWithPollingOptionalParams) =>
       createVectorStore(context, options),
+    createVectorStoreAndPoll: (options?: AgentsCreateVectorStoreWithPollingOptionalParams) =>
+      createVectorStoreAndPoll(context, options),
     listVectorStores: (options?: AgentsListVectorStoresOptionalParams) =>
       listVectorStores(context, options),
     getFileContent: (
@@ -401,8 +436,13 @@ function _getAgents(context: AIProjectContext) {
     uploadFile: (
       file: Uint8Array,
       purpose: FilePurpose,
-      options?: AgentsUploadFileOptionalParams,
+      options?: AgentUploadFileWithPollingOptionalParams,
     ) => uploadFile(context, file, purpose, options),
+    uploadFileAndPoll: (
+      file: Uint8Array,
+      purpose: FilePurpose,
+      options?: AgentUploadFileWithPollingOptionalParams,
+    ) => uploadFileAndPoll(context, file, purpose, options),
     listFiles: (options?: AgentsListFilesOptionalParams) =>
       listFiles(context, options),
     listRunSteps: (
@@ -481,11 +521,11 @@ function _getAgents(context: AIProjectContext) {
     createThread: (options?: AgentsCreateThreadOptionalParams) =>
       createThread(context, options),
     deleteAgent: (
-      assistantId: string,
+      assistantId: string, 
       options?: AgentsDeleteAgentOptionalParams,
     ) => deleteAgent(context, assistantId, options),
     updateAgent: (
-      assistantId: string,
+      assistantId: string, 
       options?: AgentsUpdateAgentOptionalParams,
     ) => updateAgent(context, assistantId, options),
     getAgent: (assistantId: string, options?: AgentsGetAgentOptionalParams) =>
