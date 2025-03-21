@@ -181,9 +181,8 @@ function Get-PackageInfoNameOverride {
   if ($PkgProps.ArtifactName) {
     return $PkgProps.ArtifactName
   }
-  else {
-    LogError "In Get-PackageInfoNameOverride-PkgProps, PkgProps with name $($PkgProps.Name) did not contain an ArtifactName"
-  }
+  LogError "In Get-PackageInfoNameOverride-PkgProps, PkgProps with name $($PkgProps.Name) did not contain an ArtifactName"
+  exit 1
 }
 
 # Returns the npm publish status of a package id and version.
