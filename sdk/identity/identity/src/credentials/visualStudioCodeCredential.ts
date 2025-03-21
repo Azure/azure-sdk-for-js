@@ -96,7 +96,11 @@ export function getPropertyFromVSCode(property: string): string | undefined {
  * versions newer than **0.9.11**. A long-term fix to this problem is in progress. In the meantime, consider
  * authenticating with {@link AzureCliCredential}.
  *
- * @deprecated VisualStudioCodeCredential is deprecated.
+ * @deprecated This credential is deprecated because the VS Code Azure Account extension on which this credential
+ * relies has been deprecated. Users should use other dev-time credentials, such as {@link AzureCliCredential},
+ * {@link AzureDeveloperCliCredential}, {@link AzurePowerShellCredential} or {@link IntelliJCredential} for their
+ * local development needs. See Azure account extension deprecation notice [here](https://github.com/microsoft/vscode-azure-account/issues/964).
+ * 
  */
 export class VisualStudioCodeCredential implements TokenCredential {
   private identityClient: IdentityClient;

@@ -7,6 +7,9 @@
  * @returns an array of credentials (username and password)
  * @internal
  *
- * @deprecated VisualStudioCodeCredential is deprecated.
+ * @deprecated This credential is deprecated because the VS Code Azure Account extension on which this credential
+ * relies has been deprecated. Users should use other dev-time credentials, such as {@link AzureCliCredential},
+ * {@link AzureDeveloperCliCredential}, {@link AzurePowerShellCredential} or {@link IntelliJCredential} for their
+ * local development needs. See Azure account extension deprecation notice [here](https://github.com/microsoft/vscode-azure-account/issues/964).
  */
 export type VSCodeCredentialFinder = () => Promise<Array<{ account: string; password: string }>>;
