@@ -44,7 +44,7 @@ export function bearerAuthenticationPolicy(
       ensureSecureConnection(request, options);
 
       const scheme = (request.authSchemes ?? options.authSchemes)?.find(
-        (x) => x.type === "http" && x.scheme === "bearer",
+        (x) => x.kind === "http" && x.scheme === "bearer",
       );
 
       // Skip adding authentication header if no bearer authentication scheme is found

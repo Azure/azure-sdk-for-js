@@ -53,7 +53,7 @@ function createBasicAuthPolicy(username: string, password: string): PipelinePoli
     credential: { username, password },
     authSchemes: [
       {
-        type: "http",
+        kind: "http",
         scheme: "basic",
       },
     ],

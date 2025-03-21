@@ -141,7 +141,7 @@ index f8d603b..0000000
 -}
 diff --git a/src/auth/authFlows.ts b/src/auth/authFlows.ts
 new file mode 100644
-index 0000000..c3b70f1
+index 0000000..01f42e5
 --- /dev/null
 +++ b/src/auth/authFlows.ts
 @@ -0,0 +1,67 @@
@@ -153,7 +153,7 @@ index 0000000..c3b70f1
 + */
 +export interface AuthorizationCodeFlow {
 +  /** Type of OAuth2 flow */
-+  type: "authorizationCode";
++  kind: "authorizationCode";
 +  /** Authorization endpoint */
 +  authorizationUrl: string;
 +  /** Token endpoint */
@@ -169,7 +169,7 @@ index 0000000..c3b70f1
 + */
 +export interface ClientCredentialsFlow {
 +  /** Type of OAuth2 flow */
-+  type: "clientCredentials";
++  kind: "clientCredentials";
 +  /** Token endpoint */
 +  tokenUrl: string;
 +  /** Refresh token endpoints */
@@ -183,7 +183,7 @@ index 0000000..c3b70f1
 + */
 +export interface ImplicitFlow {
 +  /** Type of OAuth2 flow */
-+  type: "implicit";
++  kind: "implicit";
 +  /** Authorization endpoint */
 +  authorizationUrl: string;
 +  /** Refresh token endpoint */
@@ -197,7 +197,7 @@ index 0000000..c3b70f1
 + */
 +export interface PasswordFlow {
 +  /** Type of OAuth2 flow */
-+  type: "password";
++  kind: "password";
 +  /** Token endpoint */
 +  tokenUrl: string;
 +  /** Refresh token endpoint */
@@ -602,7 +602,7 @@ index 9db25cf..0000000
 -}
 diff --git a/src/auth/schemes.ts b/src/auth/schemes.ts
 new file mode 100644
-index 0000000..4d63edc
+index 0000000..4094def
 --- /dev/null
 +++ b/src/auth/schemes.ts
 @@ -0,0 +1,66 @@
@@ -618,7 +618,7 @@ index 0000000..4d63edc
 + */
 +export interface BasicAuthScheme {
 +  /** Type of auth scheme */
-+  type: "http";
++  kind: "http";
 +  /** Basic authentication scheme */
 +  scheme: "basic";
 +}
@@ -630,7 +630,7 @@ index 0000000..4d63edc
 + */
 +export interface BearerAuthScheme {
 +  /** Type of auth scheme */
-+  type: "http";
++  kind: "http";
 +  /** Bearer authentication scheme */
 +  scheme: "bearer";
 +}
@@ -640,7 +640,7 @@ index 0000000..4d63edc
 + */
 +export interface NoAuthAuthScheme {
 +  /** Type of auth scheme */
-+  type: "noAuth";
++  kind: "noAuth";
 +}
 +
 +/**
@@ -650,7 +650,7 @@ index 0000000..4d63edc
 + */
 +export interface ApiKeyAuthScheme {
 +  /** Type of auth scheme */
-+  type: "apiKey";
++  kind: "apiKey";
 +  /** Location of the API key */
 +  apiKeyLocation: "query" | "header" | "cookie";
 +  /** Name of the API key parameter */
@@ -660,7 +660,7 @@ index 0000000..4d63edc
 +/** Represents OAuth2 authentication scheme with specified flows */
 +export interface OAuth2AuthScheme<TFlows extends OAuth2Flow[]> {
 +  /** Type of auth scheme */
-+  type: "oauth2";
++  kind: "oauth2";
 +  /** Supported OAuth2 flows */
 +  flows: TFlows;
 +}
@@ -2089,7 +2089,7 @@ index 5947165..6c09a01 100644
  
 diff --git a/src/policies/auth/apiKeyAuthenticationPolicy.ts b/src/policies/auth/apiKeyAuthenticationPolicy.ts
 new file mode 100644
-index 0000000..f9fd2b8
+index 0000000..58f6e9e
 --- /dev/null
 +++ b/src/policies/auth/apiKeyAuthenticationPolicy.ts
 @@ -0,0 +1,60 @@
@@ -2138,7 +2138,7 @@ index 0000000..f9fd2b8
 +      // Ensure allowInsecureConnection is explicitly set when sending request to non-https URLs
 +      ensureSecureConnection(request, options);
 +
-+      const scheme = (request.authSchemes ?? options.authSchemes)?.find((x) => x.type === "apiKey");
++      const scheme = (request.authSchemes ?? options.authSchemes)?.find((x) => x.kind === "apiKey");
 +
 +      // Skip adding authentication header if no API key authentication scheme is found
 +      if (!scheme) {
@@ -2155,7 +2155,7 @@ index 0000000..f9fd2b8
 +}
 diff --git a/src/policies/auth/basicAuthenticationPolicy.ts b/src/policies/auth/basicAuthenticationPolicy.ts
 new file mode 100644
-index 0000000..c85b3e8
+index 0000000..e4486de
 --- /dev/null
 +++ b/src/policies/auth/basicAuthenticationPolicy.ts
 @@ -0,0 +1,65 @@
@@ -2206,7 +2206,7 @@ index 0000000..c85b3e8
 +      ensureSecureConnection(request, options);
 +
 +      const scheme = (request.authSchemes ?? options.authSchemes)?.find(
-+        (x) => x.type === "http" && x.scheme === "basic",
++        (x) => x.kind === "http" && x.scheme === "basic",
 +      );
 +
 +      // Skip adding authentication header if no basic authentication scheme is found
@@ -2226,7 +2226,7 @@ index 0000000..c85b3e8
 +}
 diff --git a/src/policies/auth/bearerAuthenticationPolicy.ts b/src/policies/auth/bearerAuthenticationPolicy.ts
 new file mode 100644
-index 0000000..f51908d
+index 0000000..d7e8010
 --- /dev/null
 +++ b/src/policies/auth/bearerAuthenticationPolicy.ts
 @@ -0,0 +1,62 @@
@@ -2276,7 +2276,7 @@ index 0000000..f51908d
 +      ensureSecureConnection(request, options);
 +
 +      const scheme = (request.authSchemes ?? options.authSchemes)?.find(
-+        (x) => x.type === "http" && x.scheme === "bearer",
++        (x) => x.kind === "http" && x.scheme === "bearer",
 +      );
 +
 +      // Skip adding authentication header if no bearer authentication scheme is found
@@ -2365,7 +2365,7 @@ index 0000000..2604b32
 +}
 diff --git a/src/policies/auth/oauth2AuthenticationPolicy.ts b/src/policies/auth/oauth2AuthenticationPolicy.ts
 new file mode 100644
-index 0000000..d1f7ec6
+index 0000000..63f0235
 --- /dev/null
 +++ b/src/policies/auth/oauth2AuthenticationPolicy.ts
 @@ -0,0 +1,60 @@
@@ -2415,7 +2415,7 @@ index 0000000..d1f7ec6
 +      // Ensure allowInsecureConnection is explicitly set when sending request to non-https URLs
 +      ensureSecureConnection(request, options);
 +
-+      const scheme = (request.authSchemes ?? options.authSchemes)?.find((x) => x.type === "oauth2");
++      const scheme = (request.authSchemes ?? options.authSchemes)?.find((x) => x.kind === "oauth2");
 +
 +      // Skip adding authentication header if no OAuth2 authentication scheme is found
 +      if (!scheme) {

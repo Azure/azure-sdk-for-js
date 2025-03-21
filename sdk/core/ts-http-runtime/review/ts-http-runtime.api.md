@@ -35,8 +35,8 @@ export interface Agent {
 // @public
 export interface ApiKeyAuthScheme {
     apiKeyLocation: "query" | "header" | "cookie";
+    kind: "apiKey";
     name: string;
-    type: "apiKey";
 }
 
 // @public
@@ -50,10 +50,10 @@ export type AuthCredential = OAuth2TokenCredential<OAuth2Flow> | BearerTokenCred
 // @public
 export interface AuthorizationCodeFlow {
     authorizationUrl: string;
+    kind: "authorizationCode";
     refreshUrl?: string;
     scopes?: string[];
     tokenUrl: string;
-    type: "authorizationCode";
 }
 
 // @public
@@ -61,8 +61,8 @@ export type AuthScheme = BasicAuthScheme | BearerAuthScheme | NoAuthAuthScheme |
 
 // @public
 export interface BasicAuthScheme {
+    kind: "http";
     scheme: "basic";
-    type: "http";
 }
 
 // @public
@@ -73,8 +73,8 @@ export interface BasicCredential {
 
 // @public
 export interface BearerAuthScheme {
+    kind: "http";
     scheme: "bearer";
-    type: "http";
 }
 
 // @public
@@ -97,10 +97,10 @@ export interface Client {
 
 // @public
 export interface ClientCredentialsFlow {
+    kind: "clientCredentials";
     refreshUrl?: string[];
     scopes?: string[];
     tokenUrl: string;
-    type: "clientCredentials";
 }
 
 // @public
@@ -211,9 +211,9 @@ export type HttpResponse = {
 // @public
 export interface ImplicitFlow {
     authorizationUrl: string;
+    kind: "implicit";
     refreshUrl?: string;
     scopes?: string[];
-    type: "implicit";
 }
 
 // @public
@@ -240,13 +240,13 @@ export interface MultipartRequestBody {
 
 // @public
 export interface NoAuthAuthScheme {
-    type: "noAuth";
+    kind: "noAuth";
 }
 
 // @public
 export interface OAuth2AuthScheme<TFlows extends OAuth2Flow[]> {
     flows: TFlows;
-    type: "oauth2";
+    kind: "oauth2";
 }
 
 // @public
@@ -279,10 +279,10 @@ export interface OperationRequestOptions {
 
 // @public
 export interface PasswordFlow {
+    kind: "password";
     refreshUrl?: string;
     scopes?: string[];
     tokenUrl: string;
-    type: "password";
 }
 
 // @public

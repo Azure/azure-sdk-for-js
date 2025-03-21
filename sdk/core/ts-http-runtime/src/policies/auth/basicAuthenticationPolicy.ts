@@ -45,7 +45,7 @@ export function basicAuthenticationPolicy(
       ensureSecureConnection(request, options);
 
       const scheme = (request.authSchemes ?? options.authSchemes)?.find(
-        (x) => x.type === "http" && x.scheme === "basic",
+        (x) => x.kind === "http" && x.scheme === "basic",
       );
 
       // Skip adding authentication header if no basic authentication scheme is found

@@ -10,7 +10,7 @@ import type { OAuth2Flow } from "./authFlows.js";
  */
 export interface BasicAuthScheme {
   /** Type of auth scheme */
-  type: "http";
+  kind: "http";
   /** Basic authentication scheme */
   scheme: "basic";
 }
@@ -22,7 +22,7 @@ export interface BasicAuthScheme {
  */
 export interface BearerAuthScheme {
   /** Type of auth scheme */
-  type: "http";
+  kind: "http";
   /** Bearer authentication scheme */
   scheme: "bearer";
 }
@@ -32,7 +32,7 @@ export interface BearerAuthScheme {
  */
 export interface NoAuthAuthScheme {
   /** Type of auth scheme */
-  type: "noAuth";
+  kind: "noAuth";
 }
 
 /**
@@ -42,7 +42,7 @@ export interface NoAuthAuthScheme {
  */
 export interface ApiKeyAuthScheme {
   /** Type of auth scheme */
-  type: "apiKey";
+  kind: "apiKey";
   /** Location of the API key */
   apiKeyLocation: "query" | "header" | "cookie";
   /** Name of the API key parameter */
@@ -52,7 +52,7 @@ export interface ApiKeyAuthScheme {
 /** Represents OAuth2 authentication scheme with specified flows */
 export interface OAuth2AuthScheme<TFlows extends OAuth2Flow[]> {
   /** Type of auth scheme */
-  type: "oauth2";
+  kind: "oauth2";
   /** Supported OAuth2 flows */
   flows: TFlows;
 }

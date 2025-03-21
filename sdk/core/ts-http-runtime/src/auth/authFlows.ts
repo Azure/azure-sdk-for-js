@@ -6,7 +6,7 @@
  */
 export interface AuthorizationCodeFlow {
   /** Type of OAuth2 flow */
-  type: "authorizationCode";
+  kind: "authorizationCode";
   /** Authorization endpoint */
   authorizationUrl: string;
   /** Token endpoint */
@@ -22,7 +22,7 @@ export interface AuthorizationCodeFlow {
  */
 export interface ClientCredentialsFlow {
   /** Type of OAuth2 flow */
-  type: "clientCredentials";
+  kind: "clientCredentials";
   /** Token endpoint */
   tokenUrl: string;
   /** Refresh token endpoints */
@@ -36,7 +36,7 @@ export interface ClientCredentialsFlow {
  */
 export interface ImplicitFlow {
   /** Type of OAuth2 flow */
-  type: "implicit";
+  kind: "implicit";
   /** Authorization endpoint */
   authorizationUrl: string;
   /** Refresh token endpoint */
@@ -50,7 +50,7 @@ export interface ImplicitFlow {
  */
 export interface PasswordFlow {
   /** Type of OAuth2 flow */
-  type: "password";
+  kind: "password";
   /** Token endpoint */
   tokenUrl: string;
   /** Refresh token endpoint */

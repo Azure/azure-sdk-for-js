@@ -79,7 +79,7 @@ describe("bearerAuthenticationPolicy", function () {
       credential,
       authSchemes: [
         {
-          type: "http",
+          kind: "http",
           scheme: "bearer",
         },
       ],

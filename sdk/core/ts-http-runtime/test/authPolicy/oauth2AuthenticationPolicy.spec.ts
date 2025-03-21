@@ -8,7 +8,7 @@ import { oauth2AuthenticationPolicy } from "../../src/policies/auth/oauth2Authen
 import type { OAuth2Flow } from "../../src/auth/authFlows.js";
 
 const exampleScheme: AuthScheme = {
-  type: "oauth2",
+  kind: "oauth2",
   flows: [
     {
       type: "clientCredentials",

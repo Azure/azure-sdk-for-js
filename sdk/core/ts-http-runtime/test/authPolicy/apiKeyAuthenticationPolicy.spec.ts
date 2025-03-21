@@ -51,7 +51,7 @@ function createApiKeyPolicy(
     credential: { key: apiKey },
     authSchemes: [
       {
-        type: "apiKey",
+        kind: "apiKey",
         name: "api-key",
         apiKeyLocation,
       },

@@ -43,7 +43,7 @@ export function apiKeyAuthenticationPolicy(
       // Ensure allowInsecureConnection is explicitly set when sending request to non-https URLs
       ensureSecureConnection(request, options);
 
-      const scheme = (request.authSchemes ?? options.authSchemes)?.find((x) => x.type === "apiKey");
+      const scheme = (request.authSchemes ?? options.authSchemes)?.find((x) => x.kind === "apiKey");
 
       // Skip adding authentication header if no API key authentication scheme is found
       if (!scheme) {

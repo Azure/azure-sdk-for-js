@@ -44,7 +44,7 @@ export function oauth2AuthenticationPolicy<TFlows extends OAuth2Flow>(
       // Ensure allowInsecureConnection is explicitly set when sending request to non-https URLs
       ensureSecureConnection(request, options);
 
-      const scheme = (request.authSchemes ?? options.authSchemes)?.find((x) => x.type === "oauth2");
+      const scheme = (request.authSchemes ?? options.authSchemes)?.find((x) => x.kind === "oauth2");
 
       // Skip adding authentication header if no OAuth2 authentication scheme is found
       if (!scheme) {
