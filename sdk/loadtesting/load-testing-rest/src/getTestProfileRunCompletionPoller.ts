@@ -4,15 +4,15 @@
 import type { AbortSignalLike } from "@azure/abort-controller";
 import { AbortError } from "@azure/abort-controller";
 import type { CancelOnProgress, OperationState, SimplePollerLike } from "@azure/core-lro";
-import type { TestRunCompletionPoller, PolledOperationOptions } from "./models.js";
+import type { PolledOperationOptions, TestProfileRunCompletionPoller } from "./models.js";
 import type { AzureLoadTestingClient } from "./clientDefinitions.js";
 import type {
-  LoadTestRunCreateOrUpdateTestRun200Response,
-  LoadTestRunCreateOrUpdateTestRun201Response,
-  LoadTestRunGetTestRun200Response,
+  TestProfileRunAdministrationCreateOrUpdateTestProfileRun200Response,
+  TestProfileRunAdministrationCreateOrUpdateTestProfileRun201Response,
+  TestProfileRunAdministrationGetTestProfileRun200Response,
 } from "./responses.js";
 import { isUnexpected } from "./isUnexpected.js";
-import { sleep, isTestRunInProgress } from "./util/LROUtil.js";
+import { sleep, isTestProfileRunInProgress } from "./util/LROUtil.js";
 
 /**
  * Creates a poller to poll for test run status.
@@ -20,69 +20,73 @@ import { sleep, isTestRunInProgress } from "./util/LROUtil.js";
  * @param options - The operation options.
  * @returns A poller which can be called to poll until completion of the job.
  */
-export async function getTestRunCompletionPoller(
+export async function getTestProfileRunCompletionPoller(
   client: AzureLoadTestingClient,
-  createTestRunResponse:
-    | LoadTestRunCreateOrUpdateTestRun200Response
-    | LoadTestRunCreateOrUpdateTestRun201Response,
+  createTestProfileRunResponse:
+    | TestProfileRunAdministrationCreateOrUpdateTestProfileRun200Response
+    | TestProfileRunAdministrationCreateOrUpdateTestProfileRun201Response,
   polledOperationOptions: PolledOperationOptions = {},
-): Promise<TestRunCompletionPoller> {
-  type Handler = (state: OperationState<LoadTestRunGetTestRun200Response>) => void;
+): Promise<TestProfileRunCompletionPoller> {
+  type Handler = (
+    state: OperationState<TestProfileRunAdministrationGetTestProfileRun200Response>,
+  ) => void;
 
-  const state: OperationState<LoadTestRunGetTestRun200Response> = {
+  const state: OperationState<TestProfileRunAdministrationGetTestProfileRun200Response> = {
     status: "notStarted",
   };
 
   const progressCallbacks = new Map<symbol, Handler>();
   const processProgressCallbacks = async (): Promise<void> =>
     progressCallbacks.forEach((h) => h(state));
-  let resultPromise: Promise<LoadTestRunGetTestRun200Response> | undefined;
+  let resultPromise: Promise<TestProfileRunAdministrationGetTestProfileRun200Response> | undefined;
   let cancelJob: (() => void) | undefined;
   const abortController = new AbortController();
-  const currentPollIntervalInMs = polledOperationOptions.updateIntervalInMs ?? 2000;
-  const testRunId = createTestRunResponse.body.testRunId;
+  const currentPollIntervalInMs = polledOperationOptions.updateIntervalInMs ?? 10000;
+  const testProfileRunId = createTestProfileRunResponse.body.testProfileRunId;
 
   const poller: SimplePollerLike<
-    OperationState<LoadTestRunGetTestRun200Response>,
-    LoadTestRunGetTestRun200Response
+    OperationState<TestProfileRunAdministrationGetTestProfileRun200Response>,
+    TestProfileRunAdministrationGetTestProfileRun200Response
   > = {
     async poll(options?: { abortSignal?: AbortSignalLike }): Promise<void> {
       if (options?.abortSignal?.aborted) {
         throw new AbortError("The polling was aborted.");
       }
 
-      if (testRunId) {
-        const getTestRunResult = await client.path("/test-runs/{testRunId}", testRunId).get();
-        if (isUnexpected(getTestRunResult)) {
+      if (testProfileRunId) {
+        const getTestProfileRunResult = await client
+          .path("/test-profile-runs/{testProfileRunId}", testProfileRunId)
+          .get();
+        if (isUnexpected(getTestProfileRunResult)) {
           state.status = "failed";
-          state.error = new Error(getTestRunResult.body.error.message);
+          state.error = new Error(getTestProfileRunResult.body.error.message);
           return;
         }
 
-        if (getTestRunResult.body.status === "FAILED") {
+        if (getTestProfileRunResult.body.status === "FAILED") {
           state.status = "failed";
-          state.error = new Error(getTestRunResult.body.status);
+          state.error = new Error(getTestProfileRunResult.body.status);
         }
 
-        if (getTestRunResult.body.status === "CANCELLED") {
+        if (getTestProfileRunResult.body.status === "CANCELLED") {
           state.status = "canceled";
         }
 
-        if (getTestRunResult.body.status === "DONE") {
+        if (getTestProfileRunResult.body.status === "DONE") {
           state.status = "succeeded";
         }
 
-        if (isTestRunInProgress(getTestRunResult.body)) {
+        if (isTestProfileRunInProgress(getTestProfileRunResult.body)) {
           state.status = "running";
         }
-        state.result = getTestRunResult;
+        state.result = getTestProfileRunResult;
         await processProgressCallbacks();
       }
     },
 
     pollUntilDone(pollOptions?: {
       abortSignal?: AbortSignalLike;
-    }): Promise<LoadTestRunGetTestRun200Response> {
+    }): Promise<TestProfileRunAdministrationGetTestProfileRun200Response> {
       return (resultPromise ??= (async () => {
         const { abortSignal: inputAbortSignal } = pollOptions || {};
         // In the future we can use AbortSignal.any() instead
@@ -113,7 +117,7 @@ export async function getTestRunCompletionPoller(
           case "succeeded":
           case "failed":
           case "canceled": {
-            return poller.getResult() as LoadTestRunGetTestRun200Response;
+            return poller.getResult() as TestProfileRunAdministrationGetTestProfileRun200Response;
           }
           case "notStarted":
           case "running": {
@@ -127,7 +131,9 @@ export async function getTestRunCompletionPoller(
     },
 
     onProgress(
-      callback: (state: OperationState<LoadTestRunGetTestRun200Response>) => void,
+      callback: (
+        state: OperationState<TestProfileRunAdministrationGetTestProfileRun200Response>,
+      ) => void,
     ): CancelOnProgress {
       const s = Symbol();
       progressCallbacks.set(s, callback);
@@ -148,11 +154,11 @@ export async function getTestRunCompletionPoller(
       return resultPromise === undefined;
     },
 
-    getOperationState(): OperationState<LoadTestRunGetTestRun200Response> {
+    getOperationState(): OperationState<TestProfileRunAdministrationGetTestProfileRun200Response> {
       return state;
     },
 
-    getResult(): LoadTestRunGetTestRun200Response | undefined {
+    getResult(): TestProfileRunAdministrationGetTestProfileRun200Response | undefined {
       return state.result;
     },
 
