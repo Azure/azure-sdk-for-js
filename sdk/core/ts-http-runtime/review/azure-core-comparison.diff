@@ -1086,27 +1086,11 @@ index 609878a..a977840 100644
     *
     * type MyClient = Client & {
     *   path: Routes;
-@@ -321,23 +303,19 @@ export interface AdditionalPolicyConfig {
-  */
- export type ClientOptions = PipelineOptions & {
-   /**
--   * Credentials information
-+   * List of authentication schemes supported by the client.
-+   * These schemes define how the client can authenticate requests.
-    */
--  credentials?: {
--    /**
--     * Authentication scopes for AAD
--     */
--    scopes?: string[];
--    /**
--     * Heder name for Client Secret authentication
--     */
--    apiKeyHeaderName?: string;
--  };
-+  authSchemes?: AuthScheme[];
-+
-   /**
+@@ -333,11 +314,9 @@ export type ClientOptions = PipelineOptions & {
+      */
+     apiKeyHeaderName?: string;
+   };
+-  /**
 -   * Base url for the client
 -   * @deprecated This property is deprecated and will be removed soon, please use endpoint instead
 +   * The credential used to authenticate requests.
@@ -3228,7 +3212,7 @@ index 4f54b0d..0000000
 -  }
 -}
 diff --git a/src/restError.ts b/src/restError.ts
-index 0b2e69f..bc09e78 100644
+index a3d36bc..722db2a 100644
 --- a/src/restError.ts
 +++ b/src/restError.ts
 @@ -1,7 +1,7 @@

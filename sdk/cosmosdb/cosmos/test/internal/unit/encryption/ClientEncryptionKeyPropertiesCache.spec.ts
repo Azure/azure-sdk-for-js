@@ -21,12 +21,12 @@ describe("ClientEncryptionKeyPropertiesCache", () => {
     const encryptionAlgorithm = "testEncryptionAlgorithm";
     const etag = "testEtag";
     const wrappedDataEncryptionKey = Buffer.from("testWrappedDataEncryptionKey");
-    const encryptionKeyWrapMetadata = new EncryptionKeyWrapMetadata(
-      EncryptionKeyResolverName.AzureKeyVault,
-      "testName",
-      "testValue",
-      KeyEncryptionAlgorithm.RSA_OAEP,
-    );
+    const encryptionKeyWrapMetadata: EncryptionKeyWrapMetadata = {
+      type: EncryptionKeyResolverName.AzureKeyVault,
+      name: "testName",
+      value: "testValue",
+      algorithm: KeyEncryptionAlgorithm.RSA_OAEP,
+    };
     const clientEncryptionKeyProperties: ClientEncryptionKeyProperties = {
       id: id,
       encryptionAlgorithm,

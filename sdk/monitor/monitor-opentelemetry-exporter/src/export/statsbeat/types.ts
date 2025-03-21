@@ -14,7 +14,7 @@ export class NetworkStatsbeat {
 
   public lastRequestCount: number;
 
-  public totalSuccesfulRequestCount: number;
+  public totalSuccessfulRequestCount: number;
 
   public totalReadFailureCount: number;
 
@@ -38,7 +38,7 @@ export class NetworkStatsbeat {
     this.endpoint = endpoint;
     this.host = host;
     this.totalRequestCount = 0;
-    this.totalSuccesfulRequestCount = 0;
+    this.totalSuccessfulRequestCount = 0;
     this.totalReadFailureCount = 0;
     this.totalWriteFailureCount = 0;
     this.totalFailedRequestCount = [];
