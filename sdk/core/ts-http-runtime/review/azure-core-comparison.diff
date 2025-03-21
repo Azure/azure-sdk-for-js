@@ -994,7 +994,7 @@ index 30dac33..f7e4696 100644
  
  export function getCachedDefaultHttpsClient(): HttpClient {
 diff --git a/src/client/common.ts b/src/client/common.ts
-index 609878a..a977840 100644
+index 58f6eba..a977840 100644
 --- a/src/client/common.ts
 +++ b/src/client/common.ts
 @@ -3,19 +3,18 @@
@@ -1086,11 +1086,55 @@ index 609878a..a977840 100644
     *
     * type MyClient = Client & {
     *   path: Routes;
-@@ -333,11 +314,9 @@ export type ClientOptions = PipelineOptions & {
-      */
-     apiKeyHeaderName?: string;
-   };
+@@ -217,18 +199,6 @@ export interface Client {
+   pathUnchecked: PathUnchecked;
+ }
+ 
+-/**
+- * A Node.js Readable stream that also has a `destroy` method.
+- */
+-export interface NodeJSReadableStream extends NodeJS.ReadableStream {
 -  /**
+-   * Destroy the stream. Optionally emit an 'error' event, and emit a
+-   * 'close' event (unless emitClose is set to false). After this call,
+-   * internal resources will be released.
+-   */
+-  destroy(error?: Error): void;
+-}
+-
+ /**
+  * Http Response which body is a NodeJS stream object
+  */
+@@ -236,7 +206,7 @@ export type HttpNodeStreamResponse = HttpResponse & {
+   /**
+    * Streamable body
+    */
+-  body?: NodeJSReadableStream;
++  body?: NodeJS.ReadableStream;
+ };
+ 
+ /**
+@@ -333,23 +303,19 @@ export interface AdditionalPolicyConfig {
+  */
+ export type ClientOptions = PipelineOptions & {
+   /**
+-   * Credentials information
+-   */
+-  credentials?: {
+-    /**
+-     * Authentication scopes for AAD
+-     */
+-    scopes?: string[];
+-    /**
+-     * Heder name for Client Secret authentication
++   * List of authentication schemes supported by the client.
++   * These schemes define how the client can authenticate requests.
+    */
+-    apiKeyHeaderName?: string;
+-  };
++  authSchemes?: AuthScheme[];
++
+   /**
 -   * Base url for the client
 -   * @deprecated This property is deprecated and will be removed soon, please use endpoint instead
 +   * The credential used to authenticate requests.
