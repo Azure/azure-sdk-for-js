@@ -6,7 +6,7 @@ import type {
   RequestPolicyFactory,
   RequestPolicyOptionsLike as RequestPolicyOptions,
 } from "@azure/core-http-compat";
-import type { CredentialPolicy } from "../policies/CredentialPolicy";
+import type { CredentialPolicy } from "../policies/CredentialPolicy.js";
 
 /**
  * Credential is an abstract class for Azure Storage HTTP requests signing. This

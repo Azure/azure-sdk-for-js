@@ -57,7 +57,7 @@ import {
   BlobGetTagsResponse,
   BlobSetTagsOptionalParams,
   BlobSetTagsResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a Blob. */
 export interface Blob {

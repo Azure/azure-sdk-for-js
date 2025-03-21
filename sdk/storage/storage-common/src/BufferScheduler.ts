@@ -2,8 +2,7 @@
 // Licensed under the MIT License.
 
 import { EventEmitter } from "events";
-import { Readable } from "stream";
-import { PooledBuffer } from "./PooledBuffer";
+import { PooledBuffer } from "./PooledBuffer.js";
 
 /**
  * OutgoingHandler is an async function triggered by BufferScheduler.
@@ -11,7 +10,7 @@ import { PooledBuffer } from "./PooledBuffer";
 export declare type OutgoingHandler = (
   body: () => NodeJS.ReadableStream,
   length: number,
-  offset?: number
+  offset?: number,
 ) => Promise<any>;
 
 /**
@@ -51,7 +50,7 @@ export class BufferScheduler {
   /**
    * A Node.js Readable stream.
    */
-  private readonly readable: Readable;
+  private readonly readable: NodeJS.ReadableStream;
 
   /**
    * OutgoingHandler is an async function triggered by BufferScheduler when there
@@ -132,16 +131,16 @@ export class BufferScheduler {
    * @param outgoingHandler - An async function scheduled to be
    *                                          triggered when a buffer fully filled
    *                                          with stream data
-   * @param concurrency - Concurrency of executing outgoingHandlers (>0)
+   * @param concurrency - Concurrency of executing outgoingHandlers (&gt;0)
    * @param encoding - [Optional] Encoding of Readable stream when it's a string stream
    */
   constructor(
-    readable: Readable,
+    readable: NodeJS.ReadableStream,
     bufferSize: number,
     maxBuffers: number,
     outgoingHandler: OutgoingHandler,
     concurrency: number,
-    encoding?: BufferEncoding
+    encoding?: BufferEncoding,
   ) {
     if (bufferSize <= 0) {
       throw new RangeError(`bufferSize must be larger than 0, current is ${bufferSize}`);
@@ -221,7 +220,7 @@ export class BufferScheduler {
    *
    * @param data -
    */
-  private appendUnresolvedData(data: Buffer) {
+  private appendUnresolvedData(data: Buffer): void {
     this.unresolvedDataArray.push(data);
     this.unresolvedLength += data.length;
   }
@@ -278,7 +277,7 @@ export class BufferScheduler {
    * Try to trigger a outgoing handler for every buffer in outgoing. Stop when
    * concurrency reaches.
    */
-  private async triggerOutgoingHandlers() {
+  private async triggerOutgoingHandlers(): Promise<void> {
     let buffer: PooledBuffer | undefined;
     do {
       if (this.executingOutgoingHandlers >= this.concurrency) {
@@ -307,7 +306,7 @@ export class BufferScheduler {
       await this.outgoingHandler(
         () => buffer.getReadableStream(),
         bufferLength,
-        this.offset - bufferLength
+        this.offset - bufferLength,
       );
     } catch (err: any) {
       this.emitter.emit("error", err);
@@ -324,7 +323,7 @@ export class BufferScheduler {
    *
    * @param buffer -
    */
-  private reuseBuffer(buffer: PooledBuffer) {
+  private reuseBuffer(buffer: PooledBuffer): void {
     this.incoming.push(buffer);
     if (!this.isError && this.resolveData() && !this.isStreamEnd) {
       this.readable.resume();

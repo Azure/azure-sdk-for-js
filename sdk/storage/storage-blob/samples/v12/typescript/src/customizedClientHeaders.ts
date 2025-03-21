@@ -23,9 +23,7 @@ import {
 } from "@azure/storage-blob";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
-
+import "dotenv/config";
 // Create a policy factory with create() method provided
 class RequestIDPolicyFactory {
   prefix: string;
@@ -67,7 +65,7 @@ class RequestIDPolicy extends BaseRequestPolicy {
 }
 
 // Main function
-async function main() {
+async function main(): Promise<void> {
   const account = process.env.ACCOUNT_NAME || "<account name>";
   const accountSas = process.env.ACCOUNT_SAS || "<account SAS>";
 

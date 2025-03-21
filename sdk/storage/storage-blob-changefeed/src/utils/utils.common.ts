@@ -3,9 +3,9 @@
 
 import type { AbortSignalLike } from "@azure/abort-controller";
 import type { ContainerClient, CommonOptions } from "@azure/storage-blob";
-import { CHANGE_FEED_SEGMENT_PREFIX, CHANGE_FEED_INITIALIZATION_SEGMENT } from "./constants";
-import { tracingClient } from "./tracing";
-import type { BlobChangeFeedEvent, UpdatedBlobProperties } from "../models/BlobChangeFeedEvent";
+import { CHANGE_FEED_SEGMENT_PREFIX, CHANGE_FEED_INITIALIZATION_SEGMENT } from "./constants.js";
+import { tracingClient } from "./tracing.js";
+import type { BlobChangeFeedEvent, UpdatedBlobProperties } from "../models/BlobChangeFeedEvent.js";
 
 const millisecondsInAnHour = 60 * 60 * 1000;
 export function ceilToNearestHour(date: Date | undefined): Date | undefined {

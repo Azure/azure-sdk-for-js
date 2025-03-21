@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AvroReadable } from "../../storage-internal-avro/src";
-import { AvroReader } from "../../storage-internal-avro/src";
+import type { AvroReadable } from "@azure/storage-internal-avro";
+import { AvroReader } from "@azure/storage-internal-avro";
 
 /**
  * Creates AvroReaders.  Allows us to inject mock AvroReaders in the Chunk unit tests.

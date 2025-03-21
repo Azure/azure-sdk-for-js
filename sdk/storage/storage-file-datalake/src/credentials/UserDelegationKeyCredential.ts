@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { UserDelegationKey } from "../models";
-import { createHmac } from "crypto";
+import type { UserDelegationKey } from "../models.js";
+import { createHmac } from "node:crypto";
 
 /**
  * ONLY AVAILABLE IN NODE.JS RUNTIME.
