@@ -247,7 +247,7 @@ const client = new CosmosClient({ endpoint, key });
 const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
 
 const containerDefinition = {
-  id: "Test Database",
+  id: "Test Container",
   partitionKey: {
     paths: ["/name", "/address/zip"],
     version: PartitionKeyDefinitionVersion.V2,

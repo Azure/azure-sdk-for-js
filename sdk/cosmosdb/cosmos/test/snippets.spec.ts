@@ -120,6 +120,45 @@ describe("snippets", () => {
     }
   });
 
+  it("ContainerDeleteAllItemsForPartitionKey", async () => {
+    const endpoint = "https://your-account.documents.azure.com";
+    const key = "<database account masterkey>";
+    const client = new CosmosClient({ endpoint, key });
+    // @ts-preserve-whitespace
+    const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+    // @ts-preserve-whitespace
+    const { container } = await database.containers.createIfNotExists({
+      id: "Test Container",
+      partitionKey: {
+        paths: ["/state"],
+      },
+    });
+    // @ts-preserve-whitespace
+    const cities = [
+      { id: "1", name: "Olympia", state: "WA", isCapitol: true },
+      { id: "2", name: "Redmond", state: "WA", isCapitol: false },
+      { id: "3", name: "Olympia", state: "IL", isCapitol: false },
+    ];
+    for (const city of cities) {
+      await container.items.create(city);
+    }
+    // @ts-preserve-whitespace
+    await container.deleteAllItemsForPartitionKey("WA");
+  });
+
+  it("ContainerReadPartitionKeyRanges", async () => {
+    const endpoint = "https://your-account.documents.azure.com";
+    const key = "<database account masterkey>";
+    const client = new CosmosClient({ endpoint, key });
+    // @ts-preserve-whitespace
+    const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+    // @ts-preserve-whitespace
+    const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
+    // @ts-preserve-whitespace
+    // @ts-ignore
+    const { resources: ranges } = await container.readPartitionKeyRanges().fetchAll();
+  });
+
   it("ReadmeSampleReadItem", async () => {
     const endpoint = "https://your-account.documents.azure.com";
     const key = "<database account masterkey>";
@@ -140,7 +179,7 @@ describe("snippets", () => {
     const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
     // @ts-preserve-whitespace
     const containerDefinition = {
-      id: "Test Database",
+      id: "Test Container",
       partitionKey: {
         paths: ["/name", "/address/zip"],
         version: PartitionKeyDefinitionVersion.V2,

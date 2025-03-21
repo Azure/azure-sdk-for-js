@@ -373,6 +373,25 @@ export class Container {
     }, this.clientContext);
   }
 
+  /**
+   * Gets the partition key ranges for the container.
+   * @param feedOptions - Options for the request.
+   * @returns An iterator of partition key ranges.
+   * @example
+   * ```ts snippet:ContainerReadPartitionKeyRanges
+   * import { CosmosClient } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   *
+   * const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+   *
+   * const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
+   *
+   * const { resources: ranges } = await container.readPartitionKeyRanges().fetchAll();
+   * ```
+   */
   public readPartitionKeyRanges(feedOptions?: FeedOptions): QueryIterator<PartitionKeyRange> {
     feedOptions = feedOptions || {};
     return this.clientContext.queryPartitionKeyRanges(this.url, undefined, feedOptions);
@@ -398,6 +417,34 @@ export class Container {
   /**
    * Delete all documents belong to the container for the provided partition key value
    * @param partitionKey - The partition key value of the items to be deleted
+   * @example
+   * ```ts snippet:ContainerDeleteAllItemsForPartitionKey
+   * import { CosmosClient } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   *
+   * const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+   *
+   * const { container } = await database.containers.createIfNotExists({
+   *   id: "Test Container",
+   *   partitionKey: {
+   *     paths: ["/state"],
+   *   },
+   * });
+   *
+   * const cities = [
+   *   { id: "1", name: "Olympia", state: "WA", isCapitol: true },
+   *   { id: "2", name: "Redmond", state: "WA", isCapitol: false },
+   *   { id: "3", name: "Olympia", state: "IL", isCapitol: false },
+   * ];
+   * for (const city of cities) {
+   *   await container.items.create(city);
+   * }
+   *
+   * await container.deleteAllItemsForPartitionKey("WA");
+   * ```
    */
   public async deleteAllItemsForPartitionKey(
     partitionKey: PartitionKey,
