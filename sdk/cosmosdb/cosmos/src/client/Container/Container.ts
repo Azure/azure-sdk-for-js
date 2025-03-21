@@ -193,7 +193,19 @@ export class Container {
     return new Conflict(this, id, this.clientContext, partitionKey);
   }
 
-  /** Read the container's definition */
+  /**
+   * Read the container's definition
+   * @example
+   * ```ts snippet:ContainerRead
+   * import { CosmosClient } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   *
+   * const { resource: database } = await client.database("<db id>").container("<container id>").read();
+   * ```
+   */
   public async read(options?: RequestOptions): Promise<ContainerResponse> {
     return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
       return this.readInternal(diagnosticNode, options);
@@ -226,7 +238,31 @@ export class Container {
     );
   }
 
-  /** Replace the container's definition */
+  /**
+   * Replace the container's definition
+   * @example
+   * ```ts snippet:ContainerReplace
+   * import { CosmosClient } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   *
+   * const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+   *
+   * const containerDefinition = {
+   *   id: "Test Container",
+   *   partitionKey: {
+   *     paths: ["/key1"],
+   *   },
+   *   throughput: 1000,
+   * };
+   * const { container } = await database.containers.createIfNotExists(containerDefinition);
+   *
+   * containerDefinition.throughput = 400;
+   * const { replacedContainer } = await container.replace(containerDefinition);
+   * ```
+   */
   public async replace(
     body: ContainerDefinition,
     options?: RequestOptions,
@@ -257,7 +293,19 @@ export class Container {
     }, this.clientContext);
   }
 
-  /** Delete the container */
+  /**
+   * Delete the container
+   * @example
+   * ```ts snippet:DatabaseDeleteContainer
+   * import { CosmosClient } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   *
+   * await client.database("<db id>").container("<container id>").delete();
+   * ```
+   */
   public async delete(options?: RequestOptions): Promise<ContainerResponse> {
     return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
       const path = getPathFromLink(this.url);
@@ -327,6 +375,19 @@ export class Container {
 
   /**
    * Gets offer on container. If none exists, returns an OfferResponse with undefined.
+   * @example
+   * ```ts snippet:ContainerReadOffer
+   * import { CosmosClient } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   *
+   * const { resource: offer } = await client
+   *   .database("<db id>")
+   *   .container("<container id>")
+   *   .readOffer();
+   * ```
    */
   public async readOffer(options: RequestOptions = {}): Promise<OfferResponse> {
     return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
@@ -399,6 +460,20 @@ export class Container {
   /**
    *
    * @returns all the feed ranges for which changefeed could be fetched.
+   * @example
+   * ```ts snippet:ContainerGetFeedRanges
+   * import { CosmosClient } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   *
+   * const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+   *
+   * const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
+   *
+   * const { resources: ranges } = await container.getFeedRanges();
+   * ```
    */
   public async getFeedRanges(): Promise<ReadonlyArray<FeedRange>> {
     return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {

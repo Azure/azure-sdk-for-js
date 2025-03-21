@@ -159,6 +159,19 @@ describe("snippets", () => {
     const { resources: ranges } = await container.readPartitionKeyRanges().fetchAll();
   });
 
+  it("ContainerGetFeedRanges", async () => {
+    const endpoint = "https://your-account.documents.azure.com";
+    const key = "<database account masterkey>";
+    const client = new CosmosClient({ endpoint, key });
+    // @ts-preserve-whitespace
+    const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+    // @ts-preserve-whitespace
+    const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
+    // @ts-preserve-whitespace
+    // @ts-ignore
+    const { resources: ranges } = await container.getFeedRanges();
+  });
+
   it("ReadmeSampleReadItem", async () => {
     const endpoint = "https://your-account.documents.azure.com";
     const key = "<database account masterkey>";
@@ -795,6 +808,51 @@ describe("snippets", () => {
     };
     // @ts-preserve-whitespace
     await database.rewrapClientEncryptionKey("<new-cek-id>", newMetadata);
+  });
+
+  it("ContainerRead", async () => {
+    const endpoint = "https://your-account.documents.azure.com";
+    const key = "<database account masterkey>";
+    const client = new CosmosClient({ endpoint, key });
+    // @ts-preserve-whitespace
+    // @ts-ignore
+    const { resource: database } = await client
+      .database("<db id>")
+      .container("<container id>")
+      .read();
+  });
+
+  it("ContainerReadOffer", async () => {
+    const endpoint = "https://your-account.documents.azure.com";
+    const key = "<database account masterkey>";
+    const client = new CosmosClient({ endpoint, key });
+    // @ts-preserve-whitespace
+    // @ts-ignore
+    const { resource: offer } = await client
+      .database("<db id>")
+      .container("<container id>")
+      .readOffer();
+  });
+
+  it("ContainerReplace", async () => {
+    const endpoint = "https://your-account.documents.azure.com";
+    const key = "<database account masterkey>";
+    const client = new CosmosClient({ endpoint, key });
+    // @ts-preserve-whitespace
+    const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+    // @ts-preserve-whitespace
+    const containerDefinition = {
+      id: "Test Container",
+      partitionKey: {
+        paths: ["/key1"],
+      },
+      throughput: 1000,
+    };
+    const { container } = await database.containers.createIfNotExists(containerDefinition);
+    // @ts-preserve-whitespace
+    containerDefinition.throughput = 400;
+    // @ts-ignore
+    const { replacedContainer } = await container.replace(containerDefinition);
   });
 
   it("ContainerIntializeEncryption", async () => {
