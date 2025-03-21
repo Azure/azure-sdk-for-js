@@ -1,10 +1,10 @@
 # Release History
 
-## 1.0.0-beta.3 (2025-03-21)
+## 1.0.0-beta.3 (2025-03-18)
 
 ### Features Added
 
-- Adding azure functions and openai tool support
+- Adding Azure Functions and OpenAPI tool support
 - Upgrading core-lro package
 
 ### Bugs Fixed
