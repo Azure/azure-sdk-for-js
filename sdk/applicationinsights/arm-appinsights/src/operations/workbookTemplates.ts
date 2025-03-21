@@ -22,7 +22,7 @@ import {
   WorkbookTemplatesCreateOrUpdateOptionalParams,
   WorkbookTemplatesCreateOrUpdateResponse,
   WorkbookTemplatesUpdateOptionalParams,
-  WorkbookTemplatesUpdateResponse
+  WorkbookTemplatesUpdateResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -45,7 +45,7 @@ export class WorkbookTemplatesImpl implements WorkbookTemplates {
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: WorkbookTemplatesListByResourceGroupOptionalParams
+    options?: WorkbookTemplatesListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<WorkbookTemplate> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
@@ -62,16 +62,16 @@ export class WorkbookTemplatesImpl implements WorkbookTemplates {
         return this.listByResourceGroupPagingPage(
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
     options?: WorkbookTemplatesListByResourceGroupOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<WorkbookTemplate[]> {
     let result: WorkbookTemplatesListByResourceGroupResponse;
     result = await this._listByResourceGroup(resourceGroupName, options);
@@ -80,11 +80,11 @@ export class WorkbookTemplatesImpl implements WorkbookTemplates {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: WorkbookTemplatesListByResourceGroupOptionalParams
+    options?: WorkbookTemplatesListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<WorkbookTemplate> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -97,11 +97,11 @@ export class WorkbookTemplatesImpl implements WorkbookTemplates {
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: WorkbookTemplatesListByResourceGroupOptionalParams
+    options?: WorkbookTemplatesListByResourceGroupOptionalParams,
   ): Promise<WorkbookTemplatesListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listByResourceGroupOperationSpec
+      listByResourceGroupOperationSpec,
     );
   }
 
@@ -114,11 +114,11 @@ export class WorkbookTemplatesImpl implements WorkbookTemplates {
   get(
     resourceGroupName: string,
     resourceName: string,
-    options?: WorkbookTemplatesGetOptionalParams
+    options?: WorkbookTemplatesGetOptionalParams,
   ): Promise<WorkbookTemplatesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -131,11 +131,11 @@ export class WorkbookTemplatesImpl implements WorkbookTemplates {
   delete(
     resourceGroupName: string,
     resourceName: string,
-    options?: WorkbookTemplatesDeleteOptionalParams
+    options?: WorkbookTemplatesDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -150,11 +150,11 @@ export class WorkbookTemplatesImpl implements WorkbookTemplates {
     resourceGroupName: string,
     resourceName: string,
     workbookTemplateProperties: WorkbookTemplate,
-    options?: WorkbookTemplatesCreateOrUpdateOptionalParams
+    options?: WorkbookTemplatesCreateOrUpdateOptionalParams,
   ): Promise<WorkbookTemplatesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, workbookTemplateProperties, options },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -167,11 +167,11 @@ export class WorkbookTemplatesImpl implements WorkbookTemplates {
   update(
     resourceGroupName: string,
     resourceName: string,
-    options?: WorkbookTemplatesUpdateOptionalParams
+    options?: WorkbookTemplatesUpdateOptionalParams,
   ): Promise<WorkbookTemplatesUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, options },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 }
@@ -179,117 +179,112 @@ export class WorkbookTemplatesImpl implements WorkbookTemplates {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/workbooktemplates",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/workbooktemplates",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.WorkbookTemplatesListResult
+      bodyMapper: Mappers.WorkbookTemplatesListResult,
     },
     default: {
-      bodyMapper: Mappers.WorkbookTemplateError
-    }
+      bodyMapper: Mappers.WorkbookTemplateError,
+    },
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.subscriptionId
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/workbooktemplates/{resourceName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/workbooktemplates/{resourceName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.WorkbookTemplate
+      bodyMapper: Mappers.WorkbookTemplate,
     },
     default: {
-      bodyMapper: Mappers.WorkbookTemplateError
-    }
+      bodyMapper: Mappers.WorkbookTemplateError,
+    },
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.resourceName
+    Parameters.resourceGroupName,
+    Parameters.resourceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/workbooktemplates/{resourceName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/workbooktemplates/{resourceName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.WorkbookTemplateError
-    }
+      bodyMapper: Mappers.WorkbookTemplateError,
+    },
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.resourceName
+    Parameters.resourceGroupName,
+    Parameters.resourceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/workbooktemplates/{resourceName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/workbooktemplates/{resourceName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.WorkbookTemplate
+      bodyMapper: Mappers.WorkbookTemplate,
     },
     201: {
-      bodyMapper: Mappers.WorkbookTemplate
+      bodyMapper: Mappers.WorkbookTemplate,
     },
     default: {
-      bodyMapper: Mappers.WorkbookTemplateError
-    }
+      bodyMapper: Mappers.WorkbookTemplateError,
+    },
   },
   requestBody: Parameters.workbookTemplateProperties,
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.resourceName
+    Parameters.resourceGroupName,
+    Parameters.resourceName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/workbooktemplates/{resourceName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/workbooktemplates/{resourceName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.WorkbookTemplate
+      bodyMapper: Mappers.WorkbookTemplate,
     },
     default: {
-      bodyMapper: Mappers.WorkbookTemplateError
-    }
+      bodyMapper: Mappers.WorkbookTemplateError,
+    },
   },
   requestBody: Parameters.workbookTemplateUpdateParameters,
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.resourceName
+    Parameters.resourceGroupName,
+    Parameters.resourceName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };

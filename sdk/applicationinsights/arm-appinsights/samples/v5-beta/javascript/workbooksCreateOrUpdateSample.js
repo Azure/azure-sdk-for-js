@@ -6,20 +6,21 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { ApplicationInsightsManagementClient } = require("@azure/arm-appinsights");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Create a new workbook.
  *
  * @summary Create a new workbook.
- * x-ms-original-file: specification/applicationinsights/resource-manager/Microsoft.Insights/stable/2022-04-01/examples/WorkbookAdd.json
+ * x-ms-original-file: specification/applicationinsights/resource-manager/Microsoft.Insights/stable/2023-06-01/examples/WorkbookAdd.json
  */
 async function workbookAdd() {
-  const subscriptionId = "6b643656-33eb-422f-aee8-3ac145d124af";
-  const resourceGroupName = "my-resource-group";
+  const subscriptionId =
+    process.env["APPLICATIONINSIGHTS_SUBSCRIPTION_ID"] || "6b643656-33eb-422f-aee8-3ac145d124af";
+  const resourceGroupName =
+    process.env["APPLICATIONINSIGHTS_RESOURCE_GROUP"] || "my-resource-group";
   const resourceName = "deadb33f-5e0d-4064-8ebb-1a4ed0313eb2";
   const sourceId =
     "/subscriptions/6b643656-33eb-422f-aee8-3ac145d124af/resourcegroups/my-resource-group";
@@ -40,22 +41,22 @@ async function workbookAdd() {
     resourceGroupName,
     resourceName,
     workbookProperties,
-    options
+    options,
   );
   console.log(result);
 }
-
-workbookAdd().catch(console.error);
 
 /**
  * This sample demonstrates how to Create a new workbook.
  *
  * @summary Create a new workbook.
- * x-ms-original-file: specification/applicationinsights/resource-manager/Microsoft.Insights/stable/2022-04-01/examples/WorkbookManagedAdd.json
+ * x-ms-original-file: specification/applicationinsights/resource-manager/Microsoft.Insights/stable/2023-06-01/examples/WorkbookManagedAdd.json
  */
 async function workbookManagedAdd() {
-  const subscriptionId = "6b643656-33eb-422f-aee8-3ac145d124af";
-  const resourceGroupName = "my-resource-group";
+  const subscriptionId =
+    process.env["APPLICATIONINSIGHTS_SUBSCRIPTION_ID"] || "6b643656-33eb-422f-aee8-3ac145d124af";
+  const resourceGroupName =
+    process.env["APPLICATIONINSIGHTS_RESOURCE_GROUP"] || "my-resource-group";
   const resourceName = "deadb33f-5e0d-4064-8ebb-1a4ed0313eb2";
   const sourceId =
     "/subscriptions/6b643656-33eb-422f-aee8-3ac145d124af/resourcegroups/my-resource-group";
@@ -85,9 +86,14 @@ async function workbookManagedAdd() {
     resourceGroupName,
     resourceName,
     workbookProperties,
-    options
+    options,
   );
   console.log(result);
 }
 
-workbookManagedAdd().catch(console.error);
+async function main() {
+  await workbookAdd();
+  await workbookManagedAdd();
+}
+
+main().catch(console.error);

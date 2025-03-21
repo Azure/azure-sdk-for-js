@@ -16,7 +16,7 @@ import {
   WorkbookTemplatesCreateOrUpdateOptionalParams,
   WorkbookTemplatesCreateOrUpdateResponse,
   WorkbookTemplatesUpdateOptionalParams,
-  WorkbookTemplatesUpdateResponse
+  WorkbookTemplatesUpdateResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -29,7 +29,7 @@ export interface WorkbookTemplates {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: WorkbookTemplatesListByResourceGroupOptionalParams
+    options?: WorkbookTemplatesListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<WorkbookTemplate>;
   /**
    * Get a single workbook template by its resourceName.
@@ -40,7 +40,7 @@ export interface WorkbookTemplates {
   get(
     resourceGroupName: string,
     resourceName: string,
-    options?: WorkbookTemplatesGetOptionalParams
+    options?: WorkbookTemplatesGetOptionalParams,
   ): Promise<WorkbookTemplatesGetResponse>;
   /**
    * Delete a workbook template.
@@ -51,7 +51,7 @@ export interface WorkbookTemplates {
   delete(
     resourceGroupName: string,
     resourceName: string,
-    options?: WorkbookTemplatesDeleteOptionalParams
+    options?: WorkbookTemplatesDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Create a new workbook template.
@@ -64,7 +64,7 @@ export interface WorkbookTemplates {
     resourceGroupName: string,
     resourceName: string,
     workbookTemplateProperties: WorkbookTemplate,
-    options?: WorkbookTemplatesCreateOrUpdateOptionalParams
+    options?: WorkbookTemplatesCreateOrUpdateOptionalParams,
   ): Promise<WorkbookTemplatesCreateOrUpdateResponse>;
   /**
    * Updates a workbook template that has already been added.
@@ -75,6 +75,6 @@ export interface WorkbookTemplates {
   update(
     resourceGroupName: string,
     resourceName: string,
-    options?: WorkbookTemplatesUpdateOptionalParams
+    options?: WorkbookTemplatesUpdateOptionalParams,
   ): Promise<WorkbookTemplatesUpdateResponse>;
 }

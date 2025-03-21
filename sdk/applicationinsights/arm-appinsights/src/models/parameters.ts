@@ -9,9 +9,12 @@
 import {
   OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter
+  OperationQueryParameter,
 } from "@azure/core-client";
 import {
+  ApplicationInsightsComponent as ApplicationInsightsComponentMapper,
+  TagsResource as TagsResourceMapper,
+  ComponentPurgeBody as ComponentPurgeBodyMapper,
   Annotation as AnnotationMapper,
   APIKeyRequest as APIKeyRequestMapper,
   ApplicationInsightsComponentExportRequest as ApplicationInsightsComponentExportRequestMapper,
@@ -20,17 +23,13 @@ import {
   WorkItemCreateConfiguration as WorkItemCreateConfigurationMapper,
   ApplicationInsightsComponentFavorite as ApplicationInsightsComponentFavoriteMapper,
   WebTest as WebTestMapper,
-  TagsResource as TagsResourceMapper,
   ApplicationInsightsComponentAnalyticsItem as ApplicationInsightsComponentAnalyticsItemMapper,
   WorkbookTemplate as WorkbookTemplateMapper,
   WorkbookTemplateUpdateParameters as WorkbookTemplateUpdateParametersMapper,
-  MyWorkbook as MyWorkbookMapper,
   Workbook as WorkbookMapper,
   WorkbookUpdateParameters as WorkbookUpdateParametersMapper,
-  ApplicationInsightsComponent as ApplicationInsightsComponentMapper,
-  ComponentPurgeBody as ComponentPurgeBodyMapper,
   ComponentLinkedStorageAccounts as ComponentLinkedStorageAccountsMapper,
-  ComponentLinkedStorageAccountsPatch as ComponentLinkedStorageAccountsPatchMapper
+  ComponentLinkedStorageAccountsPatch as ComponentLinkedStorageAccountsPatchMapper,
 } from "../models/mappers.js";
 
 export const accept: OperationParameter = {
@@ -40,9 +39,9 @@ export const accept: OperationParameter = {
     isConstant: true,
     serializedName: "Accept",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const $host: OperationURLParameter = {
@@ -51,10 +50,36 @@ export const $host: OperationURLParameter = {
     serializedName: "$host",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
+};
+
+export const apiVersion: OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    defaultValue: "2020-02-02",
+    isConstant: true,
+    serializedName: "api-version",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const subscriptionId: OperationURLParameter = {
+  parameterPath: "subscriptionId",
+  mapper: {
+    constraints: {
+      MinLength: 1,
+    },
+    serializedName: "subscriptionId",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
 };
 
 export const resourceGroupName: OperationURLParameter = {
@@ -62,40 +87,14 @@ export const resourceGroupName: OperationURLParameter = {
   mapper: {
     constraints: {
       MaxLength: 90,
-      MinLength: 1
+      MinLength: 1,
     },
     serializedName: "resourceGroupName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
-};
-
-export const apiVersion: OperationQueryParameter = {
-  parameterPath: "apiVersion",
-  mapper: {
-    defaultValue: "2015-05-01",
-    isConstant: true,
-    serializedName: "api-version",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const subscriptionId: OperationURLParameter = {
-  parameterPath: "subscriptionId",
-  mapper: {
-    constraints: {
-      MinLength: 1
+      name: "String",
     },
-    serializedName: "subscriptionId",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
+  },
 };
 
 export const resourceName: OperationURLParameter = {
@@ -104,31 +103,9 @@ export const resourceName: OperationURLParameter = {
     serializedName: "resourceName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
-};
-
-export const start: OperationQueryParameter = {
-  parameterPath: "start",
-  mapper: {
-    serializedName: "start",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const end: OperationQueryParameter = {
-  parameterPath: "end",
-  mapper: {
-    serializedName: "end",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const contentType: OperationParameter = {
@@ -138,14 +115,86 @@ export const contentType: OperationParameter = {
     isConstant: true,
     serializedName: "Content-Type",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
+};
+
+export const insightProperties: OperationParameter = {
+  parameterPath: "insightProperties",
+  mapper: ApplicationInsightsComponentMapper,
+};
+
+export const componentTags: OperationParameter = {
+  parameterPath: "componentTags",
+  mapper: TagsResourceMapper,
+};
+
+export const body: OperationParameter = {
+  parameterPath: "body",
+  mapper: ComponentPurgeBodyMapper,
+};
+
+export const purgeId: OperationURLParameter = {
+  parameterPath: "purgeId",
+  mapper: {
+    serializedName: "purgeId",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const nextLink: OperationURLParameter = {
+  parameterPath: "nextLink",
+  mapper: {
+    serializedName: "nextLink",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+  skipEncoding: true,
+};
+
+export const apiVersion1: OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    defaultValue: "2015-05-01",
+    isConstant: true,
+    serializedName: "api-version",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const start: OperationQueryParameter = {
+  parameterPath: "start",
+  mapper: {
+    serializedName: "start",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const end: OperationQueryParameter = {
+  parameterPath: "end",
+  mapper: {
+    serializedName: "end",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
 };
 
 export const annotationProperties: OperationParameter = {
   parameterPath: "annotationProperties",
-  mapper: AnnotationMapper
+  mapper: AnnotationMapper,
 };
 
 export const annotationId: OperationURLParameter = {
@@ -154,14 +203,14 @@ export const annotationId: OperationURLParameter = {
     serializedName: "annotationId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const aPIKeyProperties: OperationParameter = {
   parameterPath: "aPIKeyProperties",
-  mapper: APIKeyRequestMapper
+  mapper: APIKeyRequestMapper,
 };
 
 export const keyId: OperationURLParameter = {
@@ -170,14 +219,14 @@ export const keyId: OperationURLParameter = {
     serializedName: "keyId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const exportProperties: OperationParameter = {
   parameterPath: "exportProperties",
-  mapper: ApplicationInsightsComponentExportRequestMapper
+  mapper: ApplicationInsightsComponentExportRequestMapper,
 };
 
 export const exportId: OperationURLParameter = {
@@ -186,14 +235,14 @@ export const exportId: OperationURLParameter = {
     serializedName: "exportId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const billingFeaturesProperties: OperationParameter = {
   parameterPath: "billingFeaturesProperties",
-  mapper: ApplicationInsightsComponentBillingFeaturesMapper
+  mapper: ApplicationInsightsComponentBillingFeaturesMapper,
 };
 
 export const configurationId: OperationURLParameter = {
@@ -202,19 +251,19 @@ export const configurationId: OperationURLParameter = {
     serializedName: "ConfigurationId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const proactiveDetectionProperties: OperationParameter = {
   parameterPath: "proactiveDetectionProperties",
-  mapper: ApplicationInsightsComponentProactiveDetectionConfigurationMapper
+  mapper: ApplicationInsightsComponentProactiveDetectionConfigurationMapper,
 };
 
 export const workItemConfigurationProperties: OperationParameter = {
   parameterPath: "workItemConfigurationProperties",
-  mapper: WorkItemCreateConfigurationMapper
+  mapper: WorkItemCreateConfigurationMapper,
 };
 
 export const workItemConfigId: OperationURLParameter = {
@@ -223,9 +272,9 @@ export const workItemConfigId: OperationURLParameter = {
     serializedName: "workItemConfigId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const favoriteType: OperationQueryParameter = {
@@ -234,9 +283,9 @@ export const favoriteType: OperationQueryParameter = {
     serializedName: "favoriteType",
     type: {
       name: "Enum",
-      allowedValues: ["shared", "user"]
-    }
-  }
+      allowedValues: ["shared", "user"],
+    },
+  },
 };
 
 export const sourceType: OperationQueryParameter = {
@@ -244,9 +293,9 @@ export const sourceType: OperationQueryParameter = {
   mapper: {
     serializedName: "sourceType",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const canFetchContent: OperationQueryParameter = {
@@ -254,9 +303,9 @@ export const canFetchContent: OperationQueryParameter = {
   mapper: {
     serializedName: "canFetchContent",
     type: {
-      name: "Boolean"
-    }
-  }
+      name: "Boolean",
+    },
+  },
 };
 
 export const tags: OperationQueryParameter = {
@@ -267,12 +316,12 @@ export const tags: OperationQueryParameter = {
       name: "Sequence",
       element: {
         type: {
-          name: "String"
-        }
-      }
-    }
+          name: "String",
+        },
+      },
+    },
   },
-  collectionFormat: "CSV"
+  collectionFormat: "CSV",
 };
 
 export const favoriteId: OperationURLParameter = {
@@ -281,14 +330,26 @@ export const favoriteId: OperationURLParameter = {
     serializedName: "favoriteId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const favoriteProperties: OperationParameter = {
   parameterPath: "favoriteProperties",
-  mapper: ApplicationInsightsComponentFavoriteMapper
+  mapper: ApplicationInsightsComponentFavoriteMapper,
+};
+
+export const apiVersion2: OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    defaultValue: "2022-06-15",
+    isConstant: true,
+    serializedName: "api-version",
+    type: {
+      name: "String",
+    },
+  },
 };
 
 export const webTestName: OperationURLParameter = {
@@ -297,19 +358,19 @@ export const webTestName: OperationURLParameter = {
     serializedName: "webTestName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const webTestDefinition: OperationParameter = {
   parameterPath: "webTestDefinition",
-  mapper: WebTestMapper
+  mapper: WebTestMapper,
 };
 
 export const webTestTags: OperationParameter = {
   parameterPath: "webTestTags",
-  mapper: TagsResourceMapper
+  mapper: TagsResourceMapper,
 };
 
 export const componentName: OperationURLParameter = {
@@ -318,21 +379,9 @@ export const componentName: OperationURLParameter = {
     serializedName: "componentName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
-};
-
-export const nextLink: OperationURLParameter = {
-  parameterPath: "nextLink",
-  mapper: {
-    serializedName: "nextLink",
-    required: true,
-    type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
 };
 
 export const scopePath: OperationURLParameter = {
@@ -341,9 +390,9 @@ export const scopePath: OperationURLParameter = {
     serializedName: "scopePath",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const scope: OperationQueryParameter = {
@@ -351,9 +400,9 @@ export const scope: OperationQueryParameter = {
   mapper: {
     serializedName: "scope",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const typeParam: OperationQueryParameter = {
@@ -362,9 +411,9 @@ export const typeParam: OperationQueryParameter = {
     defaultValue: "none",
     serializedName: "type",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const includeContent: OperationQueryParameter = {
@@ -372,9 +421,9 @@ export const includeContent: OperationQueryParameter = {
   mapper: {
     serializedName: "includeContent",
     type: {
-      name: "Boolean"
-    }
-  }
+      name: "Boolean",
+    },
+  },
 };
 
 export const id: OperationQueryParameter = {
@@ -382,9 +431,9 @@ export const id: OperationQueryParameter = {
   mapper: {
     serializedName: "id",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const name: OperationQueryParameter = {
@@ -392,14 +441,14 @@ export const name: OperationQueryParameter = {
   mapper: {
     serializedName: "name",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const itemProperties: OperationParameter = {
   parameterPath: "itemProperties",
-  mapper: ApplicationInsightsComponentAnalyticsItemMapper
+  mapper: ApplicationInsightsComponentAnalyticsItemMapper,
 };
 
 export const overrideItem: OperationQueryParameter = {
@@ -407,31 +456,43 @@ export const overrideItem: OperationQueryParameter = {
   mapper: {
     serializedName: "overrideItem",
     type: {
-      name: "Boolean"
-    }
-  }
+      name: "Boolean",
+    },
+  },
 };
 
-export const apiVersion1: OperationQueryParameter = {
+export const apiVersion3: OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    defaultValue: "2021-03-08",
+    isConstant: true,
+    serializedName: "api-version",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const apiVersion4: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     defaultValue: "2020-11-20",
     isConstant: true,
     serializedName: "api-version",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const workbookTemplateProperties: OperationParameter = {
   parameterPath: "workbookTemplateProperties",
-  mapper: WorkbookTemplateMapper
+  mapper: WorkbookTemplateMapper,
 };
 
 export const workbookTemplateUpdateParameters: OperationParameter = {
   parameterPath: ["options", "workbookTemplateUpdateParameters"],
-  mapper: WorkbookTemplateUpdateParametersMapper
+  mapper: WorkbookTemplateUpdateParametersMapper,
 };
 
 export const category: OperationQueryParameter = {
@@ -440,9 +501,21 @@ export const category: OperationQueryParameter = {
     serializedName: "category",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
+};
+
+export const apiVersion5: OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    defaultValue: "2023-06-01",
+    isConstant: true,
+    serializedName: "api-version",
+    type: {
+      name: "String",
+    },
+  },
 };
 
 export const sourceId: OperationQueryParameter = {
@@ -450,48 +523,19 @@ export const sourceId: OperationQueryParameter = {
   mapper: {
     serializedName: "sourceId",
     type: {
-      name: "String"
-    }
-  }
-};
-
-export const apiVersion2: OperationQueryParameter = {
-  parameterPath: "apiVersion",
-  mapper: {
-    defaultValue: "2021-03-08",
-    isConstant: true,
-    serializedName: "api-version",
-    type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const workbookProperties: OperationParameter = {
   parameterPath: "workbookProperties",
-  mapper: MyWorkbookMapper
-};
-
-export const apiVersion3: OperationQueryParameter = {
-  parameterPath: "apiVersion",
-  mapper: {
-    defaultValue: "2022-04-01",
-    isConstant: true,
-    serializedName: "api-version",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const workbookProperties1: OperationParameter = {
-  parameterPath: "workbookProperties",
-  mapper: WorkbookMapper
+  mapper: WorkbookMapper,
 };
 
 export const workbookUpdateParameters: OperationParameter = {
   parameterPath: ["options", "workbookUpdateParameters"],
-  mapper: WorkbookUpdateParametersMapper
+  mapper: WorkbookUpdateParametersMapper,
 };
 
 export const revisionId: OperationURLParameter = {
@@ -500,80 +544,9 @@ export const revisionId: OperationURLParameter = {
     serializedName: "revisionId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
-};
-
-export const apiVersion4: OperationQueryParameter = {
-  parameterPath: "apiVersion",
-  mapper: {
-    defaultValue: "2020-02-02",
-    isConstant: true,
-    serializedName: "api-version",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const insightProperties: OperationParameter = {
-  parameterPath: "insightProperties",
-  mapper: ApplicationInsightsComponentMapper
-};
-
-export const componentTags: OperationParameter = {
-  parameterPath: "componentTags",
-  mapper: TagsResourceMapper
-};
-
-export const body: OperationParameter = {
-  parameterPath: "body",
-  mapper: ComponentPurgeBodyMapper
-};
-
-export const purgeId: OperationURLParameter = {
-  parameterPath: "purgeId",
-  mapper: {
-    serializedName: "purgeId",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const apiVersion5: OperationQueryParameter = {
-  parameterPath: "apiVersion",
-  mapper: {
-    defaultValue: "2020-03-01-preview",
-    isConstant: true,
-    serializedName: "api-version",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const storageType: OperationURLParameter = {
-  parameterPath: "storageType",
-  mapper: {
-    serializedName: "storageType",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const linkedStorageAccountsProperties: OperationParameter = {
-  parameterPath: "linkedStorageAccountsProperties",
-  mapper: ComponentLinkedStorageAccountsMapper
-};
-
-export const linkedStorageAccountsProperties1: OperationParameter = {
-  parameterPath: "linkedStorageAccountsProperties",
-  mapper: ComponentLinkedStorageAccountsPatchMapper
+      name: "String",
+    },
+  },
 };
 
 export const resourceUri: OperationURLParameter = {
@@ -582,10 +555,10 @@ export const resourceUri: OperationURLParameter = {
     serializedName: "resourceUri",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const apiVersion6: OperationQueryParameter = {
@@ -595,7 +568,62 @@ export const apiVersion6: OperationQueryParameter = {
     isConstant: true,
     serializedName: "api-version",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
+};
+
+export const apiVersion7: OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    defaultValue: "2020-03-01-preview",
+    isConstant: true,
+    serializedName: "api-version",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const storageType: OperationURLParameter = {
+  parameterPath: "storageType",
+  mapper: {
+    serializedName: "storageType",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const linkedStorageAccountsProperties: OperationParameter = {
+  parameterPath: "linkedStorageAccountsProperties",
+  mapper: ComponentLinkedStorageAccountsMapper,
+};
+
+export const linkedStorageAccountsProperties1: OperationParameter = {
+  parameterPath: "linkedStorageAccountsProperties",
+  mapper: ComponentLinkedStorageAccountsPatchMapper,
+};
+
+export const category1: OperationQueryParameter = {
+  parameterPath: ["options", "category"],
+  mapper: {
+    serializedName: "category",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const apiVersion8: OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    defaultValue: "2024-02-01-preview",
+    isConstant: true,
+    serializedName: "api-version",
+    type: {
+      name: "String",
+    },
+  },
 };
