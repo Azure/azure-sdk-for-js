@@ -3146,7 +3146,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-policy@file:projects/arm-policy.tgz':
-    resolution: {integrity: sha512-uSg1661j1xPl494tmGf3J1s/nGF/p8LEYNgsG2buTY0/FE+lZv4qgMb4dBbgdK4pLat2GXDucCCgDWKmAmUP4A==, tarball: file:projects/arm-policy.tgz}
+    resolution: {integrity: sha512-wYvKRiC6wFRSDmNXJQGGFdj4DWY8Ro5Yaj5+Oo9nLdEkR0YpAIJ9lzPGkJ+gmaWusyWo3JZ1G7zXsyFn/4A8kQ==, tarball: file:projects/arm-policy.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-policyinsights@file:projects/arm-policyinsights.tgz':
@@ -3502,7 +3502,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/communication-rooms@file:projects/communication-rooms.tgz':
-    resolution: {integrity: sha512-wZGQ86x72CF5svp08KDZ2NimnHa7UrolQ4+jbVqI/QwTLnSpZXez84ANriWnPauXXYx9FDICKhIsrvmR6WGhZg==, tarball: file:projects/communication-rooms.tgz}
+    resolution: {integrity: sha512-6xOyOCOtDadX1jV4Rh5w5dD0M/i8mgBbuAAol5SM+RrV5DljKQYUHyDEekX+9MKtmXjnviU/QxijK5zY3PWkaw==, tarball: file:projects/communication-rooms.tgz}
     version: 0.0.0
 
   '@rush-temp/communication-short-codes@file:projects/communication-short-codes.tgz':
@@ -3814,31 +3814,31 @@ packages:
     version: 0.0.0
 
   '@rush-temp/perf-identity@file:projects/perf-identity.tgz':
-    resolution: {integrity: sha512-Dt86UCaCFQAewVnwKjQvcEIXms1ZNjWmdUCO87T/f13YC0HYVGLfVu1L1doppPdWV5ldCkzlKz7XDkcKygVt2w==, tarball: file:projects/perf-identity.tgz}
+    resolution: {integrity: sha512-OVvGYSy9di0tWD5rnda8W87XvFhLRhZFpK1rq6rU8SgY7XTfK52kthdStSF4rGE04h28gbiHposcRhCZgWvijA==, tarball: file:projects/perf-identity.tgz}
     version: 0.0.0
 
   '@rush-temp/perf-keyvault-certificates@file:projects/perf-keyvault-certificates.tgz':
-    resolution: {integrity: sha512-r7Tcd+hTK1dFA/gL82UTiZ0E2CvkcJ58yyjxY7i/QNoKvWZ1Z5ynIvAljS1ecmgFMk+5Kgd3ce3DfZ9w9/3JCQ==, tarball: file:projects/perf-keyvault-certificates.tgz}
+    resolution: {integrity: sha512-LfahOjTPW6iP2uV2j+NfQwnrMm96yTBHwoR4wRjk4UyNYPJpC1Y5G/fRVyPUZBzPfnreL7TzSo2PFZOZ2v2jXw==, tarball: file:projects/perf-keyvault-certificates.tgz}
     version: 0.0.0
 
   '@rush-temp/perf-keyvault-keys@file:projects/perf-keyvault-keys.tgz':
-    resolution: {integrity: sha512-bx9esYTHb5zaL2DEc9G65EDSYIKdGZJc3ivEiH56mmg2clVl++VLNia7ShDr6M0j9rhfNtUYSAlSJcE3t2fs2w==, tarball: file:projects/perf-keyvault-keys.tgz}
+    resolution: {integrity: sha512-KtmO4CIDiBKGeJqmKX9p6C3aKUD7QuXnqjskJiGiganM977KaFliXWC8PH2bMH92Pv9fm6BpX5mVv6yyf9AGww==, tarball: file:projects/perf-keyvault-keys.tgz}
     version: 0.0.0
 
   '@rush-temp/perf-keyvault-secrets@file:projects/perf-keyvault-secrets.tgz':
-    resolution: {integrity: sha512-NJ/shEbrxpfbOi4+9YNgAcxPLaNZ1gDbx9ClcIB6VRdraBpB6eBVmzdL4K8KgfuIP8xl5kaLBNQ/oLQtTRaApQ==, tarball: file:projects/perf-keyvault-secrets.tgz}
+    resolution: {integrity: sha512-jdzDkhcjj0zdDChT7TI5BlK+qqsTSDcnjyHaH0jnkwo2aZd3mzTc+94INrFCzvVV1pLj3EffVmoYC6AQ6MJAUA==, tarball: file:projects/perf-keyvault-secrets.tgz}
     version: 0.0.0
 
   '@rush-temp/perf-monitor-ingestion@file:projects/perf-monitor-ingestion.tgz':
-    resolution: {integrity: sha512-Yiua52li3/Qa+OtEuhK8we3JpSmGmDShfQPxeukfhiWKaBNQDPL3AnCUdNKCdUscOpT3siXLD4ta2SFlay3r5w==, tarball: file:projects/perf-monitor-ingestion.tgz}
+    resolution: {integrity: sha512-2c8J6VJrZsmCmVQ9aPOJvOKwa20SveYih+UJCTDHlkdnOUUNPz6OmVB8/gt2Pl7AorQGGrbOyhNWzFZls2vy5Q==, tarball: file:projects/perf-monitor-ingestion.tgz}
     version: 0.0.0
 
   '@rush-temp/perf-monitor-opentelemetry@file:projects/perf-monitor-opentelemetry.tgz':
-    resolution: {integrity: sha512-hT+JNqvVsnhPakW2c1UODLlQ0dn6/OJ9ERxo4cO7ND0hNmjrk+HS8YhROpmnQ0e0+/vEgbDUXXPM+fVDdv7tbg==, tarball: file:projects/perf-monitor-opentelemetry.tgz}
+    resolution: {integrity: sha512-nwr+4PRhn/YqxelVMEVgPig2prXSLCU+EP/ryFZQqwIQNPZiV/KNeCz2oDKA/WUZPiO/JDKIDufcDaLgpy17DA==, tarball: file:projects/perf-monitor-opentelemetry.tgz}
     version: 0.0.0
 
   '@rush-temp/perf-monitor-query@file:projects/perf-monitor-query.tgz':
-    resolution: {integrity: sha512-ztwhbcBk/sTdFmmnGAefc8On9oI0u2RFjUvxaOKSiVyTbjkF4gSPEE/JEgbGJu362u+Kf1KOjKZYLmT1sC39eg==, tarball: file:projects/perf-monitor-query.tgz}
+    resolution: {integrity: sha512-spYI42XUNEMuTGD5NAh7U5kzU0A6biUq9m+ekdDuEI/LwfGa58p8pOU6Muvwam8BkUYu9XV1wtMlZRKU0BIvDw==, tarball: file:projects/perf-monitor-query.tgz}
     version: 0.0.0
 
   '@rush-temp/perf-schema-registry-avro@file:projects/perf-schema-registry-avro.tgz':
@@ -3854,19 +3854,19 @@ packages:
     version: 0.0.0
 
   '@rush-temp/perf-storage-blob@file:projects/perf-storage-blob.tgz':
-    resolution: {integrity: sha512-mjU/w5p71dmV0Gd4J3xYests2/dH+yTxZEUVcRXnqj2Yi25sS6CqGLB7R7Fi0GPg0TljSc4XQAfb9AVFRtt3IQ==, tarball: file:projects/perf-storage-blob.tgz}
+    resolution: {integrity: sha512-tkjAnhDeWqRwZhLEX6W956aBPC5igewk907H9zJCX1knice7J+ifBIvDd0HHPaVALCU5OyIsjo16wturzTtrnQ==, tarball: file:projects/perf-storage-blob.tgz}
     version: 0.0.0
 
   '@rush-temp/perf-storage-file-datalake@file:projects/perf-storage-file-datalake.tgz':
-    resolution: {integrity: sha512-OhzaKjdTKwtYNAW8dJhz+73t6IOQpvaDGIqQ2R0f5HYWmSFJ418JNbZT+FgexHR+iXLzmaJEXU2E5el+orbmgw==, tarball: file:projects/perf-storage-file-datalake.tgz}
+    resolution: {integrity: sha512-O1FncZRc9xPF3AeScKbiWtaoM5tzsj+sS0CtqpI/YLSlsQhrXVC7PWbulXl3VwJ2BjNQw+R7CmwxT1TreqxzbA==, tarball: file:projects/perf-storage-file-datalake.tgz}
     version: 0.0.0
 
   '@rush-temp/perf-storage-file-share@file:projects/perf-storage-file-share.tgz':
-    resolution: {integrity: sha512-0EmfhpZnjn3yxng5UYDMwxKPkiHYwkeNJFHwLPxayGzJhiiRgd5cNIM4Pvh5UNSIHIcSJVXltoazvBY/Pmrh1w==, tarball: file:projects/perf-storage-file-share.tgz}
+    resolution: {integrity: sha512-uAGM+cp2KcN0zn7zHy4QvhE+CL+KdFR+fbNLZ0lv08/upp7BUhI/FegqqpoUpG+1+c2n3+EZPQZOjrYfVPKrGw==, tarball: file:projects/perf-storage-file-share.tgz}
     version: 0.0.0
 
   '@rush-temp/perf-template@file:projects/perf-template.tgz':
-    resolution: {integrity: sha512-Ste3WlrP5J9/iTpTQJ+YAXNKdBqN2p4z+PUQrYzu/7KCKf+EIY6Uf3s4SRESptteGbcRNK3g9KBg2Lj1tNPkrw==, tarball: file:projects/perf-template.tgz}
+    resolution: {integrity: sha512-ipd3vAsSEyS9D8jF7VcFj4d7xvQZ5oWqx0k+QzhoqD3TebZKcEZuZSuqUM0/x79jOEjgpz8fjbUuv/1+ZIYCsw==, tarball: file:projects/perf-template.tgz}
     version: 0.0.0
 
   '@rush-temp/purview-administration@file:projects/purview-administration.tgz':
@@ -16315,12 +16315,12 @@ snapshots:
   '@rush-temp/arm-policy@file:projects/arm-policy.tgz(@types/debug@4.1.12)(msw@2.7.3(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(vite@6.2.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)':
     dependencies:
       '@types/node': 18.19.80
-      '@vitest/browser': 3.0.9(@types/node@18.19.80)(playwright@1.51.1)(typescript@5.8.2)(vite@6.2.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.9)
+      '@vitest/browser': 3.0.9(@types/node@18.19.80)(playwright@1.51.1)(typescript@5.6.3)(vite@6.2.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.9)
       '@vitest/coverage-istanbul': 3.0.9(vitest@3.0.9)
       dotenv: 16.4.7
       playwright: 1.51.1
       tslib: 2.8.1
-      typescript: 5.8.2
+      typescript: 5.6.3
       vitest: 3.0.9(@types/debug@4.1.12)(@types/node@18.19.80)(@vitest/browser@3.0.9)(msw@2.7.3(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(yaml@2.7.0)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
