@@ -126,6 +126,23 @@ export class StoredProcedures {
    * gets executed under ACID transactions on the primary storage partition of the
    * specified container. For additional details,
    * refer to the server-side JavaScript API documentation.
+   * @example
+   * ```ts snippet:StoredProceduresCreate
+   * import { CosmosClient, StoredProcedureDefinition } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   * const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+   * const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
+   *
+   * const sprocDefinition: StoredProcedureDefinition = {
+   *   id: "sample sproc",
+   *   body: "function () { const x = 10; }",
+   * };
+   *
+   * const { resource: sproc } = await container.scripts.storedProcedures.create(sprocDefinition);
+   * ```
    */
   public async create(
     body: StoredProcedureDefinition,

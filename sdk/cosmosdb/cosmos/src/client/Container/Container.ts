@@ -260,7 +260,7 @@ export class Container {
    * const { container } = await database.containers.createIfNotExists(containerDefinition);
    *
    * containerDefinition.throughput = 400;
-   * const { replacedContainer } = await container.replace(containerDefinition);
+   * const { container: replacedContainer } = await container.replace(containerDefinition);
    * ```
    */
   public async replace(

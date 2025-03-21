@@ -26,6 +26,11 @@ import {
   KeyEncryptionAlgorithm,
   PermissionDefinition,
   PermissionMode,
+  TriggerDefinition,
+  TriggerOperation,
+  TriggerType,
+  UserDefinedFunctionDefinition,
+  StoredProcedureDefinition,
 } from "@azure/cosmos";
 import { ClientSecretCredential } from "@azure/identity";
 
@@ -1282,6 +1287,82 @@ describe("snippets", () => {
       .fetchAll();
   });
 
+  it("StoredProceduresCreate", async () => {
+    const endpoint = "https://your-account.documents.azure.com";
+    const key = "<database account masterkey>";
+    const client = new CosmosClient({ endpoint, key });
+    const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+    const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
+    // @ts-preserve-whitespace
+    const sprocDefinition: StoredProcedureDefinition = {
+      id: "sample sproc",
+      body: "function () { const x = 10; }",
+    };
+    // @ts-preserve-whitespace
+    // @ts-ignore
+    const { resource: sproc } = await container.scripts.storedProcedures.create(sprocDefinition);
+  });
+
+  it("StoredProcedureReplace", async () => {
+    const endpoint = "https://your-account.documents.azure.com";
+    const key = "<database account masterkey>";
+    const client = new CosmosClient({ endpoint, key });
+    const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+    const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
+    // @ts-preserve-whitespace
+    const sprocDefinition: StoredProcedureDefinition = {
+      id: "sample sproc",
+      body: "function () { const x = 10; }",
+    };
+    // @ts-preserve-whitespace
+    // @ts-ignore
+    const { resource: sproc } = await container.scripts.storedProcedures.create(sprocDefinition);
+    // @ts-preserve-whitespace
+    sproc.body = function () {
+      const x = 20;
+      console.log(x);
+    };
+    // @ts-ignore
+    const { resource: replacedSproc } = await container.scripts
+      .storedProcedure(sproc.id)
+      .replace(sproc);
+  });
+
+  it("StoredProcedureDelete", async () => {
+    const endpoint = "https://your-account.documents.azure.com";
+    const key = "<database account masterkey>";
+    const client = new CosmosClient({ endpoint, key });
+    const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+    const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
+
+    // @ts-preserve-whitespace
+    await container.scripts.storedProcedure("<sproc-id>").delete();
+  });
+
+  it("StoredProcedureRead", async () => {
+    const endpoint = "https://your-account.documents.azure.com";
+    const key = "<database account masterkey>";
+    const client = new CosmosClient({ endpoint, key });
+    const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+    const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
+    // @ts-preserve-whitespace
+    // @ts-ignore
+    const { resource: sproc } = await container.scripts.storedProcedure("<sproc-id>").read();
+  });
+
+  it("StoredProcedureExecute", async () => {
+    const endpoint = "https://your-account.documents.azure.com";
+    const key = "<database account masterkey>";
+    const client = new CosmosClient({ endpoint, key });
+    const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+    const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
+    // @ts-preserve-whitespace
+    // @ts-ignore
+    const { resource: result } = await container.scripts
+      .storedProcedure("<sproc-id>")
+      .execute(undefined);
+  });
+
   it("TriggersReadAllTriggers", async () => {
     const endpoint = "https://your-account.documents.azure.com";
     const key = "<database account masterkey>";
@@ -1293,6 +1374,90 @@ describe("snippets", () => {
     // @ts-preserve-whitespace
     // @ts-ignore
     const { resources: triggerList } = await container.scripts.triggers.readAll().fetchAll();
+  });
+
+  it("TriggersCreate", async () => {
+    const endpoint = "https://your-account.documents.azure.com";
+    const key = "<database account masterkey>";
+    const client = new CosmosClient({ endpoint, key });
+    const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+    const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
+    // @ts-preserve-whitespace
+    const triggerDefinition: TriggerDefinition = {
+      id: "sample trigger",
+      body: "serverScript() { var x = 10; }",
+      triggerType: TriggerType.Pre,
+      triggerOperation: TriggerOperation.All,
+    };
+    // @ts-preserve-whitespace
+    // @ts-ignore
+    const { resource: trigger } = await container.scripts.triggers.create(triggerDefinition);
+  });
+
+  it("TriggerReplace", async () => {
+    const endpoint = "https://your-account.documents.azure.com";
+    const key = "<database account masterkey>";
+    const client = new CosmosClient({ endpoint, key });
+    const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+    const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
+    // @ts-preserve-whitespace
+    const triggerDefinition: TriggerDefinition = {
+      id: "sample trigger",
+      body: "serverScript() { var x = 10; }",
+      triggerType: TriggerType.Pre,
+      triggerOperation: TriggerOperation.All,
+    };
+    // @ts-preserve-whitespace
+    // @ts-ignore
+    const { resource: trigger } = await container.scripts.triggers.create(triggerDefinition);
+    // @ts-preserve-whitespace
+    trigger.body = "function () { const x = 20; console.log(x); }";
+    // @ts-ignore
+    const { resource: replacedTrigger } = await container.scripts
+      .trigger(trigger.id)
+      .replace(trigger);
+  });
+
+  it("TriggerDelete", async () => {
+    const endpoint = "https://your-account.documents.azure.com";
+    const key = "<database account masterkey>";
+    const client = new CosmosClient({ endpoint, key });
+    const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+    const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
+
+    // @ts-preserve-whitespace
+    await container.scripts.trigger("<trigger-id>").delete();
+  });
+
+  it("TriggersQuery", async () => {
+    const endpoint = "https://your-account.documents.azure.com";
+    const key = "<database account masterkey>";
+    const client = new CosmosClient({ endpoint, key });
+    const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+    const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
+    // @ts-preserve-whitespace
+    const querySpec = {
+      query: "SELECT * FROM root r WHERE r.id=@id",
+      parameters: [
+        {
+          name: "@id",
+          value: "<trigger-id>",
+        },
+      ],
+    };
+    // @ts-ignore
+    const { resources: results } = await container.scripts.triggers.query(querySpec).fetchAll();
+  });
+
+  it("TriggerRead", async () => {
+    const endpoint = "https://your-account.documents.azure.com";
+    const key = "<database account masterkey>";
+    const client = new CosmosClient({ endpoint, key });
+    const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+    const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
+    // @ts-preserve-whitespace
+    // @ts-ignore
+    const { resource: trigger } = await container.scripts.trigger("<trigger-id>").read();
   });
 
   it("UsersQuery", async () => {
@@ -1381,6 +1546,86 @@ describe("snippets", () => {
     const { resources: udfList } = await container.scripts.userDefinedFunctions
       .readAll()
       .fetchAll();
+  });
+
+  it("UserDefinedFunctionsCreate", async () => {
+    const endpoint = "https://your-account.documents.azure.com";
+    const key = "<database account masterkey>";
+    const client = new CosmosClient({ endpoint, key });
+    const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+    const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
+    // @ts-preserve-whitespace
+    const udfDefinition: UserDefinedFunctionDefinition = {
+      id: "sample udf",
+      body: "function () { const x = 10; }",
+    };
+    // @ts-preserve-whitespace
+    // @ts-ignore
+    const { resource: udf } = await container.scripts.userDefinedFunctions.create(udfDefinition);
+  });
+
+  it("UserDefinedFunctionReplace", async () => {
+    const endpoint = "https://your-account.documents.azure.com";
+    const key = "<database account masterkey>";
+    const client = new CosmosClient({ endpoint, key });
+    const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+    const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
+    // @ts-preserve-whitespace
+    const udfDefinition: UserDefinedFunctionDefinition = {
+      id: "sample udf",
+      body: "function () { const x = 10; }",
+    };
+    await container.scripts.userDefinedFunctions.create(udfDefinition);
+    // @ts-preserve-whitespace
+    udfDefinition.body = "function () { const x = 20; }";
+    // @ts-ignore
+    const { resource: replacedUdf } = await container.scripts
+      .userDefinedFunction(udfDefinition.id)
+      .replace(udfDefinition);
+  });
+
+  it("UserDefinedFunctionDelete", async () => {
+    const endpoint = "https://your-account.documents.azure.com";
+    const key = "<database account masterkey>";
+    const client = new CosmosClient({ endpoint, key });
+    const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+    const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
+
+    // @ts-preserve-whitespace
+    await container.scripts.userDefinedFunction("<udf-id>").delete();
+  });
+
+  it("UserDefinedFunctionsQuery", async () => {
+    const endpoint = "https://your-account.documents.azure.com";
+    const key = "<database account masterkey>";
+    const client = new CosmosClient({ endpoint, key });
+    const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+    const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
+    // @ts-preserve-whitespace
+    const querySpec = {
+      query: "SELECT * FROM root r WHERE r.id=@id",
+      parameters: [
+        {
+          name: "@id",
+          value: "<udf-id>",
+        },
+      ],
+    };
+    // @ts-ignore
+    const { resources: results } = await container.scripts.userDefinedFunctions
+      .query(querySpec)
+      .fetchAll();
+  });
+
+  it("UserDefinedFunctionRead", async () => {
+    const endpoint = "https://your-account.documents.azure.com";
+    const key = "<database account masterkey>";
+    const client = new CosmosClient({ endpoint, key });
+    const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+    const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
+    // @ts-preserve-whitespace
+    // @ts-ignore
+    const { resource: udf } = await container.scripts.userDefinedFunction("<udf-id>").read();
   });
 
   it("CosmosEncryptedNumber", async () => {
