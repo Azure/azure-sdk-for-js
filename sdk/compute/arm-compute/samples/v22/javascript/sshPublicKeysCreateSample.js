@@ -16,7 +16,7 @@ require("dotenv/config");
  * This sample demonstrates how to Creates a new SSH public key resource.
  *
  * @summary Creates a new SSH public key resource.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/sshPublicKeyExamples/SshPublicKey_Create.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/sshPublicKeyExamples/SshPublicKey_Create.json
  */
 async function createANewSshPublicKeyResource() {
   const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
@@ -33,7 +33,7 @@ async function createANewSshPublicKeyResource() {
 }
 
 async function main() {
-  createANewSshPublicKeyResource();
+  await createANewSshPublicKeyResource();
 }
 
 main().catch(console.error);

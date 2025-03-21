@@ -6,8 +6,12 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import type { DedicatedHostUpdate } from "@azure/arm-compute";
-import { ComputeManagementClient } from "@azure/arm-compute";
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+import {
+  DedicatedHostUpdate,
+  ComputeManagementClient,
+} from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -15,11 +19,13 @@ import "dotenv/config";
  * This sample demonstrates how to Update a dedicated host .
  *
  * @summary Update a dedicated host .
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/dedicatedHostExamples/DedicatedHost_Update_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/dedicatedHostExamples/DedicatedHost_Update_MaximumSet_Gen.json
  */
 async function dedicatedHostUpdateMaximumSetGen(): Promise<void> {
-  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
   const hostGroupName = "aaaaaaaaa";
   const hostName = "aaaaaaaaaaaaaaaaaaaaa";
   const parameters: DedicatedHostUpdate = {
@@ -57,11 +63,13 @@ async function dedicatedHostUpdateMaximumSetGen(): Promise<void> {
  * This sample demonstrates how to Update a dedicated host .
  *
  * @summary Update a dedicated host .
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/dedicatedHostExamples/DedicatedHost_Update_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/dedicatedHostExamples/DedicatedHost_Update_MinimumSet_Gen.json
  */
 async function dedicatedHostUpdateMinimumSetGen(): Promise<void> {
-  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
   const hostGroupName = "aa";
   const hostName = "aaaaaaaaaaaaaaaaaaaaaaaaaa";
   const parameters: DedicatedHostUpdate = {};
@@ -80,11 +88,13 @@ async function dedicatedHostUpdateMinimumSetGen(): Promise<void> {
  * This sample demonstrates how to Update a dedicated host .
  *
  * @summary Update a dedicated host .
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/dedicatedHostExamples/DedicatedHost_Update_Resize.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/dedicatedHostExamples/DedicatedHost_Update_Resize.json
  */
 async function dedicatedHostUpdateResize(): Promise<void> {
-  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
   const hostGroupName = "aaaaaaaaa";
   const hostName = "aaaaaaaaaaaaaaaaaaaaa";
   const parameters: DedicatedHostUpdate = { sku: { name: "DSv3-Type1" } };

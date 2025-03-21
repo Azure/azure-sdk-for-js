@@ -2057,6 +2057,41 @@ export const ProxyAgentSettings: coreClient.CompositeMapper = {
           name: "Number",
         },
       },
+      wireServer: {
+        serializedName: "wireServer",
+        type: {
+          name: "Composite",
+          className: "HostEndpointSettings",
+        },
+      },
+      imds: {
+        serializedName: "imds",
+        type: {
+          name: "Composite",
+          className: "HostEndpointSettings",
+        },
+      },
+    },
+  },
+};
+
+export const HostEndpointSettings: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "HostEndpointSettings",
+    modelProperties: {
+      mode: {
+        serializedName: "mode",
+        type: {
+          name: "String",
+        },
+      },
+      inVMAccessControlProfileReferenceId: {
+        serializedName: "inVMAccessControlProfileReferenceId",
+        type: {
+          name: "String",
+        },
+      },
     },
   },
 };
@@ -2457,6 +2492,12 @@ export const ScaleInPolicy: coreClient.CompositeMapper = {
           name: "Boolean",
         },
       },
+      prioritizeUnhealthyVMs: {
+        serializedName: "prioritizeUnhealthyVMs",
+        type: {
+          name: "Boolean",
+        },
+      },
     },
   },
 };
@@ -2529,6 +2570,13 @@ export const ResiliencyPolicy: coreClient.CompositeMapper = {
           className: "ResilientVMDeletionPolicy",
         },
       },
+      automaticZoneRebalancingPolicy: {
+        serializedName: "automaticZoneRebalancingPolicy",
+        type: {
+          name: "Composite",
+          className: "AutomaticZoneRebalancingPolicy",
+        },
+      },
     },
   },
 };
@@ -2557,6 +2605,33 @@ export const ResilientVMDeletionPolicy: coreClient.CompositeMapper = {
         serializedName: "enabled",
         type: {
           name: "Boolean",
+        },
+      },
+    },
+  },
+};
+
+export const AutomaticZoneRebalancingPolicy: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AutomaticZoneRebalancingPolicy",
+    modelProperties: {
+      enabled: {
+        serializedName: "enabled",
+        type: {
+          name: "Boolean",
+        },
+      },
+      rebalanceStrategy: {
+        serializedName: "rebalanceStrategy",
+        type: {
+          name: "String",
+        },
+      },
+      rebalanceBehavior: {
+        serializedName: "rebalanceBehavior",
+        type: {
+          name: "String",
         },
       },
     },
@@ -2599,6 +2674,15 @@ export const SkuProfileVMSize: coreClient.CompositeMapper = {
         serializedName: "name",
         type: {
           name: "String",
+        },
+      },
+      rank: {
+        constraints: {
+          InclusiveMinimum: 0,
+        },
+        serializedName: "rank",
+        type: {
+          name: "Number",
         },
       },
     },
@@ -4573,6 +4657,12 @@ export const StorageProfile: coreClient.CompositeMapper = {
           name: "String",
         },
       },
+      alignRegionalDisksToVMZone: {
+        serializedName: "alignRegionalDisksToVMZone",
+        type: {
+          name: "Boolean",
+        },
+      },
     },
   },
 };
@@ -5866,6 +5956,43 @@ export const LastPatchInstallationSummary: coreClient.CompositeMapper = {
   },
 };
 
+export const Placement: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "Placement",
+    modelProperties: {
+      zonePlacementPolicy: {
+        serializedName: "zonePlacementPolicy",
+        type: {
+          name: "String",
+        },
+      },
+      includeZones: {
+        serializedName: "includeZones",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String",
+            },
+          },
+        },
+      },
+      excludeZones: {
+        serializedName: "excludeZones",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String",
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
 export const VirtualMachineCaptureParameters: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -6346,6 +6473,34 @@ export const PatchInstallationDetail: coreClient.CompositeMapper = {
   },
 };
 
+export const MigrateVMToVirtualMachineScaleSetInput: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "MigrateVMToVirtualMachineScaleSetInput",
+      modelProperties: {
+        targetZone: {
+          serializedName: "targetZone",
+          type: {
+            name: "String",
+          },
+        },
+        targetFaultDomain: {
+          serializedName: "targetFaultDomain",
+          type: {
+            name: "Number",
+          },
+        },
+        targetVMSize: {
+          serializedName: "targetVMSize",
+          type: {
+            name: "String",
+          },
+        },
+      },
+    },
+  };
+
 export const PurchasePlan: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -6537,6 +6692,80 @@ export const VmImagesInEdgeZoneListResult: coreClient.CompositeMapper = {
   },
 };
 
+export const VirtualMachineImagesWithPropertiesListResult: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "VirtualMachineImagesWithPropertiesListResult",
+      modelProperties: {
+        value: {
+          serializedName: "value",
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "Composite",
+                className: "VirtualMachineImage",
+              },
+            },
+          },
+        },
+        nextLink: {
+          serializedName: "nextLink",
+          type: {
+            name: "String",
+          },
+        },
+      },
+    },
+  };
+
+export const VirtualMachineScaleSetMigrationInfo: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "VirtualMachineScaleSetMigrationInfo",
+    modelProperties: {
+      defaultVirtualMachineScaleSetInfo: {
+        serializedName: "defaultVirtualMachineScaleSetInfo",
+        type: {
+          name: "Composite",
+          className: "DefaultVirtualMachineScaleSetInfo",
+        },
+      },
+      migrateToVirtualMachineScaleSet: {
+        serializedName: "migrateToVirtualMachineScaleSet",
+        type: {
+          name: "Composite",
+          className: "SubResource",
+        },
+      },
+    },
+  },
+};
+
+export const DefaultVirtualMachineScaleSetInfo: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DefaultVirtualMachineScaleSetInfo",
+    modelProperties: {
+      constrainedMaximumCapacity: {
+        serializedName: "constrainedMaximumCapacity",
+        readOnly: true,
+        type: {
+          name: "Boolean",
+        },
+      },
+      defaultVirtualMachineScaleSet: {
+        serializedName: "defaultVirtualMachineScaleSet",
+        type: {
+          name: "Composite",
+          className: "SubResource",
+        },
+      },
+    },
+  },
+};
+
 export const AvailabilitySetListResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -6564,6 +6793,39 @@ export const AvailabilitySetListResult: coreClient.CompositeMapper = {
     },
   },
 };
+
+export const MigrateToVirtualMachineScaleSetInput: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "MigrateToVirtualMachineScaleSetInput",
+      modelProperties: {
+        virtualMachineScaleSetFlexible: {
+          serializedName: "virtualMachineScaleSetFlexible",
+          type: {
+            name: "Composite",
+            className: "SubResource",
+          },
+        },
+      },
+    },
+  };
+
+export const ConvertToVirtualMachineScaleSetInput: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "ConvertToVirtualMachineScaleSetInput",
+      modelProperties: {
+        virtualMachineScaleSetName: {
+          serializedName: "virtualMachineScaleSetName",
+          type: {
+            name: "String",
+          },
+        },
+      },
+    },
+  };
 
 export const ProximityPlacementGroupPropertiesIntent: coreClient.CompositeMapper =
   {
@@ -14249,6 +14511,12 @@ export const VirtualMachineScaleSetVM: coreClient.CompositeMapper = {
           className: "HardwareProfile",
         },
       },
+      resilientVMDeletionStatus: {
+        serializedName: "properties.resilientVMDeletionStatus",
+        type: {
+          name: "String",
+        },
+      },
       storageProfile: {
         serializedName: "properties.storageProfile",
         type: {
@@ -14412,6 +14680,13 @@ export const VirtualMachine: coreClient.CompositeMapper = {
         readOnly: true,
         type: {
           name: "String",
+        },
+      },
+      placement: {
+        serializedName: "placement",
+        type: {
+          name: "Composite",
+          className: "Placement",
         },
       },
       hardwareProfile: {
@@ -14703,6 +14978,13 @@ export const AvailabilitySet: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "ScheduledEventsPolicy",
+        },
+      },
+      virtualMachineScaleSetMigrationInfo: {
+        serializedName: "properties.virtualMachineScaleSetMigrationInfo",
+        type: {
+          name: "Composite",
+          className: "VirtualMachineScaleSetMigrationInfo",
         },
       },
     },
@@ -16815,6 +17097,13 @@ export const AvailabilitySetUpdate: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "ScheduledEventsPolicy",
+        },
+      },
+      virtualMachineScaleSetMigrationInfo: {
+        serializedName: "properties.virtualMachineScaleSetMigrationInfo",
+        type: {
+          name: "Composite",
+          className: "VirtualMachineScaleSetMigrationInfo",
         },
       },
     },

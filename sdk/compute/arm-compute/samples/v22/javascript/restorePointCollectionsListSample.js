@@ -16,7 +16,7 @@ require("dotenv/config");
  * This sample demonstrates how to Gets the list of restore point collections in a resource group.
  *
  * @summary Gets the list of restore point collections in a resource group.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/restorePointExamples/RestorePointCollection_ListByResourceGroup.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/restorePointExamples/RestorePointCollection_ListByResourceGroup.json
  */
 async function getsTheListOfRestorePointCollectionsInAResourceGroup() {
   const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
@@ -24,14 +24,14 @@ async function getsTheListOfRestorePointCollectionsInAResourceGroup() {
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.restorePointCollections.list(resourceGroupName)) {
+  for await (const item of client.restorePointCollections.list(resourceGroupName)) {
     resArray.push(item);
   }
   console.log(resArray);
 }
 
 async function main() {
-  getsTheListOfRestorePointCollectionsInAResourceGroup();
+  await getsTheListOfRestorePointCollectionsInAResourceGroup();
 }
 
 main().catch(console.error);

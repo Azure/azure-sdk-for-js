@@ -29,7 +29,7 @@ async function deleteAGallery() {
 }
 
 async function main() {
-  deleteAGallery();
+  await deleteAGallery();
 }
 
 main().catch(console.error);

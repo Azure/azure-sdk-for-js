@@ -243,7 +243,7 @@ const exportRequestRateByIntervalOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  requestBody: Parameters.parameters31,
+  requestBody: Parameters.parameters34,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -274,7 +274,7 @@ const exportThrottledRequestsOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  requestBody: Parameters.parameters32,
+  requestBody: Parameters.parameters35,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

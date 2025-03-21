@@ -16,7 +16,7 @@ require("dotenv/config");
  * This sample demonstrates how to Run command on the VM.
  *
  * @summary Run command on the VM.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/runCommandExamples/VirtualMachineRunCommand.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/runCommandExamples/VirtualMachineRunCommand.json
  */
 async function virtualMachineRunCommand() {
   const subscriptionId =
@@ -35,7 +35,7 @@ async function virtualMachineRunCommand() {
 }
 
 async function main() {
-  virtualMachineRunCommand();
+  await virtualMachineRunCommand();
 }
 
 main().catch(console.error);

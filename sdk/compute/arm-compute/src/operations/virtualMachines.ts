@@ -67,6 +67,7 @@ import {
   AttachDetachDataDisksRequest,
   VirtualMachinesAttachDetachDataDisksOptionalParams,
   VirtualMachinesAttachDetachDataDisksResponse,
+  VirtualMachinesMigrateToVMScaleSetOptionalParams,
   RunCommandInput,
   VirtualMachinesRunCommandOptionalParams,
   VirtualMachinesRunCommandResponse,
@@ -913,9 +914,9 @@ export class VirtualMachinesImpl implements VirtualMachines {
    * Sets the OS state of the virtual machine to generalized. It is recommended to sysprep the virtual
    * machine before performing this operation. For Windows, please refer to [Create a managed image of a
    * generalized VM in
-   * Azure](https://learn.microsoft.com/azure/virtual-machines/windows/capture-image-resource). For Linux,
+   * Azure](https://docs.microsoft.com/azure/virtual-machines/windows/capture-image-resource). For Linux,
    * please refer to [How to create an image of a virtual machine or
-   * VHD](https://learn.microsoft.com/azure/virtual-machines/linux/capture-image).
+   * VHD](https://docs.microsoft.com/azure/virtual-machines/linux/capture-image).
    * @param resourceGroupName The name of the resource group.
    * @param vmName The name of the virtual machine.
    * @param options The options parameters.
@@ -1849,6 +1850,87 @@ export class VirtualMachinesImpl implements VirtualMachines {
   }
 
   /**
+   * Migrate a virtual machine from availability set to Flexible Virtual Machine Scale Set.
+   * @param resourceGroupName The name of the resource group.
+   * @param vmName The name of the virtual machine.
+   * @param options The options parameters.
+   */
+  async beginMigrateToVMScaleSet(
+    resourceGroupName: string,
+    vmName: string,
+    options?: VirtualMachinesMigrateToVMScaleSetOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<void> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, vmName, options },
+      spec: migrateToVMScaleSetOperationSpec,
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Migrate a virtual machine from availability set to Flexible Virtual Machine Scale Set.
+   * @param resourceGroupName The name of the resource group.
+   * @param vmName The name of the virtual machine.
+   * @param options The options parameters.
+   */
+  async beginMigrateToVMScaleSetAndWait(
+    resourceGroupName: string,
+    vmName: string,
+    options?: VirtualMachinesMigrateToVMScaleSetOptionalParams,
+  ): Promise<void> {
+    const poller = await this.beginMigrateToVMScaleSet(
+      resourceGroupName,
+      vmName,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
    * Run command on the VM.
    * @param resourceGroupName The name of the resource group.
    * @param vmName The name of the virtual machine.
@@ -2596,6 +2678,30 @@ const attachDetachDataDisksOperationSpec: coreClient.OperationSpec = {
     },
   },
   requestBody: Parameters.parameters5,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.vmName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const migrateToVMScaleSetOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/migrateToVirtualMachineScaleSet",
+  httpMethod: "POST",
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  requestBody: Parameters.parameters11,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
