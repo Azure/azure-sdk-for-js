@@ -258,19 +258,17 @@ export class Database {
     }, this.clientContext);
   }
 
-  /**
-   * Create Encryption key for database account
-   * @example
+  /* @example
    * ```ts snippet:DatabaseCreateClientEncryptionKey
    * import { ClientSecretCredential } from "@azure/identity";
    * import {
    *   AzureKeyVaultEncryptionKeyResolver,
+   *   CosmosClient,
    *   EncryptionKeyWrapMetadata,
    *   EncryptionKeyResolverName,
    *   KeyEncryptionAlgorithm,
    *   EncryptionAlgorithm,
-   * } from "../src";
-   * import { CosmosClient } from "@azure/cosmos";
+   * } from "@azure/cosmos";
    *
    * const endpoint = "https://your-account.documents.azure.com";
    * const key = "<database account masterkey>";
@@ -377,8 +375,7 @@ export class Database {
    * @example
    * ```ts snippet:DatabaseReadClientEncryptionKey
    * import { ClientSecretCredential } from "@azure/identity";
-   * import { AzureKeyVaultEncryptionKeyResolver } from "../src";
-   * import { CosmosClient } from "@azure/cosmos";
+   * import { AzureKeyVaultEncryptionKeyResolver, CosmosClient } from "@azure/cosmos";
    *
    * const endpoint = "https://your-account.documents.azure.com";
    * const key = "<database account masterkey>";
@@ -452,11 +449,11 @@ export class Database {
    * import { ClientSecretCredential } from "@azure/identity";
    * import {
    *   AzureKeyVaultEncryptionKeyResolver,
+   *   CosmosClient,
    *   EncryptionKeyWrapMetadata,
    *   EncryptionKeyResolverName,
    *   KeyEncryptionAlgorithm,
-   * } from "../src";
-   * import { CosmosClient } from "@azure/cosmos";
+   * } from "@azure/cosmos";
    *
    * const endpoint = "https://your-account.documents.azure.com";
    * const key = "<database account masterkey>";

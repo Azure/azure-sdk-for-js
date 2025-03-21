@@ -450,6 +450,55 @@ export class Container {
   }
   /**
    * Warms up encryption related caches for the container.
+   * @example
+   * ```ts snippet:ContainerIntializeEncryption
+   * import { ClientSecretCredential } from "@azure/identity";
+   * import {
+   *   AzureKeyVaultEncryptionKeyResolver,
+   *   CosmosClient,
+   *   EncryptionType,
+   *   EncryptionAlgorithm,
+   *   ClientEncryptionIncludedPath,
+   *   ClientEncryptionPolicy,
+   * } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const credentials = new ClientSecretCredential("<tenant-id>", "<client-id>", "<app-secret>");
+   * const keyResolver = new AzureKeyVaultEncryptionKeyResolver(credentials);
+   * const client = new CosmosClient({
+   *   endpoint,
+   *   key,
+   *   clientEncryptionOptions: {
+   *     keyEncryptionKeyResolver: keyResolver,
+   *   },
+   * });
+   * const { database } = await client.databases.createIfNotExists({ id: "<db id>" });
+   *
+   * const paths = ["/path1", "/path2", "/path3"].map(
+   *   (path) =>
+   *     ({
+   *       path: path,
+   *       clientEncryptionKeyId: "< cek - id >",
+   *       encryptionType: EncryptionType.DETERMINISTIC,
+   *       encryptionAlgorithm: EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
+   *     }) as ClientEncryptionIncludedPath,
+   * );
+   * const clientEncryptionPolicy: ClientEncryptionPolicy = {
+   *   includedPaths: paths,
+   *   policyFormatVersion: 2,
+   * };
+   * const containerDefinition = {
+   *   id: "Test Container",
+   *   partitionKey: {
+   *     paths: ["/id"],
+   *   },
+   *   clientEncryptionPolicy: clientEncryptionPolicy,
+   * };
+   * const { container } = await database.containers.createIfNotExists(containerDefinition);
+   *
+   * await container.initializeEncryption();
+   * ```
    */
   public async initializeEncryption(): Promise<void> {
     if (!this.clientContext.enableEncryption) {

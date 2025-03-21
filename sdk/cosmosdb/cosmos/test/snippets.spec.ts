@@ -10,20 +10,21 @@ import {
   CosmosEncryptedNumber,
   CosmosEncryptedNumberType,
   EncryptionQueryBuilder,
+  ClientEncryptionIncludedPath,
+  EncryptionType,
+  ClientEncryptionPolicy,
   ErrorResponse,
   OperationInput,
   PartitionKeyDefinitionVersion,
   PartitionKeyKind,
   RestError,
   SqlQuerySpec,
-} from "@azure/cosmos";
-import {
   AzureKeyVaultEncryptionKeyResolver,
   EncryptionAlgorithm,
   EncryptionKeyResolverName,
   EncryptionKeyWrapMetadata,
   KeyEncryptionAlgorithm,
-} from "../src";
+} from "@azure/cosmos";
 import { ClientSecretCredential } from "@azure/identity";
 
 describe("snippets", () => {
@@ -755,6 +756,45 @@ describe("snippets", () => {
     };
     // @ts-preserve-whitespace
     await database.rewrapClientEncryptionKey("<new-cek-id>", newMetadata);
+  });
+
+  it("ContainerIntializeEncryption", async () => {
+    const endpoint = "https://your-account.documents.azure.com";
+    const key = "<database account masterkey>";
+    const credentials = new ClientSecretCredential("<tenant-id>", "<client-id>", "<app-secret>");
+    const keyResolver = new AzureKeyVaultEncryptionKeyResolver(credentials);
+    const client = new CosmosClient({
+      endpoint,
+      key,
+      clientEncryptionOptions: {
+        keyEncryptionKeyResolver: keyResolver,
+      },
+    });
+    const { database } = await client.databases.createIfNotExists({ id: "<db id>" });
+    // @ts-preserve-whitespace
+    const paths = ["/path1", "/path2", "/path3"].map(
+      (path) =>
+        ({
+          path: path,
+          clientEncryptionKeyId: "< cek - id >",
+          encryptionType: EncryptionType.DETERMINISTIC,
+          encryptionAlgorithm: EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
+        }) as ClientEncryptionIncludedPath,
+    );
+    const clientEncryptionPolicy: ClientEncryptionPolicy = {
+      includedPaths: paths,
+      policyFormatVersion: 2,
+    };
+    const containerDefinition = {
+      id: "Test Container",
+      partitionKey: {
+        paths: ["/id"],
+      },
+      clientEncryptionPolicy: clientEncryptionPolicy,
+    };
+    const { container } = await database.containers.createIfNotExists(containerDefinition);
+    // @ts-preserve-whitespace
+    await container.initializeEncryption();
   });
 
   it("DatabasesQueryDatabases", async () => {
