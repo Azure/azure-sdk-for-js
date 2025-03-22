@@ -115,11 +115,10 @@ describe("PerformanceCounterMetricsHandler", () => {
     });
 
     it("should not collect when disabled", async () => {
-      autoCollect.shutdown().then(async () => {
-        autoCollect.recordSpan(serverSpan);
-        await new Promise((resolve) => setTimeout(resolve, 120));
-        assert.ok(exportStub.notCalled);
-      });
+      await autoCollect.shutdown();
+      autoCollect.recordSpan(serverSpan);
+      await new Promise((resolve) => setTimeout(resolve, 120));
+      assert.ok(exportStub.notCalled);
     });
   });
 });
