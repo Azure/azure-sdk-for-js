@@ -5,6 +5,7 @@
 ### Features Added
 
 - Support setting the AiLocationIp on logs and events.
+- Add support for performance counters.
 
 ### Other Changes
 

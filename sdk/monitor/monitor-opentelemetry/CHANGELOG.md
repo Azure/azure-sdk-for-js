@@ -2,6 +2,10 @@
 
 ## 1.9.1 ()
 
+### Features Added
+
+- Add support for performance counters.
+
 ## Other Changes
 
 - Add support for detecting the Application Insights shim on internal verison.
