@@ -197,6 +197,19 @@ export function getProcessorTimeNormalized(
   return (usageDifMs / elapsedTimeMs / numCpus) * 100;
 }
 
+// This function can get the cpu %, but it assumes that after this function is called,
+// that the process.hrtime.bigint() & process.cpuUsage() are called/stored to be used as the
+// parameters for the next call.
+export function getProcessorTime(lastHrTime: bigint, lastCpuUsage: NodeJS.CpuUsage): number {
+  const usageDif = process.cpuUsage(lastCpuUsage);
+  const elapsedTimeNs = process.hrtime.bigint() - lastHrTime;
+
+  const usageDifMs = (usageDif.user + usageDif.system) / 1000.0;
+  const elapsedTimeMs = elapsedTimeNs === BigInt(0) ? 1 : Number(elapsedTimeNs) / 1000000.0;
+
+  return (usageDifMs / elapsedTimeMs) * 100;
+}
+
 /**
  * Gets the cloud role name based on the resource attributes
  */

@@ -10,6 +10,7 @@ import type { ReadableSpan, Span } from "@opentelemetry/sdk-trace-base";
 import type { LogRecord } from "@opentelemetry/sdk-logs";
 import { APPLICATION_INSIGHTS_NO_STANDARD_METRICS } from "./types";
 import { LiveMetrics } from "./quickpulse/liveMetrics";
+import { PerformanceCounterMetrics } from "./performanceCounters";
 
 /**
  * Azure Monitor OpenTelemetry Metric Handler
@@ -19,6 +20,7 @@ export class MetricHandler {
   private _azureExporter: AzureMonitorMetricExporter;
   private _metricReader: PeriodicExportingMetricReader;
   private _standardMetrics?: StandardMetrics;
+  private _performanceCounters?: PerformanceCounterMetrics;
   private _liveMetrics?: LiveMetrics;
   private _config: InternalConfig;
   private _views: View[];
@@ -69,6 +71,9 @@ export class MetricHandler {
     if (this._config.enableLiveMetrics) {
       this._liveMetrics = new LiveMetrics(this._config);
     }
+    if (this._config.enableAutoCollectPerformance) {
+      this._performanceCounters = new PerformanceCounterMetrics(this._config);
+    }
   }
 
   public getMetricReader(): PeriodicExportingMetricReader {
@@ -86,11 +91,13 @@ export class MetricHandler {
   public recordSpan(span: ReadableSpan): void {
     this._standardMetrics?.recordSpan(span);
     this._liveMetrics?.recordSpan(span);
+    this._performanceCounters?.recordSpan(span);
   }
 
   public recordLog(logRecord: LogRecord): void {
     this._standardMetrics?.recordLog(logRecord);
     this._liveMetrics?.recordLog(logRecord);
+    this._performanceCounters?.recordLog(logRecord);
   }
 
   /**
