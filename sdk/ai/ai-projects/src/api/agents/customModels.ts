@@ -3,7 +3,8 @@
 
 import type { AbortSignalLike } from "@azure/abort-controller";
 import type { AgentsUploadFileOptionalParams } from "../index.js";
-import { ThreadRun } from "../../index.js";
+import type { ThreadRun } from "../../index.js";
+import type { AgentEventMessageStream } from "./streamingModels.js";
 import type { 
   AgentsCreateVectorStoreFileBatchOptionalParams, 
   AgentsCreateVectorStoreFileOptionalParams, 
@@ -98,3 +99,38 @@ export enum MessageStreamEventEnum {
   /** Event sent before a message is completed. The data of this event is of type ThreadMessage */
   ThreadMessageIncomplete = "thread.message.incomplete",
 }
+
+/** Run step operation related streaming events */
+export enum RunStepStreamEventEnum {
+  /** Event sent when a new thread run step is created. The data of this event is of type RunStep */
+  ThreadRunStepCreated = "thread.run.step.created",
+
+  /** Event sent when a run step moves to `in_progress` status. The data of this event is of type RunStep */
+  ThreadRunStepInProgress = "thread.run.step.in_progress",
+
+  /** Event sent when a run step is being streamed. The data of this event is of type RunStepDeltaChunk */
+  ThreadRunStepDelta = "thread.run.step.delta",
+
+  /** Event sent when a run step is completed. The data of this event is of type RunStep */
+  ThreadRunStepCompleted = "thread.run.step.completed",
+
+  /** Event sent when a run step fails. The data of this event is of type RunStep */
+  ThreadRunStepFailed = "thread.run.step.failed",
+
+  /** Event sent when a run step is cancelled. The data of this event is of type RunStep */
+  ThreadRunStepCancelled = "thread.run.step.cancelled",
+
+  /** Event sent when a run step is expired. The data of this event is of type RunStep */
+  ThreadRunStepExpired = "thread.run.step.expired",
+}
+
+/**
+ * Agent run response with support to stream.
+ */
+export type AgentRunResponse = PromiseLike<ThreadRun> & {
+  /**
+   * Function to start streaming the agent event messages.
+   * @returns A promise that resolves to an AgentEventMessageStream.
+   */
+  stream: () => Promise<AgentEventMessageStream>;
+};

@@ -120,9 +120,16 @@ import type {
   AgentUploadFileWithPollingOptionalParams,
   AgentsCreateVectorStoreFileBatchWithPollingOptionalParams,
   AgentsCreateVectorStoreFileWithPollingOptionalParams,
-  AgentsCreateVectorStoreWithPollingOptionalParams
+  AgentsCreateVectorStoreWithPollingOptionalParams,
+  AgentRunResponse,
 } from "./customModels.ts";
-
+import { AgentEventMessageStream } from "./streamingModels.js";
+import { processStream } from "./streaming.js";
+import { TracingUtility } from "./tracing.js";
+import { traceEndCreateOrUpdateAgent, traceStartCreateOrUpdateAgent } from "./assistantsTrace.js";
+import { traceStartCreateRun, traceEndCreateOrUpdateRun, traceStartSubmitToolOutputsToRun, traceEndSubmitToolOutputsToRun } from "./runTrace.js";
+import { traceStartCreateThread, traceEndCreateThread } from "./threadsTrace.js";
+import { traceStartCreateMessage, traceEndCreateMessage, traceStartListMessages, traceEndListMessages } from "./messagesTrace.js";
 export function _listVectorStoreFileBatchFilesSend(
   context: Client,
   vectorStoreId: string,
@@ -1420,13 +1427,27 @@ export async function _createThreadAndRunDeserialize(
 }
 
 /** Creates a new agent thread and immediately starts a run using that new thread. */
-export async function createThreadAndRun(
+export function createThreadAndRun(
   context: Client,
   agentId: string,
   options: AgentsCreateThreadAndRunOptionalParams = { requestOptions: {} },
-): Promise<ThreadRun> {
-  const result = await _createThreadAndRunSend(context, agentId, options);
-  return _createThreadAndRunDeserialize(result);
+): AgentRunResponse {
+  async function execCreateThreadAndRun(): Promise<ThreadRun> {
+    const result = await _createThreadAndRunSend(context, agentId, options);
+    return _createThreadAndRunDeserialize(result);
+  }
+
+  return {
+    then: (onFulfilled, onRejected) => {
+      options.stream = false;
+      return execCreateThreadAndRun().then(onFulfilled, onRejected).catch(onRejected);
+    },
+    async stream(): Promise<AgentEventMessageStream> {
+      options.stream = true;
+      return processStream(_createThreadAndRunSend(context, agentId, options));
+    }
+  };
+
 }
 
 export function _cancelRunSend(
@@ -1532,14 +1553,23 @@ export async function submitToolOutputsToRun(
   toolOutputs: ToolOutput[],
   options: AgentsSubmitToolOutputsToRunOptionalParams = { requestOptions: {} },
 ): Promise<ThreadRun> {
-  const result = await _submitToolOutputsToRunSend(
-    context,
-    threadId,
-    runId,
-    toolOutputs,
+  const result = await TracingUtility.withSpan(
+    "SubmitToolOutputsToRun",
     options,
+    async (updateOptions) => {
+      const _result = await _submitToolOutputsToRunSend(
+        context,
+        threadId,
+        runId,
+        toolOutputs,
+        updateOptions,
+      );
+      return _submitToolOutputsToRunDeserialize(_result);
+    },
+    (span, updateOptions) => traceStartSubmitToolOutputsToRun(span, { ...updateOptions, toolOutputs }, threadId, runId),
+    traceEndSubmitToolOutputsToRun
   );
-  return _submitToolOutputsToRunDeserialize(result);
+  return result;
 }
 
 export function _updateRunSend(
@@ -1768,15 +1798,42 @@ export async function _createRunDeserialize(
 }
 
 /** Creates a new run for an agent thread. */
-export async function createRun(
+export function createRun(
   context: Client,
   threadId: string,
-  agentId: string,
+  assistantId: string,
   options: AgentsCreateRunOptionalParams = { requestOptions: {} },
-): Promise<ThreadRun> {
-  const result = await _createRunSend(context, threadId, agentId, options);
-  console.log("createRun result", result);
-  return _createRunDeserialize(result);
+): AgentRunResponse {
+
+  const createRunOptions: AgentsCreateRunOptionalParams & { assistantId: string } = {
+    ...options,
+    assistantId
+  };
+
+  async function executeCreateRun(): Promise<ThreadRun> {
+    const result = await TracingUtility.withSpan(
+      "CreateRun",
+      createRunOptions,
+      async (updateOptions) => {
+        const _result = await _createRunSend(context, threadId, assistantId, updateOptions);
+        return _createRunDeserialize(_result)
+      },
+      (span, updateOptions) => traceStartCreateRun(span, updateOptions, threadId, assistantId),
+      traceEndCreateOrUpdateRun,
+    );
+    return result;
+  }
+
+  return {
+    then: (onFulfilled, onRejected) => {
+      options.stream = false;
+      return executeCreateRun().then(onFulfilled, onRejected).catch(onRejected);
+    },
+    async stream(): Promise<AgentEventMessageStream> {
+      options.stream = true;
+      return processStream(_createRunSend(context, threadId, assistantId, options))
+    }
+  };
 }
 
 export function _updateMessageSend(
@@ -1934,8 +1991,17 @@ export async function listMessages(
   threadId: string,
   options: AgentsListMessagesOptionalParams = { requestOptions: {} },
 ): Promise<OpenAIPageableListOfThreadMessage> {
-  const result = await _listMessagesSend(context, threadId, options);
-  return _listMessagesDeserialize(result);
+  const result = await TracingUtility.withSpan(
+    "ListMessages",
+    options,
+    async (updateOptions) => {
+      const _result = await _listMessagesSend(context, threadId, updateOptions);
+      return _listMessagesDeserialize(_result)
+    },
+    (span, updateOptions) => traceStartListMessages(span, threadId, { ...updateOptions }),
+    traceEndListMessages,
+  );
+  return result;
 }
 
 export function _createMessageSend(
@@ -1994,14 +2060,17 @@ export async function createMessage(
   content: string,
   options: AgentsCreateMessageOptionalParams = { requestOptions: {} },
 ): Promise<ThreadMessage> {
-  const result = await _createMessageSend(
-    context,
-    threadId,
-    role,
-    content,
+  const result = await TracingUtility.withSpan(
+    "CreateMessage",
     options,
+    async (updateOptions) => {
+      const _result = await _createMessageSend(context, threadId, role, content, updateOptions);
+      return _createMessageDeserialize(_result)
+    },
+    (span, updateOptions) => traceStartCreateMessage(span, threadId, { ...updateOptions, role, content }),
+    traceEndCreateMessage,
   );
-  return _createMessageDeserialize(result);
+  return result;
 }
 
 export function _deleteThreadSend(
@@ -2202,8 +2271,17 @@ export async function createThread(
   context: Client,
   options: AgentsCreateThreadOptionalParams = { requestOptions: {} },
 ): Promise<AgentThread> {
-  const result = await _createThreadSend(context, options);
-  return _createThreadDeserialize(result);
+  const result = await TracingUtility.withSpan(
+    "CreateThread",
+    options,
+    async (updateOptions) => {
+      const _result = await _createThreadSend(context, updateOptions);
+      return _createThreadDeserialize(_result)
+    },
+    traceStartCreateThread,
+    traceEndCreateThread,
+  );
+  return result;
 }
 
 export function _deleteAgentSend(
@@ -2475,6 +2553,19 @@ export async function createAgent(
   model: string,
   options: AgentsCreateAgentOptionalParams = { requestOptions: {} },
 ): Promise<Agent> {
-  const result = await _createAgentSend(context, model, options);
-  return _createAgentDeserialize(result);
+  const createOptions: AgentsCreateAgentOptionalParams = {
+    ...operationOptionsToRequestParameters(options),
+    ...options,
+  };
+  const result = await TracingUtility.withSpan(
+    "createAgent",
+    { ...createOptions, model },
+    async (updateOptions) => {
+      const _result = await _createAgentSend(context, model, updateOptions);
+      return _createAgentDeserialize(_result);
+    },
+    traceStartCreateOrUpdateAgent,
+    traceEndCreateOrUpdateAgent,
+  );
+  return result;
 }

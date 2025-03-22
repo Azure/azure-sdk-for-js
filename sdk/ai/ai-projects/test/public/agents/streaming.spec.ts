@@ -2,14 +2,15 @@
 // Licensed under the MIT License.
 
 import type { Recorder, VitestTestContext } from "@azure-tools/test-recorder";
-import type { AgentsOperations, AIProjectsClient, ThreadRunOutput } from "../../../src/index.js";
-import { MessageStreamEvent, RunStreamEvent } from "../../../src/index.js";
+import type { AgentsOperations, AIProjectClient } from "../../../src/index.js";
+import type { ThreadRun } from "../../../src/index.js";
 import { createRecorder, createProjectsClient } from "../utils/createClient.js";
 import { assert, beforeEach, afterEach, it, describe } from "vitest";
+import { RunStreamEventEnum, MessageStreamEventEnum } from "../../../src/api/agents/customModels.js";
 
 describe("Agents - streaming", () => {
   let recorder: Recorder;
-  let projectsClient: AIProjectsClient;
+  let projectsClient: AIProjectClient;
   let agents: AgentsOperations;
 
   beforeEach(async function (context: VitestTestContext) {
@@ -24,7 +25,7 @@ describe("Agents - streaming", () => {
 
   it("should run streaming", async function () {
     // Create agent
-    const agent = await agents.createAgent("gpt-4-1106-preview", {
+    const agent = await agents.createAgent("gpt-4o", {
       name: "My Friendly Test Assistant",
       instructions: "You are helpful agent",
     });
@@ -35,26 +36,23 @@ describe("Agents - streaming", () => {
     console.log(`Created thread, thread ID: ${thread.id}`);
 
     // Create message
-    const message = await agents.createMessage(thread.id, {
-      role: "user",
-      content: "Hello, tell me a joke",
-    });
+    const message = await agents.createMessage(thread.id, "user", "Hello, tell me a joke");
     console.log(`Created message, message ID: ${message.id}`);
 
     // Run streaming
-    const streamEventMessages = await agents.createRun(thread.id, agent.id).stream();
+    const streamEventMessages = await agents.createRun(thread.id, agent.id, { stream: true }).stream();
     let hasEventMessages = false;
 
     for await (const eventMessage of streamEventMessages) {
       hasEventMessages = true;
       switch (eventMessage.event) {
-        case RunStreamEvent.ThreadRunCreated:
-          console.log(`Thread Run Created - ${(eventMessage.data as ThreadRunOutput).assistantId}`);
+        case RunStreamEventEnum.ThreadRunCreated:
+          console.log(`Thread Run Created - ${(eventMessage.data as ThreadRun).assistantId}`);
           break;
-        case MessageStreamEvent.ThreadMessageDelta:
+        case MessageStreamEventEnum.ThreadMessageDelta:
           console.log(`Thread Message Delta, thread ID: ${thread.id}`);
           break;
-        case RunStreamEvent.ThreadRunCompleted:
+        case RunStreamEventEnum.ThreadRunCompleted:
           console.log(`Thread Run Completed, thread ID: ${thread.id}`);
           break;
       }
@@ -72,7 +70,7 @@ describe("Agents - streaming", () => {
   // eslint-disable-next-line no-only-tests/no-only-tests
   it("should create thread and run streaming", async function () {
     // Create agent
-    const agent = await agents.createAgent("gpt-4-1106-preview", {
+    const agent = await agents.createAgent("gpt-4o", {
       name: "My Friendly Test Assistant",
       instructions: "You are helpful agent",
     });
@@ -82,6 +80,7 @@ describe("Agents - streaming", () => {
     const streamEventMessages = await agents
       .createThreadAndRun(agent.id, {
         thread: { messages: [{ role: "user", content: "Hello, tell me a joke" }] },
+        stream: true,
       })
       .stream();
 
@@ -89,13 +88,13 @@ describe("Agents - streaming", () => {
     for await (const eventMessage of streamEventMessages) {
       hasEventMessages = true;
       switch (eventMessage.event) {
-        case RunStreamEvent.ThreadRunCreated:
+        case RunStreamEventEnum.ThreadRunCreated:
           console.log("Thread Run Created");
           break;
-        case MessageStreamEvent.ThreadMessageDelta:
+        case MessageStreamEventEnum.ThreadMessageDelta:
           console.log("Thread Message Delta");
           break;
-        case RunStreamEvent.ThreadRunCompleted:
+        case RunStreamEventEnum.ThreadRunCompleted:
           console.log("Thread Run Completed");
           break;
       }

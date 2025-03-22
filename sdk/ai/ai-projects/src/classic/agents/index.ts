@@ -119,6 +119,7 @@ import type {
   AgentsCreateVectorStoreFileBatchWithPollingOptionalParams,
   AgentsCreateVectorStoreFileWithPollingOptionalParams,
   AgentsCreateVectorStoreWithPollingOptionalParams,
+  AgentRunResponse,
 } from "../../api/agents/customModels.js";
 
 /** Interface representing a Agents operations. */
@@ -252,7 +253,7 @@ export interface AgentsOperations {
   createThreadAndRun: (
     assistantId: string,
     options?: AgentsCreateThreadAndRunOptionalParams,
-  ) => Promise<ThreadRun>;
+  ) => AgentRunResponse;
   /** Cancels a run of an in progress thread. */
   cancelRun: (
     threadId: string,
@@ -288,7 +289,7 @@ export interface AgentsOperations {
     threadId: string,
     assistantId: string,
     options?: AgentsCreateRunOptionalParams,
-  ) => Promise<ThreadRun>;
+  ) => AgentRunResponse;
   /** Modifies an existing message on an existing thread. */
   updateMessage: (
     threadId: string,

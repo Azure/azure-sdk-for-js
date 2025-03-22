@@ -32,6 +32,19 @@ export type ToolDefinitionUnion =
   | AzureFunctionToolDefinition
   | ToolDefinition;
 
+export enum ToolDefinitionUnionEnum {
+  CodeInterpreter = "code_interpreter",
+  FileSearch = "file_search",
+  Function = "function",
+  BingGrounding = "bing_grounding",
+  MicrosoftFabric = "fabric_aiskill",
+  SharepointGrounding = "sharepoint_grounding",
+  AzureAISearch = "azure_ai_search",
+  OpenApi = "openapi",
+  AzureFunction = "azure_function",
+  ToolDefinition = "tool_definition",
+}
+
 export function toolDefinitionUnionSerializer(item: ToolDefinitionUnion): any {
   switch (item.type) {
     case "code_interpreter":
@@ -1221,7 +1234,7 @@ export function toolDefinitionUnionArraySerializer(
 }
 
 export function toolDefinitionUnionArrayDeserializer(
-  result: Array<ToolDefinitionUnion>,
+  result: Array<ToolDefinitionUnion> = [],
 ): any[] {
   return result.map((item) => {
     return toolDefinitionUnionDeserializer(item);
@@ -1625,7 +1638,7 @@ export type MessageIncompleteDetailsReason =
   | "run_expired";
 
 export function messageContentUnionArrayDeserializer(
-  result: Array<MessageContentUnion>,
+  result: Array<MessageContentUnion> = [],
 ): any[] {
   return result.map((item) => {
     return messageContentUnionDeserializer(item);
@@ -1701,7 +1714,7 @@ export function messageTextDetailsDeserializer(item: any): MessageTextDetails {
 }
 
 export function messageTextAnnotationUnionArrayDeserializer(
-  result: Array<MessageTextAnnotationUnion>,
+  result: Array<MessageTextAnnotationUnion> = [],
 ): any[] {
   return result.map((item) => {
     return messageTextAnnotationUnionDeserializer(item);
