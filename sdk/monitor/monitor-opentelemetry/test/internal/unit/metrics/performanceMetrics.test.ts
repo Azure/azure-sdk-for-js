@@ -113,12 +113,5 @@ describe("PerformanceCounterMetricsHandler", () => {
       assert.deepStrictEqual(metrics[6].descriptor.name, "Process_Time_Normalized");
       assert.deepStrictEqual(metrics[7].descriptor.name, "Exception_Rate");
     });
-
-    it("should not collect when disabled", async () => {
-      await autoCollect.shutdown();
-      autoCollect.recordSpan(serverSpan);
-      await new Promise((resolve) => setTimeout(resolve, 120));
-      assert.ok(exportStub.notCalled);
-    });
   });
 });

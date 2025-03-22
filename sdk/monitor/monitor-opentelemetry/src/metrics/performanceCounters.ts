@@ -47,8 +47,8 @@ export class PerformanceCounterMetrics {
   private processTimeNormalizedGaugeCallback: ObservableCallback;
   private processTimeGauge: ObservableGauge;
   private processTimeGaugeCallback: ObservableCallback;
-  private executionCountGauge: ObservableGauge;
-  private executionCountGaugeCallback: ObservableCallback;
+  private exceptionCountGauge: ObservableGauge;
+  private exceptionCountGaugeCallback: ObservableCallback;
   private lastExceptionRate: { count: number; time: number } = { count: 0, time: 0 };
   private totalCount: number = 0;
   private intervalExecutionTime = 0;
@@ -143,7 +143,7 @@ export class PerformanceCounterMetrics {
         valueType: ValueType.DOUBLE,
       },
     );
-    this.excecutionCountGauge = this.meter.createObservableGauge(
+    this.exceptionCountGauge = this.meter.createObservableGauge(
       PerformanceCounterMetricNames.EXCEPTION_RATE,
       {
         description: "Exception Rate",
@@ -158,7 +158,7 @@ export class PerformanceCounterMetrics {
     this.processorTimeGaugeCallback = this.getProcessorTime.bind(this);
     this.processTimeGaugeCallback = this.getProcessTime.bind(this);
     this.processTimeNormalizedGaugeCallback = this.getNormalizedProcessTime.bind(this);
-    this.excecutionCountGaugeCallback = this.getExceptionRate.bind(this);
+    this.exceptionCountGaugeCallback = this.getExceptionRate.bind(this);
 
     this.memoryPrivateBytesGauge.addCallback(this.memoryPrivateBytesGaugeCallback);
     this.memoryAvailableBytesGauge.addCallback(this.memoryAvailableBytesGaugeCallback);
@@ -166,7 +166,7 @@ export class PerformanceCounterMetrics {
     this.processTimeNormalizedGauge.addCallback(this.processTimeNormalizedGaugeCallback);
     this.processorTimeGauge.addCallback(this.processorTimeGaugeCallback);
     this.requestRateGauge.addCallback(this.requestRateGaugeCallback);
-    this.excecutionCountGauge.addCallback(this.excecutionCountGaugeCallback);
+    this.exceptionCountGauge.addCallback(this.exceptionCountGaugeCallback);
   }
 
   /**

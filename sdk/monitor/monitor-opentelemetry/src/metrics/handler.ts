@@ -107,5 +107,6 @@ export class MetricHandler {
   public async shutdown(): Promise<void> {
     this._standardMetrics?.shutdown();
     this._liveMetrics?.shutdown();
+    this._performanceCounters?.shutdown();
   }
 }
