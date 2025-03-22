@@ -47,8 +47,8 @@ export class PerformanceCounterMetrics {
   private processTimeNormalizedGaugeCallback: ObservableCallback;
   private processTimeGauge: ObservableGauge;
   private processTimeGaugeCallback: ObservableCallback;
-  private excecutionCountGauge: ObservableGauge;
-  private excecutionCountGaugeCallback: ObservableCallback;
+  private executionCountGauge: ObservableGauge;
+  private executionCountGaugeCallback: ObservableCallback;
   private lastExceptionRate: { count: number; time: number } = { count: 0, time: 0 };
   private totalCount: number = 0;
   private intervalExecutionTime = 0;
