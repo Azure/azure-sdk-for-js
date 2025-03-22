@@ -152,8 +152,7 @@ export enum PerformanceCounter {
   REQUEST_DURATION = "\\ASP.NET Applications(??APP_W3SVC_PROC??)\\Request Execution Time",
 
   // Exception
-  EXCEPTION_RATE = "\\.NET CLR Exceptions(??APP_CLR_PROC??)\\# of Exceps Thrown / sec",
-
+  EXCEPTION_RATE = "\\.NET CLR Exceptions(??APP_CLR_PROC??)\\# of Exceptions Thrown / sec",
   // I/O
   IO_RATE = "\\Process(??APP_WIN32_PROC??)\\IO Data Bytes/sec",
 }
