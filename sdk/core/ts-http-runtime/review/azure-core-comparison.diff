@@ -139,79 +139,6 @@ index f8d603b..0000000
 -    return this.cachedToken;
 -  }
 -}
-diff --git a/src/auth/authFlows.ts b/src/auth/authFlows.ts
-new file mode 100644
-index 0000000..01f42e5
---- /dev/null
-+++ b/src/auth/authFlows.ts
-@@ -0,0 +1,67 @@
-+// Copyright (c) Microsoft Corporation.
-+// Licensed under the MIT License.
-+
-+/**
-+ * Represents OAuth2 Authorization Code flow configuration.
-+ */
-+export interface AuthorizationCodeFlow {
-+  /** Type of OAuth2 flow */
-+  kind: "authorizationCode";
-+  /** Authorization endpoint */
-+  authorizationUrl: string;
-+  /** Token endpoint */
-+  tokenUrl: string;
-+  /** Refresh token endpoint */
-+  refreshUrl?: string;
-+  /** OAuth2 scopes */
-+  scopes?: string[];
-+}
-+
-+/**
-+ * Represents OAuth2 Client Credentials flow configuration.
-+ */
-+export interface ClientCredentialsFlow {
-+  /** Type of OAuth2 flow */
-+  kind: "clientCredentials";
-+  /** Token endpoint */
-+  tokenUrl: string;
-+  /** Refresh token endpoints */
-+  refreshUrl?: string[];
-+  /** OAuth2 scopes */
-+  scopes?: string[];
-+}
-+
-+/**
-+ * Represents OAuth2 Implicit flow configuration.
-+ */
-+export interface ImplicitFlow {
-+  /** Type of OAuth2 flow */
-+  kind: "implicit";
-+  /** Authorization endpoint */
-+  authorizationUrl: string;
-+  /** Refresh token endpoint */
-+  refreshUrl?: string;
-+  /** OAuth2 scopes */
-+  scopes?: string[];
-+}
-+
-+/**
-+ * Represents OAuth2 Password flow configuration.
-+ */
-+export interface PasswordFlow {
-+  /** Type of OAuth2 flow */
-+  kind: "password";
-+  /** Token endpoint */
-+  tokenUrl: string;
-+  /** Refresh token endpoint */
-+  refreshUrl?: string;
-+  /** OAuth2 scopes */
-+  scopes?: string[];
-+}
-+
-+/** Union type of all supported OAuth2 flows */
-+export type OAuth2Flow =
-+  | AuthorizationCodeFlow
-+  | ClientCredentialsFlow
-+  | ImplicitFlow
-+  | PasswordFlow;
 diff --git a/src/auth/azureKeyCredential.ts b/src/auth/azureKeyCredential.ts
 deleted file mode 100644
 index 65676e7..0000000
@@ -435,14 +362,14 @@ index 045c639..0000000
 -}
 diff --git a/src/auth/credentials.ts b/src/auth/credentials.ts
 new file mode 100644
-index 0000000..d365cd1
+index 0000000..3079b40
 --- /dev/null
 +++ b/src/auth/credentials.ts
 @@ -0,0 +1,106 @@
 +// Copyright (c) Microsoft Corporation.
 +// Licensed under the MIT License.
 +
-+import type { OAuth2Flow } from "./authFlows.js";
++import type { OAuth2Flow } from "./oauth2Flows.js";
 +
 +/**
 + * Options used when creating and sending get OAuth 2 requests for this operation.
@@ -600,16 +527,89 @@ index 9db25cf..0000000
 -export function isKeyCredential(credential: unknown): credential is KeyCredential {
 -  return isObjectWithProperties(credential, ["key"]) && typeof credential.key === "string";
 -}
+diff --git a/src/auth/oauth2Flows.ts b/src/auth/oauth2Flows.ts
+new file mode 100644
+index 0000000..01f42e5
+--- /dev/null
++++ b/src/auth/oauth2Flows.ts
+@@ -0,0 +1,67 @@
++// Copyright (c) Microsoft Corporation.
++// Licensed under the MIT License.
++
++/**
++ * Represents OAuth2 Authorization Code flow configuration.
++ */
++export interface AuthorizationCodeFlow {
++  /** Type of OAuth2 flow */
++  kind: "authorizationCode";
++  /** Authorization endpoint */
++  authorizationUrl: string;
++  /** Token endpoint */
++  tokenUrl: string;
++  /** Refresh token endpoint */
++  refreshUrl?: string;
++  /** OAuth2 scopes */
++  scopes?: string[];
++}
++
++/**
++ * Represents OAuth2 Client Credentials flow configuration.
++ */
++export interface ClientCredentialsFlow {
++  /** Type of OAuth2 flow */
++  kind: "clientCredentials";
++  /** Token endpoint */
++  tokenUrl: string;
++  /** Refresh token endpoints */
++  refreshUrl?: string[];
++  /** OAuth2 scopes */
++  scopes?: string[];
++}
++
++/**
++ * Represents OAuth2 Implicit flow configuration.
++ */
++export interface ImplicitFlow {
++  /** Type of OAuth2 flow */
++  kind: "implicit";
++  /** Authorization endpoint */
++  authorizationUrl: string;
++  /** Refresh token endpoint */
++  refreshUrl?: string;
++  /** OAuth2 scopes */
++  scopes?: string[];
++}
++
++/**
++ * Represents OAuth2 Password flow configuration.
++ */
++export interface PasswordFlow {
++  /** Type of OAuth2 flow */
++  kind: "password";
++  /** Token endpoint */
++  tokenUrl: string;
++  /** Refresh token endpoint */
++  refreshUrl?: string;
++  /** OAuth2 scopes */
++  scopes?: string[];
++}
++
++/** Union type of all supported OAuth2 flows */
++export type OAuth2Flow =
++  | AuthorizationCodeFlow
++  | ClientCredentialsFlow
++  | ImplicitFlow
++  | PasswordFlow;
 diff --git a/src/auth/schemes.ts b/src/auth/schemes.ts
 new file mode 100644
-index 0000000..4094def
+index 0000000..b5fb17b
 --- /dev/null
 +++ b/src/auth/schemes.ts
 @@ -0,0 +1,66 @@
 +// Copyright (c) Microsoft Corporation.
 +// Licensed under the MIT License.
 +
-+import type { OAuth2Flow } from "./authFlows.js";
++import type { OAuth2Flow } from "./oauth2Flows.js";
 +
 +/**
 + * Represents HTTP Basic authentication scheme.
@@ -1529,7 +1529,7 @@ index ad162e3..ae5349c 100644
    HttpClient,
    HttpHeaders as PipelineHeaders,
 diff --git a/src/index.ts b/src/index.ts
-index 92a7ee9..d3eb62b 100644
+index 92a7ee9..e7d682b 100644
 --- a/src/index.ts
 +++ b/src/index.ts
 @@ -9,116 +9,74 @@ declare global {
@@ -1611,7 +1611,7 @@ index 92a7ee9..d3eb62b 100644
 -export { multipartPolicy, multipartPolicyName } from "./policies/multipartPolicy.js";
 -export { proxyPolicy, proxyPolicyName, getDefaultProxySettings } from "./policies/proxyPolicy.js";
 +export * from "./auth/schemes.js";
-+export * from "./auth/authFlows.js";
++export * from "./auth/oauth2Flows.js";
  export {
 -  redirectPolicy,
 -  redirectPolicyName,
@@ -2089,7 +2089,7 @@ index 5947165..6c09a01 100644
  
 diff --git a/src/policies/auth/apiKeyAuthenticationPolicy.ts b/src/policies/auth/apiKeyAuthenticationPolicy.ts
 new file mode 100644
-index 0000000..58f6e9e
+index 0000000..ea33138
 --- /dev/null
 +++ b/src/policies/auth/apiKeyAuthenticationPolicy.ts
 @@ -0,0 +1,60 @@
@@ -2116,7 +2116,7 @@ index 0000000..58f6e9e
 +   */
 +  credential: ApiKeyCredential;
 +  /**
-+   * Optional authentication schemes to use. If not provided, schemes from the request will be used.
++   * Optional authentication schemes to use. If `authSchemes` is provided in both request and policy options, the request options will take precedence.
 +   */
 +  authSchemes?: AuthScheme[];
 +  /**
@@ -2366,14 +2366,14 @@ index 0000000..094750a
 +}
 diff --git a/src/policies/auth/oauth2AuthenticationPolicy.ts b/src/policies/auth/oauth2AuthenticationPolicy.ts
 new file mode 100644
-index 0000000..63f0235
+index 0000000..5c76266
 --- /dev/null
 +++ b/src/policies/auth/oauth2AuthenticationPolicy.ts
 @@ -0,0 +1,60 @@
 +// Copyright (c) Microsoft Corporation.
 +// Licensed under the MIT License.
 +
-+import type { OAuth2Flow } from "../../auth/authFlows.js";
++import type { OAuth2Flow } from "../../auth/oauth2Flows.js";
 +import type { OAuth2TokenCredential } from "../../auth/credentials.js";
 +import type { AuthScheme } from "../../auth/schemes.js";
 +import type { PipelineRequest, PipelineResponse, SendRequest } from "../../interfaces.js";
