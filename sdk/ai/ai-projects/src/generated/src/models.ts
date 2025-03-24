@@ -63,6 +63,7 @@ export interface FileSearchToolDefinitionDetails {
    * Note that the file search tool may output fewer than `max_num_results` results. See the file search tool documentation for more information.
    */
   max_num_results?: number;
+  /** Ranking options for file search. */
   ranking_options?: FileSearchRankingOptions;
 }
 
@@ -100,7 +101,7 @@ export interface BingGroundingToolDefinition extends ToolDefinitionParent {
   bing_grounding: ToolConnectionList;
 }
 
-/** A set of connection resources currently used by either the `bing_grounding`, `microsoft_fabric`, or `sharepoint_grounding` tools. */
+/** A set of connection resources currently used by either the `bing_grounding`, `fabric_aiskill`, or `sharepoint_grounding` tools. */
 export interface ToolConnectionList {
   /**
    * The connections attached to this tool. There can be a maximum of 1 connection
@@ -117,10 +118,10 @@ export interface ToolConnection {
 
 /** The input definition information for a Microsoft Fabric tool as used to configure an agent. */
 export interface MicrosoftFabricToolDefinition extends ToolDefinitionParent {
-  /** The object type, which is always 'microsoft_fabric'. */
-  type: "microsoft_fabric";
+  /** The object type, which is always 'fabric_aiskill'. */
+  type: "fabric_aiskill";
   /** The list of connections used by the Microsoft Fabric tool. */
-  microsoft_fabric: ToolConnectionList;
+  fabric_aiskill: ToolConnectionList;
 }
 
 /** The input definition information for a sharepoint tool as used to configure an agent. */
@@ -137,13 +138,106 @@ export interface AzureAISearchToolDefinition extends ToolDefinitionParent {
   type: "azure_ai_search";
 }
 
+/** The input definition information for an OpenAPI tool as used to configure an agent. */
+export interface OpenApiToolDefinition extends ToolDefinitionParent {
+  /** The object type, which is always 'openapi'. */
+  type: "openapi";
+  /** The openapi function definition. */
+  openapi: OpenApiFunctionDefinition;
+}
+
+/** The input definition information for an openapi function. */
+export interface OpenApiFunctionDefinition {
+  /** The name of the function to be called. */
+  name: string;
+  /** A description of what the function does, used by the model to choose when and how to call the function. */
+  description?: string;
+  /** The openapi function shape, described as a JSON Schema object. */
+  spec: unknown;
+  /** Open API authentication details */
+  auth: OpenApiAuthDetails;
+}
+
+/** authentication details for OpenApiFunctionDefinition */
+export interface OpenApiAuthDetailsParent {
+  type: OpenApiAuthType;
+}
+
+/** Security details for OpenApi anonymous authentication */
+export interface OpenApiAnonymousAuthDetails extends OpenApiAuthDetailsParent {
+  /** The object type, which is always 'anonymous'. */
+  type: "anonymous";
+}
+
+/** Security details for OpenApi connection authentication */
+export interface OpenApiConnectionAuthDetails extends OpenApiAuthDetailsParent {
+  /** The object type, which is always 'connection'. */
+  type: "connection";
+  /** Connection auth security details */
+  security_scheme: OpenApiConnectionSecurityScheme;
+}
+
+/** Security scheme for OpenApi managed_identity authentication */
+export interface OpenApiConnectionSecurityScheme {
+  /** Connection id for Connection auth type */
+  connection_id: string;
+}
+
+/** Security details for OpenApi managed_identity authentication */
+export interface OpenApiManagedAuthDetails extends OpenApiAuthDetailsParent {
+  /** The object type, which is always 'managed_identity'. */
+  type: "managed_identity";
+  /** Connection auth security details */
+  security_scheme: OpenApiManagedSecurityScheme;
+}
+
+/** Security scheme for OpenApi managed_identity authentication */
+export interface OpenApiManagedSecurityScheme {
+  /** Authentication scope for managed_identity auth type */
+  audience: string;
+}
+
+/** The input definition information for a azure function tool as used to configure an agent. */
+export interface AzureFunctionToolDefinition extends ToolDefinitionParent {
+  /** The object type, which is always 'azure_function'. */
+  type: "azure_function";
+  /** The definition of the concrete function that the function tool should call. */
+  azure_function: AzureFunctionDefinition;
+}
+
+/** The definition of Azure function. */
+export interface AzureFunctionDefinition {
+  /** The definition of azure function and its parameters. */
+  function: FunctionDefinition;
+  /** Input storage queue. The queue storage trigger runs a function as messages are added to it. */
+  input_binding: AzureFunctionBinding;
+  /** Output storage queue. The function writes output to this queue when the input items are processed. */
+  output_binding: AzureFunctionBinding;
+}
+
+/** The structure for keeping storage queue name and URI. */
+export interface AzureFunctionBinding {
+  /** The type of binding, which is always 'storage_queue'. */
+  type: "storage_queue";
+  /** Storage queue. */
+  storage_queue: AzureFunctionStorageQueue;
+}
+
+/** The structure for keeping storage queue name and URI. */
+export interface AzureFunctionStorageQueue {
+  /** URI to the Azure Storage Queue service allowing you to manipulate a queue. */
+  queue_service_endpoint: string;
+  /** The name of an Azure function storage queue. */
+  queue_name: string;
+}
+
 /**
  * A set of resources that are used by the agent's tools. The resources are specific to the type of
  * tool. For example, the `code_interpreter` tool requires a list of file IDs, while the `file_search`
  * tool requires a list of vector store IDs.
  */
 export interface ToolResources {
-  /** Resources to be used by the `code_interpreter tool` consisting of file IDs. */
+  /** Resources to be used by the `code_interpreter` tool consisting of file IDs. */
   code_interpreter?: CodeInterpreterToolResource;
   /** Resources to be used by the `file_search` tool consisting of vector store IDs. */
   file_search?: FileSearchToolResource;
@@ -158,7 +252,7 @@ export interface CodeInterpreterToolResource {
    * associated with the tool.
    */
   file_ids?: string[];
-  /** The data sources to be used. This option is mutually exclusive with fileIds. */
+  /** The data sources to be used. This option is mutually exclusive with the `fileIds` property. */
   data_sources?: Array<VectorStoreDataSource>;
 }
 
@@ -169,7 +263,11 @@ export interface CodeInterpreterToolResource {
 export interface VectorStoreDataSource {
   /** Asset URI. */
   uri: string;
-  /** The asset type * */
+  /**
+   * The asset type
+   *
+   * Possible values: "uri_asset", "id_asset"
+   */
   type: VectorStoreDataSourceAssetType;
 }
 
@@ -181,9 +279,9 @@ export interface FileSearchToolResource {
    */
   vector_store_ids?: string[];
   /**
-   * The list of vector store configuration objects from Azure. This list is limited to one
-   * element. The only element of this list contains
-   * the list of azure asset IDs used by the search tool.
+   * The list of vector store configuration objects from Azure.
+   * This list is limited to one element.
+   * The only element of this list contains the list of azure asset IDs used by the search tool.
    */
   vector_stores?: Array<VectorStoreConfigurations>;
 }
@@ -232,7 +330,25 @@ export interface AgentsApiResponseFormat {
    *
    * Possible values: "text", "json_object"
    */
-  type?: ApiResponseFormat;
+  type?: ResponseFormat;
+}
+
+/** The type of response format being defined: `json_schema` */
+export interface ResponseFormatJsonSchemaType {
+  /** Type */
+  type: "json_schema";
+  /** The JSON schema, describing response format. */
+  json_schema: ResponseFormatJsonSchema;
+}
+
+/** A description of what the response format is for, used by the model to determine how to respond in the format. */
+export interface ResponseFormatJsonSchema {
+  /** A description of what the response format is for, used by the model to determine how to respond in the format. */
+  description?: string;
+  /** The name of a schema. */
+  name: string;
+  /** The JSON schema object, describing the response format. */
+  schema: unknown;
 }
 
 /** The request details to use when modifying an existing agent. */
@@ -313,7 +429,7 @@ export interface MessageAttachment {
   /** The ID of the file to attach to the message. */
   file_id?: string;
   /** Azure asset ID. */
-  data_sources?: Array<VectorStoreDataSource>;
+  data_source?: VectorStoreDataSource;
   /** The tools to add to this file. */
   tools: MessageAttachmentToolDefinition[];
 }
@@ -330,141 +446,6 @@ export interface UpdateAgentThreadOptions {
   metadata?: Record<string, string> | null;
 }
 
-/** A single, existing message within an agent thread. */
-export interface ThreadMessage {
-  /** The identifier, which can be referenced in API endpoints. */
-  id: string;
-  /** The object type, which is always 'thread.message'. */
-  object: "thread.message";
-  /** The Unix timestamp, in seconds, representing when this object was created. */
-  created_at: number;
-  /** The ID of the thread that this message belongs to. */
-  thread_id: string;
-  /**
-   * The status of the message.
-   *
-   * Possible values: "in_progress", "incomplete", "completed"
-   */
-  status: MessageStatus;
-  /** On an incomplete message, details about why the message is incomplete. */
-  incomplete_details: MessageIncompleteDetails | null;
-  /** The Unix timestamp (in seconds) for when the message was completed. */
-  completed_at: number | null;
-  /** The Unix timestamp (in seconds) for when the message was marked as incomplete. */
-  incomplete_at: number | null;
-  /**
-   * The role associated with the agent thread message.
-   *
-   * Possible values: "user", "assistant"
-   */
-  role: MessageRole;
-  /** The list of content items associated with the agent thread message. */
-  content: Array<MessageContent>;
-  /** If applicable, the ID of the agent that authored this message. */
-  assistant_id: string | null;
-  /** If applicable, the ID of the run associated with the authoring of this message. */
-  run_id: string | null;
-  /** A list of files attached to the message, and the tools they were added to. */
-  attachments: Array<MessageAttachment> | null;
-  /** A set of up to 16 key/value pairs that can be attached to an object, used for storing additional information about that object in a structured format. Keys may be up to 64 characters in length and values may be up to 512 characters in length. */
-  metadata: Record<string, string> | null;
-}
-
-/** Information providing additional detail about a message entering an incomplete status. */
-export interface MessageIncompleteDetails {
-  /**
-   * The provided reason describing why the message was marked as incomplete.
-   *
-   * Possible values: "content_filter", "max_tokens", "run_cancelled", "run_failed", "run_expired"
-   */
-  reason: MessageIncompleteDetailsReason;
-}
-
-/** An abstract representation of a single item of thread message content. */
-export interface MessageContentParent {
-  type: string;
-}
-
-/** A representation of a textual item of thread message content. */
-export interface MessageTextContent extends MessageContentParent {
-  /** The object type, which is always 'text'. */
-  type: "text";
-  /** The text and associated annotations for this thread message content item. */
-  text: MessageTextDetails;
-}
-
-/** The text and associated annotations for a single item of agent thread message content. */
-export interface MessageTextDetails {
-  /** The text data. */
-  value: string;
-  /** A list of annotations associated with this text. */
-  annotations: Array<MessageTextAnnotation>;
-}
-
-/** An abstract representation of an annotation to text thread message content. */
-export interface MessageTextAnnotationParent {
-  /** The textual content associated with this text annotation item. */
-  text: string;
-  type: string;
-}
-
-/** A citation within the message that points to a specific quote from a specific File associated with the agent or the message. Generated when the agent uses the 'file_search' tool to search files. */
-export interface MessageTextFileCitationAnnotation
-  extends MessageTextAnnotationParent {
-  /** The object type, which is always 'file_citation'. */
-  type: "file_citation";
-  /**
-   * A citation within the message that points to a specific quote from a specific file.
-   * Generated when the agent uses the "file_search" tool to search files.
-   */
-  file_citation: MessageTextFileCitationDetails;
-  /** The first text index associated with this text annotation. */
-  start_index?: number;
-  /** The last text index associated with this text annotation. */
-  end_index?: number;
-}
-
-/** A representation of a file-based text citation, as used in a file-based annotation of text thread message content. */
-export interface MessageTextFileCitationDetails {
-  /** The ID of the file associated with this citation. */
-  file_id: string;
-  /** The specific quote cited in the associated file. */
-  quote: string;
-}
-
-/** A citation within the message that points to a file located at a specific path. */
-export interface MessageTextFilePathAnnotation
-  extends MessageTextAnnotationParent {
-  /** The object type, which is always 'file_path'. */
-  type: "file_path";
-  /** A URL for the file that's generated when the agent used the code_interpreter tool to generate a file. */
-  file_path: MessageTextFilePathDetails;
-  /** The first text index associated with this text annotation. */
-  start_index?: number;
-  /** The last text index associated with this text annotation. */
-  end_index?: number;
-}
-
-/** An encapsulation of an image file ID, as used by message image content. */
-export interface MessageTextFilePathDetails {
-  /** The ID of the specific file that the citation is from. */
-  file_id: string;
-}
-
-/** A representation of image file content in a thread message. */
-export interface MessageImageFileContent extends MessageContentParent {
-  /** The object type, which is always 'image_file'. */
-  type: "image_file";
-  /** The image file for this thread message content item. */
-  image_file: MessageImageFileDetails;
-}
-
-/** An image reference, as represented in thread message content. */
-export interface MessageImageFileDetails {
-  /** The ID for the file associated with this image. */
-  file_id: string;
-}
-
 /** The details used when creating a new run of an agent thread. */
 export interface CreateRunOptions {
   /** The ID of the agent that should run the thread. */
@@ -479,7 +460,7 @@ export interface CreateRunOptions {
    */
   additional_instructions?: string | null;
   /** Adds additional messages to the thread before creating the run. */
-  additional_messages?: Array<ThreadMessage> | null;
+  additional_messages?: Array<ThreadMessageOptions> | null;
   /** The overridden list of enabled tools that the agent should use to run the thread. */
   tools?: Array<ToolDefinition> | null;
   /**
@@ -518,6 +499,8 @@ export interface CreateRunOptions {
   tool_choice?: AgentsApiToolChoiceOption | null;
   /** Specifies the format that the model must output. */
   response_format?: AgentsApiResponseFormatOption | null;
+  /** If `true` functions will run in parallel during tool use. */
+  parallel_tool_calls?: boolean;
   /** A set of up to 16 key/value pairs that can be attached to an object, used for storing additional information about that object in a structured format. Keys may be up to 64 characters in length and values may be up to 512 characters in length. */
   metadata?: Record<string, string> | null;
 }
@@ -544,7 +527,7 @@ export interface AgentsNamedToolChoice {
   /**
    * the type of tool. If type is `function`, the function name must be set.
    *
-   * Possible values: "function", "code_interpreter", "file_search", "bing_grounding", "microsoft_fabric", "sharepoint_grounding", "azure_ai_search"
+   * Possible values: "function", "code_interpreter", "file_search", "bing_grounding", "fabric_aiskill", "sharepoint_grounding", "azure_ai_search"
    */
   type: AgentsNamedToolChoiceType;
   /** The name of the function to call */
@@ -644,6 +627,8 @@ export interface CreateAndRunThreadOptions {
   tool_choice?: AgentsApiToolChoiceOption | null;
   /** Specifies the format that the model must output. */
   response_format?: AgentsApiResponseFormatOption | null;
+  /** If `true` functions will run in parallel during tool use. */
+  parallel_tool_calls?: boolean;
   /** A set of up to 16 key/value pairs that can be attached to an object, used for storing additional information about that object in a structured format. Keys may be up to 64 characters in length and values may be up to 512 characters in length. */
   metadata?: Record<string, string> | null;
 }
@@ -722,7 +707,7 @@ export interface VectorStoreUpdateOptions {
 export interface Evaluation {
   /** Data for evaluation. */
   data: InputData;
-  /** Display Name for evaluation. It helps to find evaluation easily in AI Studio. It does not need to be unique. */
+  /** Display Name for evaluation. It helps to find the evaluation easily in AI Foundry. It does not need to be unique. */
   displayName?: string;
   /** Description of the evaluation. It can be used to store additional information about the evaluation and is mutable. */
   description?: string;
@@ -832,17 +817,15 @@ export type ToolDefinition =
   | BingGroundingToolDefinition
   | MicrosoftFabricToolDefinition
   | SharepointToolDefinition
-  | AzureAISearchToolDefinition;
-/** An abstract representation of a single item of thread message content. */
-export type MessageContent =
-  | MessageContentParent
-  | MessageTextContent
-  | MessageImageFileContent;
-/** An abstract representation of an annotation to text thread message content. */
-export type MessageTextAnnotation =
-  | MessageTextAnnotationParent
-  | MessageTextFileCitationAnnotation
-  | MessageTextFilePathAnnotation;
+  | AzureAISearchToolDefinition
+  | OpenApiToolDefinition
+  | AzureFunctionToolDefinition;
+/** authentication details for OpenApiFunctionDefinition */
+export type OpenApiAuthDetails =
+  | OpenApiAuthDetailsParent
+  | OpenApiAnonymousAuthDetails
+  | OpenApiConnectionAuthDetails
+  | OpenApiManagedAuthDetails;
 /** An abstract representation of a vector store chunking strategy configuration. */
 export type VectorStoreChunkingStrategyRequest =
   | VectorStoreChunkingStrategyRequestParent
@@ -855,29 +838,28 @@ export type InputData =
   | Dataset;
 /** Abstract data class for input data configuration. */
 export type Trigger = TriggerParent | RecurrenceTrigger | CronTrigger;
+/** Alias for OpenApiAuthType */
+export type OpenApiAuthType = string;
 /** Alias for VectorStoreDataSourceAssetType */
-export type VectorStoreDataSourceAssetType = "uri_asset" | "id_asset";
+export type VectorStoreDataSourceAssetType = string;
 /** Alias for AgentsApiResponseFormatMode */
 export type AgentsApiResponseFormatMode = string;
-/** Alias for ApiResponseFormat */
-export type ApiResponseFormat = string;
+/** Alias for ResponseFormat */
+export type ResponseFormat = string;
 /** Alias for AgentsApiResponseFormatOption */
 export type AgentsApiResponseFormatOption =
   | string
   | AgentsApiResponseFormatMode
-  | AgentsApiResponseFormat;
+  | AgentsApiResponseFormat
+  | ResponseFormatJsonSchemaType;
 /** Alias for ListSortOrder */
-export type ListSortOrder = "asc" | "desc";
+export type ListSortOrder = string;
 /** Alias for MessageRole */
 export type MessageRole = string;
 /** Alias for MessageAttachmentToolDefinition */
 export type MessageAttachmentToolDefinition =
   | CodeInterpreterToolDefinition
   | FileSearchToolDefinition;
-/** Alias for MessageStatus */
-export type MessageStatus = string;
-/** Alias for MessageIncompleteDetailsReason */
-export type MessageIncompleteDetailsReason = string;
 /** Alias for TruncationStrategy */
 export type TruncationStrategy = string;
 /** Alias for AgentsApiToolChoiceOptionMode */

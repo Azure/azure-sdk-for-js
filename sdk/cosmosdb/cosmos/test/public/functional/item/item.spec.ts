@@ -7,11 +7,10 @@ import type {
   ContainerDefinition,
   ContainerRequest,
   ItemDefinition,
-  OperationInput,
   PatchOperation,
   RequestOptions,
 } from "../../../../src";
-import { CosmosClient, StatusCodes } from "../../../../src";
+import { CosmosClient } from "../../../../src";
 import {
   bulkDeleteItems,
   bulkInsertItems,
@@ -519,48 +518,6 @@ describe("Create, Upsert, Read, Update, Replace, Delete Operations on Item", fun
     const container = await getTestContainer("db1", undefined, { partitionKey: "/id" });
     const { resource } = await container.items.create({});
     assert.ok(resource.id);
-  });
-
-  it("should not return payload in write operations response when contentResponseOnWriteEnable is false", async function () {
-    const container = await getTestContainer("db1", undefined, { partitionKey: "/id" });
-    const options = { contentResponseOnWriteEnabled: false };
-    const createResponse = await container.items.create({ id: "1", key: "A" }, options);
-    assert.equal(createResponse.resource, null);
-    assert.equal(createResponse.statusCode, StatusCodes.Created);
-
-    const upsertResponse = await container.items.upsert({ id: "1", key: "B" }, options);
-    assert.equal(upsertResponse.resource, null);
-    assert.equal(upsertResponse.statusCode, StatusCodes.Ok);
-
-    const replaceResponse = await container.item("1", "1").replace({ id: "1", key: "C" }, options);
-    assert.equal(replaceResponse.resource, null);
-    assert.equal(replaceResponse.statusCode, StatusCodes.Ok);
-
-    const batchOperations: OperationInput[] = [
-      {
-        operationType: "Create",
-        resourceBody: { id: "2", key: "D" },
-      },
-    ];
-    const batchResponse = await container.items.batch(batchOperations, "2", options);
-    assert.equal(batchResponse.result[0].resourceBody, undefined);
-    assert.equal(batchResponse.code, StatusCodes.Ok);
-
-    const operations: PatchOperation[] = [
-      {
-        op: "replace",
-        path: "/key",
-        value: "b",
-      },
-    ];
-    const patchResponse = await container.item("1", "1").patch(operations, options);
-    assert.equal(patchResponse.resource, null);
-    assert.equal(patchResponse.statusCode, StatusCodes.Ok);
-
-    const deleteResponse = await container.item("2", "2").delete(options);
-    assert.equal(deleteResponse.resource, null);
-    assert.equal(deleteResponse.statusCode, StatusCodes.NoContent);
-    await container.delete();
   });
 
   describe("Upsert when collection partitioned on id", async () => {

@@ -16,10 +16,8 @@ import { AIProjectsClient, isOutputOfType, ToolUtility } from "@azure/ai-project
 import { delay } from "@azure/core-util";
 import { DefaultAzureCredential } from "@azure/identity";
 
-import * as dotenv from "dotenv";
 import * as fs from "fs";
-import path from "node:path";
-dotenv.config();
+import  "dotenv/config";
 
 const connectionString =
   process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] || "<project connection string>";
@@ -31,7 +29,7 @@ export async function main(): Promise<void> {
   );
 
   // Upload file
-  const filePath = path.resolve(__dirname, "../data/sampleFileForUpload.txt");
+  const filePath = "./data/sampleFileForUpload.txt";
   const localFileStream = fs.createReadStream(filePath);
   const file = await client.agents.uploadFile(localFileStream, "assistants", {
     fileName: "sampleFileForUpload.txt",
@@ -78,7 +76,7 @@ export async function main(): Promise<void> {
 
   console.log(`Current Run status - ${run.status}, run ID: ${run.id}`);
   const messages = await client.agents.listMessages(thread.id);
-  messages.data.forEach((threadMessage) => {
+  await messages.data.forEach((threadMessage) => {
     console.log(
       `Thread Message Created at  - ${threadMessage.createdAt} - Role - ${threadMessage.role}`,
     );
