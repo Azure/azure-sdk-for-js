@@ -21,7 +21,7 @@ const fakeBearerTokenCredential: AuthCredential = {
   getBearerToken: async () => "fakeBearerToken",
 };
 const fakeOAuth2TokenCredential: AuthCredential = {
-  getOAuth2Token: async (_flows: [{ type: "implicit"; authorizationUrl: "example.com" }]) =>
+  getOAuth2Token: async (_flows: [{ kind: "implicit"; authorizationUrl: "example.com" }]) =>
     "fakeOAuth2Token",
 };
 
