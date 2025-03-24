@@ -14,7 +14,7 @@ import type { Pipeline, PipelinePolicy } from "../pipeline.js";
 import type { PipelineOptions } from "../createPipelineFromOptions.js";
 import type { LogPolicyOptions } from "../policies/logPolicy.js";
 import type { AuthScheme } from "../auth/schemes.js";
-import type { AuthCredential } from "../auth/credentials.js";
+import type { ClientCredential } from "../auth/credentials.js";
 
 /**
  * Shape of the default request parameters, this may be overridden by the specific
@@ -312,7 +312,7 @@ export type ClientOptions = PipelineOptions & {
    * The credential used to authenticate requests.
    * Must be compatible with one of the specified authentication schemes.
    */
-  credential?: AuthCredential;
+  credential?: ClientCredential;
 
   // UNBRANDED DIFFERENCE: The deprecated baseUrl property is removed in favor of the endpoint property in the unbranded Core package
 

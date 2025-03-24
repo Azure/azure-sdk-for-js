@@ -4,6 +4,9 @@
 import type { PipelineRequest } from "../../interfaces.js";
 import { logger } from "../../log.js";
 
+// Ensure the warining is only emitted once
+let insecureConnectionWarningEmmitted = false;
+
 /**
  * Checks if the request is allowed to be sent over an insecure connection.
  *
@@ -37,13 +40,11 @@ function emitInsecureConnectionWarning(): void {
 
   logger.warning(warning);
 
-  if (typeof process?.emitWarning === "function" && !emitInsecureConnectionWarning.warned) {
-    emitInsecureConnectionWarning.warned = true;
+  if (typeof process?.emitWarning === "function" && !insecureConnectionWarningEmmitted) {
+    insecureConnectionWarningEmmitted = true;
     process.emitWarning(warning);
   }
 }
-
-emitInsecureConnectionWarning.warned = false; // Prime TypeScript to allow the property. Used to only emit warning once.
 
 /**
  * Ensures that authentication is only allowed over HTTPS unless explicitly allowed.

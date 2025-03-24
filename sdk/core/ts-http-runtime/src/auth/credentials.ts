@@ -67,7 +67,7 @@ export interface ApiKeyCredential {
 /**
  * Union type of all supported authentication credentials.
  */
-export type AuthCredential =
+export type ClientCredential =
   | OAuth2TokenCredential<OAuth2Flow>
   | BearerTokenCredential
   | BasicCredential
@@ -77,7 +77,7 @@ export type AuthCredential =
  * Type guard to check if a credential is an OAuth2 token credential.
  */
 export function isOAuth2TokenCredential(
-  credential: AuthCredential,
+  credential: ClientCredential,
 ): credential is OAuth2TokenCredential<OAuth2Flow> {
   return "getOAuth2Token" in credential;
 }
@@ -86,7 +86,7 @@ export function isOAuth2TokenCredential(
  * Type guard to check if a credential is a Bearer token credential.
  */
 export function isBearerTokenCredential(
-  credential: AuthCredential,
+  credential: ClientCredential,
 ): credential is BearerTokenCredential {
   return "getBearerToken" in credential;
 }
@@ -94,13 +94,13 @@ export function isBearerTokenCredential(
 /**
  * Type guard to check if a credential is a Basic auth credential.
  */
-export function isBasicCredential(credential: AuthCredential): credential is BasicCredential {
+export function isBasicCredential(credential: ClientCredential): credential is BasicCredential {
   return "username" in credential && "password" in credential;
 }
 
 /**
  * Type guard to check if a credential is an API key credential.
  */
-export function isApiKeyCredential(credential: AuthCredential): credential is ApiKeyCredential {
+export function isApiKeyCredential(credential: ClientCredential): credential is ApiKeyCredential {
   return "key" in credential;
 }

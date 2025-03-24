@@ -45,9 +45,6 @@ export interface ApiKeyCredential {
 }
 
 // @public
-export type AuthCredential = OAuth2TokenCredential<OAuth2Flow> | BearerTokenCredential | BasicCredential | ApiKeyCredential;
-
-// @public
 export interface AuthorizationCodeFlow {
     authorizationUrl: string;
     kind: "authorizationCode";
@@ -96,6 +93,9 @@ export interface Client {
 }
 
 // @public
+export type ClientCredential = OAuth2TokenCredential<OAuth2Flow> | BearerTokenCredential | BasicCredential | ApiKeyCredential;
+
+// @public
 export interface ClientCredentialsFlow {
     kind: "clientCredentials";
     refreshUrl?: string[];
@@ -106,7 +106,7 @@ export interface ClientCredentialsFlow {
 // @public
 export type ClientOptions = PipelineOptions & {
     authSchemes?: AuthScheme[];
-    credential?: AuthCredential;
+    credential?: ClientCredential;
     endpoint?: string;
     apiVersion?: string;
     allowInsecureConnection?: boolean;

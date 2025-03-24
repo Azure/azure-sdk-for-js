@@ -435,7 +435,7 @@ index 045c639..0000000
 -}
 diff --git a/src/auth/credentials.ts b/src/auth/credentials.ts
 new file mode 100644
-index 0000000..b0bad69
+index 0000000..d365cd1
 --- /dev/null
 +++ b/src/auth/credentials.ts
 @@ -0,0 +1,106 @@
@@ -508,7 +508,7 @@ index 0000000..b0bad69
 +/**
 + * Union type of all supported authentication credentials.
 + */
-+export type AuthCredential =
++export type ClientCredential =
 +  | OAuth2TokenCredential<OAuth2Flow>
 +  | BearerTokenCredential
 +  | BasicCredential
@@ -518,7 +518,7 @@ index 0000000..b0bad69
 + * Type guard to check if a credential is an OAuth2 token credential.
 + */
 +export function isOAuth2TokenCredential(
-+  credential: AuthCredential,
++  credential: ClientCredential,
 +): credential is OAuth2TokenCredential<OAuth2Flow> {
 +  return "getOAuth2Token" in credential;
 +}
@@ -527,7 +527,7 @@ index 0000000..b0bad69
 + * Type guard to check if a credential is a Bearer token credential.
 + */
 +export function isBearerTokenCredential(
-+  credential: AuthCredential,
++  credential: ClientCredential,
 +): credential is BearerTokenCredential {
 +  return "getBearerToken" in credential;
 +}
@@ -535,14 +535,14 @@ index 0000000..b0bad69
 +/**
 + * Type guard to check if a credential is a Basic auth credential.
 + */
-+export function isBasicCredential(credential: AuthCredential): credential is BasicCredential {
++export function isBasicCredential(credential: ClientCredential): credential is BasicCredential {
 +  return "username" in credential && "password" in credential;
 +}
 +
 +/**
 + * Type guard to check if a credential is an API key credential.
 + */
-+export function isApiKeyCredential(credential: AuthCredential): credential is ApiKeyCredential {
++export function isApiKeyCredential(credential: ClientCredential): credential is ApiKeyCredential {
 +  return "key" in credential;
 +}
 diff --git a/src/auth/index.ts b/src/auth/index.ts
@@ -994,7 +994,7 @@ index 30dac33..f7e4696 100644
  
  export function getCachedDefaultHttpsClient(): HttpClient {
 diff --git a/src/client/common.ts b/src/client/common.ts
-index 58f6eba..a977840 100644
+index 58f6eba..2fd91b4 100644
 --- a/src/client/common.ts
 +++ b/src/client/common.ts
 @@ -3,19 +3,18 @@
@@ -1020,7 +1020,7 @@ index 58f6eba..a977840 100644
 +import type { PipelineOptions } from "../createPipelineFromOptions.js";
 +import type { LogPolicyOptions } from "../policies/logPolicy.js";
 +import type { AuthScheme } from "../auth/schemes.js";
-+import type { AuthCredential } from "../auth/credentials.js";
++import type { ClientCredential } from "../auth/credentials.js";
  
  /**
   * Shape of the default request parameters, this may be overridden by the specific
@@ -1141,7 +1141,7 @@ index 58f6eba..a977840 100644
 +   * Must be compatible with one of the specified authentication schemes.
     */
 -  baseUrl?: string;
-+  credential?: AuthCredential;
++  credential?: ClientCredential;
 +
 +  // UNBRANDED DIFFERENCE: The deprecated baseUrl property is removed in favor of the endpoint property in the unbranded Core package
 +
@@ -1529,7 +1529,7 @@ index ad162e3..ae5349c 100644
    HttpClient,
    HttpHeaders as PipelineHeaders,
 diff --git a/src/index.ts b/src/index.ts
-index 92a7ee9..a2c86e2 100644
+index 92a7ee9..d3eb62b 100644
 --- a/src/index.ts
 +++ b/src/index.ts
 @@ -9,116 +9,74 @@ declare global {
@@ -1634,7 +1634,7 @@ index 92a7ee9..a2c86e2 100644
 +  type GetOAuth2TokenOptions,
 +  type GetBearerTokenOptions,
 +  type ApiKeyCredential,
-+  type AuthCredential,
++  type ClientCredential,
 +} from "./auth/credentials.js";
 +export { createPipelineRequest, type PipelineRequestOptions } from "./pipelineRequest.js";
 +export type { Pipeline, PipelinePolicy, AddPolicyOptions, PipelinePhase } from "./pipeline.js";
@@ -2294,15 +2294,18 @@ index 0000000..d7e8010
 +}
 diff --git a/src/policies/auth/checkInsecureConnection.ts b/src/policies/auth/checkInsecureConnection.ts
 new file mode 100644
-index 0000000..2604b32
+index 0000000..094750a
 --- /dev/null
 +++ b/src/policies/auth/checkInsecureConnection.ts
-@@ -0,0 +1,65 @@
+@@ -0,0 +1,66 @@
 +// Copyright (c) Microsoft Corporation.
 +// Licensed under the MIT License.
 +
 +import type { PipelineRequest } from "../../interfaces.js";
 +import { logger } from "../../log.js";
++
++// Ensure the warining is only emitted once
++let insecureConnectionWarningEmmitted = false;
 +
 +/**
 + * Checks if the request is allowed to be sent over an insecure connection.
@@ -2337,13 +2340,11 @@ index 0000000..2604b32
 +
 +  logger.warning(warning);
 +
-+  if (typeof process?.emitWarning === "function" && !emitInsecureConnectionWarning.warned) {
-+    emitInsecureConnectionWarning.warned = true;
++  if (typeof process?.emitWarning === "function" && !insecureConnectionWarningEmmitted) {
++    insecureConnectionWarningEmmitted = true;
 +    process.emitWarning(warning);
 +  }
 +}
-+
-+emitInsecureConnectionWarning.warned = false; // Prime TypeScript to allow the property. Used to only emit warning once.
 +
 +/**
 + * Ensures that authentication is only allowed over HTTPS unless explicitly allowed.

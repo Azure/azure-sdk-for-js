@@ -48,7 +48,7 @@ export {
   type GetOAuth2TokenOptions,
   type GetBearerTokenOptions,
   type ApiKeyCredential,
-  type AuthCredential,
+  type ClientCredential,
 } from "./auth/credentials.js";
 export { createPipelineRequest, type PipelineRequestOptions } from "./pipelineRequest.js";
 export type { Pipeline, PipelinePolicy, AddPolicyOptions, PipelinePhase } from "./pipeline.js";

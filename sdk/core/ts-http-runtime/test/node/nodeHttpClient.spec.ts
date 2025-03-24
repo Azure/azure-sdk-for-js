@@ -467,18 +467,7 @@ describe("NodeHttpClient", function () {
     vi.mocked(https.request).mockReturnValueOnce(writable);
 
     const controller = new AbortController();
-    let listenerRemoved = false;
-    const originalRemoveEventListener = controller.signal.removeEventListener;
-    controller.signal.removeEventListener = function (
-      type: string,
-      listener: EventListenerOrEventListenerObject,
-      options?: boolean | EventListenerOptions,
-    ) {
-      if (type === "abort") {
-        listenerRemoved = true;
-      }
-      return originalRemoveEventListener.call(this, type, listener, options);
-    };
+    const removeEventListenerSpy = vi.spyOn(controller.signal, "removeEventListener");
 
     const stream = new PassThrough();
     stream.end();
@@ -491,6 +480,13 @@ describe("NodeHttpClient", function () {
     const promise = client.sendRequest(request);
     yieldHttpsResponse(createResponse(200));
     await Promise.all([promise, delay(10)]);
-    assert.isTrue(listenerRemoved, "Abort listener should have been removed");
+    assert.strictEqual(
+      removeEventListenerSpy.mock.calls.length,
+      1,
+      "removeEventListener should be called once",
+    );
+    const [eventName] = removeEventListenerSpy.mock.calls[0];
+    assert.strictEqual(eventName, "abort", "should remove abort listener");
+    removeEventListenerSpy.mockRestore();
   });
 });
