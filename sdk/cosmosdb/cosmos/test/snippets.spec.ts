@@ -1628,6 +1628,50 @@ describe("snippets", () => {
     const { resource: udf } = await container.scripts.userDefinedFunction("<udf-id>").read();
   });
 
+  it("ConflictsQuery", async () => {
+    const endpoint = "https://your-account.documents.azure.com";
+    const key = "<database account masterkey>";
+    const client = new CosmosClient({ endpoint, key });
+    const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+    const container = database.container("Test Container");
+    // @ts-preserve-whitespace
+    const querySpec: SqlQuerySpec = {
+      query: `SELECT * FROM root r WHERE r.id = @conflict`,
+      parameters: [{ name: "@conflict", value: "<conflict-id>" }],
+    };
+    // @ts-ignore
+    const { resources: conflict } = await container.conflicts.query(querySpec).fetchAll();
+  });
+  it("ConflictsReadAll", async () => {
+    const endpoint = "https://your-account.documents.azure.com";
+    const key = "<database account masterkey>";
+    const client = new CosmosClient({ endpoint, key });
+    const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+    const container = database.container("Test Container");
+    // @ts-preserve-whitespace
+    // @ts-ignore
+    const { resources: conflicts } = await container.conflicts.readAll().fetchAll();
+  });
+  it("ConflictRead", async () => {
+    const endpoint = "https://your-account.documents.azure.com";
+    const key = "<database account masterkey>";
+    const client = new CosmosClient({ endpoint, key });
+    const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+    const container = database.container("Test Container");
+    // @ts-preserve-whitespace
+    // @ts-ignore
+    const { resource: conflict } = await container.conflict("<conflict-id>").read();
+  });
+  it("ConflictDelete", async () => {
+    const endpoint = "https://your-account.documents.azure.com";
+    const key = "<database account masterkey>";
+    const client = new CosmosClient({ endpoint, key });
+    const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+    const container = database.container("Test Container");
+    // @ts-preserve-whitespace
+    await container.conflict("<conflict-id>").delete();
+  });
+
   it("CosmosEncryptedNumber", async () => {
     // @ts-ignore
     const encryptedNumber1: CosmosEncryptedNumber = {
