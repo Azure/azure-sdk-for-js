@@ -1,28 +1,29 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-
+// Licensed under the MIT License.
 import * as os from "os";
-import {
+import type {
   Histogram,
   Meter,
   ObservableCallback,
   ObservableGauge,
-  ObservableResult,
+  ObservableResult} from "@opentelemetry/api";
+import {
   SpanKind,
   ValueType,
 } from "@opentelemetry/api";
 import { AzureMonitorMetricExporter } from "@azure/monitor-opentelemetry-exporter";
+import type {
+  MeterProviderOptions,
+  PeriodicExportingMetricReaderOptions} from "@opentelemetry/sdk-metrics";
 import {
   MeterProvider,
-  MeterProviderOptions,
-  PeriodicExportingMetricReader,
-  PeriodicExportingMetricReaderOptions,
+  PeriodicExportingMetricReader
 } from "@opentelemetry/sdk-metrics";
-import { ReadableSpan, TimedEvent } from "@opentelemetry/sdk-trace-base";
+import type { ReadableSpan, TimedEvent } from "@opentelemetry/sdk-trace-base";
 import { PerformanceCounterMetricNames } from "./types";
-import { AzureMonitorOpenTelemetryOptions } from "../types";
+import type { AzureMonitorOpenTelemetryOptions } from "../types";
 import { getLogData, isExceptionData } from "./quickpulse/utils";
-import { ExceptionData, TraceData } from "./quickpulse/types";
+import type { ExceptionData, TraceData } from "./quickpulse/types";
 
 /**
  * Azure Monitor PerformanceCounter Metrics

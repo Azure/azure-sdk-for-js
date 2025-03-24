@@ -1,6 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-
+// Licensed under the MIT License.
 import * as assert from "assert";
 import * as sinon from "sinon";
 import { SpanKind } from "@opentelemetry/api";
@@ -11,7 +10,7 @@ import {
   SEMRESATTRS_SERVICE_INSTANCE_ID,
 } from "@opentelemetry/semantic-conventions";
 import { Resource } from "@opentelemetry/resources";
-import { Histogram } from "@opentelemetry/sdk-metrics";
+import type { Histogram } from "@opentelemetry/sdk-metrics";
 import { InternalConfig } from "../../../../src/shared/config";
 
 describe("PerformanceCounterMetricsHandler", () => {
@@ -45,10 +44,10 @@ describe("PerformanceCounterMetricsHandler", () => {
     await autoCollect.shutdown();
   });
 
-  let resource = new Resource({});
+  const resource = new Resource({});
   resource.attributes[SEMRESATTRS_SERVICE_NAME] = "testcloudRoleName";
   resource.attributes[SEMRESATTRS_SERVICE_INSTANCE_ID] = "testcloudRoleInstance";
-  let serverSpan: any = {
+  const serverSpan: any = {
     kind: SpanKind.SERVER,
     duration: [654321],
     attributes: {
@@ -68,7 +67,7 @@ describe("PerformanceCounterMetricsHandler", () => {
       const resourceMetrics = exportStub.args[0][0];
       const scopeMetrics = resourceMetrics.scopeMetrics;
       assert.strictEqual(scopeMetrics.length, 1, "scopeMetrics count");
-      let metrics = scopeMetrics[0].metrics;
+      const metrics = scopeMetrics[0].metrics;
       assert.strictEqual(metrics.length, 8, "metrics count");
 
       assert.deepStrictEqual(metrics[0].descriptor.name, "Request_Execution_Time");
