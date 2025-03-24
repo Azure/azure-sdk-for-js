@@ -7,12 +7,10 @@
  * @summary demonstrates how to create the vector store with the list of files using polling operation.
  */
 
-import type { VectorStoreFileOutput } from "@azure/ai-projects";
 import { AIProjectsClient } from "@azure/ai-projects";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
 import { Readable } from "stream";
-dotenv.config();
+import  "dotenv/config";
 
 const connectionString =
   process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] || "<project connection string>";

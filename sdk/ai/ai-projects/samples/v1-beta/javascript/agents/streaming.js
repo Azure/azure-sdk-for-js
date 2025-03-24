@@ -16,7 +16,7 @@ const {
 } = require("@azure/ai-projects");
 const { DefaultAzureCredential } = require("@azure/identity");
 
-require("dotenv").config();
+require("dotenv/config");
 
 const connectionString =
   process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] || "<project connection string>";
