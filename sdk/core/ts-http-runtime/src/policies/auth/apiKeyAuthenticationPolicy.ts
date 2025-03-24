@@ -21,7 +21,7 @@ export interface ApiKeyAuthenticationPolicyOptions {
    */
   credential: ApiKeyCredential;
   /**
-   * Optional authentication schemes to use. If not provided, schemes from the request will be used.
+   * Optional authentication schemes to use. If `authSchemes` is provided in both request and policy options, the request options will take precedence.
    */
   authSchemes?: AuthScheme[];
   /**

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { OAuth2Flow } from "../../auth/authFlows.js";
+import type { OAuth2Flow } from "../../auth/oauth2Flows.js";
 import type { OAuth2TokenCredential } from "../../auth/credentials.js";
 import type { AuthScheme } from "../../auth/schemes.js";
 import type { PipelineRequest, PipelineResponse, SendRequest } from "../../interfaces.js";

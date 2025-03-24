@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { OAuth2Flow } from "./authFlows.js";
+import type { OAuth2Flow } from "./oauth2Flows.js";
 
 /**
  * Options used when creating and sending get OAuth 2 requests for this operation.

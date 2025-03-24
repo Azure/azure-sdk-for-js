@@ -5,7 +5,7 @@ import { describe, it, expect, vi } from "vitest";
 import type { AuthScheme, PipelineResponse, SendRequest } from "../../src/index.js";
 import { createHttpHeaders, createPipelineRequest } from "../../src/index.js";
 import { oauth2AuthenticationPolicy } from "../../src/policies/auth/oauth2AuthenticationPolicy.js";
-import type { OAuth2Flow } from "../../src/auth/authFlows.js";
+import type { OAuth2Flow } from "../../src/auth/oauth2Flows.js";
 
 const exampleScheme: AuthScheme = {
   kind: "oauth2",

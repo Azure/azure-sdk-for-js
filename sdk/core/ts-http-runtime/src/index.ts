@@ -40,7 +40,7 @@ export type {
 } from "./interfaces.js";
 export { createHttpHeaders } from "./httpHeaders.js";
 export * from "./auth/schemes.js";
-export * from "./auth/authFlows.js";
+export * from "./auth/oauth2Flows.js";
 export {
   type BasicCredential,
   type BearerTokenCredential,
