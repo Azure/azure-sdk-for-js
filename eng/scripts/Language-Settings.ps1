@@ -38,7 +38,7 @@ function Get-javascript-AdditionalValidationPackagesFromPackageSet {
     [Parameter(Mandatory = $true)]
     $AllPkgProps
   )
-  $existingPackages = $LocatedPackages | ForEach-Object { $_.Name }
+  $existingPackages = @($LocatedPackages | ForEach-Object { $_.Name })
   $additionalDetectedPackages = @()
   $uniqueResultSet = @()
 
