@@ -11,7 +11,7 @@ const exampleScheme: AuthScheme = {
   kind: "oauth2",
   flows: [
     {
-      type: "clientCredentials",
+      kind: "clientCredentials",
       tokenUrl: "https://example.com/token",
     },
   ],
