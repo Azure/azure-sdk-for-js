@@ -68,7 +68,7 @@ describe("oauth2AuthenticationPolicy", () => {
     expect(getTokenSpy).toHaveBeenCalledWith(
       [
         {
-          type: "clientCredentials",
+          kind: "clientCredentials",
           tokenUrl: "https://example.com/token",
         },
       ],
