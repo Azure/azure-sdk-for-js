@@ -6,19 +6,15 @@ import type {
   Meter,
   ObservableCallback,
   ObservableGauge,
-  ObservableResult} from "@opentelemetry/api";
-import {
-  SpanKind,
-  ValueType,
+  ObservableResult,
 } from "@opentelemetry/api";
+import { SpanKind, ValueType } from "@opentelemetry/api";
 import { AzureMonitorMetricExporter } from "@azure/monitor-opentelemetry-exporter";
 import type {
   MeterProviderOptions,
-  PeriodicExportingMetricReaderOptions} from "@opentelemetry/sdk-metrics";
-import {
-  MeterProvider,
-  PeriodicExportingMetricReader
+  PeriodicExportingMetricReaderOptions,
 } from "@opentelemetry/sdk-metrics";
+import { MeterProvider, PeriodicExportingMetricReader } from "@opentelemetry/sdk-metrics";
 import type { ReadableSpan, TimedEvent } from "@opentelemetry/sdk-trace-base";
 import { PerformanceCounterMetricNames } from "./types";
 import type { AzureMonitorOpenTelemetryOptions } from "../types";
