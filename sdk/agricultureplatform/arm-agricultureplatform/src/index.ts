@@ -50,8 +50,8 @@ export {
   ActionType,
   KnownVersions,
 } from "./models/index.js";
+export { AgriculturePlatformClientOptionalParams } from "./api/index.js";
 export {
-  AgriculturePlatformClientOptionalParams,
   AgriServiceListAvailableSolutionsOptionalParams,
   AgriServiceListBySubscriptionOptionalParams,
   AgriServiceListByResourceGroupOptionalParams,
@@ -59,7 +59,10 @@ export {
   AgriServiceUpdateOptionalParams,
   AgriServiceCreateOrUpdateOptionalParams,
   AgriServiceGetOptionalParams,
-  OperationsListOptionalParams,
-} from "./api/index.js";
-export { AgriServiceOperations, OperationsOperations } from "./classic/index.js";
+} from "./api/agriService/index.js";
+export { OperationsListOptionalParams } from "./api/operations/index.js";
+export {
+  AgriServiceOperations,
+  OperationsOperations,
+} from "./classic/index.js";
 export { PageSettings, ContinuablePage, PagedAsyncIterableIterator };

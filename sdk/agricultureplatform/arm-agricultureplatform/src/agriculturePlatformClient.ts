@@ -1,13 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { _getAgriServiceOperations, AgriServiceOperations } from "./classic/agriService/index.js";
-import { _getOperationsOperations, OperationsOperations } from "./classic/operations/index.js";
 import {
   createAgriculturePlatform,
   AgriculturePlatformContext,
   AgriculturePlatformClientOptionalParams,
 } from "./api/index.js";
+import {
+  AgriServiceOperations,
+  _getAgriServiceOperations,
+} from "./classic/agriService/index.js";
+import {
+  OperationsOperations,
+  _getOperationsOperations,
+} from "./classic/operations/index.js";
 import { Pipeline } from "@azure/core-rest-pipeline";
 import { TokenCredential } from "@azure/core-auth";
 

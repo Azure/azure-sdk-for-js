@@ -2,7 +2,9 @@
   "extends": "../../../tsconfig.samples.base.json",
   "compilerOptions": {
     "paths": {
-      "@azure/arm-agricultureplatform": ["./dist/esm"]
+      "@azure/arm-agricultureplatform": [
+        "./dist/esm"
+      ]
     }
   }
 }
