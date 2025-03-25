@@ -56,7 +56,10 @@ async function accessingDiagnosticForContainerOperations(
   };
 }
 
-async function accessingDiagnosticForItemOperations(itemId: string, container: Container): Promise<void> {
+async function accessingDiagnosticForItemOperations(
+  itemId: string,
+  container: Container,
+): Promise<void> {
   const { diagnostics } = await container.items.create({
     id: itemId,
     key1: "A",

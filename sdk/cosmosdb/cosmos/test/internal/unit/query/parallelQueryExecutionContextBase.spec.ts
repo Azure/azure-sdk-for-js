@@ -87,20 +87,14 @@ describe("parallelQueryExecutionContextBase", function () {
       const mockPartitionKeyRange2 = createMockPartitionKeyRange("1", "AA", "BB");
       const mockPartitionKeyRange3 = createMockPartitionKeyRange("2", "BB", "FF");
 
-      const fetchAllInternalStub = 
-                  vi.fn()
-                  .mockResolvedValue({
-              resources: [mockPartitionKeyRange1, mockPartitionKeyRange2, mockPartitionKeyRange3],
-              headers: { "x-ms-request-charge": "1.23" },
-              code: 200,
-            })
-                ;
-      
-                    vi.spyOn(clientContext, "queryPartitionKeyRanges")
-                    .mockReturnValue({
-                fetchAllInternal: fetchAllInternalStub, // Add fetchAllInternal to mimic expected structure
-              } as unknown as QueryIterator<PartitionKeyRange>)
-                  ;
+      const fetchAllInternalStub = vi.fn().mockResolvedValue({
+        resources: [mockPartitionKeyRange1, mockPartitionKeyRange2, mockPartitionKeyRange3],
+        headers: { "x-ms-request-charge": "1.23" },
+        code: 200,
+      });
+      vi.spyOn(clientContext, "queryPartitionKeyRanges").mockReturnValue({
+        fetchAllInternal: fetchAllInternalStub, // Add fetchAllInternal to mimic expected structure
+      } as unknown as QueryIterator<PartitionKeyRange>);
 
       // Define a mock document (resource) returned from queryFeed
       const mockDocument1 = createMockDocument(
@@ -114,17 +108,15 @@ describe("parallelQueryExecutionContextBase", function () {
         "This is the second sample document",
       );
       // Define a stub for queryFeed in clientContext
-      
-                    vi.spyOn(clientContext, "queryFeed")
-                    .mockResolvedValue({
-                result: [mockDocument1, mockDocument2] as unknown as Resource, // Add result to mimic expected structure
-                headers: {
-                  "x-ms-request-charge": "3.5", // Example RU charge
-                  "x-ms-continuation": "token-for-next-page", // Continuation token for pagination
-                },
-                code: 200, // Optional status code
-              })
-                  ;
+
+      vi.spyOn(clientContext, "queryFeed").mockResolvedValue({
+        result: [mockDocument1, mockDocument2] as unknown as Resource, // Add result to mimic expected structure
+        headers: {
+          "x-ms-request-charge": "3.5", // Example RU charge
+          "x-ms-continuation": "token-for-next-page", // Continuation token for pagination
+        },
+        code: 200, // Optional status code
+      });
 
       // Create mock instance of TestParallelQueryExecutionContext
       const context = new TestParallelQueryExecutionContext(
@@ -170,12 +162,10 @@ describe("parallelQueryExecutionContextBase", function () {
         },
         headers: { "x-ms-request-charge": "0" },
       });
-      
-                    vi.spyOn(clientContext, "queryPartitionKeyRanges")
-                    .mockReturnValue({
-                fetchAllInternal: fetchAllInternalStub, // Add fetchAllInternal to mimic expected structure
-              } as unknown as QueryIterator<PartitionKeyRange>)
-                  ;
+
+      vi.spyOn(clientContext, "queryPartitionKeyRanges").mockReturnValue({
+        fetchAllInternal: fetchAllInternalStub, // Add fetchAllInternal to mimic expected structure
+      } as unknown as QueryIterator<PartitionKeyRange>);
 
       const context = new TestParallelQueryExecutionContext(
         clientContext,
@@ -207,20 +197,14 @@ describe("parallelQueryExecutionContextBase", function () {
       const mockPartitionKeyRange2 = createMockPartitionKeyRange("1", "AA", "BB");
       const mockPartitionKeyRange3 = createMockPartitionKeyRange("2", "BB", "FF");
 
-      const fetchAllInternalStub = 
-                  vi.fn()
-                  .mockResolvedValue({
-              resources: [mockPartitionKeyRange1, mockPartitionKeyRange2, mockPartitionKeyRange3],
-              headers: { "x-ms-request-charge": "1.23" },
-              code: 200,
-            })
-                ;
-      
-                    vi.spyOn(clientContext, "queryPartitionKeyRanges")
-                    .mockReturnValue({
-                fetchAllInternal: fetchAllInternalStub, // Add fetchAllInternal to mimic expected structure
-              } as unknown as QueryIterator<PartitionKeyRange>)
-                  ;
+      const fetchAllInternalStub = vi.fn().mockResolvedValue({
+        resources: [mockPartitionKeyRange1, mockPartitionKeyRange2, mockPartitionKeyRange3],
+        headers: { "x-ms-request-charge": "1.23" },
+        code: 200,
+      });
+      vi.spyOn(clientContext, "queryPartitionKeyRanges").mockReturnValue({
+        fetchAllInternal: fetchAllInternalStub, // Add fetchAllInternal to mimic expected structure
+      } as unknown as QueryIterator<PartitionKeyRange>);
 
       // Define a mock document (resource) returned from queryFeed
       const mockDocument1 = createMockDocument(
@@ -234,17 +218,15 @@ describe("parallelQueryExecutionContextBase", function () {
         "This is the second sample document",
       );
       // Define a stub for queryFeed in clientContext
-      
-                    vi.spyOn(clientContext, "queryFeed")
-                    .mockResolvedValue({
-                result: [mockDocument1, mockDocument2] as unknown as Resource, // Add result to mimic expected structure
-                headers: {
-                  "x-ms-request-charge": "3.5", // Example RU charge
-                  "x-ms-continuation": "token-for-next-page", // Continuation token for pagination
-                },
-                code: 200, // Optional status code
-              })
-                  ;
+
+      vi.spyOn(clientContext, "queryFeed").mockResolvedValue({
+        result: [mockDocument1, mockDocument2] as unknown as Resource, // Add result to mimic expected structure
+        headers: {
+          "x-ms-request-charge": "3.5", // Example RU charge
+          "x-ms-continuation": "token-for-next-page", // Continuation token for pagination
+        },
+        code: 200, // Optional status code
+      });
 
       // Create mock instance of TestParallelQueryExecutionContext
       const context = new TestParallelQueryExecutionContext(
@@ -288,20 +270,14 @@ describe("parallelQueryExecutionContextBase", function () {
       const mockPartitionKeyRange2 = createMockPartitionKeyRange("1", "AA", "BB");
       const mockPartitionKeyRange3 = createMockPartitionKeyRange("2", "BB", "FF");
 
-      const fetchAllInternalStub = 
-                  vi.fn()
-                  .mockResolvedValue({
-              resources: [mockPartitionKeyRange1, mockPartitionKeyRange2, mockPartitionKeyRange3],
-              headers: { "x-ms-request-charge": "1.23" },
-              code: 200,
-            })
-                ;
-      
-                    vi.spyOn(clientContext, "queryPartitionKeyRanges")
-                    .mockReturnValue({
-                fetchAllInternal: fetchAllInternalStub, // Add fetchAllInternal to mimic expected structure
-              } as unknown as QueryIterator<PartitionKeyRange>)
-                  ;
+      const fetchAllInternalStub = vi.fn().mockResolvedValue({
+        resources: [mockPartitionKeyRange1, mockPartitionKeyRange2, mockPartitionKeyRange3],
+        headers: { "x-ms-request-charge": "1.23" },
+        code: 200,
+      });
+      vi.spyOn(clientContext, "queryPartitionKeyRanges").mockReturnValue({
+        fetchAllInternal: fetchAllInternalStub, // Add fetchAllInternal to mimic expected structure
+      } as unknown as QueryIterator<PartitionKeyRange>);
 
       // Define a mock document (resource) returned from queryFeed
       const mockDocument1 = createMockDocument(
@@ -315,17 +291,15 @@ describe("parallelQueryExecutionContextBase", function () {
         "This is the second sample document",
       );
       // Define a stub for queryFeed in clientContext
-      
-                    vi.spyOn(clientContext, "queryFeed")
-                    .mockResolvedValue({
-                result: [mockDocument1, mockDocument2] as unknown as Resource, // Add result to mimic expected structure
-                headers: {
-                  "x-ms-request-charge": "3.5", // Example RU charge
-                  "x-ms-continuation": "token-for-next-page", // Continuation token for pagination
-                },
-                code: 200, // Optional status code
-              })
-                  ;
+
+      vi.spyOn(clientContext, "queryFeed").mockResolvedValue({
+        result: [mockDocument1, mockDocument2] as unknown as Resource, // Add result to mimic expected structure
+        headers: {
+          "x-ms-request-charge": "3.5", // Example RU charge
+          "x-ms-continuation": "token-for-next-page", // Continuation token for pagination
+        },
+        code: 200, // Optional status code
+      });
 
       const context = new TestParallelQueryExecutionContext(
         clientContext,
@@ -350,23 +324,23 @@ describe("parallelQueryExecutionContextBase", function () {
     let context: TestParallelQueryExecutionContext;
 
     beforeEach(async () => {
-          options = { maxItemCount: 10, maxDegreeOfParallelism: 2 };
-          clientContext = createTestClientContext(cosmosClientOptions, diagnosticLevel);
-          initializeMockPartitionKeyRanges(createMockPartitionKeyRange, clientContext, [
-            ["", "AA"],
-            ["AA", "BB"],
-            ["BB", "FF"],
-          ]);
-          context = new TestParallelQueryExecutionContext(
-            clientContext,
-            collectionLink,
-            query,
-            options,
-            partitionedQueryExecutionInfo,
-            correlatedActivityId,
-          );
-          context["options"] = options;
-        });
+      options = { maxItemCount: 10, maxDegreeOfParallelism: 2 };
+      clientContext = createTestClientContext(cosmosClientOptions, diagnosticLevel);
+      initializeMockPartitionKeyRanges(createMockPartitionKeyRange, clientContext, [
+        ["", "AA"],
+        ["AA", "BB"],
+        ["BB", "FF"],
+      ]);
+      context = new TestParallelQueryExecutionContext(
+        clientContext,
+        collectionLink,
+        query,
+        options,
+        partitionedQueryExecutionInfo,
+        correlatedActivityId,
+      );
+      context["options"] = options;
+    });
 
     it("should return an empty array if buffer is empty", async function () {
       const result = await (context as any).drainBufferedItems();

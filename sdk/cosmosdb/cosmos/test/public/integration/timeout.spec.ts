@@ -11,8 +11,8 @@ import { describe, it, assert } from "vitest";
 
 describe("Timeout", function () {
   beforeEach(async () => {
-      await removeAllDatabases();
-    });
+    await removeAllDatabases();
+  });
 
   it("successfully exits queries after a timeout duration", async function () {
     const clientA = new CosmosClient({

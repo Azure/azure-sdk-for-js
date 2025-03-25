@@ -753,20 +753,14 @@ export function initializeMockPartitionKeyRanges(
     createMockPartitionKeyRange(index.toString(), range[0], range[1]),
   );
 
-  const fetchAllInternalStub = 
-              vi.fn()
-              .mockResolvedValue({
-      resources: partitionKeyRanges,
-      headers: { "x-ms-request-charge": "1.23" },
-      code: 200,
-    })
-            ;
-  
-                vi.spyOn(clientContext, "queryPartitionKeyRanges")
-                .mockReturnValue({
-        fetchAllInternal: fetchAllInternalStub, // Add fetchAllInternal to mimic expected structure
-      } as unknown as QueryIterator<PartitionKeyRange>)
-              ;
+  const fetchAllInternalStub = vi.fn().mockResolvedValue({
+    resources: partitionKeyRanges,
+    headers: { "x-ms-request-charge": "1.23" },
+    code: 200,
+  });
+  vi.spyOn(clientContext, "queryPartitionKeyRanges").mockReturnValue({
+    fetchAllInternal: fetchAllInternalStub, // Add fetchAllInternal to mimic expected structure
+  } as unknown as QueryIterator<PartitionKeyRange>);
 }
 
 export function createTestClientContext(

@@ -2,7 +2,12 @@
 // Licensed under the MIT License.
 import type { ClientContext } from "../../ClientContext.js";
 import type { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal.js";
-import { getIdFromLink, getPathFromLink, isResourceValid, ResourceType } from "../../common/index.js";
+import {
+  getIdFromLink,
+  getPathFromLink,
+  isResourceValid,
+  ResourceType,
+} from "../../common/index.js";
 import type { SqlQuerySpec } from "../../queryExecutionContext/index.js";
 import { QueryIterator } from "../../queryIterator.js";
 import type { FeedOptions, RequestOptions } from "../../request/index.js";

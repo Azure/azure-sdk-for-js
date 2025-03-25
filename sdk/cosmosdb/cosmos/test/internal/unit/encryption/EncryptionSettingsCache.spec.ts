@@ -4,7 +4,10 @@
 import assert from "node:assert";
 import type { ClientEncryptionPolicy } from "../../../../src/index.js";
 import { EncryptionAlgorithm, EncryptionType } from "../../../../src/index.js";
-import { ClientEncryptionIncludedPath, EncryptionSettings } from "../../../../src/encryption/index.js";
+import {
+  ClientEncryptionIncludedPath,
+  EncryptionSettings,
+} from "../../../../src/encryption/index.js";
 import { EncryptionSettingsCache } from "../../../../src/encryption/Cache/EncryptionSettingsCache.js";
 import { describe, it, assert } from "vitest";
 

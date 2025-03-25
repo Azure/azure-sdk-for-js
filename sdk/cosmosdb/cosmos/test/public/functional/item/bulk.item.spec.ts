@@ -23,7 +23,10 @@ import type { OperationInput } from "../../../../src/index.js";
 import { BulkOperationType } from "../../../../src/index.js";
 import { generateOperationOfSize } from "../../../internal/unit/utils/batch.spec.js";
 import type { PartitionKey } from "../../../../src/documents/index.js";
-import { PartitionKeyDefinitionVersion, PartitionKeyKind } from "../../../../src/documents/index.js";
+import {
+  PartitionKeyDefinitionVersion,
+  PartitionKeyKind,
+} from "../../../../src/documents/index.js";
 import { endpoint } from "../../common/_testConfig.js";
 import { masterKey } from "../../common/_fakeTestSecrets.js";
 import { getCurrentTimestampInMs } from "../../../../src/utils/time.js";

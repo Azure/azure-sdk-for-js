@@ -1,6 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { CosmosDbDiagnosticLevel, DiagnosticNodeInternal, DiagnosticNodeType } from "../../../src/index.js";
+import {
+  CosmosDbDiagnosticLevel,
+  DiagnosticNodeInternal,
+  DiagnosticNodeType,
+} from "../../../src/index.js";
 import type { ClientContext, FeedOptions, QueryInfo } from "../../../src/index.js";
 import {
   HybridQueryExecutionContext,
@@ -85,21 +89,18 @@ describe("hybridQueryExecutionContext", function () {
         .onCall(1)
         .returns(false); // Second call returns false
 
-      
-                    vi.spyOn(context["globalStatisticsExecutionContext"], "fetchMore")
-                    .mockResolvedValue({
-                result: [
-                  {
-                    documentCount: 2,
-                    fullTextStatistics: [{ totalWordCount: 100, hitCounts: [1, 2, 3] }],
-                  },
-                ],
-                headers: {},
-                code: 200,
-                substatus: 0,
-                diagnostics: undefined,
-              })
-                  ;
+      vi.spyOn(context["globalStatisticsExecutionContext"], "fetchMore").mockResolvedValue({
+        result: [
+          {
+            documentCount: 2,
+            fullTextStatistics: [{ totalWordCount: 100, hitCounts: [1, 2, 3] }],
+          },
+        ],
+        headers: {},
+        code: 200,
+        substatus: 0,
+        diagnostics: undefined,
+      });
 
       const diagnosticNode = new DiagnosticNodeInternal(
         diagnosticLevel,

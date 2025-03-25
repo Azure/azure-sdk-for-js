@@ -563,9 +563,9 @@ function runCrosspartitionGROUPBYTests(options: FeedOptions): void {
   };
 
   beforeEach(async () => {
-      currentTestTitle = this.currentTest.fullTitle();
-      snapshotNumber = 1;
-    });
+    currentTestTitle = this.currentTest.fullTitle();
+    snapshotNumber = 1;
+  });
 
   it("by number", async () => {
     const queryIterator = container.items.query("SELECT c.age FROM c GROUP BY c.age", options);

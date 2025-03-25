@@ -98,21 +98,14 @@ describe("OrderByQueryExecutionContext", function () {
     const mockPartitionKeyRange2 = createMockPartitionKeyRange("1", "AA", "BB");
     const mockPartitionKeyRange3 = createMockPartitionKeyRange("2", "BB", "FF");
 
-    const fetchAllInternalStub = 
-                vi.fn()
-                .mockResolvedValue({
-          resources: [mockPartitionKeyRange1, mockPartitionKeyRange2, mockPartitionKeyRange3],
-          headers: { "x-ms-request-charge": "1.23" },
-          code: 200,
-        })
-              ;
-
-    
-                  vi.spyOn(clientContext, "queryPartitionKeyRanges")
-                  .mockReturnValue({
-            fetchAllInternal: fetchAllInternalStub, // Add fetchAllInternal to mimic expected structure
-          } as unknown as QueryIterator<PartitionKeyRange>)
-                ;
+    const fetchAllInternalStub = vi.fn().mockResolvedValue({
+      resources: [mockPartitionKeyRange1, mockPartitionKeyRange2, mockPartitionKeyRange3],
+      headers: { "x-ms-request-charge": "1.23" },
+      code: 200,
+    });
+    vi.spyOn(clientContext, "queryPartitionKeyRanges").mockReturnValue({
+      fetchAllInternal: fetchAllInternalStub, // Add fetchAllInternal to mimic expected structure
+    } as unknown as QueryIterator<PartitionKeyRange>);
 
     // Define a mock document (resource) returned from queryFeed
     const mockDocument1 = createMockDocument(
@@ -178,21 +171,14 @@ describe("OrderByQueryExecutionContext", function () {
     const mockPartitionKeyRange2 = createMockPartitionKeyRange("1", "AA", "BB");
     const mockPartitionKeyRange3 = createMockPartitionKeyRange("2", "BB", "FF");
 
-    const fetchAllInternalStub = 
-                vi.fn()
-                .mockResolvedValue({
-          resources: [mockPartitionKeyRange1, mockPartitionKeyRange2, mockPartitionKeyRange3],
-          headers: { "x-ms-request-charge": "1.23" },
-          code: 200,
-        })
-              ;
-
-    
-                  vi.spyOn(clientContext, "queryPartitionKeyRanges")
-                  .mockReturnValue({
-            fetchAllInternal: fetchAllInternalStub, // Add fetchAllInternal to mimic expected structure
-          } as unknown as QueryIterator<PartitionKeyRange>)
-                ;
+    const fetchAllInternalStub = vi.fn().mockResolvedValue({
+      resources: [mockPartitionKeyRange1, mockPartitionKeyRange2, mockPartitionKeyRange3],
+      headers: { "x-ms-request-charge": "1.23" },
+      code: 200,
+    });
+    vi.spyOn(clientContext, "queryPartitionKeyRanges").mockReturnValue({
+      fetchAllInternal: fetchAllInternalStub, // Add fetchAllInternal to mimic expected structure
+    } as unknown as QueryIterator<PartitionKeyRange>);
 
     // Define a mock document (resource) returned from queryFeed
     const mockDocument1 = createMockDocument(

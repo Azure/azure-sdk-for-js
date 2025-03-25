@@ -16,8 +16,8 @@ const client = new CosmosClient({
 describe("NodeJS CRUD Tests", function () {
   this.timeout(process.env.MOCHA_TIMEOUT || 10000);
   beforeEach(async () => {
-      this.timeout(process.env.MOCHA_TIMEOUT || 10000);
-    });
+    this.timeout(process.env.MOCHA_TIMEOUT || 10000);
+  });
 
   describe("validate database account functionality", function () {
     it("nativeApi Should get database account successfully name based", async function () {

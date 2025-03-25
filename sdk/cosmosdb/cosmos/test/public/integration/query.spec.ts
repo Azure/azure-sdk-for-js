@@ -12,8 +12,8 @@ describe("ResourceLink Trimming of leading and trailing slashes", function () {
   const containerId = "testcontainer";
 
   beforeEach(async () => {
-      await removeAllDatabases();
-    });
+    await removeAllDatabases();
+  });
 
   it("validate correct execution of query using named container link with leading and trailing slashes", async function () {
     const containerDefinition = {
@@ -45,8 +45,8 @@ describe("Test Query Metrics", function () {
   const collectionId = "testCollection3";
 
   beforeEach(async () => {
-      await removeAllDatabases();
-    });
+    await removeAllDatabases();
+  });
 
   it("validate that query metrics are correct for a single partition query", async function () {
     const database = await getTestDatabase("query metrics test db");
@@ -95,8 +95,8 @@ describe("Partition key in FeedOptions", function () {
   this.timeout(process.env.MOCHA_TIMEOUT || 10000);
 
   beforeEach(async () => {
-      await removeAllDatabases();
-    });
+    await removeAllDatabases();
+  });
 
   it("passing partition key in FeedOptions", async function () {
     const containerDefinition = {
@@ -175,8 +175,8 @@ describe("aggregate query over null value", function () {
   };
 
   beforeEach(async () => {
-      await removeAllDatabases();
-    });
+    await removeAllDatabases();
+  });
 
   it("should execute successfully for container with single partition", async function () {
     await aggregateQueryOverNullValue("SinglePartition", "SinglePartition", 400);
@@ -191,8 +191,8 @@ describe("Test Index metrics", function () {
   this.timeout(process.env.MOCHA_TIMEOUT || 20000);
 
   beforeEach(async () => {
-      await removeAllDatabases();
-    });
+    await removeAllDatabases();
+  });
 
   it("validate that index metrics are correct", async function () {
     const collectionId = "testCollection3";
@@ -239,7 +239,11 @@ describe("Test Index metrics", function () {
       }
     }
   }
-  async function setupContainer(datbaseName: string, collectionId: string, throughput?: number): Promise<void> {
+  async function setupContainer(
+    datbaseName: string,
+    collectionId: string,
+    throughput?: number,
+  ): Promise<void> {
     const database = await getTestDatabase(datbaseName);
 
     const collectionDefinition = {

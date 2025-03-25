@@ -30,8 +30,8 @@ interface TestItem {
 describe("ItemCRUDWithThorughputBucket", function () {
   this.timeout(process.env.MOCHA_TIMEOUT || 10000);
   beforeEach(async () => {
-      await removeAllDatabases();
-    });
+    await removeAllDatabases();
+  });
   const dbId = addEntropy("throughputBucketDb");
   const containerId = addEntropy("throughputBucketContainer");
   const documentCRUDTest = async function (isUpsertTest: boolean): Promise<void> {

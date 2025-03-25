@@ -10,7 +10,11 @@ import { getIdFromLink, getPathFromLink, parseLink } from "./common/helper.js";
 import { StatusCodes, SubStatusCodes } from "./common/statusCodes.js";
 import type { Agent, CosmosClientOptions } from "./CosmosClientOptions.js";
 import type { ConnectionPolicy, PartitionKey } from "./documents/index.js";
-import { ConsistencyLevel, DatabaseAccount, convertToInternalPartitionKey } from "./documents/index.js";
+import {
+  ConsistencyLevel,
+  DatabaseAccount,
+  convertToInternalPartitionKey,
+} from "./documents/index.js";
 import type { GlobalEndpointManager } from "./globalEndpointManager.js";
 import type { PluginConfig } from "./plugins/Plugin.js";
 import { PluginOn, executePlugins } from "./plugins/Plugin.js";

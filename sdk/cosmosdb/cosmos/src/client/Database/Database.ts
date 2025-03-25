@@ -1,7 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import type { ClientContext } from "../../ClientContext.js";
-import { createDatabaseUri, getIdFromLink, getPathFromLink, ResourceType } from "../../common/index.js";
+import {
+  createDatabaseUri,
+  getIdFromLink,
+  getPathFromLink,
+  ResourceType,
+} from "../../common/index.js";
 import type { CosmosClient } from "../../CosmosClient.js";
 import { ErrorResponse, type RequestOptions } from "../../request/index.js";
 import { Container, Containers } from "../Container/index.js";

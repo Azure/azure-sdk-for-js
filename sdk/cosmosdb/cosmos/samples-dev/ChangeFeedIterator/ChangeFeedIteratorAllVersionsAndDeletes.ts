@@ -91,7 +91,11 @@ async function ingestData(container: Container, initialize: number, end: number)
   console.log(`ingested items with id - item${initialize} and id - item${end}`);
 }
 
-async function insertAndModifyData(container: Container, initialize: number, end: number): Promise<void> {
+async function insertAndModifyData(
+  container: Container,
+  initialize: number,
+  end: number,
+): Promise<void> {
   await ingestData(container, initialize, end);
   await container.items.upsert({ id: `item${initialize}`, name: `sample1`, key: initialize + 1 });
   console.log(`upserted item with id - item${initialize} and partition key - sample1`);

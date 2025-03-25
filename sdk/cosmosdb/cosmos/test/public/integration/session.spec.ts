@@ -10,7 +10,11 @@ import { CosmosClient } from "../../../src/index.js";
 import type { SessionContainer } from "../../../src/session/sessionContainer.js";
 import { endpoint } from "../../public/common/_testConfig.js";
 import { masterKey } from "../../public/common/_fakeTestSecrets.js";
-import { addEntropy, getTestDatabase, removeAllDatabases } from "../../public/common/TestHelpers.js";
+import {
+  addEntropy,
+  getTestDatabase,
+  removeAllDatabases,
+} from "../../public/common/TestHelpers.js";
 import type { RequestContext } from "../../../src/index.js";
 import type { Response } from "../../../src/request/Response.js";
 import { describe, it, assert } from "vitest";
@@ -74,8 +78,8 @@ describe("New session token", function () {
 
 describe("Integrated Cache Staleness", async function () {
   beforeEach(async () => {
-      await removeAllDatabases();
-    });
+    await removeAllDatabases();
+  });
   const dbId = addEntropy("maxIntegratedCacheTestDB");
   const containerId = addEntropy("maxIntegratedCacheTestContainer");
   const dedicatedGatewayMaxAge = 20;
@@ -171,8 +175,8 @@ describe("Integrated Cache Staleness", async function () {
 // This test has to be run against sqlx endpoint
 describe.skip("Bypass integrated cache", function () {
   beforeEach(async () => {
-      await removeAllDatabases();
-    });
+    await removeAllDatabases();
+  });
 
   it("Should pass with bypass integrated cache set", async function () {
     const dbId = addEntropy("bypassIntegratedCacheTestDB");
@@ -202,8 +206,8 @@ describe.skip("Bypass integrated cache", function () {
 // For some reason this test does not pass against the emulator. Skipping it for now
 describe.skip("Session Token", function () {
   beforeEach(async () => {
-      await removeAllDatabases();
-    });
+    await removeAllDatabases();
+  });
 
   it("retries session not found successfully", async function () {
     const clientA = new CosmosClient({

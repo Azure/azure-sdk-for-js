@@ -16,8 +16,8 @@ import { describe, it, assert } from "vitest";
 describe("NodeJS CRUD Tests", function () {
   this.timeout(process.env.MOCHA_TIMEOUT || 10000);
   beforeEach(async () => {
-      await removeAllDatabases();
-    });
+    await removeAllDatabases();
+  });
 
   describe("Validate Authorization", function () {
     it("should handle all the key options", async function () {

@@ -73,30 +73,30 @@ describe("Testing Credentials integration for Client", function () {
   let sandbox: SinonSandbox;
   let spy: SinonSpy;
   beforeEach(async () => {
-      sandbox = Sinon.createSandbox();
-    });
+    sandbox = Sinon.createSandbox();
+  });
   function setupSpyOnRequestHandler() {
     spy = sandbox.spy(RequestHandler, "request");
   }
 
   afterEach(async () => {
-      vi.restoreAllMocks();
-    });
+    vi.restoreAllMocks();
+  });
   describe("Client Test With AAD Credentials", function () {
     let client: CosmosClient;
     beforeEach(async () => {
-          client = new CosmosClient({
-            endpoint: mockedEndpoint,
-            aadCredentials: new MockCredential(
-              Promise.resolve({ token: aadToken, expiresOnTimestamp: 0 }),
-            ),
-          });
-        });
+      client = new CosmosClient({
+        endpoint: mockedEndpoint,
+        aadCredentials: new MockCredential(
+          Promise.resolve({ token: aadToken, expiresOnTimestamp: 0 }),
+        ),
+      });
+    });
     afterEach(async () => {
-          nock.restore();
-          nock.cleanAll();
-          nock.enableNetConnect();
-        });
+      nock.restore();
+      nock.cleanAll();
+      nock.enableNetConnect();
+    });
     it("Test pipeline setup for items.create for aadCredentials", async function () {
       setupMockResponse();
       const container: Container = await getTestContainer("Test Container", client);
