@@ -11,9 +11,9 @@
 # Misc.
 ################
 
-/.devcontainer/ @jeremymeng
-/documentation/ @jeremymeng
-/samples/       @jeremymeng
+/.devcontainer/ @jeremymeng @Azure/azure-sdk-eng @Azure/azure-sdk-for-js-core
+/documentation/ @jeremymeng @Azure/azure-sdk-js-dev
+/samples/       @jeremymeng @Azure/azure-sdk-js-dev
 
 ################
 # Architecture
@@ -249,10 +249,10 @@
 /sdk/cognitivelanguage/ @quentinRobinson
 
 # ServiceLabel: %OpenAI
-# ServiceOwners: @glharper
+# ServiceOwners: @trrwilson
 
 # PRLabel: %OpenAI
-/sdk/openai/ @glharper @deyaaeldeen @minhanh-phan
+/sdk/openai/ @mikhail @deyaaeldeen @minhanh-phan
 
 # PRLabel: %AI Model Inference
 sdk/ai/ai-inference-rest @glharper @dargilco @jhakulin
@@ -321,6 +321,10 @@ sdk/ai/ai-projects @ganeshyb @GraceBrigham
 # PRLabel: %Microsoft Playwright Testing
 # ServiceLabel: %Microsoft Playwright Testing
 /sdk/playwrighttesting/ @Sid200026 @puagarwa @ShreyaAnand
+
+# PRLabel: %Azure Load Testing
+# ServiceLabel: %Azure Load Testing
+/sdk/loadtesting/ @prativen @mitsha-microsoft @ninallam
 
 # API review files
 /sdk/**/review/*api.md @bterlson @Azure/azure-sdk-for-js-core
@@ -754,9 +758,6 @@ sdk/ai/ai-projects @ganeshyb @GraceBrigham
 
 # PRLabel: %Mgmt
 /sdk/networkcloud/arm-networkcloud/      @qiaozha @MaryGao
-
-# PRLabel: %Mgmt
-/sdk/networkanalytics/arm-networkanalytics/      @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
 /sdk/network/arm-network-profile-2020-09-01-hybrid/ @qiaozha @MaryGao
@@ -1608,7 +1609,6 @@ sdk/ai/ai-projects @ganeshyb @GraceBrigham
 # Make sure to not check in anymore test-resources.json files
 # and review bicep scripts for any exposed secrets
 /sdk/**/*.bicep @deyaaeldeen @jeremymeng @Azure/azure-sdk-for-js-core
-/sdk/**/test-resources.json @deyaaeldeen @jeremymeng @Azure/azure-sdk-for-js-core
 
 #########################
 # Eng Sys and CODEOWNERS

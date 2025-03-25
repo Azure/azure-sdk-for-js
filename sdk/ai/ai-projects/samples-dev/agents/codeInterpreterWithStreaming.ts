@@ -27,10 +27,9 @@ import {
 } from "@azure/ai-projects";
 import { DefaultAzureCredential } from "@azure/identity";
 
-import * as dotenv from "dotenv";
 import * as fs from "fs";
 import path from "node:path";
-dotenv.config();
+import "dotenv/config";
 
 const connectionString =
   process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] || "<project connection string>";
@@ -42,7 +41,7 @@ export async function main(): Promise<void> {
   );
 
   // Upload file and wait for it to be processed
-  const filePath = path.resolve(__dirname, "../data/nifty500QuarterlyResults.csv");
+  const filePath = "./data/nifty500QuarterlyResults.csv";
   const localFileStream = fs.createReadStream(filePath);
   const localFile = await client.agents.uploadFile(localFileStream, "assistants", {
     fileName: "myLocalFile",
@@ -132,8 +131,7 @@ export async function main(): Promise<void> {
   const imageFileOutput = messages.data[0].content[0] as MessageImageFileContentOutput;
   const imageFile = imageFileOutput.imageFile.fileId;
   const imageFileName = path.resolve(
-    __dirname,
-    "../data/" + (await client.agents.getFile(imageFile)).filename + "ImageFile.png",
+    "./data/" + (await client.agents.getFile(imageFile)).filename + "ImageFile.png",
   );
   console.log(`Image file name : ${imageFileName}`);
 
@@ -141,7 +139,7 @@ export async function main(): Promise<void> {
   if (fileContent) {
     const chunks: Buffer[] = [];
     for await (const chunk of fileContent) {
-      chunks.push(Buffer.from(chunk));
+      chunks.push(Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk));
     }
     const buffer = Buffer.concat(chunks);
     fs.writeFileSync(imageFileName, buffer);

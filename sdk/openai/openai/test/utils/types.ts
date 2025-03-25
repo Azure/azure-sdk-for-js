@@ -8,55 +8,73 @@ export interface Metadata {
   foo: string;
 }
 
-export type DeploymentType = "vision" | "audio" | "completions";
-
 export interface ModelCapabilities {
-  completion?: string;
-  chatCompletion?: string;
-  jsonObjectResponse?: string;
-  assistants?: string;
-  audio?: string;
-  embeddings?: string;
-  area?: string;
-  realtime?: string;
-  search?: string;
-  imageGenerations?: string;
+  readonly completion?: string;
+  readonly chatCompletion?: string;
+  readonly jsonObjectResponse?: string;
+  readonly jsonSchemaResponse?: string;
+  readonly assistants?: string;
+  readonly audio?: string;
+  readonly embeddings?: string;
+  readonly area?: string;
+  readonly realtime?: string;
+  readonly search?: string;
+  readonly imageGenerations?: string;
+  readonly responses?: string;
+  readonly maxContextToken?: string;
+  readonly maxOutputToken?: string;
+  readonly embeddingsMaxInputs?: string;
+  readonly maxTotalTokens?: string;
 }
 
 export interface DeploymentInfo {
-  deploymentName: string;
-  model: ModelInfo;
-  sku: Sku;
-  capabilities: ModelCapabilities;
+  readonly deploymentName: string;
+  readonly model: ModelInfo;
+  readonly sku: Sku;
+  readonly capabilities: ModelCapabilities;
 }
 export interface ModelInfo {
-  name: string;
-  version: string;
+  readonly name: string;
+  readonly version: string;
 }
 
 export interface ResourceInfo {
-  deployments: DeploymentInfo[];
-  endpoint: string;
+  readonly deployments: DeploymentInfo[];
+  readonly endpoint: string;
 }
 
 export interface ResourcesInfo {
-  resourcesInfo: ResourceInfo[];
-  count: number;
+  readonly resourcesInfo: ResourceInfo[];
+  readonly count: number;
 }
 
 export interface ClientAndDeploymentsInfo {
-  client: OpenAI;
-  deployments: DeploymentInfo[];
+  readonly client: OpenAI;
+  readonly deployments: DeploymentInfo[];
 }
 
 export interface ClientsAndDeploymentsInfo {
-  clientsAndDeployments: ClientAndDeploymentsInfo[];
-  count: number;
+  readonly clientsAndDeployments: ClientAndDeploymentsInfo[];
+  readonly count: number;
 }
 
-export interface CreateClientOptions {
-  clientOptions?: AzureClientOptions;
+export interface FilterDeploymentOptions {
   sku?: Partial<Sku>;
   deploymentsToSkip?: string[];
   modelsToSkip?: Partial<ModelInfo>[];
+}
+
+export interface CreateClientOptions extends FilterDeploymentOptions {
+  clientOptions?: AzureClientOptions;
+}
+
+// Define the shape of an Azure Search resource entry.
+export interface AzureSearchResource {
+  readonly serviceName: string;
+  readonly endpoint: string;
+  readonly indexes: string[];
+}
+
+export interface AzureSearchResources {
+  readonly resources: AzureSearchResource[];
 }
