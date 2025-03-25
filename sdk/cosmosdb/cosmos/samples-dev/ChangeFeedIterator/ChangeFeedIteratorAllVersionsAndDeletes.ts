@@ -3,15 +3,17 @@
 
 import "dotenv/config";
 import { finish, handleError, logSampleHeader, logStep } from "../Shared/handleError.js";
+import type {
+  Container,
+  ChangeFeedIteratorOptions,
+  ChangeFeedPullModelIterator,
+} from "@azure/cosmos";
 import {
   CosmosClient,
   PartitionKeyDefinitionVersion,
-  Container,
   StatusCodes,
-  ChangeFeedIteratorOptions,
   ChangeFeedStartFrom,
   ChangeFeedMode,
-  ChangeFeedPullModelIterator,
 } from "@azure/cosmos";
 
 const key = process.env.COSMOS_KEY || "<cosmos key>";
@@ -109,7 +111,7 @@ async function iterateChangeFeedFromNow(
   initialize: number,
   end: number,
 ): Promise<string> {
-  let iterator = container.items.getChangeFeedIterator(options);
+  const iterator = container.items.getChangeFeedIterator(options);
   console.log("running the iterator to start fetching changes from now.");
   await iterator.readNext();
   // ingest, upsert, and delete some data to introduce changes to container

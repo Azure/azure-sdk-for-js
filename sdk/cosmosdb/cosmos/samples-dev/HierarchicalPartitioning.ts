@@ -3,13 +3,12 @@
 
 import "dotenv/config";
 import { handleError, logSampleHeader, finish } from "./Shared/handleError.js";
+import type { PatchOperation, OperationInput } from "@azure/cosmos";
 import {
   CosmosClient,
   BulkOperationType,
-  PatchOperation,
   PartitionKeyKind,
   PartitionKeyBuilder,
-  OperationInput,
 } from "@azure/cosmos";
 
 const key = process.env.COSMOS_KEY || "<cosmos key>";
@@ -130,7 +129,7 @@ async function run(): Promise<void> {
   const bulkOperations: OperationInput[] = [
     {
       operationType: BulkOperationType.Create,
-      //Providing partition key is not necessary while create, it can be automatically derived from resourceBody.
+      // Providing partition key is not necessary while create, it can be automatically derived from resourceBody.
       resourceBody: { id: "item3", name: "sample", address: { zip: 345 } },
     },
     {

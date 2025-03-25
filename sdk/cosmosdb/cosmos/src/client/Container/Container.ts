@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 import type { ClientContext } from "../../ClientContext.js";
 import {
   Constants,

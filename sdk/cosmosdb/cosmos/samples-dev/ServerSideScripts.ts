@@ -3,8 +3,11 @@
 
 import "dotenv/config";
 import { logSampleHeader, logStep, finish, handleError } from "./Shared/handleError.js";
-import { CosmosClient, ErrorResponse, FeedOptions, Item, Resource } from "@azure/cosmos";
+import type { ErrorResponse, FeedOptions, Item, Resource } from "@azure/cosmos";
+import { CosmosClient } from "@azure/cosmos";
+
 logSampleHeader("Server Side Scripts");
+
 const key = process.env.COSMOS_KEY || "<cosmos key>";
 const endpoint = process.env.COSMOS_ENDPOINT || "<cosmos endpoint>";
 const containerId = process.env.COSMOS_CONTAINER || "<cosmos container>";
@@ -46,22 +49,22 @@ const sprocDefinition = {
 
     tryCreate(document, callback);
 
-    function tryCreate(doc: Item, cback: any) {
-      const isAccepted = collection.createDocument(collectionLink, doc, cback);
+    function tryCreate(doc: Item, cb: any): void {
+      const isAccepted = collection.createDocument(collectionLink, doc, cb);
       if (!isAccepted) throw new Error("Unable to schedule create document");
       response.setBody({ op: "created" });
     }
 
     // To replace the document, first issue a query to find it and then call replace.
-    function tryReplace(doc: Item, cback: any) {
+    function tryReplace(doc: Item, cb: any): void {
       retrieveDoc(doc, function (retrievedDocs: Resource[]) {
-        const isAccepted = collection.replaceDocument(retrievedDocs[0]._self, doc, cback);
+        const isAccepted = collection.replaceDocument(retrievedDocs[0]._self, doc, cb);
         if (!isAccepted) throw new Error("Unable to schedule replace document");
         response.setBody({ op: "replaced" });
       });
     }
 
-    function retrieveDoc(doc: Item, cback: any, continuation?: string) {
+    function retrieveDoc(doc: Item, cb: any, continuation?: string): void {
       const query = {
         query: "select * from root r where r.id = @id",
         parameters: [{ name: "@id", value: doc.id }],
@@ -75,10 +78,10 @@ const sprocDefinition = {
           if (err) throw err;
 
           if (retrievedDocs.length > 0) {
-            cback(retrievedDocs);
+            cb(retrievedDocs);
           } else if (responseOptions.continuation) {
             // Conservative check for continuation. Not expected to hit in practice for the "id query"
-            retrieveDoc(doc, responseOptions.continuation, cback);
+            retrieveDoc(doc, responseOptions.continuation, cb);
           } else {
             throw new Error("Error in retrieving document: " + doc.id);
           }
@@ -89,7 +92,7 @@ const sprocDefinition = {
 
     // This is called when collection.createDocument is done in order to
     // process the result.
-    function callback(err: ErrorResponse) {
+    function callback(err: ErrorResponse): void {
       if (err) {
         // Replace the document if status code is 409 and upsert is enabled
         if (err.status === errorCodes.CONFLICT) {

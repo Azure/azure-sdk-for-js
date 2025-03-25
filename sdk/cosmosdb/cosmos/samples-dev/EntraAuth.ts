@@ -3,8 +3,6 @@
 
 import "dotenv/config";
 import { UsernamePasswordCredential } from "@azure/identity";
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
 import { CosmosClient } from "@azure/cosmos";
 import { handleError, finish, logStep } from "./Shared/handleError.js";
 

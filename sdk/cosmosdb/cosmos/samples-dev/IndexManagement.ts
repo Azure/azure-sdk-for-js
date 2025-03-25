@@ -3,13 +3,8 @@
 
 import "dotenv/config";
 import { logSampleHeader, handleError, finish, logStep } from "./Shared/handleError.js";
-import {
-  CosmosClient,
-  IndexKind,
-  DataType,
-  ContainerDefinition,
-  IndexingMode,
-} from "@azure/cosmos";
+import type { ContainerDefinition } from "@azure/cosmos";
+import { CosmosClient, IndexKind, DataType, IndexingMode } from "@azure/cosmos";
 
 const key = process.env.COSMOS_KEY || "<cosmos key>";
 const endpoint = process.env.COSMOS_ENDPOINT || "<cosmos endpoint>";
@@ -92,8 +87,8 @@ async function run(): Promise<void> {
     { id: "item2", foo: "bar" },
     { indexingDirective: "include" },
   );
-  if (itemDef) {
-    console.log(`Item with id  ${itemDef.id} 'created`);
+  if (itemDef2) {
+    console.log(`Item with id  ${itemDef2.id} 'created`);
   }
 
   console.log("Querying all items for a given item should find a result as it was indexed");

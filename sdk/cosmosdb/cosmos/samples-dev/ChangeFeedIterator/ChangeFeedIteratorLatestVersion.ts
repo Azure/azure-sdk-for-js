@@ -3,14 +3,16 @@
 
 import "dotenv/config";
 import { finish, handleError, logSampleHeader, logStep } from "../Shared/handleError.js";
+import type {
+  Container,
+  ChangeFeedIteratorOptions,
+  ChangeFeedPullModelIterator,
+} from "@azure/cosmos";
 import {
   CosmosClient,
   PartitionKeyDefinitionVersion,
-  Container,
   StatusCodes,
-  ChangeFeedIteratorOptions,
   ChangeFeedStartFrom,
-  ChangeFeedPullModelIterator,
 } from "@azure/cosmos";
 
 const key = process.env.COSMOS_KEY || "<cosmos key>";
@@ -92,7 +94,7 @@ async function iterateChangeFeedFromBeginning(
   container: Container,
   options: ChangeFeedIteratorOptions,
 ): Promise<string> {
-  let iterator = container.items.getChangeFeedIterator(options);
+  const iterator = container.items.getChangeFeedIterator(options);
   console.log("fetch changes from beginning");
   return iterateChangeFeed(iterator);
 }

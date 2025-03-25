@@ -1,19 +1,20 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import "dotenv/config";
 import { ClientSecretCredential } from "@azure/identity";
-
+import type {
+  EncryptionKeyWrapMetadata,
+  ClientEncryptionIncludedPath,
+  ClientEncryptionPolicy,
+} from "@azure/cosmos";
 import {
   CosmosClient,
   AzureKeyVaultEncryptionKeyResolver,
   EncryptionKeyResolverName,
   EncryptionAlgorithm,
   KeyEncryptionAlgorithm,
-  EncryptionKeyWrapMetadata,
-  ClientEncryptionIncludedPath,
   EncryptionType,
-  ClientEncryptionPolicy,
   EncryptionQueryBuilder,
 } from "@azure/cosmos";
 import { finish, handleError, logStep } from "./Shared/handleError.js";

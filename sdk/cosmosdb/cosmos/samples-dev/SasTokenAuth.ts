@@ -2,12 +2,8 @@
 // Licensed under the MIT License.
 
 import "dotenv/config";
-import {
-  CosmosClient,
-  SasTokenProperties,
-  createAuthorizationSasToken,
-  SasTokenPermissionKind,
-} from "@azure/cosmos";
+import type { SasTokenProperties } from "@azure/cosmos";
+import { CosmosClient, createAuthorizationSasToken, SasTokenPermissionKind } from "@azure/cosmos";
 import { handleError, finish, logStep } from "./Shared/handleError.js";
 const masterKey = process.env.COSMOS_KEY || "<cosmos key>";
 const endpoint = process.env.COSMOS_ENDPOINT || "<cosmos endpoint>";
