@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { HybridConnectivityManagementAPI, ServiceConfigurationResourcePatch } from "@azure/arm-hybridconnectivity";
-import { DefaultAzureCredential } from "@azure/identity";
+const { HybridConnectivityManagementAPI } = require("@azure/arm-hybridconnectivity");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to update the service details in the service configurations of the target resource.
@@ -10,25 +10,25 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary update the service details in the service configurations of the target resource.
  * x-ms-original-file: 2024-12-01/ServiceConfigurationsPatchSSH.json
  */
-async function serviceConfigurationsPatchSSH(): Promise<void> {
+async function serviceConfigurationsPatchSSH() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-00000000000";
   const client = new HybridConnectivityManagementAPI(credential, subscriptionId);
-  const serviceConfigurationResourceProperties: ServiceConfigurationResourcePatch = {
+  const serviceConfigurationResourceProperties = {
     properties: {
-      "port": 22
-    }
-  }
+      port: 22,
+    },
+  };
   const result = await client.serviceConfigurations.update(
     "subscriptions/f5bcc1d9-23af-4ae9-aca1-041d0f593a63/resourceGroups/hybridRG/providers/Microsoft.HybridCompute/machines/testMachine/providers/Microsoft.HybridConnectivity/endpoints/default",
     "default",
     "SSH",
-    serviceConfigurationResourceProperties
+    serviceConfigurationResourceProperties,
   );
   console.log(result);
 }
 
-async function main(): Promise<void> {
+async function main() {
   await serviceConfigurationsPatchSSH();
 }
 

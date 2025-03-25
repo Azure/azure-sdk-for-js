@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { EndpointResource, HybridConnectivityManagementAPI } from "@azure/arm-hybridconnectivity";
-import { DefaultAzureCredential } from "@azure/identity";
+const { HybridConnectivityManagementAPI } = require("@azure/arm-hybridconnectivity");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to update the endpoint to the target resource.
@@ -10,22 +10,22 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary update the endpoint to the target resource.
  * x-ms-original-file: 2024-12-01/EndpointsPatchDefault.json
  */
-async function hybridConnectivityEndpointsPatchDefault(): Promise<void> {
+async function hybridConnectivityEndpointsPatchDefault() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-00000000000";
   const client = new HybridConnectivityManagementAPI(credential, subscriptionId);
-  const endpointResource: EndpointResource = {
+  const endpointResource = {
     properties: { type: "default" },
   };
   const result = await client.endpoints.update(
     "subscriptions/f5bcc1d9-23af-4ae9-aca1-041d0f593a63/resourceGroups/hybridRG/providers/Microsoft.HybridCompute/machines/testMachine",
     "default",
-    endpointResource
+    endpointResource,
   );
   console.log(result);
 }
 
-async function main(): Promise<void> {
+async function main() {
   await hybridConnectivityEndpointsPatchDefault();
 }
 

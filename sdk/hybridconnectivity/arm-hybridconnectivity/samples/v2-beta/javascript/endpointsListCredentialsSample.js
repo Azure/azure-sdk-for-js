@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { HybridConnectivityManagementAPI } from "@azure/arm-hybridconnectivity";
-import { DefaultAzureCredential } from "@azure/identity";
+const { HybridConnectivityManagementAPI } = require("@azure/arm-hybridconnectivity");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to gets the endpoint access credentials to the resource.
@@ -10,18 +10,19 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary gets the endpoint access credentials to the resource.
  * x-ms-original-file: 2024-12-01/EndpointsPostListCredentials.json
  */
-async function hybridConnectivityEndpointsPostListCredentials(): Promise<void> {
+async function hybridConnectivityEndpointsPostListCredentials() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-00000000000";
   const client = new HybridConnectivityManagementAPI(credential, subscriptionId);
   const result = await client.endpoints.listCredentials(
     "subscriptions/f5bcc1d9-23af-4ae9-aca1-041d0f593a63/resourceGroups/hybridRG/providers/Microsoft.HybridCompute/machines/testMachine",
     "default",
-    { listCredentialsRequest: { serviceName: "SSH" }, expiresin: 10800 });
+    { listCredentialsRequest: { serviceName: "SSH" }, expiresin: 10800 },
+  );
   console.log(result);
 }
 
-async function main(): Promise<void> {
+async function main() {
   await hybridConnectivityEndpointsPostListCredentials();
 }
 
