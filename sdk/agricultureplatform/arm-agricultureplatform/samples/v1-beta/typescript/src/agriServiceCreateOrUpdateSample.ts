@@ -18,7 +18,7 @@ async function agriServiceCreateOrUpdate(): Promise<void> {
     properties: {
       config: {},
       managedOnBehalfOfConfiguration: {
-        moboBrokerResources: [],
+        moboBrokerResources: []
       },
       dataConnectorCredentials: [
         {

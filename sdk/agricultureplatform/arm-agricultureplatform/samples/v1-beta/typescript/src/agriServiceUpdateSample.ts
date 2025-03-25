@@ -5,21 +5,27 @@ import { AgriculturePlatformClient } from "@azure/arm-agricultureplatform";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to create a AgriServiceResource
+ * This sample demonstrates how to update a AgriServiceResource
  *
- * @summary create a AgriServiceResource
- * x-ms-original-file: 2024-06-01-preview/AgriService_CreateOrUpdate_MaximumSet_Gen.json
+ * @summary update a AgriServiceResource
+ * x-ms-original-file: 2024-06-01-preview/AgriService_Update_MaximumSet_Gen.json
  */
-async function agriServiceCreateOrUpdate(): Promise<void> {
+async function agriServiceUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "83D293F5-DEFD-4D48-B120-1DC713BE338A";
   const client = new AgriculturePlatformClient(credential, subscriptionId);
-  const result = await client.agriService.createOrUpdate("rgopenapi", "abc123", {
+  const result = await client.agriService.update("rgopenapi", "abc123", {
+    identity: { type: "None", userAssignedIdentities: { key4771: {} } },
+    sku: {
+      name: "tbdtdfffkar",
+      tier: "Free",
+      size: "iusaqqj",
+      family: "hxojswlgs",
+      capacity: 22,
+    },
+    tags: { key9006: "kuzlwpujbql" },
     properties: {
       config: {},
-      managedOnBehalfOfConfiguration: {
-        moboBrokerResources: [],
-      },
       dataConnectorCredentials: [
         {
           key: "BackendAADApplicationCredentials",
@@ -33,22 +39,12 @@ async function agriServiceCreateOrUpdate(): Promise<void> {
         },
       ],
     },
-    identity: { type: "None", userAssignedIdentities: { key4955: {} } },
-    sku: {
-      name: "kfl",
-      tier: "Free",
-      size: "r",
-      family: "xerdhxyjwrypvxphavgrtjphtohf",
-      capacity: 20,
-    },
-    tags: { key137: "oxwansfetzzgdwl" },
-    location: "pkneuknooprpqirnugzwbkiie",
   });
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await agriServiceCreateOrUpdate();
+  await agriServiceUpdate();
 }
 
 main().catch(console.error);
