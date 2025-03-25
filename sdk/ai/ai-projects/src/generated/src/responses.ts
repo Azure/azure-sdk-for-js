@@ -5,8 +5,7 @@ import { RawHttpHeaders } from "@azure/core-rest-pipeline";
 import { HttpResponse, ErrorResponse } from "@azure-rest/core-client";
 import {
   AgentOutput,
-  OpenAIPageableListOfAgentOutput,
-  OpenAIPageableListOfVectorStoreOutput,
+  OpenAIPageableListOfOutput,
   AgentDeletionStatusOutput,
   AgentThreadOutput,
   ThreadDeletionStatusOutput,
@@ -29,10 +28,6 @@ import {
   PagedEvaluationOutput,
   EvaluationScheduleOutput,
   PagedEvaluationScheduleOutput,
-  OpenAIPageableListOfVectorStoreFileOutput,
-  OpenAIPageableListOfRunStepOutput,
-  OpenAIPageableListOfThreadRunOutput,
-  OpenAIPageableListOfThreadMessageOutput,
 } from "./outputModels.js";
 
 /** The new agent instance. */
@@ -55,7 +50,7 @@ export interface CreateAgentDefaultResponse extends HttpResponse {
 /** The requested list of agents. */
 export interface ListAgents200Response extends HttpResponse {
   status: "200";
-  body: OpenAIPageableListOfAgentOutput;
+  body: OpenAIPageableListOfOutput;
 }
 
 export interface ListAgentsDefaultHeaders {
@@ -208,7 +203,7 @@ export interface CreateMessageDefaultResponse extends HttpResponse {
 /** The requested list of messages. */
 export interface ListMessages200Response extends HttpResponse {
   status: "200";
-  body: OpenAIPageableListOfThreadMessageOutput;
+  body: OpenAIPageableListOfOutput;
 }
 
 export interface ListMessagesDefaultHeaders {
@@ -276,7 +271,7 @@ export interface CreateRunDefaultResponse extends HttpResponse {
 /** The requested list of thread runs. */
 export interface ListRuns200Response extends HttpResponse {
   status: "200";
-  body: OpenAIPageableListOfThreadRunOutput;
+  body: OpenAIPageableListOfOutput;
 }
 
 export interface ListRunsDefaultHeaders {
@@ -395,7 +390,7 @@ export interface GetRunStepDefaultResponse extends HttpResponse {
 /** The requested list of run steps. */
 export interface ListRunSteps200Response extends HttpResponse {
   status: "200";
-  body: OpenAIPageableListOfRunStepOutput;
+  body: OpenAIPageableListOfOutput;
 }
 
 export interface ListRunStepsDefaultHeaders {
@@ -497,7 +492,7 @@ export interface GetFileContentDefaultResponse extends HttpResponse {
 /** The request has succeeded. */
 export interface ListVectorStores200Response extends HttpResponse {
   status: "200";
-  body: OpenAIPageableListOfVectorStoreOutput;
+  body: OpenAIPageableListOfOutput;
 }
 
 export interface ListVectorStoresDefaultHeaders {
@@ -582,7 +577,7 @@ export interface DeleteVectorStoreDefaultResponse extends HttpResponse {
 /** The request has succeeded. */
 export interface ListVectorStoreFiles200Response extends HttpResponse {
   status: "200";
-  body: OpenAIPageableListOfVectorStoreFileOutput;
+  body: OpenAIPageableListOfOutput;
 }
 
 export interface ListVectorStoreFilesDefaultHeaders {
@@ -703,7 +698,7 @@ export interface CancelVectorStoreFileBatchDefaultResponse
 /** The request has succeeded. */
 export interface ListVectorStoreFileBatchFiles200Response extends HttpResponse {
   status: "200";
-  body: OpenAIPageableListOfVectorStoreFileOutput;
+  body: OpenAIPageableListOfOutput;
 }
 
 export interface ListVectorStoreFileBatchFilesDefaultHeaders {

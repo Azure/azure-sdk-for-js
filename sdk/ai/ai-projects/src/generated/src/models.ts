@@ -101,7 +101,7 @@ export interface BingGroundingToolDefinition extends ToolDefinitionParent {
   bing_grounding: ToolConnectionList;
 }
 
-/** A set of connection resources currently used by either the `bing_grounding`, `fabric_aiskill`, or `sharepoint_grounding` tools. */
+/** A set of connection resources currently used by either the `bing_grounding`, `fabric_dataagent`, or `sharepoint_grounding` tools. */
 export interface ToolConnectionList {
   /**
    * The connections attached to this tool. There can be a maximum of 1 connection
@@ -118,10 +118,10 @@ export interface ToolConnection {
 
 /** The input definition information for a Microsoft Fabric tool as used to configure an agent. */
 export interface MicrosoftFabricToolDefinition extends ToolDefinitionParent {
-  /** The object type, which is always 'fabric_aiskill'. */
-  type: "fabric_aiskill";
+  /** The object type, which is always 'fabric_dataagent'. */
+  type: "fabric_dataagent";
   /** The list of connections used by the Microsoft Fabric tool. */
-  fabric_aiskill: ToolConnectionList;
+  fabric_dataagent: ToolConnectionList;
 }
 
 /** The input definition information for a sharepoint tool as used to configure an agent. */
@@ -309,15 +309,25 @@ export interface AzureAISearchResource {
    * The indices attached to this agent. There can be a maximum of 1 index
    * resource attached to the agent.
    */
-  indexes?: Array<IndexResource>;
+  indexes?: Array<AISearchIndexResource>;
 }
 
-/** A Index resource. */
-export interface IndexResource {
+/** A AI Search Index resource. */
+export interface AISearchIndexResource {
   /** An index connection id in an IndexResource attached to this agent. */
   index_connection_id: string;
   /** The name of an index in an IndexResource attached to this agent. */
   index_name: string;
+  /**
+   * Type of query in an AIIndexResource attached to this agent.
+   *
+   * Possible values: "simple", "semantic", "vector", "vector_simple_hybrid", "vector_semantic_hybrid"
+   */
+  query_type?: AzureAISearchQueryType;
+  /** Number of documents to retrieve from search and present to the model. */
+  top_k?: number;
+  /** Odata filter string for search resource. */
+  filter?: string;
 }
 
 /**
@@ -527,7 +537,7 @@ export interface AgentsNamedToolChoice {
   /**
    * the type of tool. If type is `function`, the function name must be set.
    *
-   * Possible values: "function", "code_interpreter", "file_search", "bing_grounding", "fabric_aiskill", "sharepoint_grounding", "azure_ai_search"
+   * Possible values: "function", "code_interpreter", "file_search", "bing_grounding", "fabric_dataagent", "sharepoint_grounding", "azure_ai_search"
    */
   type: AgentsNamedToolChoiceType;
   /** The name of the function to call */
@@ -707,6 +717,8 @@ export interface VectorStoreUpdateOptions {
 export interface Evaluation {
   /** Data for evaluation. */
   data: InputData;
+  /** Evaluation target specifying the model config and parameters */
+  target?: EvaluationTarget;
   /** Display Name for evaluation. It helps to find the evaluation easily in AI Foundry. It does not need to be unique. */
   displayName?: string;
   /** Description of the evaluation. It can be used to store additional information about the evaluation and is mutable. */
@@ -731,7 +743,7 @@ export interface ApplicationInsightsConfiguration extends InputDataParent {
   /** Query to fetch the data. */
   query: string;
   /** Service name. */
-  serviceName: string;
+  serviceName?: string;
   /** Connection String to connect to ApplicationInsights. */
   connectionString?: string;
 }
@@ -740,6 +752,39 @@ export interface ApplicationInsightsConfiguration extends InputDataParent {
 export interface Dataset extends InputDataParent {
   /** Evaluation input data */
   id: string;
+}
+
+/** Target for the evaluation process. */
+export interface EvaluationTarget {
+  /** System message related to the evaluation target. */
+  systemMessage: string;
+  /** Model configuration for the evaluation. */
+  modelConfig: TargetModelConfig;
+  /** A dictionary of parameters for the model. */
+  modelParams?: Record<string, unknown>;
+}
+
+/** Abstract class for model configuration. */
+export interface TargetModelConfigParent {
+  type: string;
+}
+
+/** Azure OpenAI model configuration. The API version would be selected by the service for querying the model. */
+export interface AOAIModelConfig extends TargetModelConfigParent {
+  /** Endpoint URL for AOAI model. */
+  azureEndpoint: string;
+  /** API Key for AOAI model. */
+  apiKey: string;
+  /** Deployment name for AOAI model. */
+  azureDeployment: string;
+}
+
+/** MaaS model configuration. The API version would be selected by the service for querying the model. */
+export interface MAASModelConfig extends TargetModelConfigParent {
+  /** Endpoint URL for MAAS model. */
+  azureEndpoint: string;
+  /** API Key for MAAS model. */
+  apiKey: string;
 }
 
 /** Metadata pertaining to creation and last modification of the resource. */
@@ -836,12 +881,19 @@ export type InputData =
   | InputDataParent
   | ApplicationInsightsConfiguration
   | Dataset;
+/** Abstract class for model configuration. */
+export type TargetModelConfig =
+  | TargetModelConfigParent
+  | AOAIModelConfig
+  | MAASModelConfig;
 /** Abstract data class for input data configuration. */
 export type Trigger = TriggerParent | RecurrenceTrigger | CronTrigger;
 /** Alias for OpenApiAuthType */
 export type OpenApiAuthType = string;
 /** Alias for VectorStoreDataSourceAssetType */
 export type VectorStoreDataSourceAssetType = string;
+/** Alias for AzureAISearchQueryType */
+export type AzureAISearchQueryType = string;
 /** Alias for AgentsApiResponseFormatMode */
 export type AgentsApiResponseFormatMode = string;
 /** Alias for ResponseFormat */
@@ -860,6 +912,8 @@ export type MessageRole = string;
 export type MessageAttachmentToolDefinition =
   | CodeInterpreterToolDefinition
   | FileSearchToolDefinition;
+/** Alias for RunAdditionalFieldList */
+export type RunAdditionalFieldList = string;
 /** Alias for TruncationStrategy */
 export type TruncationStrategy = string;
 /** Alias for AgentsApiToolChoiceOptionMode */
@@ -879,13 +933,8 @@ export type VectorStoreExpirationPolicyAnchor = string;
 export type VectorStoreChunkingStrategyRequestType = string;
 /** Alias for VectorStoreFileStatusFilter */
 export type VectorStoreFileStatusFilter = string;
-/** The Type (or category) of the connection */
-export type ConnectionType =
-  | "AzureOpenAI"
-  | "Serverless"
-  | "AzureBlob"
-  | "AIServices"
-  | "CognitiveSearch";
+/** Alias for ConnectionType */
+export type ConnectionType = string;
 /** Alias for Frequency */
 export type Frequency = string;
 /** Alias for WeekDays */
