@@ -7,7 +7,7 @@ parameters:
 
 jobs:
 - job: PublishPackage
-  dependsOn: succeeded()
+  condition: succeeded()
   templateContext:
     type: releaseJob
     isProduction: ${{ eq(parameters.Registry, 'https://registry.npmjs.org/') }}
