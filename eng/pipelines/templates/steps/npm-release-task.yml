@@ -5,7 +5,8 @@ parameters:
   Tag: ''
   AdditionalTag: ''
 
--job:
+jobs:
+- job:
   templateContext:
     type: releaseJob
     isProduction: eq(parameters.Registry, 'https://registry.npmjs.org/')
@@ -13,7 +14,7 @@ parameters:
     - input: pipelineArtifact
       artifactName: ${{parameters.Artifact.name}}
       targetPath: "${{parameters.PathToArtifacts}}"
-  -steps:
+    steps:
     - template: /eng/common/pipelines/templates/steps/set-default-branch.yml
 
     - ${{ if eq(parameters.Registry, 'https://registry.npmjs.org/') }}:
