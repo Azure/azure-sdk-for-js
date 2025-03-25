@@ -1,0 +1,92 @@
+{
+  "name": "@azure-tests/perf-storage-blob",
+  "sdk-type": "perf-test",
+  "version": "1.0.0",
+  "description": "Performance tests for the Azure Storage Blob client library",
+  "type": "module",
+  "main": "./dist/commonjs/index.js",
+  "module": "./dist/esm/index.js",
+  "keywords": [
+    "azure",
+    "cloud"
+  ],
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "repository": "github:Azure/azure-sdk-for-js",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/storage/storage-blob-perf-tests/README.md",
+  "sideEffects": false,
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "import": {
+        "types": "./dist/esm/index.d.ts",
+        "default": "./dist/esm/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/index.d.ts",
+        "default": "./dist/commonjs/index.js"
+      }
+    }
+  },
+  "types": "./dist/commonjs/index.d.ts",
+  "files": [
+    "dist/",
+    "README.md",
+    "LICENSE"
+  ],
+  "private": true,
+  "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
+  "dependencies": {
+    "@azure-tools/test-perf": "^1.0.0",
+    "@azure/core-rest-pipeline": "^1.19.1",
+    "@azure/storage-blob": "^12.27.0",
+    "dotenv": "^16.0.0",
+    "tslib": "^2.8.1"
+  },
+  "devDependencies": {
+    "@azure/dev-tool": "^1.0.0",
+    "@azure/eslint-plugin-azure-sdk": "^3.0.0",
+    "@types/node": "^18.0.0",
+    "eslint": "^9.9.0",
+    "typescript": "~5.8.2"
+  },
+  "scripts": {
+    "build": "npm run clean && dev-tool run build-package",
+    "build:samples": "echo skipped",
+    "build:test": "echo skipped",
+    "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../../.prettierignore \"src/**/*.ts\" \"*.{js,json}\"",
+    "clean": "dev-tool run vendored rimraf --glob dist dist-* types *.tgz *.log",
+    "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../../.prettierignore \"src/**/*.ts\" \"*.{js,json}\"",
+    "integration-test": "echo skipped",
+    "integration-test:browser": "echo skipped",
+    "integration-test:node": "echo skipped",
+    "lint": "dev-tool run vendored eslint -c ../../../common/tools/eslint-plugin-azure-sdk/eslint.perftests.config.mjs src",
+    "lint:fix": "dev-tool run vendored eslint -c ../../../common/tools/eslint-plugin-azure-sdk/eslint.perftests.config.mjs src --fix --fix-type [problem,suggestion]",
+    "pack": "npm pack 2>&1",
+    "perf-test:node": "npm run build && node dist/esm/index.js",
+    "test": "echo skipped",
+    "test:browser": "echo skipped",
+    "test:node": "echo skipped",
+    "unit-test": "echo skipped",
+    "unit-test:browser": "echo skipped",
+    "unit-test:node": "echo skipped",
+    "update-snippets": "dev-tool run update-snippets"
+  },
+  "tshy": {
+    "exports": {
+      "./package.json": "./package.json",
+      ".": "./src/index.ts"
+    },
+    "dialects": [
+      "esm",
+      "commonjs"
+    ],
+    "selfLink": false
+  }
+}
