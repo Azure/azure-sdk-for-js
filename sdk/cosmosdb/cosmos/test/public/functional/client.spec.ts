@@ -13,6 +13,7 @@ import {
 } from "../common/TestHelpers.js";
 import { UsernamePasswordCredential } from "@azure/identity";
 import { defaultConnectionPolicy } from "../../../src/documents/index.js";
+import { describe, it, assert } from "vitest";
 
 describe("Client Tests", function () {
   this.timeout(process.env.MOCHA_TIMEOUT || 200000);

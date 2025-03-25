@@ -13,6 +13,7 @@ import {
   generateDocuments,
 } from "../common/TestHelpers.js";
 import type { FeedResponse, FeedOptions } from "../../../src/index.js";
+import { describe, it, assert } from "vitest";
 
 function compare(key: string) {
   return function (a: any, b: any): number {

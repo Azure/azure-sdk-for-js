@@ -49,11 +49,11 @@ import {
   verifyDiagnostics,
 } from "../common/encryptionTestHelpers.js";
 import { removeAllDatabases } from "../common/TestHelpers.js";
-import { assert } from "chai";
 import {
   CosmosEncryptedNumber,
   CosmosEncryptedNumberType,
 } from "../../../src/encryption/CosmosEncryptedNumber.js";
+import { describe, it, assert } from "vitest";
 
 let encryptionClient: CosmosClient;
 let metadata1: EncryptionKeyWrapMetadata;

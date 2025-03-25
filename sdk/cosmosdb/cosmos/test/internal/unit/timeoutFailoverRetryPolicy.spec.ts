@@ -12,6 +12,7 @@ import { StatusCodes } from "../../../src/common/statusCodes.js";
 import { TimeoutError } from "../../../src/request/TimeoutError.js";
 import { getEmptyCosmosDiagnostics } from "../../../src/utils/diagnostics.js";
 import { createDummyDiagnosticNode } from "../../public/common/TestHelpers.js";
+import { describe, it, assert } from "vitest";
 
 describe("TimeoutFailoverRetryPolicy", function () {
   const databaseAccountBody: any = {

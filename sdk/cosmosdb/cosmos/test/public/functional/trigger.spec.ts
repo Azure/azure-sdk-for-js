@@ -4,6 +4,7 @@ import assert from "node:assert";
 import { TriggerOperation, TriggerType } from "../../../src/index.js";
 import type { TriggerDefinition, Container } from "../../../src/index.js";
 import { getTestContainer, removeAllDatabases } from "../common/TestHelpers.js";
+import { describe, it, assert } from "vitest";
 
 const notFoundErrorCode = 404;
 

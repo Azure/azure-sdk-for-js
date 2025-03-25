@@ -30,6 +30,7 @@ import type { PartitionKey, PartitionKeyDefinition } from "../../../../src/docum
 import { PartitionKeyDefinitionVersion, PartitionKeyKind } from "../../../../src/documents/index.js";
 import { PriorityLevel } from "../../../../src/documents/PriorityLevel.js";
 import { getCurrentTimestampInMs } from "../../../../src/utils/time.js";
+import { describe, it, assert } from "vitest";
 
 /**
  * Tests Item api.

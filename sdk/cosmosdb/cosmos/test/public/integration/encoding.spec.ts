@@ -3,6 +3,7 @@
 import assert from "node:assert";
 import { IndexingMode } from "../../../src/index.js";
 import { getTestDatabase, removeAllDatabases } from "../common/TestHelpers.js";
+import { describe, it, assert } from "vitest";
 
 const testDoc = {
   id: "ABC",

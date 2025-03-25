@@ -9,6 +9,7 @@ import {
 } from "../../../../src/encryption/index.js";
 import { TypeMarker } from "../../../../src/encryption/enums/TypeMarker.js";
 import { JSONArray, JSONObject } from "../../../../src/index.js";
+import { describe, it, assert } from "vitest";
 
 describe("EncryptionQueryBuilder.addParameter", () => {
   it("should add a null parameter", () => {

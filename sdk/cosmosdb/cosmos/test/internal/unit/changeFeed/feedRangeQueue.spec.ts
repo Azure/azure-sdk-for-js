@@ -4,6 +4,7 @@
 import assert from "node:assert";
 import { FeedRangeQueue } from "../../../../src/client/ChangeFeed/FeedRangeQueue.js";
 import { ChangeFeedRange } from "../../../../src/client/ChangeFeed/ChangeFeedRange.js";
+import { describe, it, assert } from "vitest";
 
 const feedRanges = [
   {

@@ -4,6 +4,7 @@ import assert from "node:assert";
 import { CosmosClient } from "../../../src/index.js";
 import { getTestDatabase } from "../common/TestHelpers.js";
 import https from "node:https";
+import { describe, it, assert } from "vitest";
 
 const endpoint = "https://localhost:8081";
 const masterKey =

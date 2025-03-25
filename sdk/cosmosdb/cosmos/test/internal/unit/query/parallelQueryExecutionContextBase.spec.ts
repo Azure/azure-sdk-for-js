@@ -1,7 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import sinon from "sinon";
 import type {
   FeedOptions,
   PartitionKeyRange,
@@ -12,12 +10,13 @@ import type {
 import { CosmosDbDiagnosticLevel } from "../../../../src/index.js";
 import type { ClientContext } from "../../../../src/index.js";
 import { TestParallelQueryExecutionContext } from "../common/TestParallelQueryExecutionContext.js";
-import { assert } from "chai";
 import {
   createDummyDiagnosticNode,
   createTestClientContext,
   initializeMockPartitionKeyRanges,
 } from "../../../public/common/TestHelpers.js";
+import { describe, it, assert, beforeEach } from "vitest";
+
 describe("parallelQueryExecutionContextBase", function () {
   const collectionLink = "/dbs/testDb/colls/testCollection"; // Sample collection link
   const query = "SELECT * FROM c"; // Example query string or SqlQuerySpec object

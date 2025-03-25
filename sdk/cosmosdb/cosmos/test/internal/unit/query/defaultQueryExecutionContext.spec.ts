@@ -7,6 +7,7 @@ import assert from "node:assert";
 import { sleep } from "../../../../src/common/index.js";
 import { createDummyDiagnosticNode } from "../../../public/common/TestHelpers.js";
 import { getEmptyCosmosDiagnostics } from "../../../../src/utils/diagnostics.js";
+import { describe, it, assert } from "vitest";
 
 describe("defaultQueryExecutionContext", function () {
   it("should not buffer items if bufferItems is false", async function () {

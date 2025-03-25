@@ -22,7 +22,6 @@ import {
   GlobalEndpointManager,
   ItemResponse,
 } from "../../../src/index.js";
-import { expect } from "chai";
 import { getCurrentTimestampInMs } from "../../../src/utils/time.js";
 import {
   DiagnosticNodeInternal,
@@ -34,6 +33,7 @@ import {
   getDiagnosticLevelFromEnvironment,
   setDiagnosticLevel,
 } from "../../../src/diagnostics/index.js";
+import { describe, it } from "vitest";
 
 describe("Diagnostic Unit Tests", function () {
   describe("Test withDiagnostics utility function", function () {

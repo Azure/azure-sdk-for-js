@@ -4,6 +4,7 @@
 import assert from "node:assert";
 import type { ContainerDefinition, Container } from "../../../src/index.js";
 import { getTestContainer, removeAllDatabases, readAndParseJSONFile } from "../common/TestHelpers.js";
+import { describe, it, assert } from "vitest";
 
 describe("Validate full text search queries", function () {
   this.timeout(process.env.MOCHA_TIMEOUT || 20000);

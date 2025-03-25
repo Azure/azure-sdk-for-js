@@ -3,6 +3,7 @@
 import assert from "node:assert";
 import type { Container, FeedOptions } from "../../../src/index.js";
 import { getTestContainer, getTestDatabase, removeAllDatabases } from "../common/TestHelpers.js";
+import { describe, it, assert } from "vitest";
 
 const doc = { id: "myId", pk: "pk" };
 

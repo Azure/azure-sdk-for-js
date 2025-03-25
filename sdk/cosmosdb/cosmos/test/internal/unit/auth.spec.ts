@@ -3,6 +3,7 @@
 
 import { getAuthorizationTokenUsingResourceTokens } from "../../../src/auth.js";
 import assert from "node:assert";
+import { describe, it, assert } from "vitest";
 
 describe("NodeJS CRUD Tests", function () {
   this.timeout(process.env.MOCHA_TIMEOUT || 10000);

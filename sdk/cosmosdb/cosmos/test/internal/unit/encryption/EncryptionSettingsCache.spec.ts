@@ -6,6 +6,7 @@ import type { ClientEncryptionPolicy } from "../../../../src/index.js";
 import { EncryptionAlgorithm, EncryptionType } from "../../../../src/index.js";
 import { ClientEncryptionIncludedPath, EncryptionSettings } from "../../../../src/encryption/index.js";
 import { EncryptionSettingsCache } from "../../../../src/encryption/Cache/EncryptionSettingsCache.js";
+import { describe, it, assert } from "vitest";
 
 describe("EncryptionSettingsCache", function () {
   it("should create and set encryption settings", async function () {

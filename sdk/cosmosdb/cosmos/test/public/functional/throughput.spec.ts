@@ -6,10 +6,10 @@ import { OperationType, ResourceType, Constants } from "../../../src/common/inde
 import { CosmosClient } from "../../../src/index.js";
 import { endpoint } from "../common/_testConfig.js";
 import { masterKey } from "../common/_fakeTestSecrets.js";
-import { expect } from "chai";
 import { PriorityLevel } from "../../../src/documents/PriorityLevel.js";
 import { BulkOperationType } from "../../../src/index.js";
 import { addEntropy, removeAllDatabases, createOrUpsertItem } from "../common/TestHelpers.js";
+import { describe, it, assert } from "vitest";
 
 interface TestItem {
   id?: string;

@@ -3,6 +3,7 @@
 
 import assert from "node:assert";
 import { KeyEncryptionKeyCache } from "../../../../src/encryption/Cache/KeyEncryptionKeyCache.js";
+import { describe, it, assert } from "vitest";
 
 describe("KeyEncryptionKeyCache", function () {
   it("should create and cache a new KeyEncryptionKey if not exists", function () {

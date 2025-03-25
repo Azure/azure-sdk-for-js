@@ -10,6 +10,7 @@ import {
 import { getTestDatabase } from "../common/TestHelpers.js";
 import type { Database } from "../../../src/client/Database/Database.js";
 import type { Container } from "../../../src/client/index.js";
+import { describe, it, assert } from "vitest";
 
 // Skipping these tests as they are not supported by public emulator
 describe("Vector search feature", async () => {

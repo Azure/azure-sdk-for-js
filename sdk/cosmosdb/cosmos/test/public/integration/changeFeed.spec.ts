@@ -5,6 +5,7 @@ import type { RequestOptions } from "../../../src/index.js";
 import type { Container, ContainerDefinition } from "../../../src/index.js";
 import { PartitionKeyDefinitionVersion, PartitionKeyKind } from "../../../src/documents/index.js";
 import { getTestContainer, removeAllDatabases } from "../common/TestHelpers.js";
+import { describe, it, assert } from "vitest";
 
 describe("Change Feed Iterator", function () {
   this.timeout(process.env.MOCHA_TIMEOUT || 20000);

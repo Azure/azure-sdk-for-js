@@ -3,6 +3,8 @@
 import assert from "node:assert";
 import { Constants } from "../../../src/common/constants.js";
 import { getUserAgent } from "../../../src/common/platform.js";
+import { describe, it, assert } from "vitest";
+
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 const packageJson = require("../../../package.json");
 const packageVersion = packageJson["version"];

@@ -4,6 +4,7 @@ import assert from "node:assert";
 import type { Database } from "../../../src/index.js";
 import { DataType, IndexKind } from "../../../src/index.js";
 import { createOrUpsertItem, getTestDatabase, removeAllDatabases } from "../common/TestHelpers.js";
+import { describe, it, assert } from "vitest";
 
 describe("Spatial Indexes", function () {
   this.timeout(process.env.MOCHA_TIMEOUT || 10000);

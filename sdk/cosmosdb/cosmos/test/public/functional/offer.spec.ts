@@ -5,6 +5,7 @@ import { Constants, CosmosClient } from "../../../src/index.js";
 import { endpoint } from "../common/_testConfig.js";
 import { masterKey } from "../common/_fakeTestSecrets.js";
 import { getTestContainer, removeAllDatabases } from "../common/TestHelpers.js";
+import { describe, it, assert } from "vitest";
 
 const client = new CosmosClient({
   endpoint,

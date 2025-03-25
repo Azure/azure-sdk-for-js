@@ -7,7 +7,7 @@ import { CosmosClient } from "../../../src/index.js";
 import { addEntropy, removeAllDatabases } from "../common/TestHelpers.js";
 import { endpoint } from "../common/_testConfig.js";
 import { masterKey } from "../common/_fakeTestSecrets.js";
-import { expect } from "chai";
+import { describe, it, assert } from "vitest";
 
 describe("Timeout", function () {
   beforeEach(async () => {

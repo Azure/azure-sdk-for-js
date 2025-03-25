@@ -27,7 +27,8 @@ import {
   ErrorResponse,
   StatusCodes,
 } from "../../../src/index.js";
-import { assert } from "chai";
+import { assert } from "vitest";
+
 export class MockKeyVaultEncryptionKeyResolver implements EncryptionKeyResolver {
   encryptionKeyResolverName = EncryptionKeyResolverName.AzureKeyVault;
   private keyInfo: { [key: string]: number } = {

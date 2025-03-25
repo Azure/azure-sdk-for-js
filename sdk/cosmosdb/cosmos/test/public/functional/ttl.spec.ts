@@ -4,6 +4,7 @@ import assert from "node:assert";
 import type { Container, ContainerDefinition, Database } from "../../../src/index.js";
 import { getTestDatabase, removeAllDatabases } from "../common/TestHelpers.js";
 import { StatusCodes } from "../../../src/index.js";
+import { describe, it, assert } from "vitest";
 
 async function sleep(time: number): Promise<unknown> {
   return new Promise((resolve) => {
