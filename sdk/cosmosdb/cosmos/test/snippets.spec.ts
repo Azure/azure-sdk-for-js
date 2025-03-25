@@ -47,8 +47,8 @@ describe("snippets", () => {
     const key = "<database account masterkey>";
     const client = new CosmosClient({ endpoint, key });
     // @ts-preserve-whitespace
+    // @ts-ignore
     const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
-    console.log(database.id);
   });
 
   it("ReadmeSampleCreateContainer", async () => {
@@ -57,9 +57,8 @@ describe("snippets", () => {
     const client = new CosmosClient({ endpoint, key });
     // @ts-preserve-whitespace
     const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
-    // @ts-preserve-whitespace
+    // @ts-ignore
     const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
-    console.log(container.id);
   });
 
   it("ReadmeSampleCreateContainerWithPartitionKey", async () => {
@@ -206,8 +205,8 @@ describe("snippets", () => {
         kind: PartitionKeyKind.MultiHash,
       },
     };
+    // @ts-ignore
     const { container } = await database.containers.createIfNotExists(containerDefinition);
-    console.log(container.id);
   });
 
   it("ReadmeSampleInsertItemWithHierarchicalPartitionKey", async () => {
@@ -275,14 +274,12 @@ describe("snippets", () => {
     };
     const { container } = await database.containers.createIfNotExists(containerDefinition);
     // @ts-preserve-whitespace
+    // @ts-ignore
     const { resources } = await container.items
       .query("SELECT * from c WHERE c.active = true", {
         partitionKey: ["foo", 100],
       })
       .fetchAll();
-    for (const item of resources) {
-      console.log(`${item.name}, ${item.address.zip} `);
-    }
   });
 
   it("ReadmeSampleDeleteItem", async () => {
@@ -307,12 +304,10 @@ describe("snippets", () => {
     // @ts-preserve-whitespace
     const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
     // @ts-preserve-whitespace
+    // @ts-ignore
     const { resources } = await container.items
       .query("SELECT * from c WHERE c.isCapitol = true")
       .fetchAll();
-    for (const city of resources) {
-      console.log(`${city.name}, ${city.state} is a capitol `);
-    }
   });
 
   it("ReadmeSampleQueryDatabaseWithParameters", async () => {
@@ -324,15 +319,13 @@ describe("snippets", () => {
     // @ts-preserve-whitespace
     const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
     // @ts-preserve-whitespace
+    // @ts-ignore
     const { resources } = await container.items
       .query({
         query: "SELECT * from c WHERE c.isCapitol = @isCapitol",
         parameters: [{ name: "@isCapitol", value: true }],
       })
       .fetchAll();
-    for (const city of resources) {
-      console.log(`${city.name}, ${city.state} is a capitol `);
-    }
   });
 
   it("ReadmeSampleChangeFeedPullModelIteratorBeginning", async () => {

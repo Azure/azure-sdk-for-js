@@ -273,9 +273,7 @@ export class Containers {
    * const client = new CosmosClient({ endpoint, key });
    *
    * const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
-   *
    * const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
-   * console.log(container.id);
    * ```
    */
   public async createIfNotExists(

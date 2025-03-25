@@ -221,7 +221,6 @@ export class Databases {
    * const client = new CosmosClient({ endpoint, key });
    *
    * const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
-   * console.log(database.id);
    * ```
    */
   public async createIfNotExists(

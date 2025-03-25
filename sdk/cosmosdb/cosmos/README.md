@@ -108,7 +108,6 @@ const key = "<database account masterkey>";
 const client = new CosmosClient({ endpoint, key });
 
 const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
-console.log(database.id);
 ```
 
 ### Create a container
@@ -123,9 +122,7 @@ const key = "<database account masterkey>";
 const client = new CosmosClient({ endpoint, key });
 
 const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
-
 const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
-console.log(container.id);
 ```
 
 ### Using Partition Keys
@@ -255,7 +252,6 @@ const containerDefinition = {
   },
 };
 const { container } = await database.containers.createIfNotExists(containerDefinition);
-console.log(container.id);
 ```
 
 Insert an item with hierarchical partition key defined as - `["/name", "/address/zip"]`
@@ -340,9 +336,6 @@ const { resources } = await container.items
     partitionKey: ["foo", 100],
   })
   .fetchAll();
-for (const item of resources) {
-  console.log(`${item.name}, ${item.address.zip} `);
-}
 ```
 
 ### Delete an item
@@ -382,9 +375,6 @@ const { container } = await database.containers.createIfNotExists({ id: "Test Co
 const { resources } = await container.items
   .query("SELECT * from c WHERE c.isCapitol = true")
   .fetchAll();
-for (const city of resources) {
-  console.log(`${city.name}, ${city.state} is a capitol `);
-}
 ```
 
 Perform parameterized queries by passing an object containing the parameters and their values to [Items.query](https://learn.microsoft.com/javascript/api/@azure/cosmos/items?view=azure-node-latest#query-string---sqlqueryspec--feedoptions-):
@@ -406,9 +396,6 @@ const { resources } = await container.items
     parameters: [{ name: "@isCapitol", value: true }],
   })
   .fetchAll();
-for (const city of resources) {
-  console.log(`${city.name}, ${city.state} is a capitol `);
-}
 ```
 
 For more information on querying Cosmos DB databases using the SQL API, see [Query Azure Cosmos DB data with SQL queries][cosmos_sql_queries].
