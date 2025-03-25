@@ -1,3 +1,14 @@
 {
-  "extends": "../../../tsconfig.lib.json"
+  "extends": "../../../tsconfig.lib.json",
+  "compilerOptions": {
+    "composite": true,
+    "stripInternal": true,
+    "resolveJsonModule": true,
+    "preserveConstEnums": true,
+    "removeComments": false,
+    "strict": false,
+    "noImplicitAny": true,
+    "noImplicitReturns": false,
+    "noFallthroughCasesInSwitch": false
+  }
 }

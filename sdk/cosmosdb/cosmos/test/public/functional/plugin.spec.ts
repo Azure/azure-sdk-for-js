@@ -1,18 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-/* eslint-disable no-unused-expressions */
-import type { CosmosClientOptions } from "../../../src/index.js";
+
+import type { CosmosClientOptions, DatabaseDefinition, Resource } from "../../../src/index.js";
 import { CosmosClient } from "../../../src/index.js";
 import type { RequestContext } from "../../../src/index.js";
 import type { Plugin, Next, PluginConfig } from "../../../src/index.js";
-
-import * as assert from "node:assert";
 import type { DiagnosticNodeInternal } from "../../../src/diagnostics/DiagnosticNodeInternal.js";
 import { getEmptyCosmosDiagnostics } from "../../../src/utils/diagnostics.js";
 import { describe, it, assert } from "vitest";
 
-describe("Plugin", function () {
-  it("should handle all requests", async function () {
+describe("Plugin", () => {
+  it("should handle all requests", async () => {
     const successResponse = {
       headers: {},
       code: 200,
@@ -27,7 +25,7 @@ describe("Plugin", function () {
       context: RequestContext,
       diagNode: DiagnosticNodeInternal,
     ) => {
-      expect(diagNode, "DiagnosticsNode should not be undefined or null").to.exist;
+      assert.isDefined(diagNode, "DiagnosticsNode should not be undefined or null");
       requestCount++;
       if (context.path.includes("dbs") && requestCount <= FAILCOUNT) {
         throw {
@@ -54,11 +52,14 @@ describe("Plugin", function () {
     assert.equal(requestCount, FAILCOUNT + 1); // Get Database Account + FAILED GET Database + Get Database
     assert.notEqual(response, undefined);
     assert.equal(response.statusCode, successResponse.code);
-    assert.deepEqual(response.resource, successResponse.result);
+    assert.deepEqual(
+      response.resource,
+      successResponse.result as any as DatabaseDefinition & Resource,
+    );
     client.dispose();
   });
 
-  it("should handle all operations", async function () {
+  it("should handle all operations", async () => {
     const successResponse = {
       headers: {},
       code: 200,
@@ -97,11 +98,14 @@ describe("Plugin", function () {
     assert.equal(requestCount, 2); // Get Database Account + Get Database
     assert.notEqual(response, undefined);
     assert.equal(response.statusCode, successResponse.code);
-    assert.deepEqual(response.resource, successResponse.result);
+    assert.deepEqual(
+      response.resource,
+      successResponse.result as any as DatabaseDefinition & Resource,
+    );
     client.dispose();
   });
 
-  it("should allow next to be called", async function () {
+  it("should allow next to be called", async () => {
     const successResponse = {
       headers: {},
       code: 200,
@@ -119,7 +123,7 @@ describe("Plugin", function () {
     let requestCount = 0;
     let responseCount = 0;
     const counts: Plugin<any> = async (context: RequestContext, diagNode, next: Next<any>) => {
-      expect(diagNode, "DiagnosticsNode should not be undefined or null").to.exist;
+      assert.isDefined(diagNode, "DiagnosticsNode should not be undefined or null");
       requestCount++;
       const response = await next(context);
       responseCount++;
@@ -149,7 +153,10 @@ describe("Plugin", function () {
     assert.equal(innerRequestCount, 2); // Get Database Account + Get Database
     assert.notEqual(response, undefined);
     assert.equal(response.statusCode, successResponse.code);
-    assert.deepEqual(response.resource, successResponse.result);
+    assert.deepEqual(
+      response.resource,
+      successResponse.result as any as DatabaseDefinition & Resource,
+    );
     client.dispose();
   });
 });

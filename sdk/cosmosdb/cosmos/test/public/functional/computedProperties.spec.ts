@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import assert from "node:assert";
+
 import type { ComputedProperty } from "../../../src/documents/ComputedProperty.js";
 import type { IndexingPolicy } from "../../../src/documents/IndexingPolicy.js";
 import { createOrUpsertItem, getTestDatabase, removeAllDatabases } from "../common/TestHelpers.js";
 import type { Container } from "../../../src/client/Container/Container.js";
-import { describe, it, assert } from "vitest";
+import { describe, it, assert, beforeEach, beforeAll } from "vitest";
 
 // As of the current emulator release (March 23), computed properties are not supported,
 // hence, we are temporarily excluding these tests.
@@ -23,7 +23,8 @@ describe.skip("Computed Properties test", async () => {
   let allComputedPropertiesResult: any;
   let emptyResult: any;
   let sampleItems: any;
-  before(async function () {
+
+  beforeAll(async () => {
     lowerName = {
       name: "lowerLastName",
       query:
@@ -120,28 +121,25 @@ describe.skip("Computed Properties test", async () => {
     await removeAllDatabases();
   });
 
-  it("empty computed property", async function () {
+  it("empty computed property", async () => {
     // create container
-    const container: Container = await createContainer("empty computed property", []);
+    const container = await createContainer("empty computed property", []);
     const { resources: results } = await container.items
       .query(selectAllComputedPropertiesQuery)
       .fetchAll();
     assert.deepStrictEqual(results, emptyResult);
   });
 
-  it("all computed properties, no indexing", async function () {
-    const container: Container = await createContainer(
-      "all computed properties",
-      allComputedProperties,
-    );
+  it("all computed properties, no indexing", async () => {
+    const container = await createContainer("all computed properties", allComputedProperties);
     const { resources: results } = await container.items
       .query(selectAllComputedPropertiesQuery)
       .fetchAll();
     assert.deepStrictEqual(results, allComputedPropertiesResult);
   });
 
-  it("all computed properties, indexed, exclude /*", async function () {
-    const container: Container = await createContainer(
+  it("all computed properties, indexed, exclude /*", async () => {
+    const container = await createContainer(
       "all computed properties, indexed, exclude all",
       allComputedProperties,
       indexAllComputedProperties_ExcludeAll,
@@ -152,8 +150,8 @@ describe.skip("Computed Properties test", async () => {
     assert.deepStrictEqual(results, allComputedPropertiesResult);
   });
 
-  it("all computed properties, indexed, include /*", async function () {
-    const container: Container = await createContainer(
+  it("all computed properties, indexed, include /*", async () => {
+    const container = await createContainer(
       "all computed properties, indexed, include all",
       allComputedProperties,
       indexAllComputedPropertiesIncludeAll,
@@ -164,8 +162,8 @@ describe.skip("Computed Properties test", async () => {
     assert.deepStrictEqual(results, allComputedPropertiesResult);
   });
 
-  it("all computed properties, not indexed, exclude /*", async function () {
-    const container: Container = await createContainer(
+  it("all computed properties, not indexed, exclude /*", async () => {
+    const container = await createContainer(
       "all computed properties, not indexed, exclude all",
       allComputedProperties,
       indexDefaultExcludeAll,
@@ -176,8 +174,8 @@ describe.skip("Computed Properties test", async () => {
     assert.deepStrictEqual(results, allComputedPropertiesResult);
   });
 
-  it("all computed properties, not indexed, include /*", async function () {
-    const container: Container = await createContainer(
+  it("all computed properties, not indexed, include /*", async () => {
+    const container = await createContainer(
       "all computed properties, not indexed, include all",
       allComputedProperties,
       indexDefaultIncludeAll,
@@ -189,15 +187,15 @@ describe.skip("Computed Properties test", async () => {
   });
 
   // replace test
-  it("replace computed property for a contianer", async function () {
+  it("replace computed property for a container", async () => {
     const database = await getTestDatabase("sample database");
     // create container
     const { resource: containerdef } = await database.containers.createIfNotExists({
-      id: "replace computed property for a contianer",
+      id: "replace computed property for a container",
       computedProperties: [lowerName],
       indexingPolicy: indexDefaultIncludeAll,
     });
-    const container: Container = database.container(containerdef.id);
+    const container = database.container(containerdef.id);
     await createOrUpsertItem(container, sampleItems[0], undefined, false);
     await createOrUpsertItem(container, sampleItems[1], undefined, false);
     const { resources: results1 } = await container.items
@@ -227,7 +225,7 @@ describe.skip("Computed Properties test", async () => {
     assert.deepStrictEqual(results2, output2);
   });
 
-  it("delete computed property for a contianer", async function () {
+  it("delete computed property for a container", async () => {
     const database = await getTestDatabase("sample database");
     // create container
     const { resource: containerdef } = await database.containers.createIfNotExists({
@@ -235,7 +233,7 @@ describe.skip("Computed Properties test", async () => {
       computedProperties: [lowerName],
       indexingPolicy: indexDefaultIncludeAll,
     });
-    const container: Container = database.container(containerdef.id);
+    const container = database.container(containerdef.id);
     await createOrUpsertItem(container, sampleItems[0], undefined, false);
     await createOrUpsertItem(container, sampleItems[1], undefined, false);
     const { resources: results1 } = await container.items
@@ -263,7 +261,7 @@ describe.skip("Computed Properties test", async () => {
     containerName: string,
     computedProperties: ComputedProperty[],
     indexingPolicy?: IndexingPolicy,
-  ): Promise<void> {
+  ): Promise<Container> {
     const database = await getTestDatabase("sample database");
     // create container
     const { resource: containerdef } = await database.containers.createIfNotExists({
@@ -271,7 +269,7 @@ describe.skip("Computed Properties test", async () => {
       computedProperties: computedProperties,
       indexingPolicy: indexingPolicy,
     });
-    const container: Container = database.container(containerdef.id);
+    const container = database.container(containerdef.id);
     await createOrUpsertItem(container, sampleItems[0], undefined, false);
     await createOrUpsertItem(container, sampleItems[1], undefined, false);
     return container;

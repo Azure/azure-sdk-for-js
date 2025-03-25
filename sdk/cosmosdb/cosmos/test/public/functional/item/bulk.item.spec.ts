@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import assert from "node:assert";
 import type {
   BulkOptions,
   Container,
@@ -31,12 +30,12 @@ import { endpoint } from "../../common/_testConfig.js";
 import { masterKey } from "../../common/_fakeTestSecrets.js";
 import { getCurrentTimestampInMs } from "../../../../src/utils/time.js";
 import { SubStatusCodes } from "../../../../src/common/index.js";
-import { describe, it, assert } from "vitest";
+import { describe, it, assert, beforeAll, afterAll } from "vitest";
 
-describe("test bulk operations", async function () {
-  describe("Check size based splitting of batches", function () {
+describe("test bulk operations", async () => {
+  describe("Check size based splitting of batches", () => {
     let container: Container;
-    before(async function () {
+    beforeAll(async () => {
       container = await getTestContainer("bulk container", undefined, {
         partitionKey: {
           paths: ["/key"],
@@ -45,10 +44,12 @@ describe("test bulk operations", async function () {
         throughput: 5000,
       });
     });
-    after(async () => {
+
+    afterAll(async () => {
       await container.database.delete();
     });
-    it("Check case when cumulative size of all operations is less than threshold", async function () {
+
+    it("Check case when cumulative size of all operations is less than threshold", async () => {
       const operations: OperationInput[] = [...Array(10).keys()].map(
         () =>
           ({
@@ -61,7 +62,8 @@ describe("test bulk operations", async function () {
         assert.strictEqual(res.statusCode, 201, `Status should be 201 for operation ${index}`),
       );
     });
-    it("Check case when cumulative size of all operations is greater than threshold - payload size is 5x threshold", async function () {
+
+    it("Check case when cumulative size of all operations is greater than threshold - payload size is 5x threshold", async () => {
       const operations: OperationInput[] = [...Array(10).keys()].map(
         () =>
           ({
@@ -77,7 +79,8 @@ describe("test bulk operations", async function () {
         assert.strictEqual(res.statusCode, 201, `Status should be 201 for operation ${index}`),
       );
     });
-    it("Check case when cumulative size of all operations is greater than threshold - payload size is 25x threshold", async function () {
+
+    it("Check case when cumulative size of all operations is greater than threshold - payload size is 25x threshold", async () => {
       const operations: OperationInput[] = [...Array(50).keys()].map(
         () =>
           ({
@@ -95,13 +98,15 @@ describe("test bulk operations", async function () {
       );
     });
   });
-  describe("v1 container", async function () {
-    describe("multi partition container", async function () {
+
+  describe("v1 container", async () => {
+    describe("multi partition container", async () => {
       let container: Container;
       let readItemId: string;
       let replaceItemId: string;
       let deleteItemId: string;
-      before(async function () {
+
+      beforeAll(async () => {
         container = await getTestContainer("bulk container", undefined, {
           partitionKey: {
             paths: ["/key"],
@@ -128,10 +133,12 @@ describe("test bulk operations", async function () {
           class: "2010",
         });
       });
-      after(async () => {
+
+      afterAll(async () => {
         await container.database.delete();
       });
-      it("multi partition container handles create, upsert, replace, delete", async function () {
+
+      it("multi partition container handles create, upsert, replace, delete", async () => {
         const operations = [
           {
             operationType: BulkOperationType.Create,
@@ -175,7 +182,7 @@ describe("test bulk operations", async function () {
         assert.equal(response[4].resourceBody.name, "nice");
         assert.equal(response[4].statusCode, 200);
       });
-      it("Check case when cumulative size of all operations is less than threshold", async function () {
+      it("Check case when cumulative size of all operations is less than threshold", async () => {
         const operations: OperationInput[] = [...Array(10).keys()].map(
           () =>
             ({
@@ -188,7 +195,7 @@ describe("test bulk operations", async function () {
           assert.strictEqual(res.statusCode, 201, `Status should be 201 for operation ${index}`),
         );
       });
-      it("Check case when cumulative size of all operations is greater than threshold", async function () {
+      it("Check case when cumulative size of all operations is greater than threshold", async () => {
         const operations: OperationInput[] = [...Array(10).keys()].map(
           () =>
             ({
@@ -204,7 +211,8 @@ describe("test bulk operations", async function () {
           assert.strictEqual(res.statusCode, 201, `Status should be 201 for operation ${index}`),
         );
       });
-      it("Check case when cumulative size of all operations is greater than threshold", async function () {
+
+      it("Check case when cumulative size of all operations is greater than threshold", async () => {
         const operations: OperationInput[] = [...Array(50).keys()].map(
           () =>
             ({
@@ -222,12 +230,14 @@ describe("test bulk operations", async function () {
         );
       });
     });
-    describe("single partition container", async function () {
+
+    describe("single partition container", async () => {
       let container: Container;
       let deleteItemId: string;
       let readItemId: string;
       let replaceItemId: string;
-      before(async function () {
+
+      beforeAll(async () => {
         container = await getTestContainer("bulk container");
         deleteItemId = addEntropy("item2");
         readItemId = addEntropy("item2");
@@ -243,7 +253,8 @@ describe("test bulk operations", async function () {
           class: "2010",
         });
       });
-      it("deletes operation with default partition", async function () {
+
+      it("deletes operation with default partition", async () => {
         const operation: OperationInput = {
           operationType: BulkOperationType.Delete,
           id: deleteItemId,
@@ -252,7 +263,8 @@ describe("test bulk operations", async function () {
         const deleteResponse = await container.items.bulk([operation]);
         assert.equal(deleteResponse[0].statusCode, 204);
       });
-      it("read operation with default partition", async function () {
+
+      it("read operation with default partition", async () => {
         const operation: OperationInput = {
           operationType: BulkOperationType.Read,
           id: readItemId,
@@ -266,7 +278,8 @@ describe("test bulk operations", async function () {
           "Read Items id should match",
         );
       });
-      it("create operation with default partition", async function () {
+
+      it("create operation with default partition", async () => {
         const id = "testId";
         const createOp: OperationInput = {
           operationType: BulkOperationType.Create,
@@ -287,7 +300,7 @@ describe("test bulk operations", async function () {
         assert.strictEqual(readResponse[1].statusCode, 200);
         assert.strictEqual(readResponse[1].resourceBody.id, id, "Read item's id should match");
       });
-      it("read operation with partition split", async function () {
+      it("read operation with partition split", async () => {
         // using plugins generate split response from backend
         const splitContainer = await getSplitContainer();
         await splitContainer.items.create({
@@ -313,7 +326,7 @@ describe("test bulk operations", async function () {
         await splitContainer.database.delete();
       });
 
-      it("container handles Create, Read, Upsert, Delete opertion with partition split", async function () {
+      it("container handles Create, Read, Upsert, Delete opertion with partition split", async () => {
         const operations = [
           {
             operationType: BulkOperationType.Create,
@@ -403,8 +416,9 @@ describe("test bulk operations", async function () {
       }
     });
   });
-  describe("v2 container", function () {
-    describe("multi partition container", async function () {
+
+  describe("v2 container", () => {
+    describe("multi partition container", async () => {
       let readItemId: string;
       let replaceItemId: string;
       let patchItemId: string;
@@ -485,6 +499,7 @@ describe("test bulk operations", async function () {
           await database.delete();
         }
       }
+
       function createBulkOperation(
         operationType: any,
         partitionKeySpecifier?: { partitionKey?: PartitionKey },
@@ -500,6 +515,7 @@ describe("test bulk operations", async function () {
         if (id !== undefined) op = { ...op, id } as any;
         return op;
       }
+
       function creatreBulkOperationExpectedOutput(
         statusCode: number,
         propertysToMatch: { name: string; value: any }[],
@@ -515,8 +531,9 @@ describe("test bulk operations", async function () {
           propertysToMatch,
         };
       }
-      describe("handles create, upsert, patch, replace, delete", async function () {
-        it("Hierarchical Partitions with two keys", async function () {
+
+      describe("handles create, upsert, patch, replace, delete", async () => {
+        it("Hierarchical Partitions with two keys", async () => {
           readItemId = addEntropy("item1");
           const createItemWithBooleanPartitionKeyId = addEntropy(
             "createItemWithBooleanPartitionKeyId",
@@ -710,7 +727,7 @@ describe("test bulk operations", async function () {
           };
           await runBulkTestDataSet(dataset);
         });
-        it("Hierarchical Partitions with three keys", async function () {
+        it("Hierarchical Partitions with three keys", async () => {
           readItemId = addEntropy("item1");
           const createItemWithBooleanPartitionKeyId = addEntropy(
             "createItemWithBooleanPartitionKeyId",
@@ -908,7 +925,7 @@ describe("test bulk operations", async function () {
           await runBulkTestDataSet(dataset);
         });
       });
-      it("respects order", async function () {
+      it("respects order", async () => {
         readItemId = addEntropy("item1");
         const dataset: BulkTestDataSet = {
           ...defaultBulkTestDataSet,
@@ -939,7 +956,7 @@ describe("test bulk operations", async function () {
         };
         await runBulkTestDataSet(dataset);
       });
-      it("424 errors for operations after an error when continueOnError is set to false", async function () {
+      it("424 errors for operations after an error when continueOnError is set to false", async () => {
         const dataset: BulkTestDataSet = {
           ...defaultBulkTestDataSet,
           dbName: addEntropy("424 errors"),
@@ -966,7 +983,7 @@ describe("test bulk operations", async function () {
         };
         await runBulkTestDataSet(dataset);
       });
-      it("Continues after errors with default value of continueOnError true", async function () {
+      it("Continues after errors with default value of continueOnError true", async () => {
         const dataset: BulkTestDataSet = {
           ...defaultBulkTestDataSet,
           dbName: addEntropy("continueOnError"),
@@ -991,7 +1008,7 @@ describe("test bulk operations", async function () {
         };
         await runBulkTestDataSet(dataset);
       });
-      it("autogenerates IDs for Create operations", async function () {
+      it("autogenerates IDs for Create operations", async () => {
         const dataset: BulkTestDataSet = {
           ...defaultBulkTestDataSet,
           dbName: addEntropy("autogenerateIDs"),
@@ -1009,7 +1026,7 @@ describe("test bulk operations", async function () {
         };
         await runBulkTestDataSet(dataset);
       });
-      it("handles operations with null, undefined, and 0 partition keys", async function () {
+      it("handles operations with null, undefined, and 0 partition keys", async () => {
         const item1Id = addEntropy("item1");
         const item2Id = addEntropy("item2");
         const item3Id = addEntropy("item2");
@@ -1057,11 +1074,12 @@ describe("test bulk operations", async function () {
         await runBulkTestDataSet(dataset);
       });
     });
-    describe("multi partition container - nested partition key", async function () {
+    describe("multi partition container - nested partition key", async () => {
       let container: Container;
       let createItemId: string;
       let upsertItemId: string;
-      before(async function () {
+
+      beforeAll(async () => {
         container = await getTestContainer("bulk container", undefined, {
           partitionKey: {
             paths: ["/nested/key"],
@@ -1072,7 +1090,8 @@ describe("test bulk operations", async function () {
         createItemId = addEntropy("createItem");
         upsertItemId = addEntropy("upsertItem");
       });
-      it("creates an item with nested object partition key", async function () {
+
+      it("creates an item with nested object partition key", async () => {
         const operations: OperationInput[] = [
           {
             operationType: BulkOperationType.Create,
@@ -1098,9 +1117,10 @@ describe("test bulk operations", async function () {
         assert.equal(createResponse[0].statusCode, 201);
       });
     });
-    describe("multi partitioned container with many items handle partition split", async function () {
+
+    describe("multi partitioned container with many items handle partition split", async () => {
       let container: Container;
-      before(async function () {
+      beforeAll(async () => {
         let responseIndex = 0;
         // On every 50th request, return a 410 error
         const plugins: PluginConfig[] = [
@@ -1142,7 +1162,7 @@ describe("test bulk operations", async function () {
         }
       });
 
-      it("check multiple partition splits during bulk", async function () {
+      it("check multiple partition splits during bulk", async () => {
         const operations: OperationInput[] = [];
         for (let i = 0; i < 300; i++) {
           operations.push({
@@ -1163,12 +1183,14 @@ describe("test bulk operations", async function () {
       });
     });
   });
-  describe("test diagnostics for bulk", async function () {
+
+  describe("test diagnostics for bulk", async () => {
     let container: Container;
     let readItemId: string;
     let replaceItemId: string;
     let deleteItemId: string;
-    before(async function () {
+
+    beforeAll(async () => {
       container = await getTestContainer("bulk container for diagnostics", undefined, {
         partitionKey: {
           paths: ["/key"],
@@ -1195,10 +1217,12 @@ describe("test bulk operations", async function () {
         class: "2010",
       });
     });
-    after(async () => {
+
+    afterAll(async () => {
       await container.database.delete();
     });
-    it("test diagnostics for bulk", async function () {
+
+    it("test diagnostics for bulk", async () => {
       const operations = [
         {
           operationType: BulkOperationType.Create,

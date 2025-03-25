@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-/* eslint-disable no-unused-expressions */
-import assert from "node:assert";
+
 import type { ClientContext, Container, PluginConfig } from "../../../src/index.js";
 import { PluginOn } from "../../../src/index.js";
 import { OperationType, ResourceType } from "../../../src/common/index.js";
@@ -17,17 +16,17 @@ import {
 } from "../../public/common/TestHelpers.js";
 import type { RequestContext } from "../../../src/index.js";
 import type { Response } from "../../../src/request/Response.js";
-import { describe, it, assert } from "vitest";
+import { describe, it, assert, beforeEach } from "vitest";
 
-describe("New session token", function () {
-  it("preserves tokens", async function () {
+describe("New session token", () => {
+  it("preserves tokens", async () => {
     let response: Response<any>;
     let rqContext: RequestContext;
     const plugins: PluginConfig[] = [
       {
         on: PluginOn.request,
         plugin: async (context, diagNode, next) => {
-          expect(diagNode, "DiagnosticsNode should not be undefined or null").to.exist;
+          assert.isDefined(diagNode, "DiagnosticsNode should not be undefined or null");
           rqContext = context;
           response = await next(context);
           return response;
@@ -76,10 +75,11 @@ describe("New session token", function () {
   });
 });
 
-describe("Integrated Cache Staleness", async function () {
+describe("Integrated Cache Staleness", async () => {
   beforeEach(async () => {
     await removeAllDatabases();
   });
+
   const dbId = addEntropy("maxIntegratedCacheTestDB");
   const containerId = addEntropy("maxIntegratedCacheTestContainer");
   const dedicatedGatewayMaxAge = 20;
@@ -91,7 +91,7 @@ describe("Integrated Cache Staleness", async function () {
       {
         on: "request",
         plugin: async (context, diagNode, next) => {
-          expect(diagNode, "DiagnosticsNode should not be undefined or null").to.exist;
+          assert.isDefined(diagNode, "DiagnosticsNode should not be undefined or null");
           if (
             context.resourceType === ResourceType.item &&
             context.operationType !== OperationType.Create
@@ -147,7 +147,7 @@ describe("Integrated Cache Staleness", async function () {
     id: containerId,
   });
 
-  it("Should pass with maxIntegratedCacheStalenessInMs and consistency level set.", async function () {
+  it("Should pass with maxIntegratedCacheStalenessInMs and consistency level set.", async () => {
     assert.ok(container.items.create({ id: "1" }));
     container.item("1").read(itemRequestFeedOptions);
     container.items
@@ -167,18 +167,18 @@ describe("Integrated Cache Staleness", async function () {
     container.items.query(querySpec, itemRequestFeedOptions).fetchAll();
 
     // Should fail: maxIntegratedCacheStalenessInMs cannot be 0
-    this.dedicatedGatewayMaxAge = 0;
-    await container.read(this.dedicatedGatewayMaxAge);
+    // dedicatedGatewayMaxAge = 0;
+    // await container.read(dedicatedGatewayMaxAge);
   });
 });
 
 // This test has to be run against sqlx endpoint
-describe.skip("Bypass integrated cache", function () {
+describe.skip("Bypass integrated cache", () => {
   beforeEach(async () => {
     await removeAllDatabases();
   });
 
-  it("Should pass with bypass integrated cache set", async function () {
+  it("Should pass with bypass integrated cache set", async () => {
     const dbId = addEntropy("bypassIntegratedCacheTestDB");
     const containerId = addEntropy("bypassIntegratedCacheTestContainer");
     const client = new CosmosClient({
@@ -204,12 +204,12 @@ describe.skip("Bypass integrated cache", function () {
 });
 
 // For some reason this test does not pass against the emulator. Skipping it for now
-describe.skip("Session Token", function () {
+describe.skip("Session Token", () => {
   beforeEach(async () => {
     await removeAllDatabases();
   });
 
-  it("retries session not found successfully", async function () {
+  it("retries session not found successfully", async () => {
     const clientA = new CosmosClient({
       endpoint,
       key: masterKey,
@@ -226,7 +226,7 @@ describe.skip("Session Token", function () {
         {
           on: "request",
           plugin: async (context, diagNode, next) => {
-            expect(diagNode, "DiagnosticsNode should not be undefined or null").to.exist;
+            assert.isDefined(diagNode, "DiagnosticsNode should not be undefined or null");
             // Simulate a "Session Not Found" error by manually making the client session token *way* ahead of any available session on the server
             // This is just a way to simulate the error. Getting this to happen in practice is difficult and only usually occurs cross region where there is significant replication lag
             if (context.headers["x-ms-session-token"]) {
@@ -263,7 +263,7 @@ describe.skip("Session Token", function () {
   });
 });
 
-async function createItem(container: Container): Promise<void> {
+async function createItem(container: Container): Promise<string> {
   const {
     resource: { id },
   } = await container.items.create({

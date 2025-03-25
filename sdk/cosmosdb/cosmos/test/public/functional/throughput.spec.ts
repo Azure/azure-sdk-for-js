@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import assert from "node:assert";
+
 import type { Container } from "../../../src/index.js";
 import { OperationType, ResourceType, Constants } from "../../../src/common/index.js";
 import { CosmosClient } from "../../../src/index.js";
@@ -9,7 +9,7 @@ import { masterKey } from "../common/_fakeTestSecrets.js";
 import { PriorityLevel } from "../../../src/documents/PriorityLevel.js";
 import { BulkOperationType } from "../../../src/index.js";
 import { addEntropy, removeAllDatabases, createOrUpsertItem } from "../common/TestHelpers.js";
-import { describe, it, assert } from "vitest";
+import { describe, it, assert, beforeEach, beforeAll, afterAll } from "vitest";
 
 interface TestItem {
   id?: string;
@@ -27,11 +27,11 @@ interface TestItem {
   prop?: number;
 }
 
-describe("ItemCRUDWithThorughputBucket", function () {
-  this.timeout(process.env.MOCHA_TIMEOUT || 10000);
+describe("ItemCRUDWithThorughputBucket", { timeout: 10000 }, () => {
   beforeEach(async () => {
     await removeAllDatabases();
   });
+
   const dbId = addEntropy("throughputBucketDb");
   const containerId = addEntropy("throughputBucketContainer");
   const documentCRUDTest = async function (isUpsertTest: boolean): Promise<void> {
@@ -42,7 +42,7 @@ describe("ItemCRUDWithThorughputBucket", function () {
         {
           on: "request",
           plugin: async (context, diagNode, next) => {
-            expect(diagNode, "DiagnosticsNode should not be undefined or null").to.exist;
+            assert.isDefined(diagNode, "DiagnosticsNode should not be undefined or null");
             if (
               context.resourceType === ResourceType.database &&
               context.operationType === OperationType.Create
@@ -113,17 +113,18 @@ describe("ItemCRUDWithThorughputBucket", function () {
       .fetchAll();
     assert(results.length > 0, "number of results for the query should be > 0");
   };
-  it("Should do document CRUD operations with RU bucket successfully", async function () {
+  it("Should do document CRUD operations with RU bucket successfully", async () => {
     await documentCRUDTest(false);
   });
 });
 
-describe("testThroughputBucketForBulk", async function () {
+describe("testThroughputBucketForBulk", async () => {
   let container: Container;
   let readItemId: string;
   let replaceItemId: string;
   let deleteItemId: string;
-  before(async function () {
+
+  beforeAll(async () => {
     const dbId = addEntropy("throughputBucketDb");
     const containerId = addEntropy("throughputBucketContainer");
     const client = new CosmosClient({
@@ -133,7 +134,7 @@ describe("testThroughputBucketForBulk", async function () {
         {
           on: "request",
           plugin: async (context, diagNode, next) => {
-            expect(diagNode, "DiagnosticsNode should not be undefined or null").to.exist;
+            assert.isDefined(diagNode, "DiagnosticsNode should not be undefined or null");
             if (
               context.resourceType === ResourceType.database &&
               context.operationType === OperationType.Create
@@ -185,10 +186,12 @@ describe("testThroughputBucketForBulk", async function () {
       class: "2010",
     });
   });
-  after(async () => {
+
+  afterAll(async () => {
     await container.database.delete();
   });
-  it("test throughput bucketing in bulk", async function () {
+
+  it("test throughput bucketing in bulk", async () => {
     const operations = [
       {
         operationType: BulkOperationType.Create,

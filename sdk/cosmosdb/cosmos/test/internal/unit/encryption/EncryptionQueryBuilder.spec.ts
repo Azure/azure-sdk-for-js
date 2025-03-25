@@ -1,14 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import * as assert from "node:assert";
+import type { CosmosEncryptedNumber } from "../../../../src/encryption/index.js";
 import {
   EncryptionQueryBuilder,
-  CosmosEncryptedNumber,
   CosmosEncryptedNumberType,
 } from "../../../../src/encryption/index.js";
 import { TypeMarker } from "../../../../src/encryption/enums/TypeMarker.js";
-import { JSONArray, JSONObject } from "../../../../src/index.js";
+import type { JSONArray, JSONObject, SqlParameter } from "../../../../src/index.js";
 import { describe, it, assert } from "vitest";
 
 describe("EncryptionQueryBuilder.addParameter", () => {
@@ -17,7 +16,7 @@ describe("EncryptionQueryBuilder.addParameter", () => {
     builder.addParameter("@nullParam", null, "/nullPath");
     const spec = builder.toEncryptionSqlQuerySpec();
     assert.deepStrictEqual(spec.parameters, [
-      { name: "@nullParam", value: null, path: "/nullPath" },
+      { name: "@nullParam", value: null, path: "/nullPath" } as SqlParameter,
     ]);
   });
 
@@ -30,7 +29,7 @@ describe("EncryptionQueryBuilder.addParameter", () => {
       value: true,
       type: TypeMarker.Boolean,
       path: "/boolPath",
-    });
+    } as SqlParameter);
   });
 
   it("should add a string parameter", () => {
@@ -42,7 +41,7 @@ describe("EncryptionQueryBuilder.addParameter", () => {
       value: "testString",
       type: TypeMarker.String,
       path: "/stringPath",
-    });
+    } as SqlParameter);
   });
 
   it("should add a Date parameter as an ISO string", () => {
@@ -55,7 +54,7 @@ describe("EncryptionQueryBuilder.addParameter", () => {
       value: date.toISOString(),
       type: TypeMarker.String,
       path: "/datePath",
-    });
+    } as SqlParameter);
   });
 
   it("should add a CosmosEncryptedNumber parameter as Double when value contains decimals", () => {
@@ -71,7 +70,7 @@ describe("EncryptionQueryBuilder.addParameter", () => {
       value: 12.34,
       type: TypeMarker.Double,
       path: "/encryptedPath",
-    });
+    } as SqlParameter);
   });
 
   it("should add a CosmosEncryptedNumber parameter as Long when value is whole", () => {
@@ -87,7 +86,7 @@ describe("EncryptionQueryBuilder.addParameter", () => {
       value: 123,
       type: TypeMarker.Long,
       path: "/encryptedPath",
-    });
+    } as SqlParameter);
   });
 
   it("should add a JSONArray parameter", () => {
@@ -99,7 +98,7 @@ describe("EncryptionQueryBuilder.addParameter", () => {
       name: "@array",
       value: arr,
       path: "/arrayPath",
-    });
+    } as SqlParameter);
   });
 
   it("should add a JSONObject parameter", () => {
@@ -111,6 +110,6 @@ describe("EncryptionQueryBuilder.addParameter", () => {
       name: "@object",
       value: obj,
       path: "/objectPath",
-    });
+    } as SqlParameter);
   });
 });

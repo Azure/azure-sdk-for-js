@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 import type { FetchFunctionCallback } from "../../../../src/queryExecutionContext/index.js";
 import { DefaultQueryExecutionContext } from "../../../../src/queryExecutionContext/defaultQueryExecutionContext.js";
 import type { FeedOptions } from "../../../../src/index.js";
-import assert from "node:assert";
 import { sleep } from "../../../../src/common/index.js";
 import { createDummyDiagnosticNode } from "../../../public/common/TestHelpers.js";
 import { getEmptyCosmosDiagnostics } from "../../../../src/utils/diagnostics.js";
 import { describe, it, assert } from "vitest";
 
-describe("defaultQueryExecutionContext", function () {
-  it("should not buffer items if bufferItems is false", async function () {
+describe("defaultQueryExecutionContext", () => {
+  it("should not buffer items if bufferItems is false", async () => {
     let calledCount = 0;
     const fetchFunction: FetchFunctionCallback = async () => {
       calledCount++;
@@ -51,7 +51,7 @@ describe("defaultQueryExecutionContext", function () {
     assert.strictEqual(calledCount, 2, "Should have only fetched 2 pages");
   });
 
-  it("should buffer items if bufferItems is true", async function () {
+  it("should buffer items if bufferItems is true", async () => {
     let calledCount = 0;
     const fetchFunction: FetchFunctionCallback = async () => {
       calledCount++;

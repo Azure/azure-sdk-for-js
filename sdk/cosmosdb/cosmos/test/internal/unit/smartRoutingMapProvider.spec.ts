@@ -1,6 +1,6 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import assert from "node:assert";
+
 import type { ClientContext } from "../../../src/ClientContext.js";
 import {
   PartitionKeyRangeCache,
@@ -78,7 +78,7 @@ describe("Smart Routing Map Provider OverlappingRanges", function () {
     expectedResults: any,
     errorExpected?: any,
   ): Promise<void> {
-    errorExpected = errorExpected || false;
+    const fixedErrorExpected = errorExpected || false;
     try {
       const results = await provider.getOverlappingRanges(
         containerLink,
@@ -87,7 +87,7 @@ describe("Smart Routing Map Provider OverlappingRanges", function () {
       );
       assert.deepEqual(results, expectedResults);
     } catch (err: any) {
-      if (errorExpected) {
+      if (fixedErrorExpected) {
         assert.notEqual(err, undefined);
         return;
       } else {
@@ -134,12 +134,12 @@ describe("Smart Routing Map Provider OverlappingRanges", function () {
     expectedResults: any,
     errorExpected?: any,
   ): Promise<void> {
-    errorExpected = errorExpected || false;
+    const fixedErrorExpected = errorExpected || false;
     await validateSmartOverlappingRanges(queryRanges, expectedResults, errorExpected);
     await validatePartitionKeyRangeCacheOverlappingRanges(
       queryRanges,
       expectedResults,
-      errorExpected,
+      fixedErrorExpected,
     );
   };
 

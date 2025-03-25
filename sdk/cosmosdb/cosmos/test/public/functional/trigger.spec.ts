@@ -1,18 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import assert from "node:assert";
+
 import { TriggerOperation, TriggerType } from "../../../src/index.js";
 import type { TriggerDefinition, Container } from "../../../src/index.js";
 import { getTestContainer, removeAllDatabases } from "../common/TestHelpers.js";
-import { describe, it, assert } from "vitest";
+import { describe, it, assert, beforeEach } from "vitest";
 
 const notFoundErrorCode = 404;
 
 // Mock for trigger function bodies
 declare let getContext: any;
 
-describe("NodeJS CRUD Tests", function () {
-  this.timeout(process.env.MOCHA_TIMEOUT || 10000);
+describe("NodeJS CRUD Tests", { timeout: 10000 }, () => {
   let container: Container;
 
   beforeEach(async () => {
@@ -20,8 +19,8 @@ describe("NodeJS CRUD Tests", function () {
     container = await getTestContainer("trigger container");
   });
 
-  describe("Validate Trigger CRUD", function () {
-    it("nativeApi Should do trigger CRUD operations successfully name based", async function () {
+  describe("Validate Trigger CRUD", () => {
+    it("nativeApi Should do trigger CRUD operations successfully name based", async () => {
       // read triggers
       const { resources: triggers } = await container.scripts.triggers.readAll().fetchAll();
       assert.equal(Array.isArray(triggers), true);
@@ -65,13 +64,13 @@ describe("NodeJS CRUD Tests", function () {
 
       // replace trigger
       // prettier-ignore
-      trigger.body = function () { const x = 20; console.log(x); };
+      trigger.body = () => { const x = 20; console.log(x); };
       const { resource: replacedTrigger } = await container.scripts
         .trigger(trigger.id)
         .replace(trigger);
 
       assert.equal(replacedTrigger.id, trigger.id);
-      assert.equal(replacedTrigger.body, "function () { const x = 20; console.log(x); }");
+      assert.equal(replacedTrigger.body, "() => { const x = 20; console.log(x); }");
 
       // read trigger
       const { resource: triggerAfterReplace } = await container.scripts
@@ -92,11 +91,11 @@ describe("NodeJS CRUD Tests", function () {
     });
   });
 
-  describe("validate trigger functionality", function () {
+  describe("validate trigger functionality", () => {
     const triggers: TriggerDefinition[] = [
       {
         id: "t1",
-        body: function () {
+        body: () => {
           const item = getContext().getRequest().getBody();
           item.id = item.id.toUpperCase() + "t1";
           getContext().getRequest().setBody(item);
@@ -112,7 +111,7 @@ describe("NodeJS CRUD Tests", function () {
       },
       {
         id: "t3",
-        body: function () {
+        body: () => {
           const item = getContext().getRequest().getBody();
           item.id = item.id.toLowerCase() + "t3";
           getContext().getRequest().setBody(item);
@@ -122,7 +121,7 @@ describe("NodeJS CRUD Tests", function () {
       },
       {
         id: "response1",
-        body: function () {
+        body: () => {
           const prebody = getContext().getRequest().getBody();
           if (prebody.id !== "TESTING POST TRIGGERt1") throw "name mismatch";
           const postbody = getContext().getResponse().getBody();
@@ -139,7 +138,7 @@ describe("NodeJS CRUD Tests", function () {
       },
     ];
 
-    it("should do trigger operations successfully with create", async function () {
+    it("should do trigger operations successfully with create", async () => {
       for (const trigger of triggers) {
         await container.scripts.triggers.create(trigger);
       }

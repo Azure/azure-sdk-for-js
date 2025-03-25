@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-/* eslint-disable no-unused-expressions */
-import assert from "node:assert";
+
 import type {
   ClientConfigDiagnostic,
   Container,
@@ -52,7 +51,8 @@ import { getCurrentTimestampInMs } from "../../../src/utils/time.js";
 import { extractPartitionKeys } from "../../../src/extractPartitionKey.js";
 import fs from "node:fs";
 import path from "node:path";
-import { assert, vi } from "vitest";
+import { assert, expect, vi } from "vitest";
+import { AssertionError } from "chai";
 
 const defaultRoutingGatewayPort: string = ":8081";
 const defaultComputeGatewayPort: string = ":8903";
@@ -148,10 +148,10 @@ export async function testForDiagnostics<Callback extends () => Promise<any>>(
       spec.requestDurationInMsUpperLimit =
         getCurrentTimestampInMs() - spec.requestStartTimeUTCInMsLowerLimit;
     }
-    expect(
+    assert.isDefined(
       response.diagnostics,
       "Diagnostics object should not be undefined or null, in Response object",
-    ).to.exist;
+    );
     validateDiagnostics(response.diagnostics, spec, parallelExecutions);
     return response;
   } catch (ex) {
@@ -162,10 +162,10 @@ export async function testForDiagnostics<Callback extends () => Promise<any>>(
       spec.requestDurationInMsUpperLimit =
         getCurrentTimestampInMs() - spec.requestStartTimeUTCInMsLowerLimit;
     }
-    expect(
+    assert.isDefined(
       ex.diagnostics,
       "Diagnostics object should not be undefined or null, in Exception objection",
-    ).to.exist;
+    );
     validateDiagnostics(ex.diagnostics, spec, parallelExecutions);
     throw ex;
   }
@@ -182,7 +182,7 @@ export function validateDiagnostics(
   spec: CosmosDiagnosticsTestSpec,
   parallelExecutions: boolean,
 ): void {
-  expect(diagnostics, "Diagnostics object should not be undefined or null").to.exist;
+  assert.isDefined(diagnostics, "Diagnostics object should not be undefined or null");
 
   validateRequestStartTimeForDiagnostics(spec, diagnostics);
 
@@ -229,12 +229,15 @@ function validateGatewayStatisticsForDiagnostics(
 ): void {
   const gatewayStatistics = diagnostics.clientSideRequestStatistics.gatewayStatistics;
   if (spec.gatewayStatisticsTestSpec !== undefined) {
-    expect(gatewayStatistics, "In CosmosDiagnostics, gatewayStatistics should have existed.").to
-      .exist;
-    expect(
+    assert.isDefined(
+      gatewayStatistics,
+      "In CosmosDiagnostics, gatewayStatistics should have existed.",
+    );
+    assert.equal(
       gatewayStatistics.length,
+      spec.gatewayStatisticsTestSpec.length,
       "In CosmosDiagnostics, Number of gatewayStatistics should match the spec.",
-    ).to.be.equal(spec.gatewayStatisticsTestSpec.length);
+    );
 
     for (let i = 0; i < spec.gatewayStatisticsTestSpec.length; i++) {
       const gatewayStatisticsSpec: Partial<GatewayStatistics> = spec.gatewayStatisticsTestSpec[i];
@@ -509,8 +512,8 @@ export async function bulkReplaceItems(
     documents.map(async (document) => {
       const partitionKey = extractPartitionKeys(document, partitionKeyDef);
       const { resource: doc } = await container.item(document.id, partitionKey).replace(document);
-      const { _etag: _1, _ts: _2, ...expectedModifiedDocument } = document; // eslint-disable-line @typescript-eslint/no-unused-vars
-      const { _etag: _4, _ts: _3, ...actualModifiedDocument } = doc; // eslint-disable-line @typescript-eslint/no-unused-vars
+      const { _etag: _1, _ts: _2, ...expectedModifiedDocument } = document;
+      const { _etag: _4, _ts: _3, ...actualModifiedDocument } = doc;
       assert.deepStrictEqual(expectedModifiedDocument, actualModifiedDocument);
       return doc;
     }),
@@ -668,9 +671,7 @@ export async function assertThrowsAsync(test: () => Promise<any>, error?: any): 
   } catch (e: any) {
     if (!error || e instanceof error) return "everything is fine";
   }
-  throw new assert.AssertionError({
-    message: "Missing rejection" + (error ? " with " + error.name : ""),
-  });
+  throw new AssertionError(`Missing rejection ${error} with ${error.name || ""}`);
 }
 
 // helper functions for testing change feed allVersionsAndDeletes mode

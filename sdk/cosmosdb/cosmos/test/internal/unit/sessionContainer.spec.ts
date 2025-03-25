@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import assert from "node:assert";
+
 import { Constants, OperationType, ResourceType } from "../../../src/common/index.js";
 import type { CosmosHeaders } from "../../../src/queryExecutionContext/CosmosHeaders.js";
 import { SessionContainer } from "../../../src/session/sessionContainer.js";

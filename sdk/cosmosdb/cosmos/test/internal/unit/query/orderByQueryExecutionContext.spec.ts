@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 import { CosmosDbDiagnosticLevel } from "../../../../src/diagnostics/CosmosDbDiagnosticLevel.js";
 import type { QueryInfo } from "../../../../src/request/ErrorResponse.js";
 import { createTestClientContext } from "../../../public/common/TestHelpers.js";
@@ -8,11 +9,10 @@ import type { PartitionKeyRange } from "../../../../src/client/Container/Partiti
 import type { Resource } from "../../../../src/client/Resource.js";
 import { OrderByQueryExecutionContext } from "../../../../src/queryExecutionContext/orderByQueryExecutionContext.js";
 import type { FeedOptions } from "../../../../src/request/FeedOptions.js";
-import assert from "node:assert";
 import { createDummyDiagnosticNode } from "../../../public/common/TestHelpers.js";
 import { describe, it, assert, vi } from "vitest";
 
-describe("OrderByQueryExecutionContext", function () {
+describe("OrderByQueryExecutionContext", () => {
   const collectionLink = "/dbs/testDb/colls/testCollection"; // Sample collection link
   const query = "SELECT * FROM c order by c.id"; // Example query string or SqlQuerySpec object
   const queryInfo: QueryInfo = {
@@ -62,7 +62,20 @@ describe("OrderByQueryExecutionContext", function () {
   };
 
   const diagnosticLevel = CosmosDbDiagnosticLevel.info;
-  const createMockPartitionKeyRange = (id: string, minInclusive: string, maxExclusive: string) => ({
+  const createMockPartitionKeyRange = (
+    id: string,
+    minInclusive: string,
+    maxExclusive: string,
+  ): {
+    id: string;
+    _rid: string;
+    minInclusive: string;
+    maxExclusive: string;
+    _etag: string;
+    _self: string;
+    throughputFraction: number;
+    status: string;
+  } => ({
     id, // Range ID
     _rid: "range-rid", // Resource ID of the partition key range
     minInclusive, // Minimum value of the partition key range
@@ -73,7 +86,24 @@ describe("OrderByQueryExecutionContext", function () {
     status: "Online", // Status of the partition
   });
 
-  const createMockDocument = (id: string, name: string, value: string) => ({
+  const createMockDocument = (
+    id: string,
+    name: string,
+    value: string,
+  ): {
+    orderByItems: {
+      item: string;
+    }[];
+    payload: {
+      id: string;
+      name: string;
+      otherProperty: number;
+      value: string;
+    };
+    rid: string;
+    ts: number;
+    _etag: string;
+  } => ({
     orderByItems: [
       {
         item: id, // Value of the property used in ORDER BY (e.g., timestamp or other sortable field)
@@ -90,7 +120,7 @@ describe("OrderByQueryExecutionContext", function () {
     _etag: '"0x8D9F8B2B2C1A9F0"', // ETag for concurrency control
   });
 
-  it("should return result when fetchMore called", async function () {
+  it("should return result when fetchMore called", async () => {
     const options: FeedOptions = { maxItemCount: 10, maxDegreeOfParallelism: 2 };
 
     const clientContext = createTestClientContext(cosmosClientOptions, diagnosticLevel); // Mock ClientContext instance
@@ -127,7 +157,7 @@ describe("OrderByQueryExecutionContext", function () {
     const mockDocumentList = [mockDocument1, mockDocument2, mockDocument3];
     let i = 0;
     // Define a stub for queryFeed in clientContext
-    sinon.stub(clientContext, "queryFeed").callsFake(async () => {
+    vi.mocked(clientContext.queryFeed).mockImplementation(async () => {
       return {
         result: [mockDocumentList[i++]] as unknown as Resource, // Add result to mimic expected structure
         headers: {
@@ -163,7 +193,7 @@ describe("OrderByQueryExecutionContext", function () {
     assert.equal(result[2].payload.id, "3");
   });
 
-  it("fetchMore should handle different distribution of data across document producers", async function () {
+  it("fetchMore should handle different distribution of data across document producers", async () => {
     const options: FeedOptions = { maxItemCount: 10, maxDegreeOfParallelism: 2 };
 
     const clientContext = createTestClientContext(cosmosClientOptions, diagnosticLevel); // Mock ClientContext instance
@@ -204,7 +234,7 @@ describe("OrderByQueryExecutionContext", function () {
 
     let i = -1;
     // Define a stub for queryFeed in clientContext
-    sinon.stub(clientContext, "queryFeed").callsFake(async () => {
+    vi.mocked(clientContext.queryFeed).mockImplementation(async () => {
       i++;
       if (i === 0) {
         return {

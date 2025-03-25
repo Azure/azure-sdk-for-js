@@ -1,18 +1,28 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import assert from "node:assert";
+
 import { ChangeFeedForEpkRange, ChangeFeedMode } from "../../../../src/client/ChangeFeed/index.js";
 import type { ClientContext } from "../../../../src/index.js";
 import { Container, ErrorResponse, TimeoutError } from "../../../../src/index.js";
 import { PartitionKeyRangeCache, QueryRange } from "../../../../src/routing/index.js";
 import { ChangeFeedRange } from "../../../../src/client/ChangeFeed/ChangeFeedRange.js";
 import { MockedClientContext } from "../../../public/common/MockClientContext.js";
-import { describe, it, assert, beforeEach, afterEach, vi } from "vitest";
+import { describe, it, assert, expect, beforeEach, afterEach, vi } from "vitest";
 
 interface Resource {
   id: string;
   [key: string]: any;
 }
+
+vi.mock("../../../../src/index.js", async (importActual) => {
+  const ContainerMock = vi.fn();
+
+  const actual = await importActual<typeof import("../../../../src/index.js")>();
+  return {
+    ...actual,
+    Container: ContainerMock,
+  };
+});
 
 class MockClientContext extends MockedClientContext {
   // eslint-disable-next-line @typescript-eslint/no-useless-constructor
@@ -35,16 +45,16 @@ describe("ChangeFeedForEpkRange Unit Tests", () => {
 
   const clientContext: ClientContext = new MockClientContext(partitionKeyRanges) as any;
   const partitionKeyRangeCache = new PartitionKeyRangeCache(clientContext);
-  let container: sinon.SinonStubbedInstance<Container>;
+  let container: Container;
   let changeFeedForEpkRange: ChangeFeedForEpkRange<Resource>;
 
   beforeEach(() => {
-    container = sinon.createStubInstance(Container);
+    container = new Container(expect.anything(), expect.anything(), expect.anything());
 
     // Initialize ChangeFeedForEpkRange instance with mocked dependencies
     changeFeedForEpkRange = new ChangeFeedForEpkRange<Resource>(
       clientContext,
-      container as unknown as Container,
+      container,
       partitionKeyRangeCache as PartitionKeyRangeCache,
       "resource-id",
       "/dbs/db/colls/coll",
@@ -60,8 +70,8 @@ describe("ChangeFeedForEpkRange Unit Tests", () => {
       new QueryRange("", "FF", true, false),
     );
 
-    sinon.stub(changeFeedForEpkRange as any, "setIteratorRid").resolves();
-    sinon.stub(changeFeedForEpkRange as any, "fillChangeFeedQueue").resolves();
+    vi.mocked((changeFeedForEpkRange as any).setIteratorRid).mockResolvedValue();
+    vi.mocked((changeFeedForEpkRange as any).fillChangeFeedQueue).mockResolvedValue();
     (changeFeedForEpkRange as any).isInstantiated = true;
 
     const mockFeedRange = new ChangeFeedRange("", "FF", "abc");

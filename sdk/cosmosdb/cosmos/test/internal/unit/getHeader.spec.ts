@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import assert from "node:assert";
+
 import { Constants } from "../../../src/common/constants.js";
 import { getHeaders } from "../../../src/request/request.js";
-import { CosmosHeaders, FeedOptions } from "../../../src/index.js";
+import type { CosmosHeaders, FeedOptions } from "../../../src/index.js";
 import { describe, it, assert } from "vitest";
 
 describe("Test x-ms-documentdb-query-parallelizecrosspartitionquery header value", function () {
@@ -22,6 +22,7 @@ describe("Test x-ms-documentdb-query-parallelizecrosspartitionquery header value
       partitionKey: null,
     });
   }
+
   it("If maxDegreeOfParallelism > 1 then x-ms-documentdb-query-parallelizecrosspartitionquery header should be true", async function () {
     const headers = await getHeadersFunc({ maxDegreeOfParallelism: 2 });
     assert.equal(
@@ -30,6 +31,7 @@ describe("Test x-ms-documentdb-query-parallelizecrosspartitionquery header value
       "incorrect header value",
     );
   });
+
   it("If maxDegreeOfParallelism == 0 then x-ms-documentdb-query-parallelizecrosspartitionquery header should be null", async function () {
     const headers = await getHeadersFunc({ maxDegreeOfParallelism: 0 });
     assert.equal(

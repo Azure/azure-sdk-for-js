@@ -1,27 +1,43 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
+
+import type {
   ClientConfigDiagnostic,
-  ClientContext,
-  ConsistencyLevel,
-  Constants,
   CosmosClientOptions,
-  CosmosDbDiagnosticLevel,
   DiagnosticNodeInternal,
   FeedOptions,
-  GlobalEndpointManager,
   QueryInfo,
   RequestOptions,
   QueryIterator,
   PartitionKeyRange,
   Resource,
+} from "../../../src/index.js";
+import {
+  ClientContext,
+  ConsistencyLevel,
+  Constants,
+  CosmosDbDiagnosticLevel,
+  GlobalEndpointManager,
   StatusCodes,
 } from "../../../src/index.js";
 import { TestParallelQueryExecutionContext } from "./common/TestParallelQueryExecutionContext.js";
 import { SubStatusCodes } from "../../../src/common/index.js";
 import { describe, it, assert, expect, vi } from "vitest";
 
-const createMockPartitionKeyRange = (id: string, minInclusive: string, maxExclusive: string) => ({
+const createMockPartitionKeyRange = (
+  id: string,
+  minInclusive: string,
+  maxExclusive: string,
+): {
+  id: string;
+  _rid: string;
+  minInclusive: string;
+  maxExclusive: string;
+  _etag: string;
+  _self: string;
+  throughputFraction: number;
+  status: string;
+} => ({
   id, // Range ID
   _rid: "range-rid", // Resource ID of the partition key range
   minInclusive, // Minimum value of the partition key range
@@ -32,7 +48,19 @@ const createMockPartitionKeyRange = (id: string, minInclusive: string, maxExclus
   status: "Online", // Status of the partition
 });
 
-const createMockDocument = (id: string, name: string, value: string) => ({
+const createMockDocument = (
+  id: string,
+  name: string,
+  value: string,
+): {
+  id: string;
+  _rid: string;
+  _ts: number;
+  _self: string;
+  _etag: string;
+  name: string;
+  value: string;
+} => ({
   id,
   _rid: "sample-rid-2",
   _ts: Date.now(),
@@ -45,7 +73,7 @@ const createMockDocument = (id: string, name: string, value: string) => ({
 function createTestClientContext(
   options: Partial<CosmosClientOptions>,
   diagnosticLevel: CosmosDbDiagnosticLevel,
-) {
+): ClientContext {
   const clientOps: CosmosClientOptions = {
     endpoint: "",
     connectionPolicy: {
@@ -57,7 +85,7 @@ function createTestClientContext(
   const globalEndpointManager = new GlobalEndpointManager(
     clientOps,
     async (diagnosticNode: DiagnosticNodeInternal, opts: RequestOptions) => {
-      expect(opts).to.exist; // eslint-disable-line no-unused-expressions
+      expect(opts).to.exist;
       const dummyAccount: any = diagnosticNode;
       return dummyAccount;
     },
@@ -191,7 +219,7 @@ describe("Partition-Merge", function () {
 
     // Stub the bufferMore method of the document producers to throw a Gone error
     context["unfilledDocumentProducersQueue"].forEach((docProd) => {
-      sinon.stub(docProd, "bufferMore").rejects({
+      vi.mocked(docProd.bufferMore).mockRejectedValue({
         code: StatusCodes.Gone,
         substatus: SubStatusCodes.PartitionKeyRangeGone,
         message: "Partition key range is gone",
@@ -205,7 +233,7 @@ describe("Partition-Merge", function () {
       .spyOn(context as any, "_getReplacementPartitionKeyRanges")
       .mockResolvedValue([]);
     // Creating a spy on the _enqueueReplacementDocumentProducers function
-    const enqueueSpy = sinon.spy(context as any, "_enqueueReplacementDocumentProducers");
+    const enqueueSpy = vi.spyOn(context as any, "_enqueueReplacementDocumentProducers");
 
     try {
       // The query fails because the _getReplacementPartitionKeyRanges method returns an empty partition key range array
@@ -216,14 +244,15 @@ describe("Partition-Merge", function () {
     }
 
     // Assert that the _enqueueReplacementDocumentProducers function was called once
-    assert(enqueueSpy.calledOnce);
-    enqueueSpy.restore();
+    expect(enqueueSpy).toHaveBeenCalledTimes(1);
+    // Assert that the _enqueueReplacementDocumentProducers function was called with the correct arguments
+    enqueueSpy.mockRestore();
 
     // Enqueue the parent document producer back into the priority queue
     context["unfilledDocumentProducersQueue"].enq(parentDocProd1);
 
     // Restoring and mocking again the _getReplacementPartitionKeyRanges function
-    getReplacementPartitionKeyRangesStub.restore();
+    getReplacementPartitionKeyRangesStub.mockRestore();
 
     vi.spyOn(context as any, "_getReplacementPartitionKeyRanges").mockResolvedValue([
       createMockPartitionKeyRange("child1", "", "1FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF"),
@@ -259,7 +288,7 @@ describe("Partition-Merge", function () {
     const parentDocumentProducer2EndEpk = parentDocProd2.endEpk;
 
     // Restoring and mocking again the _getReplacementPartitionKeyRanges function
-    getReplacementPartitionKeyRangesStub.restore();
+    getReplacementPartitionKeyRangesStub.mockRestore();
 
     vi.spyOn(context as any, "_getReplacementPartitionKeyRanges").mockResolvedValue([
       createMockPartitionKeyRange("child2", "1FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF", "FF"),

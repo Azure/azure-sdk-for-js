@@ -1,8 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-// Import the required modules
-import assert from "node:assert";
 import type { Container, FeedOptions } from "../../../src/index.js";
 import { CosmosClient, OperationType, ResourceType } from "../../../src/index.js";
 import { endpoint } from "../../public/common/_testConfig.js";
@@ -12,10 +10,9 @@ import {
   isValidV4UUID,
   removeAllDatabases,
 } from "../../public/common/TestHelpers.js";
-import { describe, it, assert } from "vitest";
+import { describe, it, assert, beforeAll, afterAll } from "vitest";
 
-describe("Correlated Activity Id", function () {
-  this.timeout(process.env.MOCHA_TIMEOUT || 30000);
+describe("Correlated Activity Id", { timeout: 30000 }, () => {
   let container: Container;
   let capturedCorrelatedActivityIds: any[];
   const client = new CosmosClient({
@@ -40,7 +37,7 @@ describe("Correlated Activity Id", function () {
     ],
   });
 
-  before(async () => {
+  beforeAll(async () => {
     container = await getTestContainer("Test", client, {
       partitionKey: "/name",
       throughput: 10000,
@@ -178,7 +175,7 @@ describe("Correlated Activity Id", function () {
     assert.ok(capturedCorrelatedActivityIds.every(isValidV4UUID));
     const correlatedIdFetchAll = capturedCorrelatedActivityIds[0];
     capturedCorrelatedActivityIds = [];
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+
     for await (const _ of queryIterator.getAsyncIterator()) {
       // The loop is intentionally empty
     }
@@ -196,7 +193,7 @@ describe("Correlated Activity Id", function () {
     assert.ok(capturedCorrelatedActivityIds.every(isValidV4UUID));
     const correlatedIdFetchNext = capturedCorrelatedActivityIds[0];
     capturedCorrelatedActivityIds = [];
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+
     for await (const _ of queryIterator.getAsyncIterator()) {
       // The loop is intentionally empty
     }
@@ -237,7 +234,6 @@ describe("Correlated Activity Id", function () {
     capturedCorrelatedActivityIds = [];
     // getAsyncIterator
     try {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       for await (const _ of queryIterator.getAsyncIterator()) {
         // The loop is intentionally empty
       }
@@ -250,7 +246,8 @@ describe("Correlated Activity Id", function () {
       );
     }
   });
-  after(async function () {
+
+  afterAll(async () => {
     await removeAllDatabases();
   });
 });

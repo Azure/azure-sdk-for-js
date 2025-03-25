@@ -1,12 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import assert from "node:assert";
+
 import { Constants } from "../../../src/common/constants.js";
 import { getUserAgent } from "../../../src/common/platform.js";
 import { describe, it, assert } from "vitest";
+import packageJson from "../../../package.json" with { type: "json" };
 
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const packageJson = require("../../../package.json");
 const packageVersion = packageJson["version"];
 const constantVersion = Constants.SDKVersion;
 

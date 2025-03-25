@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   DocumentProducer,
   ExecutionContext,
-  ParallelQueryExecutionContextBase,
 } from "../../../../src/queryExecutionContext/index.js";
-import { Response } from "../../../../src/request/index.js";
-import { DiagnosticNodeInternal } from "../../../../src/diagnostics/DiagnosticNodeInternal.js";
+import { ParallelQueryExecutionContextBase } from "../../../../src/queryExecutionContext/index.js";
+import type { Response } from "../../../../src/request/index.js";
+import type { DiagnosticNodeInternal } from "../../../../src/diagnostics/DiagnosticNodeInternal.js";
 
 export class TestParallelQueryExecutionContext
   extends ParallelQueryExecutionContextBase
@@ -21,7 +21,7 @@ export class TestParallelQueryExecutionContext
   }
 
   private async bufferMore(diagnosticNode?: DiagnosticNodeInternal): Promise<void> {
-    // TODO: need to upadte headers from here, so make sure it returns it
+    // TODO: need to update headers from here, so make sure it returns it
     await this.bufferDocumentProducers(diagnosticNode);
     await this.fillBufferFromBufferQueue();
   }

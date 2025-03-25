@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import type { PrimitivePartitionKeyValue } from "../../documents/index.js";
-import { doubleToByteArrayJSBI } from "./encoding/number.js";
+import { doubleToByteArrayBigInt } from "./encoding/number.js";
 import { BytePrefix } from "./encoding/prefix.js";
 import MurmurHash from "./murmurHash.js";
 
@@ -26,7 +26,7 @@ function prefixKeyByType(key: PrimitivePartitionKeyValue): Buffer {
       return bytes;
     }
     case "number": {
-      const numberBytes = doubleToByteArrayJSBI(key);
+      const numberBytes = doubleToByteArrayBigInt(key);
       bytes = Buffer.concat([Buffer.from(BytePrefix.Number, "hex"), numberBytes]);
       return bytes;
     }

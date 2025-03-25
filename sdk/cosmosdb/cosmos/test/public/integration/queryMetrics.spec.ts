@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import assert from "node:assert";
+
 import {
   ClientSideMetrics,
   QueryMetrics,
@@ -10,7 +10,7 @@ import {
 } from "../../../src/index.js";
 import { describe, it, assert } from "vitest";
 
-describe("QueryMetrics", function () {
+describe("QueryMetrics", () => {
   // Properties
   const totalQueryExecutionTime = TimeSpan.fromMilliseconds(33.67);
   const queryCompilationTime = TimeSpan.fromMilliseconds(0.06);
@@ -117,7 +117,7 @@ describe("QueryMetrics", function () {
     );
   };
 
-  it("Can Be Cloned", function () {
+  it("Can Be Cloned", () => {
     const queryMetrics2 = new QueryMetrics(
       queryMetrics.retrievedDocumentCount,
       queryMetrics.retrievedDocumentSize,
@@ -137,7 +137,7 @@ describe("QueryMetrics", function () {
     assertQueryMetricsEquality(queryMetrics, queryMetrics2);
   });
 
-  it("Should Add Two Query Metrics", function () {
+  it("Should Add Two Query Metrics", () => {
     const doubleQueryMetrics = queryMetrics.add([queryMetrics]);
 
     const doubleRetrievedDocumentCount = retrievedDocumentCount * 2;
@@ -215,7 +215,7 @@ describe("QueryMetrics", function () {
     assertQueryMetricsEquality(queryMetricsFromCreateArray, expectedQueryMetrics);
   });
 
-  it("Can Be Create From Delimited String", function () {
+  it("Can Be Create From Delimited String", () => {
     const queryMetricsFromDelimitedString = QueryMetrics.createFromDelimitedString(
       delimitedString,
       new ClientSideMetrics(requestCharge),
@@ -224,7 +224,7 @@ describe("QueryMetrics", function () {
     assertQueryMetricsEquality(queryMetricsFromDelimitedString, queryMetrics);
   });
 
-  it("Can Be Converted To A Delimited String", function () {
+  it("Can Be Converted To A Delimited String", () => {
     const delimitedStringFromMetrics = queryMetrics.toDelimitedString();
     const queryMetricsFromDelimitedString = QueryMetrics.createFromDelimitedString(
       delimitedStringFromMetrics,

@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import assert from "node:assert";
+
 import { Constants, CosmosClient } from "../../../src/index.js";
 import { endpoint } from "../common/_testConfig.js";
 import { masterKey } from "../common/_fakeTestSecrets.js";
 import { getTestContainer, removeAllDatabases } from "../common/TestHelpers.js";
-import { describe, it, assert } from "vitest";
+import { describe, it, assert, beforeEach } from "vitest";
 
 const client = new CosmosClient({
   endpoint,
@@ -21,16 +21,13 @@ const validateOfferResponseBody = function (offer: any): void {
   assert(offer._self.indexOf(offer.id) !== -1, "Offer id not contained in offer self link.");
 };
 
-describe("NodeJS CRUD Tests", function () {
-  this.timeout(process.env.MOCHA_TIMEOUT || 10000);
-
+describe("NodeJS CRUD Tests", { timeout: 10000 }, () => {
   beforeEach(async () => {
-    this.timeout(process.env.MOCHA_TIMEOUT || 10000);
     await removeAllDatabases();
   });
 
-  describe("Validate Offer CRUD", function () {
-    it("nativeApi Should do offer read and query operations successfully name based single partition collection", async function () {
+  describe("Validate Offer CRUD", () => {
+    it("nativeApi Should do offer read and query operations successfully name based single partition collection", async () => {
       const mbInBytes = 1024 * 1024;
       const offerThroughput = 400;
       const container = await getTestContainer("Validate Offer CRUD");
@@ -96,7 +93,7 @@ describe("NodeJS CRUD Tests", function () {
       }
     });
 
-    it("nativeApi Should do offer replace operations successfully name based", async function () {
+    it("nativeApi Should do offer replace operations successfully name based", async () => {
       await getTestContainer("Validate Offer CRUD");
       const { resources: offers } = await client.offers.readAll().fetchAll();
       assert.equal(offers.length, 1);

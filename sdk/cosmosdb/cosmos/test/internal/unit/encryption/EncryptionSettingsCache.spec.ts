@@ -1,18 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import assert from "node:assert";
 import type { ClientEncryptionPolicy } from "../../../../src/index.js";
 import { EncryptionAlgorithm, EncryptionType } from "../../../../src/index.js";
-import {
-  ClientEncryptionIncludedPath,
-  EncryptionSettings,
-} from "../../../../src/encryption/index.js";
+import type { ClientEncryptionIncludedPath } from "../../../../src/encryption/index.js";
+import { EncryptionSettings } from "../../../../src/encryption/index.js";
 import { EncryptionSettingsCache } from "../../../../src/encryption/Cache/EncryptionSettingsCache.js";
 import { describe, it, assert } from "vitest";
 
-describe("EncryptionSettingsCache", function () {
-  it("should create and set encryption settings", async function () {
+describe("EncryptionSettingsCache", () => {
+  it("should create and set encryption settings", async () => {
     const id = "databaseId/containerId";
     const containerRid = "mockContainerRid";
     const partitionKeyPaths = ["/mockPath"];
@@ -44,7 +41,7 @@ describe("EncryptionSettingsCache", function () {
     assert.equal(encryptionSettingsCache.get(id), encryptionSettings);
   });
 
-  it("should return undefined when client encryption policy is not provided", async function () {
+  it("should return undefined when client encryption policy is not provided", async () => {
     const id = "databaseId/containerId";
     const containerRid = "mockContainerRid";
     const partitionKeyPaths = ["/mockPath"];
@@ -60,7 +57,7 @@ describe("EncryptionSettingsCache", function () {
     assert.strictEqual(encryptionSettings, undefined);
   });
 
-  it("should set and get encryption settings", function () {
+  it("should set and get encryption settings", () => {
     const key = "databaseId/containerId";
     const mockEncryptionSettings = new EncryptionSettings("mockId", "mockContainerRid", [
       "/mockPath",

@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import assert from "node:assert";
+
 import { TimeoutFailoverRetryPolicy } from "../../../src/retry/timeoutFailoverRetryPolicy.js";
 import { GlobalEndpointManager } from "../../../src/globalEndpointManager.js";
 import { HTTPMethod, OperationType, ResourceType } from "../../../src/common/constants.js";
@@ -12,7 +12,7 @@ import { StatusCodes } from "../../../src/common/statusCodes.js";
 import { TimeoutError } from "../../../src/request/TimeoutError.js";
 import { getEmptyCosmosDiagnostics } from "../../../src/utils/diagnostics.js";
 import { createDummyDiagnosticNode } from "../../public/common/TestHelpers.js";
-import { describe, it, assert } from "vitest";
+import { describe, it, assert, beforeEach } from "vitest";
 
 describe("TimeoutFailoverRetryPolicy", function () {
   const databaseAccountBody: any = {

@@ -1,10 +1,9 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-/* eslint-disable no-unused-expressions */
+
 import type { CosmosClientOptions, PluginConfig } from "../../../src/index.js";
 import { CosmosClient, PluginOn } from "../../../src/index.js";
 import { masterKey } from "../common/_fakeTestSecrets.js";
-import assert from "node:assert";
 import { getEmptyCosmosDiagnostics } from "../../../src/utils/diagnostics.js";
 import { describe, it, assert } from "vitest";
 
@@ -159,7 +158,7 @@ describe("Region Failover", () => {
       {
         on: PluginOn.request,
         plugin: async (context, diagNode) => {
-          expect(diagNode, "DiagnosticsNode should not be undefined or null").to.exist;
+          assert.isDefined(diagNode, "DiagnosticsNode should not be undefined or null");
           const response = responses[requestIndex];
           lastEndpointCalled = context.endpoint;
           requestIndex++;
@@ -201,7 +200,7 @@ describe("Region Failover", () => {
       {
         on: PluginOn.request,
         plugin: async (context, diagNode) => {
-          expect(diagNode, "DiagnosticsNode should not be undefined or null").to.exist;
+          assert.isDefined(diagNode, "DiagnosticsNode should not be undefined or null");
           const response = responses[requestIndex];
           lastEndpointCalled = context.endpoint;
           requestIndex++;
@@ -245,7 +244,7 @@ describe("Region Failover", () => {
       {
         on: PluginOn.request,
         plugin: async (context, diagNode) => {
-          expect(diagNode, "DiagnosticsNode should not be undefined or null").to.exist;
+          assert.isDefined(diagNode, "DiagnosticsNode should not be undefined or null");
           const response = responses[requestIndex];
           lastEndpointCalled = context.endpoint;
           requestIndex++;

@@ -1,21 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import assert from "node:assert";
+
 import type { Container, FeedOptions } from "../../../src/index.js";
 import { getTestContainer, getTestDatabase, removeAllDatabases } from "../common/TestHelpers.js";
-import { describe, it, assert } from "vitest";
+import { describe, it, assert, beforeEach } from "vitest";
 
 const doc = { id: "myId", pk: "pk" };
 
-describe("ResourceLink Trimming of leading and trailing slashes", function () {
-  this.timeout(process.env.MOCHA_TIMEOUT || 10000);
+describe("ResourceLink Trimming of leading and trailing slashes", { timeout: 10000 }, () => {
   const containerId = "testcontainer";
 
   beforeEach(async () => {
     await removeAllDatabases();
   });
 
-  it("validate correct execution of query using named container link with leading and trailing slashes", async function () {
+  it("validate correct execution of query using named container link with leading and trailing slashes", async () => {
     const containerDefinition = {
       id: containerId,
       partitionKey: {
@@ -40,15 +39,14 @@ describe("ResourceLink Trimming of leading and trailing slashes", function () {
   });
 });
 
-describe("Test Query Metrics", function () {
-  this.timeout(process.env.MOCHA_TIMEOUT || 20000);
+describe("Test Query Metrics", { timeout: 20000 }, () => {
   const collectionId = "testCollection3";
 
   beforeEach(async () => {
     await removeAllDatabases();
   });
 
-  it("validate that query metrics are correct for a single partition query", async function () {
+  it("validate that query metrics are correct for a single partition query", async () => {
     const database = await getTestDatabase("query metrics test db");
 
     const collectionDefinition = {
@@ -91,14 +89,12 @@ describe("Test Query Metrics", function () {
   });
 });
 
-describe("Partition key in FeedOptions", function () {
-  this.timeout(process.env.MOCHA_TIMEOUT || 10000);
-
+describe("Partition key in FeedOptions", { timeout: 10000 }, () => {
   beforeEach(async () => {
     await removeAllDatabases();
   });
 
-  it("passing partition key in FeedOptions", async function () {
+  it("passing partition key in FeedOptions", async () => {
     const containerDefinition = {
       id: "testcontainer",
       partitionKey: {
@@ -125,9 +121,7 @@ describe("Partition key in FeedOptions", function () {
   });
 });
 
-describe("aggregate query over null value", function () {
-  this.timeout(process.env.MOCHA_TIMEOUT || 10000);
-
+describe("aggregate query over null value", { timeout: 10000 }, () => {
   const aggregateQueryOverNullValue = async function (
     testName: string,
     containerName: string,
@@ -178,23 +172,21 @@ describe("aggregate query over null value", function () {
     await removeAllDatabases();
   });
 
-  it("should execute successfully for container with single partition", async function () {
+  it("should execute successfully for container with single partition", async () => {
     await aggregateQueryOverNullValue("SinglePartition", "SinglePartition", 400);
   });
 
-  it("should execute successfully for container with multiple partitions", async function () {
+  it("should execute successfully for container with multiple partitions", async () => {
     await aggregateQueryOverNullValue("MultiplePartitons", "MultiplePartitons", 10100);
   });
 });
 
-describe("Test Index metrics", function () {
-  this.timeout(process.env.MOCHA_TIMEOUT || 20000);
-
+describe("Test Index metrics", { timeout: 20000 }, () => {
   beforeEach(async () => {
     await removeAllDatabases();
   });
 
-  it("validate that index metrics are correct", async function () {
+  it("validate that index metrics are correct", async () => {
     const collectionId = "testCollection3";
     const createdContainerSinglePartition = await setupContainer(
       "index metrics test db",
@@ -202,7 +194,7 @@ describe("Test Index metrics", function () {
       4000,
     );
     const createdContainerMultiPartition = await setupContainer(
-      "index metrics test db multipartioned",
+      "index metrics test db multi-partitioned",
       collectionId,
       12000,
     );
@@ -218,7 +210,7 @@ describe("Test Index metrics", function () {
     await container.items.create(doc1);
     await container.items.create(doc2);
     await container.items.create(doc3);
-    //  stremeable query
+    //  streamable query
     const query1 = "SELECT * from " + collectionId + " where " + collectionId + ".name = 'test2'";
     //  aggregate query
     const query2 = "SELECT * from " + collectionId + " order by " + collectionId + ".name";
@@ -239,11 +231,12 @@ describe("Test Index metrics", function () {
       }
     }
   }
+
   async function setupContainer(
     datbaseName: string,
     collectionId: string,
     throughput?: number,
-  ): Promise<void> {
+  ): Promise<Container> {
     const database = await getTestDatabase(datbaseName);
 
     const collectionDefinition = {
@@ -258,7 +251,6 @@ describe("Test Index metrics", function () {
       collectionDefinition,
       collectionOptions,
     );
-    const createdContainer = database.container(createdCollectionDef.id);
-    return createdContainer;
+    return database.container(createdCollectionDef.id);
   }
 });

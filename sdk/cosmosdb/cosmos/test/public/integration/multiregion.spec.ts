@@ -1,7 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-/* eslint-disable no-unused-expressions */
-import assert from "node:assert";
 
 import { CosmosClient } from "../../../src/index.js";
 import { masterKey } from "../common/_fakeTestSecrets.js";
@@ -133,7 +131,7 @@ describe("Multi-region tests", function () {
       {
         on: PluginOn.request,
         plugin: async (context, diagNode) => {
-          expect(diagNode, "DiagnosticsNode should not be undefined or null").to.exist;
+          assert.isDefined(diagNode, "DiagnosticsNode should not be undefined or null");
           const response = responses[requestIndex];
           if (context.endpoint) {
             lastEndpointCalled = context.endpoint;
@@ -177,7 +175,7 @@ describe("Multi-region tests", function () {
       {
         on: PluginOn.request,
         plugin: async (context, diagNode) => {
-          expect(diagNode, "DiagnosticsNode should not be undefined or null").to.exist;
+          assert.isDefined(diagNode, "DiagnosticsNode should not be undefined or null");
           const response = responses[requestIndex];
           if (context.endpoint) {
             lastEndpointCalled = context.endpoint;

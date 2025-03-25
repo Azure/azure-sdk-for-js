@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import assert from "node:assert";
+
 import { Constants } from "../../../src/index.js";
 import type { Container, StoredProcedureDefinition } from "../../../src/index.js";
 import { PartitionKeyDefinitionVersion, PartitionKeyKind } from "../../../src/documents/index.js";
@@ -10,23 +10,37 @@ import {
   getTestDatabase,
   removeAllDatabases,
 } from "../common/TestHelpers.js";
-import { describe, it, assert } from "vitest";
+import type { TestContext } from "vitest";
+import { describe, it, assert, beforeEach } from "vitest";
+
+function getFullTitle(context: TestContext): string {
+  function buildTitle(suite: any): string {
+    if (!suite) {
+      return "";
+    }
+    const parentTitle = buildTitle(suite.suite);
+    return parentTitle ? `${parentTitle} > ${suite.name}` : suite.name;
+  }
+
+  const suiteTitle = buildTitle(context.task.suite);
+  return suiteTitle ? `${suiteTitle} > ${context.task.name}` : context.task.name;
+}
 
 // Used for sproc
 declare let getContext: any;
 
-describe("NodeJS CRUD Tests", function () {
-  this.timeout(process.env.MOCHA_TIMEOUT || 10000);
+describe("NodeJS CRUD Tests", { timeout: 10000 }, () => {
   beforeEach(async () => {
     await removeAllDatabases();
   });
-  describe("Validate sproc CRUD", function () {
+
+  describe("Validate sproc CRUD", () => {
     let container: Container;
-    beforeEach(async () => {
-      container = await getTestContainer(this.test.fullTitle());
+    beforeEach(async (ctx) => {
+      container = await getTestContainer(getFullTitle(ctx));
     });
 
-    it("nativeApi Should do sproc CRUD operations successfully with create/replace", async function () {
+    it("nativeApi Should do sproc CRUD operations successfully with create/replace", async () => {
       // read sprocs
       const { resources: sprocs } = await container.scripts.storedProcedures.readAll().fetchAll();
       assert.equal(sprocs.constructor, Array, "Value should be an array");
@@ -35,13 +49,13 @@ describe("NodeJS CRUD Tests", function () {
       const beforeCreateSprocsCount = sprocs.length;
       const sprocDefinition: StoredProcedureDefinition = {
         id: "sample sproc",
-        body: "function () { const x = 10; }",
+        body: "() => { const x = 10; }",
       };
 
       const { resource: sproc } = await container.scripts.storedProcedures.create(sprocDefinition);
 
       assert.equal(sproc.id, sprocDefinition.id);
-      assert.equal(sproc.body, "function () { const x = 10; }");
+      assert.equal(sproc.body, "() => { const x = 10; }");
 
       // read sprocs after creation
       const { resources: sprocsAfterCreation } = await container.scripts.storedProcedures
@@ -64,13 +78,13 @@ describe("NodeJS CRUD Tests", function () {
 
       // replace sproc
       // prettier-ignore
-      sproc.body = function () { const x = 20; console.log(x); };
+      sproc.body = () => { const x = 20; console.log(x); };
       const { resource: replacedSproc } = await container.scripts
         .storedProcedure(sproc.id)
         .replace(sproc);
 
       assert.equal(replacedSproc.id, sproc.id);
-      assert.equal(replacedSproc.body, "function () { const x = 20; console.log(x); }");
+      assert.equal(replacedSproc.body, "() => { const x = 20; console.log(x); }");
 
       // read sproc
       const { resource: sprocAfterReplace } = await container.scripts
@@ -92,16 +106,16 @@ describe("NodeJS CRUD Tests", function () {
     });
   });
 
-  describe("Validate stored procedure functionality", function () {
+  describe("Validate stored procedure functionality", () => {
     let container: Container;
-    beforeEach(async () => {
-      container = await getTestContainer(this.test.fullTitle());
+    beforeEach(async (ctx) => {
+      container = await getTestContainer(getFullTitle(ctx));
     });
 
-    it("nativeApi should do stored procedure operations successfully with create/replace", async function () {
+    it("nativeApi should do stored procedure operations successfully with create/replace", async () => {
       const sproc1: StoredProcedureDefinition = {
         id: "storedProcedure1",
-        body: function () {
+        body: () => {
           for (let i = 0; i < 1000; i++) {
             const item = getContext().getResponse().getBody();
             if (i > 0 && item !== i - 1) throw "body mismatch";
@@ -112,7 +126,7 @@ describe("NodeJS CRUD Tests", function () {
 
       const sproc2: StoredProcedureDefinition = {
         id: "storedProcedure2",
-        body: function () {
+        body: () => {
           for (let i = 0; i < 10; i++) {
             getContext().getResponse().appendValue("Body", i);
           }
@@ -148,7 +162,7 @@ describe("NodeJS CRUD Tests", function () {
     });
   });
 
-  it("nativeApi Should execute stored procedure with partition key successfully name based", async function () {
+  it("nativeApi Should execute stored procedure with partition key successfully name based", async () => {
     const database = await getTestDatabase("sproc test database");
     // create container
     const partitionKey = "key";
@@ -165,7 +179,7 @@ describe("NodeJS CRUD Tests", function () {
 
     const querySproc = {
       id: "querySproc",
-      body: function () {
+      body: () => {
         const context = getContext();
         const container2 = context.getCollection();
         const response = context.getResponse();
@@ -212,7 +226,7 @@ describe("NodeJS CRUD Tests", function () {
     assert.equal(JSON.stringify(result2[0]), JSON.stringify(documents[4]));
   });
 
-  it("nativeApi Should execute stored procedure with partition key successfully name based : Hierarachial partitions", async function () {
+  it("nativeApi Should execute stored procedure with partition key successfully name based : Hierarachial partitions", async () => {
     const database = await getTestDatabase("sproc test database");
     // create container
     const partitionKey1 = "key1";
@@ -234,7 +248,7 @@ describe("NodeJS CRUD Tests", function () {
 
     const querySproc = {
       id: "querySproc",
-      body: function () {
+      body: () => {
         const context = getContext();
         const container2 = context.getCollection();
         const response = context.getResponse();
@@ -281,7 +295,7 @@ describe("NodeJS CRUD Tests", function () {
     assert.equal(JSON.stringify(result2[0]), JSON.stringify(documents[4]));
   });
 
-  it("nativeApi Should enable/disable script logging while executing stored procedure", async function () {
+  it("nativeApi Should enable/disable script logging while executing stored procedure", async () => {
     // create database
     const database = await getTestDatabase("sproc test database");
     // create container
@@ -292,7 +306,7 @@ describe("NodeJS CRUD Tests", function () {
     const container = await database.container(containerResult.id);
     const sproc1 = {
       id: "storedProcedure",
-      body: function () {
+      body: () => {
         const mytext = "x";
         const myval = 1;
         try {

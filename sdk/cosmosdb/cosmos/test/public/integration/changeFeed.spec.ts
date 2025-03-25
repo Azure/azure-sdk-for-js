@@ -1,25 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import assert from "node:assert";
+
 import type { RequestOptions } from "../../../src/index.js";
 import type { Container, ContainerDefinition } from "../../../src/index.js";
 import { PartitionKeyDefinitionVersion, PartitionKeyKind } from "../../../src/documents/index.js";
 import { getTestContainer, removeAllDatabases } from "../common/TestHelpers.js";
-import { describe, it, assert } from "vitest";
+import { describe, it, assert, beforeAll, afterAll } from "vitest";
 
-describe("Change Feed Iterator", function () {
-  this.timeout(process.env.MOCHA_TIMEOUT || 20000);
-
+describe("Change Feed Iterator", { timeout: 20000 }, () => {
   // delete all databases and create sample database
-  before(async function () {
+  beforeAll(async () => {
     await removeAllDatabases();
   });
 
-  describe("Newly updated items should be fetched incrementally", function () {
+  describe("Newly updated items should be fetched incrementally", () => {
     let container: Container;
 
     // create container and two items
-    before(async function () {
+    beforeAll(async () => {
       const containerDef: ContainerDefinition = {
         partitionKey: {
           paths: ["/key1", "/key2"],
@@ -40,7 +38,7 @@ describe("Change Feed Iterator", function () {
       await container.items.create({ id: "item2", key1: "1", key2: 1 });
     });
 
-    it("should throw if used with no partition key or partition key range id", async function () {
+    it("should throw if used with no partition key or partition key range id", async () => {
       const iterator = container.items.changeFeed({ startFromBeginning: true });
 
       try {
@@ -55,7 +53,7 @@ describe("Change Feed Iterator", function () {
       assert.fail("Should have failed");
     });
 
-    it("should fetch updated items only", async function () {
+    it("should fetch updated items only", async () => {
       const iterator = container.items.changeFeed(["0", 0], { startFromBeginning: true });
 
       const { result: items, headers } = await iterator.fetchNext();
@@ -85,11 +83,11 @@ describe("Change Feed Iterator", function () {
     });
   });
 
-  describe("Newly created items should be fetched incrementally", async function () {
+  describe("Newly created items should be fetched incrementally", async () => {
     let container: Container;
 
     // create container and one item
-    before(async function () {
+    beforeAll(async () => {
       const containerDef: ContainerDefinition = {
         partitionKey: {
           paths: ["/key1", "/key2"],
@@ -108,11 +106,11 @@ describe("Change Feed Iterator", function () {
       await container.items.create({ id: "item1", key1: "1", key2: 1 });
     });
 
-    after(async function () {
+    afterAll(async () => {
       await container.delete();
     });
 
-    it("should fetch new items only", async function () {
+    it("should fetch new items only", async () => {
       const iterator = container.items.changeFeed(["0", 0]);
 
       const { result: items, headers } = await iterator.fetchNext();

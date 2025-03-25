@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import assert from "node:assert";
 import type { Container, OperationResponse } from "../../../../src/index.js";
 import {
   CosmosClient,
@@ -16,10 +15,10 @@ import { PartitionKeyKind } from "../../../../src/documents/index.js";
 import { endpoint } from "../../common/_testConfig.js";
 import { masterKey } from "../../common/_fakeTestSecrets.js";
 import { getCurrentTimestampInMs } from "../../../../src/utils/time.js";
-import { describe, it, assert } from "vitest";
+import { describe, it, assert, beforeAll } from "vitest";
 
-describe("test batch operations", function () {
-  describe("v2 multi partition container", async function () {
+describe("test batch operations", () => {
+  describe("v2 multi partition container", async () => {
     let container: Container;
     let createItemId: string;
     let otherItemId: string;
@@ -27,7 +26,8 @@ describe("test batch operations", function () {
     let replaceItemId: string;
     let deleteItemId: string;
     let patchItemId: string;
-    before(async function () {
+
+    beforeAll(async () => {
       const client = new CosmosClient({ key: masterKey, endpoint });
       const db = await client.databases.createIfNotExists({ id: "patchDb" });
       const contResponse = await db.database.containers.createIfNotExists({
@@ -61,7 +61,8 @@ describe("test batch operations", function () {
         class: "2010",
       });
     });
-    it("can batch all operation types", async function () {
+
+    it("can batch all operation types", async () => {
       const operations: OperationInput[] = [
         {
           operationType: BulkOperationType.Create,
@@ -98,7 +99,8 @@ describe("test batch operations", function () {
       assert.strictEqual(response.result[3].statusCode, 204);
       assert.strictEqual(response.result[4].statusCode, 200);
     });
-    it("rolls back prior operations when one fails", async function () {
+
+    it("rolls back prior operations when one fails", async () => {
       const operations: OperationInput[] = [
         {
           operationType: BulkOperationType.Upsert,
@@ -117,7 +119,8 @@ describe("test batch operations", function () {
       assert.strictEqual(readItem, undefined);
       assert(isOperationResponse(deleteResponse.result[0]));
     });
-    it("test diagnostics for batch api", async function () {
+
+    it("test diagnostics for batch api", async () => {
       const operations: OperationInput[] = [
         {
           operationType: BulkOperationType.Create,
@@ -167,6 +170,7 @@ describe("test batch operations", function () {
         true,
       );
     });
+
     function isOperationResponse(object: unknown): object is OperationResponse {
       return (
         typeof object === "object" &&
@@ -176,7 +180,7 @@ describe("test batch operations", function () {
       );
     }
   });
-  describe("v2 multi partition container - hierarchical partitions", async function () {
+  describe("v2 multi partition container - hierarchical partitions", async () => {
     let container: Container;
     let createItemId: string;
     let otherItemId: string;
@@ -184,7 +188,8 @@ describe("test batch operations", function () {
     let replaceItemId: string;
     let deleteItemId: string;
     let patchItemId: string;
-    before(async function () {
+
+    beforeAll(async () => {
       const client = new CosmosClient({ key: masterKey, endpoint });
       const db = await client.databases.createIfNotExists({ id: "patchDb" });
       const contResponse = await db.database.containers.createIfNotExists({
@@ -222,7 +227,8 @@ describe("test batch operations", function () {
         class: "2010",
       });
     });
-    it("can batch all operation types", async function () {
+
+    it("can batch all operation types", async () => {
       const operations: OperationInput[] = [
         {
           operationType: BulkOperationType.Create,
@@ -259,7 +265,7 @@ describe("test batch operations", function () {
       assert.strictEqual(response.result[3].statusCode, 204);
       assert.strictEqual(response.result[4].statusCode, 200);
     });
-    it("rolls back prior operations when one fails", async function () {
+    it("rolls back prior operations when one fails", async () => {
       const operations: OperationInput[] = [
         {
           operationType: BulkOperationType.Upsert,

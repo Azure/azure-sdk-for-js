@@ -9,13 +9,13 @@ import type {
   ContainerDefinition,
   OperationInput,
   PatchOperation,
+  EncryptionKeyWrapMetadata,
+  ClientEncryptionPolicy,
+  ClientEncryptionIncludedPath,
 } from "../../../src/index.js";
 import {
   CosmosClient,
-  EncryptionKeyWrapMetadata,
-  ClientEncryptionPolicy,
   KeyEncryptionAlgorithm,
-  ClientEncryptionIncludedPath,
   EncryptionType,
   EncryptionKeyResolverName,
   StatusCodes,
@@ -49,11 +49,9 @@ import {
   verifyDiagnostics,
 } from "../common/encryptionTestHelpers.js";
 import { removeAllDatabases } from "../common/TestHelpers.js";
-import {
-  CosmosEncryptedNumber,
-  CosmosEncryptedNumberType,
-} from "../../../src/encryption/CosmosEncryptedNumber.js";
-import { describe, it, assert } from "vitest";
+import type { CosmosEncryptedNumber } from "../../../src/encryption/CosmosEncryptedNumber.js";
+import { CosmosEncryptedNumberType } from "../../../src/encryption/CosmosEncryptedNumber.js";
+import { describe, it, assert, beforeEach, beforeAll, afterAll } from "vitest";
 
 let encryptionClient: CosmosClient;
 let metadata1: EncryptionKeyWrapMetadata;
@@ -67,8 +65,8 @@ let clientEncryptionPolicy: ClientEncryptionPolicy;
 
 const testKeyVault = "TESTKEYSTORE_VAULT" as EncryptionKeyResolverName;
 
-describe("ClientSideEncryption", function () {
-  before(async () => {
+describe("ClientSideEncryption", () => {
+  beforeAll(async () => {
     await removeAllDatabases();
     testKeyEncryptionKeyResolver = new MockKeyVaultEncryptionKeyResolver();
     metadata1 = {
@@ -2417,7 +2415,8 @@ describe("ClientSideEncryption", function () {
     assert.ok(unwrapCount === 1);
     newClient.dispose();
   });
-  after(async () => {
+
+  afterAll(async () => {
     await removeAllDatabases();
     encryptionClient.dispose();
   });

@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import assert from "node:assert";
+
 import { CosmosClient } from "../../../src/index.js";
 import { endpoint } from "../../public/common/_testConfig.js";
 import { masterKey, userSasTokenKey } from "../../public/common/_fakeTestSecrets.js";

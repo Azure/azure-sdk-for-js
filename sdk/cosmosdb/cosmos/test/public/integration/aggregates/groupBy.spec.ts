@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 import type { Container, ContainerDefinition, FeedOptions } from "../../../../src/index.js";
 import { bulkInsertItems, getTestContainer, removeAllDatabases } from "../../common/TestHelpers.js";
-import assert from "node:assert";
 import groupBySnapshot from "./groupBy.snapshot.js";
-import { describe, it, assert } from "vitest";
+import { describe, it, assert, beforeEach, beforeAll } from "vitest";
 
 const items = [
   {
@@ -531,7 +531,7 @@ describe("Cross partition GROUP BY", () => {
   };
   const containerOptions = { offerThroughput: 25100 };
 
-  before(async () => {
+  beforeAll(async () => {
     await removeAllDatabases();
     container = await getTestContainer(
       "GROUP BY Query",

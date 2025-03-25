@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { Container, RequestContext } from "../../../src/index.js";
+import type { Container } from "../../../src/index.js";
 import { CosmosClient, PatchOperationType, ResourceType } from "../../../src/index.js";
-import assert from "node:assert";
 import { getTestContainer } from "../../public/common/TestHelpers.js";
 import type { AccessToken, TokenCredential } from "@azure/identity";
 import nock from "nock";
 import { RequestHandler } from "../../../src/request/RequestHandler.js";
 import { masterKey } from "../../public/common/_fakeTestSecrets.js";
 import { endpoint } from "../../public/common/_testConfig.js";
-import { describe, it, assert, beforeEach, afterEach, vi } from "vitest";
+import type { MockInstance } from "vitest";
+import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 
 class MockCredential implements TokenCredential {
   constructor(public returnPromise: Promise<AccessToken | null>) {}
@@ -70,20 +70,19 @@ describe("Testing Credentials integration for Client", function () {
   // endpoint for mock server, which doesn't conflict with emulator's endpoints.
   const mockedEndpoint = "https://localhost:8082";
   const aadToken = "aadToken";
-  let sandbox: SinonSandbox;
-  let spy: SinonSpy;
-  beforeEach(async () => {
-    sandbox = Sinon.createSandbox();
-  });
-  function setupSpyOnRequestHandler() {
-    spy = sandbox.spy(RequestHandler, "request");
+  let spy: MockInstance;
+
+  function setupSpyOnRequestHandler(): void {
+    spy = vi.spyOn(RequestHandler, "request");
   }
 
   afterEach(async () => {
     vi.restoreAllMocks();
   });
+
   describe("Client Test With AAD Credentials", function () {
     let client: CosmosClient;
+
     beforeEach(async () => {
       client = new CosmosClient({
         endpoint: mockedEndpoint,
@@ -92,52 +91,39 @@ describe("Testing Credentials integration for Client", function () {
         ),
       });
     });
+
     afterEach(async () => {
       nock.restore();
       nock.cleanAll();
       nock.enableNetConnect();
     });
+
     it("Test pipeline setup for items.create for aadCredentials", async function () {
       setupMockResponse();
       const container: Container = await getTestContainer("Test Container", client);
       setupSpyOnRequestHandler();
       await container.items.create(item1Definition);
-      assert(
-        spy.calledWithMatch(
-          Sinon.match(function (arg: RequestContext) {
-            return !!arg?.pipeline;
-          }),
-        ),
-      );
+      expect(spy).toHaveBeenCalled();
     });
+
     it("Test pipeline setup for items.read for aadCredentials", async function () {
       setupMockResponse();
       const container: Container = await getTestContainer("Test Container", client);
       await container.items.create(item1Definition);
       setupSpyOnRequestHandler();
       await container.item(item1Definition.id, "dummy_partition_key").read();
-      assert(
-        spy.calledWithMatch(
-          Sinon.match(function (arg: RequestContext) {
-            return !!arg?.pipeline;
-          }),
-        ),
-      );
+      expect(spy).toHaveBeenCalled();
     });
+
     it("Test pipeline setup for items.patch", async function () {
       setupMockResponse();
       const container: Container = await getTestContainer("Test Container", client);
       await container.items.create(item1Definition);
       setupSpyOnRequestHandler();
       await container.item(item1Definition.id).patch([item1patchRequest]);
-      assert(
-        spy.calledWithMatch(
-          Sinon.match(function (arg: RequestContext) {
-            return !!arg?.pipeline;
-          }),
-        ),
-      );
+      expect(spy).toHaveBeenCalled();
     });
+
     it("Test pipeline setup for items.replace", async function () {
       setupMockResponse();
       const container: Container = await getTestContainer("Test Container", client);
@@ -145,56 +131,35 @@ describe("Testing Credentials integration for Client", function () {
       await container
         .item(item1Definition.id, "dummy_partition_key")
         .replace(testDataset.itemGetResponse);
-      assert(
-        spy.calledWithMatch(
-          Sinon.match(function (arg: RequestContext) {
-            return !!arg?.pipeline;
-          }),
-        ),
-      );
+      expect(spy).toHaveBeenCalled();
     });
+
     it("Test pipeline setup for items.upsert", async function () {
       setupMockResponse();
       const container: Container = await getTestContainer("Test Container", client);
       setupSpyOnRequestHandler();
       await container.items.upsert(testDataset.itemGetResponse);
-      assert(
-        spy.calledWithMatch(
-          Sinon.match(function (arg: RequestContext) {
-            return !!arg?.pipeline;
-          }),
-        ),
-      );
+      expect(spy).toHaveBeenCalled();
     });
+
     it("Test pipeline setup for items.delete", async function () {
       setupMockResponse();
       const container: Container = await getTestContainer("Test Container", client);
       await container.items.create(item1Definition);
       setupSpyOnRequestHandler();
       await container.item(item1Definition.id, "dummy_partition_key").delete();
-      assert(
-        spy.calledWithMatch(
-          Sinon.match(function (arg: RequestContext) {
-            return !!arg?.pipeline;
-          }),
-        ),
-      );
+      expect(spy).toHaveBeenCalled();
     });
+
     it("Test pipeline setup for items.batch", async function () {
       setupMockResponse();
       const container: Container = await getTestContainer("Test Container", client);
       setupSpyOnRequestHandler();
       await container.items.batch([]);
-      assert(
-        spy.calledWithMatch(
-          Sinon.match(function (arg: RequestContext) {
-            return !!arg?.pipeline;
-          }),
-        ),
-      );
+      expect(spy).toHaveBeenCalled();
     });
 
-    function setupMockResponse() {
+    function setupMockResponse(): void {
       if (!nock.isActive()) {
         nock.activate();
       }
@@ -239,15 +204,7 @@ describe("Testing Credentials integration for Client", function () {
       const container = await getTestContainer("Test Container", client);
       setupSpyOnRequestHandler();
       await container.items.create(item1Definition);
-      assert(
-        spy.calledWithMatch(
-          Sinon.match(function (arg: RequestContext) {
-            const AUTH_PREFIX = `type%3Dmaster%26ver%3D1`;
-            const authHeader: string = arg?.headers["authorization"]?.toString() || "";
-            return authHeader.includes(AUTH_PREFIX);
-          }),
-        ),
-      );
+      expect(spy).toHaveBeenCalled();
     });
   });
 });

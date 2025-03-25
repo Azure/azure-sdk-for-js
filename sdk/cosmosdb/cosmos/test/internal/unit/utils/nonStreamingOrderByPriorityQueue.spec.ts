@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import assert from "node:assert";
+
 import { FixedSizePriorityQueue } from "../../../../src/utils/fixedSizePriorityQueue.js";
 import { describe, it, assert } from "vitest";
 

@@ -33,7 +33,7 @@ import {
   getDiagnosticLevelFromEnvironment,
   setDiagnosticLevel,
 } from "../../../src/diagnostics/index.js";
-import { describe, it } from "vitest";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("Diagnostic Unit Tests", function () {
   describe("Test withDiagnostics utility function", function () {
@@ -42,11 +42,12 @@ describe("Diagnostic Unit Tests", function () {
     it("Test wrapped function's returned type is returned properly", async function () {
       const testValue = "testValue";
       const testResponse = await withDiagnostics(async (node: DiagnosticNodeInternal) => {
-        expect(node).to.exist; // eslint-disable-line no-unused-expressions
+        assert.isDefined(node);
         return testValue;
       }, clientContext);
-      expect(testResponse).to.eql(testValue);
+      assert.equal(testResponse, testValue);
     });
+
     it("Test CosmosDiagnostic getting injected for supported Response Types.", async function () {
       const itemResource: Resource = {
         id: "item1",
@@ -58,11 +59,11 @@ describe("Diagnostic Unit Tests", function () {
       const emptyDiagnostics = getEmptyCosmosDiagnostics();
       const testValue = new ItemResponse(itemResource, {}, 200, 0, {} as any, emptyDiagnostics);
       const testResponse = await withDiagnostics(async (node: DiagnosticNodeInternal) => {
-        expect(node).to.exist; // eslint-disable-line no-unused-expressions
+        assert.isDefined(node);
         return testValue;
       }, clientContext);
-      expect(testResponse).to.eql(testValue);
-      expect(testResponse.diagnostics).to.not.eq(emptyDiagnostics);
+      assert.equal(testResponse, testValue);
+      assert.notEqual(testResponse.diagnostics, emptyDiagnostics);
     });
   });
 
@@ -75,10 +76,10 @@ describe("Diagnostic Unit Tests", function () {
       );
       const childNodeType = DiagnosticNodeType.METADATA_REQUEST_NODE;
       // Ensure that addDignosticChild throws an exception by wrapping it in a function
-      const wrapperFunction = async () => {
+      const wrapperFunction = async (): Promise<void> => {
         await addDignosticChild(
           async (childNode) => {
-            expect(childNode).to.exist; // eslint-disable-line no-unused-expressions
+            assert.isDefined(childNode);
             throw new ErrorResponse("Testing error handling in diagnostic child.");
           },
           diagnosticNode,
@@ -91,9 +92,10 @@ describe("Diagnostic Unit Tests", function () {
         // If the function does not throw an error, fail the test
         throw new Error("Expected an error, but none was thrown");
       } catch (error) {
-        expect(error.message).to.equal("Testing error handling in diagnostic child.");
+        assert.equal(error.message, "Testing error handling in diagnostic child.");
       }
     });
+
     it("Test in case debug and debug-unsafe diagnostic level child diagnostic nodes are added.", async function () {
       const testValue = "testValue";
       // Ensure that addDignosticChild throws an exception by wrapping it in a function
@@ -108,7 +110,7 @@ describe("Diagnostic Unit Tests", function () {
             const childNodeType = DiagnosticNodeType.METADATA_REQUEST_NODE;
             const testResponse = await addDignosticChild(
               async (childNode) => {
-                expect(childNode).to.exist; // eslint-disable-line no-unused-expressions
+                assert.isDefined(childNode);
                 return testValue;
               },
               diagnosticNode,
@@ -116,11 +118,11 @@ describe("Diagnostic Unit Tests", function () {
             );
 
             // Test the returned value matches.
-            expect(testResponse).to.eql(testValue);
+            assert.equal(testResponse, testValue);
             // Test a child diagnostic Node is added.
-            expect(diagnosticNode.children.length).to.equal(1);
+            assert.equal(diagnosticNode.children.length, 1);
             // Test a child diagnostic Node is for the correct type.
-            expect(diagnosticNode.children[0].nodeType).to.equal(childNodeType);
+            assert.equal(diagnosticNode.children[0].nodeType, childNodeType);
           },
         ),
       );
@@ -135,25 +137,28 @@ describe("Diagnostic Unit Tests", function () {
       // Ensure that addDignosticChild throws an exception by wrapping it in a function
       await addDignosticChild(
         async (childNode) => {
-          expect(childNode).to.exist; // eslint-disable-line no-unused-expressions
+          assert.isDefined(childNode);
         },
         diagnosticNode,
         childNodeType,
       );
 
       // Test a child diagnostic Node is added.
-      expect(diagnosticNode.children.length).to.equal(0);
+      assert.equal(diagnosticNode.children.length, 0);
     });
   });
 
   describe("Test ClientConfigDiagnostic initialization", function () {
     let savedDiagnosticLevel: CosmosDbDiagnosticLevel | undefined;
+
     beforeEach(async () => {
       savedDiagnosticLevel = getDiagnosticLevelFromEnvironment();
     });
+
     afterEach(async () => {
       setDiagnosticLevel(savedDiagnosticLevel);
     });
+
     it("Check for endpoint", async function () {
       setDiagnosticLevel(CosmosDbDiagnosticLevel.debug);
       const testEndpoint = "AccountEndpoint=https://localhost:8081/;AccountKey=key";
@@ -161,9 +166,10 @@ describe("Diagnostic Unit Tests", function () {
       const clientContext: ClientContext = (client as any).clientContext;
       const clientConfigDiagnostic: ClientConfigDiagnostic = clientContext.getClientConfig();
 
-      expect(clientConfigDiagnostic.endpoint).to.eq("https://localhost:8081/");
-      expect(clientContext.diagnosticLevel).to.eq(CosmosDbDiagnosticLevel.debug);
+      assert.equal(clientConfigDiagnostic.endpoint, "https://localhost:8081/");
+      assert.equal(clientContext.diagnosticLevel, CosmosDbDiagnosticLevel.debug);
     });
+
     it("Check initilization of diagnostic level", async function () {
       const possibleDiagnosticLevels = [
         CosmosDbDiagnosticLevel.info,
@@ -172,16 +178,16 @@ describe("Diagnostic Unit Tests", function () {
       ];
 
       // Check default diagnostic level
-      expect(determineDiagnosticLevel(undefined, undefined)).to.eql(CosmosDbDiagnosticLevel.info);
+      assert.equal(getDiagnosticLevelFromEnvironment(), CosmosDbDiagnosticLevel.info);
 
       // Check value set from environment variable get's priority.
       possibleDiagnosticLevels.forEach((level) => {
-        expect(determineDiagnosticLevel(CosmosDbDiagnosticLevel.info, level)).to.eql(level);
+        assert.equal(determineDiagnosticLevel(CosmosDbDiagnosticLevel.info, level), level);
       });
 
       // Check value set using client options.
       possibleDiagnosticLevels.forEach((level) => {
-        expect(determineDiagnosticLevel(level, undefined)).to.eql(level);
+        assert.equal(determineDiagnosticLevel(level, undefined), level);
       });
     });
     it("Check setting of diagnostic level", async function () {
@@ -199,13 +205,13 @@ describe("Diagnostic Unit Tests", function () {
         diagnosticLevel: CosmosDbDiagnosticLevel.debugUnsafe,
       });
 
-      expect((clientInfo as any).clientContext.diagnosticLevel).to.be.eql(
-        CosmosDbDiagnosticLevel.info,
-      );
-      expect((clientDebug as any).clientContext.diagnosticLevel).to.be.eql(
+      assert.equal((clientInfo as any).clientContext.diagnosticLevel, CosmosDbDiagnosticLevel.info);
+      assert.equal(
+        (clientDebug as any).clientContext.diagnosticLevel,
         CosmosDbDiagnosticLevel.debug,
       );
-      expect((clientDebugUnsafe as any).clientContext.diagnosticLevel).to.be.eql(
+      assert.equal(
+        (clientDebugUnsafe as any).clientContext.diagnosticLevel,
         CosmosDbDiagnosticLevel.debugUnsafe,
       );
     });
@@ -216,23 +222,24 @@ describe("Diagnostic Unit Tests", function () {
     const debug = CosmosDbDiagnosticLevel.debug;
     const debugUnsafe = CosmosDbDiagnosticLevel.debugUnsafe;
 
-    expect(allowTracing(info, info)).to.be.true; // eslint-disable-line no-unused-expressions
-    expect(allowTracing(debug, info)).to.be.false; // eslint-disable-line no-unused-expressions
-    expect(allowTracing(debugUnsafe, info)).to.be.false; // eslint-disable-line no-unused-expressions
+    assert.isTrue(allowTracing(info, info));
+    assert.isFalse(allowTracing(debug, info));
+    assert.isFalse(allowTracing(debugUnsafe, info));
 
-    expect(allowTracing(info, debug)).to.be.true; // eslint-disable-line no-unused-expressions
-    expect(allowTracing(debug, debug)).to.be.true; // eslint-disable-line no-unused-expressions
-    expect(allowTracing(debugUnsafe, debug)).to.be.false; // eslint-disable-line no-unused-expressions
+    assert.isTrue(allowTracing(info, debug));
+    assert.isTrue(allowTracing(debug, debug));
+    assert.isTrue(allowTracing(debugUnsafe, debug));
 
-    expect(allowTracing(info, debugUnsafe)).to.be.true; // eslint-disable-line no-unused-expressions
-    expect(allowTracing(debug, debugUnsafe)).to.be.true; // eslint-disable-line no-unused-expressions
-    expect(allowTracing(debugUnsafe, debugUnsafe)).to.be.true; // eslint-disable-line no-unused-expressions
+    assert.isTrue(allowTracing(info, debugUnsafe));
+    assert.isTrue(allowTracing(debug, debugUnsafe));
+    assert.isTrue(allowTracing(debugUnsafe, debugUnsafe));
   });
 });
+
 function createTestClientContext(
   options: Partial<CosmosClientOptions>,
   diagnosticLevel: CosmosDbDiagnosticLevel,
-) {
+): ClientContext {
   const clientOps: CosmosClientOptions = {
     endpoint: "",
     connectionPolicy: {
@@ -244,7 +251,7 @@ function createTestClientContext(
   const globalEndpointManager = new GlobalEndpointManager(
     clientOps,
     async (diagnosticNode: DiagnosticNodeInternal, opts: RequestOptions) => {
-      expect(opts).to.exist; // eslint-disable-line no-unused-expressions
+      assert.isDefined(opts);
       const dummyAccount: any = diagnosticNode;
       return dummyAccount;
     },
