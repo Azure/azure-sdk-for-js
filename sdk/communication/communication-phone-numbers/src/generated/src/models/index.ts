@@ -67,6 +67,7 @@ export interface PhoneNumberCountry {
   countryCode: string;
 }
 
+/** The parameters for the browse operation. */
 export interface PhoneNumbersBrowseRequest {
   /** Represents the number type of the offering. */
   phoneNumberType: PhoneNumberType;
@@ -86,6 +87,7 @@ export interface PhoneNumberBrowseCapabilitiesRequest {
   sms?: PhoneNumberCapabilityType;
 }
 
+/** The result of a phone number browse operation. */
 export interface PhoneNumbersBrowseResult {
   /** The phone numbers that are available for purchase. */
   phoneNumbers: AvailablePhoneNumber[];
@@ -209,6 +211,7 @@ export interface PhoneNumberOffering {
   cost: PhoneNumberCost;
 }
 
+/** Represents a list of phone numbers reservations. Note that the phone numbers from each reservation are not included. */
 export interface PhoneNumbersReservations {
   /** Represents a list of phone numbers reservations. Note that the phone numbers from each reservation are not included. */
   reservations: PhoneNumbersReservation[];
@@ -229,7 +232,7 @@ export interface PhoneNumbersReservation {
    */
   readonly expiresAt?: Date;
   /** A dictionary containing the reservation phone numbers. The key is the ID of the phone number (digits only) and values are AvailablePhoneNumber objects. Not populated when retrieving PhoneNumbersReservation collections. */
-  phoneNumbers?: { [propertyName: string]: AvailablePhoneNumber };
+  phoneNumbers?: { [propertyName: string]: AvailablePhoneNumber | null };
   /**
    * Represents the status of the reservation. Possible values include: 'active', 'submitted', 'completed', 'expired'.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -599,20 +602,20 @@ export interface PhoneNumbersListOfferingsOptionalParams
 export type PhoneNumbersListOfferingsResponse = OfferingsResponse;
 
 /** Optional parameters. */
-export interface PhoneNumbersGetReservationsOptionalParams
+export interface PhoneNumbersListReservationsOptionalParams
   extends coreClient.OperationOptions {
   /** An optional parameter for how many entries to return, for pagination purposes. The default value is 100. */
   maxPageSize?: number;
 }
 
-/** Contains response data for the getReservations operation. */
-export type PhoneNumbersGetReservationsResponse = PhoneNumbersReservations;
+/** Contains response data for the listReservations operation. */
+export type PhoneNumbersListReservationsResponse = PhoneNumbersReservations;
 
 /** Optional parameters. */
 export interface PhoneNumbersCreateOrUpdateReservationOptionalParams
   extends coreClient.OperationOptions {
   /** A dictionary containing the reservation phone numbers. The key is the ID of the phone number (digits only) and values are AvailablePhoneNumber objects. Not populated when retrieving PhoneNumbersReservation collections. */
-  phoneNumbers?: { [propertyName: string]: AvailablePhoneNumber };
+  phoneNumbers?: { [propertyName: string]: AvailablePhoneNumber | null };
 }
 
 /** Contains response data for the createOrUpdateReservation operation. */
@@ -801,11 +804,11 @@ export interface PhoneNumbersListOfferingsNextOptionalParams
 export type PhoneNumbersListOfferingsNextResponse = OfferingsResponse;
 
 /** Optional parameters. */
-export interface PhoneNumbersGetReservationsNextOptionalParams
+export interface PhoneNumbersListReservationsNextOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Contains response data for the getReservationsNext operation. */
-export type PhoneNumbersGetReservationsNextResponse = PhoneNumbersReservations;
+/** Contains response data for the listReservationsNext operation. */
+export type PhoneNumbersListReservationsNextResponse = PhoneNumbersReservations;
 
 /** Optional parameters. */
 export interface PhoneNumbersListPhoneNumbersNextOptionalParams

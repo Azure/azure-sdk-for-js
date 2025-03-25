@@ -19,7 +19,7 @@ import {
   PhoneNumberOffering,
   PhoneNumbersListOfferingsOptionalParams,
   PhoneNumbersReservation,
-  PhoneNumbersGetReservationsOptionalParams,
+  PhoneNumbersListReservationsOptionalParams,
   PurchasedPhoneNumber,
   PhoneNumbersListPhoneNumbersOptionalParams,
   PhoneNumbersBrowseAvailableNumbersOptionalParams,
@@ -97,7 +97,7 @@ export interface PhoneNumbers {
    * @param options The options parameters.
    */
   listReservations(
-    options?: PhoneNumbersGetReservationsOptionalParams,
+    options?: PhoneNumbersListReservationsOptionalParams,
   ): PagedAsyncIterableIterator<PhoneNumbersReservation>;
   /**
    * Gets the list of all purchased phone numbers.

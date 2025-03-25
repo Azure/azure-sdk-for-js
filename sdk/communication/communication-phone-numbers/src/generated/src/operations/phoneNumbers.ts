@@ -35,9 +35,9 @@ import {
   PhoneNumbersListOfferingsOptionalParams,
   PhoneNumbersListOfferingsResponse,
   PhoneNumbersReservation,
-  PhoneNumbersGetReservationsNextOptionalParams,
-  PhoneNumbersGetReservationsOptionalParams,
-  PhoneNumbersGetReservationsResponse,
+  PhoneNumbersListReservationsNextOptionalParams,
+  PhoneNumbersListReservationsOptionalParams,
+  PhoneNumbersListReservationsResponse,
   PurchasedPhoneNumber,
   PhoneNumbersListPhoneNumbersNextOptionalParams,
   PhoneNumbersListPhoneNumbersOptionalParams,
@@ -74,7 +74,7 @@ import {
   PhoneNumbersListAvailableCountriesNextResponse,
   PhoneNumbersListAvailableLocalitiesNextResponse,
   PhoneNumbersListOfferingsNextResponse,
-  PhoneNumbersGetReservationsNextResponse,
+  PhoneNumbersListReservationsNextResponse,
   PhoneNumbersListPhoneNumbersNextResponse,
 } from "../models/index.js";
 
@@ -367,9 +367,9 @@ export class PhoneNumbersImpl implements PhoneNumbers {
    * @param options The options parameters.
    */
   public listReservations(
-    options?: PhoneNumbersGetReservationsOptionalParams,
+    options?: PhoneNumbersListReservationsOptionalParams,
   ): PagedAsyncIterableIterator<PhoneNumbersReservation> {
-    const iter = this.getReservationsPagingAll(options);
+    const iter = this.listReservationsPagingAll(options);
     return {
       next() {
         return iter.next();
@@ -381,26 +381,26 @@ export class PhoneNumbersImpl implements PhoneNumbers {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.getReservationsPagingPage(options, settings);
+        return this.listReservationsPagingPage(options, settings);
       },
     };
   }
 
-  private async *getReservationsPagingPage(
-    options?: PhoneNumbersGetReservationsOptionalParams,
+  private async *listReservationsPagingPage(
+    options?: PhoneNumbersListReservationsOptionalParams,
     settings?: PageSettings,
   ): AsyncIterableIterator<PhoneNumbersReservation[]> {
-    let result: PhoneNumbersGetReservationsResponse;
+    let result: PhoneNumbersListReservationsResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._getReservations(options);
+      result = await this._listReservations(options);
       let page = result.reservations || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
     }
     while (continuationToken) {
-      result = await this._getReservationsNext(continuationToken, options);
+      result = await this._listReservationsNext(continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.reservations || [];
       setContinuationToken(page, continuationToken);
@@ -408,10 +408,10 @@ export class PhoneNumbersImpl implements PhoneNumbers {
     }
   }
 
-  private async *getReservationsPagingAll(
-    options?: PhoneNumbersGetReservationsOptionalParams,
+  private async *listReservationsPagingAll(
+    options?: PhoneNumbersListReservationsOptionalParams,
   ): AsyncIterableIterator<PhoneNumbersReservation> {
-    for await (const page of this.getReservationsPagingPage(options)) {
+    for await (const page of this.listReservationsPagingPage(options)) {
       yield* page;
     }
   }
@@ -584,17 +584,17 @@ export class PhoneNumbersImpl implements PhoneNumbers {
    * populated with the phone numbers associated with them.
    * @param options The options parameters.
    */
-  private async _getReservations(
-    options?: PhoneNumbersGetReservationsOptionalParams,
-  ): Promise<PhoneNumbersGetReservationsResponse> {
+  private async _listReservations(
+    options?: PhoneNumbersListReservationsOptionalParams,
+  ): Promise<PhoneNumbersListReservationsResponse> {
     return tracingClient.withSpan(
-      "PhoneNumbersClient._getReservations",
+      "PhoneNumbersClient._listReservations",
       options ?? {},
       async (options) => {
         return this.client.sendOperationRequest(
           { options },
-          getReservationsOperationSpec,
-        ) as Promise<PhoneNumbersGetReservationsResponse>;
+          listReservationsOperationSpec,
+        ) as Promise<PhoneNumbersListReservationsResponse>;
       },
     );
   }
@@ -1359,22 +1359,22 @@ export class PhoneNumbersImpl implements PhoneNumbers {
   }
 
   /**
-   * GetReservationsNext
-   * @param nextLink The nextLink from the previous successful call to the GetReservations method.
+   * ListReservationsNext
+   * @param nextLink The nextLink from the previous successful call to the ListReservations method.
    * @param options The options parameters.
    */
-  private async _getReservationsNext(
+  private async _listReservationsNext(
     nextLink: string,
-    options?: PhoneNumbersGetReservationsNextOptionalParams,
-  ): Promise<PhoneNumbersGetReservationsNextResponse> {
+    options?: PhoneNumbersListReservationsNextOptionalParams,
+  ): Promise<PhoneNumbersListReservationsNextResponse> {
     return tracingClient.withSpan(
-      "PhoneNumbersClient._getReservationsNext",
+      "PhoneNumbersClient._listReservationsNext",
       options ?? {},
       async (options) => {
         return this.client.sendOperationRequest(
           { nextLink, options },
-          getReservationsNextOperationSpec,
-        ) as Promise<PhoneNumbersGetReservationsNextResponse>;
+          listReservationsNextOperationSpec,
+        ) as Promise<PhoneNumbersListReservationsNextResponse>;
       },
     );
   }
@@ -1516,7 +1516,7 @@ const listOfferingsOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept, Parameters.acceptLanguage],
   serializer,
 };
-const getReservationsOperationSpec: coreClient.OperationSpec = {
+const listReservationsOperationSpec: coreClient.OperationSpec = {
   path: "/availablePhoneNumbers/reservations",
   httpMethod: "GET",
   responses: {
@@ -1926,7 +1926,7 @@ const listOfferingsNextOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept, Parameters.acceptLanguage],
   serializer,
 };
-const getReservationsNextOperationSpec: coreClient.OperationSpec = {
+const listReservationsNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {

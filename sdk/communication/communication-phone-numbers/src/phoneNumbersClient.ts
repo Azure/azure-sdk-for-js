@@ -29,7 +29,7 @@ import type {
   PhoneNumberSearchResult,
   PhoneNumbersGetReservationOptionalParams,
   PhoneNumbersGetReservationResponse,
-  PhoneNumbersGetReservationsOptionalParams,
+  PhoneNumbersListReservationsOptionalParams,
   PhoneNumbersReservation,
   PhoneNumbersStartReservationPurchaseOptionalParams,
   PhoneNumbersStartReservationPurchaseResponse,
@@ -898,10 +898,10 @@ export class PhoneNumbersClient {
    * @param options - The optional parameters.
    */
   public listReservations(
-    options: PhoneNumbersGetReservationsOptionalParams = {}
+    options: PhoneNumbersListReservationsOptionalParams = {}
   ): PagedAsyncIterableIterator<PhoneNumbersReservation> {
     const { span, updatedOptions } = tracingClient.startSpan(
-      "PhoneNumbersClient-getReservations",
+      "PhoneNumbersClient-listReservations",
       options
     );
 

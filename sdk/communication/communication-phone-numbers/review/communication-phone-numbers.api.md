@@ -199,7 +199,15 @@ export interface PhoneNumbersBrowseAvailableNumbersOptionalParams extends coreCl
 // @public
 export type PhoneNumbersBrowseAvailableNumbersResponse = PhoneNumbersBrowseResult;
 
-// @public (undocumented)
+// @public
+export interface PhoneNumbersBrowseRequest {
+    assignmentType?: PhoneNumberAssignmentType;
+    capabilities?: PhoneNumberBrowseCapabilitiesRequest;
+    phoneNumberPrefixes?: string[];
+    phoneNumberType: PhoneNumberType;
+}
+
+// @public
 export interface PhoneNumbersBrowseResult {
     phoneNumbers: AvailablePhoneNumber[];
 }
@@ -214,8 +222,8 @@ export class PhoneNumbersClient {
     beginReservationPurchase(reservationId: string, options?: PhoneNumbersStartReservationPurchaseOptionalParams): Promise<PollerLike<PollOperationState<PhoneNumbersStartReservationPurchaseResponse>, PhoneNumbersStartReservationPurchaseResponse>>;
     beginSearchAvailablePhoneNumbers(search: SearchAvailablePhoneNumbersRequest, options?: BeginSearchAvailablePhoneNumbersOptions): Promise<PollerLike<PollOperationState<PhoneNumberSearchResult>, PhoneNumberSearchResult>>;
     beginUpdatePhoneNumberCapabilities(phoneNumber: string, request: PhoneNumberCapabilitiesRequest, options?: BeginUpdatePhoneNumberCapabilitiesOptions): Promise<PollerLike<PollOperationState<PurchasedPhoneNumber>, PurchasedPhoneNumber>>;
-    browseAvailablePhoneNumbers(countryCode: string, phoneNumberType: PhoneNumberType, options?: PhoneNumbersBrowseAvailableNumbersOptionalParams): Promise<PhoneNumbersBrowseAvailableNumbersResponse>;
-    createOrUpdateReservation(reservationId: string, options?: PhoneNumbersCreateOrUpdateReservationOptionalParams): Promise<PhoneNumbersCreateOrUpdateReservationResponse>;
+    browseAvailablePhoneNumbers(countryCode: string, request: PhoneNumbersBrowseRequest): Promise<PhoneNumbersBrowseAvailableNumbersResponse>;
+    createOrUpdateReservation(reservationId?: string, options?: PhoneNumbersCreateOrUpdateReservationOptionalParams): Promise<PhoneNumbersCreateOrUpdateReservationResponse>;
     deleteReservation(reservationId: string, options?: PhoneNumbersDeleteReservationOptionalParams): Promise<void>;
     getPurchasedPhoneNumber(phoneNumber: string, options?: GetPurchasedPhoneNumberOptions): Promise<PurchasedPhoneNumber>;
     getReservation(reservationId: string, options?: PhoneNumbersGetReservationOptionalParams): Promise<PhoneNumbersGetReservationResponse>;
@@ -225,7 +233,7 @@ export class PhoneNumbersClient {
     listAvailableOfferings(countryCode: string, options?: ListOfferingsOptions): PagedAsyncIterableIterator<PhoneNumberOffering>;
     listAvailableTollFreeAreaCodes(countryCode: string, options?: ListTollFreeAreaCodesOptions): PagedAsyncIterableIterator<PhoneNumberAreaCode>;
     listPurchasedPhoneNumbers(options?: ListPurchasedPhoneNumbersOptions): PagedAsyncIterableIterator<PurchasedPhoneNumber>;
-    listReservations(options?: PhoneNumbersGetReservationsOptionalParams): PagedAsyncIterableIterator<PhoneNumbersReservation>;
+    listReservations(options?: PhoneNumbersListReservationsOptionalParams): PagedAsyncIterableIterator<PhoneNumbersReservation>;
     searchOperatorInformation(phoneNumbers: string[], options?: SearchOperatorInformationOptions): Promise<OperatorInformationResult>;
 }
 
@@ -237,7 +245,7 @@ export interface PhoneNumbersClientOptions extends CommonClientOptions {
 // @public
 export interface PhoneNumbersCreateOrUpdateReservationOptionalParams extends coreClient.OperationOptions {
     phoneNumbers?: {
-        [propertyName: string]: AvailablePhoneNumber;
+        [propertyName: string]: AvailablePhoneNumber | null;
     };
 }
 
@@ -282,11 +290,6 @@ export interface PhoneNumbersGetReservationOptionalParams extends coreClient.Ope
 export type PhoneNumbersGetReservationResponse = PhoneNumbersReservation;
 
 // @public
-export interface PhoneNumbersGetReservationsOptionalParams extends coreClient.OperationOptions {
-    maxPageSize?: number;
-}
-
-// @public
 export interface PhoneNumbersListAreaCodesOptionalParams extends coreClient.OperationOptions {
     acceptLanguage?: string;
     administrativeDivision?: string;
@@ -297,11 +300,16 @@ export interface PhoneNumbersListAreaCodesOptionalParams extends coreClient.Oper
 }
 
 // @public
+export interface PhoneNumbersListReservationsOptionalParams extends coreClient.OperationOptions {
+    maxPageSize?: number;
+}
+
+// @public
 export interface PhoneNumbersReservation {
     readonly expiresAt?: Date;
     readonly id?: string;
     phoneNumbers?: {
-        [propertyName: string]: AvailablePhoneNumber;
+        [propertyName: string]: AvailablePhoneNumber | null;
     };
     readonly status?: ReservationStatus;
 }
