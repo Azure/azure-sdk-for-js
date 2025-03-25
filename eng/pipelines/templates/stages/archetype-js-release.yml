@@ -61,8 +61,8 @@ stages:
                             RepoId: Azure/azure-sdk-for-js
                             WorkingDirectory: $(System.DefaultWorkingDirectory)
               - ${{if ne(artifact.skipPublishPackage, 'true')}}:
-                  - deployment: PublishPackage
-                    displayName: Publish to npmjs
+                  - deployment: PrePublishPackage
+                    displayName: Pre Publish to npmjs
                     condition: and(succeeded(), ne(variables['Skip.PublishPackage'], 'true'))
                     environment: npm
                     dependsOn: TagRepository
@@ -92,27 +92,30 @@ stages:
                                 npm install $(Package.Archive)
                               displayName: Validating package can be installed
                               condition: succeeded()
-                            - template: /eng/pipelines/templates/steps/npm-release-task.yml
-                              parameters:
-                                Artifact: ${{artifact}}
-                                Registry: ${{parameters.Registry}}
-                                PathToArtifacts: $(Pipeline.Workspace)/${{parameters.ArtifactName}}/${{artifact.name}}
-                                Tag: "$(Tag)"
-                                AdditionalTag: "$(AdditionalTag)"
-                            - pwsh: >
-                                write-host "$(Package.Archive)"
+                  - template: /eng/pipelines/templates/steps/npm-release-task.yml
+                    parameters:
+                      Artifact: ${{artifact}}
+                      Registry: ${{parameters.Registry}}
+                      PathToArtifacts: $(Pipeline.Workspace)/${{parameters.ArtifactName}}/${{artifact.name}}
+                      Tag: "$(Tag)"
+                      AdditionalTag: "$(AdditionalTag)"
+                  - job: PostPublishPackage
+                    displayName: Post Publish to npmjs
+                    steps:
+                    - pwsh: >
+                        write-host "$(Package.Archive)"
 
-                                eng/scripts/cleanup-npm-next-tag.ps1 -packageArtifact $(Package.Archive) -workingDirectory $(System.DefaultWorkingDirectory)/temp -npmToken $(azure-sdk-npm-token)
-                              displayName: Cleanup Npm Next Tag
-                              condition: and(succeeded(), ne(variables['Skip.RemoveOldTag'], 'true'))
-                            - template: /eng/common/pipelines/templates/steps/create-apireview.yml
-                              parameters:
-                                ArtifactPath: $(Pipeline.Workspace)/packages
-                                Artifacts: ${{parameters.Artifacts}}
-                                ConfigFileDir: $(Pipeline.Workspace)/packages/PackageInfo
-                                MarkPackageAsShipped: true
-                                ArtifactName: ${{parameters.ArtifactName}}
-                                PackageName: ${{artifact.name}}
+                        eng/scripts/cleanup-npm-next-tag.ps1 -packageArtifact $(Package.Archive) -workingDirectory $(System.DefaultWorkingDirectory)/temp -npmToken $(azure-sdk-npm-token)
+                      displayName: Cleanup Npm Next Tag
+                      condition: and(succeeded(), ne(variables['Skip.RemoveOldTag'], 'true'))
+                    - template: /eng/common/pipelines/templates/steps/create-apireview.yml
+                      parameters:
+                        ArtifactPath: $(Pipeline.Workspace)/packages
+                        Artifacts: ${{parameters.Artifacts}}
+                        ConfigFileDir: $(Pipeline.Workspace)/packages/PackageInfo
+                        MarkPackageAsShipped: true
+                        ArtifactName: ${{parameters.ArtifactName}}
+                        PackageName: ${{artifact.name}}
               - ${{if ne(artifact.skipPublishDocMs, 'true')}}:
                   - deployment: PublishDocs
                     displayName: Docs.MS Release
