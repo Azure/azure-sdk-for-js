@@ -16,15 +16,13 @@ These sample programs show how to use the JavaScript client libraries for Azure 
 | [agents/codeInterpreterWithStreaming.js][agents_codeinterpreterwithstreaming]               | demonstrates how to use agent operations with code interpreter.                                                                                                                                        |
 | [agents/agentCreateWithTracingConsole.js][agents_agentcreatewithtracingconsole]             | Create Agent and instrument using open telemetry.                                                                                                                                                      |
 | [agents/agentsAzureAiSearch.js][agents_agentsazureaisearch]                                 | demonstrates how to use agent operations with the Azure AI Search tool.                                                                                                                                |
-| [agents\agentsAzureFunctions.js][agents_agentsazurefunctions]                               | demonstrates how to use azure function agent operations from the Azure Agents service                                                                                                                  |
 | [agents/agentsAzureFunctions.js][agents_agentsazurefunctions]                               | demonstrates how to use azure function agent operations from the Azure Agents service                                                                                                                  |
 | [agents/agentsBasics.js][agents_agentsbasics]                                               | demonstrates how to use basic agent operations.                                                                                                                                                        |
 | [agents/agentsBingGrounding.js][agents_agentsbinggrounding]                                 | demonstrates how to use agent operations with the Grounding with Bing Search tool.                                                                                                                     |
 | [agents/agentsBingGroundingWithStreaming.js][agents_agentsbinggroundingwithstreaming]       | demonstrates how to use agent operations with the Grounding with Bing Search tool using streaming.                                                                                                     |
-| [agents\agentsFabric.js][agents_agentsfabric]                                               | demonstrates how to use agent operations with the Microsoft Fabric tool.                                                                                                                               |
-| [agents\agentsSharepoint.js][agents_agentssharepoint]                                       | demonstrates how to use agent operations with the Sharepoint tool.                                                                                                                                     |
+| [agents/agentsFabric.js][agents_agentsfabric]                                               | demonstrates how to use agent operations with the Microsoft Fabric tool.                                                                                                                               |
+| [agents/agentsSharepoint.js][agents_agentssharepoint]                                       | demonstrates how to use agent operations with the Sharepoint tool.                                                                                                                                     |
 | [agents/agentsWithFunctionTool.js][agents_agentswithfunctiontool]                           | demonstrates how to use basic agent operations using function tool.                                                                                                                                    |
-| [agents\agentsWithOpenApi.js][agents_agentswithopenapi]                                     | demonstrates how to use agent operations with an OpenApi tool.                                                                                                                                         |
 | [agents/agentsWithOpenApi.js][agents_agentswithopenapi]                                     | demonstrates how to use agent operations with an OpenApi tool.                                                                                                                                         |
 | [agents/agentsWithToolset.js][agents_agentswithtoolset]                                     | demonstrates how to use agent operations with toolset.                                                                                                                                                 |
 | [agents/batchVectorStoreWithFiles.js][agents_batchvectorstorewithfiles]                     | demonstrates how to create the batch vector store with the list of files.                                                                                                                              |
@@ -82,34 +80,34 @@ npx dev-tool run vendored cross-env AZURE_AI_PROJECTS_CONNECTION_STRING="<azure 
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[agents_codeinterpreterwithstreaming]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/javascript/agents\codeInterpreterWithStreaming.js
-[agents_agentcreatewithtracingconsole]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/javascript/agents\agentCreateWithTracingConsole.js
-[agents_agentsazureaisearch]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/javascript/agents\agentsAzureAiSearch.js
-[agents_agentsazurefunctions]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/javascript/agents\agentsAzureFunctions.js
-[agents_agentsbasics]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/javascript/agents\agentsBasics.js
-[agents_agentsbinggrounding]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/javascript/agents\agentsBingGrounding.js
-[agents_agentsbinggroundingwithstreaming]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/javascript/agents\agentsBingGroundingWithStreaming.js
-[agents_agentsfabric]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/javascript/agents\agentsFabric.js
-[agents_agentssharepoint]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/javascript/agents\agentsSharepoint.js
-[agents_agentswithfunctiontool]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/javascript/agents\agentsWithFunctionTool.js
-[agents_agentswithopenapi]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/javascript/agents\agentsWithOpenApi.js
-[agents_agentswithtoolset]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/javascript/agents\agentsWithToolset.js
-[agents_batchvectorstorewithfiles]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/javascript/agents\batchVectorStoreWithFiles.js
-[agents_batchvectorstorewithfilesandpolling]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/javascript/agents\batchVectorStoreWithFilesAndPolling.js
-[agents_codeinterpreter]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/javascript/agents\codeInterpreter.js
-[agents_filesearch]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/javascript/agents\fileSearch.js
-[agents_files]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/javascript/agents\files.js
-[agents_fileswithlocalupload]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/javascript/agents\filesWithLocalUpload.js
-[agents_fileswithpolling]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/javascript/agents\filesWithPolling.js
-[agents_messages]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/javascript/agents\messages.js
-[agents_runsteps]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/javascript/agents\runSteps.js
-[agents_streaming]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/javascript/agents\streaming.js
-[agents_threads]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/javascript/agents\threads.js
-[agents_vectorstorewithfiles]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/javascript/agents\vectorStoreWithFiles.js
-[agents_vectorstorewithfilesandpolling]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/javascript/agents\vectorStoreWithFilesAndPolling.js
-[agents_vectorstores]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/javascript/agents\vectorStores.js
-[agents_vectorstoreswithpolling]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/javascript/agents\vectorStoresWithPolling.js
-[connections_connectionsbasics]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/javascript/connections\connectionsBasics.js
+[agents_codeinterpreterwithstreaming]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/javascript/agents/codeInterpreterWithStreaming.js
+[agents_agentcreatewithtracingconsole]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/javascript/agents/agentCreateWithTracingConsole.js
+[agents_agentsazureaisearch]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/javascript/agents/agentsAzureAiSearch.js
+[agents_agentsazurefunctions]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/javascript/agents/agentsAzureFunctions.js
+[agents_agentsbasics]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/javascript/agents/agentsBasics.js
+[agents_agentsbinggrounding]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/javascript/agents/agentsBingGrounding.js
+[agents_agentsbinggroundingwithstreaming]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/javascript/agents/agentsBingGroundingWithStreaming.js
+[agents_agentsfabric]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/javascript/agents/agentsFabric.js
+[agents_agentssharepoint]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/javascript/agents/agentsSharepoint.js
+[agents_agentswithfunctiontool]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/javascript/agents/agentsWithFunctionTool.js
+[agents_agentswithopenapi]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/javascript/agents/agentsWithOpenApi.js
+[agents_agentswithtoolset]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/javascript/agents/agentsWithToolset.js
+[agents_batchvectorstorewithfiles]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/javascript/agents/batchVectorStoreWithFiles.js
+[agents_batchvectorstorewithfilesandpolling]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/javascript/agents/batchVectorStoreWithFilesAndPolling.js
+[agents_codeinterpreter]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/javascript/agents/codeInterpreter.js
+[agents_filesearch]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/javascript/agents/fileSearch.js
+[agents_files]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/javascript/agents/files.js
+[agents_fileswithlocalupload]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/javascript/agents/filesWithLocalUpload.js
+[agents_fileswithpolling]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/javascript/agents/filesWithPolling.js
+[agents_messages]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/javascript/agents/messages.js
+[agents_runsteps]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/javascript/agents/runSteps.js
+[agents_streaming]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/javascript/agents/streaming.js
+[agents_threads]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/javascript/agents/threads.js
+[agents_vectorstorewithfiles]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/javascript/agents/vectorStoreWithFiles.js
+[agents_vectorstorewithfilesandpolling]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/javascript/agents/vectorStoreWithFilesAndPolling.js
+[agents_vectorstores]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/javascript/agents/vectorStores.js
+[agents_vectorstoreswithpolling]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/javascript/agents/vectorStoresWithPolling.js
+[connections_connectionsbasics]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/javascript/connections/connectionsBasics.js
 [apiref]: https://learn.microsoft.com/javascript/api/@azure/ai-projects
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/ai/ai-projects/README.md

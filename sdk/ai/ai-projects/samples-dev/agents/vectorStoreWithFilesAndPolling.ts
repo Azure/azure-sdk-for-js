@@ -8,7 +8,6 @@
  *
  */
 
-import type { VectorStoreFileOutput } from "@azure/ai-projects";
 import { AIProjectsClient } from "@azure/ai-projects";
 import { DefaultAzureCredential } from "@azure/identity";
 import { Readable } from "stream";

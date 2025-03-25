@@ -7,11 +7,10 @@
  * @summary demonstrates how to create the vector store using polling operation.
  */
 
-import type { VectorStoreOutput } from "@azure/ai-projects";
 import { AIProjectsClient } from "@azure/ai-projects";
 import { DefaultAzureCredential } from "@azure/identity";
 
-import  "dotenv/config";
+import "dotenv/config";
 
 const connectionString =
   process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] || "<project connection string>";

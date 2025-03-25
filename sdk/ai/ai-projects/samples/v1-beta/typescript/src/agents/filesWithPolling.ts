@@ -7,11 +7,10 @@
  * @summary demonstrates how to upload a file and poll for its status.
  */
 
-import type { OpenAIFileOutput } from "@azure/ai-projects";
 import { AIProjectsClient } from "@azure/ai-projects";
 import { DefaultAzureCredential } from "@azure/identity";
 import { Readable } from "stream";
-import  "dotenv/config";
+import "dotenv/config";
 
 const connectionString =
   process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] || "<project connection string>";

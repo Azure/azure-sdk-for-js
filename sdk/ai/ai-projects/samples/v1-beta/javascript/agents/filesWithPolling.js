@@ -1,3 +1,12 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+/**
+ * This sample demonstrates how to upload a file and poll for its status.
+ *
+ * @summary demonstrates how to upload a file and poll for its status.
+ */
+
 const { AIProjectsClient } = require("@azure/ai-projects");
 const { DefaultAzureCredential } = require("@azure/identity");
 const { Readable } = require("stream");

@@ -2422,7 +2422,6 @@ packages:
     version: 0.0.0
 
   '@rush-temp/ai-projects@file:projects/ai-projects.tgz':
-    resolution: {integrity: sha512-prL02/4yJUjTSG5+ZCqF/ogac7b3+JHy26SNNnMDB8FLt5ZPnS5nyYWwNT/ofOVl6ro7lDrF0+o+TfnYQ8GJGA==, tarball: file:projects/ai-projects.tgz}
     resolution: {integrity: sha512-CubMG3yKEhJqaN1sGjeABgDb0N9bXZkt3RGtNURESlkssBrNbR9vqF5a8nOF8x9ig+zcfs1D1zc4VCRwrRJEag==, tarball: file:projects/ai-projects.tgz}
     version: 0.0.0
 
@@ -3531,7 +3530,6 @@ packages:
     version: 0.0.0
 
   '@rush-temp/confidential-ledger@file:projects/confidential-ledger.tgz':
-    resolution: {integrity: sha512-SJzc0t6IU+ncIo/2rsSt6PQzH5KpCAMYcFLxYBb4OripIcE4U5gKmotJfB7koFj1/r0T/9eZqpeD+1OTT0dJQQ==, tarball: file:projects/confidential-ledger.tgz}
     resolution: {integrity: sha512-9mRWDxRM3sY7PegtI6b4LNHlcZRbSoEA8pKGXwraf6LgG9q39cbfRKTLNxZEqTpKIfp/gNM5psmIIO2gwjelZg==, tarball: file:projects/confidential-ledger.tgz}
     version: 0.0.0
 
@@ -7682,11 +7680,6 @@ packages:
     engines: {node: '>=4.2.0'}
     hasBin: true
 
-  typescript@5.4.2:
-    resolution: {integrity: sha512-+2/g0Fds1ERlP6JsakQQDXjZdZMM+rqpamFZJEKh4kwTIn3iDkgKtby0CeNd5ATNZ4Ry1ax15TMx0W2V+miizQ==}
-    engines: {node: '>=14.17'}
-    hasBin: true
-
   typescript@5.6.1-rc:
     resolution: {integrity: sha512-E3b2+1zEFu84jB0YQi9BORDjz9+jGbwwy1Zi3G0LUNw7a7cePUrHMRNy8aPh53nXpkFGVHSxIZo5vKTfYaFiBQ==}
     engines: {node: '>=14.17'}
@@ -10009,26 +10002,16 @@ snapshots:
   '@rush-temp/ai-projects@file:projects/ai-projects.tgz(@types/debug@4.1.12)(msw@2.7.3(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(vite@6.2.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)':
     dependencies:
       '@opentelemetry/api': 1.9.0
-      '@opentelemetry/instrumentation': 0.53.0(@opentelemetry/api@1.9.0)
-      '@opentelemetry/sdk-trace-node': 1.29.0(@opentelemetry/api@1.9.0)
-      '@types/node': 18.19.68
-      '@vitest/browser': 2.1.8(@types/node@18.19.68)(playwright@1.49.1)(typescript@5.7.2)(vite@5.4.11(@types/node@22.7.9))(vitest@2.1.8)
-      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       '@opentelemetry/instrumentation': 0.57.0(@opentelemetry/api@1.9.0)
       '@opentelemetry/sdk-trace-node': 1.30.1(@opentelemetry/api@1.9.0)
       '@types/node': 18.19.80
       '@vitest/browser': 3.0.9(@types/node@18.19.80)(playwright@1.51.1)(typescript@5.8.2)(vite@6.2.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.9)
       '@vitest/coverage-istanbul': 3.0.9(vitest@3.0.9)
       dotenv: 16.4.7
-      eslint: 9.17.0
-      playwright: 1.49.1
-      prettier: 3.4.2
       eslint: 9.22.0
       playwright: 1.51.1
       prettier: 3.5.3
       tslib: 2.8.1
-      typescript: 5.7.2
-      vitest: 2.1.8(@types/node@18.19.68)(@vitest/browser@2.1.8)(msw@2.6.8(@types/node@22.7.9)(typescript@5.7.2))
       typescript: 5.8.2
       vitest: 3.0.9(@types/debug@4.1.12)(@types/node@18.19.80)(@vitest/browser@3.0.9)(msw@2.7.3(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(yaml@2.7.0)
     transitivePeerDependencies:
@@ -24048,9 +24031,6 @@ snapshots:
       '@typescript-eslint/types': 8.26.1
       eslint-visitor-keys: 4.2.0
 
-  '@ungap/structured-clone@1.2.1': {}
-
-  '@vitest/browser@2.1.8(@types/node@18.19.68)(playwright@1.49.1)(typescript@5.6.3)(vite@5.4.11(@types/node@22.7.9))(vitest@2.1.8)':
   '@vitest/browser@3.0.9(@types/node@18.19.80)(playwright@1.51.1)(typescript@5.6.3)(vite@6.2.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.9)':
     dependencies:
       '@testing-library/dom': 10.4.0
@@ -26387,7 +26367,6 @@ snapshots:
 
   ms@2.1.3: {}
 
-  msw@2.6.8(@types/node@18.19.68)(typescript@5.6.3):
   msw@2.7.3(@types/node@18.19.80)(typescript@5.6.3):
     dependencies:
       '@bundled-es-modules/cookie': 2.0.1
@@ -27815,8 +27794,6 @@ snapshots:
       - supports-color
 
   typescript@4.2.4: {}
-
-  typescript@5.4.2: {}
 
   typescript@5.6.1-rc: {}
 

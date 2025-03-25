@@ -1,3 +1,12 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+/**
+ * This sample demonstrates how to create the batch vector store with the list of files using polling operation.
+ *
+ * @summary demonstrates how to create the batch vector store with the list of files using polling operation.
+ */
+
 const { AIProjectsClient } = require("@azure/ai-projects");
 const { DefaultAzureCredential } = require("@azure/identity");
 const { Readable } = require("stream");
