@@ -1,7 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { HybridConnectivityManagementAPI, ServiceConfigurationResourcePatch } from "@azure/arm-hybridconnectivity";
+import {
+  HybridConnectivityManagementAPI,
+  ServiceConfigurationResourcePatch,
+} from "@azure/arm-hybridconnectivity";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
@@ -16,14 +19,14 @@ async function serviceConfigurationsPatchSSH(): Promise<void> {
   const client = new HybridConnectivityManagementAPI(credential, subscriptionId);
   const serviceConfigurationResourceProperties: ServiceConfigurationResourcePatch = {
     properties: {
-      "port": 22
-    }
-  }
+      port: 22,
+    },
+  };
   const result = await client.serviceConfigurations.update(
     "subscriptions/f5bcc1d9-23af-4ae9-aca1-041d0f593a63/resourceGroups/hybridRG/providers/Microsoft.HybridCompute/machines/testMachine/providers/Microsoft.HybridConnectivity/endpoints/default",
     "default",
     "SSH",
-    serviceConfigurationResourceProperties
+    serviceConfigurationResourceProperties,
   );
   console.log(result);
 }

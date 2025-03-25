@@ -1,7 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { HybridConnectivityManagementAPI, ServiceConfigurationResource } from "@azure/arm-hybridconnectivity";
+import {
+  HybridConnectivityManagementAPI,
+  ServiceConfigurationResource,
+} from "@azure/arm-hybridconnectivity";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
@@ -17,14 +20,14 @@ async function serviceConfigurationsPutSSH(): Promise<void> {
   const serviceConfigurationResourceProperties: ServiceConfigurationResource = {
     properties: {
       port: 22,
-      serviceName: "SSH"
-    }
-  }
+      serviceName: "SSH",
+    },
+  };
   const result = await client.serviceConfigurations.createOrupdate(
     "subscriptions/f5bcc1d9-23af-4ae9-aca1-041d0f593a63/resourceGroups/hybridRG/providers/Microsoft.HybridCompute/machines/testMachine/providers/Microsoft.HybridConnectivity/endpoints/default",
     "default",
     "SSH",
-    serviceConfigurationResourceProperties
+    serviceConfigurationResourceProperties,
   );
   console.log(result);
 }
@@ -42,14 +45,14 @@ async function serviceConfigurationsPutWAC(): Promise<void> {
   const serviceConfigurationResourceProperties: ServiceConfigurationResource = {
     properties: {
       port: 6516,
-      serviceName: "WAC"
-    }
-  }
+      serviceName: "WAC",
+    },
+  };
   const result = await client.serviceConfigurations.createOrupdate(
     "subscriptions/f5bcc1d9-23af-4ae9-aca1-041d0f593a63/resourceGroups/hybridRG/providers/Microsoft.HybridCompute/machines/testMachine/providers/Microsoft.HybridConnectivity/endpoints/default",
     "default",
     "WAC",
-    serviceConfigurationResourceProperties
+    serviceConfigurationResourceProperties,
   );
   console.log(result);
 }

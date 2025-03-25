@@ -1,7 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { HybridConnectivityManagementAPI, ManagedProxyRequest } from "@azure/arm-hybridconnectivity";
+import {
+  HybridConnectivityManagementAPI,
+  ManagedProxyRequest,
+} from "@azure/arm-hybridconnectivity";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
@@ -22,7 +25,7 @@ async function hybridConnectivityEndpointsPostListManagedProxyDetails(): Promise
   const result = await client.endpoints.listManagedProxyDetails(
     "subscriptions/f5bcc1d9-23af-4ae9-aca1-041d0f593a63/resourceGroups/arcGroup/providers/Microsoft.Compute/virtualMachines/vm00006",
     "default",
-    managedProxyRequest
+    managedProxyRequest,
   );
   console.log(result);
 }

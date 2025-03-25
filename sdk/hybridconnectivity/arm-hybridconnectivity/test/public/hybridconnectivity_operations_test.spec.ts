@@ -45,7 +45,11 @@ describe("HybridConnectivity test", () => {
     subscriptionId = env.SUBSCRIPTION_ID || "";
     // This is an example of how the environment variables are used
     const credential = createTestCredential();
-    client = new HybridConnectivityManagementAPI(credential, subscriptionId, recorder.configureClientOptions({}));
+    client = new HybridConnectivityManagementAPI(
+      credential,
+      subscriptionId,
+      recorder.configureClientOptions({}),
+    );
     resourceGroup = "myjstest";
     resourcename = "default";
     resourceUri =

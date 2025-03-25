@@ -20,7 +20,7 @@ async function hybridConnectivityEndpointsPutCustom(): Promise<void> {
   const result = await client.endpoints.createOrUpdate(
     "subscriptions/f5bcc1d9-23af-4ae9-aca1-041d0f593a63/resourceGroups/hybridRG/providers/Microsoft.HybridCompute/machines/testMachine",
     "custom",
-    endpointResource
+    endpointResource,
   );
   console.log(result);
 }
@@ -41,7 +41,7 @@ async function hybridConnectivityEndpointsPutDefault(): Promise<void> {
   const result = await client.endpoints.createOrUpdate(
     "subscriptions/f5bcc1d9-23af-4ae9-aca1-041d0f593a63/resourceGroups/hybridRG/providers/Microsoft.HybridCompute/machines/testMachine",
     "default",
-    endpointResource
+    endpointResource,
   );
   console.log(result);
 }
