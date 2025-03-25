@@ -15,8 +15,8 @@ async function sleep(time: number): Promise<unknown> {
 describe("Container TTL", function () {
   this.timeout(process.env.MOCHA_TIMEOUT || 600000);
   beforeEach(async () => {
-      await removeAllDatabases();
-    });
+    await removeAllDatabases();
+  });
   async function createcontainerWithInvalidDefaultTtl(
     db: Database,
     containerDefinition: ContainerDefinition,

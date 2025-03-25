@@ -12,8 +12,8 @@ describe("global statistics aggregator", function () {
   let aggregator: GlobalStatisticsAggregator;
 
   beforeEach(async () => {
-      aggregator = new GlobalStatisticsAggregator();
-    });
+    aggregator = new GlobalStatisticsAggregator();
+  });
 
   it("should aggregate document count and full text statistics", async function () {
     const stats1: GlobalStatistics = {

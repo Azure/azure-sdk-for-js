@@ -66,18 +66,18 @@ describe("TimeoutFailoverRetryPolicy", function () {
   let locEndpoint: string;
 
   beforeEach(async () => {
-      retryPolicy = new TimeoutFailoverRetryPolicy(
-        gem,
-        headers,
-        HTTPMethod.get,
-        ResourceType.item,
-        OperationType.Read,
-        true,
-      );
-      retryCtx = { retryCount: 2 };
-      timeoutErr = new TimeoutError();
-      locEndpoint = "endpoint";
-    });
+    retryPolicy = new TimeoutFailoverRetryPolicy(
+      gem,
+      headers,
+      HTTPMethod.get,
+      ResourceType.item,
+      OperationType.Read,
+      true,
+    );
+    retryCtx = { retryCount: 2 };
+    timeoutErr = new TimeoutError();
+    locEndpoint = "endpoint";
+  });
 
   it("should determine if retry should occur correctly", async function () {
     const err: ErrorResponse = timeoutErr;

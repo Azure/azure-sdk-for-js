@@ -117,8 +117,8 @@ describe.skip("Computed Properties test", async () => {
   });
 
   beforeEach(async () => {
-      await removeAllDatabases();
-    });
+    await removeAllDatabases();
+  });
 
   it("empty computed property", async function () {
     // create container

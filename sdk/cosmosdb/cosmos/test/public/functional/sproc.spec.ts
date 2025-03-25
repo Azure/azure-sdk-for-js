@@ -18,13 +18,13 @@ declare let getContext: any;
 describe("NodeJS CRUD Tests", function () {
   this.timeout(process.env.MOCHA_TIMEOUT || 10000);
   beforeEach(async () => {
-      await removeAllDatabases();
-    });
+    await removeAllDatabases();
+  });
   describe("Validate sproc CRUD", function () {
     let container: Container;
     beforeEach(async () => {
-          container = await getTestContainer(this.test.fullTitle());
-        });
+      container = await getTestContainer(this.test.fullTitle());
+    });
 
     it("nativeApi Should do sproc CRUD operations successfully with create/replace", async function () {
       // read sprocs
@@ -95,8 +95,8 @@ describe("NodeJS CRUD Tests", function () {
   describe("Validate stored procedure functionality", function () {
     let container: Container;
     beforeEach(async () => {
-          container = await getTestContainer(this.test.fullTitle());
-        });
+      container = await getTestContainer(this.test.fullTitle());
+    });
 
     it("nativeApi should do stored procedure operations successfully with create/replace", async function () {
       const sproc1: StoredProcedureDefinition = {

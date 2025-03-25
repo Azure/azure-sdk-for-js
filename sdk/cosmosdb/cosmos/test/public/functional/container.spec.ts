@@ -28,8 +28,8 @@ import { describe, it, assert } from "vitest";
 describe("Containers", function () {
   this.timeout(process.env.MOCHA_TIMEOUT || 10000);
   beforeEach(async () => {
-      await removeAllDatabases();
-    });
+    await removeAllDatabases();
+  });
 
   describe("Container CRUD", function () {
     const containerCRUDTest = async function (

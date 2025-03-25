@@ -2,7 +2,11 @@
 // Licensed under the MIT License.
 import assert from "node:assert";
 import type { ClientContext } from "../../../src/ClientContext.js";
-import { PartitionKeyRangeCache, QueryRange, SmartRoutingMapProvider } from "../../../src/routing/index.js";
+import {
+  PartitionKeyRangeCache,
+  QueryRange,
+  SmartRoutingMapProvider,
+} from "../../../src/routing/index.js";
 import { MockedClientContext } from "../../public/common/MockClientContext.js";
 import { createDummyDiagnosticNode } from "../../public/common/TestHelpers.js";
 import { describe, it, assert } from "vitest";

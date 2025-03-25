@@ -25,9 +25,9 @@ describe("NodeJS CRUD Tests", function () {
   this.timeout(process.env.MOCHA_TIMEOUT || 10000);
 
   beforeEach(async () => {
-      this.timeout(process.env.MOCHA_TIMEOUT || 10000);
-      await removeAllDatabases();
-    });
+    this.timeout(process.env.MOCHA_TIMEOUT || 10000);
+    await removeAllDatabases();
+  });
 
   describe("Validate Offer CRUD", function () {
     it("nativeApi Should do offer read and query operations successfully name based single partition collection", async function () {

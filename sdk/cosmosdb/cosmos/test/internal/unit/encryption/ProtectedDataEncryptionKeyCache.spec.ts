@@ -66,24 +66,24 @@ describe("ProtectedDataEncryptionKeyCache", function () {
   let protectedDataEncryptionKey: ProtectedDataEncryptionKey;
 
   beforeEach(async () => {
-      const resolver = new MockKeyVaultEncryptionKeyResolver();
-      keyStoreProvider = new EncryptionKeyStoreProvider(resolver, 0);
-      keyEncryptionKey = new KeyEncryptionKey("metadataName", "metadataPath", keyStoreProvider);
-      const cacheTTL = 5000;
-      protectedDataEncryptionKeyCache = new ProtectedDataEncryptionKeyCache(cacheTTL);
-      const encryptedKey = Buffer.alloc(32);
-      key = JSON.stringify([
-        "encryptionKeyId",
-        keyEncryptionKey.name,
-        keyEncryptionKey.path,
-        encryptedKey.toString("hex"),
-      ]);
-      protectedDataEncryptionKey = await protectedDataEncryptionKeyCache.getOrCreate(
-        "encryptionKeyId",
-        keyEncryptionKey,
-        encryptedKey,
-      );
-    });
+    const resolver = new MockKeyVaultEncryptionKeyResolver();
+    keyStoreProvider = new EncryptionKeyStoreProvider(resolver, 0);
+    keyEncryptionKey = new KeyEncryptionKey("metadataName", "metadataPath", keyStoreProvider);
+    const cacheTTL = 5000;
+    protectedDataEncryptionKeyCache = new ProtectedDataEncryptionKeyCache(cacheTTL);
+    const encryptedKey = Buffer.alloc(32);
+    key = JSON.stringify([
+      "encryptionKeyId",
+      keyEncryptionKey.name,
+      keyEncryptionKey.path,
+      encryptedKey.toString("hex"),
+    ]);
+    protectedDataEncryptionKey = await protectedDataEncryptionKeyCache.getOrCreate(
+      "encryptionKeyId",
+      keyEncryptionKey,
+      encryptedKey,
+    );
+  });
 
   it("should create and cache a protected data encryption key", async function () {
     const result = protectedDataEncryptionKeyCache.get(key);
@@ -127,7 +127,7 @@ describe("ProtectedDataEncryptionKeyCache", function () {
     clearTimeout(cacheWithZeroTTL.cacheRefresher);
   });
   afterEach(async () => {
-      clearTimeout(protectedDataEncryptionKeyCache.cacheRefresher);
-      clearTimeout(keyStoreProvider.cacheRefresher);
-    });
+    clearTimeout(protectedDataEncryptionKeyCache.cacheRefresher);
+    clearTimeout(keyStoreProvider.cacheRefresher);
+  });
 });

@@ -3,7 +3,12 @@
 
 import assert from "node:assert";
 import type { Container, OperationResponse } from "../../../../src/index.js";
-import { CosmosClient, OperationType, PatchOperationType, ResourceType } from "../../../../src/index.js";
+import {
+  CosmosClient,
+  OperationType,
+  PatchOperationType,
+  ResourceType,
+} from "../../../../src/index.js";
 import { addEntropy, testForDiagnostics } from "../../common/TestHelpers.js";
 import type { OperationInput } from "../../../../src/index.js";
 import { BulkOperationType } from "../../../../src/index.js";

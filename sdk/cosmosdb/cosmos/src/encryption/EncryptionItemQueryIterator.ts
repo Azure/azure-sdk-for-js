@@ -4,7 +4,10 @@
 import type { Container } from "../client/index.js";
 import type { ClientContext } from "../ClientContext.js";
 import { Constants, ResourceType } from "../common/constants.js";
-import { DiagnosticNodeInternal, DiagnosticNodeType } from "../diagnostics/DiagnosticNodeInternal.js";
+import {
+  DiagnosticNodeInternal,
+  DiagnosticNodeType,
+} from "../diagnostics/DiagnosticNodeInternal.js";
 import type { SqlQuerySpec, FetchFunctionCallback } from "../queryExecutionContext/index.js";
 import { QueryIterator } from "../queryIterator.js";
 import type { FeedOptions, FeedResponse } from "../request/index.js";

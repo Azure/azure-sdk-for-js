@@ -3,12 +3,7 @@
 
 import "dotenv/config";
 import { handleError, finish, logStep } from "./Shared/handleError.js";
-import {
-  BulkOperationType,
-  CosmosClient,
-  OperationInput,
-  PatchOperationType,
-} from "@azure/cosmos";
+import { BulkOperationType, CosmosClient, OperationInput, PatchOperationType } from "@azure/cosmos";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 const key = process.env.COSMOS_KEY || "<cosmos key>";

@@ -16,9 +16,9 @@ describe("NodeJS CRUD Tests", function () {
   let container: Container;
 
   beforeEach(async () => {
-      await removeAllDatabases();
-      container = await getTestContainer("trigger container");
-    });
+    await removeAllDatabases();
+    container = await getTestContainer("trigger container");
+  });
 
   describe("Validate Trigger CRUD", function () {
     it("nativeApi Should do trigger CRUD operations successfully name based", async function () {

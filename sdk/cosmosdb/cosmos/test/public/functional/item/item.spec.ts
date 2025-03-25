@@ -27,7 +27,10 @@ import {
 import { endpoint } from "../../common/_testConfig.js";
 import { masterKey } from "../../common/_fakeTestSecrets.js";
 import type { PartitionKey, PartitionKeyDefinition } from "../../../../src/documents/index.js";
-import { PartitionKeyDefinitionVersion, PartitionKeyKind } from "../../../../src/documents/index.js";
+import {
+  PartitionKeyDefinitionVersion,
+  PartitionKeyKind,
+} from "../../../../src/documents/index.js";
 import { PriorityLevel } from "../../../../src/documents/PriorityLevel.js";
 import { getCurrentTimestampInMs } from "../../../../src/utils/time.js";
 import { describe, it, assert } from "vitest";
@@ -191,8 +194,8 @@ async function CRUDTestRunner(dataset: CRUDTestDataSet, isUpsertTest: boolean): 
 
 describe("Item CRUD hierarchical partition", function () {
   beforeEach(async () => {
-      await removeAllDatabases();
-    });
+    await removeAllDatabases();
+  });
   it("hierarchycal partitions", async function () {
     const dbName = "hierarchical partition db";
     const database = await getTestDatabase(dbName);
@@ -241,8 +244,8 @@ describe("Item CRUD hierarchical partition", function () {
 describe("Create, Upsert, Read, Update, Replace, Delete Operations on Item", function () {
   this.timeout(process.env.MOCHA_TIMEOUT || 10000);
   beforeEach(async () => {
-      await removeAllDatabases();
-    });
+    await removeAllDatabases();
+  });
 
   async function multipelPartitionCRUDTest(dataset: MultiCRUDTestDataSet): Promise<void> {
     const database = await getTestDatabase(dataset.dbName);
@@ -928,8 +931,8 @@ describe("patch operations", function () {
 describe("Item CRUD with priority", function () {
   this.timeout(process.env.MOCHA_TIMEOUT || 10000);
   beforeEach(async () => {
-      await removeAllDatabases();
-    });
+    await removeAllDatabases();
+  });
   const documentCRUDTest = async function (isUpsertTest: boolean): Promise<void> {
     // create database
     const database = await getTestDatabase("sample 中文 database");

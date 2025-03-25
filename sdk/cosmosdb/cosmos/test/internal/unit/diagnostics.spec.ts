@@ -149,11 +149,11 @@ describe("Diagnostic Unit Tests", function () {
   describe("Test ClientConfigDiagnostic initialization", function () {
     let savedDiagnosticLevel: CosmosDbDiagnosticLevel | undefined;
     beforeEach(async () => {
-          savedDiagnosticLevel = getDiagnosticLevelFromEnvironment();
-        });
+      savedDiagnosticLevel = getDiagnosticLevelFromEnvironment();
+    });
     afterEach(async () => {
-          setDiagnosticLevel(savedDiagnosticLevel);
-        });
+      setDiagnosticLevel(savedDiagnosticLevel);
+    });
     it("Check for endpoint", async function () {
       setDiagnosticLevel(CosmosDbDiagnosticLevel.debug);
       const testEndpoint = "AccountEndpoint=https://localhost:8081/;AccountKey=key";

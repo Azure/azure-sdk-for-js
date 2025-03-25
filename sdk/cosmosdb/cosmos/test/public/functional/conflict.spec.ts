@@ -8,8 +8,8 @@ import { describe, it, assert } from "vitest";
 describe("Conflicts", function () {
   this.timeout(process.env.MOCHA_TIMEOUT || 10000);
   beforeEach(async () => {
-      await removeAllDatabases();
-    });
+    await removeAllDatabases();
+  });
 
   describe("Query conflicts", function () {
     it("query conflicts", async function () {

@@ -122,8 +122,8 @@ const executeTestCaseOnComputeGateway = async function (scenario: TestScenario) 
 describe("Id encoding", function () {
   this.timeout(process.env.MOCHA_TIMEOUT || 10000);
   beforeEach(async () => {
-      await removeAllDatabases();
-    });
+    await removeAllDatabases();
+  });
 
   it("RGW_plainVanillaId", async function () {
     const scenario: TestScenario = {

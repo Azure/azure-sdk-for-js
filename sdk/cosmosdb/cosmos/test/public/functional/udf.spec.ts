@@ -10,10 +10,10 @@ describe("User Defined Function", function () {
   let container: Container;
 
   beforeEach(async () => {
-      await removeAllDatabases();
-      // get container
-      container = await getTestContainer("UDFTests");
-    });
+    await removeAllDatabases();
+    // get container
+    container = await getTestContainer("UDFTests");
+  });
   it("nativeApi Should do UDF CRUD operations successfully", async function () {
     const { resources: udfs } = await container.scripts.userDefinedFunctions.readAll().fetchAll();
 

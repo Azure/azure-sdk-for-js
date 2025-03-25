@@ -14,8 +14,8 @@ import { describe, it, assert } from "vitest";
 describe("NodeJS CRUD Tests", function () {
   this.timeout(process.env.MOCHA_TIMEOUT || 10000);
   beforeEach(async () => {
-      await removeAllDatabases();
-    });
+    await removeAllDatabases();
+  });
   describe("Validate Permission CRUD", function () {
     const permissionCRUDTest = async function (isUpsertTest: boolean): Promise<void> {
       // create container & database

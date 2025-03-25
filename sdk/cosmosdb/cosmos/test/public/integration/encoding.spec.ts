@@ -18,11 +18,11 @@ describe("Create And Read Validation", function () {
   const databaseId = "encodingTestDB";
 
   afterEach(async () => {
-      await removeAllDatabases();
-    });
+    await removeAllDatabases();
+  });
   beforeEach(async () => {
-      await removeAllDatabases();
-    });
+    await removeAllDatabases();
+  });
 
   it("check if the document from db matches the actual document", async function () {
     // Create Database

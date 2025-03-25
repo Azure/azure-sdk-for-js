@@ -28,48 +28,48 @@ describe("Authorization", function () {
   /** ************ TEST **************/
 
   beforeEach(async () => {
-      await removeAllDatabases();
+    await removeAllDatabases();
 
-      // create a database & container
-      container = await getTestContainer("Authorization tests");
-      database = container.database;
+    // create a database & container
+    container = await getTestContainer("Authorization tests");
+    database = container.database;
 
-      // create userReadPermission
-      const { resource: userDef } = await container.database.users.create(userReadDefinition);
-      assert.equal(userReadDefinition.id, userDef.id, "userReadPermission is not created properly");
-      userReadDefinition = userDef;
-      const userRead = container.database.user(userDef.id);
+    // create userReadPermission
+    const { resource: userDef } = await container.database.users.create(userReadDefinition);
+    assert.equal(userReadDefinition.id, userDef.id, "userReadPermission is not created properly");
+    userReadDefinition = userDef;
+    const userRead = container.database.user(userDef.id);
 
-      // give permission to read container, to userReadPermission
-      collReadPermission.resource = container.url;
-      const { resource: readPermission } = await userRead.permissions.create(collReadPermission);
-      assert.equal(
-        readPermission.id,
-        collReadPermission.id,
-        "permission to read coll1 is not created properly",
-      );
-      collReadPermission = readPermission;
+    // give permission to read container, to userReadPermission
+    collReadPermission.resource = container.url;
+    const { resource: readPermission } = await userRead.permissions.create(collReadPermission);
+    assert.equal(
+      readPermission.id,
+      collReadPermission.id,
+      "permission to read coll1 is not created properly",
+    );
+    collReadPermission = readPermission;
 
-      // create userAllPermission
-      const { resource: userAllDef } = await container.database.users.create(userAllDefinition);
-      assert.equal(userAllDefinition.id, userAllDef.id, "userAllPermission is not created properly");
-      userAllDefinition = userAllDef;
-      const userAll = container.database.user(userAllDef.id);
+    // create userAllPermission
+    const { resource: userAllDef } = await container.database.users.create(userAllDefinition);
+    assert.equal(userAllDefinition.id, userAllDef.id, "userAllPermission is not created properly");
+    userAllDefinition = userAllDef;
+    const userAll = container.database.user(userAllDef.id);
 
-      // create collAllPermission
-      collAllPermission.resource = container.url;
-      const { resource: allPermission } = await userAll.permissions.create(collAllPermission);
-      assert.equal(
-        collAllPermission.id,
-        allPermission.id,
-        "permission to read coll2 is not created properly",
-      );
-      collAllPermission = allPermission;
-    });
+    // create collAllPermission
+    collAllPermission.resource = container.url;
+    const { resource: allPermission } = await userAll.permissions.create(collAllPermission);
+    assert.equal(
+      collAllPermission.id,
+      allPermission.id,
+      "permission to read coll2 is not created properly",
+    );
+    collAllPermission = allPermission;
+  });
 
   afterEach(async () => {
-      await removeAllDatabases();
-    });
+    await removeAllDatabases();
+  });
 
   it("Accessing container by resourceTokens", async function () {
     const rTokens: any = {};

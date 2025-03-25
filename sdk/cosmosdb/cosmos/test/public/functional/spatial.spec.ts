@@ -9,8 +9,8 @@ import { describe, it, assert } from "vitest";
 describe("Spatial Indexes", function () {
   this.timeout(process.env.MOCHA_TIMEOUT || 10000);
   beforeEach(async () => {
-      await removeAllDatabases();
-    });
+    await removeAllDatabases();
+  });
 
   const spatialIndexTest = async function (isUpsertTest: boolean): Promise<void> {
     // create database
