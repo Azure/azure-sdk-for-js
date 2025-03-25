@@ -1,10 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { getClient, ClientOptions } from "@azure-rest/core-client";
+import type { ClientOptions } from "@azure-rest/core-client";
+import { getClient } from "@azure-rest/core-client";
 import { logger } from "./logger.js";
-import { TokenCredential } from "@azure/core-auth";
-import { BatchClient } from "./clientDefinitions.js";
+import type { TokenCredential } from "@azure/core-auth";
+import type { BatchClient } from "./clientDefinitions.js";
 
 /** The optional parameters for the client */
 export interface BatchClientOptions extends ClientOptions {
@@ -24,7 +25,7 @@ export default function createClient(
   { apiVersion = "2024-07-01.20.0", ...options }: BatchClientOptions = {},
 ): BatchClient {
   const endpointUrl = options.endpoint ?? options.baseUrl ?? `${endpointParam}`;
-  const userAgentInfo = `azsdk-js-batch-rest/1.0.0-beta.1`;
+  const userAgentInfo = `azsdk-js-batch-rest/1.0.0`;
   const userAgentPrefix =
     options.userAgentOptions && options.userAgentOptions.userAgentPrefix
       ? `${options.userAgentOptions.userAgentPrefix} ${userAgentInfo}`
@@ -39,13 +40,10 @@ export default function createClient(
     },
     telemetryOptions: {
       clientRequestIdHeaderName:
-        options.telemetryOptions?.clientRequestIdHeaderName ??
-        "client-request-id",
+        options.telemetryOptions?.clientRequestIdHeaderName ?? "client-request-id",
     },
     credentials: {
-      scopes: options.credentials?.scopes ?? [
-        "https://batch.core.windows.net//.default",
-      ],
+      scopes: options.credentials?.scopes ?? ["https://batch.core.windows.net//.default"],
     },
   };
   const client = getClient(endpointUrl, credentials, options) as BatchClient;

@@ -8,7 +8,7 @@ import type { TokenCredential, AzureNamedKeyCredential } from "@azure/core-auth"
 import { isTokenCredential } from "@azure/core-auth";
 import type { BatchClient } from "./clientDefinitions.js";
 import { createBatchSharedKeyCredentialsPolicy } from "./credentials/batchSharedKeyCredentials.js";
-import { createReplacePoolPropertiesPolicy } from "./replacePoolPropertiesPolicy.js";
+// import { createReplacePoolPropertiesPolicy } from "./replacePoolPropertiesPolicy.js";
 
 /** The optional parameters for the client */
 export interface BatchClientOptions extends ClientOptions {
@@ -28,7 +28,7 @@ export default function createClient(
   { apiVersion = "2024-07-01.20.0", ...options }: BatchClientOptions = {},
 ): BatchClient {
   const endpointUrl = options.endpoint ?? options.baseUrl ?? `${endpointParam}`;
-  const userAgentInfo = `azsdk-js-batch-rest/1.0.0-beta.2`;
+  const userAgentInfo = `azsdk-js-batch-rest/1.0.0`;
   const userAgentPrefix =
     options.userAgentOptions && options.userAgentOptions.userAgentPrefix
       ? `${options.userAgentOptions.userAgentPrefix} ${userAgentInfo}`
@@ -48,14 +48,14 @@ export default function createClient(
     credentials: {
       scopes: options.credentials?.scopes ?? ["https://batch.core.windows.net//.default"],
     },
-    additionalPolicies: [
-      ...(options?.additionalPolicies ?? []),
-      // TODO: remove after service remove certificate feature completely
-      {
-        policy: createReplacePoolPropertiesPolicy(),
-        position: "perCall",
-      },
-    ],
+    // additionalPolicies: [
+    //   ...(options?.additionalPolicies ?? []),
+    //   // TODO: remove after service remove certificate feature completely
+    //   {
+    //     policy: createReplacePoolPropertiesPolicy(),
+    //     position: "perCall",
+    //   },
+    // ],
   };
 
   const addClientApiVersionPolicy = (client: BatchClient): BatchClient => {

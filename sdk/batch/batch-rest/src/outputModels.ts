@@ -61,7 +61,7 @@ export interface BatchPoolUsageMetricsOutput {
   startTime: string;
   /** The end time of the aggregation interval covered by this entry. */
   endTime: string;
-  /** The size of virtual machines in the Pool. All VMs in a Pool are the same size. For information about available sizes of virtual machines in Pools, see Choose a VM size for Compute Nodes in an Azure Batch Pool (https://docs.microsoft.com/azure/batch/batch-pool-vm-sizes). */
+  /** The size of virtual machines in the Pool. All VMs in a Pool are the same size. For information about available sizes of virtual machines in Pools, see Choose a VM size for Compute Nodes in an Azure Batch Pool (https://learn.microsoft.com/azure/batch/batch-pool-vm-sizes). */
   vmSize: string;
   /** The total core hours used in the Pool during this aggregation interval. */
   totalCoreHours: number;
@@ -78,7 +78,7 @@ export interface VirtualMachineConfigurationOutput {
   nodeAgentSKUId: string;
   /** Windows operating system settings on the virtual machine. This property must not be specified if the imageReference property specifies a Linux OS Image. */
   windowsConfiguration?: WindowsConfigurationOutput;
-  /** The configuration for data disks attached to the Compute Nodes in the Pool. This property must be specified if the Compute Nodes in the Pool need to have empty data disks attached to them. This cannot be updated. Each Compute Node gets its own disk (the disk is not a file share). Existing disks cannot be attached, each attached disk is empty. When the Compute Node is removed from the Pool, the disk and all data associated with it is also deleted. The disk is not formatted after being attached, it must be formatted before use - for more information see https://docs.microsoft.com/azure/virtual-machines/linux/classic/attach-disk#initialize-a-new-data-disk-in-linux and https://docs.microsoft.com/azure/virtual-machines/windows/attach-disk-ps#add-an-empty-data-disk-to-a-virtual-machine. */
+  /** The configuration for data disks attached to the Compute Nodes in the Pool. This property must be specified if the Compute Nodes in the Pool need to have empty data disks attached to them. This cannot be updated. Each Compute Node gets its own disk (the disk is not a file share). Existing disks cannot be attached, each attached disk is empty. When the Compute Node is removed from the Pool, the disk and all data associated with it is also deleted. The disk is not formatted after being attached, it must be formatted before use - for more information see https://learn.microsoft.com/azure/virtual-machines/linux/classic/attach-disk#initialize-a-new-data-disk-in-linux and https://learn.microsoft.com/azure/virtual-machines/windows/attach-disk-ps#add-an-empty-data-disk-to-a-virtual-machine. */
   dataDisks?: Array<DataDiskOutput>;
   /**
    * This only applies to Images that contain the Windows operating system, and
@@ -122,7 +122,7 @@ export interface ImageReferenceOutput {
   sku?: string;
   /** The version of the Azure Virtual Machines Marketplace Image. A value of 'latest' can be specified to select the latest version of an Image. If omitted, the default is 'latest'. */
   version?: string;
-  /** The ARM resource identifier of the Azure Compute Gallery Image. Compute Nodes in the Pool will be created using this Image Id. This is of the form /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/galleries/{galleryName}/images/{imageDefinitionName}/versions/{VersionId} or /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/galleries/{galleryName}/images/{imageDefinitionName} for always defaulting to the latest image version. This property is mutually exclusive with other ImageReference properties. The Azure Compute Gallery Image must have replicas in the same region and must be in the same subscription as the Azure Batch account. If the image version is not specified in the imageId, the latest version will be used. For information about the firewall settings for the Batch Compute Node agent to communicate with the Batch service see https://docs.microsoft.com/en-us/azure/batch/batch-api-basics#virtual-network-vnet-and-firewall-configuration. */
+  /** The ARM resource identifier of the Azure Compute Gallery Image. Compute Nodes in the Pool will be created using this Image Id. This is of the form /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/galleries/{galleryName}/images/{imageDefinitionName}/versions/{VersionId} or /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/galleries/{galleryName}/images/{imageDefinitionName} for always defaulting to the latest image version. This property is mutually exclusive with other ImageReference properties. The Azure Compute Gallery Image must have replicas in the same region and must be in the same subscription as the Azure Batch account. If the image version is not specified in the imageId, the latest version will be used. For information about the firewall settings for the Batch Compute Node agent to communicate with the Batch service see https://learn.microsoft.com/azure/batch/nodes-and-pools#virtual-network-vnet-and-firewall-configuration. */
   virtualMachineImageId?: string;
   /** The specific version of the platform image or marketplace image used to create the node. This read-only field differs from 'version' only if the value specified for 'version' when the pool was created was 'latest'. */
   readonly exactVersion?: string;
@@ -216,7 +216,7 @@ export interface BatchNodePlacementConfigurationOutput {
   /**
    * Node placement Policy type on Batch Pools. Allocation policy used by Batch Service to provision the nodes. If not specified, Batch will use the regional policy.
    *
-   * Possible values: "Shared", "Startup", "VfsMounts", "Task", "JobPrep", "Applications"
+   * Possible values: "regional", "zonal"
    */
   policy?: BatchNodePlacementPolicyTypeOutput;
 }
@@ -267,7 +267,7 @@ export interface OSDiskOutput {
  */
 export interface DiffDiskSettingsOutput {
   /**
-   * Specifies the ephemeral disk placement for operating system disk for all VMs in the pool. This property can be used by user in the request to choose the location e.g., cache disk space for Ephemeral OS disk provisioning. For more information on Ephemeral OS disk size requirements, please refer to Ephemeral OS disk size requirements for Windows VMs at https://docs.microsoft.com/azure/virtual-machines/windows/ephemeral-os-disks#size-requirements and Linux VMs at https://docs.microsoft.com/azure/virtual-machines/linux/ephemeral-os-disks#size-requirements.
+   * Specifies the ephemeral disk placement for operating system disk for all VMs in the pool. This property can be used by user in the request to choose the location e.g., cache disk space for Ephemeral OS disk provisioning. For more information on Ephemeral OS disk size requirements, please refer to Ephemeral OS disk size requirements for Windows VMs at https://learn.microsoft.com/azure/virtual-machines/windows/ephemeral-os-disks#size-requirements and Linux VMs at https://learn.microsoft.com/azure/virtual-machines/linux/ephemeral-os-disks#size-requirements.
    *
    * Possible values: "cachedisk"
    */
@@ -329,7 +329,7 @@ export interface ServiceArtifactReferenceOutput {
 
 /** The network configuration for a Pool. */
 export interface NetworkConfigurationOutput {
-  /** The ARM resource identifier of the virtual network subnet which the Compute Nodes of the Pool will join. The virtual network must be in the same region and subscription as the Azure Batch Account. The specified subnet should have enough free IP addresses to accommodate the number of Compute Nodes in the Pool. If the subnet doesn't have enough free IP addresses, the Pool will partially allocate Nodes and a resize error will occur. The 'MicrosoftAzureBatch' service principal must have the 'Classic Virtual Machine Contributor' Role-Based Access Control (RBAC) role for the specified VNet. The specified subnet must allow communication from the Azure Batch service to be able to schedule Tasks on the Nodes. This can be verified by checking if the specified VNet has any associated Network Security Groups (NSG). If communication to the Nodes in the specified subnet is denied by an NSG, then the Batch service will set the state of the Compute Nodes to unusable. Only ARM virtual networks ('Microsoft.Network/virtualNetworks') are supported. If the specified VNet has any associated Network Security Groups (NSG), then a few reserved system ports must be enabled for inbound communication. Enable ports 29876 and 29877, as well as port 22 for Linux and port 3389 for Windows. Also enable outbound connections to Azure Storage on port 443. For more details see: https://docs.microsoft.com/azure/batch/batch-api-basics#virtual-network-vnet-and-firewall-configuration. */
+  /** The ARM resource identifier of the virtual network subnet which the Compute Nodes of the Pool will join. This is of the form /subscriptions/{subscription}/resourceGroups/{group}/providers/{provider}/virtualNetworks/{network}/subnets/{subnet}. The virtual network must be in the same region and subscription as the Azure Batch Account. The specified subnet should have enough free IP addresses to accommodate the number of Compute Nodes in the Pool. If the subnet doesn't have enough free IP addresses, the Pool will partially allocate Nodes and a resize error will occur. The 'MicrosoftAzureBatch' service principal must have the 'Classic Virtual Machine Contributor' Role-Based Access Control (RBAC) role for the specified VNet. The specified subnet must allow communication from the Azure Batch service to be able to schedule Tasks on the Nodes. This can be verified by checking if the specified VNet has any associated Network Security Groups (NSG). If communication to the Nodes in the specified subnet is denied by an NSG, then the Batch service will set the state of the Compute Nodes to unusable. Only ARM virtual networks ('Microsoft.Network/virtualNetworks') are supported. If the specified VNet has any associated Network Security Groups (NSG), then a few reserved system ports must be enabled for inbound communication, including ports 29876 and 29877. Also enable outbound connections to Azure Storage on port 443. For more details see: https://learn.microsoft.com/azure/batch/nodes-and-pools#virtual-network-vnet-and-firewall-configuration */
   subnetId?: string;
   /**
    * The scope of dynamic vnet assignment.
@@ -364,7 +364,7 @@ export interface InboundNatPoolOutput {
    * Possible values: "tcp", "udp"
    */
   protocol: InboundEndpointProtocolOutput;
-  /** The port number on the Compute Node. This must be unique within a Batch Pool. Acceptable values are between 1 and 65535 except for 22, 3389, 29876 and 29877 as these are reserved. If any reserved values are provided the request fails with HTTP status code 400. */
+  /** The port number on the Compute Node. This must be unique within a Batch Pool. Acceptable values are between 1 and 65535 except for 29876 and 29877 as these are reserved. If any reserved values are provided the request fails with HTTP status code 400. */
   backendPort: number;
   /** The first port number in the range of external ports that will be used to provide inbound access to the backendPort on individual Compute Nodes. Acceptable values range between 1 and 65534 except ports from 50000 to 55000 which are reserved. All ranges within a Pool must be distinct and cannot overlap. Each range must contain at least 40 ports. If any reserved or overlapping values are provided the request fails with HTTP status code 400. */
   frontendPortRangeStart: number;
@@ -418,7 +418,7 @@ export interface PublicIpAddressConfigurationOutput {
  * block Batch from being able to re-run the StartTask.
  */
 export interface BatchStartTaskOutput {
-  /** The command line of the StartTask. The command line does not run under a shell, and therefore cannot take advantage of shell features such as environment variable expansion. If you want to take advantage of such features, you should invoke the shell in the command line, for example using "cmd /c MyCommand" in Windows or "/bin/sh -c MyCommand" in Linux. If the command line refers to file paths, it should use a relative path (relative to the Task working directory), or use the Batch provided environment variable (https://docs.microsoft.com/azure/batch/batch-compute-node-environment-variables). */
+  /** The command line of the StartTask. The command line does not run under a shell, and therefore cannot take advantage of shell features such as environment variable expansion. If you want to take advantage of such features, you should invoke the shell in the command line, for example using "cmd /c MyCommand" in Windows or "/bin/sh -c MyCommand" in Linux. If the command line refers to file paths, it should use a relative path (relative to the Task working directory), or use the Batch provided environment variable (https://learn.microsoft.com/azure/batch/batch-compute-node-environment-variables). */
   commandLine: string;
   /** The settings for the container under which the StartTask runs. When this is specified, all directories recursively below the AZ_BATCH_NODE_ROOT_DIR (the root of Azure Batch directories on the node) are mapped into the container, all Task environment variables are mapped into the container, and the Task command line is executed in the container. Files produced in the container outside of AZ_BATCH_NODE_ROOT_DIR might not be reflected to the host disk, meaning that Batch file APIs will not be able to access those files. */
   containerSettings?: BatchTaskContainerSettingsOutput;
@@ -457,7 +457,7 @@ export interface ContainerHostBatchBindMountEntryOutput {
   /**
    * The path which be mounted to container customer can select.
    *
-   * Possible values: "regional", "zonal"
+   * Possible values: "Shared", "Startup", "VfsMounts", "Task", "JobPrep", "Applications"
    */
   source?: ContainerHostDataPathOutput;
   /** Mount this source path as read-only mode or not. Default value is false (read/write mode). For Linux, if you mount this path as a read/write mode, this does not mean that all users in container have the read/write access for the path, it depends on the access in host VM. If this path is mounted read-only, all users within the container will not be able to modify the path. */
@@ -501,7 +501,7 @@ export interface UserIdentityOutput {
 /** Specifies the options for the auto user that runs an Azure Batch Task. */
 export interface AutoUserSpecificationOutput {
   /**
-   * The scope for the auto user. The default value is pool. If the pool is running Windows, a value of Task should be specified if stricter isolation between tasks is required, such as if the task mutates the registry in a way which could impact other tasks.
+   * The scope for the auto user. The default value is pool. If the pool is running Windows a value of Task should be specified if stricter isolation between tasks is required. For example, if the task mutates the registry in a way which could impact other tasks, or if certificates have been specified on the pool which should not be accessible by normal tasks but should be accessible by StartTasks.
    *
    * Possible values: "task", "pool"
    */
@@ -512,6 +512,24 @@ export interface AutoUserSpecificationOutput {
    * Possible values: "nonadmin", "admin"
    */
   elevationLevel?: ElevationLevelOutput;
+}
+
+/** A reference to a Certificate to be installed on Compute Nodes in a Pool. Warning: This object is deprecated and will be removed after February, 2024. Please use the [Azure KeyVault Extension](https://learn.microsoft.com/azure/batch/batch-certificate-migration-guide) instead. */
+export interface BatchCertificateReferenceOutput {
+  /** The thumbprint of the Certificate. */
+  thumbprint: string;
+  /** The algorithm with which the thumbprint is associated. This must be sha1. */
+  thumbprintAlgorithm: string;
+  /**
+   * The location of the Certificate store on the Compute Node into which to install the Certificate. The default value is currentuser. This property is applicable only for Pools configured with Windows Compute Nodes (that is, created with cloudServiceConfiguration, or with virtualMachineConfiguration using a Windows Image reference). For Linux Compute Nodes, the Certificates are stored in a directory inside the Task working directory and an environment variable AZ_BATCH_CERTIFICATES_DIR is supplied to the Task to query for this location. For Certificates with visibility of 'remoteUser', a 'certs' directory is created in the user's home directory (e.g., /home/{user-name}/certs) and Certificates are placed in that directory.
+   *
+   * Possible values: "currentuser", "localmachine"
+   */
+  storeLocation?: BatchCertificateStoreLocationOutput;
+  /** The name of the Certificate store on the Compute Node into which to install the Certificate. This property is applicable only for Pools configured with Windows Compute Nodes (that is, created with cloudServiceConfiguration, or with virtualMachineConfiguration using a Windows Image reference). Common store names include: My, Root, CA, Trust, Disallowed, TrustedPeople, TrustedPublisher, AuthRoot, AddressBook, but any custom store name can also be used. The default value is My. */
+  storeName?: string;
+  /** Which user Accounts on the Compute Node should have access to the private data of the Certificate. You can specify more than one visibility in this collection. The default is all Accounts. */
+  visibility?: BatchCertificateVisibilityOutput[];
 }
 
 /** A reference to an Package to be deployed to Compute Nodes. */
@@ -734,7 +752,7 @@ export interface BatchPoolOutput {
   readonly allocationState?: AllocationStateOutput;
   /** The time at which the Pool entered its current allocation state. */
   readonly allocationStateTransitionTime?: string;
-  /** The size of virtual machines in the Pool. All virtual machines in a Pool are the same size. For information about available VM sizes, see Sizes for Virtual Machines (Linux) (https://azure.microsoft.com/documentation/articles/virtual-machines-linux-sizes/) or Sizes for Virtual Machines (Windows) (https://azure.microsoft.com/documentation/articles/virtual-machines-windows-sizes/). Batch supports all Azure VM sizes except STANDARD_A0 and those with premium storage (STANDARD_GS, STANDARD_DS, and STANDARD_DSV2 series). */
+  /** The size of virtual machines in the Pool. All virtual machines in a Pool are the same size. For information about available VM sizes, see Sizes for Virtual Machines in Azure (https://learn.microsoft.com/azure/virtual-machines/sizes/overview). Batch supports all Azure VM sizes except STANDARD_A0 and those with premium storage (STANDARD_GS, STANDARD_DS, and STANDARD_DSV2 series). */
   readonly vmSize?: string;
   /** The virtual machine configuration for the Pool. This property must be specified. */
   readonly virtualMachineConfiguration?: VirtualMachineConfigurationOutput;
@@ -766,6 +784,13 @@ export interface BatchPoolOutput {
   readonly networkConfiguration?: NetworkConfigurationOutput;
   /** A Task specified to run on each Compute Node as it joins the Pool. */
   startTask?: BatchStartTaskOutput;
+  /**
+   * For Windows Nodes, the Batch service installs the Certificates to the specified Certificate store and location.
+   * For Linux Compute Nodes, the Certificates are stored in a directory inside the Task working directory and an environment variable AZ_BATCH_CERTIFICATES_DIR is supplied to the Task to query for this location.
+   * For Certificates with visibility of 'remoteUser', a 'certs' directory is created in the user's home directory (e.g., /home/{user-name}/certs) and Certificates are placed in that directory.
+   * Warning: This property is deprecated and will be removed after February, 2024. Please use the [Azure KeyVault Extension](https://learn.microsoft.com/azure/batch/batch-certificate-migration-guide) instead.
+   */
+  readonly certificateReferences?: Array<BatchCertificateReferenceOutput>;
   /** The list of Packages to be installed on each Compute Node in the Pool. Changes to Package references affect all new Nodes joining the Pool, but do not affect Compute Nodes that are already in the Pool until they are rebooted or reimaged. There is a maximum of 10 Package references on any given Pool. */
   readonly applicationPackageReferences?: Array<BatchApplicationPackageReferenceOutput>;
   /** The number of task slots that can be used to run concurrent tasks on a single compute node in the pool. The default value is 1. The maximum value is the smaller of 4 times the number of cores of the vmSize of the pool or 256. */
@@ -877,9 +902,9 @@ export interface BatchPoolResourceStatisticsOutput {
   /** The peak used disk space in GiB across all Compute Nodes in the Pool. */
   peakDiskGiB: number;
   /** The total number of disk read operations across all Compute Nodes in the Pool. */
-  diskReadIOps: number;
+  diskReadIOps: string;
   /** The total number of disk write operations across all Compute Nodes in the Pool. */
-  diskWriteIOps: number;
+  diskWriteIOps: string;
   /** The total amount of data in GiB of disk reads across all Compute Nodes in the Pool. */
   diskReadGiB: number;
   /** The total amount of data in GiB of disk writes across all Compute Nodes in the Pool. */
@@ -1113,7 +1138,7 @@ export interface BatchJobManagerTaskOutput {
   id: string;
   /** The display name of the Job Manager Task. It need not be unique and can contain any Unicode characters up to a maximum length of 1024. */
   displayName?: string;
-  /** The command line of the Job Manager Task. The command line does not run under a shell, and therefore cannot take advantage of shell features such as environment variable expansion. If you want to take advantage of such features, you should invoke the shell in the command line, for example using "cmd /c MyCommand" in Windows or "/bin/sh -c MyCommand" in Linux. If the command line refers to file paths, it should use a relative path (relative to the Task working directory), or use the Batch provided environment variable (https://docs.microsoft.com/azure/batch/batch-compute-node-environment-variables). */
+  /** The command line of the Job Manager Task. The command line does not run under a shell, and therefore cannot take advantage of shell features such as environment variable expansion. If you want to take advantage of such features, you should invoke the shell in the command line, for example using "cmd /c MyCommand" in Windows or "/bin/sh -c MyCommand" in Linux. If the command line refers to file paths, it should use a relative path (relative to the Task working directory), or use the Batch provided environment variable (https://learn.microsoft.com/azure/batch/batch-compute-node-environment-variables). */
   commandLine: string;
   /** The settings for the container under which the Job Manager Task runs. If the Pool that will run this Task has containerConfiguration set, this must be set as well. If the Pool that will run this Task doesn't have containerConfiguration set, this must not be set. When this is specified, all directories recursively below the AZ_BATCH_NODE_ROOT_DIR (the root of Azure Batch directories on the node) are mapped into the container, all Task environment variables are mapped into the container, and the Task command line is executed in the container. Files produced in the container outside of AZ_BATCH_NODE_ROOT_DIR might not be reflected to the host disk, meaning that Batch file APIs will not be able to access those files. */
   containerSettings?: BatchTaskContainerSettingsOutput;
@@ -1174,7 +1199,7 @@ export interface OutputFileBlobContainerDestinationOutput {
   containerUrl: string;
   /** The reference to the user assigned identity to use to access Azure Blob Storage specified by containerUrl. The identity must have write access to the Azure Blob Storage container. */
   identityReference?: BatchNodeIdentityReferenceOutput;
-  /** A list of name-value pairs for headers to be used in uploading output files. These headers will be specified when uploading files to Azure Storage. Official document on allowed headers when uploading blobs: https://docs.microsoft.com/rest/api/storageservices/put-blob#request-headers-all-blob-types. */
+  /** A list of name-value pairs for headers to be used in uploading output files. These headers will be specified when uploading files to Azure Storage. Official document on allowed headers when uploading blobs: https://learn.microsoft.com/rest/api/storageservices/put-blob#request-headers-all-blob-types. */
   uploadHeaders?: Array<HttpHeaderOutput>;
 }
 
@@ -1249,7 +1274,7 @@ export interface AuthenticationTokenSettingsOutput {
 export interface BatchJobPreparationTaskOutput {
   /** A string that uniquely identifies the Job Preparation Task within the Job. The ID can contain any combination of alphanumeric characters including hyphens and underscores and cannot contain more than 64 characters. If you do not specify this property, the Batch service assigns a default value of 'jobpreparation'. No other Task in the Job can have the same ID as the Job Preparation Task. If you try to submit a Task with the same id, the Batch service rejects the request with error code TaskIdSameAsJobPreparationTask; if you are calling the REST API directly, the HTTP status code is 409 (Conflict). */
   id?: string;
-  /** The command line of the Job Preparation Task. The command line does not run under a shell, and therefore cannot take advantage of shell features such as environment variable expansion. If you want to take advantage of such features, you should invoke the shell in the command line, for example using "cmd /c MyCommand" in Windows or "/bin/sh -c MyCommand" in Linux. If the command line refers to file paths, it should use a relative path (relative to the Task working directory), or use the Batch provided environment variable (https://docs.microsoft.com/azure/batch/batch-compute-node-environment-variables). */
+  /** The command line of the Job Preparation Task. The command line does not run under a shell, and therefore cannot take advantage of shell features such as environment variable expansion. If you want to take advantage of such features, you should invoke the shell in the command line, for example using "cmd /c MyCommand" in Windows or "/bin/sh -c MyCommand" in Linux. If the command line refers to file paths, it should use a relative path (relative to the Task working directory), or use the Batch provided environment variable (https://learn.microsoft.com/azure/batch/batch-compute-node-environment-variables). */
   commandLine: string;
   /** The settings for the container under which the Job Preparation Task runs. When this is specified, all directories recursively below the AZ_BATCH_NODE_ROOT_DIR (the root of Azure Batch directories on the node) are mapped into the container, all Task environment variables are mapped into the container, and the Task command line is executed in the container. Files produced in the container outside of AZ_BATCH_NODE_ROOT_DIR might not be reflected to the host disk, meaning that Batch file APIs will not be able to access those files. */
   containerSettings?: BatchTaskContainerSettingsOutput;
@@ -1288,7 +1313,7 @@ export interface BatchJobPreparationTaskOutput {
 export interface BatchJobReleaseTaskOutput {
   /** A string that uniquely identifies the Job Release Task within the Job. The ID can contain any combination of alphanumeric characters including hyphens and underscores and cannot contain more than 64 characters. If you do not specify this property, the Batch service assigns a default value of 'jobrelease'. No other Task in the Job can have the same ID as the Job Release Task. If you try to submit a Task with the same id, the Batch service rejects the request with error code TaskIdSameAsJobReleaseTask; if you are calling the REST API directly, the HTTP status code is 409 (Conflict). */
   id?: string;
-  /** The command line of the Job Release Task. The command line does not run under a shell, and therefore cannot take advantage of shell features such as environment variable expansion. If you want to take advantage of such features, you should invoke the shell in the command line, for example using "cmd /c MyCommand" in Windows or "/bin/sh -c MyCommand" in Linux. If the command line refers to file paths, it should use a relative path (relative to the Task working directory), or use the Batch provided environment variable (https://docs.microsoft.com/azure/batch/batch-compute-node-environment-variables). */
+  /** The command line of the Job Release Task. The command line does not run under a shell, and therefore cannot take advantage of shell features such as environment variable expansion. If you want to take advantage of such features, you should invoke the shell in the command line, for example using "cmd /c MyCommand" in Windows or "/bin/sh -c MyCommand" in Linux. If the command line refers to file paths, it should use a relative path (relative to the Task working directory), or use the Batch provided environment variable (https://learn.microsoft.com/azure/batch/batch-compute-node-environment-variables). */
   commandLine: string;
   /** The settings for the container under which the Job Release Task runs. When this is specified, all directories recursively below the AZ_BATCH_NODE_ROOT_DIR (the root of Azure Batch directories on the node) are mapped into the container, all Task environment variables are mapped into the container, and the Task command line is executed in the container. Files produced in the container outside of AZ_BATCH_NODE_ROOT_DIR might not be reflected to the host disk, meaning that Batch file APIs will not be able to access those files. */
   containerSettings?: BatchTaskContainerSettingsOutput;
@@ -1335,7 +1360,7 @@ export interface BatchAutoPoolSpecificationOutput {
 export interface BatchPoolSpecificationOutput {
   /** The display name for the Pool. The display name need not be unique and can contain any Unicode characters up to a maximum length of 1024. */
   displayName?: string;
-  /** The size of the virtual machines in the Pool. All virtual machines in a Pool are the same size. For information about available sizes of virtual machines in Pools, see Choose a VM size for Compute Nodes in an Azure Batch Pool (https://docs.microsoft.com/azure/batch/batch-pool-vm-sizes). */
+  /** The size of the virtual machines in the Pool. All virtual machines in a Pool are the same size. For information about available sizes of virtual machines in Pools, see Choose a VM size for Compute Nodes in an Azure Batch Pool (https://learn.microsoft.com/azure/batch/batch-pool-vm-sizes). */
   vmSize: string;
   /** The virtual machine configuration for the Pool. This property must be specified. */
   virtualMachineConfiguration?: VirtualMachineConfigurationOutput;
@@ -1363,6 +1388,12 @@ export interface BatchPoolSpecificationOutput {
   networkConfiguration?: NetworkConfigurationOutput;
   /** A Task to run on each Compute Node as it joins the Pool. The Task runs when the Compute Node is added to the Pool or when the Compute Node is restarted. */
   startTask?: BatchStartTaskOutput;
+  /**
+   * For Windows Nodes, the Batch service installs the Certificates to the specified Certificate store and location. For Linux Compute Nodes, the Certificates are stored in a directory inside the Task working directory and an environment variable AZ_BATCH_CERTIFICATES_DIR is supplied to the Task to query for this location. For Certificates with visibility of 'remoteUser', a 'certs' directory is created in the user's home directory (e.g., /home/{user-name}/certs) and Certificates are placed in that directory.
+   * Warning: This property is deprecated and will be removed after February, 2024.
+   * Please use the [Azure KeyVault Extension](https://learn.microsoft.com/azure/batch/batch-certificate-migration-guide) instead.
+   */
+  certificateReferences?: Array<BatchCertificateReferenceOutput>;
   /** The list of Packages to be installed on each Compute Node in the Pool. When creating a pool, the package's application ID must be fully qualified (/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/applications/{applicationName}). Changes to Package references affect all new Nodes joining the Pool, but do not affect Compute Nodes that are already in the Pool until they are rebooted or reimaged. There is a maximum of 10 Package references on any given Pool. */
   applicationPackageReferences?: Array<BatchApplicationPackageReferenceOutput>;
   /** The list of user Accounts to be created on each Compute Node in the Pool. */
@@ -1383,7 +1414,7 @@ export interface BatchPoolSpecificationOutput {
 
 /** The network configuration for the Job. */
 export interface BatchJobNetworkConfigurationOutput {
-  /** The ARM resource identifier of the virtual network subnet which Compute Nodes running Tasks from the Job will join for the duration of the Task. The virtual network must be in the same region and subscription as the Azure Batch Account. The specified subnet should have enough free IP addresses to accommodate the number of Compute Nodes which will run Tasks from the Job. This can be up to the number of Compute Nodes in the Pool. The 'MicrosoftAzureBatch' service principal must have the 'Classic Virtual Machine Contributor' Role-Based Access Control (RBAC) role for the specified VNet so that Azure Batch service can schedule Tasks on the Nodes. This can be verified by checking if the specified VNet has any associated Network Security Groups (NSG). If communication to the Nodes in the specified subnet is denied by an NSG, then the Batch service will set the state of the Compute Nodes to unusable. This is of the form /subscriptions/{subscription}/resourceGroups/{group}/providers/{provider}/virtualNetworks/{network}/subnets/{subnet}. If the specified VNet has any associated Network Security Groups (NSG), then a few reserved system ports must be enabled for inbound communication from the Azure Batch service. For Pools created with a Virtual Machine configuration, enable ports 29876 and 29877, as well as port 22 for Linux and port 3389 for Windows. Port 443 is also required to be open for outbound connections for communications to Azure Storage. For more details see: https://docs.microsoft.com/azure/batch/batch-api-basics#virtual-network-vnet-and-firewall-configuration. */
+  /** The ARM resource identifier of the virtual network subnet which Compute Nodes running Tasks from the Job will join for the duration of the Task. The virtual network must be in the same region and subscription as the Azure Batch Account. The specified subnet should have enough free IP addresses to accommodate the number of Compute Nodes which will run Tasks from the Job. This can be up to the number of Compute Nodes in the Pool. The 'MicrosoftAzureBatch' service principal must have the 'Classic Virtual Machine Contributor' Role-Based Access Control (RBAC) role for the specified VNet so that Azure Batch service can schedule Tasks on the Nodes. This can be verified by checking if the specified VNet has any associated Network Security Groups (NSG). If communication to the Nodes in the specified subnet is denied by an NSG, then the Batch service will set the state of the Compute Nodes to unusable. This is of the form /subscriptions/{subscription}/resourceGroups/{group}/providers/{provider}/virtualNetworks/{network}/subnets/{subnet}. If the specified VNet has any associated Network Security Groups (NSG), then a few reserved system ports must be enabled for inbound communication from the Azure Batch service. For Pools created with a Virtual Machine configuration, enable ports 29876 and 29877, as well as port 22 for Linux and port 3389 for Windows. Port 443 is also required to be open for outbound connections for communications to Azure Storage. For more details see: https://learn.microsoft.com/azure/batch/batch-api-basics#virtual-network-vnet-and-firewall-configuration. */
   subnetId: string;
   /** Whether to withdraw Compute Nodes from the virtual network to DNC when the job is terminated or deleted.  If true, nodes will remain joined to the virtual network to DNC. If false, nodes will automatically withdraw when the job ends. Defaults to false. */
   skipWithdrawFromVNet: boolean;
@@ -1434,19 +1465,19 @@ export interface BatchJobStatisticsOutput {
   /** The total wall clock time of all Tasks in the Job.  The wall clock time is the elapsed time from when the Task started running on a Compute Node to when it finished (or to the last time the statistics were updated, if the Task had not finished by then). If a Task was retried, this includes the wall clock time of all the Task retries. */
   wallClockTime: string;
   /** The total number of disk read operations made by all Tasks in the Job. */
-  readIOps: number;
+  readIOps: string;
   /** The total number of disk write operations made by all Tasks in the Job. */
-  writeIOps: number;
+  writeIOps: string;
   /** The total amount of data in GiB read from disk by all Tasks in the Job. */
   readIOGiB: number;
   /** The total amount of data in GiB written to disk by all Tasks in the Job. */
   writeIOGiB: number;
   /** The total number of Tasks successfully completed in the Job during the given time range. A Task completes successfully if it returns exit code 0. */
-  numSucceededTasks: number;
+  numSucceededTasks: string;
   /** The total number of Tasks in the Job that failed during the given time range. A Task fails if it exhausts its maximum retry count without returning exit code 0. */
-  numFailedTasks: number;
+  numFailedTasks: string;
   /** The total number of retries on all the Tasks in the Job during the given time range. */
-  numTaskRetries: number;
+  numTaskRetries: string;
   /** The total wait time of all Tasks in the Job. The wait time for a Task is defined as the elapsed time between the creation of the Task and the start of Task execution. (If the Task is retried due to failures, the wait time is the time to the most recent Task execution.) This value is only reported in the Account lifetime statistics; it is not included in the Job statistics. */
   waitTime: string;
 }
@@ -1617,6 +1648,67 @@ export interface BatchTaskSlotCountsOutput {
 }
 
 /**
+ * A Certificate that can be installed on Compute Nodes and can be used to
+ * authenticate operations on the machine.
+ */
+export interface BatchCertificateOutput {
+  /** The X.509 thumbprint of the Certificate. This is a sequence of up to 40 hex digits (it may include spaces but these are removed). */
+  thumbprint: string;
+  /** The algorithm used to derive the thumbprint. This must be sha1. */
+  thumbprintAlgorithm: string;
+  /** The URL of the Certificate. */
+  readonly url?: string;
+  /**
+   * The state of the Certificate.
+   *
+   * Possible values: "active", "deleting", "deletefailed"
+   */
+  readonly state?: BatchCertificateStateOutput;
+  /** The time at which the Certificate entered its current state. */
+  readonly stateTransitionTime?: string;
+  /**
+   * The previous state of the Certificate. This property is not set if the Certificate is in its initial active state.
+   *
+   * Possible values: "active", "deleting", "deletefailed"
+   */
+  readonly previousState?: BatchCertificateStateOutput;
+  /** The time at which the Certificate entered its previous state. This property is not set if the Certificate is in its initial Active state. */
+  readonly previousStateTransitionTime?: string;
+  /** The public part of the Certificate as a base-64 encoded .cer file. */
+  readonly publicData?: string;
+  /** The error that occurred on the last attempt to delete this Certificate. This property is set only if the Certificate is in the DeleteFailed state. */
+  readonly deleteCertificateError?: DeleteBatchCertificateErrorOutput;
+  /** The base64-encoded contents of the Certificate. The maximum size is 10KB. */
+  data: string;
+  /**
+   * The format of the Certificate data.
+   *
+   * Possible values: "pfx", "cer"
+   */
+  certificateFormat?: BatchCertificateFormatOutput;
+  /** The password to access the Certificate's private key. This must be omitted if the Certificate format is cer. */
+  password?: string;
+}
+
+/** An error encountered by the Batch service when deleting a Certificate. */
+export interface DeleteBatchCertificateErrorOutput {
+  /** An identifier for the Certificate deletion error. Codes are invariant and are intended to be consumed programmatically. */
+  code?: string;
+  /** A message describing the Certificate deletion error, intended to be suitable for display in a user interface. */
+  message?: string;
+  /** A list of additional error details related to the Certificate deletion error. This list includes details such as the active Pools and Compute Nodes referencing this Certificate. However, if a large number of resources reference the Certificate, the list contains only about the first hundred. */
+  values?: Array<NameValuePairOutput>;
+}
+
+/** The result of listing the Certificates in the Account. */
+export interface BatchCertificateListResultOutput {
+  /** The list of Certificates. */
+  value?: Array<BatchCertificateOutput>;
+  /** The URL to get the next set of results. */
+  "odata.nextLink"?: string;
+}
+
+/**
  * A Job Schedule that allows recurring Jobs by specifying when to run Jobs and a
  * specification used to create each Job.
  */
@@ -1754,19 +1846,19 @@ export interface BatchJobScheduleStatisticsOutput {
   /** The total wall clock time of all the Tasks in all the Jobs created under the schedule. The wall clock time is the elapsed time from when the Task started running on a Compute Node to when it finished (or to the last time the statistics were updated, if the Task had not finished by then). If a Task was retried, this includes the wall clock time of all the Task retries. */
   wallClockTime: string;
   /** The total number of disk read operations made by all Tasks in all Jobs created under the schedule. */
-  readIOps: number;
+  readIOps: string;
   /** The total number of disk write operations made by all Tasks in all Jobs created under the schedule. */
-  writeIOps: number;
+  writeIOps: string;
   /** The total gibibytes read from disk by all Tasks in all Jobs created under the schedule. */
   readIOGiB: number;
   /** The total gibibytes written to disk by all Tasks in all Jobs created under the schedule. */
   writeIOGiB: number;
   /** The total number of Tasks successfully completed during the given time range in Jobs created under the schedule. A Task completes successfully if it returns exit code 0. */
-  numSucceededTasks: number;
+  numSucceededTasks: string;
   /** The total number of Tasks that failed during the given time range in Jobs created under the schedule. A Task fails if it exhausts its maximum retry count without returning exit code 0. */
-  numFailedTasks: number;
+  numFailedTasks: string;
   /** The total number of retries during the given time range on all Tasks in all Jobs created under the schedule. */
-  numTaskRetries: number;
+  numTaskRetries: string;
   /** The total wait time of all Tasks in all Jobs created under the schedule. The wait time for a Task is defined as the elapsed time between the creation of the Task and the start of Task execution. (If the Task is retried due to failures, the wait time is the time to the most recent Task execution.). This value is only reported in the Account lifetime statistics; it is not included in the Job statistics. */
   waitTime: string;
 }
@@ -1930,7 +2022,7 @@ export interface BatchTaskOutput {
   readonly previousState?: BatchTaskStateOutput;
   /** The time at which the Task entered its previous state. This property is not set if the Task is in its initial Active state. */
   readonly previousStateTransitionTime?: string;
-  /** The command line of the Task. For multi-instance Tasks, the command line is executed as the primary Task, after the primary Task and all subtasks have finished executing the coordination command line. The command line does not run under a shell, and therefore cannot take advantage of shell features such as environment variable expansion. If you want to take advantage of such features, you should invoke the shell in the command line, for example using "cmd /c MyCommand" in Windows or "/bin/sh -c MyCommand" in Linux. If the command line refers to file paths, it should use a relative path (relative to the Task working directory), or use the Batch provided environment variable (https://docs.microsoft.com/azure/batch/batch-compute-node-environment-variables). */
+  /** The command line of the Task. For multi-instance Tasks, the command line is executed as the primary Task, after the primary Task and all subtasks have finished executing the coordination command line. The command line does not run under a shell, and therefore cannot take advantage of shell features such as environment variable expansion. If you want to take advantage of such features, you should invoke the shell in the command line, for example using "cmd /c MyCommand" in Windows or "/bin/sh -c MyCommand" in Linux. If the command line refers to file paths, it should use a relative path (relative to the Task working directory), or use the Batch provided environment variable (https://learn.microsoft.com/azure/batch/batch-compute-node-environment-variables). */
   readonly commandLine?: string;
   /** The settings for the container under which the Task runs. If the Pool that will run this Task has containerConfiguration set, this must be set as well. If the Pool that will run this Task doesn't have containerConfiguration set, this must not be set. When this is specified, all directories recursively below the AZ_BATCH_NODE_ROOT_DIR (the root of Azure Batch directories on the node) are mapped into the container, all Task environment variables are mapped into the container, and the Task command line is executed in the container. Files produced in the container outside of AZ_BATCH_NODE_ROOT_DIR might not be reflected to the host disk, meaning that Batch file APIs will not be able to access those files. */
   readonly containerSettings?: BatchTaskContainerSettingsOutput;
@@ -2023,9 +2115,9 @@ export interface BatchTaskStatisticsOutput {
   /** The total wall clock time of the Task. The wall clock time is the elapsed time from when the Task started running on a Compute Node to when it finished (or to the last time the statistics were updated, if the Task had not finished by then). If the Task was retried, this includes the wall clock time of all the Task retries. */
   wallClockTime: string;
   /** The total number of disk read operations made by the Task. */
-  readIOps: number;
+  readIOps: string;
   /** The total number of disk write operations made by the Task. */
-  writeIOps: number;
+  writeIOps: string;
   /** The total gibibytes read from disk by the Task. */
   readIOGiB: number;
   /** The total gibibytes written to disk by the Task. */
@@ -2173,7 +2265,7 @@ export interface BatchNodeOutput {
   ipAddress?: string;
   /** An identifier which can be passed when adding a Task to request that the Task be scheduled on this Compute Node. Note that this is just a soft affinity. If the target Compute Node is busy or unavailable at the time the Task is scheduled, then the Task will be scheduled elsewhere. */
   affinityId?: string;
-  /** The size of the virtual machine hosting the Compute Node. For information about available sizes of virtual machines in Pools, see Choose a VM size for Compute Nodes in an Azure Batch Pool (https://docs.microsoft.com/azure/batch/batch-pool-vm-sizes). */
+  /** The size of the virtual machine hosting the Compute Node. For information about available sizes of virtual machines in Pools, see Choose a VM size for Compute Nodes in an Azure Batch Pool (https://learn.microsoft.com/azure/batch/batch-pool-vm-sizes). */
   vmSize?: string;
   /** The total number of Job Tasks completed on the Compute Node. This includes Job Manager Tasks and normal Tasks, but not Job Preparation, Job Release or Start Tasks. */
   totalTasksRun?: number;
@@ -2189,6 +2281,13 @@ export interface BatchNodeOutput {
   startTask?: BatchStartTaskOutput;
   /** Runtime information about the execution of the StartTask on the Compute Node. */
   startTaskInfo?: BatchStartTaskInfoOutput;
+  /**
+   * For Windows Nodes, the Batch service installs the Certificates to the specified Certificate store and location.
+   * For Linux Compute Nodes, the Certificates are stored in a directory inside the Task working directory and an environment variable AZ_BATCH_CERTIFICATES_DIR is supplied to the Task to query for this location.
+   * For Certificates with visibility of 'remoteUser', a 'certs' directory is created in the user's home directory (e.g., /home/{user-name}/certs) and Certificates are placed in that directory.
+   * Warning: This property is deprecated and will be removed after February, 2024. Please use the [Azure KeyVault Extension](https://learn.microsoft.com/azure/batch/batch-certificate-migration-guide) instead.
+   */
+  certificateReferences?: Array<BatchCertificateReferenceOutput>;
   /** The list of errors that are currently being encountered by the Compute Node. */
   errors?: Array<BatchNodeErrorOutput>;
   /** Whether this Compute Node is a dedicated Compute Node. If false, the Compute Node is a Spot/Low-priority Compute Node. */
@@ -2408,6 +2507,10 @@ export type ContainerHostDataPathOutput = string;
 export type AutoUserScopeOutput = string;
 /** Alias for ElevationLevelOutput */
 export type ElevationLevelOutput = string;
+/** Alias for BatchCertificateStoreLocationOutput */
+export type BatchCertificateStoreLocationOutput = string;
+/** Alias for BatchCertificateVisibilityOutput */
+export type BatchCertificateVisibilityOutput = string;
 /** Alias for BatchNodeFillTypeOutput */
 export type BatchNodeFillTypeOutput = string;
 /** Alias for LoginModeOutput */
@@ -2446,6 +2549,10 @@ export type BatchJobPreparationTaskStateOutput = string;
 export type BatchTaskExecutionResultOutput = string;
 /** Alias for BatchJobReleaseTaskStateOutput */
 export type BatchJobReleaseTaskStateOutput = string;
+/** Alias for BatchCertificateStateOutput */
+export type BatchCertificateStateOutput = string;
+/** Alias for BatchCertificateFormatOutput */
+export type BatchCertificateFormatOutput = string;
 /** Alias for BatchJobScheduleStateOutput */
 export type BatchJobScheduleStateOutput = string;
 /** Alias for BatchJobActionOutput */
