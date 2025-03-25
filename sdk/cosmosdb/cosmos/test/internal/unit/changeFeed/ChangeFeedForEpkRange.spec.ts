@@ -69,7 +69,7 @@ describe("ChangeFeedForEpkRange Unit Tests", () => {
   });
 
   afterEach(() => {
-    sinon.restore();
+    vi.restoreAllMocks();
   });
 
   it("should throw TimeOutError instead of handling it internally", async () => {
