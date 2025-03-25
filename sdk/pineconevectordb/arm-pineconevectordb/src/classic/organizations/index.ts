@@ -3,16 +3,9 @@
 
 import { VectorDbContext } from "../../api/vectorDbContext.js";
 import {
-  organizationsListBySubscription,
-  organizationsListByResourceGroup,
-  organizationsDelete,
-  organizationsUpdate,
-  organizationsCreateOrUpdate,
-  organizationsGet,
-} from "../../api/organizations/index.js";
-import { OrganizationResource, OrganizationResourceUpdate } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+  OrganizationResource,
+  OrganizationResourceUpdate,
+} from "../../models/models.js";
 import {
   OrganizationsListBySubscriptionOptionalParams,
   OrganizationsListByResourceGroupOptionalParams,
@@ -20,7 +13,17 @@ import {
   OrganizationsUpdateOptionalParams,
   OrganizationsCreateOrUpdateOptionalParams,
   OrganizationsGetOptionalParams,
-} from "../../api/options.js";
+} from "../../api/organizations/options.js";
+import {
+  listBySubscription,
+  listByResourceGroup,
+  $delete,
+  update,
+  createOrUpdate,
+  get,
+} from "../../api/organizations/operations.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Organizations operations. */
 export interface OrganizationsOperations {
@@ -34,6 +37,11 @@ export interface OrganizationsOperations {
     options?: OrganizationsListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<OrganizationResource>;
   /** Delete a OrganizationResource */
+  /**
+   *  @fixme delete is a reserved word that cannot be used as an operation name.
+   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
+   *         to the operation to override the generated name.
+   */
   delete: (
     resourceGroupName: string,
     organizationname: string,
@@ -63,39 +71,49 @@ export interface OrganizationsOperations {
 
 function _getOrganizations(context: VectorDbContext) {
   return {
-    listBySubscription: (options?: OrganizationsListBySubscriptionOptionalParams) =>
-      organizationsListBySubscription(context, options),
+    listBySubscription: (
+      options?: OrganizationsListBySubscriptionOptionalParams,
+    ) => listBySubscription(context, options),
     listByResourceGroup: (
       resourceGroupName: string,
       options?: OrganizationsListByResourceGroupOptionalParams,
-    ) => organizationsListByResourceGroup(context, resourceGroupName, options),
+    ) => listByResourceGroup(context, resourceGroupName, options),
     delete: (
       resourceGroupName: string,
       organizationname: string,
       options?: OrganizationsDeleteOptionalParams,
-    ) => organizationsDelete(context, resourceGroupName, organizationname, options),
+    ) => $delete(context, resourceGroupName, organizationname, options),
     update: (
       resourceGroupName: string,
       organizationname: string,
       properties: OrganizationResourceUpdate,
       options?: OrganizationsUpdateOptionalParams,
-    ) => organizationsUpdate(context, resourceGroupName, organizationname, properties, options),
+    ) =>
+      update(context, resourceGroupName, organizationname, properties, options),
     createOrUpdate: (
       resourceGroupName: string,
       organizationname: string,
       resource: OrganizationResource,
       options?: OrganizationsCreateOrUpdateOptionalParams,
     ) =>
-      organizationsCreateOrUpdate(context, resourceGroupName, organizationname, resource, options),
+      createOrUpdate(
+        context,
+        resourceGroupName,
+        organizationname,
+        resource,
+        options,
+      ),
     get: (
       resourceGroupName: string,
       organizationname: string,
       options?: OrganizationsGetOptionalParams,
-    ) => organizationsGet(context, resourceGroupName, organizationname, options),
+    ) => get(context, resourceGroupName, organizationname, options),
   };
 }
 
-export function _getOrganizationsOperations(context: VectorDbContext): OrganizationsOperations {
+export function _getOrganizationsOperations(
+  context: VectorDbContext,
+): OrganizationsOperations {
   return {
     ..._getOrganizations(context),
   };

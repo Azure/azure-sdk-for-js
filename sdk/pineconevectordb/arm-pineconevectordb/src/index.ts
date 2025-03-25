@@ -46,6 +46,8 @@ export {
   ActionType,
   KnownVersions,
 } from "./models/index.js";
+export { VectorDbClientOptionalParams } from "./api/index.js";
+export { OperationsListOptionalParams } from "./api/operations/index.js";
 export {
   OrganizationsListBySubscriptionOptionalParams,
   OrganizationsListByResourceGroupOptionalParams,
@@ -53,8 +55,9 @@ export {
   OrganizationsUpdateOptionalParams,
   OrganizationsCreateOrUpdateOptionalParams,
   OrganizationsGetOptionalParams,
-  OperationsListOptionalParams,
-  VectorDbClientOptionalParams,
-} from "./api/index.js";
-export { OperationsOperations, OrganizationsOperations } from "./classic/index.js";
+} from "./api/organizations/index.js";
+export {
+  OperationsOperations,
+  OrganizationsOperations,
+} from "./classic/index.js";
 export { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
