@@ -6,7 +6,7 @@ parameters:
   AdditionalTag: ''
 
 jobs:
-- job:
+- job: PublishPackage
   templateContext:
     type: releaseJob
     isProduction: ${{ eq(parameters.Registry, 'https://registry.npmjs.org/') }}
