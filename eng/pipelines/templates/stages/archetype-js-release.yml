@@ -226,6 +226,9 @@ stages:
     jobs:
       - ${{ each artifact in parameters.Artifacts }}:
           - ${{if ne(artifact.skipPublishDevFeed, 'true')}}:
+            - job:
+              displayName: 'Detecting package archive_${{artifact.name}}'
+              steps:
               - pwsh: |
                   $detectedPackageName=Get-ChildItem $(Pipeline.Workspace)/${{parameters.ArtifactName}}/${{artifact.name}}/*.tgz
                   Write-Host "Detected package name: $($detectedPackageName)"
@@ -246,13 +249,13 @@ stages:
                   echo "##vso[task.setvariable variable=NpmToken]$npmToken"
                   echo "##vso[task.setvariable variable=Registry]$registry"
                 displayName: Detecting package archive_${{artifact.name}}
-              - template: /eng/pipelines/templates/steps/npm-release-task.yml
-                parameters:
-                  Artifact: ${{artifact}}
-                  Registry: ${{parameters.Registry}}
-                  PathToArtifacts: $(Pipeline.Workspace)/${{parameters.ArtifactName}}/${{artifact.name}}
-                  Tag: "dev"
-                condition: or(eq(variables['SetDevVersion'], 'true'), and(eq(variables['Build.Reason'],'Schedule'), eq(variables['System.TeamProject'], 'internal')))
+            - template: /eng/pipelines/templates/steps/npm-release-task.yml
+              parameters:
+                Artifact: ${{artifact}}
+                Registry: ${{parameters.Registry}}
+                PathToArtifacts: $(Pipeline.Workspace)/${{parameters.ArtifactName}}/${{artifact.name}}
+                Tag: "dev"
+              condition: or(eq(variables['SetDevVersion'], 'true'), and(eq(variables['Build.Reason'],'Schedule'), eq(variables['System.TeamProject'], 'internal')))
 
       - job: PublishDocsToNightlyBranch
         condition: and(succeeded(), or(eq(variables['SetDevVersion'], 'true'), and(eq(variables['Build.Reason'],'Schedule'), eq(variables['System.TeamProject'], 'internal'),  ne(variables['Skip.PublishDocs'], 'true'))))
