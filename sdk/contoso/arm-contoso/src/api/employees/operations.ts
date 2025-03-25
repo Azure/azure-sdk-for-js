@@ -46,15 +46,13 @@ export function _employeesListBySubscriptionSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _employeesListBySubscriptionDeserialize(
@@ -100,15 +98,13 @@ export function _employeesListByResourceGroupSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _employeesListByResourceGroupDeserialize(
@@ -132,8 +128,7 @@ export function employeesListByResourceGroup(
 ): PagedAsyncIterableIterator<Employee> {
   return buildPagedAsyncIterator(
     context,
-    () =>
-      _employeesListByResourceGroupSend(context, resourceGroupName, options),
+    () => _employeesListByResourceGroupSend(context, resourceGroupName, options),
     _employeesListByResourceGroupDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },
@@ -158,20 +153,16 @@ export function _employeesDeleteSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .delete({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).delete({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
-export async function _employeesDeleteDeserialize(
-  result: PathUncheckedResponse,
-): Promise<void> {
+export async function _employeesDeleteDeserialize(result: PathUncheckedResponse): Promise<void> {
   const expectedStatuses = ["202", "204", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -189,18 +180,13 @@ export function employeesDelete(
   employeeName: string,
   options: EmployeesDeleteOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(
-    context,
-    _employeesDeleteDeserialize,
-    ["202", "204", "200"],
-    {
-      updateIntervalInMs: options?.updateIntervalInMs,
-      abortSignal: options?.abortSignal,
-      getInitialResponse: () =>
-        _employeesDeleteSend(context, resourceGroupName, employeeName, options),
-      resourceLocationConfig: "location",
-    },
-  ) as PollerLike<OperationState<void>, void>;
+  return getLongRunningPoller(context, _employeesDeleteDeserialize, ["202", "204", "200"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _employeesDeleteSend(context, resourceGroupName, employeeName, options),
+    resourceLocationConfig: "location",
+  }) as PollerLike<OperationState<void>, void>;
 }
 
 export function _employeesUpdateSend(
@@ -222,17 +208,15 @@ export function _employeesUpdateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .patch({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: employeeSerializer(properties),
-    });
+  return context.path(path).patch({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: employeeSerializer(properties),
+  });
 }
 
 export async function _employeesUpdateDeserialize(
@@ -285,17 +269,15 @@ export function _employeesCreateOrUpdateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .put({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: employeeSerializer(resource),
-    });
+  return context.path(path).put({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: employeeSerializer(resource),
+  });
 }
 
 export async function _employeesCreateOrUpdateDeserialize(
@@ -319,24 +301,13 @@ export function employeesCreateOrUpdate(
   resource: Employee,
   options: EmployeesCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<Employee>, Employee> {
-  return getLongRunningPoller(
-    context,
-    _employeesCreateOrUpdateDeserialize,
-    ["200", "201"],
-    {
-      updateIntervalInMs: options?.updateIntervalInMs,
-      abortSignal: options?.abortSignal,
-      getInitialResponse: () =>
-        _employeesCreateOrUpdateSend(
-          context,
-          resourceGroupName,
-          employeeName,
-          resource,
-          options,
-        ),
-      resourceLocationConfig: "azure-async-operation",
-    },
-  ) as PollerLike<OperationState<Employee>, Employee>;
+  return getLongRunningPoller(context, _employeesCreateOrUpdateDeserialize, ["200", "201"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _employeesCreateOrUpdateSend(context, resourceGroupName, employeeName, resource, options),
+    resourceLocationConfig: "azure-async-operation",
+  }) as PollerLike<OperationState<Employee>, Employee>;
 }
 
 export function _employeesGetSend(
@@ -357,20 +328,16 @@ export function _employeesGetSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
-export async function _employeesGetDeserialize(
-  result: PathUncheckedResponse,
-): Promise<Employee> {
+export async function _employeesGetDeserialize(result: PathUncheckedResponse): Promise<Employee> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -388,11 +355,6 @@ export async function employeesGet(
   employeeName: string,
   options: EmployeesGetOptionalParams = { requestOptions: {} },
 ): Promise<Employee> {
-  const result = await _employeesGetSend(
-    context,
-    resourceGroupName,
-    employeeName,
-    options,
-  );
+  const result = await _employeesGetSend(context, resourceGroupName, employeeName, options);
   return _employeesGetDeserialize(result);
 }
