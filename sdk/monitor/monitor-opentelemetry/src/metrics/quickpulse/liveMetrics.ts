@@ -659,7 +659,7 @@ export class LiveMetrics {
       this.lastHrTime = process.hrtime.bigint();
       this.lastCpuUsage = process.cpuUsage();
     } else {
-      Logger.getInstance().warn("Getting Normalized Processor Time Failed. No process available.");
+      Logger.getInstance().debug("Getting Normalized Processor Time Failed. No process available.");
     }
   }
 

@@ -178,7 +178,7 @@ export function getPhysicalMemory(): number {
   if (process?.memoryUsage) {
     return process.memoryUsage.rss();
   } else {
-    Logger.getInstance().warn("process.memoryUsage is not available");
+    Logger.getInstance().debug("process.memoryUsage is not available");
     return 0;
   }
 }
@@ -202,7 +202,7 @@ export function getProcessorTimeNormalized(
 
     return (usageDifMs / elapsedTimeMs / numCpus) * 100;
   } else {
-    Logger.getInstance().warn("process is not available");
+    Logger.getInstance().debug("process is not available");
     return 0;
   }
 }
@@ -220,7 +220,7 @@ export function getProcessorTime(lastHrTime: bigint, lastCpuUsage: NodeJS.CpuUsa
 
     return (usageDifMs / elapsedTimeMs) * 100;
   } else {
-    Logger.getInstance().warn("process.cpuUsage is not available");
+    Logger.getInstance().debug("process.cpuUsage is not available");
     return 0;
   }
 }

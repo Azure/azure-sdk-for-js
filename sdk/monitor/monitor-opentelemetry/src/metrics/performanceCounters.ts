@@ -242,7 +242,7 @@ export class PerformanceCounterMetrics {
     if (process?.memoryUsage) {
       observableResult.observe(process.memoryUsage().rss);
     } else {
-      Logger.getInstance().warn("Couldn't report Private Memory. Process is not defined.");
+      Logger.getInstance().debug("Couldn't report Private Memory. Process is not defined.");
     }
   }
 
@@ -341,7 +341,7 @@ export class PerformanceCounterMetrics {
       }
       this.lastCpusProcess = cpus;
     } else {
-      Logger.getInstance().warn("Couldn't report Normalized process time. Process is not defined.");
+      Logger.getInstance().debug("Couldn't report Normalized process time. Process is not defined.");
     }
   }
 
@@ -379,7 +379,7 @@ export class PerformanceCounterMetrics {
       }
       this.lastCpusProcess = cpus;
     } else {
-      Logger.getInstance().warn("Couldn't report process time. Process is not defined.");
+      Logger.getInstance().debug("Couldn't report process time. Process is not defined.");
     }
   }
 
