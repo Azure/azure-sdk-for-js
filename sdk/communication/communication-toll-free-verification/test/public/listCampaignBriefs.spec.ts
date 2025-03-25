@@ -13,10 +13,8 @@ describe(`TollFreeVerificationClient - lists Campaign Briefs`, { timeout: 30000 
     ({ client, recorder } = await createRecordedClient(ctx));
   });
 
-  afterEach(async (ctx) => {
-    if (!ctx.task.pending) {
-      await recorder.stop();
-    }
+  afterEach(async () => {
+    await recorder.stop();
   });
 
   it("can list all campaign briefs", async () => {

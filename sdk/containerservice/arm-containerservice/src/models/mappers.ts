@@ -240,6 +240,67 @@ export const KubernetesPatchVersion: coreClient.CompositeMapper = {
   },
 };
 
+export const NodeImageVersionsListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "NodeImageVersionsListResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "NodeImageVersion",
+            },
+          },
+        },
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const NodeImageVersion: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "NodeImageVersion",
+    modelProperties: {
+      os: {
+        serializedName: "os",
+        type: {
+          name: "String",
+        },
+      },
+      sku: {
+        serializedName: "sku",
+        type: {
+          name: "String",
+        },
+      },
+      version: {
+        serializedName: "version",
+        type: {
+          name: "String",
+        },
+      },
+      fullName: {
+        serializedName: "fullName",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
 export const ManagedClusterListResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -829,6 +890,13 @@ export const ManagedClusterAgentPoolProfileProperties: coreClient.CompositeMappe
           type: {
             name: "Composite",
             className: "AgentPoolGatewayProfile",
+          },
+        },
+        status: {
+          serializedName: "status",
+          type: {
+            name: "Composite",
+            className: "AgentPoolStatus",
           },
         },
       },
@@ -1443,6 +1511,22 @@ export const ManualScaleProfile: coreClient.CompositeMapper = {
           name: "Number",
         },
       },
+      osDiskSizeGB: {
+        constraints: {
+          InclusiveMaximum: 2048,
+          InclusiveMinimum: 0,
+        },
+        serializedName: "osDiskSizeGB",
+        type: {
+          name: "Number",
+        },
+      },
+      osDiskType: {
+        serializedName: "osDiskType",
+        type: {
+          name: "String",
+        },
+      },
     },
   },
 };
@@ -1473,6 +1557,22 @@ export const AutoScaleProfile: coreClient.CompositeMapper = {
         serializedName: "maxCount",
         type: {
           name: "Number",
+        },
+      },
+      osDiskSizeGB: {
+        constraints: {
+          InclusiveMaximum: 2048,
+          InclusiveMinimum: 0,
+        },
+        serializedName: "osDiskSizeGB",
+        type: {
+          name: "Number",
+        },
+      },
+      osDiskType: {
+        serializedName: "osDiskType",
+        type: {
+          name: "String",
         },
       },
     },
@@ -1514,6 +1614,22 @@ export const AgentPoolGatewayProfile: coreClient.CompositeMapper = {
         serializedName: "publicIPPrefixSize",
         type: {
           name: "Number",
+        },
+      },
+    },
+  },
+};
+
+export const AgentPoolStatus: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AgentPoolStatus",
+    modelProperties: {
+      provisioningError: {
+        serializedName: "provisioningError",
+        type: {
+          name: "Composite",
+          className: "CloudErrorBody",
         },
       },
     },
@@ -3753,6 +3869,30 @@ export const IstioEgressGateway: coreClient.CompositeMapper = {
           name: "Boolean",
         },
       },
+      name: {
+        constraints: {
+          Pattern: new RegExp(
+            "[a-z0-9]([-a-z0-9]*[a-z0-9])?(\\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*",
+          ),
+        },
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      namespace: {
+        serializedName: "namespace",
+        type: {
+          name: "String",
+        },
+      },
+      gatewayConfigurationName: {
+        serializedName: "gatewayConfigurationName",
+        type: {
+          name: "String",
+        },
+      },
     },
   },
 };
@@ -3891,6 +4031,22 @@ export const ManagedClusterBootstrapProfile: coreClient.CompositeMapper = {
         serializedName: "containerRegistryId",
         type: {
           name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const ManagedClusterStatus: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ManagedClusterStatus",
+    modelProperties: {
+      provisioningError: {
+        serializedName: "provisioningError",
+        type: {
+          name: "Composite",
+          className: "CloudErrorBody",
         },
       },
     },
@@ -4097,6 +4253,12 @@ export const ManagedClusterPoolUpgradeProfileUpgradesItem: coreClient.CompositeM
         },
         isPreview: {
           serializedName: "isPreview",
+          type: {
+            name: "Boolean",
+          },
+        },
+        isOutOfSupport: {
+          serializedName: "isOutOfSupport",
           type: {
             name: "Boolean",
           },
@@ -4683,6 +4845,12 @@ export const AgentPoolUpgradeProfilePropertiesUpgradesItem: coreClient.Composite
         },
         isPreview: {
           serializedName: "isPreview",
+          type: {
+            name: "Boolean",
+          },
+        },
+        isOutOfSupport: {
+          serializedName: "isOutOfSupport",
           type: {
             name: "Boolean",
           },
@@ -6626,6 +6794,13 @@ export const AgentPool: coreClient.CompositeMapper = {
           className: "AgentPoolGatewayProfile",
         },
       },
+      status: {
+        serializedName: "properties.status",
+        type: {
+          name: "Composite",
+          className: "AgentPoolStatus",
+        },
+      },
     },
   },
 };
@@ -7037,6 +7212,13 @@ export const ManagedCluster: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "ManagedClusterBootstrapProfile",
+        },
+      },
+      status: {
+        serializedName: "properties.status",
+        type: {
+          name: "Composite",
+          className: "ManagedClusterStatus",
         },
       },
     },

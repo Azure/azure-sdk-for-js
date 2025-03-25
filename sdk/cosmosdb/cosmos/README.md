@@ -495,15 +495,14 @@ Please make sure to never set diagnostic level to `debug-unsafe` in production e
 ### Limitations
 
 Currently the features below are **not supported**. For alternatives options, check the **Workarounds** section below.
+- Client-side encryption is currently not supported in browser environment.
 
 ### Data Plane Limitations:
-
 - Queries with COUNT from a DISTINCT subquery​
 - Direct TCP Mode access​
 - Aggregate cross-partition queries, like sorting, counting, and distinct, don't support continuation tokens. Streamable queries, like SELECT \* FROM <table> WHERE <condition>, support continuation tokens. See the "Workaround" section for executing non-streamable queries without a continuation token.
 - Change Feed: Processor
 - Change Feed: Read multiple partitions key values
-- Change Feed pull model support for partial hierarchical partition keys [#27059](https://github.com/Azure/azure-sdk-for-js/issues/27059)
 - Cross-partition ORDER BY for mixed types
 
 ### Control Plane Limitations:
@@ -564,7 +563,7 @@ For more extensive documentation on the Cosmos DB service, see the [Azure Cosmos
 
 If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md) to learn more about how to build and test the code.
 
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fcosmosdb%2Fcosmos%2FREADME.png)
+
 
 <!-- LINKS -->
 

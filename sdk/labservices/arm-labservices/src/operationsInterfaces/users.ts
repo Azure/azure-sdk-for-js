@@ -21,7 +21,7 @@ import {
   UsersDeleteOptionalParams,
   InviteBody,
   UsersInviteOptionalParams
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Users. */

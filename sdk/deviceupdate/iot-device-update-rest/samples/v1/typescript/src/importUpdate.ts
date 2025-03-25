@@ -8,19 +8,16 @@
  */
 
 import DeviceUpdate, { getLongRunningPoller, isUnexpected } from "@azure-rest/iot-device-update";
-import { readFileSync, statSync } from "fs";
+import { readFileSync, statSync } from "node:fs";
 
 import { DefaultAzureCredential } from "@azure/identity";
 import { computeSha256Hash } from "@azure/core-util";
-import dotenv from "dotenv";
-import { parse } from "path";
-
-dotenv.config();
-
+import "dotenv/config";
+import { parse } from "node:path";
 const endpoint = process.env["ENDPOINT"] || "";
 const instanceId = process.env["INSTANCE_ID"] || "";
 
-async function main() {
+async function main(): Promise<void> {
   console.log("== Import update ==");
   const payloadFile = process.env["DEVICEUPDATE_PAYLOAD_FILE"] || "";
   const payloadUrl = process.env["DEVICEUPDATE_PAYLOAD_URL"] || "";

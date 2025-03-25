@@ -246,7 +246,7 @@ export class TableClient {
     listEntities<T extends object = Record<string, unknown>>(options?: ListTableEntitiesOptions): PagedAsyncIterableIterator<TableEntityResult<T>, TableEntityResultPage<T>>;
     pipeline: Pipeline;
     setAccessPolicy(tableAcl: SignedIdentifier[], options?: OperationOptions): Promise<SetAccessPolicyResponse>;
-    submitTransaction(actions: TransactionAction[]): Promise<TableTransactionResponse>;
+    submitTransaction(actions: TransactionAction[], options?: OperationOptions): Promise<TableTransactionResponse>;
     readonly tableName: string;
     updateEntity<T extends object>(entity: TableEntity<T>, mode?: UpdateMode, options?: UpdateTableEntityOptions): Promise<UpdateEntityResponse>;
     upsertEntity<T extends object>(entity: TableEntity<T>, mode?: UpdateMode, options?: OperationOptions): Promise<UpsertEntityResponse>;

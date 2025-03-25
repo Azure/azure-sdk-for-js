@@ -19,9 +19,9 @@ import {
   LabelsImpl,
   TasksImpl,
   OperationsImpl
-} from "./operations";
-import { Workspaces, Labels, Tasks, Operations } from "./operationsInterfaces";
-import { EasmMgmtClientOptionalParams } from "./models";
+} from "./operations/index.js";
+import { Workspaces, Labels, Tasks, Operations } from "./operationsInterfaces/index.js";
+import { EasmMgmtClientOptionalParams } from "./models/index.js";
 
 export class EasmMgmtClient extends coreClient.ServiceClient {
   $host: string;

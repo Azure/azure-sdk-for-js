@@ -25,7 +25,7 @@ import {
   UserUpdate as UserUpdateMapper,
   InviteBody as InviteBodyMapper,
   ResetPasswordBody as ResetPasswordBodyMapper
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",

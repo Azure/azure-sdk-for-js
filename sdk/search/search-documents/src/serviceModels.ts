@@ -1630,7 +1630,7 @@ export enum KnownTokenFilterNames {
   SoraniNormalization = "sorani_normalization",
   /**
    * Language specific stemming filter. See
-   * https://docs.microsoft.com/rest/api/searchservice/Custom-analyzers-in-Azure-Search#TokenFilters
+   * https://learn.microsoft.com/rest/api/searchservice/Custom-analyzers-in-Azure-Search#TokenFilters
    */
   Stemmer = "stemmer",
   /**
@@ -1678,7 +1678,7 @@ export enum KnownCharFilterNames {
 
 /**
  * Defines values for AnalyzerName.
- * See https://docs.microsoft.com/rest/api/searchservice/Language-support
+ * See https://learn.microsoft.com/rest/api/searchservice/Language-support
  * @readonly
  */
 export enum KnownAnalyzerNames {

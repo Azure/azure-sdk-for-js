@@ -20,7 +20,7 @@ import {
   ContainerRegistryProperties,
   ContainerRegistriesValidateOptionalParams,
   ContainerRegistriesValidateResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ContainerRegistries. */

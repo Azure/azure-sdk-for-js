@@ -53,24 +53,7 @@
         "default": "./dist/commonjs/index.js"
       }
     },
-    "./prettier.json": {
-      "browser": {
-        "types": "./dist/browser/prettier.json/index.d.ts",
-        "default": "./dist/browser/prettier.json/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/prettier.json/index.d.ts",
-        "default": "./dist/react-native/prettier.json/index.js"
-      },
-      "import": {
-        "types": "./dist/esm/prettier.json/index.d.ts",
-        "default": "./dist/esm/prettier.json/index.js"
-      },
-      "require": {
-        "types": "./dist/commonjs/prettier.json/index.d.ts",
-        "default": "./dist/commonjs/prettier.json/index.js"
-      }
-    }
+    "./prettier.json": "./prettier.json"
   },
   "files": [
     "dist/",
@@ -103,8 +86,8 @@
   "prettier": "./prettier.json",
   "peerDependencies": {
     "@eslint/eslintrc": "^3.2.0",
-    "@typescript-eslint/eslint-plugin": "~8.16.0",
-    "@typescript-eslint/parser": "~8.16.0",
+    "@typescript-eslint/eslint-plugin": "~8.26.0",
+    "@typescript-eslint/parser": "~8.26.0",
     "eslint": "^9.9.0",
     "eslint-plugin-markdown": "^5.0.0",
     "eslint-plugin-n": "^17.15.0",
@@ -117,37 +100,36 @@
     "@eslint/js": "^9.9.0",
     "@types/eslint": "^9.6.0",
     "@types/estree": "~1.0.0",
-    "@typescript-eslint/typescript-estree": "~8.16.0",
-    "eslint-config-prettier": "^9.0.0",
+    "@typescript-eslint/typescript-estree": "~8.26.0",
+    "eslint-config-prettier": "^10.0.1",
     "glob": "^10.3.10",
     "tslib": "^2.6.2",
-    "typescript": "~5.7.2",
-    "typescript-eslint": "~8.16.0"
+    "typescript": "~5.8.2",
+    "typescript-eslint": "~8.26.0"
   },
   "devDependencies": {
     "@types/eslint": "^9.6.0",
-    "@types/eslint__js": "8.42.3",
     "@types/eslint-config-prettier": "6.11.3",
     "@types/node": "^18.0.0",
-    "@typescript-eslint/eslint-plugin": "~8.16.0",
-    "@typescript-eslint/parser": "~8.16.0",
-    "@typescript-eslint/rule-tester": "~8.16.0",
-    "@typescript-eslint/utils": "~8.16.0",
-    "@vitest/browser": "^2.1.8",
-    "@vitest/coverage-istanbul": "^2.1.8",
+    "@typescript-eslint/eslint-plugin": "~8.26.0",
+    "@typescript-eslint/parser": "~8.26.0",
+    "@typescript-eslint/rule-tester": "~8.26.0",
+    "@typescript-eslint/utils": "~8.26.0",
+    "@vitest/browser": "^3.0.9",
+    "@vitest/coverage-istanbul": "^3.0.9",
     "eslint": "^9.9.0",
     "eslint-plugin-markdown": "^5.0.0",
     "playwright": "^1.49.1",
     "prettier": "^3.3.3",
     "rimraf": "^5.0.5",
     "tshy": "^2.0.0",
-    "vitest": "^2.1.8"
+    "vitest": "^3.0.9"
   },
   "tshy": {
     "exports": {
       "./package.json": "./package.json",
       ".": "./src/index.ts",
-      "./prettier.json": "./src/prettier.json/index.ts"
+      "./prettier.json": "./prettier.json"
     },
     "dialects": [
       "esm",

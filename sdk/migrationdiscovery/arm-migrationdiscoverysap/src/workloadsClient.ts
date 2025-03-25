@@ -19,14 +19,14 @@ import {
   SapInstancesImpl,
   ServerInstancesImpl,
   OperationsImpl,
-} from "./operations";
+} from "./operations/index.js";
 import {
   SapDiscoverySites,
   SapInstances,
   ServerInstances,
   Operations,
-} from "./operationsInterfaces";
-import { WorkloadsClientOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { WorkloadsClientOptionalParams } from "./models/index.js";
 
 export class WorkloadsClient extends coreClient.ServiceClient {
   $host: string;

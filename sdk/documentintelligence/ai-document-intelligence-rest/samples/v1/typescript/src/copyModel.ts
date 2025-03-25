@@ -14,10 +14,9 @@ import DocumentIntelligence, {
   isUnexpected,
 } from "@azure-rest/ai-document-intelligence";
 
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
-async function main() {
+async function main(): Promise<void> {
   const random = Date.now().toString();
   const destinationModelId =
     (process.env.CUSTOM_MODEL_ID || "<model id>") + random.substring(random.length - 6);

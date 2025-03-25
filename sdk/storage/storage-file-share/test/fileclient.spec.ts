@@ -7,20 +7,29 @@ import type { Context } from "mocha";
 import { assert } from "@azure-tools/test-utils";
 
 import type {
+  FilePosixProperties,
   FileStartCopyOptions,
+  NfsFileMode,
   ShareClient,
   ShareDirectoryClient,
   ShareServiceClient,
 } from "../src";
 import { ShareFileClient } from "../src";
 import { FileSystemAttributes } from "../src/FileSystemAttributes";
-import type { DirectoryCreateResponse } from "../src/generated/src/models";
+import type { DirectoryCreateResponse } from "../src/generatedModels";
 import { FILE_MAX_SIZE_BYTES } from "../src/utils/constants";
+import {
+  parseOctalFileMode,
+  parseSymbolicFileMode,
+  toOctalFileMode,
+  toSymbolicFileMode,
+} from "../src/index";
 import { truncatedISO8061Date } from "../src/utils/utils.common";
 import {
   bodyToString,
   compareBodyWithUint8Array,
   getBSU,
+  getGenericBSU,
   getTokenBSU,
   getUniqueName,
   recorderEnvSetup,
@@ -2942,5 +2951,517 @@ describe("FileClient - AllowTrailingDots - Default", () => {
   it("delete", async () => {
     await fileClient.create(content.length);
     await fileClient.delete();
+  });
+});
+
+describe("FileClient - NFS", () => {
+  let recorder: Recorder;
+  let serviceClient: ShareServiceClient;
+  let shareName: string;
+  let shareClient: ShareClient;
+  let dirName: string;
+  let dirClient: ShareDirectoryClient;
+  let fileName: string;
+  let fileClient: ShareFileClient;
+  const content = "Hello World";
+
+  beforeEach(async function (this: Context) {
+    recorder = new Recorder(this.currentTest);
+    await recorder.start(recorderEnvSetup);
+    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+    try {
+      serviceClient = getGenericBSU(recorder, "PREMIUM_FILE_");
+    } catch (error: any) {
+      console.log(error);
+      this.skip();
+    }
+
+    shareName = recorder.variable("share", getUniqueName("share"));
+    shareClient = serviceClient.getShareClient(shareName);
+    await shareClient.create({
+      protocols: {
+        nfsEnabled: true,
+      },
+    });
+
+    dirName = recorder.variable("dir", getUniqueName("dir"));
+    dirClient = shareClient.getDirectoryClient(dirName);
+    await dirClient.create();
+
+    fileName = recorder.variable("file", getUniqueName("file"));
+    fileClient = dirClient.getFileClient(fileName);
+  });
+
+  afterEach(async function (this: Context) {
+    if (shareClient) {
+      await shareClient.delete({ deleteSnapshots: "include" });
+    }
+    await recorder.stop();
+  });
+
+  it("create with nfs properties", async function () {
+    const posixProperties: FilePosixProperties = {
+      owner: "123",
+      group: "654",
+      fileMode: parseOctalFileMode("0755"),
+      fileType: "Regular",
+    };
+    const cResp = await fileClient.create(content.length, {
+      posixProperties: posixProperties,
+    });
+
+    assert.equal(cResp.errorCode, undefined);
+    assert.deepEqual(cResp.posixProperties?.owner, posixProperties.owner);
+    assert.deepEqual(cResp.posixProperties?.group, posixProperties.group);
+    assert.deepEqual(cResp.posixProperties?.fileMode, posixProperties.fileMode);
+    assert.deepEqual(cResp.posixProperties?.fileType, posixProperties.fileType);
+    assert.ok(cResp.fileChangeOn!);
+    assert.ok(cResp.fileCreatedOn!);
+    assert.ok(cResp.fileId!);
+    assert.ok(cResp.fileLastWriteOn!);
+    assert.ok(cResp.fileParentId!);
+
+    const result = await fileClient.download(0);
+    assert.deepStrictEqual(
+      await bodyToString(result, content.length),
+      "\u0000".repeat(content.length),
+    );
+    assert.deepEqual(result.posixProperties?.owner, posixProperties.owner);
+    assert.deepEqual(result.posixProperties?.group, posixProperties.group);
+    assert.deepEqual(result.posixProperties?.fileMode, posixProperties.fileMode);
+    assert.deepEqual(result.posixProperties?.linkCount, 1);
+  });
+
+  it("set&get nfs properties", async function () {
+    const posixProperties: FilePosixProperties = {
+      owner: "123",
+      group: "654",
+      fileMode: parseSymbolicFileMode("rwxr-xr-x"),
+      fileType: "Regular",
+    };
+    const cResp = await fileClient.create(content.length);
+    assert.deepEqual(cResp.posixProperties?.owner, "0");
+    assert.deepEqual(cResp.posixProperties?.group, "0");
+    assert.ok(cResp.posixProperties?.fileMode);
+    assert.ok(cResp.posixProperties?.fileType);
+
+    const setResp = await fileClient.setProperties({ posixProperties });
+    assert.deepEqual(setResp.posixProperties?.owner, posixProperties.owner);
+    assert.deepEqual(setResp.posixProperties?.group, posixProperties.group);
+    assert.deepEqual(setResp.posixProperties?.fileMode, posixProperties.fileMode);
+    assert.deepEqual(setResp.posixProperties?.linkCount, 1);
+
+    const getResp = await fileClient.getProperties();
+    assert.deepEqual(getResp.posixProperties?.owner, posixProperties.owner);
+    assert.deepEqual(getResp.posixProperties?.group, posixProperties.group);
+    assert.deepEqual(getResp.posixProperties?.fileMode, posixProperties.fileMode);
+    assert.deepEqual(getResp.posixProperties?.fileType, posixProperties.fileType);
+    assert.deepEqual(getResp.posixProperties?.linkCount, 1);
+
+    const result = await fileClient.download(0);
+    assert.deepStrictEqual(
+      await bodyToString(result, content.length),
+      "\u0000".repeat(content.length),
+    );
+    assert.deepEqual(result.posixProperties?.owner, posixProperties.owner);
+    assert.deepEqual(result.posixProperties?.group, posixProperties.group);
+    assert.deepEqual(result.posixProperties?.fileMode, posixProperties.fileMode);
+    assert.deepEqual(result.posixProperties?.linkCount, 1);
+  });
+
+  it("delete nfs file", async function () {
+    const cResp = await fileClient.create(content.length);
+    assert.deepEqual(cResp.posixProperties?.owner, "0");
+    assert.deepEqual(cResp.posixProperties?.group, "0");
+    assert.ok(cResp.posixProperties?.fileMode);
+    assert.ok(cResp.posixProperties?.fileType);
+
+    const result = await fileClient.delete();
+    assert.deepEqual(result.linkCount, 0);
+  });
+
+  it("setHTTPHeaders with default parameters", async function () {
+    await fileClient.create(content.length);
+    await fileClient.setHttpHeaders({});
+    const result = await fileClient.getProperties();
+
+    assert.ok(result.lastModified);
+    assert.deepStrictEqual(result.metadata, {});
+    assert.ok(!result.cacheControl);
+    assert.ok(!result.contentType);
+    assert.ok(!result.contentMD5);
+    assert.ok(!result.contentEncoding);
+    assert.ok(!result.contentLanguage);
+    assert.ok(!result.contentDisposition);
+    assert.deepEqual(result.posixProperties?.owner, "0");
+    assert.deepEqual(result.posixProperties?.group, "0");
+    assert.ok(result.posixProperties?.fileMode);
+    assert.ok(result.posixProperties?.fileType);
+  });
+
+  it("setHTTPHeaders with all parameters set", async function () {
+    const posixProperties: FilePosixProperties = {
+      owner: "123",
+      group: "654",
+      fileMode: parseSymbolicFileMode("rwxr-xr-x"),
+      fileType: "Regular",
+    };
+
+    await fileClient.create(content.length);
+    const headers = {
+      fileCacheControl: "fileCacheControl",
+      fileContentDisposition: "fileContentDisposition",
+      fileContentEncoding: "fileContentEncoding",
+      fileContentLanguage: "fileContentLanguage",
+      fileContentMD5: isNode ? Buffer.from([1, 2, 3, 4]) : new Uint8Array([1, 2, 3, 4]),
+      fileContentType: "fileContentType",
+    };
+
+    const setHeadersResult = await fileClient.setHttpHeaders(headers, {
+      posixProperties: posixProperties,
+    });
+    assert.deepEqual(setHeadersResult.posixProperties?.owner, posixProperties.owner);
+    assert.deepEqual(setHeadersResult.posixProperties?.group, posixProperties.group);
+    assert.deepEqual(setHeadersResult.posixProperties?.fileMode, posixProperties.fileMode);
+    assert.deepEqual(setHeadersResult.posixProperties?.linkCount, 1);
+
+    const result = await fileClient.getProperties();
+    assert.ok(result.lastModified);
+    assert.deepStrictEqual(result.metadata, {});
+    assert.deepStrictEqual(result.cacheControl, headers.fileCacheControl);
+    assert.deepStrictEqual(result.contentType, headers.fileContentType);
+    assert.deepStrictEqual(result.contentMD5, headers.fileContentMD5);
+    assert.deepStrictEqual(result.contentEncoding, headers.fileContentEncoding);
+    assert.deepStrictEqual(result.contentLanguage, headers.fileContentLanguage);
+    assert.deepStrictEqual(result.contentDisposition, headers.fileContentDisposition);
+    assert.deepEqual(result.posixProperties?.owner, posixProperties.owner);
+    assert.deepEqual(result.posixProperties?.group, posixProperties.group);
+    assert.deepEqual(result.posixProperties?.fileMode, posixProperties.fileMode);
+    assert.deepEqual(result.posixProperties?.linkCount, 1);
+  });
+
+  it("resize with all parameters set", async function () {
+    const posixProperties: FilePosixProperties = {
+      owner: "123",
+      group: "654",
+      fileMode: parseSymbolicFileMode("rwxr-xr-x"),
+      fileType: "Regular",
+    };
+
+    await fileClient.create(content.length);
+
+    const resizeResult = await fileClient.resize(1, {
+      posixProperties: posixProperties,
+    });
+    assert.deepEqual(resizeResult.posixProperties?.owner, posixProperties.owner);
+    assert.deepEqual(resizeResult.posixProperties?.group, posixProperties.group);
+    assert.deepEqual(resizeResult.posixProperties?.fileMode, posixProperties.fileMode);
+    assert.deepEqual(resizeResult.posixProperties?.linkCount, 1);
+
+    const result = await fileClient.getProperties();
+    assert.ok(result.lastModified);
+    assert.deepEqual(result.posixProperties?.owner, posixProperties.owner);
+    assert.deepEqual(result.posixProperties?.group, posixProperties.group);
+    assert.deepEqual(result.posixProperties?.fileMode, posixProperties.fileMode);
+    assert.deepEqual(result.contentLength, 1);
+    assert.deepEqual(result.posixProperties?.linkCount, 1);
+  });
+
+  it("startCopy - with NFS properties", async function () {
+    const posixProperties: FilePosixProperties = {
+      owner: "123",
+      group: "654",
+      fileMode: parseSymbolicFileMode("rwxr-xr-x"),
+      fileType: "Regular",
+    };
+
+    await fileClient.create(1024);
+    const newFileClient = dirClient.getFileClient(
+      recorder.variable("copiedfile", getUniqueName("copiedfile")),
+    );
+
+    const result = await newFileClient.startCopyFromURL(fileClient.url, {
+      posixProperties: posixProperties,
+      fileModeCopyMode: "override",
+      fileOwnerCopyMode: "override",
+    });
+    assert.ok(result.copyId);
+
+    const properties = await newFileClient.getProperties();
+    assert.deepEqual(properties.posixProperties?.owner, posixProperties.owner);
+    assert.deepEqual(properties.posixProperties?.group, posixProperties.group);
+    assert.deepEqual(properties.posixProperties?.fileMode, posixProperties.fileMode);
+    assert.deepEqual(properties.posixProperties?.fileType, "Regular");
+    assert.deepEqual(properties.posixProperties?.linkCount, 1);
+  });
+
+  it("startCopy - with default", async function () {
+    const posixProperties: FilePosixProperties = {
+      owner: "123",
+      group: "654",
+      fileMode: parseSymbolicFileMode("rwxr-xr-x"),
+      fileType: "Regular",
+    };
+    await fileClient.create(1024, { posixProperties: posixProperties });
+
+    const getResp = await fileClient.getProperties();
+    assert.deepEqual(getResp.posixProperties?.owner, posixProperties.owner);
+    assert.deepEqual(getResp.posixProperties?.group, posixProperties.group);
+    assert.deepEqual(getResp.posixProperties?.fileMode, posixProperties.fileMode);
+    assert.deepEqual(getResp.posixProperties?.fileType, posixProperties.fileType);
+    assert.deepEqual(getResp.posixProperties?.linkCount, 1);
+
+    const newFileClient = dirClient.getFileClient(
+      recorder.variable("copiedfile", getUniqueName("copiedfile")),
+    );
+    const expectedDefaultFileMode = parseSymbolicFileMode("rw-rw-r--");
+    const result = await newFileClient.startCopyFromURL(fileClient.url);
+    assert.ok(result.copyId);
+
+    const properties = await newFileClient.getProperties();
+    assert.deepEqual(properties.posixProperties?.owner, "0");
+    assert.deepEqual(properties.posixProperties?.group, "0");
+    assert.deepEqual(properties.posixProperties?.fileMode, expectedDefaultFileMode);
+    assert.deepEqual(properties.posixProperties?.linkCount, 1);
+  });
+
+  it("startCopy - with source", async function () {
+    const posixProperties: FilePosixProperties = {
+      owner: "123",
+      group: "654",
+      fileMode: parseSymbolicFileMode("rwxr-xr-x"),
+      fileType: "Regular",
+    };
+    await fileClient.create(1024, { posixProperties: posixProperties });
+
+    const getResp = await fileClient.getProperties();
+    assert.deepEqual(getResp.posixProperties?.owner, posixProperties.owner);
+    assert.deepEqual(getResp.posixProperties?.group, posixProperties.group);
+    assert.deepEqual(getResp.posixProperties?.fileMode, posixProperties.fileMode);
+    assert.deepEqual(getResp.posixProperties?.fileType, posixProperties.fileType);
+    assert.deepEqual(getResp.posixProperties?.linkCount, 1);
+
+    const newFileClient = dirClient.getFileClient(
+      recorder.variable("copiedfile", getUniqueName("copiedfile")),
+    );
+    const result = await newFileClient.startCopyFromURL(fileClient.url, {
+      fileModeCopyMode: "source",
+      fileOwnerCopyMode: "source",
+    });
+    assert.ok(result.copyId);
+
+    const properties = await newFileClient.getProperties();
+    assert.deepEqual(properties.posixProperties?.owner, posixProperties.owner);
+    assert.deepEqual(properties.posixProperties?.group, posixProperties.group);
+    assert.deepEqual(properties.posixProperties?.fileMode, posixProperties.fileMode);
+    assert.deepEqual(properties.posixProperties?.fileType, posixProperties.fileType);
+    assert.deepEqual(properties.posixProperties?.linkCount, 1);
+  });
+
+  it("createHardLink", async function () {
+    const posixProperties: FilePosixProperties = {
+      owner: "123",
+      group: "654",
+      fileMode: parseSymbolicFileMode("rwxr-sr-x"),
+      fileType: "Regular",
+    };
+    await fileClient.create(1024, { posixProperties: posixProperties });
+
+    const hardLink = recorder.variable("hardLink", getUniqueName("hardLink"));
+    const linkClient = dirClient.getFileClient(hardLink);
+    const getResp = await linkClient.createHardLink(`${dirName}/${fileName}`);
+    assert.deepEqual(getResp.posixProperties?.owner, posixProperties.owner);
+    assert.deepEqual(getResp.posixProperties?.group, posixProperties.group);
+    assert.deepEqual(getResp.posixProperties?.fileMode, posixProperties.fileMode);
+    assert.deepEqual(getResp.posixProperties?.fileType, posixProperties.fileType);
+    assert.deepEqual(getResp.posixProperties?.linkCount, 2);
+    assert.ok(getResp.fileCreationTime);
+    assert.ok(getResp.fileLastWriteTime);
+    assert.ok(getResp.fileChangeTime);
+    assert.ok(getResp.fileId);
+    assert.ok(getResp.fileParentId);
+  });
+
+  it("file mode test", async function () {
+    const posixProperties = {
+      fileMode: parseOctalFileMode("2755"),
+    };
+    const expectedPosixProperties: FilePosixProperties = {
+      fileMode: {
+        owner: {
+          read: true,
+          write: true,
+          execute: true,
+        },
+        group: {
+          read: true,
+          write: false,
+          execute: true,
+        },
+        other: {
+          read: true,
+          write: false,
+          execute: true,
+        },
+        effectiveUserIdentity: false,
+        effectiveGroupIdentity: true,
+        stickyBit: false,
+      },
+    };
+    const resp = await fileClient.create(1024, { posixProperties: posixProperties });
+    assert.deepEqual(resp.posixProperties?.fileMode, expectedPosixProperties.fileMode);
+
+    const posixProperties1 = {
+      fileMode: parseOctalFileMode("7644"),
+    };
+    const expectedPosixProperties1: FilePosixProperties = {
+      fileMode: {
+        owner: {
+          read: true,
+          write: true,
+          execute: false,
+        },
+        group: {
+          read: true,
+          write: false,
+          execute: false,
+        },
+        other: {
+          read: true,
+          write: false,
+          execute: false,
+        },
+        effectiveUserIdentity: true,
+        effectiveGroupIdentity: true,
+        stickyBit: true,
+      },
+    };
+    const setResp1 = await fileClient.setProperties({ posixProperties: posixProperties1 });
+    assert.deepEqual(setResp1.posixProperties?.fileMode, expectedPosixProperties1.fileMode);
+
+    const posixProperties2 = {
+      fileMode: parseOctalFileMode("1522"),
+    };
+    const expectedPosixProperties2: FilePosixProperties = {
+      fileMode: {
+        owner: {
+          read: true,
+          write: false,
+          execute: true,
+        },
+        group: {
+          read: false,
+          write: true,
+          execute: false,
+        },
+        other: {
+          read: false,
+          write: true,
+          execute: false,
+        },
+        effectiveUserIdentity: false,
+        effectiveGroupIdentity: false,
+        stickyBit: true,
+      },
+    };
+    const setResp2 = await fileClient.setProperties({ posixProperties: posixProperties2 });
+    assert.deepEqual(setResp2.posixProperties?.fileMode, expectedPosixProperties2.fileMode);
+  });
+
+  it("parse file mode function unit test", async function () {
+    const expectedFileMode1: NfsFileMode = {
+      owner: {
+        read: true,
+        write: true,
+        execute: true,
+      },
+      group: {
+        read: true,
+        write: false,
+        execute: true,
+      },
+      other: {
+        read: true,
+        write: false,
+        execute: true,
+      },
+      effectiveUserIdentity: false,
+      effectiveGroupIdentity: true,
+      stickyBit: false,
+    };
+
+    const fileModeFromOctalString1 = parseOctalFileMode("2755");
+    const octalFildMode1 = toOctalFileMode(expectedFileMode1);
+    const symblicFileModeString1 = toSymbolicFileMode(expectedFileMode1);
+    const fileModeFromSymblicString1 = parseSymbolicFileMode("rwxr-sr-x");
+
+    assert.deepEqual(fileModeFromOctalString1, expectedFileMode1);
+    assert.deepEqual(fileModeFromSymblicString1, expectedFileMode1);
+    assert.deepEqual(octalFildMode1, "2755");
+    assert.deepEqual(symblicFileModeString1, "rwxr-sr-x");
+
+    const expectedFileMode2: NfsFileMode = {
+      owner: {
+        read: true,
+        write: true,
+        execute: false,
+      },
+      group: {
+        read: true,
+        write: false,
+        execute: false,
+      },
+      other: {
+        read: true,
+        write: false,
+        execute: false,
+      },
+      effectiveUserIdentity: true,
+      effectiveGroupIdentity: true,
+      stickyBit: true,
+    };
+    const fileModeFromOctalString2 = parseOctalFileMode("7644");
+    const octalFildMode2 = toOctalFileMode(expectedFileMode2);
+    const symblicFileModeString2 = toSymbolicFileMode(expectedFileMode2);
+    const fileModeFromSymblicString2 = parseSymbolicFileMode("rwSr-Sr-S");
+    const fileModeFromSymblicString2Witht = parseSymbolicFileMode("rwSr-Sr-T");
+
+    assert.deepEqual(fileModeFromOctalString2, expectedFileMode2);
+    assert.deepEqual(fileModeFromSymblicString2, expectedFileMode2);
+    assert.deepEqual(fileModeFromSymblicString2Witht, expectedFileMode2);
+    assert.deepEqual(octalFildMode2, "7644");
+    assert.deepEqual(symblicFileModeString2, "rwSr-Sr-T");
+
+    const expectedFileMode3: NfsFileMode = {
+      owner: {
+        read: true,
+        write: false,
+        execute: true,
+      },
+      group: {
+        read: false,
+        write: true,
+        execute: false,
+      },
+      other: {
+        read: false,
+        write: true,
+        execute: true,
+      },
+      effectiveUserIdentity: false,
+      effectiveGroupIdentity: false,
+      stickyBit: true,
+    };
+    const fileModeFromOctalString3 = parseOctalFileMode("1523");
+    const octalFildMode3 = toOctalFileMode(expectedFileMode3);
+    const symblicFileModeString3 = toSymbolicFileMode(expectedFileMode3);
+    const fileModeFromSymblicString3 = parseSymbolicFileMode("r-x-w--ws");
+    const fileModeFromSymblicString3Witht = parseSymbolicFileMode("r-x-w--wt");
+
+    assert.deepEqual(fileModeFromOctalString3, expectedFileMode3);
+    assert.deepEqual(fileModeFromSymblicString3, expectedFileMode3);
+    assert.deepEqual(fileModeFromSymblicString3Witht, expectedFileMode3);
+    assert.deepEqual(octalFildMode3, "1523");
+    assert.deepEqual(symblicFileModeString3, "r-x-w--wt");
   });
 });

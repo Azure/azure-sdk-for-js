@@ -5,15 +5,15 @@ import { describe, it, vi, beforeAll, afterAll } from "vitest";
 import { assert } from "../utils/chai.js";
 import { createTimerLoop } from "../../src/util/timerLoop.js";
 
-describe("createTimerLoop", function () {
-  beforeAll(async function () {
+describe("createTimerLoop", () => {
+  beforeAll(async () => {
     vi.useFakeTimers();
   });
-  afterAll(async function () {
+  afterAll(async () => {
     vi.useRealTimers();
   });
 
-  it("loops the exact number of iterations and can be stopped", async function () {
+  it("loops the exact number of iterations and can be stopped", async () => {
     const interval = 1000;
     const callCount = 10;
     let curCallCount = 0;
@@ -38,7 +38,7 @@ describe("createTimerLoop", function () {
     assert.isFalse(loop.isRunning);
   });
 
-  it("continues looping in the presence of errors", async function () {
+  it("continues looping in the presence of errors", async () => {
     const interval = 1000;
     const loop = createTimerLoop(interval, async () => {
       throw new Error("expected exception");

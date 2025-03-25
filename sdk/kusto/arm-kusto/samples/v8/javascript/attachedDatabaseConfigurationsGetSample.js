@@ -10,13 +10,13 @@
 // Licensed under the MIT License.
 const { KustoManagementClient } = require("@azure/arm-kusto");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Returns an attached database configuration.
  *
  * @summary Returns an attached database configuration.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoAttachedDatabaseConfigurationsGet.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2024-04-13/examples/KustoAttachedDatabaseConfigurationsGet.json
  */
 async function attachedDatabaseConfigurationsGet() {
   const subscriptionId =
@@ -35,7 +35,7 @@ async function attachedDatabaseConfigurationsGet() {
 }
 
 async function main() {
-  attachedDatabaseConfigurationsGet();
+  await attachedDatabaseConfigurationsGet();
 }
 
 main().catch(console.error);

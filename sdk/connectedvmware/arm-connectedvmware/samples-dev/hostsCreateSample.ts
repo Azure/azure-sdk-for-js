@@ -6,17 +6,10 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import {
-  Host,
-  HostsCreateOptionalParams,
-  AzureArcVMwareManagementServiceAPI
-} from "@azure/arm-connectedvmware";
+import type { Host, HostsCreateOptionalParams } from "@azure/arm-connectedvmware";
+import { AzureArcVMwareManagementServiceAPI } from "@azure/arm-connectedvmware";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create Or Update host.
@@ -24,40 +17,30 @@ dotenv.config();
  * @summary Create Or Update host.
  * x-ms-original-file: specification/connectedvmware/resource-manager/Microsoft.ConnectedVMwarevSphere/stable/2023-10-01/examples/CreateHost.json
  */
-async function createHost() {
+async function createHost(): Promise<void> {
   const subscriptionId =
-    process.env["CONNECTEDVMWARE_SUBSCRIPTION_ID"] ||
-    "fd3c3665-1729-4b7b-9a38-238e83b0f98b";
-  const resourceGroupName =
-    process.env["CONNECTEDVMWARE_RESOURCE_GROUP"] || "testrg";
+    process.env["CONNECTEDVMWARE_SUBSCRIPTION_ID"] || "fd3c3665-1729-4b7b-9a38-238e83b0f98b";
+  const resourceGroupName = process.env["CONNECTEDVMWARE_RESOURCE_GROUP"] || "testrg";
   const hostName = "HRHost";
   const body: Host = {
     extendedLocation: {
-      name:
-        "/subscriptions/a5015e1c-867f-4533-8541-85cd470d0cfb/resourceGroups/demoRG/providers/Microsoft.ExtendedLocation/customLocations/contoso",
-      type: "customLocation"
+      name: "/subscriptions/a5015e1c-867f-4533-8541-85cd470d0cfb/resourceGroups/demoRG/providers/Microsoft.ExtendedLocation/customLocations/contoso",
+      type: "customLocation",
     },
     location: "East US",
     moRefId: "aaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee",
     vCenterId:
-      "/subscriptions/fd3c3665-1729-4b7b-9a38-238e83b0f98b/resourceGroups/testrg/providers/Microsoft.ConnectedVMwarevSphere/VCenters/ContosoVCenter"
+      "/subscriptions/fd3c3665-1729-4b7b-9a38-238e83b0f98b/resourceGroups/testrg/providers/Microsoft.ConnectedVMwarevSphere/VCenters/ContosoVCenter",
   };
   const options: HostsCreateOptionalParams = { body };
   const credential = new DefaultAzureCredential();
-  const client = new AzureArcVMwareManagementServiceAPI(
-    credential,
-    subscriptionId
-  );
-  const result = await client.hosts.beginCreateAndWait(
-    resourceGroupName,
-    hostName,
-    options
-  );
+  const client = new AzureArcVMwareManagementServiceAPI(credential, subscriptionId);
+  const result = await client.hosts.beginCreateAndWait(resourceGroupName, hostName, options);
   console.log(result);
 }
 
-async function main() {
-  createHost();
+async function main(): Promise<void> {
+  await createHost();
 }
 
 main().catch(console.error);

@@ -15,7 +15,7 @@ import {
   ManagementConfigurationsDeleteOptionalParams,
   ManagementConfigurationsGetOptionalParams,
   ManagementConfigurationsGetResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a ManagementConfigurations. */
 export interface ManagementConfigurations {

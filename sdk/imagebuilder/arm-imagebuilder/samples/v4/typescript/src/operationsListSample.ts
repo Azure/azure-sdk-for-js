@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { ImageBuilderClient } from "@azure/arm-imagebuilder";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists available operations for the Microsoft.VirtualMachineImages provider
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Lists available operations for the Microsoft.VirtualMachineImages provider
  * x-ms-original-file: specification/imagebuilder/resource-manager/Microsoft.VirtualMachineImages/stable/2024-02-01/examples/OperationsList.json
  */
-async function retrieveOperationsList() {
+async function retrieveOperationsList(): Promise<void> {
   const subscriptionId =
     process.env["IMAGEBUILDER_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -33,7 +31,7 @@ async function retrieveOperationsList() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   retrieveOperationsList();
 }
 

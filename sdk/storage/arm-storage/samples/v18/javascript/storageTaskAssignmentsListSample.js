@@ -6,17 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { StorageManagementClient } = require("@azure/arm-storage");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to List all the storage task assignments in an account
  *
  * @summary List all the storage task assignments in an account
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/storageTaskAssignmentsList/ListStorageTaskAssignmentsForAccount.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2024-01-01/examples/storageTaskAssignmentsList/ListStorageTaskAssignmentsForAccount.json
  */
 async function listStorageTaskAssignmentsForAccount() {
   const subscriptionId =
@@ -26,14 +24,14 @@ async function listStorageTaskAssignmentsForAccount() {
   const credential = new DefaultAzureCredential();
   const client = new StorageManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.storageTaskAssignments.list(resourceGroupName, accountName)) {
+  for await (const item of client.storageTaskAssignments.list(resourceGroupName, accountName)) {
     resArray.push(item);
   }
   console.log(resArray);
 }
 
 async function main() {
-  listStorageTaskAssignmentsForAccount();
+  await listStorageTaskAssignmentsForAccount();
 }
 
 main().catch(console.error);

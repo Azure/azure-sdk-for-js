@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { CustomerInsightsManagementClient } from "@azure/arm-customerinsights";
 import { DefaultAzureCredential } from "@azure/identity";
 
@@ -17,22 +15,19 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Deletes a connector mapping in the connector.
  * x-ms-original-file: specification/customer-insights/resource-manager/Microsoft.CustomerInsights/stable/2017-04-26/examples/ConnectorMappingsDelete.json
  */
-async function connectorMappingsDelete() {
+async function connectorMappingsDelete(): Promise<void> {
   const subscriptionId = "subid";
   const resourceGroupName = "TestHubRG";
   const hubName = "sdkTestHub";
   const connectorName = "testConnector8858";
   const mappingName = "testMapping12491";
   const credential = new DefaultAzureCredential();
-  const client = new CustomerInsightsManagementClient(
-    credential,
-    subscriptionId
-  );
+  const client = new CustomerInsightsManagementClient(credential, subscriptionId);
   const result = await client.connectorMappings.delete(
     resourceGroupName,
     hubName,
     connectorName,
-    mappingName
+    mappingName,
   );
   console.log(result);
 }

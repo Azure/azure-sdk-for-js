@@ -1,16 +1,26 @@
 diff --git a/src/abort-controller/AbortError.ts b/src/abort-controller/AbortError.ts
-index 60662ec..1c6cf1a 100644
+index d075fbb..9f62db0 100644
 --- a/src/abort-controller/AbortError.ts
 +++ b/src/abort-controller/AbortError.ts
-@@ -8,7 +8,7 @@
+@@ -7,8 +7,8 @@
+  * error matches `"AbortError"`.
   *
   * @example
-  * ```ts snippet:abort_error
+- * ```ts snippet:AbortErrorSample
 - * import { AbortError } from "@azure/abort-controller";
++ * ```ts snippet:ReadmeSampleAbortError
 + * import { AbortError } from "@typespec/ts-http-runtime";
   *
   * async function doAsyncWork(options: { abortSignal: AbortSignal }): Promise<void> {
   *   if (options.abortSignal.aborted) {
+@@ -20,6 +20,7 @@
+  *
+  * const controller = new AbortController();
+  * controller.abort();
++ *
+  * try {
+  *   doAsyncWork({ abortSignal: controller.signal });
+  * } catch (e) {
 diff --git a/src/abort-controller/index.ts b/src/abort-controller/index.ts
 deleted file mode 100644
 index 7f2adc4..0000000
@@ -479,7 +489,7 @@ index 30dac33..66ea99c 100644
    if (!cachedHttpClient) {
      cachedHttpClient = createDefaultHttpClient();
 diff --git a/src/client/common.ts b/src/client/common.ts
-index 026f516..5d588ed 100644
+index 58f6eba..da6742a 100644
 --- a/src/client/common.ts
 +++ b/src/client/common.ts
 @@ -3,19 +3,17 @@
@@ -551,16 +561,46 @@ index 026f516..5d588ed 100644
    /**
     * A function to be called each time a response is received from the server
     * while performing the requested operation.
-@@ -202,7 +183,7 @@ export interface Client {
+@@ -201,8 +182,8 @@ export interface Client {
+    * This method will be used to send request that would check the path to provide
     * strong types. When used by the codegen this type gets overridden with the generated
     * types. For example:
-    * ```typescript snippet:path_example
+-   * ```typescript snippet:PathExample
 -   * import { Client } from "@azure-rest/core-client";
++   * ```typescript snippet:ReadmeSamplePathExample
 +   * import { Client } from "@typespec/ts-http-runtime";
     *
     * type MyClient = Client & {
     *   path: Routes;
-@@ -326,11 +307,9 @@ export type ClientOptions = PipelineOptions & {
+@@ -217,18 +198,6 @@ export interface Client {
+   pathUnchecked: PathUnchecked;
+ }
+ 
+-/**
+- * A Node.js Readable stream that also has a `destroy` method.
+- */
+-export interface NodeJSReadableStream extends NodeJS.ReadableStream {
+-  /**
+-   * Destroy the stream. Optionally emit an 'error' event, and emit a
+-   * 'close' event (unless emitClose is set to false). After this call,
+-   * internal resources will be released.
+-   */
+-  destroy(error?: Error): void;
+-}
+-
+ /**
+  * Http Response which body is a NodeJS stream object
+  */
+@@ -236,7 +205,7 @@ export type HttpNodeStreamResponse = HttpResponse & {
+   /**
+    * Streamable body
+    */
+-  body?: NodeJSReadableStream;
++  body?: NodeJS.ReadableStream;
+ };
+ 
+ /**
+@@ -345,11 +314,9 @@ export type ClientOptions = PipelineOptions & {
       */
      apiKeyHeaderName?: string;
    };
@@ -586,7 +626,7 @@ index eabe718..0000000
 -
 -/// <reference lib="dom" />
 diff --git a/src/client/getClient.ts b/src/client/getClient.ts
-index f6415d8..2e4f603 100644
+index 05bd395..0e6bb11 100644
 --- a/src/client/getClient.ts
 +++ b/src/client/getClient.ts
 @@ -1,9 +1,12 @@
@@ -605,7 +645,7 @@ index f6415d8..2e4f603 100644
  import { createDefaultPipeline } from "./clientHelpers.js";
  import type {
    Client,
-@@ -11,10 +14,12 @@ import type {
+@@ -11,11 +14,13 @@ import type {
    HttpBrowserStreamResponse,
    HttpNodeStreamResponse,
    RequestParameters,
@@ -614,11 +654,13 @@ index f6415d8..2e4f603 100644
  } from "./common.js";
  import { sendRequest } from "./sendRequest.js";
  import { buildRequestUrl } from "./urlHelpers.js";
+-import { isNodeLike } from "@azure/core-util";
 +import type { PipelineOptions } from "../createPipelineFromOptions.js";
++import { isNodeLike } from "../util/checkEnvironment.js";
  
  /**
   * Creates a client with a default pipeline
-@@ -61,8 +66,8 @@ export function getClient(
+@@ -62,8 +67,8 @@ export function getClient(
  
    const { allowInsecureConnection, httpClient } = clientOptions;
    const endpointUrl = clientOptions.endpoint ?? endpoint;
@@ -737,7 +779,7 @@ index 06bc091..90e6659 100644
  /**
   * The programmatic identifier of the bearerTokenAuthenticationPolicy.
 diff --git a/src/client/multipart.ts b/src/client/multipart.ts
-index e34a065..2bc3df1 100644
+index 175b5cd..102ed57 100644
 --- a/src/client/multipart.ts
 +++ b/src/client/multipart.ts
 @@ -1,14 +1,11 @@
@@ -773,7 +815,7 @@ index c7c1eb6..15bdc45 100644
      onResponse: options.onResponse,
    };
 diff --git a/src/client/restError.ts b/src/client/restError.ts
-index 1ecc969..9b98b21 100644
+index 3df6036..d653f06 100644
 --- a/src/client/restError.ts
 +++ b/src/client/restError.ts
 @@ -1,8 +1,9 @@
@@ -789,7 +831,7 @@ index 1ecc969..9b98b21 100644
  
  /**
 diff --git a/src/client/sendRequest.ts b/src/client/sendRequest.ts
-index 9e947e6..f2a1cac 100644
+index 4ee4778..dc3b0f5 100644
 --- a/src/client/sendRequest.ts
 +++ b/src/client/sendRequest.ts
 @@ -5,19 +5,16 @@ import type {
@@ -837,27 +879,23 @@ index 9e947e6..f2a1cac 100644
      onUploadProgress: options.onUploadProgress,
      onDownloadProgress: options.onDownloadProgress,
 diff --git a/src/constants.ts b/src/constants.ts
-index b32fff7..e81a30d 100644
+index 201ff0d..e81a30d 100644
 --- a/src/constants.ts
 +++ b/src/constants.ts
 @@ -1,6 +1,6 @@
  // Copyright (c) Microsoft Corporation.
  // Licensed under the MIT License.
  
--export const SDK_VERSION: string = "1.18.2";
+-export const SDK_VERSION: string = "1.19.2";
 +export const SDK_VERSION: string = "0.1.0";
  
  export const DEFAULT_RETRY_POLICY_COUNT = 3;
 diff --git a/src/createPipelineFromOptions.ts b/src/createPipelineFromOptions.ts
-index 2a2bd41..6066e07 100644
+index fefe550..fb56a78 100644
 --- a/src/createPipelineFromOptions.ts
 +++ b/src/createPipelineFromOptions.ts
-@@ -3,18 +3,16 @@
- 
- import { type LogPolicyOptions, logPolicy } from "./policies/logPolicy.js";
- import { type Pipeline, createEmptyPipeline } from "./pipeline.js";
--import type { PipelineRetryOptions, TlsSettings, ProxySettings } from "./interfaces.js";
-+import type { PipelineRetryOptions, ProxySettings, TlsSettings } from "./interfaces.js";
+@@ -6,16 +6,14 @@ import { type Pipeline, createEmptyPipeline } from "./pipeline.js";
+ import type { Agent, PipelineRetryOptions, ProxySettings, TlsSettings } from "./interfaces.js";
  import { type RedirectPolicyOptions, redirectPolicy } from "./policies/redirectPolicy.js";
  import { type UserAgentPolicyOptions, userAgentPolicy } from "./policies/userAgentPolicy.js";
 -import { multipartPolicy, multipartPolicyName } from "./policies/multipartPolicy.js";
@@ -868,13 +906,14 @@ index 2a2bd41..6066e07 100644
 +import { isNodeLike } from "./util/checkEnvironment.js";
  import { proxyPolicy } from "./policies/proxyPolicy.js";
 -import { setClientRequestIdPolicy } from "./policies/setClientRequestIdPolicy.js";
+ import { agentPolicy } from "./policies/agentPolicy.js";
  import { tlsPolicy } from "./policies/tlsPolicy.js";
 -import { tracingPolicy } from "./policies/tracingPolicy.js";
 +import { multipartPolicy, multipartPolicyName } from "./policies/multipartPolicy.js";
  
  /**
   * Defines options that are used to configure the HTTP pipeline for
-@@ -88,15 +86,11 @@ export function createPipelineFromOptions(options: InternalPipelineOptions): Pip
+@@ -95,15 +93,11 @@ export function createPipelineFromOptions(options: InternalPipelineOptions): Pip
  
    pipeline.addPolicy(formDataPolicy(), { beforePolicies: [multipartPolicyName] });
    pipeline.addPolicy(userAgentPolicy(options.userAgentOptions));
@@ -891,7 +930,7 @@ index 2a2bd41..6066e07 100644
      // Both XHR and Fetch expect to handle redirects automatically,
      // so only include this policy when we're in Node.
 diff --git a/src/fetchHttpClient.ts b/src/fetchHttpClient.ts
-index e9751e2..e4f8769 100644
+index ad162e3..ae5349c 100644
 --- a/src/fetchHttpClient.ts
 +++ b/src/fetchHttpClient.ts
 @@ -1,7 +1,7 @@
@@ -904,10 +943,10 @@ index e9751e2..e4f8769 100644
    HttpClient,
    HttpHeaders as PipelineHeaders,
 diff --git a/src/index.ts b/src/index.ts
-index aa95065..65e7734 100644
+index 92a7ee9..65e7734 100644
 --- a/src/index.ts
 +++ b/src/index.ts
-@@ -9,115 +9,71 @@ declare global {
+@@ -9,116 +9,71 @@ declare global {
    interface TransformStream<I = any, O = any> {}
  }
  
@@ -1050,6 +1089,7 @@ index aa95065..65e7734 100644
 -  type AuxiliaryAuthenticationHeaderPolicyOptions,
 -  auxiliaryAuthenticationHeaderPolicyName,
 -} from "./policies/auxiliaryAuthenticationHeaderPolicy.js";
+-export { agentPolicy, agentPolicyName } from "./policies/agentPolicy.js";
 -export {
 -  createFile,
 -  createFileFromStream,
@@ -1079,7 +1119,7 @@ index aa95065..65e7734 100644
 +export type { RedirectPolicyOptions } from "./policies/redirectPolicy.js";
 +export type { UserAgentPolicyOptions } from "./policies/userAgentPolicy.js";
 diff --git a/src/interfaces.ts b/src/interfaces.ts
-index 26b806d..5d790ad 100644
+index ae5513d..f8367e5 100644
 --- a/src/interfaces.ts
 +++ b/src/interfaces.ts
 @@ -1,9 +1,7 @@
@@ -1325,7 +1365,7 @@ index 3e33a3b..3654566 100644
 +  return TYPESPEC_RUNTIME_LOG_LEVELS.includes(logLevel as any);
  }
 diff --git a/src/nodeHttpClient.ts b/src/nodeHttpClient.ts
-index 1ac007a..66abe50 100644
+index 264a28e..2b974db 100644
 --- a/src/nodeHttpClient.ts
 +++ b/src/nodeHttpClient.ts
 @@ -5,7 +5,7 @@ import * as http from "node:http";
@@ -1338,18 +1378,22 @@ index 1ac007a..66abe50 100644
    HttpClient,
    HttpHeaders,
 diff --git a/src/pipelineRequest.ts b/src/pipelineRequest.ts
-index 8d1648d..5f67f7d 100644
+index 5947165..5f67f7d 100644
 --- a/src/pipelineRequest.ts
 +++ b/src/pipelineRequest.ts
-@@ -4,6 +4,7 @@
+@@ -2,21 +2,18 @@
+ // Licensed under the MIT License.
+ 
  import type {
+-  Agent,
    FormDataMap,
    HttpHeaders,
 +  HttpMethods,
    MultipartRequestBody,
    PipelineRequest,
    ProxySettings,
-@@ -11,10 +12,8 @@ import type {
+   RequestBodyType,
+-  TlsSettings,
    TransferProgressEvent,
  } from "./interfaces.js";
  import { createHttpHeaders } from "./httpHeaders.js";
@@ -1362,7 +1406,34 @@ index 8d1648d..5f67f7d 100644
  
  /**
   * Settings to initialize a request.
-@@ -100,11 +99,6 @@ export interface PipelineRequestOptions {
+@@ -76,16 +73,6 @@ export interface PipelineRequestOptions {
+    */
+   streamResponseStatusCodes?: Set<number>;
+ 
+-  /**
+-   * NODEJS ONLY
+-   *
+-   * A Node-only option to provide a custom `http.Agent`/`https.Agent`.
+-   * NOTE: usually this should be one instance shared by multiple requests so that the underlying
+-   *       connection to the service can be reused.
+-   * Does nothing when running in the browser.
+-   */
+-  agent?: Agent;
+-
+   /**
+    * BROWSER ONLY
+    *
+@@ -97,9 +84,6 @@ export interface PipelineRequestOptions {
+    */
+   enableBrowserStreams?: boolean;
+ 
+-  /** Settings for configuring TLS authentication */
+-  tlsSettings?: TlsSettings;
+-
+   /**
+    * Proxy configuration.
+    */
+@@ -115,11 +99,6 @@ export interface PipelineRequestOptions {
     */
    abortSignal?: AbortSignalLike;
  
@@ -1374,7 +1445,12 @@ index 8d1648d..5f67f7d 100644
    /**
     * Callback which fires upon upload progress.
     */
-@@ -133,7 +127,6 @@ class PipelineRequestImpl implements PipelineRequest {
+@@ -143,16 +122,14 @@ class PipelineRequestImpl implements PipelineRequest {
+   public formData?: FormDataMap;
+   public streamResponseStatusCodes?: Set<number>;
+   public enableBrowserStreams: boolean;
++
+   public proxySettings?: ProxySettings;
    public disableKeepAlive: boolean;
    public abortSignal?: AbortSignalLike;
    public requestId: string;
@@ -1382,7 +1458,12 @@ index 8d1648d..5f67f7d 100644
    public allowInsecureConnection?: boolean;
    public onUploadProgress?: (progress: TransferProgressEvent) => void;
    public onDownloadProgress?: (progress: TransferProgressEvent) => void;
-@@ -151,7 +144,6 @@ class PipelineRequestImpl implements PipelineRequest {
+-  public agent?: Agent;
+-  public tlsSettings?: TlsSettings;
+ 
+   constructor(options: PipelineRequestOptions) {
+     this.url = options.url;
+@@ -167,14 +144,11 @@ class PipelineRequestImpl implements PipelineRequest {
      this.streamResponseStatusCodes = options.streamResponseStatusCodes;
      this.withCredentials = options.withCredentials ?? false;
      this.abortSignal = options.abortSignal;
@@ -1390,6 +1471,13 @@ index 8d1648d..5f67f7d 100644
      this.onUploadProgress = options.onUploadProgress;
      this.onDownloadProgress = options.onDownloadProgress;
      this.requestId = options.requestId || randomUUID();
+     this.allowInsecureConnection = options.allowInsecureConnection ?? false;
+     this.enableBrowserStreams = options.enableBrowserStreams ?? false;
+-    this.agent = options.agent;
+-    this.tlsSettings = options.tlsSettings;
+   }
+ }
+ 
 diff --git a/src/policies/auxiliaryAuthenticationHeaderPolicy.ts b/src/policies/auxiliaryAuthenticationHeaderPolicy.ts
 deleted file mode 100644
 index 55110a0..0000000
@@ -1503,7 +1591,7 @@ index 55110a0..0000000
 -  };
 -}
 diff --git a/src/policies/bearerTokenAuthenticationPolicy.ts b/src/policies/bearerTokenAuthenticationPolicy.ts
-index c0e38ca..1cd3978 100644
+index d67931e..823792e 100644
 --- a/src/policies/bearerTokenAuthenticationPolicy.ts
 +++ b/src/policies/bearerTokenAuthenticationPolicy.ts
 @@ -1,14 +1,12 @@
@@ -2129,7 +2217,7 @@ index 4f54b0d..0000000
 -  }
 -}
 diff --git a/src/restError.ts b/src/restError.ts
-index 0b2e69f..bc09e78 100644
+index a3d36bc..722db2a 100644
 --- a/src/restError.ts
 +++ b/src/restError.ts
 @@ -1,7 +1,7 @@
@@ -2322,10 +2410,10 @@ index 28f5729..0000000
 -}
 diff --git a/src/tracing/interfaces.ts b/src/tracing/interfaces.ts
 deleted file mode 100644
-index 04d0785..0000000
+index 7da11e7..0000000
 --- a/src/tracing/interfaces.ts
 +++ /dev/null
-@@ -1,329 +0,0 @@
+@@ -1,331 +0,0 @@
 -// Copyright (c) Microsoft Corporation.
 -// Licensed under the MIT License.
 -
@@ -2354,7 +2442,7 @@ index 04d0785..0000000
 -   *
 -   * Example:
 -   *
--   * ```ts snippet:with_span_example
+-   * ```ts snippet:ReadmeSampleWithSpanExample
 -   * import { createTracingClient } from "@azure/core-tracing";
 -   *
 -   * const tracingClient = createTracingClient({
@@ -2362,7 +2450,9 @@ index 04d0785..0000000
 -   *   packageName: "test-package",
 -   *   packageVersion: "1.0.0",
 -   * });
+-   *
 -   * const options = {};
+-   *
 -   * const myOperationResult = await tracingClient.withSpan(
 -   *   "myClassName.myOperationName",
 -   *   options,
@@ -3148,7 +3238,7 @@ index bd11d61..3f6a12b 100644
  interface Crypto {
    randomUUID(): string;
 diff --git a/src/xhrHttpClient.ts b/src/xhrHttpClient.ts
-index 71bc439..c82fcb7 100644
+index 4a0acaa..2a8f850 100644
 --- a/src/xhrHttpClient.ts
 +++ b/src/xhrHttpClient.ts
 @@ -1,7 +1,7 @@

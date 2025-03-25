@@ -13,9 +13,7 @@ import {
   IoTFirmwareDefenseClient,
 } from "@azure/arm-iotfirmwaredefense";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to The operation to update firmware.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary The operation to update firmware.
  * x-ms-original-file: specification/fist/resource-manager/Microsoft.IoTFirmwareDefense/stable/2024-01-10/examples/Firmwares_Update_MaximumSet_Gen.json
  */
-async function firmwaresUpdateMaximumSetGen() {
+async function firmwaresUpdateMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["IOTFIRMWAREDEFENSE_SUBSCRIPTION_ID"] ||
     "685C0C6F-9867-4B1C-A534-AA3A05B54BCE";
@@ -61,7 +59,7 @@ async function firmwaresUpdateMaximumSetGen() {
  * @summary The operation to update firmware.
  * x-ms-original-file: specification/fist/resource-manager/Microsoft.IoTFirmwareDefense/stable/2024-01-10/examples/Firmwares_Update_MinimumSet_Gen.json
  */
-async function firmwaresUpdateMinimumSetGen() {
+async function firmwaresUpdateMinimumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["IOTFIRMWAREDEFENSE_SUBSCRIPTION_ID"] ||
     "685C0C6F-9867-4B1C-A534-AA3A05B54BCE";
@@ -82,7 +80,7 @@ async function firmwaresUpdateMinimumSetGen() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   firmwaresUpdateMaximumSetGen();
   firmwaresUpdateMinimumSetGen();
 }

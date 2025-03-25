@@ -1,16 +1,35 @@
 # Release History
 
-## 2.3.2 (Unreleased)
+## 2.3.5 (Unreleased)
 
 ### Features Added
+
+- `asNodeStream` now returns a `NodeJSReadableStream` which can be canceled by calling the `destroy` method.
 
 ### Breaking Changes
 
 ### Bugs Fixed
 
-- Allow dashes (`-`) in path parameter identifiers. PR [#31731](https://github.com/Azure/azure-sdk-for-js/pull/31731)
-
 ### Other Changes
+
+## 2.3.4 (2025-03-06)
+
+### Bugs Fixed
+
+- `asNodeStream` and `asBrowserStream` now throw when called in the incorrect environment instead of returning the wrong type of stream. PR [#33138](https://github.com/Azure/azure-sdk-for-js/pull/33138)
+
+## 2.3.3 (2025-02-06)
+
+### Bugs Fixed
+
+- Handle error responses with no body without causing a `TypeError`. PR [#32566](https://github.com/Azure/azure-sdk-for-js/pull/32566)
+- Content-Type header now defaults to `application/json` instead of `application/json; charset=UTF-8` to conform to the HTTP standard. PR [#32672](https://github.com/Azure/azure-sdk-for-js/pull/32672)
+
+## 2.3.2 (2025-01-10)
+
+### Bugs Fixed
+
+- Allow dashes (`-`) in path parameter identifiers. PR [#31731](https://github.com/Azure/azure-sdk-for-js/pull/31731)
 
 ## 2.3.1 (2024-10-10)
 

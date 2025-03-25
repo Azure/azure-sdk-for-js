@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { PaloAltoNetworksCloudngfw } from "@azure/arm-paloaltonetworksngfw";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to List CertificateObjectLocalRulestackResource resources by LocalRulestacks
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary List CertificateObjectLocalRulestackResource resources by LocalRulestacks
  * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/CertificateObjectLocalRulestack_ListByLocalRulestacks_MaximumSet_Gen.json
  */
-async function certificateObjectLocalRulestackListByLocalRulestacksMaximumSetGen() {
+async function certificateObjectLocalRulestackListByLocalRulestacksMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["PALOALTONETWORKSNGFW_SUBSCRIPTION_ID"] ||
     "2bf4a339-294d-4c25-b0b2-ef649e9f5c27";
@@ -45,7 +43,7 @@ async function certificateObjectLocalRulestackListByLocalRulestacksMaximumSetGen
  * @summary List CertificateObjectLocalRulestackResource resources by LocalRulestacks
  * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/CertificateObjectLocalRulestack_ListByLocalRulestacks_MinimumSet_Gen.json
  */
-async function certificateObjectLocalRulestackListByLocalRulestacksMinimumSetGen() {
+async function certificateObjectLocalRulestackListByLocalRulestacksMinimumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["PALOALTONETWORKSNGFW_SUBSCRIPTION_ID"] ||
     "2bf4a339-294d-4c25-b0b2-ef649e9f5c27";
@@ -64,7 +62,7 @@ async function certificateObjectLocalRulestackListByLocalRulestacksMinimumSetGen
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   certificateObjectLocalRulestackListByLocalRulestacksMaximumSetGen();
   certificateObjectLocalRulestackListByLocalRulestacksMinimumSetGen();
 }

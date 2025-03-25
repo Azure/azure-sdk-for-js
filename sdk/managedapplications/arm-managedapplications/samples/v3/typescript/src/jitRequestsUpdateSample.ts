@@ -13,9 +13,7 @@ import {
   ApplicationClient
 } from "@azure/arm-managedapplications";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Updates the JIT request.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Updates the JIT request.
  * x-ms-original-file: specification/solutions/resource-manager/Microsoft.Solutions/stable/2021-07-01/examples/updateJitRequest.json
  */
-async function updateJitRequest() {
+async function updateJitRequest(): Promise<void> {
   const subscriptionId =
     process.env["MANAGEDAPPLICATIONS_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -40,7 +38,7 @@ async function updateJitRequest() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   updateJitRequest();
 }
 

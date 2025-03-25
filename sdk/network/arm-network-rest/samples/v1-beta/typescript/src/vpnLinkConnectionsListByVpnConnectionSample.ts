@@ -1,16 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import createNetworkManagementClient, {
   VpnLinkConnectionsListByVpnConnectionParameters,
-  paginate
+  paginate,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Retrieves all vpn site link connections for a particular virtual wan vpn gateway vpn connection.
@@ -18,7 +13,7 @@ dotenv.config();
  * @summary Retrieves all vpn site link connections for a particular virtual wan vpn gateway vpn connection.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/VpnSiteLinkConnectionList.json
  */
-async function vpnSiteLinkConnectionList() {
+async function vpnSiteLinkConnectionList(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -26,7 +21,7 @@ async function vpnSiteLinkConnectionList() {
   const gatewayName = "gateway1";
   const connectionName = "vpnConnection1";
   const options: VpnLinkConnectionsListByVpnConnectionParameters = {
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(
@@ -34,7 +29,7 @@ async function vpnSiteLinkConnectionList() {
       subscriptionId,
       resourceGroupName,
       gatewayName,
-      connectionName
+      connectionName,
     )
     .get(options);
   const pageData = paginate(client, initialResponse);

@@ -10,13 +10,13 @@
 // Licensed under the MIT License.
 const { ContainerRegistryManagementClient } = require("@azure/arm-containerregistry");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Creates a pipeline run for a container registry with the specified parameters
  *
  * @summary Creates a pipeline run for a container registry with the specified parameters
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2023-11-01-preview/examples/PipelineRunCreate_Export.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2024-11-01-preview/examples/PipelineRunCreate_Export.json
  */
 async function pipelineRunCreateExport() {
   const subscriptionId =
@@ -41,7 +41,7 @@ async function pipelineRunCreateExport() {
     resourceGroupName,
     registryName,
     pipelineRunName,
-    pipelineRunCreateParameters
+    pipelineRunCreateParameters,
   );
   console.log(result);
 }
@@ -50,7 +50,7 @@ async function pipelineRunCreateExport() {
  * This sample demonstrates how to Creates a pipeline run for a container registry with the specified parameters
  *
  * @summary Creates a pipeline run for a container registry with the specified parameters
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2023-11-01-preview/examples/PipelineRunCreate_Import.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2024-11-01-preview/examples/PipelineRunCreate_Import.json
  */
 async function pipelineRunCreateImport() {
   const subscriptionId =
@@ -73,14 +73,14 @@ async function pipelineRunCreateImport() {
     resourceGroupName,
     registryName,
     pipelineRunName,
-    pipelineRunCreateParameters
+    pipelineRunCreateParameters,
   );
   console.log(result);
 }
 
 async function main() {
-  pipelineRunCreateExport();
-  pipelineRunCreateImport();
+  await pipelineRunCreateExport();
+  await pipelineRunCreateImport();
 }
 
 main().catch(console.error);

@@ -2,19 +2,24 @@
 // Licensed under the MIT License.
 import type { ClientContext } from "../../ClientContext";
 import {
+  Constants,
   createDocumentCollectionUri,
   getIdFromLink,
   getPathFromLink,
   HTTPMethod,
   isResourceValid,
   ResourceType,
+  StatusCodes,
+  SubStatusCodes,
 } from "../../common";
 import type { PartitionKey, PartitionKeyDefinition } from "../../documents";
+import { convertToInternalPartitionKey } from "../../documents";
 import type { SqlQuerySpec } from "../../queryExecutionContext";
 import type { QueryIterator } from "../../queryIterator";
 import type { FeedOptions, RequestOptions, Response } from "../../request";
 import { ResourceResponse } from "../../request";
 import type { PartitionedQueryExecutionInfo } from "../../request/ErrorResponse";
+import { ErrorResponse } from "../../request/ErrorResponse";
 import { Conflict, Conflicts } from "../Conflict";
 import type { Database } from "../Database";
 import { Item, Items } from "../Item";
@@ -35,6 +40,9 @@ import {
   withMetadataDiagnostics,
 } from "../../utils/diagnostics";
 import { MetadataLookUpType } from "../../CosmosDiagnostics";
+import type { EncryptionSettingForProperty } from "../../encryption";
+import { EncryptionProcessor } from "../../encryption";
+import type { EncryptionManager } from "../../encryption/EncryptionManager";
 
 /**
  * Operations for reading, replacing, or deleting a specific, existing container by id.
@@ -95,6 +103,18 @@ export class Container {
   public get url(): string {
     return createDocumentCollectionUri(this.database.id, this.id);
   }
+  /**
+   * @internal
+   */
+  public encryptionProcessor: EncryptionProcessor;
+
+  /**
+   * @internal
+   */
+  public _rid: string;
+
+  private isEncryptionInitialized: boolean = false;
+  private encryptionInitializationPromise: Promise<void>;
 
   /**
    * Returns a container instance. Note: You should get this from `database.container(id)`, rather than creating your own object.
@@ -106,7 +126,20 @@ export class Container {
     public readonly database: Database,
     public readonly id: string,
     private readonly clientContext: ClientContext,
-  ) {}
+    private encryptionManager?: EncryptionManager,
+    _rid?: string,
+  ) {
+    this._rid = _rid;
+    if (this.clientContext.enableEncryption) {
+      this.encryptionProcessor = new EncryptionProcessor(
+        this.id,
+        this._rid,
+        this.database,
+        this.clientContext,
+        this.encryptionManager,
+      );
+    }
+  }
 
   /**
    * Used to read, replace, or delete a specific, existing {@link Item} by id.
@@ -346,15 +379,38 @@ export class Container {
       let path = getPathFromLink(this.url);
       const id = getIdFromLink(this.url);
       path = path + "/operations/partitionkeydelete";
-      const response = await this.clientContext.delete<ContainerDefinition>({
-        path,
-        resourceType: ResourceType.container,
-        resourceId: id,
-        options,
-        partitionKey: partitionKey,
-        method: HTTPMethod.post,
-        diagnosticNode,
-      });
+      if (this.clientContext.enableEncryption) {
+        await this.checkAndInitializeEncryption();
+        options = options || {};
+        options.containerRid = this._rid;
+        diagnosticNode.beginEncryptionDiagnostics(Constants.Encryption.DiagnosticsEncryptOperation);
+        const partitionKeyInternal = convertToInternalPartitionKey(partitionKey);
+        const { partitionKeyList, encryptedCount } =
+          await this.encryptionProcessor.getEncryptedPartitionKeyValue(partitionKeyInternal);
+        partitionKey = partitionKeyList;
+        diagnosticNode.endEncryptionDiagnostics(
+          Constants.Encryption.DiagnosticsEncryptOperation,
+          encryptedCount,
+        );
+      }
+      let response: Response<any>;
+      try {
+        response = await this.clientContext.delete<ContainerDefinition>({
+          path,
+          resourceType: ResourceType.container,
+          resourceId: id,
+          options,
+          partitionKey: partitionKey,
+          method: HTTPMethod.post,
+          diagnosticNode,
+        });
+      } catch (error) {
+        if (this.clientContext.enableEncryption) {
+          await this.throwIfRequestNeedsARetryPostPolicyRefresh(error);
+        }
+        throw error;
+      }
+
       return new ContainerResponse(
         response.result,
         response.headers,
@@ -363,5 +419,135 @@ export class Container {
         getEmptyCosmosDiagnostics(),
       );
     }, this.clientContext);
+  }
+  /**
+   * Warms up encryption related caches for the container.
+   */
+  public async initializeEncryption(): Promise<void> {
+    if (!this.clientContext.enableEncryption) {
+      throw new ErrorResponse("Encryption is not enabled for the client.");
+    } else {
+      await withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
+        const readResponse = await this.readInternal(diagnosticNode);
+        if (!readResponse || !readResponse.resource) {
+          throw new ErrorResponse(
+            "Failed to initialize encryption: The container's resource definition could not be retrieved.",
+          );
+        }
+        this._rid = readResponse.resource._rid;
+        this.encryptionProcessor.containerRid = this._rid;
+        const clientEncryptionPolicy = readResponse.resource.clientEncryptionPolicy;
+        if (!clientEncryptionPolicy) return;
+        const partitionKeyPaths = readResponse.resource.partitionKey.paths;
+        const databaseResponse = await this.database.readInternal(diagnosticNode);
+        if (!databaseResponse || !databaseResponse.resource) {
+          throw new ErrorResponse(
+            "Failed to initialize encryption: The database's resource definition could not be retrieved.",
+          );
+        }
+        this.database._rid = databaseResponse.resource._rid;
+        const encryptionSettingKey = this.database._rid + "/" + this._rid;
+
+        await this.encryptionManager.encryptionSettingsCache.create(
+          encryptionSettingKey,
+          this._rid,
+          partitionKeyPaths,
+          clientEncryptionPolicy,
+        );
+        const clientEncryptionKeyIds = [
+          ...new Set(
+            clientEncryptionPolicy.includedPaths.map((item) => item.clientEncryptionKeyId),
+          ),
+        ];
+        // fetch and set clientEncryptionKeys in the cache
+        for (const clientEncryptionKeyId of clientEncryptionKeyIds) {
+          const res = await this.database.readClientEncryptionKey(clientEncryptionKeyId);
+          if (!res || !res.clientEncryptionKeyProperties) {
+            throw new ErrorResponse(
+              `Failed to initialize encryption: The client encryption key ${clientEncryptionKeyId} could not be retrieved.`,
+            );
+          }
+          const encryptionKeyProperties = res.clientEncryptionKeyProperties;
+          const key = this.database._rid + "/" + clientEncryptionKeyId;
+
+          this.encryptionManager.clientEncryptionKeyPropertiesCache.set(
+            key,
+            encryptionKeyProperties,
+          );
+        }
+        this.isEncryptionInitialized = true;
+      }, this.clientContext);
+    }
+  }
+
+  /**
+   * @internal
+   */
+  async checkAndInitializeEncryption(): Promise<void> {
+    if (!this.isEncryptionInitialized) {
+      if (!this.encryptionInitializationPromise) {
+        this.encryptionInitializationPromise = this.initializeEncryption();
+      }
+      await this.encryptionInitializationPromise;
+    }
+  }
+
+  /**
+   * @internal
+   * This function handles the scenario where a container is deleted(say from different Client) and recreated with same Id but with different client encryption policy.
+   * The idea is to have the container Rid cached and sent out as part of RequestOptions with Container Rid set in "x-ms-cosmos-intended-collection-rid" header.
+   * So, when the container being referenced here gets recreated we would end up with a stale encryption settings and container Rid and this would result in BadRequest (and a substatus 1024).
+   * This would allow us to refresh the encryption settings and Container Rid, on the premise that the container recreated could possibly be configured with a new encryption policy.
+   */
+  async throwIfRequestNeedsARetryPostPolicyRefresh(errorResponse: ErrorResponse): Promise<void> {
+    const key = this.database._rid + "/" + this._rid;
+    const encryptionSetting = this.encryptionManager.encryptionSettingsCache.get(key);
+    if (!errorResponse?.code || !errorResponse?.headers?.[Constants.HttpHeaders.SubStatus]) {
+      return;
+    }
+    const subStatusCode = errorResponse.headers[Constants.HttpHeaders.SubStatus];
+    const isPartitionKeyMismatch = Number(subStatusCode) === SubStatusCodes.PartitionKeyMismatch;
+    const isIncorrectContainerRidSubstatus =
+      Number(subStatusCode) === SubStatusCodes.IncorrectContainerRidSubstatus;
+    if (
+      errorResponse.code === StatusCodes.BadRequest &&
+      (isPartitionKeyMismatch || isIncorrectContainerRidSubstatus)
+    ) {
+      // This code verifies if the partitionKeyPaths are encrypted.
+      // If the paths are not encrypted, it indicates that the application passed an incorrect partition key in the request.
+      // This ensures the issue is not caused by a mismatched encrypted value due to a policy error,
+      // avoiding unnecessary force-refreshing of encryption settings.
+      if (isPartitionKeyMismatch && encryptionSetting.partitionKeyPaths.length) {
+        let encryptionSettingsForProperty: EncryptionSettingForProperty = null;
+        for (const path of encryptionSetting.partitionKeyPaths) {
+          const partitionKeyPath = path.split("/")[1];
+          encryptionSettingsForProperty =
+            encryptionSetting.getEncryptionSettingForProperty(partitionKeyPath);
+          if (encryptionSettingsForProperty) {
+            break;
+          }
+        }
+        // wrong partition key passed as partition key is not encrypted.
+        if (encryptionSettingsForProperty == null) {
+          return;
+        }
+      }
+
+      const currentContainerRid = encryptionSetting.containerRid;
+      const forceRefresh = true;
+      // fetch rid of newly created container
+      const updatedContainerRid = (
+        await this.encryptionProcessor.getEncryptionSetting(forceRefresh)
+      ).containerRid;
+      // if the container was not recreated, so policy has not changed, just return the original response
+      if (currentContainerRid === updatedContainerRid) {
+        return;
+      }
+      await this.initializeEncryption();
+      throw new ErrorResponse(
+        "Operation has failed due to a possible mismatch in Client Encryption Policy configured on the container. Retrying may fix the issue. Please refer to https://aka.ms/CosmosClientEncryption for more details." +
+          errorResponse.message,
+      );
+    }
   }
 }

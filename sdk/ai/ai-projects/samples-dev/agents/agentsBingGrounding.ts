@@ -19,8 +19,7 @@ import {
 import { delay } from "@azure/core-util";
 import { DefaultAzureCredential } from "@azure/identity";
 
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
 const connectionString =
   process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] || "<project connection string>";
@@ -74,7 +73,7 @@ export async function main(): Promise<void> {
   console.log(`Run finished with status: ${run.status}`);
 
   // Delete the assistant when done
-  client.agents.deleteAgent(agent.id);
+  await client.agents.deleteAgent(agent.id);
   console.log(`Deleted agent, agent ID: ${agent.id}`);
 
   // Fetch and log all messages

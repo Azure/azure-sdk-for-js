@@ -30,7 +30,7 @@ import {
   VmmServer as VmmServerMapper,
   VmmServerTagsUpdate as VmmServerTagsUpdateMapper,
   InventoryItem as InventoryItemMapper,
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",

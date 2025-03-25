@@ -16,7 +16,7 @@ import {
   FleetUpdateStrategiesCreateOrUpdateOptionalParams,
   FleetUpdateStrategiesCreateOrUpdateResponse,
   FleetUpdateStrategiesDeleteOptionalParams,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a FleetUpdateStrategies. */

@@ -27,7 +27,7 @@ import {
   GetImageUploadUrlInput as GetImageUploadUrlInputMapper,
   PredictionResourceFormat as PredictionResourceFormatMapper,
   PredictionModelStatus as PredictionModelStatusMapper
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",

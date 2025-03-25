@@ -13,9 +13,7 @@ import {
   ElasticSanManagement,
 } from "@azure/arm-elasticsan";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Delete an Volume.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Delete an Volume.
  * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-06-01-preview/examples/Volumes_Delete_MaximumSet_Gen.json
  */
-async function volumesDeleteMaximumSetGen() {
+async function volumesDeleteMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["ELASTICSANS_SUBSCRIPTION_ID"] || "subscriptionid";
   const resourceGroupName =
@@ -55,7 +53,7 @@ async function volumesDeleteMaximumSetGen() {
  * @summary Delete an Volume.
  * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-06-01-preview/examples/Volumes_Delete_MinimumSet_Gen.json
  */
-async function volumesDeleteMinimumSetGen() {
+async function volumesDeleteMinimumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["ELASTICSANS_SUBSCRIPTION_ID"] || "subscriptionid";
   const resourceGroupName =
@@ -74,7 +72,7 @@ async function volumesDeleteMinimumSetGen() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   volumesDeleteMaximumSetGen();
   volumesDeleteMinimumSetGen();
 }

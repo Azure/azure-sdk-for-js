@@ -1,15 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import createNetworkManagementClient, {
-  LoadBalancerBackendAddressPoolsGetParameters
+  LoadBalancerBackendAddressPoolsGetParameters,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets load balancer backend address pool.
@@ -17,7 +12,7 @@ dotenv.config();
  * @summary Gets load balancer backend address pool.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/LBBackendAddressPoolWithBackendAddressesGet.json
  */
-async function loadBalancerWithBackendAddressPoolWithBackendAddresses() {
+async function loadBalancerWithBackendAddressPoolWithBackendAddresses(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -25,7 +20,7 @@ async function loadBalancerWithBackendAddressPoolWithBackendAddresses() {
   const loadBalancerName = "lb";
   const backendAddressPoolName = "backend";
   const options: LoadBalancerBackendAddressPoolsGetParameters = {
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const result = await client
     .path(
@@ -33,7 +28,7 @@ async function loadBalancerWithBackendAddressPoolWithBackendAddresses() {
       subscriptionId,
       resourceGroupName,
       loadBalancerName,
-      backendAddressPoolName
+      backendAddressPoolName,
     )
     .get(options);
   console.log(result);
@@ -46,7 +41,7 @@ loadBalancerWithBackendAddressPoolWithBackendAddresses().catch(console.error);
  * @summary Gets load balancer backend address pool.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/LoadBalancerBackendAddressPoolGet.json
  */
-async function loadBalancerBackendAddressPoolGet() {
+async function loadBalancerBackendAddressPoolGet(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -54,7 +49,7 @@ async function loadBalancerBackendAddressPoolGet() {
   const loadBalancerName = "lb";
   const backendAddressPoolName = "backend";
   const options: LoadBalancerBackendAddressPoolsGetParameters = {
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const result = await client
     .path(
@@ -62,7 +57,7 @@ async function loadBalancerBackendAddressPoolGet() {
       subscriptionId,
       resourceGroupName,
       loadBalancerName,
-      backendAddressPoolName
+      backendAddressPoolName,
     )
     .get(options);
   console.log(result);

@@ -4,7 +4,7 @@
 /**
  * This sample demonstrates scenarios as to how a Service Bus message can be explicitly moved to
  * the DLQ. For other implicit ways when Service Bus messages get moved to DLQ, refer to -
- * https://docs.microsoft.com/azure/service-bus-messaging/service-bus-dead-letter-queues
+ * https://learn.microsoft.com/azure/service-bus-messaging/service-bus-dead-letter-queues
  *
  * Run processMessagesInDLQ example after this to see how the messages in DLQ can be reprocessed.
  *
@@ -15,8 +15,7 @@ const { ServiceBusClient } = require("@azure/service-bus");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 // Load the .env file if it exists
-require("dotenv").config();
-
+require("dotenv/config");
 // Define connection string and related Service Bus entity names here
 const fqdn = process.env.SERVICEBUS_FQDN || "<your-servicebus-namespace>.servicebus.windows.net";
 const queueName = process.env.QUEUE_NAME || "<queue name>";

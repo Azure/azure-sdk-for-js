@@ -100,6 +100,29 @@ export interface KubernetesPatchVersion {
   upgrades?: string[];
 }
 
+/** Holds an array NodeImageVersions */
+export interface NodeImageVersionsListResult {
+  /** Array of AKS Node Image versions. */
+  value?: NodeImageVersion[];
+  /**
+   * The URL to get the next set of machine results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** node image version profile for given major.minor.patch release. */
+export interface NodeImageVersion {
+  /** The operating system of the node image. Example: AKSUbuntu */
+  os?: string;
+  /** The SKU or flavor of the node image. Example: 2004gen2containerd */
+  sku?: string;
+  /** major.minor.patch version of the node image version release. Example: 2024.02.02 */
+  version?: string;
+  /** The OS + SKU + version of the node image. Example: AKSUbuntu-1804gen2containerd-2024.02.02 */
+  fullName?: string;
+}
+
 /** The response from the List Managed Clusters operation. */
 export interface ManagedClusterListResult {
   /** The list of managed clusters. */
@@ -310,11 +333,13 @@ export interface ManagedClusterAgentPoolProfileProperties {
   virtualMachineNodesStatus?: VirtualMachineNodes[];
   /** Profile specific to a managed agent pool in Gateway mode. This field cannot be set if agent pool mode is not Gateway. */
   gatewayProfile?: AgentPoolGatewayProfile;
+  /** Contains read-only information about the Agent Pool. */
+  status?: AgentPoolStatus;
 }
 
 /** Settings for upgrading an agentpool */
 export interface AgentPoolUpgradeSettings {
-  /** This can either be set to an integer (e.g. '5') or a percentage (e.g. '50%'). If a percentage is specified, it is the percentage of the total agent pool size at the time of the upgrade. For percentages, fractional nodes are rounded up. If not specified, the default is 1. For more information, including best practices, see: https://learn.microsoft.com/en-us/azure/aks/upgrade-cluster */
+  /** This can either be set to an integer (e.g. '5') or a percentage (e.g. '50%'). If a percentage is specified, it is the percentage of the total agent pool size at the time of the upgrade. For percentages, fractional nodes are rounded up. If not specified, the default is 10%. For more information, including best practices, see: https://learn.microsoft.com/en-us/azure/aks/upgrade-cluster */
   maxSurge?: string;
   /** This can either be set to an integer (e.g. '1') or a percentage (e.g. '5%'). If a percentage is specified, it is the percentage of the total agent pool size at the time of the upgrade. For percentages, fractional nodes are rounded up. If not specified, the default is 0. For more information, including best practices, see: https://learn.microsoft.com/en-us/azure/aks/upgrade-cluster */
   maxUnavailable?: string;
@@ -502,6 +527,10 @@ export interface ManualScaleProfile {
   sizes?: string[];
   /** Number of nodes. */
   count?: number;
+  /** OS Disk Size in GB to be used to specify the disk size for every machine in the master/agent pool. If you specify 0, it will apply the default osDisk size according to the vmSize specified. */
+  osDiskSizeGB?: number;
+  /** The default is 'Ephemeral' if the VM supports it and has a cache disk larger than the requested OSDiskSizeGB. Otherwise, defaults to 'Managed'. May not be changed after creation. For more information see [Ephemeral OS](https://docs.microsoft.com/azure/aks/cluster-configuration#ephemeral-os). */
+  osDiskType?: OSDiskType;
 }
 
 /** Specifications on auto-scaling. */
@@ -512,6 +541,10 @@ export interface AutoScaleProfile {
   minCount?: number;
   /** The maximum number of nodes of the specified sizes. */
   maxCount?: number;
+  /** OS Disk Size in GB to be used to specify the disk size for every machine in the master/agent pool. If you specify 0, it will apply the default osDisk size according to the vmSize specified. */
+  osDiskSizeGB?: number;
+  /** The default is 'Ephemeral' if the VM supports it and has a cache disk larger than the requested OSDiskSizeGB. Otherwise, defaults to 'Managed'. May not be changed after creation. For more information see [Ephemeral OS](https://docs.microsoft.com/azure/aks/cluster-configuration#ephemeral-os). */
+  osDiskType?: OSDiskType;
 }
 
 /** Current status on a group of nodes of the same vm size. */
@@ -526,6 +559,15 @@ export interface VirtualMachineNodes {
 export interface AgentPoolGatewayProfile {
   /** The Gateway agent pool associates one public IPPrefix for each static egress gateway to provide public egress. The size of Public IPPrefix should be selected by the user. Each node in the agent pool is assigned with one IP from the IPPrefix. The IPPrefix size thus serves as a cap on the size of the Gateway agent pool. Due to Azure public IPPrefix size limitation, the valid value range is [28, 31] (/31 = 2 nodes/IPs, /30 = 4 nodes/IPs, /29 = 8 nodes/IPs, /28 = 16 nodes/IPs). The default value is 31. */
   publicIPPrefixSize?: number;
+}
+
+/** Contains read-only information about the Agent Pool. */
+export interface AgentPoolStatus {
+  /**
+   * Preserves the detailed info of failure. If there was no error, this field is omitted.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningError?: CloudErrorBody;
 }
 
 /** Profile for Linux VMs in the container service cluster. */
@@ -1257,6 +1299,12 @@ export interface IstioIngressGateway {
 export interface IstioEgressGateway {
   /** Whether to enable the egress gateway. */
   enabled: boolean;
+  /** Name of the Istio add-on egress gateway. */
+  name: string;
+  /** Namespace that the Istio add-on egress gateway should be deployed in. If unspecified, the default is aks-istio-egress. */
+  namespace?: string;
+  /** Name of the gateway configuration custom resource for the Istio add-on egress gateway. Must be specified when enabling the Istio egress gateway. Must be deployed in the same namespace that the Istio egress gateway will be deployed in. */
+  gatewayConfigurationName?: string;
 }
 
 /** Istio Service Mesh Certificate Authority (CA) configuration. For now, we only support plugin certificates as described here https://aka.ms/asm-plugin-ca */
@@ -1308,6 +1356,15 @@ export interface ManagedClusterBootstrapProfile {
   artifactSource?: ArtifactSource;
   /** The resource Id of Azure Container Registry. The registry must have private network access, premium SKU and zone redundancy. */
   containerRegistryId?: string;
+}
+
+/** Contains read-only information about the Managed Cluster. */
+export interface ManagedClusterStatus {
+  /**
+   * Preserves the detailed info of failure. If there was no error, this field is omitted.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningError?: CloudErrorBody;
 }
 
 /** Common fields that are returned in the response for all Azure Resource Manager resources */
@@ -1392,6 +1449,8 @@ export interface ManagedClusterPoolUpgradeProfileUpgradesItem {
   kubernetesVersion?: string;
   /** Whether the Kubernetes version is currently in preview. */
   isPreview?: boolean;
+  /** Whether the Kubernetes version is out of support. */
+  isOutOfSupport?: boolean;
 }
 
 /** components of given Kubernetes version. */
@@ -1599,6 +1658,8 @@ export interface AgentPoolUpgradeProfilePropertiesUpgradesItem {
   kubernetesVersion?: string;
   /** Whether the Kubernetes version is currently in preview. */
   isPreview?: boolean;
+  /** Whether the Kubernetes version is out of support. */
+  isOutOfSupport?: boolean;
 }
 
 /** Specifies a list of machine names from the agent pool to be deleted. */
@@ -2349,6 +2410,8 @@ export interface AgentPool extends SubResource {
   virtualMachineNodesStatus?: VirtualMachineNodes[];
   /** Profile specific to a managed agent pool in Gateway mode. This field cannot be set if agent pool mode is not Gateway. */
   gatewayProfile?: AgentPoolGatewayProfile;
+  /** Contains read-only information about the Agent Pool. */
+  status?: AgentPoolStatus;
 }
 
 /** A machine. Contains details about the underlying virtual machine. A machine may be visible here but not in kubectl get nodes; if so it may be because the machine has not been registered with the Kubernetes API Server yet. */
@@ -2498,6 +2561,8 @@ export interface ManagedCluster extends TrackedResource {
   nodeProvisioningProfile?: ManagedClusterNodeProvisioningProfile;
   /** Profile of the cluster bootstrap configuration. */
   bootstrapProfile?: ManagedClusterBootstrapProfile;
+  /** Contains read-only information about the Managed Cluster. */
+  status?: ManagedClusterStatus;
 }
 
 /** Managed cluster Access Profile. */
@@ -4320,6 +4385,22 @@ export interface ManagedClustersListMeshUpgradeProfilesNextOptionalParams
 /** Contains response data for the listMeshUpgradeProfilesNext operation. */
 export type ManagedClustersListMeshUpgradeProfilesNextResponse =
   MeshUpgradeProfileList;
+
+/** Optional parameters. */
+export interface ContainerServiceListNodeImageVersionsOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNodeImageVersions operation. */
+export type ContainerServiceListNodeImageVersionsResponse =
+  NodeImageVersionsListResult;
+
+/** Optional parameters. */
+export interface ContainerServiceListNodeImageVersionsNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNodeImageVersionsNext operation. */
+export type ContainerServiceListNodeImageVersionsNextResponse =
+  NodeImageVersionsListResult;
 
 /** Optional parameters. */
 export interface MaintenanceConfigurationsListByManagedClusterOptionalParams

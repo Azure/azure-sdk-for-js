@@ -10,13 +10,13 @@
 // Licensed under the MIT License.
 const { KustoManagementClient } = require("@azure/arm-kusto");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Returns a data connection.
  *
  * @summary Returns a data connection.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoDataConnectionsCosmosDbGet.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2024-04-13/examples/KustoDataConnectionsCosmosDbGet.json
  */
 async function kustoDataConnectionsCosmosDbGet() {
   const subscriptionId =
@@ -40,7 +40,7 @@ async function kustoDataConnectionsCosmosDbGet() {
  * This sample demonstrates how to Returns a data connection.
  *
  * @summary Returns a data connection.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoDataConnectionsEventGridGet.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2024-04-13/examples/KustoDataConnectionsEventGridGet.json
  */
 async function kustoDataConnectionsEventGridGet() {
   const subscriptionId =
@@ -64,7 +64,7 @@ async function kustoDataConnectionsEventGridGet() {
  * This sample demonstrates how to Returns a data connection.
  *
  * @summary Returns a data connection.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoDataConnectionsGet.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2024-04-13/examples/KustoDataConnectionsGet.json
  */
 async function kustoDataConnectionsGet() {
   const subscriptionId =
@@ -85,9 +85,9 @@ async function kustoDataConnectionsGet() {
 }
 
 async function main() {
-  kustoDataConnectionsCosmosDbGet();
-  kustoDataConnectionsEventGridGet();
-  kustoDataConnectionsGet();
+  await kustoDataConnectionsCosmosDbGet();
+  await kustoDataConnectionsEventGridGet();
+  await kustoDataConnectionsGet();
 }
 
 main().catch(console.error);

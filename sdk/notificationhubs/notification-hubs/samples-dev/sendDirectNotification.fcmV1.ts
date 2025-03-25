@@ -6,7 +6,7 @@
  * notification using Firebase Legacy HTTP.  This sends a JSON message to an Firebase given registration ID and returns
  * a Tracking ID which can be used for troubleshooting with the Azure Notification Hubs team.
  *
- * See https://docs.microsoft.com/rest/api/notificationhubs/direct-send
+ * See https://learn.microsoft.com/rest/api/notificationhubs/direct-send
  * to learn about Direct Send.
  *
  *

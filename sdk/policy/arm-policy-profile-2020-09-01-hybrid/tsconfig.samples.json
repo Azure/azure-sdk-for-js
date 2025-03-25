@@ -1,0 +1,8 @@
+{
+  "extends": "../../../tsconfig.samples.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/arm-policy-profile-2020-09-01-hybrid": ["./dist/esm"]
+    }
+  }
+}

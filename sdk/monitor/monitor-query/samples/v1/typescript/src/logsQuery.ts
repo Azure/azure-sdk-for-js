@@ -6,19 +6,12 @@
  */
 
 import { DefaultAzureCredential } from "@azure/identity";
-import {
-  Durations,
-  LogsQueryClient,
-  LogsTable,
-  LogsQueryOptions,
-  LogsQueryResultStatus,
-} from "@azure/monitor-query";
-import * as dotenv from "dotenv";
-dotenv.config();
-
+import type { LogsTable, LogsQueryOptions } from "@azure/monitor-query";
+import { Durations, LogsQueryClient, LogsQueryResultStatus } from "@azure/monitor-query";
+import "dotenv/config";
 const monitorWorkspaceId = process.env.MONITOR_WORKSPACE_ID;
 
-export async function main() {
+export async function main(): Promise<void> {
   const tokenCredential = new DefaultAzureCredential();
   const logsQueryClient = new LogsQueryClient(tokenCredential);
 
@@ -45,7 +38,7 @@ export async function main() {
     // are available (like OneDay, OneHour, FoutyEightHours, etc..) but any properly formatted ISO8601
     // value is valid.
     { duration: Durations.oneHour },
-    queryLogsOptions
+    queryLogsOptions,
   );
   const executionTime =
     result.statistics && result.statistics.query && (result.statistics.query as any).executionTime;
@@ -53,7 +46,7 @@ export async function main() {
   console.log(
     `Results for query '${kustoQuery}', execution time: ${
       executionTime == null ? "unknown" : executionTime
-    }`
+    }`,
   );
 
   if (result.status === LogsQueryResultStatus.Success) {
@@ -74,7 +67,7 @@ export async function main() {
   }
 }
 
-async function processTables(tablesFromResult: LogsTable[]) {
+async function processTables(tablesFromResult: LogsTable[]): Promise<void> {
   for (const table of tablesFromResult) {
     const columnHeaderString = table.columnDescriptors
       .map((column) => `${column.name}(${column.type}) `)

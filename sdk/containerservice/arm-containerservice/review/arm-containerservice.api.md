@@ -86,6 +86,7 @@ export interface AgentPool extends SubResource {
     scaleSetPriority?: ScaleSetPriority;
     securityProfile?: AgentPoolSecurityProfile;
     spotMaxPrice?: number;
+    status?: AgentPoolStatus;
     tags?: {
         [propertyName: string]: string;
     };
@@ -271,6 +272,11 @@ export type AgentPoolsListResponse = AgentPoolListResult;
 export type AgentPoolSSHAccess = string;
 
 // @public
+export interface AgentPoolStatus {
+    readonly provisioningError?: CloudErrorBody;
+}
+
+// @public
 export interface AgentPoolsUpgradeNodeImageVersionHeaders {
     azureAsyncOperation?: string;
 }
@@ -298,6 +304,7 @@ export interface AgentPoolUpgradeProfile {
 
 // @public (undocumented)
 export interface AgentPoolUpgradeProfilePropertiesUpgradesItem {
+    isOutOfSupport?: boolean;
     isPreview?: boolean;
     kubernetesVersion?: string;
 }
@@ -323,6 +330,8 @@ export type ArtifactSource = string;
 export interface AutoScaleProfile {
     maxCount?: number;
     minCount?: number;
+    osDiskSizeGB?: number;
+    osDiskType?: OSDiskType;
     sizes?: string[];
 }
 
@@ -383,6 +392,11 @@ export interface ComponentsByRelease {
 // @public
 export type ConnectionStatus = string;
 
+// @public
+export interface ContainerService {
+    listNodeImageVersions(location: string, options?: ContainerServiceListNodeImageVersionsOptionalParams): PagedAsyncIterableIterator<NodeImageVersion>;
+}
+
 // @public (undocumented)
 export class ContainerServiceClient extends coreClient.ServiceClient {
     // (undocumented)
@@ -392,6 +406,8 @@ export class ContainerServiceClient extends coreClient.ServiceClient {
     agentPools: AgentPools;
     // (undocumented)
     apiVersion: string;
+    // (undocumented)
+    containerService: ContainerService;
     // (undocumented)
     loadBalancers: LoadBalancers;
     // (undocumented)
@@ -434,6 +450,20 @@ export interface ContainerServiceLinuxProfile {
     adminUsername: string;
     ssh: ContainerServiceSshConfiguration;
 }
+
+// @public
+export interface ContainerServiceListNodeImageVersionsNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ContainerServiceListNodeImageVersionsNextResponse = NodeImageVersionsListResult;
+
+// @public
+export interface ContainerServiceListNodeImageVersionsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ContainerServiceListNodeImageVersionsResponse = NodeImageVersionsListResult;
 
 // @public
 export interface ContainerServiceNetworkProfile {
@@ -625,6 +655,9 @@ export interface IstioComponents {
 // @public
 export interface IstioEgressGateway {
     enabled: boolean;
+    gatewayConfigurationName?: string;
+    name: string;
+    namespace?: string;
 }
 
 // @public
@@ -1398,6 +1431,7 @@ export interface ManagedCluster extends TrackedResource {
     serviceMeshProfile?: ServiceMeshProfile;
     servicePrincipalProfile?: ManagedClusterServicePrincipalProfile;
     sku?: ManagedClusterSKU;
+    status?: ManagedClusterStatus;
     storageProfile?: ManagedClusterStorageProfile;
     supportPlan?: KubernetesSupportPlan;
     upgradeSettings?: ClusterUpgradeSettings;
@@ -1489,6 +1523,7 @@ export interface ManagedClusterAgentPoolProfileProperties {
     scaleSetPriority?: ScaleSetPriority;
     securityProfile?: AgentPoolSecurityProfile;
     spotMaxPrice?: number;
+    status?: AgentPoolStatus;
     tags?: {
         [propertyName: string]: string;
     };
@@ -1754,6 +1789,7 @@ export interface ManagedClusterPoolUpgradeProfile {
 
 // @public (undocumented)
 export interface ManagedClusterPoolUpgradeProfileUpgradesItem {
+    isOutOfSupport?: boolean;
     isPreview?: boolean;
     kubernetesVersion?: string;
 }
@@ -2319,6 +2355,11 @@ export interface ManagedClusterStaticEgressGatewayProfile {
 }
 
 // @public
+export interface ManagedClusterStatus {
+    readonly provisioningError?: CloudErrorBody;
+}
+
+// @public
 export interface ManagedClusterStorageProfile {
     blobCSIDriver?: ManagedClusterStorageProfileBlobCSIDriver;
     diskCSIDriver?: ManagedClusterStorageProfileDiskCSIDriver;
@@ -2402,6 +2443,8 @@ export interface ManagedServiceIdentityUserAssignedIdentitiesValue {
 // @public
 export interface ManualScaleProfile {
     count?: number;
+    osDiskSizeGB?: number;
+    osDiskType?: OSDiskType;
     sizes?: string[];
 }
 
@@ -2473,6 +2516,20 @@ export interface NetworkProfileForSnapshot {
 
 // @public
 export type NginxIngressControllerType = string;
+
+// @public
+export interface NodeImageVersion {
+    fullName?: string;
+    os?: string;
+    sku?: string;
+    version?: string;
+}
+
+// @public
+export interface NodeImageVersionsListResult {
+    readonly nextLink?: string;
+    value?: NodeImageVersion[];
+}
 
 // @public
 export type NodeOSUpgradeChannel = string;

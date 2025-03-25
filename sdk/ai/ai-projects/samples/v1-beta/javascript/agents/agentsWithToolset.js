@@ -10,10 +10,9 @@
 
 const { AIProjectsClient, ToolSet } = require("@azure/ai-projects");
 const { DefaultAzureCredential } = require("@azure/identity");
-const dotenv = require("dotenv");
 const fs = require("fs");
 
-dotenv.config();
+require("dotenv/config");
 
 const connectionString =
   process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] || "<project connection string>";
@@ -50,8 +49,8 @@ async function main() {
 
   // Create tool set
   const toolSet = new ToolSet();
-  toolSet.addFileSearchTool([vectorStore.id]);
-  toolSet.addCodeInterpreterTool([codeInterpreterFile.id]);
+  await toolSet.addFileSearchTool([vectorStore.id]);
+  await toolSet.addCodeInterpreterTool([codeInterpreterFile.id]);
 
   // Create agent with tool set
   const agent = await client.agents.createAgent("gpt-4o", {

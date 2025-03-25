@@ -10,20 +10,18 @@
 // Licensed under the MIT License.
 import {
   LanguageExtensionsList,
-  KustoManagementClient
+  KustoManagementClient,
 } from "@azure/arm-kusto";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Add a list of language extensions that can run within KQL queries.
  *
  * @summary Add a list of language extensions that can run within KQL queries.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoClusterAddLanguageExtensions.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2024-04-13/examples/KustoClusterAddLanguageExtensions.json
  */
-async function kustoClusterAddLanguageExtensions() {
+async function kustoClusterAddLanguageExtensions(): Promise<void> {
   const subscriptionId =
     process.env["KUSTO_SUBSCRIPTION_ID"] ||
     "12345678-1234-1234-1234-123456789098";
@@ -31,20 +29,23 @@ async function kustoClusterAddLanguageExtensions() {
     process.env["KUSTO_RESOURCE_GROUP"] || "kustorptest";
   const clusterName = "kustoCluster";
   const languageExtensionsToAdd: LanguageExtensionsList = {
-    value: [{ languageExtensionName: "PYTHON" }, { languageExtensionName: "R" }]
+    value: [
+      { languageExtensionName: "PYTHON" },
+      { languageExtensionName: "R" },
+    ],
   };
   const credential = new DefaultAzureCredential();
   const client = new KustoManagementClient(credential, subscriptionId);
   const result = await client.clusters.beginAddLanguageExtensionsAndWait(
     resourceGroupName,
     clusterName,
-    languageExtensionsToAdd
+    languageExtensionsToAdd,
   );
   console.log(result);
 }
 
-async function main() {
-  kustoClusterAddLanguageExtensions();
+async function main(): Promise<void> {
+  await kustoClusterAddLanguageExtensions();
 }
 
 main().catch(console.error);

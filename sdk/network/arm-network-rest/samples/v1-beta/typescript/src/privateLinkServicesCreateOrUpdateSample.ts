@@ -1,16 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import createNetworkManagementClient, {
   PrivateLinkServicesCreateOrUpdateParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates or updates an private link service in the specified resource group.
@@ -18,7 +13,7 @@ dotenv.config();
  * @summary Creates or updates an private link service in the specified resource group.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/PrivateLinkServiceCreate.json
  */
-async function createPrivateLinkService() {
+async function createPrivateLinkService(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -38,31 +33,29 @@ async function createPrivateLinkService() {
               privateIPAddressVersion: "IPv4",
               privateIPAllocationMethod: "Static",
               subnet: {
-                id:
-                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnetlb/subnets/subnetlb"
-              }
-            }
-          }
+                id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnetlb/subnets/subnetlb",
+              },
+            },
+          },
         ],
         loadBalancerFrontendIpConfigurations: [
           {
-            id:
-              "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/fe-lb"
-          }
+            id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/fe-lb",
+          },
         ],
         visibility: {
-          subscriptions: ["subscription1", "subscription2", "subscription3"]
-        }
-      }
+          subscriptions: ["subscription1", "subscription2", "subscription3"],
+        },
+      },
     },
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateLinkServices/{serviceName}",
       subscriptionId,
       resourceGroupName,
-      serviceName
+      serviceName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);

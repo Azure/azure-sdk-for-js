@@ -17,7 +17,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary The Delete OuContainer operation deletes specified OuContainer.
  * x-ms-original-file: specification/domainservices/resource-manager/Microsoft.AAD/stable/2021-05-01/examples/DeleteOuContainer.json
  */
-async function deleteOuContainer() {
+async function deleteOuContainer(): Promise<void> {
   const subscriptionId = "1639790a-76a2-4ac4-98d9-8562f5dfcb4d";
   const resourceGroupName = "OuContainerResourceGroup";
   const domainServiceName = "OuContainer.com";

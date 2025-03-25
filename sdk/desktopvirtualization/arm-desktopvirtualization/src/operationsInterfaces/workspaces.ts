@@ -18,7 +18,7 @@ import {
   WorkspacesDeleteOptionalParams,
   WorkspacesUpdateOptionalParams,
   WorkspacesUpdateResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Workspaces. */

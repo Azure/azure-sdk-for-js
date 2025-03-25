@@ -7,18 +7,18 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { MoveResources } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { MoveResources } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { ResourceMoverServiceAPI } from "../resourceMoverServiceAPI";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { ResourceMoverServiceAPI } from "../resourceMoverServiceAPI.js";
 import {
   SimplePollerLike,
   OperationState,
   createHttpPoller
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl";
+import { createLroSpec } from "../lroImpl.js";
 import {
   MoveResource,
   MoveResourcesListNextOptionalParams,
@@ -31,7 +31,7 @@ import {
   MoveResourcesGetOptionalParams,
   MoveResourcesGetResponse,
   MoveResourcesListNextResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing MoveResources operations. */

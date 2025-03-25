@@ -5,7 +5,7 @@
 // Licensed under the MIT License.
 const createNetworkManagementClient = require("@azure-rest/arm-network").default;
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Gets the specified Firewall Policy.
@@ -27,7 +27,7 @@ async function getFirewallPolicy() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}",
       subscriptionId,
       resourceGroupName,
-      firewallPolicyName
+      firewallPolicyName,
     )
     .get(options);
   console.log(result);

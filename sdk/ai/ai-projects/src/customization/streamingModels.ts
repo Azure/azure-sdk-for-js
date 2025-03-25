@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import type { MessageRole } from "./models.js";
-import { RunStepFileSearchToolCallResultsOutput } from "./outputModels.js";
+import type { RunStepFileSearchToolCallResultsOutput } from "./outputModels.js";
 
 /** Represents a message delta i.e. any changed fields on a message during streaming. */
 export interface MessageDeltaChunk {

@@ -20,7 +20,7 @@ import {
   CommunicationsGatewayUpdate,
   CommunicationsGatewaysUpdateOptionalParams,
   CommunicationsGatewaysUpdateResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a CommunicationsGateways. */

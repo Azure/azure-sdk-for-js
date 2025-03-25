@@ -6,11 +6,11 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { VaultExtendedInfo } from "../operationsInterfaces";
+import { VaultExtendedInfo } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { RecoveryServicesClient } from "../recoveryServicesClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { RecoveryServicesClient } from "../recoveryServicesClient.js";
 import {
   VaultExtendedInfoGetOptionalParams,
   VaultExtendedInfoGetResponse,
@@ -19,7 +19,7 @@ import {
   VaultExtendedInfoCreateOrUpdateResponse,
   VaultExtendedInfoUpdateOptionalParams,
   VaultExtendedInfoUpdateResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Class containing VaultExtendedInfo operations. */
 export class VaultExtendedInfoImpl implements VaultExtendedInfo {

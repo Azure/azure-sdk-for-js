@@ -10,13 +10,11 @@ import {
   env,
   Recorder,
   RecorderStartOptions,
-  delay,
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { assert } from "chai";
-import { Context } from "mocha";
-import { StorageActionsManagementClient } from "../src/storageActionsManagementClient";
+import { StorageActionsManagementClient } from "../src/storageActionsManagementClient.js";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 const replaceableVariables: Record<string, string> = {
   AZURE_CLIENT_ID: "azure_client_id",
@@ -45,8 +43,8 @@ describe("StorageActions test", () => {
   let resourceGroup: string;
   let resourcename: string;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async (ctx) => {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderOptions);
     subscriptionId = env.SUBSCRIPTION_ID || '';
     // This is an example of how the environment variables are used
@@ -58,11 +56,11 @@ describe("StorageActions test", () => {
 
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
-  it("storageTasks create test", async function () {
+  it("storageTasks create test", async () => {
     const res = await client.storageTasks.beginCreateAndWait(
       resourceGroup,
       resourcename,
@@ -98,14 +96,14 @@ describe("StorageActions test", () => {
     assert.equal(res.name, resourcename);
   });
 
-  it("storageTasks get test", async function () {
+  it("storageTasks get test", async () => {
     const res = await client.storageTasks.get(
       resourceGroup,
       resourcename);
     assert.equal(res.name, resourcename);
   });
 
-  it("storageTasks list test", async function () {
+  it("storageTasks list test", async () => {
     const resArray = new Array();
     for await (let item of client.storageTasks.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
@@ -113,10 +111,10 @@ describe("StorageActions test", () => {
     assert.equal(resArray.length, 1);
   });
 
-  it("storageTasks delete test", async function () {
+  it("storageTasks delete test", async () => {
     const resArray = new Array();
-    const res = await client.storageTasks.beginDeleteAndWait(resourceGroup, resourcename
-    )
+    await client.storageTasks.beginDeleteAndWait(resourceGroup, resourcename);
+
     for await (let item of client.storageTasks.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }

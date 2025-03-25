@@ -14,9 +14,7 @@ import {
   StorageCacheManagementClient,
 } from "@azure/arm-storagecache";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Check that subnets will be valid for AML file system create calls.
@@ -24,7 +22,7 @@ dotenv.config();
  * @summary Check that subnets will be valid for AML file system create calls.
  * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2024-03-01/examples/checkAmlFSSubnets.json
  */
-async function checkAmlFsSubnets() {
+async function checkAmlFsSubnets(): Promise<void> {
   const subscriptionId =
     process.env["STORAGECACHE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -41,7 +39,7 @@ async function checkAmlFsSubnets() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   checkAmlFsSubnets();
 }
 

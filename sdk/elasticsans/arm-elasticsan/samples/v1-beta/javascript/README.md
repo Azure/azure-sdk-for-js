@@ -97,6 +97,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [volumesgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/elasticsans/arm-elasticsan/samples/v1-beta/javascript/volumesGetSample.js
 [volumeslistbyvolumegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/elasticsans/arm-elasticsan/samples/v1-beta/javascript/volumesListByVolumeGroupSample.js
 [volumesupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/elasticsans/arm-elasticsan/samples/v1-beta/javascript/volumesUpdateSample.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-elasticsan?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-elasticsan?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/elasticsans/arm-elasticsan/README.md

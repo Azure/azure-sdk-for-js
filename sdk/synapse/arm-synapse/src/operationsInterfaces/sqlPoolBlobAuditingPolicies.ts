@@ -14,7 +14,7 @@ import {
   SqlPoolBlobAuditingPoliciesGetResponse,
   SqlPoolBlobAuditingPoliciesCreateOrUpdateOptionalParams,
   SqlPoolBlobAuditingPoliciesCreateOrUpdateResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a SqlPoolBlobAuditingPolicies. */

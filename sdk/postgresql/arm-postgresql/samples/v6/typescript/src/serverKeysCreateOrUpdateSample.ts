@@ -17,7 +17,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Creates or updates a PostgreSQL Server key.
  * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2020-01-01/examples/ServerKeyCreateOrUpdate.json
  */
-async function createsOrUpdatesAPostgreSqlServerKey() {
+async function createsOrUpdatesAPostgreSqlServerKey(): Promise<void> {
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const serverName = "testserver";
   const keyName = "someVault_someKey_01234567890123456789012345678901";

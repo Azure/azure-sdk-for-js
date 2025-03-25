@@ -3,7 +3,9 @@
 /* eslint-disable no-unused-expressions */
 import assert from "assert";
 import type {
+  ClientConfigDiagnostic,
   Container,
+  CosmosClientOptions,
   CosmosDiagnostics,
   Database,
   DatabaseDefinition,
@@ -12,12 +14,23 @@ import type {
   MetadataLookUpDiagnostic,
   PartitionKey,
   PartitionKeyDefinition,
+  PartitionKeyRange,
   PermissionDefinition,
+  QueryIterator,
   RequestOptions,
   Response,
   UserDefinition,
 } from "../../../src";
-import { CosmosClient, CosmosDbDiagnosticLevel, MetadataLookUpType } from "../../../src";
+import {
+  ClientContext,
+  ConnectionMode,
+  ConsistencyLevel,
+  Constants,
+  CosmosClient,
+  CosmosDbDiagnosticLevel,
+  GlobalEndpointManager,
+  MetadataLookUpType,
+} from "../../../src";
 import type {
   ItemDefinition,
   ItemResponse,
@@ -40,22 +53,27 @@ import { getCurrentTimestampInMs } from "../../../src/utils/time";
 import { extractPartitionKeys } from "../../../src/extractPartitionKey";
 import fs from "fs";
 import path from "path";
+import sinon from "sinon";
 
 const defaultRoutingGatewayPort: string = ":8081";
 const defaultComputeGatewayPort: string = ":8903";
 
-export const defaultClient = new CosmosClient({
-  endpoint,
-  key: masterKey,
-  connectionPolicy: { enableBackgroundEndpointRefreshing: false },
-  diagnosticLevel: CosmosDbDiagnosticLevel.info,
-});
+export function getDefaultClient(): CosmosClient {
+  return new CosmosClient({
+    endpoint,
+    key: masterKey,
+    connectionPolicy: { enableBackgroundEndpointRefreshing: false },
+    diagnosticLevel: CosmosDbDiagnosticLevel.info,
+  });
+}
 
-export const defaultComputeGatewayClient = new CosmosClient({
-  endpoint: endpoint.replace(defaultRoutingGatewayPort, defaultComputeGatewayPort),
-  key: masterKey,
-  connectionPolicy: { enableBackgroundEndpointRefreshing: false },
-});
+export function getDefaultComputeGatewayClient(): CosmosClient {
+  return new CosmosClient({
+    endpoint: endpoint.replace(defaultRoutingGatewayPort, defaultComputeGatewayPort),
+    key: masterKey,
+    connectionPolicy: { enableBackgroundEndpointRefreshing: false },
+  });
+}
 
 export function addEntropy(name: string): string {
   return name + getEntropy();
@@ -65,8 +83,11 @@ export function getEntropy(): string {
   return `${Math.floor(Math.random() * 10000)}`;
 }
 
-export async function removeAllDatabases(client: CosmosClient = defaultClient): Promise<void> {
+export async function removeAllDatabases(client?: CosmosClient): Promise<void> {
   try {
+    if (!client) {
+      client = getDefaultClient();
+    }
     const { resources: databases } = await client.databases.readAll().fetchAll();
     const length = databases.length;
 
@@ -424,9 +445,12 @@ function validateRequestStartTimeForDiagnostics(
 
 export async function getTestDatabase(
   testName: string,
-  client: CosmosClient = defaultClient,
+  client?: CosmosClient,
   attrs?: Partial<DatabaseRequest>,
 ): Promise<Database> {
+  if (!client) {
+    client = getDefaultClient();
+  }
   const entropy = Math.floor(Math.random() * 10000);
   const id = `${testName.replace(" ", "").substring(0, 30)}${entropy}`;
   await client.databases.create({ id, ...attrs });
@@ -435,10 +459,13 @@ export async function getTestDatabase(
 
 export async function getTestContainer(
   testName: string,
-  client: CosmosClient = defaultClient,
+  client?: CosmosClient,
   containerDef?: ContainerRequest,
   options?: RequestOptions,
 ): Promise<Container> {
+  if (!client) {
+    client = getDefaultClient();
+  }
   const db = await getTestDatabase(testName, client);
   const entropy = Math.floor(Math.random() * 10000);
   const id = `${testName.replace(" ", "").substring(0, 30)}${entropy}`;
@@ -703,4 +730,89 @@ export function readAndParseJSONFile(fileName: string): any {
     console.error("Error parsing JSON file:", error);
   }
   return parsedData;
+}
+
+export function initializeMockPartitionKeyRanges(
+  createMockPartitionKeyRange: (
+    id: string,
+    minInclusive: string,
+    maxExclusive: string,
+  ) => {
+    id: string; // Range ID
+    _rid: string; // Resource ID of the partition key range
+    minInclusive: string; // Minimum value of the partition key range
+    maxExclusive: string; // Maximum value of the partition key range
+    _etag: string; // ETag for concurrency control
+    _self: string; // Self-link
+    throughputFraction: number; // Throughput assigned to this partition
+    status: string;
+  },
+  clientContext: ClientContext,
+  ranges: [string, string][],
+): void {
+  const partitionKeyRanges = ranges.map((range, index) =>
+    createMockPartitionKeyRange(index.toString(), range[0], range[1]),
+  );
+
+  const fetchAllInternalStub = sinon.stub().resolves({
+    resources: partitionKeyRanges,
+    headers: { "x-ms-request-charge": "1.23" },
+    code: 200,
+  });
+  sinon.stub(clientContext, "queryPartitionKeyRanges").returns({
+    fetchAllInternal: fetchAllInternalStub, // Add fetchAllInternal to mimic expected structure
+  } as unknown as QueryIterator<PartitionKeyRange>);
+}
+
+export function createTestClientContext(
+  options: Partial<CosmosClientOptions>,
+  diagnosticLevel: CosmosDbDiagnosticLevel,
+): ClientContext {
+  const clientOps: CosmosClientOptions = {
+    endpoint: "",
+    connectionPolicy: {
+      connectionMode: ConnectionMode.Gateway,
+      requestTimeout: 60000,
+      enableEndpointDiscovery: true,
+      preferredLocations: [],
+      retryOptions: {
+        maxRetryAttemptCount: 9,
+        fixedRetryIntervalInMilliseconds: 0,
+        maxWaitTimeInSeconds: 30,
+      },
+      useMultipleWriteLocations: true,
+      endpointRefreshRateInMs: 300000,
+      enableBackgroundEndpointRefreshing: true,
+    },
+    ...options,
+  };
+  const globalEndpointManager = new GlobalEndpointManager(
+    clientOps,
+    async (diagnosticNode: DiagnosticNodeInternal, opts: RequestOptions) => {
+      expect(opts).to.exist;
+      const dummyAccount: any = diagnosticNode;
+      return dummyAccount;
+    },
+  );
+  const clientConfig: ClientConfigDiagnostic = {
+    endpoint: "",
+    resourceTokensConfigured: true,
+    tokenProviderConfigured: true,
+    aadCredentialsConfigured: true,
+    connectionPolicyConfigured: true,
+    consistencyLevel: ConsistencyLevel.BoundedStaleness,
+    defaultHeaders: {},
+    agentConfigured: true,
+    userAgentSuffix: "",
+    pluginsConfigured: true,
+    sDKVersion: Constants.SDKVersion,
+    ...options,
+  };
+  const clientContext = new ClientContext(
+    clientOps,
+    globalEndpointManager,
+    clientConfig,
+    diagnosticLevel,
+  );
+  return clientContext;
 }

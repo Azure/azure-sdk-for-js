@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets all the Virtual Routers in a subscription.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Gets all the Virtual Routers in a subscription.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/VirtualRouterListBySubscription.json
  */
-async function listAllVirtualRoutersForAGivenSubscription() {
+async function listAllVirtualRoutersForAGivenSubscription(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
@@ -31,7 +29,7 @@ async function listAllVirtualRoutersForAGivenSubscription() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listAllVirtualRoutersForAGivenSubscription();
 }
 

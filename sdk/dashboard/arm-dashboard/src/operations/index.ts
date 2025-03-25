@@ -6,8 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./operations";
-export * from "./grafana";
-export * from "./privateEndpointConnections";
-export * from "./privateLinkResources";
-export * from "./managedPrivateEndpoints";
+export * from "./operations.js";
+export * from "./grafana.js";
+export * from "./privateEndpointConnections.js";
+export * from "./privateLinkResources.js";
+export * from "./managedPrivateEndpoints.js";

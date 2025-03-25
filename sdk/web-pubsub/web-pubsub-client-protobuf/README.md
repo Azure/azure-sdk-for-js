@@ -1,9 +1,8 @@
 # Web PubSub client protobuf protocol library for JavaScript
 
-[Azure Web PubSub](https://aka.ms/awps/doc) is a cloud service that helps developers easily build real-time features in web applications with publish-subscribe patterns at scale. 
+[Azure Web PubSub](https://aka.ms/awps/doc) is a cloud service that helps developers easily build real-time features in web applications with publish-subscribe patterns at scale.
 
 You can use this library to add protobuf subprotocols including `protobuf.reliable.webpubsub.azure.v1` and `protobuf.webpubsub.azure.v1` support to `@azure/web-pubsub-client` library.
-
 
 ## Getting started
 
@@ -24,18 +23,31 @@ npm install @azure/web-pubsub-client-protobuf
 
 ### 2. Use Protobuf protocols
 
-```javascript
-const client = new WebPubSubClient("client-access-url", { protocol: WebPubSubProtobufReliableProtocol() });
+```ts snippet:ReadmeSampleCreateClient
+import { WebPubSubClient } from "@azure/web-pubsub-client";
+import { WebPubSubProtobufReliableProtocol } from "@azure/web-pubsub-client-protobuf";
+
+const client = new WebPubSubClient("client-access-url", {
+  protocol: WebPubSubProtobufReliableProtocol(),
+});
 ```
 
 ## Troubleshooting
 
-- ### Enable logs
+### Enable logs
 
-  You can set the following environment variable to get the debug logs when using this library.
+Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`.
 
 ```bash
 export AZURE_LOG_LEVEL=verbose
+```
+
+Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
+
+```ts snippet:SetLogLevel
+import { setLogLevel } from "@azure/logger";
+
+setLogLevel("info");
 ```
 
 For more detailed instructions on how to enable logs, you can look at the [@azure/logger package docs](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/logger).
@@ -43,19 +55,22 @@ For more detailed instructions on how to enable logs, you can look at the [@azur
 - ### Live Trace
 
   Use [Live Trace tool][live_trace] from Web PubSub portal to view the live traffic.
+
 ---
+
 ## Additional resources
+
 - Learn more about client permission, see [permissions](https://learn.microsoft.com/azure/azure-web-pubsub/reference-json-reliable-webpubsub-subprotocol#permissions)
 
-- [Server SDK - JavaScript documentation](https://aka.ms/awps/sdk/js) 
+- [Server SDK - JavaScript documentation](https://aka.ms/awps/sdk/js)
 - [Product documentation](https://aka.ms/awps/doc)
 - [Samples][samples_ref]
 
 ---
+
 ## Contributing
 
 If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md) to learn more about how to build and test the code.
-
 
 [azure_sub]: https://azure.microsoft.com/free/
 [samples_ref]: https://github.com/Azure/azure-webpubsub/tree/main/samples/javascript/

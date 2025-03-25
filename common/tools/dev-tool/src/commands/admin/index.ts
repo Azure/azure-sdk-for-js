@@ -9,6 +9,7 @@ export default subCommand(commandInfo, {
   "create-migration": () => import("./create-migration"),
   "stage-migrations": () => import("./stage-migrations"),
   "migrate-package": () => import("./migrate-package"),
+  "migrate-snippets": () => import("./migrate-snippets"),
   "migrate-source": () => import("./migrate-source"),
   list: () => import("./list"),
 });

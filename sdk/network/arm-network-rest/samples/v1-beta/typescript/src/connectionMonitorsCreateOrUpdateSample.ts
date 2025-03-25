@@ -1,16 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import createNetworkManagementClient, {
   ConnectionMonitorsCreateOrUpdateParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create or update a connection monitor.
@@ -18,7 +13,7 @@ dotenv.config();
  * @summary Create or update a connection monitor.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/NetworkWatcherConnectionMonitorCreate.json
  */
-async function createConnectionMonitorV1() {
+async function createConnectionMonitorV1(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -33,29 +28,29 @@ async function createConnectionMonitorV1() {
           {
             name: "source",
             resourceId:
-              "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Compute/virtualMachines/ct1"
+              "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Compute/virtualMachines/ct1",
           },
-          { name: "destination", address: "bing.com" }
+          { name: "destination", address: "bing.com" },
         ],
         testConfigurations: [
           {
             name: "tcp",
             tcpConfiguration: { port: 80 },
             testFrequencySec: 60,
-            protocol: "Tcp"
-          }
+            protocol: "Tcp",
+          },
         ],
         testGroups: [
           {
             name: "tg",
             destinations: ["destination"],
             sources: ["source"],
-            testConfigurations: ["tcp"]
-          }
-        ]
-      }
+            testConfigurations: ["tcp"],
+          },
+        ],
+      },
     },
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(
@@ -63,10 +58,10 @@ async function createConnectionMonitorV1() {
       subscriptionId,
       resourceGroupName,
       networkWatcherName,
-      connectionMonitorName
+      connectionMonitorName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -78,7 +73,7 @@ createConnectionMonitorV1().catch(console.error);
  * @summary Create or update a connection monitor.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/NetworkWatcherConnectionMonitorV2Create.json
  */
-async function createConnectionMonitorV2() {
+async function createConnectionMonitorV2(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -92,19 +87,19 @@ async function createConnectionMonitorV2() {
           {
             name: "vm1",
             resourceId:
-              "/subscriptions/96e68903-0a56-4819-9987-8d08ad6a1f99/resourceGroups/NwRgIrinaCentralUSEUAP/providers/Microsoft.Compute/virtualMachines/vm1"
+              "/subscriptions/96e68903-0a56-4819-9987-8d08ad6a1f99/resourceGroups/NwRgIrinaCentralUSEUAP/providers/Microsoft.Compute/virtualMachines/vm1",
           },
           {
             name: "CanaryWorkspaceVamshi",
             filter: {
               type: "Include",
-              items: [{ type: "AgentAddress", address: "npmuser" }]
+              items: [{ type: "AgentAddress", address: "npmuser" }],
             },
             resourceId:
-              "/subscriptions/96e68903-0a56-4819-9987-8d08ad6a1f99/resourceGroups/vasamudrRG/providers/Microsoft.OperationalInsights/workspaces/vasamudrWorkspace"
+              "/subscriptions/96e68903-0a56-4819-9987-8d08ad6a1f99/resourceGroups/vasamudrRG/providers/Microsoft.OperationalInsights/workspaces/vasamudrWorkspace",
           },
           { name: "bing", address: "bing.com" },
-          { name: "google", address: "google.com" }
+          { name: "google", address: "google.com" },
         ],
         outputs: [],
         testConfigurations: [
@@ -112,8 +107,8 @@ async function createConnectionMonitorV2() {
             name: "testConfig1",
             tcpConfiguration: { disableTraceRoute: false, port: 80 },
             testFrequencySec: 60,
-            protocol: "Tcp"
-          }
+            protocol: "Tcp",
+          },
         ],
         testGroups: [
           {
@@ -121,12 +116,12 @@ async function createConnectionMonitorV2() {
             destinations: ["bing", "google"],
             disable: false,
             sources: ["vm1", "CanaryWorkspaceVamshi"],
-            testConfigurations: ["testConfig1"]
-          }
-        ]
-      }
+            testConfigurations: ["testConfig1"],
+          },
+        ],
+      },
     },
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(
@@ -134,10 +129,10 @@ async function createConnectionMonitorV2() {
       subscriptionId,
       resourceGroupName,
       networkWatcherName,
-      connectionMonitorName
+      connectionMonitorName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }

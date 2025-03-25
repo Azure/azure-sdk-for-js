@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { GuestConfigurationClient } from "@azure/arm-guestconfiguration";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Delete a guest configuration assignment
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Delete a guest configuration assignment
  * x-ms-original-file: specification/guestconfiguration/resource-manager/Microsoft.GuestConfiguration/stable/2022-01-25/examples/deleteGuestConfigurationAssignment.json
  */
-async function deleteAnGuestConfigurationAssignment() {
+async function deleteAnGuestConfigurationAssignment(): Promise<void> {
   const subscriptionId =
     process.env["GUESTCONFIGURATION_SUBSCRIPTION_ID"] || "mySubscriptionId";
   const resourceGroupName =
@@ -37,7 +35,7 @@ async function deleteAnGuestConfigurationAssignment() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   deleteAnGuestConfigurationAssignment();
 }
 

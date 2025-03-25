@@ -13,9 +13,7 @@ import {
   AzureReservationAPI
 } from "@azure/arm-reservations";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create or update the quota (service limits) of a resource to the requested value.
@@ -33,7 +31,7 @@ dotenv.config();
   The Create quota request may be constructed as follows. The PUT operation can be used to update the quota.
  * x-ms-original-file: specification/reservations/resource-manager/Microsoft.Capacity/stable/2020-10-25/examples/putComputeOneSkuQuotaRequest.json
  */
-async function quotasRequestPutForCompute() {
+async function quotasRequestPutForCompute(): Promise<void> {
   const subscriptionId = "D7EC67B3-7657-4966-BFFC-41EFD36BAAB3";
   const providerId = "Microsoft.Compute";
   const location = "eastus";
@@ -73,7 +71,7 @@ async function quotasRequestPutForCompute() {
   The Create quota request may be constructed as follows. The PUT operation can be used to update the quota.
  * x-ms-original-file: specification/reservations/resource-manager/Microsoft.Capacity/stable/2020-10-25/examples/putMachineLearningServicesQuotaRequestDedicated.json
  */
-async function quotasRequestPutForMachineLearningServicesDedicatedResource() {
+async function quotasRequestPutForMachineLearningServicesDedicatedResource(): Promise<void> {
   const subscriptionId = "D7EC67B3-7657-4966-BFFC-41EFD36BAAB3";
   const providerId = "Microsoft.MachineLearningServices";
   const location = "eastus";
@@ -114,7 +112,7 @@ async function quotasRequestPutForMachineLearningServicesDedicatedResource() {
   The Create quota request may be constructed as follows. The PUT operation can be used to update the quota.
  * x-ms-original-file: specification/reservations/resource-manager/Microsoft.Capacity/stable/2020-10-25/examples/putMachineLearningServicesQuotaRequestLowPriority.json
  */
-async function quotasRequestPutForMachineLearningServicesLowPriorityResource() {
+async function quotasRequestPutForMachineLearningServicesLowPriorityResource(): Promise<void> {
   const subscriptionId = "D7EC67B3-7657-4966-BFFC-41EFD36BAAB3";
   const providerId = "Microsoft.MachineLearningServices";
   const location = "eastus";
@@ -139,7 +137,7 @@ async function quotasRequestPutForMachineLearningServicesLowPriorityResource() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   quotasRequestPutForCompute();
   quotasRequestPutForMachineLearningServicesDedicatedResource();
   quotasRequestPutForMachineLearningServicesLowPriorityResource();

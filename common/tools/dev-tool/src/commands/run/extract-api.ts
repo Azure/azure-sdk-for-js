@@ -15,7 +15,7 @@ import { leafCommand, makeCommandInfo } from "../../framework/command";
 
 import { createPrinter } from "../../util/printer";
 import path from "path";
-import { readFile, writeFile, unlink } from "node:fs/promises";
+import { readFile, writeFile, unlink, mkdir } from "node:fs/promises";
 import { existsSync } from "node:fs";
 import { resolveProject } from "../../util/resolveProject";
 
@@ -120,6 +120,12 @@ export default leafCommand(commandInfo, async () => {
   const projectInfo = await resolveProject(process.cwd());
   const packageJsonPath = path.join(projectInfo.path, "package.json");
   const packageJson = JSON.parse(await readFile(packageJsonPath, { encoding: "utf-8" }));
+
+  const reviewDirPath = path.join(projectInfo.path, "review");
+  if (!existsSync(reviewDirPath)) {
+    log.info(`creating directory ${reviewDirPath}`);
+    await mkdir(reviewDirPath);
+  }
 
   const apiExtractorJsonPath: string = path.join(projectInfo.path, "api-extractor.json");
   const extractorConfigObject = ExtractorConfig.loadFile(apiExtractorJsonPath);

@@ -6,16 +6,10 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import {
-  GalleryInVMAccessControlProfileUpdate,
-  ComputeManagementClient,
-} from "@azure/arm-compute";
+import type { GalleryInVMAccessControlProfileUpdate } from "@azure/arm-compute";
+import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Update a gallery inVMAccessControlProfile.
@@ -23,29 +17,27 @@ dotenv.config();
  * @summary Update a gallery inVMAccessControlProfile.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2024-03-03/examples/galleryResourceProfileExamples/GalleryInVMAccessControlProfile_Update.json
  */
-async function updateAGalleryInVMAccessControlProfile() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+async function updateAGalleryInVMAccessControlProfile(): Promise<void> {
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const galleryName = "myGalleryName";
   const inVMAccessControlProfileName = "myInVMAccessControlProfileName";
-  const galleryInVMAccessControlProfile: GalleryInVMAccessControlProfileUpdate =
-    { properties: { applicableHostEndpoint: "WireServer", osType: "Linux" } };
+  const galleryInVMAccessControlProfile: GalleryInVMAccessControlProfileUpdate = {
+    properties: { applicableHostEndpoint: "WireServer", osType: "Linux" },
+  };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result =
-    await client.galleryInVMAccessControlProfiles.beginUpdateAndWait(
-      resourceGroupName,
-      galleryName,
-      inVMAccessControlProfileName,
-      galleryInVMAccessControlProfile,
-    );
+  const result = await client.galleryInVMAccessControlProfiles.beginUpdateAndWait(
+    resourceGroupName,
+    galleryName,
+    inVMAccessControlProfileName,
+    galleryInVMAccessControlProfile,
+  );
   console.log(result);
 }
 
-async function main() {
-  updateAGalleryInVMAccessControlProfile();
+async function main(): Promise<void> {
+  await updateAGalleryInVMAccessControlProfile();
 }
 
 main().catch(console.error);

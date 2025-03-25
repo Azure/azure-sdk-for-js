@@ -17,14 +17,6 @@ function recommended(plugin: FlatConfig.Plugin, options: { typeChecked: boolean 
     {
       ignores: ["**/generated/**", "**/*.config.{js,cjs,mjs,ts,cts,mts}"],
     },
-    {
-      languageOptions: {
-        parser: typescriptEslint.parser,
-        parserOptions: {
-          project: ["./tsconfig.json"],
-        },
-      },
-    },
     eslint.configs.recommended,
     ...(options.typeChecked
       ? typescriptEslint.configs.recommendedTypeChecked
@@ -59,7 +51,7 @@ export default (plugin: FlatConfig.Plugin) => ({
       languageOptions: {
         parser: typescriptEslint.parser,
         parserOptions: {
-          project: ["./tsconfig.json"],
+          projectService: true,
         },
       },
     },
@@ -78,7 +70,6 @@ export default (plugin: FlatConfig.Plugin) => ({
         "@azure/azure-sdk/github-source-headers": "warn",
         "@azure/azure-sdk/ts-apisurface-standardized-verbs": "off",
         "@azure/azure-sdk/ts-apisurface-supportcancellation": "off",
-        "@azure/azure-sdk/ts-config-include": "off",
         "@azure/azure-sdk/ts-doc-internal": "off",
         "@azure/azure-sdk/ts-doc-internal-private-member": "off",
         "@azure/azure-sdk/ts-error-handling": "off",

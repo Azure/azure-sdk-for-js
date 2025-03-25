@@ -13,9 +13,7 @@ import {
   ServiceBusManagementClient
 } from "@azure/arm-servicebus";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates or updates an authorization rule for a namespace.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Creates or updates an authorization rule for a namespace.
  * x-ms-original-file: specification/servicebus/resource-manager/Microsoft.ServiceBus/preview/2022-10-01-preview/examples/NameSpaces/SBNameSpaceAuthorizationRuleCreate.json
  */
-async function nameSpaceAuthorizationRuleCreate() {
+async function nameSpaceAuthorizationRuleCreate(): Promise<void> {
   const subscriptionId =
     process.env["SERVICEBUS_SUBSCRIPTION_ID"] ||
     "5f750a97-50d9-4e36-8081-c9ee4c0210d4";
@@ -43,7 +41,7 @@ async function nameSpaceAuthorizationRuleCreate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   nameSpaceAuthorizationRuleCreate();
 }
 

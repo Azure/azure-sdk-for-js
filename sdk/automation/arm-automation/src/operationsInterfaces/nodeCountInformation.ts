@@ -10,7 +10,7 @@ import {
   CountType,
   NodeCountInformationGetOptionalParams,
   NodeCountInformationGetResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a NodeCountInformation. */
 export interface NodeCountInformation {

@@ -6,17 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { AzureQuotaExtensionAPI } = require("@azure/arm-quota");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to For the specified scope, get the current quota requests for a one year period ending at the time is made. Use the **oData** filter to select quota requests.
  *
  * @summary For the specified scope, get the current quota requests for a one year period ending at the time is made. Use the **oData** filter to select quota requests.
- * x-ms-original-file: specification/quota/resource-manager/Microsoft.Quota/preview/2023-06-01-preview/examples/getQuotaRequestsHistory.json
+ * x-ms-original-file: specification/quota/resource-manager/Microsoft.Quota/preview/2024-12-18-preview/examples/getQuotaRequestsHistory.json
  */
 async function quotaRequestHistory() {
   const scope =
@@ -31,7 +29,7 @@ async function quotaRequestHistory() {
 }
 
 async function main() {
-  quotaRequestHistory();
+  await quotaRequestHistory();
 }
 
 main().catch(console.error);

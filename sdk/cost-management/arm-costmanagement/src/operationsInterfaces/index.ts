@@ -6,19 +6,19 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./operations";
-export * from "./views";
-export * from "./alerts";
-export * from "./forecast";
-export * from "./dimensions";
-export * from "./query";
-export * from "./generateReservationDetailsReport";
-export * from "./exports";
-export * from "./generateCostDetailsReport";
-export * from "./generateDetailedCostReport";
-export * from "./generateDetailedCostReportOperationResults";
-export * from "./generateDetailedCostReportOperationStatus";
-export * from "./priceSheet";
-export * from "./scheduledActions";
-export * from "./benefitRecommendations";
-export * from "./benefitUtilizationSummaries";
+export * from "./operations.js";
+export * from "./views.js";
+export * from "./alerts.js";
+export * from "./forecast.js";
+export * from "./dimensions.js";
+export * from "./query.js";
+export * from "./generateReservationDetailsReport.js";
+export * from "./exports.js";
+export * from "./generateCostDetailsReport.js";
+export * from "./generateDetailedCostReport.js";
+export * from "./generateDetailedCostReportOperationResults.js";
+export * from "./generateDetailedCostReportOperationStatus.js";
+export * from "./priceSheet.js";
+export * from "./scheduledActions.js";
+export * from "./benefitRecommendations.js";
+export * from "./benefitUtilizationSummaries.js";

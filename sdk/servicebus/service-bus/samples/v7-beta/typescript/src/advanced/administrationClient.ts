@@ -4,7 +4,7 @@
 /**
  * This sample demonstrates how the ServiceBusAdministrationClient can be used to manage the resources of a service bus namespace.
  *
- * See https://docs.microsoft.com/rest/api/servicebus/resource-provider-apis to learn more.
+ * See https://learn.microsoft.com/rest/api/servicebus/resource-provider-apis to learn more.
  *
  * @summary Demonstrates how to manage the resources of a service bus namespace.
  */

@@ -8,10 +8,9 @@
 import { TieringClient } from "@azure-tools/communication-tiering";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
-export async function main() {
+export async function main(): Promise<void> {
   console.log("\n== Get acquired numbers and limits for a resource ==\n");
 
   // You will need to set this environment variable or edit the following values
@@ -25,7 +24,7 @@ export async function main() {
   const resourceId = "5d41e908-de88-4bbf-94dc-fe9a1b51029b";
 
   // Get acquired numbers and limits for a resource
-  var acquiredNumberLimits = await client.getAcquiredNumberLimits(resourceId);
+  const acquiredNumberLimits = await client.getAcquiredNumberLimits(resourceId);
 
   // print all number limits
   console.log(acquiredNumberLimits);

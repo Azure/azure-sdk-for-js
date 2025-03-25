@@ -6,16 +6,10 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import {
-  RequestRateByIntervalInput,
-  ComputeManagementClient,
-} from "@azure/arm-compute";
+import type { RequestRateByIntervalInput } from "@azure/arm-compute";
+import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Export logs that show Api requests made by this subscription in the given time window to show throttling activities.
@@ -23,9 +17,8 @@ dotenv.config();
  * @summary Export logs that show Api requests made by this subscription in the given time window to show throttling activities.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/logAnalyticExamples/LogAnalytics_RequestRateByInterval.json
  */
-async function exportLogsWhichContainAllApiRequestsMadeToComputeResourceProviderWithinTheGivenTimePeriodBrokenDownByIntervals() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+async function exportLogsWhichContainAllApiRequestsMadeToComputeResourceProviderWithinTheGivenTimePeriodBrokenDownByIntervals(): Promise<void> {
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const location = "westus";
   const parameters: RequestRateByIntervalInput = {
     blobContainerSasUri: "https://somesasuri",
@@ -36,16 +29,15 @@ async function exportLogsWhichContainAllApiRequestsMadeToComputeResourceProvider
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result =
-    await client.logAnalytics.beginExportRequestRateByIntervalAndWait(
-      location,
-      parameters,
-    );
+  const result = await client.logAnalytics.beginExportRequestRateByIntervalAndWait(
+    location,
+    parameters,
+  );
   console.log(result);
 }
 
-async function main() {
-  exportLogsWhichContainAllApiRequestsMadeToComputeResourceProviderWithinTheGivenTimePeriodBrokenDownByIntervals();
+async function main(): Promise<void> {
+  await exportLogsWhichContainAllApiRequestsMadeToComputeResourceProviderWithinTheGivenTimePeriodBrokenDownByIntervals();
 }
 
 main().catch(console.error);

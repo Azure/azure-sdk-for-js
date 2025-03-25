@@ -6,6 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./virtualMachineImageTemplates";
-export * from "./triggers";
-export * from "./operations";
+export * from "./virtualMachineImageTemplates.js";
+export * from "./triggers.js";
+export * from "./operations.js";

@@ -56,7 +56,7 @@ export async function main(): Promise<void> {
     },
   );
 
-  poller.onProgress(() => {
+  await poller.onProgress(() => {
     console.log(
       `Number of actions still in progress: ${poller.getOperationState().actionInProgressCount}`,
     );

@@ -13,9 +13,7 @@ import {
   FluidRelayManagementClient
 } from "@azure/arm-fluidrelay";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Update a Fluid Relay server.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Update a Fluid Relay server.
  * x-ms-original-file: specification/fluidrelay/resource-manager/Microsoft.FluidRelay/stable/2022-06-01/examples/FluidRelayServers_Update.json
  */
-async function updateAFluidRelayServer() {
+async function updateAFluidRelayServer(): Promise<void> {
   const subscriptionId =
     process.env["FLUIDRELAY_SUBSCRIPTION_ID"] || "xxxx-xxxx-xxxx-xxxx";
   const resourceGroup = "myResourceGroup";
@@ -39,7 +37,7 @@ async function updateAFluidRelayServer() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   updateAFluidRelayServer();
 }
 

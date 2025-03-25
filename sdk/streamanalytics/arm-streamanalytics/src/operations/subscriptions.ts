@@ -6,17 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { Subscriptions } from "../operationsInterfaces";
+import { Subscriptions } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { StreamAnalyticsManagementClient } from "../streamAnalyticsManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { StreamAnalyticsManagementClient } from "../streamAnalyticsManagementClient.js";
 import {
   SimplePollerLike,
   OperationState,
   createHttpPoller,
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl";
+import { createLroSpec } from "../lroImpl.js";
 import {
   SubscriptionsListQuotasOptionalParams,
   SubscriptionsListQuotasResponse,
@@ -35,7 +35,7 @@ import {
   TestOutput,
   SubscriptionsTestOutputOptionalParams,
   SubscriptionsTestOutputResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Class containing Subscriptions operations. */
 export class SubscriptionsImpl implements Subscriptions {

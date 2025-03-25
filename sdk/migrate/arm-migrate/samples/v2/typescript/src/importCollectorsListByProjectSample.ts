@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { AzureMigrateV2 } from "@azure/arm-migrate";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get a list of Import collector.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Get a list of Import collector.
  * x-ms-original-file: specification/migrate/resource-manager/Microsoft.Migrate/stable/2019-10-01/examples/ImportCollectors_ListByProject.json
  */
-async function importCollectorsListByProject() {
+async function importCollectorsListByProject(): Promise<void> {
   const subscriptionId =
     process.env["MIGRATE_SUBSCRIPTION_ID"] ||
     "31be0ff4-c932-4cb3-8efc-efa411d79280";
@@ -39,7 +37,7 @@ async function importCollectorsListByProject() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   importCollectorsListByProject();
 }
 

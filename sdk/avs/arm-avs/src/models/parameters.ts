@@ -35,7 +35,7 @@ import {
   WorkloadNetworkPublicIP as WorkloadNetworkPublicIPMapper,
   WorkloadNetworkSegment as WorkloadNetworkSegmentMapper,
   WorkloadNetworkVMGroup as WorkloadNetworkVMGroupMapper,
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",

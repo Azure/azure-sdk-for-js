@@ -27,10 +27,9 @@ import {
 } from "@azure/ai-projects";
 import { DefaultAzureCredential } from "@azure/identity";
 
-import * as dotenv from "dotenv";
 import * as fs from "fs";
 import path from "node:path";
-dotenv.config();
+import "dotenv/config";
 
 const connectionString =
   process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] || "<project connection string>";
@@ -140,7 +139,7 @@ export async function main(): Promise<void> {
   if (fileContent) {
     const chunks: Buffer[] = [];
     for await (const chunk of fileContent) {
-      chunks.push(Buffer.from(chunk));
+      chunks.push(Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk));
     }
     const buffer = Buffer.concat(chunks);
     fs.writeFileSync(imageFileName, buffer);
@@ -151,7 +150,7 @@ export async function main(): Promise<void> {
 
   // Iterate through messages and print details for each annotation
   console.log(`Message Details:`);
-  messages.data.forEach((m) => {
+  await messages.data.forEach((m) => {
     console.log(`File Paths:`);
     console.log(`Type: ${m.content[0].type}`);
     if (isOutputOfType<MessageTextContentOutput>(m.content[0], "text")) {

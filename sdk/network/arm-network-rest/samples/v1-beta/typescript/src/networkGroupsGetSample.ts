@@ -1,15 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import createNetworkManagementClient, {
-  NetworkGroupsGetParameters
-} from "@azure-rest/arm-network";
+import createNetworkManagementClient, { NetworkGroupsGetParameters } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets the specified network group.
@@ -17,7 +10,7 @@ dotenv.config();
  * @summary Gets the specified network group.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/NetworkManagerGroupGet.json
  */
-async function networkGroupsGet() {
+async function networkGroupsGet(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -25,7 +18,7 @@ async function networkGroupsGet() {
   const networkManagerName = "testNetworkManager";
   const networkGroupName = "testNetworkGroup";
   const options: NetworkGroupsGetParameters = {
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const result = await client
     .path(
@@ -33,7 +26,7 @@ async function networkGroupsGet() {
       subscriptionId,
       resourceGroupName,
       networkManagerName,
-      networkGroupName
+      networkGroupName,
     )
     .get(options);
   console.log(result);

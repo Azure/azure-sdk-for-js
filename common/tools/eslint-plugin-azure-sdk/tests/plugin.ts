@@ -14,10 +14,8 @@ import plugin from "../src/index.js";
  */
 const ruleList = [
   "github-source-headers",
-  "ts-apiextractor-json-types",
   "ts-apisurface-standardized-verbs",
   "ts-apisurface-supportcancellation",
-  "ts-config-include",
   "ts-doc-internal",
   "ts-doc-internal-private-member",
   "ts-error-handling",
@@ -35,7 +33,6 @@ const ruleList = [
   "ts-package-json-keywords",
   "ts-package-json-license",
   "ts-package-json-main-is-cjs",
-  "ts-package-json-module",
   "ts-package-json-name",
   "ts-package-json-repo",
   "ts-package-json-required-scripts",
@@ -122,7 +119,7 @@ describe("plugin", (): void => {
     });
     it("the number of rules should match the expected value", (): void => {
       assert.exists(plugin.rules);
-      assert.equal(Object.keys(plugin.rules).length, ruleList.length);
+      assert.equal(Object.keys(plugin.rules!).length, ruleList.length);
     });
     const rules = plugin.rules;
     ruleList.forEach((rule: string): void => {
@@ -139,7 +136,7 @@ describe("plugin", (): void => {
         assert.property(processors, ".json", ".json is not a member of processors");
       });
       assert.exists(processors);
-      const JSONProcessor = processors[".json"];
+      const JSONProcessor = processors![".json"];
       it("preprocess should be a member of .json", (): void => {
         assert.property(JSONProcessor, "preprocess", "preprocess is not a member of .json");
       });

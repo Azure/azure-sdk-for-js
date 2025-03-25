@@ -1,21 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
-  ClientContext,
-  CosmosDbDiagnosticLevel,
-  DiagnosticNodeInternal,
-  FeedOptions,
-  QueryInfo,
-  DiagnosticNodeType,
-} from "../../../src";
+import { CosmosDbDiagnosticLevel, DiagnosticNodeInternal, DiagnosticNodeType } from "../../../src";
+import type { ClientContext, FeedOptions, QueryInfo } from "../../../src";
 import {
   HybridQueryExecutionContext,
   HybridQueryExecutionContextBaseStates,
 } from "../../../src/queryExecutionContext/hybridQueryExecutionContext";
-import { HybridSearchQueryInfo } from "../../../src/request/ErrorResponse";
-import { GlobalStatistics } from "../../../src/request/globalStatistics";
+import type { HybridSearchQueryInfo } from "../../../src/request/ErrorResponse";
+import type { GlobalStatistics } from "../../../src/request/globalStatistics";
 import assert from "assert";
-import { HybridSearchQueryResult } from "../../../src/request/hybridSearchQueryResult";
+import type { HybridSearchQueryResult } from "../../../src/request/hybridSearchQueryResult";
 import sinon from "sinon";
 import { MockedClientContext } from "../../public/common/MockClientContext";
 
@@ -91,11 +85,13 @@ describe("hybridQueryExecutionContext", function () {
         .onCall(1)
         .returns(false); // Second call returns false
 
-      sinon.stub(context["globalStatisticsExecutionContext"], "nextItem").resolves({
-        result: {
-          documentCount: 2,
-          fullTextStatistics: [{ totalWordCount: 100, hitCounts: [1, 2, 3] }],
-        },
+      sinon.stub(context["globalStatisticsExecutionContext"], "fetchMore").resolves({
+        result: [
+          {
+            documentCount: 2,
+            fullTextStatistics: [{ totalWordCount: 100, hitCounts: [1, 2, 3] }],
+          },
+        ],
         headers: {},
         code: 200,
         substatus: 0,

@@ -26,7 +26,7 @@ export interface TracingClient {
    *
    * Example:
    *
-   * ```ts snippet:with_span_example
+   * ```ts snippet:ReadmeSampleWithSpanExample
    * import { createTracingClient } from "@azure/core-tracing";
    *
    * const tracingClient = createTracingClient({
@@ -34,7 +34,9 @@ export interface TracingClient {
    *   packageName: "test-package",
    *   packageVersion: "1.0.0",
    * });
+   *
    * const options = {};
+   *
    * const myOperationResult = await tracingClient.withSpan(
    *   "myClassName.myOperationName",
    *   options,

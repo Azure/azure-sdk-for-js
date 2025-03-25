@@ -1414,6 +1414,8 @@ function convertRunStepFileSearchToolCallDelta(
     index: input.index,
     type: input.type,
     id: input.id,
-    fileSearch: convertRunStepFileSearchToolCallResultsOutput(input.file_search as GeneratedModels.RunStepFileSearchToolCallResultsOutput),
+    fileSearch: convertRunStepFileSearchToolCallResultsOutput(
+      input.file_search as GeneratedModels.RunStepFileSearchToolCallResultsOutput,
+    ),
   };
 }

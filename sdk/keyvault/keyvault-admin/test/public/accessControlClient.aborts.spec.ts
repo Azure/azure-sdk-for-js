@@ -27,7 +27,7 @@ describe("Aborting KeyVaultAccessControlClient's requests", () => {
 
   // The tests follow
 
-  it("can abort listRoleDefinitions", async function () {
+  it("can abort listRoleDefinitions", async () => {
     const controller = new AbortController();
     controller.abort();
 
@@ -36,7 +36,7 @@ describe("Aborting KeyVaultAccessControlClient's requests", () => {
     ).rejects.toThrow(AbortError);
   });
 
-  it("can abort listRoleAssignments", async function () {
+  it("can abort listRoleAssignments", async () => {
     const controller = new AbortController();
     controller.abort();
 
@@ -49,7 +49,7 @@ describe("Aborting KeyVaultAccessControlClient's requests", () => {
     ).rejects.toThrow(AbortError);
   });
 
-  it("can abort createRoleAssignment", async function () {
+  it("can abort createRoleAssignment", async () => {
     const roleDefinitionId = generateFakeUUID();
     const name = generateFakeUUID();
 
@@ -69,7 +69,7 @@ describe("Aborting KeyVaultAccessControlClient's requests", () => {
     ).rejects.toThrow(AbortError);
   });
 
-  it("can abort getRoleAssignment", async function () {
+  it("can abort getRoleAssignment", async () => {
     const name = generateFakeUUID();
 
     const controller = new AbortController();
@@ -82,7 +82,7 @@ describe("Aborting KeyVaultAccessControlClient's requests", () => {
     ).rejects.toThrow(AbortError);
   });
 
-  it("can abort deleteRoleAssignment", async function () {
+  it("can abort deleteRoleAssignment", async () => {
     const name = generateFakeUUID();
 
     const controller = new AbortController();

@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { ManagementGroupSubscriptions } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { ManagementGroupSubscriptions } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { ManagementGroupsAPI } from "../managementGroupsAPI";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { ManagementGroupsAPI } from "../managementGroupsAPI.js";
 import {
   SubscriptionUnderManagementGroup,
   ManagementGroupSubscriptionsGetSubscriptionsUnderManagementGroupNextOptionalParams,
@@ -24,7 +24,7 @@ import {
   ManagementGroupSubscriptionsGetSubscriptionOptionalParams,
   ManagementGroupSubscriptionsGetSubscriptionResponse,
   ManagementGroupSubscriptionsGetSubscriptionsUnderManagementGroupNextResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ManagementGroupSubscriptions operations. */

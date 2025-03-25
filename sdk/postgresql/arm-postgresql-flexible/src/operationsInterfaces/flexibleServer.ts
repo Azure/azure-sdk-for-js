@@ -14,7 +14,7 @@ import {
   LtrBackupRequest,
   FlexibleServerStartLtrBackupOptionalParams,
   FlexibleServerStartLtrBackupResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a FlexibleServer. */
 export interface FlexibleServer {

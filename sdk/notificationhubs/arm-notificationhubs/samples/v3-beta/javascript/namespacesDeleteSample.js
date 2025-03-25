@@ -6,11 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { NotificationHubsManagementClient } = require("@azure/arm-notificationhubs");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Deletes an existing namespace. This operation also removes all associated notificationHubs under the namespace.
@@ -30,7 +28,7 @@ async function namespacesDelete() {
 }
 
 async function main() {
-  namespacesDelete();
+  await namespacesDelete();
 }
 
 main().catch(console.error);

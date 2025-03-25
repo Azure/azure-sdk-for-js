@@ -6,18 +6,18 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { WorkspacePurge } from "../operationsInterfaces";
+import { WorkspacePurge } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { OperationalInsightsManagementClient } from "../operationalInsightsManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { OperationalInsightsManagementClient } from "../operationalInsightsManagementClient.js";
 import {
   WorkspacePurgeBody,
   WorkspacePurgePurgeOptionalParams,
   WorkspacePurgePurgeResponse,
   WorkspacePurgeGetPurgeStatusOptionalParams,
   WorkspacePurgeGetPurgeStatusResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Class containing WorkspacePurge operations. */
 export class WorkspacePurgeImpl implements WorkspacePurge {

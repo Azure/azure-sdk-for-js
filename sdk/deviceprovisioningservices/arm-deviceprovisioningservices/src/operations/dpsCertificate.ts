@@ -6,11 +6,11 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { DpsCertificate } from "../operationsInterfaces";
+import { DpsCertificate } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { IotDpsClient } from "../iotDpsClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { IotDpsClient } from "../iotDpsClient.js";
 import {
   DpsCertificateGetOptionalParams,
   DpsCertificateGetResponse,
@@ -25,7 +25,7 @@ import {
   VerificationCodeRequest,
   DpsCertificateVerifyCertificateOptionalParams,
   DpsCertificateVerifyCertificateResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Class containing DpsCertificate operations. */
 export class DpsCertificateImpl implements DpsCertificate {

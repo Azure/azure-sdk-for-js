@@ -6,13 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { DashboardManagementClient } from "@azure/arm-dashboard";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get specific private link resource information for this grafana resource
@@ -20,12 +16,10 @@ dotenv.config();
  * @summary Get specific private link resource information for this grafana resource
  * x-ms-original-file: specification/dashboard/resource-manager/Microsoft.Dashboard/stable/2023-09-01/examples/PrivateLinkResources_Get.json
  */
-async function privateLinkResourcesGet() {
+async function privateLinkResourcesGet(): Promise<void> {
   const subscriptionId =
-    process.env["DASHBOARD_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["DASHBOARD_RESOURCE_GROUP"] || "myResourceGroup";
+    process.env["DASHBOARD_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["DASHBOARD_RESOURCE_GROUP"] || "myResourceGroup";
   const workspaceName = "myWorkspace";
   const privateLinkResourceName = "grafana";
   const credential = new DefaultAzureCredential();
@@ -33,13 +27,13 @@ async function privateLinkResourcesGet() {
   const result = await client.privateLinkResources.get(
     resourceGroupName,
     workspaceName,
-    privateLinkResourceName
+    privateLinkResourceName,
   );
   console.log(result);
 }
 
-async function main() {
-  privateLinkResourcesGet();
+async function main(): Promise<void> {
+  await privateLinkResourcesGet();
 }
 
 main().catch(console.error);

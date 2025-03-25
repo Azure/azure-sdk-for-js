@@ -13,9 +13,7 @@ import {
   RecoveryServicesClient,
 } from "@azure/arm-recoveryservices";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Updates the vault.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Updates the vault.
  * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/PATCHVault.json
  */
-async function updateResource() {
+async function updateResource(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICES_SUBSCRIPTION_ID"] ||
     "77777777-b0c6-47a2-b37c-d8e65a629c18";
@@ -47,7 +45,7 @@ async function updateResource() {
  * @summary Updates the vault.
  * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/PATCHVault_WithCMK.json
  */
-async function updateResourceWithCustomerManagedKeys() {
+async function updateResourceWithCustomerManagedKeys(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICES_SUBSCRIPTION_ID"] ||
     "77777777-b0c6-47a2-b37c-d8e65a629c18";
@@ -93,7 +91,7 @@ async function updateResourceWithCustomerManagedKeys() {
  * @summary Updates the vault.
  * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/PatchVault_WithCMK2.json
  */
-async function updateResourceWithCustomerManagedKeys2() {
+async function updateResourceWithCustomerManagedKeys2(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICES_SUBSCRIPTION_ID"] ||
     "77777777-b0c6-47a2-b37c-d8e65a629c18";
@@ -123,7 +121,7 @@ async function updateResourceWithCustomerManagedKeys2() {
  * @summary Updates the vault.
  * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/PATCHVault_WithCMK3.json
  */
-async function updateResourceWithCustomerManagedKeys3() {
+async function updateResourceWithCustomerManagedKeys3(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICES_SUBSCRIPTION_ID"] ||
     "77777777-b0c6-47a2-b37c-d8e65a629c18";
@@ -164,7 +162,7 @@ async function updateResourceWithCustomerManagedKeys3() {
  * @summary Updates the vault.
  * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/PATCHVault_WithUserAssignedIdentity.json
  */
-async function updateResourceWithUserAssignedIdentity() {
+async function updateResourceWithUserAssignedIdentity(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICES_SUBSCRIPTION_ID"] ||
     "77777777-b0c6-47a2-b37c-d8e65a629c18";
@@ -197,7 +195,7 @@ async function updateResourceWithUserAssignedIdentity() {
  * @summary Updates the vault.
  * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/PATCHVault_WithMonitoringSettings.json
  */
-async function updateVaultWithMonitoringSetting() {
+async function updateVaultWithMonitoringSetting(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICES_SUBSCRIPTION_ID"] ||
     "77777777-b0c6-47a2-b37c-d8e65a629c18";
@@ -236,7 +234,7 @@ async function updateVaultWithMonitoringSetting() {
  * @summary Updates the vault.
  * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/PATCHVault_WithRedundancySettings.json
  */
-async function updateVaultWithRedundancySetting() {
+async function updateVaultWithRedundancySetting(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICES_SUBSCRIPTION_ID"] ||
     "77777777-b0c6-47a2-b37c-d8e65a629c18";
@@ -261,7 +259,7 @@ async function updateVaultWithRedundancySetting() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   updateResource();
   updateResourceWithCustomerManagedKeys();
   updateResourceWithCustomerManagedKeys2();

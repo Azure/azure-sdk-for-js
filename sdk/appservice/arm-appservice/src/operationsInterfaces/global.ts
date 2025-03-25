@@ -12,7 +12,7 @@ import {
   GlobalGetDeletedWebAppSnapshotsOptionalParams,
   GlobalGetDeletedWebAppSnapshotsResponse,
   GlobalGetSubscriptionOperationWithAsyncResponseOptionalParams,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a Global. */
 export interface Global {

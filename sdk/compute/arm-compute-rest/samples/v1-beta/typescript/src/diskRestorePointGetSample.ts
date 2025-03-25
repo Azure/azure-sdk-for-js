@@ -1,15 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import createComputeManagementClient, {
-  DiskRestorePointGetParameters
+  DiskRestorePointGetParameters,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get disk restorePoint resource
@@ -24,10 +19,9 @@ async function getAnIncrementalDiskRestorePointResource() {
   const resourceGroupName = "myResourceGroup";
   const restorePointCollectionName = "rpc";
   const vmRestorePointName = "vmrp";
-  const diskRestorePointName =
-    "TestDisk45ceb03433006d1baee0_b70cd924-3362-4a80-93c2-9415eaa12745";
+  const diskRestorePointName = "TestDisk45ceb03433006d1baee0_b70cd924-3362-4a80-93c2-9415eaa12745";
   const options: DiskRestorePointGetParameters = {
-    queryParameters: { "api-version": "2022-07-02" }
+    queryParameters: { "api-version": "2022-07-02" },
   };
   const result = await client
     .path(
@@ -36,7 +30,7 @@ async function getAnIncrementalDiskRestorePointResource() {
       resourceGroupName,
       restorePointCollectionName,
       vmRestorePointName,
-      diskRestorePointName
+      diskRestorePointName,
     )
     .get(options);
   console.log(result);
@@ -56,10 +50,9 @@ async function getAnIncrementalDiskRestorePointWhenSourceResourceIsFromADifferen
   const resourceGroupName = "myResourceGroup";
   const restorePointCollectionName = "rpc";
   const vmRestorePointName = "vmrp";
-  const diskRestorePointName =
-    "TestDisk45ceb03433006d1baee0_b70cd924-3362-4a80-93c2-9415eaa12745";
+  const diskRestorePointName = "TestDisk45ceb03433006d1baee0_b70cd924-3362-4a80-93c2-9415eaa12745";
   const options: DiskRestorePointGetParameters = {
-    queryParameters: { "api-version": "2022-07-02" }
+    queryParameters: { "api-version": "2022-07-02" },
   };
   const result = await client
     .path(
@@ -68,12 +61,10 @@ async function getAnIncrementalDiskRestorePointWhenSourceResourceIsFromADifferen
       resourceGroupName,
       restorePointCollectionName,
       vmRestorePointName,
-      diskRestorePointName
+      diskRestorePointName,
     )
     .get(options);
   console.log(result);
 }
 
-getAnIncrementalDiskRestorePointWhenSourceResourceIsFromADifferentRegion().catch(
-  console.error
-);
+getAnIncrementalDiskRestorePointWhenSourceResourceIsFromADifferentRegion().catch(console.error);

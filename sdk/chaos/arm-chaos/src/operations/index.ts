@@ -6,10 +6,10 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./capabilities";
-export * from "./capabilityTypes";
-export * from "./experiments";
-export * from "./operationStatuses";
-export * from "./operations";
-export * from "./targetTypes";
-export * from "./targets";
+export * from "./capabilities.js";
+export * from "./capabilityTypes.js";
+export * from "./experiments.js";
+export * from "./operationStatuses.js";
+export * from "./operations.js";
+export * from "./targetTypes.js";
+export * from "./targets.js";

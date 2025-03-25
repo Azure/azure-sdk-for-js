@@ -6,6 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./operations";
-export * from "./dpsCertificate";
-export * from "./iotDpsResource";
+export * from "./operations.js";
+export * from "./dpsCertificate.js";
+export * from "./iotDpsResource.js";

@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { InformaticaDataManagement } from "@azure/arm-informaticadatamanagement";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets all serverless runtime resources in a given informatica organization resource.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Gets all serverless runtime resources in a given informatica organization resource.
  * x-ms-original-file: specification/informatica/resource-manager/Informatica.DataManagement/stable/2024-05-08/examples/Organizations_GetAllServerlessRuntimes_MaximumSet_Gen.json
  */
-async function organizationsGetAllServerlessRuntimes() {
+async function organizationsGetAllServerlessRuntimes(): Promise<void> {
   const subscriptionId =
     process.env["INFORMATICA_SUBSCRIPTION_ID"] ||
     "3599DA28-E346-4D9F-811E-189C0445F0FE";
@@ -42,7 +40,7 @@ async function organizationsGetAllServerlessRuntimes() {
  * @summary Gets all serverless runtime resources in a given informatica organization resource.
  * x-ms-original-file: specification/informatica/resource-manager/Informatica.DataManagement/stable/2024-05-08/examples/Organizations_GetAllServerlessRuntimes_MinimumSet_Gen.json
  */
-async function organizationsGetAllServerlessRuntimesMin() {
+async function organizationsGetAllServerlessRuntimesMin(): Promise<void> {
   const subscriptionId =
     process.env["INFORMATICA_SUBSCRIPTION_ID"] ||
     "3599DA28-E346-4D9F-811E-189C0445F0FE";
@@ -58,7 +56,7 @@ async function organizationsGetAllServerlessRuntimesMin() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   organizationsGetAllServerlessRuntimes();
   organizationsGetAllServerlessRuntimesMin();
 }

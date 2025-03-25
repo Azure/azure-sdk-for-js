@@ -6,16 +6,10 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import {
-  GalleryApplicationUpdate,
-  ComputeManagementClient,
-} from "@azure/arm-compute";
+import type { GalleryApplicationUpdate } from "@azure/arm-compute";
+import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Update a gallery Application Definition.
@@ -23,11 +17,9 @@ dotenv.config();
  * @summary Update a gallery Application Definition.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2024-03-03/examples/galleryExamples/GalleryApplication_Update.json
  */
-async function updateASimpleGalleryApplication() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+async function updateASimpleGalleryApplication(): Promise<void> {
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const galleryName = "myGalleryName";
   const galleryApplicationName = "myGalleryApplicationName";
   const galleryApplication: GalleryApplicationUpdate = {
@@ -64,8 +56,8 @@ async function updateASimpleGalleryApplication() {
   console.log(result);
 }
 
-async function main() {
-  updateASimpleGalleryApplication();
+async function main(): Promise<void> {
+  await updateASimpleGalleryApplication();
 }
 
 main().catch(console.error);

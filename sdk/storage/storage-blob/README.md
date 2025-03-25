@@ -16,10 +16,10 @@ Key links
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-blob)
 - [Package (npm)](https://www.npmjs.com/package/@azure/storage-blob/)
-- [API Reference Documentation](https://docs.microsoft.com/javascript/api/@azure/storage-blob)
-- [Product documentation](https://docs.microsoft.com/azure/storage/blobs/storage-blobs-overview)
+- [API Reference Documentation](https://learn.microsoft.com/javascript/api/@azure/storage-blob)
+- [Product documentation](https://learn.microsoft.com/azure/storage/blobs/storage-blobs-overview)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-blob/samples)
-- [Azure Storage Blob REST APIs](https://docs.microsoft.com/rest/api/storageservices/blob-service-rest-api)
+- [Azure Storage Blob REST APIs](https://learn.microsoft.com/rest/api/storageservices/blob-service-rest-api)
 
 ## Getting started
 
@@ -33,7 +33,7 @@ See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUP
 ### Prerequisites
 
 - An [Azure subscription](https://azure.microsoft.com/free/)
-- A [Storage Account](https://docs.microsoft.com/azure/storage/blobs/storage-quickstart-blobs-portal)
+- A [Storage Account](https://learn.microsoft.com/azure/storage/blobs/storage-quickstart-blobs-portal)
 
 ### Install the package
 
@@ -102,7 +102,7 @@ To use this client library in the browser, first you need to use a bundler. For 
 
 ### CORS
 
-You need to set up [Cross-Origin Resource Sharing (CORS)](https://docs.microsoft.com/rest/api/storageservices/cross-origin-resource-sharing--cors--support-for-the-azure-storage-services) rules for your storage account if you need to develop for browsers. Go to Azure portal and Azure Storage Explorer, find your storage account, create new CORS rules for blob/queue/file/table service(s).
+You need to set up [Cross-Origin Resource Sharing (CORS)](https://learn.microsoft.com/rest/api/storageservices/cross-origin-resource-sharing--cors--support-for-the-azure-storage-services) rules for your storage account if you need to develop for browsers. Go to Azure portal and Azure Storage Explorer, find your storage account, create new CORS rules for blob/queue/file/table service(s).
 
 For example, you can create following CORS settings for debugging. But please customize the settings carefully according to your requirements in production environment.
 
@@ -162,17 +162,17 @@ The `BlobServiceClient` requires an URL to the blob service and an access creden
 
 **Recommended way to instantiate a `BlobServiceClient`**
 
-Setup : Reference - Authorize access to blobs and queues with Azure Active Directory from a client application - https://docs.microsoft.com/azure/storage/common/storage-auth-aad-app
+Setup : Reference - Authorize access to blobs and queues with Azure Active Directory from a client application - https://learn.microsoft.com/azure/storage/common/storage-auth-aad-app
 
 - Register a new AAD application and give permissions to access Azure Storage on behalf of the signed-in user
 
-  - Register a new application in the Azure Active Directory(in the azure-portal) - https://docs.microsoft.com/azure/active-directory/develop/quickstart-register-app
+  - Register a new application in the Azure Active Directory(in the azure-portal) - https://learn.microsoft.com/azure/active-directory/develop/quickstart-register-app
   - In the `API permissions` section, select `Add a permission` and choose `Microsoft APIs`.
   - Pick `Azure Storage` and select the checkbox next to `user_impersonation` and then click `Add permissions`. This would allow the application to access Azure Storage on behalf of the signed-in user.
 
 - Grant access to Azure Blob data with RBAC in the Azure Portal
 
-  - RBAC roles for blobs and queues - https://docs.microsoft.com/azure/storage/common/storage-auth-aad-rbac-portal.
+  - RBAC roles for blobs and queues - https://learn.microsoft.com/azure/storage/common/storage-auth-aad-rbac-portal.
   - In the azure portal, go to your storage-account and assign **Storage Blob Data Contributor** role to the registered AAD application from `Access control (IAM)` tab (in the left-side-navbar of your storage account in the azure-portal).
 
 - Environment setup for the sample
@@ -189,7 +189,7 @@ const defaultAzureCredential = new DefaultAzureCredential();
 
 const blobServiceClient = new BlobServiceClient(
   `https://${account}.blob.core.windows.net`,
-  defaultAzureCredential
+  defaultAzureCredential,
 );
 ```
 
@@ -226,7 +226,7 @@ const accountKey = "<accountkey>";
 const sharedKeyCredential = new StorageSharedKeyCredential(account, accountKey);
 const blobServiceClient = new BlobServiceClient(
   `https://${account}.blob.core.windows.net`,
-  sharedKeyCredential
+  sharedKeyCredential,
 );
 ```
 
@@ -240,7 +240,7 @@ const { BlobServiceClient } = require("@azure/storage-blob");
 const account = "<account name>";
 const sas = "<service Shared Access Signature Token>";
 
-const blobServiceClient = new BlobServiceClient(`https://${account}.blob.core.windows.net${sas}`);
+const blobServiceClient = new BlobServiceClient(`https://${account}.blob.core.windows.net?${sas}`);
 ```
 
 ### Create a new container
@@ -256,7 +256,7 @@ const defaultAzureCredential = new DefaultAzureCredential();
 
 const blobServiceClient = new BlobServiceClient(
   `https://${account}.blob.core.windows.net`,
-  defaultAzureCredential
+  defaultAzureCredential,
 );
 
 async function main() {
@@ -284,7 +284,7 @@ const defaultAzureCredential = new DefaultAzureCredential();
 
 const blobServiceClient = new BlobServiceClient(
   `https://${account}.blob.core.windows.net`,
-  defaultAzureCredential
+  defaultAzureCredential,
 );
 
 async function main() {
@@ -309,7 +309,7 @@ const defaultAzureCredential = new DefaultAzureCredential();
 
 const blobServiceClient = new BlobServiceClient(
   `https://${account}.blob.core.windows.net`,
-  defaultAzureCredential
+  defaultAzureCredential,
 );
 
 async function main() {
@@ -336,7 +336,7 @@ const defaultAzureCredential = new DefaultAzureCredential();
 
 const blobServiceClient = new BlobServiceClient(
   `https://${account}.blob.core.windows.net`,
-  defaultAzureCredential
+  defaultAzureCredential,
 );
 
 async function main() {
@@ -366,7 +366,7 @@ const defaultAzureCredential = new DefaultAzureCredential();
 
 const blobServiceClient = new BlobServiceClient(
   `https://${account}.blob.core.windows.net`,
-  defaultAzureCredential
+  defaultAzureCredential,
 );
 
 const containerName = "<container name>";
@@ -397,7 +397,7 @@ const defaultAzureCredential = new DefaultAzureCredential();
 
 const blobServiceClient = new BlobServiceClient(
   `https://${account}.blob.core.windows.net`,
-  defaultAzureCredential
+  defaultAzureCredential,
 );
 
 const containerName = "<container name>";
@@ -428,7 +428,7 @@ const defaultAzureCredential = new DefaultAzureCredential();
 
 const blobServiceClient = new BlobServiceClient(
   `https://${account}.blob.core.windows.net`,
-  defaultAzureCredential
+  defaultAzureCredential,
 );
 
 const containerName = "<container name>";
@@ -451,7 +451,7 @@ async function main() {
     return new Promise((resolve, reject) => {
       const chunks = [];
       readableStream.on("data", (data) => {
-        chunks.push(data instanceof Buffer ? data : Buffer.from(data));
+        chunks.push(typeof data === "string" ? Buffer.from(data) : data);
       });
       readableStream.on("end", () => {
         resolve(Buffer.concat(chunks));
@@ -476,7 +476,7 @@ const sas = "<service Shared Access Signature Token>";
 const containerName = "<container name>";
 const blobName = "<blob name>";
 
-const blobServiceClient = new BlobServiceClient(`https://${account}.blob.core.windows.net${sas}`);
+const blobServiceClient = new BlobServiceClient(`https://${account}.blob.core.windows.net?${sas}`);
 
 async function main() {
   const containerClient = blobServiceClient.getContainerClient(containerName);
@@ -529,5 +529,3 @@ More code samples:
 If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md) to learn more about how to build and test the code.
 
 Also refer to [Storage specific guide](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/storage/CONTRIBUTING.md) for additional information on setting up the test environment for storage libraries.
-
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fstorage%2Fstorage-blob%2FREADME.png)

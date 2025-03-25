@@ -11,9 +11,9 @@
 # Misc.
 ################
 
-/.devcontainer/ @jeremymeng
-/documentation/ @jeremymeng
-/samples/       @jeremymeng
+/.devcontainer/ @jeremymeng @Azure/azure-sdk-eng @Azure/azure-sdk-for-js-core
+/documentation/ @jeremymeng @Azure/azure-sdk-js-dev
+/samples/       @jeremymeng @Azure/azure-sdk-js-dev
 
 ################
 # Architecture
@@ -69,11 +69,11 @@
 
 # PRLabel: %Communication - Alpha IDs
 # ServiceLabel: %Communication - Alpha IDs
-/sdk/communication/communication-alpha-ids/ @miguhern @whisper6284
+/sdk/communication/communication-alpha-ids/ @Arazan @whisper6284 @danielortega-msft @sofiar-msft
 
 # PRLabel: %Communication - Call Automation
 # ServiceLabel: %Communication - Call Automation
-/sdk/communication/communication-call-automation/ @minwoolee-msft @juntuchen-msft @khannavikas @cochi2
+/sdk/communication/communication-call-automation/ @minwoolee-msft @juntuchen-msft @khannavikas
 
 # PRLabel: %Communication - Identity
 # ServiceLabel: %Communication - Identity
@@ -85,19 +85,23 @@
 
 # PRLabel: %Communication - Email
 # ServiceLabel: %Communication - Email
-/sdk/communication/communication-email/ @yogeshmo
+/sdk/communication/communication-email/ @yogeshmo @natekimball-msft @kagbakpem
 
 # PRLabel: %Communication - Job Router
 # ServiceLabel: %Communication - Job Router
-/sdk/communication/communication-job-router/ @marche0133
+/sdk/communication/communication-job-router-rest/ @marche0133
+
+# PRLabel: %Communication - Messages
+# ServiceLabel: %Communication - Messages
+/sdk/communication/communication-messages-rest/ @arifibrahim4 @juancamilor @glorialimicrosoft @Shamkh
 
 # PRLabel: %Communication - Phone Numbers
 # ServiceLabel: %Communication - Phone Numbers
-/sdk/communication/communication-phone-numbers/ @miguhern @whisper6284 @danielav7
+/sdk/communication/communication-phone-numbers/ @Arazan @whisper6284 @danielortega-msft @sofiar-msft
 
 # PRLabel: %Communication - Rooms
 # ServiceLabel: %Communication - Rooms
-/sdk/communication/communication-rooms/ @anujissarMS @minnieliu @paolamvhz @shwali-msft @allchiang-msft
+/sdk/communication/communication-rooms/ @minnieliu @paolamvhz @allchiang-msft @mayssamm
 
 # PRLabel: %Communication - SMS
 # ServiceLabel: %Communication - SMS
@@ -105,11 +109,11 @@
 
 # PRLabel: %Communication - Short Codes
 # ServiceLabel: %Communication - Short Codes
-/sdk/communication/communication-short-codes/ @miguhern @whisper6284
+/sdk/communication/communication-short-codes/ @Arazan @whisper6284 @danielortega-msft @sofiar-msft
 
 # PRLabel: %Communication - Toll Free Verification
 # ServiceLabel: %Communication - Toll Free Verification
-/sdk/communication/communication-toll-free-verification/ @miguhern @whisper6284
+/sdk/communication/communication-toll-free-verification/ @Arazan @whisper6284 @danielortega-msft @sofiar-msft
 
 # PRLabel: %Communication - Common
 # ServiceLabel: %Communication - Common
@@ -132,9 +136,9 @@
 /sdk/digitaltwins/ @sjiherzig @johngallardo @olivakar
 
 # PRLabel: %Event Grid
-/sdk/eventgrid/ @sarangan12
+/sdk/eventgrid/ @jeremymeng
 
-# AzureSdkOwners: @sarangan12
+# AzureSdkOwners: @jeremymeng
 # ServiceLabel: %Event Grid
 # ServiceOwners: @robece
 
@@ -151,7 +155,7 @@
 
 # ServiceLabel: %Health Deidentification
 # PRLabel: %Health Deidentification
-/sdk/healthdataaiservices/azure-health-deidentification/ @GrahamMThomas @alexathomases
+/sdk/healthdataaiservices/ @alexathomases @Azure/healthdatadeidentification
 
 # PRLabel: %Azure.Identity
 /sdk/identity/ @KarishmaGhiya @minhanh-phan @maorleger @schaabs @Azure/azure-sdk-write-identity
@@ -188,7 +192,7 @@
 /sdk/synapse/ @joheredi
 
 # PRLabel: %Tables
-/sdk/tables/ @joheredi
+/sdk/tables/ @joheredi @jeremymeng
 
 # ServiceLabel: %Tables
 # AzureSdkOwners: @joheredi
@@ -218,7 +222,7 @@
 # AzureSdkOwners: @joheredi
 
 # PRLabel: %Cognitive - Translator
-/sdk/translation/ai-translation-document-rest/ @hamshavathimunibyraiah
+/sdk/translation/ai-translation-document-rest/ @Han-msft @zihyunting
 
 # PRLabel: %WebPubSub
 # ServiceLabel: %WebPubSub
@@ -245,16 +249,22 @@
 /sdk/cognitivelanguage/ @quentinRobinson
 
 # ServiceLabel: %OpenAI
-# ServiceOwners: @glharper
+# ServiceOwners: @trrwilson
 
 # PRLabel: %OpenAI
-/sdk/openai/ @glharper @deyaaeldeen @minhanh-phan
+/sdk/openai/ @mikhail @deyaaeldeen @minhanh-phan
 
 # PRLabel: %AI Model Inference
 sdk/ai/ai-inference-rest @glharper @dargilco @jhakulin
 
 # ServiceLabel: %AI Model Inference
 # ServiceOwners: @glharper @dargilco
+
+# PRLLabel: %AI Projects
+sdk/ai/ai-projects @ganeshyb @GraceBrigham
+
+# ServiceLabel: %AI Projects
+# ServiceOwners: @ganeshyb @GraceBrigham
 
 # PRLabel: %Image Analysis
 # ServiceLabel: %Image Analysis
@@ -311,6 +321,10 @@ sdk/ai/ai-inference-rest @glharper @dargilco @jhakulin
 # PRLabel: %Microsoft Playwright Testing
 # ServiceLabel: %Microsoft Playwright Testing
 /sdk/playwrighttesting/ @Sid200026 @puagarwa @ShreyaAnand
+
+# PRLabel: %Azure Load Testing
+# ServiceLabel: %Azure Load Testing
+/sdk/loadtesting/ @prativen @mitsha-microsoft @ninallam
 
 # API review files
 /sdk/**/review/*api.md @bterlson @Azure/azure-sdk-for-js-core
@@ -458,6 +472,9 @@ sdk/ai/ai-inference-rest @glharper @dargilco @jhakulin
 /sdk/customer-insights/arm-customerinsights/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/databasewatcher/arm-databasewatcher/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/databox/arm-databox/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
@@ -602,6 +619,9 @@ sdk/ai/ai-inference-rest @glharper @dargilco @jhakulin
 /sdk/hybridkubernetes/arm-hybridkubernetes/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/impactreporting/arm-impactreporting @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/informatica/arm-informaticadatamanagement @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
@@ -642,6 +662,9 @@ sdk/ai/ai-inference-rest @glharper @dargilco @jhakulin
 
 # PRLabel: %Mgmt
 /sdk/links/arm-links/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
+/sdk/pineconevectordb/arm-pineconevectordb/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
 /sdk/locks/arm-locks/ @qiaozha @MaryGao
@@ -732,9 +755,6 @@ sdk/ai/ai-inference-rest @glharper @dargilco @jhakulin
 
 # PRLabel: %Mgmt
 /sdk/networkcloud/arm-networkcloud/      @qiaozha @MaryGao
-
-# PRLabel: %Mgmt
-/sdk/networkanalytics/arm-networkanalytics/      @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
 /sdk/network/arm-network-profile-2020-09-01-hybrid/ @qiaozha @MaryGao
@@ -984,8 +1004,8 @@ sdk/ai/ai-inference-rest @glharper @dargilco @jhakulin
 
 # PRLabel: %Monitor
 /sdk/monitor/monitor-ingestion/ @srnagar @lmolkova @Azure/azure-sdk-write-monitor-data-plane
-/sdk/monitor/monitor-opentelemetry @hectorhdzg @JacksonWeber @harsimar
-/sdk/monitor/monitor-opentelemetry-exporter @hectorhdzg @JacksonWeber @harsimar
+/sdk/monitor/monitor-opentelemetry @hectorhdzg @JacksonWeber @harsimar @MSNev
+/sdk/monitor/monitor-opentelemetry-exporter @hectorhdzg @JacksonWeber @harsimar @MSNev
 /sdk/monitor/monitor-query/ @srnagar @lmolkova @Azure/azure-sdk-write-monitor-data-plane
 /sdk/monitor/perf-tests/ @srnagar @Azure/azure-sdk-write-monitor-data-plane
 
@@ -1252,7 +1272,7 @@ sdk/ai/ai-inference-rest @glharper @dargilco @jhakulin
 #/<NotInRepo>/          @madhurinms
 
 # ServiceLabel: %KeyVault %Service Attention
-#/<NotInRepo>/          @RandalliLama @schaabs @jlichwa
+#/<NotInRepo>/          @cheathamb36 @chen-karen @lgonsoulin @vickm
 
 # ServiceLabel: %Kubernetes Configuration %Service Attention
 #/<NotInRepo>/          @NarayanThiru
@@ -1586,7 +1606,6 @@ sdk/ai/ai-inference-rest @glharper @dargilco @jhakulin
 # Make sure to not check in anymore test-resources.json files
 # and review bicep scripts for any exposed secrets
 /sdk/**/*.bicep @deyaaeldeen @jeremymeng @Azure/azure-sdk-for-js-core
-/sdk/**/test-resources.json @deyaaeldeen @jeremymeng @Azure/azure-sdk-for-js-core
 
 #########################
 # Eng Sys and CODEOWNERS

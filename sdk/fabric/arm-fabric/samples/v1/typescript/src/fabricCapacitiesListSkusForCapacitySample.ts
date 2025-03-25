@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary list eligible SKUs for a Microsoft Fabric resource
  * x-ms-original-file: 2023-11-01/FabricCapacities_ListSkusForCapacity.json
  */
-async function listEligibleSKUsForAnExistingCapacity() {
+async function listEligibleSKUsForAnExistingCapacity(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "548B7FB7-3B2A-4F46-BB02-66473F1FC22C";
   const client = new FabricClient(credential, subscriptionId);
@@ -25,7 +25,7 @@ async function listEligibleSKUsForAnExistingCapacity() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listEligibleSKUsForAnExistingCapacity();
 }
 

@@ -24,7 +24,7 @@ import {
   AttestationProvidersListDefaultResponse,
   AttestationProvidersGetDefaultByLocationOptionalParams,
   AttestationProvidersGetDefaultByLocationResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a AttestationProviders. */
 export interface AttestationProviders {

@@ -1,6 +1,6 @@
 # Release History
 
-## 1.8.1 (Unreleased)
+## 1.9.0-beta.2 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,12 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 1.9.0-beta.1 (2025-03-11)
+
+### Features Added
+
+- Add the `audience` param to `AppConfigurationClientOptions` and `KnownAppConfigurationAudience` to allow specifying the Microsoft Entra audience for the token credential when creating a client. If not specified, the SDK will default to Azure Public Cloud.
 
 ## 1.8.0 (2024-11-05)
 
@@ -20,7 +26,7 @@
 
 ### Features Added
 
-- Support `listLabels` method to list all the labels in the configuration setting store. 
+- Support `listLabels` method to list all the labels in the configuration setting store.
 
 Example:
 
@@ -39,9 +45,10 @@ const allProdTags = client.listConfigurationSettings({
   tagsFilter: ["production=prod*"],
 });
 ```
-See [`listConfigurationSettings.ts`](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/appconfiguration/app-configuration/samples/v1/typescript/src/listConfigurationSettings.ts) for more information now how to use this feature.
-- Add `tagsFilter` in `ConfigurationSettingsFilter` so that you can create snapshot by filtering configuration settings tags.
 
+See [`listConfigurationSettings.ts`](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/appconfiguration/app-configuration/samples/v1/typescript/src/listConfigurationSettings.ts) for more information now how to use this feature.
+
+- Add `tagsFilter` in `ConfigurationSettingsFilter` so that you can create snapshot by filtering configuration settings tags.
 
 ## 1.6.1 (2024-07-11)
 
@@ -65,13 +72,10 @@ See [`listConfigurationSettings.ts`](https://github.com/Azure/azure-sdk-for-js/t
 
 ### Features Added
 
-- With the new API version `2023-10-01`, the configuration snapshot feature is generally available. 
-  
-  This feature allows you to create snapshots by specifying key and label filters. These filters help capture the necessary configuration settings from your App Configuration instance, creating an immutable, composed view of the configuration store. 
-  
+- With the new API version `2023-10-01`, the configuration snapshot feature is generally available.
+  This feature allows you to create snapshots by specifying key and label filters. These filters help capture the necessary configuration settings from your App Configuration instance, creating an immutable, composed view of the configuration store.
   The filtered configuration settings are stored as a snapshot with the name provided during its creation.
-`AppConfigurationClient` is enhanced to support new operations such as create, list archive, and recover operations with snapshots.
-  
+  `AppConfigurationClient` is enhanced to support new operations such as create, list archive, and recover operations with snapshots.
   See [`snapshot.ts`](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/appconfiguration/app-configuration/samples/v1/typescript/src/snapshot.ts) for more information now how to use snapshots.
 
 ### Bugs Fixed
@@ -101,6 +105,7 @@ See [`listConfigurationSettings.ts`](https://github.com/Azure/azure-sdk-for-js/t
 ## 1.4.1 (2023-04-24)
 
 ### Features Added
+
 - Added dependency on `@azure/logger` to help with debugging. [#23860](https://github.com/Azure/azure-sdk-for-js/pull/23860)
 
 ### Bugs Fixed
@@ -160,7 +165,7 @@ See [`listConfigurationSettings.ts`](https://github.com/Azure/azure-sdk-for-js/t
 
 - Throttling may have resulted in retrying the request indefinitely if the service responded with `retry-after-ms` header in the error for each retried request. The behaviour has been changed to retry for a maximum of 3 times by default from [#16376](https://github.com/Azure/azure-sdk-for-js/pull/16376).
   - Additionally, [#16376](https://github.com/Azure/azure-sdk-for-js/pull/16376) also exposes retryOptions on the `AppConfigurationClient`'s client options, which lets you configure the `maxRetries` and the `maxRetryDelayInMs`.
-  - More resources - [App Configuration | Throttling](https://docs.microsoft.com/azure/azure-app-configuration/rest-api-throttling) and [App Configuration | Requests Quota](https://docs.microsoft.com/azure/azure-app-configuration/faq#which-app-configuration-tier-should-i-use)
+  - More resources - [App Configuration | Throttling](https://learn.microsoft.com/azure/azure-app-configuration/rest-api-throttling) and [App Configuration | Requests Quota](https://learn.microsoft.com/azure/azure-app-configuration/faq#which-app-configuration-tier-should-i-use)
 
 ## 1.2.0 (2021-07-07)
 
@@ -177,7 +182,7 @@ See [`listConfigurationSettings.ts`](https://github.com/Azure/azure-sdk-for-js/t
 
 - High request rate would result in throttling. SDK would retry on the failed requests based on the service suggested time from the `retry-after-ms` header in the error response. If there are too many parallel requests, retries for all of them may also result in a high request rate entering into a state which might seem like the application is perpetually not responding.
   - [#15721](https://github.com/Azure/azure-sdk-for-js/pull/15721) allows the user-provided abortSignal to be taken into account to abort the requests sooner.
-  - More resources - [App Configuration | Throttling](https://docs.microsoft.com/azure/azure-app-configuration/rest-api-throttling) and [App Configuration | Requests Quota](https://docs.microsoft.com/azure/azure-app-configuration/faq#which-app-configuration-tier-should-i-use)
+  - More resources - [App Configuration | Throttling](https://learn.microsoft.com/azure/azure-app-configuration/rest-api-throttling) and [App Configuration | Requests Quota](https://learn.microsoft.com/azure/azure-app-configuration/faq#which-app-configuration-tier-should-i-use)
 
 ## 1.2.0-beta.2 (2021-06-08)
 

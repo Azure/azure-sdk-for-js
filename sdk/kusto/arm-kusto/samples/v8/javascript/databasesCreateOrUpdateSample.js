@@ -10,13 +10,13 @@
 // Licensed under the MIT License.
 const { KustoManagementClient } = require("@azure/arm-kusto");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Creates or updates a database.
  *
  * @summary Creates or updates a database.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoDatabaseReadonlyUpdate.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2024-04-13/examples/KustoDatabaseReadonlyUpdate.json
  */
 async function kustoReadOnlyDatabaseUpdate() {
   const subscriptionId =
@@ -44,7 +44,7 @@ async function kustoReadOnlyDatabaseUpdate() {
  * This sample demonstrates how to Creates or updates a database.
  *
  * @summary Creates or updates a database.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoDatabasesCreateOrUpdate.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2024-04-13/examples/KustoDatabasesCreateOrUpdate.json
  */
 async function kustoReadWriteDatabaseCreateOrUpdate() {
   const subscriptionId =
@@ -72,8 +72,8 @@ async function kustoReadWriteDatabaseCreateOrUpdate() {
 }
 
 async function main() {
-  kustoReadOnlyDatabaseUpdate();
-  kustoReadWriteDatabaseCreateOrUpdate();
+  await kustoReadOnlyDatabaseUpdate();
+  await kustoReadWriteDatabaseCreateOrUpdate();
 }
 
 main().catch(console.error);

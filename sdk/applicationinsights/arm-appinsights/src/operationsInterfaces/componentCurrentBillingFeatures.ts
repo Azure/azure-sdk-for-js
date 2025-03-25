@@ -12,7 +12,7 @@ import {
   ApplicationInsightsComponentBillingFeatures,
   ComponentCurrentBillingFeaturesUpdateOptionalParams,
   ComponentCurrentBillingFeaturesUpdateResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a ComponentCurrentBillingFeatures. */
 export interface ComponentCurrentBillingFeatures {

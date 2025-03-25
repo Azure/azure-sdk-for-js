@@ -1,15 +1,45 @@
 # Release History
 
-## 1.0.0-beta.28 ()
+## 1.0.0-beta.30 ()
+
+### Features Added
+
+- Support setting the AiLocationIp on logs and events.
+
+### Other Changes
+
+- Filter OpenTelemetry semantic attributes from being double recorded as custom dimensions.
+- Add support for detecting the Application Insights shim on internal verison.
+
+## 1.0.0-beta.29 (2025-03-04)
+
+### Features Added
+
+- Support the AMW de-duping flag in AKS auto-attach scenarios.
+- Support sending custom events via specifying `microsoft.custom_event.name` on logs.
+- Support the stable OpenTelemetry HTTP semantic conventions.
+
+### Other Changes
+
+- Removed faulty span exception exporting logic.
+- Remove applying cloud.* tags to statsbeat telemetry.
+- Correctly capture attach type on statsbeat metrics.
+
+## 1.0.0-beta.28 (2025-01-28)
 
 ### Features Added
 
 - Added support for operation name on dependencies and logs.
 
+### Bugs Fixed
+
+- Fixed usage of environment variable to disable resource metric creation.
+
 ### Other Changes
 
 - Fix setting statsbeat custom dimensions.
 - EAI_AGAIN REST errors are considered retriable.
+- Add 15 second warmup before export of long interval statsbeat.
 
 ## 1.0.0-beta.27 (2024-10-23)
 

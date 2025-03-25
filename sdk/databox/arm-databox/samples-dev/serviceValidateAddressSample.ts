@@ -6,13 +6,10 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import { ValidateAddress, DataBoxManagementClient } from "@azure/arm-databox";
+import type { ValidateAddress } from "@azure/arm-databox";
+import { DataBoxManagementClient } from "@azure/arm-databox";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to [DEPRECATED NOTICE: This operation will soon be removed]. This method validates the customer shipping address and provide alternate addresses if any.
@@ -20,9 +17,8 @@ dotenv.config();
  * @summary [DEPRECATED NOTICE: This operation will soon be removed]. This method validates the customer shipping address and provide alternate addresses if any.
  * x-ms-original-file: specification/databox/resource-manager/Microsoft.DataBox/stable/2022-12-01/examples/ValidateAddressPost.json
  */
-async function validateAddressPost() {
-  const subscriptionId =
-    process.env["DATABOX_SUBSCRIPTION_ID"] || "YourSubscriptionId";
+async function validateAddressPost(): Promise<void> {
+  const subscriptionId = process.env["DATABOX_SUBSCRIPTION_ID"] || "YourSubscriptionId";
   const location = "westus";
   const validateAddress: ValidateAddress = {
     deviceType: "DataBox",
@@ -34,21 +30,18 @@ async function validateAddressPost() {
       postalCode: "00000",
       stateOrProvince: "XX",
       streetAddress1: "XXXX XXXX",
-      streetAddress2: "XXXX XXXX"
+      streetAddress2: "XXXX XXXX",
     },
-    validationType: "ValidateAddress"
+    validationType: "ValidateAddress",
   };
   const credential = new DefaultAzureCredential();
   const client = new DataBoxManagementClient(credential, subscriptionId);
-  const result = await client.service.validateAddress(
-    location,
-    validateAddress
-  );
+  const result = await client.service.validateAddress(location, validateAddress);
   console.log(result);
 }
 
-async function main() {
-  validateAddressPost();
+async function main(): Promise<void> {
+  await validateAddressPost();
 }
 
 main().catch(console.error);

@@ -1,6 +1,6 @@
 # Release History
 
-## 1.9.3 (Unreleased)
+## 1.9.4 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,12 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 1.9.3 (2025-03-06)
+
+### Other Changes
+
+- Correctly set the code and message fields in `RestError` in a corner case [PR #33151](https://github.com/Azure/azure-sdk-for-js/pull/33151)
 
 ## 1.9.2 (2024-04-09)
 
@@ -108,7 +114,7 @@
 
 ### Features Added
 
-- Added a new function `authorizeRequestOnClaimChallenge`, that can be used with the `@azure/core-rest-pipeline`'s `bearerTokenAuthenticationPolicy` to support [Continuous Access Evaluation (CAE) challenges](https://docs.microsoft.com/azure/active-directory/conditional-access/concept-continuous-access-evaluation).
+- Added a new function `authorizeRequestOnClaimChallenge`, that can be used with the `@azure/core-rest-pipeline`'s `bearerTokenAuthenticationPolicy` to support [Continuous Access Evaluation (CAE) challenges](https://learn.microsoft.com/azure/active-directory/conditional-access/concept-continuous-access-evaluation).
 - Call the `bearerTokenAuthenticationPolicy` with the following options: `bearerTokenAuthenticationPolicy({ authorizeRequestOnChallenge: authorizeRequestOnClaimChallenge })`. Once provided, the `bearerTokenAuthenticationPolicy` policy will internally handle Continuous Access Evaluation (CAE) challenges. When it can't complete a challenge it will return the 401 (unauthorized) response from ARM.
 
 ### Bugs Fixed

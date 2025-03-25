@@ -10,7 +10,7 @@ import type {
   LeaseStateType,
   LeaseStatusType,
 } from "./generatedModels";
-import type { Metadata } from "./models";
+import type { FilePosixProperties, Metadata } from "./models";
 import type {
   ReadableStreamGetter,
   RetriableReadableStreamOptions,
@@ -379,6 +379,13 @@ export class FileDownloadResponse implements FileDownloadResponseModel {
    */
   public get leaseStatus(): LeaseStatusType | undefined {
     return this.originalResponse.leaseStatus;
+  }
+
+  /**
+   * Properties of NFS files
+   */
+  public get posixProperties(): FilePosixProperties | undefined {
+    return this.originalResponse.posixProperties;
   }
 
   /**

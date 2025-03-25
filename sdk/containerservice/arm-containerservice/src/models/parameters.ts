@@ -27,7 +27,7 @@ import {
   ManagedClusterSnapshot as ManagedClusterSnapshotMapper,
   TrustedAccessRoleBinding as TrustedAccessRoleBindingMapper,
   LoadBalancer as LoadBalancerMapper,
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",
@@ -56,7 +56,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2024-09-02-preview",
+    defaultValue: "2024-10-02-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {

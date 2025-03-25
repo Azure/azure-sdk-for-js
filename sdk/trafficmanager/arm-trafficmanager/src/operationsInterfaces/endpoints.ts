@@ -17,7 +17,7 @@ import {
   EndpointsCreateOrUpdateResponse,
   EndpointsDeleteOptionalParams,
   EndpointsDeleteResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a Endpoints. */
 export interface Endpoints {

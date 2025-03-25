@@ -10,13 +10,13 @@
 // Licensed under the MIT License.
 const { KustoManagementClient } = require("@azure/arm-kusto");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Lists eligible region SKUs for Kusto resource provider by Azure region.
  *
  * @summary Lists eligible region SKUs for Kusto resource provider by Azure region.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoSkus.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2024-04-13/examples/KustoSkus.json
  */
 async function kustoListRegionSkus() {
   const subscriptionId =
@@ -32,7 +32,7 @@ async function kustoListRegionSkus() {
 }
 
 async function main() {
-  kustoListRegionSkus();
+  await kustoListRegionSkus();
 }
 
 main().catch(console.error);

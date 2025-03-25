@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { EventGridManagementClient } from "@azure/arm-eventgrid";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Reconcile a specific network security perimeter configuration for a given network security perimeter association with a topic or domain.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Reconcile a specific network security perimeter configuration for a given network security perimeter association with a topic or domain.
  * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2024-06-01-preview/examples/NetworkSecurityPerimeterConfigurations_Reconcile.json
  */
-async function networkSecurityPerimeterConfigurationsReconcile() {
+async function networkSecurityPerimeterConfigurationsReconcile(): Promise<void> {
   const subscriptionId =
     process.env["EVENTGRID_SUBSCRIPTION_ID"] ||
     "8f6b6269-84f2-4d09-9e31-1127efcd1e40";
@@ -43,7 +41,7 @@ async function networkSecurityPerimeterConfigurationsReconcile() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   networkSecurityPerimeterConfigurationsReconcile();
 }
 

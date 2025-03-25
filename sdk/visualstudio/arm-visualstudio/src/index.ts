@@ -6,6 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./models";
-export { VisualStudioResourceProviderClient } from "./visualStudioResourceProviderClient";
-export * from "./operationsInterfaces";
+export * from "./models/index.js";
+export { VisualStudioResourceProviderClient } from "./visualStudioResourceProviderClient.js";
+export * from "./operationsInterfaces/index.js";

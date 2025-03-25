@@ -13,9 +13,7 @@ import {
   SiteRecoveryManagementClient,
 } from "@azure/arm-recoveryservices-siterecovery";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to The operation to update(push update) the installed mobility service software on a replication protected item to the latest available version.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary The operation to update(push update) the installed mobility service software on a replication protected item to the latest available version.
  * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationProtectedItems_UpdateMobilityService.json
  */
-async function updateTheMobilityServiceOnAProtectedItem() {
+async function updateTheMobilityServiceOnAProtectedItem(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICESSITERECOVERY_SUBSCRIPTION_ID"] ||
     "b364ed8d-4279-4bf8-8fd1-56f8fa0ae05c";
@@ -51,7 +49,7 @@ async function updateTheMobilityServiceOnAProtectedItem() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   updateTheMobilityServiceOnAProtectedItem();
 }
 

@@ -6,16 +6,10 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import {
-  AutoUpgradeProfile,
-  ContainerServiceFleetClient,
-} from "@azure/arm-containerservicefleet";
+import type { AutoUpgradeProfile } from "@azure/arm-containerservicefleet";
+import { ContainerServiceFleetClient } from "@azure/arm-containerservicefleet";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create a AutoUpgradeProfile
@@ -23,12 +17,10 @@ dotenv.config();
  * @summary Create a AutoUpgradeProfile
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/fleet/preview/2024-05-02-preview/examples/AutoUpgradeProfiles_CreateOrUpdate.json
  */
-async function createAnAutoUpgradeProfile() {
+async function createAnAutoUpgradeProfile(): Promise<void> {
   const subscriptionId =
-    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
+    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
   const fleetName = "fleet1";
   const autoUpgradeProfileName = "autoupgradeprofile1";
   const resource: AutoUpgradeProfile = { channel: "Stable" };
@@ -43,8 +35,8 @@ async function createAnAutoUpgradeProfile() {
   console.log(result);
 }
 
-async function main() {
-  createAnAutoUpgradeProfile();
+async function main(): Promise<void> {
+  await createAnAutoUpgradeProfile();
 }
 
 main().catch(console.error);

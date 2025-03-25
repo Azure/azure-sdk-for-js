@@ -14,9 +14,9 @@ import {
   SendRequest
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
-import { CustomLocationsImpl, ResourceSyncRulesImpl } from "./operations";
-import { CustomLocations, ResourceSyncRules } from "./operationsInterfaces";
-import { CustomLocationsManagementClientOptionalParams } from "./models";
+import { CustomLocationsImpl, ResourceSyncRulesImpl } from "./operations/index.js";
+import { CustomLocations, ResourceSyncRules } from "./operationsInterfaces/index.js";
+import { CustomLocationsManagementClientOptionalParams } from "./models/index.js";
 
 export class CustomLocationsManagementClient extends coreClient.ServiceClient {
   $host: string;

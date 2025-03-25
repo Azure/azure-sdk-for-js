@@ -17,13 +17,13 @@ import "dotenv/config";
 
 const prompt = ["What is Azure OpenAI?"];
 
-export async function main() {
+export async function main(): Promise<void> {
   console.log("== Get completions Sample ==");
 
   const scope = "https://cognitiveservices.azure.com/.default";
   const azureADTokenProvider = getBearerTokenProvider(new DefaultAzureCredential(), scope);
   const deployment = "text-davinci-003";
-  const apiVersion = "2024-11-01-preview";
+  const apiVersion = "2025-01-01-preview";
   const client = new AzureOpenAI({ azureADTokenProvider, deployment, apiVersion });
   const result = await client.completions.create({ prompt, model: "", max_tokens: 128 });
 

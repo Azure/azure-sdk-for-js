@@ -26,7 +26,7 @@ import {
   ProjectsImpl,
   UsagesImpl,
   FilesImpl
-} from "./operations";
+} from "./operations/index.js";
 import {
   DatabaseMigrationsSqlMi,
   DatabaseMigrationsSqlVm,
@@ -39,8 +39,8 @@ import {
   Projects,
   Usages,
   Files
-} from "./operationsInterfaces";
-import { DataMigrationManagementClientOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { DataMigrationManagementClientOptionalParams } from "./models/index.js";
 
 export class DataMigrationManagementClient extends coreClient.ServiceClient {
   $host: string;

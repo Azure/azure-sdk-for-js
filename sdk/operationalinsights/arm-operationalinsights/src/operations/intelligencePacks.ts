@@ -6,17 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { IntelligencePacks } from "../operationsInterfaces";
+import { IntelligencePacks } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { OperationalInsightsManagementClient } from "../operationalInsightsManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { OperationalInsightsManagementClient } from "../operationalInsightsManagementClient.js";
 import {
   IntelligencePacksDisableOptionalParams,
   IntelligencePacksEnableOptionalParams,
   IntelligencePacksListOptionalParams,
   IntelligencePacksListResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Class containing IntelligencePacks operations. */
 export class IntelligencePacksImpl implements IntelligencePacks {

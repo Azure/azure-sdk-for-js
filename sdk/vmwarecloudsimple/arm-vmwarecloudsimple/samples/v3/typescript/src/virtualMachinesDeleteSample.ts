@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { VMwareCloudSimple } from "@azure/arm-vmwarecloudsimple";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Delete virtual machine
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Delete virtual machine
  * x-ms-original-file: specification/vmwarecloudsimple/resource-manager/Microsoft.VMwareCloudSimple/stable/2019-04-01/examples/DeleteVirtualMachine.json
  */
-async function deleteVirtualMachine() {
+async function deleteVirtualMachine(): Promise<void> {
   const subscriptionId =
     process.env["VMWARECLOUDSIMPLE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -37,7 +35,7 @@ async function deleteVirtualMachine() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   deleteVirtualMachine();
 }
 

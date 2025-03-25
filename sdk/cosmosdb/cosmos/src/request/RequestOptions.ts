@@ -13,13 +13,6 @@ export interface RequestOptions extends SharedOptions {
     /** Conditional HTTP method header value (the _etag field from the last version you read). */
     condition: string;
   };
-  /** Consistency level required by the client. */
-  consistencyLevel?: string;
-  /**
-   * DisableRUPerMinuteUsage is used to enable/disable Request Units(RUs)/minute capacity
-   * to serve the request if regular provisioned RUs/second is exhausted.
-   */
-  disableRUPerMinuteUsage?: boolean;
   /** Enables or disables logging in JavaScript stored procedures. */
   enableScriptLogging?: boolean;
   /** Specifies indexing directives (index, do not index .. etc). */
@@ -44,4 +37,13 @@ export interface RequestOptions extends SharedOptions {
   urlConnection?: string;
   /** Disable automatic id generation (will cause creates to fail if id isn't on the definition) */
   disableAutomaticIdGeneration?: boolean;
+
+  /**
+   * @internal
+   * database rid for setting DatabaseRidHeader */
+  databaseRid?: string;
+  /**
+   * @internal
+   * collection rid for setting CollectionRidHeader */
+  containerRid?: string;
 }
