@@ -5,7 +5,7 @@ parameters:
   Tag: ''
   AdditionalTag: ''
 
-job:
+-job:
   templateContext:
     type: releaseJob
     isProduction: eq(parameters.Registry, 'https://registry.npmjs.org/')
