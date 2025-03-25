@@ -24,6 +24,7 @@ import { PerformanceCounterMetricNames } from "./types";
 import type { AzureMonitorOpenTelemetryOptions } from "../types";
 import { getLogData, isExceptionData } from "./quickpulse/utils";
 import type { ExceptionData, TraceData } from "./quickpulse/types";
+import { LogRecord } from "@opentelemetry/sdk-logs";
 
 /**
  * Azure Monitor PerformanceCounter Metrics
@@ -217,7 +218,7 @@ export class PerformanceCounterMetrics {
    * Record Log metrics
    * @internal
    */
-  public recordLog(logRecord: any): void {
+  public recordLog(logRecord: LogRecord): void {
     const columns: TraceData | ExceptionData = getLogData(logRecord);
     if (isExceptionData(columns)) {
       this.totalExceptionCount++;
