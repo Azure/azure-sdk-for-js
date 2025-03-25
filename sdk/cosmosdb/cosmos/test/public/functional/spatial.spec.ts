@@ -1,16 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import assert from "assert";
-import type { Suite } from "mocha";
-import type { Database } from "../../../src";
-import { DataType, IndexKind } from "../../../src";
-import { createOrUpsertItem, getTestDatabase, removeAllDatabases } from "../common/TestHelpers";
+import assert from "node:assert";
+import type { Database } from "../../../src/index.js";
+import { DataType, IndexKind } from "../../../src/index.js";
+import { createOrUpsertItem, getTestDatabase, removeAllDatabases } from "../common/TestHelpers.js";
 
-describe("Spatial Indexes", function (this: Suite) {
+describe("Spatial Indexes", function () {
   this.timeout(process.env.MOCHA_TIMEOUT || 10000);
-  beforeEach(async function () {
-    await removeAllDatabases();
-  });
+  beforeEach(async () => {
+      await removeAllDatabases();
+    });
 
   const spatialIndexTest = async function (isUpsertTest: boolean): Promise<void> {
     // create database

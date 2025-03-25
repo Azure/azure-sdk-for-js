@@ -1,15 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 /* eslint-disable no-unused-expressions */
-import assert from "assert";
-import type { Suite } from "mocha";
+import assert from "node:assert";
 
-import { CosmosClient } from "../../../src";
-import { masterKey } from "../common/_fakeTestSecrets";
-import type { PluginConfig, CosmosClientOptions } from "../../../src";
-import { PluginOn } from "../../../src";
+import { CosmosClient } from "../../../src/index.js";
+import { masterKey } from "../common/_fakeTestSecrets.js";
+import type { PluginConfig, CosmosClientOptions } from "../../../src/index.js";
+import { PluginOn } from "../../../src/index.js";
 import { expect } from "chai";
-import { getEmptyCosmosDiagnostics } from "../../../src/utils/diagnostics";
+import { getEmptyCosmosDiagnostics } from "../../../src/utils/diagnostics.js";
 
 const endpoint = "https://failovertest.documents.azure.com/";
 
@@ -114,7 +113,7 @@ const collectionResponse = {
   diagnostics: getEmptyCosmosDiagnostics(),
 };
 
-describe("Multi-region tests", function (this: Suite) {
+describe("Multi-region tests", function () {
   this.timeout(process.env.MOCHA_TIMEOUT || "30000");
 
   it("Preferred locations should be honored for readEndpoint", async function () {

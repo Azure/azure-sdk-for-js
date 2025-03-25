@@ -1,21 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import assert from "assert";
-import type { Suite } from "mocha";
-import { Agent } from "http";
-import { CosmosClient } from "../../../src";
-import { endpoint } from "../common/_testConfig";
-import { masterKey } from "../common/_fakeTestSecrets";
+import assert from "node:assert";
+import { Agent } from "node:http";
+import { CosmosClient } from "../../../src/index.js";
+import { endpoint } from "../common/_testConfig.js";
+import { masterKey } from "../common/_fakeTestSecrets.js";
 import {
   getTestDatabase,
   getTestContainer,
   generateDocuments,
   bulkInsertItems,
-} from "../common/TestHelpers";
+} from "../common/TestHelpers.js";
 import { UsernamePasswordCredential } from "@azure/identity";
-import { defaultConnectionPolicy } from "../../../src/documents";
+import { defaultConnectionPolicy } from "../../../src/documents/index.js";
 
-describe("Client Tests", function (this: Suite) {
+describe("Client Tests", function () {
   this.timeout(process.env.MOCHA_TIMEOUT || 200000);
 
   describe("Validate client request timeout", function () {

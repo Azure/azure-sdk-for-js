@@ -12,9 +12,9 @@ import {
   StatusCodes
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
-} from "../../dist";
-import logger from "./logger";
-import lwwSprocDef from "./lwwSprocDef";
+} from "../../dist.js";
+import logger from "./logger.js";
+import lwwSprocDef from "./lwwSprocDef.js";
 
 export class ConflictWorker {
   private readonly clients: Map<string, CosmosClient> = new Map();

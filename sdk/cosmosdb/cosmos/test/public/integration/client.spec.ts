@@ -1,18 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { Container, RequestContext } from "../../../src";
-import { CosmosClient, PatchOperationType, ResourceType } from "../../../src";
-import assert from "assert";
-import type { Suite } from "mocha";
+import type { Container, RequestContext } from "../../../src/index.js";
+import { CosmosClient, PatchOperationType, ResourceType } from "../../../src/index.js";
+import assert from "node:assert";
 import type { SinonSandbox, SinonSpy } from "sinon";
 import Sinon from "sinon";
-import { getTestContainer } from "../../public/common/TestHelpers";
+import { getTestContainer } from "../../public/common/TestHelpers.js";
 import type { AccessToken, TokenCredential } from "@azure/identity";
 import nock from "nock";
-import { RequestHandler } from "../../../src/request/RequestHandler";
-import { masterKey } from "../../public/common/_fakeTestSecrets";
-import { endpoint } from "../../public/common/_testConfig";
+import { RequestHandler } from "../../../src/request/RequestHandler.js";
+import { masterKey } from "../../public/common/_fakeTestSecrets.js";
+import { endpoint } from "../../public/common/_testConfig.js";
 
 class MockCredential implements TokenCredential {
   constructor(public returnPromise: Promise<AccessToken | null>) {}
@@ -68,37 +67,37 @@ const testDataset = {
   },
 };
 
-describe("Testing Credentials integration for Client", function (this: Suite) {
+describe("Testing Credentials integration for Client", function () {
   // endpoint for mock server, which doesn't conflict with emulator's endpoints.
   const mockedEndpoint = "https://localhost:8082";
   const aadToken = "aadToken";
   let sandbox: SinonSandbox;
   let spy: SinonSpy;
-  beforeEach(function () {
-    sandbox = Sinon.createSandbox();
-  });
+  beforeEach(async () => {
+      sandbox = Sinon.createSandbox();
+    });
   function setupSpyOnRequestHandler() {
     spy = sandbox.spy(RequestHandler, "request");
   }
 
-  afterEach(function () {
-    sandbox.restore();
-  });
+  afterEach(async () => {
+      sandbox.restore();
+    });
   describe("Client Test With AAD Credentials", function () {
     let client: CosmosClient;
-    beforeEach(function () {
-      client = new CosmosClient({
-        endpoint: mockedEndpoint,
-        aadCredentials: new MockCredential(
-          Promise.resolve({ token: aadToken, expiresOnTimestamp: 0 }),
-        ),
-      });
-    });
-    afterEach(function () {
-      nock.restore();
-      nock.cleanAll();
-      nock.enableNetConnect();
-    });
+    beforeEach(async () => {
+          client = new CosmosClient({
+            endpoint: mockedEndpoint,
+            aadCredentials: new MockCredential(
+              Promise.resolve({ token: aadToken, expiresOnTimestamp: 0 }),
+            ),
+          });
+        });
+    afterEach(async () => {
+          nock.restore();
+          nock.cleanAll();
+          nock.enableNetConnect();
+        });
     it("Test pipeline setup for items.create for aadCredentials", async function () {
       setupMockResponse();
       const container: Container = await getTestContainer("Test Container", client);

@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import assert from "assert";
+import assert from "node:assert";
 import {
   ClientSideMetrics,
   QueryMetrics,
   QueryPreparationTimes,
   RuntimeExecutionTimes,
   TimeSpan,
-} from "../../../src";
+} from "../../../src/index.js";
 
 describe("QueryMetrics", function () {
   // Properties

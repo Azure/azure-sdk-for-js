@@ -1,10 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { Container, ContainerDefinition, FeedOptions } from "../../../../src";
-import { bulkInsertItems, getTestContainer, removeAllDatabases } from "../../common/TestHelpers";
-import assert from "assert";
-import groupBySnapshot from "./groupBy.snapshot";
-import type { Context } from "mocha";
+import type { Container, ContainerDefinition, FeedOptions } from "../../../../src/index.js";
+import { bulkInsertItems, getTestContainer, removeAllDatabases } from "../../common/TestHelpers.js";
+import assert from "node:assert";
+import groupBySnapshot from "./groupBy.snapshot.js";
 
 const items = [
   {
@@ -562,10 +561,10 @@ function runCrosspartitionGROUPBYTests(options: FeedOptions): void {
     assert.deepStrictEqual(actual, groupBySnapshot[`${currentTestTitle} ${snapshotNumber++}`]);
   };
 
-  beforeEach(function (this: Context) {
-    currentTestTitle = this.currentTest.fullTitle();
-    snapshotNumber = 1;
-  });
+  beforeEach(async () => {
+      currentTestTitle = this.currentTest.fullTitle();
+      snapshotNumber = 1;
+    });
 
   it("by number", async () => {
     const queryIterator = container.items.query("SELECT c.age FROM c GROUP BY c.age", options);

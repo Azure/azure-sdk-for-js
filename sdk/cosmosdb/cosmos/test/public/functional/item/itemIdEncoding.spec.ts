@@ -1,14 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import assert from "assert";
-import type { Suite } from "mocha";
-import type { Container, CosmosClient } from "../../../../src";
+import assert from "node:assert";
+import type { Container, CosmosClient } from "../../../../src/index.js";
 import {
   getTestContainer,
   removeAllDatabases,
   getDefaultClient,
   getDefaultComputeGatewayClient,
-} from "../../common/TestHelpers";
+} from "../../common/TestHelpers.js";
 
 interface ItemPayload {
   id?: string;
@@ -119,11 +118,11 @@ const executeTestCaseOnComputeGateway = async function (scenario: TestScenario) 
   return executeTestCase(scenario, true);
 };
 
-describe("Id encoding", function (this: Suite) {
+describe("Id encoding", function () {
   this.timeout(process.env.MOCHA_TIMEOUT || 10000);
-  beforeEach(async function () {
-    await removeAllDatabases();
-  });
+  beforeEach(async () => {
+      await removeAllDatabases();
+    });
 
   it("RGW_plainVanillaId", async function () {
     const scenario: TestScenario = {

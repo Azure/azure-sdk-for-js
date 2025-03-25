@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { MultiRegionWriteScenario } from "./MultiRegionWriteScenario";
+import { MultiRegionWriteScenario } from "./MultiRegionWriteScenario.js";
 
 async function run(): Promise<void> {
   const scenarios = new MultiRegionWriteScenario();

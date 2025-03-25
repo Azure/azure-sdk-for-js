@@ -2,16 +2,16 @@
 // Licensed under the MIT License.
 
 // Import the required modules
-import assert from "assert";
-import type { Container, FeedOptions } from "../../../src";
-import { CosmosClient, OperationType, ResourceType } from "../../../src";
-import { endpoint } from "../../public/common/_testConfig";
-import { masterKey } from "../../public/common/_fakeTestSecrets";
+import assert from "node:assert";
+import type { Container, FeedOptions } from "../../../src/index.js";
+import { CosmosClient, OperationType, ResourceType } from "../../../src/index.js";
+import { endpoint } from "../../public/common/_testConfig.js";
+import { masterKey } from "../../public/common/_fakeTestSecrets.js";
 import {
   getTestContainer,
   isValidV4UUID,
   removeAllDatabases,
-} from "../../public/common/TestHelpers";
+} from "../../public/common/TestHelpers.js";
 
 describe("Correlated Activity Id", function () {
   this.timeout(process.env.MOCHA_TIMEOUT || 30000);

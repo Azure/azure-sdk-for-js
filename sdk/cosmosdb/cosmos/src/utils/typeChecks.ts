@@ -7,8 +7,8 @@ import type {
   PartitionKey,
   PartitionKeyDefinition,
   PrimitivePartitionKeyValue,
-} from "../documents";
-import { NonePartitionKeyLiteral, NullPartitionKeyLiteral, PartitionKeyKind } from "../documents";
+} from "../documents/index.js";
+import { NonePartitionKeyLiteral, NullPartitionKeyLiteral, PartitionKeyKind } from "../documents/index.js";
 
 /**
  * A type which could be any type but undefined

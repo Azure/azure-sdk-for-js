@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 // import assert from "assert";
-import { DocumentProducer, FetchResult, SqlQuerySpec } from "../../../src/queryExecutionContext";
-import { MockedClientContext } from "../../public/common/MockClientContext";
-import { ClientContext, PartitionKeyRange } from "../../../src";
-import assert from "assert";
+import { DocumentProducer, FetchResult, SqlQuerySpec } from "../../../src/queryExecutionContext/index.js";
+import { MockedClientContext } from "../../public/common/MockClientContext.js";
+import { ClientContext, PartitionKeyRange } from "../../../src/index.js";
+import assert from "node:assert";
 
 describe("Test DocumentProducer", function () {
   const mockedClientContext: ClientContext = new MockedClientContext({}) as any;

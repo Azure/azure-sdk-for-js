@@ -1,10 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import assert from "assert";
-import type { Suite } from "mocha";
-import type { Container, ContainerDefinition, Database } from "../../../src";
-import { getTestDatabase, removeAllDatabases } from "../common/TestHelpers";
-import { StatusCodes } from "../../../src";
+import assert from "node:assert";
+import type { Container, ContainerDefinition, Database } from "../../../src/index.js";
+import { getTestDatabase, removeAllDatabases } from "../common/TestHelpers.js";
+import { StatusCodes } from "../../../src/index.js";
 
 async function sleep(time: number): Promise<unknown> {
   return new Promise((resolve) => {
@@ -12,11 +11,11 @@ async function sleep(time: number): Promise<unknown> {
   });
 }
 
-describe("Container TTL", function (this: Suite) {
+describe("Container TTL", function () {
   this.timeout(process.env.MOCHA_TIMEOUT || 600000);
-  beforeEach(async function () {
-    await removeAllDatabases();
-  });
+  beforeEach(async () => {
+      await removeAllDatabases();
+    });
   async function createcontainerWithInvalidDefaultTtl(
     db: Database,
     containerDefinition: ContainerDefinition,

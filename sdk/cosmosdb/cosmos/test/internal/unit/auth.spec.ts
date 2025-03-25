@@ -1,11 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { getAuthorizationTokenUsingResourceTokens } from "../../../src/auth";
-import type { Suite } from "mocha";
-import assert from "assert";
+import { getAuthorizationTokenUsingResourceTokens } from "../../../src/auth.js";
+import assert from "node:assert";
 
-describe("NodeJS CRUD Tests", function (this: Suite) {
+describe("NodeJS CRUD Tests", function () {
   this.timeout(process.env.MOCHA_TIMEOUT || 10000);
 
   it("should find exact match", async function () {

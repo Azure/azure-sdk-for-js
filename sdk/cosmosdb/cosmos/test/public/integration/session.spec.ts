@@ -1,19 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 /* eslint-disable no-unused-expressions */
-import assert from "assert";
-import type { Suite } from "mocha";
-import type { ClientContext, Container, PluginConfig } from "../../../src";
-import { PluginOn } from "../../../src";
-import { OperationType, ResourceType } from "../../../src/common";
-import { ConsistencyLevel } from "../../../src";
-import { CosmosClient } from "../../../src";
-import type { SessionContainer } from "../../../src/session/sessionContainer";
-import { endpoint } from "../../public/common/_testConfig";
-import { masterKey } from "../../public/common/_fakeTestSecrets";
-import { addEntropy, getTestDatabase, removeAllDatabases } from "../../public/common/TestHelpers";
-import type { RequestContext } from "../../../src";
-import type { Response } from "../../../src/request/Response";
+import assert from "node:assert";
+import type { ClientContext, Container, PluginConfig } from "../../../src/index.js";
+import { PluginOn } from "../../../src/index.js";
+import { OperationType, ResourceType } from "../../../src/common/index.js";
+import { ConsistencyLevel } from "../../../src/index.js";
+import { CosmosClient } from "../../../src/index.js";
+import type { SessionContainer } from "../../../src/session/sessionContainer.js";
+import { endpoint } from "../../public/common/_testConfig.js";
+import { masterKey } from "../../public/common/_fakeTestSecrets.js";
+import { addEntropy, getTestDatabase, removeAllDatabases } from "../../public/common/TestHelpers.js";
+import type { RequestContext } from "../../../src/index.js";
+import type { Response } from "../../../src/request/Response.js";
 import { expect } from "chai";
 
 describe("New session token", function () {
@@ -73,10 +72,10 @@ describe("New session token", function () {
   });
 });
 
-describe("Integrated Cache Staleness", async function (this: Suite) {
-  beforeEach(async function () {
-    await removeAllDatabases();
-  });
+describe("Integrated Cache Staleness", async function () {
+  beforeEach(async () => {
+      await removeAllDatabases();
+    });
   const dbId = addEntropy("maxIntegratedCacheTestDB");
   const containerId = addEntropy("maxIntegratedCacheTestContainer");
   const dedicatedGatewayMaxAge = 20;
@@ -170,10 +169,10 @@ describe("Integrated Cache Staleness", async function (this: Suite) {
 });
 
 // This test has to be run against sqlx endpoint
-describe.skip("Bypass integrated cache", function (this: Suite) {
-  beforeEach(async function () {
-    await removeAllDatabases();
-  });
+describe.skip("Bypass integrated cache", function () {
+  beforeEach(async () => {
+      await removeAllDatabases();
+    });
 
   it("Should pass with bypass integrated cache set", async function () {
     const dbId = addEntropy("bypassIntegratedCacheTestDB");
@@ -201,10 +200,10 @@ describe.skip("Bypass integrated cache", function (this: Suite) {
 });
 
 // For some reason this test does not pass against the emulator. Skipping it for now
-describe.skip("Session Token", function (this: Suite) {
-  beforeEach(async function () {
-    await removeAllDatabases();
-  });
+describe.skip("Session Token", function () {
+  beforeEach(async () => {
+      await removeAllDatabases();
+    });
 
   it("retries session not found successfully", async function () {
     const clientA = new CosmosClient({
@@ -260,7 +259,7 @@ describe.skip("Session Token", function (this: Suite) {
   });
 });
 
-async function createItem(container: Container) {
+async function createItem(container: Container): Promise<void> {
   const {
     resource: { id },
   } = await container.items.create({

@@ -8,16 +8,16 @@ import type {
   QueryInfo,
   QueryIterator,
   Resource,
-} from "../../../../src";
-import { CosmosDbDiagnosticLevel } from "../../../../src";
-import type { ClientContext } from "../../../../src";
-import { TestParallelQueryExecutionContext } from "../common/TestParallelQueryExecutionContext";
+} from "../../../../src/index.js";
+import { CosmosDbDiagnosticLevel } from "../../../../src/index.js";
+import type { ClientContext } from "../../../../src/index.js";
+import { TestParallelQueryExecutionContext } from "../common/TestParallelQueryExecutionContext.js";
 import { assert } from "chai";
 import {
   createDummyDiagnosticNode,
   createTestClientContext,
   initializeMockPartitionKeyRanges,
-} from "../../../public/common/TestHelpers";
+} from "../../../public/common/TestHelpers.js";
 describe("parallelQueryExecutionContextBase", function () {
   const collectionLink = "/dbs/testDb/colls/testCollection"; // Sample collection link
   const query = "SELECT * FROM c"; // Example query string or SqlQuerySpec object
@@ -79,7 +79,7 @@ describe("parallelQueryExecutionContextBase", function () {
     value: value,
   });
   describe("bufferDocumentProducers", function () {
-    beforeEach(function () {});
+    beforeEach(async () => {});
 
     it("should add 2 document producers to bufferedDocumentProducersQueue from unfilledDocumentProducersQueue when maxDegreeOfParallism = 2", async function () {
       const options: FeedOptions = { maxItemCount: 10, maxDegreeOfParallelism: 2 };
@@ -320,24 +320,24 @@ describe("parallelQueryExecutionContextBase", function () {
     let clientContext: ClientContext;
     let context: TestParallelQueryExecutionContext;
 
-    beforeEach(function () {
-      options = { maxItemCount: 10, maxDegreeOfParallelism: 2 };
-      clientContext = createTestClientContext(cosmosClientOptions, diagnosticLevel);
-      initializeMockPartitionKeyRanges(createMockPartitionKeyRange, clientContext, [
-        ["", "AA"],
-        ["AA", "BB"],
-        ["BB", "FF"],
-      ]);
-      context = new TestParallelQueryExecutionContext(
-        clientContext,
-        collectionLink,
-        query,
-        options,
-        partitionedQueryExecutionInfo,
-        correlatedActivityId,
-      );
-      context["options"] = options;
-    });
+    beforeEach(async () => {
+          options = { maxItemCount: 10, maxDegreeOfParallelism: 2 };
+          clientContext = createTestClientContext(cosmosClientOptions, diagnosticLevel);
+          initializeMockPartitionKeyRanges(createMockPartitionKeyRange, clientContext, [
+            ["", "AA"],
+            ["AA", "BB"],
+            ["BB", "FF"],
+          ]);
+          context = new TestParallelQueryExecutionContext(
+            clientContext,
+            collectionLink,
+            query,
+            options,
+            partitionedQueryExecutionInfo,
+            correlatedActivityId,
+          );
+          context["options"] = options;
+        });
 
     it("should return an empty array if buffer is empty", async function () {
       const result = await (context as any).drainBufferedItems();

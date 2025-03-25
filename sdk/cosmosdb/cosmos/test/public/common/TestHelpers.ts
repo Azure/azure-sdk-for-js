@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 /* eslint-disable no-unused-expressions */
-import assert from "assert";
+import assert from "node:assert";
 import type {
   ClientConfigDiagnostic,
   Container,
@@ -20,7 +20,7 @@ import type {
   RequestOptions,
   Response,
   UserDefinition,
-} from "../../../src";
+} from "../../../src/index.js";
 import {
   ClientContext,
   ConnectionMode,
@@ -30,29 +30,29 @@ import {
   CosmosDbDiagnosticLevel,
   GlobalEndpointManager,
   MetadataLookUpType,
-} from "../../../src";
+} from "../../../src/index.js";
 import type {
   ItemDefinition,
   ItemResponse,
   PermissionResponse,
   Resource,
   User,
-} from "../../../src";
-import type { UserResponse } from "../../../src";
-import { endpoint } from "../common/_testConfig";
-import { masterKey } from "../common/_fakeTestSecrets";
-import type { DatabaseRequest } from "../../../src";
-import type { ContainerRequest } from "../../../src";
+} from "../../../src/index.js";
+import type { UserResponse } from "../../../src/index.js";
+import { endpoint } from "../common/_testConfig.js";
+import { masterKey } from "../common/_fakeTestSecrets.js";
+import type { DatabaseRequest } from "../../../src/index.js";
+import type { ContainerRequest } from "../../../src/index.js";
 import { AssertionError, expect } from "chai";
 import {
   DiagnosticNodeInternal,
   DiagnosticNodeType,
-} from "../../../src/diagnostics/DiagnosticNodeInternal";
-import type { ExtractPromise } from "../../../src/utils/diagnostics";
-import { getCurrentTimestampInMs } from "../../../src/utils/time";
-import { extractPartitionKeys } from "../../../src/extractPartitionKey";
-import fs from "fs";
-import path from "path";
+} from "../../../src/diagnostics/DiagnosticNodeInternal.js";
+import type { ExtractPromise } from "../../../src/utils/diagnostics.js";
+import { getCurrentTimestampInMs } from "../../../src/utils/time.js";
+import { extractPartitionKeys } from "../../../src/extractPartitionKey.js";
+import fs from "node:fs";
+import path from "node:path";
 import sinon from "sinon";
 
 const defaultRoutingGatewayPort: string = ":8081";

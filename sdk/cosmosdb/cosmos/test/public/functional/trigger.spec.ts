@@ -1,24 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import assert from "assert";
-import type { Suite } from "mocha";
-import { TriggerOperation, TriggerType } from "../../../src";
-import type { TriggerDefinition, Container } from "../../../src";
-import { getTestContainer, removeAllDatabases } from "../common/TestHelpers";
+import assert from "node:assert";
+import { TriggerOperation, TriggerType } from "../../../src/index.js";
+import type { TriggerDefinition, Container } from "../../../src/index.js";
+import { getTestContainer, removeAllDatabases } from "../common/TestHelpers.js";
 
 const notFoundErrorCode = 404;
 
 // Mock for trigger function bodies
 declare let getContext: any;
 
-describe("NodeJS CRUD Tests", function (this: Suite) {
+describe("NodeJS CRUD Tests", function () {
   this.timeout(process.env.MOCHA_TIMEOUT || 10000);
   let container: Container;
 
-  beforeEach(async function () {
-    await removeAllDatabases();
-    container = await getTestContainer("trigger container");
-  });
+  beforeEach(async () => {
+      await removeAllDatabases();
+      container = await getTestContainer("trigger container");
+    });
 
   describe("Validate Trigger CRUD", function () {
     it("nativeApi Should do trigger CRUD operations successfully name based", async function () {

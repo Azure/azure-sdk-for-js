@@ -1,19 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import assert from "assert";
-import type { Suite } from "mocha";
-import type { UserDefinedFunctionDefinition, Container } from "../../../src";
-import { removeAllDatabases, getTestContainer } from "../common/TestHelpers";
+import assert from "node:assert";
+import type { UserDefinedFunctionDefinition, Container } from "../../../src/index.js";
+import { removeAllDatabases, getTestContainer } from "../common/TestHelpers.js";
 
-describe("User Defined Function", function (this: Suite) {
+describe("User Defined Function", function () {
   this.timeout(process.env.MOCHA_TIMEOUT || 10000);
   let container: Container;
 
-  beforeEach(async function () {
-    await removeAllDatabases();
-    // get container
-    container = await getTestContainer("UDFTests");
-  });
+  beforeEach(async () => {
+      await removeAllDatabases();
+      // get container
+      container = await getTestContainer("UDFTests");
+    });
   it("nativeApi Should do UDF CRUD operations successfully", async function () {
     const { resources: udfs } = await container.scripts.userDefinedFunctions.readAll().fetchAll();
 

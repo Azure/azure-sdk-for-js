@@ -1,19 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import assert from "assert";
-import type { Suite } from "mocha";
-import type { ContainerDefinition, FeedOptions } from "../../../src";
-import { CosmosClient } from "../../../src";
-import type { Container } from "../../../src/";
-import { endpoint } from "../common/_testConfig";
-import { masterKey } from "../common/_fakeTestSecrets";
+import assert from "node:assert";
+import type { ContainerDefinition, FeedOptions } from "../../../src/index.js";
+import { CosmosClient } from "../../../src/index.js";
+import type { Container } from "../../../src/index.js";
+import { endpoint } from "../common/_testConfig.js";
+import { masterKey } from "../common/_fakeTestSecrets.js";
 import {
   getTestContainer,
   getTestDatabase,
   removeAllDatabases,
   testForDiagnostics,
-} from "../common/TestHelpers";
-import { PartitionKeyDefinitionVersion, PartitionKeyKind } from "../../../src/documents";
+} from "../common/TestHelpers.js";
+import { PartitionKeyDefinitionVersion, PartitionKeyKind } from "../../../src/documents/index.js";
 
 const client = new CosmosClient({
   endpoint,
@@ -27,7 +26,7 @@ if (!Symbol || !Symbol.asyncIterator) {
   (Symbol as any).asyncIterator = Symbol.for("Symbol.asyncIterator");
 }
 
-describe("Queries", function (this: Suite) {
+describe("Queries", function () {
   this.timeout(process.env.MOCHA_TIMEOUT || 10000);
   before(async function () {
     await removeAllDatabases();
@@ -60,7 +59,7 @@ describe("Queries", function (this: Suite) {
     });
   });
 
-  describe("QueryIterator", function (this: Suite) {
+  describe("QueryIterator", function () {
     this.timeout(process.env.MOCHA_TIMEOUT || 30000);
     let resources: { container: Container; doc1: any; doc2: any; doc3: any };
 
@@ -182,7 +181,7 @@ describe("Queries", function (this: Suite) {
       }
     });
 
-    describe("SUM query iterator", function (this: Suite) {
+    describe("SUM query iterator", function () {
       this.timeout(process.env.MOCHA_TIMEOUT || 30000);
 
       it("returns undefined sum with null value in aggregator", async function () {
@@ -268,7 +267,7 @@ describe("Queries", function (this: Suite) {
       });
     });
 
-    describe("MakeList query iterator", function (this: Suite) {
+    describe("MakeList query iterator", function () {
       this.timeout(process.env.MOCHA_TIMEOUT || 30000);
 
       it("returns all documents for query iterator with makeList", async function () {
@@ -325,7 +324,7 @@ describe("Queries", function (this: Suite) {
       });
     });
 
-    describe("MakeSet query iterator", function (this: Suite) {
+    describe("MakeSet query iterator", function () {
       this.timeout(process.env.MOCHA_TIMEOUT || 30000);
 
       it("returns all documents for query iterator with makeSet", async function () {
@@ -354,7 +353,7 @@ describe("Queries", function (this: Suite) {
     });
   });
 
-  describe("QueryIterator: Hierarchical partitions", function (this: Suite) {
+  describe("QueryIterator: Hierarchical partitions", function () {
     this.timeout(process.env.MOCHA_TIMEOUT || 30000);
     let resources: { container: Container; doc1: any; doc2: any; doc3: any; doc4: any };
 
@@ -485,7 +484,7 @@ describe("Queries", function (this: Suite) {
       }
     });
 
-    describe("SUM query iterator", function (this: Suite) {
+    describe("SUM query iterator", function () {
       this.timeout(process.env.MOCHA_TIMEOUT || 30000);
 
       it("return sum for given partition key", async function () {
@@ -573,7 +572,7 @@ describe("Queries", function (this: Suite) {
     });
   });
 
-  describe("Query With DISTCINCT, ORDER BY and LIMIT", function (this: Suite) {
+  describe("Query With DISTCINCT, ORDER BY and LIMIT", function () {
     let container: Container;
     before(async function () {
       const containerDefinition = {

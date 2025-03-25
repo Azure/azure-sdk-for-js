@@ -5,9 +5,9 @@ import {
   DocumentProducer,
   ExecutionContext,
   ParallelQueryExecutionContextBase,
-} from "../../../../src/queryExecutionContext";
-import { Response } from "../../../../src/request";
-import { DiagnosticNodeInternal } from "../../../../src/diagnostics/DiagnosticNodeInternal";
+} from "../../../../src/queryExecutionContext/index.js";
+import { Response } from "../../../../src/request/index.js";
+import { DiagnosticNodeInternal } from "../../../../src/diagnostics/DiagnosticNodeInternal.js";
 
 export class TestParallelQueryExecutionContext
   extends ParallelQueryExecutionContextBase

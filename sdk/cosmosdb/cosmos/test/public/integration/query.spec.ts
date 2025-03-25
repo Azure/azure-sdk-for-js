@@ -1,19 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import assert from "assert";
-import type { Suite } from "mocha";
-import type { Container, FeedOptions } from "../../../src";
-import { getTestContainer, getTestDatabase, removeAllDatabases } from "../common/TestHelpers";
+import assert from "node:assert";
+import type { Container, FeedOptions } from "../../../src/index.js";
+import { getTestContainer, getTestDatabase, removeAllDatabases } from "../common/TestHelpers.js";
 
 const doc = { id: "myId", pk: "pk" };
 
-describe("ResourceLink Trimming of leading and trailing slashes", function (this: Suite) {
+describe("ResourceLink Trimming of leading and trailing slashes", function () {
   this.timeout(process.env.MOCHA_TIMEOUT || 10000);
   const containerId = "testcontainer";
 
-  beforeEach(async function () {
-    await removeAllDatabases();
-  });
+  beforeEach(async () => {
+      await removeAllDatabases();
+    });
 
   it("validate correct execution of query using named container link with leading and trailing slashes", async function () {
     const containerDefinition = {
@@ -40,13 +39,13 @@ describe("ResourceLink Trimming of leading and trailing slashes", function (this
   });
 });
 
-describe("Test Query Metrics", function (this: Suite) {
+describe("Test Query Metrics", function () {
   this.timeout(process.env.MOCHA_TIMEOUT || 20000);
   const collectionId = "testCollection3";
 
-  beforeEach(async function () {
-    await removeAllDatabases();
-  });
+  beforeEach(async () => {
+      await removeAllDatabases();
+    });
 
   it("validate that query metrics are correct for a single partition query", async function () {
     const database = await getTestDatabase("query metrics test db");
@@ -91,12 +90,12 @@ describe("Test Query Metrics", function (this: Suite) {
   });
 });
 
-describe("Partition key in FeedOptions", function (this: Suite) {
+describe("Partition key in FeedOptions", function () {
   this.timeout(process.env.MOCHA_TIMEOUT || 10000);
 
-  beforeEach(async function () {
-    await removeAllDatabases();
-  });
+  beforeEach(async () => {
+      await removeAllDatabases();
+    });
 
   it("passing partition key in FeedOptions", async function () {
     const containerDefinition = {
@@ -125,7 +124,7 @@ describe("Partition key in FeedOptions", function (this: Suite) {
   });
 });
 
-describe("aggregate query over null value", function (this: Suite) {
+describe("aggregate query over null value", function () {
   this.timeout(process.env.MOCHA_TIMEOUT || 10000);
 
   const aggregateQueryOverNullValue = async function (
@@ -174,9 +173,9 @@ describe("aggregate query over null value", function (this: Suite) {
     assert.strictEqual(resources[0].source, null);
   };
 
-  beforeEach(async function () {
-    await removeAllDatabases();
-  });
+  beforeEach(async () => {
+      await removeAllDatabases();
+    });
 
   it("should execute successfully for container with single partition", async function () {
     await aggregateQueryOverNullValue("SinglePartition", "SinglePartition", 400);
@@ -187,12 +186,12 @@ describe("aggregate query over null value", function (this: Suite) {
   });
 });
 
-describe("Test Index metrics", function (this: Suite) {
+describe("Test Index metrics", function () {
   this.timeout(process.env.MOCHA_TIMEOUT || 20000);
 
-  beforeEach(async function () {
-    await removeAllDatabases();
-  });
+  beforeEach(async () => {
+      await removeAllDatabases();
+    });
 
   it("validate that index metrics are correct", async function () {
     const collectionId = "testCollection3";
@@ -211,7 +210,7 @@ describe("Test Index metrics", function (this: Suite) {
     await validateIndexMetrics(createdContainerMultiPartition, collectionId);
   });
 
-  async function validateIndexMetrics(container: Container, collectionId: string) {
+  async function validateIndexMetrics(container: Container, collectionId: string): Promise<void> {
     const doc1 = { id: "myId1", pk: "pk1", name: "test1" };
     const doc2 = { id: "myId2", pk: "pk2", name: "test2" };
     const doc3 = { id: "myId3", pk: "pk2", name: "test2" };
@@ -239,7 +238,7 @@ describe("Test Index metrics", function (this: Suite) {
       }
     }
   }
-  async function setupContainer(datbaseName: string, collectionId: string, throughput?: number) {
+  async function setupContainer(datbaseName: string, collectionId: string, throughput?: number): Promise<void> {
     const database = await getTestDatabase(datbaseName);
 
     const collectionDefinition = {

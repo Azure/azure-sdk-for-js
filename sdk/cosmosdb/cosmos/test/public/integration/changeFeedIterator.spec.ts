@@ -1,16 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import assert from "assert";
-import type { Suite } from "mocha";
-import type { ChangeFeedIteratorOptions, RequestOptions } from "../../../src";
+import assert from "node:assert";
+import type { ChangeFeedIteratorOptions, RequestOptions } from "../../../src/index.js";
 import {
   ChangeFeedStartFrom,
   ChangeFeedRetentionTimeSpan,
   ChangeFeedPolicy,
   ChangeFeedMode,
-} from "../../../src";
-import type { Container, ContainerDefinition } from "../../../src";
-import { PartitionKeyDefinitionVersion, PartitionKeyKind } from "../../../src/documents";
+} from "../../../src/index.js";
+import type { Container, ContainerDefinition } from "../../../src/index.js";
+import { PartitionKeyDefinitionVersion, PartitionKeyKind } from "../../../src/documents/index.js";
 import {
   getTestContainer,
   removeAllDatabases,
@@ -18,12 +17,12 @@ import {
   changeFeedAllVersionsInsertItems,
   changeFeedAllVersionsUpsertItems,
   changeFeedAllVersionsDeleteItems,
-} from "../common/TestHelpers";
-import { FeedRangeInternal } from "../../../src/client/ChangeFeed/FeedRange";
-import { getCurrentTimestampInMs } from "../../../src/utils/time";
-import { StatusCodes } from "../../../src/common/statusCodes";
+} from "../common/TestHelpers.js";
+import { FeedRangeInternal } from "../../../src/client/ChangeFeed/FeedRange.js";
+import { getCurrentTimestampInMs } from "../../../src/utils/time.js";
+import { StatusCodes } from "../../../src/common/statusCodes.js";
 
-describe("Change Feed Iterator", function (this: Suite) {
+describe("Change Feed Iterator", function () {
   this.timeout(process.env.MOCHA_TIMEOUT || 20000);
 
   // delete all databases and create sample database

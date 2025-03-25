@@ -1,17 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import assert from "assert";
-import { TimeoutFailoverRetryPolicy } from "../../../src/retry/timeoutFailoverRetryPolicy";
-import { GlobalEndpointManager } from "../../../src/globalEndpointManager";
-import { HTTPMethod, OperationType, ResourceType } from "../../../src/common/constants";
-import { DatabaseAccount } from "../../../src/documents/DatabaseAccount";
-import { ResourceResponse } from "../../../src/request/ResourceResponse";
-import type { ErrorResponse } from "../../../src/request/ErrorResponse";
-import type { RetryContext } from "../../../src/retry/RetryContext";
-import { StatusCodes } from "../../../src/common/statusCodes";
-import { TimeoutError } from "../../../src/request/TimeoutError";
-import { getEmptyCosmosDiagnostics } from "../../../src/utils/diagnostics";
-import { createDummyDiagnosticNode } from "../../public/common/TestHelpers";
+import assert from "node:assert";
+import { TimeoutFailoverRetryPolicy } from "../../../src/retry/timeoutFailoverRetryPolicy.js";
+import { GlobalEndpointManager } from "../../../src/globalEndpointManager.js";
+import { HTTPMethod, OperationType, ResourceType } from "../../../src/common/constants.js";
+import { DatabaseAccount } from "../../../src/documents/DatabaseAccount.js";
+import { ResourceResponse } from "../../../src/request/ResourceResponse.js";
+import type { ErrorResponse } from "../../../src/request/ErrorResponse.js";
+import type { RetryContext } from "../../../src/retry/RetryContext.js";
+import { StatusCodes } from "../../../src/common/statusCodes.js";
+import { TimeoutError } from "../../../src/request/TimeoutError.js";
+import { getEmptyCosmosDiagnostics } from "../../../src/utils/diagnostics.js";
+import { createDummyDiagnosticNode } from "../../public/common/TestHelpers.js";
 
 describe("TimeoutFailoverRetryPolicy", function () {
   const databaseAccountBody: any = {
@@ -64,19 +64,19 @@ describe("TimeoutFailoverRetryPolicy", function () {
   let timeoutErr: TimeoutError;
   let locEndpoint: string;
 
-  beforeEach(async function () {
-    retryPolicy = new TimeoutFailoverRetryPolicy(
-      gem,
-      headers,
-      HTTPMethod.get,
-      ResourceType.item,
-      OperationType.Read,
-      true,
-    );
-    retryCtx = { retryCount: 2 };
-    timeoutErr = new TimeoutError();
-    locEndpoint = "endpoint";
-  });
+  beforeEach(async () => {
+      retryPolicy = new TimeoutFailoverRetryPolicy(
+        gem,
+        headers,
+        HTTPMethod.get,
+        ResourceType.item,
+        OperationType.Read,
+        true,
+      );
+      retryCtx = { retryCount: 2 };
+      timeoutErr = new TimeoutError();
+      locEndpoint = "endpoint";
+    });
 
   it("should determine if retry should occur correctly", async function () {
     const err: ErrorResponse = timeoutErr;

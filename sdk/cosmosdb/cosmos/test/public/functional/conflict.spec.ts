@@ -1,15 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import assert from "assert";
-import type { Suite } from "mocha";
-import { removeAllDatabases, getTestContainer, testForDiagnostics } from "../common/TestHelpers";
-import { getCurrentTimestampInMs } from "../../../src/utils/time";
+import assert from "node:assert";
+import { removeAllDatabases, getTestContainer, testForDiagnostics } from "../common/TestHelpers.js";
+import { getCurrentTimestampInMs } from "../../../src/utils/time.js";
 
-describe("Conflicts", function (this: Suite) {
+describe("Conflicts", function () {
   this.timeout(process.env.MOCHA_TIMEOUT || 10000);
-  beforeEach(async function () {
-    await removeAllDatabases();
-  });
+  beforeEach(async () => {
+      await removeAllDatabases();
+    });
 
   describe("Query conflicts", function () {
     it("query conflicts", async function () {

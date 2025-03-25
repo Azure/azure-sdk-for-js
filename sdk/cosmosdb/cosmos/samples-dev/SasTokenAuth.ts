@@ -1,25 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * @summary Demonstrates using SasTokens for granting scoped access to Cosmos resources. *Private feature*
- */
-
-import * as dotenv from "dotenv";
-dotenv.config();
-
+import "dotenv/config";
 import {
   CosmosClient,
   SasTokenProperties,
   createAuthorizationSasToken,
   SasTokenPermissionKind,
 } from "@azure/cosmos";
-import { handleError, finish, logStep } from "./Shared/handleError";
+import { handleError, finish, logStep } from "./Shared/handleError.js";
 const masterKey = process.env.COSMOS_KEY || "<cosmos key>";
 const endpoint = process.env.COSMOS_ENDPOINT || "<cosmos endpoint>";
 const sasToken = "your-sas-token";
 
-async function run() {
+async function run(): Promise<void> {
   logStep("Create a SasToken object");
 
   const sasTokenProperties = {

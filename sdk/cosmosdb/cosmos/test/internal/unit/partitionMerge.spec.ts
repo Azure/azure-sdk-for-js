@@ -16,11 +16,11 @@ import {
   PartitionKeyRange,
   Resource,
   StatusCodes,
-} from "../../../src";
+} from "../../../src/index.js";
 import { expect, assert } from "chai";
-import { TestParallelQueryExecutionContext } from "./common/TestParallelQueryExecutionContext";
+import { TestParallelQueryExecutionContext } from "./common/TestParallelQueryExecutionContext.js";
 import sinon from "sinon";
-import { SubStatusCodes } from "../../../src/common";
+import { SubStatusCodes } from "../../../src/common/index.js";
 
 const createMockPartitionKeyRange = (id: string, minInclusive: string, maxExclusive: string) => ({
   id, // Range ID

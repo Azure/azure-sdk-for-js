@@ -1,17 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { ClientContext } from "../../ClientContext";
-import type { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
-import { getIdFromLink, getPathFromLink, isResourceValid, ResourceType } from "../../common";
-import type { SqlQuerySpec } from "../../queryExecutionContext";
-import { QueryIterator } from "../../queryIterator";
-import type { FeedOptions, RequestOptions } from "../../request";
-import type { Container } from "../Container";
-import type { Resource } from "../Resource";
-import { StoredProcedure } from "./StoredProcedure";
-import type { StoredProcedureDefinition } from "./StoredProcedureDefinition";
-import { StoredProcedureResponse } from "./StoredProcedureResponse";
-import { getEmptyCosmosDiagnostics, withDiagnostics } from "../../utils/diagnostics";
+import type { ClientContext } from "../../ClientContext.js";
+import type { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal.js";
+import { getIdFromLink, getPathFromLink, isResourceValid, ResourceType } from "../../common/index.js";
+import type { SqlQuerySpec } from "../../queryExecutionContext/index.js";
+import { QueryIterator } from "../../queryIterator.js";
+import type { FeedOptions, RequestOptions } from "../../request/index.js";
+import type { Container } from "../Container/index.js";
+import type { Resource } from "../Resource.js";
+import { StoredProcedure } from "./StoredProcedure.js";
+import type { StoredProcedureDefinition } from "./StoredProcedureDefinition.js";
+import { StoredProcedureResponse } from "./StoredProcedureResponse.js";
+import { getEmptyCosmosDiagnostics, withDiagnostics } from "../../utils/diagnostics.js";
 
 /**
  * Operations for creating, upserting, or reading/querying all Stored Procedures.

@@ -1,21 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import assert from "assert";
-import type { Suite } from "mocha";
-import { PermissionMode } from "../../../src";
-import type { PermissionDefinition } from "../../../src";
+import assert from "node:assert";
+import { PermissionMode } from "../../../src/index.js";
+import type { PermissionDefinition } from "../../../src/index.js";
 import {
   createOrUpsertPermission,
   getTestContainer,
   removeAllDatabases,
   replaceOrUpsertPermission,
-} from "../common/TestHelpers";
+} from "../common/TestHelpers.js";
 
-describe("NodeJS CRUD Tests", function (this: Suite) {
+describe("NodeJS CRUD Tests", function () {
   this.timeout(process.env.MOCHA_TIMEOUT || 10000);
-  beforeEach(async function () {
-    await removeAllDatabases();
-  });
+  beforeEach(async () => {
+      await removeAllDatabases();
+    });
   describe("Validate Permission CRUD", function () {
     const permissionCRUDTest = async function (isUpsertTest: boolean): Promise<void> {
       // create container & database

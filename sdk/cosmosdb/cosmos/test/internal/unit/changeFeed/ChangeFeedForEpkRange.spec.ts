@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import assert from "assert";
+import assert from "node:assert";
 import sinon from "sinon";
-import { ChangeFeedForEpkRange, ChangeFeedMode } from "../../../../src/client/ChangeFeed";
-import type { ClientContext } from "../../../../src";
-import { Container, ErrorResponse, TimeoutError } from "../../../../src";
-import { PartitionKeyRangeCache, QueryRange } from "../../../../src/routing";
-import { ChangeFeedRange } from "../../../../src/client/ChangeFeed/ChangeFeedRange";
-import { MockedClientContext } from "../../../public/common/MockClientContext";
+import { ChangeFeedForEpkRange, ChangeFeedMode } from "../../../../src/client/ChangeFeed/index.js";
+import type { ClientContext } from "../../../../src/index.js";
+import { Container, ErrorResponse, TimeoutError } from "../../../../src/index.js";
+import { PartitionKeyRangeCache, QueryRange } from "../../../../src/routing/index.js";
+import { ChangeFeedRange } from "../../../../src/client/ChangeFeed/ChangeFeedRange.js";
+import { MockedClientContext } from "../../../public/common/MockClientContext.js";
 
 interface Resource {
   id: string;

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { QueryFeature } from "../common";
+import { QueryFeature } from "../common/index.js";
 
 export function supportedQueryFeaturesBuilder(disableNonStreamingOrderByQuery?: boolean): string {
   if (disableNonStreamingOrderByQuery) {

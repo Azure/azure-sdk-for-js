@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import assert from "assert";
-import { Constants, OperationType, ResourceType } from "../../../src/common";
-import type { CosmosHeaders } from "../../../src/queryExecutionContext/CosmosHeaders";
-import { SessionContainer } from "../../../src/session/sessionContainer";
-import type { SessionContext } from "../../../src/session/SessionContext";
+import assert from "node:assert";
+import { Constants, OperationType, ResourceType } from "../../../src/common/index.js";
+import type { CosmosHeaders } from "../../../src/queryExecutionContext/CosmosHeaders.js";
+import { SessionContainer } from "../../../src/session/sessionContainer.js";
+import type { SessionContext } from "../../../src/session/SessionContext.js";
 
 describe("SessionContainer", function () {
   const collectionLink = "dbs/testDatabase/colls/testCollection";
