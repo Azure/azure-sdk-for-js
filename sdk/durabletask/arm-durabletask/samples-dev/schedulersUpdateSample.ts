@@ -15,7 +15,6 @@ async function schedulersUpdate(): Promise<void> {
   const subscriptionId = "EE9BD735-67CE-4A90-89C4-439D3F6A4C93";
   const client = new DurableTaskClient(credential, subscriptionId);
   const result = await client.schedulers.update("rgopenapi", "testscheduler", {
-    location: "",
     tags: { key8653: "lr" },
     properties: {
       ipAllowlist: ["10.0.0.0/8"],

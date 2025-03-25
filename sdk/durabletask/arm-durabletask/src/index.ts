@@ -28,6 +28,9 @@ export {
   KnownRedundancyState,
   RedundancyState,
   TrackedResource,
+  SchedulerUpdate,
+  SchedulerPropertiesUpdate,
+  SchedulerSkuUpdate,
   Operation,
   OperationDisplay,
   KnownOrigin,
@@ -36,19 +39,25 @@ export {
   ActionType,
   KnownVersions,
 } from "./models/index.js";
+export { DurableTaskClientOptionalParams } from "./api/index.js";
+export { OperationsListOptionalParams } from "./api/operations/index.js";
 export {
-  DurableTaskClientOptionalParams,
-  TaskHubsListBySchedulerOptionalParams,
-  TaskHubsDeleteOptionalParams,
-  TaskHubsCreateOrUpdateOptionalParams,
-  TaskHubsGetOptionalParams,
   SchedulersListBySubscriptionOptionalParams,
   SchedulersListByResourceGroupOptionalParams,
   SchedulersDeleteOptionalParams,
   SchedulersUpdateOptionalParams,
   SchedulersCreateOrUpdateOptionalParams,
   SchedulersGetOptionalParams,
-  OperationsListOptionalParams,
-} from "./api/index.js";
-export { OperationsOperations, SchedulersOperations, TaskHubsOperations } from "./classic/index.js";
+} from "./api/schedulers/index.js";
+export {
+  TaskHubsListBySchedulerOptionalParams,
+  TaskHubsDeleteOptionalParams,
+  TaskHubsCreateOrUpdateOptionalParams,
+  TaskHubsGetOptionalParams,
+} from "./api/taskHubs/index.js";
+export {
+  OperationsOperations,
+  SchedulersOperations,
+  TaskHubsOperations,
+} from "./classic/index.js";
 export { PageSettings, ContinuablePage, PagedAsyncIterableIterator };

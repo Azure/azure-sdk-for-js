@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import { DurableTaskContext } from "../../api/durableTaskContext.js";
+import { Scheduler, SchedulerUpdate } from "../../models/models.js";
 import {
   SchedulersListBySubscriptionOptionalParams,
   SchedulersListByResourceGroupOptionalParams,
@@ -9,16 +10,15 @@ import {
   SchedulersUpdateOptionalParams,
   SchedulersCreateOrUpdateOptionalParams,
   SchedulersGetOptionalParams,
-} from "../../api/options.js";
+} from "../../api/schedulers/options.js";
 import {
-  schedulersListBySubscription,
-  schedulersListByResourceGroup,
-  schedulersDelete,
-  schedulersUpdate,
-  schedulersCreateOrUpdate,
-  schedulersGet,
-} from "../../api/schedulers/index.js";
-import { Scheduler } from "../../models/models.js";
+  listBySubscription,
+  listByResourceGroup,
+  $delete,
+  update,
+  createOrUpdate,
+  get,
+} from "../../api/schedulers/operations.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 
@@ -34,6 +34,11 @@ export interface SchedulersOperations {
     options?: SchedulersListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<Scheduler>;
   /** Delete a Scheduler */
+  /**
+   *  @fixme delete is a reserved word that cannot be used as an operation name.
+   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
+   *         to the operation to override the generated name.
+   */
   delete: (
     resourceGroupName: string,
     schedulerName: string,
@@ -43,7 +48,7 @@ export interface SchedulersOperations {
   update: (
     resourceGroupName: string,
     schedulerName: string,
-    properties: Scheduler,
+    properties: SchedulerUpdate,
     options?: SchedulersUpdateOptionalParams,
   ) => PollerLike<OperationState<Scheduler>, Scheduler>;
   /** Create or update a Scheduler */
@@ -63,38 +68,48 @@ export interface SchedulersOperations {
 
 function _getSchedulers(context: DurableTaskContext) {
   return {
-    listBySubscription: (options?: SchedulersListBySubscriptionOptionalParams) =>
-      schedulersListBySubscription(context, options),
+    listBySubscription: (
+      options?: SchedulersListBySubscriptionOptionalParams,
+    ) => listBySubscription(context, options),
     listByResourceGroup: (
       resourceGroupName: string,
       options?: SchedulersListByResourceGroupOptionalParams,
-    ) => schedulersListByResourceGroup(context, resourceGroupName, options),
+    ) => listByResourceGroup(context, resourceGroupName, options),
     delete: (
       resourceGroupName: string,
       schedulerName: string,
       options?: SchedulersDeleteOptionalParams,
-    ) => schedulersDelete(context, resourceGroupName, schedulerName, options),
+    ) => $delete(context, resourceGroupName, schedulerName, options),
     update: (
       resourceGroupName: string,
       schedulerName: string,
-      properties: Scheduler,
+      properties: SchedulerUpdate,
       options?: SchedulersUpdateOptionalParams,
-    ) => schedulersUpdate(context, resourceGroupName, schedulerName, properties, options),
+    ) => update(context, resourceGroupName, schedulerName, properties, options),
     createOrUpdate: (
       resourceGroupName: string,
       schedulerName: string,
       resource: Scheduler,
       options?: SchedulersCreateOrUpdateOptionalParams,
-    ) => schedulersCreateOrUpdate(context, resourceGroupName, schedulerName, resource, options),
+    ) =>
+      createOrUpdate(
+        context,
+        resourceGroupName,
+        schedulerName,
+        resource,
+        options,
+      ),
     get: (
       resourceGroupName: string,
       schedulerName: string,
       options?: SchedulersGetOptionalParams,
-    ) => schedulersGet(context, resourceGroupName, schedulerName, options),
+    ) => get(context, resourceGroupName, schedulerName, options),
   };
 }
 
-export function _getSchedulersOperations(context: DurableTaskContext): SchedulersOperations {
+export function _getSchedulersOperations(
+  context: DurableTaskContext,
+): SchedulersOperations {
   return {
     ..._getSchedulers(context),
   };

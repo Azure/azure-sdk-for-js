@@ -146,7 +146,9 @@ export function systemDataDeserializer(item: any): SystemData {
   return {
     createdBy: item["createdBy"],
     createdByType: item["createdByType"],
-    createdAt: !item["createdAt"] ? item["createdAt"] : new Date(item["createdAt"]),
+    createdAt: !item["createdAt"]
+      ? item["createdAt"]
+      : new Date(item["createdAt"]),
     lastModifiedBy: item["lastModifiedBy"],
     lastModifiedByType: item["lastModifiedByType"],
     lastModifiedAt: !item["lastModifiedAt"]
@@ -187,7 +189,9 @@ export interface ErrorResponse {
 
 export function errorResponseDeserializer(item: any): ErrorResponse {
   return {
-    error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
+    error: !item["error"]
+      ? item["error"]
+      : errorDetailDeserializer(item["error"]),
   };
 }
 
@@ -210,20 +214,26 @@ export function errorDetailDeserializer(item: any): ErrorDetail {
     code: item["code"],
     message: item["message"],
     target: item["target"],
-    details: !item["details"] ? item["details"] : errorDetailArrayDeserializer(item["details"]),
+    details: !item["details"]
+      ? item["details"]
+      : errorDetailArrayDeserializer(item["details"]),
     additionalInfo: !item["additionalInfo"]
       ? item["additionalInfo"]
       : errorAdditionalInfoArrayDeserializer(item["additionalInfo"]),
   };
 }
 
-export function errorDetailArrayDeserializer(result: Array<ErrorDetail>): any[] {
+export function errorDetailArrayDeserializer(
+  result: Array<ErrorDetail>,
+): any[] {
   return result.map((item) => {
     return errorDetailDeserializer(item);
   });
 }
 
-export function errorAdditionalInfoArrayDeserializer(result: Array<ErrorAdditionalInfo>): any[] {
+export function errorAdditionalInfoArrayDeserializer(
+  result: Array<ErrorAdditionalInfo>,
+): any[] {
   return result.map((item) => {
     return errorAdditionalInfoDeserializer(item);
   });
@@ -237,17 +247,23 @@ export interface ErrorAdditionalInfo {
   readonly info?: Record<string, any>;
 }
 
-export function errorAdditionalInfoDeserializer(item: any): ErrorAdditionalInfo {
+export function errorAdditionalInfoDeserializer(
+  item: any,
+): ErrorAdditionalInfo {
   return {
     type: item["type"],
-    info: !item["info"] ? item["info"] : _errorAdditionalInfoInfoDeserializer(item["info"]),
+    info: !item["info"]
+      ? item["info"]
+      : _errorAdditionalInfoInfoDeserializer(item["info"]),
   };
 }
 
 /** model interface _ErrorAdditionalInfoInfo */
 export interface _ErrorAdditionalInfoInfo {}
 
-export function _errorAdditionalInfoInfoDeserializer(item: any): _ErrorAdditionalInfoInfo {
+export function _errorAdditionalInfoInfoDeserializer(
+  item: any,
+): _ErrorAdditionalInfoInfo {
   return item;
 }
 
@@ -331,7 +347,9 @@ export function schedulerPropertiesSerializer(item: SchedulerProperties): any {
   };
 }
 
-export function schedulerPropertiesDeserializer(item: any): SchedulerProperties {
+export function schedulerPropertiesDeserializer(
+  item: any,
+): SchedulerProperties {
   return {
     provisioningState: item["provisioningState"],
     endpoint: item["endpoint"],
@@ -407,6 +425,62 @@ export function trackedResourceDeserializer(item: any): TrackedResource {
   };
 }
 
+/** The update request model for the Scheduler resource */
+export interface SchedulerUpdate {
+  /** The resource-specific properties for this resource. */
+  properties?: SchedulerPropertiesUpdate;
+  /** Resource tags. */
+  tags?: Record<string, string>;
+}
+
+export function schedulerUpdateSerializer(item: SchedulerUpdate): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : schedulerPropertiesUpdateSerializer(item["properties"]),
+    tags: item["tags"],
+  };
+}
+
+/** The Scheduler resource properties to be updated */
+export interface SchedulerPropertiesUpdate {
+  /** The status of the last operation */
+  readonly provisioningState?: ProvisioningState;
+  /** URL of the durable task scheduler */
+  readonly endpoint?: string;
+  /** IP allow list for durable task scheduler. Values can be IPv4, IPv6 or CIDR */
+  ipAllowlist?: string[];
+  /** SKU of the durable task scheduler */
+  sku?: SchedulerSkuUpdate;
+}
+
+export function schedulerPropertiesUpdateSerializer(
+  item: SchedulerPropertiesUpdate,
+): any {
+  return {
+    ipAllowlist: !item["ipAllowlist"]
+      ? item["ipAllowlist"]
+      : item["ipAllowlist"].map((p: any) => {
+          return p;
+        }),
+    sku: !item["sku"] ? item["sku"] : schedulerSkuUpdateSerializer(item["sku"]),
+  };
+}
+
+/** The SKU (Stock Keeping Unit) properties to be updated */
+export interface SchedulerSkuUpdate {
+  /** The name of the SKU */
+  name?: string;
+  /** The SKU capacity. This allows scale out/in for the resource and impacts zone redundancy */
+  capacity?: number;
+  /** Indicates whether the current SKU configuration is zone redundant */
+  readonly redundancyState?: RedundancyState;
+}
+
+export function schedulerSkuUpdateSerializer(item: SchedulerSkuUpdate): any {
+  return { name: item["name"], capacity: item["capacity"] };
+}
+
 /** The response of a Scheduler list operation. */
 export interface _SchedulerListResult {
   /** The Scheduler items on this page */
@@ -415,7 +489,9 @@ export interface _SchedulerListResult {
   nextLink?: string;
 }
 
-export function _schedulerListResultDeserializer(item: any): _SchedulerListResult {
+export function _schedulerListResultDeserializer(
+  item: any,
+): _SchedulerListResult {
   return {
     value: schedulerArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
@@ -442,7 +518,9 @@ export interface _OperationListResult {
   nextLink?: string;
 }
 
-export function _operationListResultDeserializer(item: any): _OperationListResult {
+export function _operationListResultDeserializer(
+  item: any,
+): _OperationListResult {
   return {
     value: operationArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
@@ -473,7 +551,9 @@ export function operationDeserializer(item: any): Operation {
   return {
     name: item["name"],
     isDataAction: item["isDataAction"],
-    display: !item["display"] ? item["display"] : operationDisplayDeserializer(item["display"]),
+    display: !item["display"]
+      ? item["display"]
+      : operationDisplayDeserializer(item["display"]),
     origin: item["origin"],
     actionType: item["actionType"],
   };

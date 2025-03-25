@@ -2,19 +2,19 @@
 // Licensed under the MIT License.
 
 import { DurableTaskContext } from "../../api/durableTaskContext.js";
+import { TaskHub } from "../../models/models.js";
 import {
   TaskHubsListBySchedulerOptionalParams,
   TaskHubsDeleteOptionalParams,
   TaskHubsCreateOrUpdateOptionalParams,
   TaskHubsGetOptionalParams,
-} from "../../api/options.js";
+} from "../../api/taskHubs/options.js";
 import {
-  taskHubsListByScheduler,
-  taskHubsDelete,
-  taskHubsCreateOrUpdate,
-  taskHubsGet,
-} from "../../api/taskHubs/index.js";
-import { TaskHub } from "../../models/models.js";
+  listByScheduler,
+  $delete,
+  createOrUpdate,
+  get,
+} from "../../api/taskHubs/operations.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 
@@ -27,6 +27,11 @@ export interface TaskHubsOperations {
     options?: TaskHubsListBySchedulerOptionalParams,
   ) => PagedAsyncIterableIterator<TaskHub>;
   /** Delete a Task Hub */
+  /**
+   *  @fixme delete is a reserved word that cannot be used as an operation name.
+   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
+   *         to the operation to override the generated name.
+   */
   delete: (
     resourceGroupName: string,
     schedulerName: string,
@@ -56,13 +61,14 @@ function _getTaskHubs(context: DurableTaskContext) {
       resourceGroupName: string,
       schedulerName: string,
       options?: TaskHubsListBySchedulerOptionalParams,
-    ) => taskHubsListByScheduler(context, resourceGroupName, schedulerName, options),
+    ) => listByScheduler(context, resourceGroupName, schedulerName, options),
     delete: (
       resourceGroupName: string,
       schedulerName: string,
       taskHubName: string,
       options?: TaskHubsDeleteOptionalParams,
-    ) => taskHubsDelete(context, resourceGroupName, schedulerName, taskHubName, options),
+    ) =>
+      $delete(context, resourceGroupName, schedulerName, taskHubName, options),
     createOrUpdate: (
       resourceGroupName: string,
       schedulerName: string,
@@ -70,7 +76,7 @@ function _getTaskHubs(context: DurableTaskContext) {
       resource: TaskHub,
       options?: TaskHubsCreateOrUpdateOptionalParams,
     ) =>
-      taskHubsCreateOrUpdate(
+      createOrUpdate(
         context,
         resourceGroupName,
         schedulerName,
@@ -83,11 +89,13 @@ function _getTaskHubs(context: DurableTaskContext) {
       schedulerName: string,
       taskHubName: string,
       options?: TaskHubsGetOptionalParams,
-    ) => taskHubsGet(context, resourceGroupName, schedulerName, taskHubName, options),
+    ) => get(context, resourceGroupName, schedulerName, taskHubName, options),
   };
 }
 
-export function _getTaskHubsOperations(context: DurableTaskContext): TaskHubsOperations {
+export function _getTaskHubsOperations(
+  context: DurableTaskContext,
+): TaskHubsOperations {
   return {
     ..._getTaskHubs(context),
   };

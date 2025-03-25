@@ -15,7 +15,10 @@ async function taskHubsListByScheduler(): Promise<void> {
   const subscriptionId = "EE9BD735-67CE-4A90-89C4-439D3F6A4C93";
   const client = new DurableTaskClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.taskHubs.listByScheduler("rgopenapi", "testtaskhub")) {
+  for await (const item of client.taskHubs.listByScheduler(
+    "rgopenapi",
+    "testtaskhub",
+  )) {
     resArray.push(item);
   }
 

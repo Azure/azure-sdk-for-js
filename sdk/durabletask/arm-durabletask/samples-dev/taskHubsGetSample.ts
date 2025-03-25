@@ -14,7 +14,11 @@ async function taskHubsGet(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "EE9BD735-67CE-4A90-89C4-439D3F6A4C93";
   const client = new DurableTaskClient(credential, subscriptionId);
-  const result = await client.taskHubs.get("rgopenapi", "testscheduler", "testtuskhub");
+  const result = await client.taskHubs.get(
+    "rgopenapi",
+    "testscheduler",
+    "testtuskhub",
+  );
   console.log(result);
 }
 
