@@ -1,12 +1,12 @@
 # Release History
 
-## 0.2.0 (Unreleased)
+## 0.2.0 (2025-05-03)
 
 ### Features Added
 
 - Add support for multiple authentication schemes through the new `authSchemes` property in `ClientOptions`
 - Add new authentication types: `ApiKeyAuthScheme`, `BasicAuthScheme`, `BearerAuthScheme`, `OAuth2AuthScheme`
-- Add new credential types: `OAuth2TokenCredential`, `BearerTokenCredential`, `BasicCredential`, `ApiKeyCredential`
+- Add new credential types: `OAuth2TokenCredential`, `BearerTokenCredential`, `BasicCredential`, `ApiKeyCredential`, and `ClientCredential`
 
 ### Breaking Changes
 
