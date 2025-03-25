@@ -48,14 +48,6 @@ export default function createClient(
     credentials: {
       scopes: options.credentials?.scopes ?? ["https://batch.core.windows.net//.default"],
     },
-    // additionalPolicies: [
-    //   ...(options?.additionalPolicies ?? []),
-    //   // TODO: remove after service remove certificate feature completely
-    //   {
-    //     policy: createReplacePoolPropertiesPolicy(),
-    //     position: "perCall",
-    //   },
-    // ],
   };
 
   const addClientApiVersionPolicy = (client: BatchClient): BatchClient => {
