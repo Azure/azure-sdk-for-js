@@ -1092,7 +1092,7 @@ importers:
         version: file:projects/perf-data-tables.tgz
       '@rush-temp/perf-event-hubs':
         specifier: file:./projects/perf-event-hubs.tgz
-        version: file:projects/perf-event-hubs.tgz(@types/debug@4.1.12)(@vitest/browser@3.0.9)(msw@2.7.3(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(yaml@2.7.0)
+        version: file:projects/perf-event-hubs.tgz
       '@rush-temp/perf-eventgrid':
         specifier: file:./projects/perf-eventgrid.tgz
         version: file:projects/perf-eventgrid.tgz
@@ -2650,7 +2650,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-containerservice-1@file:projects/arm-containerservice-1.tgz':
-    resolution: {integrity: sha512-dRQtuY0nbzV4BRbIOvx/SKH2BFInTMmmeAQJlmKY3dbWJv2Y7lSuq0ZTsH/dIYUSy0MlroOKL5WKBFDmNA2LWA==, tarball: file:projects/arm-containerservice-1.tgz}
+    resolution: {integrity: sha512-koW0ZnOI/WXt3PGcw4qtbwBLuELHDFMU6y256W+vbuL+fVTRlIh4A7U4Bt2aLkqAxqE3uw9sovQMqAmg94Rtwg==, tarball: file:projects/arm-containerservice-1.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-containerservice@file:projects/arm-containerservice.tgz':
@@ -3134,7 +3134,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-pineconevectordb@file:projects/arm-pineconevectordb.tgz':
-    resolution: {integrity: sha512-P5P+66MFVFSXiFopWYgyGyOUq1qBd9ti5LQ1rmTGVTvOyYUSVtfYRIUrYj5rH4H3uyUMDuQjDzfgXiDcJBoKOw==, tarball: file:projects/arm-pineconevectordb.tgz}
+    resolution: {integrity: sha512-897vmdR52e/ZGv8zauxurBRH0FleW19VQtt3NMM/kjhzNaiIfWZrJwJAaKwHLLYEjD2dpztatQe6+IyUTOSHmQ==, tarball: file:projects/arm-pineconevectordb.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-playwrighttesting@file:projects/arm-playwrighttesting.tgz':
@@ -3502,7 +3502,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/communication-rooms@file:projects/communication-rooms.tgz':
-    resolution: {integrity: sha512-wZGQ86x72CF5svp08KDZ2NimnHa7UrolQ4+jbVqI/QwTLnSpZXez84ANriWnPauXXYx9FDICKhIsrvmR6WGhZg==, tarball: file:projects/communication-rooms.tgz}
+    resolution: {integrity: sha512-6xOyOCOtDadX1jV4Rh5w5dD0M/i8mgBbuAAol5SM+RrV5DljKQYUHyDEekX+9MKtmXjnviU/QxijK5zY3PWkaw==, tarball: file:projects/communication-rooms.tgz}
     version: 0.0.0
 
   '@rush-temp/communication-short-codes@file:projects/communication-short-codes.tgz':
@@ -3774,99 +3774,99 @@ packages:
     version: 0.0.0
 
   '@rush-temp/perf-ai-form-recognizer@file:projects/perf-ai-form-recognizer.tgz':
-    resolution: {integrity: sha512-rM92zJCys0Cz4+BJO5NyPlEVda/Jk3kRynwXEtjoIvi9Pjwzo78vfjaNYCNW43q/N0fAZ7XrZA04BYMLXaQfbw==, tarball: file:projects/perf-ai-form-recognizer.tgz}
+    resolution: {integrity: sha512-/eQMnqMzNWykCz2qmkTqEtBxAw6LjkYuaW4+eQoCy48FYi9Y6p7gvCm7I5qZJtORgb27vtNP0/J4/Jij1FNi+Q==, tarball: file:projects/perf-ai-form-recognizer.tgz}
     version: 0.0.0
 
   '@rush-temp/perf-ai-language-text@file:projects/perf-ai-language-text.tgz':
-    resolution: {integrity: sha512-yXXObRC8+135ch5NJKZsj7nJmglxjYubreijwdApEMWDnyHJ9xUl/lULtNJH791KRyhQAbl/Pw0FVmaAyDFHhw==, tarball: file:projects/perf-ai-language-text.tgz}
+    resolution: {integrity: sha512-YCw+9eJBiUK0yPCH3rrkYPcL1vo5Y1HU8SwD4UcavxLS2qwesvOKtyUxehU9rMuFJf6lOCDAjc/YMIeEkGIYjg==, tarball: file:projects/perf-ai-language-text.tgz}
     version: 0.0.0
 
   '@rush-temp/perf-ai-metrics-advisor@file:projects/perf-ai-metrics-advisor.tgz':
-    resolution: {integrity: sha512-jJ1sFwMbTV8PBvsggzIFeHIvozn9bicdsm2XrFRr/DqYr1HoVV2Dlng1lbakcFE00B78d2sPDfKjdDeDymmC2Q==, tarball: file:projects/perf-ai-metrics-advisor.tgz}
+    resolution: {integrity: sha512-qXwFxH+61wT45Piv9WB6JhfD5JCWiKlrG/ns2RmfsOTx0goNIfyNf2aZJeMEX0CbaSwlyTkZTAYf82xVnUTVlQ==, tarball: file:projects/perf-ai-metrics-advisor.tgz}
     version: 0.0.0
 
   '@rush-temp/perf-ai-text-analytics@file:projects/perf-ai-text-analytics.tgz':
-    resolution: {integrity: sha512-hff3OHUcv+UWoY5whtcTM6jLzN77qRQ2pIQ30PkEzYlev/72BDMZik9nntlIWEJB8cZQJIrzJkUcsnLiDv4r6g==, tarball: file:projects/perf-ai-text-analytics.tgz}
+    resolution: {integrity: sha512-YixXl6XFtxn0+ZCcIGp/85hnYC6HbLGS1XMnKuxqImx6t6O8aLE6LbZxsnunyp2qy7RwpEICbVuQfoiqFcztPA==, tarball: file:projects/perf-ai-text-analytics.tgz}
     version: 0.0.0
 
   '@rush-temp/perf-app-configuration@file:projects/perf-app-configuration.tgz':
-    resolution: {integrity: sha512-9JrIuWvzxs9aTtdRMqIdBkEKKNeSMfPxP+vV9uuRn2FH2f86PNPaYJOmx4/HUWf+WHCIBfT9joh+uP0qVRmA0Q==, tarball: file:projects/perf-app-configuration.tgz}
+    resolution: {integrity: sha512-VPjpWCfCgp04jBg6iBD+GXohn1DBN/Ju4AXbd4UVQXoYdJaTeihOLtsx1Fv2q+Xh1oK0Py+yO94Y4bNcNiL3YA==, tarball: file:projects/perf-app-configuration.tgz}
     version: 0.0.0
 
   '@rush-temp/perf-container-registry@file:projects/perf-container-registry.tgz':
-    resolution: {integrity: sha512-9x7GHzZ4S/EVMFUe/gT5Hwkx72orB7dEnZ+Bd6hR4PfXzq+kV1sjFqZhUp4g6PTuptGhLK9kGwlTG75sq1BC9A==, tarball: file:projects/perf-container-registry.tgz}
+    resolution: {integrity: sha512-0w7I1mkLdzJanCbQc3HPfJmo+hr/uLPeeyn/lghoPI7eLBele5mDGXam9iZ7G97WKI0nts5B3yuGKSh5Hby8AQ==, tarball: file:projects/perf-container-registry.tgz}
     version: 0.0.0
 
   '@rush-temp/perf-core-rest-pipeline@file:projects/perf-core-rest-pipeline.tgz':
-    resolution: {integrity: sha512-OkLUyWrc+AWiR9hnvhppH3NATP8CE2y51d7YtAn09FuzXuy2c9qJL8aYacQ8LTLwqxKheSE6RZ+SWCj69LfA7A==, tarball: file:projects/perf-core-rest-pipeline.tgz}
+    resolution: {integrity: sha512-2hVRVZJSdFDw782zgZw3XTDRKk6K6pZXnqqrVo5OZCf2X+tBVUi4UNMdtjzp4fs0/S+xHzRiNPvwapettWIVhQ==, tarball: file:projects/perf-core-rest-pipeline.tgz}
     version: 0.0.0
 
   '@rush-temp/perf-data-tables@file:projects/perf-data-tables.tgz':
-    resolution: {integrity: sha512-GUHi24sZQr1zEhEw68nTN+9JMhCOzhieAIdH6hDcqWR29blRmybf1KzTwW7Pi7cEcr9nyozR+vhNc//g+2KONQ==, tarball: file:projects/perf-data-tables.tgz}
+    resolution: {integrity: sha512-QejTawvH/ng4re/lbro8AYJhn9rz3auvbbErj2XJGoIUguS0MIEfmRx6+Q1vFe4r537KWmj+GRQLR+H2EsMBjA==, tarball: file:projects/perf-data-tables.tgz}
     version: 0.0.0
 
   '@rush-temp/perf-event-hubs@file:projects/perf-event-hubs.tgz':
-    resolution: {integrity: sha512-qDRGgSgJo1V8rHR6KnThYP1pn193XyUCYt0CGgt0kiXVSC6svdFdnsJbpkm/kIbOOHJutQBNUONHwX8iHM/f8w==, tarball: file:projects/perf-event-hubs.tgz}
+    resolution: {integrity: sha512-SzdHyfh098yLjC7i230DP7kHPiDOJSq9sKC7SJgUO+/l5tLW9IpBto5w8GqrQ6MOXM0ohmN0KLId2twMFUHhGw==, tarball: file:projects/perf-event-hubs.tgz}
     version: 0.0.0
 
   '@rush-temp/perf-eventgrid@file:projects/perf-eventgrid.tgz':
-    resolution: {integrity: sha512-yMfIN5cJbhqzF+oErvVTxZ9LeiA1FYYq1/qWhhsZkKT7tCuFLh69C0PyfpA9KfEYveRM6R9iXXifhpZksiMNvA==, tarball: file:projects/perf-eventgrid.tgz}
+    resolution: {integrity: sha512-8EYBOLm1gVmhX7eeT8AI7ItPBXasFTZx4H/J4hFhy3dRCTW9LUtWg6wv3xKRnrQZYkuLNtOJnk0OMjSrW3C9DQ==, tarball: file:projects/perf-eventgrid.tgz}
     version: 0.0.0
 
   '@rush-temp/perf-identity@file:projects/perf-identity.tgz':
-    resolution: {integrity: sha512-Dt86UCaCFQAewVnwKjQvcEIXms1ZNjWmdUCO87T/f13YC0HYVGLfVu1L1doppPdWV5ldCkzlKz7XDkcKygVt2w==, tarball: file:projects/perf-identity.tgz}
+    resolution: {integrity: sha512-OVvGYSy9di0tWD5rnda8W87XvFhLRhZFpK1rq6rU8SgY7XTfK52kthdStSF4rGE04h28gbiHposcRhCZgWvijA==, tarball: file:projects/perf-identity.tgz}
     version: 0.0.0
 
   '@rush-temp/perf-keyvault-certificates@file:projects/perf-keyvault-certificates.tgz':
-    resolution: {integrity: sha512-r7Tcd+hTK1dFA/gL82UTiZ0E2CvkcJ58yyjxY7i/QNoKvWZ1Z5ynIvAljS1ecmgFMk+5Kgd3ce3DfZ9w9/3JCQ==, tarball: file:projects/perf-keyvault-certificates.tgz}
+    resolution: {integrity: sha512-LfahOjTPW6iP2uV2j+NfQwnrMm96yTBHwoR4wRjk4UyNYPJpC1Y5G/fRVyPUZBzPfnreL7TzSo2PFZOZ2v2jXw==, tarball: file:projects/perf-keyvault-certificates.tgz}
     version: 0.0.0
 
   '@rush-temp/perf-keyvault-keys@file:projects/perf-keyvault-keys.tgz':
-    resolution: {integrity: sha512-bx9esYTHb5zaL2DEc9G65EDSYIKdGZJc3ivEiH56mmg2clVl++VLNia7ShDr6M0j9rhfNtUYSAlSJcE3t2fs2w==, tarball: file:projects/perf-keyvault-keys.tgz}
+    resolution: {integrity: sha512-KtmO4CIDiBKGeJqmKX9p6C3aKUD7QuXnqjskJiGiganM977KaFliXWC8PH2bMH92Pv9fm6BpX5mVv6yyf9AGww==, tarball: file:projects/perf-keyvault-keys.tgz}
     version: 0.0.0
 
   '@rush-temp/perf-keyvault-secrets@file:projects/perf-keyvault-secrets.tgz':
-    resolution: {integrity: sha512-NJ/shEbrxpfbOi4+9YNgAcxPLaNZ1gDbx9ClcIB6VRdraBpB6eBVmzdL4K8KgfuIP8xl5kaLBNQ/oLQtTRaApQ==, tarball: file:projects/perf-keyvault-secrets.tgz}
+    resolution: {integrity: sha512-jdzDkhcjj0zdDChT7TI5BlK+qqsTSDcnjyHaH0jnkwo2aZd3mzTc+94INrFCzvVV1pLj3EffVmoYC6AQ6MJAUA==, tarball: file:projects/perf-keyvault-secrets.tgz}
     version: 0.0.0
 
   '@rush-temp/perf-monitor-ingestion@file:projects/perf-monitor-ingestion.tgz':
-    resolution: {integrity: sha512-Yiua52li3/Qa+OtEuhK8we3JpSmGmDShfQPxeukfhiWKaBNQDPL3AnCUdNKCdUscOpT3siXLD4ta2SFlay3r5w==, tarball: file:projects/perf-monitor-ingestion.tgz}
+    resolution: {integrity: sha512-2c8J6VJrZsmCmVQ9aPOJvOKwa20SveYih+UJCTDHlkdnOUUNPz6OmVB8/gt2Pl7AorQGGrbOyhNWzFZls2vy5Q==, tarball: file:projects/perf-monitor-ingestion.tgz}
     version: 0.0.0
 
   '@rush-temp/perf-monitor-opentelemetry@file:projects/perf-monitor-opentelemetry.tgz':
-    resolution: {integrity: sha512-hT+JNqvVsnhPakW2c1UODLlQ0dn6/OJ9ERxo4cO7ND0hNmjrk+HS8YhROpmnQ0e0+/vEgbDUXXPM+fVDdv7tbg==, tarball: file:projects/perf-monitor-opentelemetry.tgz}
+    resolution: {integrity: sha512-nwr+4PRhn/YqxelVMEVgPig2prXSLCU+EP/ryFZQqwIQNPZiV/KNeCz2oDKA/WUZPiO/JDKIDufcDaLgpy17DA==, tarball: file:projects/perf-monitor-opentelemetry.tgz}
     version: 0.0.0
 
   '@rush-temp/perf-monitor-query@file:projects/perf-monitor-query.tgz':
-    resolution: {integrity: sha512-ztwhbcBk/sTdFmmnGAefc8On9oI0u2RFjUvxaOKSiVyTbjkF4gSPEE/JEgbGJu362u+Kf1KOjKZYLmT1sC39eg==, tarball: file:projects/perf-monitor-query.tgz}
+    resolution: {integrity: sha512-spYI42XUNEMuTGD5NAh7U5kzU0A6biUq9m+ekdDuEI/LwfGa58p8pOU6Muvwam8BkUYu9XV1wtMlZRKU0BIvDw==, tarball: file:projects/perf-monitor-query.tgz}
     version: 0.0.0
 
   '@rush-temp/perf-schema-registry-avro@file:projects/perf-schema-registry-avro.tgz':
-    resolution: {integrity: sha512-+/G8O5wTHiRLd1MBpVDQjROJhER1SUhcNlrVICTz5zt+fevTsnVdU3DdA/5nCv7FnSl00D7TI01UDQfhfy/UXQ==, tarball: file:projects/perf-schema-registry-avro.tgz}
+    resolution: {integrity: sha512-Anhi+Z+jFTjo2Hv15iACpW/UXLfGPs0LY8jJetdrK4BJWKPBjtV0d2MmQH9v/4mwQUixdfrPa/dF5kC/BiXmhw==, tarball: file:projects/perf-schema-registry-avro.tgz}
     version: 0.0.0
 
   '@rush-temp/perf-search-documents@file:projects/perf-search-documents.tgz':
-    resolution: {integrity: sha512-b8uIzPe5VFA3PgItVGcI8tfn60lXCFM8077xXJ+WxAYeDxO6wg21srS+s6GU6BCrvhobDhHW3Es+I5kWurN2+w==, tarball: file:projects/perf-search-documents.tgz}
+    resolution: {integrity: sha512-VmwXra6CepPv3M3ethp+bpECXJo9nKDs0BFSjKTSIfqD0ajb5Mq88YWDFiSdLLlntaVF5IsOXEXrZ94RpjyMfQ==, tarball: file:projects/perf-search-documents.tgz}
     version: 0.0.0
 
   '@rush-temp/perf-service-bus@file:projects/perf-service-bus.tgz':
-    resolution: {integrity: sha512-2t5GosYNEAb0zcsh2iHeafea+eW9dapnOOIJu0mEY1BM/k/45ROWEkBFRO3GpwXzHrxsZ/urxDVrJZMHNEh+AQ==, tarball: file:projects/perf-service-bus.tgz}
+    resolution: {integrity: sha512-jHhaSucGhp0DrpiY1RV7MmBffT/2mZpJbl72un/Tz3ICifPXesJg1FCVfFTWIwS1YrQw+IiQ+c6O8j2ctB6EEw==, tarball: file:projects/perf-service-bus.tgz}
     version: 0.0.0
 
   '@rush-temp/perf-storage-blob@file:projects/perf-storage-blob.tgz':
-    resolution: {integrity: sha512-mjU/w5p71dmV0Gd4J3xYests2/dH+yTxZEUVcRXnqj2Yi25sS6CqGLB7R7Fi0GPg0TljSc4XQAfb9AVFRtt3IQ==, tarball: file:projects/perf-storage-blob.tgz}
+    resolution: {integrity: sha512-tkjAnhDeWqRwZhLEX6W956aBPC5igewk907H9zJCX1knice7J+ifBIvDd0HHPaVALCU5OyIsjo16wturzTtrnQ==, tarball: file:projects/perf-storage-blob.tgz}
     version: 0.0.0
 
   '@rush-temp/perf-storage-file-datalake@file:projects/perf-storage-file-datalake.tgz':
-    resolution: {integrity: sha512-OhzaKjdTKwtYNAW8dJhz+73t6IOQpvaDGIqQ2R0f5HYWmSFJ418JNbZT+FgexHR+iXLzmaJEXU2E5el+orbmgw==, tarball: file:projects/perf-storage-file-datalake.tgz}
+    resolution: {integrity: sha512-O1FncZRc9xPF3AeScKbiWtaoM5tzsj+sS0CtqpI/YLSlsQhrXVC7PWbulXl3VwJ2BjNQw+R7CmwxT1TreqxzbA==, tarball: file:projects/perf-storage-file-datalake.tgz}
     version: 0.0.0
 
   '@rush-temp/perf-storage-file-share@file:projects/perf-storage-file-share.tgz':
-    resolution: {integrity: sha512-0EmfhpZnjn3yxng5UYDMwxKPkiHYwkeNJFHwLPxayGzJhiiRgd5cNIM4Pvh5UNSIHIcSJVXltoazvBY/Pmrh1w==, tarball: file:projects/perf-storage-file-share.tgz}
+    resolution: {integrity: sha512-uAGM+cp2KcN0zn7zHy4QvhE+CL+KdFR+fbNLZ0lv08/upp7BUhI/FegqqpoUpG+1+c2n3+EZPQZOjrYfVPKrGw==, tarball: file:projects/perf-storage-file-share.tgz}
     version: 0.0.0
 
   '@rush-temp/perf-template@file:projects/perf-template.tgz':
-    resolution: {integrity: sha512-Ste3WlrP5J9/iTpTQJ+YAXNKdBqN2p4z+PUQrYzu/7KCKf+EIY6Uf3s4SRESptteGbcRNK3g9KBg2Lj1tNPkrw==, tarball: file:projects/perf-template.tgz}
+    resolution: {integrity: sha512-ipd3vAsSEyS9D8jF7VcFj4d7xvQZ5oWqx0k+QzhoqD3TebZKcEZuZSuqUM0/x79jOEjgpz8fjbUuv/1+ZIYCsw==, tarball: file:projects/perf-template.tgz}
     version: 0.0.0
 
   '@rush-temp/purview-administration@file:projects/purview-administration.tgz':
@@ -7675,6 +7675,11 @@ packages:
 
   typescript@5.6.3:
     resolution: {integrity: sha512-hjcS1mhfuyi4WW8IWtjP7brDrG2cuDZukyrYrSauoXGNgx0S7zceP07adYkJycEr56BOUTNPzbInooiN3fn1qw==}
+    engines: {node: '>=14.17'}
+    hasBin: true
+
+  typescript@5.7.3:
+    resolution: {integrity: sha512-84MVSjMEHP+FQRPy3pX9sTVV/INIex71s9TL2Gm5FG/WG1SqXeKyZ0k7/blY/4FdOzI12CBy1vGc4og/eus0fw==}
     engines: {node: '>=14.17'}
     hasBin: true
 
@@ -16211,13 +16216,13 @@ snapshots:
   '@rush-temp/arm-pineconevectordb@file:projects/arm-pineconevectordb.tgz(@types/debug@4.1.12)(msw@2.7.3(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(vite@6.2.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)':
     dependencies:
       '@types/node': 18.19.80
-      '@vitest/browser': 3.0.9(@types/node@18.19.80)(playwright@1.51.1)(typescript@5.6.3)(vite@6.2.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.9)
+      '@vitest/browser': 3.0.9(@types/node@18.19.80)(playwright@1.51.1)(typescript@5.7.3)(vite@6.2.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.9)
       '@vitest/coverage-istanbul': 3.0.9(vitest@3.0.9)
       dotenv: 16.4.7
       eslint: 9.22.0
       playwright: 1.51.1
       tslib: 2.8.1
-      typescript: 5.6.3
+      typescript: 5.7.3
       vitest: 3.0.9(@types/debug@4.1.12)(@types/node@18.19.80)(@vitest/browser@3.0.9)(msw@2.7.3(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(yaml@2.7.0)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
@@ -22070,7 +22075,7 @@ snapshots:
       - jiti
       - supports-color
 
-  '@rush-temp/perf-event-hubs@file:projects/perf-event-hubs.tgz(@types/debug@4.1.12)(@vitest/browser@3.0.9)(msw@2.7.3(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(yaml@2.7.0)':
+  '@rush-temp/perf-event-hubs@file:projects/perf-event-hubs.tgz':
     dependencies:
       '@types/node': 18.19.80
       dotenv: 16.4.7
@@ -22078,26 +22083,9 @@ snapshots:
       moment: 2.30.1
       tslib: 2.8.1
       typescript: 5.8.2
-      vitest: 3.0.9(@types/debug@4.1.12)(@types/node@18.19.80)(@vitest/browser@3.0.9)(msw@2.7.3(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(yaml@2.7.0)
     transitivePeerDependencies:
-      - '@edge-runtime/vm'
-      - '@types/debug'
-      - '@vitest/browser'
-      - '@vitest/ui'
-      - happy-dom
       - jiti
-      - jsdom
-      - less
-      - lightningcss
-      - msw
-      - sass
-      - sass-embedded
-      - stylus
-      - sugarss
       - supports-color
-      - terser
-      - tsx
-      - yaml
 
   '@rush-temp/perf-eventgrid@file:projects/perf-eventgrid.tgz':
     dependencies:
@@ -24019,6 +24007,27 @@ snapshots:
       '@vitest/utils': 3.0.9
       magic-string: 0.30.17
       msw: 2.7.3(@types/node@18.19.80)(typescript@5.6.3)
+      sirv: 3.0.1
+      tinyrainbow: 2.0.0
+      vitest: 3.0.9(@types/debug@4.1.12)(@types/node@22.7.9)(@vitest/browser@3.0.9)(msw@2.7.3(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(yaml@2.7.0)
+      ws: 8.18.1
+    optionalDependencies:
+      playwright: 1.51.1
+    transitivePeerDependencies:
+      - '@types/node'
+      - bufferutil
+      - typescript
+      - utf-8-validate
+      - vite
+
+  '@vitest/browser@3.0.9(@types/node@18.19.80)(playwright@1.51.1)(typescript@5.7.3)(vite@6.2.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.9)':
+    dependencies:
+      '@testing-library/dom': 10.4.0
+      '@testing-library/user-event': 14.6.1(@testing-library/dom@10.4.0)
+      '@vitest/mocker': 3.0.9(msw@2.7.3(@types/node@22.7.9)(typescript@5.8.2))(vite@6.2.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))
+      '@vitest/utils': 3.0.9
+      magic-string: 0.30.17
+      msw: 2.7.3(@types/node@18.19.80)(typescript@5.7.3)
       sirv: 3.0.1
       tinyrainbow: 2.0.0
       vitest: 3.0.9(@types/debug@4.1.12)(@types/node@22.7.9)(@vitest/browser@3.0.9)(msw@2.7.3(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(yaml@2.7.0)
@@ -26372,6 +26381,31 @@ snapshots:
     transitivePeerDependencies:
       - '@types/node'
 
+  msw@2.7.3(@types/node@18.19.80)(typescript@5.7.3):
+    dependencies:
+      '@bundled-es-modules/cookie': 2.0.1
+      '@bundled-es-modules/statuses': 1.0.1
+      '@bundled-es-modules/tough-cookie': 0.1.6
+      '@inquirer/confirm': 5.1.8(@types/node@18.19.80)
+      '@mswjs/interceptors': 0.37.6
+      '@open-draft/deferred-promise': 2.2.0
+      '@open-draft/until': 2.1.0
+      '@types/cookie': 0.6.0
+      '@types/statuses': 2.0.5
+      graphql: 16.10.0
+      headers-polyfill: 4.0.3
+      is-node-process: 1.2.0
+      outvariant: 1.4.3
+      path-to-regexp: 6.3.0
+      picocolors: 1.1.1
+      strict-event-emitter: 0.5.1
+      type-fest: 4.37.0
+      yargs: 17.7.2
+    optionalDependencies:
+      typescript: 5.7.3
+    transitivePeerDependencies:
+      - '@types/node'
+
   msw@2.7.3(@types/node@18.19.80)(typescript@5.8.2):
     dependencies:
       '@bundled-es-modules/cookie': 2.0.1
@@ -27772,6 +27806,8 @@ snapshots:
   typescript@5.6.1-rc: {}
 
   typescript@5.6.3: {}
+
+  typescript@5.7.3: {}
 
   typescript@5.8.2: {}
 
