@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 import { describe } from "vitest";
 
 // Copyright (c) Microsoft Corporation.
