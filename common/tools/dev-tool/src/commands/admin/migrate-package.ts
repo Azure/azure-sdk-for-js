@@ -383,6 +383,12 @@ function setFilesSection(packageJson: any): void {
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function addTypeScriptHybridizer(packageJson: any, options: { browser: boolean }): void {
+  // Do not remove subpath exports for modular package's package.json
+  if (packageJson["tshy"]) {
+    packageJson["tshy"].project = "./tsconfig.src.json";
+    return;
+  }
+
   packageJson["tshy"] = {
     project: "./tsconfig.src.json",
     exports: {
@@ -397,16 +403,6 @@ function addTypeScriptHybridizer(packageJson: any, options: { browser: boolean }
   // Remove the esmDialects for arm packages since we don't support ARM in the browser
   if (!options.browser) {
     delete packageJson["tshy"].esmDialects;
-  }
-
-  // Check if there are subpath exports
-  if (packageJson.exports) {
-    for (const key of Object.keys(packageJson.exports)) {
-      // Don't set for package.json or root
-      if (key !== "." && key !== "./package.json") {
-        packageJson["tshy"].exports[key] = `./src/${key.replace("./", "")}/index.ts`;
-      }
-    }
   }
 }
 
