@@ -13,7 +13,7 @@ jobs:
     isProduction: ${{ eq(parameters.Registry, 'https://registry.npmjs.org/') }}
     inputs:
     - input: pipelineArtifact
-      artifactName: ${{parameters.Artifact.name}}
+      artifactName: packages
       targetPath: "${{parameters.PathToArtifacts}}"
   pool:
     name: azsdk-pool-mms-ubuntu-2004-general
