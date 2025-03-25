@@ -193,6 +193,7 @@ describe("Pool Operations Test", () => {
         applicationPackageReferences: [],
         // Ensures the start task isn't cleared
         startTask: { commandLine: "cmd /c echo hello > hello.txt" },
+        certificateReferences: [],
       },
       contentType: "application/json; odata=minimalmetadata",
     };
