@@ -55,9 +55,5 @@ export {
   TaskHubsCreateOrUpdateOptionalParams,
   TaskHubsGetOptionalParams,
 } from "./api/taskHubs/index.js";
-export {
-  OperationsOperations,
-  SchedulersOperations,
-  TaskHubsOperations,
-} from "./classic/index.js";
+export { OperationsOperations, SchedulersOperations, TaskHubsOperations } from "./classic/index.js";
 export { PageSettings, ContinuablePage, PagedAsyncIterableIterator };

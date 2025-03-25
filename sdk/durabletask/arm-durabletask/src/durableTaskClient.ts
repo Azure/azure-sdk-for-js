@@ -6,18 +6,9 @@ import {
   DurableTaskContext,
   DurableTaskClientOptionalParams,
 } from "./api/index.js";
-import {
-  TaskHubsOperations,
-  _getTaskHubsOperations,
-} from "./classic/taskHubs/index.js";
-import {
-  SchedulersOperations,
-  _getSchedulersOperations,
-} from "./classic/schedulers/index.js";
-import {
-  OperationsOperations,
-  _getOperationsOperations,
-} from "./classic/operations/index.js";
+import { TaskHubsOperations, _getTaskHubsOperations } from "./classic/taskHubs/index.js";
+import { SchedulersOperations, _getSchedulersOperations } from "./classic/schedulers/index.js";
+import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
 import { Pipeline } from "@azure/core-rest-pipeline";
 import { TokenCredential } from "@azure/core-auth";
 
