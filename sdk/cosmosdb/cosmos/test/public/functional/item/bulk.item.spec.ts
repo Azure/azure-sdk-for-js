@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import assert from "assert";
+import assert from "node:assert";
 import type {
   BulkOptions,
   Container,
   ContainerRequest,
   OperationResponse,
   PluginConfig,
-} from "../../../../src";
+} from "../../../../src/index.js";
 import {
   Constants,
   CosmosClient,
@@ -17,17 +17,17 @@ import {
   PluginOn,
   StatusCodes,
   ErrorResponse,
-} from "../../../../src";
-import { addEntropy, getTestContainer, testForDiagnostics } from "../../common/TestHelpers";
-import type { OperationInput } from "../../../../src";
-import { BulkOperationType } from "../../../../src";
-import { generateOperationOfSize } from "../../../internal/unit/utils/batch.spec";
-import type { PartitionKey } from "../../../../src/documents";
-import { PartitionKeyDefinitionVersion, PartitionKeyKind } from "../../../../src/documents";
-import { endpoint } from "../../common/_testConfig";
-import { masterKey } from "../../common/_fakeTestSecrets";
-import { getCurrentTimestampInMs } from "../../../../src/utils/time";
-import { SubStatusCodes } from "../../../../src/common";
+} from "../../../../src/index.js";
+import { addEntropy, getTestContainer, testForDiagnostics } from "../../common/TestHelpers.js";
+import type { OperationInput } from "../../../../src/index.js";
+import { BulkOperationType } from "../../../../src/index.js";
+import { generateOperationOfSize } from "../../../internal/unit/utils/batch.spec.js";
+import type { PartitionKey } from "../../../../src/documents/index.js";
+import { PartitionKeyDefinitionVersion, PartitionKeyKind } from "../../../../src/documents/index.js";
+import { endpoint } from "../../common/_testConfig.js";
+import { masterKey } from "../../common/_fakeTestSecrets.js";
+import { getCurrentTimestampInMs } from "../../../../src/utils/time.js";
+import { SubStatusCodes } from "../../../../src/common/index.js";
 
 describe("test bulk operations", async function () {
   describe("Check size based splitting of batches", function () {
@@ -444,7 +444,7 @@ describe("test bulk operations", async function () {
         documentToCreate: [],
         operations: [],
       };
-      async function runBulkTestDataSet(dataset: BulkTestDataSet) {
+      async function runBulkTestDataSet(dataset: BulkTestDataSet): Promise<void> {
         const client = new CosmosClient({
           key: masterKey,
           endpoint,

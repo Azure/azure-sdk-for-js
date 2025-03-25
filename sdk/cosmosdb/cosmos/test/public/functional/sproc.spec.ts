@@ -1,31 +1,29 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import assert from "assert";
-import type { Context } from "mocha";
-import type { Suite } from "mocha";
-import { Constants } from "../../../src";
-import type { Container, StoredProcedureDefinition } from "../../../src/";
-import { PartitionKeyDefinitionVersion, PartitionKeyKind } from "../../../src/documents";
+import assert from "node:assert";
+import { Constants } from "../../../src/index.js";
+import type { Container, StoredProcedureDefinition } from "../../../src/index.js";
+import { PartitionKeyDefinitionVersion, PartitionKeyKind } from "../../../src/documents/index.js";
 import {
   bulkInsertItems,
   getTestContainer,
   getTestDatabase,
   removeAllDatabases,
-} from "../common/TestHelpers";
+} from "../common/TestHelpers.js";
 
 // Used for sproc
 declare let getContext: any;
 
-describe("NodeJS CRUD Tests", function (this: Suite) {
+describe("NodeJS CRUD Tests", function () {
   this.timeout(process.env.MOCHA_TIMEOUT || 10000);
-  beforeEach(async function () {
-    await removeAllDatabases();
-  });
+  beforeEach(async () => {
+      await removeAllDatabases();
+    });
   describe("Validate sproc CRUD", function () {
     let container: Container;
-    beforeEach(async function (this: Context) {
-      container = await getTestContainer(this.test.fullTitle());
-    });
+    beforeEach(async () => {
+          container = await getTestContainer(this.test.fullTitle());
+        });
 
     it("nativeApi Should do sproc CRUD operations successfully with create/replace", async function () {
       // read sprocs
@@ -95,9 +93,9 @@ describe("NodeJS CRUD Tests", function (this: Suite) {
 
   describe("Validate stored procedure functionality", function () {
     let container: Container;
-    beforeEach(async function (this: Context) {
-      container = await getTestContainer(this.test.fullTitle());
-    });
+    beforeEach(async () => {
+          container = await getTestContainer(this.test.fullTitle());
+        });
 
     it("nativeApi should do stored procedure operations successfully with create/replace", async function () {
       const sproc1: StoredProcedureDefinition = {

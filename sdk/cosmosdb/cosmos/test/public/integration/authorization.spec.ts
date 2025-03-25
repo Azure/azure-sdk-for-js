@@ -1,14 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import assert from "assert";
-import type { Suite } from "mocha";
-import type { Container } from "../../../src";
-import { CosmosClient, PermissionMode } from "../../../src";
-import type { Database } from "../../../src";
-import { endpoint } from "../common/_testConfig";
-import { getTestContainer, removeAllDatabases } from "../common/TestHelpers";
+import assert from "node:assert";
+import type { Container } from "../../../src/index.js";
+import { CosmosClient, PermissionMode } from "../../../src/index.js";
+import type { Database } from "../../../src/index.js";
+import { endpoint } from "../common/_testConfig.js";
+import { getTestContainer, removeAllDatabases } from "../common/TestHelpers.js";
 
-describe("Authorization", function (this: Suite) {
+describe("Authorization", function () {
   this.timeout(process.env.MOCHA_TIMEOUT || 10000);
 
   // TODO: should have types for all these things
@@ -27,49 +26,49 @@ describe("Authorization", function (this: Suite) {
   };
   /** ************ TEST **************/
 
-  beforeEach(async function () {
-    await removeAllDatabases();
+  beforeEach(async () => {
+      await removeAllDatabases();
 
-    // create a database & container
-    container = await getTestContainer("Authorization tests");
-    database = container.database;
+      // create a database & container
+      container = await getTestContainer("Authorization tests");
+      database = container.database;
 
-    // create userReadPermission
-    const { resource: userDef } = await container.database.users.create(userReadDefinition);
-    assert.equal(userReadDefinition.id, userDef.id, "userReadPermission is not created properly");
-    userReadDefinition = userDef;
-    const userRead = container.database.user(userDef.id);
+      // create userReadPermission
+      const { resource: userDef } = await container.database.users.create(userReadDefinition);
+      assert.equal(userReadDefinition.id, userDef.id, "userReadPermission is not created properly");
+      userReadDefinition = userDef;
+      const userRead = container.database.user(userDef.id);
 
-    // give permission to read container, to userReadPermission
-    collReadPermission.resource = container.url;
-    const { resource: readPermission } = await userRead.permissions.create(collReadPermission);
-    assert.equal(
-      readPermission.id,
-      collReadPermission.id,
-      "permission to read coll1 is not created properly",
-    );
-    collReadPermission = readPermission;
+      // give permission to read container, to userReadPermission
+      collReadPermission.resource = container.url;
+      const { resource: readPermission } = await userRead.permissions.create(collReadPermission);
+      assert.equal(
+        readPermission.id,
+        collReadPermission.id,
+        "permission to read coll1 is not created properly",
+      );
+      collReadPermission = readPermission;
 
-    // create userAllPermission
-    const { resource: userAllDef } = await container.database.users.create(userAllDefinition);
-    assert.equal(userAllDefinition.id, userAllDef.id, "userAllPermission is not created properly");
-    userAllDefinition = userAllDef;
-    const userAll = container.database.user(userAllDef.id);
+      // create userAllPermission
+      const { resource: userAllDef } = await container.database.users.create(userAllDefinition);
+      assert.equal(userAllDefinition.id, userAllDef.id, "userAllPermission is not created properly");
+      userAllDefinition = userAllDef;
+      const userAll = container.database.user(userAllDef.id);
 
-    // create collAllPermission
-    collAllPermission.resource = container.url;
-    const { resource: allPermission } = await userAll.permissions.create(collAllPermission);
-    assert.equal(
-      collAllPermission.id,
-      allPermission.id,
-      "permission to read coll2 is not created properly",
-    );
-    collAllPermission = allPermission;
-  });
+      // create collAllPermission
+      collAllPermission.resource = container.url;
+      const { resource: allPermission } = await userAll.permissions.create(collAllPermission);
+      assert.equal(
+        collAllPermission.id,
+        allPermission.id,
+        "permission to read coll2 is not created properly",
+      );
+      collAllPermission = allPermission;
+    });
 
-  afterEach(async function () {
-    await removeAllDatabases();
-  });
+  afterEach(async () => {
+      await removeAllDatabases();
+    });
 
   it("Accessing container by resourceTokens", async function () {
     const rTokens: any = {};

@@ -1,15 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import assert from "assert";
-import type { Suite } from "mocha";
-import type { UserDefinition } from "../../../src";
-import { createOrUpsertUser, getTestDatabase, removeAllDatabases } from "../common/TestHelpers";
+import assert from "node:assert";
+import type { UserDefinition } from "../../../src/index.js";
+import { createOrUpsertUser, getTestDatabase, removeAllDatabases } from "../common/TestHelpers.js";
 
-describe("NodeJS CRUD Tests", function (this: Suite) {
+describe("NodeJS CRUD Tests", function () {
   this.timeout(process.env.MOCHA_TIMEOUT || 10000);
-  beforeEach(async function () {
-    await removeAllDatabases();
-  });
+  beforeEach(async () => {
+      await removeAllDatabases();
+    });
   describe("Validate User CRUD", function () {
     const userCRUDTest = async function (isUpsertTest: boolean): Promise<void> {
       // create database

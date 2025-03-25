@@ -4,16 +4,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import assert from "assert";
-import type { EncryptionKeyResolver } from "../../../../src/encryption";
+import assert from "node:assert";
+import type { EncryptionKeyResolver } from "../../../../src/encryption/index.js";
 import {
   EncryptionKeyResolverName,
   EncryptionKeyStoreProvider,
   KeyEncryptionKey,
   ProtectedDataEncryptionKey,
-} from "../../../../src/encryption";
-import { ProtectedDataEncryptionKeyCache } from "../../../../src/encryption/Cache/ProtectedDataEncryptionKeyCache";
-import { ErrorResponse, StatusCodes } from "../../../../src";
+} from "../../../../src/encryption/index.js";
+import { ProtectedDataEncryptionKeyCache } from "../../../../src/encryption/Cache/ProtectedDataEncryptionKeyCache.js";
+import { ErrorResponse, StatusCodes } from "../../../../src/index.js";
 
 export class MockKeyVaultEncryptionKeyResolver implements EncryptionKeyResolver {
   encryptionKeyResolverName = EncryptionKeyResolverName.AzureKeyVault;
@@ -64,25 +64,25 @@ describe("ProtectedDataEncryptionKeyCache", function () {
   let keyStoreProvider: EncryptionKeyStoreProvider;
   let protectedDataEncryptionKey: ProtectedDataEncryptionKey;
 
-  beforeEach(async function () {
-    const resolver = new MockKeyVaultEncryptionKeyResolver();
-    keyStoreProvider = new EncryptionKeyStoreProvider(resolver, 0);
-    keyEncryptionKey = new KeyEncryptionKey("metadataName", "metadataPath", keyStoreProvider);
-    const cacheTTL = 5000;
-    protectedDataEncryptionKeyCache = new ProtectedDataEncryptionKeyCache(cacheTTL);
-    const encryptedKey = Buffer.alloc(32);
-    key = JSON.stringify([
-      "encryptionKeyId",
-      keyEncryptionKey.name,
-      keyEncryptionKey.path,
-      encryptedKey.toString("hex"),
-    ]);
-    protectedDataEncryptionKey = await protectedDataEncryptionKeyCache.getOrCreate(
-      "encryptionKeyId",
-      keyEncryptionKey,
-      encryptedKey,
-    );
-  });
+  beforeEach(async () => {
+      const resolver = new MockKeyVaultEncryptionKeyResolver();
+      keyStoreProvider = new EncryptionKeyStoreProvider(resolver, 0);
+      keyEncryptionKey = new KeyEncryptionKey("metadataName", "metadataPath", keyStoreProvider);
+      const cacheTTL = 5000;
+      protectedDataEncryptionKeyCache = new ProtectedDataEncryptionKeyCache(cacheTTL);
+      const encryptedKey = Buffer.alloc(32);
+      key = JSON.stringify([
+        "encryptionKeyId",
+        keyEncryptionKey.name,
+        keyEncryptionKey.path,
+        encryptedKey.toString("hex"),
+      ]);
+      protectedDataEncryptionKey = await protectedDataEncryptionKeyCache.getOrCreate(
+        "encryptionKeyId",
+        keyEncryptionKey,
+        encryptedKey,
+      );
+    });
 
   it("should create and cache a protected data encryption key", async function () {
     const result = protectedDataEncryptionKeyCache.get(key);
@@ -125,8 +125,8 @@ describe("ProtectedDataEncryptionKeyCache", function () {
     );
     clearTimeout(cacheWithZeroTTL.cacheRefresher);
   });
-  afterEach(function () {
-    clearTimeout(protectedDataEncryptionKeyCache.cacheRefresher);
-    clearTimeout(keyStoreProvider.cacheRefresher);
-  });
+  afterEach(async () => {
+      clearTimeout(protectedDataEncryptionKeyCache.cacheRefresher);
+      clearTimeout(keyStoreProvider.cacheRefresher);
+    });
 });

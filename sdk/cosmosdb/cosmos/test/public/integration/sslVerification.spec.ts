@@ -1,9 +1,9 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import assert from "assert";
-import { CosmosClient } from "../../../src";
-import { getTestDatabase } from "../common/TestHelpers";
-import https from "https";
+import assert from "node:assert";
+import { CosmosClient } from "../../../src/index.js";
+import { getTestDatabase } from "../common/TestHelpers.js";
+import https from "node:https";
 
 const endpoint = "https://localhost:8081";
 const masterKey =

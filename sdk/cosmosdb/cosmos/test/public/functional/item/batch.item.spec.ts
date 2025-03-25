@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import assert from "assert";
-import type { Container, OperationResponse } from "../../../../src";
-import { CosmosClient, OperationType, PatchOperationType, ResourceType } from "../../../../src";
-import { addEntropy, testForDiagnostics } from "../../common/TestHelpers";
-import type { OperationInput } from "../../../../src";
-import { BulkOperationType } from "../../../../src";
-import { PartitionKeyKind } from "../../../../src/documents";
-import { endpoint } from "../../common/_testConfig";
-import { masterKey } from "../../common/_fakeTestSecrets";
-import { getCurrentTimestampInMs } from "../../../../src/utils/time";
+import assert from "node:assert";
+import type { Container, OperationResponse } from "../../../../src/index.js";
+import { CosmosClient, OperationType, PatchOperationType, ResourceType } from "../../../../src/index.js";
+import { addEntropy, testForDiagnostics } from "../../common/TestHelpers.js";
+import type { OperationInput } from "../../../../src/index.js";
+import { BulkOperationType } from "../../../../src/index.js";
+import { PartitionKeyKind } from "../../../../src/documents/index.js";
+import { endpoint } from "../../common/_testConfig.js";
+import { masterKey } from "../../common/_fakeTestSecrets.js";
+import { getCurrentTimestampInMs } from "../../../../src/utils/time.js";
 
 describe("test batch operations", function () {
   describe("v2 multi partition container", async function () {

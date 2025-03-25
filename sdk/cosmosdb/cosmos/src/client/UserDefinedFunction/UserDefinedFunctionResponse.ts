@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { CosmosDiagnostics } from "../../CosmosDiagnostics";
-import type { CosmosHeaders } from "../../queryExecutionContext";
-import { ResourceResponse } from "../../request";
-import type { Resource } from "../Resource";
-import type { UserDefinedFunction } from "./UserDefinedFunction";
-import type { UserDefinedFunctionDefinition } from "./UserDefinedFunctionDefinition";
+import type { CosmosDiagnostics } from "../../CosmosDiagnostics.js";
+import type { CosmosHeaders } from "../../queryExecutionContext/index.js";
+import { ResourceResponse } from "../../request/index.js";
+import type { Resource } from "../Resource.js";
+import type { UserDefinedFunction } from "./UserDefinedFunction.js";
+import type { UserDefinedFunctionDefinition } from "./UserDefinedFunctionDefinition.js";
 
 export class UserDefinedFunctionResponse extends ResourceResponse<
   UserDefinedFunctionDefinition & Resource

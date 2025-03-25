@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import assert from "assert";
-import { FeedRangeQueue } from "../../../../src/client/ChangeFeed/FeedRangeQueue";
-import { ChangeFeedRange } from "../../../../src/client/ChangeFeed/ChangeFeedRange";
+import assert from "node:assert";
+import { FeedRangeQueue } from "../../../../src/client/ChangeFeed/FeedRangeQueue.js";
+import { ChangeFeedRange } from "../../../../src/client/ChangeFeed/ChangeFeedRange.js";
 
 const feedRanges = [
   {

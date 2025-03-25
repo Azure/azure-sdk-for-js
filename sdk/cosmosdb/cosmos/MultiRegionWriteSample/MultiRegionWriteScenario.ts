@@ -2,10 +2,10 @@
 // Licensed under the MIT License.
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
-import { ConsistencyLevel, CosmosClient } from "../../dist";
-import config from "./config";
-import { ConflictWorker } from "./ConflictWorker";
-import { Worker } from "./Worker";
+import { ConsistencyLevel, CosmosClient } from "../../dist.js";
+import config from "./config.js";
+import { ConflictWorker } from "./ConflictWorker.js";
+import { Worker } from "./Worker.js";
 export class MultiRegionWriteScenario {
   private basicWorkers: Worker[] = [];
   private conflictWorker: ConflictWorker;

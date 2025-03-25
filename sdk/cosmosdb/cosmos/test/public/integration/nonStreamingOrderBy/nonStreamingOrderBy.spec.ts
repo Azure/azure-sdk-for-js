@@ -1,18 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import assert from "assert";
-import type { Container } from "../../../../src";
-import { CosmosClient } from "../../../../src";
-import { endpoint } from "../../common/_testConfig";
-import { masterKey } from "../../common/_fakeTestSecrets";
-import { getTestContainer, removeAllDatabases } from "../../common/TestHelpers";
-import type { IndexingPolicy, VectorEmbeddingPolicy } from "../../../../src";
+import assert from "node:assert";
+import type { Container } from "../../../../src/index.js";
+import { CosmosClient } from "../../../../src/index.js";
+import { endpoint } from "../../common/_testConfig.js";
+import { masterKey } from "../../common/_fakeTestSecrets.js";
+import { getTestContainer, removeAllDatabases } from "../../common/TestHelpers.js";
+import type { IndexingPolicy, VectorEmbeddingPolicy } from "../../../../src/index.js";
 import {
   VectorEmbeddingDataType,
   VectorEmbeddingDistanceFunction,
   VectorIndexType,
-} from "../../../../src/documents";
+} from "../../../../src/documents/index.js";
 
 describe("Test nonStreaming Queries", function () {
   this.timeout(process.env.MOCHA_TIMEOUT || 30000);

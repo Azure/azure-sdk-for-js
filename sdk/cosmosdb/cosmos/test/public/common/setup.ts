@@ -3,7 +3,7 @@
 
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 require("source-map-support").install();
-import util from "util";
+import util from "node:util";
 
 process.on("unhandledRejection", (error: any) => {
   if (error.body) {

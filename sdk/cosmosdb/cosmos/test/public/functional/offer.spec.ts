@@ -1,12 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import assert from "assert";
-import type { Context } from "mocha";
-import type { Suite } from "mocha";
-import { Constants, CosmosClient } from "../../../src";
-import { endpoint } from "../common/_testConfig";
-import { masterKey } from "../common/_fakeTestSecrets";
-import { getTestContainer, removeAllDatabases } from "../common/TestHelpers";
+import assert from "node:assert";
+import { Constants, CosmosClient } from "../../../src/index.js";
+import { endpoint } from "../common/_testConfig.js";
+import { masterKey } from "../common/_fakeTestSecrets.js";
+import { getTestContainer, removeAllDatabases } from "../common/TestHelpers.js";
 
 const client = new CosmosClient({
   endpoint,
@@ -22,13 +20,13 @@ const validateOfferResponseBody = function (offer: any): void {
   assert(offer._self.indexOf(offer.id) !== -1, "Offer id not contained in offer self link.");
 };
 
-describe("NodeJS CRUD Tests", function (this: Suite) {
+describe("NodeJS CRUD Tests", function () {
   this.timeout(process.env.MOCHA_TIMEOUT || 10000);
 
-  beforeEach(async function (this: Context) {
-    this.timeout(process.env.MOCHA_TIMEOUT || 10000);
-    await removeAllDatabases();
-  });
+  beforeEach(async () => {
+      this.timeout(process.env.MOCHA_TIMEOUT || 10000);
+      await removeAllDatabases();
+    });
 
   describe("Validate Offer CRUD", function () {
     it("nativeApi Should do offer read and query operations successfully name based single partition collection", async function () {

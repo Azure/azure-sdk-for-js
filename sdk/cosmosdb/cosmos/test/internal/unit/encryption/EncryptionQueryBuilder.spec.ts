@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import * as assert from "assert";
+import * as assert from "node:assert";
 import {
   EncryptionQueryBuilder,
   CosmosEncryptedNumber,
   CosmosEncryptedNumberType,
-} from "../../../../src/encryption";
-import { TypeMarker } from "../../../../src/encryption/enums/TypeMarker";
-import { JSONArray, JSONObject } from "../../../../src";
+} from "../../../../src/encryption/index.js";
+import { TypeMarker } from "../../../../src/encryption/enums/TypeMarker.js";
+import { JSONArray, JSONObject } from "../../../../src/index.js";
 
 describe("EncryptionQueryBuilder.addParameter", () => {
   it("should add a null parameter", () => {

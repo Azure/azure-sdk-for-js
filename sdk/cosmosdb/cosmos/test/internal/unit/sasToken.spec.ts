@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import assert from "assert";
-import { CosmosClient } from "../../../src";
-import { endpoint } from "../../public/common/_testConfig";
-import { masterKey, userSasTokenKey } from "../../public/common/_fakeTestSecrets";
-import { SasTokenPermissionKind } from "../../../src/common";
-import { createAuthorizationSasToken } from "../../../src/utils/SasToken";
-import type { SasTokenProperties } from "../../../src/client/SasToken/SasTokenProperties";
+import assert from "node:assert";
+import { CosmosClient } from "../../../src/index.js";
+import { endpoint } from "../../public/common/_testConfig.js";
+import { masterKey, userSasTokenKey } from "../../public/common/_fakeTestSecrets.js";
+import { SasTokenPermissionKind } from "../../../src/common/index.js";
+import { createAuthorizationSasToken } from "../../../src/utils/SasToken.js";
+import type { SasTokenProperties } from "../../../src/client/SasToken/SasTokenProperties.js";
 
 describe.skip("SAS Token Authorization", function () {
   const sasTokenProperties = <SasTokenProperties>{

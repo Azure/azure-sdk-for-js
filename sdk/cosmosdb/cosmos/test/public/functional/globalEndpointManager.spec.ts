@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { DatabaseAccount, ResourceResponse } from "../../../src";
-import { masterKey } from "../common/_fakeTestSecrets";
-import { GlobalEndpointManager } from "../../../src";
-import { OperationType, ResourceType } from "../../../src";
+import { DatabaseAccount, ResourceResponse } from "../../../src/index.js";
+import { masterKey } from "../common/_fakeTestSecrets.js";
+import { GlobalEndpointManager } from "../../../src/index.js";
+import { OperationType, ResourceType } from "../../../src/index.js";
 import * as fakeTimers from "@sinonjs/fake-timers";
 
-import assert from "assert";
-import { createDummyDiagnosticNode } from "../common/TestHelpers";
-import { getEmptyCosmosDiagnostics } from "../../../src/utils/diagnostics";
+import assert from "node:assert";
+import { createDummyDiagnosticNode } from "../common/TestHelpers.js";
+import { getEmptyCosmosDiagnostics } from "../../../src/utils/diagnostics.js";
 
 const locationUnavailabilityExpiratationTime = 6 * 60 * 1000;
 const headers = {

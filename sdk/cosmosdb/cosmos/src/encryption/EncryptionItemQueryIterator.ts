@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { Container } from "../client";
-import type { ClientContext } from "../ClientContext";
-import { Constants, ResourceType } from "../common/constants";
-import { DiagnosticNodeInternal, DiagnosticNodeType } from "../diagnostics/DiagnosticNodeInternal";
-import type { SqlQuerySpec, FetchFunctionCallback } from "../queryExecutionContext";
-import { QueryIterator } from "../queryIterator";
-import type { FeedOptions, FeedResponse } from "../request";
-import { withDiagnostics } from "../utils/diagnostics";
+import type { Container } from "../client/index.js";
+import type { ClientContext } from "../ClientContext.js";
+import { Constants, ResourceType } from "../common/constants.js";
+import { DiagnosticNodeInternal, DiagnosticNodeType } from "../diagnostics/DiagnosticNodeInternal.js";
+import type { SqlQuerySpec, FetchFunctionCallback } from "../queryExecutionContext/index.js";
+import { QueryIterator } from "../queryIterator.js";
+import type { FeedOptions, FeedResponse } from "../request/index.js";
+import { withDiagnostics } from "../utils/diagnostics.js";
 
 /**
  * @internal

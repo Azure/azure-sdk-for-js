@@ -1,16 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import assert from "assert";
-import type { Suite } from "mocha";
-import type { Container } from "../../../src";
-import { OperationType, ResourceType, Constants } from "../../../src/common";
-import { CosmosClient } from "../../../src";
-import { endpoint } from "../common/_testConfig";
-import { masterKey } from "../common/_fakeTestSecrets";
+import assert from "node:assert";
+import type { Container } from "../../../src/index.js";
+import { OperationType, ResourceType, Constants } from "../../../src/common/index.js";
+import { CosmosClient } from "../../../src/index.js";
+import { endpoint } from "../common/_testConfig.js";
+import { masterKey } from "../common/_fakeTestSecrets.js";
 import { expect } from "chai";
-import { PriorityLevel } from "../../../src/documents/PriorityLevel";
-import { BulkOperationType } from "../../../src";
-import { addEntropy, removeAllDatabases, createOrUpsertItem } from "../common/TestHelpers";
+import { PriorityLevel } from "../../../src/documents/PriorityLevel.js";
+import { BulkOperationType } from "../../../src/index.js";
+import { addEntropy, removeAllDatabases, createOrUpsertItem } from "../common/TestHelpers.js";
 
 interface TestItem {
   id?: string;
@@ -28,11 +27,11 @@ interface TestItem {
   prop?: number;
 }
 
-describe("ItemCRUDWithThorughputBucket", function (this: Suite) {
+describe("ItemCRUDWithThorughputBucket", function () {
   this.timeout(process.env.MOCHA_TIMEOUT || 10000);
-  beforeEach(async function () {
-    await removeAllDatabases();
-  });
+  beforeEach(async () => {
+      await removeAllDatabases();
+    });
   const dbId = addEntropy("throughputBucketDb");
   const containerId = addEntropy("throughputBucketContainer");
   const documentCRUDTest = async function (isUpsertTest: boolean): Promise<void> {

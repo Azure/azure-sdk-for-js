@@ -1,14 +1,14 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 /* eslint-disable no-unused-expressions */
-import type { Container } from "../../../src";
-import { bulkInsertItems, getTestContainer, removeAllDatabases } from "../common/TestHelpers";
-import type { CosmosClientOptions, PluginConfig } from "../../../src";
-import { Constants, CosmosClient, PluginOn } from "../../../src";
-import { endpoint } from "../common/_testConfig";
-import { masterKey } from "../common/_fakeTestSecrets";
-import { SubStatusCodes } from "../../../src/common";
-import assert from "assert";
+import type { Container } from "../../../src/index.js";
+import { bulkInsertItems, getTestContainer, removeAllDatabases } from "../common/TestHelpers.js";
+import type { CosmosClientOptions, PluginConfig } from "../../../src/index.js";
+import { Constants, CosmosClient, PluginOn } from "../../../src/index.js";
+import { endpoint } from "../common/_testConfig.js";
+import { masterKey } from "../common/_fakeTestSecrets.js";
+import { SubStatusCodes } from "../../../src/common/index.js";
+import assert from "node:assert";
 import { expect } from "chai";
 
 const splitError = new Error("Fake Partition Split") as any;

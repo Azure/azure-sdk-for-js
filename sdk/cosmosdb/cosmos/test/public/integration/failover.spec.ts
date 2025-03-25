@@ -2,11 +2,11 @@
 // Licensed under the MIT License.
 /* eslint-disable no-unused-expressions */
 import { expect } from "chai";
-import type { CosmosClientOptions, PluginConfig } from "../../../src";
-import { CosmosClient, PluginOn } from "../../../src";
-import { masterKey } from "../common/_fakeTestSecrets";
-import assert from "assert";
-import { getEmptyCosmosDiagnostics } from "../../../src/utils/diagnostics";
+import type { CosmosClientOptions, PluginConfig } from "../../../src/index.js";
+import { CosmosClient, PluginOn } from "../../../src/index.js";
+import { masterKey } from "../common/_fakeTestSecrets.js";
+import assert from "node:assert";
+import { getEmptyCosmosDiagnostics } from "../../../src/utils/diagnostics.js";
 
 const endpoint = "https://failovertest.documents.azure.com/";
 

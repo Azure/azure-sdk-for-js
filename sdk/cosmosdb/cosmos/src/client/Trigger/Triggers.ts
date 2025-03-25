@@ -1,17 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { ClientContext } from "../../ClientContext";
-import type { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
-import { getIdFromLink, getPathFromLink, isResourceValid, ResourceType } from "../../common";
-import type { SqlQuerySpec } from "../../queryExecutionContext";
-import { QueryIterator } from "../../queryIterator";
-import type { FeedOptions, RequestOptions } from "../../request";
-import type { Container } from "../Container";
-import type { Resource } from "../Resource";
-import { Trigger } from "./Trigger";
-import type { TriggerDefinition } from "./TriggerDefinition";
-import { TriggerResponse } from "./TriggerResponse";
-import { getEmptyCosmosDiagnostics, withDiagnostics } from "../../utils/diagnostics";
+import type { ClientContext } from "../../ClientContext.js";
+import type { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal.js";
+import { getIdFromLink, getPathFromLink, isResourceValid, ResourceType } from "../../common/index.js";
+import type { SqlQuerySpec } from "../../queryExecutionContext/index.js";
+import { QueryIterator } from "../../queryIterator.js";
+import type { FeedOptions, RequestOptions } from "../../request/index.js";
+import type { Container } from "../Container/index.js";
+import type { Resource } from "../Resource.js";
+import { Trigger } from "./Trigger.js";
+import type { TriggerDefinition } from "./TriggerDefinition.js";
+import { TriggerResponse } from "./TriggerResponse.js";
+import { getEmptyCosmosDiagnostics, withDiagnostics } from "../../utils/diagnostics.js";
 
 /**
  * Operations to create, upsert, query, and read all triggers.

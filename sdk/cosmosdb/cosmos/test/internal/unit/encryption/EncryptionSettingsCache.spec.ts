@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import assert from "assert";
-import type { ClientEncryptionPolicy } from "../../../../src";
-import { EncryptionAlgorithm, EncryptionType } from "../../../../src";
-import { ClientEncryptionIncludedPath, EncryptionSettings } from "../../../../src/encryption";
-import { EncryptionSettingsCache } from "../../../../src/encryption/Cache/EncryptionSettingsCache";
+import assert from "node:assert";
+import type { ClientEncryptionPolicy } from "../../../../src/index.js";
+import { EncryptionAlgorithm, EncryptionType } from "../../../../src/index.js";
+import { ClientEncryptionIncludedPath, EncryptionSettings } from "../../../../src/encryption/index.js";
+import { EncryptionSettingsCache } from "../../../../src/encryption/Cache/EncryptionSettingsCache.js";
 
 describe("EncryptionSettingsCache", function () {
   it("should create and set encryption settings", async function () {

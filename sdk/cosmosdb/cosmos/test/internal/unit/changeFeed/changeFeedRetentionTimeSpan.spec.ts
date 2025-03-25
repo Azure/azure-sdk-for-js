@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ChangeFeedRetentionTimeSpan } from "../../../../src/client/ChangeFeed/ChangeFeedRetentionTimeSpan";
-import assert from "assert";
+import { ChangeFeedRetentionTimeSpan } from "../../../../src/client/ChangeFeed/ChangeFeedRetentionTimeSpan.js";
+import assert from "node:assert";
 
 describe("test ChangeFeedRetentionTimeSpan", function () {
   it("timeSpan should be positive number", async function () {

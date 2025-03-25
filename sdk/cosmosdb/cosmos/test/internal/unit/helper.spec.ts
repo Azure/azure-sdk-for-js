@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import assert from "assert";
-import { parseConnectionString } from "../../../src/common";
+import assert from "node:assert";
+import { parseConnectionString } from "../../../src/common/index.js";
 
 describe("Helper methods", function () {
   describe("parseConnectionString", function () {

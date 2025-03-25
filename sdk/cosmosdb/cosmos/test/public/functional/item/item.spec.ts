@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import assert from "assert";
-import type { Suite } from "mocha";
+import assert from "node:assert";
 import type {
   Container,
   ContainerDefinition,
@@ -9,8 +8,8 @@ import type {
   ItemDefinition,
   PatchOperation,
   RequestOptions,
-} from "../../../../src";
-import { CosmosClient } from "../../../../src";
+} from "../../../../src/index.js";
+import { CosmosClient } from "../../../../src/index.js";
 import {
   bulkDeleteItems,
   bulkInsertItems,
@@ -24,13 +23,13 @@ import {
   addEntropy,
   getTestContainer,
   testForDiagnostics,
-} from "../../common/TestHelpers";
-import { endpoint } from "../../common/_testConfig";
-import { masterKey } from "../../common/_fakeTestSecrets";
-import type { PartitionKey, PartitionKeyDefinition } from "../../../../src/documents";
-import { PartitionKeyDefinitionVersion, PartitionKeyKind } from "../../../../src/documents";
-import { PriorityLevel } from "../../../../src/documents/PriorityLevel";
-import { getCurrentTimestampInMs } from "../../../../src/utils/time";
+} from "../../common/TestHelpers.js";
+import { endpoint } from "../../common/_testConfig.js";
+import { masterKey } from "../../common/_fakeTestSecrets.js";
+import type { PartitionKey, PartitionKeyDefinition } from "../../../../src/documents/index.js";
+import { PartitionKeyDefinitionVersion, PartitionKeyKind } from "../../../../src/documents/index.js";
+import { PriorityLevel } from "../../../../src/documents/PriorityLevel.js";
+import { getCurrentTimestampInMs } from "../../../../src/utils/time.js";
 
 /**
  * Tests Item api.
@@ -189,10 +188,10 @@ async function CRUDTestRunner(dataset: CRUDTestDataSet, isUpsertTest: boolean): 
   // update document
 }
 
-describe("Item CRUD hierarchical partition", function (this: Suite) {
-  beforeEach(async function () {
-    await removeAllDatabases();
-  });
+describe("Item CRUD hierarchical partition", function () {
+  beforeEach(async () => {
+      await removeAllDatabases();
+    });
   it("hierarchycal partitions", async function () {
     const dbName = "hierarchical partition db";
     const database = await getTestDatabase(dbName);
@@ -238,11 +237,11 @@ describe("Item CRUD hierarchical partition", function (this: Suite) {
   });
 });
 
-describe("Create, Upsert, Read, Update, Replace, Delete Operations on Item", function (this: Suite) {
+describe("Create, Upsert, Read, Update, Replace, Delete Operations on Item", function () {
   this.timeout(process.env.MOCHA_TIMEOUT || 10000);
-  beforeEach(async function () {
-    await removeAllDatabases();
-  });
+  beforeEach(async () => {
+      await removeAllDatabases();
+    });
 
   async function multipelPartitionCRUDTest(dataset: MultiCRUDTestDataSet): Promise<void> {
     const database = await getTestDatabase(dataset.dbName);
@@ -925,11 +924,11 @@ describe("patch operations", function () {
   });
 });
 
-describe("Item CRUD with priority", function (this: Suite) {
+describe("Item CRUD with priority", function () {
   this.timeout(process.env.MOCHA_TIMEOUT || 10000);
-  beforeEach(async function () {
-    await removeAllDatabases();
-  });
+  beforeEach(async () => {
+      await removeAllDatabases();
+    });
   const documentCRUDTest = async function (isUpsertTest: boolean): Promise<void> {
     // create database
     const database = await getTestDatabase("sample 中文 database");

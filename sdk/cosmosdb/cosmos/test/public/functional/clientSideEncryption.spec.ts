@@ -2,15 +2,14 @@
 // Licensed under the MIT License.
 
 import { randomUUID } from "@azure/core-util";
-import { EncryptionAlgorithm } from "../../../src";
-import type { Suite } from "mocha";
+import { EncryptionAlgorithm } from "../../../src/index.js";
 import type {
   Database,
   Container,
   ContainerDefinition,
   OperationInput,
   PatchOperation,
-} from "../../../src";
+} from "../../../src/index.js";
 import {
   CosmosClient,
   EncryptionKeyWrapMetadata,
@@ -30,9 +29,9 @@ import {
   ChangeFeedRetentionTimeSpan,
   PartitionKeyKind,
   PermissionMode,
-} from "../../../src";
-import { masterKey } from "../common/_fakeTestSecrets";
-import { endpoint } from "../common/_testConfig";
+} from "../../../src/index.js";
+import { masterKey } from "../common/_fakeTestSecrets.js";
+import { endpoint } from "../common/_testConfig.js";
 import {
   compareMetadata,
   MockKeyVaultEncryptionKeyResolver,
@@ -48,13 +47,13 @@ import {
   testReplaceItem,
   testDeleteItem,
   verifyDiagnostics,
-} from "../common/encryptionTestHelpers";
-import { removeAllDatabases } from "../common/TestHelpers";
+} from "../common/encryptionTestHelpers.js";
+import { removeAllDatabases } from "../common/TestHelpers.js";
 import { assert } from "chai";
 import {
   CosmosEncryptedNumber,
   CosmosEncryptedNumberType,
-} from "../../../src/encryption/CosmosEncryptedNumber";
+} from "../../../src/encryption/CosmosEncryptedNumber.js";
 
 let encryptionClient: CosmosClient;
 let metadata1: EncryptionKeyWrapMetadata;
@@ -68,7 +67,7 @@ let clientEncryptionPolicy: ClientEncryptionPolicy;
 
 const testKeyVault = "TESTKEYSTORE_VAULT" as EncryptionKeyResolverName;
 
-describe("ClientSideEncryption", function (this: Suite) {
+describe("ClientSideEncryption", function () {
   before(async () => {
     await removeAllDatabases();
     testKeyEncryptionKeyResolver = new MockKeyVaultEncryptionKeyResolver();

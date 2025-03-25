@@ -1,23 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import assert from "assert";
-import type { Suite } from "mocha";
-import { CosmosClient, PermissionMode } from "../../../src";
-import type { PermissionDefinition } from "../../../src/";
-import { endpoint } from "../common/_testConfig";
-import { masterKey } from "../common/_fakeTestSecrets";
+import assert from "node:assert";
+import { CosmosClient, PermissionMode } from "../../../src/index.js";
+import type { PermissionDefinition } from "../../../src/index.js";
+import { endpoint } from "../common/_testConfig.js";
+import { masterKey } from "../common/_fakeTestSecrets.js";
 import {
   createOrUpsertPermission,
   getTestContainer,
   getTestDatabase,
   removeAllDatabases,
-} from "../common/TestHelpers";
+} from "../common/TestHelpers.js";
 
-describe("NodeJS CRUD Tests", function (this: Suite) {
+describe("NodeJS CRUD Tests", function () {
   this.timeout(process.env.MOCHA_TIMEOUT || 10000);
-  beforeEach(async function () {
-    await removeAllDatabases();
-  });
+  beforeEach(async () => {
+      await removeAllDatabases();
+    });
 
   describe("Validate Authorization", function () {
     it("should handle all the key options", async function () {

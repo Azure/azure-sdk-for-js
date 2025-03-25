@@ -1,19 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { Suite } from "mocha";
 import {
   addDignosticChild,
   getEmptyCosmosDiagnostics,
   withDiagnostics,
-} from "../../../src/utils/diagnostics";
-import { CosmosDbDiagnosticLevel } from "../../../src/diagnostics/CosmosDbDiagnosticLevel";
+} from "../../../src/utils/diagnostics.js";
+import { CosmosDbDiagnosticLevel } from "../../../src/diagnostics/CosmosDbDiagnosticLevel.js";
 import type {
   ClientConfigDiagnostic,
   CosmosClientOptions,
   RequestOptions,
   Resource,
-} from "../../../src";
+} from "../../../src/index.js";
 import {
   ClientContext,
   ConsistencyLevel,
@@ -22,21 +21,21 @@ import {
   ErrorResponse,
   GlobalEndpointManager,
   ItemResponse,
-} from "../../../src";
+} from "../../../src/index.js";
 import { expect } from "chai";
-import { getCurrentTimestampInMs } from "../../../src/utils/time";
+import { getCurrentTimestampInMs } from "../../../src/utils/time.js";
 import {
   DiagnosticNodeInternal,
   DiagnosticNodeType,
-} from "../../../src/diagnostics/DiagnosticNodeInternal";
-import { allowTracing } from "../../../src/diagnostics/diagnosticLevelComparator";
+} from "../../../src/diagnostics/DiagnosticNodeInternal.js";
+import { allowTracing } from "../../../src/diagnostics/diagnosticLevelComparator.js";
 import {
   determineDiagnosticLevel,
   getDiagnosticLevelFromEnvironment,
   setDiagnosticLevel,
-} from "../../../src/diagnostics";
+} from "../../../src/diagnostics/index.js";
 
-describe("Diagnostic Unit Tests", function (this: Suite) {
+describe("Diagnostic Unit Tests", function () {
   describe("Test withDiagnostics utility function", function () {
     const clientContext = createTestClientContext({}, undefined);
 
@@ -149,12 +148,12 @@ describe("Diagnostic Unit Tests", function (this: Suite) {
 
   describe("Test ClientConfigDiagnostic initialization", function () {
     let savedDiagnosticLevel: CosmosDbDiagnosticLevel | undefined;
-    beforeEach(async function () {
-      savedDiagnosticLevel = getDiagnosticLevelFromEnvironment();
-    });
-    afterEach(function () {
-      setDiagnosticLevel(savedDiagnosticLevel);
-    });
+    beforeEach(async () => {
+          savedDiagnosticLevel = getDiagnosticLevelFromEnvironment();
+        });
+    afterEach(async () => {
+          setDiagnosticLevel(savedDiagnosticLevel);
+        });
     it("Check for endpoint", async function () {
       setDiagnosticLevel(CosmosDbDiagnosticLevel.debug);
       const testEndpoint = "AccountEndpoint=https://localhost:8081/;AccountKey=key";

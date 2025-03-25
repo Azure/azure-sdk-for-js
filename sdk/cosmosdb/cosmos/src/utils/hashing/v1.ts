@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { doubleToByteArrayJSBI, writeNumberForBinaryEncodingJSBI } from "./encoding/number";
-import { writeStringForBinaryEncoding } from "./encoding/string";
-import { BytePrefix } from "./encoding/prefix";
-import MurmurHash from "./murmurHash";
-import type { PrimitivePartitionKeyValue } from "../../documents";
+import { doubleToByteArrayJSBI, writeNumberForBinaryEncodingJSBI } from "./encoding/number.js";
+import { writeStringForBinaryEncoding } from "./encoding/string.js";
+import { BytePrefix } from "./encoding/prefix.js";
+import MurmurHash from "./murmurHash.js";
+import type { PrimitivePartitionKeyValue } from "../../documents/index.js";
 
 const MAX_STRING_CHARS = 100;
 

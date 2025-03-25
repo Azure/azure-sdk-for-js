@@ -1,13 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import assert from "assert";
-import type { Suite } from "mocha";
-import type { RequestOptions } from "../../../src";
-import type { Container, ContainerDefinition } from "../../../src";
-import { PartitionKeyDefinitionVersion, PartitionKeyKind } from "../../../src/documents";
-import { getTestContainer, removeAllDatabases } from "../common/TestHelpers";
+import assert from "node:assert";
+import type { RequestOptions } from "../../../src/index.js";
+import type { Container, ContainerDefinition } from "../../../src/index.js";
+import { PartitionKeyDefinitionVersion, PartitionKeyKind } from "../../../src/documents/index.js";
+import { getTestContainer, removeAllDatabases } from "../common/TestHelpers.js";
 
-describe("Change Feed Iterator", function (this: Suite) {
+describe("Change Feed Iterator", function () {
   this.timeout(process.env.MOCHA_TIMEOUT || 20000);
 
   // delete all databases and create sample database

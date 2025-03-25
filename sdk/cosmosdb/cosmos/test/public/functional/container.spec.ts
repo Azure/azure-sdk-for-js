@@ -1,19 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import assert from "assert";
-import type { Suite } from "mocha";
-import type { ContainerResponse, PartitionKeyDefinition } from "../../../src";
+import assert from "node:assert";
+import type { ContainerResponse, PartitionKeyDefinition } from "../../../src/index.js";
 import {
   Constants,
   OperationType,
   PartitionKeyKind,
   ResourceType,
   StatusCodes,
-} from "../../../src";
-import type { ContainerDefinition, Database, Container } from "../../../src";
-import type { ContainerRequest } from "../../../src";
-import type { IndexedPath, IndexingPolicy } from "../../../src";
-import { DataType, IndexingMode, IndexKind } from "../../../src";
+} from "../../../src/index.js";
+import type { ContainerDefinition, Database, Container } from "../../../src/index.js";
+import type { ContainerRequest } from "../../../src/index.js";
+import type { IndexedPath, IndexingPolicy } from "../../../src/index.js";
+import { DataType, IndexingMode, IndexKind } from "../../../src/index.js";
 import {
   getTestDatabase,
   removeAllDatabases,
@@ -21,15 +20,15 @@ import {
   assertThrowsAsync,
   addEntropy,
   testForDiagnostics,
-} from "../common/TestHelpers";
-import { SpatialType } from "../../../src";
-import { GeospatialType } from "../../../src";
+} from "../common/TestHelpers.js";
+import { SpatialType } from "../../../src/index.js";
+import { GeospatialType } from "../../../src/index.js";
 
-describe("Containers", function (this: Suite) {
+describe("Containers", function () {
   this.timeout(process.env.MOCHA_TIMEOUT || 10000);
-  beforeEach(async function () {
-    await removeAllDatabases();
-  });
+  beforeEach(async () => {
+      await removeAllDatabases();
+    });
 
   describe("Container CRUD", function () {
     const containerCRUDTest = async function (
@@ -760,7 +759,7 @@ describe("container.deleteAllItemsForPartitionKey", function () {
     });
     await testDeleteAllItemsForPartitionKey(container);
   });
-  async function testDeleteAllItemsForPartitionKey(container: Container) {
+  async function testDeleteAllItemsForPartitionKey(container: Container): Promise<void> {
     const { resource: create1 } = await container.items.create({
       id: "1",
       key: "value",

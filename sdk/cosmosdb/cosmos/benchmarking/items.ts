@@ -6,14 +6,14 @@ const iterations = Number(process.env.BENCHMARK_ITERATIONS) || 100;
 async function benchmark(
   benchmarkFunction: (container: Container) => Promise<void>,
   container: Container
-) {
+): Promise<void> {
   const now = Date.now();
   await benchmarkFunction(container);
   const later = Date.now();
   return later - now;
 }
 
-async function readAllItems(container: Container) {
+async function readAllItems(container: Container): Promise<void> {
   const queryIterator = container.items.readAll({ maxItemCount: iterations });
   await queryIterator.fetchNext();
 }
@@ -35,14 +35,14 @@ async function readBatch(
   batchSize: number,
   queryIterator: any,
   token?: string
-) {
+): Promise<void> {
   queryIterator = container.items.readAll({ maxItemCount: batchSize, continuationToken: token });
   const response = await queryIterator.fetchNext();
   const continuationToken = response.continuationToken;
   return { queryIterator, continuationToken };
 }
 
-async function createItems(container: Container, count: number = 0) {
+async function createItems(container: Container, count: number = 0): Promise<void> {
   const random = `id${Math.floor(Math.random() * 10000)}`;
   await container.items.upsert({ id: random });
   if (count < iterations) {
@@ -51,7 +51,7 @@ async function createItems(container: Container, count: number = 0) {
   }
 }
 
-async function bulkCreateItems(container: Container) {
+async function bulkCreateItems(container: Container): Promise<void> {
   const operations: OperationInput[] = [];
   while (operations.length < iterations) {
     operations.push({
@@ -63,7 +63,7 @@ async function bulkCreateItems(container: Container) {
   await container.items.bulk(operations);
 }
 
-async function runBenchmarks() {
+async function runBenchmarks(): Promise<void> {
   const client = new CosmosClient({
     endpoint,
     key: process.env.BENCHMARK_KEY

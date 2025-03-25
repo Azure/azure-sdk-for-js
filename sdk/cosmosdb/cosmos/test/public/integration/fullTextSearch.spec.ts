@@ -1,12 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { Suite } from "mocha";
-import assert from "assert";
-import type { ContainerDefinition, Container } from "../../../src";
-import { getTestContainer, removeAllDatabases, readAndParseJSONFile } from "../common/TestHelpers";
+import assert from "node:assert";
+import type { ContainerDefinition, Container } from "../../../src/index.js";
+import { getTestContainer, removeAllDatabases, readAndParseJSONFile } from "../common/TestHelpers.js";
 
-describe("Validate full text search queries", function (this: Suite) {
+describe("Validate full text search queries", function () {
   this.timeout(process.env.MOCHA_TIMEOUT || 20000);
 
   const partitionKey = "id";

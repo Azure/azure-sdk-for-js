@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { IndexingPolicy, PartitionKeyDefinition } from "../../documents";
-import type { ConflictResolutionPolicy } from "../Conflict/ConflictResolutionPolicy";
-import type { UniqueKeyPolicy } from "./UniqueKeyPolicy";
-import type { GeospatialType } from "../../documents/GeospatialType";
-import type { ChangeFeedPolicy } from "../ChangeFeed/ChangeFeedPolicy";
-import type { ComputedProperty } from "../../documents/ComputedProperty";
-import type { VectorEmbeddingPolicy } from "../../documents/VectorEmbeddingPolicy";
-import type { FullTextPolicy } from "../../documents/FullTextPolicy";
-import { ClientEncryptionPolicy } from "../../encryption";
+import type { IndexingPolicy, PartitionKeyDefinition } from "../../documents/index.js";
+import type { ConflictResolutionPolicy } from "../Conflict/ConflictResolutionPolicy.js";
+import type { UniqueKeyPolicy } from "./UniqueKeyPolicy.js";
+import type { GeospatialType } from "../../documents/GeospatialType.js";
+import type { ChangeFeedPolicy } from "../ChangeFeed/ChangeFeedPolicy.js";
+import type { ComputedProperty } from "../../documents/ComputedProperty.js";
+import type { VectorEmbeddingPolicy } from "../../documents/VectorEmbeddingPolicy.js";
+import type { FullTextPolicy } from "../../documents/FullTextPolicy.js";
+import { ClientEncryptionPolicy } from "../../encryption/index.js";
 
 export interface ContainerDefinition {
   /** The id of the container. */

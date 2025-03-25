@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import assert from "assert";
-import { CosmosDbDiagnosticLevel } from "../../../../src/diagnostics/CosmosDbDiagnosticLevel";
-import { PipelinedQueryExecutionContext } from "../../../../src/queryExecutionContext/pipelinedQueryExecutionContext";
-import type { QueryInfo } from "../../../../src/request/ErrorResponse";
-import { getEmptyCosmosDiagnostics } from "../../../../src/utils/diagnostics";
+import assert from "node:assert";
+import { CosmosDbDiagnosticLevel } from "../../../../src/diagnostics/CosmosDbDiagnosticLevel.js";
+import { PipelinedQueryExecutionContext } from "../../../../src/queryExecutionContext/pipelinedQueryExecutionContext.js";
+import type { QueryInfo } from "../../../../src/request/ErrorResponse.js";
+import { getEmptyCosmosDiagnostics } from "../../../../src/utils/diagnostics.js";
 import {
   createDummyDiagnosticNode,
   createTestClientContext,
-} from "../../../public/common/TestHelpers";
+} from "../../../public/common/TestHelpers.js";
 
 describe("PipelineQueryExecutionContext", function () {
   describe("fetchMore", function () {

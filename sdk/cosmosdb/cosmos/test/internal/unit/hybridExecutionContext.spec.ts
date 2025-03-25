@@ -1,17 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { CosmosDbDiagnosticLevel, DiagnosticNodeInternal, DiagnosticNodeType } from "../../../src";
-import type { ClientContext, FeedOptions, QueryInfo } from "../../../src";
+import { CosmosDbDiagnosticLevel, DiagnosticNodeInternal, DiagnosticNodeType } from "../../../src/index.js";
+import type { ClientContext, FeedOptions, QueryInfo } from "../../../src/index.js";
 import {
   HybridQueryExecutionContext,
   HybridQueryExecutionContextBaseStates,
-} from "../../../src/queryExecutionContext/hybridQueryExecutionContext";
-import type { HybridSearchQueryInfo } from "../../../src/request/ErrorResponse";
-import type { GlobalStatistics } from "../../../src/request/globalStatistics";
-import assert from "assert";
-import type { HybridSearchQueryResult } from "../../../src/request/hybridSearchQueryResult";
+} from "../../../src/queryExecutionContext/hybridQueryExecutionContext.js";
+import type { HybridSearchQueryInfo } from "../../../src/request/ErrorResponse.js";
+import type { GlobalStatistics } from "../../../src/request/globalStatistics.js";
+import assert from "node:assert";
+import type { HybridSearchQueryResult } from "../../../src/request/hybridSearchQueryResult.js";
 import sinon from "sinon";
-import { MockedClientContext } from "../../public/common/MockClientContext";
+import { MockedClientContext } from "../../public/common/MockClientContext.js";
 
 const collectionLink = "/dbs/testDb/colls/testCollection"; // Sample collection link
 const options: FeedOptions = { maxItemCount: 2, maxDegreeOfParallelism: 1 };

@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import assert from "assert";
-import { ClientEncryptionKeyPropertiesCache } from "../../../../src/encryption/Cache/ClientEncryptionKeyPropertiesCache";
+import assert from "node:assert";
+import { ClientEncryptionKeyPropertiesCache } from "../../../../src/encryption/Cache/ClientEncryptionKeyPropertiesCache.js";
 import {
   ClientEncryptionKeyProperties,
   EncryptionKeyResolverName,
   EncryptionKeyWrapMetadata,
   KeyEncryptionAlgorithm,
-} from "../../../../src";
+} from "../../../../src/index.js";
 
 describe("ClientEncryptionKeyPropertiesCache", () => {
   it("should create an instance of ClientEncryptionKeyPropertiesCache", () => {

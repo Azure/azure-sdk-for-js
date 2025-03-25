@@ -2,16 +2,16 @@
 // Licensed under the MIT License.
 
 import sinon from "sinon";
-import { CosmosDbDiagnosticLevel } from "../../../../src/diagnostics/CosmosDbDiagnosticLevel";
-import type { QueryInfo } from "../../../../src/request/ErrorResponse";
-import { createTestClientContext } from "../../../public/common/TestHelpers";
-import type { QueryIterator } from "../../../../src/queryIterator";
-import type { PartitionKeyRange } from "../../../../src/client/Container/PartitionKeyRange";
-import type { Resource } from "../../../../src/client/Resource";
-import { OrderByQueryExecutionContext } from "../../../../src/queryExecutionContext/orderByQueryExecutionContext";
-import type { FeedOptions } from "../../../../src/request/FeedOptions";
-import assert from "assert";
-import { createDummyDiagnosticNode } from "../../../public/common/TestHelpers";
+import { CosmosDbDiagnosticLevel } from "../../../../src/diagnostics/CosmosDbDiagnosticLevel.js";
+import type { QueryInfo } from "../../../../src/request/ErrorResponse.js";
+import { createTestClientContext } from "../../../public/common/TestHelpers.js";
+import type { QueryIterator } from "../../../../src/queryIterator.js";
+import type { PartitionKeyRange } from "../../../../src/client/Container/PartitionKeyRange.js";
+import type { Resource } from "../../../../src/client/Resource.js";
+import { OrderByQueryExecutionContext } from "../../../../src/queryExecutionContext/orderByQueryExecutionContext.js";
+import type { FeedOptions } from "../../../../src/request/FeedOptions.js";
+import assert from "node:assert";
+import { createDummyDiagnosticNode } from "../../../public/common/TestHelpers.js";
 
 describe("OrderByQueryExecutionContext", function () {
   const collectionLink = "/dbs/testDb/colls/testCollection"; // Sample collection link
