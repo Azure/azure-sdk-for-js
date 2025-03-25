@@ -2,10 +2,7 @@
 // Licensed under the MIT License.
 
 import { VectorDbContext } from "../../api/vectorDbContext.js";
-import {
-  OrganizationResource,
-  OrganizationResourceUpdate,
-} from "../../models/models.js";
+import { OrganizationResource, OrganizationResourceUpdate } from "../../models/models.js";
 import {
   OrganizationsListBySubscriptionOptionalParams,
   OrganizationsListByResourceGroupOptionalParams,
@@ -71,9 +68,8 @@ export interface OrganizationsOperations {
 
 function _getOrganizations(context: VectorDbContext) {
   return {
-    listBySubscription: (
-      options?: OrganizationsListBySubscriptionOptionalParams,
-    ) => listBySubscription(context, options),
+    listBySubscription: (options?: OrganizationsListBySubscriptionOptionalParams) =>
+      listBySubscription(context, options),
     listByResourceGroup: (
       resourceGroupName: string,
       options?: OrganizationsListByResourceGroupOptionalParams,
@@ -88,21 +84,13 @@ function _getOrganizations(context: VectorDbContext) {
       organizationname: string,
       properties: OrganizationResourceUpdate,
       options?: OrganizationsUpdateOptionalParams,
-    ) =>
-      update(context, resourceGroupName, organizationname, properties, options),
+    ) => update(context, resourceGroupName, organizationname, properties, options),
     createOrUpdate: (
       resourceGroupName: string,
       organizationname: string,
       resource: OrganizationResource,
       options?: OrganizationsCreateOrUpdateOptionalParams,
-    ) =>
-      createOrUpdate(
-        context,
-        resourceGroupName,
-        organizationname,
-        resource,
-        options,
-      ),
+    ) => createOrUpdate(context, resourceGroupName, organizationname, resource, options),
     get: (
       resourceGroupName: string,
       organizationname: string,
@@ -111,9 +99,7 @@ function _getOrganizations(context: VectorDbContext) {
   };
 }
 
-export function _getOrganizationsOperations(
-  context: VectorDbContext,
-): OrganizationsOperations {
+export function _getOrganizationsOperations(context: VectorDbContext): OrganizationsOperations {
   return {
     ..._getOrganizations(context),
   };
