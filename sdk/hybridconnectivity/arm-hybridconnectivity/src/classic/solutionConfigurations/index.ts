@@ -3,22 +3,26 @@
 
 import { HybridConnectivityManagementAPIContext } from "../../api/hybridConnectivityManagementAPIContext.js";
 import {
+  SolutionConfiguration,
+  SolutionConfigurationUpdate,
+  OperationStatusResult,
+} from "../../models/models.js";
+import {
   SolutionConfigurationsSyncNowOptionalParams,
   SolutionConfigurationsListOptionalParams,
   SolutionConfigurationsDeleteOptionalParams,
   SolutionConfigurationsUpdateOptionalParams,
   SolutionConfigurationsCreateOrUpdateOptionalParams,
   SolutionConfigurationsGetOptionalParams,
-} from "../../api/options.js";
+} from "../../api/solutionConfigurations/options.js";
 import {
-  solutionConfigurationsSyncNow,
-  solutionConfigurationsList,
-  solutionConfigurationsDelete,
-  solutionConfigurationsUpdate,
-  solutionConfigurationsCreateOrUpdate,
-  solutionConfigurationsGet,
-} from "../../api/solutionConfigurations/index.js";
-import { SolutionConfiguration, OperationStatusResult } from "../../models/models.js";
+  syncNow,
+  list,
+  $delete,
+  update,
+  createOrUpdate,
+  get,
+} from "../../api/solutionConfigurations/operations.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 
@@ -36,6 +40,11 @@ export interface SolutionConfigurationsOperations {
     options?: SolutionConfigurationsListOptionalParams,
   ) => PagedAsyncIterableIterator<SolutionConfiguration>;
   /** Delete a SolutionConfiguration */
+  /**
+   *  @fixme delete is a reserved word that cannot be used as an operation name.
+   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
+   *         to the operation to override the generated name.
+   */
   delete: (
     resourceUri: string,
     solutionConfiguration: string,
@@ -45,7 +54,7 @@ export interface SolutionConfigurationsOperations {
   update: (
     resourceUri: string,
     solutionConfiguration: string,
-    properties: SolutionConfiguration,
+    properties: SolutionConfigurationUpdate,
     options?: SolutionConfigurationsUpdateOptionalParams,
   ) => Promise<SolutionConfiguration>;
   /** Create a SolutionConfiguration */
@@ -63,40 +72,38 @@ export interface SolutionConfigurationsOperations {
   ) => Promise<SolutionConfiguration>;
 }
 
-function _getSolutionConfigurations(context: HybridConnectivityManagementAPIContext) {
+function _getSolutionConfigurations(
+  context: HybridConnectivityManagementAPIContext,
+) {
   return {
     syncNow: (
       resourceUri: string,
       solutionConfiguration: string,
       options?: SolutionConfigurationsSyncNowOptionalParams,
-    ) => solutionConfigurationsSyncNow(context, resourceUri, solutionConfiguration, options),
-    list: (resourceUri: string, options?: SolutionConfigurationsListOptionalParams) =>
-      solutionConfigurationsList(context, resourceUri, options),
+    ) => syncNow(context, resourceUri, solutionConfiguration, options),
+    list: (
+      resourceUri: string,
+      options?: SolutionConfigurationsListOptionalParams,
+    ) => list(context, resourceUri, options),
     delete: (
       resourceUri: string,
       solutionConfiguration: string,
       options?: SolutionConfigurationsDeleteOptionalParams,
-    ) => solutionConfigurationsDelete(context, resourceUri, solutionConfiguration, options),
+    ) => $delete(context, resourceUri, solutionConfiguration, options),
     update: (
       resourceUri: string,
       solutionConfiguration: string,
-      properties: SolutionConfiguration,
+      properties: SolutionConfigurationUpdate,
       options?: SolutionConfigurationsUpdateOptionalParams,
     ) =>
-      solutionConfigurationsUpdate(
-        context,
-        resourceUri,
-        solutionConfiguration,
-        properties,
-        options,
-      ),
+      update(context, resourceUri, solutionConfiguration, properties, options),
     createOrUpdate: (
       resourceUri: string,
       solutionConfiguration: string,
       resource: SolutionConfiguration,
       options?: SolutionConfigurationsCreateOrUpdateOptionalParams,
     ) =>
-      solutionConfigurationsCreateOrUpdate(
+      createOrUpdate(
         context,
         resourceUri,
         solutionConfiguration,
@@ -107,7 +114,7 @@ function _getSolutionConfigurations(context: HybridConnectivityManagementAPICont
       resourceUri: string,
       solutionConfiguration: string,
       options?: SolutionConfigurationsGetOptionalParams,
-    ) => solutionConfigurationsGet(context, resourceUri, solutionConfiguration, options),
+    ) => get(context, resourceUri, solutionConfiguration, options),
   };
 }
 

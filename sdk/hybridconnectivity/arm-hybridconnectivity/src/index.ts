@@ -33,6 +33,8 @@ export {
   SolutionConfigurationProperties,
   SolutionSettings,
   ExtensionResource,
+  SolutionConfigurationUpdate,
+  SolutionConfigurationPropertiesUpdate,
   OperationStatusResult,
   PublicCloudConnector,
   PublicCloudConnectorProperties,
@@ -40,6 +42,10 @@ export {
   KnownHostType,
   HostType,
   TrackedResource,
+  PublicCloudConnectorUpdate,
+  PublicCloudConnectorPropertiesUpdate,
+  AwsCloudProfileUpdate,
+  TrackedResourceUpdate,
   GenerateAwsTemplateRequest,
   SolutionTypeSettings,
   ServiceConfigurationResource,
@@ -71,32 +77,8 @@ export {
   ActionType,
   KnownVersions,
 } from "./models/index.js";
+export { HybridConnectivityManagementAPIOptionalParams } from "./api/index.js";
 export {
-  HybridConnectivityManagementAPIOptionalParams,
-  SolutionTypesListBySubscriptionOptionalParams,
-  SolutionTypesListByResourceGroupOptionalParams,
-  SolutionTypesGetOptionalParams,
-  InventoryListBySolutionConfigurationOptionalParams,
-  InventoryGetOptionalParams,
-  SolutionConfigurationsSyncNowOptionalParams,
-  SolutionConfigurationsListOptionalParams,
-  SolutionConfigurationsDeleteOptionalParams,
-  SolutionConfigurationsUpdateOptionalParams,
-  SolutionConfigurationsCreateOrUpdateOptionalParams,
-  SolutionConfigurationsGetOptionalParams,
-  PublicCloudConnectorsTestPermissionsOptionalParams,
-  PublicCloudConnectorsListBySubscriptionOptionalParams,
-  PublicCloudConnectorsListByResourceGroupOptionalParams,
-  PublicCloudConnectorsDeleteOptionalParams,
-  PublicCloudConnectorsUpdateOptionalParams,
-  PublicCloudConnectorsCreateOrUpdateOptionalParams,
-  PublicCloudConnectorsGetOptionalParams,
-  GenerateAwsTemplatePostOptionalParams,
-  ServiceConfigurationsListByEndpointResourceOptionalParams,
-  ServiceConfigurationsDeleteOptionalParams,
-  ServiceConfigurationsUpdateOptionalParams,
-  ServiceConfigurationsCreateOrupdateOptionalParams,
-  ServiceConfigurationsGetOptionalParams,
   EndpointsListManagedProxyDetailsOptionalParams,
   EndpointsListIngressGatewayCredentialsOptionalParams,
   EndpointsListCredentialsOptionalParams,
@@ -105,8 +87,42 @@ export {
   EndpointsUpdateOptionalParams,
   EndpointsCreateOrUpdateOptionalParams,
   EndpointsGetOptionalParams,
-  OperationsListOptionalParams,
-} from "./api/index.js";
+} from "./api/endpoints/index.js";
+export { GenerateAwsTemplatePostOptionalParams } from "./api/generateAwsTemplate/index.js";
+export {
+  InventoryListBySolutionConfigurationOptionalParams,
+  InventoryGetOptionalParams,
+} from "./api/inventory/index.js";
+export { OperationsListOptionalParams } from "./api/operations/index.js";
+export {
+  PublicCloudConnectorsTestPermissionsOptionalParams,
+  PublicCloudConnectorsListBySubscriptionOptionalParams,
+  PublicCloudConnectorsListByResourceGroupOptionalParams,
+  PublicCloudConnectorsDeleteOptionalParams,
+  PublicCloudConnectorsUpdateOptionalParams,
+  PublicCloudConnectorsCreateOrUpdateOptionalParams,
+  PublicCloudConnectorsGetOptionalParams,
+} from "./api/publicCloudConnectors/index.js";
+export {
+  ServiceConfigurationsListByEndpointResourceOptionalParams,
+  ServiceConfigurationsDeleteOptionalParams,
+  ServiceConfigurationsUpdateOptionalParams,
+  ServiceConfigurationsCreateOrupdateOptionalParams,
+  ServiceConfigurationsGetOptionalParams,
+} from "./api/serviceConfigurations/index.js";
+export {
+  SolutionConfigurationsSyncNowOptionalParams,
+  SolutionConfigurationsListOptionalParams,
+  SolutionConfigurationsDeleteOptionalParams,
+  SolutionConfigurationsUpdateOptionalParams,
+  SolutionConfigurationsCreateOrUpdateOptionalParams,
+  SolutionConfigurationsGetOptionalParams,
+} from "./api/solutionConfigurations/index.js";
+export {
+  SolutionTypesListBySubscriptionOptionalParams,
+  SolutionTypesListByResourceGroupOptionalParams,
+  SolutionTypesGetOptionalParams,
+} from "./api/solutionTypes/index.js";
 export {
   EndpointsOperations,
   GenerateAwsTemplateOperations,

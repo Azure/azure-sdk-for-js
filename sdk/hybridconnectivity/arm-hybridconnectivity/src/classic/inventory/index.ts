@@ -2,12 +2,15 @@
 // Licensed under the MIT License.
 
 import { HybridConnectivityManagementAPIContext } from "../../api/hybridConnectivityManagementAPIContext.js";
-import { inventoryListBySolutionConfiguration, inventoryGet } from "../../api/inventory/index.js";
+import { InventoryResource } from "../../models/models.js";
 import {
   InventoryListBySolutionConfigurationOptionalParams,
   InventoryGetOptionalParams,
-} from "../../api/options.js";
-import { InventoryResource } from "../../models/models.js";
+} from "../../api/inventory/options.js";
+import {
+  listBySolutionConfiguration,
+  get,
+} from "../../api/inventory/operations.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Inventory operations. */
@@ -33,13 +36,19 @@ function _getInventory(context: HybridConnectivityManagementAPIContext) {
       resourceUri: string,
       solutionConfiguration: string,
       options?: InventoryListBySolutionConfigurationOptionalParams,
-    ) => inventoryListBySolutionConfiguration(context, resourceUri, solutionConfiguration, options),
+    ) =>
+      listBySolutionConfiguration(
+        context,
+        resourceUri,
+        solutionConfiguration,
+        options,
+      ),
     get: (
       resourceUri: string,
       solutionConfiguration: string,
       inventoryId: string,
       options?: InventoryGetOptionalParams,
-    ) => inventoryGet(context, resourceUri, solutionConfiguration, inventoryId, options),
+    ) => get(context, resourceUri, solutionConfiguration, inventoryId, options),
   };
 }
 

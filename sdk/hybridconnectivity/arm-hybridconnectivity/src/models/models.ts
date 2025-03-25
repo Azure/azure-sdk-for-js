@@ -7,7 +7,9 @@ export interface SolutionTypeResource extends ProxyResource {
   properties?: SolutionTypeProperties;
 }
 
-export function solutionTypeResourceDeserializer(item: any): SolutionTypeResource {
+export function solutionTypeResourceDeserializer(
+  item: any,
+): SolutionTypeResource {
   return {
     id: item["id"],
     name: item["name"],
@@ -33,18 +35,22 @@ export interface SolutionTypeProperties {
   solutionSettings?: SolutionTypeSettingsProperties[];
 }
 
-export function solutionTypePropertiesDeserializer(item: any): SolutionTypeProperties {
+export function solutionTypePropertiesDeserializer(
+  item: any,
+): SolutionTypeProperties {
   return {
     solutionType: item["solutionType"],
     description: item["description"],
     supportedAzureRegions: !item["supportedAzureRegions"]
       ? item["supportedAzureRegions"]
       : item["supportedAzureRegions"].map((p: any) => {
-        return p;
-      }),
+          return p;
+        }),
     solutionSettings: !item["solutionSettings"]
       ? item["solutionSettings"]
-      : solutionTypeSettingsPropertiesArrayDeserializer(item["solutionSettings"]),
+      : solutionTypeSettingsPropertiesArrayDeserializer(
+          item["solutionSettings"],
+        ),
   };
 }
 
@@ -88,7 +94,11 @@ export function solutionTypeSettingsPropertiesDeserializer(
 }
 
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
-export interface ProxyResource extends Resource { }
+export interface ProxyResource extends Resource {}
+
+export function proxyResourceSerializer(item: ProxyResource): any {
+  return item;
+}
 
 export function proxyResourceDeserializer(item: any): ProxyResource {
   return {
@@ -148,7 +158,9 @@ export function systemDataDeserializer(item: any): SystemData {
   return {
     createdBy: item["createdBy"],
     createdByType: item["createdByType"],
-    createdAt: !item["createdAt"] ? item["createdAt"] : new Date(item["createdAt"]),
+    createdAt: !item["createdAt"]
+      ? item["createdAt"]
+      : new Date(item["createdAt"]),
     lastModifiedBy: item["lastModifiedBy"],
     lastModifiedByType: item["lastModifiedByType"],
     lastModifiedAt: !item["lastModifiedAt"]
@@ -189,7 +201,9 @@ export interface ErrorResponse {
 
 export function errorResponseDeserializer(item: any): ErrorResponse {
   return {
-    error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
+    error: !item["error"]
+      ? item["error"]
+      : errorDetailDeserializer(item["error"]),
   };
 }
 
@@ -212,20 +226,26 @@ export function errorDetailDeserializer(item: any): ErrorDetail {
     code: item["code"],
     message: item["message"],
     target: item["target"],
-    details: !item["details"] ? item["details"] : errorDetailArrayDeserializer(item["details"]),
+    details: !item["details"]
+      ? item["details"]
+      : errorDetailArrayDeserializer(item["details"]),
     additionalInfo: !item["additionalInfo"]
       ? item["additionalInfo"]
       : errorAdditionalInfoArrayDeserializer(item["additionalInfo"]),
   };
 }
 
-export function errorDetailArrayDeserializer(result: Array<ErrorDetail>): any[] {
+export function errorDetailArrayDeserializer(
+  result: Array<ErrorDetail>,
+): any[] {
   return result.map((item) => {
     return errorDetailDeserializer(item);
   });
 }
 
-export function errorAdditionalInfoArrayDeserializer(result: Array<ErrorAdditionalInfo>): any[] {
+export function errorAdditionalInfoArrayDeserializer(
+  result: Array<ErrorAdditionalInfo>,
+): any[] {
   return result.map((item) => {
     return errorAdditionalInfoDeserializer(item);
   });
@@ -239,17 +259,23 @@ export interface ErrorAdditionalInfo {
   readonly info?: Record<string, any>;
 }
 
-export function errorAdditionalInfoDeserializer(item: any): ErrorAdditionalInfo {
+export function errorAdditionalInfoDeserializer(
+  item: any,
+): ErrorAdditionalInfo {
   return {
     type: item["type"],
-    info: !item["info"] ? item["info"] : _errorAdditionalInfoInfoDeserializer(item["info"]),
+    info: !item["info"]
+      ? item["info"]
+      : _errorAdditionalInfoInfoDeserializer(item["info"]),
   };
 }
 
 /** model interface _ErrorAdditionalInfoInfo */
-export interface _ErrorAdditionalInfoInfo { }
+export interface _ErrorAdditionalInfoInfo {}
 
-export function _errorAdditionalInfoInfoDeserializer(item: any): _ErrorAdditionalInfoInfo {
+export function _errorAdditionalInfoInfoDeserializer(
+  item: any,
+): _ErrorAdditionalInfoInfo {
   return item;
 }
 
@@ -270,7 +296,9 @@ export function _solutionTypeResourceListResultDeserializer(
   };
 }
 
-export function solutionTypeResourceArrayDeserializer(result: Array<SolutionTypeResource>): any[] {
+export function solutionTypeResourceArrayDeserializer(
+  result: Array<SolutionTypeResource>,
+): any[] {
   return result.map((item) => {
     return solutionTypeResourceDeserializer(item);
   });
@@ -312,7 +340,9 @@ export interface InventoryProperties {
   readonly provisioningState?: ResourceProvisioningState;
 }
 
-export function inventoryPropertiesDeserializer(item: any): InventoryProperties {
+export function inventoryPropertiesDeserializer(
+  item: any,
+): InventoryProperties {
   return {
     cloudNativeType: item["cloudNativeType"],
     cloudNativeResourceId: item["cloudNativeResourceId"],
@@ -391,14 +421,18 @@ export interface _InventoryResourceListResult {
   nextLink?: string;
 }
 
-export function _inventoryResourceListResultDeserializer(item: any): _InventoryResourceListResult {
+export function _inventoryResourceListResultDeserializer(
+  item: any,
+): _InventoryResourceListResult {
   return {
     value: inventoryResourceArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function inventoryResourceArrayDeserializer(result: Array<InventoryResource>): any[] {
+export function inventoryResourceArrayDeserializer(
+  result: Array<InventoryResource>,
+): any[] {
   return result.map((item) => {
     return inventoryResourceDeserializer(item);
   });
@@ -410,7 +444,9 @@ export interface SolutionConfiguration extends ExtensionResource {
   properties?: SolutionConfigurationProperties;
 }
 
-export function solutionConfigurationSerializer(item: SolutionConfiguration): any {
+export function solutionConfigurationSerializer(
+  item: SolutionConfiguration,
+): any {
   return {
     properties: !item["properties"]
       ? item["properties"]
@@ -418,7 +454,9 @@ export function solutionConfigurationSerializer(item: SolutionConfiguration): an
   };
 }
 
-export function solutionConfigurationDeserializer(item: any): SolutionConfiguration {
+export function solutionConfigurationDeserializer(
+  item: any,
+): SolutionConfiguration {
   return {
     id: item["id"],
     name: item["name"],
@@ -470,12 +508,14 @@ export function solutionConfigurationPropertiesDeserializer(
       : solutionSettingsDeserializer(item["solutionSettings"]),
     status: item["status"],
     statusDetails: item["statusDetails"],
-    lastSyncTime: !item["lastSyncTime"] ? item["lastSyncTime"] : new Date(item["lastSyncTime"]),
+    lastSyncTime: !item["lastSyncTime"]
+      ? item["lastSyncTime"]
+      : new Date(item["lastSyncTime"]),
   };
 }
 
 /** Solution settings */
-export interface SolutionSettings extends Record<string, string> { }
+export interface SolutionSettings extends Record<string, string> {}
 
 export function solutionSettingsSerializer(item: SolutionSettings): any {
   return { ...item };
@@ -488,7 +528,7 @@ export function solutionSettingsDeserializer(item: any): SolutionSettings {
 }
 
 /** The base extension resource. */
-export interface ExtensionResource extends Resource { }
+export interface ExtensionResource extends Resource {}
 
 export function extensionResourceSerializer(item: ExtensionResource): any {
   return item;
@@ -502,6 +542,41 @@ export function extensionResourceDeserializer(item: any): ExtensionResource {
     systemData: !item["systemData"]
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
+  };
+}
+
+/** Solution Configuration */
+export interface SolutionConfigurationUpdate extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: SolutionConfigurationPropertiesUpdate;
+}
+
+export function solutionConfigurationUpdateSerializer(
+  item: SolutionConfigurationUpdate,
+): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : solutionConfigurationPropertiesUpdateSerializer(item["properties"]),
+  };
+}
+
+/** Solution configuration resource. */
+export interface SolutionConfigurationPropertiesUpdate {
+  /** The type of the solution */
+  solutionType?: string;
+  /** Solution settings */
+  solutionSettings?: SolutionSettings;
+}
+
+export function solutionConfigurationPropertiesUpdateSerializer(
+  item: SolutionConfigurationPropertiesUpdate,
+): any {
+  return {
+    solutionType: item["solutionType"],
+    solutionSettings: !item["solutionSettings"]
+      ? item["solutionSettings"]
+      : solutionSettingsSerializer(item["solutionSettings"]),
   };
 }
 
@@ -522,7 +597,9 @@ export function _solutionConfigurationListResultDeserializer(
   };
 }
 
-export function solutionConfigurationArraySerializer(result: Array<SolutionConfiguration>): any[] {
+export function solutionConfigurationArraySerializer(
+  result: Array<SolutionConfiguration>,
+): any[] {
   return result.map((item) => {
     return solutionConfigurationSerializer(item);
   });
@@ -558,18 +635,24 @@ export interface OperationStatusResult {
   readonly resourceId?: string;
 }
 
-export function operationStatusResultDeserializer(item: any): OperationStatusResult {
+export function operationStatusResultDeserializer(
+  item: any,
+): OperationStatusResult {
   return {
     id: item["id"],
     name: item["name"],
     status: item["status"],
     percentComplete: item["percentComplete"],
-    startTime: !item["startTime"] ? item["startTime"] : new Date(item["startTime"]),
+    startTime: !item["startTime"]
+      ? item["startTime"]
+      : new Date(item["startTime"]),
     endTime: !item["endTime"] ? item["endTime"] : new Date(item["endTime"]),
     operations: !item["operations"]
       ? item["operations"]
       : operationStatusResultArrayDeserializer(item["operations"]),
-    error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
+    error: !item["error"]
+      ? item["error"]
+      : errorDetailDeserializer(item["error"]),
     resourceId: item["resourceId"],
   };
 }
@@ -588,7 +671,9 @@ export interface PublicCloudConnector extends TrackedResource {
   properties?: PublicCloudConnectorProperties;
 }
 
-export function publicCloudConnectorSerializer(item: PublicCloudConnector): any {
+export function publicCloudConnectorSerializer(
+  item: PublicCloudConnector,
+): any {
   return {
     tags: item["tags"],
     location: item["location"],
@@ -598,7 +683,9 @@ export function publicCloudConnectorSerializer(item: PublicCloudConnector): any 
   };
 }
 
-export function publicCloudConnectorDeserializer(item: any): PublicCloudConnector {
+export function publicCloudConnectorDeserializer(
+  item: any,
+): PublicCloudConnector {
   return {
     tags: item["tags"],
     location: item["location"],
@@ -662,8 +749,8 @@ export function awsCloudProfileSerializer(item: AwsCloudProfile): any {
     excludedAccounts: !item["excludedAccounts"]
       ? item["excludedAccounts"]
       : item["excludedAccounts"].map((p: any) => {
-        return p;
-      }),
+          return p;
+        }),
     isOrganizationalAccount: item["isOrganizationalAccount"],
   };
 }
@@ -674,8 +761,8 @@ export function awsCloudProfileDeserializer(item: any): AwsCloudProfile {
     excludedAccounts: !item["excludedAccounts"]
       ? item["excludedAccounts"]
       : item["excludedAccounts"].map((p: any) => {
-        return p;
-      }),
+          return p;
+        }),
     isOrganizationalAccount: item["isOrganizationalAccount"],
   };
 }
@@ -720,6 +807,69 @@ export function trackedResourceDeserializer(item: any): TrackedResource {
   };
 }
 
+/** Public Cloud Connector */
+export interface PublicCloudConnectorUpdate extends TrackedResourceUpdate {
+  /** The resource-specific properties for this resource. */
+  properties?: PublicCloudConnectorPropertiesUpdate;
+}
+
+export function publicCloudConnectorUpdateSerializer(
+  item: PublicCloudConnectorUpdate,
+): any {
+  return {
+    tags: item["tags"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : publicCloudConnectorPropertiesUpdateSerializer(item["properties"]),
+  };
+}
+
+/** Properties of public cloud connectors. */
+export interface PublicCloudConnectorPropertiesUpdate {
+  /** Cloud profile for AWS. */
+  awsCloudProfile?: AwsCloudProfileUpdate;
+}
+
+export function publicCloudConnectorPropertiesUpdateSerializer(
+  item: PublicCloudConnectorPropertiesUpdate,
+): any {
+  return {
+    awsCloudProfile: !item["awsCloudProfile"]
+      ? item["awsCloudProfile"]
+      : awsCloudProfileUpdateSerializer(item["awsCloudProfile"]),
+  };
+}
+
+/** cloud profile for AWS. */
+export interface AwsCloudProfileUpdate {
+  /** List of AWS accounts which need to be excluded. */
+  excludedAccounts?: string[];
+}
+
+export function awsCloudProfileUpdateSerializer(
+  item: AwsCloudProfileUpdate,
+): any {
+  return {
+    excludedAccounts: !item["excludedAccounts"]
+      ? item["excludedAccounts"]
+      : item["excludedAccounts"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+/** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
+export interface TrackedResourceUpdate extends Resource {
+  /** Resource tags. */
+  tags?: Record<string, string>;
+}
+
+export function trackedResourceUpdateSerializer(
+  item: TrackedResourceUpdate,
+): any {
+  return { tags: item["tags"] };
+}
+
 /** The response of a PublicCloudConnector list operation. */
 export interface _PublicCloudConnectorListResult {
   /** The PublicCloudConnector items on this page */
@@ -737,13 +887,17 @@ export function _publicCloudConnectorListResultDeserializer(
   };
 }
 
-export function publicCloudConnectorArraySerializer(result: Array<PublicCloudConnector>): any[] {
+export function publicCloudConnectorArraySerializer(
+  result: Array<PublicCloudConnector>,
+): any[] {
   return result.map((item) => {
     return publicCloudConnectorSerializer(item);
   });
 }
 
-export function publicCloudConnectorArrayDeserializer(result: Array<PublicCloudConnector>): any[] {
+export function publicCloudConnectorArrayDeserializer(
+  result: Array<PublicCloudConnector>,
+): any[] {
   return result.map((item) => {
     return publicCloudConnectorDeserializer(item);
   });
@@ -757,7 +911,9 @@ export interface GenerateAwsTemplateRequest {
   solutionTypes?: SolutionTypeSettings[];
 }
 
-export function generateAwsTemplateRequestSerializer(item: GenerateAwsTemplateRequest): any {
+export function generateAwsTemplateRequestSerializer(
+  item: GenerateAwsTemplateRequest,
+): any {
   return {
     connectorId: item["connectorId"],
     solutionTypes: !item["solutionTypes"]
@@ -766,7 +922,9 @@ export function generateAwsTemplateRequestSerializer(item: GenerateAwsTemplateRe
   };
 }
 
-export function solutionTypeSettingsArraySerializer(result: Array<SolutionTypeSettings>): any[] {
+export function solutionTypeSettingsArraySerializer(
+  result: Array<SolutionTypeSettings>,
+): any[] {
   return result.map((item) => {
     return solutionTypeSettingsSerializer(item);
   });
@@ -780,7 +938,9 @@ export interface SolutionTypeSettings {
   solutionSettings?: SolutionSettings;
 }
 
-export function solutionTypeSettingsSerializer(item: SolutionTypeSettings): any {
+export function solutionTypeSettingsSerializer(
+  item: SolutionTypeSettings,
+): any {
   return {
     solutionType: item["solutionType"],
     solutionSettings: !item["solutionSettings"]
@@ -790,7 +950,7 @@ export function solutionTypeSettingsSerializer(item: SolutionTypeSettings): any 
 }
 
 /** model interface _PostResponse */
-export interface _PostResponse { }
+export interface _PostResponse {}
 
 export function _postResponseDeserializer(item: any): _PostResponse {
   return item;
@@ -802,7 +962,9 @@ export interface ServiceConfigurationResource extends ExtensionResource {
   properties?: ServiceConfigurationProperties;
 }
 
-export function serviceConfigurationResourceSerializer(item: ServiceConfigurationResource): any {
+export function serviceConfigurationResourceSerializer(
+  item: ServiceConfigurationResource,
+): any {
   return {
     properties: !item["properties"]
       ? item["properties"]
@@ -810,7 +972,9 @@ export function serviceConfigurationResourceSerializer(item: ServiceConfiguratio
   };
 }
 
-export function serviceConfigurationResourceDeserializer(item: any): ServiceConfigurationResource {
+export function serviceConfigurationResourceDeserializer(
+  item: any,
+): ServiceConfigurationResource {
   return {
     id: item["id"],
     name: item["name"],
@@ -931,7 +1095,9 @@ export interface _ServiceConfigurationList {
   nextLink?: string;
 }
 
-export function _serviceConfigurationListDeserializer(item: any): _ServiceConfigurationList {
+export function _serviceConfigurationListDeserializer(
+  item: any,
+): _ServiceConfigurationList {
   return {
     value: serviceConfigurationResourceArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
@@ -1035,13 +1201,17 @@ export function _endpointsListDeserializer(item: any): _EndpointsList {
   };
 }
 
-export function endpointResourceArraySerializer(result: Array<EndpointResource>): any[] {
+export function endpointResourceArraySerializer(
+  result: Array<EndpointResource>,
+): any[] {
   return result.map((item) => {
     return endpointResourceSerializer(item);
   });
 }
 
-export function endpointResourceArrayDeserializer(result: Array<EndpointResource>): any[] {
+export function endpointResourceArrayDeserializer(
+  result: Array<EndpointResource>,
+): any[] {
   return result.map((item) => {
     return endpointResourceDeserializer(item);
   });
@@ -1053,7 +1223,9 @@ export interface ListCredentialsRequest {
   serviceName?: ServiceName;
 }
 
-export function listCredentialsRequestSerializer(item: ListCredentialsRequest): any {
+export function listCredentialsRequestSerializer(
+  item: ListCredentialsRequest,
+): any {
   return { serviceName: item["serviceName"] };
 }
 
@@ -1063,7 +1235,9 @@ export interface EndpointAccessResource {
   relay?: RelayNamespaceAccessProperties;
 }
 
-export function endpointAccessResourceDeserializer(item: any): EndpointAccessResource {
+export function endpointAccessResourceDeserializer(
+  item: any,
+): EndpointAccessResource {
   return {
     relay: !item["relay"]
       ? item["relay"]
@@ -1120,7 +1294,9 @@ export interface IngressGatewayResource {
   ingress?: IngressProfileProperties;
 }
 
-export function ingressGatewayResourceDeserializer(item: any): IngressGatewayResource {
+export function ingressGatewayResourceDeserializer(
+  item: any,
+): IngressGatewayResource {
   return {
     relay: !item["relay"]
       ? item["relay"]
@@ -1139,10 +1315,12 @@ export interface IngressProfileProperties {
   aadProfile: AADProfileProperties;
 }
 
-export function ingressProfilePropertiesDeserializer(item: any): IngressProfileProperties {
+export function ingressProfilePropertiesDeserializer(
+  item: any,
+): IngressProfileProperties {
   return {
     hostname: item["hostname"],
-    aadProfile: aADProfilePropertiesDeserializer(item["aadProfile"]),
+    aadProfile: aadProfilePropertiesDeserializer(item["aadProfile"]),
   };
 }
 
@@ -1154,7 +1332,9 @@ export interface AADProfileProperties {
   tenantId: string;
 }
 
-export function aADProfilePropertiesDeserializer(item: any): AADProfileProperties {
+export function aadProfilePropertiesDeserializer(
+  item: any,
+): AADProfileProperties {
   return {
     serverId: item["serverId"],
     tenantId: item["tenantId"],
@@ -1187,7 +1367,9 @@ export interface ManagedProxyResource {
   expiresOn: number;
 }
 
-export function managedProxyResourceDeserializer(item: any): ManagedProxyResource {
+export function managedProxyResourceDeserializer(
+  item: any,
+): ManagedProxyResource {
   return {
     proxy: item["proxy"],
     expiresOn: item["expiresOn"],
@@ -1202,7 +1384,9 @@ export interface _OperationListResult {
   nextLink?: string;
 }
 
-export function _operationListResultDeserializer(item: any): _OperationListResult {
+export function _operationListResultDeserializer(
+  item: any,
+): _OperationListResult {
   return {
     value: operationArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
@@ -1233,7 +1417,9 @@ export function operationDeserializer(item: any): Operation {
   return {
     name: item["name"],
     isDataAction: item["isDataAction"],
-    display: !item["display"] ? item["display"] : operationDisplayDeserializer(item["display"]),
+    display: !item["display"]
+      ? item["display"]
+      : operationDisplayDeserializer(item["display"]),
     origin: item["origin"],
     actionType: item["actionType"],
   };
@@ -1299,5 +1485,5 @@ export type ActionType = string;
 /** Hybrid Connectivity Management service version. */
 export enum KnownVersions {
   /** Version 2024-12-01 */
-  V2024_12_01 = "2024-12-01",
+  V20241201 = "2024-12-01",
 }

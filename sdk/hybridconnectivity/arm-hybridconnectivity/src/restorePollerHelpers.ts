@@ -2,13 +2,16 @@
 // Licensed under the MIT License.
 
 import { HybridConnectivityManagementAPI } from "./hybridConnectivityManagementAPI.js";
-import { _solutionConfigurationsSyncNowDeserialize } from "./api/solutionConfigurations/index.js";
+import { _syncNowDeserialize } from "./api/solutionConfigurations/operations.js";
 import {
-  _publicCloudConnectorsTestPermissionsDeserialize,
-  _publicCloudConnectorsCreateOrUpdateDeserialize,
-} from "./api/publicCloudConnectors/index.js";
+  _testPermissionsDeserialize,
+  _createOrUpdateDeserialize,
+} from "./api/publicCloudConnectors/operations.js";
 import { getLongRunningPoller } from "./static-helpers/pollingHelpers.js";
-import { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
+import {
+  OperationOptions,
+  PathUncheckedResponse,
+} from "@azure-rest/core-client";
 import { AbortSignalLike } from "@azure/abort-controller";
 import {
   PollerLike,
@@ -39,7 +42,9 @@ export interface RestorePollerOptions<
 export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(
   client: HybridConnectivityManagementAPI,
   serializedState: string,
-  sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>,
+  sourceOperation: (
+    ...args: any[]
+  ) => PollerLike<OperationState<TResult>, TResult>,
   options?: RestorePollerOptions<TResult>,
 ): PollerLike<OperationState<TResult>, TResult> {
   const pollerConfig = deserializeState(serializedState).config;
@@ -81,18 +86,15 @@ interface DeserializationHelper {
 
 const deserializeMap: Record<string, DeserializationHelper> = {
   "POST /{resourceUri}/providers/Microsoft.HybridConnectivity/solutionConfigurations/{solutionConfiguration}/syncNow":
-    {
-      deserializer: _solutionConfigurationsSyncNowDeserialize,
-      expectedStatuses: ["202", "200"],
-    },
+    { deserializer: _syncNowDeserialize, expectedStatuses: ["202", "200"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridConnectivity/publicCloudConnectors/{publicCloudConnector}/testPermissions":
     {
-      deserializer: _publicCloudConnectorsTestPermissionsDeserialize,
+      deserializer: _testPermissionsDeserialize,
       expectedStatuses: ["202", "200"],
     },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridConnectivity/publicCloudConnectors/{publicCloudConnector}":
     {
-      deserializer: _publicCloudConnectorsCreateOrUpdateDeserialize,
+      deserializer: _createOrUpdateDeserialize,
       expectedStatuses: ["200", "201"],
     },
 };
@@ -123,17 +125,24 @@ function getDeserializationHelper(
 
     // track if we have found a match to return the values found.
     let found = true;
-    for (let i = candidateParts.length - 1, j = pathParts.length - 1; i >= 1 && j >= 1; i--, j--) {
-      if (candidateParts[i]?.startsWith("{") && candidateParts[i]?.indexOf("}") !== -1) {
+    for (
+      let i = candidateParts.length - 1, j = pathParts.length - 1;
+      i >= 1 && j >= 1;
+      i--, j--
+    ) {
+      if (
+        candidateParts[i]?.startsWith("{") &&
+        candidateParts[i]?.indexOf("}") !== -1
+      ) {
         const start = candidateParts[i]!.indexOf("}") + 1,
           end = candidateParts[i]?.length;
         // If the current part of the candidate is a "template" part
         // Try to use the suffix of pattern to match the path
         // {guid} ==> $
         // {guid}:export ==> :export$
-        const isMatched = new RegExp(`${candidateParts[i]?.slice(start, end)}`).test(
-          pathParts[j] || "",
-        );
+        const isMatched = new RegExp(
+          `${candidateParts[i]?.slice(start, end)}`,
+        ).test(pathParts[j] || "");
 
         if (!isMatched) {
           found = false;

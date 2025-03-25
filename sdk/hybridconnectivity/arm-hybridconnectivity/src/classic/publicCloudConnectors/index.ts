@@ -3,6 +3,11 @@
 
 import { HybridConnectivityManagementAPIContext } from "../../api/hybridConnectivityManagementAPIContext.js";
 import {
+  OperationStatusResult,
+  PublicCloudConnector,
+  PublicCloudConnectorUpdate,
+} from "../../models/models.js";
+import {
   PublicCloudConnectorsTestPermissionsOptionalParams,
   PublicCloudConnectorsListBySubscriptionOptionalParams,
   PublicCloudConnectorsListByResourceGroupOptionalParams,
@@ -10,17 +15,16 @@ import {
   PublicCloudConnectorsUpdateOptionalParams,
   PublicCloudConnectorsCreateOrUpdateOptionalParams,
   PublicCloudConnectorsGetOptionalParams,
-} from "../../api/options.js";
+} from "../../api/publicCloudConnectors/options.js";
 import {
-  publicCloudConnectorsTestPermissions,
-  publicCloudConnectorsListBySubscription,
-  publicCloudConnectorsListByResourceGroup,
-  publicCloudConnectorsDelete,
-  publicCloudConnectorsUpdate,
-  publicCloudConnectorsCreateOrUpdate,
-  publicCloudConnectorsGet,
-} from "../../api/publicCloudConnectors/index.js";
-import { OperationStatusResult, PublicCloudConnector } from "../../models/models.js";
+  testPermissions,
+  listBySubscription,
+  listByResourceGroup,
+  $delete,
+  update,
+  createOrUpdate,
+  get,
+} from "../../api/publicCloudConnectors/operations.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 
@@ -42,6 +46,11 @@ export interface PublicCloudConnectorsOperations {
     options?: PublicCloudConnectorsListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<PublicCloudConnector>;
   /** Delete a PublicCloudConnector */
+  /**
+   *  @fixme delete is a reserved word that cannot be used as an operation name.
+   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
+   *         to the operation to override the generated name.
+   */
   delete: (
     resourceGroupName: string,
     publicCloudConnector: string,
@@ -51,7 +60,7 @@ export interface PublicCloudConnectorsOperations {
   update: (
     resourceGroupName: string,
     publicCloudConnector: string,
-    properties: PublicCloudConnector,
+    properties: PublicCloudConnectorUpdate,
     options?: PublicCloudConnectorsUpdateOptionalParams,
   ) => Promise<PublicCloudConnector>;
   /** Create a PublicCloudConnector */
@@ -69,37 +78,40 @@ export interface PublicCloudConnectorsOperations {
   ) => Promise<PublicCloudConnector>;
 }
 
-function _getPublicCloudConnectors(context: HybridConnectivityManagementAPIContext) {
+function _getPublicCloudConnectors(
+  context: HybridConnectivityManagementAPIContext,
+) {
   return {
     testPermissions: (
       resourceGroupName: string,
       publicCloudConnector: string,
       options?: PublicCloudConnectorsTestPermissionsOptionalParams,
     ) =>
-      publicCloudConnectorsTestPermissions(
+      testPermissions(
         context,
         resourceGroupName,
         publicCloudConnector,
         options,
       ),
-    listBySubscription: (options?: PublicCloudConnectorsListBySubscriptionOptionalParams) =>
-      publicCloudConnectorsListBySubscription(context, options),
+    listBySubscription: (
+      options?: PublicCloudConnectorsListBySubscriptionOptionalParams,
+    ) => listBySubscription(context, options),
     listByResourceGroup: (
       resourceGroupName: string,
       options?: PublicCloudConnectorsListByResourceGroupOptionalParams,
-    ) => publicCloudConnectorsListByResourceGroup(context, resourceGroupName, options),
+    ) => listByResourceGroup(context, resourceGroupName, options),
     delete: (
       resourceGroupName: string,
       publicCloudConnector: string,
       options?: PublicCloudConnectorsDeleteOptionalParams,
-    ) => publicCloudConnectorsDelete(context, resourceGroupName, publicCloudConnector, options),
+    ) => $delete(context, resourceGroupName, publicCloudConnector, options),
     update: (
       resourceGroupName: string,
       publicCloudConnector: string,
-      properties: PublicCloudConnector,
+      properties: PublicCloudConnectorUpdate,
       options?: PublicCloudConnectorsUpdateOptionalParams,
     ) =>
-      publicCloudConnectorsUpdate(
+      update(
         context,
         resourceGroupName,
         publicCloudConnector,
@@ -112,7 +124,7 @@ function _getPublicCloudConnectors(context: HybridConnectivityManagementAPIConte
       resource: PublicCloudConnector,
       options?: PublicCloudConnectorsCreateOrUpdateOptionalParams,
     ) =>
-      publicCloudConnectorsCreateOrUpdate(
+      createOrUpdate(
         context,
         resourceGroupName,
         publicCloudConnector,
@@ -123,7 +135,7 @@ function _getPublicCloudConnectors(context: HybridConnectivityManagementAPIConte
       resourceGroupName: string,
       publicCloudConnector: string,
       options?: PublicCloudConnectorsGetOptionalParams,
-    ) => publicCloudConnectorsGet(context, resourceGroupName, publicCloudConnector, options),
+    ) => get(context, resourceGroupName, publicCloudConnector, options),
   };
 }
 

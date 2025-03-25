@@ -2,17 +2,17 @@
 // Licensed under the MIT License.
 
 import { HybridConnectivityManagementAPIContext } from "../../api/hybridConnectivityManagementAPIContext.js";
+import { SolutionTypeResource } from "../../models/models.js";
 import {
   SolutionTypesListBySubscriptionOptionalParams,
   SolutionTypesListByResourceGroupOptionalParams,
   SolutionTypesGetOptionalParams,
-} from "../../api/options.js";
+} from "../../api/solutionTypes/options.js";
 import {
-  solutionTypesListBySubscription,
-  solutionTypesListByResourceGroup,
-  solutionTypesGet,
-} from "../../api/solutionTypes/index.js";
-import { SolutionTypeResource } from "../../models/models.js";
+  listBySubscription,
+  listByResourceGroup,
+  get,
+} from "../../api/solutionTypes/operations.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a SolutionTypes operations. */
@@ -36,17 +36,18 @@ export interface SolutionTypesOperations {
 
 function _getSolutionTypes(context: HybridConnectivityManagementAPIContext) {
   return {
-    listBySubscription: (options?: SolutionTypesListBySubscriptionOptionalParams) =>
-      solutionTypesListBySubscription(context, options),
+    listBySubscription: (
+      options?: SolutionTypesListBySubscriptionOptionalParams,
+    ) => listBySubscription(context, options),
     listByResourceGroup: (
       resourceGroupName: string,
       options?: SolutionTypesListByResourceGroupOptionalParams,
-    ) => solutionTypesListByResourceGroup(context, resourceGroupName, options),
+    ) => listByResourceGroup(context, resourceGroupName, options),
     get: (
       resourceGroupName: string,
       solutionType: string,
       options?: SolutionTypesGetOptionalParams,
-    ) => solutionTypesGet(context, resourceGroupName, solutionType, options),
+    ) => get(context, resourceGroupName, solutionType, options),
   };
 }
 
