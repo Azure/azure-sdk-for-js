@@ -5,7 +5,21 @@ parameters:
   Tag: ''
   AdditionalTag: ''
 
-steps:
+jobs:
+- job: PublishPackage
+  templateContext:
+    type: releaseJob
+    isProduction: ${{ eq(parameters.Registry, 'https://registry.npmjs.org/') }}
+    inputs:
+    - input: pipelineArtifact
+      artifactName: ${{parameters.Artifact.name}}
+      targetPath: "${{parameters.PathToArtifacts}}"
+  pool:
+    name: azsdk-pool-mms-ubuntu-2004-general
+    image: azsdk-pool-mms-ubuntu-2004-1espt
+    os: linux
+  displayName: 'Publish ${{parameters.Artifact.name}} to ${{parameters.Registry}}'
+  steps:
   - template: /eng/common/pipelines/templates/steps/set-default-branch.yml
 
   - ${{ if eq(parameters.Registry, 'https://registry.npmjs.org/') }}:
