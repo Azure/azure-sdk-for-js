@@ -80,7 +80,7 @@ describe("Testing Credentials integration for Client", function () {
   }
 
   afterEach(async () => {
-      sandbox.restore();
+      vi.restoreAllMocks();
     });
   describe("Client Test With AAD Credentials", function () {
     let client: CosmosClient;

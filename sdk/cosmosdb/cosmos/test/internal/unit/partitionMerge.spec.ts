@@ -132,14 +132,20 @@ describe("Partition-Merge", function () {
     "FF",
   );
 
-  const fetchAllInternalStub = sinon.stub().resolves({
-    resources: [mockPartitionKeyRange1, mockPartitionKeyRange2],
-    headers: { "x-ms-request-charge": "1.23" },
-    code: 200,
-  });
-  sinon.stub(clientContext, "queryPartitionKeyRanges").returns({
-    fetchAllInternal: fetchAllInternalStub, // Add fetchAllInternal to mimic expected structure
-  } as unknown as QueryIterator<PartitionKeyRange>);
+  const fetchAllInternalStub = 
+              vi.fn()
+              .mockResolvedValue({
+      resources: [mockPartitionKeyRange1, mockPartitionKeyRange2],
+      headers: { "x-ms-request-charge": "1.23" },
+      code: 200,
+    })
+            ;
+  
+                vi.spyOn(clientContext, "queryPartitionKeyRanges")
+                .mockReturnValue({
+        fetchAllInternal: fetchAllInternalStub, // Add fetchAllInternal to mimic expected structure
+      } as unknown as QueryIterator<PartitionKeyRange>)
+              ;
 
   const mockDocument1 = createMockDocument(
     "sample-id-1",
@@ -153,14 +159,17 @@ describe("Partition-Merge", function () {
   );
 
   // Define a stub for queryFeed in clientContext
-  sinon.stub(clientContext, "queryFeed").resolves({
-    result: [mockDocument1, mockDocument2] as unknown as Resource, // Add result to mimic expected structure
-    headers: {
-      "x-ms-request-charge": "3.5", // Example RU charge
-      "x-ms-continuation": "token-for-next-page", // Continuation token for pagination
-    },
-    code: 200, // Optional status code
-  });
+  
+                vi.spyOn(clientContext, "queryFeed")
+                .mockResolvedValue({
+        result: [mockDocument1, mockDocument2] as unknown as Resource, // Add result to mimic expected structure
+        headers: {
+          "x-ms-request-charge": "3.5", // Example RU charge
+          "x-ms-continuation": "token-for-next-page", // Continuation token for pagination
+        },
+        code: 200, // Optional status code
+      })
+              ;
 
   // Create a new instance of TestParallelQueryExecutionContext
   const context = new TestParallelQueryExecutionContext(
@@ -200,9 +209,10 @@ describe("Partition-Merge", function () {
     const parentDocumentProducer1EndEpk = parentDocProd1.endEpk;
 
     // Mocking the _getReplacementPartitionKeyRanges function to return a empty partition key range
-    const getReplacementPartitionKeyRangesStub = sinon
-      .stub(context as any, "_getReplacementPartitionKeyRanges")
-      .resolves([]);
+    const getReplacementPartitionKeyRangesStub = 
+                vi.spyOn(context as any, "_getReplacementPartitionKeyRanges")
+                .mockResolvedValue([])
+              ;
 
     // Creating a spy on the _enqueueReplacementDocumentProducers function
     const enqueueSpy = sinon.spy(context as any, "_enqueueReplacementDocumentProducers");
@@ -224,9 +234,10 @@ describe("Partition-Merge", function () {
 
     // Restoring and mocking again the _getReplacementPartitionKeyRanges function
     getReplacementPartitionKeyRangesStub.restore();
-    sinon
-      .stub(context as any, "_getReplacementPartitionKeyRanges")
-      .resolves([createMockPartitionKeyRange("child1", "", "1FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF")]);
+    
+                  vi.spyOn(context as any, "_getReplacementPartitionKeyRanges")
+                  .mockResolvedValue([createMockPartitionKeyRange("child1", "", "1FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF")])
+                ;
 
     try {
       await context.fetchMore(context["diagnosticNodeWrapper"]["diagnosticNode"]);
@@ -259,9 +270,10 @@ describe("Partition-Merge", function () {
 
     // Restoring and mocking again the _getReplacementPartitionKeyRanges function
     getReplacementPartitionKeyRangesStub.restore();
-    sinon
-      .stub(context as any, "_getReplacementPartitionKeyRanges")
-      .resolves([createMockPartitionKeyRange("child2", "1FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF", "FF")]);
+    
+                  vi.spyOn(context as any, "_getReplacementPartitionKeyRanges")
+                  .mockResolvedValue([createMockPartitionKeyRange("child2", "1FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF", "FF")])
+                ;
 
     // Assert that the newly created document producer has the correct start and end EPKs from Parent and populateEpkRangeHeaders is true
     context["unfilledDocumentProducersQueue"].forEach((docProd) => {

@@ -85,18 +85,21 @@ describe("hybridQueryExecutionContext", function () {
         .onCall(1)
         .returns(false); // Second call returns false
 
-      sinon.stub(context["globalStatisticsExecutionContext"], "fetchMore").resolves({
-        result: [
-          {
-            documentCount: 2,
-            fullTextStatistics: [{ totalWordCount: 100, hitCounts: [1, 2, 3] }],
-          },
-        ],
-        headers: {},
-        code: 200,
-        substatus: 0,
-        diagnostics: undefined,
-      });
+      
+                    vi.spyOn(context["globalStatisticsExecutionContext"], "fetchMore")
+                    .mockResolvedValue({
+                result: [
+                  {
+                    documentCount: 2,
+                    fullTextStatistics: [{ totalWordCount: 100, hitCounts: [1, 2, 3] }],
+                  },
+                ],
+                headers: {},
+                code: 200,
+                substatus: 0,
+                diagnostics: undefined,
+              })
+                  ;
 
       const diagnosticNode = new DiagnosticNodeInternal(
         diagnosticLevel,
