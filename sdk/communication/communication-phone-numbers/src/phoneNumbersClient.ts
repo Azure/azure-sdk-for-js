@@ -21,8 +21,8 @@ import type {
   PhoneNumberCountry,
   PhoneNumberLocality,
   PhoneNumberOffering,
-  PhoneNumbersBrowseAvailableNumbersOptionalParams,
   PhoneNumbersBrowseAvailableNumbersResponse,
+  PhoneNumbersBrowseRequest,
   PhoneNumbersCreateOrUpdateReservationOptionalParams,
   PhoneNumbersCreateOrUpdateReservationResponse,
   PhoneNumbersDeleteReservationOptionalParams,
@@ -33,7 +33,6 @@ import type {
   PhoneNumbersReservation,
   PhoneNumbersStartReservationPurchaseOptionalParams,
   PhoneNumbersStartReservationPurchaseResponse,
-  PhoneNumberType,
   PurchasedPhoneNumber,
 } from "./generated/src/models/index.js";
 import type {
@@ -59,6 +58,7 @@ import { createPhoneNumbersPagingPolicy } from "./utils/customPipelinePolicies.j
 import type { CommonClientOptions } from "@azure/core-client";
 import { logger } from "./utils/index.js";
 import { tracingClient } from "./generated/src/tracing.js";
+import { generateGUID } from "./utils/helpers.js";
 
 /**
  * Client options used to configure the PhoneNumbersClient API requests.
@@ -115,7 +115,7 @@ export class PhoneNumbersClient {
   public constructor(
     connectionStringOrUrl: string,
     credentialOrOptions?: KeyCredential | TokenCredential | PhoneNumbersClientOptions,
-    maybeOptions: PhoneNumbersClientOptions = {}
+    maybeOptions: PhoneNumbersClientOptions = {},
   ) {
     const { url, credential } = parseClientArguments(connectionStringOrUrl, credentialOrOptions);
     const options = isPhoneNumbersClientOptions(credentialOrOptions)
@@ -187,7 +187,7 @@ export class PhoneNumbersClient {
    */
   public getPurchasedPhoneNumber(
     phoneNumber: string,
-    options: GetPurchasedPhoneNumberOptions = {}
+    options: GetPurchasedPhoneNumberOptions = {},
   ): Promise<PurchasedPhoneNumber> {
     return tracingClient.withSpan(
       "PhoneNumbersClient-getPurchasedPhoneNumber",
@@ -196,7 +196,7 @@ export class PhoneNumbersClient {
         return this.client.phoneNumbers.getByNumber(phoneNumber, {
           ...updatedOptions,
         });
-      }
+      },
     );
   }
 
@@ -259,11 +259,11 @@ export class PhoneNumbersClient {
    * @param options - The optional parameters.
    */
   public listPurchasedPhoneNumbers(
-    options: ListPurchasedPhoneNumbersOptions = {}
+    options: ListPurchasedPhoneNumbersOptions = {},
   ): PagedAsyncIterableIterator<PurchasedPhoneNumber> {
     const { span, updatedOptions } = tracingClient.startSpan(
       "PhoneNumbersClient-listPurchasedPhoneNumbers",
-      options
+      options,
     );
 
     try {
@@ -302,28 +302,27 @@ export class PhoneNumbersClient {
    *   assignmentType: "application",
    * };
    * const browseAvailableNumbers = await client.browseAvailablePhoneNumbers("US", browseAvailableNumberRequest);
-   * for (const phoneNumber of browseAvailableNumbers) {
+   * for (const phoneNumber of browseAvailableNumbers.phoneNumbers) {
    *   console.log("Found phone number: ", phoneNumber.phoneNumber);
    * }
    * ```
-   * Browse, reserve and purchase available phone numbers
+   * Browse available phone numbers
    * @param countryCode - The ISO 3166-2 country code, e.g. US.
-   * @param phoneNumberType - Represents the number type of the offering.
-   * @param options - The options parameters.
+   * @param request - The request parameters for browsing available phone numbers.
    */
   public browseAvailablePhoneNumbers(
     countryCode: string,
-    phoneNumberType: PhoneNumberType,
-    options: PhoneNumbersBrowseAvailableNumbersOptionalParams = {}
+    request: PhoneNumbersBrowseRequest
   ): Promise<PhoneNumbersBrowseAvailableNumbersResponse> {
     const { span, updatedOptions } = tracingClient.startSpan(
-      "PhoneNumbersClient-browseAvailableNumbers",
-      options
+      "PhoneNumbersClient-browseAvailableNumbers"
     );
 
     try {
+      const { phoneNumberType, ...rest } = request;
       return this.client.phoneNumbers.browseAvailableNumbers(countryCode, phoneNumberType, {
         ...updatedOptions,
+        ...rest,
       });
     } catch (e: any) {
       span.setStatus({
@@ -363,14 +362,14 @@ export class PhoneNumbersClient {
    */
   public beginReleasePhoneNumber(
     phoneNumber: string,
-    options: BeginReleasePhoneNumberOptions = {}
+    options: BeginReleasePhoneNumberOptions = {},
   ): Promise<PollerLike<PollOperationState<ReleasePhoneNumberResult>, ReleasePhoneNumberResult>> {
     return tracingClient.withSpan(
       "PhoneNumbersClient-beginReleasePhoneNumber",
       options,
       (updatedOptions) => {
         return this.client.phoneNumbers.beginReleasePhoneNumber(phoneNumber, updatedOptions);
-      }
+      },
     );
   }
 
@@ -480,7 +479,7 @@ export class PhoneNumbersClient {
    */
   public beginPurchasePhoneNumbers(
     searchId: string,
-    options: BeginPurchasePhoneNumbersOptions = {}
+    options: BeginPurchasePhoneNumbersOptions = {},
   ): Promise<
     PollerLike<PollOperationState<PurchasePhoneNumbersResult>, PurchasePhoneNumbersResult>
   > {
@@ -489,7 +488,7 @@ export class PhoneNumbersClient {
       options,
       (updatedOptions) => {
         return this.client.phoneNumbers.beginPurchasePhoneNumbers({ ...updatedOptions, searchId });
-      }
+      },
     );
   }
 
@@ -579,7 +578,7 @@ export class PhoneNumbersClient {
   public beginUpdatePhoneNumberCapabilities(
     phoneNumber: string,
     request: PhoneNumberCapabilitiesRequest,
-    options: BeginUpdatePhoneNumberCapabilitiesOptions = {}
+    options: BeginUpdatePhoneNumberCapabilitiesOptions = {},
   ): Promise<PollerLike<PollOperationState<PurchasedPhoneNumber>, PurchasedPhoneNumber>> {
     if (!phoneNumber) {
       throw Error("phone number can't be empty");
@@ -592,7 +591,7 @@ export class PhoneNumbersClient {
           ...updatedOptions,
           ...request,
         });
-      }
+      },
     );
   }
 
@@ -619,7 +618,9 @@ export class PhoneNumbersClient {
    *
    * const reservationId = "<reservation-id>";
    * const options: PhoneNumbersCreateOrUpdateReservationOptionalParams = {
-   *   phoneNumbers: ["+1234567890", "+0987654321"]
+      phoneNumbers: { 
+        [1234567890]: phoneNumberDetails : AvailablePhoneNumber
+      }
    * };
    *
    * const reservationResponse = await client.createOrUpdateReservation(reservationId, options);
@@ -629,11 +630,11 @@ export class PhoneNumbersClient {
    * ```
    *
    * Create or update a reservation.
-   * @param reservationId - The id of the reservation.
+   * @param reservationId - The id of the reservation if it's not provided it will generate a random one.
    * @param options - The options parameters.
    */
   public async createOrUpdateReservation(
-    reservationId: string,
+    reservationId?: string,
     options?: PhoneNumbersCreateOrUpdateReservationOptionalParams
   ): Promise<PhoneNumbersCreateOrUpdateReservationResponse> {
     const { span, updatedOptions } = tracingClient.startSpan(
@@ -642,7 +643,8 @@ export class PhoneNumbersClient {
     );
 
     try {
-      return this.client.phoneNumbers.createOrUpdateReservation(reservationId, updatedOptions);
+      const newReservationId = reservationId && reservationId.trim() !== "" ? reservationId : generateGUID();
+      return this.client.phoneNumbers.createOrUpdateReservation(newReservationId, updatedOptions);
     } catch (e: any) {
       span.setStatus({
         status: "error",
@@ -674,11 +676,11 @@ export class PhoneNumbersClient {
    * @param options - The optional parameters.
    */
   public listAvailableCountries(
-    options: ListAvailableCountriesOptions = {}
+    options: ListAvailableCountriesOptions = {},
   ): PagedAsyncIterableIterator<PhoneNumberCountry> {
     const { span, updatedOptions } = tracingClient.startSpan(
       "PhoneNumbersClient-listAvailableCountries",
-      options
+      options,
     );
 
     try {
@@ -719,11 +721,11 @@ export class PhoneNumbersClient {
    */
   public listAvailableTollFreeAreaCodes(
     countryCode: string,
-    options: ListTollFreeAreaCodesOptions = {}
+    options: ListTollFreeAreaCodesOptions = {},
   ): PagedAsyncIterableIterator<PhoneNumberAreaCode> {
     const { span, updatedOptions } = tracingClient.startSpan(
       "PhoneNumbersClient-listAvailableTollFreeAreaCodes",
-      options
+      options,
     );
 
     try {
@@ -764,11 +766,11 @@ export class PhoneNumbersClient {
    */
   public listAvailableGeographicAreaCodes(
     countryCode: string,
-    options: ListGeographicAreaCodesOptions = {}
+    options: ListGeographicAreaCodesOptions = {},
   ): PagedAsyncIterableIterator<PhoneNumberAreaCode> {
     const { span, updatedOptions } = tracingClient.startSpan(
       "PhoneNumbersClient-listAvailableGeographicFreeAreaCodes",
-      options
+      options,
     );
 
     try {
@@ -808,11 +810,11 @@ export class PhoneNumbersClient {
    */
   public listAvailableLocalities(
     countryCode: string,
-    options: ListLocalitiesOptions = {}
+    options: ListLocalitiesOptions = {},
   ): PagedAsyncIterableIterator<PhoneNumberLocality> {
     const { span, updatedOptions } = tracingClient.startSpan(
       "PhoneNumbersClient-listAvailableLocalities",
-      options
+      options,
     );
 
     try {
@@ -854,11 +856,11 @@ export class PhoneNumbersClient {
    */
   public listAvailableOfferings(
     countryCode: string,
-    options: ListOfferingsOptions = {}
+    options: ListOfferingsOptions = {},
   ): PagedAsyncIterableIterator<PhoneNumberOffering> {
     const { span, updatedOptions } = tracingClient.startSpan(
       "PhoneNumbersClient-listOfferings",
-      options
+      options,
     );
 
     try {
