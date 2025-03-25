@@ -6,14 +6,8 @@ import {
   AgriculturePlatformContext,
   AgriculturePlatformClientOptionalParams,
 } from "./api/index.js";
-import {
-  AgriServiceOperations,
-  _getAgriServiceOperations,
-} from "./classic/agriService/index.js";
-import {
-  OperationsOperations,
-  _getOperationsOperations,
-} from "./classic/operations/index.js";
+import { AgriServiceOperations, _getAgriServiceOperations } from "./classic/agriService/index.js";
+import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
 import { Pipeline } from "@azure/core-rest-pipeline";
 import { TokenCredential } from "@azure/core-auth";
 

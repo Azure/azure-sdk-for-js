@@ -25,9 +25,7 @@ export function agriServiceResourceSerializer(item: AgriServiceResource): any {
   };
 }
 
-export function agriServiceResourceDeserializer(
-  item: any,
-): AgriServiceResource {
+export function agriServiceResourceDeserializer(item: any): AgriServiceResource {
   return {
     tags: item["tags"],
     location: item["location"],
@@ -61,18 +59,12 @@ export interface AgriServiceResourceProperties {
   installedSolutions?: InstalledSolutionMap[];
 }
 
-export function agriServiceResourcePropertiesSerializer(
-  item: AgriServiceResourceProperties,
-): any {
+export function agriServiceResourcePropertiesSerializer(item: AgriServiceResourceProperties): any {
   return {
-    config: !item["config"]
-      ? item["config"]
-      : agriServiceConfigSerializer(item["config"]),
+    config: !item["config"] ? item["config"] : agriServiceConfigSerializer(item["config"]),
     dataConnectorCredentials: !item["dataConnectorCredentials"]
       ? item["dataConnectorCredentials"]
-      : dataConnectorCredentialMapArraySerializer(
-          item["dataConnectorCredentials"],
-        ),
+      : dataConnectorCredentialMapArraySerializer(item["dataConnectorCredentials"]),
     installedSolutions: !item["installedSolutions"]
       ? item["installedSolutions"]
       : installedSolutionMapArraySerializer(item["installedSolutions"]),
@@ -84,19 +76,13 @@ export function agriServiceResourcePropertiesDeserializer(
 ): AgriServiceResourceProperties {
   return {
     provisioningState: item["provisioningState"],
-    config: !item["config"]
-      ? item["config"]
-      : agriServiceConfigDeserializer(item["config"]),
+    config: !item["config"] ? item["config"] : agriServiceConfigDeserializer(item["config"]),
     managedOnBehalfOfConfiguration: !item["managedOnBehalfOfConfiguration"]
       ? item["managedOnBehalfOfConfiguration"]
-      : managedOnBehalfOfConfigurationDeserializer(
-          item["managedOnBehalfOfConfiguration"],
-        ),
+      : managedOnBehalfOfConfigurationDeserializer(item["managedOnBehalfOfConfiguration"]),
     dataConnectorCredentials: !item["dataConnectorCredentials"]
       ? item["dataConnectorCredentials"]
-      : dataConnectorCredentialMapArrayDeserializer(
-          item["dataConnectorCredentials"],
-        ),
+      : dataConnectorCredentialMapArrayDeserializer(item["dataConnectorCredentials"]),
     installedSolutions: !item["installedSolutions"]
       ? item["installedSolutions"]
       : installedSolutionMapArrayDeserializer(item["installedSolutions"]),
@@ -180,15 +166,11 @@ export function managedOnBehalfOfConfigurationDeserializer(
   item: any,
 ): ManagedOnBehalfOfConfiguration {
   return {
-    moboBrokerResources: moboBrokerResourceArrayDeserializer(
-      item["moboBrokerResources"],
-    ),
+    moboBrokerResources: moboBrokerResourceArrayDeserializer(item["moboBrokerResources"]),
   };
 }
 
-export function moboBrokerResourceArrayDeserializer(
-  result: Array<MoboBrokerResource>,
-): any[] {
+export function moboBrokerResourceArrayDeserializer(result: Array<MoboBrokerResource>): any[] {
   return result.map((item) => {
     return moboBrokerResourceDeserializer(item);
   });
@@ -233,18 +215,14 @@ export interface DataConnectorCredentialMap {
   value: DataConnectorCredentials;
 }
 
-export function dataConnectorCredentialMapSerializer(
-  item: DataConnectorCredentialMap,
-): any {
+export function dataConnectorCredentialMapSerializer(item: DataConnectorCredentialMap): any {
   return {
     key: item["key"],
     value: dataConnectorCredentialsSerializer(item["value"]),
   };
 }
 
-export function dataConnectorCredentialMapDeserializer(
-  item: any,
-): DataConnectorCredentialMap {
+export function dataConnectorCredentialMapDeserializer(item: any): DataConnectorCredentialMap {
   return {
     key: item["key"],
     value: dataConnectorCredentialsDeserializer(item["value"]),
@@ -265,9 +243,7 @@ export interface DataConnectorCredentials {
   keyVersion?: string;
 }
 
-export function dataConnectorCredentialsSerializer(
-  item: DataConnectorCredentials,
-): any {
+export function dataConnectorCredentialsSerializer(item: DataConnectorCredentials): any {
   return {
     kind: item["kind"],
     clientId: item["clientId"],
@@ -277,9 +253,7 @@ export function dataConnectorCredentialsSerializer(
   };
 }
 
-export function dataConnectorCredentialsDeserializer(
-  item: any,
-): DataConnectorCredentials {
+export function dataConnectorCredentialsDeserializer(item: any): DataConnectorCredentials {
   return {
     kind: item["kind"],
     clientId: item["clientId"],
@@ -307,17 +281,13 @@ export enum KnownAuthCredentialsKind {
  */
 export type AuthCredentialsKind = string;
 
-export function installedSolutionMapArraySerializer(
-  result: Array<InstalledSolutionMap>,
-): any[] {
+export function installedSolutionMapArraySerializer(result: Array<InstalledSolutionMap>): any[] {
   return result.map((item) => {
     return installedSolutionMapSerializer(item);
   });
 }
 
-export function installedSolutionMapArrayDeserializer(
-  result: Array<InstalledSolutionMap>,
-): any[] {
+export function installedSolutionMapArrayDeserializer(result: Array<InstalledSolutionMap>): any[] {
   return result.map((item) => {
     return installedSolutionMapDeserializer(item);
   });
@@ -331,15 +301,11 @@ export interface InstalledSolutionMap {
   value: Solution;
 }
 
-export function installedSolutionMapSerializer(
-  item: InstalledSolutionMap,
-): any {
+export function installedSolutionMapSerializer(item: InstalledSolutionMap): any {
   return { key: item["key"], value: solutionSerializer(item["value"]) };
 }
 
-export function installedSolutionMapDeserializer(
-  item: any,
-): InstalledSolutionMap {
+export function installedSolutionMapDeserializer(item: any): InstalledSolutionMap {
   return {
     key: item["key"],
     value: solutionDeserializer(item["value"]),
@@ -396,18 +362,14 @@ export interface ManagedServiceIdentity {
   userAssignedIdentities?: Record<string, UserAssignedIdentity | null>;
 }
 
-export function managedServiceIdentitySerializer(
-  item: ManagedServiceIdentity,
-): any {
+export function managedServiceIdentitySerializer(item: ManagedServiceIdentity): any {
   return {
     type: item["type"],
     userAssignedIdentities: item["userAssignedIdentities"],
   };
 }
 
-export function managedServiceIdentityDeserializer(
-  item: any,
-): ManagedServiceIdentity {
+export function managedServiceIdentityDeserializer(item: any): ManagedServiceIdentity {
   return {
     principalId: item["principalId"],
     tenantId: item["tenantId"],
@@ -448,15 +410,11 @@ export interface UserAssignedIdentity {
   readonly principalId?: string;
 }
 
-export function userAssignedIdentitySerializer(
-  item: UserAssignedIdentity,
-): any {
+export function userAssignedIdentitySerializer(item: UserAssignedIdentity): any {
   return item;
 }
 
-export function userAssignedIdentityDeserializer(
-  item: any,
-): UserAssignedIdentity {
+export function userAssignedIdentityDeserializer(item: any): UserAssignedIdentity {
   return {
     clientId: item["clientId"],
     principalId: item["principalId"],
@@ -572,9 +530,7 @@ export function systemDataDeserializer(item: any): SystemData {
   return {
     createdBy: item["createdBy"],
     createdByType: item["createdByType"],
-    createdAt: !item["createdAt"]
-      ? item["createdAt"]
-      : new Date(item["createdAt"]),
+    createdAt: !item["createdAt"] ? item["createdAt"] : new Date(item["createdAt"]),
     lastModifiedBy: item["lastModifiedBy"],
     lastModifiedByType: item["lastModifiedByType"],
     lastModifiedAt: !item["lastModifiedAt"]
@@ -615,9 +571,7 @@ export interface ErrorResponse {
 
 export function errorResponseDeserializer(item: any): ErrorResponse {
   return {
-    error: !item["error"]
-      ? item["error"]
-      : errorDetailDeserializer(item["error"]),
+    error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
   };
 }
 
@@ -640,26 +594,20 @@ export function errorDetailDeserializer(item: any): ErrorDetail {
     code: item["code"],
     message: item["message"],
     target: item["target"],
-    details: !item["details"]
-      ? item["details"]
-      : errorDetailArrayDeserializer(item["details"]),
+    details: !item["details"] ? item["details"] : errorDetailArrayDeserializer(item["details"]),
     additionalInfo: !item["additionalInfo"]
       ? item["additionalInfo"]
       : errorAdditionalInfoArrayDeserializer(item["additionalInfo"]),
   };
 }
 
-export function errorDetailArrayDeserializer(
-  result: Array<ErrorDetail>,
-): any[] {
+export function errorDetailArrayDeserializer(result: Array<ErrorDetail>): any[] {
   return result.map((item) => {
     return errorDetailDeserializer(item);
   });
 }
 
-export function errorAdditionalInfoArrayDeserializer(
-  result: Array<ErrorAdditionalInfo>,
-): any[] {
+export function errorAdditionalInfoArrayDeserializer(result: Array<ErrorAdditionalInfo>): any[] {
   return result.map((item) => {
     return errorAdditionalInfoDeserializer(item);
   });
@@ -673,23 +621,17 @@ export interface ErrorAdditionalInfo {
   readonly info?: Record<string, any>;
 }
 
-export function errorAdditionalInfoDeserializer(
-  item: any,
-): ErrorAdditionalInfo {
+export function errorAdditionalInfoDeserializer(item: any): ErrorAdditionalInfo {
   return {
     type: item["type"],
-    info: !item["info"]
-      ? item["info"]
-      : _errorAdditionalInfoInfoDeserializer(item["info"]),
+    info: !item["info"] ? item["info"] : _errorAdditionalInfoInfoDeserializer(item["info"]),
   };
 }
 
 /** model interface _ErrorAdditionalInfoInfo */
 export interface _ErrorAdditionalInfoInfo {}
 
-export function _errorAdditionalInfoInfoDeserializer(
-  item: any,
-): _ErrorAdditionalInfoInfo {
+export function _errorAdditionalInfoInfoDeserializer(item: any): _ErrorAdditionalInfoInfo {
   return item;
 }
 
@@ -705,9 +647,7 @@ export interface AgriServiceResourceUpdate {
   properties?: AgriServiceResourceUpdateProperties;
 }
 
-export function agriServiceResourceUpdateSerializer(
-  item: AgriServiceResourceUpdate,
-): any {
+export function agriServiceResourceUpdateSerializer(item: AgriServiceResourceUpdate): any {
   return {
     identity: !item["identity"]
       ? item["identity"]
@@ -734,14 +674,10 @@ export function agriServiceResourceUpdatePropertiesSerializer(
   item: AgriServiceResourceUpdateProperties,
 ): any {
   return {
-    config: !item["config"]
-      ? item["config"]
-      : agriServiceConfigSerializer(item["config"]),
+    config: !item["config"] ? item["config"] : agriServiceConfigSerializer(item["config"]),
     dataConnectorCredentials: !item["dataConnectorCredentials"]
       ? item["dataConnectorCredentials"]
-      : dataConnectorCredentialMapArraySerializer(
-          item["dataConnectorCredentials"],
-        ),
+      : dataConnectorCredentialMapArraySerializer(item["dataConnectorCredentials"]),
     installedSolutions: !item["installedSolutions"]
       ? item["installedSolutions"]
       : installedSolutionMapArraySerializer(item["installedSolutions"]),
@@ -765,17 +701,13 @@ export function _agriServiceResourceListResultDeserializer(
   };
 }
 
-export function agriServiceResourceArraySerializer(
-  result: Array<AgriServiceResource>,
-): any[] {
+export function agriServiceResourceArraySerializer(result: Array<AgriServiceResource>): any[] {
   return result.map((item) => {
     return agriServiceResourceSerializer(item);
   });
 }
 
-export function agriServiceResourceArrayDeserializer(
-  result: Array<AgriServiceResource>,
-): any[] {
+export function agriServiceResourceArrayDeserializer(result: Array<AgriServiceResource>): any[] {
   return result.map((item) => {
     return agriServiceResourceDeserializer(item);
   });
@@ -791,9 +723,7 @@ export function availableAgriSolutionListResultDeserializer(
   item: any,
 ): AvailableAgriSolutionListResult {
   return {
-    solutions: dataManagerForAgricultureSolutionArrayDeserializer(
-      item["solutions"],
-    ),
+    solutions: dataManagerForAgricultureSolutionArrayDeserializer(item["solutions"]),
   };
 }
 
@@ -837,9 +767,7 @@ export function dataManagerForAgricultureSolutionDeserializer(
     dataAccessScopes: item["dataAccessScopes"].map((p: any) => {
       return p;
     }),
-    marketPlaceOfferDetails: marketPlaceOfferDetailsDeserializer(
-      item["marketPlaceOfferDetails"],
-    ),
+    marketPlaceOfferDetails: marketPlaceOfferDetailsDeserializer(item["marketPlaceOfferDetails"]),
     saasApplicationId: item["saasApplicationId"],
     accessAzureDataManagerForAgricultureApplicationId:
       item["accessAzureDataManagerForAgricultureApplicationId"],
@@ -857,9 +785,7 @@ export interface MarketPlaceOfferDetails {
   publisherId: string;
 }
 
-export function marketPlaceOfferDetailsDeserializer(
-  item: any,
-): MarketPlaceOfferDetails {
+export function marketPlaceOfferDetailsDeserializer(item: any): MarketPlaceOfferDetails {
   return {
     saasOfferId: item["saasOfferId"],
     publisherId: item["publisherId"],
@@ -874,9 +800,7 @@ export interface _OperationListResult {
   nextLink?: string;
 }
 
-export function _operationListResultDeserializer(
-  item: any,
-): _OperationListResult {
+export function _operationListResultDeserializer(item: any): _OperationListResult {
   return {
     value: operationArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
@@ -907,9 +831,7 @@ export function operationDeserializer(item: any): Operation {
   return {
     name: item["name"],
     isDataAction: item["isDataAction"],
-    display: !item["display"]
-      ? item["display"]
-      : operationDisplayDeserializer(item["display"]),
+    display: !item["display"] ? item["display"] : operationDisplayDeserializer(item["display"]),
     origin: item["origin"],
     actionType: item["actionType"],
   };

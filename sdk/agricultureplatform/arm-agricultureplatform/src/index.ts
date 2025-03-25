@@ -61,8 +61,5 @@ export {
   AgriServiceGetOptionalParams,
 } from "./api/agriService/index.js";
 export { OperationsListOptionalParams } from "./api/operations/index.js";
-export {
-  AgriServiceOperations,
-  OperationsOperations,
-} from "./classic/index.js";
+export { AgriServiceOperations, OperationsOperations } from "./classic/index.js";
 export { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
