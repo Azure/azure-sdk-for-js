@@ -7,8 +7,8 @@ import { CosmosClient } from "../../../src/index.js";
 import { masterKey } from "../common/_fakeTestSecrets.js";
 import type { PluginConfig, CosmosClientOptions } from "../../../src/index.js";
 import { PluginOn } from "../../../src/index.js";
-import { expect } from "chai";
 import { getEmptyCosmosDiagnostics } from "../../../src/utils/diagnostics.js";
+import { describe, it, assert } from "vitest";
 
 const endpoint = "https://failovertest.documents.azure.com/";
 

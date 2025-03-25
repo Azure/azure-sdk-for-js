@@ -14,6 +14,7 @@ import {
 } from "../../../../src/encryption/index.js";
 import { ProtectedDataEncryptionKeyCache } from "../../../../src/encryption/Cache/ProtectedDataEncryptionKeyCache.js";
 import { ErrorResponse, StatusCodes } from "../../../../src/index.js";
+import { describe, it, assert } from "vitest";
 
 export class MockKeyVaultEncryptionKeyResolver implements EncryptionKeyResolver {
   encryptionKeyResolverName = EncryptionKeyResolverName.AzureKeyVault;

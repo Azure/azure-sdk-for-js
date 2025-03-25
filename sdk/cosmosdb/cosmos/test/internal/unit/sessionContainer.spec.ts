@@ -5,6 +5,7 @@ import { Constants, OperationType, ResourceType } from "../../../src/common/inde
 import type { CosmosHeaders } from "../../../src/queryExecutionContext/CosmosHeaders.js";
 import { SessionContainer } from "../../../src/session/sessionContainer.js";
 import type { SessionContext } from "../../../src/session/SessionContext.js";
+import { describe, it, assert } from "vitest";
 
 describe("SessionContainer", function () {
   const collectionLink = "dbs/testDatabase/colls/testCollection";

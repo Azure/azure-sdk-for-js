@@ -8,6 +8,7 @@ import {
   getDefaultClient,
   getDefaultComputeGatewayClient,
 } from "../../common/TestHelpers.js";
+import { describe, it, assert } from "vitest";
 
 interface ItemPayload {
   id?: string;

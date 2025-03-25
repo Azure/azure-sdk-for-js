@@ -7,6 +7,7 @@ import { masterKey } from "../common/_fakeTestSecrets.js";
 import { PluginOn } from "../../../src/index.js";
 import { TimeoutErrorCode } from "../../../src/request/TimeoutError.js";
 import { getEmptyCosmosDiagnostics } from "../../../src/utils/diagnostics.js";
+import { describe, it, assert } from "vitest";
 
 const endpoint = "https://failovertest.documents.azure.com/";
 

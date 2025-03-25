@@ -13,6 +13,7 @@ import {
   testForDiagnostics,
 } from "../common/TestHelpers.js";
 import { PartitionKeyDefinitionVersion, PartitionKeyKind } from "../../../src/documents/index.js";
+import { describe, it, assert } from "vitest";
 
 const client = new CosmosClient({
   endpoint,

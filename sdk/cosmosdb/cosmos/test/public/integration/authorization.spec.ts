@@ -6,6 +6,7 @@ import { CosmosClient, PermissionMode } from "../../../src/index.js";
 import type { Database } from "../../../src/index.js";
 import { endpoint } from "../common/_testConfig.js";
 import { getTestContainer, removeAllDatabases } from "../common/TestHelpers.js";
+import { describe, it, assert } from "vitest";
 
 describe("Authorization", function () {
   this.timeout(process.env.MOCHA_TIMEOUT || 10000);

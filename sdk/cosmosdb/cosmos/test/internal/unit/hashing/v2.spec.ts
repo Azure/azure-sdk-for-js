@@ -3,6 +3,7 @@
 
 import assert from "node:assert";
 import { hashV2PartitionKey } from "../../../../src/utils/hashing/v2.js";
+import { describe, it, assert } from "vitest";
 
 describe("effectivePartitionKey", function () {
   describe("computes v2 key", function () {

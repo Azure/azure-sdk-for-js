@@ -23,6 +23,7 @@ import {
 } from "../common/TestHelpers.js";
 import { SpatialType } from "../../../src/index.js";
 import { GeospatialType } from "../../../src/index.js";
+import { describe, it, assert } from "vitest";
 
 describe("Containers", function () {
   this.timeout(process.env.MOCHA_TIMEOUT || 10000);

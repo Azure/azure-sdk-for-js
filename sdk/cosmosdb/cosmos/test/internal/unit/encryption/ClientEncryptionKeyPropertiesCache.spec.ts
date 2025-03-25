@@ -9,6 +9,7 @@ import {
   EncryptionKeyWrapMetadata,
   KeyEncryptionAlgorithm,
 } from "../../../../src/index.js";
+import { describe, it, assert } from "vitest";
 
 describe("ClientEncryptionKeyPropertiesCache", () => {
   it("should create an instance of ClientEncryptionKeyPropertiesCache", () => {

@@ -7,6 +7,7 @@ import { masterKey, userSasTokenKey } from "../../public/common/_fakeTestSecrets
 import { SasTokenPermissionKind } from "../../../src/common/index.js";
 import { createAuthorizationSasToken } from "../../../src/utils/SasToken.js";
 import type { SasTokenProperties } from "../../../src/client/SasToken/SasTokenProperties.js";
+import { describe, it, assert } from "vitest";
 
 describe.skip("SAS Token Authorization", function () {
   const sasTokenProperties = <SasTokenProperties>{

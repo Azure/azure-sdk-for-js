@@ -4,6 +4,7 @@ import type { Container, ContainerDefinition, FeedOptions } from "../../../../sr
 import { bulkInsertItems, getTestContainer, removeAllDatabases } from "../../common/TestHelpers.js";
 import assert from "node:assert";
 import groupBySnapshot from "./groupBy.snapshot.js";
+import { describe, it, assert } from "vitest";
 
 const items = [
   {

@@ -5,6 +5,7 @@ import { DocumentProducer, FetchResult, SqlQuerySpec } from "../../../src/queryE
 import { MockedClientContext } from "../../public/common/MockClientContext.js";
 import { ClientContext, PartitionKeyRange } from "../../../src/index.js";
 import assert from "node:assert";
+import { describe, it, assert } from "vitest";
 
 describe("Test DocumentProducer", function () {
   const mockedClientContext: ClientContext = new MockedClientContext({}) as any;

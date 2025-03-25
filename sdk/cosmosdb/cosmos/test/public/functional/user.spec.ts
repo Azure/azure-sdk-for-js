@@ -3,6 +3,7 @@
 import assert from "node:assert";
 import type { UserDefinition } from "../../../src/index.js";
 import { createOrUpsertUser, getTestDatabase, removeAllDatabases } from "../common/TestHelpers.js";
+import { describe, it, assert } from "vitest";
 
 describe("NodeJS CRUD Tests", function () {
   this.timeout(process.env.MOCHA_TIMEOUT || 10000);

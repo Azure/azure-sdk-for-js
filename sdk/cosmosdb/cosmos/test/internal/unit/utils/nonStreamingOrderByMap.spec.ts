@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 import assert from "node:assert";
 import { NonStreamingOrderByMap } from "../../../../src/utils/nonStreamingOrderByMap.js";
+import { describe, it, assert } from "vitest";
 
 describe("NonStreamingOrderByMap", () => {
   it("should insert items", () => {

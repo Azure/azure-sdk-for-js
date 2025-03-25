@@ -17,10 +17,9 @@ import {
   Resource,
   StatusCodes,
 } from "../../../src/index.js";
-import { expect, assert } from "chai";
 import { TestParallelQueryExecutionContext } from "./common/TestParallelQueryExecutionContext.js";
-import sinon from "sinon";
 import { SubStatusCodes } from "../../../src/common/index.js";
+import { describe, it, assert, expect } from "vitest";
 
 const createMockPartitionKeyRange = (id: string, minInclusive: string, maxExclusive: string) => ({
   id, // Range ID

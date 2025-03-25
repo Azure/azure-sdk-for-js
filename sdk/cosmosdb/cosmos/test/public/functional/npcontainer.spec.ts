@@ -8,7 +8,7 @@ import { getTestContainer, removeAllDatabases } from "../common/TestHelpers.js";
 import { endpoint } from "../common/_testConfig.js";
 import { masterKey } from "../common/_fakeTestSecrets.js";
 import { ResourceType, HTTPMethod, StatusCodes } from "../../../src/index.js";
-import { expect } from "chai";
+import { describe, it, assert } from "vitest";
 
 const plugins: PluginConfig[] = [
   {

@@ -10,6 +10,7 @@ import {
   createDummyDiagnosticNode,
   createTestClientContext,
 } from "../../../public/common/TestHelpers.js";
+import { describe, it, assert } from "vitest";
 
 describe("PipelineQueryExecutionContext", function () {
   describe("fetchMore", function () {

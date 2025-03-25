@@ -3,6 +3,7 @@
 import assert from "node:assert";
 import { validateOffer } from "../../../../src/utils/offers.js";
 import type { ContainerRequest } from "../../../../src/index.js";
+import { describe, it, assert } from "vitest";
 
 describe("Offer utils", function () {
   describe("validateOffer", function () {

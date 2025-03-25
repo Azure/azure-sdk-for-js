@@ -5,6 +5,7 @@ import assert from "node:assert";
 import { EncryptionType } from "../../../../src/index.js";
 import { AeadAes256CbcHmacSha256Algorithm } from "../../../../src/encryption/AeadAes256CbcHmacSha256Algorithm/index.js";
 import { DataEncryptionKey } from "../../../../src/encryption/EncryptionKey/index.js";
+import { describe, it, assert } from "vitest";
 
 class TestDataEncryptionKey extends DataEncryptionKey {
   constructor(rootKey: Buffer) {

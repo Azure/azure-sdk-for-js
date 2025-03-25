@@ -3,6 +3,7 @@
 import assert from "node:assert";
 import { supportedQueryFeaturesBuilder } from "../../../../src/utils/supportedQueryFeaturesBuilder.js";
 import type { FeedOptions } from "../../../../src/request/FeedOptions.js";
+import { describe, it, assert } from "vitest";
 
 describe("validate supportedQueryFeaturesBuilder", function () {
   it("should contain nonStreamingOrderBy feature", () => {

@@ -10,6 +10,7 @@ import {
   getTestDatabase,
   removeAllDatabases,
 } from "../common/TestHelpers.js";
+import { describe, it, assert } from "vitest";
 
 // Used for sproc
 declare let getContext: any;

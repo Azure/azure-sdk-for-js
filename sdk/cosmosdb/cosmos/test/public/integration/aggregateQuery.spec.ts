@@ -9,7 +9,7 @@ import type { SqlQuerySpec } from "../../../src/index.js";
 import type { FeedOptions } from "../../../src/index.js";
 import { TestData } from "../common/TestData.js";
 import { bulkInsertItems, getTestContainer, removeAllDatabases } from "../common/TestHelpers.js";
-import { expect } from "chai";
+import { describe, it, assert } from "vitest";
 
 describe("Aggregate Query", function () {
   this.timeout(process.env.MOCHA_TIMEOUT || 20000);
