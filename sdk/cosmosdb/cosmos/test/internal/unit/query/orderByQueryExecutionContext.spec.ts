@@ -10,7 +10,7 @@ import { OrderByQueryExecutionContext } from "../../../../src/queryExecutionCont
 import type { FeedOptions } from "../../../../src/request/FeedOptions.js";
 import assert from "node:assert";
 import { createDummyDiagnosticNode } from "../../../public/common/TestHelpers.js";
-import { describe, it, assert } from "vitest";
+import { describe, it, assert, vi } from "vitest";
 
 describe("OrderByQueryExecutionContext", function () {
   const collectionLink = "/dbs/testDb/colls/testCollection"; // Sample collection link
