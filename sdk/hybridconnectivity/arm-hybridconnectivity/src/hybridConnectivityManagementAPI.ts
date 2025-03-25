@@ -10,10 +10,7 @@ import {
   SolutionTypesOperations,
   _getSolutionTypesOperations,
 } from "./classic/solutionTypes/index.js";
-import {
-  InventoryOperations,
-  _getInventoryOperations,
-} from "./classic/inventory/index.js";
+import { InventoryOperations, _getInventoryOperations } from "./classic/inventory/index.js";
 import {
   SolutionConfigurationsOperations,
   _getSolutionConfigurationsOperations,
@@ -30,14 +27,8 @@ import {
   ServiceConfigurationsOperations,
   _getServiceConfigurationsOperations,
 } from "./classic/serviceConfigurations/index.js";
-import {
-  EndpointsOperations,
-  _getEndpointsOperations,
-} from "./classic/endpoints/index.js";
-import {
-  OperationsOperations,
-  _getOperationsOperations,
-} from "./classic/operations/index.js";
+import { EndpointsOperations, _getEndpointsOperations } from "./classic/endpoints/index.js";
+import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
 import { Pipeline } from "@azure/core-rest-pipeline";
 import { TokenCredential } from "@azure/core-auth";
 
@@ -58,24 +49,17 @@ export class HybridConnectivityManagementAPI {
     const userAgentPrefix = prefixFromOptions
       ? `${prefixFromOptions} azsdk-js-client`
       : `azsdk-js-client`;
-    this._client = createHybridConnectivityManagementAPI(
-      credential,
-      subscriptionId,
-      { ...options, userAgentOptions: { userAgentPrefix } },
-    );
+    this._client = createHybridConnectivityManagementAPI(credential, subscriptionId, {
+      ...options,
+      userAgentOptions: { userAgentPrefix },
+    });
     this.pipeline = this._client.pipeline;
     this.solutionTypes = _getSolutionTypesOperations(this._client);
     this.inventory = _getInventoryOperations(this._client);
-    this.solutionConfigurations = _getSolutionConfigurationsOperations(
-      this._client,
-    );
-    this.publicCloudConnectors = _getPublicCloudConnectorsOperations(
-      this._client,
-    );
+    this.solutionConfigurations = _getSolutionConfigurationsOperations(this._client);
+    this.publicCloudConnectors = _getPublicCloudConnectorsOperations(this._client);
     this.generateAwsTemplate = _getGenerateAwsTemplateOperations(this._client);
-    this.serviceConfigurations = _getServiceConfigurationsOperations(
-      this._client,
-    );
+    this.serviceConfigurations = _getServiceConfigurationsOperations(this._client);
     this.endpoints = _getEndpointsOperations(this._client);
     this.operations = _getOperationsOperations(this._client);
   }

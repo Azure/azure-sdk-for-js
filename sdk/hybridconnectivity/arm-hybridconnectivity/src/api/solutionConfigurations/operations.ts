@@ -53,15 +53,13 @@ export function _syncNowSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _syncNowDeserialize(
@@ -87,13 +85,9 @@ export function syncNow(
   return getLongRunningPoller(context, _syncNowDeserialize, ["202", "200"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _syncNowSend(context, resourceUri, solutionConfiguration, options),
+    getInitialResponse: () => _syncNowSend(context, resourceUri, solutionConfiguration, options),
     resourceLocationConfig: "location",
-  }) as PollerLike<
-    OperationState<OperationStatusResult>,
-    OperationStatusResult
-  >;
+  }) as PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
 }
 
 export function _listSend(
@@ -111,15 +105,13 @@ export function _listSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _listDeserialize(
@@ -167,20 +159,16 @@ export function _$deleteSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .delete({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).delete({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
-export async function _$deleteDeserialize(
-  result: PathUncheckedResponse,
-): Promise<void> {
+export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
   const expectedStatuses = ["200", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -203,12 +191,7 @@ export async function $delete(
   solutionConfiguration: string,
   options: SolutionConfigurationsDeleteOptionalParams = { requestOptions: {} },
 ): Promise<void> {
-  const result = await _$deleteSend(
-    context,
-    resourceUri,
-    solutionConfiguration,
-    options,
-  );
+  const result = await _$deleteSend(context, resourceUri, solutionConfiguration, options);
   return _$deleteDeserialize(result);
 }
 
@@ -230,17 +213,15 @@ export function _updateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .patch({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: solutionConfigurationUpdateSerializer(properties),
-    });
+  return context.path(path).patch({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: solutionConfigurationUpdateSerializer(properties),
+  });
 }
 
 export async function _updateDeserialize(
@@ -294,17 +275,15 @@ export function _createOrUpdateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .put({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: solutionConfigurationSerializer(resource),
-    });
+  return context.path(path).put({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: solutionConfigurationSerializer(resource),
+  });
 }
 
 export async function _createOrUpdateDeserialize(
@@ -357,15 +336,13 @@ export function _getSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _getDeserialize(
@@ -388,11 +365,6 @@ export async function get(
   solutionConfiguration: string,
   options: SolutionConfigurationsGetOptionalParams = { requestOptions: {} },
 ): Promise<SolutionConfiguration> {
-  const result = await _getSend(
-    context,
-    resourceUri,
-    solutionConfiguration,
-    options,
-  );
+  const result = await _getSend(context, resourceUri, solutionConfiguration, options);
   return _getDeserialize(result);
 }

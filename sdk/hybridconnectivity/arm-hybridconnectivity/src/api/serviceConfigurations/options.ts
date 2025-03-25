@@ -8,17 +8,13 @@ export interface ServiceConfigurationsListByEndpointResourceOptionalParams
   extends OperationOptions {}
 
 /** Optional parameters. */
-export interface ServiceConfigurationsDeleteOptionalParams
-  extends OperationOptions {}
+export interface ServiceConfigurationsDeleteOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface ServiceConfigurationsUpdateOptionalParams
-  extends OperationOptions {}
+export interface ServiceConfigurationsUpdateOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface ServiceConfigurationsCreateOrupdateOptionalParams
-  extends OperationOptions {}
+export interface ServiceConfigurationsCreateOrupdateOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface ServiceConfigurationsGetOptionalParams
-  extends OperationOptions {}
+export interface ServiceConfigurationsGetOptionalParams extends OperationOptions {}

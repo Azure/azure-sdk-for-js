@@ -4,8 +4,7 @@
 import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface InventoryListBySolutionConfigurationOptionalParams
-  extends OperationOptions {}
+export interface InventoryListBySolutionConfigurationOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface InventoryGetOptionalParams extends OperationOptions {}

@@ -62,17 +62,15 @@ export function _listManagedProxyDetailsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: managedProxyRequestSerializer(managedProxyRequest),
-    });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: managedProxyRequestSerializer(managedProxyRequest),
+  });
 }
 
 export async function _listManagedProxyDetailsDeserialize(
@@ -128,21 +126,19 @@ export function _listIngressGatewayCredentialsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: !options["listIngressGatewayCredentialsRequest"]
-        ? options["listIngressGatewayCredentialsRequest"]
-        : listIngressGatewayCredentialsRequestSerializer(
-            options["listIngressGatewayCredentialsRequest"],
-          ),
-    });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: !options["listIngressGatewayCredentialsRequest"]
+      ? options["listIngressGatewayCredentialsRequest"]
+      : listIngressGatewayCredentialsRequestSerializer(
+          options["listIngressGatewayCredentialsRequest"],
+        ),
+  });
 }
 
 export async function _listIngressGatewayCredentialsDeserialize(
@@ -194,19 +190,17 @@ export function _listCredentialsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: !options["listCredentialsRequest"]
-        ? options["listCredentialsRequest"]
-        : listCredentialsRequestSerializer(options["listCredentialsRequest"]),
-    });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: !options["listCredentialsRequest"]
+      ? options["listCredentialsRequest"]
+      : listCredentialsRequestSerializer(options["listCredentialsRequest"]),
+  });
 }
 
 export async function _listCredentialsDeserialize(
@@ -229,12 +223,7 @@ export async function listCredentials(
   endpointName: string,
   options: EndpointsListCredentialsOptionalParams = { requestOptions: {} },
 ): Promise<EndpointAccessResource> {
-  const result = await _listCredentialsSend(
-    context,
-    resourceUri,
-    endpointName,
-    options,
-  );
+  const result = await _listCredentialsSend(context, resourceUri, endpointName, options);
   return _listCredentialsDeserialize(result);
 }
 
@@ -253,20 +242,16 @@ export function _listSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
-export async function _listDeserialize(
-  result: PathUncheckedResponse,
-): Promise<_EndpointsList> {
+export async function _listDeserialize(result: PathUncheckedResponse): Promise<_EndpointsList> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -309,20 +294,16 @@ export function _$deleteSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .delete({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).delete({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
-export async function _$deleteDeserialize(
-  result: PathUncheckedResponse,
-): Promise<void> {
+export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
   const expectedStatuses = ["200", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -345,12 +326,7 @@ export async function $delete(
   endpointName: string,
   options: EndpointsDeleteOptionalParams = { requestOptions: {} },
 ): Promise<void> {
-  const result = await _$deleteSend(
-    context,
-    resourceUri,
-    endpointName,
-    options,
-  );
+  const result = await _$deleteSend(context, resourceUri, endpointName, options);
   return _$deleteDeserialize(result);
 }
 
@@ -372,22 +348,18 @@ export function _updateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .patch({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: endpointResourceSerializer(endpointResource),
-    });
+  return context.path(path).patch({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: endpointResourceSerializer(endpointResource),
+  });
 }
 
-export async function _updateDeserialize(
-  result: PathUncheckedResponse,
-): Promise<EndpointResource> {
+export async function _updateDeserialize(result: PathUncheckedResponse): Promise<EndpointResource> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -406,13 +378,7 @@ export async function update(
   endpointResource: EndpointResource,
   options: EndpointsUpdateOptionalParams = { requestOptions: {} },
 ): Promise<EndpointResource> {
-  const result = await _updateSend(
-    context,
-    resourceUri,
-    endpointName,
-    endpointResource,
-    options,
-  );
+  const result = await _updateSend(context, resourceUri, endpointName, endpointResource, options);
   return _updateDeserialize(result);
 }
 
@@ -434,17 +400,15 @@ export function _createOrUpdateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .put({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: endpointResourceSerializer(endpointResource),
-    });
+  return context.path(path).put({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: endpointResourceSerializer(endpointResource),
+  });
 }
 
 export async function _createOrUpdateDeserialize(
@@ -495,20 +459,16 @@ export function _getSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
-export async function _getDeserialize(
-  result: PathUncheckedResponse,
-): Promise<EndpointResource> {
+export async function _getDeserialize(result: PathUncheckedResponse): Promise<EndpointResource> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);

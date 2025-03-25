@@ -78,24 +78,15 @@ export interface PublicCloudConnectorsOperations {
   ) => Promise<PublicCloudConnector>;
 }
 
-function _getPublicCloudConnectors(
-  context: HybridConnectivityManagementAPIContext,
-) {
+function _getPublicCloudConnectors(context: HybridConnectivityManagementAPIContext) {
   return {
     testPermissions: (
       resourceGroupName: string,
       publicCloudConnector: string,
       options?: PublicCloudConnectorsTestPermissionsOptionalParams,
-    ) =>
-      testPermissions(
-        context,
-        resourceGroupName,
-        publicCloudConnector,
-        options,
-      ),
-    listBySubscription: (
-      options?: PublicCloudConnectorsListBySubscriptionOptionalParams,
-    ) => listBySubscription(context, options),
+    ) => testPermissions(context, resourceGroupName, publicCloudConnector, options),
+    listBySubscription: (options?: PublicCloudConnectorsListBySubscriptionOptionalParams) =>
+      listBySubscription(context, options),
     listByResourceGroup: (
       resourceGroupName: string,
       options?: PublicCloudConnectorsListByResourceGroupOptionalParams,
@@ -110,27 +101,13 @@ function _getPublicCloudConnectors(
       publicCloudConnector: string,
       properties: PublicCloudConnectorUpdate,
       options?: PublicCloudConnectorsUpdateOptionalParams,
-    ) =>
-      update(
-        context,
-        resourceGroupName,
-        publicCloudConnector,
-        properties,
-        options,
-      ),
+    ) => update(context, resourceGroupName, publicCloudConnector, properties, options),
     createOrUpdate: (
       resourceGroupName: string,
       publicCloudConnector: string,
       resource: PublicCloudConnector,
       options?: PublicCloudConnectorsCreateOrUpdateOptionalParams,
-    ) =>
-      createOrUpdate(
-        context,
-        resourceGroupName,
-        publicCloudConnector,
-        resource,
-        options,
-      ),
+    ) => createOrUpdate(context, resourceGroupName, publicCloudConnector, resource, options),
     get: (
       resourceGroupName: string,
       publicCloudConnector: string,

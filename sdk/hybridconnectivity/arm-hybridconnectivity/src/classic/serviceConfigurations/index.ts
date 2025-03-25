@@ -67,9 +67,7 @@ export interface ServiceConfigurationsOperations {
   ) => Promise<ServiceConfigurationResource>;
 }
 
-function _getServiceConfigurations(
-  context: HybridConnectivityManagementAPIContext,
-) {
+function _getServiceConfigurations(context: HybridConnectivityManagementAPIContext) {
   return {
     listByEndpointResource: (
       resourceUri: string,
@@ -81,14 +79,7 @@ function _getServiceConfigurations(
       endpointName: string,
       serviceConfigurationName: string,
       options?: ServiceConfigurationsDeleteOptionalParams,
-    ) =>
-      $delete(
-        context,
-        resourceUri,
-        endpointName,
-        serviceConfigurationName,
-        options,
-      ),
+    ) => $delete(context, resourceUri, endpointName, serviceConfigurationName, options),
     update: (
       resourceUri: string,
       endpointName: string,
@@ -124,14 +115,7 @@ function _getServiceConfigurations(
       endpointName: string,
       serviceConfigurationName: string,
       options?: ServiceConfigurationsGetOptionalParams,
-    ) =>
-      get(
-        context,
-        resourceUri,
-        endpointName,
-        serviceConfigurationName,
-        options,
-      ),
+    ) => get(context, resourceUri, endpointName, serviceConfigurationName, options),
   };
 }
 

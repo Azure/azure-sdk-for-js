@@ -44,15 +44,13 @@ export function _listBySolutionConfigurationSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _listBySolutionConfigurationDeserialize(
@@ -79,13 +77,7 @@ export function listBySolutionConfiguration(
 ): PagedAsyncIterableIterator<InventoryResource> {
   return buildPagedAsyncIterator(
     context,
-    () =>
-      _listBySolutionConfigurationSend(
-        context,
-        resourceUri,
-        solutionConfiguration,
-        options,
-      ),
+    () => _listBySolutionConfigurationSend(context, resourceUri, solutionConfiguration, options),
     _listBySolutionConfigurationDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },
@@ -111,20 +103,16 @@ export function _getSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
-export async function _getDeserialize(
-  result: PathUncheckedResponse,
-): Promise<InventoryResource> {
+export async function _getDeserialize(result: PathUncheckedResponse): Promise<InventoryResource> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -143,12 +131,6 @@ export async function get(
   inventoryId: string,
   options: InventoryGetOptionalParams = { requestOptions: {} },
 ): Promise<InventoryResource> {
-  const result = await _getSend(
-    context,
-    resourceUri,
-    solutionConfiguration,
-    inventoryId,
-    options,
-  );
+  const result = await _getSend(context, resourceUri, solutionConfiguration, inventoryId, options);
   return _getDeserialize(result);
 }

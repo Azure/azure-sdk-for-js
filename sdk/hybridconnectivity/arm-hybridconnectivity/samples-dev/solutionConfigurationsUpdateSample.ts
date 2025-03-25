@@ -13,10 +13,7 @@ import { DefaultAzureCredential } from "@azure/identity";
 async function solutionConfigurationsUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-00000000000";
-  const client = new HybridConnectivityManagementAPI(
-    credential,
-    subscriptionId,
-  );
+  const client = new HybridConnectivityManagementAPI(credential, subscriptionId);
   const result = await client.solutionConfigurations.update("ymuj", "dxt", {
     properties: { solutionType: "myzljlstvmgkp", solutionSettings: {} },
   });

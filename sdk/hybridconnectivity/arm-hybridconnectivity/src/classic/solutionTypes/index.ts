@@ -36,9 +36,8 @@ export interface SolutionTypesOperations {
 
 function _getSolutionTypes(context: HybridConnectivityManagementAPIContext) {
   return {
-    listBySubscription: (
-      options?: SolutionTypesListBySubscriptionOptionalParams,
-    ) => listBySubscription(context, options),
+    listBySubscription: (options?: SolutionTypesListBySubscriptionOptionalParams) =>
+      listBySubscription(context, options),
     listByResourceGroup: (
       resourceGroupName: string,
       options?: SolutionTypesListByResourceGroupOptionalParams,

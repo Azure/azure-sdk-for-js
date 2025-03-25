@@ -72,19 +72,15 @@ export interface SolutionConfigurationsOperations {
   ) => Promise<SolutionConfiguration>;
 }
 
-function _getSolutionConfigurations(
-  context: HybridConnectivityManagementAPIContext,
-) {
+function _getSolutionConfigurations(context: HybridConnectivityManagementAPIContext) {
   return {
     syncNow: (
       resourceUri: string,
       solutionConfiguration: string,
       options?: SolutionConfigurationsSyncNowOptionalParams,
     ) => syncNow(context, resourceUri, solutionConfiguration, options),
-    list: (
-      resourceUri: string,
-      options?: SolutionConfigurationsListOptionalParams,
-    ) => list(context, resourceUri, options),
+    list: (resourceUri: string, options?: SolutionConfigurationsListOptionalParams) =>
+      list(context, resourceUri, options),
     delete: (
       resourceUri: string,
       solutionConfiguration: string,
@@ -95,21 +91,13 @@ function _getSolutionConfigurations(
       solutionConfiguration: string,
       properties: SolutionConfigurationUpdate,
       options?: SolutionConfigurationsUpdateOptionalParams,
-    ) =>
-      update(context, resourceUri, solutionConfiguration, properties, options),
+    ) => update(context, resourceUri, solutionConfiguration, properties, options),
     createOrUpdate: (
       resourceUri: string,
       solutionConfiguration: string,
       resource: SolutionConfiguration,
       options?: SolutionConfigurationsCreateOrUpdateOptionalParams,
-    ) =>
-      createOrUpdate(
-        context,
-        resourceUri,
-        solutionConfiguration,
-        resource,
-        options,
-      ),
+    ) => createOrUpdate(context, resourceUri, solutionConfiguration, resource, options),
     get: (
       resourceUri: string,
       solutionConfiguration: string,

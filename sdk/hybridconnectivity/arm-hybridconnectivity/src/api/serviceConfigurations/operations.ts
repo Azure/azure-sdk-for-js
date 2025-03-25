@@ -50,15 +50,13 @@ export function _listByEndpointResourceSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _listByEndpointResourceDeserialize(
@@ -85,8 +83,7 @@ export function listByEndpointResource(
 ): PagedAsyncIterableIterator<ServiceConfigurationResource> {
   return buildPagedAsyncIterator(
     context,
-    () =>
-      _listByEndpointResourceSend(context, resourceUri, endpointName, options),
+    () => _listByEndpointResourceSend(context, resourceUri, endpointName, options),
     _listByEndpointResourceDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },
@@ -112,20 +109,16 @@ export function _$deleteSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .delete({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).delete({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
-export async function _$deleteDeserialize(
-  result: PathUncheckedResponse,
-): Promise<void> {
+export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
   const expectedStatuses = ["200", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -179,19 +172,15 @@ export function _updateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .patch({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: serviceConfigurationResourcePatchSerializer(
-        serviceConfigurationResource,
-      ),
-    });
+  return context.path(path).patch({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: serviceConfigurationResourcePatchSerializer(serviceConfigurationResource),
+  });
 }
 
 export async function _updateDeserialize(
@@ -249,19 +238,15 @@ export function _createOrupdateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .put({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: serviceConfigurationResourceSerializer(
-        serviceConfigurationResource,
-      ),
-    });
+  return context.path(path).put({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: serviceConfigurationResourceSerializer(serviceConfigurationResource),
+  });
 }
 
 export async function _createOrupdateDeserialize(
@@ -318,15 +303,13 @@ export function _getSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _getDeserialize(

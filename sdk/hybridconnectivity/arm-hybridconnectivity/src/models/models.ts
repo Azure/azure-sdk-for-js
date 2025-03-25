@@ -7,9 +7,7 @@ export interface SolutionTypeResource extends ProxyResource {
   properties?: SolutionTypeProperties;
 }
 
-export function solutionTypeResourceDeserializer(
-  item: any,
-): SolutionTypeResource {
+export function solutionTypeResourceDeserializer(item: any): SolutionTypeResource {
   return {
     id: item["id"],
     name: item["name"],
@@ -35,9 +33,7 @@ export interface SolutionTypeProperties {
   solutionSettings?: SolutionTypeSettingsProperties[];
 }
 
-export function solutionTypePropertiesDeserializer(
-  item: any,
-): SolutionTypeProperties {
+export function solutionTypePropertiesDeserializer(item: any): SolutionTypeProperties {
   return {
     solutionType: item["solutionType"],
     description: item["description"],
@@ -48,9 +44,7 @@ export function solutionTypePropertiesDeserializer(
         }),
     solutionSettings: !item["solutionSettings"]
       ? item["solutionSettings"]
-      : solutionTypeSettingsPropertiesArrayDeserializer(
-          item["solutionSettings"],
-        ),
+      : solutionTypeSettingsPropertiesArrayDeserializer(item["solutionSettings"]),
   };
 }
 
@@ -158,9 +152,7 @@ export function systemDataDeserializer(item: any): SystemData {
   return {
     createdBy: item["createdBy"],
     createdByType: item["createdByType"],
-    createdAt: !item["createdAt"]
-      ? item["createdAt"]
-      : new Date(item["createdAt"]),
+    createdAt: !item["createdAt"] ? item["createdAt"] : new Date(item["createdAt"]),
     lastModifiedBy: item["lastModifiedBy"],
     lastModifiedByType: item["lastModifiedByType"],
     lastModifiedAt: !item["lastModifiedAt"]
@@ -201,9 +193,7 @@ export interface ErrorResponse {
 
 export function errorResponseDeserializer(item: any): ErrorResponse {
   return {
-    error: !item["error"]
-      ? item["error"]
-      : errorDetailDeserializer(item["error"]),
+    error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
   };
 }
 
@@ -226,26 +216,20 @@ export function errorDetailDeserializer(item: any): ErrorDetail {
     code: item["code"],
     message: item["message"],
     target: item["target"],
-    details: !item["details"]
-      ? item["details"]
-      : errorDetailArrayDeserializer(item["details"]),
+    details: !item["details"] ? item["details"] : errorDetailArrayDeserializer(item["details"]),
     additionalInfo: !item["additionalInfo"]
       ? item["additionalInfo"]
       : errorAdditionalInfoArrayDeserializer(item["additionalInfo"]),
   };
 }
 
-export function errorDetailArrayDeserializer(
-  result: Array<ErrorDetail>,
-): any[] {
+export function errorDetailArrayDeserializer(result: Array<ErrorDetail>): any[] {
   return result.map((item) => {
     return errorDetailDeserializer(item);
   });
 }
 
-export function errorAdditionalInfoArrayDeserializer(
-  result: Array<ErrorAdditionalInfo>,
-): any[] {
+export function errorAdditionalInfoArrayDeserializer(result: Array<ErrorAdditionalInfo>): any[] {
   return result.map((item) => {
     return errorAdditionalInfoDeserializer(item);
   });
@@ -259,23 +243,17 @@ export interface ErrorAdditionalInfo {
   readonly info?: Record<string, any>;
 }
 
-export function errorAdditionalInfoDeserializer(
-  item: any,
-): ErrorAdditionalInfo {
+export function errorAdditionalInfoDeserializer(item: any): ErrorAdditionalInfo {
   return {
     type: item["type"],
-    info: !item["info"]
-      ? item["info"]
-      : _errorAdditionalInfoInfoDeserializer(item["info"]),
+    info: !item["info"] ? item["info"] : _errorAdditionalInfoInfoDeserializer(item["info"]),
   };
 }
 
 /** model interface _ErrorAdditionalInfoInfo */
 export interface _ErrorAdditionalInfoInfo {}
 
-export function _errorAdditionalInfoInfoDeserializer(
-  item: any,
-): _ErrorAdditionalInfoInfo {
+export function _errorAdditionalInfoInfoDeserializer(item: any): _ErrorAdditionalInfoInfo {
   return item;
 }
 
@@ -296,9 +274,7 @@ export function _solutionTypeResourceListResultDeserializer(
   };
 }
 
-export function solutionTypeResourceArrayDeserializer(
-  result: Array<SolutionTypeResource>,
-): any[] {
+export function solutionTypeResourceArrayDeserializer(result: Array<SolutionTypeResource>): any[] {
   return result.map((item) => {
     return solutionTypeResourceDeserializer(item);
   });
@@ -340,9 +316,7 @@ export interface InventoryProperties {
   readonly provisioningState?: ResourceProvisioningState;
 }
 
-export function inventoryPropertiesDeserializer(
-  item: any,
-): InventoryProperties {
+export function inventoryPropertiesDeserializer(item: any): InventoryProperties {
   return {
     cloudNativeType: item["cloudNativeType"],
     cloudNativeResourceId: item["cloudNativeResourceId"],
@@ -421,18 +395,14 @@ export interface _InventoryResourceListResult {
   nextLink?: string;
 }
 
-export function _inventoryResourceListResultDeserializer(
-  item: any,
-): _InventoryResourceListResult {
+export function _inventoryResourceListResultDeserializer(item: any): _InventoryResourceListResult {
   return {
     value: inventoryResourceArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function inventoryResourceArrayDeserializer(
-  result: Array<InventoryResource>,
-): any[] {
+export function inventoryResourceArrayDeserializer(result: Array<InventoryResource>): any[] {
   return result.map((item) => {
     return inventoryResourceDeserializer(item);
   });
@@ -444,9 +414,7 @@ export interface SolutionConfiguration extends ExtensionResource {
   properties?: SolutionConfigurationProperties;
 }
 
-export function solutionConfigurationSerializer(
-  item: SolutionConfiguration,
-): any {
+export function solutionConfigurationSerializer(item: SolutionConfiguration): any {
   return {
     properties: !item["properties"]
       ? item["properties"]
@@ -454,9 +422,7 @@ export function solutionConfigurationSerializer(
   };
 }
 
-export function solutionConfigurationDeserializer(
-  item: any,
-): SolutionConfiguration {
+export function solutionConfigurationDeserializer(item: any): SolutionConfiguration {
   return {
     id: item["id"],
     name: item["name"],
@@ -508,9 +474,7 @@ export function solutionConfigurationPropertiesDeserializer(
       : solutionSettingsDeserializer(item["solutionSettings"]),
     status: item["status"],
     statusDetails: item["statusDetails"],
-    lastSyncTime: !item["lastSyncTime"]
-      ? item["lastSyncTime"]
-      : new Date(item["lastSyncTime"]),
+    lastSyncTime: !item["lastSyncTime"] ? item["lastSyncTime"] : new Date(item["lastSyncTime"]),
   };
 }
 
@@ -551,9 +515,7 @@ export interface SolutionConfigurationUpdate extends ProxyResource {
   properties?: SolutionConfigurationPropertiesUpdate;
 }
 
-export function solutionConfigurationUpdateSerializer(
-  item: SolutionConfigurationUpdate,
-): any {
+export function solutionConfigurationUpdateSerializer(item: SolutionConfigurationUpdate): any {
   return {
     properties: !item["properties"]
       ? item["properties"]
@@ -597,9 +559,7 @@ export function _solutionConfigurationListResultDeserializer(
   };
 }
 
-export function solutionConfigurationArraySerializer(
-  result: Array<SolutionConfiguration>,
-): any[] {
+export function solutionConfigurationArraySerializer(result: Array<SolutionConfiguration>): any[] {
   return result.map((item) => {
     return solutionConfigurationSerializer(item);
   });
@@ -635,24 +595,18 @@ export interface OperationStatusResult {
   readonly resourceId?: string;
 }
 
-export function operationStatusResultDeserializer(
-  item: any,
-): OperationStatusResult {
+export function operationStatusResultDeserializer(item: any): OperationStatusResult {
   return {
     id: item["id"],
     name: item["name"],
     status: item["status"],
     percentComplete: item["percentComplete"],
-    startTime: !item["startTime"]
-      ? item["startTime"]
-      : new Date(item["startTime"]),
+    startTime: !item["startTime"] ? item["startTime"] : new Date(item["startTime"]),
     endTime: !item["endTime"] ? item["endTime"] : new Date(item["endTime"]),
     operations: !item["operations"]
       ? item["operations"]
       : operationStatusResultArrayDeserializer(item["operations"]),
-    error: !item["error"]
-      ? item["error"]
-      : errorDetailDeserializer(item["error"]),
+    error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
     resourceId: item["resourceId"],
   };
 }
@@ -671,9 +625,7 @@ export interface PublicCloudConnector extends TrackedResource {
   properties?: PublicCloudConnectorProperties;
 }
 
-export function publicCloudConnectorSerializer(
-  item: PublicCloudConnector,
-): any {
+export function publicCloudConnectorSerializer(item: PublicCloudConnector): any {
   return {
     tags: item["tags"],
     location: item["location"],
@@ -683,9 +635,7 @@ export function publicCloudConnectorSerializer(
   };
 }
 
-export function publicCloudConnectorDeserializer(
-  item: any,
-): PublicCloudConnector {
+export function publicCloudConnectorDeserializer(item: any): PublicCloudConnector {
   return {
     tags: item["tags"],
     location: item["location"],
@@ -813,9 +763,7 @@ export interface PublicCloudConnectorUpdate extends TrackedResourceUpdate {
   properties?: PublicCloudConnectorPropertiesUpdate;
 }
 
-export function publicCloudConnectorUpdateSerializer(
-  item: PublicCloudConnectorUpdate,
-): any {
+export function publicCloudConnectorUpdateSerializer(item: PublicCloudConnectorUpdate): any {
   return {
     tags: item["tags"],
     properties: !item["properties"]
@@ -846,9 +794,7 @@ export interface AwsCloudProfileUpdate {
   excludedAccounts?: string[];
 }
 
-export function awsCloudProfileUpdateSerializer(
-  item: AwsCloudProfileUpdate,
-): any {
+export function awsCloudProfileUpdateSerializer(item: AwsCloudProfileUpdate): any {
   return {
     excludedAccounts: !item["excludedAccounts"]
       ? item["excludedAccounts"]
@@ -864,9 +810,7 @@ export interface TrackedResourceUpdate extends Resource {
   tags?: Record<string, string>;
 }
 
-export function trackedResourceUpdateSerializer(
-  item: TrackedResourceUpdate,
-): any {
+export function trackedResourceUpdateSerializer(item: TrackedResourceUpdate): any {
   return { tags: item["tags"] };
 }
 
@@ -887,17 +831,13 @@ export function _publicCloudConnectorListResultDeserializer(
   };
 }
 
-export function publicCloudConnectorArraySerializer(
-  result: Array<PublicCloudConnector>,
-): any[] {
+export function publicCloudConnectorArraySerializer(result: Array<PublicCloudConnector>): any[] {
   return result.map((item) => {
     return publicCloudConnectorSerializer(item);
   });
 }
 
-export function publicCloudConnectorArrayDeserializer(
-  result: Array<PublicCloudConnector>,
-): any[] {
+export function publicCloudConnectorArrayDeserializer(result: Array<PublicCloudConnector>): any[] {
   return result.map((item) => {
     return publicCloudConnectorDeserializer(item);
   });
@@ -911,9 +851,7 @@ export interface GenerateAwsTemplateRequest {
   solutionTypes?: SolutionTypeSettings[];
 }
 
-export function generateAwsTemplateRequestSerializer(
-  item: GenerateAwsTemplateRequest,
-): any {
+export function generateAwsTemplateRequestSerializer(item: GenerateAwsTemplateRequest): any {
   return {
     connectorId: item["connectorId"],
     solutionTypes: !item["solutionTypes"]
@@ -922,9 +860,7 @@ export function generateAwsTemplateRequestSerializer(
   };
 }
 
-export function solutionTypeSettingsArraySerializer(
-  result: Array<SolutionTypeSettings>,
-): any[] {
+export function solutionTypeSettingsArraySerializer(result: Array<SolutionTypeSettings>): any[] {
   return result.map((item) => {
     return solutionTypeSettingsSerializer(item);
   });
@@ -938,9 +874,7 @@ export interface SolutionTypeSettings {
   solutionSettings?: SolutionSettings;
 }
 
-export function solutionTypeSettingsSerializer(
-  item: SolutionTypeSettings,
-): any {
+export function solutionTypeSettingsSerializer(item: SolutionTypeSettings): any {
   return {
     solutionType: item["solutionType"],
     solutionSettings: !item["solutionSettings"]
@@ -962,9 +896,7 @@ export interface ServiceConfigurationResource extends ExtensionResource {
   properties?: ServiceConfigurationProperties;
 }
 
-export function serviceConfigurationResourceSerializer(
-  item: ServiceConfigurationResource,
-): any {
+export function serviceConfigurationResourceSerializer(item: ServiceConfigurationResource): any {
   return {
     properties: !item["properties"]
       ? item["properties"]
@@ -972,9 +904,7 @@ export function serviceConfigurationResourceSerializer(
   };
 }
 
-export function serviceConfigurationResourceDeserializer(
-  item: any,
-): ServiceConfigurationResource {
+export function serviceConfigurationResourceDeserializer(item: any): ServiceConfigurationResource {
   return {
     id: item["id"],
     name: item["name"],
@@ -1095,9 +1025,7 @@ export interface _ServiceConfigurationList {
   nextLink?: string;
 }
 
-export function _serviceConfigurationListDeserializer(
-  item: any,
-): _ServiceConfigurationList {
+export function _serviceConfigurationListDeserializer(item: any): _ServiceConfigurationList {
   return {
     value: serviceConfigurationResourceArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
@@ -1201,17 +1129,13 @@ export function _endpointsListDeserializer(item: any): _EndpointsList {
   };
 }
 
-export function endpointResourceArraySerializer(
-  result: Array<EndpointResource>,
-): any[] {
+export function endpointResourceArraySerializer(result: Array<EndpointResource>): any[] {
   return result.map((item) => {
     return endpointResourceSerializer(item);
   });
 }
 
-export function endpointResourceArrayDeserializer(
-  result: Array<EndpointResource>,
-): any[] {
+export function endpointResourceArrayDeserializer(result: Array<EndpointResource>): any[] {
   return result.map((item) => {
     return endpointResourceDeserializer(item);
   });
@@ -1223,9 +1147,7 @@ export interface ListCredentialsRequest {
   serviceName?: ServiceName;
 }
 
-export function listCredentialsRequestSerializer(
-  item: ListCredentialsRequest,
-): any {
+export function listCredentialsRequestSerializer(item: ListCredentialsRequest): any {
   return { serviceName: item["serviceName"] };
 }
 
@@ -1235,9 +1157,7 @@ export interface EndpointAccessResource {
   relay?: RelayNamespaceAccessProperties;
 }
 
-export function endpointAccessResourceDeserializer(
-  item: any,
-): EndpointAccessResource {
+export function endpointAccessResourceDeserializer(item: any): EndpointAccessResource {
   return {
     relay: !item["relay"]
       ? item["relay"]
@@ -1294,9 +1214,7 @@ export interface IngressGatewayResource {
   ingress?: IngressProfileProperties;
 }
 
-export function ingressGatewayResourceDeserializer(
-  item: any,
-): IngressGatewayResource {
+export function ingressGatewayResourceDeserializer(item: any): IngressGatewayResource {
   return {
     relay: !item["relay"]
       ? item["relay"]
@@ -1315,9 +1233,7 @@ export interface IngressProfileProperties {
   aadProfile: AADProfileProperties;
 }
 
-export function ingressProfilePropertiesDeserializer(
-  item: any,
-): IngressProfileProperties {
+export function ingressProfilePropertiesDeserializer(item: any): IngressProfileProperties {
   return {
     hostname: item["hostname"],
     aadProfile: aadProfilePropertiesDeserializer(item["aadProfile"]),
@@ -1332,9 +1248,7 @@ export interface AADProfileProperties {
   tenantId: string;
 }
 
-export function aadProfilePropertiesDeserializer(
-  item: any,
-): AADProfileProperties {
+export function aadProfilePropertiesDeserializer(item: any): AADProfileProperties {
   return {
     serverId: item["serverId"],
     tenantId: item["tenantId"],
@@ -1367,9 +1281,7 @@ export interface ManagedProxyResource {
   expiresOn: number;
 }
 
-export function managedProxyResourceDeserializer(
-  item: any,
-): ManagedProxyResource {
+export function managedProxyResourceDeserializer(item: any): ManagedProxyResource {
   return {
     proxy: item["proxy"],
     expiresOn: item["expiresOn"],
@@ -1384,9 +1296,7 @@ export interface _OperationListResult {
   nextLink?: string;
 }
 
-export function _operationListResultDeserializer(
-  item: any,
-): _OperationListResult {
+export function _operationListResultDeserializer(item: any): _OperationListResult {
   return {
     value: operationArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
@@ -1417,9 +1327,7 @@ export function operationDeserializer(item: any): Operation {
   return {
     name: item["name"],
     isDataAction: item["isDataAction"],
-    display: !item["display"]
-      ? item["display"]
-      : operationDisplayDeserializer(item["display"]),
+    display: !item["display"] ? item["display"] : operationDisplayDeserializer(item["display"]),
     origin: item["origin"],
     actionType: item["actionType"],
   };

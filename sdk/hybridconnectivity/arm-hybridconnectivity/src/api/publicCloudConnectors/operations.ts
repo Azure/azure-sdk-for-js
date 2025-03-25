@@ -57,15 +57,13 @@ export function _testPermissionsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _testPermissionsDeserialize(
@@ -90,23 +88,13 @@ export function testPermissions(
     requestOptions: {},
   },
 ): PollerLike<OperationState<OperationStatusResult>, OperationStatusResult> {
-  return getLongRunningPoller(
-    context,
-    _testPermissionsDeserialize,
-    ["202", "200"],
-    {
-      updateIntervalInMs: options?.updateIntervalInMs,
-      abortSignal: options?.abortSignal,
-      getInitialResponse: () =>
-        _testPermissionsSend(
-          context,
-          resourceGroupName,
-          publicCloudConnector,
-          options,
-        ),
-      resourceLocationConfig: "location",
-    },
-  ) as PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
+  return getLongRunningPoller(context, _testPermissionsDeserialize, ["202", "200"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _testPermissionsSend(context, resourceGroupName, publicCloudConnector, options),
+    resourceLocationConfig: "location",
+  }) as PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
 }
 
 export function _listBySubscriptionSend(
@@ -125,15 +113,13 @@ export function _listBySubscriptionSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _listBySubscriptionDeserialize(
@@ -183,15 +169,13 @@ export function _listByResourceGroupSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _listByResourceGroupDeserialize(
@@ -242,20 +226,16 @@ export function _$deleteSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .delete({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).delete({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
-export async function _$deleteDeserialize(
-  result: PathUncheckedResponse,
-): Promise<void> {
+export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
   const expectedStatuses = ["200", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -278,12 +258,7 @@ export async function $delete(
   publicCloudConnector: string,
   options: PublicCloudConnectorsDeleteOptionalParams = { requestOptions: {} },
 ): Promise<void> {
-  const result = await _$deleteSend(
-    context,
-    resourceGroupName,
-    publicCloudConnector,
-    options,
-  );
+  const result = await _$deleteSend(context, resourceGroupName, publicCloudConnector, options);
   return _$deleteDeserialize(result);
 }
 
@@ -306,17 +281,15 @@ export function _updateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .patch({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: publicCloudConnectorUpdateSerializer(properties),
-    });
+  return context.path(path).patch({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: publicCloudConnectorUpdateSerializer(properties),
+  });
 }
 
 export async function _updateDeserialize(
@@ -371,17 +344,15 @@ export function _createOrUpdateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .put({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: publicCloudConnectorSerializer(resource),
-    });
+  return context.path(path).put({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: publicCloudConnectorSerializer(resource),
+  });
 }
 
 export async function _createOrUpdateDeserialize(
@@ -407,24 +378,13 @@ export function createOrUpdate(
     requestOptions: {},
   },
 ): PollerLike<OperationState<PublicCloudConnector>, PublicCloudConnector> {
-  return getLongRunningPoller(
-    context,
-    _createOrUpdateDeserialize,
-    ["200", "201"],
-    {
-      updateIntervalInMs: options?.updateIntervalInMs,
-      abortSignal: options?.abortSignal,
-      getInitialResponse: () =>
-        _createOrUpdateSend(
-          context,
-          resourceGroupName,
-          publicCloudConnector,
-          resource,
-          options,
-        ),
-      resourceLocationConfig: "azure-async-operation",
-    },
-  ) as PollerLike<OperationState<PublicCloudConnector>, PublicCloudConnector>;
+  return getLongRunningPoller(context, _createOrUpdateDeserialize, ["200", "201"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _createOrUpdateSend(context, resourceGroupName, publicCloudConnector, resource, options),
+    resourceLocationConfig: "azure-async-operation",
+  }) as PollerLike<OperationState<PublicCloudConnector>, PublicCloudConnector>;
 }
 
 export function _getSend(
@@ -445,15 +405,13 @@ export function _getSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _getDeserialize(
@@ -476,11 +434,6 @@ export async function get(
   publicCloudConnector: string,
   options: PublicCloudConnectorsGetOptionalParams = { requestOptions: {} },
 ): Promise<PublicCloudConnector> {
-  const result = await _getSend(
-    context,
-    resourceGroupName,
-    publicCloudConnector,
-    options,
-  );
+  const result = await _getSend(context, resourceGroupName, publicCloudConnector, options);
   return _getDeserialize(result);
 }

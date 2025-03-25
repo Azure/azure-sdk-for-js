@@ -13,15 +13,8 @@ import { DefaultAzureCredential } from "@azure/identity";
 async function inventoryGet(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-00000000000";
-  const client = new HybridConnectivityManagementAPI(
-    credential,
-    subscriptionId,
-  );
-  const result = await client.inventory.get(
-    "ymuj",
-    "zarfsraogroxlaqjjnwixtn",
-    "xofprmcboosrbd",
-  );
+  const client = new HybridConnectivityManagementAPI(credential, subscriptionId);
+  const result = await client.inventory.get("ymuj", "zarfsraogroxlaqjjnwixtn", "xofprmcboosrbd");
   console.log(result);
 }
 

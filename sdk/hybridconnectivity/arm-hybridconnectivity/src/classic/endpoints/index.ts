@@ -97,25 +97,12 @@ function _getEndpoints(context: HybridConnectivityManagementAPIContext) {
       endpointName: string,
       managedProxyRequest: ManagedProxyRequest,
       options?: EndpointsListManagedProxyDetailsOptionalParams,
-    ) =>
-      listManagedProxyDetails(
-        context,
-        resourceUri,
-        endpointName,
-        managedProxyRequest,
-        options,
-      ),
+    ) => listManagedProxyDetails(context, resourceUri, endpointName, managedProxyRequest, options),
     listIngressGatewayCredentials: (
       resourceUri: string,
       endpointName: string,
       options?: EndpointsListIngressGatewayCredentialsOptionalParams,
-    ) =>
-      listIngressGatewayCredentials(
-        context,
-        resourceUri,
-        endpointName,
-        options,
-      ),
+    ) => listIngressGatewayCredentials(context, resourceUri, endpointName, options),
     listCredentials: (
       resourceUri: string,
       endpointName: string,
@@ -123,11 +110,8 @@ function _getEndpoints(context: HybridConnectivityManagementAPIContext) {
     ) => listCredentials(context, resourceUri, endpointName, options),
     list: (resourceUri: string, options?: EndpointsListOptionalParams) =>
       list(context, resourceUri, options),
-    delete: (
-      resourceUri: string,
-      endpointName: string,
-      options?: EndpointsDeleteOptionalParams,
-    ) => $delete(context, resourceUri, endpointName, options),
+    delete: (resourceUri: string, endpointName: string, options?: EndpointsDeleteOptionalParams) =>
+      $delete(context, resourceUri, endpointName, options),
     update: (
       resourceUri: string,
       endpointName: string,
@@ -139,19 +123,9 @@ function _getEndpoints(context: HybridConnectivityManagementAPIContext) {
       endpointName: string,
       endpointResource: EndpointResource,
       options?: EndpointsCreateOrUpdateOptionalParams,
-    ) =>
-      createOrUpdate(
-        context,
-        resourceUri,
-        endpointName,
-        endpointResource,
-        options,
-      ),
-    get: (
-      resourceUri: string,
-      endpointName: string,
-      options?: EndpointsGetOptionalParams,
-    ) => get(context, resourceUri, endpointName, options),
+    ) => createOrUpdate(context, resourceUri, endpointName, endpointResource, options),
+    get: (resourceUri: string, endpointName: string, options?: EndpointsGetOptionalParams) =>
+      get(context, resourceUri, endpointName, options),
   };
 }
 

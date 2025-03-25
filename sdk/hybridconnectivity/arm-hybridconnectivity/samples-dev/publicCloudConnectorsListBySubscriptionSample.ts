@@ -13,10 +13,7 @@ import { DefaultAzureCredential } from "@azure/identity";
 async function publicCloudConnectorsListBySubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "5ACC4579-DB34-4C2F-8F8C-25061168F342";
-  const client = new HybridConnectivityManagementAPI(
-    credential,
-    subscriptionId,
-  );
+  const client = new HybridConnectivityManagementAPI(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.publicCloudConnectors.listBySubscription()) {
     resArray.push(item);

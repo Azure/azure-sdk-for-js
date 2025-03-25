@@ -32,17 +32,15 @@ export function _postSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: generateAwsTemplateRequestSerializer(generateAwsTemplateRequest),
-    });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: generateAwsTemplateRequestSerializer(generateAwsTemplateRequest),
+  });
 }
 
 export async function _postDeserialize(
