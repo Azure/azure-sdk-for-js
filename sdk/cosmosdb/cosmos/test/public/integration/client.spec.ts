@@ -10,7 +10,7 @@ import nock from "nock";
 import { RequestHandler } from "../../../src/request/RequestHandler.js";
 import { masterKey } from "../../public/common/_fakeTestSecrets.js";
 import { endpoint } from "../../public/common/_testConfig.js";
-import { describe, it, assert, beforeEach, afterEach } from "vitest";
+import { describe, it, assert, beforeEach, afterEach, vi } from "vitest";
 
 class MockCredential implements TokenCredential {
   constructor(public returnPromise: Promise<AccessToken | null>) {}

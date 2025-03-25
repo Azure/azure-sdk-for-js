@@ -19,7 +19,7 @@ import {
 } from "../../../src/index.js";
 import { TestParallelQueryExecutionContext } from "./common/TestParallelQueryExecutionContext.js";
 import { SubStatusCodes } from "../../../src/common/index.js";
-import { describe, it, assert, expect } from "vitest";
+import { describe, it, assert, expect, vi } from "vitest";
 
 const createMockPartitionKeyRange = (id: string, minInclusive: string, maxExclusive: string) => ({
   id, // Range ID

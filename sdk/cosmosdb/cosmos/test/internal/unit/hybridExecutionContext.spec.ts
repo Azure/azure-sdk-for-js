@@ -11,7 +11,7 @@ import type { GlobalStatistics } from "../../../src/request/globalStatistics.js"
 import assert from "node:assert";
 import type { HybridSearchQueryResult } from "../../../src/request/hybridSearchQueryResult.js";
 import { MockedClientContext } from "../../public/common/MockClientContext.js";
-import { describe, it, assert } from "vitest";
+import { describe, it, assert, vi } from "vitest";
 
 const collectionLink = "/dbs/testDb/colls/testCollection"; // Sample collection link
 const options: FeedOptions = { maxItemCount: 2, maxDegreeOfParallelism: 1 };

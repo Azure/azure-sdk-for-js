@@ -7,7 +7,7 @@ import { Container, ErrorResponse, TimeoutError } from "../../../../src/index.js
 import { PartitionKeyRangeCache, QueryRange } from "../../../../src/routing/index.js";
 import { ChangeFeedRange } from "../../../../src/client/ChangeFeed/ChangeFeedRange.js";
 import { MockedClientContext } from "../../../public/common/MockClientContext.js";
-import { describe, it, assert, beforeEach, afterEach } from "vitest";
+import { describe, it, assert, beforeEach, afterEach, vi } from "vitest";
 
 interface Resource {
   id: string;

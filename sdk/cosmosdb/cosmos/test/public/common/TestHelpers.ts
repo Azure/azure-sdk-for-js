@@ -52,7 +52,7 @@ import { getCurrentTimestampInMs } from "../../../src/utils/time.js";
 import { extractPartitionKeys } from "../../../src/extractPartitionKey.js";
 import fs from "node:fs";
 import path from "node:path";
-import { assert } from "vitest";
+import { assert, vi } from "vitest";
 
 const defaultRoutingGatewayPort: string = ":8081";
 const defaultComputeGatewayPort: string = ":8903";
