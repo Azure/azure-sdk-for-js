@@ -99,7 +99,10 @@ stages:
                       PathToArtifacts: $(Pipeline.Workspace)/${{parameters.ArtifactName}}/${{artifact.name}}
                       Tag: "$(Tag)"
                       AdditionalTag: "$(AdditionalTag)"
+                      DependsOn:
+                        - 'PrePublishPackage'
                   - job: PostPublishPackage
+                    dependsOn: PublishPackage
                     displayName: Post Publish to npmjs
                     steps:
                     - pwsh: >

@@ -4,9 +4,11 @@ parameters:
   PathToArtifacts: ''
   Tag: ''
   AdditionalTag: ''
+  DependsOn: []
 
 jobs:
 - job: PublishPackage
+  dependsOn: ${{ parameters.DependsOn }}
   condition: succeeded()
   templateContext:
     type: releaseJob
