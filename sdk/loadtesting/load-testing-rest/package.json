@@ -2,7 +2,7 @@
   "name": "@azure-rest/load-testing",
   "sdk-type": "client",
   "author": "Microsoft Corporation",
-  "version": "1.0.1",
+  "version": "1.1.0-beta.1",
   "description": "This package contains Microsoft Azure LoadTestingClient client library.",
   "keywords": [
     "node",
@@ -26,12 +26,13 @@
     "LICENSE"
   ],
   "//sampleConfiguration": {
-    "productName": "Azure Load Testing rest",
+    "productName": "Azure Load Testing",
     "productSlugs": [
-      "azure"
+      "azure",
+      "azure-load-testing"
     ],
     "requiredResources": {
-      "Azure LoadTesting Service instance": "https://learn.microsoft.com/azure/load-testing/"
+      "Azure Load Testing Resource": "https://learn.microsoft.com/azure/load-testing/"
     }
   },
   "engines": {
@@ -85,14 +86,14 @@
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure/identity": "^4.6.0",
     "@types/node": "^18.0.0",
-    "@vitest/browser": "^3.0.5",
-    "@vitest/coverage-istanbul": "^3.0.5",
+    "@vitest/browser": "^3.0.9",
+    "@vitest/coverage-istanbul": "^3.0.9",
     "autorest": "latest",
     "dotenv": "^16.0.0",
     "eslint": "^9.9.0",
     "playwright": "^1.50.1",
-    "typescript": "~5.7.2",
-    "vitest": "^3.0.5"
+    "typescript": "~5.8.2",
+    "vitest": "^3.0.9"
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/loadtesting/load-testing-rest/README.md",
   "//metadata": {

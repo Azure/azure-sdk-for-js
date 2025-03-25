@@ -36,10 +36,10 @@ You can reference these two config files to configure the Modular or RLC package
 - [Modular tspconfig.yaml](https://github.com/Azure/azure-rest-api-specs/blob/main/specification/contosowidgetmanager/Contoso.Management/tspconfig.yaml)
 - [RLC tspconfig.yaml](https://github.com/Azure/azure-rest-api-specs/blob/main/specification/ai/Face/tspconfig.yaml)
 
-Please make sure `service-dir`, `package-dir`, `packageDetails`, `isModularLibrary`, `generateMetadata`, `flavor`(for typespec-ts) is correctly configured. `experimentalExtensibleEnums`, `enableOperationGroup`, `hierarchyClient` are the optional configs.
+Please make sure `service-dir`, `package-dir`, `package-details`, `is-modular-library`, `generate-metadata`, `flavor`(for typespec-ts) is correctly configured. `experimental-extensible-enums`, `enable-operation-group`, `hierarchy-client` are the optional configs.
 If you want to enable sample generation with typespec-ts, you should add 
 ```
-generateSample:true
+generate-sample:true
 ```
 in your tspconfig.yaml
 

@@ -49,6 +49,14 @@ export interface SharedOptions {
    */
   priorityLevel?: PriorityLevel;
 
+  /**
+   * Throughput Bucket for a request.
+   *
+   * <p>Default value is null. In this case, the request can use 100% of the partition throughput. </p>
+   * For more information, visit [Cosmos DB throughput Bucketing](https://aka.ms/cosmsodb-bucketing).
+   */
+  throughputBucket?: number;
+
   /** Consistency level required by the client. */
   consistencyLevel?: string;
 

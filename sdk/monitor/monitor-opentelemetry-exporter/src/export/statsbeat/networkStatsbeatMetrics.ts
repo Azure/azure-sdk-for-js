@@ -171,8 +171,8 @@ export class NetworkStatsbeatMetrics extends StatsbeatMetrics {
   private successCallback(observableResult: ObservableResult): void {
     const counter: NetworkStatsbeat = this.getNetworkStatsbeatCounter(this.endpointUrl, this.host);
     const attributes = { ...this.commonProperties, ...this.networkProperties };
-    observableResult.observe(counter.totalSuccesfulRequestCount, attributes);
-    counter.totalSuccesfulRequestCount = 0;
+    observableResult.observe(counter.totalSuccessfulRequestCount, attributes);
+    counter.totalSuccessfulRequestCount = 0;
   }
 
   private failureCallback(observableResult: BatchObservableResult): void {
@@ -276,7 +276,7 @@ export class NetworkStatsbeatMetrics extends StatsbeatMetrics {
     }
     const counter: NetworkStatsbeat = this.getNetworkStatsbeatCounter(this.endpointUrl, this.host);
     counter.totalRequestCount++;
-    counter.totalSuccesfulRequestCount++;
+    counter.totalSuccessfulRequestCount++;
     counter.intervalRequestExecutionTime += duration;
   }
 

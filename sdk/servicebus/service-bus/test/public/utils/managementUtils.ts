@@ -7,20 +7,19 @@ import type { CreateSubscriptionOptions } from "../../../src/index.js";
 import { ServiceBusAdministrationClient } from "../../../src/index.js";
 import type { CreateQueueOptions } from "../../../src/index.js";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { EnvVarNames, getEnvVars } from "./envVarUtils.js";
 import { should } from "./chai.js";
+import { getFullyQualifiedNamespace } from "../../utils/injectables.js";
 
 let client: ServiceBusAdministrationClient;
 
 /**
  * Utility to fetch cached instance of `ServiceBusAtomManagementClient` else creates and returns
- * a new instance constructed based on the connection string configured in environment.
+ * a new one.
  */
 function getManagementClient(): ServiceBusAdministrationClient {
   if (client === undefined) {
-    const env = getEnvVars();
     client = new ServiceBusAdministrationClient(
-      env[EnvVarNames.SERVICEBUS_FQDN],
+      getFullyQualifiedNamespace(),
       createTestCredential(),
     );
   }
