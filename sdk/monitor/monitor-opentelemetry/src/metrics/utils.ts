@@ -43,6 +43,7 @@ import {
   getNetPeerName,
   getUserAgent,
 } from "./quickpulse/utils";
+import { Logger } from "../shared/logging";
 
 export function getRequestDimensions(span: ReadableSpan): Attributes {
   const dimensions: MetricRequestDimensions = getBaseDimensions(span.resource);
@@ -174,7 +175,12 @@ export function convertDimensions(
 
 // to get physical memory bytes
 export function getPhysicalMemory(): number {
-  return process.memoryUsage.rss();
+  if (process?.memoryUsage) {
+    return process.memoryUsage.rss();
+  } else {
+    Logger.getInstance().warn("process.memoryUsage is not available");
+    return 0;
+  }
 }
 
 // This function can get the normalized cpu, but it assumes that after this function is called,
@@ -184,29 +190,39 @@ export function getProcessorTimeNormalized(
   lastHrTime: bigint,
   lastCpuUsage: NodeJS.CpuUsage,
 ): number {
-  let numCpus = os.cpus().length;
-  const usageDif = process.cpuUsage(lastCpuUsage);
-  const elapsedTimeNs = process.hrtime.bigint() - lastHrTime;
+  if (process) {
+    let numCpus = os.cpus().length;
+    const usageDif = process.cpuUsage(lastCpuUsage);
+    const elapsedTimeNs = process.hrtime.bigint() - lastHrTime;
 
-  const usageDifMs = (usageDif.user + usageDif.system) / 1000.0;
-  const elapsedTimeMs = elapsedTimeNs === BigInt(0) ? 1 : Number(elapsedTimeNs) / 1000000.0;
-  // just for division safety, don't know a case in which this would actually happen
-  numCpus = numCpus === 0 ? 1 : numCpus;
+    const usageDifMs = (usageDif.user + usageDif.system) / 1000.0;
+    const elapsedTimeMs = elapsedTimeNs === BigInt(0) ? 1 : Number(elapsedTimeNs) / 1000000.0;
+    // just for division safety, don't know a case in which this would actually happen
+    numCpus = numCpus === 0 ? 1 : numCpus;
 
-  return (usageDifMs / elapsedTimeMs / numCpus) * 100;
+    return (usageDifMs / elapsedTimeMs / numCpus) * 100;
+  } else {
+    Logger.getInstance().warn("process is not available");
+    return 0;
+  }
 }
 
 // This function can get the cpu %, but it assumes that after this function is called,
 // that the process.hrtime.bigint() & process.cpuUsage() are called/stored to be used as the
 // parameters for the next call.
 export function getProcessorTime(lastHrTime: bigint, lastCpuUsage: NodeJS.CpuUsage): number {
-  const usageDif = process.cpuUsage(lastCpuUsage);
-  const elapsedTimeNs = process.hrtime.bigint() - lastHrTime;
+  if (process?.cpuUsage) {
+    const usageDif = process.cpuUsage(lastCpuUsage);
+    const elapsedTimeNs = process.hrtime.bigint() - lastHrTime;
 
-  const usageDifMs = (usageDif.user + usageDif.system) / 1000.0;
-  const elapsedTimeMs = elapsedTimeNs === BigInt(0) ? 1 : Number(elapsedTimeNs) / 1000000.0;
+    const usageDifMs = (usageDif.user + usageDif.system) / 1000.0;
+    const elapsedTimeMs = elapsedTimeNs === BigInt(0) ? 1 : Number(elapsedTimeNs) / 1000000.0;
 
-  return (usageDifMs / elapsedTimeMs) * 100;
+    return (usageDifMs / elapsedTimeMs) * 100;
+  } else {
+    Logger.getInstance().warn("process.cpuUsage is not available");
+    return 0;
+  }
 }
 
 /**

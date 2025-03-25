@@ -69,6 +69,7 @@ import {
 import { SEMATTRS_EXCEPTION_TYPE } from "@opentelemetry/semantic-conventions";
 import { getPhysicalMemory, getProcessorTimeNormalized } from "../utils";
 import { getCloudRole, getCloudRoleInstance } from "../utils";
+import { Logger } from "../../shared/logging";
 
 const POST_INTERVAL = 1000;
 const MAX_POST_WAIT_TIME = 20000;
@@ -652,10 +653,14 @@ export class LiveMetrics {
   }
 
   private getProcessorTimeNormalized(observableResult: ObservableResult): void {
-    const cpuUsagePercent = getProcessorTimeNormalized(this.lastHrTime, this.lastCpuUsage);
-    observableResult.observe(cpuUsagePercent);
-    this.lastHrTime = process.hrtime.bigint();
-    this.lastCpuUsage = process.cpuUsage();
+    if (process && process.hrtime) {
+      const cpuUsagePercent = getProcessorTimeNormalized(this.lastHrTime, this.lastCpuUsage);
+      observableResult.observe(cpuUsagePercent);
+      this.lastHrTime = process.hrtime.bigint();
+      this.lastCpuUsage = process.cpuUsage();
+    } else {
+      Logger.getInstance().warn("Getting Normalized Processor Time Failed. No process available.");
+    }
   }
 
   private updateConfiguration(response: PublishResponse | IsSubscribedResponse): void {

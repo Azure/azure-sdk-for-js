@@ -21,6 +21,7 @@ import type { AzureMonitorOpenTelemetryOptions } from "../types";
 import { getLogData, isExceptionData } from "./quickpulse/utils";
 import type { ExceptionData, TraceData } from "./quickpulse/types";
 import { LogRecord } from "@opentelemetry/sdk-logs";
+import { Logger } from "../shared/logging";
 
 /**
  * Azure Monitor PerformanceCounter Metrics
@@ -238,7 +239,11 @@ export class PerformanceCounterMetrics {
   }
 
   private getPrivateMemory(observableResult: ObservableResult) {
-    observableResult.observe(process.memoryUsage().rss);
+    if (process?.memoryUsage) {
+      observableResult.observe(process.memoryUsage().rss);
+    } else {
+      Logger.getInstance().warn("Couldn't report Private Memory. Process is not defined.");
+    }
   }
 
   private getAvailableMemory(observableResult: ObservableResult) {
@@ -304,70 +309,78 @@ export class PerformanceCounterMetrics {
   private getNormalizedProcessTime(observableResult: ObservableResult) {
     // this reports total ms spent in each category since the OS was booted, to calculate percent it is necessary
     // to find the delta since the last measurement
-    const cpus = os.cpus();
-    if (
-      cpus &&
-      cpus.length &&
-      this.lastCpusProcess &&
-      cpus.length === this.lastCpusProcess.length
-    ) {
-      // Calculate % of total cpu time (user + system) this App Process used (Only supported by node v6.1.0+)
-      let appCpuPercent: number | undefined = undefined;
-      const appCpuUsage = (process as any).cpuUsage();
-      const hrtime = process.hrtime();
-      const totalApp =
-        appCpuUsage.user -
-          this.lastAppCpuUsage.user +
-          (appCpuUsage.system - this.lastAppCpuUsage.system) || 0;
+    if (process) {
+      const cpus = os.cpus();
+      if (
+        cpus &&
+        cpus.length &&
+        this.lastCpusProcess &&
+        cpus.length === this.lastCpusProcess.length
+      ) {
+        // Calculate % of total cpu time (user + system) this App Process used (Only supported by node v6.1.0+)
+        let appCpuPercent: number | undefined = undefined;
+        const appCpuUsage = process.cpuUsage();
+        const hrtime = process.hrtime();
+        const totalApp =
+          appCpuUsage.user -
+            this.lastAppCpuUsage.user +
+            (appCpuUsage.system - this.lastAppCpuUsage.system) || 0;
 
-      if (typeof this.lastHrtime !== "undefined" && this.lastHrtime.length === 2) {
-        const elapsedTime =
-          (hrtime[0] - this.lastHrtime[0]) * 1e6 + (hrtime[1] - this.lastHrtime[1]) / 1e3 || 0; // convert to microseconds
+        if (typeof this.lastHrtime !== "undefined" && this.lastHrtime.length === 2) {
+          const elapsedTime =
+            (hrtime[0] - this.lastHrtime[0]) * 1e6 + (hrtime[1] - this.lastHrtime[1]) / 1e3 || 0; // convert to microseconds
 
-        appCpuPercent = (100 * totalApp) / (elapsedTime * cpus.length);
+          appCpuPercent = (100 * totalApp) / (elapsedTime * cpus.length);
+        }
+        // Set previous
+        this.lastAppCpuUsage = appCpuUsage;
+        this.lastHrtime = hrtime;
+        const cpuTotals = this.getTotalCombinedCpu(cpus, this.lastCpusProcess);
+        const value = appCpuPercent || (cpuTotals.totalUser / cpuTotals.combinedTotal) * 100;
+        observableResult.observe(value);
       }
-      // Set previous
-      this.lastAppCpuUsage = appCpuUsage;
-      this.lastHrtime = hrtime;
-      const cpuTotals = this.getTotalCombinedCpu(cpus, this.lastCpusProcess);
-      const value = appCpuPercent || (cpuTotals.totalUser / cpuTotals.combinedTotal) * 100;
-      observableResult.observe(value);
+      this.lastCpusProcess = cpus;
+    } else {
+      Logger.getInstance().warn("Couldn't report Normalized process time. Process is not defined.");
     }
-    this.lastCpusProcess = cpus;
   }
 
   private getProcessTime(observableResult: ObservableResult) {
     // this reports total ms spent in each category since the OS was booted, to calculate percent it is necessary
     // to find the delta since the last measurement
-    const cpus = os.cpus();
-    if (
-      cpus &&
-      cpus.length &&
-      this.lastCpusProcess &&
-      cpus.length === this.lastCpusProcess.length
-    ) {
-      // Calculate % of total cpu time (user + system) this App Process used (Only supported by node v6.1.0+)
-      let appCpuPercent: number | undefined = undefined;
-      const appCpuUsage = (process as any).cpuUsage();
-      const hrtime = process.hrtime();
-      const totalApp =
-        appCpuUsage.user -
-          this.lastAppCpuUsage.user +
-          (appCpuUsage.system - this.lastAppCpuUsage.system) || 0;
+    if (process) {
+      const cpus = os.cpus();
+      if (
+        cpus &&
+        cpus.length &&
+        this.lastCpusProcess &&
+        cpus.length === this.lastCpusProcess.length
+      ) {
+        // Calculate % of total cpu time (user + system) this App Process used (Only supported by node v6.1.0+)
+        let appCpuPercent: number | undefined = undefined;
+        const appCpuUsage = process.cpuUsage();
+        const hrtime = process.hrtime();
+        const totalApp =
+          appCpuUsage.user -
+            this.lastAppCpuUsage.user +
+            (appCpuUsage.system - this.lastAppCpuUsage.system) || 0;
 
-      if (typeof this.lastHrtime !== "undefined" && this.lastHrtime.length === 2) {
-        const elapsedTime =
-          (hrtime[0] - this.lastHrtime[0]) * 1e6 + (hrtime[1] - this.lastHrtime[1]) / 1e3 || 0; // convert to microseconds
-        appCpuPercent = (100 * totalApp) / elapsedTime;
+        if (typeof this.lastHrtime !== "undefined" && this.lastHrtime.length === 2) {
+          const elapsedTime =
+            (hrtime[0] - this.lastHrtime[0]) * 1e6 + (hrtime[1] - this.lastHrtime[1]) / 1e3 || 0; // convert to microseconds
+          appCpuPercent = (100 * totalApp) / elapsedTime;
+        }
+        // Set previous
+        this.lastAppCpuUsage = appCpuUsage;
+        this.lastHrtime = hrtime;
+        const cpuTotals = this.getTotalCombinedCpu(cpus, this.lastCpusProcess);
+        const value = appCpuPercent || (cpuTotals.totalUser / cpuTotals.combinedTotal) * 100;
+        observableResult.observe(value);
       }
-      // Set previous
-      this.lastAppCpuUsage = appCpuUsage;
-      this.lastHrtime = hrtime;
-      const cpuTotals = this.getTotalCombinedCpu(cpus, this.lastCpusProcess);
-      const value = appCpuPercent || (cpuTotals.totalUser / cpuTotals.combinedTotal) * 100;
-      observableResult.observe(value);
+      this.lastCpusProcess = cpus;
+    } else {
+      Logger.getInstance().warn("Couldn't report process time. Process is not defined.");
     }
-    this.lastCpusProcess = cpus;
   }
 
   private getExceptionRate(observableResult: ObservableResult) {
