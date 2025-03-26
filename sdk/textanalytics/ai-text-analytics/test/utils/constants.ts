@@ -6,7 +6,7 @@ export const EnvVarKeys = {
   KEY: "LANGUAGE_API_KEY",
   DISABLE_LOCAL_AUTH: "DISABLE_LOCAL_AUTH",
   TEST_MODE: "TEST_MODE",
-};
+} as const;
 
 export const ENDPOINT = "https://endpoint";
 export const KEY = "api_key";

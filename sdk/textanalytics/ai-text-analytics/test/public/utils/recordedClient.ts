@@ -7,15 +7,9 @@ import type { TextAnalyticsClientOptions } from "../../../src/index.js";
 import { AzureKeyCredential, TextAnalyticsClient } from "../../../src/index.js";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { getEndpoint, getKey, isLiveMode, isLocalAuthDisabled } from "../../utils/injectables.js";
-import { EnvVarKeys } from "../../utils/constants.js";
-
-const envSetupForPlayback: { [k: string]: string } = {
-  [EnvVarKeys.ENDPOINT]: "https://endpoint",
-  [EnvVarKeys.KEY]: "api_key",
-};
 
 const recorderStartOptions: RecorderStartOptions = {
-  envSetupForPlayback,
+  envSetupForPlayback: {},
   removeCentralSanitizers: [
     "AZSDK2015",
     "AZSDK2021",

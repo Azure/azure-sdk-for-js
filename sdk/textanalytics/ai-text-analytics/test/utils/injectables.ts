@@ -17,5 +17,5 @@ export function getKey(): string {
 }
 
 export function isLiveMode(): boolean {
-  return inject(EnvVarKeys.TEST_MODE) === "live";
+  return ["live", "record"].includes(inject(EnvVarKeys.TEST_MODE) ?? "");
 }

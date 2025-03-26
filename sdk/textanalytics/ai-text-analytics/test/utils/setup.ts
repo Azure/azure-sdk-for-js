@@ -11,12 +11,14 @@ declare module "vitest" {
   type MyEnvVarKeys = {
     [K in (typeof EnvVarKeys)[keyof typeof EnvVarKeys]]: string;
   };
-  export interface ProvidedContext extends MyEnvVarKeys {}
+  export interface ProvidedContext extends MyEnvVarKeys {
+    [EnvVarKeys.TEST_MODE]: string | undefined;
+  }
 }
 
-function assertEnvironmentVariable<T extends Pick<typeof EnvVarKeys, "TEST_MODE">>(
-  key: T,
-): string | undefined;
+function assertEnvironmentVariable<
+  T extends (typeof EnvVarKeys)[keyof Pick<typeof EnvVarKeys, "TEST_MODE">],
+>(key: T): string | undefined;
 function assertEnvironmentVariable(key: string): string;
 function assertEnvironmentVariable(key: string): string | undefined {
   const value = process.env[key];
@@ -30,7 +32,8 @@ function assertEnvironmentVariable(key: string): string | undefined {
 }
 
 export default async function ({ provide }: TestProject): Promise<void> {
-  if (process.env[EnvVarKeys.TEST_MODE]?.toLowerCase() === "live") {
+  const testMode = assertEnvironmentVariable("TEST_MODE");
+  if (["live", "record"].includes(testMode ?? "")) {
     const subId = assertEnvironmentVariable("SUBSCRIPTION_ID");
     const rgName = assertEnvironmentVariable("RESOURCE_GROUP");
     const resourceName = assertEnvironmentVariable("COGNITIVE_ACCOUNT_NAME");
@@ -49,6 +52,7 @@ export default async function ({ provide }: TestProject): Promise<void> {
     provide(EnvVarKeys.ENDPOINT, endpoint);
     provide(EnvVarKeys.DISABLE_LOCAL_AUTH, disableLocalAuth.toString());
     provide(EnvVarKeys.KEY, key1);
+    provide(EnvVarKeys.TEST_MODE, testMode);
   } else {
     provide(EnvVarKeys.ENDPOINT, MOCKS.ENDPOINT);
     provide(EnvVarKeys.DISABLE_LOCAL_AUTH, MOCKS.DISABLE_LOCAL_AUTH);
