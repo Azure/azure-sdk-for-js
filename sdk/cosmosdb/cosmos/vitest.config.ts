@@ -13,6 +13,7 @@ export default mergeConfig(
       typecheck: {
         enabled: false,
       },
+      fileParallelism: false,
     },
   }),
 );
