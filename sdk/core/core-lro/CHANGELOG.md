@@ -1,8 +1,11 @@
 # Release History
 
-## 3.1.1 (Unreleased)
+## 3.2.0 (Unreleased)
 
 ### Features Added
+
+- Supports a `baseUrl` option that can be used to rewrite the polling URL to use that base URL instead. This makes sure that polling works for operations that live behind proxies or API gateways.
+- Added `skipFinalGet` option to skip the final GET request when polling is complete, optimizing scenarios where the final resource state is not needed. [#33286](https://github.com/Azure/azure-sdk-for-js/pull/33286)
 
 ### Breaking Changes
 

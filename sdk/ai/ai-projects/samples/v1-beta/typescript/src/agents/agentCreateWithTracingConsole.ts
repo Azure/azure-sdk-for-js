@@ -17,8 +17,7 @@ import {
   SimpleSpanProcessor,
 } from "@opentelemetry/sdk-trace-node";
 
-import * as dotenv from "dotenv";
-dotenv.config();
+import  "dotenv/config";
 
 const provider = new NodeTracerProvider();
 provider.addSpanProcessor(new SimpleSpanProcessor(new ConsoleSpanExporter()));
