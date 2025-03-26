@@ -81,7 +81,7 @@ jobs:
           MatrixFilters: ${{ parameters.MatrixFilters }}
           MatrixReplace: ${{ parameters.MatrixReplace }}
           ${{ if eq(parameters.ServiceDirectory, 'auto') }}:
-            SparseCheckoutPaths: [ "/*" ]"
+            SparseCheckoutPaths: [ "/*" ]
           CloudConfig:
             Cloud: Public
           AdditionalParameters:
