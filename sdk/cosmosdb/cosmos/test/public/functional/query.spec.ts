@@ -21,12 +21,6 @@ const client = new CosmosClient({
   connectionPolicy: { enableBackgroundEndpointRefreshing: false },
 });
 
-// TODO: This is required for Node 6 and above, so just putting it in here.
-// Might want to decide on only supporting async iterators once Node supports them officially.
-if (!Symbol || !Symbol.asyncIterator) {
-  (Symbol as any).asyncIterator = Symbol.for("Symbol.asyncIterator");
-}
-
 describe("Queries", { timeout: 10000 }, () => {
   beforeAll(async () => {
     await removeAllDatabases();

@@ -4,7 +4,7 @@
 import type { Container, ContainerDefinition, FeedOptions } from "../../../../src/index.js";
 import { bulkInsertItems, getTestContainer, removeAllDatabases } from "../../common/TestHelpers.js";
 import groupBySnapshot from "./groupBy.snapshot.js";
-import { describe, it, assert, beforeEach, beforeAll } from "vitest";
+import { describe, it, assert, beforeEach, beforeAll, TestContext } from "vitest";
 
 const items = [
   {
@@ -562,8 +562,21 @@ function runCrosspartitionGROUPBYTests(options: FeedOptions): void {
     assert.deepStrictEqual(actual, groupBySnapshot[`${currentTestTitle} ${snapshotNumber++}`]);
   };
 
-  beforeEach(async () => {
-    currentTestTitle = this.currentTest.fullTitle();
+  function getFullTitle(context: TestContext): string {
+    function buildTitle(suite: any): string {
+      if (!suite) {
+        return "";
+      }
+      const parentTitle = buildTitle(suite.suite);
+      return parentTitle ? `${parentTitle} > ${suite.name}` : suite.name;
+    }
+
+    const suiteTitle = buildTitle(context.task.suite);
+    return suiteTitle ? `${suiteTitle} > ${context.task.name}` : context.task.name;
+  }
+
+  beforeEach(async (ctx) => {
+    currentTestTitle = getFullTitle(ctx);
     snapshotNumber = 1;
   });
 
