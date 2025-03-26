@@ -25,7 +25,7 @@ Write-Host "Original dist-tag: $parsedOriginalDistTags"
 Write-Host "Current dist-tag: $packageDistTags"
 Write-Host "Intend to add tag $intendedTag to version $intendedTagVersion"
 
-if ($intendedTag -eq "") {
+if (!$intendedTag) {
   Write-Host "No tags were specified, defaulting to latest tag."
   $intendedTag = "latest"
 }
