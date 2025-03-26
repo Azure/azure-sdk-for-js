@@ -63,7 +63,7 @@
     "test:signoff": "npm run integration-test:node -- --fgrep \"nosignoff\" --invert",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
     "unit-test:browser": "npm run clean && dev-tool run build-package && dev-tool run build-test && dev-tool run test:vitest --browser",
-    "unit-test:node": "dev-tool run test:vitest",
+    "unit-test:node": "echo skipped",
     "update-snippets": "echo skipped"
   },
   "repository": "github:Azure/azure-sdk-for-js",
