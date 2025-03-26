@@ -207,4 +207,5 @@ export {
   ListSortOrder,
   RunAdditionalFieldList,
   VectorStoreFileStatusFilter,
+  ToolDefinitionUnionEnum,
 } from "./models.js";

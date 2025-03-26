@@ -40,3 +40,5 @@ export {
   InternalConnectionPropertiesNoAuth,
   KnownVersions,
 } from "./models.js";
+
+export { ToolDefinitionUnionEnum } from "./agents/index.js";

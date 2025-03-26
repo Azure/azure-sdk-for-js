@@ -28,7 +28,7 @@ registerInstrumentations({
   instrumentations: [createAzureSdkInstrumentation()],
 });
 
-import { AIProjectsClient } from "@azure/ai-projects";
+import { AIProjectClient } from "@azure/ai-projects";
 import { delay } from "@azure/core-util";
 import { DefaultAzureCredential } from "@azure/identity";
 
@@ -39,13 +39,15 @@ let appInsightsConnectionString = process.env["APPLICATIONINSIGHTS_CONNECTION_ST
 export async function main(): Promise<void> {
   const tracer = trace.getTracer("Agents Sample", "1.0.0");
 
-  const client = AIProjectsClient.fromConnectionString(
+  const client = AIProjectClient.fromConnectionString(
     connectionString || "",
     new DefaultAzureCredential(),
   );
 
   if (!appInsightsConnectionString) {
-    appInsightsConnectionString = await client.telemetry.getConnectionString();
+    const workspace = await client.connections.getWorkspace();
+    const appInsightsResourceUrl = workspace.properties.applicationInsights;
+    appInsightsConnectionString = await client.telemetry.getConnectionString(appInsightsResourceUrl);
   }
 
   if (appInsightsConnectionString) {
@@ -70,10 +72,7 @@ export async function main(): Promise<void> {
     console.log(`Created Thread, thread ID:  ${thread.id}`);
 
     // Create message
-    const message = await client.agents.createMessage(thread.id, {
-      role: "user",
-      content: "Hello, tell me a joke",
-    });
+    const message = await client.agents.createMessage(thread.id, "user", "Hello, tell me a joke");
     console.log(`Created message, message ID ${message.id}`);
 
     // Create run

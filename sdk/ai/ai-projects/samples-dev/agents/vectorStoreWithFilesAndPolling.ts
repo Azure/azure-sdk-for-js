@@ -8,17 +8,16 @@
  *
  */
 
-import { AIProjectsClient } from "@azure/ai-projects";
+import { AIProjectClient } from "@azure/ai-projects";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
-import { Readable } from "stream";
 dotenv.config();
 
 const connectionString =
   process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] || "<project connection string>";
 
 export async function main(): Promise<void> {
-  const client = AIProjectsClient.fromConnectionString(
+  const client = AIProjectClient.fromConnectionString(
     connectionString || "",
     new DefaultAzureCredential(),
   );
@@ -29,11 +28,9 @@ export async function main(): Promise<void> {
 
   // Create and upload file
   const fileContent = "Hello, Vector Store!";
-  const readable = new Readable();
-  await readable.push(fileContent);
-  await readable.push(null); // end the stream
-  const file = await client.agents.uploadFile(readable, "assistants", {
-    fileName: "vectorFile.txt",
+  const fileBuffer = Buffer.from(fileContent);
+  const file = await client.agents.uploadFile(fileBuffer, "assistants", {
+    filename: "vectorFile.txt",
   });
   console.log(`Uploaded file, file ID: ${file.id}`);
 

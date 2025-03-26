@@ -134,3 +134,13 @@ export type AgentRunResponse = PromiseLike<ThreadRun> & {
    */
   stream: () => Promise<AgentEventMessageStream>;
 };
+
+export enum DoneEventEnum {
+  /** Event sent when the stream is completed. */
+  Done = "done",
+}
+
+export enum ErrorEventEnum {
+  /** Event sent when an error occurs. */
+  Error = "error",
+}

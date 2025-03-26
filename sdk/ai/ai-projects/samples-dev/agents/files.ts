@@ -7,28 +7,25 @@
  * @summary demonstrates how to use basic files agent operations.
  */
 
-import { AIProjectsClient } from "@azure/ai-projects";
+import { AIProjectClient } from "@azure/ai-projects";
 import { DefaultAzureCredential } from "@azure/identity";
 
 import * as dotenv from "dotenv";
-import { Readable } from "stream";
 dotenv.config();
 
 const connectionString =
   process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] || "<project connection string>";
 
 export async function main(): Promise<void> {
-  const client = AIProjectsClient.fromConnectionString(
+  const client = AIProjectClient.fromConnectionString(
     connectionString || "",
     new DefaultAzureCredential(),
   );
 
   // Create and upload file
   const fileContent = "Hello, World!";
-  const readable = new Readable();
-  await readable.push(fileContent);
-  await readable.push(null); // end the stream
-  const file = await client.agents.uploadFile(readable, "assistants", { fileName: "myFile.txt" });
+  const fileBuffer = Buffer.from(fileContent, "utf-8");
+  const file = await client.agents.uploadFile(fileBuffer, "assistants", { filename: "myFile.txt" });
   console.log(`Uploaded file, file ID : ${file.id}`);
 
   // List uploaded files

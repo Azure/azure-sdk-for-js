@@ -12,17 +12,17 @@
 import type {
   MessageDeltaChunk,
   MessageDeltaTextContent,
-  MessageImageFileContentOutput,
-  MessageTextContentOutput,
-  ThreadRunOutput,
+  MessageImageFileContent,
+  MessageTextContent,
+  ThreadRun,
 } from "@azure/ai-projects";
 import {
-  AIProjectsClient,
-  DoneEvent,
-  ErrorEvent,
+  AIProjectClient,
+  DoneEventEnum,
+  ErrorEventEnum,
   isOutputOfType,
-  MessageStreamEvent,
-  RunStreamEvent,
+  MessageStreamEventEnum,
+  RunStreamEventEnum,
   ToolUtility,
 } from "@azure/ai-projects";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -30,22 +30,26 @@ import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 import * as fs from "fs";
 import path from "node:path";
+import { fileURLToPath } from 'node:url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 dotenv.config();
 
 const connectionString =
   process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] || "<project connection string>";
 
 export async function main(): Promise<void> {
-  const client = AIProjectsClient.fromConnectionString(
+  const client = AIProjectClient.fromConnectionString(
     connectionString || "",
     new DefaultAzureCredential(),
   );
 
   // Upload file and wait for it to be processed
   const filePath = path.resolve(__dirname, "../data/nifty500QuarterlyResults.csv");
-  const localFileStream = fs.createReadStream(filePath);
-  const localFile = await client.agents.uploadFile(localFileStream, "assistants", {
-    fileName: "myLocalFile",
+  const localFileBuffer = fs.readFileSync(filePath);
+  const localFile = await client.agents.uploadFile(localFileBuffer, "assistants", {
+    filename: "myLocalFile.csv",
   });
 
   console.log(`Uploaded local file, file ID : ${localFile.id}`);
@@ -54,7 +58,7 @@ export async function main(): Promise<void> {
   const codeInterpreterTool = ToolUtility.createCodeInterpreterTool([localFile.id]);
 
   // Notice that CodeInterpreter must be enabled in the agent creation, otherwise the agent will not be able to see the file attachment
-  const agent = await client.agents.createAgent("gpt-4o-mini", {
+  const agent = await client.agents.createAgent("gpt-4", {
     name: "my-agent",
     instructions: "You are a helpful agent",
     tools: [codeInterpreterTool.definition],
@@ -70,7 +74,7 @@ export async function main(): Promise<void> {
   const message = await client.agents.createMessage(thread.id, {
     role: "user",
     content:
-      "Could you please create a bar chart in the TRANSPORTATION sector for the operating profit from the uploaded CSV file and provide the file to me?",
+      "Could you please create a bar chart with the revenue column for the uploaded CSV file and provide the file to me?",
   });
 
   console.log(`Created message, message ID: ${message.id}`);
@@ -80,10 +84,10 @@ export async function main(): Promise<void> {
 
   for await (const eventMessage of streamEventMessages) {
     switch (eventMessage.event) {
-      case RunStreamEvent.ThreadRunCreated:
-        console.log(`ThreadRun status: ${(eventMessage.data as ThreadRunOutput).status}`);
+      case RunStreamEventEnum.ThreadRunCreated:
+        console.log(`ThreadRun status: ${(eventMessage.data as ThreadRun).status}`);
         break;
-      case MessageStreamEvent.ThreadMessageDelta:
+      case MessageStreamEventEnum.ThreadMessageDelta:
         {
           const messageDelta = eventMessage.data as MessageDeltaChunk;
           messageDelta.delta.content.forEach((contentPart) => {
@@ -96,13 +100,13 @@ export async function main(): Promise<void> {
         }
         break;
 
-      case RunStreamEvent.ThreadRunCompleted:
+      case RunStreamEventEnum.ThreadRunCompleted:
         console.log("Thread Run Completed");
         break;
-      case ErrorEvent.Error:
+      case ErrorEventEnum.Error:
         console.log(`An error occurred. Data ${eventMessage.data}`);
         break;
-      case DoneEvent.Done:
+      case DoneEventEnum.Done:
         console.log("Stream completed.");
         break;
     }
@@ -114,14 +118,14 @@ export async function main(): Promise<void> {
 
   // Print the messages from the agent
   const messages = await client.agents.listMessages(thread.id);
-  console.log("Messages:", messages);
+  console.log("Messages:", JSON.stringify(messages, null, 2));
 
   // Get most recent message from the assistant
   const assistantMessage = messages.data.find((msg) => msg.role === "assistant");
   if (assistantMessage) {
     const textContent = assistantMessage.content.find((content) =>
-      isOutputOfType<MessageTextContentOutput>(content, "text"),
-    ) as MessageTextContentOutput;
+      isOutputOfType<MessageTextContent>(content, "text"),
+    ) as MessageTextContent;
     if (textContent) {
       console.log(`Last message: ${textContent.text.value}`);
     }
@@ -129,7 +133,7 @@ export async function main(): Promise<void> {
 
   // Save the newly created file
   console.log(`Saving new files...`);
-  const imageFileOutput = messages.data[0].content[0] as MessageImageFileContentOutput;
+  const imageFileOutput = messages.data[0].content[0] as MessageImageFileContent;
   const imageFile = imageFileOutput.imageFile.fileId;
   const imageFileName = path.resolve(
     __dirname,
@@ -137,17 +141,8 @@ export async function main(): Promise<void> {
   );
   console.log(`Image file name : ${imageFileName}`);
 
-  const fileContent = await (await client.agents.getFileContent(imageFile).asNodeStream()).body;
-  if (fileContent) {
-    const chunks: Buffer[] = [];
-    for await (const chunk of fileContent) {
-      chunks.push(Buffer.from(chunk));
-    }
-    const buffer = Buffer.concat(chunks);
-    fs.writeFileSync(imageFileName, buffer);
-  } else {
-    console.error("Failed to retrieve file content: fileContent is undefined");
-  }
+  const fileContent = await client.agents.getFileContent(imageFile);
+  fs.writeFileSync(imageFileName, fileContent);
   console.log(`Saved image file to: ${imageFileName}`);
 
   // Iterate through messages and print details for each annotation
@@ -155,8 +150,8 @@ export async function main(): Promise<void> {
   await messages.data.forEach((m) => {
     console.log(`File Paths:`);
     console.log(`Type: ${m.content[0].type}`);
-    if (isOutputOfType<MessageTextContentOutput>(m.content[0], "text")) {
-      const textContent = m.content[0] as MessageTextContentOutput;
+    if (isOutputOfType<MessageTextContent>(m.content[0], "text")) {
+      const textContent = m.content[0] as MessageTextContent;
       console.log(`Text: ${textContent.text.value}`);
     }
     console.log(`File ID: ${m.id}`);

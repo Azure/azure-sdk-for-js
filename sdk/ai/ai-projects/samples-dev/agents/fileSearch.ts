@@ -10,32 +10,36 @@
 
 import type {
   MessageContent,
-  MessageImageFileContentOutput,
-  MessageTextContentOutput,
+  MessageImageFileContent,
+  MessageTextContent,
 } from "@azure/ai-projects";
-import { AIProjectsClient, isOutputOfType, ToolUtility } from "@azure/ai-projects";
+import { AIProjectClient, isOutputOfType, ToolUtility } from "@azure/ai-projects";
 import { delay } from "@azure/core-util";
 import { DefaultAzureCredential } from "@azure/identity";
 
 import * as dotenv from "dotenv";
 import * as fs from "fs";
 import path from "node:path";
+import { fileURLToPath } from 'node:url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 dotenv.config();
 
 const connectionString =
   process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] || "<project connection string>";
 
 export async function main(): Promise<void> {
-  const client = AIProjectsClient.fromConnectionString(
+  const client = AIProjectClient.fromConnectionString(
     connectionString || "",
     new DefaultAzureCredential(),
   );
 
   // Upload file
   const filePath = path.resolve(__dirname, "../data/sampleFileForUpload.txt");
-  const localFileStream = fs.createReadStream(filePath);
-  const file = await client.agents.uploadFile(localFileStream, "assistants", {
-    fileName: "sampleFileForUpload.txt",
+  const localFileBuffer = fs.readFileSync(filePath);
+  const file = await client.agents.uploadFile(localFileBuffer, "assistants", {
+    filename: "sampleFileForUpload.txt",
   });
   console.log(`Uploaded file, file ID: ${file.id}`);
 
@@ -84,11 +88,11 @@ export async function main(): Promise<void> {
       `Thread Message Created at  - ${threadMessage.createdAt} - Role - ${threadMessage.role}`,
     );
     threadMessage.content.forEach((content: MessageContent) => {
-      if (isOutputOfType<MessageTextContentOutput>(content, "text")) {
-        const textContent = content as MessageTextContentOutput;
+      if (isOutputOfType<MessageTextContent>(content, "text")) {
+        const textContent = content as MessageTextContent;
         console.log(`Text Message Content - ${textContent.text.value}`);
-      } else if (isOutputOfType<MessageImageFileContentOutput>(content, "image_file")) {
-        const imageContent = content as MessageImageFileContentOutput;
+      } else if (isOutputOfType<MessageImageFileContent>(content, "image_file")) {
+        const imageContent = content as MessageImageFileContent;
         console.log(`Image Message Content - ${imageContent.imageFile.fileId}`);
       }
     });

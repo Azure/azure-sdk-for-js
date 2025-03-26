@@ -9,11 +9,12 @@
  *
  */
 
-import type { MessageContentOutput, MessageTextContentOutput } from "@azure/ai-projects";
+import type { MessageContent, MessageTextContent } from "@azure/ai-projects";
 import {
-  AIProjectsClient,
+  AIProjectClient,
+  ToolDefinitionUnionEnum,
   ToolUtility,
-  connectionToolType,
+  ConnectionToolType,
   isOutputOfType,
 } from "@azure/ai-projects";
 import { delay } from "@azure/core-util";
@@ -29,7 +30,7 @@ export async function main(): Promise<void> {
   // Create an Azure AI Client from a connection string, copied from your AI Foundry project.
   // At the moment, it should be in the format "<HostName>;<AzureSubscriptionId>;<ResourceGroup>;<HubName>"
   // Customer needs to login to Azure subscription via Azure CLI and set the environment variables
-  const client = AIProjectsClient.fromConnectionString(
+  const client = AIProjectClient.fromConnectionString(
     connectionString || "",
     new DefaultAzureCredential(),
   );
@@ -39,7 +40,7 @@ export async function main(): Promise<void> {
   const connectionId = bingConnection.id;
 
   // Initialize agent bing tool with the connection id
-  const bingTool = ToolUtility.createConnectionTool(connectionToolType.BingGrounding, [
+  const bingTool = ToolUtility.createConnectionTool(ConnectionToolType.BingGrounding, [
     connectionId,
   ]);
 
@@ -56,10 +57,7 @@ export async function main(): Promise<void> {
   console.log(`Created thread, thread ID: ${thread.id}`);
 
   // Create message to thread
-  const message = await client.agents.createMessage(thread.id, {
-    role: "user",
-    content: "How does wikipedia explain Euler's Identity?",
-  });
+  const message = await client.agents.createMessage(thread.id, "user", "How does wikipedia explain Euler's Identity?");
   console.log(`Created message, message ID: ${message.id}`);
 
   // Create and process agent run in thread with tools
@@ -80,9 +78,9 @@ export async function main(): Promise<void> {
   // Fetch and log all messages
   const messages = await client.agents.listMessages(thread.id);
   console.log(`Messages:`);
-  const agentMessage: MessageContentOutput = messages.data[0].content[0];
-  if (isOutputOfType<MessageTextContentOutput>(agentMessage, "text")) {
-    const textContent = agentMessage as MessageTextContentOutput;
+  const agentMessage: MessageContent = messages.data[0].content[0];
+  if (isOutputOfType<MessageTextContent>(agentMessage, "text")) {
+    const textContent = agentMessage as MessageTextContent;
     console.log(`Text Message Content - ${textContent.text.value}`);
   }
 }

@@ -103,6 +103,7 @@ import type {
   AgentsGetMessageOptionalParams,
   AgentsListMessagesOptionalParams,
   AgentsCreateMessageOptionalParams,
+  AgentsCreateMessageParams,
   AgentsDeleteThreadOptionalParams,
   AgentsUpdateThreadOptionalParams,
   AgentsGetThreadOptionalParams,
@@ -308,12 +309,10 @@ export interface AgentsOperations {
     options?: AgentsListMessagesOptionalParams,
   ) => Promise<OpenAIPageableListOfThreadMessage>;
   /** Creates a new message on a specified thread. */
-  createMessage: (
-    threadId: string,
-    role: MessageRole,
-    content: string,
-    options?: AgentsCreateMessageOptionalParams,
-  ) => Promise<ThreadMessage>;
+  createMessage: {
+    (threadId: string, role: MessageRole, content: string, options?: AgentsCreateMessageOptionalParams): Promise<ThreadMessage>;
+    (threadId: string, options: AgentsCreateMessageParams): Promise<ThreadMessage>;
+  };
   /** Deletes an existing thread. */
   deleteThread: (
     threadId: string,
@@ -505,10 +504,18 @@ function _getAgents(context: AIProjectContext) {
     ) => listMessages(context, threadId, options),
     createMessage: (
       threadId: string,
-      role: MessageRole,
-      content: string,
+      role: MessageRole | AgentsCreateMessageParams,
+      content?: string,
       options?: AgentsCreateMessageOptionalParams,
-    ) => createMessage(context, threadId, role, content, options),
+    ) => {
+      const _role = typeof role === "string" ? role : role.role;
+      const _content = typeof role === "string" ? content : role.content;
+      const _options = typeof role === "string" ? options : role.options;
+      if (_content === undefined) {
+        throw new Error("Content is required");
+      }
+      return createMessage(context, threadId, _role, _content, _options);
+    },
     deleteThread: (
       threadId: string,
       options?: AgentsDeleteThreadOptionalParams,

@@ -6,6 +6,8 @@ export {
   AIProjectContext,
   AIProjectClientOptionalParams,
 } from "./aiProjectContext.js";
+export { isOutputOfType } from "./agents/utils.js";
+export { RunStreamEventEnum, MessageStreamEventEnum, RunStepStreamEventEnum, AgentRunResponse, DoneEventEnum, ErrorEventEnum } from "./agents/customModels.js";
 export {
   EvaluationsDisableScheduleOptionalParams,
   EvaluationsListScheduleOptionalParams,

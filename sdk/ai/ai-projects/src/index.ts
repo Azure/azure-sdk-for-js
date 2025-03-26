@@ -9,6 +9,7 @@ import {
 } from "./static-helpers/pagingHelpers.js";
 
 export { AIProjectClient } from "./aiProjectClient.js";
+export { isOutputOfType, ConnectionToolType, ToolUtility, ToolSet } from "./api/agents/utils.js";
 export {
   Evaluation,
   InputData,
@@ -47,6 +48,7 @@ export {
   CredentialsSASAuth,
   InternalConnectionPropertiesNoAuth,
   KnownVersions,
+  ToolDefinitionUnionEnum,
 } from "./models/index.js";
 export {
   ToolDefinition,
@@ -310,6 +312,12 @@ export {
   AgentsGetAgentOptionalParams,
   AgentsListAgentsOptionalParams,
   AgentsCreateAgentOptionalParams,
+  RunStreamEventEnum,
+  MessageStreamEventEnum,
+  RunStepStreamEventEnum,
+  AgentRunResponse,
+  DoneEventEnum,
+  ErrorEventEnum,
 } from "./api/index.js";
 export {
   AgentsOperations,

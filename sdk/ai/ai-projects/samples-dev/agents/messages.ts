@@ -8,8 +8,8 @@
  *
  */
 
-import type { MessageTextContentOutput } from "@azure/ai-projects";
-import { AIProjectsClient } from "@azure/ai-projects";
+import type { MessageTextContent } from "@azure/ai-projects";
+import { AIProjectClient } from "@azure/ai-projects";
 import { DefaultAzureCredential } from "@azure/identity";
 
 import * as dotenv from "dotenv";
@@ -19,7 +19,7 @@ const connectionString =
   process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] || "<project connection string>";
 
 export async function main(): Promise<void> {
-  const client = AIProjectsClient.fromConnectionString(
+  const client = AIProjectClient.fromConnectionString(
     connectionString || "",
     new DefaultAzureCredential(),
   );
@@ -37,7 +37,7 @@ export async function main(): Promise<void> {
 
   const messages = await client.agents.listMessages(thread.id);
   console.log(
-    `Message ${message.id} contents: ${(messages.data[0].content[0] as MessageTextContentOutput).text.value}`,
+    `Message ${message.id} contents: ${(messages.data[0].content[0] as MessageTextContent).text.value}`,
   );
 
   const updatedMessage = await client.agents.updateMessage(thread.id, message.id, {
