@@ -2302,10 +2302,10 @@ index 0000000..d7e8010
 +}
 diff --git a/src/policies/auth/checkInsecureConnection.ts b/src/policies/auth/checkInsecureConnection.ts
 new file mode 100644
-index 0000000..094750a
+index 0000000..704f486
 --- /dev/null
 +++ b/src/policies/auth/checkInsecureConnection.ts
-@@ -0,0 +1,66 @@
+@@ -0,0 +1,65 @@
 +// Copyright (c) Microsoft Corporation.
 +// Licensed under the MIT License.
 +
@@ -2338,13 +2338,12 @@ index 0000000..094750a
 +}
 +
 +/**
-+ * Logs a warning about sending a bearer token over an insecure connection.
++ * Logs a warning about sending a token over an insecure connection.
 + *
 + * This function will emit a node warning once, but log the warning every time.
 + */
 +function emitInsecureConnectionWarning(): void {
-+  const warning =
-+    "Sending bearer token over insecure transport. Assume any token issued is compromised.";
++  const warning = "Sending token over insecure transport. Assume any token issued is compromised.";
 +
 +  logger.warning(warning);
 +

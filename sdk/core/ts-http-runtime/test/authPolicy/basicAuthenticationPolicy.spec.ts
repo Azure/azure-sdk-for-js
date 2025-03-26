@@ -85,7 +85,7 @@ describe("basicAuthenticationPolicy", () => {
     });
 
     expect(logger.warning).toHaveBeenCalledWith(
-      "Sending bearer token over insecure transport. Assume any token issued is compromised.",
+      "Sending token over insecure transport. Assume any token issued is compromised.",
     );
 
     vi.clearAllMocks();
