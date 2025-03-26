@@ -9,7 +9,7 @@ import { createAuthorizationSasToken } from "../../../src/utils/SasToken.js";
 import type { SasTokenProperties } from "../../../src/client/SasToken/SasTokenProperties.js";
 import { describe, it, assert } from "vitest";
 
-describe.skip("SAS Token Authorization", function () {
+describe.skip("SAS Token Authorization", () => {
   const sasTokenProperties = <SasTokenProperties>{
     user: "user1",
     userTag: "",
@@ -26,7 +26,7 @@ describe.skip("SAS Token Authorization", function () {
     dataPlaneWriterScope: 0,
   };
 
-  it("should connect with sas token properties set", async function () {
+  it("should connect with sas token properties set", async () => {
     const key = await createAuthorizationSasToken(masterKey, sasTokenProperties);
 
     // If connecting to the Cosmos DB Emulator, disable TLS verification for your node process:
@@ -54,7 +54,7 @@ describe.skip("SAS Token Authorization", function () {
     assert(undefined !== dbs, "Should be able to fetch list of databases");
   });
 
-  it("should connect when a user set sas token", async function () {
+  it("should connect when a user set sas token", async () => {
     const sasTokenClient = new CosmosClient({
       endpoint,
       key: userSasTokenKey,

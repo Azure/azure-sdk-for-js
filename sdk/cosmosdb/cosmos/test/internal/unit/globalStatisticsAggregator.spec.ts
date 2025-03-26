@@ -5,16 +5,14 @@ import { GlobalStatisticsAggregator } from "../../../src/queryExecutionContext/A
 import type { GlobalStatistics } from "../../../src/request/globalStatistics.js";
 import { describe, it, assert, beforeEach } from "vitest";
 
-describe("global statistics aggregator", function () {
-  this.timeout(process.env.MOCHA_TIMEOUT || 10000);
-
+describe("global statistics aggregator", { timeout: 10000 }, () => {
   let aggregator: GlobalStatisticsAggregator;
 
   beforeEach(async () => {
     aggregator = new GlobalStatisticsAggregator();
   });
 
-  it("should aggregate document count and full text statistics", async function () {
+  it("should aggregate document count and full text statistics", async () => {
     const stats1: GlobalStatistics = {
       documentCount: 2,
       fullTextStatistics: [
@@ -44,7 +42,7 @@ describe("global statistics aggregator", function () {
     assert.deepStrictEqual(result.fullTextStatistics[1].hitCounts, [6, 7, 8]);
   });
 
-  it("should handle empty full text statistics correctly", async function () {
+  it("should handle empty full text statistics correctly", async () => {
     const stats: GlobalStatistics = {
       documentCount: 1,
       fullTextStatistics: [],
@@ -57,7 +55,7 @@ describe("global statistics aggregator", function () {
     assert.deepStrictEqual(result.fullTextStatistics, []);
   });
 
-  it("should handle one Global Statistics correctly", async function () {
+  it("should handle one Global Statistics correctly", async () => {
     const stats1: GlobalStatistics = {
       documentCount: 2,
       fullTextStatistics: [
@@ -77,7 +75,7 @@ describe("global statistics aggregator", function () {
     assert.deepStrictEqual(result.fullTextStatistics[1].hitCounts, [4, 5, 6, 7]);
   });
 
-  it("should handle null and undefined Global Statistics correctly", async function () {
+  it("should handle null and undefined Global Statistics correctly", async () => {
     const stats1: GlobalStatistics = {
       documentCount: 2,
       fullTextStatistics: [

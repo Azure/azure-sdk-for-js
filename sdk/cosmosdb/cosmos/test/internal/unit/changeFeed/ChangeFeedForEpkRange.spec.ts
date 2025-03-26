@@ -29,13 +29,13 @@ class MockClientContext extends MockedClientContext {
   constructor(partitionKeyRanges: unknown) {
     super(partitionKeyRanges);
   }
-  public queryFeed() {
+  public queryFeed(): unknown {
     throw new TimeoutError();
   }
-  public getClientConfig() {
+  public getClientConfig(): unknown {
     return {};
   }
-  public recordDiagnostics() {
+  public recordDiagnostics(): void {
     return;
   }
 }
@@ -70,8 +70,8 @@ describe("ChangeFeedForEpkRange Unit Tests", () => {
       new QueryRange("", "FF", true, false),
     );
 
-    vi.mocked((changeFeedForEpkRange as any).setIteratorRid).mockResolvedValue();
-    vi.mocked((changeFeedForEpkRange as any).fillChangeFeedQueue).mockResolvedValue();
+    vi.spyOn(changeFeedForEpkRange as any, "setIteratorRid").mockResolvedValue(undefined);
+    vi.spyOn(changeFeedForEpkRange as any, "fillChangeFeedQueue").mockResolvedValue(undefined);
     (changeFeedForEpkRange as any).isInstantiated = true;
 
     const mockFeedRange = new ChangeFeedRange("", "FF", "abc");

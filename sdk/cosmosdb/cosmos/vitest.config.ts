@@ -1,4 +1,3 @@
-
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
@@ -11,6 +10,9 @@ export default mergeConfig(
     test: {
       testTimeout: 1200000,
       hookTimeout: 1200000,
+      typecheck: {
+        enabled: false,
+      },
     },
   }),
 );

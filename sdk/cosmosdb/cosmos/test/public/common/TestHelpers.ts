@@ -51,8 +51,7 @@ import { getCurrentTimestampInMs } from "../../../src/utils/time.js";
 import { extractPartitionKeys } from "../../../src/extractPartitionKey.js";
 import fs from "node:fs";
 import path from "node:path";
-import { assert, expect, vi } from "vitest";
-import { AssertionError } from "chai";
+import { assert, expect, vi, chai } from "vitest";
 
 const defaultRoutingGatewayPort: string = ":8081";
 const defaultComputeGatewayPort: string = ":8903";
@@ -155,7 +154,7 @@ export async function testForDiagnostics<Callback extends () => Promise<any>>(
     validateDiagnostics(response.diagnostics, spec, parallelExecutions);
     return response;
   } catch (ex) {
-    if (ex instanceof AssertionError) {
+    if (ex instanceof chai.AssertionError) {
       throw ex;
     }
     if (!spec.requestDurationInMsUpperLimit) {
@@ -289,7 +288,7 @@ function compareObjects(test: any, target: any, message: string): void {
     const errorMessage = `${message} Properties [${mismatchedProperties.join(
       ", ",
     )}] did not match.`;
-    throw new AssertionError(errorMessage);
+    throw new chai.AssertionError(errorMessage);
   }
 }
 
@@ -671,7 +670,7 @@ export async function assertThrowsAsync(test: () => Promise<any>, error?: any): 
   } catch (e: any) {
     if (!error || e instanceof error) return "everything is fine";
   }
-  throw new AssertionError(`Missing rejection ${error} with ${error.name || ""}`);
+  throw new chai.AssertionError(`Missing rejection ${error} with ${error.name || ""}`);
 }
 
 // helper functions for testing change feed allVersionsAndDeletes mode

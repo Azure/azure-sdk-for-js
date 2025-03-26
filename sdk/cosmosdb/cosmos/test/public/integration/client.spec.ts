@@ -66,7 +66,7 @@ const testDataset = {
   },
 };
 
-describe("Testing Credentials integration for Client", function () {
+describe("Testing Credentials integration for Client", () => {
   // endpoint for mock server, which doesn't conflict with emulator's endpoints.
   const mockedEndpoint = "https://localhost:8082";
   const aadToken = "aadToken";
@@ -80,7 +80,7 @@ describe("Testing Credentials integration for Client", function () {
     vi.restoreAllMocks();
   });
 
-  describe("Client Test With AAD Credentials", function () {
+  describe("Client Test With AAD Credentials", () => {
     let client: CosmosClient;
 
     beforeEach(async () => {
@@ -98,7 +98,7 @@ describe("Testing Credentials integration for Client", function () {
       nock.enableNetConnect();
     });
 
-    it("Test pipeline setup for items.create for aadCredentials", async function () {
+    it("Test pipeline setup for items.create for aadCredentials", async () => {
       setupMockResponse();
       const container: Container = await getTestContainer("Test Container", client);
       setupSpyOnRequestHandler();
@@ -106,7 +106,7 @@ describe("Testing Credentials integration for Client", function () {
       expect(spy).toHaveBeenCalled();
     });
 
-    it("Test pipeline setup for items.read for aadCredentials", async function () {
+    it("Test pipeline setup for items.read for aadCredentials", async () => {
       setupMockResponse();
       const container: Container = await getTestContainer("Test Container", client);
       await container.items.create(item1Definition);
@@ -115,7 +115,7 @@ describe("Testing Credentials integration for Client", function () {
       expect(spy).toHaveBeenCalled();
     });
 
-    it("Test pipeline setup for items.patch", async function () {
+    it("Test pipeline setup for items.patch", async () => {
       setupMockResponse();
       const container: Container = await getTestContainer("Test Container", client);
       await container.items.create(item1Definition);
@@ -124,7 +124,7 @@ describe("Testing Credentials integration for Client", function () {
       expect(spy).toHaveBeenCalled();
     });
 
-    it("Test pipeline setup for items.replace", async function () {
+    it("Test pipeline setup for items.replace", async () => {
       setupMockResponse();
       const container: Container = await getTestContainer("Test Container", client);
       setupSpyOnRequestHandler();
@@ -134,7 +134,7 @@ describe("Testing Credentials integration for Client", function () {
       expect(spy).toHaveBeenCalled();
     });
 
-    it("Test pipeline setup for items.upsert", async function () {
+    it("Test pipeline setup for items.upsert", async () => {
       setupMockResponse();
       const container: Container = await getTestContainer("Test Container", client);
       setupSpyOnRequestHandler();
@@ -142,7 +142,7 @@ describe("Testing Credentials integration for Client", function () {
       expect(spy).toHaveBeenCalled();
     });
 
-    it("Test pipeline setup for items.delete", async function () {
+    it("Test pipeline setup for items.delete", async () => {
       setupMockResponse();
       const container: Container = await getTestContainer("Test Container", client);
       await container.items.create(item1Definition);
@@ -151,7 +151,7 @@ describe("Testing Credentials integration for Client", function () {
       expect(spy).toHaveBeenCalled();
     });
 
-    it("Test pipeline setup for items.batch", async function () {
+    it("Test pipeline setup for items.batch", async () => {
       setupMockResponse();
       const container: Container = await getTestContainer("Test Container", client);
       setupSpyOnRequestHandler();
@@ -195,8 +195,8 @@ describe("Testing Credentials integration for Client", function () {
         .reply(200, testDataset.itemGetResponse);
     }
   });
-  describe("Client Test With key", function () {
-    it("Test items.create for tokens", async function () {
+  describe("Client Test With key", () => {
+    it("Test items.create for tokens", async () => {
       const client = new CosmosClient({
         endpoint: endpoint,
         key: masterKey,

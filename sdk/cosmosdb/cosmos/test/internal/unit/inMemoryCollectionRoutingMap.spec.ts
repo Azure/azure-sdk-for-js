@@ -5,8 +5,8 @@ import { QueryRange } from "../../../src/routing/index.js";
 import { createCompleteRoutingMap } from "../../../src/routing/CollectionRoutingMapFactory.js";
 import { describe, it, assert } from "vitest";
 
-describe("InMemoryCollectionRoutingMap Tests", function () {
-  describe("getOverlappingRanges", function () {
+describe("InMemoryCollectionRoutingMap Tests", () => {
+  describe("getOverlappingRanges", () => {
     const partitionKeyRanges = [
       { id: "0", minInclusive: "", maxExclusive: "05C1C9CD673398" },
       {
@@ -29,7 +29,7 @@ describe("InMemoryCollectionRoutingMap Tests", function () {
     const partitionRangeWithInfo = partitionKeyRanges.map((r) => [r, true]);
     const collectionRoutingMap = createCompleteRoutingMap(partitionRangeWithInfo);
 
-    it("queryCompleteRange", function () {
+    it("queryCompleteRange", () => {
       const completeRange = new QueryRange("", "FF", true, false);
       const overlappingPartitionKeyRanges =
         collectionRoutingMap.getOverlappingRanges(completeRange);
@@ -38,14 +38,14 @@ describe("InMemoryCollectionRoutingMap Tests", function () {
       assert.deepEqual(overlappingPartitionKeyRanges, partitionKeyRanges);
     });
 
-    it("queryEmptyRange", function () {
+    it("queryEmptyRange", () => {
       const emtpyRange = new QueryRange("05C1C9CD673396", "05C1C9CD673396", true, false);
       const overlappingPartitionKeyRanges = collectionRoutingMap.getOverlappingRanges(emtpyRange);
 
       assert.equal(overlappingPartitionKeyRanges.length, 0);
     });
 
-    it("queryPoint", function () {
+    it("queryPoint", () => {
       const pointRange = new QueryRange("05C1D9CD673397", "05C1D9CD673397", true, true);
       const overlappingPartitionKeyRanges = collectionRoutingMap.getOverlappingRanges(pointRange);
 
@@ -54,7 +54,7 @@ describe("InMemoryCollectionRoutingMap Tests", function () {
       assert(overlappingPartitionKeyRanges[0].maxExclusive > pointRange.max);
     });
 
-    it("boundaryPointQuery", function () {
+    it("boundaryPointQuery", () => {
       const pointRange = new QueryRange("05C1C9CD673398", "05C1C9CD673398", true, true);
       const overlappingPartitionKeyRanges = collectionRoutingMap.getOverlappingRanges(pointRange);
 
@@ -65,7 +65,7 @@ describe("InMemoryCollectionRoutingMap Tests", function () {
     });
   });
 
-  describe("All methods", function () {
+  describe("All methods", () => {
     const partitionRangeWithInfo = [
       [
         {
@@ -103,7 +103,7 @@ describe("InMemoryCollectionRoutingMap Tests", function () {
 
     const collectionRoutingMap = createCompleteRoutingMap(partitionRangeWithInfo);
 
-    it("validate _orderedPartitionKeyRanges", function () {
+    it("validate _orderedPartitionKeyRanges", () => {
       assert.equal("0", collectionRoutingMap.getOrderedParitionKeyRanges()[0].id);
       assert.equal("1", collectionRoutingMap.getOrderedParitionKeyRanges()[1].id);
       assert.equal("2", collectionRoutingMap.getOrderedParitionKeyRanges()[2].id);
@@ -111,14 +111,14 @@ describe("InMemoryCollectionRoutingMap Tests", function () {
     });
 
     // TODO: bad practice to test implementation details
-    it("validate _orderedPartitionInfo", function () {
+    it("validate _orderedPartitionInfo", () => {
       assert.equal(0, (collectionRoutingMap.orderedPartitionInfo as number[])[0]);
       assert.equal(1, (collectionRoutingMap.orderedPartitionInfo as number[])[1]);
       assert.equal(2, (collectionRoutingMap.orderedPartitionInfo as number[])[2]);
       assert.equal(3, (collectionRoutingMap.orderedPartitionInfo as number[])[3]);
     });
 
-    it("validate getOverlappingRanges", function () {
+    it("validate getOverlappingRanges", () => {
       const completeRange = new QueryRange("", "FF", true, false);
 
       const compareId = function (a: any, b: any): number {
@@ -161,9 +161,9 @@ describe("InMemoryCollectionRoutingMap Tests", function () {
     });
   });
 
-  describe("Error Handling", function () {
-    describe("Incorrect instantiation", function () {
-      it("Invalid Routing Map", function () {
+  describe("Error Handling", () => {
+    describe("Incorrect instantiation", () => {
+      it("Invalid Routing Map", () => {
         const partitionRangeWithInfo = [
           [
             {
@@ -191,7 +191,7 @@ describe("InMemoryCollectionRoutingMap Tests", function () {
       });
 
       // TODO: test does two things (code smell)
-      it("Incomplete Routing Map", function () {
+      it("Incomplete Routing Map", () => {
         let partitionRangeWithInfo = [
           [
             {

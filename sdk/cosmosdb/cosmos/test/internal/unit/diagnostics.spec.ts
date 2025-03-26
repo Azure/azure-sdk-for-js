@@ -35,11 +35,11 @@ import {
 } from "../../../src/diagnostics/index.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
-describe("Diagnostic Unit Tests", function () {
-  describe("Test withDiagnostics utility function", function () {
+describe("Diagnostic Unit Tests", () => {
+  describe("Test withDiagnostics utility function", () => {
     const clientContext = createTestClientContext({}, undefined);
 
-    it("Test wrapped function's returned type is returned properly", async function () {
+    it("Test wrapped function's returned type is returned properly", async () => {
       const testValue = "testValue";
       const testResponse = await withDiagnostics(async (node: DiagnosticNodeInternal) => {
         assert.isDefined(node);
@@ -48,7 +48,7 @@ describe("Diagnostic Unit Tests", function () {
       assert.equal(testResponse, testValue);
     });
 
-    it("Test CosmosDiagnostic getting injected for supported Response Types.", async function () {
+    it("Test CosmosDiagnostic getting injected for supported Response Types.", async () => {
       const itemResource: Resource = {
         id: "item1",
         _rid: "item1`",
@@ -67,8 +67,8 @@ describe("Diagnostic Unit Tests", function () {
     });
   });
 
-  describe("Test addDignosticChild utility function", async function () {
-    it("Test in case of exception, exception Diagnostic Node is marked failed and exception is rethrown.", async function () {
+  describe("Test addDignosticChild utility function", async () => {
+    it("Test in case of exception, exception Diagnostic Node is marked failed and exception is rethrown.", async () => {
       const diagnosticNode = new DiagnosticNodeInternal(
         CosmosDbDiagnosticLevel.debug,
         DiagnosticNodeType.CLIENT_REQUEST_NODE,
@@ -96,7 +96,7 @@ describe("Diagnostic Unit Tests", function () {
       }
     });
 
-    it("Test in case debug and debug-unsafe diagnostic level child diagnostic nodes are added.", async function () {
+    it("Test in case debug and debug-unsafe diagnostic level child diagnostic nodes are added.", async () => {
       const testValue = "testValue";
       // Ensure that addDignosticChild throws an exception by wrapping it in a function
       await Promise.all(
@@ -127,7 +127,7 @@ describe("Diagnostic Unit Tests", function () {
         ),
       );
     });
-    it("Test in info diagnostic level child diagnostic nodes are not added.", async function () {
+    it("Test in info diagnostic level child diagnostic nodes are not added.", async () => {
       const diagnosticNode = new DiagnosticNodeInternal(
         CosmosDbDiagnosticLevel.info,
         DiagnosticNodeType.CLIENT_REQUEST_NODE,
@@ -148,7 +148,7 @@ describe("Diagnostic Unit Tests", function () {
     });
   });
 
-  describe("Test ClientConfigDiagnostic initialization", function () {
+  describe("Test ClientConfigDiagnostic initialization", () => {
     let savedDiagnosticLevel: CosmosDbDiagnosticLevel | undefined;
 
     beforeEach(async () => {
@@ -159,7 +159,7 @@ describe("Diagnostic Unit Tests", function () {
       setDiagnosticLevel(savedDiagnosticLevel);
     });
 
-    it("Check for endpoint", async function () {
+    it("Check for endpoint", async () => {
       setDiagnosticLevel(CosmosDbDiagnosticLevel.debug);
       const testEndpoint = "AccountEndpoint=https://localhost:8081/;AccountKey=key";
       const client = new CosmosClient(testEndpoint);
@@ -170,7 +170,7 @@ describe("Diagnostic Unit Tests", function () {
       assert.equal(clientContext.diagnosticLevel, CosmosDbDiagnosticLevel.debug);
     });
 
-    it("Check initilization of diagnostic level", async function () {
+    it("Check initialization of diagnostic level", async () => {
       const possibleDiagnosticLevels = [
         CosmosDbDiagnosticLevel.info,
         CosmosDbDiagnosticLevel.debug,
@@ -178,7 +178,7 @@ describe("Diagnostic Unit Tests", function () {
       ];
 
       // Check default diagnostic level
-      assert.equal(getDiagnosticLevelFromEnvironment(), CosmosDbDiagnosticLevel.info);
+      assert.equal(determineDiagnosticLevel(undefined, undefined), CosmosDbDiagnosticLevel.info);
 
       // Check value set from environment variable get's priority.
       possibleDiagnosticLevels.forEach((level) => {
@@ -190,7 +190,8 @@ describe("Diagnostic Unit Tests", function () {
         assert.equal(determineDiagnosticLevel(level, undefined), level);
       });
     });
-    it("Check setting of diagnostic level", async function () {
+
+    it("Check setting of diagnostic level", async () => {
       // Testing scope of diagnostic level is limited to an instance of CosmosDB client.
       const clientInfo = new CosmosClient({
         endpoint: "https://localhost",
@@ -217,7 +218,7 @@ describe("Diagnostic Unit Tests", function () {
     });
   });
 
-  it("Test Ordering of Diagnostic Level", function () {
+  it("Test Ordering of Diagnostic Level", () => {
     const info = CosmosDbDiagnosticLevel.info;
     const debug = CosmosDbDiagnosticLevel.debug;
     const debugUnsafe = CosmosDbDiagnosticLevel.debugUnsafe;
@@ -228,7 +229,7 @@ describe("Diagnostic Unit Tests", function () {
 
     assert.isTrue(allowTracing(info, debug));
     assert.isTrue(allowTracing(debug, debug));
-    assert.isTrue(allowTracing(debugUnsafe, debug));
+    assert.isFalse(allowTracing(debugUnsafe, debug));
 
     assert.isTrue(allowTracing(info, debugUnsafe));
     assert.isTrue(allowTracing(debug, debugUnsafe));

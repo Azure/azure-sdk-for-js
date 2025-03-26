@@ -111,10 +111,8 @@ const collectionResponse = {
   diagnostics: getEmptyCosmosDiagnostics(),
 };
 
-describe("Multi-region tests", function () {
-  this.timeout(process.env.MOCHA_TIMEOUT || "30000");
-
-  it("Preferred locations should be honored for readEndpoint", async function () {
+describe("Multi-region tests", { timeout: 30000 }, () => {
+  it("Preferred locations should be honored for readEndpoint", async () => {
     let requestIndex = 0;
     let lastEndpointCalled = "";
     const responses = [
@@ -158,7 +156,7 @@ describe("Multi-region tests", function () {
     client.dispose();
   });
 
-  it("Preferred locations should be honored for writeEndpoint", async function () {
+  it("Preferred locations should be honored for writeEndpoint", async () => {
     let requestIndex = 0;
     let lastEndpointCalled = "";
     const responses = [

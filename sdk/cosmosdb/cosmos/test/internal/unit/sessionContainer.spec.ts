@@ -7,11 +7,11 @@ import { SessionContainer } from "../../../src/session/sessionContainer.js";
 import type { SessionContext } from "../../../src/session/SessionContext.js";
 import { describe, it, assert } from "vitest";
 
-describe("SessionContainer", function () {
+describe("SessionContainer", () => {
   const collectionLink = "dbs/testDatabase/colls/testCollection";
   const collectionRid = "-EdBAKsiRLM=";
 
-  it("set/get/delete", function () {
+  it("set/get/delete", () => {
     const sc = new SessionContainer();
 
     const tokenString = "1:1#100#1=20#2=5#3=30";

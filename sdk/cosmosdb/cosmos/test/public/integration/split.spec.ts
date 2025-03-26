@@ -29,7 +29,7 @@ const documentDefinitions = generateDocuments(20);
 describe("Partition Splits", () => {
   let container: Container;
 
-  beforeAll(async function () {
+  beforeAll(async () => {
     await removeAllDatabases();
     container = await getTestContainer(
       "Partition Splits",

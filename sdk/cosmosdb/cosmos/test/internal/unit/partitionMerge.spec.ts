@@ -219,7 +219,7 @@ describe("Partition-Merge", function () {
 
     // Stub the bufferMore method of the document producers to throw a Gone error
     context["unfilledDocumentProducersQueue"].forEach((docProd) => {
-      vi.mocked(docProd.bufferMore).mockRejectedValue({
+      vi.spyOn(docProd, "bufferMore").mockRejectedValue({
         code: StatusCodes.Gone,
         substatus: SubStatusCodes.PartitionKeyRangeGone,
         message: "Partition key range is gone",

@@ -7,7 +7,7 @@ import { MockedClientContext } from "../../public/common/MockClientContext.js";
 import type { ClientContext, PartitionKeyRange } from "../../../src/index.js";
 import { describe, it, assert } from "vitest";
 
-describe("Test DocumentProducer", function () {
+describe("Test DocumentProducer", () => {
   const mockedClientContext: ClientContext = new MockedClientContext({}) as any;
   const sqlQuerySpec: SqlQuerySpec = { query: "SELECT c.id from c" };
   const pkRange: PartitionKeyRange = {
@@ -20,7 +20,7 @@ describe("Test DocumentProducer", function () {
     parents: [],
   };
 
-  it("fetchBufferedItems should return all items in buffer", async function () {
+  it("fetchBufferedItems should return all items in buffer", async () => {
     const documentProducer = new DocumentProducer(
       mockedClientContext,
       "mockCollectionLink",
@@ -46,7 +46,7 @@ describe("Test DocumentProducer", function () {
     assert.strictEqual(item.result, undefined);
   });
 
-  it("fetchNextItem should return first item", async function () {
+  it("fetchNextItem should return first item", async () => {
     const documentProducer = new DocumentProducer(
       mockedClientContext,
       "mockCollectionLink",
@@ -74,7 +74,7 @@ describe("Test DocumentProducer", function () {
     assert.strictEqual(item.result, undefined);
   });
 
-  it("peak item should return first item", async function () {
+  it("peak item should return first item", async () => {
     const documentProducer = new DocumentProducer(
       mockedClientContext,
       "mockCollectionLink",

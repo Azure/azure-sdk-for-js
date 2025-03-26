@@ -6,7 +6,7 @@ import { getHeaders } from "../../../src/request/request.js";
 import type { CosmosHeaders, FeedOptions } from "../../../src/index.js";
 import { describe, it, assert } from "vitest";
 
-describe("Test x-ms-documentdb-query-parallelizecrosspartitionquery header value", function () {
+describe("Test x-ms-documentdb-query-parallelizecrosspartitionquery header value", () => {
   const mockedEndpoint = "https://localhost:8081";
   function getHeadersFunc(feedOptions: FeedOptions): Promise<CosmosHeaders> {
     return getHeaders({
@@ -23,7 +23,7 @@ describe("Test x-ms-documentdb-query-parallelizecrosspartitionquery header value
     });
   }
 
-  it("If maxDegreeOfParallelism > 1 then x-ms-documentdb-query-parallelizecrosspartitionquery header should be true", async function () {
+  it("If maxDegreeOfParallelism > 1 then x-ms-documentdb-query-parallelizecrosspartitionquery header should be true", async () => {
     const headers = await getHeadersFunc({ maxDegreeOfParallelism: 2 });
     assert.equal(
       headers[Constants.HttpHeaders.ParallelizeCrossPartitionQuery],
@@ -32,7 +32,7 @@ describe("Test x-ms-documentdb-query-parallelizecrosspartitionquery header value
     );
   });
 
-  it("If maxDegreeOfParallelism == 0 then x-ms-documentdb-query-parallelizecrosspartitionquery header should be null", async function () {
+  it("If maxDegreeOfParallelism == 0 then x-ms-documentdb-query-parallelizecrosspartitionquery header should be null", async () => {
     const headers = await getHeadersFunc({ maxDegreeOfParallelism: 0 });
     assert.equal(
       headers[Constants.HttpHeaders.ParallelizeCrossPartitionQuery],
