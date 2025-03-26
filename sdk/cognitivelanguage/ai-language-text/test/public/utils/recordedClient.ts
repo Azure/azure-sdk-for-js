@@ -4,27 +4,31 @@
 import type { TextAnalysisClientOptions } from "../../../src/index.js";
 import { AzureKeyCredential, TextAnalysisClient } from "../../../src/index.js";
 import type { RecorderStartOptions, TestInfo } from "@azure-tools/test-recorder";
-import { Recorder, assertEnvironmentVariable } from "@azure-tools/test-recorder";
+import { Recorder } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
+import { getEndpoint, getKey1, isDisableLocalAuth, isLiveMode } from "../../utils/injectables.js";
+import { EnvVarKeys } from "../../utils/constants.js";
+import * as MOCKs from "../../utils/constants.js";
 
 const envSetupForPlayback: { [k: string]: string } = {
-  LANGUAGE_API_KEY: "api_key",
-  // Second API key
-  LANGUAGE_API_KEY_ALT: "api_key_alt",
-  ENDPOINT: "https://endpoint",
-  AZURE_LANGUAGE_ENDPOINT: "https://endpoint",
-  AZURE_LANGUAGE_KEY: "api_key",
-  CUSTOM_ENTITIES_PROJECT_NAME: "sanitized",
-  CUSTOM_ENTITIES_DEPLOYMENT_NAME: "sanitized",
-  SINGLE_LABEL_CLASSIFY_PROJECT_NAME: "sanitized",
-  SINGLE_LABEL_CLASSIFY_DEPLOYMENT_NAME: "sanitized",
-  MULTI_LABEL_CLASSIFY_PROJECT_NAME: "sanitized",
-  MULTI_LABEL_CLASSIFY_DEPLOYMENT_NAME: "sanitized",
+  [EnvVarKeys.ENDPOINT]: MOCKs.ENDPOINT,
+  [EnvVarKeys.KEY1]: MOCKs.KEY1,
+  [EnvVarKeys.KEY2]: MOCKs.KEY2,
 };
 
 const recorderStartOptions: RecorderStartOptions = {
   envSetupForPlayback,
   removeCentralSanitizers: ["AZSDK2015", "AZSDK2030", "AZSDK3430", "AZSDK3493", "AZSDK4001"],
+  sanitizerOptions: {
+    bodyKeySanitizers: [
+      {
+        jsonPath: "$.tasks.[*].parameters.deploymentName",
+      },
+      {
+        jsonPath: "$.tasks.[*].parameters.projectName",
+      },
+    ],
+  },
 };
 
 export type AuthMethod = "APIKey" | "AAD" | "DummyAPIKey";
@@ -35,18 +39,17 @@ export function createClient(
     recorder?: Recorder;
     clientOptions?: TextAnalysisClientOptions;
   },
-): TextAnalysisClient {
+): TextAnalysisClient | undefined {
   const { recorder, clientOptions = {} } = options;
-  const endpoint = assertEnvironmentVariable("ENDPOINT");
+  const endpoint = getEndpoint();
   const updatedOptions = recorder ? recorder.configureClientOptions(clientOptions) : clientOptions;
 
   switch (authMethod) {
     case "APIKey": {
-      return new TextAnalysisClient(
-        endpoint,
-        new AzureKeyCredential(assertEnvironmentVariable("LANGUAGE_API_KEY")),
-        updatedOptions,
-      );
+      if (isDisableLocalAuth() && isLiveMode()) {
+        return undefined;
+      }
+      return new TextAnalysisClient(endpoint, new AzureKeyCredential(getKey1()), updatedOptions);
     }
     case "AAD": {
       return new TextAnalysisClient(endpoint, createTestCredential(), updatedOptions);

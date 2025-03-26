@@ -39,10 +39,7 @@ importers:
         version: file:projects/ai-language-conversations.tgz(@types/debug@4.1.12)(msw@2.7.3(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(vite@6.2.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)
       '@rush-temp/ai-language-text':
         specifier: file:./projects/ai-language-text.tgz
-        version: file:projects/ai-language-text.tgz(@types/debug@4.1.12)(msw@2.7.3(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(vite@6.2.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)
-      '@rush-temp/ai-language-textauthoring':
-        specifier: file:./projects/ai-language-textauthoring.tgz
-        version: file:projects/ai-language-textauthoring.tgz(@types/debug@4.1.12)(msw@2.7.3(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(vite@6.2.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)
+        version: file:projects/ai-language-text.tgz(@types/debug@4.1.12)(chai@5.2.0)(msw@2.7.3(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(vite@6.2.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)
       '@rush-temp/ai-metrics-advisor':
         specifier: file:./projects/ai-metrics-advisor.tgz
         version: file:projects/ai-metrics-advisor.tgz(@types/debug@4.1.12)(msw@2.7.3(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(vite@6.2.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)
@@ -2398,15 +2395,11 @@ packages:
     version: 0.0.0
 
   '@rush-temp/ai-language-conversations@file:projects/ai-language-conversations.tgz':
-    resolution: {integrity: sha512-nShlZ4jUVcsCtL9MV0B3RDE7epbAY2jnO6HddQpYdNek2YasRsz1BDc5RuCrJC+Necm90kxT3Y2tD2lzzDoDJQ==, tarball: file:projects/ai-language-conversations.tgz}
+    resolution: {integrity: sha512-Y96jE02xa3HYLXuXcTQRaeIw8yzT5Pv5aX9ESD6wctfPcxWQeSnSKNK9UqGQRlZx6B6xs7fEtp42ZLhidV1MsQ==, tarball: file:projects/ai-language-conversations.tgz}
     version: 0.0.0
 
   '@rush-temp/ai-language-text@file:projects/ai-language-text.tgz':
-    resolution: {integrity: sha512-rVwidbivBOFtSoBjijJsVW7cBVahbFw0y0jazYwEU8aA2Jg7sI3bs3oQwQllvHAdjULzhCstWsjjpbsOLJTM2Q==, tarball: file:projects/ai-language-text.tgz}
-    version: 0.0.0
-
-  '@rush-temp/ai-language-textauthoring@file:projects/ai-language-textauthoring.tgz':
-    resolution: {integrity: sha512-acghtiGDOP4bJSZ0WbTZlhJnx3WSCTQhNehOZwcjLqas8ukt7LngV/V2PjBuPvSvJtBXOSoLoaVP9FWWb48Oug==, tarball: file:projects/ai-language-textauthoring.tgz}
+    resolution: {integrity: sha512-k0e9/7k3Umd4G9Pe18v2EDTXLxxvenftruqfZ4SE+wUaX0L3CLmBuLilBMRBs7Vsxwxt5W3iVTKkF/VWfJLdKQ==, tarball: file:projects/ai-language-text.tgz}
     version: 0.0.0
 
   '@rush-temp/ai-metrics-advisor@file:projects/ai-metrics-advisor.tgz':
@@ -3502,7 +3495,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/communication-rooms@file:projects/communication-rooms.tgz':
-    resolution: {integrity: sha512-wZGQ86x72CF5svp08KDZ2NimnHa7UrolQ4+jbVqI/QwTLnSpZXez84ANriWnPauXXYx9FDICKhIsrvmR6WGhZg==, tarball: file:projects/communication-rooms.tgz}
+    resolution: {integrity: sha512-6xOyOCOtDadX1jV4Rh5w5dD0M/i8mgBbuAAol5SM+RrV5DljKQYUHyDEekX+9MKtmXjnviU/QxijK5zY3PWkaw==, tarball: file:projects/communication-rooms.tgz}
     version: 0.0.0
 
   '@rush-temp/communication-short-codes@file:projects/communication-short-codes.tgz':
@@ -9827,14 +9820,13 @@ snapshots:
       - webdriverio
       - yaml
 
-  '@rush-temp/ai-language-text@file:projects/ai-language-text.tgz(@types/debug@4.1.12)(msw@2.7.3(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(vite@6.2.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)':
+  '@rush-temp/ai-language-text@file:projects/ai-language-text.tgz(@types/debug@4.1.12)(chai@5.2.0)(msw@2.7.3(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(vite@6.2.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)':
     dependencies:
       '@azure/core-lro': 2.7.2
       '@types/node': 18.19.80
       '@types/unzipper': 0.10.11
       '@vitest/browser': 3.0.9(@types/node@18.19.80)(playwright@1.51.1)(typescript@5.8.2)(vite@6.2.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.9)
       '@vitest/coverage-istanbul': 3.0.9(vitest@3.0.9)
-      chai: 5.2.0
       chai-exclude: 3.0.0(chai@5.2.0)
       dotenv: 16.4.7
       eslint: 9.22.0
@@ -9848,43 +9840,7 @@ snapshots:
       - '@types/debug'
       - '@vitest/ui'
       - bufferutil
-      - happy-dom
-      - jiti
-      - jsdom
-      - less
-      - lightningcss
-      - msw
-      - safaridriver
-      - sass
-      - sass-embedded
-      - stylus
-      - sugarss
-      - supports-color
-      - terser
-      - tsx
-      - utf-8-validate
-      - vite
-      - webdriverio
-      - yaml
-
-  '@rush-temp/ai-language-textauthoring@file:projects/ai-language-textauthoring.tgz(@types/debug@4.1.12)(msw@2.7.3(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(vite@6.2.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)':
-    dependencies:
-      '@azure/core-lro': 2.7.2
-      '@types/node': 18.19.80
-      '@vitest/browser': 3.0.9(@types/node@18.19.80)(playwright@1.51.1)(typescript@5.8.2)(vite@6.2.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.9)
-      '@vitest/coverage-istanbul': 3.0.9(vitest@3.0.9)
-      autorest: 3.7.1
-      dotenv: 16.4.7
-      eslint: 9.22.0
-      playwright: 1.51.1
-      tslib: 2.8.1
-      typescript: 5.8.2
-      vitest: 3.0.9(@types/debug@4.1.12)(@types/node@18.19.80)(@vitest/browser@3.0.9)(msw@2.7.3(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(yaml@2.7.0)
-    transitivePeerDependencies:
-      - '@edge-runtime/vm'
-      - '@types/debug'
-      - '@vitest/ui'
-      - bufferutil
+      - chai
       - happy-dom
       - jiti
       - jsdom
