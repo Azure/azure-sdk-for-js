@@ -16,12 +16,12 @@ import type {
 } from "@opentelemetry/sdk-metrics";
 import { MeterProvider, PeriodicExportingMetricReader } from "@opentelemetry/sdk-metrics";
 import type { ReadableSpan, TimedEvent } from "@opentelemetry/sdk-trace-base";
-import { PerformanceCounterMetricNames } from "./types";
-import type { AzureMonitorOpenTelemetryOptions } from "../types";
-import { getLogData, isExceptionData } from "./quickpulse/utils";
-import type { ExceptionData, TraceData } from "./quickpulse/types";
+import { PerformanceCounterMetricNames } from "./types.js";
+import type { AzureMonitorOpenTelemetryOptions } from "../types.js";
+import { getLogData, isExceptionData } from "./quickpulse/utils.js";
+import type { ExceptionData, TraceData } from "./quickpulse/types.js";
 import { LogRecord } from "@opentelemetry/sdk-logs";
-import { Logger } from "../shared/logging";
+import { Logger } from "../shared/logging/logger.js";
 
 /**
  * Azure Monitor PerformanceCounter Metrics
@@ -341,7 +341,9 @@ export class PerformanceCounterMetrics {
       }
       this.lastCpusProcess = cpus;
     } else {
-      Logger.getInstance().debug("Couldn't report Normalized process time. Process is not defined.");
+      Logger.getInstance().debug(
+        "Couldn't report Normalized process time. Process is not defined.",
+      );
     }
   }
 

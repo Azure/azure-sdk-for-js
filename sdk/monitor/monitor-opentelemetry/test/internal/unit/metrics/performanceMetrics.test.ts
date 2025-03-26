@@ -1,31 +1,30 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import * as assert from "assert";
-import * as sinon from "sinon";
+import { afterEach, assert, beforeAll, afterAll, describe, it, vi, MockInstance } from "vitest";
 import { SpanKind } from "@opentelemetry/api";
 import { ExportResultCode } from "@opentelemetry/core";
-import { PerformanceCounterMetrics } from "../../../../src/metrics/performanceCounters";
+import { PerformanceCounterMetrics } from "../../../../src/metrics/performanceCounters.js";
 import {
   SEMRESATTRS_SERVICE_NAME,
   SEMRESATTRS_SERVICE_INSTANCE_ID,
 } from "@opentelemetry/semantic-conventions";
 import { Resource } from "@opentelemetry/resources";
 import type { Histogram } from "@opentelemetry/sdk-metrics";
-import { InternalConfig } from "../../../../src/shared/config";
+import { InternalConfig } from "../../../../src/shared/config.js";
 
 describe("PerformanceCounterMetricsHandler", () => {
   let autoCollect: PerformanceCounterMetrics;
-  let exportStub: sinon.SinonStub;
+  let exportStub: MockInstance<(typeof autoCollect)["azureExporter"]["export"]>;
 
-  before(() => {
+  beforeAll(() => {
     const config = new InternalConfig({});
     config.azureMonitorExporterOptions.connectionString =
       "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333;";
     autoCollect = new PerformanceCounterMetrics(config || config, {
       collectionInterval: 100,
     });
-    exportStub = sinon.stub(autoCollect["azureExporter"], "export").callsFake(
-      (spans: any, resultCallback: any) =>
+    exportStub = vi.spyOn(autoCollect["azureExporter"], "export").mockImplementation(
+      (spans: any, resultCallback) =>
         new Promise((resolve) => {
           resultCallback({
             code: ExportResultCode.SUCCESS,
@@ -36,11 +35,11 @@ describe("PerformanceCounterMetricsHandler", () => {
   });
 
   afterEach(() => {
-    exportStub.resetHistory();
+    vi.restoreAllMocks();
   });
 
-  after(async () => {
-    exportStub.restore();
+  afterAll(async () => {
+    vi.restoreAllMocks();
     await autoCollect.shutdown();
   });
 
@@ -63,8 +62,8 @@ describe("PerformanceCounterMetricsHandler", () => {
       }
 
       await new Promise((resolve) => setTimeout(resolve, 120));
-      assert.ok(exportStub.called);
-      const resourceMetrics = exportStub.args[0][0];
+      assert.ok(exportStub.mock.calls.length > 0, "export called");
+      const resourceMetrics = exportStub.mock.calls[0][0];
       const scopeMetrics = resourceMetrics.scopeMetrics;
       assert.strictEqual(scopeMetrics.length, 1, "scopeMetrics count");
       const metrics = scopeMetrics[0].metrics;
@@ -94,19 +93,21 @@ describe("PerformanceCounterMetricsHandler", () => {
       );
 
       assert.deepStrictEqual(metrics[1].descriptor.name, "Request_Rate");
-      assert.ok(metrics[1].dataPoints[0].value > 0, "Wrong request rate value");
+      assert.ok((metrics[1].dataPoints[0].value as number) > 0, "Wrong request rate value");
       assert.deepStrictEqual(metrics[2].descriptor.name, "Private_Bytes");
-      assert.ok(metrics[2].dataPoints[0].value > 0, "Wrong private bytes value");
+      assert.ok((metrics[2].dataPoints[0].value as number) > 0, "Wrong private bytes value");
       assert.deepStrictEqual(metrics[3].descriptor.name, "Available_Bytes");
-      assert.ok(metrics[3].dataPoints[0].value > 0, "Wrong available bytes value");
+      assert.ok((metrics[3].dataPoints[0].value as number) > 0, "Wrong available bytes value");
       assert.deepStrictEqual(metrics[4].descriptor.name, "Processor_Time");
       assert.ok(
-        metrics[4].dataPoints[0].value >= 0 && metrics[4].dataPoints[0].value <= 100,
+        (metrics[4].dataPoints[0].value as number) >= 0 &&
+          (metrics[4].dataPoints[0].value as number) <= 100,
         `Wrong Processor Time value: ${metrics[4].dataPoints[0].value}`,
       );
       assert.deepStrictEqual(metrics[5].descriptor.name, "Process_Time");
       assert.ok(
-        metrics[5].dataPoints[0].value >= 0 && metrics[5].dataPoints[0].value <= 100,
+        (metrics[5].dataPoints[0].value as number) >= 0 &&
+          (metrics[5].dataPoints[0].value as number) <= 100,
         `Wrong Process Time value: ${metrics[5].dataPoints[0].value}`,
       );
       assert.deepStrictEqual(metrics[6].descriptor.name, "Process_Time_Normalized");
