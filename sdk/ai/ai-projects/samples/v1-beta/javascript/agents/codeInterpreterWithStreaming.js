@@ -1,10 +1,19 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+/**
+ * This sample demonstrates how to use agent operations with code interpreter from the Azure Agents service.
+ *
+ * @summary demonstrates how to use agent operations with code interpreter.
+ */
+
 const {
-  AIProjectsClient,
-  DoneEvent,
-  ErrorEvent,
+  AIProjectClient,
+  DoneEventEnum,
+  ErrorEventEnum,
   isOutputOfType,
-  MessageStreamEvent,
-  RunStreamEvent,
+  MessageStreamEventEnum,
+  RunStreamEventEnum,
   ToolUtility,
 } = require("@azure/ai-projects");
 const { DefaultAzureCredential } = require("@azure/identity");
@@ -12,22 +21,26 @@ const { DefaultAzureCredential } = require("@azure/identity");
 const dotenv = require("dotenv");
 const fs = require("fs");
 const path = require("node:path");
+const { fileURLToPath } = require("node:url");
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 dotenv.config();
 
 const connectionString =
   process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] || "<project connection string>";
 
 async function main() {
-  const client = AIProjectsClient.fromConnectionString(
+  const client = AIProjectClient.fromConnectionString(
     connectionString || "",
     new DefaultAzureCredential(),
   );
 
   // Upload file and wait for it to be processed
   const filePath = path.resolve(__dirname, "../data/nifty500QuarterlyResults.csv");
-  const localFileStream = fs.createReadStream(filePath);
-  const localFile = await client.agents.uploadFile(localFileStream, "assistants", {
-    fileName: "myLocalFile",
+  const localFileBuffer = fs.readFileSync(filePath);
+  const localFile = await client.agents.uploadFile(localFileBuffer, "assistants", {
+    filename: "myLocalFile.csv",
   });
 
   console.log(`Uploaded local file, file ID : ${localFile.id}`);
@@ -36,7 +49,7 @@ async function main() {
   const codeInterpreterTool = ToolUtility.createCodeInterpreterTool([localFile.id]);
 
   // Notice that CodeInterpreter must be enabled in the agent creation, otherwise the agent will not be able to see the file attachment
-  const agent = await client.agents.createAgent("gpt-4o-mini", {
+  const agent = await client.agents.createAgent("gpt-4", {
     name: "my-agent",
     instructions: "You are a helpful agent",
     tools: [codeInterpreterTool.definition],
@@ -52,7 +65,7 @@ async function main() {
   const message = await client.agents.createMessage(thread.id, {
     role: "user",
     content:
-      "Could you please create a bar chart in the TRANSPORTATION sector for the operating profit from the uploaded CSV file and provide the file to me?",
+      "Could you please create a bar chart with the revenue column for the uploaded CSV file and provide the file to me?",
   });
 
   console.log(`Created message, message ID: ${message.id}`);
@@ -62,10 +75,10 @@ async function main() {
 
   for await (const eventMessage of streamEventMessages) {
     switch (eventMessage.event) {
-      case RunStreamEvent.ThreadRunCreated:
+      case RunStreamEventEnum.ThreadRunCreated:
         console.log(`ThreadRun status: ${eventMessage.data.status}`);
         break;
-      case MessageStreamEvent.ThreadMessageDelta:
+      case MessageStreamEventEnum.ThreadMessageDelta:
         {
           const messageDelta = eventMessage.data;
           messageDelta.delta.content.forEach((contentPart) => {
@@ -78,13 +91,13 @@ async function main() {
         }
         break;
 
-      case RunStreamEvent.ThreadRunCompleted:
+      case RunStreamEventEnum.ThreadRunCompleted:
         console.log("Thread Run Completed");
         break;
-      case ErrorEvent.Error:
+      case ErrorEventEnum.Error:
         console.log(`An error occurred. Data ${eventMessage.data}`);
         break;
-      case DoneEvent.Done:
+      case DoneEventEnum.Done:
         console.log("Stream completed.");
         break;
     }
@@ -96,7 +109,7 @@ async function main() {
 
   // Print the messages from the agent
   const messages = await client.agents.listMessages(thread.id);
-  console.log("Messages:", messages);
+  console.log("Messages:", JSON.stringify(messages, null, 2));
 
   // Get most recent message from the assistant
   const assistantMessage = messages.data.find((msg) => msg.role === "assistant");
@@ -117,22 +130,13 @@ async function main() {
   );
   console.log(`Image file name : ${imageFileName}`);
 
-  const fileContent = await (await client.agents.getFileContent(imageFile).asNodeStream()).body;
-  if (fileContent) {
-    const chunks = [];
-    for await (const chunk of fileContent) {
-      chunks.push(Buffer.from(chunk));
-    }
-    const buffer = Buffer.concat(chunks);
-    fs.writeFileSync(imageFileName, buffer);
-  } else {
-    console.error("Failed to retrieve file content: fileContent is undefined");
-  }
+  const fileContent = await client.agents.getFileContent(imageFile);
+  fs.writeFileSync(imageFileName, fileContent);
   console.log(`Saved image file to: ${imageFileName}`);
 
   // Iterate through messages and print details for each annotation
   console.log(`Message Details:`);
-  messages.data.forEach((m) => {
+  await messages.data.forEach((m) => {
     console.log(`File Paths:`);
     console.log(`Type: ${m.content[0].type}`);
     if (isOutputOfType(m.content[0], "text")) {

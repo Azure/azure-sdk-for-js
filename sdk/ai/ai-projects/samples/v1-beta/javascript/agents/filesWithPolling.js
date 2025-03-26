@@ -7,30 +7,26 @@
  * @summary demonstrates how to upload a file and poll for its status.
  */
 
-const { AIProjectsClient } = require("@azure/ai-projects");
+const { AIProjectClient } = require("@azure/ai-projects");
 const { DefaultAzureCredential } = require("@azure/identity");
-const dotenv = require("dotenv");
-const { Readable } = require("stream");
-dotenv.config();
+require("dotenv").config();
 
 const connectionString =
   process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] || "<project connection string>";
 
 async function main() {
-  const client = AIProjectsClient.fromConnectionString(
+  const client = AIProjectClient.fromConnectionString(
     connectionString || "",
     new DefaultAzureCredential(),
   );
 
   // Create file content
   const fileContent = "Hello, World!";
-  const readable = new Readable();
-  readable.push(fileContent);
-  readable.push(null); // end the stream
+  const fileBuffer = Buffer.from(fileContent);
 
   // Upload file and poll
-  const poller = client.agents.uploadFileAndPoll(readable, "assistants", {
-    fileName: "myPollingFile",
+  const poller = client.agents.uploadFileAndPoll(fileBuffer, "assistants", {
+    filename: "myPollingFile",
   });
   const file = await poller.pollUntilDone();
   console.log(`Uploaded file with status ${file.status}, file ID : ${file.id}`);

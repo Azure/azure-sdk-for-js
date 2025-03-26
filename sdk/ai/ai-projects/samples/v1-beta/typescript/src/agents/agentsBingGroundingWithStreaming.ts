@@ -9,20 +9,19 @@
  */
 
 import type {
-  MessageContentOutput,
+  MessageContent,
   MessageDeltaChunk,
   MessageDeltaTextContent,
-  MessageTextContentOutput,
-  ThreadRunOutput,
+  MessageTextContent,
+  ThreadRun,
 } from "@azure/ai-projects";
 import {
-  AIProjectsClient,
-  DoneEvent,
-  ErrorEvent,
-  MessageStreamEvent,
-  RunStreamEvent,
+  AIProjectClient,
+  DoneEventEnum,
+  ErrorEventEnum,
+  MessageStreamEventEnum,
   ToolUtility,
-  connectionToolType,
+  RunStreamEventEnum,
   isOutputOfType,
 } from "@azure/ai-projects";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -37,7 +36,7 @@ export async function main(): Promise<void> {
   // Create an Azure AI Client from a connection string, copied from your AI Foundry project.
   // At the moment, it should be in the format "<HostName>;<AzureSubscriptionId>;<ResourceGroup>;<HubName>"
   // Customer needs to login to Azure subscription via Azure CLI and set the environment variables
-  const client = AIProjectsClient.fromConnectionString(
+  const client = AIProjectClient.fromConnectionString(
     connectionString || "",
     new DefaultAzureCredential(),
   );
@@ -63,10 +62,7 @@ export async function main(): Promise<void> {
   console.log(`Created thread, thread ID: ${thread.id}`);
 
   // Create message to thread
-  const message = await client.agents.createMessage(thread.id, {
-    role: "user",
-    content: "How does wikipedia explain Euler's Identity?",
-  });
+  const message = await client.agents.createMessage(thread.id, "user", "How does wikipedia explain Euler's Identity?");
   console.log(`Created message, message ID: ${message.id}`);
 
   // Create and process agent run with streaming in thread with tools
@@ -74,10 +70,10 @@ export async function main(): Promise<void> {
 
   for await (const eventMessage of streamEventMessages) {
     switch (eventMessage.event) {
-      case RunStreamEvent.ThreadRunCreated:
-        console.log(`ThreadRun status: ${(eventMessage.data as ThreadRunOutput).status}`);
+      case RunStreamEventEnum.ThreadRunCreated:
+        console.log(`ThreadRun status: ${(eventMessage.data as ThreadRun).status}`);
         break;
-      case MessageStreamEvent.ThreadMessageDelta:
+      case MessageStreamEventEnum.ThreadMessageDelta:
         {
           const messageDelta = eventMessage.data as MessageDeltaChunk;
           messageDelta.delta.content.forEach((contentPart) => {
@@ -90,28 +86,28 @@ export async function main(): Promise<void> {
         }
         break;
 
-      case RunStreamEvent.ThreadRunCompleted:
+      case RunStreamEventEnum.ThreadRunCompleted:
         console.log("Thread Run Completed");
         break;
-      case ErrorEvent.Error:
+      case ErrorEventEnum.Error:
         console.log(`An error occurred. Data ${eventMessage.data}`);
         break;
-      case DoneEvent.Done:
+      case DoneEventEnum.Done:
         console.log("Stream completed.");
         break;
     }
   }
 
   // Delete the assistant when done
-  client.agents.deleteAgent(agent.id);
+  await client.agents.deleteAgent(agent.id);
   console.log(`Deleted agent, agent ID: ${agent.id}`);
 
   // Fetch and log all messages
   const messages = await client.agents.listMessages(thread.id);
   console.log(`Messages:`);
-  const agentMessage: MessageContentOutput = messages.data[0].content[0];
-  if (isOutputOfType<MessageTextContentOutput>(agentMessage, "text")) {
-    const textContent = agentMessage as MessageTextContentOutput;
+  const agentMessage: MessageContent = messages.data[0].content[0];
+  if (isOutputOfType<MessageTextContent>(agentMessage, "text")) {
+    const textContent = agentMessage as MessageTextContent;
     console.log(`Text Message Content - ${textContent.text.value}`);
   }
 }

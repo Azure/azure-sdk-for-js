@@ -10,14 +10,14 @@
 import type {
   MessageDeltaChunk,
   MessageDeltaTextContent,
-  ThreadRunOutput,
+  ThreadRun,
 } from "@azure/ai-projects";
 import {
-  AIProjectsClient,
-  DoneEvent,
-  ErrorEvent,
-  MessageStreamEvent,
-  RunStreamEvent,
+  AIProjectClient,
+  DoneEventEnum,
+  ErrorEventEnum,
+  MessageStreamEventEnum,
+  RunStreamEventEnum,
 } from "@azure/ai-projects";
 import { DefaultAzureCredential } from "@azure/identity";
 
@@ -28,12 +28,12 @@ const connectionString =
   process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] || "<project connection string>";
 
 export async function main(): Promise<void> {
-  const client = AIProjectsClient.fromConnectionString(
+  const client = AIProjectClient.fromConnectionString(
     connectionString || "",
     new DefaultAzureCredential(),
   );
 
-  const agent = await client.agents.createAgent("gpt-4-1106-preview", {
+  const agent = await client.agents.createAgent("gpt-4o", {
     name: "my-assistant",
     instructions: "You are helpful agent",
   });
@@ -52,10 +52,10 @@ export async function main(): Promise<void> {
 
   for await (const eventMessage of streamEventMessages) {
     switch (eventMessage.event) {
-      case RunStreamEvent.ThreadRunCreated:
-        console.log(`ThreadRun status: ${(eventMessage.data as ThreadRunOutput).status}`);
+      case RunStreamEventEnum.ThreadRunCreated:
+        console.log(`ThreadRun status: ${(eventMessage.data as ThreadRun).status}`);
         break;
-      case MessageStreamEvent.ThreadMessageDelta:
+      case MessageStreamEventEnum.ThreadMessageDelta:
         {
           const messageDelta = eventMessage.data as MessageDeltaChunk;
           messageDelta.delta.content.forEach((contentPart) => {
@@ -68,13 +68,13 @@ export async function main(): Promise<void> {
         }
         break;
 
-      case RunStreamEvent.ThreadRunCompleted:
+      case RunStreamEventEnum.ThreadRunCompleted:
         console.log("Thread Run Completed");
         break;
-      case ErrorEvent.Error:
+      case ErrorEventEnum.Error:
         console.log(`An error occurred. Data ${eventMessage.data}`);
         break;
-      case DoneEvent.Done:
+      case DoneEventEnum.Done:
         console.log("Stream completed.");
         break;
     }

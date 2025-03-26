@@ -1,7 +1,17 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+/**
+ * This sample demonstrates how to use agent operations with the Grounding with Bing Search tool
+ * from the Azure Agents service.
+ *
+ * @summary demonstrates how to use agent operations with the Grounding with Bing Search tool.
+ */
+
 const {
-  AIProjectsClient,
+  AIProjectClient,
   ToolUtility,
-  connectionToolType,
+  ConnectionToolType,
   isOutputOfType,
 } = require("@azure/ai-projects");
 const { delay } = require("@azure/core-util");
@@ -16,7 +26,7 @@ async function main() {
   // Create an Azure AI Client from a connection string, copied from your AI Foundry project.
   // At the moment, it should be in the format "<HostName>;<AzureSubscriptionId>;<ResourceGroup>;<HubName>"
   // Customer needs to login to Azure subscription via Azure CLI and set the environment variables
-  const client = AIProjectsClient.fromConnectionString(
+  const client = AIProjectClient.fromConnectionString(
     connectionString || "",
     new DefaultAzureCredential(),
   );
@@ -26,7 +36,7 @@ async function main() {
   const connectionId = bingConnection.id;
 
   // Initialize agent bing tool with the connection id
-  const bingTool = ToolUtility.createConnectionTool(connectionToolType.BingGrounding, [
+  const bingTool = ToolUtility.createConnectionTool(ConnectionToolType.BingGrounding, [
     connectionId,
   ]);
 
@@ -43,10 +53,11 @@ async function main() {
   console.log(`Created thread, thread ID: ${thread.id}`);
 
   // Create message to thread
-  const message = await client.agents.createMessage(thread.id, {
-    role: "user",
-    content: "How does wikipedia explain Euler's Identity?",
-  });
+  const message = await client.agents.createMessage(
+    thread.id,
+    "user",
+    "How does wikipedia explain Euler's Identity?",
+  );
   console.log(`Created message, message ID: ${message.id}`);
 
   // Create and process agent run in thread with tools
@@ -61,7 +72,7 @@ async function main() {
   console.log(`Run finished with status: ${run.status}`);
 
   // Delete the assistant when done
-  client.agents.deleteAgent(agent.id);
+  await client.agents.deleteAgent(agent.id);
   console.log(`Deleted agent, agent ID: ${agent.id}`);
 
   // Fetch and log all messages

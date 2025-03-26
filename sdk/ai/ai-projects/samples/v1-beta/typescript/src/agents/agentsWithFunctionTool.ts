@@ -14,14 +14,14 @@
 import type {
   FunctionToolDefinition,
   // FunctionToolDefinitionOutput,
-  MessageContentOutput,
-  MessageImageFileContentOutput,
-  MessageTextContentOutput,
-  RequiredToolCallOutput,
-  SubmitToolOutputsActionOutput,
+  MessageContent,
+  MessageImageFileContent,
+  MessageTextContent,
+  RequiredToolCall,
+  SubmitToolOutputsAction,
   ToolOutput,
 } from "@azure/ai-projects";
-import { AIProjectsClient, ToolUtility, isOutputOfType } from "@azure/ai-projects";
+import { AIProjectClient, ToolUtility, ToolDefinitionUnionEnum, isOutputOfType } from "@azure/ai-projects";
 import { delay } from "@azure/core-util";
 import { DefaultAzureCredential } from "@azure/identity";
 
@@ -32,7 +32,7 @@ const connectionString =
   process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] || "<project connection string>";
 
 export async function main(): Promise<void> {
-  const client = AIProjectsClient.fromConnectionString(
+  const client = AIProjectClient.fromConnectionString(
     connectionString || "",
     new DefaultAzureCredential(),
   );
@@ -53,29 +53,29 @@ export async function main(): Promise<void> {
         {
           func: this.getCityNickname,
           ...ToolUtility.createFunctionTool({
-            name: "getCityNickname",
-            description: "Gets the nickname of a city, e.g. 'LA' for 'Los Angeles, CA'.",
-            parameters: {
-              type: "object",
-              properties: {
-                location: { type: "string", description: "The city and state, e.g. Seattle, Wa" },
+              name: "getCityNickname",
+              description: "Gets the nickname of a city, e.g. 'LA' for 'Los Angeles, CA'.",
+              parameters: {
+                type: "object",
+                properties: {
+                  location: { type: "string", description: "The city and state, e.g. Seattle, Wa" },
+                },
               },
-            },
-          }),
+            }),
         },
         {
           func: this.getWeather,
           ...ToolUtility.createFunctionTool({
-            name: "getWeather",
-            description: "Gets the weather for a location.",
-            parameters: {
-              type: "object",
-              properties: {
-                location: { type: "string", description: "The city and state, e.g. Seattle, Wa" },
-                unit: { type: "string", enum: ["c", "f"] },
+              name: "getWeather",
+              description: "Gets the weather for a location.",
+              parameters: {
+                type: "object",
+                properties: {
+                  location: { type: "string", description: "The city and state, e.g. Seattle, Wa" },
+                  unit: { type: "string", enum: ["c", "f"] },
+                },
               },
-            },
-          }),
+            }),
         },
       ];
     }
@@ -93,7 +93,7 @@ export async function main(): Promise<void> {
     }
 
     public invokeTool(
-      toolCall: RequiredToolCallOutput & FunctionToolDefinition,
+      toolCall: RequiredToolCall & FunctionToolDefinition,
     ): ToolOutput | undefined {
       console.log(`Function tool call - ${toolCall.function.name}`);
       const args = [];
@@ -160,9 +160,9 @@ export async function main(): Promise<void> {
     if (run.status === "requires_action" && run.requiredAction) {
       console.log(`Run requires action - ${run.requiredAction}`);
       if (
-        isOutputOfType<SubmitToolOutputsActionOutput>(run.requiredAction, "submit_tool_outputs")
+        isOutputOfType<SubmitToolOutputsAction>(run.requiredAction, "submit_tool_outputs")
       ) {
-        const submitToolOutputsActionOutput = run.requiredAction as SubmitToolOutputsActionOutput;
+        const submitToolOutputsActionOutput = run.requiredAction as SubmitToolOutputsAction;
         const toolCalls = submitToolOutputsActionOutput.submitToolOutputs.toolCalls;
         const toolResponses = [];
         for (const toolCall of toolCalls) {
@@ -183,22 +183,22 @@ export async function main(): Promise<void> {
 
   console.log(`Run status - ${run.status}, run ID: ${run.id}`);
   const messages = await agents.listMessages(thread.id);
-  messages.data.forEach((threadMessage) => {
+  await messages.data.forEach((threadMessage) => {
     console.log(
       `Thread Message Created at  - ${threadMessage.createdAt} - Role - ${threadMessage.role}`,
     );
-    threadMessage.content.forEach((content: MessageContentOutput) => {
-      if (isOutputOfType<MessageTextContentOutput>(content, "text")) {
-        const textContent = content as MessageTextContentOutput;
+    threadMessage.content.forEach((content: MessageContent) => {
+      if (isOutputOfType<MessageTextContent>(content, "text")) {
+        const textContent = content as MessageTextContent;
         console.log(`Text Message Content - ${textContent.text.value}`);
-      } else if (isOutputOfType<MessageImageFileContentOutput>(content, "image_file")) {
-        const imageContent = content as MessageImageFileContentOutput;
+      } else if (isOutputOfType<MessageImageFileContent>(content, "image_file")) {
+        const imageContent = content as MessageImageFileContent;
         console.log(`Image Message Content - ${imageContent.imageFile.fileId}`);
       }
     });
   });
   // Delete agent
-  agents.deleteAgent(agent.id);
+  await agents.deleteAgent(agent.id);
   console.log(`Deleted agent, agent ID: ${agent.id}`);
 }
 

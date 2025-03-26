@@ -1,4 +1,13 @@
-const { AIProjectsClient, isOutputOfType, ToolUtility } = require("@azure/ai-projects");
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+/**
+ * This sample demonstrates how to use agent operations with the Azure AI Search tool from the Azure Agents service.
+ *
+ * @summary demonstrates how to use agent operations with the Azure AI Search tool.
+ */
+
+const { AIProjectClient, isOutputOfType, ToolUtility } = require("@azure/ai-projects");
 const { delay } = require("@azure/core-util");
 const { DefaultAzureCredential } = require("@azure/identity");
 
@@ -11,7 +20,7 @@ async function main() {
   // Create an Azure AI Client from a connection string, copied from your AI Foundry project.
   // At the moment, it should be in the format "<HostName>;<AzureSubscriptionId>;<ResourceGroup>;<HubName>"
   // Customer needs to login to Azure subscription via Azure CLI and set the environment variables
-  const client = AIProjectsClient.fromConnectionString(
+  const client = AIProjectClient.fromConnectionString(
     connectionString || "",
     new DefaultAzureCredential(),
   );
@@ -22,7 +31,7 @@ async function main() {
   const azureAISearchTool = ToolUtility.createAzureAISearchTool(connection.id, connection.name);
 
   // Create agent with the Azure AI search tool
-  const agent = await client.agents.createAgent("gpt-4-0125-preview", {
+  const agent = await client.agents.createAgent("gpt-4o", {
     name: "my-agent",
     instructions: "You are a helpful agent",
     tools: [azureAISearchTool.definition],
@@ -35,10 +44,11 @@ async function main() {
   console.log(`Created thread, thread ID: ${thread.id}`);
 
   // Create message to thread
-  const message = await client.agents.createMessage(thread.id, {
-    role: "user",
-    content: "Hello, send an email with the datetime and weather information in New York",
-  });
+  const message = await client.agents.createMessage(
+    thread.id,
+    "user",
+    "Hello, send an email with the datetime and weather information in New York",
+  );
   console.log(`Created message, message ID: ${message.id}`);
 
   // Create and process agent run in thread with tools
@@ -53,7 +63,7 @@ async function main() {
   console.log(`Run finished with status: ${run.status}`);
 
   // Delete the assistant when done
-  client.agents.deleteAgent(agent.id);
+  await client.agents.deleteAgent(agent.id);
   console.log(`Deleted agent, agent ID: ${agent.id}`);
 
   // Fetch and log all messages

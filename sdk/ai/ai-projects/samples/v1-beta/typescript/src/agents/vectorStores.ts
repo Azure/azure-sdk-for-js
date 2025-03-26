@@ -7,7 +7,7 @@
  * @summary demonstrates how to create the vector store.
  */
 
-import { AIProjectsClient } from "@azure/ai-projects";
+import { AIProjectClient } from "@azure/ai-projects";
 import { DefaultAzureCredential } from "@azure/identity";
 
 import * as dotenv from "dotenv";
@@ -17,7 +17,7 @@ const connectionString =
   process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] || "<project connection string>";
 
 export async function main(): Promise<void> {
-  const client = AIProjectsClient.fromConnectionString(
+  const client = AIProjectClient.fromConnectionString(
     connectionString || "",
     new DefaultAzureCredential(),
   );

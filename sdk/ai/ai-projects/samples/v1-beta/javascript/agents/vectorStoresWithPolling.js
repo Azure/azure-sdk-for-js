@@ -7,7 +7,7 @@
  * @summary demonstrates how to create the vector store using polling operation.
  */
 
-const { AIProjectsClient } = require("@azure/ai-projects");
+const { AIProjectClient } = require("@azure/ai-projects");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 require("dotenv").config();
@@ -16,7 +16,7 @@ const connectionString =
   process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] || "<project connection string>";
 
 async function main() {
-  const client = AIProjectsClient.fromConnectionString(
+  const client = AIProjectClient.fromConnectionString(
     connectionString || "",
     new DefaultAzureCredential(),
   );

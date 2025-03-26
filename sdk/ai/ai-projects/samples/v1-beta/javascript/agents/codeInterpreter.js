@@ -1,25 +1,39 @@
-const { AIProjectsClient, isOutputOfType, ToolUtility } = require("@azure/ai-projects");
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+/**
+ * This sample demonstrates how to use agent operations with code interpreter from the Azure Agents service.
+ *
+ * @summary demonstrates how to use agent operations with code interpreter.
+ */
+
+const { AIProjectClient, isOutputOfType, ToolUtility } = require("@azure/ai-projects");
 const { delay } = require("@azure/core-util");
 const { DefaultAzureCredential } = require("@azure/identity");
 const dotenv = require("dotenv");
 const fs = require("fs");
 const path = require("node:path");
+const { fileURLToPath } = require("node:url");
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 dotenv.config();
 
 const connectionString =
   process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] || "<project connection string>";
 
 async function main() {
-  const client = AIProjectsClient.fromConnectionString(
+  const client = AIProjectClient.fromConnectionString(
     connectionString || "",
     new DefaultAzureCredential(),
   );
 
   // Upload file and wait for it to be processed
   const filePath = path.resolve(__dirname, "../data/nifty500QuarterlyResults.csv");
-  const localFileStream = fs.createReadStream(filePath);
-  const localFile = await client.agents.uploadFile(localFileStream, "assistants", {
-    fileName: "localFile",
+  const localFileBuffer = fs.readFileSync(filePath);
+  console.log("file size ", localFileBuffer.length);
+  const localFile = await client.agents.uploadFile(localFileBuffer, "assistants", {
+    filename: "localFile.csv",
   });
 
   console.log(`Uploaded local file, file ID : ${localFile.id}`);
@@ -28,8 +42,8 @@ async function main() {
   const codeInterpreterTool = ToolUtility.createCodeInterpreterTool([localFile.id]);
 
   // Notice that CodeInterpreter must be enabled in the agent creation, otherwise the agent will not be able to see the file attachment
-  const agent = await client.agents.createAgent("gpt-4o-mini", {
-    name: "my-agent",
+  const agent = await client.agents.createAgent("gpt-4", {
+    name: "my-agent-2",
     instructions: "You are a helpful agent",
     tools: [codeInterpreterTool.definition],
     toolResources: codeInterpreterTool.resources,
@@ -44,7 +58,7 @@ async function main() {
   const message = await client.agents.createMessage(thread.id, {
     role: "user",
     content:
-      "Could you please create a bar chart in the TRANSPORTATION sector for the operating profit from the uploaded CSV file and provide the file to me?",
+      "Could you please create a bar chart with the revenue column for the uploaded CSV file and provide the file to me?",
   });
 
   console.log(`Created message, message ID: ${message.id}`);
@@ -57,7 +71,7 @@ async function main() {
   }
   if (run.status === "failed") {
     // Check if you got "Rate limit is exceeded.", then you want to get more quota
-    console.log(`Run failed: ${run.lastError}`);
+    console.log(`Run failed: ${JSON.stringify(run, null, 2)}`);
   }
   console.log(`Run finished with status: ${run.status}`);
 
@@ -67,7 +81,7 @@ async function main() {
 
   // Print the messages from the agent
   const messages = await client.agents.listMessages(thread.id);
-  console.log("Messages:", messages);
+  console.log("Messages:", JSON.stringify(messages, null, 2));
 
   // Get most recent message from the assistant
   const assistantMessage = messages.data.find((msg) => msg.role === "assistant");
@@ -82,29 +96,20 @@ async function main() {
   console.log(`Saving new files...`);
   const imageFile = messages.data[0].content[0].imageFile;
   console.log(`Image file ID : ${imageFile}`);
+  const generateImageFileName = (await client.agents.getFile(imageFile.fileId)).filename;
+  const fileNameWithoutExtension = path.parse(generateImageFileName).name;
   const imageFileName = path.resolve(
     __dirname,
-    "../data/" + (await client.agents.getFile(imageFile.fileId)).filename + "ImageFile.png",
+    "../data/" + fileNameWithoutExtension + "ImageFile.png",
   );
 
-  const fileContent = await (
-    await client.agents.getFileContent(imageFile.fileId).asNodeStream()
-  ).body;
-  if (fileContent) {
-    const chunks = [];
-    for await (const chunk of fileContent) {
-      chunks.push(Buffer.from(chunk));
-    }
-    const buffer = Buffer.concat(chunks);
-    fs.writeFileSync(imageFileName, buffer);
-  } else {
-    console.error("Failed to retrieve file content: fileContent is undefined");
-  }
+  const fileContent = await client.agents.getFileContent(imageFile.fileId);
+  fs.writeFileSync(imageFileName, fileContent);
   console.log(`Saved image file to: ${imageFileName}`);
 
   // Iterate through messages and print details for each annotation
   console.log(`Message Details:`);
-  messages.data.forEach((m) => {
+  await messages.data.forEach((m) => {
     console.log(`File Paths:`);
     console.log(`Type: ${m.content[0].type}`);
     if (isOutputOfType(m.content[0], "text")) {

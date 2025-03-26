@@ -1,26 +1,39 @@
-const { AIProjectsClient, isOutputOfType, ToolUtility } = require("@azure/ai-projects");
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+/**
+ * This sample demonstrates how to use agent operations with file searching from the Azure Agents service.
+ *
+ * @summary This sample demonstrates how to use agent operations with file searching.
+ */
+
+const { AIProjectClient, isOutputOfType, ToolUtility } = require("@azure/ai-projects");
 const { delay } = require("@azure/core-util");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 const dotenv = require("dotenv");
 const fs = require("fs");
 const path = require("node:path");
+const { fileURLToPath } = require("node:url");
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 dotenv.config();
 
 const connectionString =
   process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] || "<project connection string>";
 
 async function main() {
-  const client = AIProjectsClient.fromConnectionString(
+  const client = AIProjectClient.fromConnectionString(
     connectionString || "",
     new DefaultAzureCredential(),
   );
 
   // Upload file
   const filePath = path.resolve(__dirname, "../data/sampleFileForUpload.txt");
-  const localFileStream = fs.createReadStream(filePath);
-  const file = await client.agents.uploadFile(localFileStream, "assistants", {
-    fileName: "sampleFileForUpload.txt",
+  const localFileBuffer = fs.readFileSync(filePath);
+  const file = await client.agents.uploadFile(localFileBuffer, "assistants", {
+    filename: "sampleFileForUpload.txt",
   });
   console.log(`Uploaded file, file ID: ${file.id}`);
 
@@ -64,7 +77,7 @@ async function main() {
 
   console.log(`Current Run status - ${run.status}, run ID: ${run.id}`);
   const messages = await client.agents.listMessages(thread.id);
-  messages.data.forEach((threadMessage) => {
+  await messages.data.forEach((threadMessage) => {
     console.log(
       `Thread Message Created at  - ${threadMessage.createdAt} - Role - ${threadMessage.role}`,
     );

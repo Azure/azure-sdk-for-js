@@ -8,7 +8,7 @@
  * get the properties of a default connection, and get the properties of a connection by its name.
  */
 
-const { AIProjectsClient } = require("@azure/ai-projects");
+const { AIProjectClient } = require("@azure/ai-projects");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 require("dotenv").config();
@@ -17,7 +17,7 @@ const connectionString =
   process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] || "<project connection string>";
 
 async function main() {
-  const client = AIProjectsClient.fromConnectionString(
+  const client = AIProjectClient.fromConnectionString(
     connectionString || "",
     new DefaultAzureCredential(),
   );
@@ -27,7 +27,7 @@ async function main() {
   console.log(`Retrieved workspace, workspace name: ${workspace.name}`);
 
   // List the details of all the connections
-  const connections = await client.connections.listConnections();
+  const { value: connections } = await client.connections.listConnections();
   console.log(`Retrieved ${connections.length} connections`);
 
   // Get the details of a connection, without credentials
@@ -36,7 +36,10 @@ async function main() {
   console.log(`Retrieved connection, connection name: ${connection.name}`);
 
   // Get the details of a connection, including credentials (if available)
-  const connectionWithSecrets = await client.connections.getConnectionWithSecrets(connectionName);
+  const connectionWithSecrets = await client.connections.getConnectionWithSecrets(
+    connectionName,
+    "",
+  );
   console.log(`Retrieved connection with secrets, connection name: ${connectionWithSecrets.name}`);
 }
 

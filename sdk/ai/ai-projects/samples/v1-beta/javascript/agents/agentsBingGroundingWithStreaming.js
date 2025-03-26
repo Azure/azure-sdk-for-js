@@ -1,11 +1,20 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+/**
+ * This sample demonstrates how to use agent operations with the Grounding with Bing Search tool
+ * from the Azure Agents service.
+ *
+ * @summary demonstrates how to use agent operations with the Grounding with Bing Search tool using streaming.
+ */
+
 const {
-  AIProjectsClient,
-  DoneEvent,
-  ErrorEvent,
-  MessageStreamEvent,
-  RunStreamEvent,
+  AIProjectClient,
+  DoneEventEnum,
+  ErrorEventEnum,
+  MessageStreamEventEnum,
   ToolUtility,
-  connectionToolType,
+  RunStreamEventEnum,
   isOutputOfType,
 } = require("@azure/ai-projects");
 const { DefaultAzureCredential } = require("@azure/identity");
@@ -19,7 +28,7 @@ async function main() {
   // Create an Azure AI Client from a connection string, copied from your AI Foundry project.
   // At the moment, it should be in the format "<HostName>;<AzureSubscriptionId>;<ResourceGroup>;<HubName>"
   // Customer needs to login to Azure subscription via Azure CLI and set the environment variables
-  const client = AIProjectsClient.fromConnectionString(
+  const client = AIProjectClient.fromConnectionString(
     connectionString || "",
     new DefaultAzureCredential(),
   );
@@ -45,10 +54,11 @@ async function main() {
   console.log(`Created thread, thread ID: ${thread.id}`);
 
   // Create message to thread
-  const message = await client.agents.createMessage(thread.id, {
-    role: "user",
-    content: "How does wikipedia explain Euler's Identity?",
-  });
+  const message = await client.agents.createMessage(
+    thread.id,
+    "user",
+    "How does wikipedia explain Euler's Identity?",
+  );
   console.log(`Created message, message ID: ${message.id}`);
 
   // Create and process agent run with streaming in thread with tools
@@ -56,10 +66,10 @@ async function main() {
 
   for await (const eventMessage of streamEventMessages) {
     switch (eventMessage.event) {
-      case RunStreamEvent.ThreadRunCreated:
+      case RunStreamEventEnum.ThreadRunCreated:
         console.log(`ThreadRun status: ${eventMessage.data.status}`);
         break;
-      case MessageStreamEvent.ThreadMessageDelta:
+      case MessageStreamEventEnum.ThreadMessageDelta:
         {
           const messageDelta = eventMessage.data;
           messageDelta.delta.content.forEach((contentPart) => {
@@ -72,20 +82,20 @@ async function main() {
         }
         break;
 
-      case RunStreamEvent.ThreadRunCompleted:
+      case RunStreamEventEnum.ThreadRunCompleted:
         console.log("Thread Run Completed");
         break;
-      case ErrorEvent.Error:
+      case ErrorEventEnum.Error:
         console.log(`An error occurred. Data ${eventMessage.data}`);
         break;
-      case DoneEvent.Done:
+      case DoneEventEnum.Done:
         console.log("Stream completed.");
         break;
     }
   }
 
   // Delete the assistant when done
-  client.agents.deleteAgent(agent.id);
+  await client.agents.deleteAgent(agent.id);
   console.log(`Deleted agent, agent ID: ${agent.id}`);
 
   // Fetch and log all messages

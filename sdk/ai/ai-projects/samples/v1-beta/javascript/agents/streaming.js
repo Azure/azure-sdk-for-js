@@ -1,9 +1,18 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+/**
+ * This sample demonstrates how to use agent operations in streaming from the Azure Agents service.
+ *
+ * @summary demonstrates how to use agent operations in streaming.
+ */
+
 const {
-  AIProjectsClient,
-  DoneEvent,
-  ErrorEvent,
-  MessageStreamEvent,
-  RunStreamEvent,
+  AIProjectClient,
+  DoneEventEnum,
+  ErrorEventEnum,
+  MessageStreamEventEnum,
+  RunStreamEventEnum,
 } = require("@azure/ai-projects");
 const { DefaultAzureCredential } = require("@azure/identity");
 
@@ -13,12 +22,12 @@ const connectionString =
   process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] || "<project connection string>";
 
 async function main() {
-  const client = AIProjectsClient.fromConnectionString(
+  const client = AIProjectClient.fromConnectionString(
     connectionString || "",
     new DefaultAzureCredential(),
   );
 
-  const agent = await client.agents.createAgent("gpt-4-1106-preview", {
+  const agent = await client.agents.createAgent("gpt-4o", {
     name: "my-assistant",
     instructions: "You are helpful agent",
   });
@@ -37,10 +46,10 @@ async function main() {
 
   for await (const eventMessage of streamEventMessages) {
     switch (eventMessage.event) {
-      case RunStreamEvent.ThreadRunCreated:
+      case RunStreamEventEnum.ThreadRunCreated:
         console.log(`ThreadRun status: ${eventMessage.data.status}`);
         break;
-      case MessageStreamEvent.ThreadMessageDelta:
+      case MessageStreamEventEnum.ThreadMessageDelta:
         {
           const messageDelta = eventMessage.data;
           messageDelta.delta.content.forEach((contentPart) => {
@@ -53,13 +62,13 @@ async function main() {
         }
         break;
 
-      case RunStreamEvent.ThreadRunCompleted:
+      case RunStreamEventEnum.ThreadRunCompleted:
         console.log("Thread Run Completed");
         break;
-      case ErrorEvent.Error:
+      case ErrorEventEnum.Error:
         console.log(`An error occurred. Data ${eventMessage.data}`);
         break;
-      case DoneEvent.Done:
+      case DoneEventEnum.Done:
         console.log("Stream completed.");
         break;
     }
