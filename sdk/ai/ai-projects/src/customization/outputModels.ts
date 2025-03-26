@@ -66,7 +66,7 @@ export interface BingGroundingToolDefinitionOutput extends ToolDefinitionOutputP
   bingGrounding: ToolConnectionListOutput;
 }
 
-/** A set of connection resources currently used by either the `bing_grounding`, `fabric_aiskill`, or `sharepoint_grounding` tools. */
+/** A set of connection resources currently used by either the `bing_grounding`, `fabric_dataagent`, or `sharepoint_grounding` tools. */
 export interface ToolConnectionListOutput {
   /**
    * The connections attached to this tool. There can be a maximum of 1 connection
@@ -83,8 +83,8 @@ export interface ToolConnectionOutput {
 
 /** The input definition information for a Microsoft Fabric tool as used to configure an agent. */
 export interface MicrosoftFabricToolDefinitionOutput extends ToolDefinitionOutputParent {
-  /** The object type, which is always 'fabric_aiskill'. */
-  type: "fabric_aiskill";
+  /** The object type, which is always 'fabric_dataagent'. */
+  type: "fabric_dataagent";
   /** The list of connections used by the Microsoft Fabric tool. */
   fabricAISkill: ToolConnectionListOutput;
 }
@@ -588,7 +588,7 @@ export interface AgentsNamedToolChoiceOutput {
   /**
    * the type of tool. If type is `function`, the function name must be set.
    *
-   * Possible values: "function", "code_interpreter", "file_search", "bing_grounding", "fabric_aiskill", "sharepoint_grounding", "azure_ai_search"
+   * Possible values: "function", "code_interpreter", "file_search", "bing_grounding", "fabric_dataagent", "sharepoint_grounding", "azure_ai_search"
    */
   type: AgentsNamedToolChoiceTypeOutput;
   /** The name of the function to call */
@@ -983,8 +983,8 @@ export interface RunStepSharepointToolCallOutput extends RunStepToolCallOutputPa
  * executed Microsoft Fabric operations.
  */
 export interface RunStepMicrosoftFabricToolCallOutput extends RunStepToolCallOutputParent {
-  /** The object type, which is always 'fabric_aiskill'. */
-  type: "fabric_aiskill";
+  /** The object type, which is always 'fabric_dataagent'. */
+  type: "fabric_dataagent";
   /** Reserved for future use. */
   fabricAISkill: Record<string, string>;
 }
