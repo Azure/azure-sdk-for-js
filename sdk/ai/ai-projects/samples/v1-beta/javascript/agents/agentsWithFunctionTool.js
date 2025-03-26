@@ -1,8 +1,21 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+/* eslint-disable @typescript-eslint/no-unsafe-function-type
+ */
+
+/**
+ * This sample demonstrates how to use basic agent operations with function tool from the Azure Agents service.
+ *
+ * @summary demonstrates how to use basic agent operations using function tool.
+ *
+ */
+
 const { AIProjectsClient, ToolUtility, isOutputOfType } = require("@azure/ai-projects");
 const { delay } = require("@azure/core-util");
 const { DefaultAzureCredential } = require("@azure/identity");
 
-require("dotenv").config();
+require("dotenv/config");
 
 const connectionString =
   process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] || "<project connection string>";
@@ -155,7 +168,7 @@ async function main() {
 
   console.log(`Run status - ${run.status}, run ID: ${run.id}`);
   const messages = await agents.listMessages(thread.id);
-  messages.data.forEach((threadMessage) => {
+  await messages.data.forEach((threadMessage) => {
     console.log(
       `Thread Message Created at  - ${threadMessage.createdAt} - Role - ${threadMessage.role}`,
     );
@@ -170,7 +183,7 @@ async function main() {
     });
   });
   // Delete agent
-  agents.deleteAgent(agent.id);
+  await agents.deleteAgent(agent.id);
   console.log(`Deleted agent, agent ID: ${agent.id}`);
 }
 

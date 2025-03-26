@@ -25,8 +25,7 @@ import { AIProjectsClient, ToolUtility, isOutputOfType } from "@azure/ai-project
 import { delay } from "@azure/core-util";
 import { DefaultAzureCredential } from "@azure/identity";
 
-import * as dotenv from "dotenv";
-dotenv.config();
+import  "dotenv/config";
 
 const connectionString =
   process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] || "<project connection string>";
@@ -183,7 +182,7 @@ export async function main(): Promise<void> {
 
   console.log(`Run status - ${run.status}, run ID: ${run.id}`);
   const messages = await agents.listMessages(thread.id);
-  messages.data.forEach((threadMessage) => {
+  await messages.data.forEach((threadMessage) => {
     console.log(
       `Thread Message Created at  - ${threadMessage.createdAt} - Role - ${threadMessage.role}`,
     );
@@ -198,7 +197,7 @@ export async function main(): Promise<void> {
     });
   });
   // Delete agent
-  agents.deleteAgent(agent.id);
+  await agents.deleteAgent(agent.id);
   console.log(`Deleted agent, agent ID: ${agent.id}`);
 }
 

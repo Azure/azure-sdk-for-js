@@ -1,13 +1,13 @@
 {
-  "extends": "../../../tsconfig",
-  "compilerOptions": {
-    "outDir": "./dist",
-    "importHelpers": true,
-    "module": "CommonJS", // Based on - https://github.com/microsoft/playwright/blob/main/tsconfig.json
-    "skipLibCheck": true, // one of the dev dependencies causes errors
-    "paths": {
-      "@azure/microsoft-playwright-testing": ["./src/index"]
+  "references": [
+    {
+      "path": "./tsconfig.src.json"
+    },
+    {
+      "path": "./tsconfig.samples.json"
+    },
+    {
+      "path": "./tsconfig.test.json"
     }
-  },
-  "exclude": ["dist", "node_modules", "test", "samples"]
+  ]
 }
