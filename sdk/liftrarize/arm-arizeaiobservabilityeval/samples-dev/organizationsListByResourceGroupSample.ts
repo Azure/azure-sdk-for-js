@@ -15,9 +15,7 @@ async function organizationsListByResourceGroupGeneratedByMaximumSetRule(): Prom
   const subscriptionId = "4DEBE8B4-8BA4-42F8-AE50-FBEF318751D1";
   const client = new ObservabilityEvalClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.organizations.listByResourceGroup(
-    "rgopenapi",
-  )) {
+  for await (const item of client.organizations.listByResourceGroup("rgopenapi")) {
     resArray.push(item);
   }
 

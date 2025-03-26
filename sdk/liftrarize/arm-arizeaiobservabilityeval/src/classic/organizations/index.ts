@@ -2,10 +2,7 @@
 // Licensed under the MIT License.
 
 import { ObservabilityEvalContext } from "../../api/observabilityEvalContext.js";
-import {
-  OrganizationResource,
-  OrganizationResourceUpdate,
-} from "../../models/models.js";
+import { OrganizationResource, OrganizationResourceUpdate } from "../../models/models.js";
 import {
   OrganizationsListBySubscriptionOptionalParams,
   OrganizationsListByResourceGroupOptionalParams,
@@ -71,9 +68,8 @@ export interface OrganizationsOperations {
 
 function _getOrganizations(context: ObservabilityEvalContext) {
   return {
-    listBySubscription: (
-      options?: OrganizationsListBySubscriptionOptionalParams,
-    ) => listBySubscription(context, options),
+    listBySubscription: (options?: OrganizationsListBySubscriptionOptionalParams) =>
+      listBySubscription(context, options),
     listByResourceGroup: (
       resourceGroupName: string,
       options?: OrganizationsListByResourceGroupOptionalParams,
@@ -88,21 +84,13 @@ function _getOrganizations(context: ObservabilityEvalContext) {
       organizationname: string,
       properties: OrganizationResourceUpdate,
       options?: OrganizationsUpdateOptionalParams,
-    ) =>
-      update(context, resourceGroupName, organizationname, properties, options),
+    ) => update(context, resourceGroupName, organizationname, properties, options),
     createOrUpdate: (
       resourceGroupName: string,
       organizationname: string,
       resource: OrganizationResource,
       options?: OrganizationsCreateOrUpdateOptionalParams,
-    ) =>
-      createOrUpdate(
-        context,
-        resourceGroupName,
-        organizationname,
-        resource,
-        options,
-      ),
+    ) => createOrUpdate(context, resourceGroupName, organizationname, resource, options),
     get: (
       resourceGroupName: string,
       organizationname: string,
