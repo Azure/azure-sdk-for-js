@@ -188,7 +188,9 @@ describe("testThroughputBucketForBulk", async () => {
   });
 
   afterAll(async () => {
-    await container.database.delete();
+    if (container) {
+      await container.database.delete();
+    }
   });
 
   it("test throughput bucketing in bulk", async () => {
