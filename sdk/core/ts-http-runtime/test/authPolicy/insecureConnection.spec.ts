@@ -9,8 +9,6 @@ import { logger } from "../../src/log.js";
 describe("checkInsecureConnection", () => {
   beforeEach(() => {
     vi.spyOn(logger, "warning");
-    // Reset the warned flag before each test
-    (ensureSecureConnection as any).warned = false;
   });
 
   afterEach(() => {

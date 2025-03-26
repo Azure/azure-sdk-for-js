@@ -1,6 +1,11 @@
 # Release History
 
-## 0.2.0 (2025-05-03)
+## 0.3.0 (2025-03-26)
+
+### Bugs Fixed
+- Fix an issue where insecure connection setting was not properly propagated through the client options.
+
+## 0.2.0 (2025-03-25)
 
 ### Features Added
 
