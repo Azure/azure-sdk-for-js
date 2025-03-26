@@ -10,13 +10,13 @@
  * @summary analyzes the sentiment of a piece of text
  */
 
-import { TextAnalyticsClient, AzureKeyCredential } from "@azure/ai-text-analytics";
-
+import { TextAnalyticsClient } from "@azure/ai-text-analytics";
+import { DefaultAzureCredential } from "@azure/identity";
 // Load the .env file if it exists
 import "dotenv/config";
+
 // You will need to set these environment variables or edit the following values
-const endpoint = process.env["ENDPOINT"] || "<cognitive services endpoint>";
-const apiKey = process.env["TEXT_ANALYTICS_API_KEY"] || "<api key>";
+const endpoint = process.env["LANGUAGE_ENDPOINT"] || "<endpoint>";
 
 const documents = [
   "I had the best day of my life.",
@@ -26,7 +26,7 @@ const documents = [
 export async function main(): Promise<void> {
   console.log("=== Analyze Sentiment Sample ===");
 
-  const client = new TextAnalyticsClient(endpoint, new AzureKeyCredential(apiKey));
+  const client = new TextAnalyticsClient(endpoint, new DefaultAzureCredential());
 
   const results = await client.analyzeSentiment(documents);
 
