@@ -109,7 +109,6 @@ describe("Library/TraceHandler", () => {
         });
       });
 
-    vi.resetModules();
     // Load Http modules, HTTP instrumentation hook will be created in OpenTelemetry
     // eslint-disable-next-line @typescript-eslint/no-require-imports
     require("http");
