@@ -20,7 +20,7 @@ declare module "vitest" {
   }
 }
 
-function assertEnvironmentVariable<T extends Pick<typeof EnvVarKeys, "TEST_MODE">>(
+function assertEnvironmentVariable<T extends(typeof EnvVarKeys)[keyof Pick<typeof EnvVarKeys, "TEST_MODE">]>(
   key: T,
 ): string | undefined;
 function assertEnvironmentVariable(key: string): string;
@@ -36,7 +36,8 @@ function assertEnvironmentVariable(key: string): string | undefined {
 }
 
 export default async function ({ provide }: TestProject): Promise<void> {
-  if (["live", "record"].includes(process.env[EnvVarKeys.TEST_MODE]?.toLowerCase() ?? "")) {
+  const testMode = assertEnvironmentVariable(EnvVarKeys.TEST_MODE);
+  if (["live", "record"].includes(testMode ?? "")) {
     const subId = assertEnvironmentVariable(EnvVarKeys.SUBSCRIPTION_ID);
     const rgName = assertEnvironmentVariable(EnvVarKeys.RESOURCE_GROUP);
     const accountName = assertEnvironmentVariable(EnvVarKeys.ACCOUNT_NAME);
@@ -62,6 +63,7 @@ export default async function ({ provide }: TestProject): Promise<void> {
     provide(EnvVarKeys.LANGUAGE_CLU_DEPLOYMENT_NAME, conversation.deploymentName);
     provide(EnvVarKeys.LANGUAGE_ORCHESTRATION_PROJECT_NAME, orchestration.projectName);
     provide(EnvVarKeys.LANGUAGE_ORCHESTRATION_DEPLOYMENT_NAME, orchestration.deploymentName);
+    provide(EnvVarKeys.TEST_MODE, testMode);
   } else {
     provide(EnvVarKeys.ENDPOINT, MOCKS.ENDPOINT);
     provide(EnvVarKeys.DISABLE_LOCAL_AUTH, false);

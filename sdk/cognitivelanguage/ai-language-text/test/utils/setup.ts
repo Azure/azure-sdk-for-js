@@ -20,14 +20,14 @@ declare module "vitest" {
   }
 }
 
-function assertEnvironmentVariable<T extends Pick<typeof EnvVarKeys, "TEST_MODE">>(
-  key: T,
-): string | undefined;
+function assertEnvironmentVariable<
+  T extends (typeof EnvVarKeys)[keyof Pick<typeof EnvVarKeys, "TEST_MODE">],
+>(key: T): string | undefined;
 function assertEnvironmentVariable(key: string): string;
 function assertEnvironmentVariable(key: string): string | undefined {
   const value = process.env[key];
   if (key === EnvVarKeys.TEST_MODE) {
-    return !value ? value : value.toLowerCase();
+    return value?.toLowerCase();
   }
   if (!value) {
     throw new Error(`Environment variable ${key} is not defined.`);
@@ -36,7 +36,8 @@ function assertEnvironmentVariable(key: string): string | undefined {
 }
 
 export default async function ({ provide }: TestProject): Promise<void> {
-  if (["live", "record"].includes(process.env[EnvVarKeys.TEST_MODE]?.toLowerCase() ?? "")) {
+  const testMode = assertEnvironmentVariable(EnvVarKeys.TEST_MODE);
+  if (["live", "record"].includes(testMode ?? "")) {
     const subId = assertEnvironmentVariable(EnvVarKeys.SUBSCRIPTION_ID);
     const rgName = assertEnvironmentVariable(EnvVarKeys.RESOURCE_GROUP);
     const accountName = assertEnvironmentVariable(EnvVarKeys.ACCOUNT_NAME);
@@ -77,6 +78,7 @@ export default async function ({ provide }: TestProject): Promise<void> {
       EnvVarKeys.SINGLE_LABEL_CLASSIFICATION_DEPLOYMENT_NAME,
       singleLabelClassification.deploymentName,
     );
+    provide(EnvVarKeys.TEST_MODE, testMode);
   } else {
     provide(EnvVarKeys.ENDPOINT, MOCKS.ENDPOINT);
     provide(EnvVarKeys.DISABLE_LOCAL_AUTH, false);

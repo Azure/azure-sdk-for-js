@@ -7,17 +7,9 @@ import type { RecorderStartOptions, TestInfo } from "@azure-tools/test-recorder"
 import { Recorder } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { getEndpoint, getKey1, isDisableLocalAuth, isLiveMode } from "../../utils/injectables.js";
-import { EnvVarKeys } from "../../utils/constants.js";
-import * as MOCKs from "../../utils/constants.js";
-
-const envSetupForPlayback: { [k: string]: string } = {
-  [EnvVarKeys.ENDPOINT]: MOCKs.ENDPOINT,
-  [EnvVarKeys.KEY1]: MOCKs.KEY1,
-  [EnvVarKeys.KEY2]: MOCKs.KEY2,
-};
 
 const recorderStartOptions: RecorderStartOptions = {
-  envSetupForPlayback,
+  envSetupForPlayback: {},
   removeCentralSanitizers: ["AZSDK2015", "AZSDK2030", "AZSDK3430", "AZSDK3493", "AZSDK4001"],
   sanitizerOptions: {
     bodyKeySanitizers: [
