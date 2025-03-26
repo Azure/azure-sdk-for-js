@@ -114,11 +114,11 @@ if (Test-Path $sdpath) {
 if ($CI) {
     Log "Logging in to service principal"
 
+    Select-AzEnvironment -Name $Environment
     Connect-AzAccount -ServicePrincipal `
                       -TenantId $TenantId `
                       -ApplicationId $TestApplicationId `
                       -FederatedToken $env:ARM_OIDC_TOKEN
-
     Select-AzSubscription -Subscription $SubscriptionId
 
     Log "Successfully logged in to service principal"
