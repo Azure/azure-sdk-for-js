@@ -157,7 +157,7 @@ describe("OrderByQueryExecutionContext", () => {
     const mockDocumentList = [mockDocument1, mockDocument2, mockDocument3];
     let i = 0;
     // Define a stub for queryFeed in clientContext
-    vi.mocked(clientContext.queryFeed).mockImplementation(async () => {
+    vi.spyOn(clientContext, "queryFeed").mockImplementation(async () => {
       return {
         result: [mockDocumentList[i++]] as unknown as Resource, // Add result to mimic expected structure
         headers: {
@@ -234,7 +234,7 @@ describe("OrderByQueryExecutionContext", () => {
 
     let i = -1;
     // Define a stub for queryFeed in clientContext
-    vi.mocked(clientContext.queryFeed).mockImplementation(async () => {
+    vi.spyOn(clientContext, "queryFeed").mockImplementation(async () => {
       i++;
       if (i === 0) {
         return {

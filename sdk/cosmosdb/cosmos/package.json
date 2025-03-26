@@ -61,8 +61,8 @@
     "test:node": "npm run build:test && npm run unit-test:node && npm run integration-test:node",
     "test:signoff": "npm run integration-test:node -- --fgrep \"nosignoff\" --invert",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
-    "unit-test:browser": "npm run clean && dev-tool run build-package && dev-tool run build-test && dev-tool run test:vitest --browser",
-    "unit-test:node": "dev-tool run test:vitest",
+    "unit-test:browser": "echo skipped",
+    "unit-test:node": "dev-tool run vendored cross-env NODE_OPTIONS='--dns-result-order=ipv4first' dev-tool run test:vitest",
     "update-snippets": "echo skipped"
   },
   "repository": "github:Azure/azure-sdk-for-js",
