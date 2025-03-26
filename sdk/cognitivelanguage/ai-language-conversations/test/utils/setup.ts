@@ -20,9 +20,9 @@ declare module "vitest" {
   }
 }
 
-function assertEnvironmentVariable<T extends(typeof EnvVarKeys)[keyof Pick<typeof EnvVarKeys, "TEST_MODE">]>(
-  key: T,
-): string | undefined;
+function assertEnvironmentVariable<
+  T extends (typeof EnvVarKeys)[keyof Pick<typeof EnvVarKeys, "TEST_MODE">],
+>(key: T): string | undefined;
 function assertEnvironmentVariable(key: string): string;
 function assertEnvironmentVariable(key: string): string | undefined {
   const value = process.env[key];
