@@ -12,7 +12,7 @@
 const { ServiceBusAdministrationClient, ServiceBusClient } = require("@azure/service-bus");
 const { DefaultAzureCredential } = require("@azure/identity");
 
-require("dotenv").config();
+require("dotenv/config");
 
 async function main() {
   // Define connection string and related Service Bus entity names here
@@ -89,7 +89,7 @@ async function main() {
 
   console.log("Deleting topic...");
   await serviceBusAdminClient.deleteTopic(topicName);
-  client.close();
+  await client.close();
 }
 
 main().catch((err) => {

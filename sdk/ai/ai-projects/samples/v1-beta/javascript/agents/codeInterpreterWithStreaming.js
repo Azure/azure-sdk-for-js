@@ -1,3 +1,12 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+/**
+ * This sample demonstrates how to use agent operations with code interpreter from the Azure Agents service.
+ *
+ * @summary demonstrates how to use agent operations with code interpreter.
+ */
+
 const {
   AIProjectsClient,
   DoneEvent,
@@ -9,10 +18,9 @@ const {
 } = require("@azure/ai-projects");
 const { DefaultAzureCredential } = require("@azure/identity");
 
-const dotenv = require("dotenv");
 const fs = require("fs");
 const path = require("node:path");
-dotenv.config();
+require("dotenv/config");
 
 const connectionString =
   process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] || "<project connection string>";
@@ -24,7 +32,7 @@ async function main() {
   );
 
   // Upload file and wait for it to be processed
-  const filePath = path.resolve(__dirname, "../data/nifty500QuarterlyResults.csv");
+  const filePath = "./data/nifty500QuarterlyResults.csv";
   const localFileStream = fs.createReadStream(filePath);
   const localFile = await client.agents.uploadFile(localFileStream, "assistants", {
     fileName: "myLocalFile",
@@ -112,8 +120,7 @@ async function main() {
   const imageFileOutput = messages.data[0].content[0];
   const imageFile = imageFileOutput.imageFile.fileId;
   const imageFileName = path.resolve(
-    __dirname,
-    "../data/" + (await client.agents.getFile(imageFile)).filename + "ImageFile.png",
+    "./data/" + (await client.agents.getFile(imageFile)).filename + "ImageFile.png",
   );
   console.log(`Image file name : ${imageFileName}`);
 
@@ -121,7 +128,7 @@ async function main() {
   if (fileContent) {
     const chunks = [];
     for await (const chunk of fileContent) {
-      chunks.push(Buffer.from(chunk));
+      chunks.push(Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk));
     }
     const buffer = Buffer.concat(chunks);
     fs.writeFileSync(imageFileName, buffer);
@@ -132,7 +139,7 @@ async function main() {
 
   // Iterate through messages and print details for each annotation
   console.log(`Message Details:`);
-  messages.data.forEach((m) => {
+  await messages.data.forEach((m) => {
     console.log(`File Paths:`);
     console.log(`Type: ${m.content[0].type}`);
     if (isOutputOfType(m.content[0], "text")) {
