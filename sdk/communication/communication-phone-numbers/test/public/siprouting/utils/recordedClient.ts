@@ -31,9 +31,6 @@ const envSetupForPlayback: { [k: string]: string } = {
   COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING: "endpoint=https://endpoint/;accesskey=YQ==",
   SKIP_UPDATE_CAPABILITIES_LIVE_TESTS: "false",
   COMMUNICATION_ENDPOINT: "https://endpoint/",
-  AZURE_CLIENT_ID: "azure_client_id",
-  AZURE_CLIENT_SECRET: "azure_client_secret",
-  AZURE_TENANT_ID: "azure_tenant_id",
   AZURE_USERAGENT_OVERRIDE: "fake-useragent",
 };
 
