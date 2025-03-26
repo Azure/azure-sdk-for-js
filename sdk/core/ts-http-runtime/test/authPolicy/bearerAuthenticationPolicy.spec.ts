@@ -4,12 +4,15 @@
 import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 import type {
   BearerTokenCredential,
+  HttpClient,
   PipelinePolicy,
   PipelineResponse,
   SendRequest,
 } from "../../src/index.js";
 import { createHttpHeaders, createPipelineRequest } from "../../src/index.js";
 import { bearerAuthenticationPolicy } from "../../src/policies/auth/bearerAuthenticationPolicy.js";
+import { createDefaultPipeline } from "../../src/client/clientHelpers.js";
+import { logger } from "../../src/log.js";
 
 describe("bearerAuthenticationPolicy", function () {
   beforeEach(() => {
@@ -72,6 +75,39 @@ describe("bearerAuthenticationPolicy", function () {
       1,
       "The first authentication attempt should have happened",
     );
+  });
+
+  it("should allow insecure connection", async () => {
+    const credential = new MockCredential();
+    vi.spyOn(logger, "warning");
+    const httpClient: HttpClient = {
+      sendRequest: async (request) => {
+        return {
+          request,
+          headers: createHttpHeaders(),
+          status: 200,
+        };
+      },
+    };
+    const pipeline = createDefaultPipeline({
+      credential,
+      allowInsecureConnection: true,
+    });
+    await pipeline.sendRequest(httpClient, {
+      headers: createHttpHeaders(),
+      method: "GET",
+      requestId: "1",
+      timeout: 10000,
+      url: "http://127.0.0.1:8080",
+      withCredentials: false,
+      allowInsecureConnection: true,
+    });
+
+    expect(logger.warning).toHaveBeenCalledWith(
+      "Sending token over insecure transport. Assume any token issued is compromised.",
+    );
+
+    vi.clearAllMocks();
   });
 
   function createBearerTokenPolicy(credential: BearerTokenCredential): PipelinePolicy {

@@ -28,16 +28,24 @@ export function createDefaultPipeline(options: ClientOptions = {}): Pipeline {
 
   pipeline.addPolicy(apiVersionPolicy(options));
 
-  const { credential, authSchemes } = options;
+  const { credential, authSchemes, allowInsecureConnection } = options;
   if (credential) {
     if (isApiKeyCredential(credential)) {
-      pipeline.addPolicy(apiKeyAuthenticationPolicy({ authSchemes, credential }));
+      pipeline.addPolicy(
+        apiKeyAuthenticationPolicy({ authSchemes, credential, allowInsecureConnection }),
+      );
     } else if (isBasicCredential(credential)) {
-      pipeline.addPolicy(basicAuthenticationPolicy({ authSchemes, credential }));
+      pipeline.addPolicy(
+        basicAuthenticationPolicy({ authSchemes, credential, allowInsecureConnection }),
+      );
     } else if (isBearerTokenCredential(credential)) {
-      pipeline.addPolicy(bearerAuthenticationPolicy({ authSchemes, credential }));
+      pipeline.addPolicy(
+        bearerAuthenticationPolicy({ authSchemes, credential, allowInsecureConnection }),
+      );
     } else if (isOAuth2TokenCredential(credential)) {
-      pipeline.addPolicy(oauth2AuthenticationPolicy({ authSchemes, credential }));
+      pipeline.addPolicy(
+        oauth2AuthenticationPolicy({ authSchemes, credential, allowInsecureConnection }),
+      );
     }
   }
 
