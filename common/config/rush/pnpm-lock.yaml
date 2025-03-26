@@ -1050,7 +1050,7 @@ importers:
         version: file:projects/monitor-ingestion.tgz(@types/debug@4.1.12)(msw@2.7.3(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(vite@6.2.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)
       '@rush-temp/monitor-opentelemetry':
         specifier: file:./projects/monitor-opentelemetry.tgz
-        version: file:projects/monitor-opentelemetry.tgz
+        version: file:projects/monitor-opentelemetry.tgz(@types/debug@4.1.12)(@vitest/browser@3.0.9)(msw@2.7.3(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(yaml@2.7.0)
       '@rush-temp/monitor-opentelemetry-exporter':
         specifier: file:./projects/monitor-opentelemetry-exporter.tgz
         version: file:projects/monitor-opentelemetry-exporter.tgz(@types/debug@4.1.12)(msw@2.7.3(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(vite@6.2.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)
@@ -1399,6 +1399,10 @@ packages:
   '@azure/maps-common@1.0.0-beta.2':
     resolution: {integrity: sha512-PB9GlnfojcQ4nf9WXdQvWeAk7gm8P74o+Z5IHz5YLK/W+3vrNrmVVVuFpGOvCPrLjag50UinaZsMBtPtxoiobg==}
     engines: {node: '>=14.0.0'}
+
+  '@azure/monitor-opentelemetry-exporter@1.0.0-beta.28':
+    resolution: {integrity: sha512-WowcSkuUcgZoOOIdai5c9Ypm21GKhmYF/7X1epEg3JY9pKlWKP0+aiKykVrYsgrKEuScIQ2MC3F0oe8yRFeqCw==}
+    engines: {node: '>=18.0.0'}
 
   '@azure/msal-browser@3.28.1':
     resolution: {integrity: sha512-OHHEWMB5+Zrix8yKvLVzU3rKDFvh7SOzAzXfICD7YgUXLxfHpTPX2pzOotrri1kskwhHqIj4a5LvhZlIqE7C7g==}
@@ -2658,7 +2662,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-containerservice-1@file:projects/arm-containerservice-1.tgz':
-    resolution: {integrity: sha512-dRQtuY0nbzV4BRbIOvx/SKH2BFInTMmmeAQJlmKY3dbWJv2Y7lSuq0ZTsH/dIYUSy0MlroOKL5WKBFDmNA2LWA==, tarball: file:projects/arm-containerservice-1.tgz}
+    resolution: {integrity: sha512-koW0ZnOI/WXt3PGcw4qtbwBLuELHDFMU6y256W+vbuL+fVTRlIh4A7U4Bt2aLkqAxqE3uw9sovQMqAmg94Rtwg==, tarball: file:projects/arm-containerservice-1.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-containerservice@file:projects/arm-containerservice.tgz':
@@ -3762,7 +3766,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/monitor-opentelemetry@file:projects/monitor-opentelemetry.tgz':
-    resolution: {integrity: sha512-cko83Moy0ub/c13T4ACnmpprk1272RZ4Wbt31PEo//m0yZWR8psaZcrPFUjkdMXQkHfpvAfvk5QdRf7tj48wZg==, tarball: file:projects/monitor-opentelemetry.tgz}
+    resolution: {integrity: sha512-21W5HJrsgh9fxFz7UMR3Y8rWYJmgj7iTIe91DwIJbgmQMXZuwpBEjf/SqFyxzOYiVn4LJ2I7V+j+IKk//JWWGQ==, tarball: file:projects/monitor-opentelemetry.tgz}
     version: 0.0.0
 
   '@rush-temp/monitor-query@file:projects/monitor-query.tgz':
@@ -8443,6 +8447,23 @@ snapshots:
       '@azure/core-client': 1.9.3
       '@azure/core-lro': 2.7.2
       '@azure/core-rest-pipeline': 1.19.1
+    transitivePeerDependencies:
+      - supports-color
+
+  '@azure/monitor-opentelemetry-exporter@1.0.0-beta.28':
+    dependencies:
+      '@azure/core-auth': 1.9.0
+      '@azure/core-client': 1.9.3
+      '@azure/core-rest-pipeline': 1.19.1
+      '@opentelemetry/api': 1.9.0
+      '@opentelemetry/api-logs': 0.57.2
+      '@opentelemetry/core': 1.30.1(@opentelemetry/api@1.9.0)
+      '@opentelemetry/resources': 1.30.1(@opentelemetry/api@1.9.0)
+      '@opentelemetry/sdk-logs': 0.57.2(@opentelemetry/api@1.9.0)
+      '@opentelemetry/sdk-metrics': 1.30.1(@opentelemetry/api@1.9.0)
+      '@opentelemetry/sdk-trace-base': 1.30.1(@opentelemetry/api@1.9.0)
+      '@opentelemetry/semantic-conventions': 1.30.0
+      tslib: 2.8.1
     transitivePeerDependencies:
       - supports-color
 
@@ -21818,10 +21839,11 @@ snapshots:
       - webdriverio
       - yaml
 
-  '@rush-temp/monitor-opentelemetry@file:projects/monitor-opentelemetry.tgz':
+  '@rush-temp/monitor-opentelemetry@file:projects/monitor-opentelemetry.tgz(@types/debug@4.1.12)(@vitest/browser@3.0.9)(msw@2.7.3(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(yaml@2.7.0)':
     dependencies:
       '@azure/functions': 4.7.0
       '@azure/functions-old': '@azure/functions@3.5.1'
+      '@azure/monitor-opentelemetry-exporter': 1.0.0-beta.28
       '@microsoft/applicationinsights-web-snippet': 1.2.1
       '@opentelemetry/api': 1.9.0
       '@opentelemetry/api-logs': 0.57.2
@@ -21844,21 +21866,32 @@ snapshots:
       '@opentelemetry/sdk-trace-node': 1.30.1(@opentelemetry/api@1.9.0)
       '@opentelemetry/semantic-conventions': 1.30.0
       '@opentelemetry/winston-transport': 0.10.1
-      '@types/mocha': 10.0.10
       '@types/node': 18.19.80
-      '@types/sinon': 17.0.4
+      '@vitest/coverage-istanbul': 3.0.9(vitest@3.0.9)
       dotenv: 16.4.7
       eslint: 9.22.0
-      mocha: 11.1.0
-      nock: 13.5.6
-      nyc: 17.1.0
-      sinon: 17.0.1
       tslib: 2.8.1
-      tsx: 4.19.3
       typescript: 5.8.2
+      vitest: 3.0.9(@types/debug@4.1.12)(@types/node@18.19.80)(@vitest/browser@3.0.9)(msw@2.7.3(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(yaml@2.7.0)
     transitivePeerDependencies:
+      - '@edge-runtime/vm'
+      - '@types/debug'
+      - '@vitest/browser'
+      - '@vitest/ui'
+      - happy-dom
       - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
       - supports-color
+      - terser
+      - tsx
+      - yaml
 
   '@rush-temp/monitor-query@file:projects/monitor-query.tgz(@types/debug@4.1.12)(msw@2.7.3(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(vite@6.2.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)':
     dependencies:
