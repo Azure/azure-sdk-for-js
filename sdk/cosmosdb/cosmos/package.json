@@ -52,7 +52,7 @@
     "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"samples-dev/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "integration-test:browser": "echo skipped",
-    "integration-test:node": "dev-tool run vendored cross-env NODE_OPTIONS='--dns-result-order=ipv4first' mocha -r test/mocha.env.ts -r ts-node/register -r dotenv/config -r ./test/public/common/setup.ts --reporter ../../../common/tools/mocha-multi-reporter.js --reporter-option output=test-results.xml \"./test/internal/**/*.spec.ts\" \"./test/public/**/*.spec.ts\"  --timeout 100000",
+    "integration-test:node": "dev-tool run test:vitest --esm",
     "lint": "dev-tool run vendored eslint package.json api-extractor.json src test",
     "lint:fix": "dev-tool run vendored eslint package.json api-extractor.json src test --fix --fix-type [problem,suggestion]",
     "pack": "npm pack 2>&1",
@@ -63,7 +63,7 @@
     "test:signoff": "npm run integration-test:node -- --fgrep \"nosignoff\" --invert",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
     "unit-test:browser": "npm run clean && dev-tool run build-package && dev-tool run build-test && dev-tool run test:vitest --browser",
-    "unit-test:node": "echo skipped",
+    "unit-test:node": "dev-tool run test:vitest",
     "update-snippets": "echo skipped"
   },
   "repository": "github:Azure/azure-sdk-for-js",
@@ -87,6 +87,8 @@
     "tslib": "^2.8.1"
   },
   "devDependencies": {
+    "@azure-tools/test-credential": "^2.0.0",
+    "@azure-tools/test-recorder": "^4.1.0",
     "@azure-tools/test-utils-vitest": "^1.0.0",
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
