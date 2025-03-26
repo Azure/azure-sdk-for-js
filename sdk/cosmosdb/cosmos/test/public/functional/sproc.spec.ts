@@ -49,13 +49,13 @@ describe("NodeJS CRUD Tests", { timeout: 10000 }, () => {
       const beforeCreateSprocsCount = sprocs.length;
       const sprocDefinition: StoredProcedureDefinition = {
         id: "sample sproc",
-        body: "() => { const x = 10; }",
+        body: "function () { const x = 10; }",
       };
 
       const { resource: sproc } = await container.scripts.storedProcedures.create(sprocDefinition);
 
       assert.equal(sproc.id, sprocDefinition.id);
-      assert.equal(sproc.body, "() => { const x = 10; }");
+      assert.equal(sproc.body, "function () { const x = 10; }");
 
       // read sprocs after creation
       const { resources: sprocsAfterCreation } = await container.scripts.storedProcedures
@@ -78,13 +78,13 @@ describe("NodeJS CRUD Tests", { timeout: 10000 }, () => {
 
       // replace sproc
       // prettier-ignore
-      sproc.body = () => { const x = 20; console.log(x); };
+      sproc.body = function () { const x = 20; console.log(x); };
       const { resource: replacedSproc } = await container.scripts
         .storedProcedure(sproc.id)
         .replace(sproc);
 
       assert.equal(replacedSproc.id, sproc.id);
-      assert.equal(replacedSproc.body, "() => { const x = 20; console.log(x); }");
+      assert.equal(replacedSproc.body, "function () { const x = 20; console.log(x); }");
 
       // read sproc
       const { resource: sprocAfterReplace } = await container.scripts
