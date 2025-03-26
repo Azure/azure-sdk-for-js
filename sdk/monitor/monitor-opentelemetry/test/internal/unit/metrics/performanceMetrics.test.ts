@@ -102,13 +102,13 @@ describe("PerformanceCounterMetricsHandler", () => {
       assert.ok(
         (metrics[4].dataPoints[0].value as number) >= 0 &&
           (metrics[4].dataPoints[0].value as number) <= 100,
-        `Wrong Processor Time value: ${metrics[4].dataPoints[0].value}`,
+        `Wrong Processor Time value: ${metrics[4].dataPoints[0].value as number}`,
       );
       assert.deepStrictEqual(metrics[5].descriptor.name, "Process_Time");
       assert.ok(
         (metrics[5].dataPoints[0].value as number) >= 0 &&
           (metrics[5].dataPoints[0].value as number) <= 100,
-        `Wrong Process Time value: ${metrics[5].dataPoints[0].value}`,
+        `Wrong Process Time value: ${metrics[5].dataPoints[0].value as number}`,
       );
       assert.deepStrictEqual(metrics[6].descriptor.name, "Process_Time_Normalized");
       assert.deepStrictEqual(metrics[7].descriptor.name, "Exception_Rate");
