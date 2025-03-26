@@ -13,6 +13,7 @@ declare module "vitest" {
   };
   export interface ProvidedContext extends MyEnvVarKeys {
     [EnvVarKeys.TEST_MODE]: string | undefined;
+    [EnvVarKeys.DISABLE_LOCAL_AUTH]: boolean;
   }
 }
 
@@ -50,7 +51,7 @@ export default async function ({ provide }: TestProject): Promise<void> {
       throw new Error("Key is not defined.");
     }
     provide(EnvVarKeys.ENDPOINT, endpoint);
-    provide(EnvVarKeys.DISABLE_LOCAL_AUTH, disableLocalAuth.toString());
+    provide(EnvVarKeys.DISABLE_LOCAL_AUTH, disableLocalAuth);
     provide(EnvVarKeys.KEY, key1);
     provide(EnvVarKeys.TEST_MODE, testMode);
   } else {

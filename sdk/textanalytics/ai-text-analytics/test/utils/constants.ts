@@ -10,4 +10,4 @@ export const EnvVarKeys = {
 
 export const ENDPOINT = "https://endpoint";
 export const KEY = "api_key";
-export const DISABLE_LOCAL_AUTH = "false";
+export const DISABLE_LOCAL_AUTH = false;
