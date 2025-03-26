@@ -9,12 +9,14 @@
 import {
   OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter
+  OperationQueryParameter,
 } from "@azure/core-client";
 import {
   CommunicationIdentityCreateRequest as CommunicationIdentityCreateRequestMapper,
   TeamsUserExchangeTokenRequest as TeamsUserExchangeTokenRequestMapper,
-  CommunicationIdentityAccessTokenRequest as CommunicationIdentityAccessTokenRequestMapper
+  CommunicationIdentityAccessTokenRequest as CommunicationIdentityAccessTokenRequestMapper,
+  TeamsExtensionAssignmentCreateOrUpdateRequest as TeamsExtensionAssignmentCreateOrUpdateRequestMapper,
+  EntraAssignmentCreateOrUpdateRequest as EntraAssignmentCreateOrUpdateRequestMapper,
 } from "../models/mappers.js";
 
 export const contentType: OperationParameter = {
@@ -24,9 +26,9 @@ export const contentType: OperationParameter = {
     isConstant: true,
     serializedName: "Content-Type",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const accept: OperationParameter = {
@@ -36,19 +38,24 @@ export const accept: OperationParameter = {
     isConstant: true,
     serializedName: "Accept",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
+};
+
+export const customId: OperationParameter = {
+  parameterPath: ["options", "customId"],
+  mapper: CommunicationIdentityCreateRequestMapper,
 };
 
 export const createTokenWithScopes: OperationParameter = {
   parameterPath: ["options", "createTokenWithScopes"],
-  mapper: CommunicationIdentityCreateRequestMapper
+  mapper: CommunicationIdentityCreateRequestMapper,
 };
 
 export const expiresInMinutes: OperationParameter = {
   parameterPath: ["options", "expiresInMinutes"],
-  mapper: CommunicationIdentityCreateRequestMapper
+  mapper: CommunicationIdentityCreateRequestMapper,
 };
 
 export const endpoint: OperationURLParameter = {
@@ -57,22 +64,22 @@ export const endpoint: OperationURLParameter = {
     serializedName: "endpoint",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2023-10-01",
+    defaultValue: "2025-03-02-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const id: OperationURLParameter = {
@@ -81,32 +88,132 @@ export const id: OperationURLParameter = {
     serializedName: "id",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const token: OperationParameter = {
   parameterPath: "token",
-  mapper: TeamsUserExchangeTokenRequestMapper
+  mapper: TeamsUserExchangeTokenRequestMapper,
 };
 
 export const appId: OperationParameter = {
   parameterPath: "appId",
-  mapper: TeamsUserExchangeTokenRequestMapper
+  mapper: TeamsUserExchangeTokenRequestMapper,
 };
 
 export const userId: OperationParameter = {
   parameterPath: "userId",
-  mapper: TeamsUserExchangeTokenRequestMapper
+  mapper: TeamsUserExchangeTokenRequestMapper,
 };
 
 export const scopes: OperationParameter = {
   parameterPath: "scopes",
-  mapper: CommunicationIdentityAccessTokenRequestMapper
+  mapper: CommunicationIdentityAccessTokenRequestMapper,
 };
 
 export const expiresInMinutes1: OperationParameter = {
   parameterPath: ["options", "expiresInMinutes"],
-  mapper: CommunicationIdentityAccessTokenRequestMapper
+  mapper: CommunicationIdentityAccessTokenRequestMapper,
+};
+
+export const body3: OperationParameter = {
+  parameterPath: "body",
+  mapper: {
+    serializedName: "body",
+    required: true,
+    type: {
+      name: "Dictionary",
+      value: { type: { name: "any" } },
+    },
+  },
+};
+
+export const tenantId: OperationURLParameter = {
+  parameterPath: "tenantId",
+  mapper: {
+    serializedName: "tenantId",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const objectId: OperationURLParameter = {
+  parameterPath: "objectId",
+  mapper: {
+    serializedName: "objectId",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const principalType: OperationParameter = {
+  parameterPath: "principalType",
+  mapper: TeamsExtensionAssignmentCreateOrUpdateRequestMapper,
+};
+
+export const clientIds: OperationParameter = {
+  parameterPath: ["options", "clientIds"],
+  mapper: TeamsExtensionAssignmentCreateOrUpdateRequestMapper,
+};
+
+export const contentType1: OperationParameter = {
+  parameterPath: ["options", "contentType"],
+  mapper: {
+    defaultValue: "application/merge-patch+json",
+    isConstant: true,
+    serializedName: "Content-Type",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const body5: OperationParameter = {
+  parameterPath: "body",
+  mapper: {
+    serializedName: "body",
+    required: true,
+    type: {
+      name: "Dictionary",
+      value: {
+        type: {
+          name: "Composite",
+          className: "EntraAssignmentCreateOrUpdateRequest",
+        },
+      },
+    },
+  },
+};
+
+export const nextLink: OperationURLParameter = {
+  parameterPath: "nextLink",
+  mapper: {
+    serializedName: "nextLink",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+  skipEncoding: true,
+};
+
+export const tenantId1: OperationParameter = {
+  parameterPath: "tenantId",
+  mapper: EntraAssignmentCreateOrUpdateRequestMapper,
+};
+
+export const principalType1: OperationParameter = {
+  parameterPath: "principalType",
+  mapper: EntraAssignmentCreateOrUpdateRequestMapper,
+};
+
+export const clientIds1: OperationParameter = {
+  parameterPath: "clientIds",
+  mapper: EntraAssignmentCreateOrUpdateRequestMapper,
 };
