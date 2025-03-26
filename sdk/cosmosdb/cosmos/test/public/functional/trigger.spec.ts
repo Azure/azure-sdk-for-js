@@ -64,13 +64,13 @@ describe("NodeJS CRUD Tests", { timeout: 10000 }, () => {
 
       // replace trigger
       // prettier-ignore
-      trigger.body = () => { const x = 20; console.log(x); };
+      trigger.body = function () { const x = 20; console.log(x); };
       const { resource: replacedTrigger } = await container.scripts
         .trigger(trigger.id)
         .replace(trigger);
 
       assert.equal(replacedTrigger.id, trigger.id);
-      assert.equal(replacedTrigger.body, "() => { const x = 20; console.log(x); }");
+      assert.equal(replacedTrigger.body, "function () { const x = 20; console.log(x); }");
 
       // read trigger
       const { resource: triggerAfterReplace } = await container.scripts
@@ -95,7 +95,7 @@ describe("NodeJS CRUD Tests", { timeout: 10000 }, () => {
     const triggers: TriggerDefinition[] = [
       {
         id: "t1",
-        body: () => {
+        body: function () {
           const item = getContext().getRequest().getBody();
           item.id = item.id.toUpperCase() + "t1";
           getContext().getRequest().setBody(item);
@@ -111,7 +111,7 @@ describe("NodeJS CRUD Tests", { timeout: 10000 }, () => {
       },
       {
         id: "t3",
-        body: () => {
+        body: function () {
           const item = getContext().getRequest().getBody();
           item.id = item.id.toLowerCase() + "t3";
           getContext().getRequest().setBody(item);
@@ -121,7 +121,7 @@ describe("NodeJS CRUD Tests", { timeout: 10000 }, () => {
       },
       {
         id: "response1",
-        body: () => {
+        body: function () {
           const prebody = getContext().getRequest().getBody();
           if (prebody.id !== "TESTING POST TRIGGERt1") throw "name mismatch";
           const postbody = getContext().getResponse().getBody();
