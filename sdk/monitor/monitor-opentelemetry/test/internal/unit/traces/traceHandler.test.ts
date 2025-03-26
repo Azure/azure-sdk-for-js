@@ -231,8 +231,7 @@ describe("Library/TraceHandler", () => {
       );
     });
 
-    // TODO: these tests pass in isolation but not as a group due to test pollution. Resolve the test pollution separately
-    it.todo("should not track dependencies if configured off", async () => {
+    it("should not track dependencies if configured off", async () => {
       const httpConfig: HttpInstrumentationConfig = {
         enabled: true,
         ignoreOutgoingRequestHook: () => true,
@@ -246,7 +245,7 @@ describe("Library/TraceHandler", () => {
       assert.deepStrictEqual(spans[0].kind, 1, "Span Kind"); // Incoming only
     });
 
-    it.todo("should not track requests if configured off", async () => {
+    it("should not track requests if configured off", async () => {
       const httpConfig: HttpInstrumentationConfig = {
         enabled: true,
         ignoreIncomingRequestHook: () => true,
@@ -260,7 +259,7 @@ describe("Library/TraceHandler", () => {
       assert.deepStrictEqual(spans[0].kind, 2, "Span Kind"); // Outgoing only
     });
 
-    it.todo("http should not track if instrumentations are disabled", async () => {
+    it("http should not track if instrumentations are disabled", async () => {
       createHandler({ enabled: false });
       await makeHttpRequest();
       await makeHttpRequest();
