@@ -37,7 +37,7 @@ enum Tools {
   FileSearch = "file_search",
   Function = "function",
   BingGrounding = "bing_grounding",
-  MicrosoftFabric = "fabric_aiskill",
+  MicrosoftFabric = "fabric_dataagent",
   SharepointGrounding = "sharepoint_grounding",
   AzureAISearch = "azure_ai_search",
   OpenApi = "openapi",
@@ -200,7 +200,7 @@ function validateCreateAgentParameters(
   if (options.body.tools) {
     if (options.body.tools.some((value) => !Object.values(Tools).includes(value.type as Tools))) {
       throw new Error(
-        "Tool type must be one of 'code_interpreter', 'file_search', 'function', 'bing_grounding', 'fabric_aiskill', 'sharepoint_grounding', 'azure_ai_search', 'azure_function'",
+        "Tool type must be one of 'code_interpreter', 'file_search', 'function', 'bing_grounding', 'fabric_dataagent', 'sharepoint_grounding', 'azure_ai_search', 'azure_function'",
       );
     }
   }
