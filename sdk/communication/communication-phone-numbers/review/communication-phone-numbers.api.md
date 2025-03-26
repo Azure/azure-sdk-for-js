@@ -30,7 +30,32 @@ export interface BeginUpdatePhoneNumberCapabilitiesOptions extends OperationOpti
 }
 
 // @public
+export type ExpandEnum = string;
+
+// @public
 export type GetPurchasedPhoneNumberOptions = OperationOptions;
+
+// @public
+export interface GetSipTrunksOptions extends SipRoutingGetOptionalParams {
+}
+
+// @public
+export interface Health {
+    overall: OverallHealth;
+    ping: Ping;
+    tls: Tls;
+}
+
+// @public
+export type InactiveStatusReason = "noRecentCalls" | "noRecentPings" | "noRecentCallsAndPings";
+
+// @public
+export type IpAddressVersion = "ipv4" | "ipv6";
+
+// @public
+export enum KnownExpandEnum {
+    TrunksHealth = "trunks/health"
+}
 
 // @public
 export interface ListAvailableCountriesOptions extends OperationOptions {
@@ -63,7 +88,7 @@ export interface ListSipRoutesOptions extends OperationOptions {
 }
 
 // @public
-export interface ListSipTrunksOptions extends OperationOptions {
+export interface ListSipTrunksOptions extends SipRoutingGetOptionalParams {
 }
 
 // @public
@@ -99,6 +124,15 @@ export interface OperatorInformationResult {
 
 // @public
 export type OperatorNumberType = "unknown" | "other" | "geographic" | "mobile";
+
+// @public
+export interface OverallHealth {
+    reason?: InactiveStatusReason;
+    status: OverallHealthStatus;
+}
+
+// @public
+export type OverallHealthStatus = "unknown" | "active" | "inactive";
 
 // @public
 export interface PhoneNumberAdministrativeDivision {
@@ -214,6 +248,17 @@ export interface PhoneNumbersListAreaCodesOptionalParams extends coreClient.Oper
 export type PhoneNumberType = "geographic" | "tollFree";
 
 // @public
+export interface Ping {
+    status: PingStatus;
+}
+
+// @public
+export type PingStatus = "unknown" | "ok" | "expired" | "error";
+
+// @public
+export type PrivacyHeader = "id" | "none";
+
+// @public
 export interface PurchasedPhoneNumber {
     assignmentType: PhoneNumberAssignmentType;
     capabilities: PhoneNumberCapabilities;
@@ -234,6 +279,11 @@ export interface ReleasePhoneNumberResult {
 }
 
 // @public
+export interface RoutesForNumber {
+    matchingRoutes?: SipTrunkRoute[];
+}
+
+// @public
 export interface SearchAvailablePhoneNumbersRequest extends PhoneNumberSearchRequest {
     countryCode: string;
 }
@@ -250,12 +300,13 @@ export class SipRoutingClient {
     constructor(endpoint: string, credential: KeyCredential, options?: SipRoutingClientOptions);
     constructor(endpoint: string, credential: TokenCredential, options?: SipRoutingClientOptions);
     deleteTrunk(fqdn: string, options?: OperationOptions): Promise<void>;
-    getTrunk(fqdn: string, options?: OperationOptions): Promise<SipTrunk>;
+    getTrunk(fqdn: string, options?: GetSipTrunksOptions): Promise<SipTrunk>;
     listRoutes(options?: ListSipRoutesOptions): PagedAsyncIterableIterator<SipTrunkRoute>;
     listTrunks(options?: ListSipTrunksOptions): PagedAsyncIterableIterator<SipTrunk>;
     setRoutes(routes: SipTrunkRoute[], options?: OperationOptions): Promise<SipTrunkRoute[]>;
     setTrunk(trunk: SipTrunk, options?: OperationOptions): Promise<SipTrunk>;
     setTrunks(trunks: SipTrunk[], options?: OperationOptions): Promise<SipTrunk[]>;
+    testRoutesWithNumber(targetPhoneNumber: string, routes: SipTrunkRoute[], options?: OperationOptions): Promise<TestRoutesWithNumberResponse>;
 }
 
 // @public
@@ -272,18 +323,41 @@ export interface SipRoutingError {
 }
 
 // @public
+export interface SipRoutingGetOptionalParams extends coreClient.OperationOptions {
+    expand?: ExpandEnum;
+}
+
+// @public
 export interface SipTrunk {
+    directTransfer?: boolean;
+    enabled?: boolean;
     fqdn: string;
+    health?: Health;
+    ipAddressVersion?: IpAddressVersion;
+    privacyHeader?: PrivacyHeader;
     sipSignalingPort: number;
 }
 
 // @public
 export interface SipTrunkRoute {
+    callerIdOverride?: string;
     description?: string;
     name: string;
     numberPattern: string;
     trunks?: string[];
 }
+
+// @public
+export interface TestRoutesWithNumberResponse extends RoutesForNumber {
+}
+
+// @public
+export interface Tls {
+    status: TlsStatus;
+}
+
+// @public
+export type TlsStatus = "unknown" | "ok" | "certExpiring" | "certExpired";
 
 // (No @packageDocumentation comment for this package)
 
