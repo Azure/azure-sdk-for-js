@@ -9,11 +9,7 @@
  */
 
 import type { MessageContentOutput, MessageTextContentOutput } from "@azure/ai-projects";
-import {
-  AIProjectsClient,
-  ToolUtility,
-  isOutputOfType,
-} from "@azure/ai-projects";
+import { AIProjectsClient, ToolUtility, isOutputOfType } from "@azure/ai-projects";
 import { delay } from "@azure/core-util";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
