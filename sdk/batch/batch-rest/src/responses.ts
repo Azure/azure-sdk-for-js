@@ -17,6 +17,9 @@ import type {
   BatchJobListResultOutput,
   BatchJobPreparationAndReleaseTaskStatusListResultOutput,
   BatchTaskCountsResultOutput,
+  BatchCertificateListResultOutput,
+  BatchCertificateStateOutput,
+  DeleteBatchCertificateErrorOutput,
   BatchJobScheduleOutput,
   BatchJobScheduleListResultOutput,
   BatchTaskListResultOutput,
@@ -728,6 +731,132 @@ export interface GetJobTaskCounts200Response extends HttpResponse {
 }
 
 export interface GetJobTaskCountsDefaultResponse extends HttpResponse {
+  status: string;
+  body: BatchErrorOutput;
+}
+
+export interface CreateCertificate201Headers {
+  /** The OData ID of the resource to which the request applied. */
+  dataserviceid: string;
+  /** The ETag HTTP response header. This is an opaque string. You can use it to detect whether the resource has changed between requests. In particular, you can pass the ETag to one of the If-Modified-Since, If-Unmodified-Since, If-Match or If-None-Match headers. */
+  etag?: string;
+  /** The time at which the resource was last modified. */
+  "last-modified"?: string;
+  /** The client-request-id provided by the client during the request. This will be returned only if the return-client-request-id parameter was set to true. */
+  "client-request-id"?: string;
+  /** A unique identifier for the request that was made to the Batch service. If a request is consistently failing and you have verified that the request is properly formulated, you may use this value to report the error to Microsoft. In your report, include the value of this request ID, the approximate time that the request was made, the Batch Account against which the request was made, and the region that Account resides in. */
+  "request-id"?: string;
+}
+
+/** The request has succeeded and a new resource has been created as a result. */
+export interface CreateCertificate201Response extends HttpResponse {
+  status: "201";
+  headers: RawHttpHeaders & CreateCertificate201Headers;
+}
+
+export interface CreateCertificateDefaultResponse extends HttpResponse {
+  status: string;
+  body: BatchErrorOutput;
+}
+
+export interface ListCertificates200Headers {
+  /** The ETag HTTP response header. This is an opaque string. You can use it to detect whether the resource has changed between requests. In particular, you can pass the ETag to one of the If-Modified-Since, If-Unmodified-Since, If-Match or If-None-Match headers. */
+  etag?: string;
+  /** The time at which the resource was last modified. */
+  "last-modified"?: string;
+  /** The client-request-id provided by the client during the request. This will be returned only if the return-client-request-id parameter was set to true. */
+  "client-request-id"?: string;
+  /** A unique identifier for the request that was made to the Batch service. If a request is consistently failing and you have verified that the request is properly formulated, you may use this value to report the error to Microsoft. In your report, include the value of this request ID, the approximate time that the request was made, the Batch Account against which the request was made, and the region that Account resides in. */
+  "request-id"?: string;
+}
+
+/** The request has succeeded. */
+export interface ListCertificates200Response extends HttpResponse {
+  status: "200";
+  body: BatchCertificateListResultOutput;
+  headers: RawHttpHeaders & ListCertificates200Headers;
+}
+
+export interface ListCertificatesDefaultResponse extends HttpResponse {
+  status: string;
+  body: BatchErrorOutput;
+}
+
+export interface CancelCertificateDeletion204Headers {
+  /** The OData ID of the resource to which the request applied. */
+  dataserviceid: string;
+  /** The ETag HTTP response header. This is an opaque string. You can use it to detect whether the resource has changed between requests. In particular, you can pass the ETag to one of the If-Modified-Since, If-Unmodified-Since, If-Match or If-None-Match headers. */
+  etag?: string;
+  /** The time at which the resource was last modified. */
+  "last-modified"?: string;
+  /** The client-request-id provided by the client during the request. This will be returned only if the return-client-request-id parameter was set to true. */
+  "client-request-id"?: string;
+  /** A unique identifier for the request that was made to the Batch service. If a request is consistently failing and you have verified that the request is properly formulated, you may use this value to report the error to Microsoft. In your report, include the value of this request ID, the approximate time that the request was made, the Batch Account against which the request was made, and the region that Account resides in. */
+  "request-id"?: string;
+}
+
+/** There is no content to send for this request, but the headers may be useful. */
+export interface CancelCertificateDeletion204Response extends HttpResponse {
+  status: "204";
+  headers: RawHttpHeaders & CancelCertificateDeletion204Headers;
+}
+
+export interface CancelCertificateDeletionDefaultResponse extends HttpResponse {
+  status: string;
+  body: BatchErrorOutput;
+}
+
+export interface DeleteCertificate202Headers {
+  /** The ETag HTTP response header. This is an opaque string. You can use it to detect whether the resource has changed between requests. In particular, you can pass the ETag to one of the If-Modified-Since, If-Unmodified-Since, If-Match or If-None-Match headers. */
+  etag?: string;
+  /** The time at which the resource was last modified. */
+  "last-modified"?: string;
+  /** The client-request-id provided by the client during the request. This will be returned only if the return-client-request-id parameter was set to true. */
+  "client-request-id"?: string;
+  /** A unique identifier for the request that was made to the Batch service. If a request is consistently failing and you have verified that the request is properly formulated, you may use this value to report the error to Microsoft. In your report, include the value of this request ID, the approximate time that the request was made, the Batch Account against which the request was made, and the region that Account resides in. */
+  "request-id"?: string;
+}
+
+/** The request has been accepted for processing, but processing has not yet completed. */
+export interface DeleteCertificate202Response extends HttpResponse {
+  status: "202";
+  headers: RawHttpHeaders & DeleteCertificate202Headers;
+}
+
+export interface DeleteCertificateDefaultResponse extends HttpResponse {
+  status: string;
+  body: BatchErrorOutput;
+}
+
+export interface GetCertificate200Headers {
+  /** The ETag HTTP response header. This is an opaque string. You can use it to detect whether the resource has changed between requests. In particular, you can pass the ETag to one of the If-Modified-Since, If-Unmodified-Since, If-Match or If-None-Match headers. */
+  etag?: string;
+  /** The time at which the resource was last modified. */
+  "last-modified"?: string;
+  /** The client-request-id provided by the client during the request. This will be returned only if the return-client-request-id parameter was set to true. */
+  "client-request-id"?: string;
+  /** A unique identifier for the request that was made to the Batch service. If a request is consistently failing and you have verified that the request is properly formulated, you may use this value to report the error to Microsoft. In your report, include the value of this request ID, the approximate time that the request was made, the Batch Account against which the request was made, and the region that Account resides in. */
+  "request-id"?: string;
+}
+
+/** The request has succeeded. */
+export interface GetCertificate200Response extends HttpResponse {
+  status: "200";
+  body: {
+    thumbprint: string;
+    thumbprintAlgorithm: string;
+    url?: string;
+    state?: BatchCertificateStateOutput;
+    stateTransitionTime?: string;
+    previousState?: BatchCertificateStateOutput;
+    previousStateTransitionTime?: string;
+    publicData?: string;
+    deleteCertificateError?: DeleteBatchCertificateErrorOutput;
+  };
+  headers: RawHttpHeaders & GetCertificate200Headers;
+}
+
+export interface GetCertificateDefaultResponse extends HttpResponse {
   status: string;
   body: BatchErrorOutput;
 }

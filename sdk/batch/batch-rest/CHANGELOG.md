@@ -1,5 +1,11 @@
 # Release History
 
+## 1.0.0 (2025-03-27)
+
+### Features Added
+
+This release is the first stable release of the @azure-rest/batch client library.
+
 ## 1.0.0-beta.2 (2024-11-07)
 
 ### Features Added
