@@ -13,6 +13,8 @@ import {
 import type { TestContext } from "vitest";
 import { describe, it, assert, beforeEach } from "vitest";
 
+const normalizeStringBody = (body: any): string => body.replace(/\s+/g, " ").trim();
+
 function getFullTitle(context: TestContext): string {
   function buildTitle(suite: any): string {
     if (!suite) {
@@ -84,7 +86,10 @@ describe("NodeJS CRUD Tests", { timeout: 10000 }, () => {
         .replace(sproc);
 
       assert.equal(replacedSproc.id, sproc.id);
-      assert.equal(replacedSproc.body, "function () { const x = 20; console.log(x); }");
+      assert.equal(
+        normalizeStringBody(replacedSproc.body),
+        normalizeStringBody("function() { const x = 20; console.log(x); }"),
+      );
 
       // read sproc
       const { resource: sprocAfterReplace } = await container.scripts

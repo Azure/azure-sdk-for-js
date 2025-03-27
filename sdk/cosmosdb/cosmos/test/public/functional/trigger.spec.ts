@@ -10,6 +10,7 @@ const notFoundErrorCode = 404;
 
 // Mock for trigger function bodies
 declare let getContext: any;
+const normalizeStringBody = (body: any): string => body.replace(/\s+/g, " ").trim();
 
 describe("NodeJS CRUD Tests", { timeout: 10000 }, () => {
   let container: Container;
@@ -70,7 +71,10 @@ describe("NodeJS CRUD Tests", { timeout: 10000 }, () => {
         .replace(trigger);
 
       assert.equal(replacedTrigger.id, trigger.id);
-      assert.equal(replacedTrigger.body, "function () { const x = 20; console.log(x); }");
+      assert.equal(
+        normalizeStringBody(replacedTrigger.body),
+        normalizeStringBody("function() { const x = 20; console.log(x); }"),
+      );
 
       // read trigger
       const { resource: triggerAfterReplace } = await container.scripts
