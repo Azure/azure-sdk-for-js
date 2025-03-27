@@ -11,19 +11,18 @@
 
 import type { ConversationalTask } from "@azure/ai-language-conversations";
 import { ConversationAnalysisClient } from "@azure/ai-language-conversations";
-import { AzureKeyCredential } from "@azure/core-auth";
+import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
 const cluEndpoint =
-  process.env.AZURE_CONVERSATIONS_ENDPOINT || "https://dummyendpoint.cognitiveservices.azure.com";
-const cluKey = process.env.AZURE_CONVERSATIONS_KEY || "<api-key>";
+  process.env.LANGUAGE_ENDPOINT || "https://dummyendpoint.cognitiveservices.azure.com";
 const projectName = process.env.AZURE_CONVERSATIONS_WORKFLOW_PROJECT_NAME || "<project-name>";
 const deploymentName =
   process.env.AZURE_CONVERSATIONS_WORKFLOW_DEPLOYMENT_NAME || "<deployment-name>";
 
 const service: ConversationAnalysisClient = new ConversationAnalysisClient(
   cluEndpoint,
-  new AzureKeyCredential(cluKey),
+  new DefaultAzureCredential(),
 );
 
 const query = "How are you?";

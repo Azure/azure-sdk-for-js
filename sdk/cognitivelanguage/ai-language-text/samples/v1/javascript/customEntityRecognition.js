@@ -8,14 +8,14 @@
  * @summary detects custom text in a piece of text
  */
 
-const { AzureKeyCredential, TextAnalysisClient } = require("@azure/ai-language-text");
+const { TextAnalysisClient } = require("@azure/ai-language-text");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 // Load the .env file if it exists
-require("dotenv").config();
+require("dotenv/config");
 
 // You will need to set these environment variables or edit the following values
-const endpoint = process.env["ENDPOINT"] || "<cognitive language service endpoint>";
-const apiKey = process.env["AZURE_LANGUAGE_KEY"] || "<api key>";
+const endpoint = process.env["LANGUAGE_ENDPOINT"] || "<cognitive language service endpoint>";
 const deploymentName = process.env["CUSTOM_ENTITIES_DEPLOYMENT_NAME"] || "deployment name";
 const projectName = process.env["CUSTOM_ENTITIES_PROJECT_NAME"] || "deployment name";
 
@@ -27,7 +27,7 @@ const documents = [
 async function main() {
   console.log("== Custom Entity Recognition Sample ==");
 
-  const client = new TextAnalysisClient(endpoint, new AzureKeyCredential(apiKey));
+  const client = new TextAnalysisClient(endpoint, new DefaultAzureCredential());
   const actions = [
     {
       kind: "CustomEntityRecognition",
