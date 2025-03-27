@@ -32,18 +32,13 @@ export const EnvVarKeys = {
   TEST_MODE: "TEST_MODE",
 } as const;
 
-export const ENDPOINT = "https://endpoint";
+export const ENDPOINT = "https://endpoint/";
 export const KEY = "api_key";
 export const DISABLE_LOCAL_AUTH = false;
-export const TRAINING_CONTAINER_SAS_URL = "https://training_container_sas_url";
-export const TESTING_CONTAINER_SAS_URL = "https://testing_container_sas_url";
-export const SELECTION_MARK_STORAGE_CONTAINER_SAS_URL =
-  "https://selection_mark_storage_container_sas_url";
-export const CLASSIFIER_TRAINING_DATA_CONTAINER_SAS_URL =
-  "https://classifier_training_data_container_sas_url";
-export const BATCH_TRAINING_DATA_CONTAINER_SAS_URL =
-  "https://batch_training_data_container_sas_url";
-export const BATCH_TRAINING_DATA_RESULT_CONTAINER_SAS_URL =
-  "https://batch_training_data_result_container_sas_url";
-export const MULTIPAGE_TRAINING_DATA_CONTAINER_SAS_URL =
-  "https://multipage_training_data_container_sas_url";
+export const TRAINING_CONTAINER_SAS_URL = "Sanitized";
+export const TESTING_CONTAINER_SAS_URL = "Sanitized";
+export const SELECTION_MARK_STORAGE_CONTAINER_SAS_URL = "Sanitized";
+export const CLASSIFIER_TRAINING_DATA_CONTAINER_SAS_URL = "Sanitized";
+export const BATCH_TRAINING_DATA_CONTAINER_SAS_URL = "Sanitized";
+export const BATCH_TRAINING_DATA_RESULT_CONTAINER_SAS_URL = "Sanitized";
+export const MULTIPAGE_TRAINING_DATA_CONTAINER_SAS_URL = "Sanitized";

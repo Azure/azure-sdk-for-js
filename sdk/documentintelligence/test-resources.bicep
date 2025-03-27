@@ -1,5 +1,6 @@
 param baseName string = resourceGroup().name
-param location string = 'eastus'
+param location string = resourceGroup().location
+param testApplicationOid string
 param supportsSafeSecretStandard bool = false
 param storageResourceGroup string = 'static-test-resources'
 param blobStorageAccount string = 'azuresdktrainingdatatme'
@@ -11,6 +12,8 @@ param testingDataContainer string = 'testingdata'
 param multiPageTestingDataContainer string = 'multipage-training-data-v3'
 param classifierTrainingDataContainer string = 'training-data-classifier'
 
+var frRoleId = 'a97b65f3-24c7-4388-baec-2e87135dc908'
+
 resource cognitiveServicesAccount 'Microsoft.CognitiveServices/accounts@2024-10-01' = {
   name: baseName
   location: location
@@ -20,6 +23,14 @@ resource cognitiveServicesAccount 'Microsoft.CognitiveServices/accounts@2024-10-
     customSubDomainName: baseName
     disableLocalAuth: supportsSafeSecretStandard
     publicNetworkAccess: 'Enabled'
+  }
+}
+
+resource roleAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
+  name: guid(frRoleId, cognitiveServicesAccount.name)
+  properties: {
+    roleDefinitionId: resourceId('Microsoft.Authorization/roleDefinitions', frRoleId)
+    principalId: testApplicationOid
   }
 }
 
