@@ -33,6 +33,7 @@ Use the AI Projects client library (in preview) to:
       - [Bing grounding](#create-agent-with-bing-grounding)
       - [Azure AI Search](#create-agent-with-azure-ai-search)
       - [Function call](#create-agent-with-function-call)
+      - [Fabric Data](#create-an-agent-with-fabric)
     - [Create thread](#create-thread) with
       - [Tool resource](#create-thread-with-tool-resource)
     - [Create message](#create-message) with:
@@ -376,6 +377,32 @@ const agent = await client.agents.createAgent("gpt-4o", {
   tools: functionTools,
 });
 console.log(`Created agent, agent ID: ${agent.id}`);
+```
+
+#### Create an Agent with Fabric
+
+To enable your Agent to answer queries using Fabric data, use `FabricTool` along with a connection to the Fabric resource.
+
+Here is an example:
+
+```ts snippet:createAgentWithFabric
+const fabricConnection = await client.connections.getConnection(
+  process.env["FABRIC_CONNECTION_NAME"] || "<connection-name>",
+);
+
+const connectionId = fabricConnection.id;
+
+// Initialize agent Microsoft Fabric tool with the connection id
+const fabricTool = ToolUtility.createFabricTool(connectionId);
+
+// Create agent with the Microsoft Fabric tool and process assistant run
+const agent = await client.agents.createAgent("gpt-4o", {
+  name: "my-agent",
+  instructions: "You are a helpful agent",
+  tools: [fabricTool.definition],
+  toolResources: {}, // Add empty tool_resources which is required by the API
+});
+console.log(`Created agent, agent ID : ${agent.id}`);
 ```
 
 #### Create Thread
