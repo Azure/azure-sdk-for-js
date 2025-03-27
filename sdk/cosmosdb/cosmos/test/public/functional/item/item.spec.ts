@@ -34,7 +34,6 @@ import {
 import { PriorityLevel } from "../../../../src/documents/PriorityLevel.js";
 import { getCurrentTimestampInMs } from "../../../../src/utils/time.js";
 import { describe, it, assert, beforeEach, beforeAll } from "vitest";
-import { before } from "node:test";
 
 /**
  * Tests Item api.
@@ -246,7 +245,7 @@ describe(
   "Create, Upsert, Read, Update, Replace, Delete Operations on Item",
   { timeout: 10000 },
   () => {
-    before(async () => {
+    beforeAll(async () => {
       await removeAllDatabases();
     });
 
