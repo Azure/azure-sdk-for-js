@@ -380,7 +380,7 @@ export interface AgentOutput {
 }
 
 /** The response data for a requested list of items. */
-export interface OpenAIPageableListOfOutput {
+export interface OpenAIPageableListOfAgentOutput {
   /** The object type, which is always list. */
   object: "list";
   /** The requested list of items. */
@@ -410,7 +410,7 @@ export interface MessageAttachmentOutput {
   /** Azure asset ID. */
   data_source?: VectorStoreDataSourceOutput;
   /** The tools to add to this file. */
-  tools: MessageAttachmentToolDefinitionOutput[];
+  tools: Array<MessageAttachmentToolDefinitionOutput>;
 }
 
 /** Information about a single thread associated with an agent. */
@@ -599,7 +599,7 @@ export interface MessageImageFileDetailsOutput {
 }
 
 /** The response data for a requested list of items. */
-export interface OpenAIPageableListOfOutput {
+export interface OpenAIPageableListOfThreadMessageOutput {
   /** The object type, which is always list. */
   object: "list";
   /** The requested list of items. */
@@ -813,7 +813,7 @@ export interface UpdateFileSearchToolResourceOptionsOutput {
 }
 
 /** The response data for a requested list of items. */
-export interface OpenAIPageableListOfOutput {
+export interface OpenAIPageableListOfThreadRunOutput {
   /** The object type, which is always list. */
   object: "list";
   /** The requested list of items. */
@@ -1090,7 +1090,7 @@ export interface RunStepCompletionUsageOutput {
 }
 
 /** The response data for a requested list of items. */
-export interface OpenAIPageableListOfOutput {
+export interface OpenAIPageableListOfRunStepOutput {
   /** The object type, which is always list. */
   object: "list";
   /** The requested list of items. */
@@ -1150,7 +1150,7 @@ export interface FileDeletionStatusOutput {
 }
 
 /** The response data for a requested list of items. */
-export interface OpenAIPageableListOfOutput {
+export interface OpenAIPageableListOfVectorStoreOutput {
   /** The object type, which is always list. */
   object: "list";
   /** The requested list of items. */
@@ -1241,7 +1241,7 @@ export interface VectorStoreDeletionStatusOutput {
 }
 
 /** The response data for a requested list of items. */
-export interface OpenAIPageableListOfOutput {
+export interface OpenAIPageableListOfVectorStoreFileOutput {
   /** The object type, which is always list. */
   object: "list";
   /** The requested list of items. */
@@ -1522,7 +1522,7 @@ export interface TargetModelConfigOutputParent {
 }
 
 /** Azure OpenAI model configuration. The API version would be selected by the service for querying the model. */
-export interface AOAIModelConfigOutput extends TargetModelConfigOutputParent {
+export interface AoaiModelConfigOutput extends TargetModelConfigOutputParent {
   readonly type: "AOAI";
   /** Endpoint URL for AOAI model. */
   azureEndpoint: string;
@@ -1533,7 +1533,7 @@ export interface AOAIModelConfigOutput extends TargetModelConfigOutputParent {
 }
 
 /** MaaS model configuration. The API version would be selected by the service for querying the model. */
-export interface MAASModelConfigOutput extends TargetModelConfigOutputParent {
+export interface MaasModelConfigOutput extends TargetModelConfigOutputParent {
   readonly type: "MAAS";
   /** Endpoint URL for MAAS model. */
   azureEndpoint: string;
@@ -1720,8 +1720,8 @@ export type InputDataOutput =
 /** Abstract class for model configuration. */
 export type TargetModelConfigOutput =
   | TargetModelConfigOutputParent
-  | AOAIModelConfigOutput
-  | MAASModelConfigOutput;
+  | AoaiModelConfigOutput
+  | MaasModelConfigOutput;
 /** Abstract data class for input data configuration. */
 export type TriggerOutput =
   | TriggerOutputParent

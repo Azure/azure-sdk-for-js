@@ -441,7 +441,7 @@ export interface MessageAttachment {
   /** Azure asset ID. */
   data_source?: VectorStoreDataSource;
   /** The tools to add to this file. */
-  tools: MessageAttachmentToolDefinition[];
+  tools: Array<MessageAttachmentToolDefinition>;
 }
 
 /** The details used to update an existing agent thread */
@@ -643,6 +643,12 @@ export interface CreateAndRunThreadOptions {
   metadata?: Record<string, string> | null;
 }
 
+export interface HttpPartFile {}
+
+export interface HttpPartFilePurpose {}
+
+export interface HttpPartString {}
+
 /** The expiration policy for a vector store. */
 export interface VectorStoreExpirationPolicy {
   /**
@@ -770,7 +776,7 @@ export interface TargetModelConfigParent {
 }
 
 /** Azure OpenAI model configuration. The API version would be selected by the service for querying the model. */
-export interface AOAIModelConfig extends TargetModelConfigParent {
+export interface AoaiModelConfig extends TargetModelConfigParent {
   /** Endpoint URL for AOAI model. */
   azureEndpoint: string;
   /** API Key for AOAI model. */
@@ -780,7 +786,7 @@ export interface AOAIModelConfig extends TargetModelConfigParent {
 }
 
 /** MaaS model configuration. The API version would be selected by the service for querying the model. */
-export interface MAASModelConfig extends TargetModelConfigParent {
+export interface MaasModelConfig extends TargetModelConfigParent {
   /** Endpoint URL for MAAS model. */
   azureEndpoint: string;
   /** API Key for MAAS model. */
@@ -884,8 +890,8 @@ export type InputData =
 /** Abstract class for model configuration. */
 export type TargetModelConfig =
   | TargetModelConfigParent
-  | AOAIModelConfig
-  | MAASModelConfig;
+  | AoaiModelConfig
+  | MaasModelConfig;
 /** Abstract data class for input data configuration. */
 export type Trigger = TriggerParent | RecurrenceTrigger | CronTrigger;
 /** Alias for OpenApiAuthType */

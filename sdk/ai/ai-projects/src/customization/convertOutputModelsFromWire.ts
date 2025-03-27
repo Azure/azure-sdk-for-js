@@ -204,7 +204,7 @@ function convertAzureAISearchResourceOutput(
 }
 
 function convertIndexResourceOutput(
-  input: GeneratedModels.IndexResourceOutput,
+  input: GeneratedModels.AISearchIndexResourceOutput,
 ): PublicModels.IndexResourceOutput {
   return { indexConnectionId: input.index_connection_id, indexName: input.index_name };
 }
