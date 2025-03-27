@@ -140,6 +140,7 @@ export function createTestPoller(
     routes: LroResponseSpec[];
     implName?: ImplementationName;
     throwOnNon2xxResponse?: boolean;
+    skipFinalGet?: boolean;
   },
 ): PollerLike<State, Result> {
   const {
@@ -147,6 +148,7 @@ export function createTestPoller(
     implName = "createPoller",
     throwOnNon2xxResponse = true,
     restoreFrom,
+    skipFinalGet = false,
     ...rest
   } = settings;
   const client = createClient({ routes: toLroProcessors(routes), throwOnNon2xxResponse });
@@ -170,6 +172,7 @@ export function createTestPoller(
         intervalInMs: 0,
         resolveOnUnsuccessful: !throwOnNon2xxResponse,
         restoreFrom,
+        skipFinalGet,
         ...rest,
       });
     }
@@ -186,6 +189,7 @@ async function runLro(
     updateState?: (state: State, lastResponse: RawResponse) => void;
     implName?: ImplementationName;
     throwOnNon2xxResponse?: boolean;
+    skipFinalGet?: boolean;
   },
 ): Promise<Result> {
   const {
@@ -194,6 +198,7 @@ async function runLro(
     updateState,
     implName = "createPoller",
     throwOnNon2xxResponse = true,
+    skipFinalGet,
     ...rest
   } = settings;
   const poller = createTestPoller({
@@ -201,6 +206,7 @@ async function runLro(
     updateState: (state, { rawResponse }) => updateState?.(state, rawResponse),
     implName,
     throwOnNon2xxResponse,
+    skipFinalGet,
     ...rest,
   });
   if (onProgress !== undefined) {
@@ -217,5 +223,6 @@ export const createRunLroWith =
     resourceLocationConfig?: ResourceLocationConfig;
     processResult?: (result: unknown, state: State) => Promise<Result>;
     updateState?: (state: State, lastResponse: RawResponse) => void;
+    skipFinalGet?: boolean;
   }): Promise<Result> =>
     runLro({ ...settings, ...variables });
