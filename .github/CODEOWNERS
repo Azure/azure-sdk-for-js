@@ -1004,8 +1004,8 @@ sdk/ai/ai-projects @ganeshyb @GraceBrigham
 
 # PRLabel: %Monitor
 /sdk/monitor/monitor-ingestion/ @srnagar @lmolkova @Azure/azure-sdk-write-monitor-data-plane
-/sdk/monitor/monitor-opentelemetry @hectorhdzg @JacksonWeber @harsimar @MSNev
-/sdk/monitor/monitor-opentelemetry-exporter @hectorhdzg @JacksonWeber @harsimar @MSNev
+/sdk/monitor/monitor-opentelemetry @hectorhdzg @JacksonWeber @harsimar @MSNev @Karlie-777 @siyuniu-ms
+/sdk/monitor/monitor-opentelemetry-exporter @hectorhdzg @JacksonWeber @harsimar @MSNev @Karlie-777 @siyuniu-ms
 /sdk/monitor/monitor-query/ @srnagar @lmolkova @Azure/azure-sdk-write-monitor-data-plane
 /sdk/monitor/perf-tests/ @srnagar @Azure/azure-sdk-write-monitor-data-plane
 
