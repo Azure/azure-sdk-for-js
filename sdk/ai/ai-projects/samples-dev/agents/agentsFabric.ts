@@ -15,8 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
 const connectionString =
-  process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] ||
-  "<endpoint>>;<subscription>;<resource group>;<project>";
+  process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] || "<project connection string>";
 
 export async function main(): Promise<void> {
   // Create an Azure AI Client from a connection string, copied from your AI Studio project.
