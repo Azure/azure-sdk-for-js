@@ -16,7 +16,7 @@
     "generateScript": {
       "path": "sh .scripts/automation_generate.sh",
       "stderr": {
-        "showInComment": ".*ERROR.*"
+        "scriptError": ".*ERROR.*"
       }
     },
     "parseGenerateOutput": true
