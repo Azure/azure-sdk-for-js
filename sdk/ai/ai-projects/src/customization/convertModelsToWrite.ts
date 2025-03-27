@@ -262,7 +262,9 @@ function convertAzureAISearchResource(
   };
 }
 
-function convertIndexResource(source: PublicModels.IndexResource): GeneratedModels.AISearchIndexResource {
+function convertIndexResource(
+  source: PublicModels.IndexResource,
+): GeneratedModels.AISearchIndexResource {
   return {
     index_connection_id: source.indexConnectionId,
     index_name: source.indexName,

@@ -116,7 +116,8 @@ function convertMicrosoftFabricToolDefinitionOutput(
 ): PublicModels.MicrosoftFabricToolDefinitionOutput {
   return {
     type: "fabric_dataagent",
-    fabricAISkill: input.fabric_dataagent && convertToolConnectionListOutput(input.fabric_dataagent),
+    fabricAISkill:
+      input.fabric_dataagent && convertToolConnectionListOutput(input.fabric_dataagent),
   };
 }
 

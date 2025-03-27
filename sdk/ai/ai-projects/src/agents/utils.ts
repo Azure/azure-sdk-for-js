@@ -181,15 +181,14 @@ export class ToolUtility {
    * @param connectionIds - A list of the IDs of the Fabric connections to use.
    * @returns An object containing the definition for the Microsoft Fabric tool
    */
-  static createFabricTool( connectionId:string,
-  ): { definition: ToolDefinition } {
+  static createFabricTool(connectionId: string): { definition: ToolDefinition } {
     return {
       definition: {
         type: "fabric_dataagent",
-        fabricAISkill:{
-          connections: [{ connectionId: connectionId }]
-        }
-      }
+        fabricAISkill: {
+          connections: [{ connectionId: connectionId }],
+        },
+      },
     };
   }
 
@@ -359,7 +358,7 @@ export class ToolSet {
     this.toolResources = { ...this.toolResources, ...tool.resources };
     return tool;
   }
-    /**
+  /**
    * Adds a Microsoft Fabric tool to the tool set.
    *
    * @param connectionId - The ID of the Fabric connection to use.
