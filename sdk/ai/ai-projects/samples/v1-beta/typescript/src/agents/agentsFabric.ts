@@ -11,23 +11,27 @@ import type { MessageContentOutput, MessageTextContentOutput } from "@azure/ai-p
 import {
   AIProjectsClient,
   ToolUtility,
-  connectionToolType,
   isOutputOfType,
 } from "@azure/ai-projects";
 import { delay } from "@azure/core-util";
 import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
 
-import * as dotenv from "dotenv";
-dotenv.config();
-
-const connectionString = process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] || "<endpoint>>;<subscription>;<resource group>;<project>";
+const connectionString =
+  process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] ||
+  "<endpoint>>;<subscription>;<resource group>;<project>";
 
 export async function main(): Promise<void> {
   // Create an Azure AI Client from a connection string, copied from your AI Studio project.
   // At the moment, it should be in the format "<HostName>;<AzureSubscriptionId>;<ResourceGroup>;<HubName>"
   // Customer needs to login to Azure subscription via Azure CLI and set the environment variables
-  const client = AIProjectsClient.fromConnectionString(connectionString || "", new DefaultAzureCredential());
-  const fabricConnection = await client.connections.getConnection(process.env["FABRIC_CONNECTION_NAME"] || "<connection-name>");
+  const client = AIProjectsClient.fromConnectionString(
+    connectionString || "",
+    new DefaultAzureCredential(),
+  );
+  const fabricConnection = await client.connections.getConnection(
+    process.env["FABRIC_CONNECTION_NAME"] || "<connection-name>",
+  );
 
   const connectionId = fabricConnection.id;
 
@@ -35,15 +39,12 @@ export async function main(): Promise<void> {
   const fabricTool = ToolUtility.createFabricTool(connectionId);
 
   // Create agent with the Microsoft Fabric tool and process assistant run
-  const agent = await client.agents.createAgent(
-    "gpt-4o",
-    {
-      name: "my-agent",
-      instructions: "You are a helpful agent",
-      tools: [fabricTool.definition],
-      toolResources: {} // Add empty tool_resources which is required by the API
-    }
-  );
+  const agent = await client.agents.createAgent("gpt-4o", {
+    name: "my-agent",
+    instructions: "You are a helpful agent",
+    tools: [fabricTool.definition],
+    toolResources: {}, // Add empty tool_resources which is required by the API
+  });
   console.log(`Created agent, agent ID : ${agent.id}`);
 
   // Create thread for communication
@@ -53,7 +54,7 @@ export async function main(): Promise<void> {
   // Create message to thread
   const message = await client.agents.createMessage(thread.id, {
     role: "user",
-    content: "What are the top 3 weather events with the highest property damage?"
+    content: "What are the top 3 weather events with the highest property damage?",
   });
   console.log(`Created message, message ID: ${message.id}`);
 
