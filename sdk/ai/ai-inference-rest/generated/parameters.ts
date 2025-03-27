@@ -5,14 +5,9 @@ import type { RawHttpHeadersInput } from "@azure/core-rest-pipeline";
 import type { RequestParameters } from "@azure-rest/core-client";
 import type {
   ExtraParameters,
-  ChatRequestMessage,
-  ChatCompletionsResponseFormat,
-  ChatCompletionsToolDefinition,
-  ChatCompletionsToolChoicePreset,
-  ChatCompletionsNamedToolChoice,
-  EmbeddingEncodingFormat,
-  EmbeddingInputType,
-  ImageEmbeddingInput,
+  ChatCompletionsOptions,
+  EmbeddingsOptions,
+  ImageEmbeddingsOptions,
 } from "./models.js";
 
 export interface GetChatCompletionsHeaders {
@@ -27,23 +22,8 @@ export interface GetChatCompletionsHeaders {
 }
 
 export interface GetChatCompletionsBodyParam {
-  body: {
-    messages: Array<ChatRequestMessage>;
-    frequency_penalty?: number;
-    stream?: boolean;
-    presence_penalty?: number;
-    temperature?: number;
-    top_p?: number;
-    max_tokens?: number;
-    response_format?: ChatCompletionsResponseFormat;
-    stop?: string[];
-    tools?: Array<ChatCompletionsToolDefinition>;
-    tool_choice?:
-      | ChatCompletionsToolChoicePreset
-      | ChatCompletionsNamedToolChoice;
-    seed?: number;
-    model?: string;
-  };
+  /** The options for chat completions. */
+  body: ChatCompletionsOptions;
 }
 
 export interface GetChatCompletionsHeaderParam {
@@ -67,13 +47,8 @@ export interface GetEmbeddingsHeaders {
 }
 
 export interface GetEmbeddingsBodyParam {
-  body: {
-    input: string[];
-    dimensions?: number;
-    encoding_format?: EmbeddingEncodingFormat;
-    input_type?: EmbeddingInputType;
-    model?: string;
-  };
+  /** The body of the request containing the options for generating embeddings. */
+  body: EmbeddingsOptions;
 }
 
 export interface GetEmbeddingsHeaderParam {
@@ -96,13 +71,8 @@ export interface GetImageEmbeddingsHeaders {
 }
 
 export interface GetImageEmbeddingsBodyParam {
-  body: {
-    input: Array<ImageEmbeddingInput>;
-    dimensions?: number;
-    encoding_format?: EmbeddingEncodingFormat;
-    input_type?: EmbeddingInputType;
-    model?: string;
-  };
+  /** The body of the request containing options for image embeddings. */
+  body: ImageEmbeddingsOptions;
 }
 
 export interface GetImageEmbeddingsHeaderParam {

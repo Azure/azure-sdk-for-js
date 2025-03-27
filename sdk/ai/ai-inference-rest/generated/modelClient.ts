@@ -44,7 +44,6 @@ export default function createClient(
     },
     credentials: {
       scopes: options.credentials?.scopes ?? ["https://ml.azure.com/.default"],
-      apiKeyHeaderName: options.credentials?.apiKeyHeaderName ?? "api-key",
     },
   };
   const client = getClient(endpointUrl, credentials, options) as ModelClient;
