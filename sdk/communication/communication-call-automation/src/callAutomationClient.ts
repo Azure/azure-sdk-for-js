@@ -30,11 +30,12 @@ import type {
   RejectCallOptions,
 } from "./models/options.js";
 import type { AnswerCallResult, ConnectCallResult, CreateCallResult } from "./models/responses.js";
-import type {
-  CallConnectionProperties,
-  CallInvite,
-  CallLocator,
-  CustomCallingContext,
+import {
+  SipHeaderPrefix,
+  type CallConnectionProperties,
+  type CallInvite,
+  type CallLocator,
+  type CustomCallingContext,
 } from "./models/models.js";
 import {
   communicationIdentifierConverter,
@@ -468,7 +469,11 @@ export class CallAutomationClient {
         if (header.kind === "sipuui") {
           sipHeaders[`User-To-User`] = header.value;
         } else if (header.kind === "sipx") {
-          sipHeaders[`X-MS-Custom-${header.key}`] = header.value;
+            if (header.sipHeaderPrefix === SipHeaderPrefix.X) {
+                sipHeaders[`X-${header.key}`] = header.value;
+            } else {
+                sipHeaders[`X-MS-Custom-${header.key}`] = header.value;
+            }
         } else if (header.kind === "voip") {
           voipHeaders[`${header.key}`] = header.value;
         }
