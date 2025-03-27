@@ -2742,14 +2742,14 @@ matrix(
           });
           const abortController = new AbortController();
           await poller.poll();
-          abortController.abort();
+          abortController.abort("aborted for some reason");
           assert.equal(pollCount, 1);
           await assertError(
             poller.poll({
               abortSignal: abortController.signal,
             }),
             {
-              messagePattern: /The operation was aborted/,
+              messagePattern: /aborted for some reason/,
             },
           );
           assert.isFalse(poller.isDone);
@@ -2788,14 +2788,14 @@ matrix(
           });
           const abortController = new AbortController();
           await poller.poll();
-          abortController.abort();
+          abortController.abort("aborted for some reason");
           assert.equal(pollCount, 1);
           await assertError(
             poller.pollUntilDone({
               abortSignal: abortController.signal,
             }),
             {
-              messagePattern: /The operation was aborted/,
+              messagePattern: /aborted for some reason/,
             },
           );
           assert.equal(pollCount, 1);

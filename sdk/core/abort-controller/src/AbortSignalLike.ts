@@ -11,6 +11,10 @@ export interface AbortSignalLike {
    */
   readonly aborted: boolean;
   /**
+   * The reason why the signal was aborted.
+   */
+  readonly reason?: any;
+  /**
    * Add new "abort" event listener, only support "abort" event.
    */
   addEventListener(

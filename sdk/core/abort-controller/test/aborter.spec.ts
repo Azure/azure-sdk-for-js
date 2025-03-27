@@ -10,6 +10,11 @@ describe("AbortSignalLike", () => {
     const controller = new AbortController();
     const signal: AbortSignalLike = controller.signal;
     assert.isFalse(signal.aborted);
+    assert.isUndefined(signal.reason);
+
+    controller.abort("Test reason");
+    assert.isTrue(signal.aborted);
+    assert.strictEqual(signal.reason, "Test reason");
   });
 });
 

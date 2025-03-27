@@ -82,7 +82,7 @@ export function createClient(inputs: {
   return {
     async sendRequest(request: PipelineRequest): Promise<PipelineResponse> {
       if (request.abortSignal?.aborted) {
-        throw new AbortError("The operation was aborted.");
+        throw new AbortError(request.abortSignal.reason ?? "The operation was aborted.");
       }
       const path = request.url;
       const method = request.method;
