@@ -1,3 +1,12 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+/**
+ *  This sample demonstrates how to use agent operations with the Microsoft Fabric tool from the Azure Agents service.
+ *
+ * @summary demonstrates how to use agent operations with the Microsoft Fabric tool.
+ */
+
 const {
   AIProjectsClient,
   ToolUtility,
@@ -7,7 +16,7 @@ const {
 const { delay } = require("@azure/core-util");
 const { DefaultAzureCredential } = require("@azure/identity");
 
-require("dotenv").config();
+require("dotenv/config");
 
 const connectionString =
   process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] ||
