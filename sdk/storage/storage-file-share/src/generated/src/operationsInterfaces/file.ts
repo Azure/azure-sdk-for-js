@@ -50,7 +50,7 @@ import {
   FileGetSymbolicLinkResponse,
   FileCreateHardLinkOptionalParams,
   FileCreateHardLinkResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a File. */
 export interface File {

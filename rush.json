@@ -714,6 +714,11 @@
       "versionPolicyName": "utility"
     },
     {
+      "packageName": "@azure/storage-common",
+      "projectFolder": "sdk/storage/storage-common",
+      "versionPolicyName": "utility"
+    },
+    {
       "packageName": "@azure/storage-blob",
       "projectFolder": "sdk/storage/storage-blob",
       "versionPolicyName": "client"

@@ -1,3 +1,5 @@
+<!-- dev-tool snippets ignore -->
+
 # Guide for migrating to `@azure/storage-queue` v12 from `azure-storage`
 
 This guide is intended to assist in the migration to version 12 of `@azure/storage-queue` from the legacy `azure-storage` package. It will focus on side-by-side comparisons for similar operations between the two packages.
@@ -72,7 +74,7 @@ const azure = require("azure-storage");
 const tokenCredential = new azure.TokenCredential("<access-token>");
 const queueService = azure.createQueueServiceWithTokenCredential(
   "https://<account-name>.queue.core.windows.net",
-  tokenCredential
+  tokenCredential,
 );
 ```
 
@@ -84,7 +86,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
 const tokenCredential = new DefaultAzureCredential();
 const queueService = new QueueServiceClient(
   "https://<account-name>.queue.core.windows.net",
-  tokenCredential
+  tokenCredential,
 );
 ```
 
@@ -97,7 +99,7 @@ const azure = require("azure-storage");
 const queueService = azure.createQueueService("<connection-string>");
 
 const queueName = "<queue-name>";
-queueService.createQueue(queueName, function() {
+queueService.createQueue(queueName, function () {
   console.log(`Queue created`);
 });
 ```
@@ -111,7 +113,7 @@ const queueEndpoint = "https://<account-name>.queue.core.windows.net";
 
 const queueService = new QueueServiceClient(
   queueEndpoint,
-  new StorageSharedKeyCredential("<accountName>", "<accountKey>")
+  new StorageSharedKeyCredential("<accountName>", "<accountKey>"),
 );
 
 // Creates the queue with `<queue-name>`
@@ -127,7 +129,7 @@ const queueUrl = "https://<account-name>.queue.core.windows.net/<queue-name>";
 
 const queueClient = new QueueClient(
   queueUrl,
-  new StorageSharedKeyCredential("<accountName>", "<accountKey>")
+  new StorageSharedKeyCredential("<accountName>", "<accountKey>"),
 );
 
 // Creates the queue with `<queue-name>`
@@ -145,7 +147,7 @@ const queueService = azure.createQueueService("<connection-string>");
 const queueName = "<queue-name>";
 const messageContent = "<message-content>";
 
-queueService.createMessage(queueName, messageContent, function() {
+queueService.createMessage(queueName, messageContent, function () {
   console.log(`Message sent`);
 });
 ```
@@ -159,7 +161,7 @@ const messageContent = "<message-content>";
 
 const queueClient = new QueueClient(
   queueUrl,
-  new StorageSharedKeyCredential("<accountName>", "<accountKey>")
+  new StorageSharedKeyCredential("<accountName>", "<accountKey>"),
 );
 
 await queueClient.sendMessage(messageContent);
@@ -175,7 +177,7 @@ const azure = require("azure-storage");
 const queueService = azure.createQueueService("<connection-string>");
 const queueName = "<queue-name>";
 
-queueService.getMessages(queueName, function(error, result) {
+queueService.getMessages(queueName, function (error, result) {
   if (!error) {
     console.log(result);
   }
@@ -191,7 +193,7 @@ const messageContent = "<message-content>";
 
 const queueClient = new QueueClient(
   queueUrl,
-  new StorageSharedKeyCredential("<accountName>", "<accountKey>")
+  new StorageSharedKeyCredential("<accountName>", "<accountKey>"),
 );
 
 const result = await queueClient.receiveMessages();
@@ -208,16 +210,18 @@ const queueService = azure.createQueueService("<connection-string>");
 const queueName = "<queue-name>";
 const messageContent = "<message-content>";
 
-queueService.createQueue(queueName, function() {
-  queueService.createMessage(queueName, messageContent, function() {
-    queueService.getMessages(queueName, function(error, result) {
+queueService.createQueue(queueName, function () {
+  queueService.createMessage(queueName, messageContent, function () {
+    queueService.getMessages(queueName, function (error, result) {
       if (!error) {
-        queueService.deleteMessage(queueName, result[0].messageId, result[0].popReceipt, function(
-          error,
-          result
-        ) {
-          console.log("Retrieved and deleted a message");
-        });
+        queueService.deleteMessage(
+          queueName,
+          result[0].messageId,
+          result[0].popReceipt,
+          function (error, result) {
+            console.log("Retrieved and deleted a message");
+          },
+        );
       }
     });
   });
@@ -233,7 +237,7 @@ const messageContent = "<message-content>";
 
 const queueClient = new QueueClient(
   queueUrl,
-  new StorageSharedKeyCredential("<accountName>", "<accountKey>")
+  new StorageSharedKeyCredential("<accountName>", "<accountKey>"),
 );
 
 await queueClient.create();
@@ -241,7 +245,7 @@ await queueClient.sendMessage("Hello, world!!111");
 const result = await queueClient.receiveMessages();
 await queueClient.deleteMessage(
   result.receivedMessageItems[0].messageId,
-  result.receivedMessageItems[0].popReceipt
+  result.receivedMessageItems[0].popReceipt,
 );
 console.log("Retrieved and deleted a message");
 ```
