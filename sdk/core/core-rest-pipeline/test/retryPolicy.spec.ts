@@ -392,13 +392,14 @@ describe("retryPolicy", function () {
     const next = vi.fn<SendRequest>();
     next.mockRejectedValue(testError);
 
-    abortController.abort();
+    abortController.abort("Test Abort!");
 
     let catchCalled = false;
     const promise = policy.sendRequest(request, next);
     await promise.catch((e) => {
       catchCalled = true;
       assert.strictEqual(e.name, "AbortError");
+      assert.strictEqual(e.message, "Test Abort!");
     });
 
     // should be one more than the default retry count

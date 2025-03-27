@@ -71,8 +71,7 @@ export function retryPolicy(
 
         if (request.abortSignal?.aborted) {
           logger.error(`Retry ${retryCount}: Request aborted.`);
-          const abortError = new AbortError();
-          throw abortError;
+          throw new AbortError(request.abortSignal.reason);
         }
 
         if (retryCount >= (options.maxRetries ?? DEFAULT_RETRY_POLICY_COUNT)) {

@@ -94,7 +94,7 @@ class NodeHttpClient implements HttpClient {
 
       abortListener = (event: Event) => {
         if (event.type === "abort") {
-          abortController.abort();
+          abortController.abort(request.abortSignal?.reason);
         }
       };
       request.abortSignal.addEventListener("abort", abortListener);
@@ -244,7 +244,8 @@ class NodeHttpClient implements HttpClient {
 
       abortController.signal.addEventListener("abort", () => {
         const abortError = new AbortError(
-          "The operation was aborted. Rejecting from abort signal callback while making request.",
+          abortController.signal?.reason ??
+            "The operation was aborted. Rejecting from abort signal callback while making request.",
         );
         req.destroy(abortError);
         reject(abortError);

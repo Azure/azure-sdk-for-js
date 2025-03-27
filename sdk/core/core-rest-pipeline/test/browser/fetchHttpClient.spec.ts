@@ -106,7 +106,7 @@ describe("FetchHttpClient", function () {
     });
     const promise = client.sendRequest(request);
     vi.advanceTimersByTime(timeoutLength - 1);
-    controller.abort();
+    controller.abort("Aborted by user action");
     vi.advanceTimersByTime(1);
 
     try {
@@ -114,6 +114,7 @@ describe("FetchHttpClient", function () {
       assert.fail(`Expected await to throw`);
     } catch (e: any) {
       assert.strictEqual(e.name, "AbortError");
+      assert.strictEqual(e.message, "Aborted by user action");
     }
   });
 
@@ -139,7 +140,7 @@ describe("FetchHttpClient", function () {
     });
     const promise = client.sendRequest(request);
     vi.advanceTimersByTime(100);
-    controller.abort();
+    controller.abort("Aborted by user action");
     vi.advanceTimersByTime(1);
     try {
       const response = await promise;
@@ -154,6 +155,7 @@ describe("FetchHttpClient", function () {
       assert.fail(`Expected await to throw`);
     } catch (error: any) {
       assert.strictEqual(error.name, "AbortError");
+      assert.strictEqual(error.message, "Aborted by user action");
     }
   });
 
@@ -182,7 +184,7 @@ describe("FetchHttpClient", function () {
 
     const client = createFetchHttpClient();
     const controller = new AbortController();
-    controller.abort();
+    controller.abort("Aborted by user action");
     const request = createPipelineRequest({
       url: "https://localhost/abort",
       abortSignal: controller.signal,
@@ -193,6 +195,7 @@ describe("FetchHttpClient", function () {
       assert.fail("Expected await to throw");
     } catch (e: any) {
       assert.strictEqual(e.name, "AbortError");
+      assert.strictEqual(e.message, "Aborted by user action");
     }
   });
 
@@ -463,7 +466,7 @@ describe("FetchHttpClient", function () {
         const signal: AbortSignalLike = options.signal;
 
         if (signal.aborted) {
-          throw new AbortError();
+          throw new AbortError(signal.reason);
         }
       }
 
