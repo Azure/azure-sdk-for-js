@@ -28,7 +28,11 @@ jobs:
   - ${{ if eq(parameters.Registry, 'https://registry.npmjs.org/') }}:
     - pwsh: |
         ls "${{parameters.PathToArtifacts}}"
+        write-host "xx"
+        ls "${{parameters.PathToArtifacts}}/${{parameters.Artifact.name}}"
         $tarFile = (Get-ChildItem -Path "${{parameters.PathToArtifacts}}/*.tgz").FullName
+        write-host "Tar file: $tarFile"
+
         $tempDir = "$(System.DefaultWorkingDirectory)/temp_decompress"
         New-Item -ItemType Directory -Force -Path $tempDir
         tar -xzf $tarFile -C $tempDir
