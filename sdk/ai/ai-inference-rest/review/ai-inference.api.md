@@ -38,23 +38,6 @@ export interface ChatCompletionsNamedToolChoiceFunction {
 }
 
 // @public
-export interface ChatCompletionsOptions extends Record<string, unknown> {
-    frequency_penalty?: number;
-    max_tokens?: number;
-    messages: Array<ChatRequestMessage>;
-    model?: string;
-    presence_penalty?: number;
-    response_format?: ChatCompletionsResponseFormat;
-    seed?: number;
-    stop?: string[];
-    stream?: boolean;
-    temperature?: number;
-    tool_choice?: ChatCompletionsToolChoicePreset | ChatCompletionsNamedToolChoice;
-    tools?: Array<ChatCompletionsToolDefinition>;
-    top_p?: number;
-}
-
-// @public
 export interface ChatCompletionsOutput {
     choices: Array<ChatChoiceOutput>;
     created: number;
@@ -250,15 +233,6 @@ export type EmbeddingInputType = string;
 export interface EmbeddingItemOutput {
     embedding: string | number[];
     index: number;
-}
-
-// @public
-export interface EmbeddingsOptions extends Record<string, unknown> {
-    dimensions?: number;
-    encoding_format?: EmbeddingEncodingFormat;
-    input: string[];
-    input_type?: EmbeddingInputType;
-    model?: string;
 }
 
 // @public
@@ -504,15 +478,6 @@ export type GetModelInfoParameters = RequestParameters;
 export interface ImageEmbeddingInput {
     image: string;
     text?: string;
-}
-
-// @public
-export interface ImageEmbeddingsOptions extends Record<string, unknown> {
-    dimensions?: number;
-    encoding_format?: EmbeddingEncodingFormat;
-    input: Array<ImageEmbeddingInput>;
-    input_type?: EmbeddingInputType;
-    model?: string;
 }
 
 // @public (undocumented)
