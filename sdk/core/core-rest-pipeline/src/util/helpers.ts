@@ -27,10 +27,14 @@ export function delay<T>(
     let timer: ReturnType<typeof setTimeout> | undefined = undefined;
     let onAborted: (() => void) | undefined = undefined;
 
+    const abortReason =
+      // use the signal's reason if available
+      options?.abortSignal?.reason ??
+      // fallback to legacy code
+      options?.abortErrorMsg ??
+      StandardAbortMessage;
     const rejectOnAbort = (): void => {
-      return reject(
-        new AbortError(options?.abortErrorMsg ? options?.abortErrorMsg : StandardAbortMessage),
-      );
+      return reject(new AbortError(abortReason));
     };
 
     const removeListeners = (): void => {

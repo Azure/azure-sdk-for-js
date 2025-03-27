@@ -33,7 +33,7 @@ export async function cancelablePromiseRace<T extends unknown[]>(
 ): Promise<T[number]> {
   const aborter = new AbortController();
   function abortHandler(): void {
-    aborter.abort();
+    aborter.abort(options?.abortSignal?.reason);
   }
   options?.abortSignal?.addEventListener("abort", abortHandler);
   try {
