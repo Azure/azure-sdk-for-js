@@ -27,6 +27,7 @@ jobs:
 
   - ${{ if eq(parameters.Registry, 'https://registry.npmjs.org/') }}:
     - pwsh: |
+        ls "${{parameters.PathToArtifacts}}"
         $tarFile = (Get-ChildItem -Path "${{parameters.PathToArtifacts}}/*.tgz").FullName
         $tempDir = "$(System.DefaultWorkingDirectory)/temp_decompress"
         New-Item -ItemType Directory -Force -Path $tempDir
