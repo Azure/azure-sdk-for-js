@@ -9,20 +9,13 @@
  */
 
 import type { MessageContentOutput, MessageTextContentOutput } from "@azure/ai-projects";
-import {
-  AIProjectsClient,
-  ToolUtility,
-  connectionToolType,
-  isOutputOfType,
-} from "@azure/ai-projects";
+import { AIProjectsClient, ToolUtility, isOutputOfType } from "@azure/ai-projects";
 import { delay } from "@azure/core-util";
 import { DefaultAzureCredential } from "@azure/identity";
-
 import "dotenv/config";
 
 const connectionString =
-  process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] ||
-  "<endpoint>>;<subscription>;<resource group>;<project>";
+  process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] || "<project connection string>";
 
 export async function main(): Promise<void> {
   // Create an Azure AI Client from a connection string, copied from your AI Studio project.
@@ -35,20 +28,19 @@ export async function main(): Promise<void> {
   const fabricConnection = await client.connections.getConnection(
     process.env["FABRIC_CONNECTION_NAME"] || "<connection-name>",
   );
+
   const connectionId = fabricConnection.id;
 
   // Initialize agent Microsoft Fabric tool with the connection id
-  const fabricTool = ToolUtility.createConnectionTool(connectionToolType.MicrosoftFabric, [
-    connectionId,
-  ]);
+  const fabricTool = ToolUtility.createFabricTool(connectionId);
 
   // Create agent with the Microsoft Fabric tool and process assistant run
-  const agent = await client.agents.createAgent("gpt-4-0125-preview", {
+  const agent = await client.agents.createAgent("gpt-4o", {
     name: "my-agent",
     instructions: "You are a helpful agent",
     tools: [fabricTool.definition],
+    toolResources: {}, // Add empty tool_resources which is required by the API
   });
-  console.log(connectionId);
   console.log(`Created agent, agent ID : ${agent.id}`);
 
   // Create thread for communication
@@ -58,7 +50,7 @@ export async function main(): Promise<void> {
   // Create message to thread
   const message = await client.agents.createMessage(thread.id, {
     role: "user",
-    content: "What inventory is currently available?",
+    content: "What are the top 3 weather events with the highest property damage?",
   });
   console.log(`Created message, message ID: ${message.id}`);
 
@@ -73,8 +65,8 @@ export async function main(): Promise<void> {
   }
   console.log(`Run finished with status: ${run.status}`);
 
-  // Delete the assistant when done
-  client.agents.deleteAgent(agent.id);
+  // Delete the agent when done
+  await client.agents.deleteAgent(agent.id);
   console.log(`Deleted agent, agent ID: ${agent.id}`);
 
   // Fetch and log all messages
