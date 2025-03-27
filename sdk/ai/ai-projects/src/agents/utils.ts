@@ -42,7 +42,7 @@ export enum connectionToolType {
   /** Bing grounding search tool */
   BingGrounding = "bing_grounding",
   /** Microsoft Fabric tool */
-  MicrosoftFabric = "microsoft_fabric",
+  MicrosoftFabric = "fabric_dataagent",
   /** Sharepoint tool */
   SharepointGrounding = "sharepoint_grounding",
   /** Azure Function tool */
@@ -51,7 +51,7 @@ export enum connectionToolType {
 
 const toolMap = {
   bing_grounding: "bingGrounding",
-  microsoft_fabric: "microsoftFabric",
+  fabric_dataagent: "microsoftFabric",
   sharepoint_grounding: "sharepointGrounding",
   azure_function: "azureFunction",
 };
