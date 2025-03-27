@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 import type { Recorder } from "@azure-tools/test-recorder";
-import { assertEnvironmentVariable } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { createRecorder } from "../utils/recorderUtils.js";
 import DocumentIntelligence from "../../../src/index.js";
@@ -13,6 +12,7 @@ import type {
   DocumentClassifierBuildOperationDetailsOutput,
 } from "../../../src/index.js";
 import { getLongRunningPoller, isUnexpected } from "../../../src/index.js";
+import { isLocalAuthDisabled, getKey, isLiveMode, getEndpoint } from "../../utils/injectables.js";
 
 describe("DocumentIntelligenceClient", () => {
   let recorder: Recorder;
@@ -20,9 +20,12 @@ describe("DocumentIntelligenceClient", () => {
   beforeEach(async (context) => {
     recorder = await createRecorder(context);
     await recorder.setMatcher("BodilessMatcher");
+    if (isLocalAuthDisabled() && isLiveMode()) {
+      context.skip();
+    }
     client = DocumentIntelligence(
-      assertEnvironmentVariable("DOCUMENT_INTELLIGENCE_ENDPOINT"),
-      { key: assertEnvironmentVariable("DOCUMENT_INTELLIGENCE_API_KEY") },
+      getEndpoint(),
+      { key: getKey() },
       recorder.configureClientOptions({}),
     );
   });
@@ -45,7 +48,7 @@ describe("DocumentIntelligenceClient", () => {
 
   it.skip("AAD works - getInfo", async function () {
     client = DocumentIntelligence(
-      assertEnvironmentVariable("DOCUMENT_INTELLIGENCE_ENDPOINT"),
+      getEndpoint(),
       createTestCredential(),
       recorder.configureClientOptions({}),
     );

@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 import type { Recorder } from "@azure-tools/test-recorder";
-import { assertEnvironmentVariable } from "@azure-tools/test-recorder";
 import { createRecorder, testPollingOptions } from "../utils/recorderUtils.js";
 import DocumentIntelligence from "../../../src/index.js";
 import { assert, describe, beforeEach, afterEach, it } from "vitest";
@@ -31,6 +30,13 @@ import {
   parseResultIdFromResponse,
   streamToUint8Array,
 } from "../../../src/index.js";
+import {
+  getEndpoint,
+  getKey,
+  getSelectionMarkStorageContainerSasUrl,
+  isLiveMode,
+  isLocalAuthDisabled,
+} from "../../utils/injectables.js";
 
 describe("DocumentIntelligenceClient", () => {
   let recorder: Recorder;
@@ -38,9 +44,12 @@ describe("DocumentIntelligenceClient", () => {
   beforeEach(async (context) => {
     recorder = await createRecorder(context);
     await recorder.setMatcher("BodilessMatcher");
+    if (isLocalAuthDisabled() && isLiveMode()) {
+      context.skip();
+    }
     client = DocumentIntelligence(
-      assertEnvironmentVariable("DOCUMENT_INTELLIGENCE_ENDPOINT"),
-      { key: assertEnvironmentVariable("DOCUMENT_INTELLIGENCE_API_KEY") },
+      getEndpoint(),
+      { key: getKey() },
       recorder.configureClientOptions({}),
     );
   });
@@ -444,9 +453,7 @@ describe("DocumentIntelligenceClient", () => {
             buildMode: "template",
             modelId: modelName,
             azureBlobSource: {
-              containerUrl: assertEnvironmentVariable(
-                "DOCUMENT_INTELLIGENCE_SELECTION_MARK_STORAGE_CONTAINER_SAS_URL",
-              ),
+              containerUrl: getSelectionMarkStorageContainerSasUrl(),
             },
           },
         });

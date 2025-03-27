@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 import type { Recorder } from "@azure-tools/test-recorder";
-import { assertEnvironmentVariable } from "@azure-tools/test-recorder";
 import { createRecorder, testPollingOptions } from "../utils/recorderUtils.js";
 import DocumentIntelligence from "../../../src/index.js";
 import { assert, describe, beforeEach, afterEach, it } from "vitest";
@@ -16,9 +15,17 @@ import type {
 import { getLongRunningPoller, isUnexpected } from "../../../src/index.js";
 import path from "node:path";
 import fs from "node:fs";
+import {
+  getEndpoint,
+  getKey,
+  getTrainingContainerSasUrl,
+  isLiveMode,
+  isLocalAuthDisabled,
+} from "../../utils/injectables.js";
 
-const containerSasUrl = (): string =>
-  assertEnvironmentVariable("DOCUMENT_INTELLIGENCE_TRAINING_CONTAINER_SAS_URL");
+function containerSasUrl(): string {
+  return getTrainingContainerSasUrl();
+}
 
 describe.skip("classifiers", () => {
   let recorder: Recorder;
@@ -26,9 +33,12 @@ describe.skip("classifiers", () => {
   beforeEach(async (context) => {
     recorder = await createRecorder(context);
     await recorder.setMatcher("BodilessMatcher");
+    if (isLocalAuthDisabled() && isLiveMode()) {
+      context.skip();
+    }
     client = DocumentIntelligence(
-      assertEnvironmentVariable("DOCUMENT_INTELLIGENCE_ENDPOINT"),
-      { key: assertEnvironmentVariable("DOCUMENT_INTELLIGENCE_API_KEY") },
+      getEndpoint(),
+      { key: getKey() },
       recorder.configureClientOptions({}),
     );
   });

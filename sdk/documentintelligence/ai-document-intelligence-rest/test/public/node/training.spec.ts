@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import type { Recorder } from "@azure-tools/test-recorder";
-import { assertEnvironmentVariable, testPollingOptions } from "@azure-tools/test-recorder";
+import { testPollingOptions } from "@azure-tools/test-recorder";
 import { createRecorder } from "../utils/recorderUtils.js";
 import DocumentIntelligence from "../../../src/index.js";
 import { assert, describe, beforeEach, afterEach, it } from "vitest";
@@ -17,15 +17,19 @@ import type {
   DocumentIntelligenceClient,
 } from "../../../src/index.js";
 import { getLongRunningPoller, isUnexpected, paginate } from "../../../src/index.js";
+import { getEndpoint, getKey, isLiveMode, isLocalAuthDisabled } from "../../utils/injectables.js";
 
 describe("model management", () => {
   let recorder: Recorder;
   let client: DocumentIntelligenceClient;
   beforeEach(async (context) => {
     recorder = await createRecorder(context);
+    if (isLocalAuthDisabled() && isLiveMode()) {
+      context.skip();
+    }
     client = DocumentIntelligence(
-      assertEnvironmentVariable("DOCUMENT_INTELLIGENCE_ENDPOINT"),
-      { key: assertEnvironmentVariable("DOCUMENT_INTELLIGENCE_API_KEY") },
+      getEndpoint(),
+      { key: getKey() },
       recorder.configureClientOptions({}),
     );
   });
