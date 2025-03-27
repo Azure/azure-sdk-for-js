@@ -9,9 +9,8 @@
 
 const { AIProjectsClient } = require("@azure/ai-projects");
 const { DefaultAzureCredential } = require("@azure/identity");
-const dotenv = require("dotenv");
 const { Readable } = require("stream");
-dotenv.config();
+require("dotenv/config");
 
 const connectionString =
   process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] || "<project connection string>";
@@ -29,8 +28,8 @@ async function main() {
   // Create and upload file
   const fileContent = "Hello, Vector Store!";
   const readable = new Readable();
-  readable.push(fileContent);
-  readable.push(null); // end the stream
+  await readable.push(fileContent);
+  await readable.push(null); // end the stream
   const file = await client.agents.uploadFile(readable, "assistants", {
     fileName: "vectorFile.txt",
   });

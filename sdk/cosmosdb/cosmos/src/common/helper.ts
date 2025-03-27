@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import { CosmosClientOptions } from "../CosmosClientOptions";
+import { PartitionKeyDefinition } from "../documents";
+import { ClientEncryptionPolicy } from "../encryption/ClientEncryptionPolicy";
 import {
   Serializer,
   NumberSerializer,
@@ -8,7 +10,9 @@ import {
   StringSerializer,
   BooleanSerializer,
 } from "../encryption/Serializers";
+import { EncryptionType } from "../encryption/enums/EncryptionType";
 import { TypeMarker } from "../encryption/enums/TypeMarker";
+import { ErrorResponse } from "../request/ErrorResponse";
 import { OperationType, ResourceType } from "./constants";
 
 const trimLeftSlashes = new RegExp("^[/]+");
@@ -451,5 +455,87 @@ export function createSerializer(
       default:
         throw new Error("Invalid or Unsupported data type passed.");
     }
+  }
+}
+/**
+ * @hidden
+ * verifies policy format version, included paths and ensures that id and partition key paths specified in the client encryption policy
+ * for encryption are encrypted using Deterministic encryption algorithm.
+ */
+export function validateClientEncryptionPolicy(
+  clientEncryptionPolicy: ClientEncryptionPolicy,
+  partitionKey: PartitionKeyDefinition,
+) {
+  const policyFormatVersion = clientEncryptionPolicy.policyFormatVersion;
+  if (policyFormatVersion < 1 || policyFormatVersion > 2) {
+    throw new ErrorResponse("Supported versions of client encryption policy are 1 and 2.");
+  }
+  const paths = new Set<string>();
+  // checks for duplicate paths and validates the path format and clientEncryptionKeyId
+  for (const includedPath of clientEncryptionPolicy.includedPaths) {
+    if (paths.has(includedPath.path)) {
+      throw new ErrorResponse(
+        `Duplicate path found: ${includedPath.path} in client encryption policy.`,
+      );
+    }
+    if (
+      includedPath.path === undefined ||
+      includedPath.path === null ||
+      includedPath.path === "" ||
+      includedPath.path === "/"
+    ) {
+      throw new ErrorResponse("Path needs to be defined in ClientEncryptionIncludedPath.");
+    }
+    if (
+      includedPath.clientEncryptionKeyId === undefined ||
+      includedPath.clientEncryptionKeyId === null ||
+      includedPath.clientEncryptionKeyId === "" ||
+      typeof includedPath.clientEncryptionKeyId !== "string"
+    ) {
+      throw new ErrorResponse(
+        "ClientEncryptionKeyId needs to be defined as string type in ClientEncryptionIncludedPath.",
+      );
+    }
+    if (includedPath.path[0] !== "/") {
+      throw new ErrorResponse("Path in ClientEncryptionIncludedPath must start with '/'.");
+    }
+    const pathSegments = includedPath.path.split("/").filter((segment) => segment.length > 0);
+    if (pathSegments.length > 1) {
+      throw new ErrorResponse("Only top-level paths are currently supported for encryption");
+    }
+    paths.add(includedPath.path);
+  }
+
+  // checks if id and partition key paths are encrypted using Deterministic encryption algorithm.
+  const encryptedPaths = clientEncryptionPolicy.includedPaths;
+  const partitionKeyPaths = partitionKey.paths.map(extractPath);
+  let isPartitionKeyEncrypted = false;
+  let isIdEncrypted = false;
+  for (const encryptedPath of encryptedPaths) {
+    if (encryptedPath.path === "/id") {
+      isIdEncrypted = true;
+      if (encryptedPath.encryptionType !== EncryptionType.DETERMINISTIC) {
+        throw new ErrorResponse(
+          "The '/id' property must be encrypted using Deterministic encryption.",
+        );
+      }
+    }
+    if (partitionKeyPaths.includes(encryptedPath.path)) {
+      isPartitionKeyEncrypted = true;
+      if (encryptedPath.encryptionType !== EncryptionType.DETERMINISTIC) {
+        throw new ErrorResponse(
+          `Path: ${encryptedPath.path} which is part of the partition key has to be encrypted with Deterministic type Encryption.`,
+        );
+      }
+    }
+  }
+  // Ensures that the policy format version is 2 if id or partition key paths are encrypted.
+  if (
+    (isPartitionKeyEncrypted || isIdEncrypted) &&
+    clientEncryptionPolicy.policyFormatVersion === 1
+  ) {
+    throw new ErrorResponse(
+      "Encryption of partition key or id is only supported with policy format version 2.",
+    );
   }
 }

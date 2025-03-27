@@ -503,6 +503,33 @@ matrix(
           assert.equal(result.id, "1");
           assert.equal(result.name, "product");
         });
+
+        it("should skip final GET when skipFinalGet is true", async () => {
+          const path = "/put/skipfinalget/test";
+          const result = await runLro({
+            routes: [
+              {
+                method: "PUT",
+                path,
+                status: 201,
+                body: `{"properties":{"provisioningState":"Creating"},"id":"100","name":"foo"}`,
+              },
+              {
+                method: "GET",
+                path,
+                status: 200,
+                body: `{"properties":{"provisioningState":"Succeeded"},"id":"100","name":"foo"}`,
+                headers: {
+                  "Azure-AsyncOperation": "/skipfinal/get/test",
+                },
+              },
+            ],
+            skipFinalGet: true,
+          });
+          assert.equal(result.properties?.provisioningState, "Succeeded");
+          assert.equal(result.id, "100");
+          assert.equal(result.name, "foo");
+        });
       });
 
       matrix(
@@ -1649,6 +1676,33 @@ matrix(
                   result: { ...body, statusCode: 200 },
                 },
               });
+            });
+
+            it("should skip final GET when skipFinalGet is true", async () => {
+              const operationLocationPath = "/skipfinalget/asyncOperationUrl";
+              // Don't include a resourceLocationPath since we expect the final GET to be skipped
+              const result = await runLro({
+                routes: [
+                  {
+                    method: "PUT",
+                    status: 202,
+                    headers: {
+                      "Azure-AsyncOperation": operationLocationPath,
+                    },
+                  },
+                  {
+                    method: "GET",
+                    path: operationLocationPath,
+                    status: 200,
+                    body: `{ "status": "succeeded", "id": "100", "name": "foo" }`,
+                  },
+                ],
+                skipFinalGet: true,
+              });
+              // When skipFinalGet is true and using Azure-AsyncOperation, the result should be the status response
+              assert.equal(result.status, "succeeded");
+              assert.equal(result.id, "100");
+              assert.equal(result.name, "foo");
             });
           });
         },

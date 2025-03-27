@@ -1,7 +1,7 @@
 param baseName string = resourceGroup().name
+param testApplicationOid string
+param supportsSafeSecretStandard bool = false
 param searchEndpointSuffix string = 'search.windows.net'
-
-var apiVersion = '2024-06-01-preview'
 
 resource searchService 'Microsoft.Search/searchServices@2024-06-01-preview' = {
   name: baseName
@@ -10,12 +10,20 @@ resource searchService 'Microsoft.Search/searchServices@2024-06-01-preview' = {
     name: 'basic'
   }
   properties: {
+    disableLocalAuth: !supportsSafeSecretStandard
     replicaCount: 1
     partitionCount: 1
     hostingMode: 'default'
   }
 }
 
-output SEARCH_API_ADMIN_KEY string = listAdminKeys(searchService.id, apiVersion).primaryKey
-output SEARCH_API_ADMIN_KEY_ALT string = listAdminKeys(searchService.id, apiVersion).secondaryKey
+resource adminRoleAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
+  name: guid(searchService.id, 'adminRoleAssignment')
+  properties: {
+    roleDefinitionId: subscriptionResourceId('Microsoft.Authorization/roleDefinitions', 'b24988ac-6180-42a0-ab88-20f7382dd24c')
+    principalId: testApplicationOid
+    principalType: 'ServicePrincipal'
+  }
+}
+
 output ENDPOINT string = 'https://${baseName}.${searchEndpointSuffix}'

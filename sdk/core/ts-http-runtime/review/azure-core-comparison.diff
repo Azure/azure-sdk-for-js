@@ -21,6 +21,41 @@ index d075fbb..9f62db0 100644
   * try {
   *   doAsyncWork({ abortSignal: controller.signal });
   * } catch (e) {
+diff --git a/src/abort-controller/AbortSignalLike.ts b/src/abort-controller/AbortSignalLike.ts
+deleted file mode 100644
+index b5b390d..0000000
+--- a/src/abort-controller/AbortSignalLike.ts
++++ /dev/null
+@@ -1,29 +0,0 @@
+-// Copyright (c) Microsoft Corporation.
+-// Licensed under the MIT License.
+-
+-/**
+- * Allows the request to be aborted upon firing of the "abort" event.
+- * Compatible with the browser built-in AbortSignal and common polyfills.
+- */
+-export interface AbortSignalLike {
+-  /**
+-   * Indicates if the signal has already been aborted.
+-   */
+-  readonly aborted: boolean;
+-  /**
+-   * Add new "abort" event listener, only support "abort" event.
+-   */
+-  addEventListener(
+-    type: "abort",
+-    listener: (this: AbortSignalLike, ev: any) => any,
+-    options?: any,
+-  ): void;
+-  /**
+-   * Remove "abort" event listener, only support "abort" event.
+-   */
+-  removeEventListener(
+-    type: "abort",
+-    listener: (this: AbortSignalLike, ev: any) => any,
+-    options?: any,
+-  ): void;
+-}
 diff --git a/src/abort-controller/index.ts b/src/abort-controller/index.ts
 deleted file mode 100644
 index 7f2adc4..0000000
@@ -37,18 +72,73 @@ index 7f2adc4..0000000
 -export { AbortError } from "./AbortError.js";
 -export { AbortSignalLike } from "./AbortSignalLike.js";
 diff --git a/src/accessTokenCache.ts b/src/accessTokenCache.ts
-index f8d603b..22e61bb 100644
+deleted file mode 100644
+index f8d603b..0000000
 --- a/src/accessTokenCache.ts
-+++ b/src/accessTokenCache.ts
-@@ -1,7 +1,7 @@
- // Copyright (c) Microsoft Corporation.
- // Licensed under the MIT License.
- 
++++ /dev/null
+@@ -1,62 +0,0 @@
+-// Copyright (c) Microsoft Corporation.
+-// Licensed under the MIT License.
+-
 -import type { AccessToken } from "@azure/core-auth";
-+import type { AccessToken } from "./auth/tokenCredential.js";
- 
- /**
-  * Defines the default token refresh buffer duration.
+-
+-/**
+- * Defines the default token refresh buffer duration.
+- */
+-export const DefaultTokenRefreshBufferMs = 2 * 60 * 1000; // 2 Minutes
+-
+-/**
+- * Provides a cache for an AccessToken that was that
+- * was returned from a TokenCredential.
+- */
+-export interface AccessTokenCache {
+-  /**
+-   * Sets the cached token.
+-   *
+-   * @param accessToken - The AccessToken to be cached or null to
+-   *   clear the cached token.
+-   */
+-  setCachedToken(accessToken: AccessToken | undefined): void;
+-
+-  /**
+-   * Returns the cached AccessToken or undefined if nothing is cached.
+-   */
+-  getCachedToken(): AccessToken | undefined;
+-}
+-
+-/**
+- * Provides an AccessTokenCache implementation which clears
+- * the cached AccessToken's after the expiresOnTimestamp has
+- * passed.
+- * @internal
+- */
+-export class ExpiringAccessTokenCache implements AccessTokenCache {
+-  private tokenRefreshBufferMs: number;
+-  private cachedToken?: AccessToken;
+-
+-  /**
+-   * Constructs an instance of ExpiringAccessTokenCache with
+-   * an optional expiration buffer time.
+-   */
+-  constructor(tokenRefreshBufferMs: number = DefaultTokenRefreshBufferMs) {
+-    this.tokenRefreshBufferMs = tokenRefreshBufferMs;
+-  }
+-
+-  setCachedToken(accessToken: AccessToken | undefined): void {
+-    this.cachedToken = accessToken;
+-  }
+-
+-  getCachedToken(): AccessToken | undefined {
+-    if (
+-      this.cachedToken &&
+-      Date.now() + this.tokenRefreshBufferMs >= this.cachedToken.expiresOnTimestamp
+-    ) {
+-      this.cachedToken = undefined;
+-    }
+-
+-    return this.cachedToken;
+-  }
+-}
 diff --git a/src/auth/azureKeyCredential.ts b/src/auth/azureKeyCredential.ts
 deleted file mode 100644
 index 65676e7..0000000
@@ -270,6 +360,118 @@ index 045c639..0000000
 -    isObjectWithProperties(credential, ["signature"]) && typeof credential.signature === "string"
 -  );
 -}
+diff --git a/src/auth/credentials.ts b/src/auth/credentials.ts
+new file mode 100644
+index 0000000..3079b40
+--- /dev/null
++++ b/src/auth/credentials.ts
+@@ -0,0 +1,106 @@
++// Copyright (c) Microsoft Corporation.
++// Licensed under the MIT License.
++
++import type { OAuth2Flow } from "./oauth2Flows.js";
++
++/**
++ * Options used when creating and sending get OAuth 2 requests for this operation.
++ */
++export interface GetOAuth2TokenOptions {
++  /** Abort signal for the request */
++  abortSignal?: AbortSignal;
++}
++
++/**
++ * Options used when creating and sending get bearer token requests for this operation.
++ */
++export interface GetBearerTokenOptions {
++  /** Abort signal for the request */
++  abortSignal?: AbortSignal;
++}
++
++/**
++ * Credential for OAuth2 authentication flows.
++ */
++export interface OAuth2TokenCredential<TFlows extends OAuth2Flow> {
++  /**
++   * Gets an OAuth2 token for the specified flows.
++   * @param flows - The OAuth2 flows to use.
++   * @param options - Options for the request.
++   * @returns - a valid access token which was obtained through one of the flows specified in `flows`.
++   */
++  getOAuth2Token(flows: TFlows[], options?: GetOAuth2TokenOptions): Promise<string>;
++}
++
++/**
++ * Credential for Bearer token authentication.
++ */
++export interface BearerTokenCredential {
++  /**
++   * Gets a Bearer token for the specified flows.
++   * @param options - Options for the request.
++   * @returns - a valid access token.
++   */
++  getBearerToken(options?: GetBearerTokenOptions): Promise<string>;
++}
++
++/**
++ * Credential for HTTP Basic authentication.
++ * Provides username and password for basic authentication headers.
++ */
++export interface BasicCredential {
++  /** The username for basic authentication. */
++  username: string;
++  /** The password for basic authentication. */
++  password: string;
++}
++
++/**
++ * Credential for API Key authentication.
++ * Provides an API key that will be used in the request headers.
++ */
++export interface ApiKeyCredential {
++  /** The API key for authentication. */
++  key: string;
++}
++
++/**
++ * Union type of all supported authentication credentials.
++ */
++export type ClientCredential =
++  | OAuth2TokenCredential<OAuth2Flow>
++  | BearerTokenCredential
++  | BasicCredential
++  | ApiKeyCredential;
++
++/**
++ * Type guard to check if a credential is an OAuth2 token credential.
++ */
++export function isOAuth2TokenCredential(
++  credential: ClientCredential,
++): credential is OAuth2TokenCredential<OAuth2Flow> {
++  return "getOAuth2Token" in credential;
++}
++
++/**
++ * Type guard to check if a credential is a Bearer token credential.
++ */
++export function isBearerTokenCredential(
++  credential: ClientCredential,
++): credential is BearerTokenCredential {
++  return "getBearerToken" in credential;
++}
++
++/**
++ * Type guard to check if a credential is a Basic auth credential.
++ */
++export function isBasicCredential(credential: ClientCredential): credential is BasicCredential {
++  return "username" in credential && "password" in credential;
++}
++
++/**
++ * Type guard to check if a credential is an API key credential.
++ */
++export function isApiKeyCredential(credential: ClientCredential): credential is ApiKeyCredential {
++  return "key" in credential;
++}
 diff --git a/src/auth/index.ts b/src/auth/index.ts
 deleted file mode 100644
 index 446268b..0000000
@@ -297,37 +499,226 @@ index 446268b..0000000
 -
 -export { TracingContext } from "./tracing.js";
 diff --git a/src/auth/keyCredential.ts b/src/auth/keyCredential.ts
-index 9db25cf..df8291c 100644
+deleted file mode 100644
+index 9db25cf..0000000
 --- a/src/auth/keyCredential.ts
-+++ b/src/auth/keyCredential.ts
-@@ -1,7 +1,7 @@
- // Copyright (c) Microsoft Corporation.
- // Licensed under the MIT License.
- 
++++ /dev/null
+@@ -1,23 +0,0 @@
+-// Copyright (c) Microsoft Corporation.
+-// Licensed under the MIT License.
+-
 -import { isObjectWithProperties } from "@azure/core-util";
-+import { isObjectWithProperties } from "../util/typeGuards.js";
- 
- /**
-  * Represents a credential defined by a static API key.
+-
+-/**
+- * Represents a credential defined by a static API key.
+- */
+-export interface KeyCredential {
+-  /**
+-   * The value of the API key represented as a string
+-   */
+-  readonly key: string;
+-}
+-
+-/**
+- * Tests an object to determine whether it implements KeyCredential.
+- *
+- * @param credential - The assumed KeyCredential to be tested.
+- */
+-export function isKeyCredential(credential: unknown): credential is KeyCredential {
+-  return isObjectWithProperties(credential, ["key"]) && typeof credential.key === "string";
+-}
+diff --git a/src/auth/oauth2Flows.ts b/src/auth/oauth2Flows.ts
+new file mode 100644
+index 0000000..01f42e5
+--- /dev/null
++++ b/src/auth/oauth2Flows.ts
+@@ -0,0 +1,67 @@
++// Copyright (c) Microsoft Corporation.
++// Licensed under the MIT License.
++
++/**
++ * Represents OAuth2 Authorization Code flow configuration.
++ */
++export interface AuthorizationCodeFlow {
++  /** Type of OAuth2 flow */
++  kind: "authorizationCode";
++  /** Authorization endpoint */
++  authorizationUrl: string;
++  /** Token endpoint */
++  tokenUrl: string;
++  /** Refresh token endpoint */
++  refreshUrl?: string;
++  /** OAuth2 scopes */
++  scopes?: string[];
++}
++
++/**
++ * Represents OAuth2 Client Credentials flow configuration.
++ */
++export interface ClientCredentialsFlow {
++  /** Type of OAuth2 flow */
++  kind: "clientCredentials";
++  /** Token endpoint */
++  tokenUrl: string;
++  /** Refresh token endpoints */
++  refreshUrl?: string[];
++  /** OAuth2 scopes */
++  scopes?: string[];
++}
++
++/**
++ * Represents OAuth2 Implicit flow configuration.
++ */
++export interface ImplicitFlow {
++  /** Type of OAuth2 flow */
++  kind: "implicit";
++  /** Authorization endpoint */
++  authorizationUrl: string;
++  /** Refresh token endpoint */
++  refreshUrl?: string;
++  /** OAuth2 scopes */
++  scopes?: string[];
++}
++
++/**
++ * Represents OAuth2 Password flow configuration.
++ */
++export interface PasswordFlow {
++  /** Type of OAuth2 flow */
++  kind: "password";
++  /** Token endpoint */
++  tokenUrl: string;
++  /** Refresh token endpoint */
++  refreshUrl?: string;
++  /** OAuth2 scopes */
++  scopes?: string[];
++}
++
++/** Union type of all supported OAuth2 flows */
++export type OAuth2Flow =
++  | AuthorizationCodeFlow
++  | ClientCredentialsFlow
++  | ImplicitFlow
++  | PasswordFlow;
+diff --git a/src/auth/schemes.ts b/src/auth/schemes.ts
+new file mode 100644
+index 0000000..b5fb17b
+--- /dev/null
++++ b/src/auth/schemes.ts
+@@ -0,0 +1,66 @@
++// Copyright (c) Microsoft Corporation.
++// Licensed under the MIT License.
++
++import type { OAuth2Flow } from "./oauth2Flows.js";
++
++/**
++ * Represents HTTP Basic authentication scheme.
++ * Basic authentication scheme requires a username and password to be provided with each request.
++ * The credentials are encoded using Base64 and included in the Authorization header.
++ */
++export interface BasicAuthScheme {
++  /** Type of auth scheme */
++  kind: "http";
++  /** Basic authentication scheme */
++  scheme: "basic";
++}
++
++/**
++ * Represents HTTP Bearer authentication scheme.
++ * Bearer authentication scheme requires a bearer token to be provided with each request.
++ * The token is included in the Authorization header with the "Bearer" prefix.
++ */
++export interface BearerAuthScheme {
++  /** Type of auth scheme */
++  kind: "http";
++  /** Bearer authentication scheme */
++  scheme: "bearer";
++}
++
++/**
++ * Represents an endpoint or operation that requires no authentication.
++ */
++export interface NoAuthAuthScheme {
++  /** Type of auth scheme */
++  kind: "noAuth";
++}
++
++/**
++ * Represents API Key authentication scheme.
++ * API Key authentication requires a key to be provided with each request.
++ * The key can be provided in different locations: query parameter, header, or cookie.
++ */
++export interface ApiKeyAuthScheme {
++  /** Type of auth scheme */
++  kind: "apiKey";
++  /** Location of the API key */
++  apiKeyLocation: "query" | "header" | "cookie";
++  /** Name of the API key parameter */
++  name: string;
++}
++
++/** Represents OAuth2 authentication scheme with specified flows */
++export interface OAuth2AuthScheme<TFlows extends OAuth2Flow[]> {
++  /** Type of auth scheme */
++  kind: "oauth2";
++  /** Supported OAuth2 flows */
++  flows: TFlows;
++}
++
++/** Union type of all supported authentication schemes */
++export type AuthScheme =
++  | BasicAuthScheme
++  | BearerAuthScheme
++  | NoAuthAuthScheme
++  | ApiKeyAuthScheme
++  | OAuth2AuthScheme<OAuth2Flow[]>;
 diff --git a/src/auth/tokenCredential.ts b/src/auth/tokenCredential.ts
-index 395b112..19d080b 100644
+deleted file mode 100644
+index 395b112..0000000
 --- a/src/auth/tokenCredential.ts
-+++ b/src/auth/tokenCredential.ts
-@@ -1,9 +1,7 @@
- // Copyright (c) Microsoft Corporation.
- // Licensed under the MIT License.
- 
++++ /dev/null
+@@ -1,148 +0,0 @@
+-// Copyright (c) Microsoft Corporation.
+-// Licensed under the MIT License.
+-
 -import type { AbortSignalLike } from "@azure/abort-controller";
 -import type { TracingContext } from "./tracing.js";
 -import type { HttpMethods } from "@azure/core-util";
-+import type { AbortSignalLike } from "../abort-controller/AbortSignalLike.js";
- 
- /**
-  * Represents a credential capable of providing an authentication token.
-@@ -39,15 +37,6 @@ export interface GetTokenOptions {
-      */
-     timeout?: number;
-   };
+-
+-/**
+- * Represents a credential capable of providing an authentication token.
+- */
+-export interface TokenCredential {
+-  /**
+-   * Gets the token provided by this credential.
+-   *
+-   * This method is called automatically by Azure SDK client libraries. You may call this method
+-   * directly, but you must also handle token caching and token refreshing.
+-   *
+-   * @param scopes - The list of scopes for which the token will have access.
+-   * @param options - The options used to configure any requests this
+-   *                TokenCredential implementation might make.
+-   */
+-  getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null>;
+-}
+-
+-/**
+- * Defines options for TokenCredential.getToken.
+- */
+-export interface GetTokenOptions {
+-  /**
+-   * The signal which can be used to abort requests.
+-   */
+-  abortSignal?: AbortSignalLike;
+-  /**
+-   * Options used when creating and sending HTTP requests for this operation.
+-   */
+-  requestOptions?: {
+-    /**
+-     * The number of milliseconds a request can take before automatically being terminated.
+-     */
+-    timeout?: number;
+-  };
 -  /**
 -   * Options used when tracing is enabled.
 -   */
@@ -337,13 +728,18 @@ index 395b112..19d080b 100644
 -     */
 -    tracingContext?: TracingContext;
 -  };
-   /**
-    * Claim details to perform the Continuous Access Evaluation authentication flow
-    */
-@@ -60,28 +49,6 @@ export interface GetTokenOptions {
-    * Allows specifying a tenantId. Useful to handle challenges that provide tenant Id hints.
-    */
-   tenantId?: string;
+-  /**
+-   * Claim details to perform the Continuous Access Evaluation authentication flow
+-   */
+-  claims?: string;
+-  /**
+-   * Indicates whether to enable the Continuous Access Evaluation authentication flow
+-   */
+-  enableCae?: boolean;
+-  /**
+-   * Allows specifying a tenantId. Useful to handle challenges that provide tenant Id hints.
+-   */
+-  tenantId?: string;
 -
 -  /**
 -   * Options for Proof of Possession token requests
@@ -366,13 +762,27 @@ index 395b112..19d080b 100644
 -     */
 -    resourceRequestUrl: string;
 -  };
- }
- 
- /**
-@@ -103,26 +70,7 @@ export interface AccessToken {
-    */
-   refreshAfterTimestamp?: number;
- 
+-}
+-
+-/**
+- * Represents an access token with an expiration time.
+- */
+-export interface AccessToken {
+-  /**
+-   * The access token returned by the authentication service.
+-   */
+-  token: string;
+-
+-  /**
+-   * The access token's expiration timestamp in milliseconds, UNIX epoch time.
+-   */
+-  expiresOnTimestamp: number;
+-
+-  /**
+-   * The timestamp when the access token should be refreshed, in milliseconds, UNIX epoch time.
+-   */
+-  refreshAfterTimestamp?: number;
+-
 -  /** Type of token - `Bearer` or `pop` */
 -  tokenType?: "Bearer" | "pop";
 -}
@@ -393,10 +803,29 @@ index 395b112..19d080b 100644
 - */
 -export function isPopToken(accessToken: AccessToken): boolean {
 -  return accessToken.tokenType === "pop";
-+  // UNBRANDED DIFFERENCE: Unbranded Core does not support PoP ("Proof-of-Presence") tokens.
- }
- 
- /**
+-}
+-
+-/**
+- * Tests an object to determine whether it implements TokenCredential.
+- *
+- * @param credential - The assumed TokenCredential to be tested.
+- */
+-export function isTokenCredential(credential: unknown): credential is TokenCredential {
+-  // Check for an object with a 'getToken' function and possibly with
+-  // a 'signRequest' function.  We do this check to make sure that
+-  // a ServiceClientCredentials implementor (like TokenClientCredentials
+-  // in ms-rest-nodeauth) doesn't get mistaken for a TokenCredential if
+-  // it doesn't actually implement TokenCredential also.
+-  const castCredential = credential as {
+-    getToken: unknown;
+-    signRequest: unknown;
+-  };
+-  return (
+-    castCredential &&
+-    typeof castCredential.getToken === "function" &&
+-    (castCredential.signRequest === undefined || castCredential.getToken.length > 0)
+-  );
+-}
 diff --git a/src/auth/tracing.ts b/src/auth/tracing.ts
 deleted file mode 100644
 index 8e846bb..0000000
@@ -449,10 +878,10 @@ index 56cb7b8..da27584 100644
  
  export const apiVersionPolicyName = "ApiVersionPolicy";
 diff --git a/src/client/clientHelpers.ts b/src/client/clientHelpers.ts
-index 30dac33..66ea99c 100644
+index 30dac33..f7e4696 100644
 --- a/src/client/clientHelpers.ts
 +++ b/src/client/clientHelpers.ts
-@@ -1,15 +1,15 @@
+@@ -1,84 +1,47 @@
  // Copyright (c) Microsoft Corporation.
  // Licensed under the MIT License.
  
@@ -467,32 +896,108 @@ index 30dac33..66ea99c 100644
 -
 +import type { HttpClient } from "../interfaces.js";
 +import type { Pipeline } from "../pipeline.js";
-+import { bearerTokenAuthenticationPolicy } from "../policies/bearerTokenAuthenticationPolicy.js";
 +import { createDefaultHttpClient } from "../defaultHttpClient.js";
 +import { createPipelineFromOptions } from "../createPipelineFromOptions.js";
-+import type { TokenCredential } from "../auth/tokenCredential.js";
-+import { isTokenCredential } from "../auth/tokenCredential.js";
-+import type { KeyCredential } from "../auth/keyCredential.js";
-+import { isKeyCredential } from "../auth/keyCredential.js";
  import type { ClientOptions } from "./common.js";
  import { apiVersionPolicy } from "./apiVersionPolicy.js";
- import { keyCredentialAuthenticationPolicy } from "./keyCredentialAuthenticationPolicy.js";
-@@ -77,10 +77,6 @@ export function createDefaultPipeline(
-   return pipeline;
- }
+-import { keyCredentialAuthenticationPolicy } from "./keyCredentialAuthenticationPolicy.js";
++import {
++  isApiKeyCredential,
++  isBasicCredential,
++  isBearerTokenCredential,
++  isOAuth2TokenCredential,
++} from "../auth/credentials.js";
++import { apiKeyAuthenticationPolicy } from "../policies/auth/apiKeyAuthenticationPolicy.js";
++import { basicAuthenticationPolicy } from "../policies/auth/basicAuthenticationPolicy.js";
++import { bearerAuthenticationPolicy } from "../policies/auth/bearerAuthenticationPolicy.js";
++import { oauth2AuthenticationPolicy } from "../policies/auth/oauth2AuthenticationPolicy.js";
+ 
+ let cachedHttpClient: HttpClient | undefined;
+ 
+-/**
+- * Optional parameters for adding a credential policy to the pipeline.
+- */
+-export interface AddCredentialPipelinePolicyOptions {
+-  /**
+-   * Options related to the client.
+-   */
+-  clientOptions?: ClientOptions;
+-  /**
+-   * The credential to use.
+-   */
+-  credential?: TokenCredential | KeyCredential;
+-}
+-
+-/**
+- * Adds a credential policy to the pipeline if a credential is provided. If none is provided, no policy is added.
+- */
+-export function addCredentialPipelinePolicy(
+-  pipeline: Pipeline,
+-  endpoint: string,
+-  options: AddCredentialPipelinePolicyOptions = {},
+-): void {
+-  const { credential, clientOptions } = options;
+-  if (!credential) {
+-    return;
+-  }
+-
+-  if (isTokenCredential(credential)) {
+-    const tokenPolicy = bearerTokenAuthenticationPolicy({
+-      credential,
+-      scopes: clientOptions?.credentials?.scopes ?? `${endpoint}/.default`,
+-    });
+-    pipeline.addPolicy(tokenPolicy);
+-  } else if (isKeyCredential(credential)) {
+-    if (!clientOptions?.credentials?.apiKeyHeaderName) {
+-      throw new Error(`Missing API Key Header Name`);
+-    }
+-    const keyPolicy = keyCredentialAuthenticationPolicy(
+-      credential,
+-      clientOptions?.credentials?.apiKeyHeaderName,
+-    );
+-    pipeline.addPolicy(keyPolicy);
+-  }
+-}
+-
+ /**
+  * Creates a default rest pipeline to re-use accross Rest Level Clients
+  */
+-export function createDefaultPipeline(
+-  endpoint: string,
+-  credential?: TokenCredential | KeyCredential,
+-  options: ClientOptions = {},
+-): Pipeline {
++export function createDefaultPipeline(options: ClientOptions = {}): Pipeline {
+   const pipeline = createPipelineFromOptions(options);
+ 
+   pipeline.addPolicy(apiVersionPolicy(options));
+ 
+-  addCredentialPipelinePolicy(pipeline, endpoint, { credential, clientOptions: options });
+-  return pipeline;
++  const { credential, authSchemes } = options;
++  if (credential) {
++    if (isApiKeyCredential(credential)) {
++      pipeline.addPolicy(apiKeyAuthenticationPolicy({ authSchemes, credential }));
++    } else if (isBasicCredential(credential)) {
++      pipeline.addPolicy(basicAuthenticationPolicy({ authSchemes, credential }));
++    } else if (isBearerTokenCredential(credential)) {
++      pipeline.addPolicy(bearerAuthenticationPolicy({ authSchemes, credential }));
++    } else if (isOAuth2TokenCredential(credential)) {
++      pipeline.addPolicy(oauth2AuthenticationPolicy({ authSchemes, credential }));
++    }
+   }
  
 -function isKeyCredential(credential: any): credential is KeyCredential {
 -  return (credential as KeyCredential).key !== undefined;
--}
--
++  return pipeline;
+ }
+ 
  export function getCachedDefaultHttpsClient(): HttpClient {
-   if (!cachedHttpClient) {
-     cachedHttpClient = createDefaultHttpClient();
 diff --git a/src/client/common.ts b/src/client/common.ts
-index 609878a..da6742a 100644
+index 58f6eba..2fd91b4 100644
 --- a/src/client/common.ts
 +++ b/src/client/common.ts
-@@ -3,19 +3,17 @@
+@@ -3,19 +3,18 @@
  
  import type {
    HttpClient,
@@ -512,25 +1017,28 @@ index 609878a..da6742a 100644
 +  RawHttpHeadersInput,
 +} from "../interfaces.js";
 +import type { Pipeline, PipelinePolicy } from "../pipeline.js";
-+import type { AbortSignalLike } from "../abort-controller/AbortSignalLike.js";
 +import type { PipelineOptions } from "../createPipelineFromOptions.js";
 +import type { LogPolicyOptions } from "../policies/logPolicy.js";
++import type { AuthScheme } from "../auth/schemes.js";
++import type { ClientCredential } from "../auth/credentials.js";
  
  /**
   * Shape of the default request parameters, this may be overridden by the specific
-@@ -74,11 +72,6 @@ export type RequestParameters = {
+@@ -72,12 +71,7 @@ export type RequestParameters = {
+   /**
+    * The signal which can be used to abort requests.
     */
-   abortSignal?: AbortSignalLike;
- 
+-  abortSignal?: AbortSignalLike;
+-
 -  /**
 -   * Options used when tracing is enabled.
 -   */
 -  tracingOptions?: OperationTracingOptions;
--
++  abortSignal?: AbortSignal;
+ 
    /**
     * A function to be called each time a response is received from the server
-    * while performing the requested operation.
-@@ -91,16 +84,9 @@ export type RequestParameters = {
+@@ -91,16 +85,9 @@ export type RequestParameters = {
   * A function to be called each time a response is received from the server
   * while performing the requested operation.
   * May be called multiple times.
@@ -549,7 +1057,13 @@ index 609878a..da6742a 100644
  
  /**
   * Wrapper object for http request and response. Deserialized object is stored in
-@@ -135,11 +121,6 @@ export interface OperationOptions {
+@@ -130,16 +117,11 @@ export interface OperationOptions {
+   /**
+    * The signal which can be used to abort requests.
+    */
+-  abortSignal?: AbortSignalLike;
++  abortSignal?: AbortSignal;
+   /**
     * Options used when creating and sending HTTP requests for this operation.
     */
    requestOptions?: OperationRequestOptions;
@@ -561,7 +1075,7 @@ index 609878a..da6742a 100644
    /**
     * A function to be called each time a response is received from the server
     * while performing the requested operation.
-@@ -201,8 +182,8 @@ export interface Client {
+@@ -201,8 +183,8 @@ export interface Client {
     * This method will be used to send request that would check the path to provide
     * strong types. When used by the codegen this type gets overridden with the generated
     * types. For example:
@@ -572,15 +1086,62 @@ index 609878a..da6742a 100644
     *
     * type MyClient = Client & {
     *   path: Routes;
-@@ -333,11 +314,9 @@ export type ClientOptions = PipelineOptions & {
-      */
-     apiKeyHeaderName?: string;
-   };
+@@ -217,18 +199,6 @@ export interface Client {
+   pathUnchecked: PathUnchecked;
+ }
+ 
+-/**
+- * A Node.js Readable stream that also has a `destroy` method.
+- */
+-export interface NodeJSReadableStream extends NodeJS.ReadableStream {
 -  /**
+-   * Destroy the stream. Optionally emit an 'error' event, and emit a
+-   * 'close' event (unless emitClose is set to false). After this call,
+-   * internal resources will be released.
+-   */
+-  destroy(error?: Error): void;
+-}
+-
+ /**
+  * Http Response which body is a NodeJS stream object
+  */
+@@ -236,7 +206,7 @@ export type HttpNodeStreamResponse = HttpResponse & {
+   /**
+    * Streamable body
+    */
+-  body?: NodeJSReadableStream;
++  body?: NodeJS.ReadableStream;
+ };
+ 
+ /**
+@@ -333,23 +303,19 @@ export interface AdditionalPolicyConfig {
+  */
+ export type ClientOptions = PipelineOptions & {
+   /**
+-   * Credentials information
+-   */
+-  credentials?: {
+-    /**
+-     * Authentication scopes for AAD
+-     */
+-    scopes?: string[];
+-    /**
+-     * Heder name for Client Secret authentication
++   * List of authentication schemes supported by the client.
++   * These schemes define how the client can authenticate requests.
+    */
+-    apiKeyHeaderName?: string;
+-  };
++  authSchemes?: AuthScheme[];
++
+   /**
 -   * Base url for the client
 -   * @deprecated This property is deprecated and will be removed soon, please use endpoint instead
--   */
++   * The credential used to authenticate requests.
++   * Must be compatible with one of the specified authentication schemes.
+    */
 -  baseUrl?: string;
++  credential?: ClientCredential;
 +
 +  // UNBRANDED DIFFERENCE: The deprecated baseUrl property is removed in favor of the endpoint property in the unbranded Core package
 +
@@ -598,26 +1159,22 @@ index eabe718..0000000
 -
 -/// <reference lib="dom" />
 diff --git a/src/client/getClient.ts b/src/client/getClient.ts
-index 05bd395..0e6bb11 100644
+index 05bd395..e3f46d2 100644
 --- a/src/client/getClient.ts
 +++ b/src/client/getClient.ts
-@@ -1,9 +1,12 @@
+@@ -1,9 +1,8 @@
  // Copyright (c) Microsoft Corporation.
  // Licensed under the MIT License.
  
 -import type { KeyCredential, TokenCredential } from "@azure/core-auth";
 -import { isKeyCredential, isTokenCredential } from "@azure/core-auth";
 -import type { HttpClient, HttpMethods, Pipeline, PipelineOptions } from "@azure/core-rest-pipeline";
-+import type { TokenCredential } from "../auth/tokenCredential.js";
-+import { isTokenCredential } from "../auth/tokenCredential.js";
-+import type { KeyCredential } from "../auth/keyCredential.js";
-+import { isKeyCredential } from "../auth/keyCredential.js";
 +import type { HttpClient, HttpMethods } from "../interfaces.js";
 +import type { Pipeline } from "../pipeline.js";
  import { createDefaultPipeline } from "./clientHelpers.js";
  import type {
    Client,
-@@ -11,11 +14,13 @@ import type {
+@@ -11,44 +10,21 @@ import type {
    HttpBrowserStreamResponse,
    HttpNodeStreamResponse,
    RequestParameters,
@@ -627,12 +1184,46 @@ index 05bd395..0e6bb11 100644
  import { sendRequest } from "./sendRequest.js";
  import { buildRequestUrl } from "./urlHelpers.js";
 -import { isNodeLike } from "@azure/core-util";
-+import type { PipelineOptions } from "../createPipelineFromOptions.js";
 +import { isNodeLike } from "../util/checkEnvironment.js";
  
+-/**
+- * Creates a client with a default pipeline
+- * @param endpoint - Base endpoint for the client
+- * @param options - Client options
+- */
+-export function getClient(endpoint: string, options?: ClientOptions): Client;
  /**
   * Creates a client with a default pipeline
-@@ -62,8 +67,8 @@ export function getClient(
+  * @param endpoint - Base endpoint for the client
+  * @param credentials - Credentials to authenticate the requests
+  * @param options - Client options
+  */
+-export function getClient(
+-  endpoint: string,
+-  credentials?: TokenCredential | KeyCredential,
+-  options?: ClientOptions,
+-): Client;
+-export function getClient(
+-  endpoint: string,
+-  credentialsOrPipelineOptions?: (TokenCredential | KeyCredential) | ClientOptions,
+-  clientOptions: ClientOptions = {},
+-): Client {
+-  let credentials: TokenCredential | KeyCredential | undefined;
+-  if (credentialsOrPipelineOptions) {
+-    if (isCredential(credentialsOrPipelineOptions)) {
+-      credentials = credentialsOrPipelineOptions;
+-    } else {
+-      clientOptions = credentialsOrPipelineOptions ?? {};
+-    }
+-  }
+-
+-  const pipeline = createDefaultPipeline(endpoint, credentials, clientOptions);
++export function getClient(endpoint: string, clientOptions: ClientOptions = {}): Client {
++  const pipeline = createDefaultPipeline(clientOptions);
+   if (clientOptions.additionalPolicies?.length) {
+     for (const { policy, position } of clientOptions.additionalPolicies) {
+       // Sign happens after Retry and is commonly needed to occur
+@@ -62,8 +38,8 @@ export function getClient(
  
    const { allowInsecureConnection, httpClient } = clientOptions;
    const endpointUrl = clientOptions.endpoint ?? endpoint;
@@ -643,6 +1234,16 @@ index 05bd395..0e6bb11 100644
        buildRequestUrl(endpointUrl, path, args, { allowInsecureConnection, ...requestOptions });
  
      return {
+@@ -208,9 +184,3 @@ function buildOperation(
+     },
+   };
+ }
+-
+-function isCredential(
+-  param: (TokenCredential | KeyCredential) | PipelineOptions,
+-): param is TokenCredential | KeyCredential {
+-  return isKeyCredential(param) || isTokenCredential(param);
+-}
 diff --git a/src/client/helpers/isBinaryBody.ts b/src/client/helpers/isBinaryBody.ts
 deleted file mode 100644
 index ef06c77..0000000
@@ -730,13 +1331,14 @@ index 1cd7d94..0000000
 -export * from "./getClient.js";
 -export * from "./common.js";
 diff --git a/src/client/keyCredentialAuthenticationPolicy.ts b/src/client/keyCredentialAuthenticationPolicy.ts
-index 06bc091..90e6659 100644
+deleted file mode 100644
+index 06bc091..0000000
 --- a/src/client/keyCredentialAuthenticationPolicy.ts
-+++ b/src/client/keyCredentialAuthenticationPolicy.ts
-@@ -1,13 +1,9 @@
- // Copyright (c) Microsoft Corporation.
- // Licensed under the MIT License.
- 
++++ /dev/null
+@@ -1,28 +0,0 @@
+-// Copyright (c) Microsoft Corporation.
+-// Licensed under the MIT License.
+-
 -import type { KeyCredential } from "@azure/core-auth";
 -import type {
 -  PipelinePolicy,
@@ -744,12 +1346,24 @@ index 06bc091..90e6659 100644
 -  PipelineResponse,
 -  SendRequest,
 -} from "@azure/core-rest-pipeline";
-+import type { KeyCredential } from "../auth/keyCredential.js";
-+import type { PipelineRequest, PipelineResponse, SendRequest } from "../interfaces.js";
-+import type { PipelinePolicy } from "../pipeline.js";
- 
- /**
-  * The programmatic identifier of the bearerTokenAuthenticationPolicy.
+-
+-/**
+- * The programmatic identifier of the bearerTokenAuthenticationPolicy.
+- */
+-export const keyCredentialAuthenticationPolicyName = "keyCredentialAuthenticationPolicy";
+-
+-export function keyCredentialAuthenticationPolicy(
+-  credential: KeyCredential,
+-  apiKeyHeaderName: string,
+-): PipelinePolicy {
+-  return {
+-    name: keyCredentialAuthenticationPolicyName,
+-    async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
+-      request.headers.set(apiKeyHeaderName, credential.key);
+-      return next(request);
+-    },
+-  };
+-}
 diff --git a/src/client/multipart.ts b/src/client/multipart.ts
 index 175b5cd..102ed57 100644
 --- a/src/client/multipart.ts
@@ -851,7 +1465,7 @@ index 4ee4778..dc3b0f5 100644
      onUploadProgress: options.onUploadProgress,
      onDownloadProgress: options.onDownloadProgress,
 diff --git a/src/constants.ts b/src/constants.ts
-index 201ff0d..e81a30d 100644
+index 201ff0d..3eafcb9 100644
 --- a/src/constants.ts
 +++ b/src/constants.ts
 @@ -1,6 +1,6 @@
@@ -859,7 +1473,7 @@ index 201ff0d..e81a30d 100644
  // Licensed under the MIT License.
  
 -export const SDK_VERSION: string = "1.19.2";
-+export const SDK_VERSION: string = "0.1.0";
++export const SDK_VERSION: string = "0.2.0";
  
  export const DEFAULT_RETRY_POLICY_COUNT = 3;
 diff --git a/src/createPipelineFromOptions.ts b/src/createPipelineFromOptions.ts
@@ -915,15 +1529,14 @@ index ad162e3..ae5349c 100644
    HttpClient,
    HttpHeaders as PipelineHeaders,
 diff --git a/src/index.ts b/src/index.ts
-index 92a7ee9..65e7734 100644
+index 92a7ee9..e7d682b 100644
 --- a/src/index.ts
 +++ b/src/index.ts
-@@ -9,116 +9,71 @@ declare global {
+@@ -9,116 +9,74 @@ declare global {
    interface TransformStream<I = any, O = any> {}
  }
  
 -export type { HttpMethods } from "@azure/core-util";
-+export { AbortSignalLike } from "./abort-controller/AbortSignalLike.js";
 +export { AbortError } from "./abort-controller/AbortError.js";
 +export {
 +  createClientLogger,
@@ -997,7 +1610,8 @@ index 92a7ee9..65e7734 100644
 -export { logPolicy, logPolicyName, type LogPolicyOptions } from "./policies/logPolicy.js";
 -export { multipartPolicy, multipartPolicyName } from "./policies/multipartPolicy.js";
 -export { proxyPolicy, proxyPolicyName, getDefaultProxySettings } from "./policies/proxyPolicy.js";
-+export { isKeyCredential, type KeyCredential } from "./auth/keyCredential.js";
++export * from "./auth/schemes.js";
++export * from "./auth/oauth2Flows.js";
  export {
 -  redirectPolicy,
 -  redirectPolicyName,
@@ -1014,11 +1628,14 @@ index 92a7ee9..65e7734 100644
 -  type ThrottlingRetryPolicyOptions,
 -} from "./policies/throttlingRetryPolicy.js";
 -export { retryPolicy, type RetryPolicyOptions } from "./policies/retryPolicy.js";
-+  isTokenCredential,
-+  type TokenCredential,
-+  type GetTokenOptions,
-+  type AccessToken,
-+} from "./auth/tokenCredential.js";
++  type BasicCredential,
++  type BearerTokenCredential,
++  type OAuth2TokenCredential,
++  type GetOAuth2TokenOptions,
++  type GetBearerTokenOptions,
++  type ApiKeyCredential,
++  type ClientCredential,
++} from "./auth/credentials.js";
 +export { createPipelineRequest, type PipelineRequestOptions } from "./pipelineRequest.js";
 +export type { Pipeline, PipelinePolicy, AddPolicyOptions, PipelinePhase } from "./pipeline.js";
 +export { RestError, isRestError, type RestErrorOptions } from "./restError.js";
@@ -1091,7 +1708,7 @@ index 92a7ee9..65e7734 100644
 +export type { RedirectPolicyOptions } from "./policies/redirectPolicy.js";
 +export type { UserAgentPolicyOptions } from "./policies/userAgentPolicy.js";
 diff --git a/src/interfaces.ts b/src/interfaces.ts
-index ae5513d..f8367e5 100644
+index ae5513d..28b26c8 100644
 --- a/src/interfaces.ts
 +++ b/src/interfaces.ts
 @@ -1,9 +1,7 @@
@@ -1101,23 +1718,41 @@ index ae5513d..f8367e5 100644
 -import type { AbortSignalLike } from "@azure/abort-controller";
 -import type { OperationTracingOptions } from "@azure/core-tracing";
 -import type { HttpMethods } from "@azure/core-util";
-+import type { AbortSignalLike } from "./abort-controller/AbortSignalLike.js";
++import type { AuthScheme } from "./auth/schemes.js";
  
  /**
   * A HttpHeaders collection represented as a simple JSON object.
-@@ -204,11 +202,6 @@ export interface PipelineRequest {
+@@ -135,6 +133,15 @@ export interface Agent {
+  * Metadata about a request being made by the pipeline.
+  */
+ export interface PipelineRequest {
++  /**
++   * List of authentication schemes used for this specific request.
++   * These schemes define how the request will be authenticated.
++   * If provided, these schemes override the client level authentication schemes.
++   *
++   * If no auth schemes are provided at client or request level, defaults to no auth.
++   */
++  authSchemes?: AuthScheme[];
++
+   /**
+    * The URL to make the request to.
     */
-   abortSignal?: AbortSignalLike;
- 
+@@ -202,12 +209,7 @@ export interface PipelineRequest {
+   /**
+    * Used to abort the request later.
+    */
+-  abortSignal?: AbortSignalLike;
+-
 -  /**
 -   * Tracing options to use for any created Spans.
 -   */
 -  tracingOptions?: OperationTracingOptions;
--
++  abortSignal?: AbortSignal;
+ 
    /**
     * Callback which fires upon upload progress.
-    */
-@@ -315,6 +308,21 @@ export type TransferProgressEvent = {
+@@ -315,6 +317,21 @@ export type TransferProgressEvent = {
    loadedBytes: number;
  };
  
@@ -1350,10 +1985,10 @@ index 264a28e..2b974db 100644
    HttpClient,
    HttpHeaders,
 diff --git a/src/pipelineRequest.ts b/src/pipelineRequest.ts
-index 5947165..5f67f7d 100644
+index 5947165..6c09a01 100644
 --- a/src/pipelineRequest.ts
 +++ b/src/pipelineRequest.ts
-@@ -2,21 +2,18 @@
+@@ -2,21 +2,17 @@
  // Licensed under the MIT License.
  
  import type {
@@ -1373,12 +2008,11 @@ index 5947165..5f67f7d 100644
 -import { randomUUID } from "@azure/core-util";
 -import type { OperationTracingOptions } from "@azure/core-tracing";
 -import type { HttpMethods } from "@azure/core-util";
-+import type { AbortSignalLike } from "./abort-controller/AbortSignalLike.js";
 +import { randomUUID } from "./util/uuidUtils.js";
  
  /**
   * Settings to initialize a request.
-@@ -76,16 +73,6 @@ export interface PipelineRequestOptions {
+@@ -76,16 +72,6 @@ export interface PipelineRequestOptions {
     */
    streamResponseStatusCodes?: Set<number>;
  
@@ -1395,7 +2029,7 @@ index 5947165..5f67f7d 100644
    /**
     * BROWSER ONLY
     *
-@@ -97,9 +84,6 @@ export interface PipelineRequestOptions {
+@@ -97,9 +83,6 @@ export interface PipelineRequestOptions {
     */
    enableBrowserStreams?: boolean;
  
@@ -1405,26 +2039,29 @@ index 5947165..5f67f7d 100644
    /**
     * Proxy configuration.
     */
-@@ -115,11 +99,6 @@ export interface PipelineRequestOptions {
+@@ -113,12 +96,7 @@ export interface PipelineRequestOptions {
+   /**
+    * Used to abort the request later.
     */
-   abortSignal?: AbortSignalLike;
- 
+-  abortSignal?: AbortSignalLike;
+-
 -  /**
 -   * Options used to create a span when tracing is enabled.
 -   */
 -  tracingOptions?: OperationTracingOptions;
--
++  abortSignal?: AbortSignal;
+ 
    /**
     * Callback which fires upon upload progress.
-    */
-@@ -143,16 +122,14 @@ class PipelineRequestImpl implements PipelineRequest {
+@@ -143,16 +121,14 @@ class PipelineRequestImpl implements PipelineRequest {
    public formData?: FormDataMap;
    public streamResponseStatusCodes?: Set<number>;
    public enableBrowserStreams: boolean;
 +
    public proxySettings?: ProxySettings;
    public disableKeepAlive: boolean;
-   public abortSignal?: AbortSignalLike;
+-  public abortSignal?: AbortSignalLike;
++  public abortSignal?: AbortSignal;
    public requestId: string;
 -  public tracingOptions?: OperationTracingOptions;
    public allowInsecureConnection?: boolean;
@@ -1435,7 +2072,7 @@ index 5947165..5f67f7d 100644
  
    constructor(options: PipelineRequestOptions) {
      this.url = options.url;
-@@ -167,14 +144,11 @@ class PipelineRequestImpl implements PipelineRequest {
+@@ -167,14 +143,11 @@ class PipelineRequestImpl implements PipelineRequest {
      this.streamResponseStatusCodes = options.streamResponseStatusCodes;
      this.withCredentials = options.withCredentials ?? false;
      this.abortSignal = options.abortSignal;
@@ -1450,6 +2087,349 @@ index 5947165..5f67f7d 100644
    }
  }
  
+diff --git a/src/policies/auth/apiKeyAuthenticationPolicy.ts b/src/policies/auth/apiKeyAuthenticationPolicy.ts
+new file mode 100644
+index 0000000..ea33138
+--- /dev/null
++++ b/src/policies/auth/apiKeyAuthenticationPolicy.ts
+@@ -0,0 +1,60 @@
++// Copyright (c) Microsoft Corporation.
++// Licensed under the MIT License.
++
++import type { ApiKeyCredential } from "../../auth/credentials.js";
++import type { AuthScheme } from "../../auth/schemes.js";
++import type { PipelineRequest, PipelineResponse, SendRequest } from "../../interfaces.js";
++import type { PipelinePolicy } from "../../pipeline.js";
++import { ensureSecureConnection } from "./checkInsecureConnection.js";
++
++/**
++ * Name of the API Key Authentication Policy
++ */
++export const apiKeyAuthenticationPolicyName = "apiKeyAuthenticationPolicy";
++
++/**
++ * Options for configuring the API key authentication policy
++ */
++export interface ApiKeyAuthenticationPolicyOptions {
++  /**
++   * The credential used to authenticate requests
++   */
++  credential: ApiKeyCredential;
++  /**
++   * Optional authentication schemes to use. If `authSchemes` is provided in both request and policy options, the request options will take precedence.
++   */
++  authSchemes?: AuthScheme[];
++  /**
++   * Allows for connecting to HTTP endpoints instead of enforcing HTTPS.
++   * CAUTION: Never use this option in production.
++   */
++  allowInsecureConnection?: boolean;
++}
++
++/**
++ * Gets a pipeline policy that adds API key authentication to requests
++ */
++export function apiKeyAuthenticationPolicy(
++  options: ApiKeyAuthenticationPolicyOptions,
++): PipelinePolicy {
++  return {
++    name: apiKeyAuthenticationPolicyName,
++    async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
++      // Ensure allowInsecureConnection is explicitly set when sending request to non-https URLs
++      ensureSecureConnection(request, options);
++
++      const scheme = (request.authSchemes ?? options.authSchemes)?.find((x) => x.kind === "apiKey");
++
++      // Skip adding authentication header if no API key authentication scheme is found
++      if (!scheme) {
++        return next(request);
++      }
++      if (scheme.apiKeyLocation !== "header") {
++        throw new Error(`Unsupported API key location: ${scheme.apiKeyLocation}`);
++      }
++
++      request.headers.set(scheme.name, options.credential.key);
++      return next(request);
++    },
++  };
++}
+diff --git a/src/policies/auth/basicAuthenticationPolicy.ts b/src/policies/auth/basicAuthenticationPolicy.ts
+new file mode 100644
+index 0000000..e4486de
+--- /dev/null
++++ b/src/policies/auth/basicAuthenticationPolicy.ts
+@@ -0,0 +1,65 @@
++// Copyright (c) Microsoft Corporation.
++// Licensed under the MIT License.
++
++import type { BasicCredential } from "../../auth/credentials.js";
++import type { AuthScheme } from "../../auth/schemes.js";
++import type { PipelineRequest, PipelineResponse, SendRequest } from "../../interfaces.js";
++import type { PipelinePolicy } from "../../pipeline.js";
++import { stringToUint8Array, uint8ArrayToString } from "../../util/bytesEncoding.js";
++import { ensureSecureConnection } from "./checkInsecureConnection.js";
++
++/**
++ * Name of the Basic Authentication Policy
++ */
++export const basicAuthenticationPolicyName = "bearerAuthenticationPolicy";
++
++/**
++ * Options for configuring the basic authentication policy
++ */
++export interface BasicAuthenticationPolicyOptions {
++  /**
++   * The credential used to authenticate requests
++   */
++  credential: BasicCredential;
++  /**
++   * Optional authentication schemes to use. If not provided, schemes from the request will be used.
++   */
++  authSchemes?: AuthScheme[];
++  /**
++   * Allows for connecting to HTTP endpoints instead of enforcing HTTPS.
++   * CAUTION: Never use this option in production.
++   */
++  allowInsecureConnection?: boolean;
++}
++
++/**
++ * Gets a pipeline policy that adds basic authentication to requests
++ */
++export function basicAuthenticationPolicy(
++  options: BasicAuthenticationPolicyOptions,
++): PipelinePolicy {
++  return {
++    name: basicAuthenticationPolicyName,
++    async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
++      // Ensure allowInsecureConnection is explicitly set when sending request to non-https URLs
++      ensureSecureConnection(request, options);
++
++      const scheme = (request.authSchemes ?? options.authSchemes)?.find(
++        (x) => x.kind === "http" && x.scheme === "basic",
++      );
++
++      // Skip adding authentication header if no basic authentication scheme is found
++      if (!scheme) {
++        return next(request);
++      }
++
++      const { username, password } = options.credential;
++      const headerValue = uint8ArrayToString(
++        stringToUint8Array(`${username}:${password}`, "utf-8"),
++        "base64",
++      );
++      request.headers.set("Authorization", `Basic ${headerValue}`);
++      return next(request);
++    },
++  };
++}
+diff --git a/src/policies/auth/bearerAuthenticationPolicy.ts b/src/policies/auth/bearerAuthenticationPolicy.ts
+new file mode 100644
+index 0000000..d7e8010
+--- /dev/null
++++ b/src/policies/auth/bearerAuthenticationPolicy.ts
+@@ -0,0 +1,62 @@
++// Copyright (c) Microsoft Corporation.
++// Licensed under the MIT License.
++
++import type { BearerTokenCredential } from "../../auth/credentials.js";
++import type { AuthScheme } from "../../auth/schemes.js";
++import type { PipelineRequest, PipelineResponse, SendRequest } from "../../interfaces.js";
++import type { PipelinePolicy } from "../../pipeline.js";
++import { ensureSecureConnection } from "./checkInsecureConnection.js";
++
++/**
++ * Name of the Bearer Authentication Policy
++ */
++export const bearerAuthenticationPolicyName = "bearerAuthenticationPolicy";
++
++/**
++ * Options for configuring the bearer authentication policy
++ */
++export interface BearerAuthenticationPolicyOptions {
++  /**
++   * The BearerTokenCredential implementation that can supply the bearer token.
++   */
++  credential: BearerTokenCredential;
++  /**
++   * Optional authentication schemes to use. If not provided, schemes from the request will be used.
++   */
++  authSchemes?: AuthScheme[];
++  /**
++   * Allows for connecting to HTTP endpoints instead of enforcing HTTPS.
++   * CAUTION: Never use this option in production.
++   */
++  allowInsecureConnection?: boolean;
++}
++
++/**
++ * Gets a pipeline policy that adds bearer token authentication to requests
++ */
++export function bearerAuthenticationPolicy(
++  options: BearerAuthenticationPolicyOptions,
++): PipelinePolicy {
++  return {
++    name: bearerAuthenticationPolicyName,
++    async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
++      // Ensure allowInsecureConnection is explicitly set when sending request to non-https URLs
++      ensureSecureConnection(request, options);
++
++      const scheme = (request.authSchemes ?? options.authSchemes)?.find(
++        (x) => x.kind === "http" && x.scheme === "bearer",
++      );
++
++      // Skip adding authentication header if no bearer authentication scheme is found
++      if (!scheme) {
++        return next(request);
++      }
++
++      const token = await options.credential.getBearerToken({
++        abortSignal: request.abortSignal,
++      });
++      request.headers.set("Authorization", `Bearer ${token}`);
++      return next(request);
++    },
++  };
++}
+diff --git a/src/policies/auth/checkInsecureConnection.ts b/src/policies/auth/checkInsecureConnection.ts
+new file mode 100644
+index 0000000..094750a
+--- /dev/null
++++ b/src/policies/auth/checkInsecureConnection.ts
+@@ -0,0 +1,66 @@
++// Copyright (c) Microsoft Corporation.
++// Licensed under the MIT License.
++
++import type { PipelineRequest } from "../../interfaces.js";
++import { logger } from "../../log.js";
++
++// Ensure the warining is only emitted once
++let insecureConnectionWarningEmmitted = false;
++
++/**
++ * Checks if the request is allowed to be sent over an insecure connection.
++ *
++ * A request is allowed to be sent over an insecure connection when:
++ * - The `allowInsecureConnection` option is set to `true`.
++ * - The request has the `allowInsecureConnection` property set to `true`.
++ * - The request is being sent to `localhost` or `127.0.0.1`
++ */
++function allowInsecureConnection(
++  request: PipelineRequest,
++  options: { allowInsecureConnection?: boolean },
++): boolean {
++  if (options.allowInsecureConnection && request.allowInsecureConnection) {
++    const url = new URL(request.url);
++    if (url.hostname === "localhost" || url.hostname === "127.0.0.1") {
++      return true;
++    }
++  }
++
++  return false;
++}
++
++/**
++ * Logs a warning about sending a bearer token over an insecure connection.
++ *
++ * This function will emit a node warning once, but log the warning every time.
++ */
++function emitInsecureConnectionWarning(): void {
++  const warning =
++    "Sending bearer token over insecure transport. Assume any token issued is compromised.";
++
++  logger.warning(warning);
++
++  if (typeof process?.emitWarning === "function" && !insecureConnectionWarningEmmitted) {
++    insecureConnectionWarningEmmitted = true;
++    process.emitWarning(warning);
++  }
++}
++
++/**
++ * Ensures that authentication is only allowed over HTTPS unless explicitly allowed.
++ * Throws an error if the connection is not secure and not explicitly allowed.
++ */
++export function ensureSecureConnection(
++  request: PipelineRequest,
++  options: { allowInsecureConnection?: boolean },
++): void {
++  if (!request.url.toLowerCase().startsWith("https://")) {
++    if (allowInsecureConnection(request, options)) {
++      emitInsecureConnectionWarning();
++    } else {
++      throw new Error(
++        "Authentication is not permitted for non-TLS protected (non-https) URLs when allowInsecureConnection is false.",
++      );
++    }
++  }
++}
+diff --git a/src/policies/auth/oauth2AuthenticationPolicy.ts b/src/policies/auth/oauth2AuthenticationPolicy.ts
+new file mode 100644
+index 0000000..5c76266
+--- /dev/null
++++ b/src/policies/auth/oauth2AuthenticationPolicy.ts
+@@ -0,0 +1,60 @@
++// Copyright (c) Microsoft Corporation.
++// Licensed under the MIT License.
++
++import type { OAuth2Flow } from "../../auth/oauth2Flows.js";
++import type { OAuth2TokenCredential } from "../../auth/credentials.js";
++import type { AuthScheme } from "../../auth/schemes.js";
++import type { PipelineRequest, PipelineResponse, SendRequest } from "../../interfaces.js";
++import type { PipelinePolicy } from "../../pipeline.js";
++import { ensureSecureConnection } from "./checkInsecureConnection.js";
++
++/**
++ * Name of the OAuth2 Authentication Policy
++ */
++export const oauth2AuthenticationPolicyName = "oauth2AuthenticationPolicy";
++
++/**
++ * Options for configuring the OAuth2 authentication policy
++ */
++export interface OAuth2AuthenticationPolicyOptions<TFlows extends OAuth2Flow> {
++  /**
++   * The OAuth2TokenCredential implementation that can supply the bearer token.
++   */
++  credential: OAuth2TokenCredential<TFlows>;
++  /**
++   * Optional authentication schemes to use. If not provided, schemes from the request will be used.
++   */
++  authSchemes?: AuthScheme[];
++  /**
++   * Allows for connecting to HTTP endpoints instead of enforcing HTTPS.
++   * CAUTION: Never use this option in production.
++   */
++  allowInsecureConnection?: boolean;
++}
++
++/**
++ * Gets a pipeline policy that adds authorization header from OAuth2 schemes
++ */
++export function oauth2AuthenticationPolicy<TFlows extends OAuth2Flow>(
++  options: OAuth2AuthenticationPolicyOptions<TFlows>,
++): PipelinePolicy {
++  return {
++    name: oauth2AuthenticationPolicyName,
++    async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
++      // Ensure allowInsecureConnection is explicitly set when sending request to non-https URLs
++      ensureSecureConnection(request, options);
++
++      const scheme = (request.authSchemes ?? options.authSchemes)?.find((x) => x.kind === "oauth2");
++
++      // Skip adding authentication header if no OAuth2 authentication scheme is found
++      if (!scheme) {
++        return next(request);
++      }
++      const token = await options.credential.getOAuth2Token(scheme.flows as TFlows[], {
++        abortSignal: request.abortSignal,
++      });
++      request.headers.set("Authorization", `Bearer ${token}`);
++      return next(request);
++    },
++  };
++}
 diff --git a/src/policies/auxiliaryAuthenticationHeaderPolicy.ts b/src/policies/auxiliaryAuthenticationHeaderPolicy.ts
 deleted file mode 100644
 index 55110a0..0000000
@@ -1563,48 +2543,114 @@ index 55110a0..0000000
 -  };
 -}
 diff --git a/src/policies/bearerTokenAuthenticationPolicy.ts b/src/policies/bearerTokenAuthenticationPolicy.ts
-index d67931e..823792e 100644
+deleted file mode 100644
+index d67931e..0000000
 --- a/src/policies/bearerTokenAuthenticationPolicy.ts
-+++ b/src/policies/bearerTokenAuthenticationPolicy.ts
-@@ -1,14 +1,12 @@
- // Copyright (c) Microsoft Corporation.
- // Licensed under the MIT License.
- 
++++ /dev/null
+@@ -1,384 +0,0 @@
+-// Copyright (c) Microsoft Corporation.
+-// Licensed under the MIT License.
+-
 -import type { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
 -import type { AzureLogger } from "@azure/logger";
-+import type { AccessToken, GetTokenOptions, TokenCredential } from "../auth/tokenCredential.js";
-+import type { TypeSpecRuntimeLogger } from "../logger/logger.js";
- import type { PipelineRequest, PipelineResponse, SendRequest } from "../interfaces.js";
- import type { PipelinePolicy } from "../pipeline.js";
- import { createTokenCycler } from "../util/tokenCycler.js";
- import { logger as coreLogger } from "../log.js";
+-import type { PipelineRequest, PipelineResponse, SendRequest } from "../interfaces.js";
+-import type { PipelinePolicy } from "../pipeline.js";
+-import { createTokenCycler } from "../util/tokenCycler.js";
+-import { logger as coreLogger } from "../log.js";
 -import type { RestError } from "../restError.js";
 -import { isRestError } from "../restError.js";
- 
- /**
-  * The programmatic identifier of the bearerTokenAuthenticationPolicy.
-@@ -34,7 +32,7 @@ export interface AuthorizeRequestOptions {
-   /**
-    * A logger, if one was sent through the HTTP pipeline.
-    */
+-
+-/**
+- * The programmatic identifier of the bearerTokenAuthenticationPolicy.
+- */
+-export const bearerTokenAuthenticationPolicyName = "bearerTokenAuthenticationPolicy";
+-
+-/**
+- * Options sent to the authorizeRequest callback
+- */
+-export interface AuthorizeRequestOptions {
+-  /**
+-   * The scopes for which the bearer token applies.
+-   */
+-  scopes: string[];
+-  /**
+-   * Function that retrieves either a cached access token or a new access token.
+-   */
+-  getAccessToken: (scopes: string[], options: GetTokenOptions) => Promise<AccessToken | null>;
+-  /**
+-   * Request that the policy is trying to fulfill.
+-   */
+-  request: PipelineRequest;
+-  /**
+-   * A logger, if one was sent through the HTTP pipeline.
+-   */
 -  logger?: AzureLogger;
-+  logger?: TypeSpecRuntimeLogger;
- }
- 
- /**
-@@ -60,7 +58,7 @@ export interface AuthorizeRequestOnChallengeOptions {
-   /**
-    * A logger, if one was sent through the HTTP pipeline.
-    */
+-}
+-
+-/**
+- * Options sent to the authorizeRequestOnChallenge callback
+- */
+-export interface AuthorizeRequestOnChallengeOptions {
+-  /**
+-   * The scopes for which the bearer token applies.
+-   */
+-  scopes: string[];
+-  /**
+-   * Function that retrieves either a cached access token or a new access token.
+-   */
+-  getAccessToken: (scopes: string[], options: GetTokenOptions) => Promise<AccessToken | null>;
+-  /**
+-   * Request that the policy is trying to fulfill.
+-   */
+-  request: PipelineRequest;
+-  /**
+-   * Response containing the challenge.
+-   */
+-  response: PipelineResponse;
+-  /**
+-   * A logger, if one was sent through the HTTP pipeline.
+-   */
 -  logger?: AzureLogger;
-+  logger?: TypeSpecRuntimeLogger;
- }
- 
- /**
-@@ -101,43 +99,17 @@ export interface BearerTokenAuthenticationPolicyOptions {
-   /**
-    * A logger can be sent for debugging purposes.
-    */
+-}
+-
+-/**
+- * Options to override the processing of [Continuous Access Evaluation](https://learn.microsoft.com/azure/active-directory/conditional-access/concept-continuous-access-evaluation) challenges.
+- */
+-export interface ChallengeCallbacks {
+-  /**
+-   * Allows for the authorization of the main request of this policy before it's sent.
+-   */
+-  authorizeRequest?(options: AuthorizeRequestOptions): Promise<void>;
+-  /**
+-   * Allows to handle authentication challenges and to re-authorize the request.
+-   * The response containing the challenge is `options.response`.
+-   * If this method returns true, the underlying request will be sent once again.
+-   * The request may be modified before being sent.
+-   */
+-  authorizeRequestOnChallenge?(options: AuthorizeRequestOnChallengeOptions): Promise<boolean>;
+-}
+-
+-/**
+- * Options to configure the bearerTokenAuthenticationPolicy
+- */
+-export interface BearerTokenAuthenticationPolicyOptions {
+-  /**
+-   * The TokenCredential implementation that can supply the bearer token.
+-   */
+-  credential?: TokenCredential;
+-  /**
+-   * The scopes for which the bearer token applies.
+-   */
+-  scopes: string | string[];
+-  /**
+-   * Allows for the processing of [Continuous Access Evaluation](https://learn.microsoft.com/azure/active-directory/conditional-access/concept-continuous-access-evaluation) challenges.
+-   * If provided, it must contain at least the `authorizeRequestOnChallenge` method.
+-   * If provided, after a request is sent, if it has a challenge, it can be processed to re-send the original request with the relevant challenge information.
+-   */
+-  challengeCallbacks?: ChallengeCallbacks;
+-  /**
+-   * A logger can be sent for debugging purposes.
+-   */
 -  logger?: AzureLogger;
 -}
 -/**
@@ -1629,28 +2675,30 @@ index d67931e..823792e 100644
 -      throw e;
 -    }
 -  }
-+  logger?: TypeSpecRuntimeLogger;
- }
-+
- /**
-  * Default authorize request handler
-  */
- async function defaultAuthorizeRequest(options: AuthorizeRequestOptions): Promise<void> {
-   const { scopes, getAccessToken, request } = options;
+-}
+-/**
+- * Default authorize request handler
+- */
+-async function defaultAuthorizeRequest(options: AuthorizeRequestOptions): Promise<void> {
+-  const { scopes, getAccessToken, request } = options;
 -  // Enable CAE true by default
-   const getTokenOptions: GetTokenOptions = {
-     abortSignal: request.abortSignal,
+-  const getTokenOptions: GetTokenOptions = {
+-    abortSignal: request.abortSignal,
 -    tracingOptions: request.tracingOptions,
 -    enableCae: true,
-   };
+-  };
 -
-   const accessToken = await getAccessToken(scopes, getTokenOptions);
- 
-   if (accessToken) {
-@@ -149,34 +121,12 @@ async function defaultAuthorizeRequest(options: AuthorizeRequestOptions): Promis
-  * We will retrieve the challenge only if the response status code was 401,
-  * and if the response contained the header "WWW-Authenticate" with a non-empty value.
-  */
+-  const accessToken = await getAccessToken(scopes, getTokenOptions);
+-
+-  if (accessToken) {
+-    options.request.headers.set("Authorization", `Bearer ${accessToken.token}`);
+-  }
+-}
+-
+-/**
+- * We will retrieve the challenge only if the response status code was 401,
+- * and if the response contained the header "WWW-Authenticate" with a non-empty value.
+- */
 -function isChallengeResponse(response: PipelineResponse): boolean {
 -  return response.status === 401 && response.headers.has("WWW-Authenticate");
 -}
@@ -1672,40 +2720,70 @@ index d67931e..823792e 100644
 -  });
 -  if (!accessToken) {
 -    return false;
-+function getChallenge(response: PipelineResponse): string | undefined {
-+  const challenge = response.headers.get("WWW-Authenticate");
-+  if (response.status === 401 && challenge) {
-+    return challenge;
-   }
+-  }
 -
 -  onChallengeOptions.request.headers.set(
 -    "Authorization",
 -    `${accessToken.tokenType ?? "Bearer"} ${accessToken.token}`,
 -  );
 -  return true;
-+  return;
- }
- 
- /**
-@@ -189,10 +139,10 @@ export function bearerTokenAuthenticationPolicy(
-   const { credential, scopes, challengeCallbacks } = options;
-   const logger = options.logger || coreLogger;
-   const callbacks = {
+-}
+-
+-/**
+- * A policy that can request a token from a TokenCredential implementation and
+- * then apply it to the Authorization header of a request as a Bearer token.
+- */
+-export function bearerTokenAuthenticationPolicy(
+-  options: BearerTokenAuthenticationPolicyOptions,
+-): PipelinePolicy {
+-  const { credential, scopes, challengeCallbacks } = options;
+-  const logger = options.logger || coreLogger;
+-  const callbacks = {
 -    authorizeRequest:
 -      challengeCallbacks?.authorizeRequest?.bind(challengeCallbacks) ?? defaultAuthorizeRequest,
 -    authorizeRequestOnChallenge:
 -      challengeCallbacks?.authorizeRequestOnChallenge?.bind(challengeCallbacks),
-+    authorizeRequest: challengeCallbacks?.authorizeRequest ?? defaultAuthorizeRequest,
-+    authorizeRequestOnChallenge: challengeCallbacks?.authorizeRequestOnChallenge,
-+    // keep all other properties
-+    ...challengeCallbacks,
-   };
- 
-   // This function encapsulates the entire process of reliably retrieving the token
-@@ -234,40 +184,20 @@ export function bearerTokenAuthenticationPolicy(
- 
-       let response: PipelineResponse;
-       let error: Error | undefined;
+-  };
+-
+-  // This function encapsulates the entire process of reliably retrieving the token
+-  // The options are left out of the public API until there's demand to configure this.
+-  // Remember to extend `BearerTokenAuthenticationPolicyOptions` with `TokenCyclerOptions`
+-  // in order to pass through the `options` object.
+-  const getAccessToken = credential
+-    ? createTokenCycler(credential /* , options */)
+-    : () => Promise.resolve(null);
+-
+-  return {
+-    name: bearerTokenAuthenticationPolicyName,
+-    /**
+-     * If there's no challenge parameter:
+-     * - It will try to retrieve the token using the cache, or the credential's getToken.
+-     * - Then it will try the next policy with or without the retrieved token.
+-     *
+-     * It uses the challenge parameters to:
+-     * - Skip a first attempt to get the token from the credential if there's no cached token,
+-     *   since it expects the token to be retrievable only after the challenge.
+-     * - Prepare the outgoing request if the `prepareRequest` method has been provided.
+-     * - Send an initial request to receive the challenge if it fails.
+-     * - Process a challenge if the response contains it.
+-     * - Retrieve a token with the challenge information, then re-send the request.
+-     */
+-    async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
+-      if (!request.url.toLowerCase().startsWith("https://")) {
+-        throw new Error(
+-          "Bearer token authentication is not permitted for non-TLS protected (non-https) URLs.",
+-        );
+-      }
+-
+-      await callbacks.authorizeRequest({
+-        scopes: Array.isArray(scopes) ? scopes : [scopes],
+-        request,
+-        getAccessToken,
+-        logger,
+-      });
+-
+-      let response: PipelineResponse;
+-      let error: Error | undefined;
 -      let shouldSendRequest: boolean;
 -      [response, error] = await trySendRequest(request, next);
 -
@@ -1715,7 +2793,7 @@ index d67931e..823792e 100644
 -        if (claims) {
 -          let parsedClaim: string;
 -          // Return the response immediately if claims is not a valid base64 encoded string
-       try {
+-          try {
 -            parsedClaim = atob(claims);
 -          } catch (e) {
 -            logger.warning(
@@ -1740,26 +2818,13 @@ index d67931e..823792e 100644
 -        } else if (callbacks.authorizeRequestOnChallenge) {
 -          // Handle custom challenges when client provides custom callback
 -          shouldSendRequest = await callbacks.authorizeRequestOnChallenge({
-+        response = await next(request);
-+      } catch (err: any) {
-+        error = err;
-+        response = err.response;
-+      }
-+
-+      if (
-+        callbacks.authorizeRequestOnChallenge &&
-+        response?.status === 401 &&
-+        getChallenge(response)
-+      ) {
-+        // processes challenge
-+        const shouldSendRequest = await callbacks.authorizeRequestOnChallenge({
-           scopes: Array.isArray(scopes) ? scopes : [scopes],
-           request,
-           response,
-@@ -275,41 +205,8 @@ export function bearerTokenAuthenticationPolicy(
-           logger,
-         });
- 
+-            scopes: Array.isArray(scopes) ? scopes : [scopes],
+-            request,
+-            response,
+-            getAccessToken,
+-            logger,
+-          });
+-
 -          // Send updated request and handle response for RestError
 -          if (shouldSendRequest) {
 -            [response, error] = await trySendRequest(request, next);
@@ -1790,19 +2855,22 @@ index d67931e..823792e 100644
 -                parsedClaim,
 -              );
 -              // Send updated request and handle response for RestError
-         if (shouldSendRequest) {
+-              if (shouldSendRequest) {
 -                [response, error] = await trySendRequest(request, next);
 -              }
 -            }
 -          }
-+          return next(request);
-         }
-       }
- 
-@@ -321,64 +218,3 @@ export function bearerTokenAuthenticationPolicy(
-     },
-   };
- }
+-        }
+-      }
+-
+-      if (error) {
+-        throw error;
+-      } else {
+-        return response;
+-      }
+-    },
+-  };
+-}
 -
 -/**
 - *
@@ -2189,7 +3257,7 @@ index 4f54b0d..0000000
 -  }
 -}
 diff --git a/src/restError.ts b/src/restError.ts
-index 0b2e69f..bc09e78 100644
+index a3d36bc..722db2a 100644
 --- a/src/restError.ts
 +++ b/src/restError.ts
 @@ -1,7 +1,7 @@
@@ -2972,18 +4040,45 @@ index 84999ab..0000000
 -  namespace?: string;
 -}
 diff --git a/src/util/aborterUtils.ts b/src/util/aborterUtils.ts
-index ce29be9..cde2d52 100644
+index ce29be9..7affd69 100644
 --- a/src/util/aborterUtils.ts
 +++ b/src/util/aborterUtils.ts
-@@ -1,7 +1,7 @@
+@@ -1,8 +1,6 @@
  // Copyright (c) Microsoft Corporation.
  // Licensed under the MIT License.
  
 -import type { AbortSignalLike } from "@azure/abort-controller";
-+import type { AbortSignalLike } from "../abort-controller/AbortSignalLike.js";
- 
+-
  /**
   * Options related to abort controller.
+  */
+@@ -10,7 +8,7 @@ export interface AbortOptions {
+   /**
+    * The abortSignal associated with containing operation.
+    */
+-  abortSignal?: AbortSignalLike;
++  abortSignal?: AbortSignal;
+   /**
+    * The abort error message associated with containing operation.
+    */
+@@ -21,7 +19,7 @@ export interface AbortOptions {
+  * Represents a function that returns a promise that can be aborted.
+  */
+ export type AbortablePromiseBuilder<T> = (abortOptions: {
+-  abortSignal?: AbortSignalLike;
++  abortSignal?: AbortSignal;
+ }) => Promise<T>;
+ 
+ /**
+@@ -29,7 +27,7 @@ export type AbortablePromiseBuilder<T> = (abortOptions: {
+  */
+ export async function cancelablePromiseRace<T extends unknown[]>(
+   abortablePromiseBuilders: AbortablePromiseBuilder<T[number]>[],
+-  options?: { abortSignal?: AbortSignalLike },
++  options?: { abortSignal?: AbortSignal },
+ ): Promise<T[number]> {
+   const aborter = new AbortController();
+   function abortHandler(): void {
 diff --git a/src/util/concat.ts b/src/util/concat.ts
 index 457bc22..cbadccf 100644
 --- a/src/util/concat.ts
@@ -3026,19 +4121,27 @@ index 48d09e6..65c0e25 100644
  
  /**
 diff --git a/src/util/helpers.ts b/src/util/helpers.ts
-index f6819e8..7272d5d 100644
+index f6819e8..a5b7c9d 100644
 --- a/src/util/helpers.ts
 +++ b/src/util/helpers.ts
-@@ -1,7 +1,8 @@
+@@ -1,7 +1,7 @@
  // Copyright (c) Microsoft Corporation.
  // Licensed under the MIT License.
  
 -import { AbortError, type AbortSignalLike } from "@azure/abort-controller";
 +import { AbortError } from "../abort-controller/AbortError.js";
-+import type { AbortSignalLike } from "../abort-controller/AbortSignalLike.js";
  import type { PipelineResponse } from "../interfaces.js";
  
  const StandardAbortMessage = "The operation was aborted.";
+@@ -19,7 +19,7 @@ export function delay<T>(
+   delayInMs: number,
+   value?: T,
+   options?: {
+-    abortSignal?: AbortSignalLike;
++    abortSignal?: AbortSignal;
+     abortErrorMsg?: string;
+   },
+ ): Promise<T | void> {
 diff --git a/src/util/httpMethods.ts b/src/util/httpMethods.ts
 deleted file mode 100644
 index 2748031..0000000
@@ -3125,18 +4228,243 @@ index 80a1a23..794d26a 100644
  /**
   * Generates a SHA-256 HMAC signature.
 diff --git a/src/util/tokenCycler.ts b/src/util/tokenCycler.ts
-index 32e2343..723a36d 100644
+deleted file mode 100644
+index 32e2343..0000000
 --- a/src/util/tokenCycler.ts
-+++ b/src/util/tokenCycler.ts
-@@ -1,7 +1,7 @@
- // Copyright (c) Microsoft Corporation.
- // Licensed under the MIT License.
- 
++++ /dev/null
+@@ -1,232 +0,0 @@
+-// Copyright (c) Microsoft Corporation.
+-// Licensed under the MIT License.
+-
 -import type { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
-+import type { AccessToken, GetTokenOptions, TokenCredential } from "../auth/tokenCredential.js";
- import { delay } from "./helpers.js";
- 
- /**
+-import { delay } from "./helpers.js";
+-
+-/**
+- * A function that gets a promise of an access token and allows providing
+- * options.
+- *
+- * @param options - the options to pass to the underlying token provider
+- */
+-export type AccessTokenGetter = (
+-  scopes: string | string[],
+-  options: GetTokenOptions,
+-) => Promise<AccessToken>;
+-
+-export interface TokenCyclerOptions {
+-  /**
+-   * The window of time before token expiration during which the token will be
+-   * considered unusable due to risk of the token expiring before sending the
+-   * request.
+-   *
+-   * This will only become meaningful if the refresh fails for over
+-   * (refreshWindow - forcedRefreshWindow) milliseconds.
+-   */
+-  forcedRefreshWindowInMs: number;
+-  /**
+-   * Interval in milliseconds to retry failed token refreshes.
+-   */
+-  retryIntervalInMs: number;
+-  /**
+-   * The window of time before token expiration during which
+-   * we will attempt to refresh the token.
+-   */
+-  refreshWindowInMs: number;
+-}
+-
+-// Default options for the cycler if none are provided
+-export const DEFAULT_CYCLER_OPTIONS: TokenCyclerOptions = {
+-  forcedRefreshWindowInMs: 1000, // Force waiting for a refresh 1s before the token expires
+-  retryIntervalInMs: 3000, // Allow refresh attempts every 3s
+-  refreshWindowInMs: 1000 * 60 * 2, // Start refreshing 2m before expiry
+-};
+-
+-/**
+- * Converts an an unreliable access token getter (which may resolve with null)
+- * into an AccessTokenGetter by retrying the unreliable getter in a regular
+- * interval.
+- *
+- * @param getAccessToken - A function that produces a promise of an access token that may fail by returning null.
+- * @param retryIntervalInMs - The time (in milliseconds) to wait between retry attempts.
+- * @param refreshTimeout - The timestamp after which the refresh attempt will fail, throwing an exception.
+- * @returns - A promise that, if it resolves, will resolve with an access token.
+- */
+-async function beginRefresh(
+-  getAccessToken: () => Promise<AccessToken | null>,
+-  retryIntervalInMs: number,
+-  refreshTimeout: number,
+-): Promise<AccessToken> {
+-  // This wrapper handles exceptions gracefully as long as we haven't exceeded
+-  // the timeout.
+-  async function tryGetAccessToken(): Promise<AccessToken | null> {
+-    if (Date.now() < refreshTimeout) {
+-      try {
+-        return await getAccessToken();
+-      } catch {
+-        return null;
+-      }
+-    } else {
+-      const finalToken = await getAccessToken();
+-
+-      // Timeout is up, so throw if it's still null
+-      if (finalToken === null) {
+-        throw new Error("Failed to refresh access token.");
+-      }
+-
+-      return finalToken;
+-    }
+-  }
+-
+-  let token: AccessToken | null = await tryGetAccessToken();
+-
+-  while (token === null) {
+-    await delay(retryIntervalInMs);
+-
+-    token = await tryGetAccessToken();
+-  }
+-
+-  return token;
+-}
+-
+-/**
+- * Creates a token cycler from a credential, scopes, and optional settings.
+- *
+- * A token cycler represents a way to reliably retrieve a valid access token
+- * from a TokenCredential. It will handle initializing the token, refreshing it
+- * when it nears expiration, and synchronizes refresh attempts to avoid
+- * concurrency hazards.
+- *
+- * @param credential - the underlying TokenCredential that provides the access
+- * token
+- * @param tokenCyclerOptions - optionally override default settings for the cycler
+- *
+- * @returns - a function that reliably produces a valid access token
+- */
+-export function createTokenCycler(
+-  credential: TokenCredential,
+-  tokenCyclerOptions?: Partial<TokenCyclerOptions>,
+-): AccessTokenGetter {
+-  let refreshWorker: Promise<AccessToken> | null = null;
+-  let token: AccessToken | null = null;
+-  let tenantId: string | undefined;
+-
+-  const options = {
+-    ...DEFAULT_CYCLER_OPTIONS,
+-    ...tokenCyclerOptions,
+-  };
+-
+-  /**
+-   * This little holder defines several predicates that we use to construct
+-   * the rules of refreshing the token.
+-   */
+-  const cycler = {
+-    /**
+-     * Produces true if a refresh job is currently in progress.
+-     */
+-    get isRefreshing(): boolean {
+-      return refreshWorker !== null;
+-    },
+-    /**
+-     * Produces true if the cycler SHOULD refresh (we are within the refresh
+-     * window and not already refreshing)
+-     */
+-    get shouldRefresh(): boolean {
+-      if (cycler.isRefreshing) {
+-        return false;
+-      }
+-      if (token?.refreshAfterTimestamp && token.refreshAfterTimestamp < Date.now()) {
+-        return true;
+-      }
+-
+-      return (token?.expiresOnTimestamp ?? 0) - options.refreshWindowInMs < Date.now();
+-    },
+-    /**
+-     * Produces true if the cycler MUST refresh (null or nearly-expired
+-     * token).
+-     */
+-    get mustRefresh(): boolean {
+-      return (
+-        token === null || token.expiresOnTimestamp - options.forcedRefreshWindowInMs < Date.now()
+-      );
+-    },
+-  };
+-
+-  /**
+-   * Starts a refresh job or returns the existing job if one is already
+-   * running.
+-   */
+-  function refresh(
+-    scopes: string | string[],
+-    getTokenOptions: GetTokenOptions,
+-  ): Promise<AccessToken> {
+-    if (!cycler.isRefreshing) {
+-      // We bind `scopes` here to avoid passing it around a lot
+-      const tryGetAccessToken = (): Promise<AccessToken | null> =>
+-        credential.getToken(scopes, getTokenOptions);
+-
+-      // Take advantage of promise chaining to insert an assignment to `token`
+-      // before the refresh can be considered done.
+-      refreshWorker = beginRefresh(
+-        tryGetAccessToken,
+-        options.retryIntervalInMs,
+-        // If we don't have a token, then we should timeout immediately
+-        token?.expiresOnTimestamp ?? Date.now(),
+-      )
+-        .then((_token) => {
+-          refreshWorker = null;
+-          token = _token;
+-          tenantId = getTokenOptions.tenantId;
+-          return token;
+-        })
+-        .catch((reason) => {
+-          // We also should reset the refresher if we enter a failed state.  All
+-          // existing awaiters will throw, but subsequent requests will start a
+-          // new retry chain.
+-          refreshWorker = null;
+-          token = null;
+-          tenantId = undefined;
+-          throw reason;
+-        });
+-    }
+-
+-    return refreshWorker as Promise<AccessToken>;
+-  }
+-
+-  return async (scopes: string | string[], tokenOptions: GetTokenOptions): Promise<AccessToken> => {
+-    //
+-    // Simple rules:
+-    // - If we MUST refresh, then return the refresh task, blocking
+-    //   the pipeline until a token is available.
+-    // - If we SHOULD refresh, then run refresh but don't return it
+-    //   (we can still use the cached token).
+-    // - Return the token, since it's fine if we didn't return in
+-    //   step 1.
+-    //
+-
+-    const hasClaimChallenge = Boolean(tokenOptions.claims);
+-    const tenantIdChanged = tenantId !== tokenOptions.tenantId;
+-
+-    if (hasClaimChallenge) {
+-      // If we've received a claim, we know the existing token isn't valid
+-      // We want to clear it so that that refresh worker won't use the old expiration time as a timeout
+-      token = null;
+-    }
+-
+-    // If the tenantId passed in token options is different to the one we have
+-    // Or if we are in claim challenge and the token was rejected and a new access token need to be issued, we need to
+-    // refresh the token with the new tenantId or token.
+-    const mustRefresh = tenantIdChanged || hasClaimChallenge || cycler.mustRefresh;
+-
+-    if (mustRefresh) {
+-      return refresh(scopes, tokenOptions);
+-    }
+-
+-    if (cycler.shouldRefresh) {
+-      refresh(scopes, tokenOptions);
+-    }
+-
+-    return token as AccessToken;
+-  };
+-}
 diff --git a/src/util/typeGuards.ts b/src/util/typeGuards.ts
 index 22a9cac..2b3f295 100644
 --- a/src/util/typeGuards.ts

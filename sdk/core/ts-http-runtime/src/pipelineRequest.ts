@@ -12,7 +12,6 @@ import type {
   TransferProgressEvent,
 } from "./interfaces.js";
 import { createHttpHeaders } from "./httpHeaders.js";
-import type { AbortSignalLike } from "./abort-controller/AbortSignalLike.js";
 import { randomUUID } from "./util/uuidUtils.js";
 
 /**
@@ -97,7 +96,7 @@ export interface PipelineRequestOptions {
   /**
    * Used to abort the request later.
    */
-  abortSignal?: AbortSignalLike;
+  abortSignal?: AbortSignal;
 
   /**
    * Callback which fires upon upload progress.
@@ -125,7 +124,7 @@ class PipelineRequestImpl implements PipelineRequest {
 
   public proxySettings?: ProxySettings;
   public disableKeepAlive: boolean;
-  public abortSignal?: AbortSignalLike;
+  public abortSignal?: AbortSignal;
   public requestId: string;
   public allowInsecureConnection?: boolean;
   public onUploadProgress?: (progress: TransferProgressEvent) => void;
