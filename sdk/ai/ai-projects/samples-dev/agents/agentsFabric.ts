@@ -12,7 +12,6 @@ import type { MessageContentOutput, MessageTextContentOutput } from "@azure/ai-p
 import {
   AIProjectsClient,
   ToolUtility,
-  connectionToolType,
   isOutputOfType,
 } from "@azure/ai-projects";
 import { delay } from "@azure/core-util";
