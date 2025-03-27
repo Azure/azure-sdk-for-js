@@ -11,7 +11,6 @@ import type { MessageContentOutput, MessageTextContentOutput } from "@azure/ai-p
 import { AIProjectsClient, ToolUtility, isOutputOfType } from "@azure/ai-projects";
 import { delay } from "@azure/core-util";
 import { DefaultAzureCredential } from "@azure/identity";
-
 import "dotenv/config";
 
 const connectionString =
@@ -21,29 +20,37 @@ export async function main(): Promise<void> {
   // Create an Azure AI Client from a connection string, copied from your AI Studio project.
   // At the moment, it should be in the format "<HostName>;<AzureSubscriptionId>;<ResourceGroup>;<HubName>"
   // Customer needs to login to Azure subscription via Azure CLI and set the environment variables
-  const client = AIProjectsClient.fromConnectionString(connectionString || "", new DefaultAzureCredential());
-  const fabricConnection = await client.connections.getConnection(process.env["FABRIC_CONNECTION_NAME"] || "<connection-name>");
+  const client = AIProjectsClient.fromConnectionString(
+    connectionString || "",
+    new DefaultAzureCredential(),
+  );
+  const fabricConnection = await client.connections.getConnection(
+    process.env["FABRIC_CONNECTION_NAME"] || "<connection-name>",
+  );
+
   const connectionId = fabricConnection.id;
 
   // Initialize agent Microsoft Fabric tool with the connection id
-  const fabricTool = ToolUtility.createConnectionTool(connectionToolType.MicrosoftFabric, [connectionId]);
+  const fabricTool = ToolUtility.createFabricTool(connectionId);
 
   // Create agent with the Microsoft Fabric tool and process assistant run
-  const agent  = await client.agents.createAgent(
-    "gpt-4-0125-preview", {
-      name: "my-agent", 
-      instructions: "You are a helpful agent",
-      tools: [fabricTool.definition]
-    });
-  console.log(connectionId)
+  const agent = await client.agents.createAgent("gpt-4o", {
+    name: "my-agent",
+    instructions: "You are a helpful agent",
+    tools: [fabricTool.definition],
+    toolResources: {}, // Add empty tool_resources which is required by the API
+  });
   console.log(`Created agent, agent ID : ${agent.id}`);
 
   // Create thread for communication
-  const thread = await client.agents.createThread()
+  const thread = await client.agents.createThread();
   console.log(`Created thread, thread ID: ${thread.id}`);
 
   // Create message to thread
-  const message = await client.agents.createMessage(thread.id, {role: "user", content: "What inventory is currently available?"});
+  const message = await client.agents.createMessage(thread.id, {
+    role: "user",
+    content: "What are the top 3 weather events with the highest property damage?",
+  });
   console.log(`Created message, message ID: ${message.id}`);
 
   // Create and process agent run in thread with tools
@@ -53,16 +60,16 @@ export async function main(): Promise<void> {
     run = await client.agents.getRun(thread.id, run.id);
   }
   if (run.status === "failed") {
-      console.log(`Run failed: ${run.lastError}`);
+    console.log(`Run failed: ${run.lastError}`);
   }
   console.log(`Run finished with status: ${run.status}`);
 
-  // Delete the assistant when done
-  client.agents.deleteAgent(agent.id)
+  // Delete the agent when done
+  await client.agents.deleteAgent(agent.id);
   console.log(`Deleted agent, agent ID: ${agent.id}`);
 
   // Fetch and log all messages
-  const messages = await client.agents.listMessages(thread.id)
+  const messages = await client.agents.listMessages(thread.id);
   console.log(`Messages:`);
   const agentMessage: MessageContentOutput = messages.data[0].content[0];
   if (isOutputOfType<MessageTextContentOutput>(agentMessage, "text")) {
