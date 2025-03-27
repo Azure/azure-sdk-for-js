@@ -136,8 +136,9 @@ function createPropertiesFromSpanAttributes(attributes?: Attributes): {
     for (const key of Object.keys(attributes)) {
       // Avoid duplication ignoring fields already mapped.
       if (
+        // We need to not ignore the _MS.ProcessedByMetricExtractors key as it's used to identify standard metrics
         !(
-          key.startsWith("_MS.") ||
+          (key.startsWith("_MS.") && key !== "_MS.ProcessedByMetricExtractors") ||
           key.startsWith("microsoft.") ||
           legacySemanticValues.includes(key) ||
           httpSemanticValues.includes(key as any) ||
