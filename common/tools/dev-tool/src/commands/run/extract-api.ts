@@ -262,61 +262,9 @@ export interface ApiJson {
   }[];
 }
 
-async function loadApiJsonForSubPath(fullPath: string, subpathName?: string): Promise<ApiJson> {
+async function loadApiJsonForSubPath(fullPath: string): Promise<ApiJson> {
   const content = await readFile(fullPath, { encoding: "utf-8" });
-  const json = JSON.parse(content) as ApiJson;
-  return fixSubpathCanonicalRefs(json, subpathName);
-}
-
-/**
- * Fixes up canonical references for subpath exports.
- *
- * When we extract api for the subpaths, we use the same api-extractor settings,
- * except with different main entry paths and output file paths. Thus, the canonical references
- * in the api.json file have same package name across all subpaths.
- * When merging the apis by adding subpath entrypoints to main export's api.json file,
- * we set EntryPoint.name to differentiate the entry points.
- * However, when the merged file is loaded by ApiModel in JS api parser,
- * because of same package name but different entry point names, ApiModel will change the
- * canonical reference ids of ApiItems in a subpath entrypoint to include the entry point name,
- * but it doesn't do so for references. For example, in a merged api.json, we may have a function
- * item like below
- *
- * {
- *   "kind": "EntryPoint",
- *   "canonicalReference": "@azure/notification-hubs!",
- *   "name": "api",
- *   "members": [
- *     {
- *       "kind": "Function",
- *       "canonicalReference": "@azure/notification-hubs!beginSubmitNotificationHubJob:function(1)",
- *
- * After loading with ApiModel, The canonical reference of the function becomes
- * "@azure/notification-hubs/api!beginSubmitNotificationHubJob:function(1)",
- * with "/api" added before the "!".  However, any references to such updated canonical ids are
- * not changed and still have "@azure/notification-hubs!" prefix.
- * This results in the issue of navigation not working.
- * To work around this, for subpaths we update all canonical id and references to include
- * the entry point name.
- *
- * @param json
- * @param subpathName
- */
-export function fixSubpathCanonicalRefs(json: ApiJson, subpathName?: string): ApiJson {
-  if (!subpathName || subpathName === ".") {
-    return json;
-  }
-
-  const entryPoint = json.members.filter((m) => m.kind === "EntryPoint")[0];
-  entryPoint.name = subpathName;
-  const members = JSON.stringify(json.members);
-  const updatedMembers = members.replace(
-    new RegExp(`${entryPoint.canonicalReference}`, "g"),
-    `${entryPoint.canonicalReference.slice(0, -1)}/${entryPoint.name}!`,
-  );
-  const updated = json;
-  updated.members = JSON.parse(updatedMembers);
-  return updated;
+  return JSON.parse(content) as ApiJson;
 }
 
 /**
@@ -342,7 +290,7 @@ async function buildMergedApiJson(
     }
 
     log.debug(`loading api package for "${subpath.baseName}"`);
-    const subpathApiJson = await loadApiJsonForSubPath(p, subpath.baseName);
+    const subpathApiJson = await loadApiJsonForSubPath(p);
     const entryPoint = subpathApiJson.members.filter((m) => m.kind === "EntryPoint")[0];
     entryPoint.name = subpath.baseName;
     entryPoint.canonicalReference = `${entryPoint.canonicalReference}/${subpath.baseName}`;
