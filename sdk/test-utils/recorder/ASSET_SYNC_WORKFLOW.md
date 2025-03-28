@@ -1,26 +1,38 @@
 # Migrating recordings to the `azure-sdk-assets` repository
 
-# Background
+## Table of Contents
+- [Background](#background)
+- [Prerequisites](#prerequisites)
+- [Migration Steps for Existing Recordings](#migration-steps-for-existing-recordings)
+- [New Package - No Recorded Tests](#new-package---no-recorded-tests)
+- [Workflow with Asset Sync enabled](#workflow-with-asset-sync-enabled)
+- [Inspecting Recordings](#inspecting-recordings-with-asset-sync-enabled)
+- [Test-Proxy Commands](#test-proxy-commands)
+- [Working Offline](#working-offline)
+- [Troubleshooting](#troubleshooting)
+- [Frequently Asked Questions](#frequently-asked-questions)
+- [Further Reading](#further-reading)
+
+## Background
 
 Recordings take up a large amount of space in our repository and generate a lot of churn. The asset sync project, owned by our Engineering System team, is a solution to this problem. Leveraging and extending the existing test proxy, the asset sync extension adds support for moving the recordings outside of the main azure-sdk-for-js repo.
 
-## Performing the migration
+## Prerequisites
 
-### Prerequisites
+To be able to leverage the asset-sync workflow:
 
-To be able to leverage the asset-sync workflow
-
-- To push recordings to the `"azure-sdk-assets"` repo, you need **write-access** to the assets repo.
-  - [Permissions to `Azure/azure-sdk-assets`](https://dev.azure.com/azure-sdk/internal/_wiki/wikis/internal.wiki/785/Externalizing-Recordings-(Asset-Sync)?anchor=permissions-to-%60azure/azure-sdk-assets%60)
-- Install [Powershell]
-  - Make sure "pwsh" command works at this step (If you follow the above link, "pwsh" is typically added to the system environment variables by default)
-- Add `dev-tool` to the `devDependencies` in the `package.json`.
-
+- **Repository access**:
+  - You need **write-access** to the `azure-sdk-assets` repo to push recordings
+  - [Request permissions here](https://dev.azure.com/azure-sdk/internal/_wiki/wikis/internal.wiki/785/Externalizing-Recordings-(Asset-Sync)?anchor=permissions-to-%60azure/azure-sdk-assets%60)
+- **Tools**:
+  - Install [Powershell](https://github.com/PowerShell/PowerShell)
+  - Verify the `pwsh` command works in your terminal
+- **Dependencies**:
+  - Add `@azure/dev-tool` to the `devDependencies` in your `package.json`
+  - Ensure your package uses `@azure-tools/test-recorder@^4.0.0` or later
 _If you are working on a new package and don't have any recorded tests, skip to [New Package - No Recorded Tests](#new-package---no-recorded-tests)._
 
-The package you are migrating needs to be using the new version of the recorder that uses the test proxy (`@azure-tools/test-recorder@^3.0.0`). If you're on an older version, follow [recorder 3.0 migration guide] first.
-
-## Migration
+## Migration Steps for Existing Recordings
 
 If your package is new with no recorded tests, skip to the next section [New Package - No Recorded Tests](#new-package---no-recorded-tests)
 
@@ -51,9 +63,9 @@ And the recordings are located at https://github.com/Azure/azure-sdk-assets/tree
 
 ## New Package - No Recorded Tests
 
-_If you already have an `assets.json` file, skip to [Workflow with asset sync enabled](#workflow-with-asset-sync-enabled)._
+_If you already have an `assets.json` file, skip to [Workflow with Asset Sync enabled](#workflow-with-asset-sync-enabled)._
 
-This section assumes that your package is new to the JS repo and that you're trying to onboard your tests with recorder, and the asset-sync workflow.
+This section assumes that your package is new to the JS repo and that you're trying to onboard your tests with test-recorder, and the asset-sync workflow.
 
 From the root of the repo, navigate to your package
 
@@ -69,7 +81,7 @@ npx dev-tool test-proxy init
 
 This command would generate an `assets.json` file with an empty tag.
 
-## Workflow with asset sync enabled
+## Workflow with Asset Sync enabled
 
 At this point, you should have an `assets.json` file under your SDK.
 `sdk/<service-folder>/<package-name>/assets.json`.
@@ -114,7 +126,7 @@ graph TD
 
     p1 --> p2
     p2 -- Tests don't work re-record --> p1
-    p2 -- Tests pass in playback\nand are properly sanitized --> p4
+    p2 -- Tests pass in playback; and are properly sanitized --> p4
 
 
     classDef green fill:#548235,stroke:#333,stroke-width:2px
@@ -125,7 +137,7 @@ graph TD
     class p3 blue
 ```
 
-## Inspecting recordings with asset sync enabled
+## Inspecting Recordings with Asset Sync enabled
 
 Often, when re-recording tests, you will want to inspect the recordings that have been made, either to debug something or to make sure secrets have been sanitized properly. With asset sync workflow enabled, the recordings are no longer stored in the same place as your SDK. You'll need to follow the following process to find them:
 
@@ -151,7 +163,7 @@ Click the file on the left side to view the diff for it on the right side as sho
 
 <img width="1126" alt="image" src="https://user-images.githubusercontent.com/10452642/233709272-18ce109d-8f7a-488c-b5cb-74cf3636c1dc.png">
 
-## Other `test-proxy` commands
+## Test-Proxy Commands
 
 A few commands have been added to `dev-tool` to facilitate pushing and fetching the recordings to and from your local:
 
@@ -162,13 +174,70 @@ A few commands have been added to `dev-tool` to facilitate pushing and fetching 
 
 **Refer to [testing-commands](https://github.com/Azure/azure-sdk-for-js/wiki/Golden-Testing-Commands) guide if you need help on the commands to run during testing.**
 
-## Working offline
+## Working Offline
 
 Offline work is supported out-of-the-box. Of course, however, you won't be able to push or pull from the assets repo while offline. You can fetch recordings from the assets repo by running `npx dev-tool test-proxy restore`. This will download the recordings (and the test proxy executable, if you haven't got that already), making them ready for you to run tests with.
 
-## Further reading
+## Troubleshooting
 
-[recorder 3.0 migration guide]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/recorder/MIGRATION.md
+Common issues and their solutions:
+
+### Error: Permission denied to azure-sdk-assets repository
+- Verify you have write access to the `Azure/azure-sdk-assets` repository
+- Check that your Git credentials are properly configured
+
+### Error: Powershell command not found
+- Ensure Powershell is installed and the `pwsh` command is in your `PATH`.
+- Try reinstalling Powershell if necessary
+
+### Tests fail in playback mode after migration
+- Check that your `assets.json` was properly committed and contains the correct tag
+- Try running `npx dev-tool test-proxy restore` to ensure you have the latest recordings
+- Examine the error logs for specific sanitization or playback issues
+
+### Changes not appearing in recordings
+- Verify you're running tests in record mode with `TEST_MODE=record`
+- Run `npx dev-tool test-proxy push` after recording
+- Check if the changes appear in the `.assets` directory
+
+### Tests work in CI but fail locally
+- If tests run in playback mode successfully in the CI pipelines but fail on your local machine, it is likely that your local environment or recordings might be corrupted
+- **Reset your recordings**: Delete the `.assets` folder in the root of the repository to remove all pulled recordings and give yourself a clean slate
+- Then run `npx dev-tool test-proxy restore` to pull fresh copies of the recordings
+- This is particularly helpful when you've been switching branches or if there have been significant recording changes
+
+### Outdated test-proxy version
+- If you're experiencing issues that might be related to an older version of test-proxy, check your test logs for the installation location
+- Look for log lines like: `[test-proxy] Test proxy executable already exists at /home/codespace/.cache/azsdk-dev-tool/1.0.0-dev.20250221.1/Azure.Sdk.Tools.TestProxy, not downloading it.`
+- Delete the folder containing the test-proxy executable (in the example above, delete the `/home/codespace/.cache/azsdk-dev-tool/1.0.0-dev.20250221.1/` directory)
+- This will force a fresh download of the test-proxy when you run your tests again
+- This is especially helpful if there are recent bug fixes in the test-proxy that you need
+
+## Frequently Asked Questions
+
+**Q: Do I need to migrate all packages at once?**
+A: No, migration can be done package by package at your convenience.
+
+**Q: What happens to old recordings after migration?**
+A: They remain in the Git history but should be removed from the current branch.
+
+**Q: Can I test the migration process without pushing to the assets repo?**
+A: Yes, you can perform all steps locally until the final `push` command.
+
+**Q: How do CI systems access the recordings?**
+A: CI systems use the tag reference in `assets.json` to retrieve recordings automatically.
+
+**Q: Is there a size limit to recordings in the assets repo?**
+A: While there's no strict limit, it's good practice to keep recordings as small as possible. Consider sanitizing large response bodies or using customization to reduce recording size.
+
+**Q: What if I make a mistake during migration? Can I redo it?**
+A: Yes, you can rerun the migration process. Just be aware that it will create a new tag in the assets repo.
+
+**Q: Do I need special permissions to run tests locally in playback mode?**
+A: No, you don't need any special permissions to run tests in playback mode. The recordings will be downloaded automatically from the public assets repo.
+
+## Further Reading
+
 [asset-sync-reference]: https://github.com/Azure/azure-sdk-tools/tree/main/tools/test-proxy/documentation/asset-sync
 [powershell]: https://github.com/PowerShell/PowerShell
 [install `dev-tool` globally]: https://github.com/Azure/azure-sdk-for-js/tree/main/common/tools/dev-tool#installation

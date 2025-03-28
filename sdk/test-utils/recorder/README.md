@@ -11,15 +11,13 @@ The Azure SDK for JavaScript is composed of a multitude of libraries that attemp
 
 Our recorder tool package `@azure-tools/test-recorder` attempts to provide an answer for those questions.
 
-**Note 1: In case you're depending on `@azure-tools/test-recorder@1.x.y` and want to migrate your tests to version 3, follow the [migration guide to recorder v3 from v1](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/recorder/MIGRATION.md)**
+**Note 1: For Asset Sync workflow to push out the test recordings to `Azure/azure-sdk-assets` repository, refer to [asset-sync-workflow](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/recorder/ASSET_SYNC_WORKFLOW.md).**
 
-**Note 2: If you're looking to onboard to the asset-sync workflow to push out the test recordings to `Azure/azure-sdk-assets` repository, refer to [asset-sync-migration](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/recorder/ASSET_SYNC_MIGRATION.md).**
-
-**Note 3: Refer to [testing-commands](https://github.com/Azure/azure-sdk-for-js/wiki/Golden-Testing-Commands) if you need help on commands to run during testing.**
+**Note 2: Refer to [testing-commands](https://github.com/Azure/azure-sdk-for-js/wiki/Golden-Testing-Commands) if you need help on commands to run during testing.**
 
 This library provides interfaces and helper methods to equip the SDKs in the `azure-sdk-for-js` repo with the recording and playback capabilities for the tests, it targets HTTP requests in both Node.js and the Browsers.
 
-`@azure-tools/test-recorder`, as part of the Test Utils available in this repository, it is supposed to be added only as a devDependency and should be used only for the tests of an sdk.
+`@azure-tools/test-recorder`, as part of the Test Utils available in this repository, it is supposed to be added only as a `devDependency` and should be used only for the tests of an sdk.
 
 This tool helps to record and playback the tests in the JS repo by leveraging the unified out-of-process test proxy server.
 
@@ -35,7 +33,6 @@ This tool helps to record and playback the tests in the JS repo by leveraging th
   - [Recorder#variable()](#recordervariable)
   - [Environment Variables](#environment-variables)
   - [`@azure-tools/test-credential` package and the NoOpCredential](#azure-toolstest-credential-package-and-the-noopcredential)
-  - [karma.conf - for the browser tests](#karmaconf---for-the-browser-tests)
 - [Examples](#examples)
   - [How to record](#how-to-record)
   - [How to playback](#how-to-playback)
@@ -45,12 +42,13 @@ This tool helps to record and playback the tests in the JS repo by leveraging th
   - [Supporting parallelism](#supporting-parallelism)
   - [Isomorphic tests](#isomorphic-tests)
 - [Troubleshooting](#troubleshooting)
+- [Frequently Asked Questions (FAQs)](#frequently-asked-questions-faqs)
 - [Next steps](#next-steps)
 - [Contributing](#contributing)
 
 ## Key concepts
 
-- To **record** means to intercept any HTTP request, store it in a file, then store the response received from the live resource that was originally targeted. We leverage the unified out-of-process test proxy server that is built for this use case. The output files are stored in `recordings/node/*` and in `recordings/browsers/*`, which are relative to the root of the project you're working on.
+- To **record** means to intercept any HTTP request, store it in a file, then store the response received from the live resource that was originally targeted. We leverage the unified out-of-process test proxy server that is built for this use case. The output files are stored in the external `azure-sdk-assets` repository, managed through the [Asset Sync Workflow](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/recorder/ASSET_SYNC_WORKFLOW.md).
 - To **playback** means to intercept any HTTP request and to respond it with the stored response of a previously recorded matching request.
 - **Sensitive information** means content that should not be shared publicly. Content like passwords, unique identifiers or personal information should be cleaned up from the recordings. Some functionality is provided to fix this problem. You can read more at [securing sensitive data](#securing-sensitive-data).
 
@@ -62,20 +60,7 @@ We're about to go through how to set up your project to use the `@azure-tools/te
 
 ### Installing the package
 
-From this point forward, we'll assume that you're developing (perhaps contributing!) to one of the azure-sdk-for-js's libraries. So, your next step is to change directory to the path relevant to your project. Let's say you want to add the `@azure-tools/test-recorder` package to `@azure/data-tables` (it already uses test-recorder, but bear with us), you'll be doing the following to install the package:
-
-```bash
-cd sdk/tables/data-tables
-rush add -p @azure-tools/test-recorder@^3.0.0 --dev
-```
-
-If you are using `@azure/identity` in your tests, also install `"@azure-tools/test-credential"` package.
-
-```bash
-rush add -p @azure-tools/test-credential@^1.0.0 --dev
-```
-
-With a following `rush update`, you may see something like below.
+From this point forward, we'll assume that you're developing (perhaps contributing!) to one of the azure-sdk-for-js's libraries. So, your next step is to change directory to the path relevant to your project. Let's say you want to use `@azure-tools/test-recorder` package for `@azure/data-tables`, make sure your `package.json` has the following:
 
 ```json
 {
@@ -83,12 +68,13 @@ With a following `rush update`, you may see something like below.
   "devDependencies": {
     // ... your devDependencies
     "@azure-tools/test-credential": "^1.0.0", // If you are using `@azure/identity` in your tests
-    "@azure-tools/test-recorder": "^3.0.0"
+    "@azure-tools/test-recorder": "^4.1.0"
     // ... more of your devDependencies
   }
   // ... more of your package.json properties
 }
 ```
+Do `rush update` and `rush build -t .` to install and build the latest dependencies.
 
 And you're ready! Now you can use the test recorder in your code, as shown below:
 
@@ -109,44 +95,14 @@ Having the recorder as a devDependency means that you'll be able to start record
 The test-recorder provides the `Recorder` class that deals with recording and playing back the network requests, depending on the value assigned to the `TEST_MODE` environment variable.
 
 - If `TEST_MODE` equals to `record`, it will automatically store network requests in a plain text file in the folder `recordings` at the root of your library (it is `sdk/tables/data-tables` in our example).
-- This package assumes that the tests in the sdk are leveraging
-  [mocha](https://mochajs.org/) and [rollup](https://rollupjs.org/guide/en/)
-  (and [karma](https://karma-runner.github.io/latest/index.html) test runner for browser tests) as suggested by the [template](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/template/template) package in the repo.
+- As of version 4.0.0, this package supports `vitest` (instead of `mocha` and `karma`) for testing frameworks as suggested by the [template](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/template/template) package in the repo. And we employ `process.env` through vitest to access environment variables in both Node and browser environments.
 
 #### package.json scripts
 
-For the unified recorder client library to work, the [test proxy server](https://github.com/Azure/azure-sdk-tools/tree/main/tools/test-proxy) must be active while you are running your tests. Helpers have been added to the `dev-tool` package which manage starting and stopping the test proxy server before and after your tests are run.
-
-Your test scripts (in `package.json`) should be based on the following examples:
-
-| script name                | command                                                                                                          |
-| :------------------------- | :--------------------------------------------------------------------------------------------------------------- |
-| `unit-test:browser`        | `dev-tool run test:browser`                                                                                      |
-| `unit-test:node`           | `dev-tool run test:node-ts-input -- --timeout 1200000 --exclude 'test/**/browser/*.spec.ts' 'test/**/*.spec.ts'` |
-| `integration-test:browser` | `dev-tool run test:browser`                                                                                      |
-| `integration-test:node`    | `dev-tool run test:node-js-input -- --timeout 5000000 'dist-esm/test/**/*.spec.js'`                              |
-
-Note the difference between the dev-tool `node-ts-input` and `node-js-input` commands:
-
-- `node-ts-input` runs the tests using `ts-node`, without code coverage.
-- `node-js-input` runs the tests using the built JavaScript output, and generates coverage reporting using `nyc`.
+Your test scripts (in `package.json`) should be based on the examples in the template package. 
+[@azure/template - package.json](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/template/template/package.json)
 
 Read more at [dev-tool commands #usage](https://github.com/Azure/azure-sdk-for-js/blob/main/common/tools/dev-tool/README.md#usage)
-
-The above `dev-tool` commands run the tests with the default configs and concurrently starts(runs) the test-proxy tool in a detached process in the background in record/playback modes if it is not already active. Additionally, more options can be passed to override the default configs.
-
-The test-proxy tool is run at ports 5000(for HTTP) and 5001(for HTTPS) unless you specify `TEST_PROXY_HTTP_PORT` as an environment variable, in which case that will be picked.
-
-Test scripts
-
-```json
-{
-  // ... your package.json scripts section
-  "integration-test:node": "...",
-  "unit-test:node": "..."
-  // ... more of your package.json scripts
-}
-```
 
 ### TEST_MODE
 
@@ -155,7 +111,7 @@ Interactions with the test-proxy tool vary based on what the `TEST_MODE` environ
 
 | TEST_MODE  | What?                                                                                                                                                                                           |
 | :--------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `record`   | Stores network requests with the help of test-proxy tool in a plain text file in the folder `recordings` at the root of your repository (example: root of the `sdk/tables/data-tables` project) |
+| `record`   | Stores network requests with the help of test-proxy tool in JSON files managed through the [Asset Sync Workflow](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/recorder/ASSET_SYNC_WORKFLOW.md). |
 | `playback` | Stored requests/responses are utilized by the test-proxy tool when the requests are redirected to it instead of reaching the service                                                            |
 | `live`     | Recorder and its methods are no-ops here, requests directly reach the service instead of being redirected at the test-proxy tool layer                                                          |
 
@@ -182,20 +138,20 @@ For further understanding, please read the [asset sync migration and workflow](h
 
 ## Using the `Recorder`
 
-Inside a mocha test (either in the `beforeEach` or in the test body itself), you will need to instantiate the `Recorder` as below to leverage its functionalities.
+Inside a vitest test (either in the `beforeEach` or in the test body itself), you will need to instantiate the `Recorder` as below to leverage its functionalities.
 
 ```js
 let recorder: Recorder;
 
-beforeEach(async function (this: Mocha.Context) {
-  recorder = new Recorder(this.currentTest);
+beforeEach(async function (context) {
+  recorder = new Recorder(context);
 });
 ```
 
-The tested client needs to install the recording policy that redirects requests to the test-proxy tool first before they go to the service. This is done by simply passing the client options bag through the `recorder.configureClientOptions` helper:
+The client being tested needs to add the recording policy that redirects requests to the test-proxy tool first before they go to the service. This is done by simply passing the client options bag through the `recorder.configureClientOptions` helper:
 
 ```js
-const client = new AnyCoreV2Client(/** args **/, recorder.configureClientOptions(/** client options **/));
+const client = new MyServiceClient(/** args **/, recorder.configureClientOptions(/** client options **/));
 ```
 
 Recording starts with the `recorder.start()` method.
@@ -206,7 +162,7 @@ await recorder.start(/** recorderOptions go here **/);
 
 Recorder options will typically contain the environment setup needed for the `playback` mode, and the sanitizers that help with masking the sensitive information in the recordings, more on the recorder options below.
 
-Any requests that are made using the above `client (AnyCoreV2Client)` will be redirected to the test-proxy tool before they reach the service, the requests and responses will be recorded and saved when `recorder.stop()` is called in `record` mode.
+Any requests that are made using the above `client (MyServiceClient)` will be redirected to the test-proxy tool before they reach the service, the requests and responses will be recorded and saved when `recorder.stop()` is called in `record` mode.
 
 Likewise, in `playback` mode, the saved responses are utilized by the test-proxy tool when the requests are redirected to it instead of reaching the service.
 
@@ -220,34 +176,31 @@ _Note: Instantiating, starting, and stopping the recorder all have no effect in 
 
 ### Recorder#variable()
 
-To handle the dynamic/generated values for testing that are created as part of the tests, to make sure the requests in the `playback` mode match the ones in the `record` mode, you can leverage the `Recorder#variable` function.
+To handle dynamic/generated values for testing that are created as part of the tests, ensuring the requests in the `playback` mode match the ones in the `record` mode, you can leverage the `Recorder#variable` function.
 
-For example, when resources are created dynamically, the name of the resource that is generated would vary in record and playback modes.
-This is not ideal for playing back the requests/responses because the requests wouldn't match with what was saved in the recording in record mode.
+This API lets you declare variables computed at record time and re-used during playback. Variables are stored with the recording and retrieved during playback.
 
-For such cases, you can leverage the `recorder.variable()` method. It acts differently based on what the TEST_MODE is.
+Example usage:
 
-```js
-// variable method
-recorder.variable("table-name", `table${Math.ceil(Math.random() * 1000 + 1000)}`)
-
+```ts
+const queueName = recorder.variable("queue-name", `queue-${Math.floor(Math.random() * 1000)}`);
+// Assume that we have a client that has a createQueue method.
+await client.createQueue(queueName);
 // Shows up in the recording as
   "Variables": {
-    "table-name": "table1662"
+    "queue-name": "queue-1662"
   }
 ```
 
-- Lets you register a variable to be stored with the recording. The behavior of this function depends on whether the recorder is in record/live mode or in playback mode.
+In this example, the name of the queue used in the recording is randomized. However, in playback, the recorder retrieves the stored value from the recording file.
 
-- In record mode, the function will store the value provided with the recording as a variable and return that value.
-
-- In playback mode, the function will fetch the value from the variables stored as part of the recording and return the retrieved variable, throwing an error if it is not found.
-
-- In live mode, no recordings are saved, just returns the provided value.
+- In record mode, the function stores the provided value with the recording as a variable and returns that value.
+- In playback mode, the function fetches the value from the variables stored as part of the recording and returns the retrieved variable, throwing an error if it is not found.
+- In live mode, no recordings are saved; it just returns the provided value.
 
 ### Environment variables
 
-`@azure-tools/test-recorder` exports `env` which loads the environment variables from the correct location (using `process.env` and `dotenv` in Node, and using `window.__env__` via karma in the browser), and also means that the environment variables set in `envSetupForPlayback` are used in playback mode.
+`@azure-tools/test-recorder` exports `env` which loads the environment variables from the correct location (using `process.env` through vitest in both Node and browser environments), and also means that the environment variables set in `envSetupForPlayback` are used in playback mode.
 
 - `recorder.start()` internally sets up the environment variables for playback. So, make sure to have the `recorder.start()` call before you use any environment variables in your tests.
 - To use an environment variable in a test, just do `env["NAME_OF_THE_VARIABLE"]`.
@@ -273,37 +226,6 @@ new MyServiceClient(<endpoint>, credential);
 ```
 
 Since AAD traffic is not recorded by the new recorder, there are no AAD credentials to remove from the recording using a sanitizer.
-
-### karma.conf - for the browser tests
-
-When running browser tests, the recorder relies on an environment variable to determine where to save the recordings. Add this snippet to your `karma.conf.js`:
-
-```ts
-const { relativeRecordingsPath } = require("@azure-tools/test-recorder");
-
-process.env.RECORDINGS_RELATIVE_PATH = relativeRecordingsPath();
-```
-
-And then, again in `karma.conf.js`, add the variable to the list of environment variables:
-
-```ts
-module.exports = function (config) {
-  config.set({
-    /* ... */
-
-    envPreprocessor: [
-      // variables
-      "RECORDINGS_RELATIVE_PATH", // Add this!
-      "TEST_PROXY_HTTP_PORT", // Optional (Incase you need a port other than 5000)
-      // more variables
-    ],
-
-    /* ... */
-  });
-};
-```
-
-## Onboard to asset-sync workflow
 
 ## Examples
 
@@ -335,6 +257,7 @@ _[Example](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/template/temp
 import { RecorderStartOptions, Recorder, env } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { TableServiceClient } from "@azure/data-tables";
+import { beforeEach, afterEach, describe, it } from "vitest";
 
 const recorderOptions: RecorderStartOptions = {
   envSetupForPlayback: {
@@ -348,19 +271,20 @@ const recorderOptions: RecorderStartOptions = {
       },
     ],
   },
+  removeCentralSanitizers: ["sanitizer-id-to-skip"]
 };
 
 describe(`TableServiceClient tests`, () => {
   let recorder: Recorder;
   let credential;
 
-  beforeEach(async function () {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async (context) => {
+    recorder = new Recorder(context);
     await recorder.start(recorderOptions);
     credential = createTestCredential();
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
@@ -383,11 +307,11 @@ describe(`TableServiceClient tests`, () => {
 - After running this test with the `TEST_MODE` environment variable set to
   `record`, the recorder assisted by the test-proxy tool will create a recording file with the contents of the HTTP requests as well as the responses.
 
-  If the package has been onboarded to asset-sync workflow, the recording will be loacted under the `.assets/` at the root of the repository. 
+  If the package has been onboarded to asset-sync workflow, the recording will be located under the `.assets/` directory at the root of the repository. 
     - To view the recording, refer to `.assets/.breadcrumb` to find the entry that matches your SDK. This will give you the name of the directory within `.assets` that your recordings are located in.
-    - Refer to [asset sync workflow](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/recorder/ASSET_SYNC_MIGRATION.md#workflow-with-asset-sync-enabled) for more understanding and further steps.
+    - Refer to [asset sync workflow](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/recorder/ASSET_SYNC_WORKFLOW.md#workflow-with-asset-sync-enabled) for more understanding and further steps.
 
-  Otherwise, the recording will be located at `recordings/node/tableserviceclient_tests/recording_should_create_new_table_then_delete.json`.
+  **Note:** The recordings are no longer stored directly in your SDK's directory (`recordings/node/*` or `recordings/browsers/*`). Instead, they are managed externally through the Asset-Sync workflow.
 
 - You'll see in the code above that we're invoking `recorder.stop`. This is so that, after each test, we can stop recording and the test file can be generated.
 
@@ -401,7 +325,7 @@ We must secure them and not let them leak into our recordings. To avoid storing 
 
 #### `RecorderStartOptions`
 
-`RecorderStartOptions` has two components, `envSetupForPlayback` and the `sanitizers` which you'd have seen in the previous snippet.
+`RecorderStartOptions` has three components, `envSetupForPlayback`, `sanitizerOptions`, and `removeCentralSanitizers`.
 
 For a live test to be run, we typically need the test secrets, which are usally stored as Environment variables.
 
@@ -426,9 +350,11 @@ Used in record and playback modes. No effect in live mode.
 - The key-value pairs will be used as the environment variables in playback mode.
 - If the environment variables are present in the recordings as plain strings, they will be replaced with the provided values in record mode.
 
-#### `Sanitizers`
+#### Sanitizers
 
-| Sanitizers                  | How does it look? Example??                                                                                                                                                     | What does it do?                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
+Sanitizers help remove or mask sensitive information from recordings. The following sanitizers are available:
+
+| Sanitizer Type              | Example Usage                                                                                                                                                                   | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
 | :-------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `generalSanitizer`          | `{ regex: true, target: "abc+def", value: "fakeValue" }`                                                                                                                        | Offers a general regex replace across request/response Body, Headers, and URI. For the body, this means regex applying to the raw JSON.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
 | `bodySanitizer`             | `{ regex: true, target: "(.*)&SECRET=(?<secret_content>[^&]*)&(.*)", value: fakeSecretValue, groupForReplace: "secret_content" }`                                               | Offers regex replace within a returned body. Specifically, this means regex applying to the raw JSON. If you are attempting to simply replace a specific key, the `bodyKeySanitizer` is probably the way to go.                                                                                                                                                                                                                                                                                                                                                                                                                                            |
@@ -439,7 +365,7 @@ Used in record and playback modes. No effect in live mode.
 | `removeHeaderSanitizer`     | `{ headersForRemoval: ["X-Content-Type-Options"] }`                                                                                                                             | A simple sanitizer that should be used to clean out one or multiple headers by their key. Removes headers from before saving a recording.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
 | `resetSanitizer`            | `true`                                                                                                                                                                          | This clears the sanitizers that are added.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
 
-Sanitizers can be added in two different ways.
+Sanitizers can be added in two different ways:
 
 1. Pass them as part of the `recorder.start({ envSetupForPlayback, sanitizerOptions })` call. Sanitizers are applied on the recordings in record mode before they are saved.
 2. Call `recorder.addSanitizers(sanitizerOptions, ["record", "playback"])`. This way, the same sanitizer would be applied in both record and playback modes.
@@ -462,7 +388,7 @@ Once you have your recorded files, to update them after changing one of the test
 
 ### Skipping tests
 
-Writing live tests can take considerable time, specially since each time you want to check that everything works fine, you potentially need to run again every test. You can specify what test to run by following Mocha's approach of setting certain tests to `it.only`, and also to skip specific tests with `it.skip`.
+Writing live tests can take considerable time, specially since each time you want to check that everything works fine, you potentially need to run again every test. You can specify what test to run by following vitest's approach of setting certain tests to `it.only`, and also to skip specific tests with `it.skip`.
 
 If you launch the `recorder` in record mode with some of these changes (and given that you activate the recorder on `beforeEach`), only the files that relate to the changed tests will be updated. Skipped tests won't update their recordings.
 
@@ -473,7 +399,7 @@ You can also skip specific tests with the following.
 ```js
 import { isLiveMode } from "@azure-tools/test-recorder";
 
-it("test-title", function (this: Mocha.Context) {
+it("test-title", function (context) {
   // isPlaybackMode() and isRecordMode() methods are also available from recorder.
   if (!isLiveMode()) this.skip(); // This skips the test in record and playback modes
   // Test goes here...
@@ -493,36 +419,67 @@ Since new resources are likely to get accumulated because some tests would crash
 
 ### Isomorphic tests
 
-`@azure/test-utils-recorder` does support running tests in the browser. If you use Karma, as long as your karma configuration is correct, your tests should work both on NodeJS and in the browsers!
-
-### Troubleshooting
-
-Besides the usual debugging of your code and tests, if you ever encounter a problem while recording your tests, make sure to read the output in the recordings. If the output is not what you expected, please follow up the [contributing](#contributing) guidelines on how to write an issue for us. We'll make sure to handle it as soon as we find the time.
-
-If you run into issues while running the tests in record/playback modes, some of the following troubleshooting steps may help:
-
-#### Viewing test proxy log output
-
-`dev-tool` by default outputs logs from the test proxy to `test-proxy-output.log` in your package's root directory. These logs can be inspected to see what requests were made to the proxy tool.
-
-#### Switching ports
-If port 5000 is already being used in your machine, you can specify the environment variable `TEST_PROXY_HTTP_PORT` and point to the port number that you wish. (Example, `export TEST_PROXY_HTTP_PORT=2345`)
-
-### Inspecting recordings
-Refer to [asset sync workflow - inspect recordings](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/recorder/ASSET_SYNC_MIGRATION.md#inspecting-recordings-with-asset-sync-enabled).
-
-### Next steps
-
-Almost all the libraries in the `azure-sdk-for-js` repository leverage test-recorder(v3.0). 
-If you want to refer to the tests that leverage this package, go through the following search link:
-<https://github.com/Azure/azure-sdk-for-js/search?q=test-recorder>
-
-### Contributing
-
-If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/master/CONTRIBUTING.md) to learn more about how to build and test the code.
+`@azure-tools/test-recorder` does support running tests in the browser. If you use vitest, as long as your vitest configuration is correct, your tests should work both on NodeJS and in the browsers!
 
 ## Troubleshooting
 
 ### Logging
 
 Enabling logging may help uncover useful information about failures. In order to see logs from the recorder client, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling the `setLogLevel` function in the `@azure/logger` package.
+
+### Enabling detailed logging with `test-proxy-debug`
+
+If you need detailed logs to debug request and response modifications made by the test proxy through the sanitizers(both user-defined and central sanitizers), you can enable `test-proxy-debug` flag when running your tests:
+
+```bash
+npx dev-tool test:node -- --test-proxy-debug
+```
+
+This flag enables detailed logging of request and response modifications performed by the test proxy, which can help identify issues related to sanitization, matching, or unexpected request transformations.
+
+#### Example Output
+
+| Central sanitizer from test proxy | User registered sanitizer |
+|-----------------|-----------------|
+| <details open>  <summary>Output 1</summary> <img src="https://github.com/user-attachments/assets/57a3fbae-b22c-43d8-9e9c-83a59afc3dd5" height=90></details>      | <details open> <summary>Output 2</summary><img src="https://github.com/user-attachments/assets/23e7a24f-1048-43fe-9c9c-8dac31d7e0d7" height=180> </details>         |
+
+### Common Issues
+
+- **Viewing test proxy logs**: `dev-tool` outputs logs to `test-proxy-output.log` in your package's root directory.
+
+- **Port configuration**: If port 5000 is already in use, set the environment variable `TEST_PROXY_HTTP_PORT` to another port (Example: `export TEST_PROXY_HTTP_PORT=2345`).
+
+- **Permission issues**: Ensure you have write access to the [`azure-sdk-assets`](https://github.com/Azure/azure-sdk-assets) repository.
+
+- **Playback mode failures**: Verify your `assets.json` file and run `npx dev-tool test-proxy restore`.
+
+- **Local vs CI discrepancies**: Refresh your local recordings by deleting `.assets` and running `npx dev-tool test-proxy restore`.
+
+- **Outdated test-proxy version**: Delete the cached test-proxy executable (usually in `.cache/azsdk-dev-tool/...`) and re-run tests.
+
+For detailed troubleshooting steps related to Asset Sync workflow, refer to the [Asset Sync Workflow Troubleshooting](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/recorder/ASSET_SYNC_WORKFLOW.md#troubleshooting).
+
+## Frequently Asked Questions (FAQs)
+
+- **Where are my recordings stored?**  
+  Recordings are stored externally in the [`azure-sdk-assets`](https://github.com/Azure/azure-sdk-assets) repository.
+
+- **How do I update my recordings?**  
+  Run tests in record mode (`TEST_MODE=record`) and push recordings using `npx dev-tool test-proxy push`.
+
+- **Can I run tests offline?**  
+  Yes. Run `npx dev-tool test-proxy restore` beforehand to download recordings.
+
+- **How do I inspect my recordings?**  
+  Inspect recordings in the `.assets` directory at the root of the repository. See [Inspecting Recordings](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/recorder/ASSET_SYNC_WORKFLOW.md#inspecting-recordings-with-asset-sync-enabled).
+
+### Next steps
+
+All the libraries in the `azure-sdk-for-js` repository leverage test-recorder(v4.x.x). 
+If you want to refer to the tests that leverage this package, go through the following search link:
+<https://github.com/Azure/azure-sdk-for-js/search?q=test-recorder>.
+Or just just follow the [template tests](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/template/template/test)
+
+### Contributing
+
+If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/master/CONTRIBUTING.md) to learn more about how to build and test the code.
