@@ -1,17 +1,12 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * @summary Demonstrates item creation, read, delete and reading all items belonging to a container.
- */
+import "dotenv/config";
+import { logSampleHeader, handleError, finish, logStep } from "./Shared/handleError.js";
+import type { PatchOperation } from "@azure/cosmos";
+import { CosmosClient, PriorityLevel } from "@azure/cosmos";
 
-import * as dotenv from "dotenv";
-dotenv.config();
-
-import { logSampleHeader, handleError, finish, logStep } from "./Shared/handleError";
-import { CosmosClient, PatchOperation, PriorityLevel } from "@azure/cosmos";
-
-import { Families } from "./Data/Families.json";
+import { Families } from "./Data/Families.json.js" with { type: "json" };
 
 const key = process.env.COSMOS_KEY || "<cosmos key>";
 const endpoint = process.env.COSMOS_ENDPOINT || "<cosmos endpoint>";
@@ -177,7 +172,7 @@ async function run(): Promise<void> {
     }
   }
   logStep("Patching an item with single patch operation");
-  const patchSource = itemDefList.find((t) => t.id == "AndersenFamily");
+  const patchSource = itemDefList.find((t) => t.id === "AndersenFamily");
   console.log(JSON.stringify(patchSource));
   const replaceOperation: PatchOperation[] = [
     {
@@ -192,8 +187,9 @@ async function run(): Promise<void> {
       throw new Error("ID for old offer is undefined");
     }
     const { resource: patchSource1 } = await container.item(patchId!).patch(replaceOperation);
-    if (patchSource1)
+    if (patchSource1) {
       console.log(`Patched ${patchSource.lastName} to new ${patchSource1.lastName}.`);
+    }
     logStep("Patching an item with multiple patch operations");
     const multipleOperations: PatchOperation[] = [
       {

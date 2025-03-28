@@ -1,14 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * @summary Demonstrates usage of CosmosDiagnostic Object.
- */
-
-import * as dotenv from "dotenv";
-dotenv.config();
-
-import { handleError, logSampleHeader, finish } from "./Shared/handleError";
+import "dotenv/config";
+import { handleError, logSampleHeader, finish } from "./Shared/handleError.js";
 import {
   CosmosClient,
   BulkOperationType,
@@ -37,7 +31,7 @@ async function run(): Promise<void> {
   await finish();
 }
 
-async function accessingDiagnosticForDatabaseOperations(databaseId: string) {
+async function accessingDiagnosticForDatabaseOperations(databaseId: string): Promise<void> {
   const { database, diagnostics: databaseCreateDiagnostic } =
     await client.databases.createIfNotExists({ id: databaseId });
   console.log("    ## Database with id " + database.id + " created.");
@@ -62,8 +56,8 @@ async function accessingDiagnosticForContainerOperations(
   };
 }
 
-async function accessingDiagnosticForItemOperations(itemId: string, container: Container) {
-  const { item, diagnostics } = await container.items.create({
+async function accessingDiagnosticForItemOperations(itemId: string, container: Container): Promise<void> {
+  const { diagnostics } = await container.items.create({
     id: itemId,
     key1: "A",
     key2: "B",
@@ -72,13 +66,13 @@ async function accessingDiagnosticForItemOperations(itemId: string, container: C
   displayCosmosDiagnosticsObject(diagnostics, "Item create");
 }
 
-async function accessingDiagnosticForQueryOperations(container: Container) {
+async function accessingDiagnosticForQueryOperations(container: Container): Promise<void> {
   const queryIterator = container.items.query("select * from c");
-  const { resources, diagnostics } = await queryIterator.fetchAll();
+  const { diagnostics } = await queryIterator.fetchAll();
   displayCosmosDiagnosticsObject(diagnostics, "query, fetch all");
 }
 
-async function accessingDiagnosticForBatchOperations(container: Container) {
+async function accessingDiagnosticForBatchOperations(container: Container): Promise<void> {
   const createItemId = "batchItemCreate";
   const upsertItemId = "upsertItemId";
   const patchItemId = "patchItemId";

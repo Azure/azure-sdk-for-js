@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { EncryptionKeyStoreProvider } from "../EncryptionKeyStoreProvider";
-import { KeyEncryptionKey } from "../KeyEncryptionKey";
+import type { EncryptionKeyStoreProvider } from "../EncryptionKeyStoreProvider.js";
+import { KeyEncryptionKey } from "../KeyEncryptionKey.js";
 
 /**
  * The cache used to store the key encryption keys.

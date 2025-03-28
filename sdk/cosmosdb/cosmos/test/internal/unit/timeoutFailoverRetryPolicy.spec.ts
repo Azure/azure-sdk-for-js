@@ -1,19 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import assert from "assert";
-import { TimeoutFailoverRetryPolicy } from "../../../src/retry/timeoutFailoverRetryPolicy";
-import { GlobalEndpointManager } from "../../../src/globalEndpointManager";
-import { HTTPMethod, OperationType, ResourceType } from "../../../src/common/constants";
-import { DatabaseAccount } from "../../../src/documents/DatabaseAccount";
-import { ResourceResponse } from "../../../src/request/ResourceResponse";
-import type { ErrorResponse } from "../../../src/request/ErrorResponse";
-import type { RetryContext } from "../../../src/retry/RetryContext";
-import { StatusCodes } from "../../../src/common/statusCodes";
-import { TimeoutError } from "../../../src/request/TimeoutError";
-import { getEmptyCosmosDiagnostics } from "../../../src/utils/diagnostics";
-import { createDummyDiagnosticNode } from "../../public/common/TestHelpers";
 
-describe("TimeoutFailoverRetryPolicy", function () {
+import { TimeoutFailoverRetryPolicy } from "../../../src/retry/timeoutFailoverRetryPolicy.js";
+import { GlobalEndpointManager } from "../../../src/globalEndpointManager.js";
+import { HTTPMethod, OperationType, ResourceType } from "../../../src/common/constants.js";
+import { DatabaseAccount } from "../../../src/documents/DatabaseAccount.js";
+import { ResourceResponse } from "../../../src/request/ResourceResponse.js";
+import type { ErrorResponse } from "../../../src/request/ErrorResponse.js";
+import type { RetryContext } from "../../../src/retry/RetryContext.js";
+import { StatusCodes } from "../../../src/common/statusCodes.js";
+import { TimeoutError } from "../../../src/request/TimeoutError.js";
+import { getEmptyCosmosDiagnostics } from "../../../src/utils/diagnostics.js";
+import { createDummyDiagnosticNode } from "../../public/common/TestHelpers.js";
+import { describe, it, assert, beforeEach } from "vitest";
+
+describe("TimeoutFailoverRetryPolicy", () => {
   const databaseAccountBody: any = {
     writableLocations: [
       {
@@ -64,7 +65,7 @@ describe("TimeoutFailoverRetryPolicy", function () {
   let timeoutErr: TimeoutError;
   let locEndpoint: string;
 
-  beforeEach(async function () {
+  beforeEach(async () => {
     retryPolicy = new TimeoutFailoverRetryPolicy(
       gem,
       headers,
@@ -78,7 +79,7 @@ describe("TimeoutFailoverRetryPolicy", function () {
     locEndpoint = "endpoint";
   });
 
-  it("should determine if retry should occur correctly", async function () {
+  it("should determine if retry should occur correctly", async () => {
     const err: ErrorResponse = timeoutErr;
     const retryContext: RetryContext | undefined = undefined;
     const locationEndpoint: string | undefined = undefined;
@@ -104,7 +105,7 @@ describe("TimeoutFailoverRetryPolicy", function () {
       false,
     );
   });
-  it("should not retry when timeout error but the request is not valid for timeout error", async function () {
+  it("should not retry when timeout error but the request is not valid for timeout error", async () => {
     const retryPolicy_post = new TimeoutFailoverRetryPolicy(
       gem,
       headers,
@@ -123,7 +124,7 @@ describe("TimeoutFailoverRetryPolicy", function () {
       false,
     );
   });
-  it("should not retry when Endpoint discovery is disabled", async function () {
+  it("should not retry when Endpoint discovery is disabled", async () => {
     const retryPolicy_endpointDiscoveryDisabled = new TimeoutFailoverRetryPolicy(
       gem,
       headers,
@@ -142,7 +143,7 @@ describe("TimeoutFailoverRetryPolicy", function () {
       false,
     );
   });
-  it("should not retry when maxServiceUnavailableRetryCount exceeded", async function () {
+  it("should not retry when maxServiceUnavailableRetryCount exceeded", async () => {
     const serviceUnavailableErr: ErrorResponse = {
       code: StatusCodes.ServiceUnavailable,
       name: "service unavailable",
@@ -178,7 +179,7 @@ describe("TimeoutFailoverRetryPolicy", function () {
       false,
     );
   });
-  it("should not retry when Maximum retry attempt count exceeded", async function () {
+  it("should not retry when Maximum retry attempt count exceeded", async () => {
     const retryPolicy_maxRetryAttemptCount = new TimeoutFailoverRetryPolicy(
       gem,
       headers,
@@ -209,7 +210,7 @@ describe("TimeoutFailoverRetryPolicy", function () {
       false,
     );
   });
-  it("should not retry when multiple write locations are not allowed", async function () {
+  it("should not retry when multiple write locations are not allowed", async () => {
     const gem_test = new GlobalEndpointManager(
       {
         endpoint: "https://test.documents.azure.com:443/",
@@ -249,7 +250,7 @@ describe("TimeoutFailoverRetryPolicy", function () {
       false,
     );
   });
-  it("should retry when prefered locations are not defined and failover count exceeds the number of read", async function () {
+  it("should retry when prefered locations are not defined and failover count exceeds the number of read", async () => {
     const gem_test2 = new GlobalEndpointManager(
       {
         endpoint: "https://test.documents.azure.com:443/",

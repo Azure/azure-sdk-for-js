@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-let safeatob: any;
+let safeatob: (data: string) => string;
 
 // base64 character set, plus padding character (=)
 const b64 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
@@ -13,7 +13,7 @@ if ("function" !== typeof atob) {
   safeatob = (str: string): string => {
     // atob can work with strings with whitespaces, even inside the encoded part,
     // but only \t, \n, \f, \r and ' ', which can be stripped.
-    str = String(str).replace(/[\t\n\f\r ]+/g, "");
+    let fixedStr = String(str).replace(/[\t\n\f\r ]+/g, "");
     if (!b64re.test(str)) {
       throw new TypeError(
         "Failed to execute 'atob' on 'Window': The string to be decoded is not correctly encoded.",
@@ -21,18 +21,18 @@ if ("function" !== typeof atob) {
     }
 
     // Adding the padding if missing, for simplicity
-    str += "==".slice(2 - (str.length & 3));
+    fixedStr += "==".slice(2 - (fixedStr.length & 3));
     let bitmap;
     let result = "";
     let r1;
     let r2;
     let i = 0;
-    for (; i < str.length; ) {
+    for (; i < fixedStr.length; ) {
       bitmap =
-        (b64.indexOf(str.charAt(i++)) << 18) |
-        (b64.indexOf(str.charAt(i++)) << 12) |
-        ((r1 = b64.indexOf(str.charAt(i++))) << 6) |
-        (r2 = b64.indexOf(str.charAt(i++)));
+        (b64.indexOf(fixedStr.charAt(i++)) << 18) |
+        (b64.indexOf(fixedStr.charAt(i++)) << 12) |
+        ((r1 = b64.indexOf(fixedStr.charAt(i++))) << 6) |
+        (r2 = b64.indexOf(fixedStr.charAt(i++)));
 
       result +=
         r1 === 64

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { NonePartitionKeyLiteral, NullPartitionKeyLiteral } from "./PartitionKeyInternal";
+import { NonePartitionKeyLiteral, NullPartitionKeyLiteral } from "./PartitionKeyInternal.js";
 
 /**
  * PartitionKey of a container.

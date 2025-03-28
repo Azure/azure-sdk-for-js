@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { CosmosDiagnostics } from "../../CosmosDiagnostics";
-import type { CosmosHeaders } from "../../queryExecutionContext";
-import { ResourceResponse } from "../../request";
-import type { Resource } from "../Resource";
-import type { Permission } from "./Permission";
-import type { PermissionBody } from "./PermissionBody";
-import type { PermissionDefinition } from "./PermissionDefinition";
+import type { CosmosDiagnostics } from "../../CosmosDiagnostics.js";
+import type { CosmosHeaders } from "../../queryExecutionContext/index.js";
+import { ResourceResponse } from "../../request/index.js";
+import type { Resource } from "../Resource.js";
+import type { Permission } from "./Permission.js";
+import type { PermissionBody } from "./PermissionBody.js";
+import type { PermissionDefinition } from "./PermissionDefinition.js";
 
 export class PermissionResponse extends ResourceResponse<
   PermissionDefinition & PermissionBody & Resource

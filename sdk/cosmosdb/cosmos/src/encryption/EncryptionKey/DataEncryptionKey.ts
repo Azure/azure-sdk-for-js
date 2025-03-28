@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { createHmac } from "crypto";
+import { createHmac } from "node:crypto";
 
 export abstract class DataEncryptionKey {
   private rootKeyBuffer: Buffer;

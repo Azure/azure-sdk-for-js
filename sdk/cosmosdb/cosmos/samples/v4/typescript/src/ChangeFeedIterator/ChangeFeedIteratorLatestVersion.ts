@@ -1,14 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * @summary Demonstrates using a ChangeFeed in LatestVersion mode for entire container, a partition key, and an epk range
- */
-
-import * as dotenv from "dotenv";
-dotenv.config();
-
-import { finish, handleError, logSampleHeader, logStep } from "../Shared/handleError";
+import "dotenv/config";
+import { finish, handleError, logSampleHeader, logStep } from "../Shared/handleError.js";
 import {
   CosmosClient,
   PartitionKeyDefinitionVersion,
@@ -84,7 +78,7 @@ async function run(): Promise<void> {
   }
 }
 
-async function ingestData(container: Container, initialize: number, end: number) {
+async function ingestData(container: Container, initialize: number, end: number): Promise<void> {
   for (let i = initialize; i <= end; i++) {
     await container.items.create({ id: `item${i}`, name: `sample1`, key: i });
     await container.items.create({ id: `item${i}`, name: `sample2`, key: i });
