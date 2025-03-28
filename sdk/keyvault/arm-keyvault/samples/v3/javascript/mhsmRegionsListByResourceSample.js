@@ -10,13 +10,13 @@
 // Licensed under the MIT License.
 const { KeyVaultManagementClient } = require("@azure/arm-keyvault");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to The List operation gets information about the regions associated with the managed HSM Pool.
  *
  * @summary The List operation gets information about the regions associated with the managed HSM Pool.
- * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2023-07-01/examples/ManagedHsm_ListRegionsByResource.json
+ * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2024-11-01/examples/ManagedHsm_ListRegionsByResource.json
  */
 async function listManagedHsmPoolsInASubscription() {
   const subscriptionId =
@@ -26,14 +26,14 @@ async function listManagedHsmPoolsInASubscription() {
   const credential = new DefaultAzureCredential();
   const client = new KeyVaultManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.mhsmRegions.listByResource(resourceGroupName, name)) {
+  for await (const item of client.mhsmRegions.listByResource(resourceGroupName, name)) {
     resArray.push(item);
   }
   console.log(resArray);
 }
 
 async function main() {
-  listManagedHsmPoolsInASubscription();
+  await listManagedHsmPoolsInASubscription();
 }
 
 main().catch(console.error);
