@@ -31,13 +31,13 @@ export function spawnNpx(cwd, ...args) {
 }
 
 /**
- * Helper function to spawn npm to run programs
+ * Helper function to spawn `npm run` commands
  *
  * @param {string} cwd - current working directory
  * @param {string[]} args - rest of arguments
  */
-export function spawnNpm(cwd, ...args) {
-  return spawnWithLog("npm", cwd, ...args);
+export function spawnNpmRun(cwd, ...args) {
+  return spawnWithLog("npm", cwd, "run", ...args);
 }
 
 /**

@@ -3,7 +3,7 @@
 
 // @ts-check
 
-import { spawnNpx, spawnNpm } from "./spawn.js";
+import { spawnNpx, spawnNpmRun } from "./spawn.js";
 import { getBaseDir } from "./env.js";
 import { join as pathJoin } from "node:path";
 import { runTestProxyRestore } from "./testProxyRestore.js";
@@ -65,7 +65,7 @@ export function runAllWithDirection(action, filteredPackages, extraParams, ciFla
 }
 
 /**
- * Helper function to invoke npm in the specified package folders.
+ * Helper function to invoke `npm run` in the specified package folders.
  *
  * @param {string} action - which action to execute
  * @param {string[]} packageDirs - An array of package folder paths
@@ -74,7 +74,7 @@ export function runAllWithDirection(action, filteredPackages, extraParams, ciFla
 export function runInPackageDirs(action, packageDirs, onError) {
   let exitCode = 0;
   for (const packageDir of packageDirs) {
-    let dirExitCode = spawnNpm(packageDir, action);
+    let dirExitCode = spawnNpmRun(packageDir, action);
     if (dirExitCode !== 0 && onError) {
       onError(packageDir);
     }
