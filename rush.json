@@ -2328,11 +2328,6 @@
       "versionPolicyName": "management"
     },
     {
-      "packageName": "@azure/arm-weightsandbiases",
-      "projectFolder": "sdk/liftrweightsandbiases/arm-weightsandbiases",
-      "versionPolicyName": "management"
-    },
-    {
       "packageName": "@azure/arm-pineconevectordb",
       "projectFolder": "sdk/pineconevectordb/arm-pineconevectordb",
       "versionPolicyName": "management"
@@ -2350,6 +2345,11 @@
     {
       "packageName": "@azure/arm-migrationassessment",
       "projectFolder": "sdk/migrate/arm-migrationassessment",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-weightsandbiases",
+      "projectFolder": "sdk/liftrweightsandbiases/arm-weightsandbiases",
       "versionPolicyName": "management"
     }
   ]
