@@ -166,7 +166,7 @@ export class PhoneNumbersClient {
    */
   public deleteReservation(
     reservationId: string,
-    options: PhoneNumbersDeleteReservationOptionalParams = {}
+    options: PhoneNumbersDeleteReservationOptionalParams = {},
   ): Promise<void> {
     return tracingClient.withSpan(
       "PhoneNumbersClient-deleteReservation",
@@ -175,7 +175,7 @@ export class PhoneNumbersClient {
         return this.client.phoneNumbers.deleteReservation(reservationId, {
           ...updatedOptions,
         });
-      }
+      },
     );
   }
 
@@ -224,7 +224,7 @@ export class PhoneNumbersClient {
    */
   public getReservation(
     reservationId: string,
-    options: PhoneNumbersGetReservationOptionalParams = {}
+    options: PhoneNumbersGetReservationOptionalParams = {},
   ): Promise<PhoneNumbersGetReservationResponse> {
     return tracingClient.withSpan(
       "PhoneNumbersClient-getReservation",
@@ -233,7 +233,7 @@ export class PhoneNumbersClient {
         return this.client.phoneNumbers.getReservation(reservationId, {
           ...updatedOptions,
         });
-      }
+      },
     );
   }
 
@@ -312,10 +312,10 @@ export class PhoneNumbersClient {
    */
   public browseAvailablePhoneNumbers(
     countryCode: string,
-    request: PhoneNumbersBrowseRequest
+    request: PhoneNumbersBrowseRequest,
   ): Promise<PhoneNumbersBrowseAvailableNumbersResponse> {
     const { span, updatedOptions } = tracingClient.startSpan(
-      "PhoneNumbersClient-browseAvailableNumbers"
+      "PhoneNumbersClient-browseAvailableNumbers",
     );
 
     try {
@@ -414,7 +414,7 @@ export class PhoneNumbersClient {
    */
   public beginSearchAvailablePhoneNumbers(
     search: SearchAvailablePhoneNumbersRequest,
-    options: BeginSearchAvailablePhoneNumbersOptions = {}
+    options: BeginSearchAvailablePhoneNumbersOptions = {},
   ): Promise<PollerLike<PollOperationState<PhoneNumberSearchResult>, PhoneNumberSearchResult>> {
     return tracingClient.withSpan(
       "PhoneNumbersClient-beginSearchAvailablePhoneNumbers",
@@ -429,9 +429,9 @@ export class PhoneNumbersClient {
           {
             ...updatedOptions,
             ...rest,
-          }
+          },
         );
-      }
+      },
     );
   }
 
@@ -519,7 +519,7 @@ export class PhoneNumbersClient {
    */
   public beginReservationPurchase(
     reservationId: string,
-    options: PhoneNumbersStartReservationPurchaseOptionalParams = {}
+    options: PhoneNumbersStartReservationPurchaseOptionalParams = {},
   ): Promise<
     PollerLike<
       PollOperationState<PhoneNumbersStartReservationPurchaseResponse>,
@@ -533,7 +533,7 @@ export class PhoneNumbersClient {
         return this.client.phoneNumbers.beginStartReservationPurchase(reservationId, {
           ...updatedOptions,
         });
-      }
+      },
     );
   }
 
@@ -635,15 +635,16 @@ export class PhoneNumbersClient {
    */
   public async createOrUpdateReservation(
     reservationId?: string,
-    options?: PhoneNumbersCreateOrUpdateReservationOptionalParams
+    options?: PhoneNumbersCreateOrUpdateReservationOptionalParams,
   ): Promise<PhoneNumbersCreateOrUpdateReservationResponse> {
     const { span, updatedOptions } = tracingClient.startSpan(
       "PhoneNumbersClient-createOrUpdateReservation",
-      options
+      options,
     );
 
     try {
-      const newReservationId = reservationId && reservationId.trim() !== "" ? reservationId : generateGUID();
+      const newReservationId =
+        reservationId && reservationId.trim() !== "" ? reservationId : generateGUID();
       return this.client.phoneNumbers.createOrUpdateReservation(newReservationId, updatedOptions);
     } catch (e: any) {
       span.setStatus({
@@ -898,11 +899,11 @@ export class PhoneNumbersClient {
    * @param options - The optional parameters.
    */
   public listReservations(
-    options: PhoneNumbersListReservationsOptionalParams = {}
+    options: PhoneNumbersListReservationsOptionalParams = {},
   ): PagedAsyncIterableIterator<PhoneNumbersReservation> {
     const { span, updatedOptions } = tracingClient.startSpan(
       "PhoneNumbersClient-listReservations",
-      options
+      options,
     );
 
     try {
@@ -929,11 +930,11 @@ export class PhoneNumbersClient {
    */
   public searchOperatorInformation(
     phoneNumbers: string[],
-    options: SearchOperatorInformationOptions = { includeAdditionalOperatorDetails: false }
+    options: SearchOperatorInformationOptions = { includeAdditionalOperatorDetails: false },
   ): Promise<OperatorInformationResult> {
     const { span, updatedOptions } = tracingClient.startSpan(
       "PhoneNumbersClient-searchOperatorInformation",
-      options
+      options,
     );
 
     try {
