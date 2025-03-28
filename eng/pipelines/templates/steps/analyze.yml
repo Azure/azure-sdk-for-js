@@ -71,7 +71,7 @@ steps:
     displayName: "Install dependencies"
 
   - pwsh: |
-      node common/scripts/install-run-rush.js build -t @azure/eslint-plugin-azure-sdk
+      npx turbo run build --filter=@azure/eslint-plugin-azure-sdk...
       node eng/tools/rush-runner/index.js lint "$(ChangedServices)" --concurrency=100% -v
     displayName: "Build ESLint Plugin and Lint Libraries"
 

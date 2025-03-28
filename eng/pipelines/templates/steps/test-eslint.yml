@@ -8,10 +8,10 @@ steps:
     displayName: "Install library dependencies"
 
   - pwsh: |
-      node common/scripts/install-run-rush.js build -t @azure/eslint-plugin-azure-sdk -t @azure/monitor-opentelemetry-exporter
+      npx turbo run build --filter=@azure/eslint-plugin-azure-sdk... --filter=@azure/monitor-opentelemetry-exporter...
       node eng/tools/rush-runner/index.js lint "${{parameters.ServiceDirectory}}" --concurrency=100% -v
     displayName: "Build ESLint Plugin and Lint Libraries"
 
   - pwsh: |
-      node common/scripts/install-run-rush.js test -t @azure/eslint-plugin-azure-sdk --verbose
+      npx turbo run test --filter=@azure/eslint-plugin-azure-sdk... -v
     displayName: "Run ESLint Plugin Unit Tests"

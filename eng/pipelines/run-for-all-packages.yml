@@ -26,7 +26,7 @@ stages:
             displayName: "Install library dependencies"
 
           - script: |
-              node common/scripts/install-run-rush.js build -t @azure/eslint-plugin-azure-sdk --verbose
+              npx turbo run build --filter=@azure/eslint-plugin-azure-sdk... -v
             displayName: "Build ESLint Plugin"
 
           - script: |
@@ -34,21 +34,21 @@ stages:
             displayName: "Build packages to enable typed checking"
 
           - script: |
-              node common/scripts/install-run-rush.js lint -p max --verbose
+              npx turbo run lint --concurrency=100% -v
             displayName: "Lint All Packages"
 
           - script: |
-              node common/scripts/install-run-rush.js build -p max --verbose
+              npx turbo run build --concurrency=100% -v
             displayName: "Build All Packages"
 
           - script: |
-              node common/scripts/install-run-rush.js build:test -t @azure/identity -t @azure/app-configuration -t @azure/event-hubs -t @azure-rest/synapse-access-control -t @azure/storage-blob --verbose
+              npx turbo run build:test --filter=@azure/identity... --filter=@azure/app-configuration... --filter=@azure/event-hubs... --concurrentcy=1 -v
             displayName: "Build Tests for Selected Packages"
 
           - script: |
-              node common/scripts/install-run-rush.js unit-test -t @azure/identity -t @azure/app-configuration -t @azure/event-hubs -p 1 --verbose
+              npx turbo run unit-test --filter=@azure/identity... --filter=@azure/app-configuration... --filter=@azure/event-hubs... --concurrentcy=1 -v
             displayName: "Run Unit Tests for Selected Packages"
 
           - script: |
-              node common/scripts/install-run-rush.js integration-test --only @azure/app-configuration --only @azure/storage-blob --only @azure-rest/synapse-access-control -p 1 --verbose
+              npx turbo run integration-test --filter=@azure/app-configuration --filter=@azure/storage-blob --filter=@azure-rest/synapse-access-control --concurrentcy=1 -v
             displayName: "Run Integration Tests for Selected Packages"

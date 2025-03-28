@@ -114,16 +114,12 @@ jobs:
           pnpm install
         displayName: "Install dependencies"
 
-      # Option "-p max" ensures parallelism is set to the number of cores on all platforms, which improves build times.
-      # The default on Windows is "cores - 1" (microsoft/rushstack#436).
       - script: |
-          node common/scripts/install-run-rush.js build -t "${{parameters.PackageName}}" --verbose -p max
+          npx turbo run build --filter=${{parameters.PackageName}}... --concurrency=100% -v
         displayName: "Build libraries"
 
-      # Option "-p max" ensures parallelism is set to the number of cores on all platforms, which improves build times.
-      # The default on Windows is "cores - 1" (microsoft/rushstack#436).
       - script: |
-          node common/scripts/install-run-rush.js build:test -t "${{parameters.PackageName}}" --verbose -p max
+          npx turbo run build:test --filter=${{parameters.PackageName}}... --concurrency=100% -v
         displayName: "Build test assets"
         condition: and(succeededOrFailed(),eq(variables['DependencyVersion'],''))
 
@@ -135,8 +131,8 @@ jobs:
         condition: and(succeededOrFailed(),ne(variables['DependencyVersion'],''))
 
       - script: |
-          node common/scripts/install-run-rush.js update
-        displayName: "Rush update"
+          pnpm install
+        displayName: "Re-run Pnpm install"
         workingDirectory: $(Build.SourcesDirectory)
         condition: and(succeededOrFailed(),ne(variables['DependencyVersion'],''))
 
