@@ -194,7 +194,7 @@ async function CRUDTestRunner(dataset: CRUDTestDataSet, isUpsertTest: boolean): 
 
 describe("Item CRUD hierarchical partition", () => {
   beforeEach(async () => {
-    await removeAllDatabases();
+    // await removeAllDatabases();
   });
   it("hierarchycal partitions", async () => {
     const dbName = "hierarchical partition db";
@@ -245,8 +245,8 @@ describe(
   "Create, Upsert, Read, Update, Replace, Delete Operations on Item",
   { timeout: 10000 },
   () => {
-    beforeAll(async () => {
-      await removeAllDatabases();
+    beforeEach(async () => {
+      // await removeAllDatabases();
     });
 
     async function multiplePartitionCRUDTest(dataset: MultiCRUDTestDataSet): Promise<void> {
@@ -937,7 +937,7 @@ describe("patch operations", () => {
 
 describe("Item CRUD with priority", { timeout: 10000 }, () => {
   beforeEach(async () => {
-    await removeAllDatabases();
+    // await removeAllDatabases();
   });
 
   const documentCRUDTest = async function (isUpsertTest: boolean): Promise<void> {
