@@ -2509,7 +2509,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-appinsights@file:projects/arm-appinsights.tgz':
-    resolution: {integrity: sha512-dfl7x9SqpWICFxznnVNtjSpxkxW8IKVOzCe7pKIlknf8HPxC6b0Y6YanL/KL0E3gNRoPxmAFVKJrmph38HoSuA==, tarball: file:projects/arm-appinsights.tgz}
+    resolution: {integrity: sha512-NvNwPRvLiNZOpNlY/HI50yGvdBatTW7pANBH5k6dfpodVsqReSOgHAC1Y6XSzr2dgwuCO7l9QUV9DQqH558LIw==, tarball: file:projects/arm-appinsights.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-appplatform@file:projects/arm-appplatform.tgz':
@@ -10650,6 +10650,7 @@ snapshots:
       '@types/node': 18.19.84
       '@vitest/browser': 3.0.9(@types/node@18.19.84)(playwright@1.51.1)(typescript@5.8.2)(vite@6.2.3(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.9)
       '@vitest/coverage-istanbul': 3.0.9(vitest@3.0.9)
+      dotenv: 16.4.7
       playwright: 1.51.1
       tslib: 2.8.1
       typescript: 5.8.2
