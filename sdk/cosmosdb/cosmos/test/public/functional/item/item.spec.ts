@@ -5,6 +5,7 @@ import type {
   Container,
   ContainerDefinition,
   ContainerRequest,
+  Database,
   ItemDefinition,
   PatchOperation,
   RequestOptions,
@@ -33,7 +34,7 @@ import {
 } from "../../../../src/documents/index.js";
 import { PriorityLevel } from "../../../../src/documents/PriorityLevel.js";
 import { getCurrentTimestampInMs } from "../../../../src/utils/time.js";
-import { describe, it, assert, beforeEach, beforeAll } from "vitest";
+import { describe, it, assert, beforeEach, beforeAll, afterAll } from "vitest";
 
 /**
  * Tests Item api.
@@ -189,12 +190,38 @@ async function CRUDTestRunner(dataset: CRUDTestDataSet, isUpsertTest: boolean): 
   assert.equal(response.statusCode, 404, "response should return error code 404");
   assert.equal(response.resource, undefined);
 
-  // update document
+  // delete database
+  await database.delete();
 }
+
+// TODO: Non-deterministic test. We can't guarantee we see any response with a 429 status code since the retries happen within the response
+describe("item read retries", async () => {
+  beforeAll(async () => {
+    await removeAllDatabases();
+  });
+  it("retries on 429", async () => {
+    const client = new CosmosClient({ key: masterKey, endpoint });
+    const { resource: db } = await client.databases.create({
+      id: `small db ${Math.random() * 1000}`,
+    });
+    const containerResponse = await client
+      .database(db.id)
+      .containers.create({ id: `small container ${Math.random() * 1000}`, throughput: 400 });
+    const container = containerResponse.container;
+    await container.items.create({ id: "readme" });
+    const arr = new Array(400);
+    const promises = [];
+    for (let i = 0; i < arr.length; i++) {
+      promises.push(container.item("readme").read());
+    }
+    const resp = await Promise.all(promises);
+    assert.equal(resp[0].statusCode, 200);
+  });
+});
 
 describe("Item CRUD hierarchical partition", () => {
   beforeEach(async () => {
-    await removeAllDatabases();
+    // await removeAllDatabases();
   });
   it("hierarchycal partitions", async () => {
     const dbName = "hierarchical partition db";
@@ -238,6 +265,7 @@ describe("Item CRUD hierarchical partition", () => {
       beforeCreateDocumentsCount + 1,
       "create should increase the number of documents",
     );
+    await database.delete();
   });
 });
 
@@ -246,7 +274,7 @@ describe(
   { timeout: 10000 },
   () => {
     beforeAll(async () => {
-      await removeAllDatabases();
+      // await removeAllDatabases();
     });
 
     async function multiplePartitionCRUDTest(dataset: MultiCRUDTestDataSet): Promise<void> {
@@ -315,6 +343,7 @@ describe(
       );
 
       await bulkDeleteItems(container, returnedDocuments, dataset.partitinKeyDef);
+      await database.delete();
     }
 
     const dataSetForDefaultSinglePhysicalPartition: CRUDTestDataSet = {
@@ -523,6 +552,7 @@ describe(
       const container = await getTestContainer("db1", undefined, { partitionKey: "/id" });
       const { resource } = await container.items.create({});
       assert.ok(resource.id);
+      await container.delete();
     });
 
     describe("Upsert when collection partitioned on id", async () => {
@@ -531,6 +561,7 @@ describe(
         const container = await getTestContainer("db1", undefined, { partitionKey: "/id" });
         const { resource: resource } = await container.items.upsert({ key1: 0, key2: 0 });
         assert.ok(resource.id);
+        await container.delete();
       });
 
       it("should create a new resource if /id is passed and resource doesn't exist", async () => {
@@ -541,6 +572,7 @@ describe(
           key2: 0,
         });
         assert.ok(resource.id);
+        await container.delete();
       });
       it("should update a resource if /id is passed and exists in container", async () => {
         const container = await getTestContainer("db1", undefined, { partitionKey: "/id" });
@@ -553,6 +585,7 @@ describe(
           key2: 2,
         });
         assert.strictEqual(resource1.id, resource2.id);
+        await container.delete();
       });
     });
 
@@ -675,39 +708,23 @@ describe(
   },
 );
 
-// TODO: Non-deterministic test. We can't guarantee we see any response with a 429 status code since the retries happen within the response
-describe("item read retries", async () => {
-  it("retries on 429", async () => {
-    const client = new CosmosClient({ key: masterKey, endpoint });
-    const { resource: db } = await client.databases.create({
-      id: `small db ${Math.random() * 1000}`,
-    });
-    const containerResponse = await client
-      .database(db.id)
-      .containers.create({ id: `small container ${Math.random() * 1000}`, throughput: 400 });
-    const container = containerResponse.container;
-    await container.items.create({ id: "readme" });
-    const arr = new Array(400);
-    const promises = [];
-    for (let i = 0; i < arr.length; i++) {
-      promises.push(container.item("readme").read());
-    }
-    const resp = await Promise.all(promises);
-    assert.equal(resp[0].statusCode, 200);
-  });
-});
-
 describe("patch operations", () => {
   describe("various mixed operations", () => {
     let container: Container;
     let addItemId: string;
     let conditionItemId: string;
+    let database: Database;
+
+    afterAll(async () => {
+      await database.delete();
+    });
 
     beforeAll(async () => {
       addItemId = addEntropy("addItemId");
       conditionItemId = addEntropy("conditionItemId");
       const client = new CosmosClient({ key: masterKey, endpoint });
       const db = await client.databases.createIfNotExists({ id: "patchDb" });
+      database = db.database;
       const contResponse = await db.database.containers.createIfNotExists({
         id: "patchContainer",
         partitionKey: {
@@ -793,7 +810,11 @@ describe("patch operations", () => {
     let addItemWithOnePartitionKeyId: string;
     let addItemWithNoPartitionKeyId: string;
     let conditionItemId: string;
+    let database: Database;
 
+    afterAll(async () => {
+      await database.delete();
+    });
     beforeAll(async () => {
       addItemId = addEntropy("addItemId");
       addItemWithOnePartitionKeyId = addEntropy("addItemWithOnePartitionKeyId");
@@ -801,6 +822,7 @@ describe("patch operations", () => {
       conditionItemId = addEntropy("conditionItemId");
       const client = new CosmosClient({ key: masterKey, endpoint });
       const db = await client.databases.createIfNotExists({ id: "patchDb hp" });
+      database = db.database;
       const contResponse = await db.database.containers.createIfNotExists({
         id: "patchContainer",
         partitionKey: {
@@ -937,7 +959,7 @@ describe("patch operations", () => {
 
 describe("Item CRUD with priority", { timeout: 10000 }, () => {
   beforeEach(async () => {
-    await removeAllDatabases();
+    // await removeAllDatabases();
   });
 
   const documentCRUDTest = async function (isUpsertTest: boolean): Promise<void> {
@@ -1031,6 +1053,8 @@ describe("Item CRUD with priority", { timeout: 10000 }, () => {
       .read({ priorityLevel: PriorityLevel.Low });
     assert.equal(response.statusCode, 404, "response should return error code 404");
     assert.equal(response.resource, undefined);
+
+    await database.delete();
   };
 
   it("Should do document CRUD operations successfully", async () => {
