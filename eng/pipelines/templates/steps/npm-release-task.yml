@@ -16,7 +16,7 @@ jobs:
     inputs:
     - input: pipelineArtifact
       artifactName: packages
-      targetPath: "${{parameters.PathToArtifacts}}"
+      targetPath: $(Pipeline.Workspace)
   pool:
     name: azsdk-pool-mms-ubuntu-2004-general
     image: azsdk-pool-mms-ubuntu-2004-1espt
@@ -27,9 +27,9 @@ jobs:
 
   - ${{ if eq(parameters.Registry, 'https://registry.npmjs.org/') }}:
     - pwsh: |
+        write-host "${{parameters.PathToArtifacts}}"
         ls "${{parameters.PathToArtifacts}}"
-        write-host "xx"
-        ls "${{parameters.PathToArtifacts}}/${{parameters.Artifact.name}}"
+        write-host "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
         $tarFile = (Get-ChildItem -Path "${{parameters.PathToArtifacts}}/*.tgz").FullName
         write-host "Tar file: $tarFile"
 
