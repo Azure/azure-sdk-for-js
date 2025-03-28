@@ -280,6 +280,25 @@ describe("snippets", function () {
     console.log(`Created agent, agent ID: ${agent.id}`);
   });
 
+  it("createAgentWithFabric", async function () {
+    const fabricConnection = await client.connections.getConnection(
+      process.env["FABRIC_CONNECTION_NAME"] || "<connection-name>",
+    );
+
+    const connectionId = fabricConnection.id;
+
+    // Initialize agent Microsoft Fabric tool with the connection id
+    const fabricTool = ToolUtility.createFabricTool(connectionId);
+
+    // Create agent with the Microsoft Fabric tool and process assistant run
+    const agent = await client.agents.createAgent("gpt-4o", {
+      name: "my-agent",
+      instructions: "You are a helpful agent",
+      tools: [fabricTool.definition],
+    });
+    console.log(`Created agent, agent ID : ${agent.id}`);
+  });
+
   it("createThread", async function () {
     const thread = await client.agents.createThread();
   });
@@ -341,7 +360,7 @@ describe("snippets", function () {
     });
     console.log(`Created agent, agent ID: ${agent.id}`);
 
-    const thread = client.agents.createThread();
+    const thread = await client.agents.createThread();
     console.log(`Created thread, thread ID: ${thread.id}`);
 
     const message = await client.agents.createMessage(thread.id, {
@@ -372,7 +391,16 @@ describe("snippets", function () {
   });
 
   it("createThreadAndRun", async function () {
-    const run = await client.agents.createThreadAndRun(thread.id, agent.id);
+    const run = await client.agents.createThreadAndRun(agent.id, {
+      thread: {
+        messages: [
+          {
+            role: "user",
+            content: "hello, world!",
+          },
+        ],
+      },
+    });
   });
 
   it("createRunStream", async function () {
@@ -414,12 +442,19 @@ describe("snippets", function () {
 
   it("listMessages", async function () {
     const messages = await client.agents.listMessages(thread.id);
+    while (messages.hasMore) {
+      const nextMessages = await client.agents.listMessages(currentRun.threadId, {
+        after: messages.lastId,
+      });
+      messages.data = messages.data.concat(nextMessages.data);
+      messages.hasMore = nextMessages.hasMore;
+      messages.lastId = nextMessages.lastId;
+    }
 
     // The messages are following in the reverse order,
     // we will iterate them and output only text contents.
     for (const dataPoint of messages.data.reverse()) {
-      const lastMessageContent: MessageContentOutput =
-        dataPoint.content[dataPoint.content.length - 1];
+      const lastMessageContent: MessageContentOutput = dataPoint.content[dataPoint.content.length - 1];
       console.log(lastMessageContent);
       if (isOutputOfType<MessageTextContentOutput>(lastMessageContent, "text")) {
         console.log(
