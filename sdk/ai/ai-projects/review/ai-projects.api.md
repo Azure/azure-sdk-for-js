@@ -959,13 +959,13 @@ export interface MessageTextFilePathDetailsOutput {
 
 // @public
 export interface MicrosoftFabricToolDefinition extends ToolDefinitionParent {
-    fabricAISkill: ToolConnectionList;
+    fabricDataAgent: ToolConnectionList;
     type: "fabric_dataagent";
 }
 
 // @public
 export interface MicrosoftFabricToolDefinitionOutput extends ToolDefinitionOutputParent {
-    fabricAISkill: ToolConnectionListOutput;
+    fabricDataAgent: ToolConnectionListOutput;
     type: "fabric_dataagent";
 }
 
@@ -1458,7 +1458,7 @@ export interface RunStepMessageCreationReferenceOutput {
 
 // @public
 export interface RunStepMicrosoftFabricToolCallOutput extends RunStepToolCallOutputParent {
-    fabricAISkill: Record<string, string>;
+    fabricDataAgent: Record<string, string>;
     type: "fabric_dataagent";
 }
 

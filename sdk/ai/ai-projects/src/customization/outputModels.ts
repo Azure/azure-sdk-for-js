@@ -86,7 +86,7 @@ export interface MicrosoftFabricToolDefinitionOutput extends ToolDefinitionOutpu
   /** The object type, which is always 'fabric_dataagent'. */
   type: "fabric_dataagent";
   /** The list of connections used by the Microsoft Fabric tool. */
-  fabricAISkill: ToolConnectionListOutput;
+  fabricDataAgent : ToolConnectionListOutput;
 }
 
 /** The input definition information for a sharepoint tool as used to configure an agent. */
@@ -986,7 +986,7 @@ export interface RunStepMicrosoftFabricToolCallOutput extends RunStepToolCallOut
   /** The object type, which is always 'fabric_dataagent'. */
   type: "fabric_dataagent";
   /** Reserved for future use. */
-  fabricAISkill: Record<string, string>;
+  fabricDataAgent : Record<string, string>;
 }
 
 /**

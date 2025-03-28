@@ -125,7 +125,7 @@ function convertMicrosoftFabricToolDefinition(
 ): GeneratedModels.MicrosoftFabricToolDefinition {
   return {
     type: source.type,
-    fabric_dataagent: convertToolConnectionList(source.fabricAISkill),
+    fabric_dataagent: convertToolConnectionList(source.fabricDataAgent ),
   };
 }
 
