@@ -823,6 +823,9 @@ importers:
       '@rush-temp/arm-webservices':
         specifier: file:./projects/arm-webservices.tgz
         version: file:projects/arm-webservices.tgz(@types/debug@4.1.12)(msw@2.7.3(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(vite@6.2.3(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)
+      '@rush-temp/arm-weightsandbiases':
+        specifier: file:./projects/arm-weightsandbiases.tgz
+        version: file:projects/arm-weightsandbiases.tgz(@types/debug@4.1.12)(msw@2.7.3(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(vite@6.2.3(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)
       '@rush-temp/arm-workloads':
         specifier: file:./projects/arm-workloads.tgz
         version: file:projects/arm-workloads.tgz(@types/debug@4.1.12)(msw@2.7.3(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(vite@6.2.3(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)
@@ -2681,7 +2684,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-containerservice-1@file:projects/arm-containerservice-1.tgz':
-    resolution: {integrity: sha512-koW0ZnOI/WXt3PGcw4qtbwBLuELHDFMU6y256W+vbuL+fVTRlIh4A7U4Bt2aLkqAxqE3uw9sovQMqAmg94Rtwg==, tarball: file:projects/arm-containerservice-1.tgz}
+    resolution: {integrity: sha512-FlSeF1C6UFKLra6uIpTfbc0Ml87kiVyZvOF10BVL+qIk5HRYXfxktNUvadVjdNHyzTZd8TVJBT7B1W4mWZUBFA==, tarball: file:projects/arm-containerservice-1.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-containerservice@file:projects/arm-containerservice.tgz':
@@ -2721,7 +2724,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-databox@file:projects/arm-databox.tgz':
-    resolution: {integrity: sha512-XFqbgBC0FmEiVy6WGk1YWHaU5fPu/GevB7OcnkYCRL+FdPymsK2ZhQ62e+LCB4F0RAwu99EVdYyZSSko/4MJbA==, tarball: file:projects/arm-databox.tgz}
+    resolution: {integrity: sha512-e+shYsvMWk/hM7h/I4U/fxzbmmZ6LZ3Zv2Q2CmuhhTXPyLh6llACUcTg+bBNnYX6fMrLaXMPX8uhuB2fryftTg==, tarball: file:projects/arm-databox.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-databoxedge-profile-2020-09-01-hybrid@file:projects/arm-databoxedge-profile-2020-09-01-hybrid.tgz':
@@ -2845,7 +2848,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-eventgrid@file:projects/arm-eventgrid.tgz':
-    resolution: {integrity: sha512-6+e6BYARGxY3Co7bo+t9TbRAQCHDHu2MvKPYFP94vjfdwVbqjn6pvz6mu/xWvyH4msHwfm9lLXPZroAbi8FSoA==, tarball: file:projects/arm-eventgrid.tgz}
+    resolution: {integrity: sha512-eUBU5xbz+ZkTF9ic97wZofIxzBew5fN3K+PTmSn6umwJlvEZWb5U1V8KCUhhphPSeTJ3c10t4QZu/qt5D//ZeQ==, tarball: file:projects/arm-eventgrid.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-eventhub-profile-2020-09-01-hybrid@file:projects/arm-eventhub-profile-2020-09-01-hybrid.tgz':
@@ -2969,7 +2972,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-keyvault@file:projects/arm-keyvault.tgz':
-    resolution: {integrity: sha512-vMtITsDvx8D6ADvXnFssNkaXrynpd/8Mad50virn2BWCZjMxVebdDzmb/QipmqvLG5170HQXMgozQ8OqgPHz3g==, tarball: file:projects/arm-keyvault.tgz}
+    resolution: {integrity: sha512-Aiden6jzQamDNk/C2lmBij5nSTwOd4npjmS/IRJgwmbaL1ruVBUubx9vzdeN1tt6qN5952A73UpxFfJLFEQRHw==, tarball: file:projects/arm-keyvault.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-kubernetesconfiguration@file:projects/arm-kubernetesconfiguration.tgz':
@@ -3165,7 +3168,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-pineconevectordb@file:projects/arm-pineconevectordb.tgz':
-    resolution: {integrity: sha512-P5P+66MFVFSXiFopWYgyGyOUq1qBd9ti5LQ1rmTGVTvOyYUSVtfYRIUrYj5rH4H3uyUMDuQjDzfgXiDcJBoKOw==, tarball: file:projects/arm-pineconevectordb.tgz}
+    resolution: {integrity: sha512-ygeV6VyzUTjDxRxsG0+XobXdXca+g74cXvl+hWj3+rbCede/+dhDqvAKVvwfpHzdpVRwjmD5Db065XQcer1w+A==, tarball: file:projects/arm-pineconevectordb.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-playwrighttesting@file:projects/arm-playwrighttesting.tgz':
@@ -3177,7 +3180,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-policy@file:projects/arm-policy.tgz':
-    resolution: {integrity: sha512-uSg1661j1xPl494tmGf3J1s/nGF/p8LEYNgsG2buTY0/FE+lZv4qgMb4dBbgdK4pLat2GXDucCCgDWKmAmUP4A==, tarball: file:projects/arm-policy.tgz}
+    resolution: {integrity: sha512-j/kWu+yyAHmo8FO941GqOsivWOgDgVhoSfChNDdxE4xLcnMeR55oPNr6O4GF1lTccUVLuOfqg1wPVaULAFlWBg==, tarball: file:projects/arm-policy.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-policyinsights@file:projects/arm-policyinsights.tgz':
@@ -3470,6 +3473,10 @@ packages:
 
   '@rush-temp/arm-webservices@file:projects/arm-webservices.tgz':
     resolution: {integrity: sha512-eoCDRzHPboIpD0xq1jUg/+9Xcq2MPMqCaKVYDwOo86D068nertdPFaMOx0W/tYwm6Vi1RTC3/D4fuj/vqfWEGg==, tarball: file:projects/arm-webservices.tgz}
+    version: 0.0.0
+
+  '@rush-temp/arm-weightsandbiases@file:projects/arm-weightsandbiases.tgz':
+    resolution: {integrity: sha512-x12zOmYSxwjRTU2cjGVeDTYqyU4uzpJWFScKhdp0zJ60uy7jZLCx+zIqa5kBG/Q8cob8/lF/OORL/0hn1LLZDA==, tarball: file:projects/arm-weightsandbiases.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-workloads@file:projects/arm-workloads.tgz':
@@ -12140,12 +12147,12 @@ snapshots:
     dependencies:
       '@azure/core-lro': 2.7.2
       '@types/node': 18.19.84
-      '@vitest/browser': 3.0.9(@types/node@18.19.84)(playwright@1.51.1)(typescript@5.6.3)(vite@6.2.3(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.9)
+      '@vitest/browser': 3.0.9(@types/node@18.19.84)(playwright@1.51.1)(typescript@5.7.3)(vite@6.2.3(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.9)
       '@vitest/coverage-istanbul': 3.0.9(vitest@3.0.9)
       dotenv: 16.4.7
       playwright: 1.51.1
       tslib: 2.8.1
-      typescript: 5.6.3
+      typescript: 5.7.3
       vitest: 3.0.9(@types/debug@4.1.12)(@types/node@18.19.84)(@vitest/browser@3.0.9)(msw@2.7.3(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(yaml@2.7.0)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
@@ -16339,13 +16346,13 @@ snapshots:
   '@rush-temp/arm-pineconevectordb@file:projects/arm-pineconevectordb.tgz(@types/debug@4.1.12)(msw@2.7.3(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(vite@6.2.3(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)':
     dependencies:
       '@types/node': 18.19.84
-      '@vitest/browser': 3.0.9(@types/node@18.19.84)(playwright@1.51.1)(typescript@5.6.3)(vite@6.2.3(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.9)
+      '@vitest/browser': 3.0.9(@types/node@18.19.84)(playwright@1.51.1)(typescript@5.7.3)(vite@6.2.3(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.9)
       '@vitest/coverage-istanbul': 3.0.9(vitest@3.0.9)
       dotenv: 16.4.7
       eslint: 9.23.0
       playwright: 1.51.1
       tslib: 2.8.1
-      typescript: 5.6.3
+      typescript: 5.7.3
       vitest: 3.0.9(@types/debug@4.1.12)(@types/node@18.19.84)(@vitest/browser@3.0.9)(msw@2.7.3(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(yaml@2.7.0)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
@@ -16443,12 +16450,12 @@ snapshots:
   '@rush-temp/arm-policy@file:projects/arm-policy.tgz(@types/debug@4.1.12)(msw@2.7.3(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(vite@6.2.3(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)':
     dependencies:
       '@types/node': 18.19.84
-      '@vitest/browser': 3.0.9(@types/node@18.19.84)(playwright@1.51.1)(typescript@5.8.2)(vite@6.2.3(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.9)
+      '@vitest/browser': 3.0.9(@types/node@18.19.84)(playwright@1.51.1)(typescript@5.6.3)(vite@6.2.3(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.9)
       '@vitest/coverage-istanbul': 3.0.9(vitest@3.0.9)
       dotenv: 16.4.7
       playwright: 1.51.1
       tslib: 2.8.1
-      typescript: 5.8.2
+      typescript: 5.6.3
       vitest: 3.0.9(@types/debug@4.1.12)(@types/node@18.19.84)(@vitest/browser@3.0.9)(msw@2.7.3(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(yaml@2.7.0)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
@@ -18986,6 +18993,41 @@ snapshots:
       playwright: 1.51.1
       tslib: 2.8.1
       typescript: 5.8.2
+      vitest: 3.0.9(@types/debug@4.1.12)(@types/node@18.19.84)(@vitest/browser@3.0.9)(msw@2.7.3(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(yaml@2.7.0)
+    transitivePeerDependencies:
+      - '@edge-runtime/vm'
+      - '@types/debug'
+      - '@vitest/ui'
+      - bufferutil
+      - happy-dom
+      - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
+      - supports-color
+      - terser
+      - tsx
+      - utf-8-validate
+      - vite
+      - webdriverio
+      - yaml
+
+  '@rush-temp/arm-weightsandbiases@file:projects/arm-weightsandbiases.tgz(@types/debug@4.1.12)(msw@2.7.3(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(vite@6.2.3(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)':
+    dependencies:
+      '@types/node': 18.19.84
+      '@vitest/browser': 3.0.9(@types/node@18.19.84)(playwright@1.51.1)(typescript@5.7.3)(vite@6.2.3(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.9)
+      '@vitest/coverage-istanbul': 3.0.9(vitest@3.0.9)
+      dotenv: 16.4.7
+      eslint: 9.23.0
+      playwright: 1.51.1
+      tslib: 2.8.1
+      typescript: 5.7.3
       vitest: 3.0.9(@types/debug@4.1.12)(@types/node@18.19.84)(@vitest/browser@3.0.9)(msw@2.7.3(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(yaml@2.7.0)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
@@ -23803,11 +23845,11 @@ snapshots:
   '@types/body-parser@1.19.5':
     dependencies:
       '@types/connect': 3.4.38
-      '@types/node': 18.19.84
+      '@types/node': 22.7.9
 
   '@types/bunyan@1.8.11':
     dependencies:
-      '@types/node': 18.19.84
+      '@types/node': 22.7.9
 
   '@types/chai-as-promised@7.1.8':
     dependencies:
@@ -23825,13 +23867,13 @@ snapshots:
 
   '@types/connect@3.4.38':
     dependencies:
-      '@types/node': 18.19.84
+      '@types/node': 22.7.9
 
   '@types/cookie@0.6.0': {}
 
   '@types/cors@2.8.17':
     dependencies:
-      '@types/node': 18.19.84
+      '@types/node': 22.7.9
 
   '@types/debug@4.1.12':
     dependencies:
@@ -23852,7 +23894,7 @@ snapshots:
 
   '@types/express-serve-static-core@4.19.6':
     dependencies:
-      '@types/node': 22.7.9
+      '@types/node': 18.19.84
       '@types/qs': 6.9.18
       '@types/range-parser': 1.2.7
       '@types/send': 0.17.4
@@ -23867,16 +23909,16 @@ snapshots:
   '@types/fs-extra@11.0.4':
     dependencies:
       '@types/jsonfile': 6.1.4
-      '@types/node': 22.7.9
+      '@types/node': 18.19.84
 
   '@types/fs-extra@8.1.5':
     dependencies:
-      '@types/node': 18.19.84
+      '@types/node': 22.7.9
 
   '@types/glob@7.2.0':
     dependencies:
       '@types/minimatch': 5.1.2
-      '@types/node': 18.19.84
+      '@types/node': 22.7.9
 
   '@types/http-errors@2.0.4': {}
 
@@ -23931,11 +23973,11 @@ snapshots:
 
   '@types/mysql@2.15.26':
     dependencies:
-      '@types/node': 18.19.84
+      '@types/node': 22.7.9
 
   '@types/node-fetch@2.6.12':
     dependencies:
-      '@types/node': 18.19.84
+      '@types/node': 22.7.9
       form-data: 4.0.2
 
   '@types/node@18.19.84':
@@ -23960,7 +24002,7 @@ snapshots:
 
   '@types/pg@8.6.1':
     dependencies:
-      '@types/node': 18.19.84
+      '@types/node': 22.7.9
       pg-protocol: 1.8.0
       pg-types: 2.2.0
 
@@ -23988,12 +24030,12 @@ snapshots:
   '@types/send@0.17.4':
     dependencies:
       '@types/mime': 1.3.5
-      '@types/node': 18.19.84
+      '@types/node': 22.7.9
 
   '@types/serve-static@1.15.7':
     dependencies:
       '@types/http-errors': 2.0.4
-      '@types/node': 18.19.84
+      '@types/node': 22.7.9
       '@types/send': 0.17.4
 
   '@types/shimmer@1.2.0': {}
@@ -24012,7 +24054,7 @@ snapshots:
 
   '@types/through@0.0.33':
     dependencies:
-      '@types/node': 18.19.84
+      '@types/node': 22.7.9
 
   '@types/tough-cookie@4.0.5': {}
 
@@ -24044,7 +24086,7 @@ snapshots:
 
   '@types/yauzl@2.10.3':
     dependencies:
-      '@types/node': 18.19.84
+      '@types/node': 22.7.9
     optional: true
 
   '@typescript-eslint/eslint-plugin@8.26.1(@typescript-eslint/parser@8.26.1(eslint@9.23.0)(typescript@5.8.2))(eslint@9.23.0)(typescript@5.8.2)':
@@ -25036,7 +25078,7 @@ snapshots:
   engine.io@6.6.4:
     dependencies:
       '@types/cors': 2.8.17
-      '@types/node': 18.19.84
+      '@types/node': 22.7.9
       accepts: 1.3.8
       base64id: 2.0.0
       cookie: 0.7.2

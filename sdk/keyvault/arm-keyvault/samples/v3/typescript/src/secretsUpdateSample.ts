@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   SecretPatchParameters,
-  KeyVaultManagementClient
+  KeyVaultManagementClient,
 } from "@azure/arm-keyvault";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -19,7 +19,7 @@ import "dotenv/config";
  * This sample demonstrates how to Update a secret in the specified subscription.  NOTE: This API is intended for internal use in ARM deployments.  Users should use the data-plane REST service for interaction with vault secrets.
  *
  * @summary Update a secret in the specified subscription.  NOTE: This API is intended for internal use in ARM deployments.  Users should use the data-plane REST service for interaction with vault secrets.
- * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2023-07-01/examples/updateSecret.json
+ * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2024-11-01/examples/updateSecret.json
  */
 async function updateASecret(): Promise<void> {
   const subscriptionId =
@@ -30,7 +30,7 @@ async function updateASecret(): Promise<void> {
   const vaultName = "sample-vault";
   const secretName = "secret-name";
   const parameters: SecretPatchParameters = {
-    properties: { value: "secret-value2" }
+    properties: { value: "secret-value2" },
   };
   const credential = new DefaultAzureCredential();
   const client = new KeyVaultManagementClient(credential, subscriptionId);
@@ -38,13 +38,13 @@ async function updateASecret(): Promise<void> {
     resourceGroupName,
     vaultName,
     secretName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  updateASecret();
+  await updateASecret();
 }
 
 main().catch(console.error);

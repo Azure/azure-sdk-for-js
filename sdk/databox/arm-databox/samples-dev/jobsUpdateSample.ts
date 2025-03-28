@@ -6,8 +6,12 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import type { JobResourceUpdateParameter } from "@azure/arm-databox";
-import { DataBoxManagementClient } from "@azure/arm-databox";
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+import {
+  JobResourceUpdateParameter,
+  DataBoxManagementClient,
+} from "@azure/arm-databox";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -15,11 +19,13 @@ import "dotenv/config";
  * This sample demonstrates how to Updates the properties of an existing job.
  *
  * @summary Updates the properties of an existing job.
- * x-ms-original-file: specification/databox/resource-manager/Microsoft.DataBox/stable/2022-12-01/examples/JobsPatch.json
+ * x-ms-original-file: specification/databox/resource-manager/Microsoft.DataBox/stable/2025-02-01/examples/JobsPatch.json
  */
 async function jobsPatch(): Promise<void> {
-  const subscriptionId = process.env["DATABOX_SUBSCRIPTION_ID"] || "YourSubscriptionId";
-  const resourceGroupName = process.env["DATABOX_RESOURCE_GROUP"] || "YourResourceGroupName";
+  const subscriptionId =
+    process.env["DATABOX_SUBSCRIPTION_ID"] || "YourSubscriptionId";
+  const resourceGroupName =
+    process.env["DATABOX_RESOURCE_GROUP"] || "YourResourceGroupName";
   const jobName = "TestJobName1";
   const jobResourceUpdateParameter: JobResourceUpdateParameter = {
     details: {
@@ -55,11 +61,13 @@ async function jobsPatch(): Promise<void> {
  * This sample demonstrates how to Updates the properties of an existing job.
  *
  * @summary Updates the properties of an existing job.
- * x-ms-original-file: specification/databox/resource-manager/Microsoft.DataBox/stable/2022-12-01/examples/JobsPatchCmk.json
+ * x-ms-original-file: specification/databox/resource-manager/Microsoft.DataBox/stable/2025-02-01/examples/JobsPatchCmk.json
  */
 async function jobsPatchCmk(): Promise<void> {
-  const subscriptionId = process.env["DATABOX_SUBSCRIPTION_ID"] || "YourSubscriptionId";
-  const resourceGroupName = process.env["DATABOX_RESOURCE_GROUP"] || "YourResourceGroupName";
+  const subscriptionId =
+    process.env["DATABOX_SUBSCRIPTION_ID"] || "YourSubscriptionId";
+  const resourceGroupName =
+    process.env["DATABOX_RESOURCE_GROUP"] || "YourResourceGroupName";
   const jobName = "TestJobName1";
   const jobResourceUpdateParameter: JobResourceUpdateParameter = {
     details: {
@@ -85,11 +93,13 @@ async function jobsPatchCmk(): Promise<void> {
  * This sample demonstrates how to Updates the properties of an existing job.
  *
  * @summary Updates the properties of an existing job.
- * x-ms-original-file: specification/databox/resource-manager/Microsoft.DataBox/stable/2022-12-01/examples/JobsPatchSystemAssignedToUserAssigned.json
+ * x-ms-original-file: specification/databox/resource-manager/Microsoft.DataBox/stable/2025-02-01/examples/JobsPatchSystemAssignedToUserAssigned.json
  */
 async function jobsPatchSystemAssignedToUserAssigned(): Promise<void> {
-  const subscriptionId = process.env["DATABOX_SUBSCRIPTION_ID"] || "YourSubscriptionId";
-  const resourceGroupName = process.env["DATABOX_RESOURCE_GROUP"] || "YourResourceGroupName";
+  const subscriptionId =
+    process.env["DATABOX_SUBSCRIPTION_ID"] || "YourSubscriptionId";
+  const resourceGroupName =
+    process.env["DATABOX_RESOURCE_GROUP"] || "YourResourceGroupName";
   const jobName = "TestJobName1";
   const jobResourceUpdateParameter: JobResourceUpdateParameter = {
     identity: {
