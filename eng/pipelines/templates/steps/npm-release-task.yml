@@ -85,6 +85,10 @@ jobs:
 - ${{ if eq(parameters.Registry, 'https://registry.npmjs.org/') }}:
   - job: VerifyPackageTags
     dependsOn: PublishPackage
+    pool:
+      name: azsdk-pool-mms-ubuntu-2004-general
+      image: azsdk-pool-mms-ubuntu-2004-1espt
+      os: linux
     steps:
     - checkout: self
     - task: Powershell@2
