@@ -197,7 +197,7 @@ async function CRUDTestRunner(dataset: CRUDTestDataSet, isUpsertTest: boolean): 
 // TODO: Non-deterministic test. We can't guarantee we see any response with a 429 status code since the retries happen within the response
 describe("item read retries", async () => {
   beforeAll(async () => {
-    await removeAllDatabases();
+    // await removeAllDatabases();
   });
   it("retries on 429", async () => {
     const client = new CosmosClient({ key: masterKey, endpoint });
