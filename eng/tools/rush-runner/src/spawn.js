@@ -5,6 +5,10 @@
 
 import { spawnSync } from "node:child_process";
 
+function isWindows() {
+  return process.platform === "win32";
+}
+
 /**
  * Helper function to spawn a command
  *
@@ -14,7 +18,7 @@ import { spawnSync } from "node:child_process";
  */
 function spawnWithLog(cmd, cwd, ...args) {
   console.log(`Executing: "${cmd} ${args.join(" ")}" in ${cwd}\n\n`);
-  const proc = spawnSync(cmd, args, { cwd, stdio: "inherit" });
+  const proc = spawnSync(cmd, args, { cwd, stdio: "inherit", shell: isWindows() });
   console.log(`\n\n${cmd} exited with code ${proc.status} `);
 
   return proc.status ?? 1;
@@ -27,7 +31,8 @@ function spawnWithLog(cmd, cwd, ...args) {
  * @param {string[]} args - rest of arguments
  */
 export function spawnNpx(cwd, ...args) {
-  return spawnWithLog("npx", cwd, ...args);
+  const command = isWindows() ? "npx.CMD" : "npx";
+  return spawnWithLog(command, cwd, ...args);
 }
 
 /**
@@ -37,7 +42,8 @@ export function spawnNpx(cwd, ...args) {
  * @param {string[]} args - rest of arguments
  */
 export function spawnNpmRun(cwd, ...args) {
-  return spawnWithLog("npm", cwd, "run", ...args);
+  const command = isWindows() ? "npm.CMD" : "npm";
+  return spawnWithLog(command, cwd, "run", ...args);
 }
 
 /**
