@@ -45,6 +45,10 @@
       "dependsOn": ["^lint:fix"],
       "cache": false
     },
+    "pack": {
+      "dependsOn": ["^pack", "build"],
+      "cache": false
+    },
     "test": {
       "dependsOn": ["^test"]
     },
