@@ -4,11 +4,11 @@
 
 ```ts
 
-import * as coreAuth from '@azure/core-auth';
+import type * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
-import { OperationState } from '@azure/core-lro';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { SimplePollerLike } from '@azure/core-lro';
+import type { OperationState } from '@azure/core-lro';
+import type { PagedAsyncIterableIterator } from '@azure/core-paging';
+import type { SimplePollerLike } from '@azure/core-lro';
 
 // @public
 export interface AadProfile {
@@ -56,34 +56,10 @@ export type AzureHybridBenefit = string;
 
 // @public
 export interface ConnectedCluster extends TrackedResource {
-    aadProfile?: AadProfile;
-    agentPublicKeyCertificate: string;
-    readonly agentVersion?: string;
-    arcAgentProfile?: ArcAgentProfile;
-    arcAgentryConfigurations?: ArcAgentryConfigurations[];
-    azureHybridBenefit?: AzureHybridBenefit;
-    readonly connectivityStatus?: ConnectivityStatus;
-    distribution?: string;
-    distributionVersion?: string;
-    gateway?: Gateway;
     identity: ConnectedClusterIdentity;
-    infrastructure?: string;
     kind?: ConnectedClusterKind;
-    readonly kubernetesVersion?: string;
-    readonly lastConnectivityTime?: Date;
-    readonly managedIdentityCertificateExpirationTime?: Date;
-    readonly miscellaneousProperties?: {
-        [propertyName: string]: string;
-    };
-    readonly offering?: string;
-    oidcIssuerProfile?: OidcIssuerProfile;
-    privateLinkScopeResourceId?: string;
-    privateLinkState?: PrivateLinkState;
-    provisioningState?: ProvisioningState;
-    securityProfile?: SecurityProfile;
+    properties: ConnectedClusterProperties;
     readonly systemData?: SystemData;
-    readonly totalCoreCount?: number;
-    readonly totalNodeCount?: number;
 }
 
 // @public
@@ -174,12 +150,46 @@ export interface ConnectedClusterOperations {
 
 // @public
 export interface ConnectedClusterPatch {
-    azureHybridBenefit?: AzureHybridBenefit;
-    distribution?: string;
-    distributionVersion?: string;
+    properties?: ConnectedClusterPatchProperties;
     tags?: {
         [propertyName: string]: string;
     };
+}
+
+// @public
+export interface ConnectedClusterPatchProperties {
+    azureHybridBenefit?: AzureHybridBenefit;
+    distribution?: string;
+    distributionVersion?: string;
+}
+
+// @public
+export interface ConnectedClusterProperties {
+    aadProfile?: AadProfile;
+    agentPublicKeyCertificate: string;
+    readonly agentVersion?: string;
+    arcAgentProfile?: ArcAgentProfile;
+    arcAgentryConfigurations?: ArcAgentryConfigurations[];
+    azureHybridBenefit?: AzureHybridBenefit;
+    readonly connectivityStatus?: ConnectivityStatus;
+    distribution?: string;
+    distributionVersion?: string;
+    gateway?: Gateway;
+    infrastructure?: string;
+    readonly kubernetesVersion?: string;
+    readonly lastConnectivityTime?: Date;
+    readonly managedIdentityCertificateExpirationTime?: Date;
+    readonly miscellaneousProperties?: {
+        [propertyName: string]: string;
+    };
+    readonly offering?: string;
+    oidcIssuerProfile?: OidcIssuerProfile;
+    privateLinkScopeResourceId?: string;
+    privateLinkState?: PrivateLinkState;
+    provisioningState?: ProvisioningState;
+    securityProfile?: SecurityProfile;
+    readonly totalCoreCount?: number;
+    readonly totalNodeCount?: number;
 }
 
 // @public

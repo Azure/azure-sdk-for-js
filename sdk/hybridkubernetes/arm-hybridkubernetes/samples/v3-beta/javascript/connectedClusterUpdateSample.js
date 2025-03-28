@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { ConnectedKubernetesClient } = require("@azure/arm-hybridkubernetes");
 const { DefaultAzureCredential } = require("@azure/identity");
 require("dotenv/config");
@@ -24,9 +22,11 @@ async function updateClusterExample() {
   const resourceGroupName = process.env["HYBRIDKUBERNETES_RESOURCE_GROUP"] || "k8sc-rg";
   const clusterName = "testCluster";
   const connectedClusterPatch = {
-    azureHybridBenefit: "NotApplicable",
-    distribution: "AKS",
-    distributionVersion: "1.0",
+    properties: {
+      azureHybridBenefit: "NotApplicable",
+      distribution: "AKS",
+      distributionVersion: "1.0",
+    },
     tags: { tag1: "value1", tag2: "value2" },
   };
   const credential = new DefaultAzureCredential();

@@ -6,20 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper.js";
-import { ConnectedClusterOperations } from "../operationsInterfaces/index.js";
+import type { ConnectedClusterOperations } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
-import { ConnectedKubernetesClient } from "../connectedKubernetesClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import type { ConnectedKubernetesClient } from "../connectedKubernetesClient.js";
+import type { SimplePollerLike, OperationState } from "@azure/core-lro";
+import { createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
-import {
+import type {
   ConnectedCluster,
   ConnectedClusterListByResourceGroupNextOptionalParams,
   ConnectedClusterListByResourceGroupOptionalParams,
@@ -44,9 +41,7 @@ import {
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ConnectedClusterOperations operations. */
-export class ConnectedClusterOperationsImpl
-  implements ConnectedClusterOperations
-{
+export class ConnectedClusterOperationsImpl implements ConnectedClusterOperations {
   private readonly client: ConnectedKubernetesClient;
 
   /**
@@ -78,11 +73,7 @@ export class ConnectedClusterOperationsImpl
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByResourceGroupPagingPage(
-          resourceGroupName,
-          options,
-          settings,
-        );
+        return this.listByResourceGroupPagingPage(resourceGroupName, options, settings);
       },
     };
   }
@@ -102,11 +93,7 @@ export class ConnectedClusterOperationsImpl
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByResourceGroupNext(
-        resourceGroupName,
-        continuationToken,
-        options,
-      );
+      result = await this._listByResourceGroupNext(resourceGroupName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -118,10 +105,7 @@ export class ConnectedClusterOperationsImpl
     resourceGroupName: string,
     options?: ConnectedClusterListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<ConnectedCluster> {
-    for await (const page of this.listByResourceGroupPagingPage(
-      resourceGroupName,
-      options,
-    )) {
+    for await (const page of this.listByResourceGroupPagingPage(resourceGroupName, options)) {
       yield* page;
     }
   }
@@ -209,8 +193,7 @@ export class ConnectedClusterOperationsImpl
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -335,8 +318,7 @@ export class ConnectedClusterOperationsImpl
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -388,11 +370,7 @@ export class ConnectedClusterOperationsImpl
     clusterName: string,
     options?: ConnectedClusterDeleteOptionalParams,
   ): Promise<void> {
-    const poller = await this.beginDelete(
-      resourceGroupName,
-      clusterName,
-      options,
-    );
+    const poller = await this.beginDelete(resourceGroupName, clusterName, options);
     return poller.pollUntilDone();
   }
 
@@ -437,10 +415,7 @@ export class ConnectedClusterOperationsImpl
   private _listBySubscription(
     options?: ConnectedClusterListBySubscriptionOptionalParams,
   ): Promise<ConnectedClusterListBySubscriptionResponse> {
-    return this.client.sendOperationRequest(
-      { options },
-      listBySubscriptionOperationSpec,
-    );
+    return this.client.sendOperationRequest({ options }, listBySubscriptionOperationSpec);
   }
 
   /**
@@ -611,11 +586,7 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.resourceGroupName],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -666,11 +637,7 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.nextLink,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer,
 };

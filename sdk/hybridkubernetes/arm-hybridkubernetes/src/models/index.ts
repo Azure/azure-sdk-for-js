@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreClient from "@azure/core-client";
+import type * as coreClient from "@azure/core-client";
 
 /** Identity for the connected cluster. */
 export interface ConnectedClusterIdentity {
@@ -22,6 +22,83 @@ export interface ConnectedClusterIdentity {
   readonly tenantId?: string;
   /** The type of identity used for the connected cluster. The type 'SystemAssigned, includes a system created identity. The type 'None' means no identity is assigned to the connected cluster. */
   type: ResourceIdentityType;
+}
+
+/** Properties of the connected cluster. */
+export interface ConnectedClusterProperties {
+  /** Base64 encoded public certificate used by the agent to do the initial handshake to the backend services in Azure. */
+  agentPublicKeyCertificate: string;
+  /**
+   * The Kubernetes version of the connected cluster resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly kubernetesVersion?: string;
+  /**
+   * Number of nodes present in the connected cluster resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly totalNodeCount?: number;
+  /**
+   * Number of CPU cores present in the connected cluster resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly totalCoreCount?: number;
+  /**
+   * Version of the agent running on the connected cluster resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly agentVersion?: string;
+  /** Provisioning state of the connected cluster resource. */
+  provisioningState?: ProvisioningState;
+  /** The Kubernetes distribution running on this connected cluster. */
+  distribution?: string;
+  /** The Kubernetes distribution version on this connected cluster. */
+  distributionVersion?: string;
+  /** The infrastructure on which the Kubernetes cluster represented by this connected cluster is running on. */
+  infrastructure?: string;
+  /**
+   * Connected cluster offering
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly offering?: string;
+  /**
+   * Expiration time of the managed identity certificate
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly managedIdentityCertificateExpirationTime?: Date;
+  /**
+   * Time representing the last instance when heart beat was received from the cluster
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastConnectivityTime?: Date;
+  /**
+   * Represents the connectivity status of the connected cluster.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly connectivityStatus?: ConnectivityStatus;
+  /** Property which describes the state of private link on a connected cluster resource. */
+  privateLinkState?: PrivateLinkState;
+  /** This is populated only if privateLinkState is enabled. The resource id of the private link scope this connected cluster is assigned to, if any. */
+  privateLinkScopeResourceId?: string;
+  /** Indicates whether Azure Hybrid Benefit is opted in */
+  azureHybridBenefit?: AzureHybridBenefit;
+  /** AAD profile for the connected cluster. */
+  aadProfile?: AadProfile;
+  /** Arc agentry configuration for the provisioned cluster. */
+  arcAgentProfile?: ArcAgentProfile;
+  /** Security profile for the connected cluster. */
+  securityProfile?: SecurityProfile;
+  /** Open ID Connect (OIDC) Issuer Profile for the connected cluster. */
+  oidcIssuerProfile?: OidcIssuerProfile;
+  /** Details of the gateway used by the Arc router for connectivity. */
+  gateway?: Gateway;
+  /** Configuration settings for customizing the behavior of the connected cluster. */
+  arcAgentryConfigurations?: ArcAgentryConfigurations[];
+  /**
+   * More properties related to the Connected Cluster
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly miscellaneousProperties?: { [propertyName: string]: string };
 }
 
 /** AAD Profile specifies attributes for Azure Active Directory integration. */
@@ -219,6 +296,12 @@ export interface ErrorAdditionalInfo {
 export interface ConnectedClusterPatch {
   /** Resource tags. */
   tags?: { [propertyName: string]: string };
+  /** Describes the connected cluster resource properties that can be updated during PATCH operation. */
+  properties?: ConnectedClusterPatchProperties;
+}
+
+/** Properties which can be patched on the connected cluster resource. */
+export interface ConnectedClusterPatchProperties {
   /** Represents the distribution of the connected cluster */
   distribution?: string;
   /** Represents the Kubernetes distribution version on this connected cluster. */
@@ -355,84 +438,13 @@ export interface ConnectedCluster extends TrackedResource {
   identity: ConnectedClusterIdentity;
   /** The kind of connected cluster. */
   kind?: ConnectedClusterKind;
+  /** Describes the connected cluster resource properties. */
+  properties: ConnectedClusterProperties;
   /**
    * Metadata pertaining to creation and last modification of the resource
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly systemData?: SystemData;
-  /** Base64 encoded public certificate used by the agent to do the initial handshake to the backend services in Azure. */
-  agentPublicKeyCertificate: string;
-  /**
-   * The Kubernetes version of the connected cluster resource
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly kubernetesVersion?: string;
-  /**
-   * Number of nodes present in the connected cluster resource
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly totalNodeCount?: number;
-  /**
-   * Number of CPU cores present in the connected cluster resource
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly totalCoreCount?: number;
-  /**
-   * Version of the agent running on the connected cluster resource
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly agentVersion?: string;
-  /** Provisioning state of the connected cluster resource. */
-  provisioningState?: ProvisioningState;
-  /** The Kubernetes distribution running on this connected cluster. */
-  distribution?: string;
-  /** The Kubernetes distribution version on this connected cluster. */
-  distributionVersion?: string;
-  /** The infrastructure on which the Kubernetes cluster represented by this connected cluster is running on. */
-  infrastructure?: string;
-  /**
-   * Connected cluster offering
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly offering?: string;
-  /**
-   * Expiration time of the managed identity certificate
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly managedIdentityCertificateExpirationTime?: Date;
-  /**
-   * Time representing the last instance when heart beat was received from the cluster
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly lastConnectivityTime?: Date;
-  /**
-   * Represents the connectivity status of the connected cluster.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly connectivityStatus?: ConnectivityStatus;
-  /** Property which describes the state of private link on a connected cluster resource. */
-  privateLinkState?: PrivateLinkState;
-  /** This is populated only if privateLinkState is enabled. The resource id of the private link scope this connected cluster is assigned to, if any. */
-  privateLinkScopeResourceId?: string;
-  /** Indicates whether Azure Hybrid Benefit is opted in */
-  azureHybridBenefit?: AzureHybridBenefit;
-  /** AAD profile for the connected cluster. */
-  aadProfile?: AadProfile;
-  /** Arc agentry configuration for the provisioned cluster. */
-  arcAgentProfile?: ArcAgentProfile;
-  /** Security profile for the connected cluster. */
-  securityProfile?: SecurityProfile;
-  /** Open ID Connect (OIDC) Issuer Profile for the connected cluster. */
-  oidcIssuerProfile?: OidcIssuerProfile;
-  /** Details of the gateway used by the Arc router for connectivity. */
-  gateway?: Gateway;
-  /** Configuration settings for customizing the behavior of the connected cluster. */
-  arcAgentryConfigurations?: ArcAgentryConfigurations[];
-  /**
-   * More properties related to the Connected Cluster
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly miscellaneousProperties?: { [propertyName: string]: string };
 }
 
 /** Known values of {@link ConnectedClusterKind} that the service accepts. */
@@ -639,8 +651,7 @@ export type AuthenticationMethod = string;
 export type ResourceIdentityType = "None" | "SystemAssigned";
 
 /** Optional parameters. */
-export interface ConnectedClusterCreateOrReplaceOptionalParams
-  extends coreClient.OperationOptions {
+export interface ConnectedClusterCreateOrReplaceOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -651,22 +662,19 @@ export interface ConnectedClusterCreateOrReplaceOptionalParams
 export type ConnectedClusterCreateOrReplaceResponse = ConnectedCluster;
 
 /** Optional parameters. */
-export interface ConnectedClusterUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ConnectedClusterUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the update operation. */
 export type ConnectedClusterUpdateResponse = ConnectedCluster;
 
 /** Optional parameters. */
-export interface ConnectedClusterGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ConnectedClusterGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type ConnectedClusterGetResponse = ConnectedCluster;
 
 /** Optional parameters. */
-export interface ConnectedClusterDeleteOptionalParams
-  extends coreClient.OperationOptions {
+export interface ConnectedClusterDeleteOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -678,8 +686,7 @@ export interface ConnectedClusterListClusterUserCredentialOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listClusterUserCredential operation. */
-export type ConnectedClusterListClusterUserCredentialResponse =
-  CredentialResults;
+export type ConnectedClusterListClusterUserCredentialResponse = CredentialResults;
 
 /** Optional parameters. */
 export interface ConnectedClusterListByResourceGroupOptionalParams
@@ -700,34 +707,29 @@ export interface ConnectedClusterListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type ConnectedClusterListByResourceGroupNextResponse =
-  ConnectedClusterList;
+export type ConnectedClusterListByResourceGroupNextResponse = ConnectedClusterList;
 
 /** Optional parameters. */
 export interface ConnectedClusterListBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
-export type ConnectedClusterListBySubscriptionNextResponse =
-  ConnectedClusterList;
+export type ConnectedClusterListBySubscriptionNextResponse = ConnectedClusterList;
 
 /** Optional parameters. */
-export interface OperationsGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface OperationsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type OperationsGetResponse = OperationList;
 
 /** Optional parameters. */
-export interface OperationsGetNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface OperationsGetNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getNext operation. */
 export type OperationsGetNextResponse = OperationList;
 
 /** Optional parameters. */
-export interface ConnectedKubernetesClientOptionalParams
-  extends coreClient.ServiceClientOptions {
+export interface ConnectedKubernetesClientOptionalParams extends coreClient.ServiceClientOptions {
   /** server parameter */
   $host?: string;
   /** Api Version */

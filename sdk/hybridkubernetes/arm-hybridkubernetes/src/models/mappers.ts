@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreClient from "@azure/core-client";
+import type * as coreClient from "@azure/core-client";
 
 export const ConnectedClusterIdentity: coreClient.CompositeMapper = {
   type: {
@@ -34,6 +34,177 @@ export const ConnectedClusterIdentity: coreClient.CompositeMapper = {
         type: {
           name: "Enum",
           allowedValues: ["None", "SystemAssigned"],
+        },
+      },
+    },
+  },
+};
+
+export const ConnectedClusterProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ConnectedClusterProperties",
+    modelProperties: {
+      agentPublicKeyCertificate: {
+        serializedName: "agentPublicKeyCertificate",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      kubernetesVersion: {
+        serializedName: "kubernetesVersion",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      totalNodeCount: {
+        serializedName: "totalNodeCount",
+        readOnly: true,
+        type: {
+          name: "Number",
+        },
+      },
+      totalCoreCount: {
+        serializedName: "totalCoreCount",
+        readOnly: true,
+        type: {
+          name: "Number",
+        },
+      },
+      agentVersion: {
+        serializedName: "agentVersion",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      provisioningState: {
+        serializedName: "provisioningState",
+        type: {
+          name: "String",
+        },
+      },
+      distribution: {
+        serializedName: "distribution",
+        type: {
+          name: "String",
+        },
+      },
+      distributionVersion: {
+        serializedName: "distributionVersion",
+        type: {
+          name: "String",
+        },
+      },
+      infrastructure: {
+        serializedName: "infrastructure",
+        type: {
+          name: "String",
+        },
+      },
+      offering: {
+        serializedName: "offering",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      managedIdentityCertificateExpirationTime: {
+        serializedName: "managedIdentityCertificateExpirationTime",
+        readOnly: true,
+        type: {
+          name: "DateTime",
+        },
+      },
+      lastConnectivityTime: {
+        serializedName: "lastConnectivityTime",
+        readOnly: true,
+        type: {
+          name: "DateTime",
+        },
+      },
+      connectivityStatus: {
+        serializedName: "connectivityStatus",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      privateLinkState: {
+        defaultValue: "Disabled",
+        serializedName: "privateLinkState",
+        type: {
+          name: "String",
+        },
+      },
+      privateLinkScopeResourceId: {
+        serializedName: "privateLinkScopeResourceId",
+        type: {
+          name: "String",
+        },
+      },
+      azureHybridBenefit: {
+        serializedName: "azureHybridBenefit",
+        type: {
+          name: "String",
+        },
+      },
+      aadProfile: {
+        serializedName: "aadProfile",
+        type: {
+          name: "Composite",
+          className: "AadProfile",
+        },
+      },
+      arcAgentProfile: {
+        serializedName: "arcAgentProfile",
+        type: {
+          name: "Composite",
+          className: "ArcAgentProfile",
+        },
+      },
+      securityProfile: {
+        serializedName: "securityProfile",
+        type: {
+          name: "Composite",
+          className: "SecurityProfile",
+        },
+      },
+      oidcIssuerProfile: {
+        serializedName: "oidcIssuerProfile",
+        type: {
+          name: "Composite",
+          className: "OidcIssuerProfile",
+        },
+      },
+      gateway: {
+        serializedName: "gateway",
+        type: {
+          name: "Composite",
+          className: "Gateway",
+        },
+      },
+      arcAgentryConfigurations: {
+        serializedName: "arcAgentryConfigurations",
+        nullable: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ArcAgentryConfigurations",
+            },
+          },
+        },
+      },
+      miscellaneousProperties: {
+        serializedName: "miscellaneousProperties",
+        readOnly: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } },
         },
       },
     },
@@ -490,20 +661,36 @@ export const ConnectedClusterPatch: coreClient.CompositeMapper = {
           value: { type: { name: "String" } },
         },
       },
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "ConnectedClusterPatchProperties",
+        },
+      },
+    },
+  },
+};
+
+export const ConnectedClusterPatchProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ConnectedClusterPatchProperties",
+    modelProperties: {
       distribution: {
-        serializedName: "properties.distribution",
+        serializedName: "distribution",
         type: {
           name: "String",
         },
       },
       distributionVersion: {
-        serializedName: "properties.distributionVersion",
+        serializedName: "distributionVersion",
         type: {
           name: "String",
         },
       },
       azureHybridBenefit: {
-        serializedName: "properties.azureHybridBenefit",
+        serializedName: "azureHybridBenefit",
         type: {
           name: "String",
         },
@@ -792,173 +979,18 @@ export const ConnectedCluster: coreClient.CompositeMapper = {
           name: "String",
         },
       },
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "ConnectedClusterProperties",
+        },
+      },
       systemData: {
         serializedName: "systemData",
         type: {
           name: "Composite",
           className: "SystemData",
-        },
-      },
-      agentPublicKeyCertificate: {
-        serializedName: "properties.agentPublicKeyCertificate",
-        required: true,
-        type: {
-          name: "String",
-        },
-      },
-      kubernetesVersion: {
-        serializedName: "properties.kubernetesVersion",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      totalNodeCount: {
-        serializedName: "properties.totalNodeCount",
-        readOnly: true,
-        type: {
-          name: "Number",
-        },
-      },
-      totalCoreCount: {
-        serializedName: "properties.totalCoreCount",
-        readOnly: true,
-        type: {
-          name: "Number",
-        },
-      },
-      agentVersion: {
-        serializedName: "properties.agentVersion",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      provisioningState: {
-        serializedName: "properties.provisioningState",
-        type: {
-          name: "String",
-        },
-      },
-      distribution: {
-        serializedName: "properties.distribution",
-        type: {
-          name: "String",
-        },
-      },
-      distributionVersion: {
-        serializedName: "properties.distributionVersion",
-        type: {
-          name: "String",
-        },
-      },
-      infrastructure: {
-        serializedName: "properties.infrastructure",
-        type: {
-          name: "String",
-        },
-      },
-      offering: {
-        serializedName: "properties.offering",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      managedIdentityCertificateExpirationTime: {
-        serializedName: "properties.managedIdentityCertificateExpirationTime",
-        readOnly: true,
-        type: {
-          name: "DateTime",
-        },
-      },
-      lastConnectivityTime: {
-        serializedName: "properties.lastConnectivityTime",
-        readOnly: true,
-        type: {
-          name: "DateTime",
-        },
-      },
-      connectivityStatus: {
-        serializedName: "properties.connectivityStatus",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      privateLinkState: {
-        defaultValue: "Disabled",
-        serializedName: "properties.privateLinkState",
-        type: {
-          name: "String",
-        },
-      },
-      privateLinkScopeResourceId: {
-        serializedName: "properties.privateLinkScopeResourceId",
-        type: {
-          name: "String",
-        },
-      },
-      azureHybridBenefit: {
-        serializedName: "properties.azureHybridBenefit",
-        type: {
-          name: "String",
-        },
-      },
-      aadProfile: {
-        serializedName: "properties.aadProfile",
-        type: {
-          name: "Composite",
-          className: "AadProfile",
-        },
-      },
-      arcAgentProfile: {
-        serializedName: "properties.arcAgentProfile",
-        type: {
-          name: "Composite",
-          className: "ArcAgentProfile",
-        },
-      },
-      securityProfile: {
-        serializedName: "properties.securityProfile",
-        type: {
-          name: "Composite",
-          className: "SecurityProfile",
-        },
-      },
-      oidcIssuerProfile: {
-        serializedName: "properties.oidcIssuerProfile",
-        type: {
-          name: "Composite",
-          className: "OidcIssuerProfile",
-        },
-      },
-      gateway: {
-        serializedName: "properties.gateway",
-        type: {
-          name: "Composite",
-          className: "Gateway",
-        },
-      },
-      arcAgentryConfigurations: {
-        serializedName: "properties.arcAgentryConfigurations",
-        nullable: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ArcAgentryConfigurations",
-            },
-          },
-        },
-      },
-      miscellaneousProperties: {
-        serializedName: "properties.miscellaneousProperties",
-        readOnly: true,
-        type: {
-          name: "Dictionary",
-          value: { type: { name: "String" } },
         },
       },
     },

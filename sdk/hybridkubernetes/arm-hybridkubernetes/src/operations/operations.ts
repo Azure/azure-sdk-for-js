@@ -6,14 +6,14 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper.js";
-import { Operations } from "../operationsInterfaces/index.js";
+import type { Operations } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
-import { ConnectedKubernetesClient } from "../connectedKubernetesClient.js";
-import {
+import type { ConnectedKubernetesClient } from "../connectedKubernetesClient.js";
+import type {
   Operation,
   OperationsGetNextOptionalParams,
   OperationsGetOptionalParams,
@@ -38,9 +38,7 @@ export class OperationsImpl implements Operations {
    * Lists all of the available API operations for Connected Cluster resource.
    * @param options The options parameters.
    */
-  public list(
-    options?: OperationsGetOptionalParams,
-  ): PagedAsyncIterableIterator<Operation> {
+  public list(options?: OperationsGetOptionalParams): PagedAsyncIterableIterator<Operation> {
     const iter = this.getPagingAll(options);
     return {
       next() {
@@ -92,9 +90,7 @@ export class OperationsImpl implements Operations {
    * Lists all of the available API operations for Connected Cluster resource.
    * @param options The options parameters.
    */
-  private _get(
-    options?: OperationsGetOptionalParams,
-  ): Promise<OperationsGetResponse> {
+  private _get(options?: OperationsGetOptionalParams): Promise<OperationsGetResponse> {
     return this.client.sendOperationRequest({ options }, getOperationSpec);
   }
 
@@ -107,10 +103,7 @@ export class OperationsImpl implements Operations {
     nextLink: string,
     options?: OperationsGetNextOptionalParams,
   ): Promise<OperationsGetNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      getNextOperationSpec,
-    );
+    return this.client.sendOperationRequest({ nextLink, options }, getNextOperationSpec);
   }
 }
 // Operation Specifications
