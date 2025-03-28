@@ -11,7 +11,7 @@ import {
   ComponentCurrentBillingFeaturesGetResponse,
   ApplicationInsightsComponentBillingFeatures,
   ComponentCurrentBillingFeaturesUpdateOptionalParams,
-  ComponentCurrentBillingFeaturesUpdateResponse
+  ComponentCurrentBillingFeaturesUpdateResponse,
 } from "../models/index.js";
 
 /** Interface representing a ComponentCurrentBillingFeatures. */
@@ -25,7 +25,7 @@ export interface ComponentCurrentBillingFeatures {
   get(
     resourceGroupName: string,
     resourceName: string,
-    options?: ComponentCurrentBillingFeaturesGetOptionalParams
+    options?: ComponentCurrentBillingFeaturesGetOptionalParams,
   ): Promise<ComponentCurrentBillingFeaturesGetResponse>;
   /**
    * Update current billing features for an Application Insights component.
@@ -39,6 +39,6 @@ export interface ComponentCurrentBillingFeatures {
     resourceGroupName: string,
     resourceName: string,
     billingFeaturesProperties: ApplicationInsightsComponentBillingFeatures,
-    options?: ComponentCurrentBillingFeaturesUpdateOptionalParams
+    options?: ComponentCurrentBillingFeaturesUpdateOptionalParams,
   ): Promise<ComponentCurrentBillingFeaturesUpdateResponse>;
 }

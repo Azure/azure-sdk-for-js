@@ -6,8 +6,12 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import type { VirtualMachineScaleSetVMsListOptionalParams } from "@azure/arm-compute";
-import { ComputeManagementClient } from "@azure/arm-compute";
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+import {
+  VirtualMachineScaleSetVMsListOptionalParams,
+  ComputeManagementClient,
+} from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -15,11 +19,37 @@ import "dotenv/config";
  * This sample demonstrates how to Gets a list of all virtual machines in a VM scale sets.
  *
  * @summary Gets a list of all virtual machines in a VM scale sets.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVM_List_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVM_List_WithResiliencyView.json
+ */
+async function listVmssVMSWithResilientVmdeletionStatus(): Promise<void> {
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "resourceGroupname";
+  const virtualMachineScaleSetName = "vmssName";
+  const credential = new DefaultAzureCredential();
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const resArray = new Array();
+  for await (const item of client.virtualMachineScaleSetVMs.list(
+    resourceGroupName,
+    virtualMachineScaleSetName,
+  )) {
+    resArray.push(item);
+  }
+  console.log(resArray);
+}
+
+/**
+ * This sample demonstrates how to Gets a list of all virtual machines in a VM scale sets.
+ *
+ * @summary Gets a list of all virtual machines in a VM scale sets.
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVM_List_MaximumSet_Gen.json
  */
 async function virtualMachineScaleSetVMListMaximumSetGen(): Promise<void> {
-  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
   const virtualMachineScaleSetName = "aaaaaaaaaaaaaaaaaaaaaa";
   const filter = "aaaaaaaaaaaaaa";
   const select = "aaaaaaaaaaaaaaaaaaaaa";
@@ -46,11 +76,13 @@ async function virtualMachineScaleSetVMListMaximumSetGen(): Promise<void> {
  * This sample demonstrates how to Gets a list of all virtual machines in a VM scale sets.
  *
  * @summary Gets a list of all virtual machines in a VM scale sets.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVM_List_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVM_List_MinimumSet_Gen.json
  */
 async function virtualMachineScaleSetVMListMinimumSetGen(): Promise<void> {
-  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
   const virtualMachineScaleSetName = "aaaaaaaaaaaaaaaaaaaaaaaaaaaa";
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
@@ -65,6 +97,7 @@ async function virtualMachineScaleSetVMListMinimumSetGen(): Promise<void> {
 }
 
 async function main(): Promise<void> {
+  await listVmssVMSWithResilientVmdeletionStatus();
   await virtualMachineScaleSetVMListMaximumSetGen();
   await virtualMachineScaleSetVMListMinimumSetGen();
 }

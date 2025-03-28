@@ -20,7 +20,7 @@ import {
   DataPolicyManifestsListResponse,
   DataPolicyManifestsGetByPolicyModeOptionalParams,
   DataPolicyManifestsGetByPolicyModeResponse,
-  DataPolicyManifestsListNextResponse
+  DataPolicyManifestsListNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -45,7 +45,7 @@ export class DataPolicyManifestsImpl implements DataPolicyManifests {
    * @param options The options parameters.
    */
   public list(
-    options?: DataPolicyManifestsListOptionalParams
+    options?: DataPolicyManifestsListOptionalParams,
   ): PagedAsyncIterableIterator<DataPolicyManifest> {
     const iter = this.listPagingAll(options);
     return {
@@ -60,13 +60,13 @@ export class DataPolicyManifestsImpl implements DataPolicyManifests {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     options?: DataPolicyManifestsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<DataPolicyManifest[]> {
     let result: DataPolicyManifestsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -87,7 +87,7 @@ export class DataPolicyManifestsImpl implements DataPolicyManifests {
   }
 
   private async *listPagingAll(
-    options?: DataPolicyManifestsListOptionalParams
+    options?: DataPolicyManifestsListOptionalParams,
   ): AsyncIterableIterator<DataPolicyManifest> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
@@ -101,11 +101,11 @@ export class DataPolicyManifestsImpl implements DataPolicyManifests {
    */
   getByPolicyMode(
     policyMode: string,
-    options?: DataPolicyManifestsGetByPolicyModeOptionalParams
+    options?: DataPolicyManifestsGetByPolicyModeOptionalParams,
   ): Promise<DataPolicyManifestsGetByPolicyModeResponse> {
     return this.client.sendOperationRequest(
       { policyMode, options },
-      getByPolicyModeOperationSpec
+      getByPolicyModeOperationSpec,
     );
   }
 
@@ -118,7 +118,7 @@ export class DataPolicyManifestsImpl implements DataPolicyManifests {
    * @param options The options parameters.
    */
   private _list(
-    options?: DataPolicyManifestsListOptionalParams
+    options?: DataPolicyManifestsListOptionalParams,
   ): Promise<DataPolicyManifestsListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
@@ -130,11 +130,11 @@ export class DataPolicyManifestsImpl implements DataPolicyManifests {
    */
   private _listNext(
     nextLink: string,
-    options?: DataPolicyManifestsListNextOptionalParams
+    options?: DataPolicyManifestsListNextOptionalParams,
   ): Promise<DataPolicyManifestsListNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -146,45 +146,45 @@ const getByPolicyModeOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DataPolicyManifest
+      bodyMapper: Mappers.DataPolicyManifest,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.policyMode],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
   path: "/providers/Microsoft.Authorization/dataPolicyManifests",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DataPolicyManifestListResult
+      bodyMapper: Mappers.DataPolicyManifestListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.filter],
   urlParameters: [Parameters.$host],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DataPolicyManifestListResult
+      bodyMapper: Mappers.DataPolicyManifestListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [Parameters.$host, Parameters.nextLink],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
