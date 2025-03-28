@@ -16,7 +16,7 @@ require("dotenv/config");
  * This sample demonstrates how to This operation creates or updates a policy definition in the given subscription with the given name.
  *
  * @summary This operation creates or updates a policy definition in the given subscription with the given name.
- * x-ms-original-file: specification/resources/resource-manager/Microsoft.Authorization/stable/2021-06-01/examples/createOrUpdatePolicyDefinition.json
+ * x-ms-original-file: specification/resources/resource-manager/Microsoft.Authorization/stable/2023-04-01/examples/createOrUpdatePolicyDefinition.json
  */
 async function createOrUpdateAPolicyDefinition() {
   const subscriptionId =
@@ -30,11 +30,17 @@ async function createOrUpdateAPolicyDefinition() {
     parameters: {
       prefix: {
         type: "String",
-        metadata: { description: "Resource name prefix", displayName: "Prefix" },
+        metadata: {
+          description: "Resource name prefix",
+          displayName: "Prefix",
+        },
       },
       suffix: {
         type: "String",
-        metadata: { description: "Resource name suffix", displayName: "Suffix" },
+        metadata: {
+          description: "Resource name suffix",
+          displayName: "Suffix",
+        },
       },
     },
     policyRule: {
@@ -57,7 +63,7 @@ async function createOrUpdateAPolicyDefinition() {
  * This sample demonstrates how to This operation creates or updates a policy definition in the given subscription with the given name.
  *
  * @summary This operation creates or updates a policy definition in the given subscription with the given name.
- * x-ms-original-file: specification/resources/resource-manager/Microsoft.Authorization/stable/2021-06-01/examples/createOrUpdatePolicyDefinitionAdvancedParams.json
+ * x-ms-original-file: specification/resources/resource-manager/Microsoft.Authorization/stable/2023-04-01/examples/createOrUpdatePolicyDefinitionAdvancedParams.json
  */
 async function createOrUpdateAPolicyDefinitionWithAdvancedParameters() {
   const subscriptionId =
@@ -109,8 +115,8 @@ async function createOrUpdateAPolicyDefinitionWithAdvancedParameters() {
 }
 
 async function main() {
-  createOrUpdateAPolicyDefinition();
-  createOrUpdateAPolicyDefinitionWithAdvancedParameters();
+  await createOrUpdateAPolicyDefinition();
+  await createOrUpdateAPolicyDefinitionWithAdvancedParameters();
 }
 
 main().catch(console.error);
