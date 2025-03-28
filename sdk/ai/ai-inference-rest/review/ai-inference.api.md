@@ -270,7 +270,7 @@ export interface FunctionCallOutput {
 export interface FunctionDefinition {
     description?: string;
     name: string;
-    parameters?: unknown;
+    parameters?: Record<string, unknown>;
 }
 
 // @public (undocumented)
