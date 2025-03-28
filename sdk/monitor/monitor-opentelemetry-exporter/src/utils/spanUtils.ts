@@ -56,7 +56,12 @@ import {
   serializeAttribute,
 } from "./common.js";
 import type { Tags, Properties, MSLink, Measurements } from "../types.js";
-import { httpSemanticValues, legacySemanticValues, MaxPropertyLengths } from "../types.js";
+import {
+  httpSemanticValues,
+  internalMicrosoftAttributes,
+  legacySemanticValues,
+  MaxPropertyLengths,
+} from "../types.js";
 import { parseEventHubSpan } from "./eventhub.js";
 import {
   AzureMonitorSampleRate,
@@ -138,7 +143,7 @@ function createPropertiesFromSpanAttributes(attributes?: Attributes): {
       if (
         // We need to not ignore the _MS.ProcessedByMetricExtractors key as it's used to identify standard metrics
         !(
-          (key.startsWith("_MS.") && key !== "_MS.ProcessedByMetricExtractors") ||
+          (key.startsWith("_MS.") && !internalMicrosoftAttributes.includes(key as any)) ||
           key.startsWith("microsoft.") ||
           legacySemanticValues.includes(key) ||
           httpSemanticValues.includes(key as any) ||
