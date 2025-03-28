@@ -29,7 +29,7 @@ async function revokeAccessToASnapshot() {
 }
 
 async function main() {
-  revokeAccessToASnapshot();
+  await revokeAccessToASnapshot();
 }
 
 main().catch(console.error);

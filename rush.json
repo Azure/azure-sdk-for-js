@@ -2318,6 +2318,11 @@
       "versionPolicyName": "management"
     },
     {
+      "packageName": "@azure/arm-arizeaiobservabilityeval",
+      "projectFolder": "sdk/liftrarize/arm-arizeaiobservabilityeval",
+      "versionPolicyName": "management"
+    },
+    {
       "packageName": "@azure/ai-projects",
       "projectFolder": "sdk/ai/ai-projects",
       "versionPolicyName": "client"
@@ -2335,6 +2340,11 @@
     {
       "packageName": "@azure/arm-databasewatcher",
       "projectFolder": "sdk/databasewatcher/arm-databasewatcher",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-migrationassessment",
+      "projectFolder": "sdk/migrate/arm-migrationassessment",
       "versionPolicyName": "management"
     },
     {
