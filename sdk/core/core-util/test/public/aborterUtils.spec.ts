@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AbortSignalLike } from "@azure/abort-controller";
+import { AbortError, type AbortSignalLike } from "@azure/abort-controller";
 import { describe, it, assert, expect, afterEach, vi } from "vitest";
 import { cancelablePromiseRace, createAbortablePromise } from "../../src/index.js";
 
@@ -42,7 +42,7 @@ describe("createAbortablePromise", function () {
       abortSignal: aborter.signal,
       abortErrorMsg,
     });
-    aborter.abort();
+    aborter.abort(abortErrorMsg);
     await expect(promise).rejects.toThrowError(abortErrorMsg);
   });
 });
@@ -135,18 +135,12 @@ describe("cancelablePromiseRace", function () {
   });
 
   it("should respect the abort signal supplied", async function () {
-    const aborter = new AbortController();
-    setTimeout(() => aborter.abort(), function1Delay / 2);
-    let errorThrown = false;
-    try {
-      await cancelablePromiseRace<[number, string, void]>([function1, function2, function3], {
-        abortSignal: aborter.signal,
-      }); // all are aborted
-    } catch (error) {
-      errorThrown = true;
-      assert.strictEqual((error as { message: string }).message, "The operation was aborted.");
-    }
-    assert.isTrue(errorThrown);
+    const signal = AbortSignal.timeout(function1Delay / 2);
+    await expect(
+      cancelablePromiseRace<[number, string, void]>([function1, function2, function3], {
+        abortSignal: signal,
+      }),
+    ).rejects.toThrowError(AbortError);
     assert.isTrue(function1Aborted); // checks 1 is aborted
     assert.isTrue(function2Aborted); // checks 2 is aborted
     assert.isTrue(function3Aborted); // checks 3 is aborted
