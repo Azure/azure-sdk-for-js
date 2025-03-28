@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert, expect, vi, afterEach } from "vitest";
-import type { AbortSignalLike } from "../../src/abort-controller/AbortSignalLike.js";
 import { createAbortablePromise } from "../../src/util/createAbortablePromise.js";
 import { cancelablePromiseRace } from "../../src/util/aborterUtils.js";
 
@@ -12,7 +11,7 @@ describe("createAbortablePromise", function () {
   const createPromise = ({
     abortSignal,
     abortErrorMsg,
-  }: { abortSignal?: AbortSignalLike; abortErrorMsg?: string } = {}): Promise<unknown> =>
+  }: { abortSignal?: AbortSignal; abortErrorMsg?: string } = {}): Promise<unknown> =>
     createAbortablePromise(
       (resolve) => {
         token = setTimeout(resolve, delayTime);
@@ -58,7 +57,7 @@ describe("cancelablePromiseRace", function () {
   const function2Message = "function 2 is rejected";
   const function3Message = "function 3 is rejected";
 
-  const function1 = async (abortOptions: { abortSignal?: AbortSignalLike }): Promise<void> => {
+  const function1 = async (abortOptions: { abortSignal?: AbortSignal }): Promise<void> => {
     let token: ReturnType<typeof setTimeout>;
     return createAbortablePromise(
       (resolve) => {
@@ -74,7 +73,7 @@ describe("cancelablePromiseRace", function () {
     );
   };
 
-  const function2 = async (abortOptions: { abortSignal?: AbortSignalLike }): Promise<string> => {
+  const function2 = async (abortOptions: { abortSignal?: AbortSignal }): Promise<string> => {
     let token: ReturnType<typeof setTimeout>;
     return createAbortablePromise(
       (reject) => {
@@ -90,7 +89,7 @@ describe("cancelablePromiseRace", function () {
     );
   };
 
-  const function3 = async (abortOptions: { abortSignal?: AbortSignalLike }): Promise<void> => {
+  const function3 = async (abortOptions: { abortSignal?: AbortSignal }): Promise<void> => {
     let token: ReturnType<typeof setTimeout>;
     return createAbortablePromise(
       (resolve, reject) => {

@@ -101,7 +101,7 @@
 
 # PRLabel: %Communication - Rooms
 # ServiceLabel: %Communication - Rooms
-/sdk/communication/communication-rooms/ @anujissarMS @minnieliu @paolamvhz @shwali-msft @allchiang-msft
+/sdk/communication/communication-rooms/ @minnieliu @paolamvhz @allchiang-msft @mayssamm
 
 # PRLabel: %Communication - SMS
 # ServiceLabel: %Communication - SMS
@@ -321,6 +321,10 @@ sdk/ai/ai-projects @ganeshyb @GraceBrigham
 # PRLabel: %Microsoft Playwright Testing
 # ServiceLabel: %Microsoft Playwright Testing
 /sdk/playwrighttesting/ @Sid200026 @puagarwa @ShreyaAnand
+
+# PRLabel: %Azure Load Testing
+# ServiceLabel: %Azure Load Testing
+/sdk/loadtesting/ @prativen @mitsha-microsoft @ninallam
 
 # API review files
 /sdk/**/review/*api.md @bterlson @Azure/azure-sdk-for-js-core
