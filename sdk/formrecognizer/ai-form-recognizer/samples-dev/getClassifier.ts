@@ -10,7 +10,6 @@
 
 import { DocumentModelAdministrationClient } from "@azure/ai-form-recognizer";
 import { DefaultAzureCredential } from "@azure/identity";
-
 import "dotenv/config";
 
 async function main(): Promise<void> {

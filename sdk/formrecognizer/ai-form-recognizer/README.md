@@ -32,7 +32,7 @@ npm install @azure/ai-form-recognizer
 ```ts snippet:ReadmeSampleCreateClient_Node
 import { DefaultAzureCredential } from "@azure/identity";
 import { DocumentAnalysisClient } from "@azure/ai-form-recognizer";
-import { DefaultAzureCredential } from "@azure/identity";import { createReadStream } from "node:fs";
+import { createReadStream } from "node:fs";
 
 const credential = new DefaultAzureCredential();
 const client = new DocumentAnalysisClient(
@@ -108,7 +108,7 @@ az cognitiveservices account keys list --resource-group <your-resource-group-nam
 Once you have an API key and endpoint, you can use it as follows:
 
 ```ts snippet:ReadmeSampleCreateClient_KeyCredential
-import { DocumentAnalysisClient } from "@azure/ai-form-recognizer";
+import { AzureKeyCredential, DocumentAnalysisClient } from "@azure/ai-form-recognizer";
 
 const credential = new AzureKeyCredential("<API key>");
 const client = new DocumentAnalysisClient(
@@ -132,7 +132,7 @@ Set the values of the client ID, tenant ID, and client secret of the AAD applica
 ```ts snippet:ReadmeSampleCreateClient_TokenCredential
 import { DefaultAzureCredential } from "@azure/identity";
 import { DocumentAnalysisClient } from "@azure/ai-form-recognizer";
-import { DefaultAzureCredential } from "@azure/identity";
+
 const credential = new DefaultAzureCredential();
 const client = new DocumentAnalysisClient(
   "https://<resource name>.cognitiveservices.azure.com",
@@ -189,7 +189,7 @@ The `beginAnalyzeDocument` method can extract fields and table data from documen
 ```ts snippet:ReadmeSampleAnalyzeDocumentWithModelId
 import { DefaultAzureCredential } from "@azure/identity";
 import { DocumentAnalysisClient } from "@azure/ai-form-recognizer";
-import { DefaultAzureCredential } from "@azure/identity";import { createReadStream } from "node:fs";
+import { createReadStream } from "node:fs";
 
 const credential = new DefaultAzureCredential();
 const client = new DocumentAnalysisClient(
@@ -250,7 +250,7 @@ Since the main benefit of `DocumentModel`-based analysis is stronger TypeScript 
 ```ts snippet:ReadmeSamplePrebuiltReceipt
 import { DefaultAzureCredential } from "@azure/identity";
 import { DocumentAnalysisClient } from "@azure/ai-form-recognizer";
-import { DefaultAzureCredential } from "@azure/identity";import { createReadStream } from "node:fs";
+import { createReadStream } from "node:fs";
 import { PrebuiltReceiptModel } from "../samples-dev/prebuilt/prebuilt-receipt.js";
 
 const credential = new DefaultAzureCredential();
@@ -327,7 +327,7 @@ Since the main benefit of `DocumentModel`-based analysis is stronger TypeScript 
 ```ts snippet:ReadmeSamplePrebuiltLayout
 import { DefaultAzureCredential } from "@azure/identity";
 import { DocumentAnalysisClient } from "@azure/ai-form-recognizer";
-import { DefaultAzureCredential } from "@azure/identity";import { createReadStream } from "node:fs";
+import { createReadStream } from "node:fs";
 import { PrebuiltLayoutModel } from "../samples-dev/prebuilt/prebuilt-layout.js";
 
 const credential = new DefaultAzureCredential();
@@ -363,7 +363,7 @@ Since the main benefit of `DocumentModel`-based analysis is stronger TypeScript 
 ```ts snippet:ReadmeSamplePrebuiltDocument
 import { DefaultAzureCredential } from "@azure/identity";
 import { DocumentAnalysisClient } from "@azure/ai-form-recognizer";
-import { DefaultAzureCredential } from "@azure/identity";import { createReadStream } from "node:fs";
+import { createReadStream } from "node:fs";
 import { PrebuiltDocumentModel } from "../samples-dev/prebuilt/prebuilt-document.js";
 
 const credential = new DefaultAzureCredential();
@@ -401,7 +401,7 @@ Since the main benefit of `DocumentModel`-based analysis is stronger TypeScript 
 ```ts snippet:ReadmeSamplePrebuiltRead
 import { DefaultAzureCredential } from "@azure/identity";
 import { DocumentAnalysisClient } from "@azure/ai-form-recognizer";
-import { DefaultAzureCredential } from "@azure/identity";import { createReadStream } from "node:fs";
+import { createReadStream } from "node:fs";
 import { PrebuiltReadModel } from "../samples-dev/prebuilt/prebuilt-read.js";
 
 const credential = new DefaultAzureCredential();
@@ -472,7 +472,7 @@ The following sample shows how to classify a document using a custom classifier:
 ```ts snippet:ReadmeSampleClassifyDocument
 import { DefaultAzureCredential } from "@azure/identity";
 import { DocumentAnalysisClient } from "@azure/ai-form-recognizer";
-import { DefaultAzureCredential } from "@azure/identity";
+
 const credential = new DefaultAzureCredential();
 const client = new DocumentAnalysisClient(
   "https://<resource name>.cognitiveservices.azure.com",
@@ -638,7 +638,7 @@ If you'd like to contribute to this library, please read the [contributing guide
 [register_aad_app]: https://learn.microsoft.com/azure/cognitive-services/authentication#assign-a-role-to-a-service-principal
 [defaultazurecredential]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#defaultazurecredential
 [fr-build-model]: https://aka.ms/azsdk/formrecognizer/buildmodel
-[build_sample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/formrecognizer/ai-form-recognizer/samples/v4-beta/typescript/src/buildModel.ts
+[build_sample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/formrecognizer/ai-form-recognizer/samples/v5/typescript/src/buildModel.ts
 [multi_and_single_service]: https://learn.microsoft.com/azure/cognitive-services/cognitive-services-apis-create-account?tabs=multiservice%2Cwindows
 [azure_portal_create_fr_resource]: https://ms.portal.azure.com/#create/Microsoft.CognitiveServicesFormRecognizer
 [azure_cli_create_fr_resource]: https://learn.microsoft.com/azure/cognitive-services/cognitive-services-apis-create-account-cli?tabs=windows
@@ -646,7 +646,7 @@ If you'd like to contribute to this library, please read the [contributing guide
 [fr-studio]: https://formrecognizer.appliedai.azure.com/studio
 [fr-build-training-set]: https://aka.ms/azsdk/formrecognizer/buildtrainingset
 [fr-models]: https://aka.ms/azsdk/formrecognizer/models
-[sample-build-classifier]: https://github.com/azure/azure-sdk-for-js/blob/main/sdk/formrecognizer/ai-form-recognizer/samples/v4-beta/typescript/src/buildClassifier.ts
+[sample-build-classifier]: https://github.com/azure/azure-sdk-for-js/blob/main/sdk/formrecognizer/ai-form-recognizer/samples/v5/typescript/src/buildClassifier.ts
 [samples-prebuilt]: https://github.com/azure/azure-sdk-for-js/tree/main/sdk/formrecognizer/ai-form-recognizer/samples-dev/prebuilt/
 [samples-prebuilt-businesscard]: https://github.com/azure/azure-sdk-for-js/blob/main/sdk/formrecognizer/ai-form-recognizer/samples-dev/prebuilt/prebuilt-businessCard.ts
 [samples-prebuilt-document]: https://github.com/azure/azure-sdk-for-js/blob/main/sdk/formrecognizer/ai-form-recognizer/samples-dev/prebuilt/prebuilt-document.ts
