@@ -4,13 +4,32 @@ parameters:
   PathToArtifacts: ''
   Tag: ''
   AdditionalTag: ''
+  DependsOn: []
 
-steps:
+jobs:
+- job: PublishPackage
+  dependsOn: ${{ parameters.DependsOn }}
+  condition: succeeded()
+  templateContext:
+    type: releaseJob
+    isProduction: ${{ eq(parameters.Registry, 'https://registry.npmjs.org/') }}
+    inputs:
+    - input: pipelineArtifact
+      artifactName: packages
+      targetPath: $(Pipeline.Workspace)/packages
+  pool:
+    name: azsdk-pool-mms-ubuntu-2004-general
+    image: azsdk-pool-mms-ubuntu-2004-1espt
+    os: linux
+  displayName: 'Publish ${{parameters.Artifact.name}} to ${{parameters.Registry}}'
+  steps:
   - template: /eng/common/pipelines/templates/steps/set-default-branch.yml
 
   - ${{ if eq(parameters.Registry, 'https://registry.npmjs.org/') }}:
     - pwsh: |
         $tarFile = (Get-ChildItem -Path "${{parameters.PathToArtifacts}}/*.tgz").FullName
+        write-host "Tar file: $tarFile"
+
         $tempDir = "$(System.DefaultWorkingDirectory)/temp_decompress"
         New-Item -ItemType Directory -Force -Path $tempDir
         tar -xzf $tarFile -C $tempDir
@@ -53,6 +72,25 @@ steps:
         MainPublisher: 'ESRPRELPACMANTEST'
         productstate: ${{parameters.Tag}}
 
+  - ${{ else }}:
+    - task: PowerShell@2
+      displayName: Publish to Dev Feed
+      inputs:
+        targetType: filePath
+        filePath: eng/tools/publish-to-npm.ps1
+        arguments: -pathToArtifacts ${{parameters.PathToArtifacts}} -accessLevel "public" -tag "${{parameters.Tag}}" -additionalTag "${{parameters.AdditionalTag}}" -registry ${{parameters.Registry}} -npmToken $(azure-sdk-npm-token)
+        pwsh: true
+      condition: succeeded()
+
+- ${{ if eq(parameters.Registry, 'https://registry.npmjs.org/') }}:
+  - job: VerifyPackageTags
+    dependsOn: PublishPackage
+    pool:
+      name: azsdk-pool-mms-ubuntu-2004-general
+      image: azsdk-pool-mms-ubuntu-2004-1espt
+      os: linux
+    steps:
+    - checkout: self
     - task: Powershell@2
       displayName: Verify package tags
       inputs:
@@ -70,13 +108,3 @@ steps:
           arguments: -addTag $true -pathToArtifacts ${{parameters.PathToArtifacts}} -accessLevel "public" -tag "${{parameters.AdditionalTag}}" -registry ${{parameters.Registry}} -npmToken $(azure-sdk-npm-token)
           pwsh: true
         condition: succeeded()
-
-  - ${{ else }}:
-    - task: PowerShell@2
-      displayName: Publish to Dev Feed
-      inputs:
-        targetType: filePath
-        filePath: eng/tools/publish-to-npm.ps1
-        arguments: -pathToArtifacts ${{parameters.PathToArtifacts}} -accessLevel "public" -tag "${{parameters.Tag}}" -additionalTag "${{parameters.AdditionalTag}}" -registry ${{parameters.Registry}} -npmToken $(azure-sdk-npm-token)
-        pwsh: true
-      condition: succeeded()
