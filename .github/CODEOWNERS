@@ -664,6 +664,9 @@ sdk/ai/ai-projects @ganeshyb @GraceBrigham
 /sdk/links/arm-links/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/liftrweightsandbiases/arm-weightsandbiases/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/pineconevectordb/arm-pineconevectordb/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
