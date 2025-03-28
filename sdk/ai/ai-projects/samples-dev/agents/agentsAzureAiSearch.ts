@@ -13,8 +13,7 @@ import { AIProjectsClient, isOutputOfType, ToolUtility } from "@azure/ai-project
 import { delay } from "@azure/core-util";
 import { DefaultAzureCredential } from "@azure/identity";
 
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
 const connectionString =
   process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] || "<project connection string>";

@@ -2,6 +2,10 @@
 
 ## 1.0.0-beta.30 ()
 
+### Features Added
+
+- Support setting the AiLocationIp on logs and events.
+
 ### Other Changes
 
 - Filter OpenTelemetry semantic attributes from being double recorded as custom dimensions.
