@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { RequestOptions } from "http";
+import type { RequestOptions } from "node:http";
 import { createAzureSdkInstrumentation } from "@azure/opentelemetry-instrumentation-azure-sdk";
 import { AzureMonitorTraceExporter } from "@azure/monitor-opentelemetry-exporter";
 import type { BufferConfig } from "@opentelemetry/sdk-trace-base";
@@ -17,13 +17,13 @@ import { PgInstrumentation } from "@opentelemetry/instrumentation-pg";
 import { RedisInstrumentation } from "@opentelemetry/instrumentation-redis";
 import { RedisInstrumentation as Redis4Instrumentation } from "@opentelemetry/instrumentation-redis-4";
 
-import type { InternalConfig } from "../shared/config";
-import type { MetricHandler } from "../metrics/handler";
-import { ignoreOutgoingRequestHook } from "../utils/common";
-import { AzureMonitorSpanProcessor } from "./spanProcessor";
-import { AzureFunctionsHook } from "./azureFnHook";
+import type { InternalConfig } from "../shared/config.js";
+import type { MetricHandler } from "../metrics/handler.js";
+import { ignoreOutgoingRequestHook } from "../utils/common.js";
+import { AzureMonitorSpanProcessor } from "./spanProcessor.js";
+import { AzureFunctionsHook } from "./azureFnHook.js";
 import type { Instrumentation } from "@opentelemetry/instrumentation";
-import { ApplicationInsightsSampler } from "./sampler";
+import { ApplicationInsightsSampler } from "./sampler.js";
 
 /**
  * Azure Monitor OpenTelemetry Trace Handler
