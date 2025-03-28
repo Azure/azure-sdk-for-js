@@ -15,7 +15,7 @@ jobs:
     isProduction: ${{ eq(parameters.Registry, 'https://registry.npmjs.org/') }}
     inputs:
     - input: pipelineArtifact
-      artifactName: packages
+      artifactName: packages/${{parameters.Artifact.name}}
       targetPath: $(Pipeline.Workspace)
   pool:
     name: azsdk-pool-mms-ubuntu-2004-general
@@ -27,6 +27,10 @@ jobs:
 
   - ${{ if eq(parameters.Registry, 'https://registry.npmjs.org/') }}:
     - pwsh: |
+        ls $(Pipeline.Workspace)
+        write-host "$(pipeline.Workspace)"
+        write-host "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+
         write-host "${{parameters.PathToArtifacts}}"
         ls "${{parameters.PathToArtifacts}}"
         write-host "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
