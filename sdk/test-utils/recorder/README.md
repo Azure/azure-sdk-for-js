@@ -134,7 +134,7 @@ npx dev-tool test-proxy init
 This command would generate an `assets.json` file with an empty tag.
 Once you generate the recordings for your tests and push them to the assets repo, the tag gets populated here.
 
-For further understanding, please read the [asset sync migration and workflow](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/recorder/ASSET_SYNC_MIGRATION.md).
+For further understanding, please read the [ASSET_SYNC_WORKFLOW.md](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/recorder/ASSET_SYNC_WORKFLOW.md).
 
 ## Using the `Recorder`
 
