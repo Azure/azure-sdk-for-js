@@ -3969,8 +3969,6 @@ importers:
         specifier: catalog:testing
         version: 3.0.9(@types/debug@4.1.12)(@types/node@18.19.81)(@vitest/browser@3.0.9)(jsdom@16.7.0)(msw@2.7.3(@types/node@18.19.81)(typescript@5.8.2))(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.0)
 
-  sdk/communication/communication-common/src: {}
-
   sdk/communication/communication-email:
     dependencies:
       '@azure/communication-common':
@@ -6292,10 +6290,6 @@ importers:
         specifier: catalog:testing
         version: 3.0.9(@types/debug@4.1.12)(@types/node@18.19.81)(@vitest/browser@3.0.9)(jsdom@16.7.0)(msw@2.7.3(@types/node@18.19.81)(typescript@5.8.2))(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.0)
 
-  sdk/core/core-client-rest/src: {}
-
-  sdk/core/core-client/src: {}
-
   sdk/core/core-http-compat:
     dependencies:
       '@azure/abort-controller':
@@ -6965,28 +6959,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.8.2
-
-  sdk/cosmosdb/cosmos/MultiRegionWriteSample:
-    dependencies:
-      ora:
-        specifier: ^3.0.0
-        version: 3.4.0
-      uuid:
-        specifier: ^3.3.2
-        version: 3.4.0
-    devDependencies:
-      '@types/ora':
-        specifier: ^1.3.4
-        version: 1.3.5
-      '@types/uuid':
-        specifier: ^3.4.3
-        version: 3.4.13
-      ts-node:
-        specifier: ^7.0.1
-        version: 7.0.1
-      typescript:
-        specifier: ^3.0.1
-        version: 3.9.10
 
   sdk/cosmosforpostgresql/arm-cosmosdbforpostgresql:
     dependencies:
@@ -9932,8 +9904,8 @@ importers:
         specifier: workspace:*
         version: link:../../core/core-util
       '@azure/eventgrid':
-        specifier: ^5.8.0
-        version: 5.11.0
+        specifier: workspace:*
+        version: link:../eventgrid
       '@azure/logger':
         specifier: workspace:*
         version: link:../../core/logger
@@ -10352,40 +10324,6 @@ importers:
       eslint:
         specifier: 'catalog:'
         version: 9.22.0
-      typescript:
-        specifier: 'catalog:'
-        version: 5.8.2
-
-  sdk/eventhub/event-hubs/samples-express:
-    dependencies:
-      '@azure/core-util':
-        specifier: workspace:*
-        version: link:../../../core/core-util
-      '@azure/event-hubs':
-        specifier: ^5.12.0
-        version: 5.12.2
-      '@azure/identity':
-        specifier: catalog:internal
-        version: 4.8.0
-      dotenv:
-        specifier: catalog:testing
-        version: 16.4.7
-      express:
-        specifier: ^4.19.2
-        version: 4.21.2
-      uuid:
-        specifier: ^8.3.1
-        version: 8.3.2
-    devDependencies:
-      '@types/express':
-        specifier: ^4.17.21
-        version: 4.17.21
-      '@types/node':
-        specifier: 'catalog:'
-        version: 18.19.81
-      rimraf:
-        specifier: ^5.0.5
-        version: 5.0.10
       typescript:
         specifier: 'catalog:'
         version: 5.8.2
@@ -16605,8 +16543,6 @@ importers:
         specifier: catalog:testing
         version: 3.0.9(@types/debug@4.1.12)(@types/node@18.19.81)(@vitest/browser@3.0.9)(jsdom@16.7.0)(msw@2.7.3(@types/node@18.19.81)(typescript@5.8.2))(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.0)
 
-  sdk/monitor/arm-monitor/src: {}
-
   sdk/monitor/monitor-ingestion:
     dependencies:
       '@azure/abort-controller':
@@ -22149,8 +22085,6 @@ importers:
         specifier: 'catalog:'
         version: 5.8.2
 
-  sdk/servicebus/service-bus-perf-tests/src: {}
-
   sdk/servicefabric/arm-servicefabric:
     dependencies:
       '@azure/abort-controller':
@@ -26296,8 +26230,6 @@ importers:
         specifier: catalog:testing
         version: 3.0.9(@types/debug@4.1.12)(@types/node@18.19.81)(@vitest/browser@3.0.9)(jsdom@16.7.0)(msw@2.7.3(@types/node@18.19.81)(typescript@5.8.2))(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.0)
 
-  sdk/visualstudio/arm-visualstudio/src: {}
-
   sdk/vmwarecloudsimple/arm-vmwarecloudsimple:
     dependencies:
       '@azure/abort-controller':
@@ -28489,9 +28421,6 @@ packages:
   '@types/normalize-package-data@2.4.4':
     resolution: {integrity: sha512-37i+OaWTh9qeK4LSHPsyRC7NahnGotNuZvjLSgcPzblpHB3rrCJxAOgI5gCdKm7coonsaX1Of0ILiTcnZjbfxA==}
 
-  '@types/ora@1.3.5':
-    resolution: {integrity: sha512-CZe3oXbO1XylJT1feg+/aCzNt6tfR4XO+IkLetc85O/yaZRw271cZtS8LL/2mknd+PoR5IKAjFLzo4KWZXxung==}
-
   '@types/pako@2.0.3':
     resolution: {integrity: sha512-bq0hMV9opAcrmE0Byyo0fY3Ew4tgOevJmQ9grUhpXQhYfyLJ1Kqg3P33JT5fdbT2AjeAjR51zqqVjAL/HMkx7Q==}
 
@@ -28566,9 +28495,6 @@ packages:
 
   '@types/unzipper@0.10.11':
     resolution: {integrity: sha512-D25im2zjyMCcgL9ag6N46+wbtJBnXIr7SI4zHf9eJD2Dw2tEB5e+p5MYkrxKIVRscs5QV0EhtU9rgXSPx90oJg==}
-
-  '@types/uuid@3.4.13':
-    resolution: {integrity: sha512-pAeZeUbLE4Z9Vi9wsWV2bYPTweEHeJJy0G4pEjOA/FSvy1Ad5U5Km8iDV6TKre1mjBiVNfAdVHKruP8bAh4Q5A==}
 
   '@types/uuid@8.3.4':
     resolution: {integrity: sha512-c/I8ZRb51j+pYGAu5CrFMRxqZ2ke4y2grEBO5AUjgSkSk+qT2Ea+OdWElz/OiMf5MNpn2b17kuVBwZLQJXzihw==}
@@ -28793,10 +28719,6 @@ packages:
   ansi-regex@3.0.1:
     resolution: {integrity: sha512-+O9Jct8wf++lXxxFc4hc8LsjaSq0HFzzL7cVsw8pRDIPdjKD2mT4ytDZlLuSBZ4cLKZFXIrMGO7DbQCtMJJMKw==}
     engines: {node: '>=4'}
-
-  ansi-regex@4.1.1:
-    resolution: {integrity: sha512-ILlv4k/3f6vfQ4OoP2AGvirOktlQ98ZEL1k9FaQjxa3L1abBgbuTDAdPOpvbGncC0BTVQrl+OM8xZGK6tWXt7g==}
-    engines: {node: '>=6'}
 
   ansi-regex@5.0.1:
     resolution: {integrity: sha512-quJQXlTSUGL2LH9SUXo8VwsY4soanhgo6LNSm84E1LBcE8s3O0wpdiRzyR9z/ZZJMlMWv37qOOb9pdJlMUEKFQ==}
@@ -29153,10 +29075,6 @@ packages:
   clear-module@4.1.2:
     resolution: {integrity: sha512-LWAxzHqdHsAZlPlEyJ2Poz6AIs384mPeqLVCru2p0BrP9G/kVGuhNyZYClLO6cXlnuJjzC8xtsJIuMjKqLXoAw==}
     engines: {node: '>=8'}
-
-  cli-cursor@2.1.0:
-    resolution: {integrity: sha512-8lgKz8LmCRYZZQDpRyT2m5rKJ08TnU4tR9FFFW2rxpxR1FzWi4PQ/NfyODchAatHaUgnSPVcx/R5w6NuTBzFiw==}
-    engines: {node: '>=4'}
 
   cli-cursor@3.1.0:
     resolution: {integrity: sha512-I/zHAwsKf9FqGoXM4WWRACob9+SNukZTd94DWF57E4toouRulbCxcUh6RKUEOQlYTHJnzkPMySvPNaaSLNfLZw==}
@@ -29538,10 +29456,6 @@ packages:
 
   diagnostic-channel@0.3.1:
     resolution: {integrity: sha512-6eb9YRrimz8oTr5+JDzGmSYnXy5V7YnK5y/hd8AUDK1MssHjQKm9LlD6NSrHx4vMDF3+e/spI2hmWTviElgWZA==}
-
-  diff@3.5.0:
-    resolution: {integrity: sha512-A46qtFgd+g7pDZinpnwiRJtxbC1hpgf0uzP3iG89scHk0AUC7A1TGxf5OiiOUv/JMZR8GOt8hL900hV0bOy5xA==}
-    engines: {node: '>=0.3.1'}
 
   diff@4.0.2:
     resolution: {integrity: sha512-58lmxKSA4BNyLz+HHMUzlOEpg09FV+ev6ZMe3vJihgdxzgcwZ8VoEEPmALCZG9LmqfVoNMMKpttIYTVG6uDY7A==}
@@ -30910,10 +30824,6 @@ packages:
     engines: {node: '>=16'}
     hasBin: true
 
-  mimic-fn@1.2.0:
-    resolution: {integrity: sha512-jf84uxzwiuiIVKiOLpfYk7N46TSy8ubTonmneY9vrpHNAnp0QBt2BxWV9dO3/j+BoVAb+a5G6YDPW3M5HOdMWQ==}
-    engines: {node: '>=4'}
-
   mimic-fn@2.1.0:
     resolution: {integrity: sha512-OqbOk5oEQeAZ8WXWydlu9HJjz9WVdEIvamMCcXmuqUYjTknH/sqsWvhQ3vgwKFRR1HpjvNBKQ37nbJgYzGqGcg==}
     engines: {node: '>=6'}
@@ -31158,10 +31068,6 @@ packages:
   once@1.4.0:
     resolution: {integrity: sha512-lNaJgI+2Q5URQBkccEKHTQOPaXdUxnZZElQTZY0MFUAuaEqe1E+Nyvgdz/aIyNi6Z9MzO5dv1H8n58/GELp3+w==}
 
-  onetime@2.0.1:
-    resolution: {integrity: sha512-oyyPpiMaKARvvcgip+JV+7zci5L8D1W9RZIz2l1o08AM3pfspitVWnPt3mzHcBPp12oYMTy0pqrFs/C+m3EwsQ==}
-    engines: {node: '>=4'}
-
   onetime@5.1.2:
     resolution: {integrity: sha512-kbpaSSGJTWdAY5KPVeMOKXSrPtr8C8C7wodJbcsd51jRnmD+GZu8Y0VoU6Dm5Z4vWr0Ig/1NKuWRKf7j5aaYSg==}
     engines: {node: '>=6'}
@@ -31197,10 +31103,6 @@ packages:
   optionator@0.9.4:
     resolution: {integrity: sha512-6IpQ7mKUxRcZNLIObR0hz7lxsapSSIYNZJwXPGeF0mTVqGKFIXj1DQcMoT22S3ROcLyY/rz0PWaWZ9ayWmad9g==}
     engines: {node: '>= 0.8.0'}
-
-  ora@3.4.0:
-    resolution: {integrity: sha512-eNwHudNbO1folBP3JsZ19v9azXWtQZjICdr3Q0TDPIaeBQ3mXLrh54wM+er0+hSp+dWKf+Z8KM58CYzEyIYxYg==}
-    engines: {node: '>=6'}
 
   ora@5.4.1:
     resolution: {integrity: sha512-5b6Y85tPxZZ7QytO+BQzysW31HJku27cRIlkbAXaNx+BdcVi+LlRFmVXzeF6a7JCwJpyw5c4b+YSVImQIrBpuQ==}
@@ -31647,10 +31549,6 @@ packages:
     engines: {node: '>= 0.4'}
     hasBin: true
 
-  restore-cursor@2.0.0:
-    resolution: {integrity: sha512-6IzJLuGi4+R14vwagDHX+JrXmPVtPpn4mffDJ1UdR7/Edm87fl6yi8mMBIVvFtJaNTUvjughmW4hwLhRG7gC1Q==}
-    engines: {node: '>=4'}
-
   restore-cursor@3.1.0:
     resolution: {integrity: sha512-l+sSefzHpj5qimhFSE5a8nufZYAM3sBSVMAPtYkmC+4EH2anSGaEMXSD0izRQbu9nfyQ9y5JrVmp7E8oZrUjvA==}
     engines: {node: '>=8'}
@@ -31981,10 +31879,6 @@ packages:
     resolution: {integrity: sha512-4XaJ2zQdCzROZDivEVIDPkcQn8LMFSa8kj8Gxb/Lnwzv9A8VctNZ+lfivC/sV3ivW8ElJTERXZoPBRrZKkNKow==}
     engines: {node: '>=4'}
 
-  strip-ansi@5.2.0:
-    resolution: {integrity: sha512-DuRs1gKbBqsMKIZlrffwlug8MHkcnpjs5VPmL1PAh+mA30U0DTotfDZ0d2UUsXpPmPmMMJ6W773MaA3J+lbiWA==}
-    engines: {node: '>=6'}
-
   strip-ansi@6.0.1:
     resolution: {integrity: sha512-Y38VPSHcqkFrCpFnQ9vuSXmquuv5oXOKpGeT6aGrr3o3Gc9AlVa6JBfUSOCnbxGGZF+/0ooI7KrPuUSztUdU5A==}
     engines: {node: '>=8'}
@@ -32206,11 +32100,6 @@ packages:
       '@swc/wasm':
         optional: true
 
-  ts-node@7.0.1:
-    resolution: {integrity: sha512-BVwVbPJRspzNh2yfslyT1PSbl5uIk03EZlb493RKHN4qej/D06n1cEhjlOJG69oFsE7OT8XjpTUcYf6pKTLMhw==}
-    engines: {node: '>=4.2.0'}
-    hasBin: true
-
   tshy@2.0.1:
     resolution: {integrity: sha512-U5fC+3pMaGfmULhPTVpxKMd62AcX13yfsFrjhAP/daTLG6LFRLIuxqYOmkejJ4MT/s5bEa29+1Jy/9mXkMiMfA==}
     engines: {node: 16 >=16.17 || 18 >=18.15.0 || >=20.6.1}
@@ -32313,11 +32202,6 @@ packages:
       eslint: ^8.57.0 || ^9.0.0
       typescript: '>=4.8.4 <5.9.0'
 
-  typescript@3.9.10:
-    resolution: {integrity: sha512-w6fIxVE/H1PkLKcCPsFqKE7Kv7QUwhU8qQY2MueZXWx5cPZdwFupLgKK3vntcK98BtNHZtAF4LA/yl2a7k8R6Q==}
-    engines: {node: '>=4.2.0'}
-    hasBin: true
-
   typescript@4.2.4:
     resolution: {integrity: sha512-V+evlYHZnQkaz8TRBuxTA92yZBPotr5H+WhQ7bD3hZUndx5tGOa1fuCgeSjxAzM1RiN5IzvadIXTVefuuwZCRg==}
     engines: {node: '>=4.2.0'}
@@ -32419,11 +32303,6 @@ packages:
   utils-merge@1.0.1:
     resolution: {integrity: sha512-pMZTvIkT1d+TFGvDOqodOclx0QWkkgi6Tdoa8gC8ffGAAqz9pzPTZWAybbsHHoED/ztMtkv/VoYTYyShUn81hA==}
     engines: {node: '>= 0.4.0'}
-
-  uuid@3.4.0:
-    resolution: {integrity: sha512-HjSDRw6gZE5JMggctHBcjVak08+KEVhSIiDzFnT9S9aegmp85S/bReBVTb4QTFaRNptJ9kuYaNhnbNEOkbKb/A==}
-    deprecated: Please upgrade  to version 7 or higher.  Older versions may use Math.random() in certain circumstances, which is known to be problematic.  See https://v8.dev/blog/math-random for details.
-    hasBin: true
 
   uuid@8.3.2:
     resolution: {integrity: sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==}
@@ -32732,10 +32611,6 @@ packages:
 
   yauzl@2.10.0:
     resolution: {integrity: sha512-p4a9I6X6nu6IhoGmBqAcbJy1mlC4j27vEPZX9F4L4/vZT3Lyq1VkFHw/V/PUcB9Buo+DG3iHkT0x3Qya58zc3g==}
-
-  yn@2.0.0:
-    resolution: {integrity: sha512-uTv8J/wiWTgUTg+9vLTi//leUl5vDQS6uii/emeTb2ssY7vl6QWf2fFbIIGjnhjvbdKlU0ed7QPgY1htTC86jQ==}
-    engines: {node: '>=4'}
 
   yn@3.1.1:
     resolution: {integrity: sha512-Ux4ygGWsu2c7isFWe8Yu1YluJmqVhxqK2cLXNQA5AcC3QfbGNpM7fu0Y8b/z16pXLnFxZYvWhd3fhBY9DLmC6Q==}
@@ -34901,10 +34776,6 @@ snapshots:
 
   '@types/normalize-package-data@2.4.4': {}
 
-  '@types/ora@1.3.5':
-    dependencies:
-      '@types/node': 18.19.81
-
   '@types/pako@2.0.3': {}
 
   '@types/pg-pool@2.0.6':
@@ -34980,8 +34851,6 @@ snapshots:
   '@types/unzipper@0.10.11':
     dependencies:
       '@types/node': 18.19.81
-
-  '@types/uuid@3.4.13': {}
 
   '@types/uuid@8.3.4': {}
 
@@ -35307,8 +35176,6 @@ snapshots:
       environment: 1.1.0
 
   ansi-regex@3.0.1: {}
-
-  ansi-regex@4.1.1: {}
 
   ansi-regex@5.0.1: {}
 
@@ -35656,10 +35523,6 @@ snapshots:
     dependencies:
       parent-module: 2.0.0
       resolve-from: 5.0.0
-
-  cli-cursor@2.1.0:
-    dependencies:
-      restore-cursor: 2.0.0
 
   cli-cursor@3.1.0:
     dependencies:
@@ -36072,8 +35935,6 @@ snapshots:
   diagnostic-channel@0.3.1:
     dependencies:
       semver: 5.7.2
-
-  diff@3.5.0: {}
 
   diff@4.0.2: {}
 
@@ -37617,8 +37478,6 @@ snapshots:
 
   mime@4.0.6: {}
 
-  mimic-fn@1.2.0: {}
-
   mimic-fn@2.1.0: {}
 
   mimic-fn@4.0.0: {}
@@ -37941,10 +37800,6 @@ snapshots:
     dependencies:
       wrappy: 1.0.2
 
-  onetime@2.0.1:
-    dependencies:
-      mimic-fn: 1.2.0
-
   onetime@5.1.2:
     dependencies:
       mimic-fn: 2.1.0
@@ -37998,15 +37853,6 @@ snapshots:
       prelude-ls: 1.2.1
       type-check: 0.4.0
       word-wrap: 1.2.5
-
-  ora@3.4.0:
-    dependencies:
-      chalk: 2.4.2
-      cli-cursor: 2.1.0
-      cli-spinners: 2.9.2
-      log-symbols: 2.2.0
-      strip-ansi: 5.2.0
-      wcwidth: 1.0.1
 
   ora@5.4.1:
     dependencies:
@@ -38482,11 +38328,6 @@ snapshots:
       path-parse: 1.0.7
       supports-preserve-symlinks-flag: 1.0.0
 
-  restore-cursor@2.0.0:
-    dependencies:
-      onetime: 2.0.1
-      signal-exit: 3.0.7
-
   restore-cursor@3.1.0:
     dependencies:
       onetime: 5.1.2
@@ -38893,10 +38734,6 @@ snapshots:
     dependencies:
       ansi-regex: 3.0.1
 
-  strip-ansi@5.2.0:
-    dependencies:
-      ansi-regex: 4.1.1
-
   strip-ansi@6.0.1:
     dependencies:
       ansi-regex: 5.0.1
@@ -39126,17 +38963,6 @@ snapshots:
       v8-compile-cache-lib: 3.0.1
       yn: 3.1.1
 
-  ts-node@7.0.1:
-    dependencies:
-      arrify: 1.0.1
-      buffer-from: 1.1.2
-      diff: 3.5.0
-      make-error: 1.3.6
-      minimist: 1.2.8
-      mkdirp: 0.5.6
-      source-map-support: 0.5.21
-      yn: 2.0.0
-
   tshy@2.0.1:
     dependencies:
       chalk: 5.4.1
@@ -39237,8 +39063,6 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  typescript@3.9.10: {}
-
   typescript@4.2.4: {}
 
   typescript@5.6.1-rc: {}
@@ -39315,8 +39139,6 @@ snapshots:
       which-typed-array: 1.1.19
 
   utils-merge@1.0.1: {}
-
-  uuid@3.4.0: {}
 
   uuid@8.3.2: {}
 
@@ -39650,8 +39472,6 @@ snapshots:
     dependencies:
       buffer-crc32: 0.2.13
       fd-slicer: 1.1.0
-
-  yn@2.0.0: {}
 
   yn@3.1.1: {}
 

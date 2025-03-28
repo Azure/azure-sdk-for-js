@@ -80,7 +80,6 @@
     "@azure/core-rest-pipeline": "workspace:*"
   },
   "devDependencies": {
-    "@azure-tools/test-utils": "^1.0.1",
     "@azure/dev-tool": "workspace:*",
     "@azure/eslint-plugin-azure-sdk": "workspace:*",
     "@types/node": "catalog:",
