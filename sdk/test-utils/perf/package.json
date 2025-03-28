@@ -55,22 +55,22 @@
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/test-utils/perf/README.md",
   "sideEffects": false,
   "dependencies": {
-    "@azure/abort-controller": "^2.1.2",
-    "@azure/core-client": "^1.9.2",
-    "@azure/core-rest-pipeline": "^1.18.0",
-    "@azure/core-util": "^1.3.2",
+    "@azure/abort-controller": "workspace:*",
+    "@azure/core-client": "workspace:*",
+    "@azure/core-rest-pipeline": "workspace:*",
+    "@azure/core-util": "workspace:*",
     "@types/minimist": "^1.2.2",
     "fs-extra": "^11.2.0",
     "minimist": "^1.2.8",
-    "tslib": "^2.8.1"
+    "tslib": "catalog:"
   },
   "devDependencies": {
-    "@azure/dev-tool": "^1.0.0",
-    "@azure/eslint-plugin-azure-sdk": "^3.0.0",
+    "@azure/dev-tool": "workspace:*",
+    "@azure/eslint-plugin-azure-sdk": "workspace:*",
     "@types/fs-extra": "^11.0.0",
-    "@types/node": "^18.0.0",
-    "eslint": "^9.9.0",
-    "typescript": "~5.8.2"
+    "@types/node": "catalog:",
+    "eslint": "catalog:",
+    "typescript": "catalog:"
   },
   "type": "module",
   "tshy": {

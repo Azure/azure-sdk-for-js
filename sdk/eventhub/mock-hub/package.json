@@ -61,20 +61,20 @@
     "selfLink": false
   },
   "devDependencies": {
-    "@azure/dev-tool": "^1.0.0",
-    "@azure/eslint-plugin-azure-sdk": "^3.0.0",
-    "@types/node": "^18.0.0",
-    "@vitest/coverage-istanbul": "^3.0.9",
-    "dotenv": "^16.0.0",
-    "eslint": "^9.9.0",
-    "playwright": "^1.45.3",
-    "typescript": "~5.8.2",
-    "vitest": "^3.0.9"
+    "@azure/dev-tool": "workspace:*",
+    "@azure/eslint-plugin-azure-sdk": "workspace:*",
+    "@types/node": "catalog:",
+    "@vitest/coverage-istanbul": "catalog:testing",
+    "dotenv": "catalog:testing",
+    "eslint": "catalog:",
+    "playwright": "catalog:testing",
+    "typescript": "catalog:",
+    "vitest": "catalog:testing"
   },
   "dependencies": {
-    "@azure/abort-controller": "^2.1.2",
-    "rhea": "^3.0.2",
-    "tslib": "^2.6.3"
+    "@azure/abort-controller": "workspace:*",
+    "rhea": "catalog:amqp",
+    "tslib": "catalog:"
   },
   "//sampleConfiguration": {
     "productName": "Internal Mock Hub",

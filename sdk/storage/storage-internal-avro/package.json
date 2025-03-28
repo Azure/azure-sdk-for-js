@@ -62,20 +62,20 @@
     "update-snippets": "echo skipped"
   },
   "dependencies": {
-    "@azure/abort-controller": "^2.1.2",
-    "@azure/core-paging": "^1.1.1",
-    "tslib": "^2.2.0"
+    "@azure/abort-controller": "workspace:*",
+    "@azure/core-paging": "workspace:*",
+    "tslib": "catalog:"
   },
   "devDependencies": {
-    "@azure/dev-tool": "^1.0.0",
-    "@azure/eslint-plugin-azure-sdk": "^3.0.0",
+    "@azure/dev-tool": "workspace:*",
+    "@azure/eslint-plugin-azure-sdk": "workspace:*",
     "@types/chai": "^4.1.6",
     "@types/mocha": "^10.0.0",
-    "@types/node": "^18.0.0",
-    "chai": "^4.2.0",
-    "dotenv": "^16.0.0",
+    "@types/node": "catalog:",
+    "chai": "catalog:testing",
+    "dotenv": "catalog:testing",
     "es6-promise": "^4.2.5",
-    "eslint": "^9.9.0",
+    "eslint": "catalog:",
     "inherits": "^2.0.3",
     "karma": "^6.2.0",
     "karma-chrome-launcher": "^3.0.0",
@@ -91,7 +91,7 @@
     "puppeteer": "^24.0.0",
     "source-map-support": "^0.5.9",
     "ts-node": "^10.0.0",
-    "typescript": "~5.8.2",
+    "typescript": "catalog:",
     "util": "^0.12.1"
   }
 }

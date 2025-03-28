@@ -43,18 +43,18 @@
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "private": true,
   "dependencies": {
-    "@azure-tools/test-perf": "^1.0.0",
-    "@azure/identity": "^4.8.0",
-    "@azure/identity-cache-persistence": "^1.2.0",
-    "dotenv": "^16.0.0",
-    "tslib": "^2.8.1"
+    "@azure-tools/test-perf": "workspace:*",
+    "@azure/identity": "workspace:*",
+    "@azure/identity-cache-persistence": "workspace:*",
+    "dotenv": "catalog:testing",
+    "tslib": "catalog:"
   },
   "devDependencies": {
-    "@azure/dev-tool": "^1.0.0",
-    "@azure/eslint-plugin-azure-sdk": "^3.0.0",
-    "@types/node": "^18.0.0",
-    "eslint": "^9.9.0",
-    "typescript": "~5.8.2"
+    "@azure/dev-tool": "workspace:*",
+    "@azure/eslint-plugin-azure-sdk": "workspace:*",
+    "@types/node": "catalog:",
+    "eslint": "catalog:",
+    "typescript": "catalog:"
   },
   "scripts": {
     "build": "npm run clean && dev-tool run build-package",

@@ -93,25 +93,25 @@
     "update-snippets": "dev-tool run update-snippets"
   },
   "dependencies": {
-    "@azure/core-rest-pipeline": "^1.19.1",
-    "@azure/identity": "^4.3.1",
-    "@azure/logger": "^1.1.4",
+    "@azure/core-rest-pipeline": "workspace:*",
+    "@azure/identity": "catalog:internal",
+    "@azure/logger": "workspace:*",
     "@azure/storage-blob": "^12.15.0",
-    "tslib": "^2.8.1"
+    "tslib": "catalog:"
   },
   "devDependencies": {
-    "@azure-tools/test-utils-vitest": "^1.0.0",
-    "@azure/dev-tool": "^1.0.0",
-    "@azure/eslint-plugin-azure-sdk": "^3.0.0",
+    "@azure-tools/test-utils-vitest": "workspace:*",
+    "@azure/dev-tool": "workspace:*",
+    "@azure/eslint-plugin-azure-sdk": "workspace:*",
     "@playwright/test": "^1.51.1",
-    "@types/debug": "^4.1.12",
-    "@types/node": "^20.12.12",
-    "@vitest/browser": "^3.0.9",
-    "@vitest/coverage-istanbul": "^3.0.9",
-    "eslint": "^9.9.0",
-    "playwright": "^1.51.1",
-    "typescript": "~5.8.2",
-    "vitest": "^3.0.9"
+    "@types/debug": "catalog:polyfills",
+    "@types/node": "catalog:",
+    "@vitest/browser": "catalog:testing",
+    "@vitest/coverage-istanbul": "catalog:testing",
+    "eslint": "catalog:",
+    "playwright": "catalog:testing",
+    "typescript": "catalog:",
+    "vitest": "catalog:testing"
   },
   "peerDependencies": {
     "@playwright/test": "^1.51.1"
