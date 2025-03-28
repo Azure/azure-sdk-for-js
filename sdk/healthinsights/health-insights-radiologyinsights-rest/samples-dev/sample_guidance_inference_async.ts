@@ -2,11 +2,11 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Displays the finding of the Radiology Insights request.
+ * @summary Displays the clinical guidance of the Radiology Insights request.
  */
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
-import type {
+import {
   CreateJobParameters,
   RadiologyInsightsJobOutput,
 } from "@azure-rest/health-insights-radiologyinsights";
@@ -15,59 +15,66 @@ import AzureHealthInsightsClient, {
   isUnexpected,
 } from "@azure-rest/health-insights-radiologyinsights";
 
-// You will need to set this environment variables or edit the following values
-
-const endpoint = process.env["HEALTH_INSIGHTS_ENDPOINT"] || "";
-
 /**
- * Print the finding inference
+ * Print the clinical guidance inference
  */
-
 function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput): void {
   if (radiologyInsightsResult.status === "succeeded") {
     const results = radiologyInsightsResult.result;
     if (results !== undefined) {
-      results.patientResults.forEach((patientResult: { inferences: any[] }) => {
-        if (patientResult.inferences) {
-          patientResult.inferences.forEach((inference) => {
-            if (inference.kind === "finding") {
-              console.log("Finding Inference found: ");
+      results.patientResults.forEach((patientResult: any) => {
+        patientResult.inferences.forEach(
+          (inference: {
+            kind: string;
+            finding?: any;
+            identifier?: any;
+            presentGuidanceInformation?: any[];
+            ranking?: any;
+            recommendationProposals?: any;
+            missingGuidanceInformation?: string[];
+          }) => {
+            if (inference.kind === "guidance") {
+              console.log("Guidance Inference found:");
 
-              const find = inference.finding;
-              if ("code" in find) {
-                const fcode = find.code;
-                console.log("   Code: ");
-                displayCodes(fcode);
+              if ("finding" in inference) {
+                const find = inference.finding.finding;
+                if ("code" in find) {
+                  const fcode = find.code;
+                  console.log("   Finding Code: ");
+                  displayCodes(fcode);
+                }
               }
 
-              find.interpretation?.forEach((inter: any) => {
-                console.log("   Interpretation: ");
-                displayCodes(inter);
+              if ("identifier" in inference) {
+                console.log("   Identifier: ");
+                displayCodes(inference.identifier);
+              }
+
+              inference.presentGuidanceInformation?.forEach((presentInfo: any) => {
+                console.log("   Present Guidance Information: ");
+                displayPresentGuidanceInformation(presentInfo);
               });
 
-              inference.finding.component?.forEach(
-                (comp: { code: any; valueCodeableConcept: any }) => {
-                  console.log("   Component code: ");
-                  displayCodes(comp.code);
-                  if ("valueCodeableConcept" in comp) {
-                    console.log("     Value component codeable concept: ");
-                    displayCodes(comp.valueCodeableConcept);
-                  }
-                },
-              );
-
-              if ("extension" in inference) {
-                displaySectionInfo(inference);
+              if ("ranking" in inference) {
+                console.log("   Ranking: ", inference.ranking);
               }
+
+              if ("recommendationProposals" in inference) {
+                console.log("   Recommendation Proposal: ", inference.recommendationProposals.recommendedProcedure.kind);
+              }
+
+              inference.missingGuidanceInformation?.forEach((missingInfo: any) => {
+                console.log("   Missing Guidance Information: ", missingInfo);
+              });
             }
-          });
-        }
+          }
+        );
       });
-    }
-  } else {
-    const error = radiologyInsightsResult.error;
-    if (error) {
-      console.log(error.code, ":", error.message);
+    } else {
+      const error = radiologyInsightsResult.error;
+      if (error) {
+        console.log(error.code, ":", error.message);
+      }
     }
   }
 
@@ -76,11 +83,53 @@ function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput): void
       if ("code" in coding) {
         if ("display" in coding && "system" in coding && "code" in coding) {
           console.log(
-            "      Coding: " + coding.code + ", " + coding.display + " (" + coding.system + ")",
+            "      Coding: " + coding.code + ", " + coding.display + " (" + coding.system + ")"
           );
         }
       }
     });
+  }
+
+  function displayPresentGuidanceInformation(guidanceinfo: any): void {
+    console.log("     Present Guidance Information Item: ", guidanceinfo.presentGuidanceItem);
+
+    guidanceinfo.presentGuidanceValues?.forEach((sizes: any) => {
+      console.log("     Present Guidance Value: ", sizes);
+    });
+
+    guidanceinfo.sizes?.forEach((sizes: any) => {
+      if ("valueQuantity" in sizes) {
+        console.log("     Size valueQuantity: ");
+        displayQuantityOutput(guidanceinfo.sizes.valueQuantity);
+      }
+      if ("valueRange" in sizes) {
+        if ("low" in sizes.valueRange) {
+          console.log("     Size ValueRange: min", sizes.valueRange.low);
+        }
+        if ("high" in sizes.valueRange) {
+          console.log("     Size ValueRange: max", sizes.valueRange.high);
+        }
+      }
+    });
+
+    if ("maximumDiameterAsInText" in guidanceinfo) {
+      console.log("     Maximum Diameter As In Text: ");
+      displayQuantityOutput(guidanceinfo.maximumDiameterAsInText);
+    }
+
+    if ("extension" in guidanceinfo) {
+      console.log("     Extension: ");
+      displaySectionInfo(guidanceinfo.extension);
+    }
+  }
+
+  function displayQuantityOutput(quantity: any): void {
+    if ("value" in quantity) {
+      console.log("     Value: ", quantity.value);
+    }
+    if ("unit" in quantity) {
+      console.log("     Unit: ", quantity.unit);
+    }
   }
 
   function displaySectionInfo(inference: { extension: any[] }): void {
@@ -101,8 +150,8 @@ function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput): void
 function createRequestBody(): CreateJobParameters {
   const codingData = {
     system: "http://www.ama-assn.org/go/cpt",
-    code: "37191",
-    display: "XA VENACAVA FILTER INSERTION",
+    code: "71250",
+    display: "CT CHEST WO CONTRAST",
   };
 
   const code = {
@@ -110,8 +159,8 @@ function createRequestBody(): CreateJobParameters {
   };
 
   const patientInfo = {
-    sex: "male",
-    birthDate: "1980-04-22T02:00:00+00:00",
+    sex: "female",
+    birthDate: "1959-11-11T19:00:00+00:00",
   };
 
   const encounterData = {
@@ -130,7 +179,7 @@ function createRequestBody(): CreateJobParameters {
 
   const orderedProceduresData = {
     code: code,
-    description: "XA VENACAVA FILTER INSERTION",
+    description: "CT CHEST WO CONTRAST",
   };
 
   const administrativeMetadata = {
@@ -140,13 +189,12 @@ function createRequestBody(): CreateJobParameters {
 
   const content = {
     sourceType: "inline",
-    value: `FINDINGS:
-    1. Inferior vena cavagram using CO2 contrast shows the IVC is normal
-    in course and caliber without filling defects to indicate clot. It
-    measures 19.8 mm. in diameter infrarenally.
-
-    2. Successful placement of IVC filter in infrarenal location.`,
+    value: `History:
+    Left renal tumor with thin septations.
+    Findings:
+    There is a right kidney tumor with nodular calcification.`,
   };
+
   const patientDocumentData = {
     type: "note",
     clinicalType: "radiologyReport",
@@ -157,11 +205,11 @@ function createRequestBody(): CreateJobParameters {
     administrativeMetadata: administrativeMetadata,
     content: content,
     createdAt: "2021-05-31T16:00:00.000Z",
-    orderedProceduresAsCsv: "XA VENACAVA FILTER INSERTION",
+    orderedProceduresAsCsv: "CT CHEST WO CONTRAST",
   };
 
   const patientData = {
-    id: "Roberto Lewis",
+    id: "Samantha Jones",
     details: patientInfo,
     encounters: [encounterData],
     patientDocuments: [patientDocumentData],
@@ -222,6 +270,7 @@ function createRequestBody(): CreateJobParameters {
 }
 
 export async function main(): Promise<void> {
+  const endpoint = process.env["HEALTH_INSIGHTS_ENDPOINT"] || "";
   const credential = new DefaultAzureCredential();
   const client = AzureHealthInsightsClient(endpoint, credential);
 
@@ -247,5 +296,5 @@ export async function main(): Promise<void> {
 }
 
 main().catch((err) => {
-  console.error("The finding encountered an error:", err);
+  console.error("The clinical guidance encountered an error:", err);
 });
