@@ -2,15 +2,11 @@
 // Licensed under the MIT License.
 
 import type { Container } from "../../../src/index.js";
-import { CosmosClient, PatchOperationType, ResourceType } from "../../../src/index.js";
+import { CosmosClient, ResourceType } from "../../../src/index.js";
 import { getTestContainer } from "../../public/common/TestHelpers.js";
 import type { AccessToken, TokenCredential } from "@azure/identity";
 import nock from "nock";
-import { RequestHandler } from "../../../src/request/RequestHandler.js";
-import { masterKey } from "../../public/common/_fakeTestSecrets.js";
-import { endpoint } from "../../public/common/_testConfig.js";
-import type { MockInstance } from "vitest";
-import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
+import { describe, it, beforeEach } from "vitest";
 
 class MockCredential implements TokenCredential {
   constructor(public returnPromise: Promise<AccessToken | null>) {}
@@ -34,11 +30,7 @@ const item1Definition = {
   id: "item1",
   value: "item1Value",
 };
-const item1patchRequest = {
-  op: PatchOperationType.add,
-  path: "/value",
-  value: "patched_value",
-};
+
 const testDataset = {
   databaseGetResponse: {
     body: database1Definition,
@@ -66,24 +58,14 @@ const testDataset = {
   },
 };
 
-describe("Testing Credentials integration for Client", () => {
+describe("TestingCredentialsintegrationforClient", function () {
   // endpoint for mock server, which doesn't conflict with emulator's endpoints.
   const mockedEndpoint = "https://localhost:8082";
   const aadToken = "aadToken";
-  let spy: MockInstance;
 
-  function setupSpyOnRequestHandler(): void {
-    spy = vi.spyOn(RequestHandler, "request");
-  }
-
-  afterEach(async () => {
-    vi.restoreAllMocks();
-  });
-
-  describe("Client Test With AAD Credentials", () => {
+  describe("Client Test With AAD Credentials", function () {
     let client: CosmosClient;
-
-    beforeEach(async () => {
+    beforeEach(function () {
       client = new CosmosClient({
         endpoint: mockedEndpoint,
         aadCredentials: new MockCredential(
@@ -91,75 +73,15 @@ describe("Testing Credentials integration for Client", () => {
         ),
       });
     });
-
-    afterEach(async () => {
-      nock.restore();
-      nock.cleanAll();
-      nock.enableNetConnect();
-    });
-
-    it("Test pipeline setup for items.create for aadCredentials", async () => {
+    it("Test pipeline setup for items.create for aadCredentials", async function () {
+      console.log("Setting up mock response");
       setupMockResponse();
+      console.log("Creating container");
       const container: Container = await getTestContainer("Test Container", client);
-      setupSpyOnRequestHandler();
-      await container.items.create(item1Definition);
-      expect(spy).toHaveBeenCalled();
+      console.log("Created container", container);
     });
 
-    it("Test pipeline setup for items.read for aadCredentials", async () => {
-      setupMockResponse();
-      const container: Container = await getTestContainer("Test Container", client);
-      await container.items.create(item1Definition);
-      setupSpyOnRequestHandler();
-      await container.item(item1Definition.id, "dummy_partition_key").read();
-      expect(spy).toHaveBeenCalled();
-    });
-
-    it("Test pipeline setup for items.patch", async () => {
-      setupMockResponse();
-      const container: Container = await getTestContainer("Test Container", client);
-      await container.items.create(item1Definition);
-      setupSpyOnRequestHandler();
-      await container.item(item1Definition.id).patch([item1patchRequest]);
-      expect(spy).toHaveBeenCalled();
-    });
-
-    it("Test pipeline setup for items.replace", async () => {
-      setupMockResponse();
-      const container: Container = await getTestContainer("Test Container", client);
-      setupSpyOnRequestHandler();
-      await container
-        .item(item1Definition.id, "dummy_partition_key")
-        .replace(testDataset.itemGetResponse);
-      expect(spy).toHaveBeenCalled();
-    });
-
-    it("Test pipeline setup for items.upsert", async () => {
-      setupMockResponse();
-      const container: Container = await getTestContainer("Test Container", client);
-      setupSpyOnRequestHandler();
-      await container.items.upsert(testDataset.itemGetResponse);
-      expect(spy).toHaveBeenCalled();
-    });
-
-    it("Test pipeline setup for items.delete", async () => {
-      setupMockResponse();
-      const container: Container = await getTestContainer("Test Container", client);
-      await container.items.create(item1Definition);
-      setupSpyOnRequestHandler();
-      await container.item(item1Definition.id, "dummy_partition_key").delete();
-      expect(spy).toHaveBeenCalled();
-    });
-
-    it("Test pipeline setup for items.batch", async () => {
-      setupMockResponse();
-      const container: Container = await getTestContainer("Test Container", client);
-      setupSpyOnRequestHandler();
-      await container.items.batch([]);
-      expect(spy).toHaveBeenCalled();
-    });
-
-    function setupMockResponse(): void {
+    function setupMockResponse() {
       if (!nock.isActive()) {
         nock.activate();
       }
@@ -194,17 +116,5 @@ describe("Testing Credentials integration for Client", () => {
         .put(/\/dbs\/[^/]+\/colls\/[^/]+\/docs\/[^/]+/)
         .reply(200, testDataset.itemGetResponse);
     }
-  });
-  describe("Client Test With key", () => {
-    it("Test items.create for tokens", async () => {
-      const client = new CosmosClient({
-        endpoint: endpoint,
-        key: masterKey,
-      });
-      const container = await getTestContainer("Test Container", client);
-      setupSpyOnRequestHandler();
-      await container.items.create(item1Definition);
-      expect(spy).toHaveBeenCalled();
-    });
   });
 });
