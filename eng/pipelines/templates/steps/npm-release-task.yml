@@ -73,7 +73,7 @@ jobs:
         productstate: ${{parameters.Tag}}
 
     - pwsh: |
-        Get-childItem -Path $(WorkingDirectory) -Recurse -Depth 1
+        Get-childItem -Path $(System.DefaultWorkingDirectory) -Recurse -Depth 1
         write-host "xxxxxxxxxxxxxxxxxxxxxxxxxxxx"
         Get-childItem -Path $(Pipeline.Workspace) -Recurse -Depth 1
         Get-ChildItem -Path $(Pipeline.Workspace)/eng/scripts
