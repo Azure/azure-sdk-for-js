@@ -84,8 +84,8 @@ steps:
   # Unlink node_modules folders to significantly improve performance of subsequent tasks
   # which need to walk the directory tree (and are hardcoded to follow symlinks).
   - script: |
-      node eng/tools/rush-runner/index.js unlink
-    displayName: "Unlink dependencies"
+      pnpm run purge
+    displayName: "Purge dependencies"
 
   - template: ../steps/generate-doc.yml
     parameters:

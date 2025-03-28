@@ -334,7 +334,7 @@ jobs:
       # running in this repository" if the previous rush command was killed.
       - pwsh: |
           for ($i=0; $i -lt 30; $i++) {
-            node eng/tools/rush-runner/index.js unlink
+            pnpm run purge
             if ($lastexitcode -eq 0) {
               break
             }
@@ -343,7 +343,7 @@ jobs:
             }
           }
         condition: always()
-        displayName: "Unlink dependencies"
+        displayName: "Purge dependencies"
 
       # It's important for performance to pass "sdk" as "searchFolder" to avoid looking under root "node_modules".
       # PublishTestResults.searchFolder only supports absolute paths, not relative.
