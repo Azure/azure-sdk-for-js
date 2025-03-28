@@ -9,8 +9,6 @@ import { logger } from "../../src/log.js";
 describe("checkInsecureConnection", () => {
   beforeEach(() => {
     vi.spyOn(logger, "warning");
-    // Reset the warned flag before each test
-    (ensureSecureConnection as any).warned = false;
   });
 
   afterEach(() => {
@@ -39,7 +37,7 @@ describe("checkInsecureConnection", () => {
     expect(() => ensureSecureConnection(request, { allowInsecureConnection: true })).not.toThrow();
 
     expect(logger.warning).toHaveBeenCalledWith(
-      "Sending bearer token over insecure transport. Assume any token issued is compromised.",
+      "Sending token over insecure transport. Assume any token issued is compromised.",
     );
   });
 
@@ -52,7 +50,7 @@ describe("checkInsecureConnection", () => {
     expect(() => ensureSecureConnection(request, { allowInsecureConnection: true })).not.toThrow();
 
     expect(logger.warning).toHaveBeenCalledWith(
-      "Sending bearer token over insecure transport. Assume any token issued is compromised.",
+      "Sending token over insecure transport. Assume any token issued is compromised.",
     );
   });
 
