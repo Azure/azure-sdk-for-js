@@ -17,7 +17,10 @@ import {
   PolicyExemptionsCreateOrUpdateOptionalParams,
   PolicyExemptionsCreateOrUpdateResponse,
   PolicyExemptionsGetOptionalParams,
-  PolicyExemptionsGetResponse
+  PolicyExemptionsGetResponse,
+  PolicyExemptionUpdate,
+  PolicyExemptionsUpdateOptionalParams,
+  PolicyExemptionsUpdateResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -33,7 +36,7 @@ export interface PolicyExemptions {
    * @param options The options parameters.
    */
   list(
-    options?: PolicyExemptionsListOptionalParams
+    options?: PolicyExemptionsListOptionalParams,
   ): PagedAsyncIterableIterator<PolicyExemption>;
   /**
    * This operation retrieves the list of all policy exemptions associated with the given resource group
@@ -47,7 +50,7 @@ export interface PolicyExemptions {
    */
   listForResourceGroup(
     resourceGroupName: string,
-    options?: PolicyExemptionsListForResourceGroupOptionalParams
+    options?: PolicyExemptionsListForResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<PolicyExemption>;
   /**
    * This operation retrieves the list of all policy exemptions associated with the specified resource in
@@ -81,7 +84,7 @@ export interface PolicyExemptions {
     parentResourcePath: string,
     resourceType: string,
     resourceName: string,
-    options?: PolicyExemptionsListForResourceOptionalParams
+    options?: PolicyExemptionsListForResourceOptionalParams,
   ): PagedAsyncIterableIterator<PolicyExemption>;
   /**
    * This operation retrieves the list of all policy exemptions applicable to the management group that
@@ -94,7 +97,7 @@ export interface PolicyExemptions {
    */
   listForManagementGroup(
     managementGroupId: string,
-    options?: PolicyExemptionsListForManagementGroupOptionalParams
+    options?: PolicyExemptionsListForManagementGroupOptionalParams,
   ): PagedAsyncIterableIterator<PolicyExemption>;
   /**
    * This operation deletes a policy exemption, given its name and the scope it was created in. The scope
@@ -111,7 +114,7 @@ export interface PolicyExemptions {
   delete(
     scope: string,
     policyExemptionName: string,
-    options?: PolicyExemptionsDeleteOptionalParams
+    options?: PolicyExemptionsDeleteOptionalParams,
   ): Promise<void>;
   /**
    *  This operation creates or updates a policy exemption with the given scope and name. Policy
@@ -131,7 +134,7 @@ export interface PolicyExemptions {
     scope: string,
     policyExemptionName: string,
     parameters: PolicyExemption,
-    options?: PolicyExemptionsCreateOrUpdateOptionalParams
+    options?: PolicyExemptionsCreateOrUpdateOptionalParams,
   ): Promise<PolicyExemptionsCreateOrUpdateResponse>;
   /**
    * This operation retrieves a single policy exemption, given its name and the scope it was created at.
@@ -146,6 +149,23 @@ export interface PolicyExemptions {
   get(
     scope: string,
     policyExemptionName: string,
-    options?: PolicyExemptionsGetOptionalParams
+    options?: PolicyExemptionsGetOptionalParams,
   ): Promise<PolicyExemptionsGetResponse>;
+  /**
+   *  This operation updates a policy exemption with the given scope and name.
+   * @param scope The scope of the policy exemption. Valid scopes are: management group (format:
+   *              '/providers/Microsoft.Management/managementGroups/{managementGroup}'), subscription (format:
+   *              '/subscriptions/{subscriptionId}'), resource group (format:
+   *              '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}', or resource (format:
+   *              '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/[{parentResourcePath}/]{resourceType}/{resourceName}'
+   * @param policyExemptionName The name of the policy exemption to delete.
+   * @param parameters Parameters for policy exemption patch request.
+   * @param options The options parameters.
+   */
+  update(
+    scope: string,
+    policyExemptionName: string,
+    parameters: PolicyExemptionUpdate,
+    options?: PolicyExemptionsUpdateOptionalParams,
+  ): Promise<PolicyExemptionsUpdateResponse>;
 }

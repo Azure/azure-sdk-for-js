@@ -16,7 +16,7 @@ require("dotenv/config");
  * This sample demonstrates how to This operation creates or updates a policy set definition in the given subscription with the given name.
  *
  * @summary This operation creates or updates a policy set definition in the given subscription with the given name.
- * x-ms-original-file: specification/resources/resource-manager/Microsoft.Authorization/stable/2021-06-01/examples/createOrUpdatePolicySetDefinition.json
+ * x-ms-original-file: specification/resources/resource-manager/Microsoft.Authorization/stable/2023-04-01/examples/createOrUpdatePolicySetDefinition.json
  */
 async function createOrUpdateAPolicySetDefinition() {
   const subscriptionId =
@@ -66,7 +66,7 @@ async function createOrUpdateAPolicySetDefinition() {
  * This sample demonstrates how to This operation creates or updates a policy set definition in the given subscription with the given name.
  *
  * @summary This operation creates or updates a policy set definition in the given subscription with the given name.
- * x-ms-original-file: specification/resources/resource-manager/Microsoft.Authorization/stable/2021-06-01/examples/createOrUpdatePolicySetDefinitionWithGroups.json
+ * x-ms-original-file: specification/resources/resource-manager/Microsoft.Authorization/stable/2023-04-01/examples/createOrUpdatePolicySetDefinitionWithGroups.json
  */
 async function createOrUpdateAPolicySetDefinitionWithGroups() {
   const subscriptionId =
@@ -91,6 +91,7 @@ async function createOrUpdateAPolicySetDefinitionWithGroups() {
     ],
     policyDefinitions: [
       {
+        definitionVersion: "1.*.*",
         groupNames: ["CostSaving"],
         parameters: {
           listOfAllowedSKUs: { value: ["Standard_GRS", "Standard_LRS"] },
@@ -100,6 +101,7 @@ async function createOrUpdateAPolicySetDefinitionWithGroups() {
         policyDefinitionReferenceId: "Limit_Skus",
       },
       {
+        definitionVersion: "1.*.*",
         groupNames: ["Organizational"],
         parameters: { prefix: { value: "DeptA" }, suffix: { value: "-LC" } },
         policyDefinitionId:
@@ -118,8 +120,8 @@ async function createOrUpdateAPolicySetDefinitionWithGroups() {
 }
 
 async function main() {
-  createOrUpdateAPolicySetDefinition();
-  createOrUpdateAPolicySetDefinitionWithGroups();
+  await createOrUpdateAPolicySetDefinition();
+  await createOrUpdateAPolicySetDefinitionWithGroups();
 }
 
 main().catch(console.error);
