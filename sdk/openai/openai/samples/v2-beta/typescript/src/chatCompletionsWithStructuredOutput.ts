@@ -23,7 +23,7 @@ export async function main(): Promise<void> {
   const scope = "https://cognitiveservices.azure.com/.default";
   const azureADTokenProvider = getBearerTokenProvider(new DefaultAzureCredential(), scope);
   const deployment = "gpt-4o-2024-08-06";
-  const apiVersion = "2025-01-01-preview";
+  const apiVersion = "2025-03-01-preview";
   const client = new AzureOpenAI({ azureADTokenProvider, deployment, apiVersion });
 
   const Step = z.object({
