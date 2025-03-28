@@ -29,7 +29,7 @@ stages:
             displayName: "Build ESLint Plugin"
 
           - script: |
-              node eng/tools/rush-runner/index.js build monitor -packages "azure-monitor-opentelemetry-exporter" --verbose
+              node eng/tools/rush-runner/index.js build monitor -packages "azure-monitor-opentelemetry-exporter" -v
             displayName: "Build packages to enable typed checking"
 
           - script: |

@@ -71,11 +71,11 @@ steps:
 
   - pwsh: |
       node common/scripts/install-run-rush.js build -t @azure/eslint-plugin-azure-sdk
-      node eng/tools/rush-runner/index.js lint "$(ChangedServices)" -p max --verbose
+      node eng/tools/rush-runner/index.js lint "$(ChangedServices)" --concurrency=100% -v
     displayName: "Build ESLint Plugin and Lint Libraries"
 
   - pwsh: |
-      node eng/tools/rush-runner/index.js check-format $(ChangedServices) -packages "$(ArtifactPackageNames)" --verbose
+      node eng/tools/rush-runner/index.js check-format $(ChangedServices) -packages "$(ArtifactPackageNames)" --concurrency=100% -v
     displayName: "Check Format in Libraries"
 
   - template: /eng/common/pipelines/templates/steps/verify-changelogs.yml
@@ -91,7 +91,7 @@ steps:
     # Unlink node_modules folders to significantly improve performance of subsequent tasks
     # which need to walk the directory tree (and are hardcoded to follow symlinks).
   - script: |
-      node eng/tools/rush-runner/index.js unlink
+      node eng/tools/rush-runner/index.js purge
     displayName: "Unlink dependencies"
 
     # It's important for performance to pass "sdk" as "sourceFolder" rather than as a prefix in "contents".

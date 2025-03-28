@@ -9,7 +9,7 @@ export function parseArgs() {
     process.argv.some((a) => ["-h", "--help"].includes(a.toLowerCase()))
   ) {
     console.error("Usage: rush-runner/index.js <action> [<servicename>...] [args...]");
-    console.error("Example: rush-runner/index.js build keyvault storage --verbose");
+    console.error("Example: rush-runner/index.js build keyvault storage --concurrency=100% -v");
     process.exit(1);
   }
 
