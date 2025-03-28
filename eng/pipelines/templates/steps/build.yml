@@ -38,7 +38,8 @@ steps:
       ServiceDirectory: ${{parameters.ServiceDirectory}}
 
   - script: |
-      node common/scripts/install-run-rush.js install
+      npm install -g pnpm
+      pnpm install
     condition: and(succeeded(),ne(variables['SetDevVersion'],'true'))
     displayName: "Install dependencies"
 

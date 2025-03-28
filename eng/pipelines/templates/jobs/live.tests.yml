@@ -110,7 +110,8 @@ jobs:
                 ${{ insert }}: ${{ parameters.EnvVars }}
 
       - script: |
-          node common/scripts/install-run-rush.js install
+          npm install -g pnpm
+          pnpm install
         displayName: "Install dependencies"
 
       # Option "-p max" ensures parallelism is set to the number of cores on all platforms, which improves build times.

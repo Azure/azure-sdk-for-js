@@ -21,7 +21,8 @@ stages:
               ServiceDirectory: core
 
           - script: |
-              node common/scripts/install-run-rush.js install
+              npm install -g pnpm
+              pnpm install
             displayName: "Install library dependencies"
 
           - script: |
