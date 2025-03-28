@@ -16,7 +16,7 @@ import {
   MhsmPrivateEndpointConnectionsPutOptionalParams,
   MhsmPrivateEndpointConnectionsPutResponse,
   MhsmPrivateEndpointConnectionsDeleteOptionalParams,
-  MhsmPrivateEndpointConnectionsDeleteResponse
+  MhsmPrivateEndpointConnectionsDeleteResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -32,7 +32,7 @@ export interface MhsmPrivateEndpointConnections {
   listByResource(
     resourceGroupName: string,
     name: string,
-    options?: MhsmPrivateEndpointConnectionsListByResourceOptionalParams
+    options?: MhsmPrivateEndpointConnectionsListByResourceOptionalParams,
   ): PagedAsyncIterableIterator<MhsmPrivateEndpointConnection>;
   /**
    * Gets the specified private endpoint connection associated with the managed HSM Pool.
@@ -46,7 +46,7 @@ export interface MhsmPrivateEndpointConnections {
     resourceGroupName: string,
     name: string,
     privateEndpointConnectionName: string,
-    options?: MhsmPrivateEndpointConnectionsGetOptionalParams
+    options?: MhsmPrivateEndpointConnectionsGetOptionalParams,
   ): Promise<MhsmPrivateEndpointConnectionsGetResponse>;
   /**
    * Updates the specified private endpoint connection associated with the managed hsm pool.
@@ -62,7 +62,7 @@ export interface MhsmPrivateEndpointConnections {
     name: string,
     privateEndpointConnectionName: string,
     properties: MhsmPrivateEndpointConnection,
-    options?: MhsmPrivateEndpointConnectionsPutOptionalParams
+    options?: MhsmPrivateEndpointConnectionsPutOptionalParams,
   ): Promise<MhsmPrivateEndpointConnectionsPutResponse>;
   /**
    * Deletes the specified private endpoint connection associated with the managed hsm pool.
@@ -76,7 +76,7 @@ export interface MhsmPrivateEndpointConnections {
     resourceGroupName: string,
     name: string,
     privateEndpointConnectionName: string,
-    options?: MhsmPrivateEndpointConnectionsDeleteOptionalParams
+    options?: MhsmPrivateEndpointConnectionsDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<MhsmPrivateEndpointConnectionsDeleteResponse>,
@@ -95,6 +95,6 @@ export interface MhsmPrivateEndpointConnections {
     resourceGroupName: string,
     name: string,
     privateEndpointConnectionName: string,
-    options?: MhsmPrivateEndpointConnectionsDeleteOptionalParams
+    options?: MhsmPrivateEndpointConnectionsDeleteOptionalParams,
   ): Promise<MhsmPrivateEndpointConnectionsDeleteResponse>;
 }

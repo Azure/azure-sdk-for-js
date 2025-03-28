@@ -13,7 +13,7 @@ import {
   ProactiveDetectionConfigurationsGetResponse,
   ApplicationInsightsComponentProactiveDetectionConfiguration,
   ProactiveDetectionConfigurationsUpdateOptionalParams,
-  ProactiveDetectionConfigurationsUpdateResponse
+  ProactiveDetectionConfigurationsUpdateResponse,
 } from "../models/index.js";
 
 /** Interface representing a ProactiveDetectionConfigurations. */
@@ -27,7 +27,7 @@ export interface ProactiveDetectionConfigurations {
   list(
     resourceGroupName: string,
     resourceName: string,
-    options?: ProactiveDetectionConfigurationsListOptionalParams
+    options?: ProactiveDetectionConfigurationsListOptionalParams,
   ): Promise<ProactiveDetectionConfigurationsListResponse>;
   /**
    * Get the ProactiveDetection configuration for this configuration id.
@@ -41,7 +41,7 @@ export interface ProactiveDetectionConfigurations {
     resourceGroupName: string,
     resourceName: string,
     configurationId: string,
-    options?: ProactiveDetectionConfigurationsGetOptionalParams
+    options?: ProactiveDetectionConfigurationsGetOptionalParams,
   ): Promise<ProactiveDetectionConfigurationsGetResponse>;
   /**
    * Update the ProactiveDetection configuration for this configuration id.
@@ -58,6 +58,6 @@ export interface ProactiveDetectionConfigurations {
     resourceName: string,
     configurationId: string,
     proactiveDetectionProperties: ApplicationInsightsComponentProactiveDetectionConfiguration,
-    options?: ProactiveDetectionConfigurationsUpdateOptionalParams
+    options?: ProactiveDetectionConfigurationsUpdateOptionalParams,
   ): Promise<ProactiveDetectionConfigurationsUpdateResponse>;
 }
