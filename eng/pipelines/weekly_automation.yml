@@ -16,8 +16,8 @@ jobs:
   - template: /eng/common/pipelines/templates/steps/set-default-branch.yml
 
   - script: |
-      node common/scripts/install-run-rush.js install
-      node common/scripts/install-run-rush.js update --full
+      npm install -g pnpm
+      pnpm install
     displayName: "Run Rush Update"
 
   - template: /eng/common/pipelines/templates/steps/create-pull-request.yml
@@ -45,10 +45,9 @@ jobs:
   - template: /eng/common/pipelines/templates/steps/set-default-branch.yml
 
   - script: |
-      node common/scripts/install-run-rush.js install
-      node common/scripts/install-run-rush.js unlink
+      pnpm run purge
       git clean -xdf
-    displayName: "Rush Unlink"
+    displayName: "Pnpm purge"
 
   - task: PowerShell@2
     displayName: 'Check Dependency Warnings and File GitHub Issues'
