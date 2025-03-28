@@ -26,6 +26,3 @@ export interface OrganizationsCreateOrUpdateOptionalParams extends OperationOpti
 
 /** Optional parameters. */
 export interface OrganizationsGetOptionalParams extends OperationOptions {}
-
-/** Optional parameters. */
-export interface OperationsListOptionalParams extends OperationOptions {}
