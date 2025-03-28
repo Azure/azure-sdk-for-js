@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
-import type { Response } from "../../request";
-import type { ExecutionContext } from "../ExecutionContext";
-import { OrderByComparator } from "../orderByComparator";
-import type { NonStreamingOrderByResult } from "../nonStreamingOrderByResult";
-import { FixedSizePriorityQueue } from "../../utils/fixedSizePriorityQueue";
-import type { CosmosHeaders } from "../headerUtils";
-import { getInitialHeader } from "../headerUtils";
+import type { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal.js";
+import type { Response } from "../../request/index.js";
+import type { ExecutionContext } from "../ExecutionContext.js";
+import { OrderByComparator } from "../orderByComparator.js";
+import type { NonStreamingOrderByResult } from "../nonStreamingOrderByResult.js";
+import { FixedSizePriorityQueue } from "../../utils/fixedSizePriorityQueue.js";
+import type { CosmosHeaders } from "../headerUtils.js";
+import { getInitialHeader } from "../headerUtils.js";
 
 /**
  * @hidden

@@ -4,5 +4,7 @@
 // isomorphic-webcrypto is not listed as a dependency in package.json because
 // doing so requires adding a bunch of react packages as peer dependencies. So,
 // it is being loaded dynamically here to not cause compiler error.
-const globalCrypto = require("isomorphic-webcrypto"); // eslint-disable-line @typescript-eslint/no-require-imports
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+import * as globalCrypto from "isomorphic-webcrypto";
 export { globalCrypto };

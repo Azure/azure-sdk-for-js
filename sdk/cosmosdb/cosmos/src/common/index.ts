@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-export * from "./constants";
-export * from "./helper";
-export * from "./statusCodes";
-export * from "./uriFactory";
+export * from "./constants.js";
+export * from "./helper.js";
+export * from "./statusCodes.js";
+export * from "./uriFactory.js";

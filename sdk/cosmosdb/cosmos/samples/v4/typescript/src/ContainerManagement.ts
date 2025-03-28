@@ -1,14 +1,8 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * @summary Demonstrates container create, read, delete and reading all containers belonging to a database.
- */
-
-import * as dotenv from "dotenv";
-dotenv.config();
-
-import { finish, handleError, logStep, logSampleHeader } from "./Shared/handleError";
+import "dotenv/config";
+import { finish, handleError, logStep, logSampleHeader } from "./Shared/handleError.js";
 import {
   ContainerDefinition,
   CosmosClient,

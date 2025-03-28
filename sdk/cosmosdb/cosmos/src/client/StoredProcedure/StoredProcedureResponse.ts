@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { CosmosDiagnostics } from "../../CosmosDiagnostics";
-import type { CosmosHeaders } from "../../queryExecutionContext";
-import { ResourceResponse } from "../../request";
-import type { Resource } from "../Resource";
-import type { StoredProcedure } from "./StoredProcedure";
-import type { StoredProcedureDefinition } from "./StoredProcedureDefinition";
+import type { CosmosDiagnostics } from "../../CosmosDiagnostics.js";
+import type { CosmosHeaders } from "../../queryExecutionContext/index.js";
+import { ResourceResponse } from "../../request/index.js";
+import type { Resource } from "../Resource.js";
+import type { StoredProcedure } from "./StoredProcedure.js";
+import type { StoredProcedureDefinition } from "./StoredProcedureDefinition.js";
 
 export class StoredProcedureResponse extends ResourceResponse<
   StoredProcedureDefinition & Resource

@@ -1,17 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { CosmosDbDiagnosticLevel, DiagnosticNodeInternal, DiagnosticNodeType } from "../../../src";
-import type { ClientContext, FeedOptions, QueryInfo } from "../../../src";
+
+import {
+  CosmosDbDiagnosticLevel,
+  DiagnosticNodeInternal,
+  DiagnosticNodeType,
+} from "../../../src/index.js";
+import type { ClientContext, FeedOptions, QueryInfo } from "../../../src/index.js";
 import {
   HybridQueryExecutionContext,
   HybridQueryExecutionContextBaseStates,
-} from "../../../src/queryExecutionContext/hybridQueryExecutionContext";
-import type { HybridSearchQueryInfo } from "../../../src/request/ErrorResponse";
-import type { GlobalStatistics } from "../../../src/request/globalStatistics";
-import assert from "assert";
-import type { HybridSearchQueryResult } from "../../../src/request/hybridSearchQueryResult";
-import sinon from "sinon";
-import { MockedClientContext } from "../../public/common/MockClientContext";
+} from "../../../src/queryExecutionContext/hybridQueryExecutionContext.js";
+import type { HybridSearchQueryInfo } from "../../../src/request/ErrorResponse.js";
+import type { GlobalStatistics } from "../../../src/request/globalStatistics.js";
+import type { HybridSearchQueryResult } from "../../../src/request/hybridSearchQueryResult.js";
+import { MockedClientContext } from "../../public/common/MockClientContext.js";
+import { describe, it, assert, expect, vi } from "vitest";
 
 const collectionLink = "/dbs/testDb/colls/testCollection"; // Sample collection link
 const options: FeedOptions = { maxItemCount: 2, maxDegreeOfParallelism: 1 };
@@ -60,7 +64,7 @@ const partitionedQueryExecutionInfo = {
 const correlatedActivityId = "sample-activity-id"; // Example correlated activity ID
 const diagnosticLevel = CosmosDbDiagnosticLevel.info;
 
-describe("hybridQueryExecutionContext", function () {
+describe("hybridQueryExecutionContext", () => {
   const clientContext: ClientContext = new MockedClientContext(
     partitionedQueryExecutionInfo.queryRanges,
   ) as any;
@@ -76,16 +80,13 @@ describe("hybridQueryExecutionContext", function () {
   );
   context["options"] = options;
 
-  describe("initialize Method", async function () {
-    it("initialize Method should get executed correctly", async function () {
-      sinon
-        .stub(context["globalStatisticsExecutionContext"], "hasMoreResults")
-        .onCall(0)
-        .returns(true) // First call returns true
-        .onCall(1)
-        .returns(false); // Second call returns false
+  describe("initialize Method", async () => {
+    it("initialize Method should get executed correctly", async () => {
+      vi.spyOn(context["globalStatisticsExecutionContext"], "hasMoreResults")
+        .mockReturnValueOnce(true) // First call returns true
+        .mockReturnValueOnce(false); // Second call returns false
 
-      sinon.stub(context["globalStatisticsExecutionContext"], "fetchMore").resolves({
+      vi.spyOn(context["globalStatisticsExecutionContext"], "fetchMore").mockResolvedValue({
         result: [
           {
             documentCount: 2,
@@ -108,24 +109,25 @@ describe("hybridQueryExecutionContext", function () {
       };
 
       // Stub the processComponentQueries and replacePlaceholders methods to assert that they are called
-      const processComponentQueriesSpy = sinon.spy(context as any, "processComponentQueries");
-      const replacePlaceholdersSpy = sinon.spy(context as any, "replacePlaceholdersWorkaroud");
+      const processComponentQueriesSpy = vi.spyOn(context as any, "processComponentQueries");
+      const replacePlaceholdersSpy = vi.spyOn(context as any, "replacePlaceholdersWorkaroud");
 
       // Call the initialize method
       await context["initialize"](diagnosticNode, sampleHeader);
 
       assert.strictEqual(context["componentsExecutionContext"].length, 1);
       assert.strictEqual(context["state"], HybridQueryExecutionContextBaseStates.initialized);
-      assert(processComponentQueriesSpy.calledOnce);
-      assert(replacePlaceholdersSpy.calledTwice);
 
-      processComponentQueriesSpy.restore();
-      replacePlaceholdersSpy.restore();
+      expect(processComponentQueriesSpy).toHaveBeenCalledTimes(1);
+      expect(replacePlaceholdersSpy).toHaveBeenCalledTimes(2);
+
+      processComponentQueriesSpy.mockRestore();
+      replacePlaceholdersSpy.mockRestore();
     });
   });
 
-  describe("ReplacePlaceholders Method", function () {
-    it("replacePlaceholders method should replace placeholders in all queries correctly", async function () {
+  describe("ReplacePlaceholders Method", () => {
+    it("replacePlaceholders method should replace placeholders in all queries correctly", async () => {
       // Array of query test cases
       const queryTestCases = [
         {
@@ -193,14 +195,14 @@ describe("hybridQueryExecutionContext", function () {
         const result = context["replacePlaceholdersWorkaroud"](queryToTest, stats1, 2);
 
         // Normalize both actual and expected queries by removing all whitespace
-        const normalize = (str: string) => str.replace(/\s+/g, " ").trim();
+        const normalize = (str: string): string => str.replace(/\s+/g, " ").trim();
         assert.equal(normalize(result), normalize(expectedQuery));
       });
     });
   });
 
-  describe("SortHybridSearchResultByRRFScore Method", function () {
-    it("sortHybridSearchResultByRRFScore method should sort hybrid search results correctly based on RRF score", async function () {
+  describe("SortHybridSearchResultByRRFScore Method", () => {
+    it("sortHybridSearchResultByRRFScore method should sort hybrid search results correctly based on RRF score", async () => {
       const input: HybridSearchQueryResult[] = [
         { rid: "1", componentScores: [10, 20], data: {}, score: 0, ranks: [] },
         { rid: "2", componentScores: [30, 10], data: {}, score: 0, ranks: [] },
@@ -214,7 +216,7 @@ describe("hybridQueryExecutionContext", function () {
       assert.deepStrictEqual(resultRids, expectedSortedRids);
     });
 
-    it("sortHybridSearchResultByRRFScore method should sort hybrid search results with single component score", async function () {
+    it("sortHybridSearchResultByRRFScore method should sort hybrid search results with single component score", async () => {
       const input: HybridSearchQueryResult[] = [
         { rid: "1", componentScores: [30], data: {}, score: 0, ranks: [] },
         { rid: "2", componentScores: [20], data: {}, score: 0, ranks: [] },
@@ -228,7 +230,7 @@ describe("hybridQueryExecutionContext", function () {
       assert.deepStrictEqual(resultRids, expectedSortedRids);
     });
 
-    it("sortHybridSearchResultByRRFScore method should handle one HybridSearchQueryResult", async function () {
+    it("sortHybridSearchResultByRRFScore method should handle one HybridSearchQueryResult", async () => {
       const input: HybridSearchQueryResult[] = [
         { rid: "1", componentScores: [10, 20, 30], data: {}, score: 0, ranks: [] },
       ];
@@ -240,7 +242,7 @@ describe("hybridQueryExecutionContext", function () {
       assert.deepStrictEqual(resultRids, expectedSortedRids);
     });
 
-    it("sortHybridSearchResultByRRFScore method should handle empty HybridSearchQueryResult array", async function () {
+    it("sortHybridSearchResultByRRFScore method should handle empty HybridSearchQueryResult array", async () => {
       const input: HybridSearchQueryResult[] = [];
       const result = context["sortHybridSearchResultByRRFScore"](input);
       assert.deepStrictEqual(input, result);

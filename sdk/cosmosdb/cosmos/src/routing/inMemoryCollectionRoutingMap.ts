@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { PartitionKeyRange } from "../client";
-import { Constants } from "../common";
-import { QueryRange } from "./QueryRange";
+import type { PartitionKeyRange } from "../client/index.js";
+import { Constants } from "../common/index.js";
+import { QueryRange } from "./QueryRange.js";
 
 /** @hidden */
 export class InMemoryCollectionRoutingMap {

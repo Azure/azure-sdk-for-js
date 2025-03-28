@@ -1,23 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * @summary Shows a simple bulk call with each BulkOperation type.
- */
+import "dotenv/config";
+import { handleError, finish, logStep } from "./Shared/handleError.js";
+import type { OperationInput } from "@azure/cosmos";
+import { BulkOperationType, CosmosClient, PatchOperationType } from "@azure/cosmos";
 
-import * as dotenv from "dotenv";
-dotenv.config();
-
-import { handleError, finish, logStep } from "./Shared/handleError";
-import {
-  BulkOperationType,
-  CosmosClient,
-  OperationInput,
-  PatchOperation,
-  PatchOperationType,
-} from "@azure/cosmos";
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
 const key = process.env.COSMOS_KEY || "<cosmos key>";
 const endpoint = process.env.COSMOS_ENDPOINT || "<cosmos endpoint>";
 function addEntropy(name: string): string {
@@ -28,7 +16,7 @@ function getEntropy(): string {
   return `${Math.floor(Math.random() * 10000)}`;
 }
 
-async function run() {
+async function run(): Promise<void> {
   const containerId = "bulkContainerV2";
   const client = new CosmosClient({
     key: key,

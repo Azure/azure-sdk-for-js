@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal";
-import { OperationType } from "../common";
-import type { ErrorResponse } from "../request";
-import { TimeoutErrorCode } from "../request/TimeoutError";
-import type { RetryPolicy } from "./RetryPolicy";
+import type { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal.js";
+import { OperationType } from "../common/index.js";
+import type { ErrorResponse } from "../request/index.js";
+import { TimeoutErrorCode } from "../request/TimeoutError.js";
+import type { RetryPolicy } from "./RetryPolicy.js";
 
 /**
  * @hidden
