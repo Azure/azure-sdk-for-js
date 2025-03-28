@@ -74,10 +74,11 @@
   - Added Enum KnownSolutionConfigurationStatus
   - Added Enum KnownVersions
   - Added function restorePoller
+  - Type of parameter info of interface ErrorAdditionalInfo is changed from Record<string, unknown> to Record<string, any>
+  - Class HybridConnectivityManagementAPI has a new signature
 
 ### Breaking Changes
 
-  - Class HybridConnectivityManagementAPI has a new signature
   - Interface EndpointAccessResource no longer has parameter accessKey
   - Interface EndpointAccessResource no longer has parameter expiresOn
   - Interface EndpointAccessResource no longer has parameter hybridConnectionName
@@ -100,7 +101,6 @@
   - Interface ServiceConfigurationResource no longer has parameter resourceId
   - Interface ServiceConfigurationResource no longer has parameter serviceName
   - Interface ServiceConfigurationResourcePatch no longer has parameter port
-  - Type of parameter info of interface ErrorAdditionalInfo is changed from Record<string, unknown> to Record<string, any>
   - Class HybridConnectivityManagementAPI no longer has parameter $host
   - Class HybridConnectivityManagementAPI no longer has parameter apiVersion
   - Removed function getContinuationToken
