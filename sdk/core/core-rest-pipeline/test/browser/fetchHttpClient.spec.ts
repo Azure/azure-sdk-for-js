@@ -33,7 +33,7 @@ function createResponse(
           controller.enqueue(chunk);
           await delay(chunkDelay);
           if (abortSignal?.aborted) {
-            throw new AbortError();
+            throw new AbortError(abortSignal.reason);
           }
         }
       } else if (view.length > 1) {
@@ -86,7 +86,7 @@ describe("FetchHttpClient", function () {
         const signal: AbortSignalLike = options.signal;
 
         if (signal.aborted) {
-          throw new AbortError();
+          throw new AbortError(signal.reason);
         }
       }
 
