@@ -2931,7 +2931,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-hybridkubernetes@file:projects/arm-hybridkubernetes.tgz':
-    resolution: {integrity: sha512-2eOmy/uTaH/44F7jftAPk8JzzGSu9DbrukAswokiBwjJPFFu09sEW4q6qtz65Ua9/R5c7Ss7aoo6EZBtv73ZhQ==, tarball: file:projects/arm-hybridkubernetes.tgz}
+    resolution: {integrity: sha512-QSdGYSWPvbeoZgajOfDyZLG1z/8fkMYR59P16IR3m6ZPvDcbOv4Ost49oEIN5ByT26OBdtcErCPHHFm8LXcq/g==, tarball: file:projects/arm-hybridkubernetes.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-hybridnetwork@file:projects/arm-hybridnetwork.tgz':
@@ -14278,11 +14278,12 @@ snapshots:
     dependencies:
       '@azure/core-lro': 2.7.2
       '@types/node': 18.19.84
-      '@vitest/browser': 3.0.9(@types/node@18.19.84)(playwright@1.51.1)(typescript@5.8.2)(vite@6.2.3(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.9)
+      '@vitest/browser': 3.0.9(@types/node@18.19.84)(playwright@1.51.1)(typescript@5.7.3)(vite@6.2.3(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.9)
       '@vitest/coverage-istanbul': 3.0.9(vitest@3.0.9)
+      dotenv: 16.4.7
       playwright: 1.51.1
       tslib: 2.8.1
-      typescript: 5.8.2
+      typescript: 5.7.3
       vitest: 3.0.9(@types/debug@4.1.12)(@types/node@18.19.84)(@vitest/browser@3.0.9)(msw@2.7.3(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(yaml@2.7.0)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
