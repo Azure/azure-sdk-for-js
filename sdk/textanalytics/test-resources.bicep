@@ -1,12 +1,12 @@
 param baseName string = resourceGroup().name
 param location string = resourceGroup().location
 param testApplicationOid string
+param supportsSafeSecretStandard bool = false
 
 var taRoleId = 'a97b65f3-24c7-4388-baec-2e87135dc908'
 var cognitiveAccountName = 'textanalytics-${baseName}'
-var cognitiveApiVersion = '2024-04-01-preview'
 
-resource cognitiveAccount 'Microsoft.CognitiveServices/accounts@2024-04-01-preview' = {
+resource cognitiveAccount 'Microsoft.CognitiveServices/accounts@2024-10-01' = {
   name: cognitiveAccountName
   location: location
   sku: {
@@ -15,6 +15,7 @@ resource cognitiveAccount 'Microsoft.CognitiveServices/accounts@2024-04-01-previ
   kind: 'TextAnalytics'
   properties: {
     customSubDomainName: cognitiveAccountName
+    disableLocalAuth: supportsSafeSecretStandard
   }
 }
 
@@ -29,6 +30,7 @@ resource cognitiveRoleAssignment 'Microsoft.Authorization/roleAssignments@2022-0
   }
 }
 
-output LANGUAGE_API_KEY string = listKeys(cognitiveAccount.id, cognitiveApiVersion).key1
-output LANGUAGE_API_KEY_ALT string = listKeys(cognitiveAccount.id, cognitiveApiVersion).key2
-output ENDPOINT string = cognitiveAccount.properties.endpoint
+output SUBSCRIPTION_ID string = subscription().subscriptionId
+output RESOURCE_GROUP string = resourceGroup().name
+output COGNITIVE_ACCOUNT_NAME string = cognitiveAccount.name
+output LANGUAGE_ENDPOINT string = cognitiveAccount.properties.endpoint

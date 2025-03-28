@@ -45,8 +45,15 @@ function findResourceLocation(inputs: {
   location?: string;
   requestPath?: string;
   resourceLocationConfig?: ResourceLocationConfig;
+  skipFinalGet?: boolean;
 }): string | undefined {
-  const { location, requestMethod, requestPath, resourceLocationConfig } = inputs;
+  const { location, requestMethod, requestPath, resourceLocationConfig, skipFinalGet } = inputs;
+
+  // If skipFinalGet is true, return undefined to skip the final GET request
+  if (skipFinalGet) {
+    return undefined;
+  }
+
   switch (requestMethod) {
     case "PUT": {
       return requestPath;
@@ -82,6 +89,7 @@ function findResourceLocation(inputs: {
 export function inferLroMode(
   rawResponse: RawResponse,
   resourceLocationConfig?: ResourceLocationConfig,
+  skipFinalGet?: boolean,
 ): (OperationConfig & { mode: HttpOperationMode }) | undefined {
   const requestPath = rawResponse.request.url;
   const requestMethod = rawResponse.request.method;
@@ -99,6 +107,7 @@ export function inferLroMode(
         location,
         requestPath,
         resourceLocationConfig,
+        skipFinalGet,
       }),
       initialRequestUrl: requestPath,
       requestMethod,

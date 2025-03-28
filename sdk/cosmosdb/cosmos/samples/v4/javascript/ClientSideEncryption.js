@@ -121,7 +121,7 @@ async function run() {
   // use EncryptionQueryBuilder to create query with encrypted parameter
   const queryBuilder1 = new EncryptionQueryBuilder("SELECT * FROM c WHERE c.ssn = @ssn");
   // add string parameter to query
-  queryBuilder1.addStringParameter("@ssn", item2.ssn, "/ssn");
+  queryBuilder1.addParameter("@ssn", item2.ssn, "/ssn");
   // use getEncryptionQueryIterator to get the iterator with encrypted parameters
   const iterator1 = await container.items.getEncryptionQueryIterator(queryBuilder1);
   const { resources: result1 } = await iterator1.fetchAll();
@@ -130,7 +130,7 @@ async function run() {
   logStep("Query with object parameter");
   const queryBuilder2 = new EncryptionQueryBuilder("SELECT * FROM c WHERE c.salary = @salary");
   // add object parameter to query
-  queryBuilder2.addObjectParameter("@salary", item1.salary, "/salary");
+  queryBuilder2.addParameter("@salary", item1.salary, "/salary");
   const iterator2 = await container.items.getEncryptionQueryIterator(queryBuilder2);
   const { resources: result2 } = await iterator2.fetchAll();
   console.log(`Query results: `, result2);
