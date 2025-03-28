@@ -32,7 +32,7 @@ npm install @azure/ai-form-recognizer
 ```ts snippet:ReadmeSampleCreateClient_Node
 import { DefaultAzureCredential } from "@azure/identity";
 import { DocumentAnalysisClient } from "@azure/ai-form-recognizer";
-import { createReadStream } from "node:fs";
+import { DefaultAzureCredential } from "@azure/identity";import { createReadStream } from "node:fs";
 
 const credential = new DefaultAzureCredential();
 const client = new DocumentAnalysisClient(
@@ -108,7 +108,7 @@ az cognitiveservices account keys list --resource-group <your-resource-group-nam
 Once you have an API key and endpoint, you can use it as follows:
 
 ```ts snippet:ReadmeSampleCreateClient_KeyCredential
-import { AzureKeyCredential, DocumentAnalysisClient } from "@azure/ai-form-recognizer";
+import { DocumentAnalysisClient } from "@azure/ai-form-recognizer";
 
 const credential = new AzureKeyCredential("<API key>");
 const client = new DocumentAnalysisClient(
@@ -132,7 +132,7 @@ Set the values of the client ID, tenant ID, and client secret of the AAD applica
 ```ts snippet:ReadmeSampleCreateClient_TokenCredential
 import { DefaultAzureCredential } from "@azure/identity";
 import { DocumentAnalysisClient } from "@azure/ai-form-recognizer";
-
+import { DefaultAzureCredential } from "@azure/identity";
 const credential = new DefaultAzureCredential();
 const client = new DocumentAnalysisClient(
   "https://<resource name>.cognitiveservices.azure.com",
@@ -189,7 +189,7 @@ The `beginAnalyzeDocument` method can extract fields and table data from documen
 ```ts snippet:ReadmeSampleAnalyzeDocumentWithModelId
 import { DefaultAzureCredential } from "@azure/identity";
 import { DocumentAnalysisClient } from "@azure/ai-form-recognizer";
-import { createReadStream } from "node:fs";
+import { DefaultAzureCredential } from "@azure/identity";import { createReadStream } from "node:fs";
 
 const credential = new DefaultAzureCredential();
 const client = new DocumentAnalysisClient(
@@ -250,7 +250,7 @@ Since the main benefit of `DocumentModel`-based analysis is stronger TypeScript 
 ```ts snippet:ReadmeSamplePrebuiltReceipt
 import { DefaultAzureCredential } from "@azure/identity";
 import { DocumentAnalysisClient } from "@azure/ai-form-recognizer";
-import { createReadStream } from "node:fs";
+import { DefaultAzureCredential } from "@azure/identity";import { createReadStream } from "node:fs";
 import { PrebuiltReceiptModel } from "../samples-dev/prebuilt/prebuilt-receipt.js";
 
 const credential = new DefaultAzureCredential();
@@ -327,7 +327,7 @@ Since the main benefit of `DocumentModel`-based analysis is stronger TypeScript 
 ```ts snippet:ReadmeSamplePrebuiltLayout
 import { DefaultAzureCredential } from "@azure/identity";
 import { DocumentAnalysisClient } from "@azure/ai-form-recognizer";
-import { createReadStream } from "node:fs";
+import { DefaultAzureCredential } from "@azure/identity";import { createReadStream } from "node:fs";
 import { PrebuiltLayoutModel } from "../samples-dev/prebuilt/prebuilt-layout.js";
 
 const credential = new DefaultAzureCredential();
@@ -363,7 +363,7 @@ Since the main benefit of `DocumentModel`-based analysis is stronger TypeScript 
 ```ts snippet:ReadmeSamplePrebuiltDocument
 import { DefaultAzureCredential } from "@azure/identity";
 import { DocumentAnalysisClient } from "@azure/ai-form-recognizer";
-import { createReadStream } from "node:fs";
+import { DefaultAzureCredential } from "@azure/identity";import { createReadStream } from "node:fs";
 import { PrebuiltDocumentModel } from "../samples-dev/prebuilt/prebuilt-document.js";
 
 const credential = new DefaultAzureCredential();
@@ -401,7 +401,7 @@ Since the main benefit of `DocumentModel`-based analysis is stronger TypeScript 
 ```ts snippet:ReadmeSamplePrebuiltRead
 import { DefaultAzureCredential } from "@azure/identity";
 import { DocumentAnalysisClient } from "@azure/ai-form-recognizer";
-import { createReadStream } from "node:fs";
+import { DefaultAzureCredential } from "@azure/identity";import { createReadStream } from "node:fs";
 import { PrebuiltReadModel } from "../samples-dev/prebuilt/prebuilt-read.js";
 
 const credential = new DefaultAzureCredential();
@@ -472,7 +472,7 @@ The following sample shows how to classify a document using a custom classifier:
 ```ts snippet:ReadmeSampleClassifyDocument
 import { DefaultAzureCredential } from "@azure/identity";
 import { DocumentAnalysisClient } from "@azure/ai-form-recognizer";
-
+import { DefaultAzureCredential } from "@azure/identity";
 const credential = new DefaultAzureCredential();
 const client = new DocumentAnalysisClient(
   "https://<resource name>.cognitiveservices.azure.com",

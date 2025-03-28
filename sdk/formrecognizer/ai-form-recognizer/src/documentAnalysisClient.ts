@@ -43,7 +43,7 @@ import type { ClassifyDocumentOptions } from "./options/ClassifyDocumentOptions.
  * ```ts snippet:ReadmeSampleCreateClient_TokenCredential
  * import { DefaultAzureCredential } from "@azure/identity";
  * import { DocumentAnalysisClient } from "@azure/ai-form-recognizer";
- *
+import { DefaultAzureCredential } from "@azure/identity"; *
  * const credential = new DefaultAzureCredential();
  * const client = new DocumentAnalysisClient(
  *   "https://<resource name>.cognitiveservices.azure.com",
@@ -54,7 +54,7 @@ import type { ClassifyDocumentOptions } from "./options/ClassifyDocumentOptions.
  * #### API Key (Subscription Key)
  *
  * ```ts snippet:ReadmeSampleCreateClient_KeyCredential
- * import { AzureKeyCredential, DocumentAnalysisClient } from "@azure/ai-form-recognizer";
+ * import { DocumentAnalysisClient } from "@azure/ai-form-recognizer";
  *
  * const credential = new AzureKeyCredential("<API key>");
  * const client = new DocumentAnalysisClient(
@@ -78,7 +78,7 @@ export class DocumentAnalysisClient {
    * ```ts snippet:ReadmeSampleCreateClient_TokenCredential
    * import { DefaultAzureCredential } from "@azure/identity";
    * import { DocumentAnalysisClient } from "@azure/ai-form-recognizer";
-   *
+import { DefaultAzureCredential } from "@azure/identity";   *
    * const credential = new DefaultAzureCredential();
    * const client = new DocumentAnalysisClient(
    *   "https://<resource name>.cognitiveservices.azure.com",
@@ -101,7 +101,7 @@ export class DocumentAnalysisClient {
    * ### Example:
    *
    * ```ts snippet:ReadmeSampleCreateClient_KeyCredential
-   * import { AzureKeyCredential, DocumentAnalysisClient } from "@azure/ai-form-recognizer";
+   * import { DocumentAnalysisClient } from "@azure/ai-form-recognizer";
    *
    * const credential = new AzureKeyCredential("<API key>");
    * const client = new DocumentAnalysisClient(
@@ -161,7 +161,7 @@ export class DocumentAnalysisClient {
    * ```ts snippet:ReadmeSamplePrebuiltReceipt
    * import { DefaultAzureCredential } from "@azure/identity";
    * import { DocumentAnalysisClient } from "@azure/ai-form-recognizer";
-   * import { createReadStream } from "node:fs";
+import { DefaultAzureCredential } from "@azure/identity";   * import { createReadStream } from "node:fs";
    * import { PrebuiltReceiptModel } from "../samples-dev/prebuilt/prebuilt-receipt.js";
    *
    * const credential = new DefaultAzureCredential();
@@ -236,7 +236,7 @@ export class DocumentAnalysisClient {
    * ```ts snippet:ReadmeSamplePrebuiltReceipt
    * import { DefaultAzureCredential } from "@azure/identity";
    * import { DocumentAnalysisClient } from "@azure/ai-form-recognizer";
-   * import { createReadStream } from "node:fs";
+import { DefaultAzureCredential } from "@azure/identity";   * import { createReadStream } from "node:fs";
    * import { PrebuiltReceiptModel } from "../samples-dev/prebuilt/prebuilt-receipt.js";
    *
    * const credential = new DefaultAzureCredential();
@@ -399,7 +399,7 @@ export class DocumentAnalysisClient {
    * ```ts snippet:ReadmeSampleReceiptPrebuilt_URL
    * import { DefaultAzureCredential } from "@azure/identity";
    * import { DocumentAnalysisClient } from "@azure/ai-form-recognizer";
-   * import { PrebuiltReceiptModel } from "../samples-dev/prebuilt/prebuilt-receipt.js";
+import { DefaultAzureCredential } from "@azure/identity";   * import { PrebuiltReceiptModel } from "../samples-dev/prebuilt/prebuilt-receipt.js";
    *
    * const credential = new DefaultAzureCredential();
    * const client = new DocumentAnalysisClient(
@@ -537,7 +537,7 @@ export class DocumentAnalysisClient {
    * ```ts snippet:ReadmeSampleClassifyDocument_File
    * import { DefaultAzureCredential } from "@azure/identity";
    * import { DocumentAnalysisClient } from "@azure/ai-form-recognizer";
-   * import { createReadStream } from "node:fs";
+import { DefaultAzureCredential } from "@azure/identity";   * import { createReadStream } from "node:fs";
    *
    * const credential = new DefaultAzureCredential();
    * const client = new DocumentAnalysisClient(
@@ -600,7 +600,7 @@ export class DocumentAnalysisClient {
    * ```ts snippet:ReadmeSampleClassifyDocument
    * import { DefaultAzureCredential } from "@azure/identity";
    * import { DocumentAnalysisClient } from "@azure/ai-form-recognizer";
-   *
+import { DefaultAzureCredential } from "@azure/identity";   *
    * const credential = new DefaultAzureCredential();
    * const client = new DocumentAnalysisClient(
    *   "https://<resource name>.cognitiveservices.azure.com",
