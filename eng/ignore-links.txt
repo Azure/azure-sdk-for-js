@@ -21,4 +21,5 @@ https://learn.microsoft.com/javascript/api/@azure/arm-pineconevectordb?view=azur
 https://learn.microsoft.com/javascript/api/@azure/arm-databasewatcher?view=azure-node-preview
 https://learn.microsoft.com/javascript/api/@azure/arm-arizeaiobservabilityeval?view=azure-node-preview
 https://learn.microsoft.com/javascript/api/@azure/arm-impactreporting?view=azure-node-preview
+https://learn.microsoft.com/javascript/api/@azure/arm-migrationassessment?view=azure-node-preview
 https://learn.microsoft.com/javascript/api/@azure/arm-weightsandbiases?view=azure-node-preview

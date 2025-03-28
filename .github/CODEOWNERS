@@ -730,6 +730,9 @@ sdk/ai/ai-projects @ganeshyb @GraceBrigham
 /sdk/migrate/arm-migrate/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/migrate/arm-migrationassessment/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/mixedreality/arm-mixedreality/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
