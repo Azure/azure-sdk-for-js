@@ -7,10 +7,10 @@ import type {
   BrowserSdkLoaderOptions,
   AzureMonitorOpenTelemetryOptions,
   InstrumentationOptions,
-} from "../types";
+} from "../types.js";
 import type { AzureMonitorExporterOptions } from "@azure/monitor-opentelemetry-exporter";
-import { JsonConfig } from "./jsonConfig";
-import { Logger } from "./logging";
+import { JsonConfig } from "./jsonConfig.js";
+import { Logger } from "./logging/index.js";
 import {
   azureAppServiceDetector,
   azureFunctionsDetector,

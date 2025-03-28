@@ -878,10 +878,10 @@ index 56cb7b8..da27584 100644
  
  export const apiVersionPolicyName = "ApiVersionPolicy";
 diff --git a/src/client/clientHelpers.ts b/src/client/clientHelpers.ts
-index 30dac33..f7e4696 100644
+index 30dac33..d0a5cc1 100644
 --- a/src/client/clientHelpers.ts
 +++ b/src/client/clientHelpers.ts
-@@ -1,84 +1,47 @@
+@@ -1,84 +1,55 @@
  // Copyright (c) Microsoft Corporation.
  // Licensed under the MIT License.
  
@@ -974,16 +974,24 @@ index 30dac33..f7e4696 100644
  
 -  addCredentialPipelinePolicy(pipeline, endpoint, { credential, clientOptions: options });
 -  return pipeline;
-+  const { credential, authSchemes } = options;
++  const { credential, authSchemes, allowInsecureConnection } = options;
 +  if (credential) {
 +    if (isApiKeyCredential(credential)) {
-+      pipeline.addPolicy(apiKeyAuthenticationPolicy({ authSchemes, credential }));
++      pipeline.addPolicy(
++        apiKeyAuthenticationPolicy({ authSchemes, credential, allowInsecureConnection }),
++      );
 +    } else if (isBasicCredential(credential)) {
-+      pipeline.addPolicy(basicAuthenticationPolicy({ authSchemes, credential }));
++      pipeline.addPolicy(
++        basicAuthenticationPolicy({ authSchemes, credential, allowInsecureConnection }),
++      );
 +    } else if (isBearerTokenCredential(credential)) {
-+      pipeline.addPolicy(bearerAuthenticationPolicy({ authSchemes, credential }));
++      pipeline.addPolicy(
++        bearerAuthenticationPolicy({ authSchemes, credential, allowInsecureConnection }),
++      );
 +    } else if (isOAuth2TokenCredential(credential)) {
-+      pipeline.addPolicy(oauth2AuthenticationPolicy({ authSchemes, credential }));
++      pipeline.addPolicy(
++        oauth2AuthenticationPolicy({ authSchemes, credential, allowInsecureConnection }),
++      );
 +    }
    }
  
@@ -1465,7 +1473,7 @@ index 4ee4778..dc3b0f5 100644
      onUploadProgress: options.onUploadProgress,
      onDownloadProgress: options.onDownloadProgress,
 diff --git a/src/constants.ts b/src/constants.ts
-index 201ff0d..3eafcb9 100644
+index 201ff0d..248a49a 100644
 --- a/src/constants.ts
 +++ b/src/constants.ts
 @@ -1,6 +1,6 @@
@@ -1473,7 +1481,7 @@ index 201ff0d..3eafcb9 100644
  // Licensed under the MIT License.
  
 -export const SDK_VERSION: string = "1.19.2";
-+export const SDK_VERSION: string = "0.2.0";
++export const SDK_VERSION: string = "0.2.1";
  
  export const DEFAULT_RETRY_POLICY_COUNT = 3;
 diff --git a/src/createPipelineFromOptions.ts b/src/createPipelineFromOptions.ts
@@ -2294,10 +2302,10 @@ index 0000000..d7e8010
 +}
 diff --git a/src/policies/auth/checkInsecureConnection.ts b/src/policies/auth/checkInsecureConnection.ts
 new file mode 100644
-index 0000000..094750a
+index 0000000..704f486
 --- /dev/null
 +++ b/src/policies/auth/checkInsecureConnection.ts
-@@ -0,0 +1,66 @@
+@@ -0,0 +1,65 @@
 +// Copyright (c) Microsoft Corporation.
 +// Licensed under the MIT License.
 +
@@ -2330,13 +2338,12 @@ index 0000000..094750a
 +}
 +
 +/**
-+ * Logs a warning about sending a bearer token over an insecure connection.
++ * Logs a warning about sending a token over an insecure connection.
 + *
 + * This function will emit a node warning once, but log the warning every time.
 + */
 +function emitInsecureConnectionWarning(): void {
-+  const warning =
-+    "Sending bearer token over insecure transport. Assume any token issued is compromised.";
++  const warning = "Sending token over insecure transport. Assume any token issued is compromised.";
 +
 +  logger.warning(warning);
 +

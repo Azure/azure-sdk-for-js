@@ -30,13 +30,12 @@ function allowInsecureConnection(
 }
 
 /**
- * Logs a warning about sending a bearer token over an insecure connection.
+ * Logs a warning about sending a token over an insecure connection.
  *
  * This function will emit a node warning once, but log the warning every time.
  */
 function emitInsecureConnectionWarning(): void {
-  const warning =
-    "Sending bearer token over insecure transport. Assume any token issued is compromised.";
+  const warning = "Sending token over insecure transport. Assume any token issued is compromised.";
 
   logger.warning(warning);
 
