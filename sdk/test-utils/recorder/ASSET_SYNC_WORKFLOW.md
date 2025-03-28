@@ -88,26 +88,26 @@ After onboarding your new package or after migrating your package to the asset-s
 
 ```mermaid
 graph TD
-    subgraph p3 [Asset sync]
-        subgraph p4 [Push recordings to azure-sdk-assets repo]
+    subgraph p3 [Asset Sync]
+        subgraph p4 [Push to Assets Repo]
             push[npx dev-tool test-proxy push]
         end
-        p4-->assets[Commit <code>assets.json</code> change]
+        p4-->assets[Commit assets.json]
     end
 
-    assets --> pr[Push branch and create PR]
+    assets --> pr[Create PR]
 
-    subgraph p2 [Inspect recordings and test in playback]
-        playback[TEST_MODE=playback rushx test]
+    subgraph p2 [Verify in Playback]
+        playback[TEST_MODE=playback<br>rushx test]
     end
 
-    subgraph p1 [Record tests]
-        record[TEST_MODE=record rushx test]
+    subgraph p1 [Record Tests]
+        record[TEST_MODE=record<br>rushx test]
     end
 
     p1 --> p2
-    p2 -- Tests don't work re-record --> p1
-    p2 -- Tests pass in playback; and are properly sanitized --> p4
+    p2 -- Failures --> p1
+    p2 -- Success --> p4
 
 
     classDef green fill:#548235,stroke:#333,stroke-width:2px
