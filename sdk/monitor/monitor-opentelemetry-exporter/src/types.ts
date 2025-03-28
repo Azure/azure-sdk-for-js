@@ -197,3 +197,9 @@ export const httpSemanticValues = [
   ATTR_EXCEPTION_MESSAGE,
   ATTR_EXCEPTION_STACKTRACE,
 ];
+
+/**
+ * Internal Microsoft attributes
+ * @internal
+ */
+export const internalMicrosoftAttributes = ["_MS.ProcessedByMetricExtractors"];
