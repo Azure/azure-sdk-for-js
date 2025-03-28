@@ -6,7 +6,11 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
+  VirtualMachineImage,
+  Expand,
+  VirtualMachineImagesListWithPropertiesOptionalParams,
   VirtualMachineImagesGetOptionalParams,
   VirtualMachineImagesGetResponse,
   VirtualMachineImagesListOptionalParams,
@@ -21,8 +25,25 @@ import {
   VirtualMachineImagesListByEdgeZoneResponse,
 } from "../models/index.js";
 
+/// <reference lib="esnext.asynciterable" />
 /** Interface representing a VirtualMachineImages. */
 export interface VirtualMachineImages {
+  /**
+   * @param location The name of a supported Azure region.
+   * @param publisherName A valid image publisher.
+   * @param offer A valid image publisher offer.
+   * @param skus A valid image SKU.
+   * @param expand The expand expression to apply on the operation.
+   * @param options The options parameters.
+   */
+  listWithProperties(
+    location: string,
+    publisherName: string,
+    offer: string,
+    skus: string,
+    expand: Expand,
+    options?: VirtualMachineImagesListWithPropertiesOptionalParams,
+  ): PagedAsyncIterableIterator<VirtualMachineImage>;
   /**
    * Gets a virtual machine image.
    * @param location The name of a supported Azure region.
