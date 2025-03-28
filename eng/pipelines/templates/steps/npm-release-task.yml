@@ -4,13 +4,35 @@ parameters:
   PathToArtifacts: ''
   Tag: ''
   AdditionalTag: ''
+  DependsOn: []
 
-steps:
+jobs:
+- job: PublishPackage
+  dependsOn: ${{ parameters.DependsOn }}
+  condition: succeeded()
+  templateContext:
+    type: releaseJob
+    isProduction: ${{ eq(parameters.Registry, 'https://registry.npmjs.org/') }}
+    inputs:
+    - input: pipelineArtifact
+      artifactName: packages
+      targetPath: $(Pipeline.Workspace)
+  pool:
+    name: azsdk-pool-mms-ubuntu-2004-general
+    image: azsdk-pool-mms-ubuntu-2004-1espt
+    os: linux
+  displayName: 'Publish ${{parameters.Artifact.name}} to ${{parameters.Registry}}'
+  steps:
   - template: /eng/common/pipelines/templates/steps/set-default-branch.yml
 
   - ${{ if eq(parameters.Registry, 'https://registry.npmjs.org/') }}:
     - pwsh: |
+        write-host "${{parameters.PathToArtifacts}}"
+        ls "${{parameters.PathToArtifacts}}"
+        write-host "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
         $tarFile = (Get-ChildItem -Path "${{parameters.PathToArtifacts}}/*.tgz").FullName
+        write-host "Tar file: $tarFile"
+
         $tempDir = "$(System.DefaultWorkingDirectory)/temp_decompress"
         New-Item -ItemType Directory -Force -Path $tempDir
         tar -xzf $tarFile -C $tempDir
