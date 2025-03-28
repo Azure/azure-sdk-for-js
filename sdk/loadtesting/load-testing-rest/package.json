@@ -2,7 +2,7 @@
   "name": "@azure-rest/load-testing",
   "sdk-type": "client",
   "author": "Microsoft Corporation",
-  "version": "1.0.1",
+  "version": "1.1.0-beta.1",
   "description": "This package contains Microsoft Azure LoadTestingClient client library.",
   "keywords": [
     "node",
@@ -26,12 +26,13 @@
     "LICENSE"
   ],
   "//sampleConfiguration": {
-    "productName": "Azure Load Testing rest",
+    "productName": "Azure Load Testing",
     "productSlugs": [
-      "azure"
+      "azure",
+      "azure-load-testing"
     ],
     "requiredResources": {
-      "Azure LoadTesting Service instance": "https://learn.microsoft.com/azure/load-testing/"
+      "Azure Load Testing Resource": "https://learn.microsoft.com/azure/load-testing/"
     }
   },
   "engines": {

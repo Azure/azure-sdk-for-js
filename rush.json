@@ -780,7 +780,7 @@
     },
     {
       "packageName": "@azure-tests/perf-data-tables",
-      "projectFolder": "sdk/tables/perf-tests/data-tables",
+      "projectFolder": "sdk/tables/data-tables-perf-tests",
       "versionPolicyName": "test"
     },
     {
@@ -840,22 +840,22 @@
     },
     {
       "packageName": "@azure-tests/perf-ai-form-recognizer",
-      "projectFolder": "sdk/formrecognizer/perf-tests/ai-form-recognizer",
+      "projectFolder": "sdk/formrecognizer/ai-form-recognizer-perf-tests",
       "versionPolicyName": "test"
     },
     {
       "packageName": "@azure-tests/perf-eventgrid",
-      "projectFolder": "sdk/eventgrid/perf-tests/eventgrid",
+      "projectFolder": "sdk/eventgrid/eventgrid-perf-tests",
       "versionPolicyName": "test"
     },
     {
       "packageName": "@azure-tests/perf-ai-text-analytics",
-      "projectFolder": "sdk/textanalytics/perf-tests/ai-text-analytics",
+      "projectFolder": "sdk/textanalytics/ai-text-analytics-perf-tests",
       "versionPolicyName": "test"
     },
     {
       "packageName": "@azure-tests/perf-ai-language-text",
-      "projectFolder": "sdk/cognitivelanguage/perf-tests/ai-language-text",
+      "projectFolder": "sdk/cognitivelanguage/ai-language-text-perf-tests",
       "versionPolicyName": "test"
     },
     {
@@ -875,17 +875,17 @@
     },
     {
       "packageName": "@azure-tests/perf-keyvault-keys",
-      "projectFolder": "sdk/keyvault/perf-tests/keyvault-keys",
+      "projectFolder": "sdk/keyvault/keyvault-keys-perf-tests",
       "versionPolicyName": "test"
     },
     {
       "packageName": "@azure-tests/perf-keyvault-certificates",
-      "projectFolder": "sdk/keyvault/perf-tests/keyvault-certificates",
+      "projectFolder": "sdk/keyvault/keyvault-certificates-perf-tests",
       "versionPolicyName": "test"
     },
     {
       "packageName": "@azure-tests/perf-keyvault-secrets",
-      "projectFolder": "sdk/keyvault/perf-tests/keyvault-secrets",
+      "projectFolder": "sdk/keyvault/keyvault-secrets-perf-tests",
       "versionPolicyName": "test"
     },
     {
@@ -895,12 +895,12 @@
     },
     {
       "packageName": "@azure-tests/perf-service-bus",
-      "projectFolder": "sdk/servicebus/perf-tests/service-bus",
+      "projectFolder": "sdk/servicebus/service-bus-perf-tests",
       "versionPolicyName": "test"
     },
     {
       "packageName": "@azure-tests/perf-event-hubs",
-      "projectFolder": "sdk/eventhub/perf-tests/event-hubs",
+      "projectFolder": "sdk/eventhub/event-hubs-perf-tests",
       "versionPolicyName": "test"
     },
     {
@@ -920,27 +920,27 @@
     },
     {
       "packageName": "@azure-tests/perf-search-documents",
-      "projectFolder": "sdk/search/perf-tests/search-documents",
+      "projectFolder": "sdk/search/search-documents-perf-tests",
       "versionPolicyName": "test"
     },
     {
       "packageName": "@azure-tests/perf-ai-metrics-advisor",
-      "projectFolder": "sdk/metricsadvisor/perf-tests/ai-metrics-advisor",
+      "projectFolder": "sdk/metricsadvisor/ai-metrics-advisor-perf-tests",
       "versionPolicyName": "test"
     },
     {
       "packageName": "@azure-tests/perf-container-registry",
-      "projectFolder": "sdk/containerregistry/perf-tests/container-registry",
+      "projectFolder": "sdk/containerregistry/container-registry-perf-tests",
       "versionPolicyName": "test"
     },
     {
       "packageName": "@azure-tests/perf-core-rest-pipeline",
-      "projectFolder": "sdk/core/perf-tests/core-rest-pipeline",
+      "projectFolder": "sdk/core/core-rest-pipeline-perf-tests",
       "versionPolicyName": "test"
     },
     {
       "packageName": "@azure-tests/perf-app-configuration",
-      "projectFolder": "sdk/appconfiguration/perf-tests/app-configuration",
+      "projectFolder": "sdk/appconfiguration/app-configuration-perf-tests",
       "versionPolicyName": "test"
     },
     {
@@ -960,7 +960,7 @@
     },
     {
       "packageName": "@azure-tests/perf-schema-registry-avro",
-      "projectFolder": "sdk/schemaregistry/perf-tests/schema-registry-avro",
+      "projectFolder": "sdk/schemaregistry/schema-registry-avro-perf-tests",
       "versionPolicyName": "test"
     },
     {
