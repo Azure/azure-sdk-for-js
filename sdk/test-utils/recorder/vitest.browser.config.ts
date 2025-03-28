@@ -4,6 +4,7 @@
 import { defineConfig } from "vitest/config";
 import browserMap from "@azure-tools/vite-plugin-browser-test-map";
 import { relativeRecordingsPath } from "./src";
+import { AzureSDKReporter } from "../../../vitest.shared.config.js";
 
 process.env.RECORDINGS_RELATIVE_PATH = relativeRecordingsPath();
 
@@ -13,7 +14,7 @@ export default defineConfig({
   },
   plugins: [browserMap()],
   test: {
-    reporters: ["verbose", "junit"],
+    reporters: [new AzureSDKReporter(), "junit"],
     outputFile: {
       junit: "test-results.browser.xml",
     },

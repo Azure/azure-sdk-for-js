@@ -3,7 +3,7 @@
   "sdk-type": "client",
   "author": "Microsoft Corporation",
   "description": "Azure client library for Azure Communication Rooms services",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "engines": {
     "node": ">=18.0.0"
   },
@@ -92,7 +92,7 @@
   "//metadata": {
     "constantPaths": [
       {
-        "path": "src/generated/src/roomsApiClient.ts",
+        "path": "src/generated/src/roomsRestClient.ts",
         "prefix": "packageDetails"
       },
       {
