@@ -3057,7 +3057,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-migrationassessment@file:projects/arm-migrationassessment.tgz':
-    resolution: {integrity: sha512-MokiZvVfjDHsLf3nvUE9QGsEPUKw7HlFMGrgqPlDc8i7Y5zDSb9LsmLLw6VYYKy7H6wO2E7ojjDBk9l/sIo50A==, tarball: file:projects/arm-migrationassessment.tgz}
+    resolution: {integrity: sha512-FzTCOaxRIYfAvm4AucEGasNkq1i+wDB2JvbjkvuSkCJqFr+7yLhKTvvw8DKGKlJ0iIrF3PaG/5LzH7kbE68ieg==, tarball: file:projects/arm-migrationassessment.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-migrationdiscoverysap@file:projects/arm-migrationdiscoverysap.tgz':
@@ -15396,12 +15396,12 @@ snapshots:
     dependencies:
       '@azure/core-lro': 2.7.2
       '@types/node': 18.19.84
-      '@vitest/browser': 3.0.9(@types/node@18.19.84)(playwright@1.51.1)(typescript@5.6.3)(vite@6.2.3(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.9)
+      '@vitest/browser': 3.0.9(@types/node@18.19.84)(playwright@1.51.1)(typescript@5.8.2)(vite@6.2.3(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.9)
       '@vitest/coverage-istanbul': 3.0.9(vitest@3.0.9)
       dotenv: 16.4.7
       playwright: 1.51.1
       tslib: 2.8.1
-      typescript: 5.6.3
+      typescript: 5.8.2
       vitest: 3.0.9(@types/debug@4.1.12)(@types/node@18.19.84)(@vitest/browser@3.0.9)(msw@2.7.3(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(yaml@2.7.0)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
