@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
-import type { Response } from "../../request";
-import type { ExecutionContext } from "../ExecutionContext";
-import { getInitialHeader, mergeHeaders } from "../headerUtils";
+import type { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal.js";
+import type { Response } from "../../request/index.js";
+import type { ExecutionContext } from "../ExecutionContext.js";
+import { getInitialHeader, mergeHeaders } from "../headerUtils.js";
 
 /** @hidden */
 export class OffsetLimitEndpointComponent implements ExecutionContext {

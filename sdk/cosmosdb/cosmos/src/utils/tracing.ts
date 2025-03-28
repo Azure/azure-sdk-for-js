@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { createTracingClient } from "@azure/core-tracing";
-import { Constants } from "../common/constants";
+import { Constants } from "../common/constants.js";
 
 /**
  * Global tracing client for this package.

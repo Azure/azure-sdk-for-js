@@ -1,14 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * @summary Demonstrates using a ChangeFeed in AllVersionsAndDeletes mode for entire container, a partition key, and an epk range
- */
-
-import * as dotenv from "dotenv";
-dotenv.config();
-
-import { finish, handleError, logSampleHeader, logStep } from "../Shared/handleError";
+import "dotenv/config";
+import { finish, handleError, logSampleHeader, logStep } from "../Shared/handleError.js";
 import {
   CosmosClient,
   PartitionKeyDefinitionVersion,
@@ -87,7 +81,7 @@ async function run(): Promise<void> {
   }
 }
 
-async function ingestData(container: Container, initialize: number, end: number) {
+async function ingestData(container: Container, initialize: number, end: number): Promise<void> {
   for (let i = initialize; i <= end; i++) {
     await container.items.create({ id: `item${i}`, name: `sample1`, key: i });
     await container.items.create({ id: `item${i}`, name: `sample2`, key: i });
@@ -97,7 +91,7 @@ async function ingestData(container: Container, initialize: number, end: number)
   console.log(`ingested items with id - item${initialize} and id - item${end}`);
 }
 
-async function insertAndModifyData(container: Container, initialize: number, end: number) {
+async function insertAndModifyData(container: Container, initialize: number, end: number): Promise<void> {
   await ingestData(container, initialize, end);
   await container.items.upsert({ id: `item${initialize}`, name: `sample1`, key: initialize + 1 });
   console.log(`upserted item with id - item${initialize} and partition key - sample1`);

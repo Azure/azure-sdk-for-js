@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ChangeFeedStartFrom } from "./ChangeFeedStartFrom";
-import type { ChangeFeedMode } from "./ChangeFeedMode";
+import type { ChangeFeedStartFrom } from "./ChangeFeedStartFrom.js";
+import type { ChangeFeedMode } from "./ChangeFeedMode.js";
 /**
  * Specifies options for the change feed
  *

@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { Constants } from "../common/constants";
-import type { RetryOptions } from "../retry/retryOptions";
-import { ConnectionMode } from "./ConnectionMode";
+import { Constants } from "../common/constants.js";
+import type { RetryOptions } from "../retry/retryOptions.js";
+import { ConnectionMode } from "./ConnectionMode.js";
 /**
  * Represents the Connection policy associated with a CosmosClient in the Azure Cosmos DB database service.
  */

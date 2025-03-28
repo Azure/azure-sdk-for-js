@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { OrderByDocumentProducerComparator } from "../orderByDocumentProducerComparator";
-import type { Aggregator } from "./Aggregator";
+import { OrderByDocumentProducerComparator } from "../orderByDocumentProducerComparator.js";
+import type { Aggregator } from "./Aggregator.js";
 
 export interface MinAggregateResult {
   min: number;

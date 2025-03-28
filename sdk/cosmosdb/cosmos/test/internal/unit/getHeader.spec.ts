@@ -1,11 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import assert from "assert";
-import { Constants } from "../../../src/common/constants";
-import { getHeaders } from "../../../src/request/request";
-import { CosmosHeaders, FeedOptions } from "../../../src";
 
-describe("Test x-ms-documentdb-query-parallelizecrosspartitionquery header value", function () {
+import { Constants } from "../../../src/common/constants.js";
+import { getHeaders } from "../../../src/request/request.js";
+import type { CosmosHeaders, FeedOptions } from "../../../src/index.js";
+import { describe, it, assert } from "vitest";
+
+describe("Test x-ms-documentdb-query-parallelizecrosspartitionquery header value", () => {
   const mockedEndpoint = "https://localhost:8081";
   function getHeadersFunc(feedOptions: FeedOptions): Promise<CosmosHeaders> {
     return getHeaders({
@@ -21,7 +22,8 @@ describe("Test x-ms-documentdb-query-parallelizecrosspartitionquery header value
       partitionKey: null,
     });
   }
-  it("If maxDegreeOfParallelism > 1 then x-ms-documentdb-query-parallelizecrosspartitionquery header should be true", async function () {
+
+  it("If maxDegreeOfParallelism > 1 then x-ms-documentdb-query-parallelizecrosspartitionquery header should be true", async () => {
     const headers = await getHeadersFunc({ maxDegreeOfParallelism: 2 });
     assert.equal(
       headers[Constants.HttpHeaders.ParallelizeCrossPartitionQuery],
@@ -29,7 +31,8 @@ describe("Test x-ms-documentdb-query-parallelizecrosspartitionquery header value
       "incorrect header value",
     );
   });
-  it("If maxDegreeOfParallelism == 0 then x-ms-documentdb-query-parallelizecrosspartitionquery header should be null", async function () {
+
+  it("If maxDegreeOfParallelism == 0 then x-ms-documentdb-query-parallelizecrosspartitionquery header should be null", async () => {
     const headers = await getHeadersFunc({ maxDegreeOfParallelism: 0 });
     assert.equal(
       headers[Constants.HttpHeaders.ParallelizeCrossPartitionQuery],
