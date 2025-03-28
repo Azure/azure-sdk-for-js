@@ -83,7 +83,8 @@ jobs:
       condition: succeeded()
 
 - ${{ if eq(parameters.Registry, 'https://registry.npmjs.org/') }}:
-  - job: Package Tag Verification
+  - job: VerifyPackageTags
+    dependsOn: PublishPackage
     steps:
     - checkout: self
     - task: Powershell@2
