@@ -75,7 +75,6 @@
   - Added Enum KnownVersions
   - Added function restorePoller
   - Type of parameter info of interface ErrorAdditionalInfo is changed from Record<string, unknown> to Record<string, any>
-  - Class HybridConnectivityManagementAPI has a new signature
 
 ### Breaking Changes
 
@@ -104,7 +103,8 @@
   - Class HybridConnectivityManagementAPI no longer has parameter $host
   - Class HybridConnectivityManagementAPI no longer has parameter apiVersion
   - Removed function getContinuationToken
-    
+  - Class HybridConnectivityManagementAPI has a new signature
+
     
 ## 1.0.0 (2023-09-11)
 
