@@ -116,7 +116,7 @@ function convertMicrosoftFabricToolDefinitionOutput(
 ): PublicModels.MicrosoftFabricToolDefinitionOutput {
   return {
     type: "fabric_dataagent",
-    fabricDataAgent :
+    fabricDataAgent:
       input.fabric_dataagent && convertToolConnectionListOutput(input.fabric_dataagent),
   };
 }
@@ -805,7 +805,7 @@ function convertRunStepMicrosoftFabricToolCallOutput(
   return {
     type: input.type,
     id: input.id,
-    fabricDataAgent : input.fabric_dataagent,
+    fabricDataAgent: input.fabric_dataagent,
   };
 }
 

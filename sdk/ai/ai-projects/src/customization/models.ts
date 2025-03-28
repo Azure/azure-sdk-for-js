@@ -121,7 +121,7 @@ export interface MicrosoftFabricToolDefinition extends ToolDefinitionParent {
   /** The object type, which is always 'fabric_dataagent'. */
   type: "fabric_dataagent";
   /** The list of connections used by the Microsoft Fabric tool. */
-  fabricDataAgent : ToolConnectionList;
+  fabricDataAgent: ToolConnectionList;
 }
 
 /** The input definition information for a sharepoint tool as used to configure an agent. */

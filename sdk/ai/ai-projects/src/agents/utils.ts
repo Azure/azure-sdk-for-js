@@ -185,7 +185,7 @@ export class ToolUtility {
     return {
       definition: {
         type: "fabric_dataagent",
-        fabricDataAgent : {
+        fabricDataAgent: {
           connections: [{ connectionId: connectionId }],
         },
       },
