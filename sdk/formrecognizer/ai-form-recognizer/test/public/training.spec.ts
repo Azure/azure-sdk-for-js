@@ -236,7 +236,7 @@ describe.each(authMethods)(`[%s] model management`, (authMethod) => {
 
   // #endregion
 
-  it.only(`compose model (${buildMode})`, async () => {
+  it(`compose model (${buildMode})`, async () => {
     const client = new DocumentModelAdministrationClient(
       getEndpoint(),
       makeCredential(authMethod),
