@@ -394,18 +394,7 @@ If you launch the `recorder` in record mode with some of these changes (and give
 
 This way, you can focus on fixing a specific set of tests with `.only`, then remove all the `.only` calls and trust that the playback will keep confirming that the unaffected tests are fine and green.
 
-You can also skip specific tests with the following.
-
-```js
-import { isLiveMode } from "@azure-tools/test-recorder";
-
-it("test-title", function (context) {
-  // isPlaybackMode() and isRecordMode() methods are also available from recorder.
-  if (!isLiveMode()) this.skip(); // This skips the test in record and playback modes
-  // Test goes here...
-  // ...
-});
-```
+Refer to [#skipping-suites-and-tests](https://vitest.dev/guide/filtering.html#skipping-suites-and-tests) and [#test-skipif](https://vitest.dev/api/#test-skipif) if you want to conditionally skip a test.
 
 ### Supporting parallelism
 
