@@ -44,6 +44,7 @@ import {
 } from "./quickpulse/utils.js";
 import { Logger } from "../shared/logging/logger.js";
 import * as os from "node:os";
+import * as process from "node:process";
 
 export function getRequestDimensions(span: ReadableSpan): Attributes {
   const dimensions: MetricRequestDimensions = getBaseDimensions(span.resource);
@@ -190,21 +191,16 @@ export function getProcessorTimeNormalized(
   lastHrTime: bigint,
   lastCpuUsage: NodeJS.CpuUsage,
 ): number {
-  if (process) {
-    let numCpus = os.cpus().length;
-    const usageDif = process.cpuUsage(lastCpuUsage);
-    const elapsedTimeNs = process.hrtime.bigint() - lastHrTime;
+  let numCpus = os.cpus().length;
+  const usageDif = process.cpuUsage(lastCpuUsage);
+  const elapsedTimeNs = process.hrtime.bigint() - lastHrTime;
 
-    const usageDifMs = (usageDif.user + usageDif.system) / 1000.0;
-    const elapsedTimeMs = elapsedTimeNs === BigInt(0) ? 1 : Number(elapsedTimeNs) / 1000000.0;
-    // just for division safety, don't know a case in which this would actually happen
-    numCpus = numCpus === 0 ? 1 : numCpus;
+  const usageDifMs = (usageDif.user + usageDif.system) / 1000.0;
+  const elapsedTimeMs = elapsedTimeNs === BigInt(0) ? 1 : Number(elapsedTimeNs) / 1000000.0;
+  // just for division safety, don't know a case in which this would actually happen
+  numCpus = numCpus === 0 ? 1 : numCpus;
 
-    return (usageDifMs / elapsedTimeMs / numCpus) * 100;
-  } else {
-    Logger.getInstance().debug("process is not available");
-    return 0;
-  }
+  return (usageDifMs / elapsedTimeMs / numCpus) * 100;
 }
 
 // This function can get the cpu %, but it assumes that after this function is called,
@@ -231,8 +227,8 @@ export function getProcessorTime(lastHrTime: bigint, lastCpuUsage: NodeJS.CpuUsa
 export function getCloudRole(resource: Resource): string {
   let cloudRole = "";
   // Service attributes
-  const serviceName = resource.attributes[SEMRESATTRS_SERVICE_NAME];
-  const serviceNamespace = resource.attributes[SEMRESATTRS_SERVICE_NAMESPACE];
+  const serviceName: string = resource.attributes[SEMRESATTRS_SERVICE_NAME] as string;
+  const serviceNamespace: string = resource.attributes[SEMRESATTRS_SERVICE_NAMESPACE] as string;
   if (serviceName) {
     // Custom Service name provided by customer is highest precedence
     if (!String(serviceName).startsWith("unknown_service")) {

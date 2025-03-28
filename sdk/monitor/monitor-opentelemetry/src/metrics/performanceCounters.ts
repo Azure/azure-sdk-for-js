@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import * as os from "os";
+import * as os from "node:os";
 import type {
   Histogram,
   Meter,
@@ -20,8 +20,9 @@ import { PerformanceCounterMetricNames } from "./types.js";
 import type { AzureMonitorOpenTelemetryOptions } from "../types.js";
 import { getLogData, isExceptionData } from "./quickpulse/utils.js";
 import type { ExceptionData, TraceData } from "./quickpulse/types.js";
-import { LogRecord } from "@opentelemetry/sdk-logs";
+import type { LogRecord } from "@opentelemetry/sdk-logs";
 import { Logger } from "../shared/logging/logger.js";
+import * as process from "node:process";
 
 /**
  * Azure Monitor PerformanceCounter Metrics
@@ -75,7 +76,7 @@ export class PerformanceCounterMetrics {
     this.internalConfig = config;
     this.lastCpus = os.cpus();
     this.lastCpusProcess = os.cpus();
-    this.lastAppCpuUsage = (process as any).cpuUsage();
+    this.lastAppCpuUsage = process.cpuUsage();
     this.lastHrtime = process.hrtime();
 
     this.lastRequestRate = {
@@ -92,7 +93,7 @@ export class PerformanceCounterMetrics {
       this.internalConfig.azureMonitorExporterOptions,
     );
     const metricReaderOptions: PeriodicExportingMetricReaderOptions = {
-      exporter: this.azureExporter as any,
+      exporter: this.azureExporter,
       exportIntervalMillis: options?.collectionInterval || this.collectionInterval,
     };
     this.metricReader = new PeriodicExportingMetricReader(metricReaderOptions);
@@ -222,7 +223,7 @@ export class PerformanceCounterMetrics {
     }
   }
 
-  private getRequestRate(observableResult: ObservableResult) {
+  private getRequestRate(observableResult: ObservableResult): void {
     const currentTime = +new Date();
     const intervalRequests = this.totalCount - this.lastRequestRate.count || 0;
     const elapsedMs = currentTime - this.lastRequestRate.time;
@@ -238,7 +239,7 @@ export class PerformanceCounterMetrics {
     };
   }
 
-  private getPrivateMemory(observableResult: ObservableResult) {
+  private getPrivateMemory(observableResult: ObservableResult): void {
     if (process?.memoryUsage) {
       observableResult.observe(process.memoryUsage().rss);
     } else {
@@ -246,7 +247,7 @@ export class PerformanceCounterMetrics {
     }
   }
 
-  private getAvailableMemory(observableResult: ObservableResult) {
+  private getAvailableMemory(observableResult: ObservableResult): void {
     observableResult.observe(os.freemem());
   }
 
@@ -290,7 +291,7 @@ export class PerformanceCounterMetrics {
     };
   }
 
-  private getProcessorTime(observableResult: ObservableResult) {
+  private getProcessorTime(observableResult: ObservableResult): void {
     // this reports total ms spent in each category since the OS was booted, to calculate percent it is necessary
     // to find the delta since the last measurement
     const cpus = os.cpus();
@@ -306,48 +307,42 @@ export class PerformanceCounterMetrics {
     this.lastCpus = cpus;
   }
 
-  private getNormalizedProcessTime(observableResult: ObservableResult) {
+  private getNormalizedProcessTime(observableResult: ObservableResult): void {
     // this reports total ms spent in each category since the OS was booted, to calculate percent it is necessary
     // to find the delta since the last measurement
-    if (process) {
-      const cpus = os.cpus();
-      if (
-        cpus &&
-        cpus.length &&
-        this.lastCpusProcess &&
-        cpus.length === this.lastCpusProcess.length
-      ) {
-        // Calculate % of total cpu time (user + system) this App Process used (Only supported by node v6.1.0+)
-        let appCpuPercent: number | undefined = undefined;
-        const appCpuUsage = process.cpuUsage();
-        const hrtime = process.hrtime();
-        const totalApp =
-          appCpuUsage.user -
-            this.lastAppCpuUsage.user +
-            (appCpuUsage.system - this.lastAppCpuUsage.system) || 0;
+    const cpus = os.cpus();
+    if (
+      cpus &&
+      cpus.length &&
+      this.lastCpusProcess &&
+      cpus.length === this.lastCpusProcess.length
+    ) {
+      // Calculate % of total cpu time (user + system) this App Process used (Only supported by node v6.1.0+)
+      let appCpuPercent: number | undefined = undefined;
+      const appCpuUsage = process.cpuUsage();
+      const hrtime = process.hrtime();
+      const totalApp =
+        appCpuUsage.user -
+          this.lastAppCpuUsage.user +
+          (appCpuUsage.system - this.lastAppCpuUsage.system) || 0;
 
-        if (typeof this.lastHrtime !== "undefined" && this.lastHrtime.length === 2) {
-          const elapsedTime =
-            (hrtime[0] - this.lastHrtime[0]) * 1e6 + (hrtime[1] - this.lastHrtime[1]) / 1e3 || 0; // convert to microseconds
+      if (typeof this.lastHrtime !== "undefined" && this.lastHrtime.length === 2) {
+        const elapsedTime =
+          (hrtime[0] - this.lastHrtime[0]) * 1e6 + (hrtime[1] - this.lastHrtime[1]) / 1e3 || 0; // convert to microseconds
 
-          appCpuPercent = (100 * totalApp) / (elapsedTime * cpus.length);
-        }
-        // Set previous
-        this.lastAppCpuUsage = appCpuUsage;
-        this.lastHrtime = hrtime;
-        const cpuTotals = this.getTotalCombinedCpu(cpus, this.lastCpusProcess);
-        const value = appCpuPercent || (cpuTotals.totalUser / cpuTotals.combinedTotal) * 100;
-        observableResult.observe(value);
+        appCpuPercent = (100 * totalApp) / (elapsedTime * cpus.length);
       }
-      this.lastCpusProcess = cpus;
-    } else {
-      Logger.getInstance().debug(
-        "Couldn't report Normalized process time. Process is not defined.",
-      );
+      // Set previous
+      this.lastAppCpuUsage = appCpuUsage;
+      this.lastHrtime = hrtime;
+      const cpuTotals = this.getTotalCombinedCpu(cpus, this.lastCpusProcess);
+      const value = appCpuPercent || (cpuTotals.totalUser / cpuTotals.combinedTotal) * 100;
+      observableResult.observe(value);
     }
+    this.lastCpusProcess = cpus;
   }
 
-  private getProcessTime(observableResult: ObservableResult) {
+  private getProcessTime(observableResult: ObservableResult): void {
     // this reports total ms spent in each category since the OS was booted, to calculate percent it is necessary
     // to find the delta since the last measurement
     if (process) {
@@ -385,7 +380,7 @@ export class PerformanceCounterMetrics {
     }
   }
 
-  private getExceptionRate(observableResult: ObservableResult) {
+  private getExceptionRate(observableResult: ObservableResult): void {
     const currentTime = +new Date();
     const intervalData = this.totalExceptionCount - this.lastExceptionRate.count || 0;
     const elapsedMs = currentTime - this.lastExceptionRate.time;
