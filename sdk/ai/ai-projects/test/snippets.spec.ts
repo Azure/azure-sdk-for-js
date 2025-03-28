@@ -454,7 +454,8 @@ describe("snippets", function () {
     // The messages are following in the reverse order,
     // we will iterate them and output only text contents.
     for (const dataPoint of messages.data.reverse()) {
-      const lastMessageContent: MessageContentOutput = dataPoint.content[dataPoint.content.length - 1];
+      const lastMessageContent: MessageContentOutput =
+        dataPoint.content[dataPoint.content.length - 1];
       console.log(lastMessageContent);
       if (isOutputOfType<MessageTextContentOutput>(lastMessageContent, "text")) {
         console.log(
