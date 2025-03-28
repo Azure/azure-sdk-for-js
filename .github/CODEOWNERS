@@ -658,6 +658,9 @@ sdk/ai/ai-projects @ganeshyb @GraceBrigham
 /sdk/labservices/arm-labservices/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/liftrarize/arm-arizeaiobservabilityeval/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/largeinstance/arm-largeinstance/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
