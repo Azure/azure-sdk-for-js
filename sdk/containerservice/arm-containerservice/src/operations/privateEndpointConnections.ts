@@ -6,18 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PrivateEndpointConnections } from "../operationsInterfaces/index.js";
+import type { PrivateEndpointConnections } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
-import { ContainerServiceClient } from "../containerServiceClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import type { ContainerServiceClient } from "../containerServiceClient.js";
+import type { SimplePollerLike, OperationState } from "@azure/core-lro";
+import { createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
-import {
+import type {
   PrivateEndpointConnectionsListOptionalParams,
   PrivateEndpointConnectionsListResponse,
   PrivateEndpointConnectionsGetOptionalParams,
@@ -29,9 +26,7 @@ import {
 } from "../models/index.js";
 
 /** Class containing PrivateEndpointConnections operations. */
-export class PrivateEndpointConnectionsImpl
-  implements PrivateEndpointConnections
-{
+export class PrivateEndpointConnectionsImpl implements PrivateEndpointConnections {
   private readonly client: ContainerServiceClient;
 
   /**
@@ -133,8 +128,7 @@ export class PrivateEndpointConnectionsImpl
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -261,7 +255,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  requestBody: Parameters.parameters7,
+  requestBody: Parameters.parameters6,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

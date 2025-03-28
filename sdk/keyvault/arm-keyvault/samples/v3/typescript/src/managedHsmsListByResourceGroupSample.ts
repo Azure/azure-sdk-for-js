@@ -16,7 +16,7 @@ import "dotenv/config";
  * This sample demonstrates how to The List operation gets information about the managed HSM Pools associated with the subscription and within the specified resource group.
  *
  * @summary The List operation gets information about the managed HSM Pools associated with the subscription and within the specified resource group.
- * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2023-07-01/examples/ManagedHsm_ListByResourceGroup.json
+ * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2024-11-01/examples/ManagedHsm_ListByResourceGroup.json
  */
 async function listManagedHsmPoolsInAResourceGroup(): Promise<void> {
   const subscriptionId =
@@ -27,8 +27,8 @@ async function listManagedHsmPoolsInAResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new KeyVaultManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.managedHsms.listByResourceGroup(
-    resourceGroupName
+  for await (const item of client.managedHsms.listByResourceGroup(
+    resourceGroupName,
   )) {
     resArray.push(item);
   }
@@ -36,7 +36,7 @@ async function listManagedHsmPoolsInAResourceGroup(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listManagedHsmPoolsInAResourceGroup();
+  await listManagedHsmPoolsInAResourceGroup();
 }
 
 main().catch(console.error);
