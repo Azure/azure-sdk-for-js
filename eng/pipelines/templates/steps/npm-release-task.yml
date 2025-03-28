@@ -72,13 +72,20 @@ jobs:
         MainPublisher: 'ESRPRELPACMANTEST'
         productstate: ${{parameters.Tag}}
 
-    - pwsh: |
-        Get-childItem -Path $(System.DefaultWorkingDirectory) -Recurse -Depth 1
-        write-host "xxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-        Get-childItem -Path $(Pipeline.Workspace) -Recurse -Depth 1
-        Get-ChildItem -Path $(Pipeline.Workspace)/eng/scripts
-      displayName: ls
+  - ${{ else }}:
+    - task: PowerShell@2
+      displayName: Publish to Dev Feed
+      inputs:
+        targetType: filePath
+        filePath: eng/tools/publish-to-npm.ps1
+        arguments: -pathToArtifacts ${{parameters.PathToArtifacts}} -accessLevel "public" -tag "${{parameters.Tag}}" -additionalTag "${{parameters.AdditionalTag}}" -registry ${{parameters.Registry}} -npmToken $(azure-sdk-npm-token)
+        pwsh: true
+      condition: succeeded()
 
+- ${{ if eq(parameters.Registry, 'https://registry.npmjs.org/') }}:
+  - job: Package Tag Verification
+    steps:
+    - checkout: self
     - task: Powershell@2
       displayName: Verify package tags
       inputs:
@@ -96,13 +103,3 @@ jobs:
           arguments: -addTag $true -pathToArtifacts ${{parameters.PathToArtifacts}} -accessLevel "public" -tag "${{parameters.AdditionalTag}}" -registry ${{parameters.Registry}} -npmToken $(azure-sdk-npm-token)
           pwsh: true
         condition: succeeded()
-
-  - ${{ else }}:
-    - task: PowerShell@2
-      displayName: Publish to Dev Feed
-      inputs:
-        targetType: filePath
-        filePath: eng/tools/publish-to-npm.ps1
-        arguments: -pathToArtifacts ${{parameters.PathToArtifacts}} -accessLevel "public" -tag "${{parameters.Tag}}" -additionalTag "${{parameters.AdditionalTag}}" -registry ${{parameters.Registry}} -npmToken $(azure-sdk-npm-token)
-        pwsh: true
-      condition: succeeded()
