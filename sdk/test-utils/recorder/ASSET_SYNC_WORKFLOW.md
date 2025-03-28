@@ -3,9 +3,9 @@
 ## Table of Contents
 - [Background](#background)
 - [Prerequisites](#prerequisites)
-- [Migration Steps for Existing Recordings](#migration-steps-for-existing-recordings)
 - [New Package - No Recorded Tests](#new-package---no-recorded-tests)
 - [Workflow with Asset Sync enabled](#workflow-with-asset-sync-enabled)
+- [Migration Steps for Existing Recordings](#migration-steps-for-existing-recordings)
 - [Inspecting Recordings](#inspecting-recordings-with-asset-sync-enabled)
 - [Test-Proxy Commands](#test-proxy-commands)
 - [Working Offline](#working-offline)
@@ -30,56 +30,24 @@ To be able to leverage the asset-sync workflow:
 - **Dependencies**:
   - Add `@azure/dev-tool` to the `devDependencies` in your `package.json`
   - Ensure your package uses `@azure-tools/test-recorder@^4.0.0` or later
-_If you are working on a new package and don't have any recorded tests, skip to [New Package - No Recorded Tests](#new-package---no-recorded-tests)._
-
-## Migration Steps for Existing Recordings
-
-If your package is new with no recorded tests, skip to the next section [New Package - No Recorded Tests](#new-package---no-recorded-tests)
-
-Run the following command to migrate the recordings.
-
-```bash
-$ npx dev-tool test-proxy migrate --initial-push
-```
-
-_Note: If you [install `dev-tool` globally], you don't need `npx` prefix in the above command_
-
-Once this is done, validate that your recorded tests still pass, and create a PR with the changes. That's it!
-
-The above `migrate` command produces an `assets.json`, with a tag pointing to your recordings in the `Azure/azure-sdk-assets` repository.
-
-Example `assets.json` from "keyvault-certificates" SDK.
-
-```json
-{
-  "AssetsRepo": "Azure/azure-sdk-assets",
-  "AssetsRepoPrefixPath": "js",
-  "TagPrefix": "js/keyvault/keyvault-certificates",
-  "Tag": "js/keyvault/keyvault-certificates_43821e21b3"
-}
-```
-
-And the recordings are located at https://github.com/Azure/azure-sdk-assets/tree/js/keyvault/keyvault-certificates_43821e21b3
 
 ## New Package - No Recorded Tests
 
-_If you already have an `assets.json` file, skip to [Workflow with Asset Sync enabled](#workflow-with-asset-sync-enabled)._
+This section is for packages that are new to the JS repo and are trying to onboard tests with `@azure-tools/test-recorder` and the asset-sync workflow.
 
-This section assumes that your package is new to the JS repo and that you're trying to onboard your tests with test-recorder, and the asset-sync workflow.
-
-From the root of the repo, navigate to your package
+From the root of the repo, navigate to your package:
 
 ```
 cd sdk/<service-folder>/<package-name>
 ```
 
-Generate an `sdk/<service-folder>/<package-name>/assets.json` file by running the following command.
+Generate an `sdk/<service-folder>/<package-name>/assets.json` file by running the following command:
 
 ```
 npx dev-tool test-proxy init
 ```
 
-This command would generate an `assets.json` file with an empty tag.
+This command will generate an `assets.json` file with an empty tag.
 
 ## Workflow with Asset Sync enabled
 
@@ -99,7 +67,20 @@ npx dev-tool test-proxy push
 This command will:
 
 1. Push your local recordings to a tag in the `Azure/azure-sdk-assets` repo, and
-1. Update the `assets.json` in your package root to reference the newly created tag.
+2. Update the `assets.json` in your package root to reference the newly created tag.
+
+Example `assets.json` from "keyvault-certificates" SDK.
+
+```json
+{
+  "AssetsRepo": "Azure/azure-sdk-assets",
+  "AssetsRepoPrefixPath": "js",
+  "TagPrefix": "js/keyvault/keyvault-certificates",
+  "Tag": "js/keyvault/keyvault-certificates_43821e21b3"
+}
+```
+
+And the recordings are located at https://github.com/Azure/azure-sdk-assets/tree/js/keyvault/keyvault-certificates_43821e21b3
 
 You should stage and commit the `assets.json` update as part of your PR. If you don't run the `push` command before creating a PR, the CI (and anyone else who tries to run your recorded tests) will use the old recordings, which will cause failures.
 
@@ -107,14 +88,14 @@ After onboarding your new package or after migrating your package to the asset-s
 
 ```mermaid
 graph TD
-    subgraph p3 [New steps]
-        subgraph p4 [Push recordings to asset sync repo]
+    subgraph p3 [Asset sync]
+        subgraph p4 [Push recordings to azure-sdk-assets repo]
             push[npx dev-tool test-proxy push]
         end
         p4-->assets[Commit <code>assets.json</code> change]
     end
 
-    assets --> pr[Push branch and\ncreate PR]
+    assets --> pr[Push branch and create PR]
 
     subgraph p2 [Inspect recordings and test in playback]
         playback[TEST_MODE=playback rushx test]
@@ -136,6 +117,23 @@ graph TD
     class p2 green
     class p3 blue
 ```
+
+## Migration Steps for Existing Recordings
+
+> **Note:** Most packages should already be using the Asset Sync workflow. This section is only relevant for packages that still have recordings directly in the repository.
+
+If you have an existing package with recordings that need to be migrated, run the following command:
+
+```bash
+$ npx dev-tool test-proxy migrate --initial-push
+```
+
+_Note: If you [install `dev-tool` globally], you don't need `npx` prefix in the above command_
+
+Once this is done, validate that your recorded tests still pass, and create a PR with the changes. That's it!
+
+The above `migrate` command produces an `assets.json`, with a tag pointing to your recordings in the `Azure/azure-sdk-assets` repository.
+
 
 ## Inspecting Recordings with Asset Sync enabled
 
