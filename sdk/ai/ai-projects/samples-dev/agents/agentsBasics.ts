@@ -15,6 +15,7 @@ import "dotenv/config";
 
 const connectionString =
   process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] || "<project connection string>";
+const agentModelName = process.env["AGENT_MODAL_NAME"] || "gpt-4o";
 
 export async function main(): Promise<void> {
   const client = AIProjectsClient.fromConnectionString(
@@ -22,7 +23,7 @@ export async function main(): Promise<void> {
     new DefaultAzureCredential(),
   );
 
-  const agent = await client.agents.createAgent("gpt-4o", {
+  const agent = await client.agents.createAgent(agentModelName, {
     name: "my-agent",
     instructions: "You are helpful agent",
   });

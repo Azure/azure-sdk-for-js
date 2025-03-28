@@ -18,10 +18,11 @@ import {
 import { delay } from "@azure/core-util";
 import { DefaultAzureCredential } from "@azure/identity";
 
-import  "dotenv/config";
+import "dotenv/config";
 
 const connectionString =
   process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] || "<project connection string>";
+const agentModelName = process.env["AGENT_MODAL_NAME"] || "gpt-4o";
 
 export async function main(): Promise<void> {
   // Create an Azure AI Client from a connection string, copied from your AI Foundry project.
@@ -42,7 +43,7 @@ export async function main(): Promise<void> {
   ]);
 
   // Create agent with the bing tool and process assistant run
-  const agent = await client.agents.createAgent("gpt-4o", {
+  const agent = await client.agents.createAgent(agentModelName, {
     name: "my-agent",
     instructions: "You are a helpful agent",
     tools: [bingTool.definition],

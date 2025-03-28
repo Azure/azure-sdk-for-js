@@ -19,6 +19,7 @@ require("dotenv/config");
 
 const connectionString =
   process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] || "<project connection string>";
+const agentModelName = process.env["AGENT_MODAL_NAME"] || "gpt-4o";
 
 async function main() {
   const client = AIProjectsClient.fromConnectionString(
@@ -117,7 +118,7 @@ async function main() {
 
   const functionToolExecutor = new FunctionToolExecutor();
   const functionTools = functionToolExecutor.getFunctionDefinitions();
-  const agent = await agents.createAgent("gpt-4o", {
+  const agent = await agents.createAgent(agentModelName, {
     name: "my-agent",
     instructions:
       "You are a weather bot. Use the provided functions to help answer questions. Customize your responses to the user's preferences as much as possible and use friendly nicknames for cities whenever possible.",

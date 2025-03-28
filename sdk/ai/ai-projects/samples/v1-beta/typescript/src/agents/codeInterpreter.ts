@@ -13,10 +13,11 @@ import { delay } from "@azure/core-util";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as fs from "fs";
 import path from "node:path";
-import  "dotenv/config";
+import "dotenv/config";
 
 const connectionString =
   process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] || "<project connection string>";
+const agentModelName = process.env["AGENT_MODAL_NAME"] || "gpt-4o";
 
 export async function main(): Promise<void> {
   const client = AIProjectsClient.fromConnectionString(
@@ -37,7 +38,7 @@ export async function main(): Promise<void> {
   const codeInterpreterTool = ToolUtility.createCodeInterpreterTool([localFile.id]);
 
   // Notice that CodeInterpreter must be enabled in the agent creation, otherwise the agent will not be able to see the file attachment
-  const agent = await client.agents.createAgent("gpt-4o-mini", {
+  const agent = await client.agents.createAgent(agentModelName, {
     name: "my-agent",
     instructions: "You are a helpful agent",
     tools: [codeInterpreterTool.definition],

@@ -14,6 +14,7 @@ require("dotenv/config");
 
 const connectionString =
   process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] || "<project connection string>";
+const agentModelName = process.env["AGENT_MODAL_NAME"] || "gpt-4o";
 
 async function main() {
   // Create an Azure AI Client from a connection string, copied from your AI Foundry project.
@@ -75,7 +76,7 @@ async function main() {
     },
   );
 
-  const agent = await client.agents.createAgent("gpt-4o-mini", {
+  const agent = await client.agents.createAgent(agentModelName, {
     name: "azure-function-agent",
     instructions: `You are a helpful support agent. Use the provided function any time the prompt contains the string 'What would foo say?'. When you invoke the function, ALWAYS specify the output queue uri parameter as '${storageServiceEndpoint}/azure-function-tool-output'. Always responds with "Foo says" and then the response from the tool.`,
     tools: [azureFunctionTool.definition],

@@ -25,10 +25,11 @@ import { AIProjectsClient, ToolUtility, isOutputOfType } from "@azure/ai-project
 import { delay } from "@azure/core-util";
 import { DefaultAzureCredential } from "@azure/identity";
 
-import  "dotenv/config";
+import "dotenv/config";
 
 const connectionString =
   process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] || "<project connection string>";
+const agentModelName = process.env["AGENT_MODAL_NAME"] || "gpt-4o";
 
 export async function main(): Promise<void> {
   const client = AIProjectsClient.fromConnectionString(
@@ -129,7 +130,7 @@ export async function main(): Promise<void> {
 
   const functionToolExecutor = new FunctionToolExecutor();
   const functionTools = functionToolExecutor.getFunctionDefinitions();
-  const agent = await agents.createAgent("gpt-4o", {
+  const agent = await agents.createAgent(agentModelName, {
     name: "my-agent",
     instructions:
       "You are a weather bot. Use the provided functions to help answer questions. Customize your responses to the user's preferences as much as possible and use friendly nicknames for cities whenever possible.",

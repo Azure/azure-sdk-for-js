@@ -22,6 +22,7 @@ import "dotenv/config";
 
 const connectionString =
   process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] || "<project connection string>";
+const agentModelName = process.env["AGENT_MODAL_NAME"] || "gpt-4o";
 
 export async function main(): Promise<void> {
   const client = AIProjectsClient.fromConnectionString(
@@ -48,7 +49,7 @@ export async function main(): Promise<void> {
   const fileSearchTool = ToolUtility.createFileSearchTool([vectorStore.id]);
 
   // Create agent with files
-  const agent = await client.agents.createAgent("gpt-4o", {
+  const agent = await client.agents.createAgent(agentModelName, {
     name: "SDK Test Agent - Retrieval",
     instructions: "You are helpful agent that can help fetch data from files you know about.",
     tools: [fileSearchTool.definition],

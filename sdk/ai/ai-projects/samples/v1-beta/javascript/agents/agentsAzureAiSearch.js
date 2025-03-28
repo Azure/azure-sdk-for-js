@@ -15,6 +15,7 @@ require("dotenv/config");
 
 const connectionString =
   process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] || "<project connection string>";
+const agentModelName = process.env["AGENT_MODAL_NAME"] || "gpt-4o";
 
 async function main() {
   // Create an Azure AI Client from a connection string, copied from your AI Foundry project.
@@ -31,7 +32,7 @@ async function main() {
   const azureAISearchTool = ToolUtility.createAzureAISearchTool(connection.id, connection.name);
 
   // Create agent with the Azure AI search tool
-  const agent = await client.agents.createAgent("gpt-4-0125-preview", {
+  const agent = await client.agents.createAgent(agentModelName, {
     name: "my-agent",
     instructions: "You are a helpful agent",
     tools: [azureAISearchTool.definition],
