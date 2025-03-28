@@ -34,7 +34,7 @@ async function getAGalleryApplication() {
 }
 
 async function main() {
-  getAGalleryApplication();
+  await getAGalleryApplication();
 }
 
 main().catch(console.error);

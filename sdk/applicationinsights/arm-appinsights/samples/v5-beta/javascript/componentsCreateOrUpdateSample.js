@@ -6,10 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { ApplicationInsightsManagementClient } = require("@azure/arm-appinsights");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Creates (or updates) an Application Insights component. Note: You cannot specify a different value for InstrumentationKey nor AppId in the Put operation.
@@ -18,8 +17,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/applicationinsights/resource-manager/Microsoft.Insights/stable/2020-02-02/examples/ComponentsCreate.json
  */
 async function componentCreate() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "my-resource-group";
+  const subscriptionId = process.env["APPLICATIONINSIGHTS_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName =
+    process.env["APPLICATIONINSIGHTS_RESOURCE_GROUP"] || "my-resource-group";
   const resourceName = "my-component";
   const insightProperties = {
     applicationType: "web",
@@ -35,12 +35,10 @@ async function componentCreate() {
   const result = await client.components.createOrUpdate(
     resourceGroupName,
     resourceName,
-    insightProperties
+    insightProperties,
   );
   console.log(result);
 }
-
-componentCreate().catch(console.error);
 
 /**
  * This sample demonstrates how to Creates (or updates) an Application Insights component. Note: You cannot specify a different value for InstrumentationKey nor AppId in the Put operation.
@@ -49,8 +47,9 @@ componentCreate().catch(console.error);
  * x-ms-original-file: specification/applicationinsights/resource-manager/Microsoft.Insights/stable/2020-02-02/examples/ComponentsUpdate.json
  */
 async function componentUpdate() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "my-resource-group";
+  const subscriptionId = process.env["APPLICATIONINSIGHTS_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName =
+    process.env["APPLICATIONINSIGHTS_RESOURCE_GROUP"] || "my-resource-group";
   const resourceName = "my-component";
   const insightProperties = {
     kind: "web",
@@ -62,9 +61,14 @@ async function componentUpdate() {
   const result = await client.components.createOrUpdate(
     resourceGroupName,
     resourceName,
-    insightProperties
+    insightProperties,
   );
   console.log(result);
 }
 
-componentUpdate().catch(console.error);
+async function main() {
+  await componentCreate();
+  await componentUpdate();
+}
+
+main().catch(console.error);

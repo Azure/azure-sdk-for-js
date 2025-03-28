@@ -170,6 +170,7 @@ export interface CreateJobValidations extends ValidationRequest {
 // @public
 export interface CreateOrderLimitForSubscriptionValidationRequest extends ValidationInputRequest {
     deviceType: SkuName;
+    model?: ModelName;
     validationType: "ValidateCreateOrderLimit";
 }
 
@@ -402,6 +403,7 @@ export interface DatacenterAddressLocationResponse extends DatacenterAddressResp
 
 // @public
 export interface DatacenterAddressRequest {
+    model?: ModelName;
     skuName: SkuName;
     storageLocation: string;
 }
@@ -446,6 +448,7 @@ export interface DataTransferDetailsValidationRequest extends ValidationInputReq
     dataExportDetails?: DataExportDetails[];
     dataImportDetails?: DataImportDetails[];
     deviceType: SkuName;
+    model?: ModelName;
     transferType: TransferType;
     validationType: "ValidateDataTransferDetails";
 }
@@ -462,12 +465,31 @@ export interface DcAccessSecurityCode {
     reverseDCAccessCode?: string;
 }
 
+// @public
+export type DelayNotificationStatus = string;
+
 // @public (undocumented)
 export interface Details {
     // (undocumented)
     code: string;
     // (undocumented)
     message: string;
+}
+
+// @public
+export interface DeviceCapabilityDetails {
+    readonly hardwareEncryption?: HardwareEncryption;
+}
+
+// @public
+export interface DeviceCapabilityRequest {
+    model?: ModelName;
+    skuName?: SkuName;
+}
+
+// @public
+export interface DeviceCapabilityResponse {
+    readonly deviceCapabilityDetails?: DeviceCapabilityDetails[];
 }
 
 // @public
@@ -580,6 +602,15 @@ export interface ImportDiskDetails {
 }
 
 // @public
+export interface JobDelayDetails {
+    readonly description?: string;
+    readonly errorCode?: PortalDelayErrorCode;
+    readonly resolutionTime?: Date;
+    readonly startTime?: Date;
+    readonly status?: DelayNotificationStatus;
+}
+
+// @public
 export interface JobDeliveryInfo {
     scheduledDateTime?: Date;
 }
@@ -616,7 +647,9 @@ export type JobDetailsUnion = JobDetails | DataBoxCustomerDiskJobDetails | DataB
 
 // @public
 export interface JobResource extends Resource {
+    readonly allDevicesLost?: boolean;
     readonly cancellationReason?: string;
+    readonly delayedStage?: StageName;
     deliveryInfo?: JobDeliveryInfo;
     deliveryType?: JobDeliveryType;
     details?: JobDetailsUnion;
@@ -761,6 +794,7 @@ export interface JobsMarkDevicesShippedOptionalParams extends coreClient.Operati
 
 // @public
 export interface JobStages {
+    readonly delayInformation?: JobDelayDetails[];
     readonly displayName?: string;
     readonly jobStageDetails?: Record<string, unknown>;
     readonly stageName?: StageName;
@@ -822,10 +856,12 @@ export enum KnownDataCenterCode {
     AM2 = "AM2",
     AMS06 = "AMS06",
     AMS20 = "AMS20",
+    AMS25 = "AMS25",
     AUH20 = "AUH20",
     BJB = "BJB",
     BJS20 = "BJS20",
     BL20 = "BL20",
+    BL24 = "BL24",
     BL7 = "BL7",
     BN1 = "BN1",
     BN7 = "BN7",
@@ -838,12 +874,16 @@ export enum KnownDataCenterCode {
     CH1 = "CH1",
     CPQ02 = "CPQ02",
     CPQ20 = "CPQ20",
+    CPQ21 = "CPQ21",
     CWL20 = "CWL20",
     CYS04 = "CYS04",
     DSM05 = "DSM05",
+    DSM11 = "DSM11",
     DUB07 = "DUB07",
+    DXB23 = "DXB23",
     FRA22 = "FRA22",
     HKG20 = "HKG20",
+    IDC5 = "IDC5",
     Invalid = "Invalid",
     JNB21 = "JNB21",
     JNB22 = "JNB22",
@@ -852,10 +892,12 @@ export enum KnownDataCenterCode {
     MEL23 = "MEL23",
     MNZ21 = "MNZ21",
     MWH01 = "MWH01",
+    NTG20 = "NTG20",
     ORK70 = "ORK70",
     OSA02 = "OSA02",
     OSA20 = "OSA20",
     OSA22 = "OSA22",
+    OSA23 = "OSA23",
     PAR22 = "PAR22",
     PNQ01 = "PNQ01",
     PUS20 = "PUS20",
@@ -873,10 +915,17 @@ export enum KnownDataCenterCode {
     SYD23 = "SYD23",
     TYO01 = "TYO01",
     TYO22 = "TYO22",
+    TYO23 = "TYO23",
     YQB20 = "YQB20",
     YTO20 = "YTO20",
     YTO21 = "YTO21",
     ZRH20 = "ZRH20"
+}
+
+// @public
+export enum KnownDelayNotificationStatus {
+    Active = "Active",
+    Resolved = "Resolved"
 }
 
 // @public
@@ -889,6 +938,14 @@ export enum KnownNotificationStageName {
     Dispatched = "Dispatched",
     PickedUp = "PickedUp",
     ShippedToCustomer = "ShippedToCustomer"
+}
+
+// @public
+export enum KnownPortalDelayErrorCode {
+    ActiveOrderLimitBreachedDelay = "ActiveOrderLimitBreachedDelay",
+    HighDemandDelay = "HighDemandDelay",
+    InternalIssueDelay = "InternalIssueDelay",
+    LargeNumberOfFilesDelay = "LargeNumberOfFilesDelay"
 }
 
 // @public
@@ -949,6 +1006,9 @@ export interface MitigateJobRequest {
 // @public
 export interface MitigateOptionalParams extends coreClient.OperationOptions {
 }
+
+// @public
+export type ModelName = "DataBox" | "DataBoxDisk" | "DataBoxHeavy" | "DataBoxCustomerDisk" | "AzureDataBox120" | "AzureDataBox525";
 
 // @public
 export interface NotificationPreference {
@@ -1025,6 +1085,9 @@ export interface PackageShippingDetails {
 }
 
 // @public
+export type PortalDelayErrorCode = string;
+
+// @public
 export interface Preferences {
     encryptionPreferences?: EncryptionPreferences;
     preferredDataCenterRegion?: string[];
@@ -1036,6 +1099,7 @@ export interface Preferences {
 // @public
 export interface PreferencesValidationRequest extends ValidationInputRequest {
     deviceType: SkuName;
+    model?: ModelName;
     preference?: Preferences;
     validationType: "ValidatePreferences";
 }
@@ -1049,6 +1113,7 @@ export interface PreferencesValidationResponseProperties extends ValidationInput
 // @public
 export interface RegionConfigurationRequest {
     datacenterAddressRequest?: DatacenterAddressRequest;
+    deviceCapabilityRequest?: DeviceCapabilityRequest;
     scheduleAvailabilityRequest?: ScheduleAvailabilityRequestUnion;
     transportAvailabilityRequest?: TransportAvailabilityRequest;
 }
@@ -1056,6 +1121,7 @@ export interface RegionConfigurationRequest {
 // @public
 export interface RegionConfigurationResponse {
     readonly datacenterAddressResponse?: DatacenterAddressResponseUnion;
+    readonly deviceCapabilityResponse?: DeviceCapabilityResponse;
     readonly scheduleAvailabilityResponse?: ScheduleAvailabilityResponse;
     readonly transportAvailabilityResponse?: TransportAvailabilityResponse;
 }
@@ -1096,6 +1162,7 @@ export type ReverseTransportPreferenceEditStatus = "Enabled" | "Disabled" | "Not
 // @public
 export interface ScheduleAvailabilityRequest {
     country?: string;
+    model?: ModelName;
     skuName: "DataBox" | "DataBoxDisk" | "DataBoxHeavy";
     storageLocation: string;
 }
@@ -1212,6 +1279,7 @@ export interface ShippingAddress {
 export interface Sku {
     displayName?: string;
     family?: string;
+    model?: ModelName;
     name: SkuName;
 }
 
@@ -1220,6 +1288,7 @@ export interface SkuAvailabilityValidationRequest extends ValidationInputRequest
     country: string;
     deviceType: SkuName;
     location: string;
+    model?: ModelName;
     transferType: TransferType;
     validationType: "ValidateSkuAvailability";
 }
@@ -1232,6 +1301,7 @@ export interface SkuAvailabilityValidationResponseProperties extends ValidationI
 
 // @public
 export interface SkuCapacity {
+    readonly individualSkuUsable?: string;
     readonly maximum?: string;
     readonly usable?: string;
 }
@@ -1341,6 +1411,7 @@ export interface TransportAvailabilityDetails {
 
 // @public
 export interface TransportAvailabilityRequest {
+    model?: ModelName;
     skuName?: SkuName;
 }
 
@@ -1394,6 +1465,7 @@ export interface UserAssignedProperties {
 // @public
 export interface ValidateAddress extends ValidationInputRequest {
     deviceType: SkuName;
+    model?: ModelName;
     shippingAddress: ShippingAddress;
     transportPreferences?: TransportPreferences;
     validationType: "ValidateAddress";

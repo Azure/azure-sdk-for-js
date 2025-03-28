@@ -24,14 +24,14 @@ async function listCloudServiceOSFamiliesInASubscription() {
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.cloudServiceOperatingSystems.listOSFamilies(location)) {
+  for await (const item of client.cloudServiceOperatingSystems.listOSFamilies(location)) {
     resArray.push(item);
   }
   console.log(resArray);
 }
 
 async function main() {
-  listCloudServiceOSFamiliesInASubscription();
+  await listCloudServiceOSFamiliesInASubscription();
 }
 
 main().catch(console.error);

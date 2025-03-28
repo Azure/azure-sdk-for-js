@@ -23,7 +23,7 @@ import {
   ServiceRegionConfigurationOptionalParams,
   ServiceRegionConfigurationResponse,
   ServiceRegionConfigurationByResourceGroupOptionalParams,
-  ServiceRegionConfigurationByResourceGroupResponse
+  ServiceRegionConfigurationByResourceGroupResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -41,7 +41,7 @@ export interface Service {
     resourceGroupName: string,
     location: string,
     availableSkuRequest: AvailableSkuRequest,
-    options?: ServiceListAvailableSkusByResourceGroupOptionalParams
+    options?: ServiceListAvailableSkusByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<SkuInformation>;
   /**
    * [DEPRECATED NOTICE: This operation will soon be removed]. This method validates the customer
@@ -53,7 +53,7 @@ export interface Service {
   validateAddress(
     location: string,
     validateAddress: ValidateAddress,
-    options?: ServiceValidateAddressOptionalParams
+    options?: ServiceValidateAddressOptionalParams,
   ): Promise<ServiceValidateAddressResponse>;
   /**
    * This method does all necessary pre-job creation validation under resource group.
@@ -66,7 +66,7 @@ export interface Service {
     resourceGroupName: string,
     location: string,
     validationRequest: ValidationRequestUnion,
-    options?: ServiceValidateInputsByResourceGroupOptionalParams
+    options?: ServiceValidateInputsByResourceGroupOptionalParams,
   ): Promise<ServiceValidateInputsByResourceGroupResponse>;
   /**
    * This method does all necessary pre-job creation validation under subscription.
@@ -77,7 +77,7 @@ export interface Service {
   validateInputs(
     location: string,
     validationRequest: ValidationRequestUnion,
-    options?: ServiceValidateInputsOptionalParams
+    options?: ServiceValidateInputsOptionalParams,
   ): Promise<ServiceValidateInputsResponse>;
   /**
    * This API provides configuration details specific to given region/location at Subscription level.
@@ -88,7 +88,7 @@ export interface Service {
   regionConfiguration(
     location: string,
     regionConfigurationRequest: RegionConfigurationRequest,
-    options?: ServiceRegionConfigurationOptionalParams
+    options?: ServiceRegionConfigurationOptionalParams,
   ): Promise<ServiceRegionConfigurationResponse>;
   /**
    * This API provides configuration details specific to given region/location at Resource group level.
@@ -102,6 +102,6 @@ export interface Service {
     resourceGroupName: string,
     location: string,
     regionConfigurationRequest: RegionConfigurationRequest,
-    options?: ServiceRegionConfigurationByResourceGroupOptionalParams
+    options?: ServiceRegionConfigurationByResourceGroupOptionalParams,
   ): Promise<ServiceRegionConfigurationByResourceGroupResponse>;
 }

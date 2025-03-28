@@ -340,6 +340,9 @@ sdk/ai/ai-projects @ganeshyb @GraceBrigham
 /sdk/advisor/arm-advisor/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/agricultureplatform/arm-agricultureplatform/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/analysisservices/arm-analysisservices/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
@@ -544,6 +547,9 @@ sdk/ai/ai-projects @ganeshyb @GraceBrigham
 /sdk/dns/arm-dns/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/durabletask/arm-durabletask/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/dns/arm-dns-profile-2020-09-01-hybrid/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
@@ -658,10 +664,16 @@ sdk/ai/ai-projects @ganeshyb @GraceBrigham
 /sdk/labservices/arm-labservices/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/liftrarize/arm-arizeaiobservabilityeval/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/largeinstance/arm-largeinstance/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
 /sdk/links/arm-links/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
+/sdk/liftrweightsandbiases/arm-weightsandbiases/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
 /sdk/pineconevectordb/arm-pineconevectordb/ @qiaozha @MaryGao
@@ -722,6 +734,9 @@ sdk/ai/ai-projects @ganeshyb @GraceBrigham
 
 # PRLabel: %Mgmt
 /sdk/migrate/arm-migrate/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
+/sdk/migrate/arm-migrationassessment/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
 /sdk/mixedreality/arm-mixedreality/ @qiaozha @MaryGao
