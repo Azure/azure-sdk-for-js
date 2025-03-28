@@ -7,7 +7,11 @@
  */
 
 export * from "./dataPolicyManifests.js";
-export * from "./policyAssignments.js";
 export * from "./policyDefinitions.js";
+export * from "./policyDefinitionVersions.js";
 export * from "./policySetDefinitions.js";
+export * from "./policySetDefinitionVersions.js";
+export * from "./policyAssignments.js";
 export * from "./policyExemptions.js";
+export * from "./variables.js";
+export * from "./variableValues.js";

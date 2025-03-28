@@ -24,14 +24,14 @@ async function listAllDiskEncryptionSetsInAResourceGroup() {
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.diskEncryptionSets.listByResourceGroup(resourceGroupName)) {
+  for await (const item of client.diskEncryptionSets.listByResourceGroup(resourceGroupName)) {
     resArray.push(item);
   }
   console.log(resArray);
 }
 
 async function main() {
-  listAllDiskEncryptionSetsInAResourceGroup();
+  await listAllDiskEncryptionSetsInAResourceGroup();
 }
 
 main().catch(console.error);

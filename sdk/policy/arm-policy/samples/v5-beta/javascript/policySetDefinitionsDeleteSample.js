@@ -16,7 +16,7 @@ require("dotenv/config");
  * This sample demonstrates how to This operation deletes the policy set definition in the given subscription with the given name.
  *
  * @summary This operation deletes the policy set definition in the given subscription with the given name.
- * x-ms-original-file: specification/resources/resource-manager/Microsoft.Authorization/stable/2021-06-01/examples/deletePolicySetDefinition.json
+ * x-ms-original-file: specification/resources/resource-manager/Microsoft.Authorization/stable/2023-04-01/examples/deletePolicySetDefinition.json
  */
 async function deleteAPolicySetDefinition() {
   const subscriptionId =
@@ -29,7 +29,7 @@ async function deleteAPolicySetDefinition() {
 }
 
 async function main() {
-  deleteAPolicySetDefinition();
+  await deleteAPolicySetDefinition();
 }
 
 main().catch(console.error);

@@ -30,11 +30,11 @@ import {
   NamespaceTopic as NamespaceTopicMapper,
   NamespaceTopicUpdateParameters as NamespaceTopicUpdateParametersMapper,
   TopicRegenerateKeyRequest as TopicRegenerateKeyRequestMapper,
+  Topic as TopicMapper,
+  TopicUpdateParameters as TopicUpdateParametersMapper,
   PartnerConfiguration as PartnerConfigurationMapper,
   PartnerConfigurationUpdateParameters as PartnerConfigurationUpdateParametersMapper,
   Partner as PartnerMapper,
-  PartnerDestination as PartnerDestinationMapper,
-  PartnerDestinationUpdateParameters as PartnerDestinationUpdateParametersMapper,
   PartnerNamespace as PartnerNamespaceMapper,
   PartnerNamespaceUpdateParameters as PartnerNamespaceUpdateParametersMapper,
   PartnerNamespaceRegenerateKeyRequest as PartnerNamespaceRegenerateKeyRequestMapper,
@@ -46,8 +46,6 @@ import {
   PrivateEndpointConnection as PrivateEndpointConnectionMapper,
   SystemTopic as SystemTopicMapper,
   SystemTopicUpdateParameters as SystemTopicUpdateParametersMapper,
-  Topic as TopicMapper,
-  TopicUpdateParameters as TopicUpdateParametersMapper,
   TopicSpace as TopicSpaceMapper,
 } from "../models/mappers.js";
 
@@ -132,7 +130,7 @@ export const caCertificateName: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2024-06-01-preview",
+    defaultValue: "2025-02-15",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -333,6 +331,48 @@ export const eventSubscriptionUpdateParameters: OperationParameter = {
   mapper: EventSubscriptionUpdateParametersMapper,
 };
 
+export const topicName1: OperationURLParameter = {
+  parameterPath: "topicName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9-]*$"),
+      MaxLength: 50,
+      MinLength: 3,
+    },
+    serializedName: "topicName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const eventSubscriptionName1: OperationURLParameter = {
+  parameterPath: "eventSubscriptionName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9-]*$"),
+      MaxLength: 50,
+      MinLength: 3,
+    },
+    serializedName: "eventSubscriptionName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const eventSubscriptionInfo1: OperationParameter = {
+  parameterPath: "eventSubscriptionInfo",
+  mapper: SubscriptionMapper,
+};
+
+export const eventSubscriptionUpdateParameters1: OperationParameter = {
+  parameterPath: "eventSubscriptionUpdateParameters",
+  mapper: SubscriptionUpdateParametersMapper,
+};
+
 export const scope: OperationURLParameter = {
   parameterPath: "scope",
   mapper: {
@@ -411,48 +451,6 @@ export const systemTopicName: OperationURLParameter = {
   },
 };
 
-export const topicName1: OperationURLParameter = {
-  parameterPath: "topicName",
-  mapper: {
-    constraints: {
-      Pattern: new RegExp("^[a-zA-Z0-9-]*$"),
-      MaxLength: 50,
-      MinLength: 3,
-    },
-    serializedName: "topicName",
-    required: true,
-    type: {
-      name: "String",
-    },
-  },
-};
-
-export const eventSubscriptionName1: OperationURLParameter = {
-  parameterPath: "eventSubscriptionName",
-  mapper: {
-    constraints: {
-      Pattern: new RegExp("^[a-zA-Z0-9-]*$"),
-      MaxLength: 50,
-      MinLength: 3,
-    },
-    serializedName: "eventSubscriptionName",
-    required: true,
-    type: {
-      name: "String",
-    },
-  },
-};
-
-export const eventSubscriptionInfo1: OperationParameter = {
-  parameterPath: "eventSubscriptionInfo",
-  mapper: SubscriptionMapper,
-};
-
-export const eventSubscriptionUpdateParameters1: OperationParameter = {
-  parameterPath: "eventSubscriptionUpdateParameters",
-  mapper: SubscriptionUpdateParametersMapper,
-};
-
 export const partnerTopicName: OperationURLParameter = {
   parameterPath: "partnerTopicName",
   mapper: {
@@ -494,6 +492,16 @@ export const regenerateKeyRequest2: OperationParameter = {
   mapper: TopicRegenerateKeyRequestMapper,
 };
 
+export const topicInfo: OperationParameter = {
+  parameterPath: "topicInfo",
+  mapper: TopicMapper,
+};
+
+export const topicUpdateParameters: OperationParameter = {
+  parameterPath: "topicUpdateParameters",
+  mapper: TopicUpdateParametersMapper,
+};
+
 export const partnerConfigurationInfo: OperationParameter = {
   parameterPath: "partnerConfigurationInfo",
   mapper: PartnerConfigurationMapper,
@@ -507,32 +515,6 @@ export const partnerConfigurationUpdateParameters: OperationParameter = {
 export const partnerInfo: OperationParameter = {
   parameterPath: "partnerInfo",
   mapper: PartnerMapper,
-};
-
-export const partnerDestinationName: OperationURLParameter = {
-  parameterPath: "partnerDestinationName",
-  mapper: {
-    constraints: {
-      Pattern: new RegExp("^[a-zA-Z0-9-]*$"),
-      MaxLength: 50,
-      MinLength: 3,
-    },
-    serializedName: "partnerDestinationName",
-    required: true,
-    type: {
-      name: "String",
-    },
-  },
-};
-
-export const partnerDestination: OperationParameter = {
-  parameterPath: "partnerDestination",
-  mapper: PartnerDestinationMapper,
-};
-
-export const partnerDestinationUpdateParameters: OperationParameter = {
-  parameterPath: "partnerDestinationUpdateParameters",
-  mapper: PartnerDestinationUpdateParametersMapper,
 };
 
 export const partnerNamespaceInfo: OperationParameter = {
@@ -579,55 +561,6 @@ export const partnerTopicInfo: OperationParameter = {
 export const partnerTopicUpdateParameters: OperationParameter = {
   parameterPath: "partnerTopicUpdateParameters",
   mapper: PartnerTopicUpdateParametersMapper,
-};
-
-export const resourceType: OperationURLParameter = {
-  parameterPath: "resourceType",
-  mapper: {
-    serializedName: "resourceType",
-    required: true,
-    type: {
-      name: "String",
-    },
-  },
-};
-
-export const resourceName1: OperationURLParameter = {
-  parameterPath: "resourceName",
-  mapper: {
-    constraints: {
-      Pattern: new RegExp("^[a-zA-Z0-9-]*$"),
-      MaxLength: 50,
-      MinLength: 3,
-    },
-    serializedName: "resourceName",
-    required: true,
-    type: {
-      name: "String",
-    },
-  },
-};
-
-export const perimeterGuid: OperationURLParameter = {
-  parameterPath: "perimeterGuid",
-  mapper: {
-    serializedName: "perimeterGuid",
-    required: true,
-    type: {
-      name: "String",
-    },
-  },
-};
-
-export const associationName: OperationURLParameter = {
-  parameterPath: "associationName",
-  mapper: {
-    serializedName: "associationName",
-    required: true,
-    type: {
-      name: "String",
-    },
-  },
 };
 
 export const permissionBindingName: OperationURLParameter = {
@@ -719,16 +652,6 @@ export const systemTopicInfo: OperationParameter = {
 export const systemTopicUpdateParameters: OperationParameter = {
   parameterPath: "systemTopicUpdateParameters",
   mapper: SystemTopicUpdateParametersMapper,
-};
-
-export const topicInfo: OperationParameter = {
-  parameterPath: "topicInfo",
-  mapper: TopicMapper,
-};
-
-export const topicUpdateParameters: OperationParameter = {
-  parameterPath: "topicUpdateParameters",
-  mapper: TopicUpdateParametersMapper,
 };
 
 export const scope1: OperationURLParameter = {

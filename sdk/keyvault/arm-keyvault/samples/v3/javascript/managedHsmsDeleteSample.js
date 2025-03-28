@@ -10,13 +10,13 @@
 // Licensed under the MIT License.
 const { KeyVaultManagementClient } = require("@azure/arm-keyvault");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Deletes the specified managed HSM Pool.
  *
  * @summary Deletes the specified managed HSM Pool.
- * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2023-07-01/examples/ManagedHsm_Delete.json
+ * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2024-11-01/examples/ManagedHsm_Delete.json
  */
 async function deleteAManagedHsmPool() {
   const subscriptionId =
@@ -30,7 +30,7 @@ async function deleteAManagedHsmPool() {
 }
 
 async function main() {
-  deleteAManagedHsmPool();
+  await deleteAManagedHsmPool();
 }
 
 main().catch(console.error);
