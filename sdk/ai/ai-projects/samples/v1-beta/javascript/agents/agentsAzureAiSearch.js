@@ -15,7 +15,7 @@ require("dotenv/config");
 
 const connectionString =
   process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] || "<project connection string>";
-const agentModelName = process.env["AGENT_MODAL_NAME"] || "gpt-4o";
+const agentModelName = process.env["AGENT_MODEL_NAME"] || "gpt-4o";
 
 async function main() {
   // Create an Azure AI Client from a connection string, copied from your AI Foundry project.

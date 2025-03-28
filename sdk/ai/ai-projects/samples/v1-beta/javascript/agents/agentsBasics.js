@@ -14,7 +14,7 @@ require("dotenv/config");
 
 const connectionString =
   process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] || "<project connection string>";
-const agentModelName = process.env["AGENT_MODAL_NAME"] || "gpt-4o";
+const agentModelName = process.env["AGENT_MODEL_NAME"] || "gpt-4o";
 
 async function main() {
   const client = AIProjectsClient.fromConnectionString(
