@@ -185,133 +185,6 @@ export interface DataPolicyManifestListResult {
   nextLink?: string;
 }
 
-/** The policy assignment. */
-export interface PolicyAssignment {
-  /**
-   * The ID of the policy assignment.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * The type of the policy assignment.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /**
-   * The name of the policy assignment.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /** The location of the policy assignment. Only required when utilizing managed identity. */
-  location?: string;
-  /** The managed identity associated with the policy assignment. */
-  identity?: Identity;
-  /**
-   * The system metadata relating to this resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
-  /** The display name of the policy assignment. */
-  displayName?: string;
-  /** The ID of the policy definition or policy set definition being assigned. */
-  policyDefinitionId?: string;
-  /**
-   * The scope for the policy assignment.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly scope?: string;
-  /** The policy's excluded scopes. */
-  notScopes?: string[];
-  /** The parameter values for the assigned policy rule. The keys are the parameter names. */
-  parameters?: { [propertyName: string]: ParameterValuesValue };
-  /** This message will be part of response in case of policy violation. */
-  description?: string;
-  /** The policy assignment metadata. Metadata is an open ended object and is typically a collection of key value pairs. */
-  metadata?: any;
-  /** The policy assignment enforcement mode. Possible values are Default and DoNotEnforce. */
-  enforcementMode?: EnforcementMode;
-  /** The messages that describe why a resource is non-compliant with the policy. */
-  nonComplianceMessages?: NonComplianceMessage[];
-}
-
-/** The value of a parameter. */
-export interface ParameterValuesValue {
-  /** The value of the parameter. */
-  value?: any;
-}
-
-/** A message that describes why a resource is non-compliant with the policy. This is shown in 'deny' error messages and on resource's non-compliant compliance results. */
-export interface NonComplianceMessage {
-  /** A message that describes why a resource is non-compliant with the policy. This is shown in 'deny' error messages and on resource's non-compliant compliance results. */
-  message: string;
-  /** The policy definition reference ID within a policy set definition the message is intended for. This is only applicable if the policy assignment assigns a policy set definition. If this is not provided the message applies to all policies assigned by this policy assignment. */
-  policyDefinitionReferenceId?: string;
-}
-
-/** Identity for the resource.  Policy assignments support a maximum of one identity.  That is either a system assigned identity or a single user assigned identity. */
-export interface Identity {
-  /**
-   * The principal ID of the resource identity.  This property will only be provided for a system assigned identity
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly principalId?: string;
-  /**
-   * The tenant ID of the resource identity.  This property will only be provided for a system assigned identity
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly tenantId?: string;
-  /** The identity type. This is the only required field when adding a system or user assigned identity to a resource. */
-  type?: ResourceIdentityType;
-  /** The user identity associated with the policy. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
-  userAssignedIdentities?: {
-    [propertyName: string]: UserAssignedIdentitiesValue;
-  };
-}
-
-export interface UserAssignedIdentitiesValue {
-  /**
-   * The principal id of user assigned identity.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly principalId?: string;
-  /**
-   * The client id of user assigned identity.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly clientId?: string;
-}
-
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface SystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: CreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: Date;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: CreatedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: Date;
-}
-
-export interface PolicyAssignmentUpdate {
-  /** The location of the policy assignment. Only required when utilizing managed identity. */
-  location?: string;
-  /** The managed identity associated with the policy assignment. */
-  identity?: Identity;
-}
-
-/** List of policy assignments. */
-export interface PolicyAssignmentListResult {
-  /** An array of policy assignments. */
-  value?: PolicyAssignment[];
-  /** The URL to use for getting the next set of results. */
-  nextLink?: string;
-}
-
 /** The policy definition. */
 export interface PolicyDefinition {
   /**
@@ -348,6 +221,10 @@ export interface PolicyDefinition {
   metadata?: any;
   /** The parameter definitions for parameters used in the policy rule. The keys are the parameter names. */
   parameters?: { [propertyName: string]: ParameterDefinitionsValue };
+  /** The policy definition version in #.#.# format. */
+  version?: string;
+  /** A list of available versions for this policy definition. */
+  versions?: string[];
 }
 
 /** The definition of a parameter that can be provided to the policy. */
@@ -358,6 +235,8 @@ export interface ParameterDefinitionsValue {
   allowedValues?: any[];
   /** The default value for the parameter if no value is provided. */
   defaultValue?: any;
+  /** Provides validation of parameter inputs during assignment using a self-defined JSON schema. This property is only supported for object-type parameters and follows the Json.NET Schema 2019-09 implementation. You can learn more about using schemas at https://json-schema.org/ and test draft schemas at https://www.jsonschemavalidator.net/. */
+  schema?: any;
   /** General metadata for the parameter. */
   metadata?: ParameterDefinitionsValueMetadata;
 }
@@ -376,12 +255,76 @@ export interface ParameterDefinitionsValueMetadata {
   assignPermissions?: boolean;
 }
 
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface SystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: CreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: Date;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: CreatedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: Date;
+}
+
 /** List of policy definitions. */
 export interface PolicyDefinitionListResult {
   /** An array of policy definitions. */
   value?: PolicyDefinition[];
   /** The URL to use for getting the next set of results. */
   nextLink?: string;
+}
+
+/** List of policy definition versions. */
+export interface PolicyDefinitionVersionListResult {
+  /** An array of policy definitions versions. */
+  value?: PolicyDefinitionVersion[];
+  /** The URL to use for getting the next set of results. */
+  nextLink?: string;
+}
+
+/** The ID of the policy definition version. */
+export interface PolicyDefinitionVersion {
+  /**
+   * The ID of the policy definition version.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The name of the policy definition version.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * The type of the resource (Microsoft.Authorization/policyDefinitions/versions).
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * The system metadata relating to this resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+  /** The type of policy definition. Possible values are NotSpecified, BuiltIn, Custom, and Static. */
+  policyType?: PolicyType;
+  /** The policy definition mode. Some examples are All, Indexed, Microsoft.KeyVault.Data. */
+  mode?: string;
+  /** The display name of the policy definition. */
+  displayName?: string;
+  /** The policy definition description. */
+  description?: string;
+  /** The policy rule. */
+  policyRule?: any;
+  /** The policy definition metadata.  Metadata is an open ended object and is typically a collection of key value pairs. */
+  metadata?: any;
+  /** The parameter definitions for parameters used in the policy rule. The keys are the parameter names. */
+  parameters?: { [propertyName: string]: ParameterDefinitionsValue };
+  /** The policy definition version in #.#.# format. */
+  version?: string;
 }
 
 /** The policy set definition. */
@@ -406,7 +349,7 @@ export interface PolicySetDefinition {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly systemData?: SystemData;
-  /** The type of policy definition. Possible values are NotSpecified, BuiltIn, Custom, and Static. */
+  /** The type of policy set definition. Possible values are NotSpecified, BuiltIn, Custom, and Static. */
   policyType?: PolicyType;
   /** The display name of the policy set definition. */
   displayName?: string;
@@ -420,18 +363,40 @@ export interface PolicySetDefinition {
   policyDefinitions?: PolicyDefinitionReference[];
   /** The metadata describing groups of policy definition references within the policy set definition. */
   policyDefinitionGroups?: PolicyDefinitionGroup[];
+  /** The policy set definition version in #.#.# format. */
+  version?: string;
+  /** A list of available versions for this policy set definition. */
+  versions?: string[];
 }
 
 /** The policy definition reference. */
 export interface PolicyDefinitionReference {
   /** The ID of the policy definition or policy set definition. */
   policyDefinitionId: string;
+  /** The version of the policy definition to use. */
+  definitionVersion?: string;
+  /**
+   * The latest version of the policy definition available. This is only present if requested via the $expand query parameter.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly latestDefinitionVersion?: string;
+  /**
+   * The effective version of the policy definition in use. This is only present if requested via the $expand query parameter.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly effectiveDefinitionVersion?: string;
   /** The parameter values for the referenced policy rule. The keys are the parameter names. */
   parameters?: { [propertyName: string]: ParameterValuesValue };
   /** A unique id (within the policy set definition) for this policy definition reference. */
   policyDefinitionReferenceId?: string;
   /** The name of the groups that this policy definition reference belongs to. */
   groupNames?: string[];
+}
+
+/** The value of a parameter. */
+export interface ParameterValuesValue {
+  /** The value of the parameter. */
+  value?: any;
 }
 
 /** The policy definition group. */
@@ -452,6 +417,208 @@ export interface PolicyDefinitionGroup {
 export interface PolicySetDefinitionListResult {
   /** An array of policy set definitions. */
   value?: PolicySetDefinition[];
+  /** The URL to use for getting the next set of results. */
+  nextLink?: string;
+}
+
+/** List of policy set definition versions. */
+export interface PolicySetDefinitionVersionListResult {
+  /** An array of policy set definition versions. */
+  value?: PolicySetDefinitionVersion[];
+  /** The URL to use for getting the next set of results. */
+  nextLink?: string;
+}
+
+/** The policy set definition version. */
+export interface PolicySetDefinitionVersion {
+  /**
+   * The ID of the policy set definition version.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The name of the policy set definition version.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * The type of the resource (Microsoft.Authorization/policySetDefinitions/versions).
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * The system metadata relating to this resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+  /** The type of policy definition. Possible values are NotSpecified, BuiltIn, Custom, and Static. */
+  policyType?: PolicyType;
+  /** The display name of the policy set definition. */
+  displayName?: string;
+  /** The policy set definition description. */
+  description?: string;
+  /** The policy set definition metadata.  Metadata is an open ended object and is typically a collection of key value pairs. */
+  metadata?: any;
+  /** The policy set definition parameters that can be used in policy definition references. */
+  parameters?: { [propertyName: string]: ParameterDefinitionsValue };
+  /** An array of policy definition references. */
+  policyDefinitions?: PolicyDefinitionReference[];
+  /** The metadata describing groups of policy definition references within the policy set definition. */
+  policyDefinitionGroups?: PolicyDefinitionGroup[];
+  /** The policy set definition version in #.#.# format. */
+  version?: string;
+}
+
+/** The policy assignment. */
+export interface PolicyAssignment {
+  /**
+   * The ID of the policy assignment.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The type of the policy assignment.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * The name of the policy assignment.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /** The location of the policy assignment. Only required when utilizing managed identity. */
+  location?: string;
+  /** The managed identity associated with the policy assignment. */
+  identity?: Identity;
+  /**
+   * The system metadata relating to this resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+  /** The display name of the policy assignment. */
+  displayName?: string;
+  /** The ID of the policy definition or policy set definition being assigned. */
+  policyDefinitionId?: string;
+  /** The version of the policy definition to use. */
+  definitionVersion?: string;
+  /**
+   * The latest version of the policy definition available. This is only present if requested via the $expand query parameter.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly latestDefinitionVersion?: string;
+  /**
+   * The effective version of the policy definition in use. This is only present if requested via the $expand query parameter.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly effectiveDefinitionVersion?: string;
+  /**
+   * The scope for the policy assignment.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly scope?: string;
+  /** The policy's excluded scopes. */
+  notScopes?: string[];
+  /** The parameter values for the assigned policy rule. The keys are the parameter names. */
+  parameters?: { [propertyName: string]: ParameterValuesValue };
+  /** This message will be part of response in case of policy violation. */
+  description?: string;
+  /** The policy assignment metadata. Metadata is an open ended object and is typically a collection of key value pairs. */
+  metadata?: any;
+  /** The policy assignment enforcement mode. Possible values are Default and DoNotEnforce. */
+  enforcementMode?: EnforcementMode;
+  /** The messages that describe why a resource is non-compliant with the policy. */
+  nonComplianceMessages?: NonComplianceMessage[];
+  /** The resource selector list to filter policies by resource properties. */
+  resourceSelectors?: ResourceSelector[];
+  /** The policy property value override. */
+  overrides?: Override[];
+}
+
+/** A message that describes why a resource is non-compliant with the policy. This is shown in 'deny' error messages and on resource's non-compliant compliance results. */
+export interface NonComplianceMessage {
+  /** A message that describes why a resource is non-compliant with the policy. This is shown in 'deny' error messages and on resource's non-compliant compliance results. */
+  message: string;
+  /** The policy definition reference ID within a policy set definition the message is intended for. This is only applicable if the policy assignment assigns a policy set definition. If this is not provided the message applies to all policies assigned by this policy assignment. */
+  policyDefinitionReferenceId?: string;
+}
+
+/** The resource selector to filter policies by resource properties. */
+export interface ResourceSelector {
+  /** The name of the resource selector. */
+  name?: string;
+  /** The list of the selector expressions. */
+  selectors?: Selector[];
+}
+
+/** The selector expression. */
+export interface Selector {
+  /** The selector kind. */
+  kind?: SelectorKind;
+  /** The list of values to filter in. */
+  in?: string[];
+  /** The list of values to filter out. */
+  notIn?: string[];
+}
+
+/** The policy property value override. */
+export interface Override {
+  /** The override kind. */
+  kind?: OverrideKind;
+  /** The value to override the policy property. */
+  value?: string;
+  /** The list of the selector expressions. */
+  selectors?: Selector[];
+}
+
+/** Identity for the resource.  Policy assignments support a maximum of one identity.  That is either a system assigned identity or a single user assigned identity. */
+export interface Identity {
+  /**
+   * The principal ID of the resource identity.  This property will only be provided for a system assigned identity
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly principalId?: string;
+  /**
+   * The tenant ID of the resource identity.  This property will only be provided for a system assigned identity
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly tenantId?: string;
+  /** The identity type. This is the only required field when adding a system or user assigned identity to a resource. */
+  type?: ResourceIdentityType;
+  /** The user identity associated with the policy. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
+  userAssignedIdentities?: {
+    [propertyName: string]: UserAssignedIdentitiesValue;
+  };
+}
+
+export interface UserAssignedIdentitiesValue {
+  /**
+   * The principal id of user assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly principalId?: string;
+  /**
+   * The client id of user assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly clientId?: string;
+}
+
+/** The policy assignment for Patch request. */
+export interface PolicyAssignmentUpdate {
+  /** The location of the policy assignment. Only required when utilizing managed identity. */
+  location?: string;
+  /** The managed identity associated with the policy assignment. */
+  identity?: Identity;
+  /** The resource selector list to filter policies by resource properties. */
+  resourceSelectors?: ResourceSelector[];
+  /** The policy property value override. */
+  overrides?: Override[];
+}
+
+/** List of policy assignments. */
+export interface PolicyAssignmentListResult {
+  /** An array of policy assignments. */
+  value?: PolicyAssignment[];
   /** The URL to use for getting the next set of results. */
   nextLink?: string;
 }
@@ -492,12 +659,112 @@ export interface PolicyExemption {
   description?: string;
   /** The policy exemption metadata. Metadata is an open ended object and is typically a collection of key value pairs. */
   metadata?: any;
+  /** The resource selector list to filter policies by resource properties. */
+  resourceSelectors?: ResourceSelector[];
+  /** The option whether validate the exemption is at or under the assignment scope. */
+  assignmentScopeValidation?: AssignmentScopeValidation;
+}
+
+/** The policy exemption for Patch request. */
+export interface PolicyExemptionUpdate {
+  /** The resource selector list to filter policies by resource properties. */
+  resourceSelectors?: ResourceSelector[];
+  /** The option whether validate the exemption is at or under the assignment scope. */
+  assignmentScopeValidation?: AssignmentScopeValidation;
 }
 
 /** List of policy exemptions. */
 export interface PolicyExemptionListResult {
   /** An array of policy exemptions. */
   value?: PolicyExemption[];
+  /**
+   * The URL to use for getting the next set of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** The variable. */
+export interface Variable {
+  /**
+   * Azure Resource Manager metadata containing createdBy and modifiedBy information.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+  /**
+   * The ID of the variable.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The name of the variable.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * The type of the resource (Microsoft.Authorization/variables).
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /** Variable column definitions. */
+  columns: PolicyVariableColumn[];
+}
+
+/** The variable column. */
+export interface PolicyVariableColumn {
+  /** The name of this policy variable column. */
+  columnName: string;
+}
+
+/** List of variables. */
+export interface VariableListResult {
+  /** An array of variables. */
+  value?: Variable[];
+  /**
+   * The URL to use for getting the next set of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** The variable value. */
+export interface VariableValue {
+  /**
+   * Azure Resource Manager metadata containing createdBy and modifiedBy information.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+  /**
+   * The ID of the variable.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The name of the variable.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * The type of the resource (Microsoft.Authorization/variables/values).
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /** Variable value column value array. */
+  values: PolicyVariableValueColumnValue[];
+}
+
+/** The name value tuple for this variable value column. */
+export interface PolicyVariableValueColumnValue {
+  /** Column name for the variable value */
+  columnName: string;
+  /** Column value for the variable value; this can be an integer, double, boolean, null or a string. */
+  columnValue: any;
+}
+
+/** List of variable values. */
+export interface VariableValueListResult {
+  /** An array of variable values. */
+  value?: VariableValue[];
   /**
    * The URL to use for getting the next set of results.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -522,7 +789,7 @@ export enum KnownAliasPathTokenType {
   /** The token type is number. */
   Number = "Number",
   /** The token type is boolean. */
-  Boolean = "Boolean"
+  Boolean = "Boolean",
 }
 
 /**
@@ -546,7 +813,7 @@ export enum KnownAliasPathAttributes {
   /** The token that the alias path is referring to has no attributes. */
   None = "None",
   /** The token that the alias path is referring to is modifiable by policies with 'modify' effect. */
-  Modifiable = "Modifiable"
+  Modifiable = "Modifiable",
 }
 
 /**
@@ -559,48 +826,6 @@ export enum KnownAliasPathAttributes {
  */
 export type AliasPathAttributes = string;
 
-/** Known values of {@link EnforcementMode} that the service accepts. */
-export enum KnownEnforcementMode {
-  /** The policy effect is enforced during resource creation or update. */
-  Default = "Default",
-  /** The policy effect is not enforced during resource creation or update. */
-  DoNotEnforce = "DoNotEnforce"
-}
-
-/**
- * Defines values for EnforcementMode. \
- * {@link KnownEnforcementMode} can be used interchangeably with EnforcementMode,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Default**: The policy effect is enforced during resource creation or update. \
- * **DoNotEnforce**: The policy effect is not enforced during resource creation or update.
- */
-export type EnforcementMode = string;
-
-/** Known values of {@link CreatedByType} that the service accepts. */
-export enum KnownCreatedByType {
-  /** User */
-  User = "User",
-  /** Application */
-  Application = "Application",
-  /** ManagedIdentity */
-  ManagedIdentity = "ManagedIdentity",
-  /** Key */
-  Key = "Key"
-}
-
-/**
- * Defines values for CreatedByType. \
- * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **User** \
- * **Application** \
- * **ManagedIdentity** \
- * **Key**
- */
-export type CreatedByType = string;
-
 /** Known values of {@link PolicyType} that the service accepts. */
 export enum KnownPolicyType {
   /** NotSpecified */
@@ -610,7 +835,7 @@ export enum KnownPolicyType {
   /** Custom */
   Custom = "Custom",
   /** Static */
-  Static = "Static"
+  Static = "Static",
 }
 
 /**
@@ -640,7 +865,7 @@ export enum KnownParameterType {
   /** Float */
   Float = "Float",
   /** DateTime */
-  DateTime = "DateTime"
+  DateTime = "DateTime",
 }
 
 /**
@@ -658,12 +883,93 @@ export enum KnownParameterType {
  */
 export type ParameterType = string;
 
+/** Known values of {@link CreatedByType} that the service accepts. */
+export enum KnownCreatedByType {
+  /** User */
+  User = "User",
+  /** Application */
+  Application = "Application",
+  /** ManagedIdentity */
+  ManagedIdentity = "ManagedIdentity",
+  /** Key */
+  Key = "Key",
+}
+
+/**
+ * Defines values for CreatedByType. \
+ * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **User** \
+ * **Application** \
+ * **ManagedIdentity** \
+ * **Key**
+ */
+export type CreatedByType = string;
+
+/** Known values of {@link EnforcementMode} that the service accepts. */
+export enum KnownEnforcementMode {
+  /** The policy effect is enforced during resource creation or update. */
+  Default = "Default",
+  /** The policy effect is not enforced during resource creation or update. */
+  DoNotEnforce = "DoNotEnforce",
+}
+
+/**
+ * Defines values for EnforcementMode. \
+ * {@link KnownEnforcementMode} can be used interchangeably with EnforcementMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Default**: The policy effect is enforced during resource creation or update. \
+ * **DoNotEnforce**: The policy effect is not enforced during resource creation or update.
+ */
+export type EnforcementMode = string;
+
+/** Known values of {@link SelectorKind} that the service accepts. */
+export enum KnownSelectorKind {
+  /** The selector kind to filter policies by the resource location. */
+  ResourceLocation = "resourceLocation",
+  /** The selector kind to filter policies by the resource type. */
+  ResourceType = "resourceType",
+  /** The selector kind to filter policies by the resource without location. */
+  ResourceWithoutLocation = "resourceWithoutLocation",
+  /** The selector kind to filter policies by the policy definition reference ID. */
+  PolicyDefinitionReferenceId = "policyDefinitionReferenceId",
+}
+
+/**
+ * Defines values for SelectorKind. \
+ * {@link KnownSelectorKind} can be used interchangeably with SelectorKind,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **resourceLocation**: The selector kind to filter policies by the resource location. \
+ * **resourceType**: The selector kind to filter policies by the resource type. \
+ * **resourceWithoutLocation**: The selector kind to filter policies by the resource without location. \
+ * **policyDefinitionReferenceId**: The selector kind to filter policies by the policy definition reference ID.
+ */
+export type SelectorKind = string;
+
+/** Known values of {@link OverrideKind} that the service accepts. */
+export enum KnownOverrideKind {
+  /** It will override the policy effect type. */
+  PolicyEffect = "policyEffect",
+}
+
+/**
+ * Defines values for OverrideKind. \
+ * {@link KnownOverrideKind} can be used interchangeably with OverrideKind,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **policyEffect**: It will override the policy effect type.
+ */
+export type OverrideKind = string;
+
 /** Known values of {@link ExemptionCategory} that the service accepts. */
 export enum KnownExemptionCategory {
   /** This category of exemptions usually means the scope is not applicable for the policy. */
   Waiver = "Waiver",
   /** This category of exemptions usually means the mitigation actions have been applied to the scope. */
-  Mitigated = "Mitigated"
+  Mitigated = "Mitigated",
 }
 
 /**
@@ -675,6 +981,24 @@ export enum KnownExemptionCategory {
  * **Mitigated**: This category of exemptions usually means the mitigation actions have been applied to the scope.
  */
 export type ExemptionCategory = string;
+
+/** Known values of {@link AssignmentScopeValidation} that the service accepts. */
+export enum KnownAssignmentScopeValidation {
+  /** This option will validate the exemption is at or under the assignment scope. */
+  Default = "Default",
+  /** This option will bypass the validation the exemption scope is at or under the policy assignment scope. */
+  DoNotValidate = "DoNotValidate",
+}
+
+/**
+ * Defines values for AssignmentScopeValidation. \
+ * {@link KnownAssignmentScopeValidation} can be used interchangeably with AssignmentScopeValidation,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Default**: This option will validate the exemption is at or under the assignment scope. \
+ * **DoNotValidate**: This option will bypass the validation the exemption scope is at or under the policy assignment scope.
+ */
+export type AssignmentScopeValidation = string;
 /** Defines values for AliasPatternType. */
 export type AliasPatternType = "NotSpecified" | "Extract";
 /** Defines values for AliasType. */
@@ -707,138 +1031,6 @@ export interface DataPolicyManifestsListNextOptionalParams
 export type DataPolicyManifestsListNextResponse = DataPolicyManifestListResult;
 
 /** Optional parameters. */
-export interface PolicyAssignmentsDeleteOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the delete operation. */
-export type PolicyAssignmentsDeleteResponse = PolicyAssignment;
-
-/** Optional parameters. */
-export interface PolicyAssignmentsCreateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the create operation. */
-export type PolicyAssignmentsCreateResponse = PolicyAssignment;
-
-/** Optional parameters. */
-export interface PolicyAssignmentsGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type PolicyAssignmentsGetResponse = PolicyAssignment;
-
-/** Optional parameters. */
-export interface PolicyAssignmentsUpdateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the update operation. */
-export type PolicyAssignmentsUpdateResponse = PolicyAssignment;
-
-/** Optional parameters. */
-export interface PolicyAssignmentsListForResourceGroupOptionalParams
-  extends coreClient.OperationOptions {
-  /** The filter to apply on the operation. Valid values for $filter are: 'atScope()', 'atExactScope()' or 'policyDefinitionId eq '{value}''. If $filter is not provided, no filtering is performed. If $filter=atScope() is provided, the returned list only includes all policy assignments that apply to the scope, which is everything in the unfiltered list except those applied to sub scopes contained within the given scope. If $filter=atExactScope() is provided, the returned list only includes all policy assignments that at the given scope. If $filter=policyDefinitionId eq '{value}' is provided, the returned list includes all policy assignments of the policy definition whose id is {value}. */
-  filter?: string;
-  /** Maximum number of records to return. When the $top filter is not provided, it will return 500 records. */
-  top?: number;
-}
-
-/** Contains response data for the listForResourceGroup operation. */
-export type PolicyAssignmentsListForResourceGroupResponse = PolicyAssignmentListResult;
-
-/** Optional parameters. */
-export interface PolicyAssignmentsListForResourceOptionalParams
-  extends coreClient.OperationOptions {
-  /** The filter to apply on the operation. Valid values for $filter are: 'atScope()', 'atExactScope()' or 'policyDefinitionId eq '{value}''. If $filter is not provided, no filtering is performed. If $filter=atScope() is provided, the returned list only includes all policy assignments that apply to the scope, which is everything in the unfiltered list except those applied to sub scopes contained within the given scope. If $filter=atExactScope() is provided, the returned list only includes all policy assignments that at the given scope. If $filter=policyDefinitionId eq '{value}' is provided, the returned list includes all policy assignments of the policy definition whose id is {value}. */
-  filter?: string;
-  /** Maximum number of records to return. When the $top filter is not provided, it will return 500 records. */
-  top?: number;
-}
-
-/** Contains response data for the listForResource operation. */
-export type PolicyAssignmentsListForResourceResponse = PolicyAssignmentListResult;
-
-/** Optional parameters. */
-export interface PolicyAssignmentsListForManagementGroupOptionalParams
-  extends coreClient.OperationOptions {
-  /** The filter to apply on the operation. Valid values for $filter are: 'atScope()', 'atExactScope()' or 'policyDefinitionId eq '{value}''. If $filter is not provided, no filtering is performed. If $filter=atScope() is provided, the returned list only includes all policy assignments that apply to the scope, which is everything in the unfiltered list except those applied to sub scopes contained within the given scope. If $filter=atExactScope() is provided, the returned list only includes all policy assignments that at the given scope. If $filter=policyDefinitionId eq '{value}' is provided, the returned list includes all policy assignments of the policy definition whose id is {value}. */
-  filter?: string;
-  /** Maximum number of records to return. When the $top filter is not provided, it will return 500 records. */
-  top?: number;
-}
-
-/** Contains response data for the listForManagementGroup operation. */
-export type PolicyAssignmentsListForManagementGroupResponse = PolicyAssignmentListResult;
-
-/** Optional parameters. */
-export interface PolicyAssignmentsListOptionalParams
-  extends coreClient.OperationOptions {
-  /** The filter to apply on the operation. Valid values for $filter are: 'atScope()', 'atExactScope()' or 'policyDefinitionId eq '{value}''. If $filter is not provided, no filtering is performed. If $filter=atScope() is provided, the returned list only includes all policy assignments that apply to the scope, which is everything in the unfiltered list except those applied to sub scopes contained within the given scope. If $filter=atExactScope() is provided, the returned list only includes all policy assignments that at the given scope. If $filter=policyDefinitionId eq '{value}' is provided, the returned list includes all policy assignments of the policy definition whose id is {value}. */
-  filter?: string;
-  /** Maximum number of records to return. When the $top filter is not provided, it will return 500 records. */
-  top?: number;
-}
-
-/** Contains response data for the list operation. */
-export type PolicyAssignmentsListResponse = PolicyAssignmentListResult;
-
-/** Optional parameters. */
-export interface PolicyAssignmentsDeleteByIdOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the deleteById operation. */
-export type PolicyAssignmentsDeleteByIdResponse = PolicyAssignment;
-
-/** Optional parameters. */
-export interface PolicyAssignmentsCreateByIdOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the createById operation. */
-export type PolicyAssignmentsCreateByIdResponse = PolicyAssignment;
-
-/** Optional parameters. */
-export interface PolicyAssignmentsGetByIdOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the getById operation. */
-export type PolicyAssignmentsGetByIdResponse = PolicyAssignment;
-
-/** Optional parameters. */
-export interface PolicyAssignmentsUpdateByIdOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the updateById operation. */
-export type PolicyAssignmentsUpdateByIdResponse = PolicyAssignment;
-
-/** Optional parameters. */
-export interface PolicyAssignmentsListForResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listForResourceGroupNext operation. */
-export type PolicyAssignmentsListForResourceGroupNextResponse = PolicyAssignmentListResult;
-
-/** Optional parameters. */
-export interface PolicyAssignmentsListForResourceNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listForResourceNext operation. */
-export type PolicyAssignmentsListForResourceNextResponse = PolicyAssignmentListResult;
-
-/** Optional parameters. */
-export interface PolicyAssignmentsListForManagementGroupNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listForManagementGroupNext operation. */
-export type PolicyAssignmentsListForManagementGroupNextResponse = PolicyAssignmentListResult;
-
-/** Optional parameters. */
-export interface PolicyAssignmentsListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type PolicyAssignmentsListNextResponse = PolicyAssignmentListResult;
-
-/** Optional parameters. */
 export interface PolicyDefinitionsCreateOrUpdateOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -868,7 +1060,8 @@ export interface PolicyDefinitionsCreateOrUpdateAtManagementGroupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdateAtManagementGroup operation. */
-export type PolicyDefinitionsCreateOrUpdateAtManagementGroupResponse = PolicyDefinition;
+export type PolicyDefinitionsCreateOrUpdateAtManagementGroupResponse =
+  PolicyDefinition;
 
 /** Optional parameters. */
 export interface PolicyDefinitionsDeleteAtManagementGroupOptionalParams
@@ -915,7 +1108,8 @@ export interface PolicyDefinitionsListByManagementGroupOptionalParams
 }
 
 /** Contains response data for the listByManagementGroup operation. */
-export type PolicyDefinitionsListByManagementGroupResponse = PolicyDefinitionListResult;
+export type PolicyDefinitionsListByManagementGroupResponse =
+  PolicyDefinitionListResult;
 
 /** Optional parameters. */
 export interface PolicyDefinitionsListNextOptionalParams
@@ -929,14 +1123,144 @@ export interface PolicyDefinitionsListBuiltInNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBuiltInNext operation. */
-export type PolicyDefinitionsListBuiltInNextResponse = PolicyDefinitionListResult;
+export type PolicyDefinitionsListBuiltInNextResponse =
+  PolicyDefinitionListResult;
 
 /** Optional parameters. */
 export interface PolicyDefinitionsListByManagementGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByManagementGroupNext operation. */
-export type PolicyDefinitionsListByManagementGroupNextResponse = PolicyDefinitionListResult;
+export type PolicyDefinitionsListByManagementGroupNextResponse =
+  PolicyDefinitionListResult;
+
+/** Optional parameters. */
+export interface PolicyDefinitionVersionsListAllBuiltinsOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listAllBuiltins operation. */
+export type PolicyDefinitionVersionsListAllBuiltinsResponse =
+  PolicyDefinitionVersionListResult;
+
+/** Optional parameters. */
+export interface PolicyDefinitionVersionsListAllAtManagementGroupOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listAllAtManagementGroup operation. */
+export type PolicyDefinitionVersionsListAllAtManagementGroupResponse =
+  PolicyDefinitionVersionListResult;
+
+/** Optional parameters. */
+export interface PolicyDefinitionVersionsListAllOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listAll operation. */
+export type PolicyDefinitionVersionsListAllResponse =
+  PolicyDefinitionVersionListResult;
+
+/** Optional parameters. */
+export interface PolicyDefinitionVersionsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdate operation. */
+export type PolicyDefinitionVersionsCreateOrUpdateResponse =
+  PolicyDefinitionVersion;
+
+/** Optional parameters. */
+export interface PolicyDefinitionVersionsDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface PolicyDefinitionVersionsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type PolicyDefinitionVersionsGetResponse = PolicyDefinitionVersion;
+
+/** Optional parameters. */
+export interface PolicyDefinitionVersionsGetBuiltInOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getBuiltIn operation. */
+export type PolicyDefinitionVersionsGetBuiltInResponse =
+  PolicyDefinitionVersion;
+
+/** Optional parameters. */
+export interface PolicyDefinitionVersionsCreateOrUpdateAtManagementGroupOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdateAtManagementGroup operation. */
+export type PolicyDefinitionVersionsCreateOrUpdateAtManagementGroupResponse =
+  PolicyDefinitionVersion;
+
+/** Optional parameters. */
+export interface PolicyDefinitionVersionsDeleteAtManagementGroupOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface PolicyDefinitionVersionsGetAtManagementGroupOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getAtManagementGroup operation. */
+export type PolicyDefinitionVersionsGetAtManagementGroupResponse =
+  PolicyDefinitionVersion;
+
+/** Optional parameters. */
+export interface PolicyDefinitionVersionsListOptionalParams
+  extends coreClient.OperationOptions {
+  /** Maximum number of records to return. When the $top filter is not provided, it will return 500 records. */
+  top?: number;
+}
+
+/** Contains response data for the list operation. */
+export type PolicyDefinitionVersionsListResponse =
+  PolicyDefinitionVersionListResult;
+
+/** Optional parameters. */
+export interface PolicyDefinitionVersionsListBuiltInOptionalParams
+  extends coreClient.OperationOptions {
+  /** Maximum number of records to return. When the $top filter is not provided, it will return 500 records. */
+  top?: number;
+}
+
+/** Contains response data for the listBuiltIn operation. */
+export type PolicyDefinitionVersionsListBuiltInResponse =
+  PolicyDefinitionVersionListResult;
+
+/** Optional parameters. */
+export interface PolicyDefinitionVersionsListByManagementGroupOptionalParams
+  extends coreClient.OperationOptions {
+  /** Maximum number of records to return. When the $top filter is not provided, it will return 500 records. */
+  top?: number;
+}
+
+/** Contains response data for the listByManagementGroup operation. */
+export type PolicyDefinitionVersionsListByManagementGroupResponse =
+  PolicyDefinitionVersionListResult;
+
+/** Optional parameters. */
+export interface PolicyDefinitionVersionsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type PolicyDefinitionVersionsListNextResponse =
+  PolicyDefinitionVersionListResult;
+
+/** Optional parameters. */
+export interface PolicyDefinitionVersionsListBuiltInNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBuiltInNext operation. */
+export type PolicyDefinitionVersionsListBuiltInNextResponse =
+  PolicyDefinitionVersionListResult;
+
+/** Optional parameters. */
+export interface PolicyDefinitionVersionsListByManagementGroupNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByManagementGroupNext operation. */
+export type PolicyDefinitionVersionsListByManagementGroupNextResponse =
+  PolicyDefinitionVersionListResult;
 
 /** Optional parameters. */
 export interface PolicySetDefinitionsCreateOrUpdateOptionalParams
@@ -951,14 +1275,20 @@ export interface PolicySetDefinitionsDeleteOptionalParams
 
 /** Optional parameters. */
 export interface PolicySetDefinitionsGetOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** Comma-separated list of additional properties to be included in the response. Supported values are 'LatestDefinitionVersion, EffectiveDefinitionVersion'. */
+  expand?: string;
+}
 
 /** Contains response data for the get operation. */
 export type PolicySetDefinitionsGetResponse = PolicySetDefinition;
 
 /** Optional parameters. */
 export interface PolicySetDefinitionsGetBuiltInOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** Comma-separated list of additional properties to be included in the response. Supported values are 'LatestDefinitionVersion, EffectiveDefinitionVersion'. */
+  expand?: string;
+}
 
 /** Contains response data for the getBuiltIn operation. */
 export type PolicySetDefinitionsGetBuiltInResponse = PolicySetDefinition;
@@ -970,6 +1300,8 @@ export interface PolicySetDefinitionsListOptionalParams
   filter?: string;
   /** Maximum number of records to return. When the $top filter is not provided, it will return 500 records. */
   top?: number;
+  /** Comma-separated list of additional properties to be included in the response. Supported values are 'LatestDefinitionVersion, EffectiveDefinitionVersion'. */
+  expand?: string;
 }
 
 /** Contains response data for the list operation. */
@@ -982,17 +1314,21 @@ export interface PolicySetDefinitionsListBuiltInOptionalParams
   filter?: string;
   /** Maximum number of records to return. When the $top filter is not provided, it will return 500 records. */
   top?: number;
+  /** Comma-separated list of additional properties to be included in the response. Supported values are 'LatestDefinitionVersion, EffectiveDefinitionVersion'. */
+  expand?: string;
 }
 
 /** Contains response data for the listBuiltIn operation. */
-export type PolicySetDefinitionsListBuiltInResponse = PolicySetDefinitionListResult;
+export type PolicySetDefinitionsListBuiltInResponse =
+  PolicySetDefinitionListResult;
 
 /** Optional parameters. */
 export interface PolicySetDefinitionsCreateOrUpdateAtManagementGroupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdateAtManagementGroup operation. */
-export type PolicySetDefinitionsCreateOrUpdateAtManagementGroupResponse = PolicySetDefinition;
+export type PolicySetDefinitionsCreateOrUpdateAtManagementGroupResponse =
+  PolicySetDefinition;
 
 /** Optional parameters. */
 export interface PolicySetDefinitionsDeleteAtManagementGroupOptionalParams
@@ -1000,10 +1336,14 @@ export interface PolicySetDefinitionsDeleteAtManagementGroupOptionalParams
 
 /** Optional parameters. */
 export interface PolicySetDefinitionsGetAtManagementGroupOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** Comma-separated list of additional properties to be included in the response. Supported values are 'LatestDefinitionVersion, EffectiveDefinitionVersion'. */
+  expand?: string;
+}
 
 /** Contains response data for the getAtManagementGroup operation. */
-export type PolicySetDefinitionsGetAtManagementGroupResponse = PolicySetDefinition;
+export type PolicySetDefinitionsGetAtManagementGroupResponse =
+  PolicySetDefinition;
 
 /** Optional parameters. */
 export interface PolicySetDefinitionsListByManagementGroupOptionalParams
@@ -1012,31 +1352,332 @@ export interface PolicySetDefinitionsListByManagementGroupOptionalParams
   filter?: string;
   /** Maximum number of records to return. When the $top filter is not provided, it will return 500 records. */
   top?: number;
+  /** Comma-separated list of additional properties to be included in the response. Supported values are 'LatestDefinitionVersion, EffectiveDefinitionVersion'. */
+  expand?: string;
 }
 
 /** Contains response data for the listByManagementGroup operation. */
-export type PolicySetDefinitionsListByManagementGroupResponse = PolicySetDefinitionListResult;
+export type PolicySetDefinitionsListByManagementGroupResponse =
+  PolicySetDefinitionListResult;
 
 /** Optional parameters. */
 export interface PolicySetDefinitionsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type PolicySetDefinitionsListNextResponse = PolicySetDefinitionListResult;
+export type PolicySetDefinitionsListNextResponse =
+  PolicySetDefinitionListResult;
 
 /** Optional parameters. */
 export interface PolicySetDefinitionsListBuiltInNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBuiltInNext operation. */
-export type PolicySetDefinitionsListBuiltInNextResponse = PolicySetDefinitionListResult;
+export type PolicySetDefinitionsListBuiltInNextResponse =
+  PolicySetDefinitionListResult;
 
 /** Optional parameters. */
 export interface PolicySetDefinitionsListByManagementGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByManagementGroupNext operation. */
-export type PolicySetDefinitionsListByManagementGroupNextResponse = PolicySetDefinitionListResult;
+export type PolicySetDefinitionsListByManagementGroupNextResponse =
+  PolicySetDefinitionListResult;
+
+/** Optional parameters. */
+export interface PolicySetDefinitionVersionsListAllBuiltinsOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listAllBuiltins operation. */
+export type PolicySetDefinitionVersionsListAllBuiltinsResponse =
+  PolicySetDefinitionVersionListResult;
+
+/** Optional parameters. */
+export interface PolicySetDefinitionVersionsListAllAtManagementGroupOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listAllAtManagementGroup operation. */
+export type PolicySetDefinitionVersionsListAllAtManagementGroupResponse =
+  PolicySetDefinitionVersionListResult;
+
+/** Optional parameters. */
+export interface PolicySetDefinitionVersionsListAllOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listAll operation. */
+export type PolicySetDefinitionVersionsListAllResponse =
+  PolicySetDefinitionVersionListResult;
+
+/** Optional parameters. */
+export interface PolicySetDefinitionVersionsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdate operation. */
+export type PolicySetDefinitionVersionsCreateOrUpdateResponse =
+  PolicySetDefinitionVersion;
+
+/** Optional parameters. */
+export interface PolicySetDefinitionVersionsDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface PolicySetDefinitionVersionsGetOptionalParams
+  extends coreClient.OperationOptions {
+  /** Comma-separated list of additional properties to be included in the response. Supported values are 'LatestDefinitionVersion, EffectiveDefinitionVersion'. */
+  expand?: string;
+}
+
+/** Contains response data for the get operation. */
+export type PolicySetDefinitionVersionsGetResponse = PolicySetDefinitionVersion;
+
+/** Optional parameters. */
+export interface PolicySetDefinitionVersionsGetBuiltInOptionalParams
+  extends coreClient.OperationOptions {
+  /** Comma-separated list of additional properties to be included in the response. Supported values are 'LatestDefinitionVersion, EffectiveDefinitionVersion'. */
+  expand?: string;
+}
+
+/** Contains response data for the getBuiltIn operation. */
+export type PolicySetDefinitionVersionsGetBuiltInResponse =
+  PolicySetDefinitionVersion;
+
+/** Optional parameters. */
+export interface PolicySetDefinitionVersionsListOptionalParams
+  extends coreClient.OperationOptions {
+  /** Maximum number of records to return. When the $top filter is not provided, it will return 500 records. */
+  top?: number;
+  /** Comma-separated list of additional properties to be included in the response. Supported values are 'LatestDefinitionVersion, EffectiveDefinitionVersion'. */
+  expand?: string;
+}
+
+/** Contains response data for the list operation. */
+export type PolicySetDefinitionVersionsListResponse =
+  PolicySetDefinitionVersionListResult;
+
+/** Optional parameters. */
+export interface PolicySetDefinitionVersionsListBuiltInOptionalParams
+  extends coreClient.OperationOptions {
+  /** Maximum number of records to return. When the $top filter is not provided, it will return 500 records. */
+  top?: number;
+  /** Comma-separated list of additional properties to be included in the response. Supported values are 'LatestDefinitionVersion, EffectiveDefinitionVersion'. */
+  expand?: string;
+}
+
+/** Contains response data for the listBuiltIn operation. */
+export type PolicySetDefinitionVersionsListBuiltInResponse =
+  PolicySetDefinitionVersionListResult;
+
+/** Optional parameters. */
+export interface PolicySetDefinitionVersionsCreateOrUpdateAtManagementGroupOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdateAtManagementGroup operation. */
+export type PolicySetDefinitionVersionsCreateOrUpdateAtManagementGroupResponse =
+  PolicySetDefinitionVersion;
+
+/** Optional parameters. */
+export interface PolicySetDefinitionVersionsDeleteAtManagementGroupOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface PolicySetDefinitionVersionsGetAtManagementGroupOptionalParams
+  extends coreClient.OperationOptions {
+  /** Comma-separated list of additional properties to be included in the response. Supported values are 'LatestDefinitionVersion, EffectiveDefinitionVersion'. */
+  expand?: string;
+}
+
+/** Contains response data for the getAtManagementGroup operation. */
+export type PolicySetDefinitionVersionsGetAtManagementGroupResponse =
+  PolicySetDefinitionVersion;
+
+/** Optional parameters. */
+export interface PolicySetDefinitionVersionsListByManagementGroupOptionalParams
+  extends coreClient.OperationOptions {
+  /** Maximum number of records to return. When the $top filter is not provided, it will return 500 records. */
+  top?: number;
+  /** Comma-separated list of additional properties to be included in the response. Supported values are 'LatestDefinitionVersion, EffectiveDefinitionVersion'. */
+  expand?: string;
+}
+
+/** Contains response data for the listByManagementGroup operation. */
+export type PolicySetDefinitionVersionsListByManagementGroupResponse =
+  PolicySetDefinitionVersionListResult;
+
+/** Optional parameters. */
+export interface PolicySetDefinitionVersionsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type PolicySetDefinitionVersionsListNextResponse =
+  PolicySetDefinitionVersionListResult;
+
+/** Optional parameters. */
+export interface PolicySetDefinitionVersionsListBuiltInNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBuiltInNext operation. */
+export type PolicySetDefinitionVersionsListBuiltInNextResponse =
+  PolicySetDefinitionVersionListResult;
+
+/** Optional parameters. */
+export interface PolicySetDefinitionVersionsListByManagementGroupNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByManagementGroupNext operation. */
+export type PolicySetDefinitionVersionsListByManagementGroupNextResponse =
+  PolicySetDefinitionVersionListResult;
+
+/** Optional parameters. */
+export interface PolicyAssignmentsDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the delete operation. */
+export type PolicyAssignmentsDeleteResponse = PolicyAssignment;
+
+/** Optional parameters. */
+export interface PolicyAssignmentsCreateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the create operation. */
+export type PolicyAssignmentsCreateResponse = PolicyAssignment;
+
+/** Optional parameters. */
+export interface PolicyAssignmentsGetOptionalParams
+  extends coreClient.OperationOptions {
+  /** Comma-separated list of additional properties to be included in the response. Supported values are 'LatestDefinitionVersion, EffectiveDefinitionVersion'. */
+  expand?: string;
+}
+
+/** Contains response data for the get operation. */
+export type PolicyAssignmentsGetResponse = PolicyAssignment;
+
+/** Optional parameters. */
+export interface PolicyAssignmentsUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the update operation. */
+export type PolicyAssignmentsUpdateResponse = PolicyAssignment;
+
+/** Optional parameters. */
+export interface PolicyAssignmentsListForResourceGroupOptionalParams
+  extends coreClient.OperationOptions {
+  /** The filter to apply on the operation. Valid values for $filter are: 'atScope()', 'atExactScope()' or 'policyDefinitionId eq '{value}''. If $filter is not provided, no filtering is performed. If $filter=atScope() is provided, the returned list only includes all policy assignments that apply to the scope, which is everything in the unfiltered list except those applied to sub scopes contained within the given scope. If $filter=atExactScope() is provided, the returned list only includes all policy assignments that at the given scope. If $filter=policyDefinitionId eq '{value}' is provided, the returned list includes all policy assignments of the policy definition whose id is {value}. */
+  filter?: string;
+  /** Maximum number of records to return. When the $top filter is not provided, it will return 500 records. */
+  top?: number;
+  /** Comma-separated list of additional properties to be included in the response. Supported values are 'LatestDefinitionVersion, EffectiveDefinitionVersion'. */
+  expand?: string;
+}
+
+/** Contains response data for the listForResourceGroup operation. */
+export type PolicyAssignmentsListForResourceGroupResponse =
+  PolicyAssignmentListResult;
+
+/** Optional parameters. */
+export interface PolicyAssignmentsListForResourceOptionalParams
+  extends coreClient.OperationOptions {
+  /** The filter to apply on the operation. Valid values for $filter are: 'atScope()', 'atExactScope()' or 'policyDefinitionId eq '{value}''. If $filter is not provided, no filtering is performed. If $filter=atScope() is provided, the returned list only includes all policy assignments that apply to the scope, which is everything in the unfiltered list except those applied to sub scopes contained within the given scope. If $filter=atExactScope() is provided, the returned list only includes all policy assignments that at the given scope. If $filter=policyDefinitionId eq '{value}' is provided, the returned list includes all policy assignments of the policy definition whose id is {value}. */
+  filter?: string;
+  /** Maximum number of records to return. When the $top filter is not provided, it will return 500 records. */
+  top?: number;
+  /** Comma-separated list of additional properties to be included in the response. Supported values are 'LatestDefinitionVersion, EffectiveDefinitionVersion'. */
+  expand?: string;
+}
+
+/** Contains response data for the listForResource operation. */
+export type PolicyAssignmentsListForResourceResponse =
+  PolicyAssignmentListResult;
+
+/** Optional parameters. */
+export interface PolicyAssignmentsListForManagementGroupOptionalParams
+  extends coreClient.OperationOptions {
+  /** The filter to apply on the operation. Valid values for $filter are: 'atScope()', 'atExactScope()' or 'policyDefinitionId eq '{value}''. If $filter is not provided, no filtering is performed. If $filter=atScope() is provided, the returned list only includes all policy assignments that apply to the scope, which is everything in the unfiltered list except those applied to sub scopes contained within the given scope. If $filter=atExactScope() is provided, the returned list only includes all policy assignments that at the given scope. If $filter=policyDefinitionId eq '{value}' is provided, the returned list includes all policy assignments of the policy definition whose id is {value}. */
+  filter?: string;
+  /** Maximum number of records to return. When the $top filter is not provided, it will return 500 records. */
+  top?: number;
+  /** Comma-separated list of additional properties to be included in the response. Supported values are 'LatestDefinitionVersion, EffectiveDefinitionVersion'. */
+  expand?: string;
+}
+
+/** Contains response data for the listForManagementGroup operation. */
+export type PolicyAssignmentsListForManagementGroupResponse =
+  PolicyAssignmentListResult;
+
+/** Optional parameters. */
+export interface PolicyAssignmentsListOptionalParams
+  extends coreClient.OperationOptions {
+  /** The filter to apply on the operation. Valid values for $filter are: 'atScope()', 'atExactScope()' or 'policyDefinitionId eq '{value}''. If $filter is not provided, no filtering is performed. If $filter=atScope() is provided, the returned list only includes all policy assignments that apply to the scope, which is everything in the unfiltered list except those applied to sub scopes contained within the given scope. If $filter=atExactScope() is provided, the returned list only includes all policy assignments that at the given scope. If $filter=policyDefinitionId eq '{value}' is provided, the returned list includes all policy assignments of the policy definition whose id is {value}. */
+  filter?: string;
+  /** Maximum number of records to return. When the $top filter is not provided, it will return 500 records. */
+  top?: number;
+  /** Comma-separated list of additional properties to be included in the response. Supported values are 'LatestDefinitionVersion, EffectiveDefinitionVersion'. */
+  expand?: string;
+}
+
+/** Contains response data for the list operation. */
+export type PolicyAssignmentsListResponse = PolicyAssignmentListResult;
+
+/** Optional parameters. */
+export interface PolicyAssignmentsDeleteByIdOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the deleteById operation. */
+export type PolicyAssignmentsDeleteByIdResponse = PolicyAssignment;
+
+/** Optional parameters. */
+export interface PolicyAssignmentsCreateByIdOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createById operation. */
+export type PolicyAssignmentsCreateByIdResponse = PolicyAssignment;
+
+/** Optional parameters. */
+export interface PolicyAssignmentsGetByIdOptionalParams
+  extends coreClient.OperationOptions {
+  /** Comma-separated list of additional properties to be included in the response. Supported values are 'LatestDefinitionVersion, EffectiveDefinitionVersion'. */
+  expand?: string;
+}
+
+/** Contains response data for the getById operation. */
+export type PolicyAssignmentsGetByIdResponse = PolicyAssignment;
+
+/** Optional parameters. */
+export interface PolicyAssignmentsUpdateByIdOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the updateById operation. */
+export type PolicyAssignmentsUpdateByIdResponse = PolicyAssignment;
+
+/** Optional parameters. */
+export interface PolicyAssignmentsListForResourceGroupNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listForResourceGroupNext operation. */
+export type PolicyAssignmentsListForResourceGroupNextResponse =
+  PolicyAssignmentListResult;
+
+/** Optional parameters. */
+export interface PolicyAssignmentsListForResourceNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listForResourceNext operation. */
+export type PolicyAssignmentsListForResourceNextResponse =
+  PolicyAssignmentListResult;
+
+/** Optional parameters. */
+export interface PolicyAssignmentsListForManagementGroupNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listForManagementGroupNext operation. */
+export type PolicyAssignmentsListForManagementGroupNextResponse =
+  PolicyAssignmentListResult;
+
+/** Optional parameters. */
+export interface PolicyAssignmentsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type PolicyAssignmentsListNextResponse = PolicyAssignmentListResult;
 
 /** Optional parameters. */
 export interface PolicyExemptionsDeleteOptionalParams
@@ -1057,6 +1698,13 @@ export interface PolicyExemptionsGetOptionalParams
 export type PolicyExemptionsGetResponse = PolicyExemption;
 
 /** Optional parameters. */
+export interface PolicyExemptionsUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the update operation. */
+export type PolicyExemptionsUpdateResponse = PolicyExemption;
+
+/** Optional parameters. */
 export interface PolicyExemptionsListOptionalParams
   extends coreClient.OperationOptions {
   /** The filter to apply on the operation. Valid values for $filter are: 'atScope()', 'atExactScope()', 'excludeExpired()' or 'policyAssignmentId eq '{value}''. If $filter is not provided, no filtering is performed. If $filter is not provided, the unfiltered list includes all policy exemptions associated with the scope, including those that apply directly or apply from containing scopes. If $filter=atScope() is provided, the returned list only includes all policy exemptions that apply to the scope, which is everything in the unfiltered list except those applied to sub scopes contained within the given scope. If $filter=atExactScope() is provided, the returned list only includes all policy exemptions that at the given scope. If $filter=excludeExpired() is provided, the returned list only includes all policy exemptions that either haven't expired or didn't set expiration date. If $filter=policyAssignmentId eq '{value}' is provided. the returned list only includes all policy exemptions that are associated with the give policyAssignmentId. */
@@ -1074,7 +1722,8 @@ export interface PolicyExemptionsListForResourceGroupOptionalParams
 }
 
 /** Contains response data for the listForResourceGroup operation. */
-export type PolicyExemptionsListForResourceGroupResponse = PolicyExemptionListResult;
+export type PolicyExemptionsListForResourceGroupResponse =
+  PolicyExemptionListResult;
 
 /** Optional parameters. */
 export interface PolicyExemptionsListForResourceOptionalParams
@@ -1094,7 +1743,8 @@ export interface PolicyExemptionsListForManagementGroupOptionalParams
 }
 
 /** Contains response data for the listForManagementGroup operation. */
-export type PolicyExemptionsListForManagementGroupResponse = PolicyExemptionListResult;
+export type PolicyExemptionsListForManagementGroupResponse =
+  PolicyExemptionListResult;
 
 /** Optional parameters. */
 export interface PolicyExemptionsListNextOptionalParams
@@ -1108,21 +1758,155 @@ export interface PolicyExemptionsListForResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listForResourceGroupNext operation. */
-export type PolicyExemptionsListForResourceGroupNextResponse = PolicyExemptionListResult;
+export type PolicyExemptionsListForResourceGroupNextResponse =
+  PolicyExemptionListResult;
 
 /** Optional parameters. */
 export interface PolicyExemptionsListForResourceNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listForResourceNext operation. */
-export type PolicyExemptionsListForResourceNextResponse = PolicyExemptionListResult;
+export type PolicyExemptionsListForResourceNextResponse =
+  PolicyExemptionListResult;
 
 /** Optional parameters. */
 export interface PolicyExemptionsListForManagementGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listForManagementGroupNext operation. */
-export type PolicyExemptionsListForManagementGroupNextResponse = PolicyExemptionListResult;
+export type PolicyExemptionsListForManagementGroupNextResponse =
+  PolicyExemptionListResult;
+
+/** Optional parameters. */
+export interface VariablesDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface VariablesCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdate operation. */
+export type VariablesCreateOrUpdateResponse = Variable;
+
+/** Optional parameters. */
+export interface VariablesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type VariablesGetResponse = Variable;
+
+/** Optional parameters. */
+export interface VariablesDeleteAtManagementGroupOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface VariablesCreateOrUpdateAtManagementGroupOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdateAtManagementGroup operation. */
+export type VariablesCreateOrUpdateAtManagementGroupResponse = Variable;
+
+/** Optional parameters. */
+export interface VariablesGetAtManagementGroupOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getAtManagementGroup operation. */
+export type VariablesGetAtManagementGroupResponse = Variable;
+
+/** Optional parameters. */
+export interface VariablesListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type VariablesListResponse = VariableListResult;
+
+/** Optional parameters. */
+export interface VariablesListForManagementGroupOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listForManagementGroup operation. */
+export type VariablesListForManagementGroupResponse = VariableListResult;
+
+/** Optional parameters. */
+export interface VariablesListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type VariablesListNextResponse = VariableListResult;
+
+/** Optional parameters. */
+export interface VariablesListForManagementGroupNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listForManagementGroupNext operation. */
+export type VariablesListForManagementGroupNextResponse = VariableListResult;
+
+/** Optional parameters. */
+export interface VariableValuesDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface VariableValuesCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdate operation. */
+export type VariableValuesCreateOrUpdateResponse = VariableValue;
+
+/** Optional parameters. */
+export interface VariableValuesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type VariableValuesGetResponse = VariableValue;
+
+/** Optional parameters. */
+export interface VariableValuesListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type VariableValuesListResponse = VariableValueListResult;
+
+/** Optional parameters. */
+export interface VariableValuesListForManagementGroupOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listForManagementGroup operation. */
+export type VariableValuesListForManagementGroupResponse =
+  VariableValueListResult;
+
+/** Optional parameters. */
+export interface VariableValuesDeleteAtManagementGroupOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface VariableValuesCreateOrUpdateAtManagementGroupOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdateAtManagementGroup operation. */
+export type VariableValuesCreateOrUpdateAtManagementGroupResponse =
+  VariableValue;
+
+/** Optional parameters. */
+export interface VariableValuesGetAtManagementGroupOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getAtManagementGroup operation. */
+export type VariableValuesGetAtManagementGroupResponse = VariableValue;
+
+/** Optional parameters. */
+export interface VariableValuesListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type VariableValuesListNextResponse = VariableValueListResult;
+
+/** Optional parameters. */
+export interface VariableValuesListForManagementGroupNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listForManagementGroupNext operation. */
+export type VariableValuesListForManagementGroupNextResponse =
+  VariableValueListResult;
 
 /** Optional parameters. */
 export interface PolicyClientOptionalParams

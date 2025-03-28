@@ -10,13 +10,13 @@
 // Licensed under the MIT License.
 const { KeyVaultManagementClient } = require("@azure/arm-keyvault");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Gets the private link resources supported for the managed hsm pool.
  *
  * @summary Gets the private link resources supported for the managed hsm pool.
- * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2023-07-01/examples/ManagedHsm_listPrivateLinkResources.json
+ * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2024-11-01/examples/ManagedHsm_listPrivateLinkResources.json
  */
 async function keyVaultListPrivateLinkResources() {
   const subscriptionId =
@@ -30,7 +30,7 @@ async function keyVaultListPrivateLinkResources() {
 }
 
 async function main() {
-  keyVaultListPrivateLinkResources();
+  await keyVaultListPrivateLinkResources();
 }
 
 main().catch(console.error);
