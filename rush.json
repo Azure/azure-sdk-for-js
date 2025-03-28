@@ -2343,6 +2343,11 @@
       "versionPolicyName": "management"
     },
     {
+      "packageName": "@azure/arm-durabletask",
+      "projectFolder": "sdk/durabletask/arm-durabletask",
+      "versionPolicyName": "management"
+    },
+    {
       "packageName": "@azure/arm-migrationassessment",
       "projectFolder": "sdk/migrate/arm-migrationassessment",
       "versionPolicyName": "management"

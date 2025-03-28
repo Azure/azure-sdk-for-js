@@ -547,6 +547,9 @@ sdk/ai/ai-projects @ganeshyb @GraceBrigham
 /sdk/dns/arm-dns/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/durabletask/arm-durabletask/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/dns/arm-dns-profile-2020-09-01-hybrid/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
