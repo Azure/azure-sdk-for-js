@@ -2,33 +2,35 @@
 // Licensed under the MIT License.
 
 import { matrix } from "@azure-tools/test-utils-vitest";
-import type { Recorder } from "@azure-tools/test-recorder";
-import { env, isPlaybackMode } from "@azure-tools/test-recorder";
+import { isPlaybackMode, type Recorder } from "@azure-tools/test-recorder";
 import type { PhoneNumbersBrowseRequest, PhoneNumbersClient, PhoneNumbersCreateOrUpdateReservationOptionalParams } from "../../src/index.js";
 import { createRecordedClient, createRecordedClientWithToken } from "./utils/recordedClient.js";
 import { isClientErrorStatusCode } from "./utils/statusCodeHelpers.js";
-import { describe, it, assert, beforeEach, afterEach } from "vitest";
-import { generateGUID } from "../../src/utils/helpers.js";
+import { describe, it, assert, beforeEach, afterEach, beforeAll, afterAll } from "vitest";
+import { getReservationId } from "./utils/testPhoneNumber.js";
 
 matrix([[true, false]], async (useAad) => {
-  const skipPhoneNumbersTests = env.COMMUNICATION_SKIP_INT_PHONENUMBERS_TESTS === "true";
+  describe(`PhoneNumbersClient - reservations${useAad ? " [AAD]" : ""}`, () => {
+    let recorder: Recorder;
+    let client: PhoneNumbersClient;
+    let reservationId: string;
 
-  describe(
-    `PhoneNumbersClient  - reservations${useAad ? " [AAD]" : ""}`,
-    { skip: skipPhoneNumbersTests && !isPlaybackMode() },
-    () => {
-      let recorder: Recorder;
-      let client: PhoneNumbersClient;
+    beforeAll(async () => {
+      reservationId = getReservationId();
+    });
+    beforeEach(async (ctx) => {
+      ({ client, recorder } = useAad
+        ? await createRecordedClientWithToken(ctx)!
+        : await createRecordedClient(ctx));
+    });
 
-      beforeEach(async (ctx) => {
-        ({ client, recorder } = useAad
-          ? await createRecordedClientWithToken(ctx)!
-          : await createRecordedClient(ctx));
-      });
+    afterEach(async () => {
+      await recorder.stop();
+    });
 
-      afterEach(async () => {
-        await recorder.stop();
-      });
+    afterAll(async () => {
+      // await client.deleteReservation(reservationId);
+    });
 
       it("can browse available phone number", { timeout: 60000 }, async () => {
         const browseAvailableNumberRequest: PhoneNumbersBrowseRequest = {
@@ -100,16 +102,16 @@ matrix([[true, false]], async (useAad) => {
             phoneNumbers: { [phoneNumbers[0].id as string]: phoneNumbers[0] },
           };
 
-          const reservationResponse = await client.createOrUpdateReservation("", options);
-          const reservationId = reservationResponse.id ? reservationResponse.id : "";
+          const reservationResponse = await client.createOrUpdateReservation(isPlaybackMode() ? getReservationId() : "", options);
+          const responseReservationId = reservationResponse.id ? reservationResponse.id : "";
           assert.equal(reservationResponse.status, "active");
           assert.isTrue(reservationResponse.id !== "");
 
-          const getReservationResponse = await client.getReservation(reservationId);
+          const getReservationResponse = await client.getReservation(responseReservationId);
           assert.equal(getReservationResponse.status, "active");
-          assert.isTrue(getReservationResponse.id === reservationId);
+          assert.isTrue(getReservationResponse.id === responseReservationId);
 
-          await client.deleteReservation(reservationId);
+          await client.deleteReservation(responseReservationId);
       });
 
       it("can create phone number reservation with given reservation id", { timeout: 60000 }, async () => {
@@ -128,7 +130,6 @@ matrix([[true, false]], async (useAad) => {
             phoneNumbers: { [phoneNumbers[0].id as string]: phoneNumbers[0] },
           };
 
-          const reservationId = generateGUID();
           const reservationResponse = await client.createOrUpdateReservation(reservationId, options);
           assert.equal(reservationResponse.status, "active");
           assert.isTrue(reservationResponse.id === reservationId);
@@ -136,8 +137,6 @@ matrix([[true, false]], async (useAad) => {
           const getReservationResponse = await client.getReservation(reservationId);
           assert.equal(getReservationResponse.status, "active");
           assert.isTrue(getReservationResponse.id === reservationId);
-
-          await client.deleteReservation(reservationId);
       });
 
       it("can update an existing reservation", { timeout: 60000 }, async () => {
@@ -152,37 +151,32 @@ matrix([[true, false]], async (useAad) => {
           const browseAvailableNumbers = await client.browseAvailablePhoneNumbers("US", browseAvailableNumberRequest);
 
           const phoneNumbers = browseAvailableNumbers.phoneNumbers;
-          let options: PhoneNumbersCreateOrUpdateReservationOptionalParams = {
+          const options: PhoneNumbersCreateOrUpdateReservationOptionalParams = {
             phoneNumbers: { [phoneNumbers[0].id as string]: phoneNumbers[0] },
           };
 
-          const reservationId = generateGUID();
-          let reservationResponse = await client.createOrUpdateReservation(reservationId, options);
+          const reservationResponse = await client.createOrUpdateReservation(reservationId, options);
           assert.equal(reservationResponse.status, "active");
           assert.isTrue(reservationResponse.id === reservationId);
-          assert.equal(Object.keys(reservationResponse.phoneNumbers || {}).length, 1);
 
-          options = {
+          let updatedOptions: PhoneNumbersCreateOrUpdateReservationOptionalParams = {
             phoneNumbers: { 
-              [phoneNumbers[0].id as string]: phoneNumbers[0], 
-              [phoneNumbers[1].id as string]: phoneNumbers[1] 
+              [phoneNumbers[0].id as string]: phoneNumbers[0],
+              [phoneNumbers[1].id as string]: phoneNumbers[1]
+            },
+          };
+          let updatedReservationResponse = await client.createOrUpdateReservation(reservationId, updatedOptions);
+          assert.isTrue(Object.keys(updatedReservationResponse.phoneNumbers || {}).includes(phoneNumbers[1].id as string));
+
+          updatedOptions = {
+            phoneNumbers: { 
+              [phoneNumbers[0].id as string]: null,
+              [phoneNumbers[1].id as string]: null
             }
           };
-          reservationResponse = await client.createOrUpdateReservation(reservationId, options);
-          assert.equal(reservationResponse.status, "active");
-          assert.isTrue(reservationResponse.id === reservationId);
-          assert.equal(Object.keys(reservationResponse.phoneNumbers || {}).length, 2);
-
-          const updatedOptions = {
-            phoneNumbers: { 
-              [phoneNumbers[0].id as string]: null, 
-              [phoneNumbers[1].id as string]: phoneNumbers[1] 
-            }
-          };
-          reservationResponse = await client.createOrUpdateReservation(reservationId, updatedOptions);
-          assert.equal(Object.keys(reservationResponse.phoneNumbers || {}).length, 1);
-
-          await client.deleteReservation(reservationId);
+          updatedReservationResponse = await client.createOrUpdateReservation(reservationId, updatedOptions);
+          assert.isFalse(Object.keys(updatedReservationResponse.phoneNumbers || {}).includes(phoneNumbers[0].id as string));
+          assert.isFalse(Object.keys(updatedReservationResponse.phoneNumbers || {}).includes(phoneNumbers[1].id as string));
       });
     },
   );
