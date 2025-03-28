@@ -80,7 +80,6 @@
     "dotenv": "catalog:testing",
     "eslint": "catalog:",
     "playwright": "catalog:testing",
-    "rollup-plugin-copy": "^3.5.0",
     "typescript": "catalog:",
     "vitest": "catalog:testing"
   },

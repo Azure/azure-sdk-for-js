@@ -74,7 +74,7 @@
     "@azure/core-client": "workspace:*",
     "@azure/core-rest-pipeline": "workspace:*",
     "@azure/core-util": "workspace:*",
-    "@azure/eventgrid": "^5.8.0",
+    "@azure/eventgrid": "workspace:*",
     "@azure/logger": "workspace:*",
     "buffer": "catalog:polyfills",
     "tslib": "catalog:"

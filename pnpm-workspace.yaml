@@ -5,10 +5,10 @@ packages:
   - common/tools/vite-plugin-browser-test-map
   - '!sdk/**/dist/**'
   - '!sdk/**/samples/**'
-  - '!sdk/**/samples-browser/**'
-  - '!sdk/**/sample-react/**'
+  - '!sdk/**/samples-*/**'
+  - '!sdk/**/sample-*/**'
   - '!sdk/batch/batch'
-  - '!@sdk/cosmosdb/cosmos/**'
+  - '!sdk/cosmosdb/cosmos/MultiRegionWriteSample'
   - '!sdk/identity/identity/integration/**'
   - '!sdk/identity/identity/test/**'
   - '!sdk/servicebus/service-bus/test/**'
