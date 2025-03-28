@@ -1339,6 +1339,10 @@ packages:
     resolution: {integrity: sha512-KxZFSseqIwXlQkQ3jSV9d0O1ccF/VcpVQwCBZsGaSiTBgKjht1c4279543ZdmvXOZyxn5e7ckEwJ8KIFlJ4OZA==}
     engines: {node: '>=14.0.0'}
 
+  '@azure/communication-common@2.3.1':
+    resolution: {integrity: sha512-6ZQt20iMZbyckQn4m1TDwiDv3Fzyt1h4lnQ1szBBns2x3VQY9XHbnskPtvUdwK/HT+c/1PoUwof3toy1AIznbQ==}
+    engines: {node: '>=18.0.0'}
+
   '@azure/communication-signaling@1.0.0-beta.29':
     resolution: {integrity: sha512-bTNxJaS000wjtbLlH/nju3Off9uSybYeRVLvx1Y5k3ajb1rqVGUcsIduSEz1JBf+dRQx9pHRDCAEAXs/hOvzpg==}
     engines: {node: '>=8.0.0'}
@@ -3521,15 +3525,15 @@ packages:
     version: 0.0.0
 
   '@rush-temp/communication-alpha-ids@file:projects/communication-alpha-ids.tgz':
-    resolution: {integrity: sha512-m31/yD9UeU0dupGT8I+38hHmtQUpdE5ABid0MPgHh+sIvdxxg81CyCtBBloVj1Cbppl3D6aPpUHpXwH4Jr0MJg==, tarball: file:projects/communication-alpha-ids.tgz}
+    resolution: {integrity: sha512-rD/NB7VRxIpjSVDT2tMZfauq1QQT1RehTqtbB0y+MTHDKruFuL884OFo0tGIm0R+NkFd4CYaa43Q+1UDT4s3lw==, tarball: file:projects/communication-alpha-ids.tgz}
     version: 0.0.0
 
   '@rush-temp/communication-call-automation@file:projects/communication-call-automation.tgz':
-    resolution: {integrity: sha512-75nZjH0OGHGhYESp8/4AXbiYyHgLK7VcXJf9nyctuV5LPT1IDTKo6Z2OQr50HT9NqqgiBHXDCRdxJhSZMQaG8g==, tarball: file:projects/communication-call-automation.tgz}
+    resolution: {integrity: sha512-5Q3p6zBzG88qfSyMOC+6tS4O9UvnGiB0kbLqABMCGaggWJf06ciepwPtuUZNNFXCNUL2AEmWRHSaytmbBzsJEQ==, tarball: file:projects/communication-call-automation.tgz}
     version: 0.0.0
 
   '@rush-temp/communication-chat@file:projects/communication-chat.tgz':
-    resolution: {integrity: sha512-LfRUlSnZYxwMGOYJLiH2IZfnHkqYSTP1Yh6Zc9xvl8H2uZ9DDFZTtAQc3l4hjhfhKzeWFwMy8/bbpAxCfXJHIg==, tarball: file:projects/communication-chat.tgz}
+    resolution: {integrity: sha512-BW/2Obq1sv+7nKObv0bwJu/J5LOqJH2b13ivpNv5CeAOJqGRzpMxeD2OUTxdZjWKx5ODsLV8Zx+A6pQtSuvU5w==, tarball: file:projects/communication-chat.tgz}
     version: 0.0.0
 
   '@rush-temp/communication-common@file:projects/communication-common.tgz':
@@ -3537,47 +3541,47 @@ packages:
     version: 0.0.0
 
   '@rush-temp/communication-email@file:projects/communication-email.tgz':
-    resolution: {integrity: sha512-kOQ90QyFHOc5NGN1Gfnv1+gq048fbfjVRj1iKmwldLjPckbR+4xW45jc+ohaYcU0M2+YTE36apJ8GLSG5+wiYg==, tarball: file:projects/communication-email.tgz}
+    resolution: {integrity: sha512-dr9s08PwdJMuyg09r75WfJddri4i7iyYeZ7xM9qsH42NlwNRpZnOzOAd6nhBv0+QOk1vtLIrchB9x+OFH5BySQ==, tarball: file:projects/communication-email.tgz}
     version: 0.0.0
 
   '@rush-temp/communication-identity@file:projects/communication-identity.tgz':
-    resolution: {integrity: sha512-uBdNlFBP51cbKxXw4XEuJmeY6SJgHcKgAvGv97PhCHt46xZrdRqoFTl62+hG5V9KgvJfgDZkp3ziWkRCW7iUqA==, tarball: file:projects/communication-identity.tgz}
+    resolution: {integrity: sha512-K9Nc85hDas7O1AlCoeX85NiUKvcsOIF5cYfLxlbJyz2HkG7AUNIKfNaMR+JrFjoMtEpbMo2jRWMkRrkgXcqHlA==, tarball: file:projects/communication-identity.tgz}
     version: 0.0.0
 
   '@rush-temp/communication-job-router@file:projects/communication-job-router.tgz':
-    resolution: {integrity: sha512-bCBGhYDux+dChnNNqm/JtQROtwVDVfOwXdQd9eY8AwPhYasMB4ipm+H0h415z6Yj3vtHb9alzHIBJYg1R10/Uw==, tarball: file:projects/communication-job-router.tgz}
+    resolution: {integrity: sha512-CSt4UMkRQbaiWMU9BL6nZVgQbmnEYDdNignEeVRtkmTwD7Zx0e7W19YFK6Y+A9fTVlpZNqU/vLt2MTZXv0Z/Kw==, tarball: file:projects/communication-job-router.tgz}
     version: 0.0.0
 
   '@rush-temp/communication-messages@file:projects/communication-messages.tgz':
-    resolution: {integrity: sha512-0yHfrN0n5nqf5rlEqsWfJT9uU04q3FRZCgnoZ+pgP3cX7l5+HlYBp6LhruK4U+69fxhtgC9KF/9bw4APmFhSbA==, tarball: file:projects/communication-messages.tgz}
+    resolution: {integrity: sha512-IeV/3H6jX+NIaxKejZ5PtFex91+v1cU9vwU3NAPqn4GNBrmNeznSzpxtCAb27vL9b9yaamMzsmXYlXFH6sHXaQ==, tarball: file:projects/communication-messages.tgz}
     version: 0.0.0
 
   '@rush-temp/communication-phone-numbers@file:projects/communication-phone-numbers.tgz':
-    resolution: {integrity: sha512-HJEf7TUqg0+aYjjdsMQqQ3Ft0irUQcKPjV+lJAKBBdpiNoY5NakY57lv06Y9fAGVETe59KwJWhudkEJ0g2PX/A==, tarball: file:projects/communication-phone-numbers.tgz}
+    resolution: {integrity: sha512-xtL1g9Yljj9WQAphFGLnj4EwBkjml4DbpxXwSjx0tMx+QKdmL64AVa5JDOMwC6STnw1IiPvIGjtHAFeUud/r9Q==, tarball: file:projects/communication-phone-numbers.tgz}
     version: 0.0.0
 
   '@rush-temp/communication-recipient-verification@file:projects/communication-recipient-verification.tgz':
-    resolution: {integrity: sha512-YdjOozT4XUnvBKfRsE7MfIoPkmVEaHTlbv1h5RdR6JOMd6rBGInak1Qi67xpZBInro0UmGLWFc1r549dgZUZfg==, tarball: file:projects/communication-recipient-verification.tgz}
+    resolution: {integrity: sha512-I178h03WkRVsyOK2vW8alVVze2u+Tpe8DMW603MhwoMt3j+YFVnyr3SJFmMBY56l5rEM0e+Wo5/czalXLHhLSA==, tarball: file:projects/communication-recipient-verification.tgz}
     version: 0.0.0
 
   '@rush-temp/communication-rooms@file:projects/communication-rooms.tgz':
-    resolution: {integrity: sha512-6xOyOCOtDadX1jV4Rh5w5dD0M/i8mgBbuAAol5SM+RrV5DljKQYUHyDEekX+9MKtmXjnviU/QxijK5zY3PWkaw==, tarball: file:projects/communication-rooms.tgz}
+    resolution: {integrity: sha512-a97t3XLmbLq6iXiKMSJYdAhkyHVCNku1bnZjHlSa/px/pIA8wr4coOYE6j144unQvluT/DZ2RKl7z58Nvw5aBQ==, tarball: file:projects/communication-rooms.tgz}
     version: 0.0.0
 
   '@rush-temp/communication-short-codes@file:projects/communication-short-codes.tgz':
-    resolution: {integrity: sha512-4AP9D/Uovs5vrSOHuIpadA0p2z6yFQyEwsFKVljhepJiSSgMVbX+E8alYV1wZu6d3f4M4hzuY+5ThnNCkx1PeA==, tarball: file:projects/communication-short-codes.tgz}
+    resolution: {integrity: sha512-MnkMslG6SAf2OjcFWub5n43LJIgPKXkwbUUa40Wk4toHwZoFg13uhF6l6aiIPnOxPd3jqliqJuD5sxJBr6qYAg==, tarball: file:projects/communication-short-codes.tgz}
     version: 0.0.0
 
   '@rush-temp/communication-sms@file:projects/communication-sms.tgz':
-    resolution: {integrity: sha512-GWYSlfgJGODbdspvlVMKyjwgytjpGcFhOh5AAyzg3dNnSp83HGWsJO0qOFjJCrOSaFj6twV0YFyBiZWL6CVoMg==, tarball: file:projects/communication-sms.tgz}
+    resolution: {integrity: sha512-X6XQEyeqr4j6xXLVK9aseUtPmhk/bou/uqE/bgO7pF3uf5wsO07im8AFk0C1twInlMqgheetj/SG+Epm+eAoVA==, tarball: file:projects/communication-sms.tgz}
     version: 0.0.0
 
   '@rush-temp/communication-tiering@file:projects/communication-tiering.tgz':
-    resolution: {integrity: sha512-nuDfzBn4qaRMPF/P2dc19Tw7RNjm/3f1wJGoWwOWhRAV8bwQTKYmi55FYDl9FEmu5rPZ7WSYubBAPHzZWOT3QA==, tarball: file:projects/communication-tiering.tgz}
+    resolution: {integrity: sha512-9yA4cVufQ6EKSrvyH8uNupDpC11HjOFkH+iJMpUP644hczt15D5+ZZVNp9n4Yo8ahVxkV3lA1ERleIWDJ5Ajlw==, tarball: file:projects/communication-tiering.tgz}
     version: 0.0.0
 
   '@rush-temp/communication-toll-free-verification@file:projects/communication-toll-free-verification.tgz':
-    resolution: {integrity: sha512-6nyDh2zNYIagbF/VfLyJC2NETgF7Vm2WZzc5ce00uluoDT4YqqG/VF5jbHvosKaWPMUG/cVZuoELn0283WKZuQ==, tarball: file:projects/communication-toll-free-verification.tgz}
+    resolution: {integrity: sha512-crB9VFpblF9SVmIv6VKWEjICExfVbwIXUHQGfC+jMZcrG5GJTYx39Y/K/0YVDgKbcnhNmPBPTVBvHMEZPKWN3Q==, tarball: file:projects/communication-toll-free-verification.tgz}
     version: 0.0.0
 
   '@rush-temp/confidential-ledger@file:projects/confidential-ledger.tgz':
@@ -8300,6 +8304,19 @@ snapshots:
       '@azure/core-lro': 2.7.2
       '@azure/core-paging': 1.6.2
       '@azure/core-rest-pipeline': 1.19.1
+      tslib: 2.8.1
+    transitivePeerDependencies:
+      - supports-color
+
+  '@azure/communication-common@2.3.1':
+    dependencies:
+      '@azure/abort-controller': 1.1.0
+      '@azure/core-auth': 1.9.0
+      '@azure/core-rest-pipeline': 1.19.1
+      '@azure/core-tracing': 1.2.0
+      '@azure/core-util': 1.11.0
+      events: 3.3.0
+      jwt-decode: 4.0.0
       tslib: 2.8.1
     transitivePeerDependencies:
       - supports-color
@@ -19361,6 +19378,7 @@ snapshots:
 
   '@rush-temp/communication-alpha-ids@file:projects/communication-alpha-ids.tgz(@types/debug@4.1.12)(msw@2.7.3(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(vite@6.2.3(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)':
     dependencies:
+      '@azure/communication-common': 2.3.1
       '@azure/core-lro': 2.7.2
       '@types/node': 18.19.84
       '@vitest/browser': 3.0.9(@types/node@18.19.84)(playwright@1.51.1)(typescript@5.8.2)(vite@6.2.3(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.9)
@@ -19397,6 +19415,7 @@ snapshots:
 
   '@rush-temp/communication-call-automation@file:projects/communication-call-automation.tgz(@types/debug@4.1.12)(msw@2.7.3(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(vite@6.2.3(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)':
     dependencies:
+      '@azure/communication-common': 2.3.1
       '@types/node': 18.19.84
       '@vitest/browser': 3.0.9(@types/node@18.19.84)(playwright@1.51.1)(typescript@5.8.2)(vite@6.2.3(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.9)
       '@vitest/coverage-istanbul': 3.0.9(vitest@3.0.9)
@@ -19434,6 +19453,7 @@ snapshots:
 
   '@rush-temp/communication-chat@file:projects/communication-chat.tgz(@types/debug@4.1.12)(msw@2.7.3(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(vite@6.2.3(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)':
     dependencies:
+      '@azure/communication-common': 2.3.1
       '@azure/communication-signaling': 1.0.0-beta.29
       '@types/node': 18.19.84
       '@vitest/browser': 3.0.9(@types/node@18.19.84)(playwright@1.51.1)(typescript@5.8.2)(vite@6.2.3(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.9)
@@ -19510,6 +19530,7 @@ snapshots:
 
   '@rush-temp/communication-email@file:projects/communication-email.tgz(@types/debug@4.1.12)(msw@2.7.3(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(vite@6.2.3(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)':
     dependencies:
+      '@azure/communication-common': 2.3.1
       '@azure/core-lro': 2.7.2
       '@types/node': 18.19.84
       '@vitest/browser': 3.0.9(@types/node@18.19.84)(playwright@1.51.1)(typescript@5.8.2)(vite@6.2.3(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.9)
@@ -19546,6 +19567,7 @@ snapshots:
 
   '@rush-temp/communication-identity@file:projects/communication-identity.tgz(@types/debug@4.1.12)(msw@2.7.3(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(vite@6.2.3(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)':
     dependencies:
+      '@azure/communication-common': 2.3.1
       '@azure/core-lro': 2.7.2
       '@azure/msal-node': 2.16.2
       '@types/node': 18.19.84
@@ -19584,6 +19606,7 @@ snapshots:
 
   '@rush-temp/communication-job-router@file:projects/communication-job-router.tgz(@types/debug@4.1.12)(msw@2.7.3(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(vite@6.2.3(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)':
     dependencies:
+      '@azure/communication-common': 2.3.1
       '@types/node': 18.19.84
       '@vitest/browser': 3.0.9(@types/node@18.19.84)(playwright@1.51.1)(typescript@5.8.2)(vite@6.2.3(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.9)
       '@vitest/coverage-istanbul': 3.0.9(vitest@3.0.9)
@@ -19620,6 +19643,7 @@ snapshots:
 
   '@rush-temp/communication-messages@file:projects/communication-messages.tgz(@types/debug@4.1.12)(msw@2.7.3(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(vite@6.2.3(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)':
     dependencies:
+      '@azure/communication-common': 2.3.1
       '@types/node': 18.19.84
       '@vitest/browser': 3.0.9(@types/node@18.19.84)(playwright@1.51.1)(typescript@5.8.2)(vite@6.2.3(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.9)
       '@vitest/coverage-istanbul': 3.0.9(vitest@3.0.9)
@@ -19657,6 +19681,7 @@ snapshots:
 
   '@rush-temp/communication-phone-numbers@file:projects/communication-phone-numbers.tgz(@types/debug@4.1.12)(msw@2.7.3(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(vite@6.2.3(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)':
     dependencies:
+      '@azure/communication-common': 2.3.1
       '@azure/core-lro': 2.7.2
       '@types/node': 18.19.84
       '@vitest/browser': 3.0.9(@types/node@18.19.84)(playwright@1.51.1)(typescript@5.8.2)(vite@6.2.3(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.9)
@@ -19694,6 +19719,7 @@ snapshots:
 
   '@rush-temp/communication-recipient-verification@file:projects/communication-recipient-verification.tgz(@types/debug@4.1.12)(msw@2.7.3(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(vite@6.2.3(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)':
     dependencies:
+      '@azure/communication-common': 2.3.1
       '@azure/core-lro': 2.7.2
       '@types/node': 18.19.84
       '@vitest/browser': 3.0.9(@types/node@18.19.84)(playwright@1.51.1)(typescript@5.8.2)(vite@6.2.3(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.9)
@@ -19731,6 +19757,7 @@ snapshots:
 
   '@rush-temp/communication-rooms@file:projects/communication-rooms.tgz(@types/debug@4.1.12)(msw@2.7.3(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(vite@6.2.3(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)':
     dependencies:
+      '@azure/communication-common': 2.3.1
       '@types/node': 18.19.84
       '@vitest/browser': 3.0.9(@types/node@18.19.84)(playwright@1.51.1)(typescript@5.8.2)(vite@6.2.3(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.9)
       '@vitest/coverage-istanbul': 3.0.9(vitest@3.0.9)
@@ -19766,6 +19793,7 @@ snapshots:
 
   '@rush-temp/communication-short-codes@file:projects/communication-short-codes.tgz(@types/debug@4.1.12)(msw@2.7.3(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(vite@6.2.3(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)':
     dependencies:
+      '@azure/communication-common': 2.3.1
       '@azure/core-lro': 2.7.2
       '@types/node': 18.19.84
       '@vitest/browser': 3.0.9(@types/node@18.19.84)(playwright@1.51.1)(typescript@5.8.2)(vite@6.2.3(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.9)
@@ -19803,6 +19831,7 @@ snapshots:
 
   '@rush-temp/communication-sms@file:projects/communication-sms.tgz(@types/debug@4.1.12)(msw@2.7.3(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(vite@6.2.3(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)':
     dependencies:
+      '@azure/communication-common': 2.3.1
       '@types/node': 18.19.84
       '@vitest/browser': 3.0.9(@types/node@18.19.84)(playwright@1.51.1)(typescript@5.8.2)(vite@6.2.3(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.9)
       '@vitest/coverage-istanbul': 3.0.9(vitest@3.0.9)
@@ -19839,6 +19868,7 @@ snapshots:
 
   '@rush-temp/communication-tiering@file:projects/communication-tiering.tgz(@types/debug@4.1.12)(msw@2.7.3(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(vite@6.2.3(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)':
     dependencies:
+      '@azure/communication-common': 2.3.1
       '@azure/core-lro': 2.7.2
       '@types/node': 18.19.84
       '@vitest/browser': 3.0.9(@types/node@18.19.84)(playwright@1.51.1)(typescript@5.8.2)(vite@6.2.3(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.9)
@@ -19876,6 +19906,7 @@ snapshots:
 
   '@rush-temp/communication-toll-free-verification@file:projects/communication-toll-free-verification.tgz(@types/debug@4.1.12)(msw@2.7.3(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(vite@6.2.3(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)':
     dependencies:
+      '@azure/communication-common': 2.3.1
       '@azure/core-lro': 2.7.2
       '@types/node': 18.19.84
       '@vitest/browser': 3.0.9(@types/node@18.19.84)(playwright@1.51.1)(typescript@5.8.2)(vite@6.2.3(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.9)
