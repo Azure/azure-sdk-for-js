@@ -16,7 +16,7 @@ require("dotenv/config");
  * This sample demonstrates how to The operation to delete the VMSS VM run command.
  *
  * @summary The operation to delete the VMSS VM run command.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/runCommandExamples/VirtualMachineScaleSetVMRunCommand_Delete.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/runCommandExamples/VirtualMachineScaleSetVMRunCommand_Delete.json
  */
 async function deleteVirtualMachineScaleSetVMRunCommand() {
   const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
@@ -36,7 +36,7 @@ async function deleteVirtualMachineScaleSetVMRunCommand() {
 }
 
 async function main() {
-  deleteVirtualMachineScaleSetVMRunCommand();
+  await deleteVirtualMachineScaleSetVMRunCommand();
 }
 
 main().catch(console.error);

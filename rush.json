@@ -2313,6 +2313,11 @@
       "versionPolicyName": "management"
     },
     {
+      "packageName": "@azure/arm-arizeaiobservabilityeval",
+      "projectFolder": "sdk/liftrarize/arm-arizeaiobservabilityeval",
+      "versionPolicyName": "management"
+    },
+    {
       "packageName": "@azure/ai-projects",
       "projectFolder": "sdk/ai/ai-projects",
       "versionPolicyName": "client"
@@ -2340,6 +2345,11 @@
     {
       "packageName": "@azure/arm-durabletask",
       "projectFolder": "sdk/durabletask/arm-durabletask",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-migrationassessment",
+      "projectFolder": "sdk/migrate/arm-migrationassessment",
       "versionPolicyName": "management"
     }
   ]

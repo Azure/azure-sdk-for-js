@@ -29,7 +29,7 @@ async function getASharedGallery() {
 }
 
 async function main() {
-  getASharedGallery();
+  await getASharedGallery();
 }
 
 main().catch(console.error);

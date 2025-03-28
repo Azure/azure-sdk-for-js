@@ -32,7 +32,7 @@ async function listAllPossiblePrivateLinkResourcesUnderDiskAccessResource() {
 }
 
 async function main() {
-  listAllPossiblePrivateLinkResourcesUnderDiskAccessResource();
+  await listAllPossiblePrivateLinkResourcesUnderDiskAccessResource();
 }
 
 main().catch(console.error);
