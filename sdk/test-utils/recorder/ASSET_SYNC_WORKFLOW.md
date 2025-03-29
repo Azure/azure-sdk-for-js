@@ -29,7 +29,7 @@ To be able to leverage the asset-sync workflow:
   - Verify the `pwsh` command works in your terminal
 - **Dependencies**:
   - Add `@azure/dev-tool` to the `devDependencies` in your `package.json`
-  - Ensure your package uses `@azure-tools/test-recorder@^4.0.0` or later
+  - Ensure your package has a dev dependency on `@azure-tools/test-recorder@^4.0.0` or later
 
 ## New Package - No Recorded Tests
 
