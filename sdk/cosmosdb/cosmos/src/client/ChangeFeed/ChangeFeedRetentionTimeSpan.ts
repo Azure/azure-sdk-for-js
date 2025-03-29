@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ErrorResponse } from "../../request";
+import { ErrorResponse } from "../../request/index.js";
 
 /*
  * Represents the change feed policy configuration for a container in the Azure Cosmos DB service.

@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import assert from "assert";
-import { Constants, OperationType, ResourceType } from "../../../src/common";
-import type { CosmosHeaders } from "../../../src/queryExecutionContext/CosmosHeaders";
-import { SessionContainer } from "../../../src/session/sessionContainer";
-import type { SessionContext } from "../../../src/session/SessionContext";
 
-describe("SessionContainer", function () {
+import { Constants, OperationType, ResourceType } from "../../../src/common/index.js";
+import type { CosmosHeaders } from "../../../src/queryExecutionContext/CosmosHeaders.js";
+import { SessionContainer } from "../../../src/session/sessionContainer.js";
+import type { SessionContext } from "../../../src/session/SessionContext.js";
+import { describe, it, assert } from "vitest";
+
+describe("SessionContainer", () => {
   const collectionLink = "dbs/testDatabase/colls/testCollection";
   const collectionRid = "-EdBAKsiRLM=";
 
-  it("set/get/delete", function () {
+  it("set/get/delete", () => {
     const sc = new SessionContainer();
 
     const tokenString = "1:1#100#1=20#2=5#3=30";

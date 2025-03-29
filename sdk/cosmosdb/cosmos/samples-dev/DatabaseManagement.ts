@@ -1,16 +1,10 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * @summary Demonstrates database create, read, delete and reading all databases.
- */
-
-import * as dotenv from "dotenv";
-dotenv.config();
-
-import { handleError, logStep, logSampleHeader, finish } from "./Shared/handleError";
+import "dotenv/config";
+import { handleError, logStep, logSampleHeader, finish } from "./Shared/handleError.js";
 import { CosmosClient } from "@azure/cosmos";
-import assert from "assert";
+import assert from "node:assert";
 
 const key = process.env.COSMOS_KEY || "<cosmos key>";
 const endpoint = process.env.COSMOS_ENDPOINT || "<cosmos endpoint>";

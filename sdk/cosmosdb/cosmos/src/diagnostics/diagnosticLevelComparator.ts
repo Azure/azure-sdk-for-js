@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { CosmosDbDiagnosticLevel } from "./CosmosDbDiagnosticLevel";
+import { CosmosDbDiagnosticLevel } from "./CosmosDbDiagnosticLevel.js";
 
 /**
  * @hidden
