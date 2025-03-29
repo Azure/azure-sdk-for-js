@@ -6,6 +6,16 @@
       "dependsOn": ["^build"],
       "outputs": ["dist/**", "dist-esm/**", "dist-test/**", "types/**"]
     },
+    "build:samples": {
+      "dependsOn": [
+        "^build:samples"
+      ],
+      "cache": false
+    },
+    "build:test": {
+      "dependsOn": ["^build:test"],
+      "cache": false
+    },
     "check-format": {
       "dependsOn": ["^check-format"],
       "cache": false
@@ -33,6 +43,10 @@
     },
     "lint:fix": {
       "dependsOn": ["^lint:fix"],
+      "cache": false
+    },
+    "pack": {
+      "dependsOn": ["^pack", "build"],
       "cache": false
     },
     "test": {

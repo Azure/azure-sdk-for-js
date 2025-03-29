@@ -3,63 +3,59 @@
 
 // @ts-check
 
-import {
-  getDirectionMappedPackages,
-  getServicePackages,
-  tryGetPkgRelativePath,
-} from "./helpers.js";
-import {
-  rushRunAll,
-  rushRunAllWithDirection,
-  runRushInPackageDirs,
-  rushGlobalAction,
-} from "./rush.js";
+import { getFilteredPackages, getServicePackages, tryGetPkgRelativePath } from "./helpers.js";
+import { runAllWithDirection, runInPackageDirs, runGlobalAction } from "./rush.js";
 
 /**
  *
  * @param {string} action - the command being performed
  * @param {string[]} serviceDirs - list of service directories impacted
- * @param {string[]} rushParams - commandline flags to pass directly to rush
+ * @param {string[]} extraParams - commandline flags to pass
  * @param {string} artifactNames - package names to filter to
  * @returns
  */
-export function executeActions(action, serviceDirs, rushParams, artifactNames, ciFlag) {
+export function executeActions(action, serviceDirs, extraParams, artifactNames, ciFlag) {
   const actionComponents = action.toLowerCase().split(":");
 
   console.log(`Packages to build: ${artifactNames}`);
   const { packageNames, packageDirs } = getServicePackages(serviceDirs, artifactNames);
-  console.log(`Packages eligible to run rush task: ${packageNames}`);
+  console.log(`Packages eligible to run task: ${packageNames}`);
 
   let exitCode = 0;
   if (serviceDirs.length === 0) {
-    exitCode = rushGlobalAction(action, rushParams);
+    exitCode = runGlobalAction(action, extraParams);
   } else {
     switch (actionComponents[0]) {
       case "build":
       case "test":
       case "unit-test":
       case "integration-test":
-        exitCode = rushRunAllWithDirection(
+        exitCode = runAllWithDirection(
           action,
-          getDirectionMappedPackages(packageNames, action, serviceDirs),
-          rushParams,
-          ciFlag
+          getFilteredPackages(packageNames, action, serviceDirs),
+          extraParams,
+          ciFlag,
         );
         break;
 
       case "lint":
-        exitCode = runRushInPackageDirs(action, packageDirs);
+        exitCode = runInPackageDirs(action, packageDirs);
         break;
       case "check-format":
-        exitCode = runRushInPackageDirs(action, packageDirs, (packageDir) => {
+        exitCode = runInPackageDirs(action, packageDirs, (packageDir) => {
           console.log(
-            `\nInvoke "rushx format" inside ${tryGetPkgRelativePath(packageDir)} to fix formatting\n`,
+            `\nInvoke "npm run format" inside ${tryGetPkgRelativePath(packageDir)} to fix formatting\n`,
           );
         });
         break;
 
       default:
-        exitCode = rushRunAll(action, "--to", packageNames, rushParams);
+        exitCode = runAllWithDirection(
+          action,
+          packageNames.map((p) => `--filter=${p}...`),
+          extraParams,
+          ciFlag,
+        );
         break;
     }
   }

@@ -4,6 +4,8 @@
   "private": true,
   "scripts": {
     "build": "turbo build",
+    "build:test": "turbo run build:test",
+    "build:samples": "turbo run build:samples",
     "clean": "turbo run clean",
     "check-format": "turbo run check-format",
     "cspell": "cspell --no-progress .",

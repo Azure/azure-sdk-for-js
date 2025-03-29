@@ -28,7 +28,8 @@ steps:
   - script: |
       npm install ./eng/tools/versioning
       node eng/tools/versioning/set-dev.js --build-id "$(Build.BuildNumber)" --repo-root "$(Build.SourcesDirectory)" --service "$(folder)"
-      node common/scripts/install-run-rush.js update
+      npm install -g pnpm
+      pnpm install
     condition: and(succeeded(),eq(variables['SetDevVersion'],'true'))
     displayName: "Update package versions for dev build"
 
@@ -38,7 +39,8 @@ steps:
       ServiceDirectory: ${{parameters.ServiceDirectory}}
 
   - script: |
-      node common/scripts/install-run-rush.js install
+      npm install -g pnpm
+      pnpm install
     condition: and(succeeded(),ne(variables['SetDevVersion'],'true'))
     displayName: "Install dependencies"
 
@@ -60,7 +62,7 @@ steps:
           echo "##vso[task.setvariable variable=rushBuildCacheCred;issecret=true;]$sasToken"
 
   - pwsh: |
-      node eng/tools/rush-runner/index.js build "$(ChangedServices)" -packages "$(ArtifactPackageNames)" --verbose -p max
+      node eng/tools/rush-runner/index.js build "$(ChangedServices)" -packages "$(ArtifactPackageNames)" --concurrency=100% -v
     displayName: "Build libraries"
     env:
       ${{ if and(eq(variables['System.TeamProject'], 'internal'), in(variables['Build.Reason'], 'IndividualCI', 'BatchedCI')) }}:
@@ -68,7 +70,7 @@ steps:
         RUSH_BUILD_CACHE_WRITE_ALLOWED: 1
 
   - script: |
-      node eng/tools/rush-runner/index.js build:samples "$(ChangedServices)" -packages "$(ArtifactPackageNames)" --verbose
+      node eng/tools/rush-runner/index.js build:samples "$(ChangedServices)" -packages "$(ArtifactPackageNames)" --concurrency=100% -v
     displayName: "Build samples for PR"
 
   - pwsh: |
@@ -76,14 +78,14 @@ steps:
     displayName: "Check api extractor output changes"
 
   - script: |
-      node eng/tools/rush-runner/index.js pack "$(ChangedServices)" -packages "$(ArtifactPackageNames)" --verbose
+      node eng/tools/rush-runner/index.js pack "$(ChangedServices)" -packages "$(ArtifactPackageNames)" --concurrency=100% -v
     displayName: "Pack libraries"
 
   # Unlink node_modules folders to significantly improve performance of subsequent tasks
   # which need to walk the directory tree (and are hardcoded to follow symlinks).
   - script: |
-      node eng/tools/rush-runner/index.js unlink
-    displayName: "Unlink dependencies"
+      pnpm run purge
+    displayName: "Purge dependencies"
 
   - template: ../steps/generate-doc.yml
     parameters:
