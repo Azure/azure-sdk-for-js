@@ -2,41 +2,43 @@
 // Licensed under the MIT License.
 
 /**
- * This sample demonstrates how to use agent operations with the Azure AI Search tool from the Azure Agents service.
+ *  This sample demonstrates how to use agent operations with the Microsoft Fabric tool from the Azure Agents service.
  *
- * @summary demonstrates how to use agent operations with the Azure AI Search tool.
+ * @summary demonstrates how to use agent operations with the Microsoft Fabric tool.
  */
 
 import type { MessageContentOutput, MessageTextContentOutput } from "@azure/ai-projects";
-import { AIProjectsClient, isOutputOfType, ToolUtility } from "@azure/ai-projects";
+import { AIProjectsClient, ToolUtility, isOutputOfType } from "@azure/ai-projects";
 import { delay } from "@azure/core-util";
 import { DefaultAzureCredential } from "@azure/identity";
-
 import "dotenv/config";
 
 const connectionString =
   process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] || "<project connection string>";
 
 export async function main(): Promise<void> {
-  // Create an Azure AI Client from a connection string, copied from your AI Foundry project.
+  // Create an Azure AI Client from a connection string, copied from your AI Studio project.
   // At the moment, it should be in the format "<HostName>;<AzureSubscriptionId>;<ResourceGroup>;<HubName>"
   // Customer needs to login to Azure subscription via Azure CLI and set the environment variables
   const client = AIProjectsClient.fromConnectionString(
     connectionString || "",
     new DefaultAzureCredential(),
   );
-  const connectionName = process.env["AZURE_AI_SEARCH_CONNECTION_NAME"] || "<connection-name>";
-  const connection = await client.connections.getConnection(connectionName);
+  const fabricConnection = await client.connections.getConnection(
+    process.env["FABRIC_CONNECTION_NAME"] || "<connection-name>",
+  );
 
-  // Initialize Azure AI Search tool
-  const azureAISearchTool = ToolUtility.createAzureAISearchTool(connection.id, connection.name);
+  const connectionId = fabricConnection.id;
 
-  // Create agent with the Azure AI search tool
-  const agent = await client.agents.createAgent("gpt-4-0125-preview", {
+  // Initialize agent Microsoft Fabric tool with the connection id
+  const fabricTool = ToolUtility.createFabricTool(connectionId);
+
+  // Create agent with the Microsoft Fabric tool and process assistant run
+  const agent = await client.agents.createAgent("gpt-4o", {
     name: "my-agent",
     instructions: "You are a helpful agent",
-    tools: [azureAISearchTool.definition],
-    toolResources: azureAISearchTool.resources,
+    tools: [fabricTool.definition],
+    toolResources: {}, // Add empty tool_resources which is required by the API
   });
   console.log(`Created agent, agent ID : ${agent.id}`);
 
@@ -47,7 +49,7 @@ export async function main(): Promise<void> {
   // Create message to thread
   const message = await client.agents.createMessage(thread.id, {
     role: "user",
-    content: "Hello, send an email with the datetime and weather information in New York",
+    content: "What are the top 3 weather events with the highest property damage?",
   });
   console.log(`Created message, message ID: ${message.id}`);
 
@@ -62,7 +64,7 @@ export async function main(): Promise<void> {
   }
   console.log(`Run finished with status: ${run.status}`);
 
-  // Delete the assistant when done
+  // Delete the agent when done
   await client.agents.deleteAgent(agent.id);
   console.log(`Deleted agent, agent ID: ${agent.id}`);
 
