@@ -15,6 +15,9 @@ steps:
 
   - script: |
       npm install -g pnpm
+    displayName: "Install Pnpm"
+
+  - script: |
       pnpm install
     displayName: "Install dependencies"
 
@@ -23,14 +26,10 @@ steps:
       PackageInfo: $(Build.ArtifactStagingDirectory)/PackageInfo
       Artifacts: ${{ parameters.Artifacts }}
 
-  # Option "-p max" ensures parallelism is set to the number of cores on all platforms, which improves build times.
-  # The default on Windows is "cores - 1" (microsoft/rushstack#436).
   - script: |
       node eng/tools/rush-runner/index.js build $(ChangedServices) -packages "$(ArtifactPackageNames)" --concurrency=100% -v
     displayName: "Build libraries"
 
-  # Option "-p max" ensures parallelism is set to the number of cores on all platforms, which improves build times.
-  # The default on Windows is "cores - 1" (microsoft/rushstack#436).
   - script: |
       node eng/tools/rush-runner/index.js build:test $(ChangedServices) -packages "$(ArtifactPackageNames)" --concurrency=100% -v
     displayName: "Build test assets"
@@ -40,8 +39,6 @@ steps:
   - ${{ if eq(parameters.TestProxy, true) }}:
     - template: /eng/common/testproxy/test-proxy-standalone-tool.yml
 
-  # Option "-p max" ensures parallelism is set to the number of cores on all platforms, which improves build times.
-  # The default on Windows is "cores - 1" (microsoft/rushstack#436).
   - script: |
       node eng/tools/rush-runner/index.js unit-test:node $(ChangedServices) -packages "$(ArtifactPackageNames)" --ci --concurrency=100% -v
     displayName: "Test libraries"
