@@ -2,23 +2,22 @@
 // Licensed under the MIT License.
 
 /**
- * @summary This sample demonstrates how it's sometimes useful to exclude specific content from translation.
- * You can use the attribute class=notranslate to specify content that should remain
- * in its original language. In the following example, the content inside the first div
- * element won't be translated, while the content in the second div element will be translated.
+ * @summary You can combine both Translation and Transliteration in one Translate call.
+ * Your source Text can be in non-standard Script of a language as well as you
+ * can ask for non-standard Script of a target language.
  */
-import type { InputTextItem } from "@azure-rest/ai-translation-text";
-import TextTranslationClient, { isUnexpected } from "@azure-rest/ai-translation-text";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+const TextTranslationClient = require("@azure-rest/ai-translation-text").default,
+  { isUnexpected } = require("@azure-rest/ai-translation-text");
+const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv/config");
 
 const endpoint =
   process.env["TEXT_TRANSLATION_ENDPOINT"] || "https://api.cognitive.microsofttranslator.com";
 const resourceId = process.env["TEXT_TRANSLATION_RESOURCE_ID"] || "<api key>";
 const region = process.env["TEXT_TRANSLATION_REGION"] || "<region>";
 
-export async function main(): Promise<void> {
-  console.log("== Marking text input with notranslate div sample ==");
+async function main() {
+  console.log("== Translate with transliteration sample ==");
 
   const translateCedential = {
     tokenCredential: new DefaultAzureCredential(),
@@ -27,17 +26,14 @@ export async function main(): Promise<void> {
   };
   const translationClient = TextTranslationClient(endpoint, translateCedential);
 
-  const inputText: InputTextItem[] = [
-    {
-      text: '<div class="notranslate">This will not be translated.</div><div>This will be translated.</div>',
-    },
-  ];
+  const inputText = [{ text: "hudha akhtabar." }];
   const translateResponse = await translationClient.path("/translate").post({
     body: inputText,
     queryParameters: {
-      to: "cs",
-      from: "en",
-      textType: "html",
+      to: "zh-Hans",
+      toScript: "Latn",
+      from: "ar",
+      fromScript: "Latn",
     },
   });
 
@@ -47,8 +43,12 @@ export async function main(): Promise<void> {
 
   const translations = translateResponse.body;
   for (const translation of translations) {
+    console.log(`Source Text: ${translation.sourceText?.text}`);
     console.log(
       `Text was translated to: '${translation?.translations[0]?.to}' and the result is: '${translation?.translations[0]?.text}'.`,
+    );
+    console.log(
+      `Transliterated text (${translation?.translations[0]?.transliteration?.script}): ${translation?.translations[0]?.transliteration?.text}`,
     );
   }
 }
@@ -56,3 +56,5 @@ export async function main(): Promise<void> {
 main().catch((err) => {
   console.error(err);
 });
+
+module.exports = { main };

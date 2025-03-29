@@ -2,33 +2,20 @@
 // Licensed under the MIT License.
 
 /**
- * @summary This sample demonstrates how you can select the language to use for user interface strings.
- * Some of the fields in the response are names of languages or names of regions.
- * Use this parameter to define the language in which these names are returned.
- * The language is specified by providing a well-formed BCP 47 language tag.
- * For instance, use the value `fr` to request names in French or use the value `zh-Hant`
- * to request names in Chinese Traditional.
- *
- * Names are provided in the English language when a target language is not specified
- * or when localization is not available.
+ * @summary This sample demonstrates how to make a simple call to the Azure Text Translator service to get a list of supported languages
  */
-import type { GetSupportedLanguagesParameters } from "@azure-rest/ai-translation-text";
-import TextTranslationClient, { isUnexpected } from "@azure-rest/ai-translation-text";
-import "dotenv/config";
+const TextTranslationClient = require("@azure-rest/ai-translation-text").default,
+  { isUnexpected } = require("@azure-rest/ai-translation-text");
+require("dotenv/config");
 
 const endpoint =
   process.env["TEXT_TRANSLATION_ENDPOINT"] || "https://api.cognitive.microsofttranslator.com";
 
-export async function main(): Promise<void> {
-  console.log("== List supported localized languages sample ==");
+async function main() {
+  console.log("== List supported languages sample ==");
 
-  const parameters: GetSupportedLanguagesParameters = {
-    headers: {
-      "Accept-Language": "cs",
-    },
-  };
   const translationClient = TextTranslationClient(endpoint);
-  const langResponse = await translationClient.path("/languages").get(parameters);
+  const langResponse = await translationClient.path("/languages").get();
 
   if (isUnexpected(langResponse)) {
     throw langResponse.body.error;
@@ -70,3 +57,5 @@ export async function main(): Promise<void> {
 main().catch((err) => {
   console.error(err);
 });
+
+module.exports = { main };

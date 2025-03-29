@@ -15,17 +15,17 @@
  * or you want no action taken. The accepted values of `ProfanityAction` are `Deleted`, `Marked`
  * and `NoAction` (default).
  */
-import type { InputTextItem } from "@azure-rest/ai-translation-text";
-import TextTranslationClient, { isUnexpected } from "@azure-rest/ai-translation-text";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+const TextTranslationClient = require("@azure-rest/ai-translation-text").default,
+  { isUnexpected } = require("@azure-rest/ai-translation-text");
+const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv/config");
 
 const endpoint =
   process.env["TEXT_TRANSLATION_ENDPOINT"] || "https://api.cognitive.microsofttranslator.com";
 const resourceId = process.env["TEXT_TRANSLATION_RESOURCE_ID"] || "<api key>";
 const region = process.env["TEXT_TRANSLATION_REGION"] || "<region>";
 
-export async function main(): Promise<void> {
+async function main() {
   console.log("== Profanity handling sample ==");
 
   const translateCedential = {
@@ -35,7 +35,7 @@ export async function main(): Promise<void> {
   };
   const translationClient = TextTranslationClient(endpoint, translateCedential);
 
-  const inputText: InputTextItem[] = [{ text: "This is ***." }];
+  const inputText = [{ text: "This is ***." }];
   const translateResponse = await translationClient.path("/translate").post({
     body: inputText,
     queryParameters: {
@@ -61,3 +61,5 @@ export async function main(): Promise<void> {
 main().catch((err) => {
   console.error(err);
 });
+
+module.exports = { main };

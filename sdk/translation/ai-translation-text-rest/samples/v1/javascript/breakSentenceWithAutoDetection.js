@@ -4,18 +4,18 @@
 /**
  * @summary This sample demonstrates how to make a simple call to the Azure Text Translator service to get sentences' boundaries.
  */
-import type { InputTextItem } from "@azure-rest/ai-translation-text";
-import TextTranslationClient, { isUnexpected } from "@azure-rest/ai-translation-text";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+const TextTranslationClient = require("@azure-rest/ai-translation-text").default,
+  { isUnexpected } = require("@azure-rest/ai-translation-text");
+const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv/config");
 
 const endpoint =
   process.env["TEXT_TRANSLATION_ENDPOINT"] || "https://api.cognitive.microsofttranslator.com";
 const resourceId = process.env["TEXT_TRANSLATION_RESOURCE_ID"] || "<api key>";
 const region = process.env["TEXT_TRANSLATION_REGION"] || "<region>";
 
-export async function main(): Promise<void> {
-  console.log("== Get Sentence Boundaries sample ==");
+async function main() {
+  console.log("== Sentence Boundaries with auto-detection sample ==");
 
   const translateCedential = {
     tokenCredential: new DefaultAzureCredential(),
@@ -24,13 +24,9 @@ export async function main(): Promise<void> {
   };
   const translationClient = TextTranslationClient(endpoint, translateCedential);
 
-  const inputText: InputTextItem[] = [{ text: "zhè shì gè cè shì。" }];
+  const inputText = [{ text: "How are you? I am fine. What did you do today?" }];
   const breakSentenceResponse = await translationClient.path("/breaksentence").post({
     body: inputText,
-    queryParameters: {
-      language: "zh-Hans",
-      script: "Latn",
-    },
   });
 
   if (isUnexpected(breakSentenceResponse)) {
@@ -40,9 +36,14 @@ export async function main(): Promise<void> {
   const breakSentences = breakSentenceResponse.body;
   for (const breakSentence of breakSentences) {
     console.log(`The detected sentece boundaries: '${breakSentence?.sentLen.join(", ")}'.`);
+    console.log(
+      `Detected languages of the input text: ${breakSentence?.detectedLanguage?.language} with score: ${breakSentence?.detectedLanguage?.score}.`,
+    );
   }
 }
 
 main().catch((err) => {
   console.error(err);
 });
+
+module.exports = { main };

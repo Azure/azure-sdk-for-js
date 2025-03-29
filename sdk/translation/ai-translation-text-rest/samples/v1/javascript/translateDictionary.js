@@ -2,23 +2,24 @@
 // Licensed under the MIT License.
 
 /**
- * @summary This sample demonstrates how it's sometimes useful to exclude specific content from translation.
- * You can use the attribute class=notranslate to specify content that should remain
- * in its original language. In the following example, the content inside the first div
- * element won't be translated, while the content in the second div element will be translated.
+ * @summary This sample demonstrates how to keep words if you already know the translation you want
+ * to apply to a word or a phrase, you can supply it as markup within the request.
+ * The dynamic dictionary is safe only for compound nouns like proper names and product names.
+ *
+ * Note You must include the From parameter in your API translation request instead of using the autodetect feature.
  */
-import type { InputTextItem } from "@azure-rest/ai-translation-text";
-import TextTranslationClient, { isUnexpected } from "@azure-rest/ai-translation-text";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+const TextTranslationClient = require("@azure-rest/ai-translation-text").default,
+  { isUnexpected } = require("@azure-rest/ai-translation-text");
+const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv/config");
 
 const endpoint =
   process.env["TEXT_TRANSLATION_ENDPOINT"] || "https://api.cognitive.microsofttranslator.com";
 const resourceId = process.env["TEXT_TRANSLATION_RESOURCE_ID"] || "<api key>";
 const region = process.env["TEXT_TRANSLATION_REGION"] || "<region>";
 
-export async function main(): Promise<void> {
-  console.log("== Marking text input with notranslate div sample ==");
+async function main() {
+  console.log("== Translation with Dictionary sample ==");
 
   const translateCedential = {
     tokenCredential: new DefaultAzureCredential(),
@@ -27,9 +28,9 @@ export async function main(): Promise<void> {
   };
   const translationClient = TextTranslationClient(endpoint, translateCedential);
 
-  const inputText: InputTextItem[] = [
+  const inputText = [
     {
-      text: '<div class="notranslate">This will not be translated.</div><div>This will be translated.</div>',
+      text: 'The word <mstrans:dictionary translation="wordomatic">wordomatic</mstrans:dictionary> is a dictionary entry.',
     },
   ];
   const translateResponse = await translationClient.path("/translate").post({
@@ -37,7 +38,6 @@ export async function main(): Promise<void> {
     queryParameters: {
       to: "cs",
       from: "en",
-      textType: "html",
     },
   });
 
@@ -56,3 +56,5 @@ export async function main(): Promise<void> {
 main().catch((err) => {
   console.error(err);
 });
+
+module.exports = { main };

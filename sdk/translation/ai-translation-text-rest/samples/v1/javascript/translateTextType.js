@@ -2,23 +2,21 @@
 // Licensed under the MIT License.
 
 /**
- * @summary This sample demonstrates how it's sometimes useful to exclude specific content from translation.
- * You can use the attribute class=notranslate to specify content that should remain
- * in its original language. In the following example, the content inside the first div
- * element won't be translated, while the content in the second div element will be translated.
+ * @summary This sample demonstrates how you can select whether the translated text is plain text or HTML text.
+ * Any HTML needs to be a well-formed, complete element. Possible values are: plain (default) or html.
  */
-import type { InputTextItem } from "@azure-rest/ai-translation-text";
-import TextTranslationClient, { isUnexpected } from "@azure-rest/ai-translation-text";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+const TextTranslationClient = require("@azure-rest/ai-translation-text").default,
+  { isUnexpected } = require("@azure-rest/ai-translation-text");
+const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv/config");
 
 const endpoint =
   process.env["TEXT_TRANSLATION_ENDPOINT"] || "https://api.cognitive.microsofttranslator.com";
 const resourceId = process.env["TEXT_TRANSLATION_RESOURCE_ID"] || "<api key>";
 const region = process.env["TEXT_TRANSLATION_REGION"] || "<region>";
 
-export async function main(): Promise<void> {
-  console.log("== Marking text input with notranslate div sample ==");
+async function main() {
+  console.log("== HTML translation sample ==");
 
   const translateCedential = {
     tokenCredential: new DefaultAzureCredential(),
@@ -27,11 +25,7 @@ export async function main(): Promise<void> {
   };
   const translationClient = TextTranslationClient(endpoint, translateCedential);
 
-  const inputText: InputTextItem[] = [
-    {
-      text: '<div class="notranslate">This will not be translated.</div><div>This will be translated.</div>',
-    },
-  ];
+  const inputText = [{ text: "<html><body>This <b>is</b> a test.</body></html>" }];
   const translateResponse = await translationClient.path("/translate").post({
     body: inputText,
     queryParameters: {
@@ -56,3 +50,5 @@ export async function main(): Promise<void> {
 main().catch((err) => {
   console.error(err);
 });
+
+module.exports = { main };

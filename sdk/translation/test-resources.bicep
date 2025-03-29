@@ -5,10 +5,9 @@ param location string = resourceGroup().location
 // The client OID to grant access to test resources.
 param testApplicationOid string
 param customEndpointSuffix string = '.cognitiveservices.azure.com/translator/text/v3.0'
-param dtEndpointSuffix string = '.cognitiveservices.azure.com'
+param supportsSafeSecretStandard bool = false
 
-var uniqueSubDomainName = '${baseName}'
-var apiVersion = '2024-04-01-preview'
+var cognitiveAccountName = baseName
 var storageBlobDataContributorRoleId = 'ba92f5b4-2d11-453d-a403-e96b0029c9fe'
 var storageAccountName = '${baseName}prim'
 
@@ -30,8 +29,8 @@ var networkAcls = {
 }
 
 // Create Cognitive Services Account for Text Translation
-resource cognitiveServicesAccount 'Microsoft.CognitiveServices/accounts@2024-04-01-preview' = {
-  name: uniqueSubDomainName
+resource cognitiveServicesAccount 'Microsoft.CognitiveServices/accounts@2024-10-01' = {
+  name: cognitiveAccountName
   location: location
   sku: {
     name: 'S1'
@@ -41,7 +40,8 @@ resource cognitiveServicesAccount 'Microsoft.CognitiveServices/accounts@2024-04-
     type: 'SystemAssigned'
   }
   properties: {
-    customSubDomainName: uniqueSubDomainName
+    customSubDomainName: cognitiveAccountName
+    disableLocalAuth: supportsSafeSecretStandard
   }
 }
 
@@ -55,12 +55,11 @@ resource roleAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
 }
 
 // Create Storage Account
-resource storageAccount 'Microsoft.Storage/storageAccounts@2023-05-01' = {
+resource storageAccount 'Microsoft.Storage/storageAccounts@2024-01-01' = {
   name: storageAccountName
   location: location
   sku: {
     name: 'Standard_RAGRS'
-    tier: 'Standard'
   }
   kind: 'StorageV2'
   properties: {
@@ -85,9 +84,12 @@ resource storageBlobDataContributorRoleAssignment 'Microsoft.Authorization/roleA
 }
 
 // Outputs
-output TEXT_TRANSLATION_API_KEY string = listKeys(cognitiveServicesAccount.id, apiVersion).key1
+output SUBSCRIPTION_ID string = subscription().subscriptionId
+output RESOURCE_GROUP string = resourceGroup().name
+output COGNITIVE_ACCOUNT_NAME string = cognitiveServicesAccount.name
 output TEXT_TRANSLATION_ENDPOINT string = cognitiveServicesAccount.properties.endpoint
 output TEXT_TRANSLATION_CUSTOM_ENDPOINT string = 'https://${baseName}${customEndpointSuffix}'
 output TEXT_TRANSLATION_REGION string = location
-output DOCUMENT_TRANSLATION_ENDPOINT string = 'https://${baseName}${dtEndpointSuffix}'
-output DOCUMENT_TRANSLATION_STORAGE_NAME string = storageAccountName
+output TEXT_TRANSLATION_RESOURCE_ID string = cognitiveServicesAccount.id
+output DOCUMENT_TRANSLATION_ENDPOINT string = cognitiveServicesAccount.properties.endpoints.DocumentTranslation
+output DOCUMENT_TRANSLATION_STORAGE_NAME string = storageAccount.name
