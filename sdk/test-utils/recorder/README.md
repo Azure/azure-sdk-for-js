@@ -17,7 +17,7 @@ Our recorder tool package `@azure-tools/test-recorder` attempts to provide an an
 
 This library provides interfaces and helper methods to equip the SDKs in the `azure-sdk-for-js` repo with the recording and playback capabilities for the tests, it targets HTTP requests in both Node.js and the Browsers.
 
-`@azure-tools/test-recorder`, as part of the Test Utils available in this repository, it is supposed to be added only as a `devDependency` and should be used only for the tests of an sdk.
+`@azure-tools/test-recorder`, as part of the Test Utils available in this repository, it should be added only as a `devDependency` and used only for the tests of an sdk.
 
 This tool helps to record and playback the tests in the JS repo by leveraging the unified out-of-process test proxy server.
 
