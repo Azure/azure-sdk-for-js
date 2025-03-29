@@ -27,6 +27,8 @@ param adminUserName string = 'azureuser'
 param principalUserType string = 'User'
 
 // https://learn.microsoft.com/azure/role-based-access-control/built-in-roles
+var acrPull = subscriptionResourceId('Microsoft.Authorization/roleDefinitions', '7f951dda-4ed3-4680-a7ca-43fe172d538d')
+var blobReader = subscriptionResourceId('Microsoft.Authorization/roleDefinitions', '2a2b9908-6ea1-4ae2-8e65-a410df84e7d1')
 var blobOwner = subscriptionResourceId('Microsoft.Authorization/roleDefinitions','b7e6dc6d-f1e8-4753-8033-0f276bb0955b') // Storage Blob Data Owner
 var serviceOwner = subscriptionResourceId('Microsoft.Authorization/roleDefinitions', '17d1049b-9a84-46fb-8f53-869881c3d3ab')
 var websiteContributor = subscriptionResourceId('Microsoft.Authorization/roleDefinitions', 'de139f84-1756-47ae-9be6-808fbbe84772') // Website Contributor
@@ -37,6 +39,16 @@ var kubernetesVersion = latestAksVersion
 resource userAssignedIdentity 'Microsoft.ManagedIdentity/userAssignedIdentities@2018-11-30' = {
   name: baseName
   location: location
+}
+
+resource acrPullContainerInstance 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
+  name: guid(resourceGroup().id, acrPull, 'containerInstance')
+  properties: {
+    principalId: userAssignedIdentity.properties.principalId
+    principalType: 'ServicePrincipal'
+    roleDefinitionId: acrPull
+  }
+  scope: containerRegistry
 }
 
 resource blobRoleWeb 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
