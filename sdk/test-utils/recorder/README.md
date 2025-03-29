@@ -95,7 +95,7 @@ Having the recorder as a devDependency means that you'll be able to start record
 The test-recorder provides the `Recorder` class that deals with recording and playing back the network requests, depending on the value assigned to the `TEST_MODE` environment variable.
 
 - If `TEST_MODE` equals to `record`, it will automatically store network requests in a plain text file in the folder `recordings` at the root of your library (it is `sdk/tables/data-tables` in our example).
-- As of version 4.0.0, this package supports `vitest` (instead of `mocha` and `karma`) for testing frameworks as suggested by the [template](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/template/template) package in the repo. And we employ `process.env` through vitest to access environment variables in both Node and browser environments.
+- As of version 4.0.0, this package supports `vitest` (instead of `mocha` and `karma`) for testing frameworks as suggested by the [template](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/template/template) package in the repo.
 
 #### package.json scripts
 
