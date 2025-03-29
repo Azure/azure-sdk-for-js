@@ -53,14 +53,21 @@ export class Containers {
    * @param options - Use to set options like response page size, continuation tokens, etc.
    * @returns {@link QueryIterator} Allows you to return specific containers in an array or iterate over them one at a time.
    * @example Read all containers to array.
-   * ```typescript
+   * ```ts snippet:ContainersQueryAllContainers
+   * import { CosmosClient, SqlQuerySpec } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   *
    * const querySpec: SqlQuerySpec = {
-   *   query: "SELECT * FROM root r WHERE r.id = @container",
-   *   parameters: [
-   *     {name: "@container", value: "Todo"}
-   *   ]
+   *   query: `SELECT * FROM root r WHERE r.id = @container`,
+   *   parameters: [{ name: "@container", value: "Todo" }],
    * };
-   * const {body: containerList} = await client.database("<db id>").containers.query(querySpec).fetchAll();
+   * const { resources: containerList } = await client
+   *   .database("<db id>")
+   *   .containers.query(querySpec)
+   *   .fetchAll();
    * ```
    */
   public query(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<any>;
@@ -70,14 +77,21 @@ export class Containers {
    * @param options - Use to set options like response page size, continuation tokens, etc.
    * @returns {@link QueryIterator} Allows you to return specific containers in an array or iterate over them one at a time.
    * @example Read all containers to array.
-   * ```typescript
+   * ```ts snippet:ContainersQueryAllContainers
+   * import { CosmosClient, SqlQuerySpec } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   *
    * const querySpec: SqlQuerySpec = {
-   *   query: "SELECT * FROM root r WHERE r.id = @container",
-   *   parameters: [
-   *     {name: "@container", value: "Todo"}
-   *   ]
+   *   query: `SELECT * FROM root r WHERE r.id = @container`,
+   *   parameters: [{ name: "@container", value: "Todo" }],
    * };
-   * const {body: containerList} = await client.database("<db id>").containers.query(querySpec).fetchAll();
+   * const { resources: containerList } = await client
+   *   .database("<db id>")
+   *   .containers.query(querySpec)
+   *   .fetchAll();
    * ```
    */
   public query<T>(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<T>;
@@ -119,6 +133,17 @@ export class Containers {
    *
    * @param body - Represents the body of the container.
    * @param options - Use to set options like response page size, continuation tokens, etc.
+   * @example
+   * ```ts snippet:CosmosClientDatabaseCreateContainer
+   * import { CosmosClient } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   * const container = client.database("<database id>").containers.create({
+   *   id: "<name here>",
+   * });
+   * ```
    */
   public async create(
     body: ContainerRequest,
@@ -239,6 +264,17 @@ export class Containers {
    *
    * @param body - Represents the body of the container.
    * @param options - Use to set options like response page size, continuation tokens, etc.
+   * @example
+   * ```ts snippet:ReadmeSampleCreateContainer
+   * import { CosmosClient } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   *
+   * const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+   * const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
+   * ```
    */
   public async createIfNotExists(
     body: ContainerRequest,
@@ -275,8 +311,17 @@ export class Containers {
    * @param options - Use to set options like response page size, continuation tokens, etc.
    * @returns {@link QueryIterator} Allows you to return all containers in an array or iterate over them one at a time.
    * @example Read all containers to array.
-   * ```typescript
-   * const {body: containerList} = await client.database("<db id>").containers.readAll().fetchAll();
+   * ```ts snippet:ContainersReadAllContainers
+   * import { CosmosClient } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   *
+   * const { resources: containerList } = await client
+   *   .database("<db id>")
+   *   .containers.readAll()
+   *   .fetchAll();
    * ```
    */
   public readAll(options?: FeedOptions): QueryIterator<ContainerDefinition & Resource> {
