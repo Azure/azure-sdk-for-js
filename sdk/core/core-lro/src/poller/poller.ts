@@ -109,11 +109,11 @@ export function buildCreatePoller<TResponse, TResult, TState extends OperationSt
           const { abortSignal: inputAbortSignal } = pollOptions || {};
           // In the future we can use AbortSignal.any() instead
           function abortListener(): void {
-            abortController.abort();
+            abortController.abort(inputAbortSignal?.reason);
           }
           const abortSignal = abortController.signal;
           if (inputAbortSignal?.aborted) {
-            abortController.abort();
+            abortController.abort(inputAbortSignal.reason);
           } else if (!abortSignal.aborted) {
             inputAbortSignal?.addEventListener("abort", abortListener, { once: true });
           }

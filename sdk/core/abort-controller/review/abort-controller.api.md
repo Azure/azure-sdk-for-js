@@ -13,6 +13,7 @@ export class AbortError extends Error {
 export interface AbortSignalLike {
     readonly aborted: boolean;
     addEventListener(type: "abort", listener: (this: AbortSignalLike, ev: any) => any, options?: any): void;
+    readonly reason?: any;
     removeEventListener(type: "abort", listener: (this: AbortSignalLike, ev: any) => any, options?: any): void;
 }
 
