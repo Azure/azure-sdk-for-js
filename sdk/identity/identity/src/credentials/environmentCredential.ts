@@ -138,7 +138,6 @@ export class EnvironmentCredential implements TokenCredential {
         password,
         newOptions,
       );
-      return;
     }
 
     throw new CredentialUnavailableError(
