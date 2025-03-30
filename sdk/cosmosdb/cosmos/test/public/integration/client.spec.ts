@@ -66,7 +66,7 @@ const testDataset = {
   },
 };
 
-describe("Testing Credentials integration for Client", () => {
+describe("TestingCredentialsintegrationforClient", () => {
   // endpoint for mock server, which doesn't conflict with emulator's endpoints.
   const mockedEndpoint = "https://localhost:8082";
   const aadToken = "aadToken";
@@ -84,7 +84,6 @@ describe("Testing Credentials integration for Client", () => {
     let client: CosmosClient;
 
     beforeEach(async () => {
-      nock.disableNetConnect();
       client = new CosmosClient({
         endpoint: mockedEndpoint,
         aadCredentials: new MockCredential(
@@ -94,9 +93,7 @@ describe("Testing Credentials integration for Client", () => {
     });
 
     afterEach(async () => {
-      nock.restore();
       nock.cleanAll();
-      nock.enableNetConnect();
     });
 
     it("Test pipeline setup for items.create for aadCredentials", async () => {
