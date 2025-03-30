@@ -14,7 +14,7 @@ import { toSupportTracing } from "@azure-tools/test-utils-vitest";
 
 expect.extend({ toSupportTracing });
 
-describe("ClientSecretCredential", function () {
+describe.only("ClientSecretCredential", function () {
   let cleanup: MsalTestCleanup;
   let recorder: Recorder;
   beforeEach(async function (ctx) {
@@ -41,6 +41,17 @@ describe("ClientSecretCredential", function () {
     assert.ok(token?.expiresOnTimestamp! > Date.now());
   });
 
+  it("allows accessing graph scopes", async function () {
+    const credential = new ClientSecretCredential(
+      env.AZURE_TENANT_ID!,
+      env.AZURE_CLIENT_ID!,
+      env.AZURE_CLIENT_SECRET!,
+      recorder.configureClientOptions({}),
+    );
+    const token = await credential.getToken("https://graph.microsoft.com/.default");
+    assert.ok(token?.token);
+    assert.ok(token?.expiresOnTimestamp! > Date.now());
+  });
   it("authenticates when cae enabled", async function () {
     const credential = new ClientSecretCredential(
       env.AZURE_TENANT_ID!,
