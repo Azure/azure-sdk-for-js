@@ -84,6 +84,7 @@ describe("Testing Credentials integration for Client", () => {
     let client: CosmosClient;
 
     beforeEach(async () => {
+      nock.disableNetConnect();
       client = new CosmosClient({
         endpoint: mockedEndpoint,
         aadCredentials: new MockCredential(
