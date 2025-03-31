@@ -97,7 +97,7 @@ graph TD
 
     assets --> pr[Create PR]
 
-    subgraph p2 [Verify in Playback]
+    subgraph p2 [Verify in Playback <br> (check it works without .env file/vars)]
         playback[TEST_MODE=playback<br>rushx test]
     end
 
