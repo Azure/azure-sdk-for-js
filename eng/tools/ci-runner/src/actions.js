@@ -52,7 +52,7 @@ export function executeActions(action, serviceDirs, extraParams, artifactNames, 
       default:
         exitCode = runAllWithDirection(
           action,
-          packageNames.map((p) => `--filter=${p}...`),
+          packageNames.map((p) => `${p}...`),
           extraParams,
           ciFlag,
         );

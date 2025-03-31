@@ -3,33 +3,33 @@
 
 // @ts-check
 
-import { spawnNpx, spawnNpmRun } from "./spawn.js";
+import { spawnPnpm, spawnNpmRun } from "./spawn.js";
 import { getBaseDir } from "./env.js";
 import { join as pathJoin } from "node:path";
 import { runTestProxyRestore } from "./testProxyRestore.js";
 
 /**
- * Helper to run a global turbo command
+ * Helper to run a global pnpm command
  * @param {string} action - which action to execute
  * @param {string[]} runParams - what parameters to pass
  */
 export function runGlobalAction(action, runParams) {
-  return spawnNpx(getBaseDir(), "turbo", "run", action, ...runParams);
+  return spawnPnpm(getBaseDir(), "run", ...runParams, action);
 }
 
 /**
  * Helper function to invoke the run logic split up by direction.
  *
  * @param {string} action - which action to execute
- * @param {string[]} filteredPackages - Any array of strings containing ["direction packageName"...]
+ * @param {string[]} filters - Any array of strings containing ["direction packageName"...]
  * @param {string[]} extraParams - what parameters to pass
  * @param {boolean} ciFlag - whether it is in CI
  */
-export function runAllWithDirection(action, filteredPackages, extraParams, ciFlag) {
+export function runAllWithDirection(action, filters, extraParams, ciFlag) {
   console.dir({
     action,
     label: `runAllWithDirection - 1`,
-    filteredPackages,
+    filteredPackages: filters,
   });
 
   // Restore assets for packages that are being 'unit-test'-ed in the CI pipeline
@@ -61,7 +61,12 @@ export function runAllWithDirection(action, filteredPackages, extraParams, ciFla
     }
   }
 
-  return spawnNpx(getBaseDir(), "turbo", "run", action, ...filteredPackages, ...extraParams);
+  const packages = filters.flatMap((pkg) => {
+        return ["--filter", pkg];
+  });
+
+  console.dir(packages);
+  return spawnPnpm(getBaseDir(), "run", ...packages, action, ...extraParams);
 }
 
 /**

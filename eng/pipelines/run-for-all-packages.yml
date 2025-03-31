@@ -26,7 +26,7 @@ stages:
             displayName: "Install library dependencies"
 
           - script: |
-              npx turbo run build --filter=@azure/eslint-plugin-azure-sdk... -v
+              pnpm run --filter @azure/eslint-plugin-azure-sdk... build --logLevel info
             displayName: "Build ESLint Plugin"
 
           - script: |
@@ -34,21 +34,21 @@ stages:
             displayName: "Build packages to enable typed checking"
 
           - script: |
-              npx turbo run lint -v
+              pnpm run lint --logLevel info
             displayName: "Lint All Packages"
 
           - script: |
-              npx turbo run build -v
+              pnpm run build --logLevel info
             displayName: "Build All Packages"
 
           - script: |
-              npx turbo run build:test --filter=@azure/identity... --filter=@azure/app-configuration... --filter=@azure/event-hubs... --concurrentcy=1 -v
+              pnpm run --filter @azure/identity... --filter @azure/app-configuration... --filter @azure/event-hubs... --workspace-concurrency=1 build:test --logLevel info
             displayName: "Build Tests for Selected Packages"
 
           - script: |
-              npx turbo run unit-test --filter=@azure/identity... --filter=@azure/app-configuration... --filter=@azure/event-hubs... --concurrentcy=1 -v
+              pnpm run --filter=@azure/identity... --filter=@azure/app-configuration... --filter=@azure/event-hubs... --workspace-concurrency=1 unit-test --logLevel info
             displayName: "Run Unit Tests for Selected Packages"
 
           - script: |
-              npx turbo run integration-test --filter=@azure/app-configuration --filter=@azure/storage-blob --filter=@azure-rest/synapse-access-control --concurrentcy=1 -v
+              pnpm run --filter=@azure/app-configuration --filter=@azure/storage-blob --filter=@azure-rest/synapse-access-control --workspace-concurrency=1 integration-test --logLevel info
             displayName: "Run Integration Tests for Selected Packages"

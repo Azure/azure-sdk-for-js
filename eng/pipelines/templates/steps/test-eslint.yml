@@ -8,10 +8,10 @@ steps:
     displayName: "Install library dependencies"
 
   - pwsh: |
-      npx turbo run build --filter=@azure/eslint-plugin-azure-sdk... --filter=@azure/monitor-opentelemetry-exporter...
+      pnpm run --filter=@azure/eslint-plugin-azure-sdk... --filter=@azure/monitor-opentelemetry-exporter... build --logLevel info
       node eng/tools/ci-runner/index.js lint "${{parameters.ServiceDirectory}}" -v
     displayName: "Build ESLint Plugin and Lint Libraries"
 
   - pwsh: |
-      npx turbo run test --filter=@azure/eslint-plugin-azure-sdk... -v
+      pnpm run --filter=@azure/eslint-plugin-azure-sdk... test --logLevel info
     displayName: "Run ESLint Plugin Unit Tests"

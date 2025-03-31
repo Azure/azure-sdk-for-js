@@ -30,8 +30,8 @@ function spawnWithLog(cmd, cwd, ...args) {
  * @param {string} cwd - current working directory
  * @param {string[]} args - rest of arguments
  */
-export function spawnNpx(cwd, ...args) {
-  const command = isWindows() ? "npx.CMD" : "npx";
+export function spawnPnpm(cwd, ...args) {
+  const command = isWindows() ? "pnpm.CMD" : "pnpm";
   return spawnWithLog(command, cwd, ...args);
 }
 
@@ -44,25 +44,4 @@ export function spawnNpx(cwd, ...args) {
 export function spawnNpmRun(cwd, ...args) {
   const command = isWindows() ? "npm.CMD" : "npm";
   return spawnWithLog(command, cwd, "run", ...args);
-}
-
-/**
- * Helper function to spawn npx to run programs and return the output
- *
- * @param {string} cwd - current working directory
- * @param {string[]} args - rest of arguments
- * @returns {string} - output of the command
- */
-export function spawnNpxWithOutput(cwd, ...args) {
-  console.log(`Executing: "npx ${args.join(" ")}" in ${cwd}\n\n`);
-  const proc = spawnSync("npx", args, { cwd, stdio: "pipe" });
-
-  if (proc.error) {
-    throw new Error(`Error executing command: ${proc.error.message}`);
-  }
-
-  const output = proc.stdout.toString();
-  console.log(`\n\nNpx exited with code ${proc.status}`);
-
-  return output;
 }

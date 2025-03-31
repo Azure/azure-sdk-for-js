@@ -5,7 +5,7 @@
 
 import { afterEach, assert, describe, it, vi } from "vitest";
 import { executeActions } from "../src/actions.js";
-import { spawnNpx, spawnNpmRun } from "../src/spawn.js";
+import { spawnNpmRun, spawnPnpm } from "../src/spawn.js";
 import { getBaseDir } from "../src/env.js";
 import { join as pathJoin } from "node:path";
 
@@ -13,8 +13,8 @@ const baseDir = getBaseDir();
 
 vi.mock("../src/spawn.js", async () => {
   return {
-    spawnNpx: vi.fn(),
     spawnNpmRun: vi.fn(),
+    spawnPnpm: vi.fn(),
   };
 });
 
@@ -24,16 +24,17 @@ describe("executeActions", () => {
   });
 
   it("should pass global actions directly to", () => {
-    executeActions("unlink", [], [], "");
-    assert.deepEqual(vi.mocked(spawnNpx).mock.calls, [[baseDir, "turbo", "run", "unlink"]]);
+    executeActions("purge", [], [], "");
+    assert.deepEqual(vi.mocked(spawnPnpm).mock.calls, [[baseDir, "run", "purge"]]);
   });
 
   it("should run build commands for affected packages", () => {
     executeActions("build", ["appconfiguration"], [], "azure-app-configuration");
-    assert.deepEqual(vi.mocked(spawnNpx).mock.calls, [
-      [baseDir, "turbo", "run", "build", "--filter=...@azure/app-configuration"],
+    assert.deepEqual(vi.mocked(spawnPnpm).mock.calls, [
+      [baseDir, "run", "--filter", "...@azure/app-configuration", "build"],
     ]);
   });
+
 
   it("should run lint in appropriate folders", () => {
     executeActions("lint", ["appconfiguration"], [], "azure-app-configuration");
@@ -43,21 +44,21 @@ describe("executeActions", () => {
 
   it("should handle arbitrary run commands", () => {
     executeActions("foo", ["appconfiguration"], [], "azure-app-configuration");
-    assert.deepEqual(vi.mocked(spawnNpx).mock.calls, [
-      [baseDir, "turbo", "run", "foo", "--filter=@azure/app-configuration..."],
+    assert.deepEqual(vi.mocked(spawnPnpm).mock.calls, [
+      [baseDir, "run", "--filter", "@azure/app-configuration...", "foo",],
     ]);
   });
 
   it("should pass through arguments for rush", () => {
-    const rushArgs = ["--verbose", "-p max"];
+    const rushArgs = ["--logLevel", "info"];
     executeActions("build", ["appconfiguration"], rushArgs, "azure-app-configuration");
-    assert.deepEqual(vi.mocked(spawnNpx).mock.calls, [
-      [baseDir, "turbo", "run", "build", "--filter=...@azure/app-configuration", ...rushArgs],
+    assert.deepEqual(vi.mocked(spawnPnpm).mock.calls, [
+      [baseDir, "run", "--filter", "...@azure/app-configuration", "build", ...rushArgs],
     ]);
   });
 
   it("should return a non-zero return when a command fails", () => {
-    vi.mocked(spawnNpx).mockReturnValueOnce(1);
+    vi.mocked(spawnPnpm).mockReturnValueOnce(1);
     const resultCode = executeActions("build", ["appconfiguration"], [], "azure-app-configuration");
     assert.strictEqual(resultCode, 1);
   });

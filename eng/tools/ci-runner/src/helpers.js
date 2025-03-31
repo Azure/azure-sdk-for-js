@@ -97,11 +97,11 @@ export const getFilteredPackages = (packageNames, action, serviceDirs) => {
       if (restrictedToPackages.includes(packageName)) {
         // if this is one of our restricted packages with a ton of deps, make it targeted
         // as including all dependents will be too much
-        filter = `--filter=${packageName}...`; // package and its dependencies
+        filter = `${packageName}...`; // package and its dependencies
       } else if (action === "build") {
-        filter = `--filter=...${packageName}`; // package and its dependents
+        filter = `...${packageName}`; // package and its dependents
       } else {
-        filter = `--filter=...${packageName}`;
+        filter = `...${packageName}`;
       }
 
       mappedPackages.push(filter);
@@ -109,7 +109,7 @@ export const getFilteredPackages = (packageNames, action, serviceDirs) => {
   } else {
     mappedPackages.push(
       ...fullPackageNames.map((p) =>
-        isReducedTestScopeEnabled ? `--filter=${p}` : `--filter=...${p}`,
+        isReducedTestScopeEnabled ? `${p}` : `...${p}`,
       ),
     );
   }
