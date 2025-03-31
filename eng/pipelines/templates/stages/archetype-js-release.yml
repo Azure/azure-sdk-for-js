@@ -103,6 +103,10 @@ stages:
                         - 'PrePublishPackage'
                   - job: PostPublishPackage
                     dependsOn: PublishPackage
+                    pool:
+                      name: azsdk-pool-mms-ubuntu-2004-general
+                      image: azsdk-pool-mms-ubuntu-2004-1espt
+                      os: linux
                     displayName: Post Publish to npmjs
                     steps:
                     - pwsh: >
