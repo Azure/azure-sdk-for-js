@@ -11,6 +11,5 @@ export * from "./isUnexpected.js";
 export * from "./models.js";
 export * from "./outputModels.js";
 export * from "./paginateHelper.js";
-export * from "./credentials/batchSharedKeyCredentials.js";
 
 export default BatchClient;
