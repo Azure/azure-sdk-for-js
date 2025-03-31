@@ -57,9 +57,9 @@ jobs:
         write-host "Package version: $packageVersion"
         write-host "Original tags: $originalTags"
 
-        echo "##vso[task.setvariable variable=PackageName]$packageName"
-        echo "##vso[task.setvariable variable=OriginalTags]$originalTags"
-        echo "##vso[task.setvariable variable=IntendedTagVersion]$packageVersion"
+        echo "##vso[task.setvariable variable=PackageName; isOutput=true]$packageName"
+        echo "##vso[task.setvariable variable=OriginalTags; isOutput=true]$originalTags"
+        echo "##vso[task.setvariable variable=IntendedTagVersion; isOutput=true]$packageVersion"
       displayName: Get original tags
 
     - task: EsrpRelease@9
@@ -93,6 +93,15 @@ jobs:
 - ${{ if eq(parameters.Registry, 'https://registry.npmjs.org/') }}:
   - job: VerifyPackageTags
     dependsOn: PublishPackage
+    condition: succeeded()
+    variables:
+      - name: PackageName
+        value: ${{ dependencies.PublishPackage.outputs['PackageName'] }}
+      - name: OriginalTags
+        value: ${{ dependencies.PublishPackage.outputs['OriginalTags'] }}
+      - name: IntendedTagVersion
+        value: ${{ dependencies.PublishPackage.outputs['IntendedTagVersion'] }}
+    displayName: 'Verify package tags'
     pool:
       name: azsdk-pool-mms-ubuntu-2004-general
       image: azsdk-pool-mms-ubuntu-2004-1espt
