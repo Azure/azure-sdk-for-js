@@ -1,13 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * THIS IS AN AUTO-GENERATED FILE - DO NOT EDIT!
- *
- * Any changes you make here may be lost.
- *
- * If you need to make changes, please do so in the original source file, \{project-root\}/sources/custom
- */
 /** An abstract representation of a chat message as provided in a request. */
 export interface ChatRequestMessageParent {
   role: ChatRole;
@@ -237,7 +230,7 @@ export interface FunctionDefinition {
    */
   description?: string;
   /** The parameters the function accepts, described as a JSON Schema object. */
-  parameters?: unknown;
+  parameters?: Record<string, unknown>;
 }
 
 /** A tool selection of a specific, named function tool that will limit chat completions to using the named function. */
