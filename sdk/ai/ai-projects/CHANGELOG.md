@@ -6,6 +6,7 @@
 
 - Adding Azure Functions and OpenAPI tool support
 - Upgrading core-lro package
+- Adding Fabric support and sample.
 
 ### Bugs Fixed
 
