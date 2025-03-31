@@ -96,11 +96,11 @@ jobs:
     condition: succeeded()
     variables:
       - name: PackageName
-        value: ${{ dependencies.PublishPackage.outputs['PackageName'] }}
+        value: $[ dependencies.PublishPackage.outputs['PackageName'] ]
       - name: OriginalTags
-        value: ${{ dependencies.PublishPackage.outputs['OriginalTags'] }}
+        value: $[ dependencies.PublishPackage.outputs['OriginalTags'] ]
       - name: IntendedTagVersion
-        value: ${{ dependencies.PublishPackage.outputs['IntendedTagVersion'] }}
+        value: $[ dependencies.PublishPackage.outputs['IntendedTagVersion'] ]
     displayName: 'Verify package tags'
     pool:
       name: azsdk-pool-mms-ubuntu-2004-general
