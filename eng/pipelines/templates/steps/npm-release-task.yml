@@ -35,6 +35,9 @@ jobs:
         tar -xzf $tarFile -C $tempDir
         $packageJsonDir = "$tempDir/package/package.json"
         $pkg = Get-Content -Raw "$packageJsonDir" | ConvertFrom-Json
+
+        write-host $pkg
+
         $packageName = $pkg.Name
         $packageVersion = $pkg.Version
         $packageProps = npm view $packageName -json -silent | ConvertFrom-Json
@@ -49,6 +52,10 @@ jobs:
         else {
           $originalTags = $packageProps.'dist-tags' | ConvertTo-Json -Compress
         }
+
+        write-host "Package name: $packageName"
+        write-host "Package version: $packageVersion"
+
         echo "##vso[task.setvariable variable=PackageName]$packageName"
         echo "##vso[task.setvariable variable=OriginalTags]$originalTags"
         echo "##vso[task.setvariable variable=IntendedTagVersion]$packageVersion"
@@ -96,7 +103,7 @@ jobs:
       inputs:
         targetType: filePath
         filePath: eng/scripts/verify-npm-tags.ps1
-        arguments: -originalDistTags '$(OriginalTags)' -intendedTag '${{parameters.Tag}}' -intendedTagVersion '$(IntendedTagVersion)' -packageName $(PackageName) -npmToken '$(azure-sdk-npm-token)'
+        arguments: -originalDistTags '$(OriginalTags)' -intendedTag '${{parameters.Tag}}' -intendedTagVersion '$(IntendedTagVersion)' -packageName '$(PackageName)' -npmToken '$(azure-sdk-npm-token)'
         pwsh: true
 
     - ${{ if ne(parameters.AdditionalTag, '') }}:
