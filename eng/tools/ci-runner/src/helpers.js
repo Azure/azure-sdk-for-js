@@ -99,9 +99,9 @@ export const getFilteredPackages = (packageNames, action, serviceDirs) => {
         // as including all dependents will be too much
         filter = `${packageName}...`; // package and its dependencies
       } else if (action === "build") {
-        filter = `...${packageName}`; // package and its dependents
+        filter = `...${packageName}...`; // package and its dependents
       } else {
-        filter = `...${packageName}`;
+        filter = `...${packageName}...`;
       }
 
       mappedPackages.push(filter);
