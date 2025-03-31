@@ -55,6 +55,7 @@ jobs:
 
         write-host "Package name: $packageName"
         write-host "Package version: $packageVersion"
+        write-host "Original tags: $originalTags"
 
         echo "##vso[task.setvariable variable=PackageName]$packageName"
         echo "##vso[task.setvariable variable=OriginalTags]$originalTags"
