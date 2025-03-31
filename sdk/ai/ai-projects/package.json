@@ -1,6 +1,6 @@
 {
   "name": "@azure/ai-projects",
-  "version": "1.0.0-beta.3",
+  "version": "1.0.0-beta.4",
   "description": "A generated SDK for ProjectsClient.",
   "engines": {
     "node": ">=18.0.0"
@@ -98,7 +98,7 @@
     "build:test": "npm run clean && dev-tool run build-package && dev-tool run build-test",
     "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"samples-dev/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\" ",
     "clean": "dev-tool run vendored rimraf --glob dist dist-* test-dist temp types *.tgz *.log",
-    "copy:yaml": "cp tsp-location.yaml ./src/generated/tsp-location.yaml",
+    "copy:yaml": "copy tsp-location.yaml .\\src\\generated\\tsp-location.yaml",
     "execute:samples": "dev-tool samples run samples-dev",
     "extract-api": "dev-tool run vendored rimraf review && dev-tool run vendored mkdirp ./review && dev-tool run extract-api",
     "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"samples-dev/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\" ",

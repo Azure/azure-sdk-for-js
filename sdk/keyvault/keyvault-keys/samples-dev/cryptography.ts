@@ -48,7 +48,7 @@ export async function main(): Promise<void> {
 
   // Encrypt and decrypt
   const encrypt = await cryptoClient.encrypt({
-    algorithm: "RSA1_5",
+    algorithm: "RSA-OAEP-256",
     plaintext: Buffer.from("My Message"),
   });
   console.log("encrypt result: ", encrypt);

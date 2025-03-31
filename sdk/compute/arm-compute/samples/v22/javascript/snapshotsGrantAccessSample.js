@@ -38,7 +38,7 @@ async function getASasOnASnapshot() {
 }
 
 async function main() {
-  getASasOnASnapshot();
+  await getASasOnASnapshot();
 }
 
 main().catch(console.error);
