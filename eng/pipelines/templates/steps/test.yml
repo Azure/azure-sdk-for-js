@@ -27,11 +27,11 @@ steps:
       Artifacts: ${{ parameters.Artifacts }}
 
   - script: |
-      node eng/tools/ci-runner/index.js build $(ChangedServices) -packages "$(ArtifactPackageNames)" --concurrency=100% -v
+      node eng/tools/ci-runner/index.js build $(ChangedServices) -packages "$(ArtifactPackageNames)" -v
     displayName: "Build libraries"
 
   - script: |
-      node eng/tools/ci-runner/index.js build:test $(ChangedServices) -packages "$(ArtifactPackageNames)" --concurrency=100% -v
+      node eng/tools/ci-runner/index.js build:test $(ChangedServices) -packages "$(ArtifactPackageNames)" -v
     displayName: "Build test assets"
 
   - template: ../steps/use-node-test-version.yml
@@ -40,12 +40,12 @@ steps:
     - template: /eng/common/testproxy/test-proxy-standalone-tool.yml
 
   - script: |
-      node eng/tools/ci-runner/index.js unit-test:node $(ChangedServices) -packages "$(ArtifactPackageNames)" --ci --concurrency=100% -v
+      node eng/tools/ci-runner/index.js unit-test:node $(ChangedServices) -packages "$(ArtifactPackageNames)" --ci -v
     displayName: "Test libraries"
     condition: and(succeeded(),eq(variables['TestType'], 'node'))
 
   - script: |
-      node eng/tools/ci-runner/index.js unit-test:browser $(ChangedServices) -packages "$(ArtifactPackageNames)" --ci --concurrency=100% -v
+      node eng/tools/ci-runner/index.js unit-test:browser $(ChangedServices) -packages "$(ArtifactPackageNames)" --ci -v
     displayName: "Test libraries"
     condition: and(succeeded(),eq(variables['TestType'], 'browser'))
 

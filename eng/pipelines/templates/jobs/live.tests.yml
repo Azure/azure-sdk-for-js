@@ -115,11 +115,11 @@ jobs:
         displayName: "Install library dependencies"
 
       - script: |
-          npx turbo run build --filter=${{parameters.PackageName}}... --concurrency=100% -v
+          npx turbo run build --filter=${{parameters.PackageName}}... -v
         displayName: "Build libraries"
 
       - script: |
-          npx turbo run build:test --filter=${{parameters.PackageName}}... --concurrency=100% -v
+          npx turbo run build:test --filter=${{parameters.PackageName}}... -v
         displayName: "Build test assets"
         condition: and(succeededOrFailed(),eq(variables['DependencyVersion'],''))
 

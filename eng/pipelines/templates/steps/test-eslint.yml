@@ -9,7 +9,7 @@ steps:
 
   - pwsh: |
       npx turbo run build --filter=@azure/eslint-plugin-azure-sdk... --filter=@azure/monitor-opentelemetry-exporter...
-      node eng/tools/ci-runner/index.js lint "${{parameters.ServiceDirectory}}" --concurrency=100% -v
+      node eng/tools/ci-runner/index.js lint "${{parameters.ServiceDirectory}}" -v
     displayName: "Build ESLint Plugin and Lint Libraries"
 
   - pwsh: |

@@ -34,11 +34,11 @@ stages:
             displayName: "Build packages to enable typed checking"
 
           - script: |
-              npx turbo run lint --concurrency=100% -v
+              npx turbo run lint -v
             displayName: "Lint All Packages"
 
           - script: |
-              npx turbo run build --concurrency=100% -v
+              npx turbo run build -v
             displayName: "Build All Packages"
 
           - script: |
