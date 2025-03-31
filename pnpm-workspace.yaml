@@ -4,6 +4,7 @@ packages:
   - common/tools/eslint-plugin-azure-sdk
   - common/tools/vite-plugin-browser-test-map
   - '!sdk/**/dist/**'
+  - '!sdk/**/dist-test/**'
   - '!sdk/**/samples/**'
   - '!sdk/**/samples-*/**'
   - '!sdk/**/sample-*/**'
