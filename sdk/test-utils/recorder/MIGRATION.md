@@ -27,7 +27,7 @@ The new recorder is version 3.x.y of the `@azure-tools/test-recorder` package. U
 }
 ```
 
-Once you've updated the dependency version, run `rush update` and you are ready to start using the new recorder. The new recorder's API is similar to the legacy recorder. Differences will be discussed below.
+Once you've updated the dependency version, run `pnpm install` and you are ready to start using the new recorder. The new recorder's API is similar to the legacy recorder. Differences will be discussed below.
 
 ## Changes to NPM scripts
 

@@ -25,28 +25,40 @@ This tool helps to record and playback the tests in the JS repo by leveraging th
 
 ## Index
 
-- [Key concepts](#key-concepts)
-- [Getting started](#getting-started)
-  - [Installing the package](#installing-the-package)
-  - [Configuring your project](#configuring-your-project)
-  - [TEST_MODE](#test_mode)
-- [Onboard to asset-sync workflow](#onboard-to-asset---sync-workflow)
-- [Using the `Recorder`](#using-the-recorder)
-  - [Recorder#variable()](#recordervariable)
-  - [Environment Variables](#environment-variables)
-  - [`@azure-tools/test-credential` package and the NoOpCredential](#azure-toolstest-credential-package-and-the-noopcredential)
-  - [karma.conf - for the browser tests](#karmaconf---for-the-browser-tests)
-- [Examples](#examples)
-  - [How to record](#how-to-record)
-  - [How to playback](#how-to-playback)
-  - [Update existing recordings](#update-existing-recordings)
-  - [Skipping tests](#skipping-tests)
-  - [Securing sensitive data](#securing-sensitive-data)
-  - [Supporting parallelism](#supporting-parallelism)
-  - [Isomorphic tests](#isomorphic-tests)
-- [Troubleshooting](#troubleshooting)
-- [Next steps](#next-steps)
-- [Contributing](#contributing)
+- [Azure @azure-tools/test-recorder library for JavaScript](#azure-azure-toolstest-recorder-library-for-javascript)
+  - [Index](#index)
+  - [Key concepts](#key-concepts)
+  - [Getting started](#getting-started)
+    - [Installing the package](#installing-the-package)
+    - [Configuring your project](#configuring-your-project)
+      - [package.json scripts](#packagejson-scripts)
+    - [TEST\_MODE](#test_mode)
+  - [Onboard to asset-sync workflow](#onboard-to-asset-sync-workflow)
+  - [Using the `Recorder`](#using-the-recorder)
+    - [Recorder#variable()](#recordervariable)
+    - [Environment variables](#environment-variables)
+    - [`@azure-tools/test-credential` package and the NoOpCredential](#azure-toolstest-credential-package-and-the-noopcredential)
+    - [karma.conf - for the browser tests](#karmaconf---for-the-browser-tests)
+  - [Onboard to asset-sync workflow](#onboard-to-asset-sync-workflow-1)
+  - [Examples](#examples)
+    - [How to record](#how-to-record)
+    - [Securing Sensitive Data](#securing-sensitive-data)
+      - [`RecorderStartOptions`](#recorderstartoptions)
+      - [`envSetupForPlayback`](#envsetupforplayback)
+      - [`Sanitizers`](#sanitizers)
+    - [How to playback](#how-to-playback)
+    - [Update existing recordings](#update-existing-recordings)
+    - [Skipping tests](#skipping-tests)
+    - [Supporting parallelism](#supporting-parallelism)
+    - [Isomorphic tests](#isomorphic-tests)
+    - [Troubleshooting](#troubleshooting)
+      - [Viewing test proxy log output](#viewing-test-proxy-log-output)
+      - [Switching ports](#switching-ports)
+    - [Inspecting recordings](#inspecting-recordings)
+    - [Next steps](#next-steps)
+    - [Contributing](#contributing)
+  - [Troubleshooting](#troubleshooting-1)
+    - [Logging](#logging)
 
 ## Key concepts
 
@@ -66,16 +78,16 @@ From this point forward, we'll assume that you're developing (perhaps contributi
 
 ```bash
 cd sdk/tables/data-tables
-rush add -p @azure-tools/test-recorder@^3.0.0 --dev
+pnpm add --filter=@azure-tools/test-recorder@^3.0.0 -D
 ```
 
 If you are using `@azure/identity` in your tests, also install `"@azure-tools/test-credential"` package.
 
 ```bash
-rush add -p @azure-tools/test-credential@^1.0.0 --dev
+pnpm add --filter=@azure-tools/test-credential@^1.0.0 -D
 ```
 
-With a following `rush update`, you may see something like below.
+With a following `pnpm install`, you may see something like below.
 
 ```json
 {

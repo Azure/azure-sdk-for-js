@@ -7,7 +7,7 @@ This library provides core types for paging async iterable iterators.
 ### Installation
 
 If using this as part of another project in the [azure-sdk-for-js](https://github.com/Azure/azure-sdk-for-js) repo,
-then run `rush install` after cloning the repo.
+then run `pnpm install` after cloning the repo.
 
 Otherwise, use npm to install this package in your application as follows
 
