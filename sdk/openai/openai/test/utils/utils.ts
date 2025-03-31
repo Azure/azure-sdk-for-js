@@ -30,7 +30,7 @@ export type AcceptableErrors = {
 };
 
 const GlobalAcceptedErrors: AcceptableErrors = {
-  messageSubstring: ["Rate limit is exceeded"],
+  messageSubstring: ["Rate limit is exceeded", "rate_limit_error"],
 };
 
 export const maxRetriesOption = { maxRetries: 0 };

@@ -25,6 +25,10 @@ These sample programs show how to use the TypeScript client libraries for Azure 
 | [embeddings.ts][embeddings]                                                         | generates embedding vectors from a prompt using Azure OpenAI Get Embeddings. |
 | [images.ts][images]                                                                 | generates images from prompts using Azure OpenAI Batch Image Generation.     |
 | [onYourData.ts][onyourdata]                                                         | chat completions with your own data.                                         |
+| [responsesStream.ts][responsesstream]                                               | streams text completions from Azure OpenAI.                                  |
+| [responsesStreamingTools.ts][responsesstreamingtools]                               | streams function calls for database queries using Azure OpenAI.              |
+| [responsesStructuredOutput.ts][responsesstructuredoutput]                           | parses mathematical solutions into structured output using Azure OpenAI.     |
+| [responsesStructuredOutputTools.ts][responsesstructuredoutputtools]                 | parses function calls for database queries using Azure OpenAI.               |
 | [streamChatCompletions.ts][streamchatcompletions]                                   | list chat completions.                                                       |
 | [streamChatCompletionsWithContentFilter.ts][streamchatcompletionswithcontentfilter] | get completions.                                                             |
 | [streamCompletions.ts][streamcompletions]                                           | list completions.                                                            |
@@ -95,6 +99,10 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [embeddings]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v2-beta/typescript/src/embeddings.ts
 [images]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v2-beta/typescript/src/images.ts
 [onyourdata]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v2-beta/typescript/src/onYourData.ts
+[responsesstream]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v2-beta/typescript/src/responsesStream.ts
+[responsesstreamingtools]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v2-beta/typescript/src/responsesStreamingTools.ts
+[responsesstructuredoutput]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v2-beta/typescript/src/responsesStructuredOutput.ts
+[responsesstructuredoutputtools]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v2-beta/typescript/src/responsesStructuredOutputTools.ts
 [streamchatcompletions]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v2-beta/typescript/src/streamChatCompletions.ts
 [streamchatcompletionswithcontentfilter]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v2-beta/typescript/src/streamChatCompletionsWithContentFilter.ts
 [streamcompletions]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v2-beta/typescript/src/streamCompletions.ts
