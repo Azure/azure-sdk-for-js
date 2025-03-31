@@ -8,8 +8,8 @@ import { executeActions } from "./src/actions.js";
 import { parseArgs } from "./src/args.js";
 
 function main() {
-  const { action, serviceDirs, extraParams, artifactNames, ciFlag } = parseArgs();
-  exit(executeActions(action, serviceDirs, extraParams, artifactNames, ciFlag));
+  const { action, serviceDirs, rushParams, artifactNames, ciFlag } = parseArgs();
+  exit(executeActions(action, serviceDirs, rushParams, artifactNames, ciFlag));
 }
 
 main();

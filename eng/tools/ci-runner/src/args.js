@@ -8,8 +8,8 @@ export function parseArgs() {
     process.argv.length < 3 ||
     process.argv.some((a) => ["-h", "--help"].includes(a.toLowerCase()))
   ) {
-    console.error("Usage: rush-runner/index.js <action> [<servicename>...] [args...]");
-    console.error("Example: rush-runner/index.js build keyvault storage --concurrency=100% -v");
+    console.error("Usage: index.js <action> [<servicename>...] [args...]");
+    console.error("Example: index.js build keyvault storage --verbose");
     process.exit(1);
   }
 
@@ -46,5 +46,5 @@ export function parseArgs() {
     }
   }
 
-  return { action, serviceDirs: services, rushParams: flags, artifactNames, ciFlag };
+  return { action, serviceDirs: services, extraParams: flags, artifactNames, ciFlag };
 }
