@@ -63,8 +63,8 @@ async function getSasOnManagedDiskAndVMGuestState() {
 }
 
 async function main() {
-  getASasOnAManagedDisk();
-  getSasOnManagedDiskAndVMGuestState();
+  await getASasOnAManagedDisk();
+  await getSasOnManagedDiskAndVMGuestState();
 }
 
 main().catch(console.error);

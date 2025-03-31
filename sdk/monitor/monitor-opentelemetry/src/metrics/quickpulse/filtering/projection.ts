@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DerivedMetricInfo } from "../../../generated";
-import { KnownAggregationType } from "../../../generated";
-import type { TelemetryData } from "../types";
-import { isRequestData, isDependencyData } from "../utils";
-import { MetricFailureToCreateError } from "./quickpulseErrors";
+import type { DerivedMetricInfo } from "../../../generated/index.js";
+import { KnownAggregationType } from "../../../generated/index.js";
+import type { TelemetryData } from "../types.js";
+import { isRequestData, isDependencyData } from "../utils.js";
+import { MetricFailureToCreateError } from "./quickpulseErrors.js";
 
 export class Projection {
   // contains the projections for all the derived metrics. key id, value [metric value, aggregation type]

@@ -6,21 +6,19 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { ResolvePrivateLinkServiceId } from "../operationsInterfaces/index.js";
+import type { ResolvePrivateLinkServiceId } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
-import { ContainerServiceClient } from "../containerServiceClient.js";
-import {
+import type { ContainerServiceClient } from "../containerServiceClient.js";
+import type {
   PrivateLinkResource,
   ResolvePrivateLinkServiceIdPostOptionalParams,
   ResolvePrivateLinkServiceIdPostResponse,
 } from "../models/index.js";
 
 /** Class containing ResolvePrivateLinkServiceId operations. */
-export class ResolvePrivateLinkServiceIdImpl
-  implements ResolvePrivateLinkServiceId
-{
+export class ResolvePrivateLinkServiceIdImpl implements ResolvePrivateLinkServiceId {
   private readonly client: ContainerServiceClient;
 
   /**
