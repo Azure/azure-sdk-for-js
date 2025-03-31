@@ -13,7 +13,7 @@ import * as Parameters from "../models/parameters.js";
 import { KeyVaultManagementClient } from "../keyVaultManagementClient.js";
 import {
   PrivateLinkResourcesListByVaultOptionalParams,
-  PrivateLinkResourcesListByVaultResponse
+  PrivateLinkResourcesListByVaultResponse,
 } from "../models/index.js";
 
 /** Class containing PrivateLinkResources operations. */
@@ -37,11 +37,11 @@ export class PrivateLinkResourcesImpl implements PrivateLinkResources {
   listByVault(
     resourceGroupName: string,
     vaultName: string,
-    options?: PrivateLinkResourcesListByVaultOptionalParams
+    options?: PrivateLinkResourcesListByVaultOptionalParams,
   ): Promise<PrivateLinkResourcesListByVaultResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, vaultName, options },
-      listByVaultOperationSpec
+      listByVaultOperationSpec,
     );
   }
 }
@@ -49,24 +49,23 @@ export class PrivateLinkResourcesImpl implements PrivateLinkResources {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByVaultOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}/privateLinkResources",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}/privateLinkResources",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateLinkResourceListResult
+      bodyMapper: Mappers.PrivateLinkResourceListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.vaultName
+    Parameters.vaultName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

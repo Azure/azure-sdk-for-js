@@ -10,8 +10,8 @@
 
 const DocumentIntelligence = require("@azure-rest/ai-document-intelligence").default,
   { getLongRunningPoller, isUnexpected } = require("@azure-rest/ai-document-intelligence");
-
-require("dotenv").config();
+const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv/config");
 
 async function main() {
   const random = Date.now().toString();
@@ -22,7 +22,7 @@ async function main() {
   // const destinationClient = new DocumentModelAdministrationClient(endpoint, credential);
   const destinationClient = DocumentIntelligence(
     process.env["DOCUMENT_INTELLIGENCE_ENDPOINT"] || "<cognitive services endpoint>",
-    { key: process.env["DOCUMENT_INTELLIGENCE_API_KEY"] || "<api key>" },
+    new DefaultAzureCredential(),
   );
   // const authorization = await destinationClient.getCopyAuthorization(destinationModelId);
   const targetAuth = await destinationClient.path("/documentModels:authorizeCopy").post({

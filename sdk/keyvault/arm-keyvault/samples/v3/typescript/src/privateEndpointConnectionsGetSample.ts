@@ -16,7 +16,7 @@ import "dotenv/config";
  * This sample demonstrates how to Gets the specified private endpoint connection associated with the key vault.
  *
  * @summary Gets the specified private endpoint connection associated with the key vault.
- * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2023-07-01/examples/getPrivateEndpointConnection.json
+ * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2024-11-01/examples/getPrivateEndpointConnection.json
  */
 async function keyVaultGetPrivateEndpointConnection(): Promise<void> {
   const subscriptionId =
@@ -31,13 +31,13 @@ async function keyVaultGetPrivateEndpointConnection(): Promise<void> {
   const result = await client.privateEndpointConnections.get(
     resourceGroupName,
     vaultName,
-    privateEndpointConnectionName
+    privateEndpointConnectionName,
   );
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  keyVaultGetPrivateEndpointConnection();
+  await keyVaultGetPrivateEndpointConnection();
 }
 
 main().catch(console.error);

@@ -17,22 +17,22 @@ export const DataPolicyManifest: coreClient.CompositeMapper = {
         serializedName: "id",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       name: {
         serializedName: "name",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       type: {
         serializedName: "type",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       namespaces: {
         serializedName: "properties.namespaces",
@@ -40,22 +40,22 @@ export const DataPolicyManifest: coreClient.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "String"
-            }
-          }
-        }
+              name: "String",
+            },
+          },
+        },
       },
       policyMode: {
         serializedName: "properties.policyMode",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       isBuiltInOnly: {
         serializedName: "properties.isBuiltInOnly",
         type: {
-          name: "Boolean"
-        }
+          name: "Boolean",
+        },
       },
       resourceTypeAliases: {
         serializedName: "properties.resourceTypeAliases",
@@ -64,10 +64,10 @@ export const DataPolicyManifest: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ResourceTypeAliases"
-            }
-          }
-        }
+              className: "ResourceTypeAliases",
+            },
+          },
+        },
       },
       effects: {
         serializedName: "properties.effects",
@@ -76,10 +76,10 @@ export const DataPolicyManifest: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "DataEffect"
-            }
-          }
-        }
+              className: "DataEffect",
+            },
+          },
+        },
       },
       fieldValues: {
         serializedName: "properties.fieldValues",
@@ -87,10 +87,10 @@ export const DataPolicyManifest: coreClient.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "String"
-            }
-          }
-        }
+              name: "String",
+            },
+          },
+        },
       },
       standard: {
         serializedName: "properties.resourceFunctions.standard",
@@ -98,10 +98,10 @@ export const DataPolicyManifest: coreClient.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "String"
-            }
-          }
-        }
+              name: "String",
+            },
+          },
+        },
       },
       custom: {
         serializedName: "properties.resourceFunctions.custom",
@@ -110,13 +110,13 @@ export const DataPolicyManifest: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "DataManifestCustomResourceFunctionDefinition"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "DataManifestCustomResourceFunctionDefinition",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const ResourceTypeAliases: coreClient.CompositeMapper = {
@@ -127,8 +127,8 @@ export const ResourceTypeAliases: coreClient.CompositeMapper = {
       resourceType: {
         serializedName: "resourceType",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       aliases: {
         serializedName: "aliases",
@@ -137,13 +137,13 @@ export const ResourceTypeAliases: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "Alias"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "Alias",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const Alias: coreClient.CompositeMapper = {
@@ -154,8 +154,8 @@ export const Alias: coreClient.CompositeMapper = {
       name: {
         serializedName: "name",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       paths: {
         serializedName: "paths",
@@ -164,40 +164,40 @@ export const Alias: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "AliasPath"
-            }
-          }
-        }
+              className: "AliasPath",
+            },
+          },
+        },
       },
       type: {
         serializedName: "type",
         type: {
           name: "Enum",
-          allowedValues: ["NotSpecified", "PlainText", "Mask"]
-        }
+          allowedValues: ["NotSpecified", "PlainText", "Mask"],
+        },
       },
       defaultPath: {
         serializedName: "defaultPath",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       defaultPattern: {
         serializedName: "defaultPattern",
         type: {
           name: "Composite",
-          className: "AliasPattern"
-        }
+          className: "AliasPattern",
+        },
       },
       defaultMetadata: {
         serializedName: "defaultMetadata",
         type: {
           name: "Composite",
-          className: "AliasPathMetadata"
-        }
-      }
-    }
-  }
+          className: "AliasPathMetadata",
+        },
+      },
+    },
+  },
 };
 
 export const AliasPath: coreClient.CompositeMapper = {
@@ -208,8 +208,8 @@ export const AliasPath: coreClient.CompositeMapper = {
       path: {
         serializedName: "path",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       apiVersions: {
         serializedName: "apiVersions",
@@ -217,27 +217,27 @@ export const AliasPath: coreClient.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "String"
-            }
-          }
-        }
+              name: "String",
+            },
+          },
+        },
       },
       pattern: {
         serializedName: "pattern",
         type: {
           name: "Composite",
-          className: "AliasPattern"
-        }
+          className: "AliasPattern",
+        },
       },
       metadata: {
         serializedName: "metadata",
         type: {
           name: "Composite",
-          className: "AliasPathMetadata"
-        }
-      }
-    }
-  }
+          className: "AliasPathMetadata",
+        },
+      },
+    },
+  },
 };
 
 export const AliasPattern: coreClient.CompositeMapper = {
@@ -248,24 +248,24 @@ export const AliasPattern: coreClient.CompositeMapper = {
       phrase: {
         serializedName: "phrase",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       variable: {
         serializedName: "variable",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       type: {
         serializedName: "type",
         type: {
           name: "Enum",
-          allowedValues: ["NotSpecified", "Extract"]
-        }
-      }
-    }
-  }
+          allowedValues: ["NotSpecified", "Extract"],
+        },
+      },
+    },
+  },
 };
 
 export const AliasPathMetadata: coreClient.CompositeMapper = {
@@ -277,18 +277,18 @@ export const AliasPathMetadata: coreClient.CompositeMapper = {
         serializedName: "type",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       attributes: {
         serializedName: "attributes",
         readOnly: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const DataEffect: coreClient.CompositeMapper = {
@@ -299,56 +299,57 @@ export const DataEffect: coreClient.CompositeMapper = {
       name: {
         serializedName: "name",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       detailsSchema: {
         serializedName: "detailsSchema",
         type: {
-          name: "any"
-        }
-      }
-    }
-  }
+          name: "any",
+        },
+      },
+    },
+  },
 };
 
-export const DataManifestCustomResourceFunctionDefinition: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "DataManifestCustomResourceFunctionDefinition",
-    modelProperties: {
-      name: {
-        serializedName: "name",
-        type: {
-          name: "String"
-        }
+export const DataManifestCustomResourceFunctionDefinition: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "DataManifestCustomResourceFunctionDefinition",
+      modelProperties: {
+        name: {
+          serializedName: "name",
+          type: {
+            name: "String",
+          },
+        },
+        fullyQualifiedResourceType: {
+          serializedName: "fullyQualifiedResourceType",
+          type: {
+            name: "String",
+          },
+        },
+        defaultProperties: {
+          serializedName: "defaultProperties",
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "String",
+              },
+            },
+          },
+        },
+        allowCustomProperties: {
+          serializedName: "allowCustomProperties",
+          type: {
+            name: "Boolean",
+          },
+        },
       },
-      fullyQualifiedResourceType: {
-        serializedName: "fullyQualifiedResourceType",
-        type: {
-          name: "String"
-        }
-      },
-      defaultProperties: {
-        serializedName: "defaultProperties",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      allowCustomProperties: {
-        serializedName: "allowCustomProperties",
-        type: {
-          name: "Boolean"
-        }
-      }
-    }
-  }
-};
+    },
+  };
 
 export const CloudError: coreClient.CompositeMapper = {
   type: {
@@ -359,11 +360,11 @@ export const CloudError: coreClient.CompositeMapper = {
         serializedName: "error",
         type: {
           name: "Composite",
-          className: "ErrorResponse"
-        }
-      }
-    }
-  }
+          className: "ErrorResponse",
+        },
+      },
+    },
+  },
 };
 
 export const ErrorResponse: coreClient.CompositeMapper = {
@@ -375,22 +376,22 @@ export const ErrorResponse: coreClient.CompositeMapper = {
         serializedName: "code",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       message: {
         serializedName: "message",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       target: {
         serializedName: "target",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       details: {
         serializedName: "details",
@@ -400,10 +401,10 @@ export const ErrorResponse: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ErrorResponse"
-            }
-          }
-        }
+              className: "ErrorResponse",
+            },
+          },
+        },
       },
       additionalInfo: {
         serializedName: "additionalInfo",
@@ -413,13 +414,13 @@ export const ErrorResponse: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ErrorAdditionalInfo"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "ErrorAdditionalInfo",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const ErrorAdditionalInfo: coreClient.CompositeMapper = {
@@ -431,18 +432,18 @@ export const ErrorAdditionalInfo: coreClient.CompositeMapper = {
         serializedName: "type",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       info: {
         serializedName: "info",
         readOnly: true,
         type: {
-          name: "any"
-        }
-      }
-    }
-  }
+          name: "any",
+        },
+      },
+    },
+  },
 };
 
 export const DataPolicyManifestListResult: coreClient.CompositeMapper = {
@@ -457,335 +458,19 @@ export const DataPolicyManifestListResult: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "DataPolicyManifest"
-            }
-          }
-        }
+              className: "DataPolicyManifest",
+            },
+          },
+        },
       },
       nextLink: {
         serializedName: "nextLink",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const PolicyAssignment: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "PolicyAssignment",
-    modelProperties: {
-      id: {
-        serializedName: "id",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
-      type: {
-        serializedName: "type",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      name: {
-        serializedName: "name",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      location: {
-        serializedName: "location",
-        type: {
-          name: "String"
-        }
-      },
-      identity: {
-        serializedName: "identity",
-        type: {
-          name: "Composite",
-          className: "Identity"
-        }
-      },
-      systemData: {
-        serializedName: "systemData",
-        type: {
-          name: "Composite",
-          className: "SystemData"
-        }
-      },
-      displayName: {
-        serializedName: "properties.displayName",
-        type: {
-          name: "String"
-        }
-      },
-      policyDefinitionId: {
-        serializedName: "properties.policyDefinitionId",
-        type: {
-          name: "String"
-        }
-      },
-      scope: {
-        serializedName: "properties.scope",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      notScopes: {
-        serializedName: "properties.notScopes",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      parameters: {
-        serializedName: "properties.parameters",
-        type: {
-          name: "Dictionary",
-          value: {
-            type: { name: "Composite", className: "ParameterValuesValue" }
-          }
-        }
-      },
-      description: {
-        serializedName: "properties.description",
-        type: {
-          name: "String"
-        }
-      },
-      metadata: {
-        serializedName: "properties.metadata",
-        type: {
-          name: "any"
-        }
-      },
-      enforcementMode: {
-        defaultValue: "Default",
-        serializedName: "properties.enforcementMode",
-        type: {
-          name: "String"
-        }
-      },
-      nonComplianceMessages: {
-        serializedName: "properties.nonComplianceMessages",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "NonComplianceMessage"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const ParameterValuesValue: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ParameterValuesValue",
-    modelProperties: {
-      value: {
-        serializedName: "value",
-        type: {
-          name: "any"
-        }
-      }
-    }
-  }
-};
-
-export const NonComplianceMessage: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "NonComplianceMessage",
-    modelProperties: {
-      message: {
-        serializedName: "message",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      policyDefinitionReferenceId: {
-        serializedName: "policyDefinitionReferenceId",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const Identity: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "Identity",
-    modelProperties: {
-      principalId: {
-        serializedName: "principalId",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      tenantId: {
-        serializedName: "tenantId",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      type: {
-        serializedName: "type",
-        type: {
-          name: "Enum",
-          allowedValues: ["SystemAssigned", "UserAssigned", "None"]
-        }
-      },
-      userAssignedIdentities: {
-        serializedName: "userAssignedIdentities",
-        type: {
-          name: "Dictionary",
-          value: {
-            type: {
-              name: "Composite",
-              className: "UserAssignedIdentitiesValue"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const UserAssignedIdentitiesValue: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "UserAssignedIdentitiesValue",
-    modelProperties: {
-      principalId: {
-        serializedName: "principalId",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      clientId: {
-        serializedName: "clientId",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const SystemData: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "SystemData",
-    modelProperties: {
-      createdBy: {
-        serializedName: "createdBy",
-        type: {
-          name: "String"
-        }
-      },
-      createdByType: {
-        serializedName: "createdByType",
-        type: {
-          name: "String"
-        }
-      },
-      createdAt: {
-        serializedName: "createdAt",
-        type: {
-          name: "DateTime"
-        }
-      },
-      lastModifiedBy: {
-        serializedName: "lastModifiedBy",
-        type: {
-          name: "String"
-        }
-      },
-      lastModifiedByType: {
-        serializedName: "lastModifiedByType",
-        type: {
-          name: "String"
-        }
-      },
-      lastModifiedAt: {
-        serializedName: "lastModifiedAt",
-        type: {
-          name: "DateTime"
-        }
-      }
-    }
-  }
-};
-
-export const PolicyAssignmentUpdate: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "PolicyAssignmentUpdate",
-    modelProperties: {
-      location: {
-        serializedName: "location",
-        type: {
-          name: "String"
-        }
-      },
-      identity: {
-        serializedName: "identity",
-        type: {
-          name: "Composite",
-          className: "Identity"
-        }
-      }
-    }
-  }
-};
-
-export const PolicyAssignmentListResult: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "PolicyAssignmentListResult",
-    modelProperties: {
-      value: {
-        serializedName: "value",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "PolicyAssignment"
-            }
-          }
-        }
-      },
-      nextLink: {
-        serializedName: "nextLink",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
+    },
+  },
 };
 
 export const PolicyDefinition: coreClient.CompositeMapper = {
@@ -797,78 +482,95 @@ export const PolicyDefinition: coreClient.CompositeMapper = {
         serializedName: "id",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       name: {
         serializedName: "name",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       type: {
         serializedName: "type",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       systemData: {
         serializedName: "systemData",
         type: {
           name: "Composite",
-          className: "SystemData"
-        }
+          className: "SystemData",
+        },
       },
       policyType: {
         serializedName: "properties.policyType",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       mode: {
         defaultValue: "Indexed",
         serializedName: "properties.mode",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       displayName: {
         serializedName: "properties.displayName",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       description: {
         serializedName: "properties.description",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       policyRule: {
         serializedName: "properties.policyRule",
         type: {
-          name: "any"
-        }
+          name: "any",
+        },
       },
       metadata: {
         serializedName: "properties.metadata",
         type: {
-          name: "any"
-        }
+          name: "any",
+        },
       },
       parameters: {
         serializedName: "properties.parameters",
         type: {
           name: "Dictionary",
           value: {
-            type: { name: "Composite", className: "ParameterDefinitionsValue" }
-          }
-        }
-      }
-    }
-  }
+            type: { name: "Composite", className: "ParameterDefinitionsValue" },
+          },
+        },
+      },
+      version: {
+        serializedName: "properties.version",
+        type: {
+          name: "String",
+        },
+      },
+      versions: {
+        serializedName: "properties.versions",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const ParameterDefinitionsValue: coreClient.CompositeMapper = {
@@ -879,8 +581,8 @@ export const ParameterDefinitionsValue: coreClient.CompositeMapper = {
       type: {
         serializedName: "type",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       allowedValues: {
         serializedName: "allowedValues",
@@ -888,26 +590,32 @@ export const ParameterDefinitionsValue: coreClient.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "any"
-            }
-          }
-        }
+              name: "any",
+            },
+          },
+        },
       },
       defaultValue: {
         serializedName: "defaultValue",
         type: {
-          name: "any"
-        }
+          name: "any",
+        },
+      },
+      schema: {
+        serializedName: "schema",
+        type: {
+          name: "any",
+        },
       },
       metadata: {
         serializedName: "metadata",
         type: {
           name: "Composite",
-          className: "ParameterDefinitionsValueMetadata"
-        }
-      }
-    }
-  }
+          className: "ParameterDefinitionsValueMetadata",
+        },
+      },
+    },
+  },
 };
 
 export const ParameterDefinitionsValueMetadata: coreClient.CompositeMapper = {
@@ -919,29 +627,74 @@ export const ParameterDefinitionsValueMetadata: coreClient.CompositeMapper = {
       displayName: {
         serializedName: "displayName",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       description: {
         serializedName: "description",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       strongType: {
         serializedName: "strongType",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       assignPermissions: {
         serializedName: "assignPermissions",
         type: {
-          name: "Boolean"
-        }
-      }
-    }
-  }
+          name: "Boolean",
+        },
+      },
+    },
+  },
+};
+
+export const SystemData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SystemData",
+    modelProperties: {
+      createdBy: {
+        serializedName: "createdBy",
+        type: {
+          name: "String",
+        },
+      },
+      createdByType: {
+        serializedName: "createdByType",
+        type: {
+          name: "String",
+        },
+      },
+      createdAt: {
+        serializedName: "createdAt",
+        type: {
+          name: "DateTime",
+        },
+      },
+      lastModifiedBy: {
+        serializedName: "lastModifiedBy",
+        type: {
+          name: "String",
+        },
+      },
+      lastModifiedByType: {
+        serializedName: "lastModifiedByType",
+        type: {
+          name: "String",
+        },
+      },
+      lastModifiedAt: {
+        serializedName: "lastModifiedAt",
+        type: {
+          name: "DateTime",
+        },
+      },
+    },
+  },
 };
 
 export const PolicyDefinitionListResult: coreClient.CompositeMapper = {
@@ -956,19 +709,135 @@ export const PolicyDefinitionListResult: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "PolicyDefinition"
-            }
-          }
-        }
+              className: "PolicyDefinition",
+            },
+          },
+        },
       },
       nextLink: {
         serializedName: "nextLink",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const PolicyDefinitionVersionListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PolicyDefinitionVersionListResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "PolicyDefinitionVersion",
+            },
+          },
+        },
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const PolicyDefinitionVersion: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PolicyDefinitionVersion",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      name: {
+        serializedName: "name",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      type: {
+        serializedName: "type",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      systemData: {
+        serializedName: "systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData",
+        },
+      },
+      policyType: {
+        serializedName: "properties.policyType",
+        type: {
+          name: "String",
+        },
+      },
+      mode: {
+        defaultValue: "Indexed",
+        serializedName: "properties.mode",
+        type: {
+          name: "String",
+        },
+      },
+      displayName: {
+        serializedName: "properties.displayName",
+        type: {
+          name: "String",
+        },
+      },
+      description: {
+        serializedName: "properties.description",
+        type: {
+          name: "String",
+        },
+      },
+      policyRule: {
+        serializedName: "properties.policyRule",
+        type: {
+          name: "any",
+        },
+      },
+      metadata: {
+        serializedName: "properties.metadata",
+        type: {
+          name: "any",
+        },
+      },
+      parameters: {
+        serializedName: "properties.parameters",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: { name: "Composite", className: "ParameterDefinitionsValue" },
+          },
+        },
+      },
+      version: {
+        serializedName: "properties.version",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const PolicySetDefinition: coreClient.CompositeMapper = {
@@ -980,62 +849,62 @@ export const PolicySetDefinition: coreClient.CompositeMapper = {
         serializedName: "id",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       name: {
         serializedName: "name",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       type: {
         serializedName: "type",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       systemData: {
         serializedName: "systemData",
         type: {
           name: "Composite",
-          className: "SystemData"
-        }
+          className: "SystemData",
+        },
       },
       policyType: {
         serializedName: "properties.policyType",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       displayName: {
         serializedName: "properties.displayName",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       description: {
         serializedName: "properties.description",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       metadata: {
         serializedName: "properties.metadata",
         type: {
-          name: "any"
-        }
+          name: "any",
+        },
       },
       parameters: {
         serializedName: "properties.parameters",
         type: {
           name: "Dictionary",
           value: {
-            type: { name: "Composite", className: "ParameterDefinitionsValue" }
-          }
-        }
+            type: { name: "Composite", className: "ParameterDefinitionsValue" },
+          },
+        },
       },
       policyDefinitions: {
         serializedName: "properties.policyDefinitions",
@@ -1044,10 +913,10 @@ export const PolicySetDefinition: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "PolicyDefinitionReference"
-            }
-          }
-        }
+              className: "PolicyDefinitionReference",
+            },
+          },
+        },
       },
       policyDefinitionGroups: {
         serializedName: "properties.policyDefinitionGroups",
@@ -1056,13 +925,30 @@ export const PolicySetDefinition: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "PolicyDefinitionGroup"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "PolicyDefinitionGroup",
+            },
+          },
+        },
+      },
+      version: {
+        serializedName: "properties.version",
+        type: {
+          name: "String",
+        },
+      },
+      versions: {
+        serializedName: "properties.versions",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const PolicyDefinitionReference: coreClient.CompositeMapper = {
@@ -1074,23 +960,43 @@ export const PolicyDefinitionReference: coreClient.CompositeMapper = {
         serializedName: "policyDefinitionId",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
+      },
+      definitionVersion: {
+        serializedName: "definitionVersion",
+        type: {
+          name: "String",
+        },
+      },
+      latestDefinitionVersion: {
+        serializedName: "latestDefinitionVersion",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      effectiveDefinitionVersion: {
+        serializedName: "effectiveDefinitionVersion",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
       },
       parameters: {
         serializedName: "parameters",
         type: {
           name: "Dictionary",
           value: {
-            type: { name: "Composite", className: "ParameterValuesValue" }
-          }
-        }
+            type: { name: "Composite", className: "ParameterValuesValue" },
+          },
+        },
       },
       policyDefinitionReferenceId: {
         serializedName: "policyDefinitionReferenceId",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       groupNames: {
         serializedName: "groupNames",
@@ -1098,13 +1004,28 @@ export const PolicyDefinitionReference: coreClient.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "String"
-            }
-          }
-        }
-      }
-    }
-  }
+              name: "String",
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
+export const ParameterValuesValue: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ParameterValuesValue",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "any",
+        },
+      },
+    },
+  },
 };
 
 export const PolicyDefinitionGroup: coreClient.CompositeMapper = {
@@ -1116,35 +1037,35 @@ export const PolicyDefinitionGroup: coreClient.CompositeMapper = {
         serializedName: "name",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       displayName: {
         serializedName: "displayName",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       category: {
         serializedName: "category",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       description: {
         serializedName: "description",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       additionalMetadataId: {
         serializedName: "additionalMetadataId",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const PolicySetDefinitionListResult: coreClient.CompositeMapper = {
@@ -1159,19 +1080,568 @@ export const PolicySetDefinitionListResult: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "PolicySetDefinition"
-            }
-          }
-        }
+              className: "PolicySetDefinition",
+            },
+          },
+        },
       },
       nextLink: {
         serializedName: "nextLink",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const PolicySetDefinitionVersionListResult: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "PolicySetDefinitionVersionListResult",
+      modelProperties: {
+        value: {
+          serializedName: "value",
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "Composite",
+                className: "PolicySetDefinitionVersion",
+              },
+            },
+          },
+        },
+        nextLink: {
+          serializedName: "nextLink",
+          type: {
+            name: "String",
+          },
+        },
+      },
+    },
+  };
+
+export const PolicySetDefinitionVersion: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PolicySetDefinitionVersion",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      name: {
+        serializedName: "name",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      type: {
+        serializedName: "type",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      systemData: {
+        serializedName: "systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData",
+        },
+      },
+      policyType: {
+        serializedName: "properties.policyType",
+        type: {
+          name: "String",
+        },
+      },
+      displayName: {
+        serializedName: "properties.displayName",
+        type: {
+          name: "String",
+        },
+      },
+      description: {
+        serializedName: "properties.description",
+        type: {
+          name: "String",
+        },
+      },
+      metadata: {
+        serializedName: "properties.metadata",
+        type: {
+          name: "any",
+        },
+      },
+      parameters: {
+        serializedName: "properties.parameters",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: { name: "Composite", className: "ParameterDefinitionsValue" },
+          },
+        },
+      },
+      policyDefinitions: {
+        serializedName: "properties.policyDefinitions",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "PolicyDefinitionReference",
+            },
+          },
+        },
+      },
+      policyDefinitionGroups: {
+        serializedName: "properties.policyDefinitionGroups",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "PolicyDefinitionGroup",
+            },
+          },
+        },
+      },
+      version: {
+        serializedName: "properties.version",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const PolicyAssignment: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PolicyAssignment",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      type: {
+        serializedName: "type",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      name: {
+        serializedName: "name",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
+        },
+      },
+      identity: {
+        serializedName: "identity",
+        type: {
+          name: "Composite",
+          className: "Identity",
+        },
+      },
+      systemData: {
+        serializedName: "systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData",
+        },
+      },
+      displayName: {
+        serializedName: "properties.displayName",
+        type: {
+          name: "String",
+        },
+      },
+      policyDefinitionId: {
+        serializedName: "properties.policyDefinitionId",
+        type: {
+          name: "String",
+        },
+      },
+      definitionVersion: {
+        serializedName: "properties.definitionVersion",
+        type: {
+          name: "String",
+        },
+      },
+      latestDefinitionVersion: {
+        serializedName: "properties.latestDefinitionVersion",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      effectiveDefinitionVersion: {
+        serializedName: "properties.effectiveDefinitionVersion",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      scope: {
+        serializedName: "properties.scope",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      notScopes: {
+        serializedName: "properties.notScopes",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String",
+            },
+          },
+        },
+      },
+      parameters: {
+        serializedName: "properties.parameters",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: { name: "Composite", className: "ParameterValuesValue" },
+          },
+        },
+      },
+      description: {
+        serializedName: "properties.description",
+        type: {
+          name: "String",
+        },
+      },
+      metadata: {
+        serializedName: "properties.metadata",
+        type: {
+          name: "any",
+        },
+      },
+      enforcementMode: {
+        defaultValue: "Default",
+        serializedName: "properties.enforcementMode",
+        type: {
+          name: "String",
+        },
+      },
+      nonComplianceMessages: {
+        serializedName: "properties.nonComplianceMessages",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "NonComplianceMessage",
+            },
+          },
+        },
+      },
+      resourceSelectors: {
+        serializedName: "properties.resourceSelectors",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ResourceSelector",
+            },
+          },
+        },
+      },
+      overrides: {
+        serializedName: "properties.overrides",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "Override",
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
+export const NonComplianceMessage: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "NonComplianceMessage",
+    modelProperties: {
+      message: {
+        serializedName: "message",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      policyDefinitionReferenceId: {
+        serializedName: "policyDefinitionReferenceId",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const ResourceSelector: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ResourceSelector",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String",
+        },
+      },
+      selectors: {
+        serializedName: "selectors",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "Selector",
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
+export const Selector: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "Selector",
+    modelProperties: {
+      kind: {
+        serializedName: "kind",
+        type: {
+          name: "String",
+        },
+      },
+      in: {
+        serializedName: "in",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String",
+            },
+          },
+        },
+      },
+      notIn: {
+        serializedName: "notIn",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String",
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
+export const Override: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "Override",
+    modelProperties: {
+      kind: {
+        serializedName: "kind",
+        type: {
+          name: "String",
+        },
+      },
+      value: {
+        serializedName: "value",
+        type: {
+          name: "String",
+        },
+      },
+      selectors: {
+        serializedName: "selectors",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "Selector",
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
+export const Identity: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "Identity",
+    modelProperties: {
+      principalId: {
+        serializedName: "principalId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      tenantId: {
+        serializedName: "tenantId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      type: {
+        serializedName: "type",
+        type: {
+          name: "Enum",
+          allowedValues: ["SystemAssigned", "UserAssigned", "None"],
+        },
+      },
+      userAssignedIdentities: {
+        serializedName: "userAssignedIdentities",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "Composite",
+              className: "UserAssignedIdentitiesValue",
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
+export const UserAssignedIdentitiesValue: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "UserAssignedIdentitiesValue",
+    modelProperties: {
+      principalId: {
+        serializedName: "principalId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      clientId: {
+        serializedName: "clientId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const PolicyAssignmentUpdate: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PolicyAssignmentUpdate",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
+        },
+      },
+      identity: {
+        serializedName: "identity",
+        type: {
+          name: "Composite",
+          className: "Identity",
+        },
+      },
+      resourceSelectors: {
+        serializedName: "properties.resourceSelectors",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ResourceSelector",
+            },
+          },
+        },
+      },
+      overrides: {
+        serializedName: "properties.overrides",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "Override",
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
+export const PolicyAssignmentListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PolicyAssignmentListResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "PolicyAssignment",
+            },
+          },
+        },
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const PolicyExemption: coreClient.CompositeMapper = {
@@ -1183,36 +1653,36 @@ export const PolicyExemption: coreClient.CompositeMapper = {
         serializedName: "systemData",
         type: {
           name: "Composite",
-          className: "SystemData"
-        }
+          className: "SystemData",
+        },
       },
       id: {
         serializedName: "id",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       name: {
         serializedName: "name",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       type: {
         serializedName: "type",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       policyAssignmentId: {
         serializedName: "properties.policyAssignmentId",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       policyDefinitionReferenceIds: {
         serializedName: "properties.policyDefinitionReferenceIds",
@@ -1220,44 +1690,89 @@ export const PolicyExemption: coreClient.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "String"
-            }
-          }
-        }
+              name: "String",
+            },
+          },
+        },
       },
       exemptionCategory: {
         serializedName: "properties.exemptionCategory",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       expiresOn: {
         serializedName: "properties.expiresOn",
         type: {
-          name: "DateTime"
-        }
+          name: "DateTime",
+        },
       },
       displayName: {
         serializedName: "properties.displayName",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       description: {
         serializedName: "properties.description",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       metadata: {
         serializedName: "properties.metadata",
         type: {
-          name: "any"
-        }
-      }
-    }
-  }
+          name: "any",
+        },
+      },
+      resourceSelectors: {
+        serializedName: "properties.resourceSelectors",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ResourceSelector",
+            },
+          },
+        },
+      },
+      assignmentScopeValidation: {
+        serializedName: "properties.assignmentScopeValidation",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const PolicyExemptionUpdate: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PolicyExemptionUpdate",
+    modelProperties: {
+      resourceSelectors: {
+        serializedName: "properties.resourceSelectors",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ResourceSelector",
+            },
+          },
+        },
+      },
+      assignmentScopeValidation: {
+        serializedName: "properties.assignmentScopeValidation",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const PolicyExemptionListResult: coreClient.CompositeMapper = {
@@ -1272,18 +1787,213 @@ export const PolicyExemptionListResult: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "PolicyExemption"
-            }
-          }
-        }
+              className: "PolicyExemption",
+            },
+          },
+        },
       },
       nextLink: {
         serializedName: "nextLink",
         readOnly: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const Variable: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "Variable",
+    modelProperties: {
+      systemData: {
+        serializedName: "systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData",
+        },
+      },
+      id: {
+        serializedName: "id",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      name: {
+        serializedName: "name",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      type: {
+        serializedName: "type",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      columns: {
+        serializedName: "properties.columns",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "PolicyVariableColumn",
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
+export const PolicyVariableColumn: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PolicyVariableColumn",
+    modelProperties: {
+      columnName: {
+        serializedName: "columnName",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const VariableListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "VariableListResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "Variable",
+            },
+          },
+        },
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const VariableValue: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "VariableValue",
+    modelProperties: {
+      systemData: {
+        serializedName: "systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData",
+        },
+      },
+      id: {
+        serializedName: "id",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      name: {
+        serializedName: "name",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      type: {
+        serializedName: "type",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      values: {
+        serializedName: "properties.values",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "PolicyVariableValueColumnValue",
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
+export const PolicyVariableValueColumnValue: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PolicyVariableValueColumnValue",
+    modelProperties: {
+      columnName: {
+        serializedName: "columnName",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      columnValue: {
+        serializedName: "columnValue",
+        required: true,
+        type: {
+          name: "any",
+        },
+      },
+    },
+  },
+};
+
+export const VariableValueListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "VariableValueListResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "VariableValue",
+            },
+          },
+        },
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
 };

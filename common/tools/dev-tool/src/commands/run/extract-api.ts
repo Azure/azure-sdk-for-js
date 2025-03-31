@@ -22,6 +22,14 @@ import { resolveProject } from "../../util/resolveProject";
 export const commandInfo = makeCommandInfo(
   "extract-api",
   "Runs api-extractor multiple times for all exports.",
+  {
+    "merge-subpath-exports": {
+      shortName: "mse",
+      kind: "boolean",
+      default: true,
+      description: "whether to include subpath export APIs.",
+    },
+  },
 );
 
 const log = createPrinter("extract-api");
@@ -107,16 +115,7 @@ function extractApi(
   }
 }
 
-interface ApiJson {
-  metadata: Record<string, unknown>;
-  members: { kind: string; name: string }[];
-}
-
-async function loadApiJson(fullPath: string): Promise<ApiJson> {
-  return JSON.parse(await readFile(fullPath, { encoding: "utf-8" })) as ApiJson;
-}
-
-export default leafCommand(commandInfo, async () => {
+export default leafCommand(commandInfo, async (options) => {
   const projectInfo = await resolveProject(process.cwd());
   const packageJsonPath = path.join(projectInfo.path, "package.json");
   const packageJson = JSON.parse(await readFile(packageJsonPath, { encoding: "utf-8" }));
@@ -240,11 +239,33 @@ export default leafCommand(commandInfo, async () => {
       reportTempDir,
       exports,
       packageJson["dependencies"],
+      options["merge-subpath-exports"],
     );
   }
 
   return succeed;
 });
+
+export interface ApiJson {
+  metadata: Record<string, unknown>;
+  members: {
+    kind: string;
+    name: string;
+    canonicalReference: string;
+    members: {
+      kind: string;
+      name: string;
+      canonicalReference: string;
+      docComment: string;
+      excerptTokens: { kind: string; text: string; canonicalReference?: string }[];
+    }[];
+  }[];
+}
+
+async function loadApiJsonForSubPath(fullPath: string): Promise<ApiJson> {
+  const content = await readFile(fullPath, { encoding: "utf-8" });
+  return JSON.parse(content) as ApiJson;
+}
 
 /**
  *
@@ -255,10 +276,11 @@ async function buildMergedApiJson(
   reportTempDir: string,
   exports: ExportEntry[] | undefined,
   dependencies: Record<string, string>,
+  useMerged: boolean = false,
 ) {
   const mainApiJsonPath = path.join(reportTempDir, `${unscopedPackageName}.api.json`);
 
-  const apiJson = await loadApiJson(mainApiJsonPath);
+  const apiJson = await loadApiJsonForSubPath(mainApiJsonPath);
   apiJson.metadata.dependencies = dependencies;
   for (const subpath of exports?.filter((p) => p.isSubpath) ?? []) {
     const p = path.join(reportTempDir, `${unscopedPackageName}-${subpath.baseName}.api.json`);
@@ -268,16 +290,19 @@ async function buildMergedApiJson(
     }
 
     log.debug(`loading api package for "${subpath.baseName}"`);
-    const subpathApiJson = await loadApiJson(p);
+    const subpathApiJson = await loadApiJsonForSubPath(p);
     const entryPoint = subpathApiJson.members.filter((m) => m.kind === "EntryPoint")[0];
     entryPoint.name = subpath.baseName;
+    entryPoint.canonicalReference = `${entryPoint.canonicalReference}/${subpath.baseName}`;
     apiJson.members.push(entryPoint);
     log.debug(`deleting ${p} after merging its entrypoint`);
     await unlink(p);
   }
 
-  const augmentedApiJsonPath = mainApiJsonPath.replace(".api.json", `.augmented.json`);
-  log.debug(`writing merged api to ${augmentedApiJsonPath}`);
+  const augmentedApiJsonPath = useMerged
+    ? mainApiJsonPath
+    : mainApiJsonPath.replace(".api.json", `.augmented.json`);
+  log.info(`writing merged api to ${augmentedApiJsonPath}`);
   await writeFile(augmentedApiJsonPath, JSON.stringify(apiJson, undefined, 2));
   return augmentedApiJsonPath;
 }

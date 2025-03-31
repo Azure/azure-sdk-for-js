@@ -14,7 +14,7 @@ import "dotenv/config";
  * This sample demonstrates how to Gets the specified managed cluster agent pool.
  *
  * @summary Gets the specified managed cluster agent pool.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2024-10-01/examples/AgentPoolsGet.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2025-01-01/examples/AgentPoolsGet.json
  */
 async function getAgentPool(): Promise<void> {
   const subscriptionId =

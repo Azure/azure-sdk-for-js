@@ -6,10 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { ApplicationInsightsManagementClient } = require("@azure/arm-appinsights");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Update current billing features for an Application Insights component.
@@ -18,8 +17,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/applicationinsights/resource-manager/Microsoft.Insights/stable/2015-05-01/examples/CurrentBillingFeaturesUpdate.json
  */
 async function componentCurrentBillingFeaturesUpdate() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "my-resource-group";
+  const subscriptionId = process.env["APPLICATIONINSIGHTS_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName =
+    process.env["APPLICATIONINSIGHTS_RESOURCE_GROUP"] || "my-resource-group";
   const resourceName = "my-component";
   const billingFeaturesProperties = {
     currentBillingFeatures: ["Basic", "Application Insights Enterprise"],
@@ -30,9 +30,13 @@ async function componentCurrentBillingFeaturesUpdate() {
   const result = await client.componentCurrentBillingFeatures.update(
     resourceGroupName,
     resourceName,
-    billingFeaturesProperties
+    billingFeaturesProperties,
   );
   console.log(result);
 }
 
-componentCurrentBillingFeaturesUpdate().catch(console.error);
+async function main() {
+  await componentCurrentBillingFeaturesUpdate();
+}
+
+main().catch(console.error);

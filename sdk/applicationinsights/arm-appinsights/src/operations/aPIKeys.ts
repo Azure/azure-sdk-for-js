@@ -22,7 +22,7 @@ import {
   APIKeysDeleteOptionalParams,
   APIKeysDeleteResponse,
   APIKeysGetOptionalParams,
-  APIKeysGetResponse
+  APIKeysGetResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -47,7 +47,7 @@ export class APIKeysImpl implements APIKeys {
   public list(
     resourceGroupName: string,
     resourceName: string,
-    options?: APIKeysListOptionalParams
+    options?: APIKeysListOptionalParams,
   ): PagedAsyncIterableIterator<ApplicationInsightsComponentAPIKey> {
     const iter = this.listPagingAll(resourceGroupName, resourceName, options);
     return {
@@ -65,9 +65,9 @@ export class APIKeysImpl implements APIKeys {
           resourceGroupName,
           resourceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -75,7 +75,7 @@ export class APIKeysImpl implements APIKeys {
     resourceGroupName: string,
     resourceName: string,
     options?: APIKeysListOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<ApplicationInsightsComponentAPIKey[]> {
     let result: APIKeysListResponse;
     result = await this._list(resourceGroupName, resourceName, options);
@@ -85,12 +85,12 @@ export class APIKeysImpl implements APIKeys {
   private async *listPagingAll(
     resourceGroupName: string,
     resourceName: string,
-    options?: APIKeysListOptionalParams
+    options?: APIKeysListOptionalParams,
   ): AsyncIterableIterator<ApplicationInsightsComponentAPIKey> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       resourceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -105,11 +105,11 @@ export class APIKeysImpl implements APIKeys {
   private _list(
     resourceGroupName: string,
     resourceName: string,
-    options?: APIKeysListOptionalParams
+    options?: APIKeysListOptionalParams,
   ): Promise<APIKeysListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -125,11 +125,11 @@ export class APIKeysImpl implements APIKeys {
     resourceGroupName: string,
     resourceName: string,
     aPIKeyProperties: APIKeyRequest,
-    options?: APIKeysCreateOptionalParams
+    options?: APIKeysCreateOptionalParams,
   ): Promise<APIKeysCreateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, aPIKeyProperties, options },
-      createOperationSpec
+      createOperationSpec,
     );
   }
 
@@ -144,11 +144,11 @@ export class APIKeysImpl implements APIKeys {
     resourceGroupName: string,
     resourceName: string,
     keyId: string,
-    options?: APIKeysDeleteOptionalParams
+    options?: APIKeysDeleteOptionalParams,
   ): Promise<APIKeysDeleteResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, keyId, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -163,11 +163,11 @@ export class APIKeysImpl implements APIKeys {
     resourceGroupName: string,
     resourceName: string,
     keyId: string,
-    options?: APIKeysGetOptionalParams
+    options?: APIKeysGetOptionalParams,
   ): Promise<APIKeysGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, keyId, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 }
@@ -175,82 +175,78 @@ export class APIKeysImpl implements APIKeys {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}/ApiKeys",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}/ApiKeys",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ApplicationInsightsComponentAPIKeyListResult
-    }
+      bodyMapper: Mappers.ApplicationInsightsComponentAPIKeyListResult,
+    },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.resourceName
+    Parameters.resourceGroupName,
+    Parameters.resourceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}/ApiKeys",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}/ApiKeys",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.ApplicationInsightsComponentAPIKey
-    }
+      bodyMapper: Mappers.ApplicationInsightsComponentAPIKey,
+    },
   },
   requestBody: Parameters.aPIKeyProperties,
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.resourceName
+    Parameters.resourceGroupName,
+    Parameters.resourceName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}/APIKeys/{keyId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}/APIKeys/{keyId}",
   httpMethod: "DELETE",
   responses: {
     200: {
-      bodyMapper: Mappers.ApplicationInsightsComponentAPIKey
-    }
+      bodyMapper: Mappers.ApplicationInsightsComponentAPIKey,
+    },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.resourceName,
-    Parameters.keyId
+    Parameters.keyId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}/APIKeys/{keyId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}/APIKeys/{keyId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ApplicationInsightsComponentAPIKey
-    }
+      bodyMapper: Mappers.ApplicationInsightsComponentAPIKey,
+    },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.resourceName,
-    Parameters.keyId
+    Parameters.keyId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

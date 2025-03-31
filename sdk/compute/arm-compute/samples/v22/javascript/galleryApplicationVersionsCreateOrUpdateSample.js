@@ -79,7 +79,7 @@ async function createOrUpdateASimpleGalleryApplicationVersion() {
 }
 
 async function main() {
-  createOrUpdateASimpleGalleryApplicationVersion();
+  await createOrUpdateASimpleGalleryApplicationVersion();
 }
 
 main().catch(console.error);
