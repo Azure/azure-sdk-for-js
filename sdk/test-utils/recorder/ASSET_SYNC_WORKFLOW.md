@@ -185,11 +185,11 @@ Common issues and their solutions:
 - Check that your Git credentials are properly configured
 
 ### Error: Powershell command not found
-- Ensure Powershell is installed and the `pwsh` command is in your `PATH`.
+- Ensure Powershell is installed and the `pwsh` command is in your `PATH`
 - Try reinstalling Powershell if necessary
 
 ### Tests fail in playback mode after migration
-- Check that your `assets.json` was properly committed and contains the correct tag
+- Check that your `assets.json` is properly committed and contains the correct tag
 - Try running `npx dev-tool test-proxy restore` to ensure you have the latest recordings
 - Examine the error logs for specific sanitization or playback issues
 
@@ -199,17 +199,19 @@ Common issues and their solutions:
 - Check if the changes appear in the `.assets` directory
 
 ### Tests work in CI but fail locally
-- If tests run in playback mode successfully in the CI pipelines but fail on your local machine, it is likely that your local environment or recordings might be corrupted
+If tests run in playback mode successfully in the CI pipelines but fail on your local machine, it is likely that your local environment or recordings might be corrupted
 - **Reset your recordings**: Delete the `.assets` folder in the root of the repository to remove all pulled recordings and give yourself a clean slate
 - Then run `npx dev-tool test-proxy restore` to pull fresh copies of the recordings
-- This is particularly helpful when you've been switching branches or if there have been significant recording changes
+
+This is particularly helpful when you've been switching branches or if there have been significant recording changes
 
 ### Outdated test-proxy version
-- If you're experiencing issues that might be related to an older version of test-proxy, check your test logs for the installation location
+If you're experiencing issues that might be related to an older version of test-proxy, check your test logs for the installation location
 - Look for log lines like: `[test-proxy] Test proxy executable already exists at /home/codespace/.cache/azsdk-dev-tool/1.0.0-dev.20250221.1/Azure.Sdk.Tools.TestProxy, not downloading it.`
 - Delete the folder containing the test-proxy executable (in the example above, delete the `/home/codespace/.cache/azsdk-dev-tool/1.0.0-dev.20250221.1/` directory)
 - This will force a fresh download of the test-proxy when you run your tests again
-- This is especially helpful if there are recent bug fixes in the test-proxy that you need
+
+This is especially helpful if there are recent bug fixes in the test-proxy that you need
 
 ## Frequently Asked Questions
 

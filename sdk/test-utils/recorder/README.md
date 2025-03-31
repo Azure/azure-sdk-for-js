@@ -192,7 +192,7 @@ await client.createQueue(queueName);
   }
 ```
 
-In this example, the name of the queue used in the recording is randomized. However, in playback, the recorder retrieves the stored value from the recording file.
+In this example, the name of the queue used in the recording is randomized. However, in playback mode, the recorder retrieves the stored value from the recording file.
 
 - In record mode, the function stores the provided value with the recording as a variable and returns that value.
 - In playback mode, the function fetches the value from the variables stored as part of the recording and returns the retrieved variable, throwing an error if it is not found.
@@ -418,7 +418,7 @@ Enabling logging may help uncover useful information about failures. In order to
 
 ### Enabling detailed logging with `test-proxy-debug`
 
-If you need detailed logs to debug request and response modifications made by the test proxy through the sanitizers(both user-defined and central sanitizers), you can enable `test-proxy-debug` flag when running your tests:
+If you need detailed logs to debug request and response modifications made by the test proxy through the sanitizers (both user-defined and central sanitizers), you can enable `test-proxy-debug` flag when running your tests:
 
 ```bash
 npx dev-tool test:node -- --test-proxy-debug
@@ -464,7 +464,7 @@ For detailed troubleshooting steps related to Asset Sync workflow, refer to the 
 
 ### Next steps
 
-All the libraries in the `azure-sdk-for-js` repository leverage test-recorder(v4.x.x). 
+All the libraries in the `azure-sdk-for-js` repository leverage test-recorder (v4.x.x). 
 If you want to refer to the tests that leverage this package, go through the following search link:
 <https://github.com/Azure/azure-sdk-for-js/search?q=test-recorder>.
 Or just just follow the [template tests](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/template/template/test)
