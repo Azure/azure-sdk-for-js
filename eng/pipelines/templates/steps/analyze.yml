@@ -71,12 +71,12 @@ steps:
     displayName: "Install library dependencies"
 
   - pwsh: |
-      pnpm run --filter=@azure/eslint-plugin-azure-sdk... build --logLevel info
-      node eng/tools/ci-runner/index.js lint "$(ChangedServices)" -v
+      pnpm run --filter=@azure/eslint-plugin-azure-sdk... build
+      node eng/tools/ci-runner/index.js lint "$(ChangedServices)"
     displayName: "Build ESLint Plugin and Lint Libraries"
 
   - pwsh: |
-      node eng/tools/ci-runner/index.js check-format $(ChangedServices) -packages "$(ArtifactPackageNames)" -v
+      node eng/tools/ci-runner/index.js check-format $(ChangedServices) -packages "$(ArtifactPackageNames)"
     displayName: "Check Format in Libraries"
 
   - template: /eng/common/pipelines/templates/steps/verify-changelogs.yml

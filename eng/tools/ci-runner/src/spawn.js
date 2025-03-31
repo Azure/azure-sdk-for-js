@@ -41,7 +41,7 @@ export function spawnPnpm(cwd, ...args) {
  * @param {string} cwd - current working directory
  * @param {string[]} args - rest of arguments
  */
-export function spawnNpmRun(cwd, ...args) {
-  const command = isWindows() ? "npm.CMD" : "npm";
+export function spawnPnpmRun(cwd, ...args) {
+  const command = isWindows() ? "pnpm.CMD" : "pnpm";
   return spawnWithLog(command, cwd, "run", ...args);
 }

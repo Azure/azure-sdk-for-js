@@ -3,7 +3,7 @@
 
 // @ts-check
 
-import { spawnPnpm, spawnNpmRun } from "./spawn.js";
+import { spawnPnpm, spawnPnpmRun } from "./spawn.js";
 import { getBaseDir } from "./env.js";
 import { join as pathJoin } from "node:path";
 import { runTestProxyRestore } from "./testProxyRestore.js";
@@ -35,7 +35,7 @@ export function runAllWithDirection(action, filters, extraParams, ciFlag) {
   // Restore assets for packages that are being 'unit-test'-ed in the CI pipeline
   if (
     // 1. eng/tools/ci-runner/index.js is running in CI: "--ci" flag is set
-    // Example: node eng/tools/ci-runner/index.js unit-test:node servicebus template -packages "azure-service-bus,azure-template" --ci -v
+    // Example: node eng/tools/ci-runner/index.js unit-test:node servicebus template -packages "azure-service-bus,azure-template" --ci
     ciFlag &&
     // 2. Ensure not in "live" or "record" mode (run only in playback mode)
     !["live", "record"].includes(process.env.TEST_MODE) &&
@@ -79,7 +79,7 @@ export function runAllWithDirection(action, filters, extraParams, ciFlag) {
 export function runInPackageDirs(action, packageDirs, onError) {
   let exitCode = 0;
   for (const packageDir of packageDirs) {
-    let dirExitCode = spawnNpmRun(packageDir, action);
+    let dirExitCode = spawnPnpmRun(packageDir, action);
     if (dirExitCode !== 0 && onError) {
       onError(packageDir);
     }

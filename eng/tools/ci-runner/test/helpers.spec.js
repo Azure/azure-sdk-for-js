@@ -16,7 +16,7 @@ describe("getDirectionMappedPackages", () => {
       const changed = ["@azure/core-client"];
       const mapped = getFilteredPackages(changed, "build", ["core"]);
       const expected = reducedDependencyTestMatrix["core"].map((p) =>
-        restrictedToPackages.includes(p) ? `${p}...` : `...${p}`,
+        restrictedToPackages.includes(p) ? `${p}...` : `...${p}...`,
       );
       expected.unshift("@azure/core-client...");
 
@@ -27,24 +27,24 @@ describe("getDirectionMappedPackages", () => {
       const changed = ["@azure/app-configuration"];
       const mapped = getFilteredPackages(changed, "build", ["appconfiguration"]);
 
-      assert.deepStrictEqual(mapped, ["...@azure/app-configuration"]);
+      assert.deepStrictEqual(mapped, ["...@azure/app-configuration..."]);
     });
 
     it("it uses --impacted-by when doing subsequent build tasks like build:test", () => {
       const changed = ["@azure/storage-blob"];
       const mapped = getFilteredPackages(changed, "build:test", ["storage"]);
 
-      assert.deepStrictEqual(mapped, ["...@azure/storage-blob"]);
+      assert.deepStrictEqual(mapped, ["...@azure/storage-blob..."]);
     });
 
     it("should use --to and --from for mixed packages", () => {
       const changed = ["@azure/core-rest-pipeline", "@azure/app-configuration"];
       const mapped = getFilteredPackages(changed, "build", ["core", "appconfiguration"]);
       const expected = reducedDependencyTestMatrix["core"].map((p) =>
-        restrictedToPackages.includes(p) ? `${p}...` : `...${p}`,
+        restrictedToPackages.includes(p) ? `${p}...` : `...${p}...`,
       );
 
-      expected.unshift("...@azure/app-configuration");
+      expected.unshift("...@azure/app-configuration...");
       expected.unshift("@azure/core-rest-pipeline...");
 
       assert.deepStrictEqual(mapped, expected);

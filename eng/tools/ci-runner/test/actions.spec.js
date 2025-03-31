@@ -5,7 +5,7 @@
 
 import { afterEach, assert, describe, it, vi } from "vitest";
 import { executeActions } from "../src/actions.js";
-import { spawnNpmRun, spawnPnpm } from "../src/spawn.js";
+import { spawnPnpmRun, spawnPnpm } from "../src/spawn.js";
 import { getBaseDir } from "../src/env.js";
 import { join as pathJoin } from "node:path";
 
@@ -13,7 +13,7 @@ const baseDir = getBaseDir();
 
 vi.mock("../src/spawn.js", async () => {
   return {
-    spawnNpmRun: vi.fn(),
+    spawnPnpmRun: vi.fn(),
     spawnPnpm: vi.fn(),
   };
 });
@@ -31,7 +31,7 @@ describe("executeActions", () => {
   it("should run build commands for affected packages", () => {
     executeActions("build", ["appconfiguration"], [], "azure-app-configuration");
     assert.deepEqual(vi.mocked(spawnPnpm).mock.calls, [
-      [baseDir, "run", "--filter", "...@azure/app-configuration", "build"],
+      [baseDir, "run", "--filter", "...@azure/app-configuration...", "build"],
     ]);
   });
 
@@ -39,7 +39,7 @@ describe("executeActions", () => {
   it("should run lint in appropriate folders", () => {
     executeActions("lint", ["appconfiguration"], [], "azure-app-configuration");
     const packageDir = pathJoin(baseDir, "sdk/appconfiguration/app-configuration");
-    assert.deepEqual(vi.mocked(spawnNpmRun).mock.calls, [[packageDir, "lint"]]);
+    assert.deepEqual(vi.mocked(spawnPnpmRun).mock.calls, [[packageDir, "lint"]]);
   });
 
   it("should handle arbitrary run commands", () => {
@@ -53,7 +53,7 @@ describe("executeActions", () => {
     const rushArgs = ["--logLevel", "info"];
     executeActions("build", ["appconfiguration"], rushArgs, "azure-app-configuration");
     assert.deepEqual(vi.mocked(spawnPnpm).mock.calls, [
-      [baseDir, "run", "--filter", "...@azure/app-configuration", "build", ...rushArgs],
+      [baseDir, "run", "--filter", "...@azure/app-configuration...", "build", ...rushArgs],
     ]);
   });
 
@@ -64,7 +64,7 @@ describe("executeActions", () => {
   });
 
   it("should return a non-zero return when one of many commands fails", () => {
-    vi.mocked(spawnNpmRun).mockReturnValueOnce(0).mockReturnValueOnce(1).mockReturnValueOnce(0);
+    vi.mocked(spawnPnpmRun).mockReturnValueOnce(0).mockReturnValueOnce(1).mockReturnValueOnce(0);
     const resultCode = executeActions(
       "lint",
       ["appconfiguration", "storage", "keyvault"],

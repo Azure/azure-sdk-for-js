@@ -26,29 +26,29 @@ stages:
             displayName: "Install library dependencies"
 
           - script: |
-              pnpm run --filter @azure/eslint-plugin-azure-sdk... build --logLevel info
+              pnpm run --filter @azure/eslint-plugin-azure-sdk... build
             displayName: "Build ESLint Plugin"
 
           - script: |
-              node eng/tools/ci-runner/index.js build monitor -packages "azure-monitor-opentelemetry-exporter" -v
+              node eng/tools/ci-runner/index.js build monitor -packages "azure-monitor-opentelemetry-exporter"
             displayName: "Build packages to enable typed checking"
 
           - script: |
-              pnpm run lint --logLevel info
+              pnpm run lint
             displayName: "Lint All Packages"
 
           - script: |
-              pnpm run build --logLevel info
+              pnpm run build
             displayName: "Build All Packages"
 
           - script: |
-              pnpm run --filter @azure/identity... --filter @azure/app-configuration... --filter @azure/event-hubs... --workspace-concurrency=1 build:test --logLevel info
+              pnpm run --filter @azure/identity... --filter @azure/app-configuration... --filter @azure/event-hubs... --workspace-concurrency=1 build:test
             displayName: "Build Tests for Selected Packages"
 
           - script: |
-              pnpm run --filter=@azure/identity... --filter=@azure/app-configuration... --filter=@azure/event-hubs... --workspace-concurrency=1 unit-test --logLevel info
+              pnpm run --filter=@azure/identity... --filter=@azure/app-configuration... --filter=@azure/event-hubs... --workspace-concurrency=1 unit-test
             displayName: "Run Unit Tests for Selected Packages"
 
           - script: |
-              pnpm run --filter=@azure/app-configuration --filter=@azure/storage-blob --filter=@azure-rest/synapse-access-control --workspace-concurrency=1 integration-test --logLevel info
+              pnpm run --filter=@azure/app-configuration --filter=@azure/storage-blob --filter=@azure-rest/synapse-access-control --workspace-concurrency=1 integration-test
             displayName: "Run Integration Tests for Selected Packages"
