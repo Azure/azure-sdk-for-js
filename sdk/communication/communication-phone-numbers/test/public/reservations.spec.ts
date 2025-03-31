@@ -3,10 +3,7 @@
 
 import { matrix } from "@azure-tools/test-utils-vitest";
 import { isPlaybackMode, type Recorder } from "@azure-tools/test-recorder";
-import type {
-  PhoneNumbersBrowseRequest,
-  PhoneNumbersClient,
-} from "../../src/index.js";
+import type { PhoneNumbersBrowseRequest, PhoneNumbersClient } from "../../src/index.js";
 import { createRecordedClient, createRecordedClientWithToken } from "./utils/recordedClient.js";
 import { isClientErrorStatusCode } from "./utils/statusCodeHelpers.js";
 import { describe, it, assert, beforeEach, afterEach, beforeAll, afterAll } from "vitest";
