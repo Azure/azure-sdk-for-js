@@ -6,14 +6,14 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper.js";
-import { PolicyDefinitionVersions } from "../operationsInterfaces/index.js";
+import type { PolicyDefinitionVersions } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
-import { PolicyClient } from "../policyClient.js";
-import {
+import type { PolicyClient } from "../policyClient.js";
+import type {
   PolicyDefinitionVersion,
   PolicyDefinitionVersionsListNextOptionalParams,
   PolicyDefinitionVersionsListOptionalParams,
@@ -102,11 +102,7 @@ export class PolicyDefinitionVersionsImpl implements PolicyDefinitionVersions {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(
-        policyDefinitionName,
-        continuationToken,
-        options,
-      );
+      result = await this._listNext(policyDefinitionName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -118,10 +114,7 @@ export class PolicyDefinitionVersionsImpl implements PolicyDefinitionVersions {
     policyDefinitionName: string,
     options?: PolicyDefinitionVersionsListOptionalParams,
   ): AsyncIterableIterator<PolicyDefinitionVersion> {
-    for await (const page of this.listPagingPage(
-      policyDefinitionName,
-      options,
-    )) {
+    for await (const page of this.listPagingPage(policyDefinitionName, options)) {
       yield* page;
     }
   }
@@ -148,11 +141,7 @@ export class PolicyDefinitionVersionsImpl implements PolicyDefinitionVersions {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listBuiltInPagingPage(
-          policyDefinitionName,
-          options,
-          settings,
-        );
+        return this.listBuiltInPagingPage(policyDefinitionName, options, settings);
       },
     };
   }
@@ -172,11 +161,7 @@ export class PolicyDefinitionVersionsImpl implements PolicyDefinitionVersions {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listBuiltInNext(
-        policyDefinitionName,
-        continuationToken,
-        options,
-      );
+      result = await this._listBuiltInNext(policyDefinitionName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -188,10 +173,7 @@ export class PolicyDefinitionVersionsImpl implements PolicyDefinitionVersions {
     policyDefinitionName: string,
     options?: PolicyDefinitionVersionsListBuiltInOptionalParams,
   ): AsyncIterableIterator<PolicyDefinitionVersion> {
-    for await (const page of this.listBuiltInPagingPage(
-      policyDefinitionName,
-      options,
-    )) {
+    for await (const page of this.listBuiltInPagingPage(policyDefinitionName, options)) {
       yield* page;
     }
   }
@@ -289,10 +271,7 @@ export class PolicyDefinitionVersionsImpl implements PolicyDefinitionVersions {
   listAllBuiltins(
     options?: PolicyDefinitionVersionsListAllBuiltinsOptionalParams,
   ): Promise<PolicyDefinitionVersionsListAllBuiltinsResponse> {
-    return this.client.sendOperationRequest(
-      { options },
-      listAllBuiltinsOperationSpec,
-    );
+    return this.client.sendOperationRequest({ options }, listAllBuiltinsOperationSpec);
   }
 
   /**
@@ -487,10 +466,7 @@ export class PolicyDefinitionVersionsImpl implements PolicyDefinitionVersions {
     policyDefinitionName: string,
     options?: PolicyDefinitionVersionsListOptionalParams,
   ): Promise<PolicyDefinitionVersionsListResponse> {
-    return this.client.sendOperationRequest(
-      { policyDefinitionName, options },
-      listOperationSpec,
-    );
+    return this.client.sendOperationRequest({ policyDefinitionName, options }, listOperationSpec);
   }
 
   /**
@@ -594,7 +570,7 @@ const listAllBuiltinsOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host],
   headerParameters: [Parameters.accept],
   serializer,
@@ -610,7 +586,7 @@ const listAllAtManagementGroupOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.managementGroupName],
   headerParameters: [Parameters.accept],
   serializer,
@@ -626,7 +602,7 @@ const listAllOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer,
@@ -646,14 +622,14 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     },
   },
   requestBody: Parameters.parameters1,
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.policyDefinitionName,
     Parameters.policyDefinitionVersion,
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer,
 };
@@ -667,7 +643,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -688,7 +664,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -709,7 +685,7 @@ const getBuiltInOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.policyDefinitionName,
@@ -733,14 +709,14 @@ const createOrUpdateAtManagementGroupOperationSpec: coreClient.OperationSpec = {
     },
   },
   requestBody: Parameters.parameters1,
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.policyDefinitionName,
     Parameters.managementGroupName,
     Parameters.policyDefinitionVersion,
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer,
 };
@@ -754,7 +730,7 @@ const deleteAtManagementGroupOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.policyDefinitionName,
@@ -775,7 +751,7 @@ const getAtManagementGroupOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.policyDefinitionName,
@@ -796,12 +772,8 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  queryParameters: [Parameters.apiVersion1, Parameters.top],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.policyDefinitionName,
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.top],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.policyDefinitionName],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -816,7 +788,7 @@ const listBuiltInOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  queryParameters: [Parameters.apiVersion1, Parameters.top],
+  queryParameters: [Parameters.apiVersion, Parameters.top],
   urlParameters: [Parameters.$host, Parameters.policyDefinitionName],
   headerParameters: [Parameters.accept],
   serializer,
@@ -832,7 +804,7 @@ const listByManagementGroupOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  queryParameters: [Parameters.apiVersion1, Parameters.top],
+  queryParameters: [Parameters.apiVersion, Parameters.top],
   urlParameters: [
     Parameters.$host,
     Parameters.policyDefinitionName,
@@ -854,9 +826,9 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.policyDefinitionName,
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -872,11 +844,7 @@ const listBuiltInNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.nextLink,
-    Parameters.policyDefinitionName,
-  ],
+  urlParameters: [Parameters.$host, Parameters.policyDefinitionName, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -893,8 +861,8 @@ const listByManagementGroupNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.nextLink,
     Parameters.policyDefinitionName,
+    Parameters.nextLink,
     Parameters.managementGroupName,
   ],
   headerParameters: [Parameters.accept],
