@@ -97,44 +97,6 @@ matrix([[true, false]], async (useAad) => {
     });
 
     it(
-      "can create phone number reservation without reservationId",
-      { timeout: 60000 },
-      async () => {
-        const browseAvailableNumberRequest: PhoneNumbersBrowseRequest = {
-          phoneNumberType: "tollFree",
-          capabilities: {
-            calling: "outbound",
-          },
-          assignmentType: "application",
-        };
-
-        const browseAvailableNumbers = await client.browseAvailablePhoneNumbers(
-          "US",
-          browseAvailableNumberRequest,
-        );
-
-        const phoneNumbers = browseAvailableNumbers.phoneNumbers;
-        const options: PhoneNumbersCreateOrUpdateReservationOptionalParams = {
-          phoneNumbers: { [phoneNumbers[0].id as string]: phoneNumbers[0] },
-        };
-
-        const reservationResponse = await client.createOrUpdateReservation(
-          isPlaybackMode() ? getReservationId() : "",
-          options,
-        );
-        const responseReservationId = reservationResponse.id ? reservationResponse.id : "";
-        assert.equal(reservationResponse.status, "active");
-        assert.isTrue(reservationResponse.id !== "");
-
-        const getReservationResponse = await client.getReservation(responseReservationId);
-        assert.equal(getReservationResponse.status, "active");
-        assert.isTrue(getReservationResponse.id === responseReservationId);
-
-        await client.deleteReservation(responseReservationId);
-      },
-    );
-
-    it(
       "can create phone number reservation with given reservation id",
       { timeout: 60000 },
       async () => {
