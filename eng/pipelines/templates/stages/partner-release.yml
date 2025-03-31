@@ -56,11 +56,11 @@ extends:
               ArtifactName: 'artifacts-for-release'
               ArtifactPath: $(Artifacts)
 
-          - template: /eng/pipelines/templates/steps/npm-release-task.yml
-            parameters:
-              Artifact: 
-                name: Partner Drop
-                path: $(Artifacts)
-              Registry: "https://registry.npmjs.org/"
-              PathToArtifacts: $(Artifacts)
-              Tag: "${{ parameters.Tag }}"
+        - template: /eng/pipelines/templates/steps/npm-release-task.yml
+          parameters:
+            Artifact: 
+              name: Partner Drop
+              path: $(Artifacts)
+            Registry: "https://registry.npmjs.org/"
+            PathToArtifacts: $(Artifacts)
+            Tag: "${{ parameters.Tag }}"
