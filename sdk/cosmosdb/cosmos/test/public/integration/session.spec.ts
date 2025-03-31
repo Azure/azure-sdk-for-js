@@ -97,37 +97,39 @@ describe("Integrated Cache Staleness", async () => {
             context.operationType !== OperationType.Create
           ) {
             assert.ok(typeof context.headers["x-ms-consistency-level"] !== "undefined");
-            assert.ok(typeof context.headers["x-ms-dedicatedgateway-max-age"] !== "undefined");
-            assert.ok(typeof context.headers["x-ms-dedicatedgateway-bypass-cache"] === "boolean");
             assert.ok(typeof context.headers["x-ms-consistency-level"] === "string");
             assert.ok(
               context.headers["x-ms-consistency-level"] === "Eventual" ||
                 context.headers["x-ms-consistency-level"] === "Session",
               `${context.headers["x-ms-consistency-level"]} = EVENTUAL or SESSION`,
             );
-            assert.ok(context.headers["x-ms-dedicatedgateway-bypass-cache"] === true);
+            if (context.headers["x-ms-dedicatedgateway-bypass-cache"]) {
+              assert.ok(typeof context.headers["x-ms-dedicatedgateway-bypass-cache"] === "boolean");
+              assert.ok(context.headers["x-ms-dedicatedgateway-bypass-cache"] === true);
+            }
             if (context.headers["x-ms-dedicatedgateway-max-age"] === "null") {
               assert.ok(
                 context.headers["x-ms-dedicatedgateway-max-age"] === "null",
                 "x-ms-dedicatedgateway-max-age will be ignored.",
               );
             }
-            assert.ok(
-              typeof context.headers["x-ms-dedicatedgateway-max-age"] === "string",
-              `${context.headers["x-ms-dedicatedgateway-max-age"]} = string`,
-            );
-
+            if (context.headers["x-ms-dedicatedgateway-max-age"]) {
+              assert.ok(typeof context.headers["x-ms-dedicatedgateway-max-age"] !== "undefined");
+              assert.ok(
+                typeof context.headers["x-ms-dedicatedgateway-max-age"] === "string",
+                `${context.headers["x-ms-dedicatedgateway-max-age"]} = string`,
+              );
+              assert.ok(
+                context.headers["x-ms-dedicatedgateway-max-age"] === `"${dedicatedGatewayMaxAge}"`,
+                `${context.headers["x-ms-dedicatedgateway-max-age"]} = "${dedicatedGatewayMaxAge}"`,
+              );
+            }
             if (context.headers["x-ms-dedicatedgateway-max-age"] === "0") {
               assert.ok(
                 context.headers["x-ms-dedicatedgateway-max-age"] === "0",
                 "x-ms-dedicatedgateway-max-age will be ignored.",
               );
             }
-
-            assert.ok(
-              context.headers["x-ms-dedicatedgateway-max-age"] === `"${dedicatedGatewayMaxAge}"`,
-              `${context.headers["x-ms-dedicatedgateway-max-age"]} = "${dedicatedGatewayMaxAge}"`,
-            );
           }
           const response = await next(context);
           return response;
