@@ -60,6 +60,7 @@ jobs:
         echo "##vso[task.setvariable variable=PackageName; isOutput=true]$packageName"
         echo "##vso[task.setvariable variable=OriginalTags; isOutput=true]$originalTags"
         echo "##vso[task.setvariable variable=IntendedTagVersion; isOutput=true]$packageVersion"
+      name: SetPackageVar
       displayName: Get original tags
 
     - task: EsrpRelease@9
@@ -96,11 +97,11 @@ jobs:
     condition: succeeded()
     variables:
       - name: PackageName
-        value: $[ dependencies.PublishPackage.outputs['PackageName'] ]
+        value: $[ dependencies.PublishPackage.outputs['SetPackageVar.PackageName'] ]
       - name: OriginalTags
-        value: $[ dependencies.PublishPackage.outputs['OriginalTags'] ]
+        value: $[ dependencies.PublishPackage.outputs['SetPackageVar.OriginalTags'] ]
       - name: IntendedTagVersion
-        value: $[ dependencies.PublishPackage.outputs['IntendedTagVersion'] ]
+        value: $[ dependencies.PublishPackage.outputs['SetPackageVar.IntendedTagVersion'] ]
     displayName: 'Verify package tags'
     pool:
       name: azsdk-pool-mms-ubuntu-2004-general
