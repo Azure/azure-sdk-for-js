@@ -8,8 +8,8 @@ The generated code is not enough to release at once and you need to update it fo
 After this finishes, you will see the generated code in `src` folder in your **{PROJECT_ROOT}**. Refer [the development workflows guide](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md#development-workflows) for more details if you'd like to know more.
 
 ```shell
-rush update
-rush build -t <your-package-name>
+pnpm install
+pnpm build --filter=<your-package-name>...
 ```
 
 # Generate CHANGELOG.md
@@ -55,15 +55,15 @@ See the [Javascript Codegen Quick Start for Test](https://github.com/Azure/azure
     On Linux, you could use `export` to set env variable:
 
     ```shell
-    rush build -t ${PACKAGE_NAME}
-    export TEST_MODE=record && rushx test # this will run live test and generate a recordings folder, you will need to submit it in the PR.
+    pnpm build --filter=${PACKAGE_NAME}...
+    export TEST_MODE=record && pnpm test # this will run live test and generate a recordings folder, you will need to submit it in the PR.
     ```
 
     On Windows, you could use `SET`:
 
     ```shell
-    rush build -t ${PACKAGE_NAME}
-    SET TEST_MODE=record&& rushx test # this will run live test and generate a recordings folder, you will need to submit it in the PR.
+    pnpm build --filter=${PACKAGE_NAME}
+    SET TEST_MODE=record&& pnpm test # this will run live test and generate a recordings folder, you will need to submit it in the PR.
     ```
 
     You can also run the `playback` mode test if your apis don't have breaking changes and you've already done the recording before.
@@ -71,14 +71,14 @@ See the [Javascript Codegen Quick Start for Test](https://github.com/Azure/azure
     On Linux, you could use below commands:
 
     ```shell
-    rush build -t ${PACKAGE_NAME}
-    export TEST_MODE=playback && rushx test # this will run live test and generate a recordings folder, you will need to submit it in the PR.
+      pnpm build --filter=${PACKAGE_NAME}
+    export TEST_MODE=playback && pnpm test # this will run live test and generate a recordings folder, you will need to submit it in the PR.
     ```
     On Windows, you can use:
 
     ```shell
-    rush build -t ${PACKAGE_NAME}
-    SET TEST_MODE=playback&& rushx test # this will run live test and generate a recordings folder, you will need to submit it in the PR.
+    pnpm build --filter=${PACKAGE_NAME}
+    SET TEST_MODE=playback&& pnpm test # this will run live test and generate a recordings folder, you will need to submit it in the PR.
     ```
 
 # How to write samples
@@ -130,19 +130,19 @@ You will see the workable samples in the `${PROJECT_ROOT}/samples` folder.
 After you have finished the generation and added your own tests or samples, you can use the following command to format the code.
 
 ```shell
-cd ${PROJECT_ROOT} && rushx format
+cd ${PROJECT_ROOT} && pnpm format
 ```
 
 Also, we'll recommand you to run `lint` command to analyze your code and quickly find any problems.
 
 ```shell
-cd ${PROJECT_ROOT} && rushx lint
+cd ${PROJECT_ROOT} && pnpm lint
 ```
 
 And we could use `lint:fix` if there are any errors.
 
 ```shell
-cd ${PROJECT_ROOT} && rushx lint:fix
+cd ${PROJECT_ROOT} && pnpm lint:fix
 ```
 
 # How to create package
@@ -150,11 +150,11 @@ cd ${PROJECT_ROOT} && rushx lint:fix
 Now, we can use the exact same steps to build a releasable artifact.
 
 ```shell
-rush update
-rush build -t <your-package-name>
+pnpm update
+pnpm build --filter=<your-package-name>...
 cd <your-sdk-folder>
-export TEST_MODE=record && rushx test
-rushx pack
+export TEST_MODE=record && pnpm test
+pnpm pack
 ```
 
 You may send this artifact to your customer if your services are still in private preview and some customers want to try it out.

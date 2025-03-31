@@ -6,9 +6,8 @@ import { Project } from "ts-morph";
 import { createPrinter } from "../../util/printer";
 import { resolveRoot } from "../../util/resolveProject";
 import { readFile, rename, unlink, writeFile } from "node:fs/promises";
-import { basename, dirname, resolve } from "node:path";
+import { basename, dirname, join, resolve } from "node:path";
 import { run } from "../../util/run";
-import stripJsonComments from "strip-json-comments";
 import { codemods } from "../../util/admin/migrate-package/codemods";
 import { existsSync, readdirSync } from "node:fs";
 import { isWindows } from "../../util/platform";
@@ -22,9 +21,38 @@ let _rushJson: any = undefined;
 async function getRushJson(): Promise<any> {
   if (_rushJson) return _rushJson;
 
-  const rushJsonText = await readFile(resolve(__dirname, "../../../../../../rush.json"), "utf-8");
+  const workspaceRootFile = resolve(__dirname, "../../../../../../pnpm-workspace.yaml");
+  const workspaceRoot = dirname(workspaceRootFile);
 
-  return (_rushJson = JSON.parse(stripJsonComments(rushJsonText)));
+  const listPackagesCommand = await run(["pnpm", "list", "--recursive", "--json", "--depth=1"], {
+    captureOutput: true,
+    cwd: workspaceRoot,
+  });
+
+  // console.log(listPackagesCommand.output);
+  if (listPackagesCommand.exitCode !== 0) {
+    throw new Error("Failed to list packages");
+  }
+
+  const pnpmPackages = JSON.parse(listPackagesCommand.output);
+  const results = {
+    projects: [] as RushJsonProject[],
+  };
+
+  for (const pkg of pnpmPackages) {
+    if (pkg.path.startsWith(workspaceRoot)) {
+      const projectFolder = pkg.path.slice(workspaceRoot.length + 1);
+      const packageJsonPath = join(pkg.path, "package.json");
+      const packageJson = JSON.parse(await readFile(packageJsonPath, "utf-8"));
+      results.projects.push({
+        packageName: pkg.name,
+        projectFolder,
+        versionPolicyName: packageJson["sdk-type"] || "unknown",
+      });
+    }
+  }
+
+  return (_rushJson = results);
 }
 
 /**

@@ -5,7 +5,7 @@ import { leafCommand, makeCommandInfo } from "../../../framework/command";
 import path from "node:path";
 import { resolveRoot } from "../../../util/resolveProject";
 import { readFile } from "node:fs/promises";
-import stripJsonComments from "strip-json-comments";
+import { run } from "../../../util/run";
 
 export const commandInfo = makeCommandInfo("packages", "list packages defined in the monorepo", {
   paths: {
@@ -20,43 +20,6 @@ export const commandInfo = makeCommandInfo("packages", "list packages defined in
     kind: "string",
     shortName: "s",
   },
-
-  // use --task option to provide code file to be excuted for each package. For example,
-  // the following code adds missing "tsx" dev dependency whereever it is used.
-  /*
-import * as path from "node:path";
-import { writeFile } from "node:fs/promises";
-import { resolveProject } from "../../../../util/resolveProject";
-import { RushJsonProject } from "../packages";
-
-export default async function IdentifyPackage(
-  project: RushJsonProject,
-  _paths: boolean,
-  _cwd: string,
-  root: string,
-) {
-  const { projectFolder, packageName } = project;
-  const fullProjectPath = path.join(root, projectFolder);
-  const { packageJson } = await resolveProject(fullProjectPath);
-
-  const unitTestNodeScript = packageJson.scripts["unit-test:node"];
-  const integrationTestNodeScript = packageJson.scripts["integration-test:node"];
-
-  if (unitTestNodeScript.includes("dev-tool run test:node-js-input") ||
-    integrationTestNodeScript.includes("dev-tool run test:node-js-input") ||
-    unitTestNodeScript.includes("dev-tool run test:node-tsx-ts") ||
-    integrationTestNodeScript.includes("dev-tool run test:node-tsx-ts")) {
-    if (!packageJson.devDependencies["tsx"]) {
-      console.log(`    updating ${packageName} ${fullProjectPath} testing scripts`);
-      packageJson.devDependencies["tsx"] = "^4.7.1";
-      await writeFile(
-        path.join(fullProjectPath, "package.json"),
-        JSON.stringify(packageJson, undefined, 2) + "\n",
-      );
-    }
-  }
-}
-*/
   task: {
     description: "a .js/.ts file default-exporting a function to run on each listed package",
     kind: "string",
@@ -71,12 +34,38 @@ let _rushJson: any = undefined;
 async function getRushJson(): Promise<any> {
   if (_rushJson) return _rushJson;
 
-  const rushJsonText = await readFile(
-    path.resolve(__dirname, "../../../../../../../rush.json"),
-    "utf-8",
-  );
+  const workspaceRootFile = path.resolve(__dirname, "../../../../../../../pnpm-workspace.yaml");
+  const workspaceRoot = path.dirname(workspaceRootFile);
 
-  return (_rushJson = JSON.parse(stripJsonComments(rushJsonText)));
+  const listPackagesCommand = await run(["pnpm", "list", "--recursive", "--json", "--depth=1"], {
+    captureOutput: true,
+    cwd: workspaceRoot,
+  });
+
+  // console.log(listPackagesCommand.output);
+  if (listPackagesCommand.exitCode !== 0) {
+    throw new Error("Failed to list packages");
+  }
+
+  const pnpmPackages = JSON.parse(listPackagesCommand.output);
+  const results = {
+    projects: [] as RushJsonProject[],
+  };
+
+  for (const pkg of pnpmPackages) {
+    if (pkg.path.startsWith(workspaceRoot)) {
+      const projectFolder = pkg.path.slice(workspaceRoot.length + 1);
+      const packageJsonPath = path.join(pkg.path, "package.json");
+      const packageJson = JSON.parse(await readFile(packageJsonPath, "utf-8"));
+      results.projects.push({
+        packageName: pkg.name,
+        projectFolder,
+        versionPolicyName: packageJson["sdk-type"] || "unknown",
+      });
+    }
+  }
+
+  return (_rushJson = results);
 }
 
 /**
@@ -91,6 +80,10 @@ export interface RushJsonProject {
    * The path to the project, relative to the monorepo root.
    */
   projectFolder: string;
+  /**
+   * The version policy name.
+   */
+  versionPolicyName: string;
 }
 
 export async function getProjects(service?: string): Promise<RushJsonProject[]> {

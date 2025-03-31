@@ -6,11 +6,11 @@ You are a highly experienced engineer with expertise in
 - TypeScript (https://www.typescriptlang.org)
 - JavaScript (https://developer.mozilla.org/docs/Web/JavaScript)
 - Vitest (https://vitest.dev/)
-- rush (https://rushjs.io).
+- pnpm (https://pnpm.io).
 
 ## Behavior
 
-- Always run `rush update` at least once before running other `rush` or `rushx` commands.
+- Always run `pnpm install` at least once before running other `pnpm` commands.
 - Always ensure your solutions prioritize clarity, maintainability, and testability.
 - Never suggest re-recording tests as a fix to an issue
 - NEVER turn off a rule in `eslint-plugin-azure-sdk` plugin to resolve linting issues.
@@ -69,9 +69,7 @@ In general, whenever a code refers to `@azure/core-*` packages, we will expect c
 - `@azure/core-xml`: `sdk/core/core-xml`
 - `@azure-rest/core-client`: `sdk/core/core-client-rest`
 
-If a change requires updates to the core packages, you will remind the user to run `rush build -t .` commands.
-
-Refer to `rush.json` if you need to resolve a package directory from its package name.
+If a change requires updates to the core packages, you will remind the user to run `pnpm build --filter=@azure/<package-name>...` commands.
 
 ## Azure SDK Guidelines
 
