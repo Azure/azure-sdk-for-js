@@ -96,7 +96,7 @@ describe("Integrated Cache Staleness", async () => {
             context.resourceType === ResourceType.item &&
             context.operationType !== OperationType.Create
           ) {
-            assert.ok(typeof context.headers["x-ms-consistency-level"] === "undefined");
+            assert.ok(typeof context.headers["x-ms-consistency-level"] !== "undefined");
             assert.ok(typeof context.headers["x-ms-dedicatedgateway-max-age"] !== "undefined");
             assert.ok(typeof context.headers["x-ms-dedicatedgateway-bypass-cache"] === "boolean");
             assert.ok(typeof context.headers["x-ms-consistency-level"] === "string");
