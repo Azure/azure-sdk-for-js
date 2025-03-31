@@ -72,11 +72,11 @@ steps:
 
   - pwsh: |
       npx turbo run build --filter=@azure/eslint-plugin-azure-sdk...
-      node eng/tools/rush-runner/index.js lint "$(ChangedServices)" --concurrency=100% -v
+      node eng/tools/ci-runner/index.js lint "$(ChangedServices)" --concurrency=100% -v
     displayName: "Build ESLint Plugin and Lint Libraries"
 
   - pwsh: |
-      node eng/tools/rush-runner/index.js check-format $(ChangedServices) -packages "$(ArtifactPackageNames)" --concurrency=100% -v
+      node eng/tools/ci-runner/index.js check-format $(ChangedServices) -packages "$(ArtifactPackageNames)" --concurrency=100% -v
     displayName: "Check Format in Libraries"
 
   - template: /eng/common/pipelines/templates/steps/verify-changelogs.yml

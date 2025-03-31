@@ -4,7 +4,7 @@
 // @ts-check
 
 import { getFilteredPackages, getServicePackages, tryGetPkgRelativePath } from "./helpers.js";
-import { runAllWithDirection, runInPackageDirs, runGlobalAction } from "./rush.js";
+import { runAllWithDirection, runInPackageDirs, runGlobalAction } from "./runner.js";
 
 /**
  *

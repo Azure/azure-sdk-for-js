@@ -34,8 +34,8 @@ export function runAllWithDirection(action, filteredPackages, extraParams, ciFla
 
   // Restore assets for packages that are being 'unit-test'-ed in the CI pipeline
   if (
-    // 1. eng/tools/rush-runner/index.js is running in CI: "--ci" flag is set
-    // Example: node eng/tools/rush-runner/index.js unit-test:node servicebus template -packages "azure-service-bus,azure-template" --ci --concurrency=100% -v
+    // 1. eng/tools/ci-runner/index.js is running in CI: "--ci" flag is set
+    // Example: node eng/tools/ci-runner/index.js unit-test:node servicebus template -packages "azure-service-bus,azure-template" --ci --concurrency=100% -v
     ciFlag &&
     // 2. Ensure not in "live" or "record" mode (run only in playback mode)
     !["live", "record"].includes(process.env.TEST_MODE) &&
