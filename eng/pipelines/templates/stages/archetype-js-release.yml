@@ -77,12 +77,12 @@ stages:
                             - checkout: self
                             - script: |
                                 export DETECTED_PACKAGE_NAME=`ls $(Pipeline.Workspace)/${{parameters.ArtifactName}}/${{artifact.name}}/*.tgz`
-                                echo "##vso[task.setvariable variable=Package.Archive;isOutput=true]$DETECTED_PACKAGE_NAME"
+                                echo "##vso[task.setvariable variable=PackageArchive;isOutput=true]$DETECTED_PACKAGE_NAME"
                               name: SetPackageArchive
                               displayName: Detecting package archive
                             - pwsh: |
-                                write-host "$(Package.Archive)"
-                                $result = eng/scripts/get-npm-tags.ps1 -packageArtifact $(Package.Archive) -workingDirectory $(System.DefaultWorkingDirectory)/temp
+                                write-host "$(PackageArchive)"
+                                $result = eng/scripts/get-npm-tags.ps1 -packageArtifact $(PackageArchive) -workingDirectory $(System.DefaultWorkingDirectory)/temp
                                 write-host "Tag: $($result.Tag)"
                                 write-host "Additional tag: $($result.AdditionalTag)"
                                 echo "##vso[task.setvariable variable=Tag]$($result.Tag)"
@@ -90,7 +90,7 @@ stages:
                               condition: and(succeeded(), ne(variables['Skip.AutoAddTag'], 'true'))
                               displayName: Set Tag and Additional Tag
                             - script: >
-                                npm install $(Package.Archive)
+                                npm install $(PackageArchive)
                               displayName: Validating package can be installed
                               condition: succeeded()
                   - template: /eng/pipelines/templates/steps/npm-release-task.yml
@@ -105,7 +105,7 @@ stages:
                   - job: PostPublishPackage
                     dependsOn: PublishPackage
                     variables:
-                      Package.Archive: $[dependencies.PrePublishPackage.outputs['SetPackageArchive.Package.Archive']]
+                      PackageArchive: $[dependencies.PrePublishPackage.outputs['SetPackageArchive.PackageArchive']]
                     pool:
                       name: azsdk-pool-mms-ubuntu-2004-general
                       image: azsdk-pool-mms-ubuntu-2004-1espt
@@ -113,9 +113,9 @@ stages:
                     displayName: Post Publish to npmjs
                     steps:
                     - pwsh: >
-                        write-host "$(Package.Archive)"
+                        write-host "$(PackageArchive)"
 
-                        eng/scripts/cleanup-npm-next-tag.ps1 -packageArtifact $(Package.Archive) -workingDirectory $(System.DefaultWorkingDirectory)/temp -npmToken $(azure-sdk-npm-token)
+                        eng/scripts/cleanup-npm-next-tag.ps1 -packageArtifact $(PackageArchive) -workingDirectory $(System.DefaultWorkingDirectory)/temp -npmToken $(azure-sdk-npm-token)
                       displayName: Cleanup Npm Next Tag
                       condition: and(succeeded(), ne(variables['Skip.RemoveOldTag'], 'true'))
                     - template: /eng/common/pipelines/templates/steps/create-apireview.yml
