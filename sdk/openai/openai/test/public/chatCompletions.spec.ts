@@ -40,257 +40,294 @@ describe.shuffle.each(APIMatrix)("Chat Completions [%s]", (apiVersion: APIVersio
       ],
     },
   );
+  const pirateMessages = [
+    {
+      role: "system",
+      content: "You are a helpful assistant. You will talk like a pirate.",
+    } as const,
+    { role: "user", content: "Can you help me?" } as const,
+    {
+      role: "assistant",
+      content: "Arrrr! Of course, me hearty! What can I do for ye?",
+    } as const,
+    { role: "user", content: "What's the best way to train a parrot?" } as const,
+  ];
+  const byodMessages = [
+    {
+      role: "user",
+      content:
+        "What's the most common feedback we received from our customers about the product?",
+    } as const,
+  ];
+  const getCurrentWeather = {
+    name: "get_current_weather",
+    description: "Get the current weather in a given location",
+    parameters: {
+      type: "object",
+      properties: {
+        location: {
+          type: "string",
+          description: "The city and state, e.g. San Francisco, CA",
+        },
+        unit: {
+          type: "string",
+          enum: ["celsius", "fahrenheit"],
+        },
+      },
+      required: ["location"],
+    },
+  };
 
   describe("chat.completions.create", () => {
-    const pirateMessages = [
-      {
-        role: "system",
-        content: "You are a helpful assistant. You will talk like a pirate.",
-      } as const,
-      { role: "user", content: "Can you help me?" } as const,
-      {
-        role: "assistant",
-        content: "Arrrr! Of course, me hearty! What can I do for ye?",
-      } as const,
-      { role: "user", content: "What's the best way to train a parrot?" } as const,
-    ];
-    const byodMessages = [
-      {
-        role: "user",
-        content:
-          "What's the most common feedback we received from our customers about the product?",
-      } as const,
-    ];
-    const getCurrentWeather = {
-      name: "get_current_weather",
-      description: "Get the current weather in a given location",
-      parameters: {
-        type: "object",
-        properties: {
-          location: {
-            type: "string",
-            description: "The city and state, e.g. San Francisco, CA",
-          },
-          unit: {
-            type: "string",
-            enum: ["celsius", "fahrenheit"],
-          },
-        },
-        required: ["location"],
-      },
-    };
 
-    it("returns completions across all models", async () => {
-      await withDeployments(
-        clientsAndDeploymentsInfo,
-        (client, deploymentName) =>
-          client.chat.completions.create({
-            model: deploymentName,
-            messages: pirateMessages,
-          }),
-        assertChatCompletions,
-      );
-    });
-
-    it("calls functions", async () => {
-      await withDeployments(
-        clientsAndDeploymentsInfo,
-        async (client, deploymentName) => {
-          const weatherMessages: ChatCompletionMessageParam[] = [
-            { role: "user", content: "What's the weather like in Boston?" },
-          ];
-          const result = await client.chat.completions.create({
-            model: deploymentName,
-            messages: weatherMessages,
-            functions: [getCurrentWeather],
-          });
-          assertChatCompletions(result, { functions: true });
-          const responseMessage = result.choices[0].message;
-          if (!responseMessage?.function_call) {
-            assert.fail("Undefined function call");
-          }
-          const functionArgs = JSON.parse(responseMessage.function_call.arguments);
-          weatherMessages.push(responseMessage);
-          weatherMessages.push({
-            role: "function",
-            name: responseMessage.function_call.name,
-            content: JSON.stringify({
-              location: functionArgs.location,
-              temperature: "72",
-              unit: functionArgs.unit,
-              forecast: ["sunny", "windy"],
+    describe("return non-streaming", () => {
+      it("returns completions across all models", async () => {
+        await withDeployments(
+          clientsAndDeploymentsInfo,
+          (client, deploymentName) =>
+            client.chat.completions.create({
+              model: deploymentName,
+              messages: pirateMessages,
             }),
-          });
-          return client.chat.completions.create({
-            model: deploymentName,
-            messages: weatherMessages,
-          });
-        },
-        (result) => assertChatCompletions(result, { functions: true }),
-        functionCallModelsToSkip,
-      );
-    });
+          assertChatCompletions,
+        );
+      });
 
-    it("doesn't call tools if toolChoice is set to none", async () => {
-      await withDeployments(
-        clientsAndDeploymentsInfo,
-        (client, deploymentName) =>
-          client.chat.completions.create({
-            model: deploymentName,
-            messages: [{ role: "user", content: "What's the weather like in Boston?" }],
-            tool_choice: "none",
-            tools: [{ type: "function", function: getCurrentWeather }],
-          }),
-        (res) => {
-          assertChatCompletions(res, { functions: false });
-          assert.isUndefined(res.choices[0].message?.tool_calls);
-        },
-      );
-    });
+      it("calls functions", async () => {
+        await withDeployments(
+          clientsAndDeploymentsInfo,
+          async (client, deploymentName) => {
+            const weatherMessages: ChatCompletionMessageParam[] = [
+              { role: "user", content: "What's the weather like in Boston?" },
+            ];
+            const result = await client.chat.completions.create({
+              model: deploymentName,
+              messages: weatherMessages,
+              functions: [getCurrentWeather],
+            });
+            assertChatCompletions(result, { functions: true });
+            const responseMessage = result.choices[0].message;
+            if (!responseMessage?.function_call) {
+              assert.fail("Undefined function call");
+            }
+            const functionArgs = JSON.parse(responseMessage.function_call.arguments);
+            weatherMessages.push(responseMessage);
+            weatherMessages.push({
+              role: "function",
+              name: responseMessage.function_call.name,
+              content: JSON.stringify({
+                location: functionArgs.location,
+                temperature: "72",
+                unit: functionArgs.unit,
+                forecast: ["sunny", "windy"],
+              }),
+            });
+            return client.chat.completions.create({
+              model: deploymentName,
+              messages: weatherMessages,
+            });
+          },
+          (result) => assertChatCompletions(result, { functions: true }),
+          functionCallModelsToSkip,
+        );
+      });
 
-    it("calls a specific tool if its name is specified", async () => {
-      await withDeployments(
-        clientsAndDeploymentsInfo,
-        (client, deploymentName) =>
-          client.chat.completions.create({
-            model: deploymentName,
-            messages: [{ role: "user", content: "What's the weather like in Boston?" }],
+      it("doesn't call tools if toolChoice is set to none", async () => {
+        await withDeployments(
+          clientsAndDeploymentsInfo,
+          (client, deploymentName) =>
+            client.chat.completions.create({
+              model: deploymentName,
+              messages: [{ role: "user", content: "What's the weather like in Boston?" }],
+              tool_choice: "none",
+              tools: [{ type: "function", function: getCurrentWeather }],
+            }),
+          (res) => {
+            assertChatCompletions(res, { functions: false });
+            assert.isUndefined(res.choices[0].message?.tool_calls);
+          },
+        );
+      });
 
-            tool_choice: {
-              type: "function",
-              function: { name: getCurrentWeather.name },
-            },
-            tools: [
-              { type: "function", function: getCurrentWeather },
-              {
+      it("calls a specific tool if its name is specified", async () => {
+        await withDeployments(
+          clientsAndDeploymentsInfo,
+          (client, deploymentName) =>
+            client.chat.completions.create({
+              model: deploymentName,
+              messages: [{ role: "user", content: "What's the weather like in Boston?" }],
+
+              tool_choice: {
                 type: "function",
-                function: {
-                  name: "get_current_weather2",
-                  description: "Get the current weather in a given location in the US",
-                  parameters: {
-                    type: "object",
-                    properties: {
-                      location: {
-                        type: "string",
-                        description: "The city and state, e.g. San Francisco, CA",
+                function: { name: getCurrentWeather.name },
+              },
+              tools: [
+                { type: "function", function: getCurrentWeather },
+                {
+                  type: "function",
+                  function: {
+                    name: "get_current_weather2",
+                    description: "Get the current weather in a given location in the US",
+                    parameters: {
+                      type: "object",
+                      properties: {
+                        location: {
+                          type: "string",
+                          description: "The city and state, e.g. San Francisco, CA",
+                        },
+                        unit: {
+                          type: "string",
+                          enum: ["celsius", "fahrenheit"],
+                        },
                       },
-                      unit: {
-                        type: "string",
-                        enum: ["celsius", "fahrenheit"],
-                      },
+                      required: ["location"],
                     },
-                    required: ["location"],
                   },
                 },
-              },
-            ],
-          }),
-        (res) => {
-          assertChatCompletions(res, { functions: true });
-          const toolCalls = res.choices[0].message?.tool_calls;
-          if (!toolCalls) {
-            throw new Error("toolCalls should be defined here");
-          }
-          assert.equal(toolCalls[0].function.name, getCurrentWeather.name);
-          assert.isUndefined(res.choices[0].message?.function_call);
-        },
-      );
-    });
-
-    it("ensures schema name is not transformed with snake case", async () => {
-      const getAssetInfo = {
-        name: "getAssetInfo",
-        description: "Returns information about an asset",
-        parameters: {
-          type: "object",
-          properties: {
-            assetName: {
-              type: "string",
-              description: "The asset name. This is a required parameter.",
-            },
-          },
-          required: ["assetName"],
-        },
-      };
-      await withDeployments(
-        clientsAndDeploymentsInfo,
-        (client, deploymentName) =>
-          client.chat.completions.create({
-            model: deploymentName,
-            messages: [{ role: "user", content: "Give me information about Asset No1" }],
-            tools: [{ type: "function", function: getAssetInfo }],
-          }),
-        (res) => {
-          assertChatCompletions(res, { functions: true });
-          const toolCalls = res.choices[0].message?.tool_calls;
-          if (!toolCalls) {
-            throw new Error("toolCalls should be defined here");
-          }
-          const argument = toolCalls[0].function.arguments;
-          assert.isTrue(argument?.includes("assetName"));
-        },
-        functionCallModelsToSkip,
-      );
-    });
-
-    it("respects json_object responseFormat", async () => {
-      await withDeployments(
-        filterClientsAndDeployments(clientsAndDeploymentsInfo, {
-          jsonObjectResponse: "true",
-        }),
-        (client, deploymentName) =>
-          client.chat.completions.create({
-            model: deploymentName,
-            messages: [
-              {
-                role: "user",
-                content:
-                  "Answer the following question in JSON format: What are the capital cities in Africa?",
-              },
-            ],
-            response_format: { type: "json_object" },
-          }),
-        (res) => {
-          assertChatCompletions(res, { functions: false });
-          const content = res.choices[0].message?.content;
-          if (!content) assert.fail("Undefined content");
-          try {
-            JSON.parse(content);
-          } catch {
-            assert.fail(`Invalid JSON: ${content}`);
-          }
-        },
-      );
-    });
-
-    describe.concurrent.each(createAzureSearchExtensions())(
-      "works with data sources [%o]",
-      async (config) => {
-        await testWithDeployments({
-          clientsAndDeploymentsInfo,
-          run: (client, model) =>
-            client.chat.completions.create({
-              model: model,
-              messages: byodMessages,
-              data_sources: [config],
+              ],
             }),
-          validate: assertChatCompletions,
-          modelsListToSkip: [
-            { name: "gpt-35-turbo-0613" }, // Unsupported model
-            { name: "gpt-4-32k" }, // Managed identity is not enabled
-            { name: "o1-preview" }, // o-series models are not supported with OYD.
-            { name: "o1-mini" },
-            { name: "gpt-4", version: "vision-preview" },
-          ],
-          acceptableErrors: {
-            messageSubstring: [
-              "Invalid AzureCognitiveSearch configuration detected", // gpt-4-1106-preview and others
-              "Managed Identity (MI) is not set for this account while the encryption key source is 'Microsoft.KeyVault', customer managed storage or Network Security Perimeter is used.",
-            ],
+          (res) => {
+            assertChatCompletions(res, { functions: true });
+            const toolCalls = res.choices[0].message?.tool_calls;
+            if (!toolCalls) {
+              throw new Error("toolCalls should be defined here");
+            }
+            assert.equal(toolCalls[0].function.name, getCurrentWeather.name);
+            assert.isUndefined(res.choices[0].message?.function_call);
           },
-        });
-      },
-    );
+        );
+      });
+
+      it("ensures schema name is not transformed with snake case", async () => {
+        const getAssetInfo = {
+          name: "getAssetInfo",
+          description: "Returns information about an asset",
+          parameters: {
+            type: "object",
+            properties: {
+              assetName: {
+                type: "string",
+                description: "The asset name. This is a required parameter.",
+              },
+            },
+            required: ["assetName"],
+          },
+        };
+        await withDeployments(
+          clientsAndDeploymentsInfo,
+          (client, deploymentName) =>
+            client.chat.completions.create({
+              model: deploymentName,
+              messages: [{ role: "user", content: "Give me information about Asset No1" }],
+              tools: [{ type: "function", function: getAssetInfo }],
+            }),
+          (res) => {
+            assertChatCompletions(res, { functions: true });
+            const toolCalls = res.choices[0].message?.tool_calls;
+            if (!toolCalls) {
+              throw new Error("toolCalls should be defined here");
+            }
+            const argument = toolCalls[0].function.arguments;
+            assert.isTrue(argument?.includes("assetName"));
+          },
+          functionCallModelsToSkip,
+        );
+      });
+
+      it("respects json_object responseFormat", async () => {
+        await withDeployments(
+          filterClientsAndDeployments(clientsAndDeploymentsInfo, {
+            jsonObjectResponse: "true",
+          }),
+          (client, deploymentName) =>
+            client.chat.completions.create({
+              model: deploymentName,
+              messages: [
+                {
+                  role: "user",
+                  content:
+                    "Answer the following question in JSON format: What are the capital cities in Africa?",
+                },
+              ],
+              response_format: { type: "json_object" },
+            }),
+          (res) => {
+            assertChatCompletions(res, { functions: false });
+            const content = res.choices[0].message?.content;
+            if (!content) assert.fail("Undefined content");
+            try {
+              JSON.parse(content);
+            } catch {
+              assert.fail(`Invalid JSON: ${ content }`);
+            }
+          },
+        );
+      });
+
+      describe.concurrent.each(createAzureSearchExtensions())(
+        "works with data sources [%o]",
+        async (config) => {
+          await testWithDeployments({
+            clientsAndDeploymentsInfo,
+            run: (client, model) =>
+              client.chat.completions.create({
+                model: model,
+                messages: byodMessages,
+                data_sources: [config],
+              }),
+            validate: assertChatCompletions,
+            modelsListToSkip: [
+              { name: "gpt-35-turbo-0613" }, // Unsupported model
+              { name: "gpt-4-32k" }, // Managed identity is not enabled
+              { name: "o1-preview" }, // o-series models are not supported with OYD.
+              { name: "o1-mini" },
+              { name: "gpt-4", version: "vision-preview" },
+            ],
+            acceptableErrors: {
+              messageSubstring: [
+                "Invalid AzureCognitiveSearch configuration detected", // gpt-4-1106-preview and others
+                "Managed Identity (MI) is not set for this account while the encryption key source is 'Microsoft.KeyVault', customer managed storage or Network Security Perimeter is used.",
+              ],
+            },
+          });
+        },
+      );
+      describe.concurrent.each(createAzureSearchExtensions())(
+        "works with data sources and user security context [%o]",
+        async (config) => {
+          await testWithDeployments({
+            clientsAndDeploymentsInfo,
+            run: (client, model) =>
+              client.chat.completions.create({
+                model: model,
+                messages: byodMessages,
+                data_sources: [config],
+                user_security_context: {
+                  application_name: "my_app",
+                  end_user_id: "user123",
+                  end_user_tenant_id: "tenant123",
+                  source_ip: "unittest",
+                },
+              }),
+            validate: assertChatCompletions,
+            modelsListToSkip: [
+              { name: "gpt-35-turbo-0613" }, // Unsupported model
+              { name: "gpt-4-32k" }, // Managed identity is not enabled
+              { name: "o1-preview" }, // o-series models are not supported with OYD.
+              { name: "o1-mini" },
+              { name: "gpt-4", version: "vision-preview" },
+            ],
+            acceptableErrors: {
+              messageSubstring: [
+                "Invalid AzureCognitiveSearch configuration detected", // gpt-4-1106-preview and others
+                "Managed Identity (MI) is not set for this account while the encryption key source is 'Microsoft.KeyVault', customer managed storage or Network Security Perimeter is used.",
+              ],
+            },
+          });
+        },
+      );
+
+    });
 
     describe("return stream", () => {
       it("returns completions across all models", async () => {
@@ -392,6 +429,44 @@ describe.shuffle.each(APIMatrix)("Chat Completions [%s]", (apiVersion: APIVersio
         },
       );
 
+      describe.concurrent.each(createAzureSearchExtensions())(
+        "works with data sources and user security context [%o])",
+        async (config) => {
+          await testWithDeployments({
+            clientsAndDeploymentsInfo,
+            run: async (client, model) =>
+              bufferAsyncIterable(
+                await client.chat.completions.create({
+                  model: model,
+                  messages: byodMessages,
+                  stream: true,
+                  data_sources: [config],
+                  user_security_context: {
+                    application_name: "my_app",
+                    end_user_id: "user123",
+                    end_user_tenant_id: "tenant123",
+                    source_ip: "unittest",
+                  },
+                }),
+              ),
+            validate: assertChatCompletionsList,
+            modelsListToSkip: [
+              { name: "gpt-35-turbo-0613" }, // Unsupported model
+              { name: "gpt-4-32k" }, // Managed identity is not enabled
+              { name: "o1-preview" }, // o-series models are not supported with OYD.
+              { name: "o1-mini" },
+              { name: "gpt-4", version: "vision-preview" },
+            ],
+            acceptableErrors: {
+              messageSubstring: [
+                "Invalid AzureCognitiveSearch configuration detected", // gpt-4-1106-preview and others
+                "Managed Identity (MI) is not set for this account while the encryption key source is 'Microsoft.KeyVault', customer managed storage or Network Security Perimeter is used.",
+              ],
+            },
+          });
+        },
+      );
+
       describe("chat.completions.parse", () => {
         describe("structured output for chat completions", async () => {
           await testWithDeployments({
@@ -431,5 +506,6 @@ describe.shuffle.each(APIMatrix)("Chat Completions [%s]", (apiVersion: APIVersio
         });
       });
     });
+
   });
 });
