@@ -19,7 +19,7 @@ steps:
 
   - script: |
       pnpm install
-    displayName: "Install dependencies"
+    displayName: "Install library dependencies"
 
   - template: /eng/pipelines/templates/steps/set-artifact-packages.yml
     parameters:

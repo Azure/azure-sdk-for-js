@@ -201,7 +201,7 @@ stages:
                             - bash: |
                                 npm install -g pnpm
                                 pnpm install
-                              displayName: "Install dependencies"
+                              displayName: "Install library dependencies"
 
                             # Disabled until packages can be updated to support ES2019 syntax.
                             # - bash: |

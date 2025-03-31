@@ -68,7 +68,7 @@ steps:
   - script: |
       npm install -g pnpm
       pnpm install
-    displayName: "Install dependencies"
+    displayName: "Install library dependencies"
 
   - pwsh: |
       npx turbo run build --filter=@azure/eslint-plugin-azure-sdk...

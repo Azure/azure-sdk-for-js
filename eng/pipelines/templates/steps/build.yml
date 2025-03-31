@@ -42,7 +42,7 @@ steps:
       npm install -g pnpm
       pnpm install
     condition: and(succeeded(),ne(variables['SetDevVersion'],'true'))
-    displayName: "Install dependencies"
+    displayName: "Install library dependencies"
 
   - template: /eng/pipelines/templates/steps/set-artifact-packages.yml
     parameters:
