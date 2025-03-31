@@ -97,7 +97,7 @@ matrix([[true, false]], async (useAad) => {
     });
 
     it(
-      "can create phone number reservation with given reservation id",
+      "can create phone number reservation without reservationId",
       { timeout: 60000 },
       async () => {
         const browseAvailableNumberRequest: PhoneNumbersBrowseRequest = {
@@ -114,17 +114,23 @@ matrix([[true, false]], async (useAad) => {
         );
 
         const phoneNumbers = browseAvailableNumbers.phoneNumbers;
-        const options: PhoneNumbersCreateOrUpdateReservationOptionalParams = {
+        const phoneNumbersReservation = {
           phoneNumbers: { [phoneNumbers[0].id as string]: phoneNumbers[0] },
         };
 
-        const reservationResponse = await client.createOrUpdateReservation(reservationId, options);
+        const reservationResponse = await client.createOrUpdateReservation(
+          phoneNumbersReservation.phoneNumbers,
+          isPlaybackMode() ? getReservationId() : "",
+        );
+        const responseReservationId = reservationResponse.id ? reservationResponse.id : "";
         assert.equal(reservationResponse.status, "active");
-        assert.isTrue(reservationResponse.id === reservationId);
+        assert.isTrue(reservationResponse.id !== "");
 
-        const getReservationResponse = await client.getReservation(reservationId);
+        const getReservationResponse = await client.getReservation(responseReservationId);
         assert.equal(getReservationResponse.status, "active");
-        assert.isTrue(getReservationResponse.id === reservationId);
+        assert.isTrue(getReservationResponse.id === responseReservationId);
+
+        await client.deleteReservation(responseReservationId);
       },
     );
 
@@ -143,23 +149,23 @@ matrix([[true, false]], async (useAad) => {
       );
 
       const phoneNumbers = browseAvailableNumbers.phoneNumbers;
-      const options: PhoneNumbersCreateOrUpdateReservationOptionalParams = {
+      let phoneNumbersReservation = {
         phoneNumbers: { [phoneNumbers[0].id as string]: phoneNumbers[0] },
       };
 
-      const reservationResponse = await client.createOrUpdateReservation(reservationId, options);
+      const reservationResponse = await client.createOrUpdateReservation(phoneNumbersReservation.phoneNumbers, reservationId);
       assert.equal(reservationResponse.status, "active");
       assert.isTrue(reservationResponse.id === reservationId);
 
-      let updatedOptions: PhoneNumbersCreateOrUpdateReservationOptionalParams = {
+      phoneNumbersReservation = {
         phoneNumbers: {
           [phoneNumbers[0].id as string]: phoneNumbers[0],
           [phoneNumbers[1].id as string]: phoneNumbers[1],
         },
       };
       let updatedReservationResponse = await client.createOrUpdateReservation(
-        reservationId,
-        updatedOptions,
+        phoneNumbersReservation.phoneNumbers,
+        reservationId
       );
       assert.isTrue(
         Object.keys(updatedReservationResponse.phoneNumbers || {}).includes(
@@ -167,15 +173,15 @@ matrix([[true, false]], async (useAad) => {
         ),
       );
 
-      updatedOptions = {
+      const updatedPhoneNumbersReservation = {
         phoneNumbers: {
           [phoneNumbers[0].id as string]: null,
           [phoneNumbers[1].id as string]: null,
         },
       };
       updatedReservationResponse = await client.createOrUpdateReservation(
-        reservationId,
-        updatedOptions,
+        updatedPhoneNumbersReservation.phoneNumbers,
+        reservationId
       );
       assert.isFalse(
         Object.keys(updatedReservationResponse.phoneNumbers || {}).includes(
@@ -187,6 +193,8 @@ matrix([[true, false]], async (useAad) => {
           phoneNumbers[1].id as string,
         ),
       );
+
+      await client.deleteReservation(reservationId);
     });
   });
 });

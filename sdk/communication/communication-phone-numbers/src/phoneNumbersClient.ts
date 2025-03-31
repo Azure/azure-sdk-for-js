@@ -34,6 +34,7 @@ import type {
   PhoneNumbersPurchaseReservationOptionalParams,
   PhoneNumbersPurchaseReservationResponse,
   PurchasedPhoneNumber,
+  AvailablePhoneNumber,
 } from "./generated/src/models/index.js";
 import type {
   GetPurchasedPhoneNumberOptions,
@@ -55,7 +56,7 @@ import type {
   BeginUpdatePhoneNumberCapabilitiesOptions,
 } from "./lroModels.js";
 import { createPhoneNumbersPagingPolicy } from "./utils/customPipelinePolicies.js";
-import type { CommonClientOptions } from "@azure/core-client";
+import type { CommonClientOptions, OperationOptions } from "@azure/core-client";
 import { logger } from "./utils/index.js";
 import { tracingClient } from "./generated/src/tracing.js";
 import { generateGUID } from "./utils/helpers.js";
@@ -527,7 +528,7 @@ export class PhoneNumbersClient {
     >
   > {
     return tracingClient.withSpan(
-      "PhoneNumbersClient-startReservationPurchase",
+      "PhoneNumbersClient-beginPurchaseReservation",
       options,
       (updatedOptions) => {
         return this.client.phoneNumbers.beginPurchaseReservation(reservationId, {
@@ -630,16 +631,23 @@ export class PhoneNumbersClient {
    * ```
    *
    * Create or update a reservation.
+   * @param phoneNumbers - The phone numbers to be reserved. The key is the phone number ID and the value is the phone number details.
    * @param reservationId - The id of the reservation if it's not provided it will generate a random one.
    * @param options - The options parameters.
    */
   public async createOrUpdateReservation(
+    phoneNumbers: { [propertyName: string]: AvailablePhoneNumber | null },
     reservationId?: string,
-    options?: PhoneNumbersCreateOrUpdateReservationOptionalParams,
+    options?: OperationOptions,
   ): Promise<PhoneNumbersCreateOrUpdateReservationResponse> {
+
+    const reservationOptionalParams: PhoneNumbersCreateOrUpdateReservationOptionalParams = {
+      ...options,
+      phoneNumbers: phoneNumbers,
+    };
     const { span, updatedOptions } = tracingClient.startSpan(
       "PhoneNumbersClient-createOrUpdateReservation",
-      options,
+      reservationOptionalParams,
     );
 
     try {
