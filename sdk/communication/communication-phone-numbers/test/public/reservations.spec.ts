@@ -6,7 +6,6 @@ import { isPlaybackMode, type Recorder } from "@azure-tools/test-recorder";
 import type {
   PhoneNumbersBrowseRequest,
   PhoneNumbersClient,
-  PhoneNumbersCreateOrUpdateReservationOptionalParams,
 } from "../../src/index.js";
 import { createRecordedClient, createRecordedClientWithToken } from "./utils/recordedClient.js";
 import { isClientErrorStatusCode } from "./utils/statusCodeHelpers.js";
