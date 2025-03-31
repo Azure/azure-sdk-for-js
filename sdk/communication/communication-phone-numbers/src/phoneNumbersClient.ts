@@ -640,7 +640,6 @@ export class PhoneNumbersClient {
     reservationId?: string,
     options?: OperationOptions,
   ): Promise<PhoneNumbersCreateOrUpdateReservationResponse> {
-
     const reservationOptionalParams: PhoneNumbersCreateOrUpdateReservationOptionalParams = {
       ...options,
       phoneNumbers: phoneNumbers,

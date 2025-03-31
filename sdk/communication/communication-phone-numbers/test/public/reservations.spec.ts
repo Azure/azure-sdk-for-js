@@ -153,7 +153,10 @@ matrix([[true, false]], async (useAad) => {
         phoneNumbers: { [phoneNumbers[0].id as string]: phoneNumbers[0] },
       };
 
-      const reservationResponse = await client.createOrUpdateReservation(phoneNumbersReservation.phoneNumbers, reservationId);
+      const reservationResponse = await client.createOrUpdateReservation(
+        phoneNumbersReservation.phoneNumbers,
+        reservationId,
+      );
       assert.equal(reservationResponse.status, "active");
       assert.isTrue(reservationResponse.id === reservationId);
 
@@ -165,7 +168,7 @@ matrix([[true, false]], async (useAad) => {
       };
       let updatedReservationResponse = await client.createOrUpdateReservation(
         phoneNumbersReservation.phoneNumbers,
-        reservationId
+        reservationId,
       );
       assert.isTrue(
         Object.keys(updatedReservationResponse.phoneNumbers || {}).includes(
@@ -181,7 +184,7 @@ matrix([[true, false]], async (useAad) => {
       };
       updatedReservationResponse = await client.createOrUpdateReservation(
         updatedPhoneNumbersReservation.phoneNumbers,
-        reservationId
+        reservationId,
       );
       assert.isFalse(
         Object.keys(updatedReservationResponse.phoneNumbers || {}).includes(
