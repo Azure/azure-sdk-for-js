@@ -15,6 +15,14 @@ import { runAllWithDirection, runInPackageDirs, runGlobalAction } from "./runner
  * @returns
  */
 export function executeActions(action, serviceDirs, extraParams, artifactNames, ciFlag) {
+  console.dir({
+    action,
+    serviceDirs,
+    extraParams,
+    artifactNames,
+    ciFlag,
+    label: "executeActions - 1",
+  });
   const actionComponents = action.toLowerCase().split(":");
 
   console.log(`Packages to build: ${artifactNames}`);
