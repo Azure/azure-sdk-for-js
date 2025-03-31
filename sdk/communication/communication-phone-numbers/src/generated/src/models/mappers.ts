@@ -1093,11 +1093,11 @@ export const AvailablePhoneNumberCost: coreClient.CompositeMapper = {
   },
 };
 
-export const PhoneNumbersStartReservationPurchaseHeaders: coreClient.CompositeMapper =
+export const PhoneNumbersPurchaseReservationHeaders: coreClient.CompositeMapper =
   {
     type: {
       name: "Composite",
-      className: "PhoneNumbersStartReservationPurchaseHeaders",
+      className: "PhoneNumbersPurchaseReservationHeaders",
       modelProperties: {
         operationLocation: {
           serializedName: "operation-location",

@@ -219,7 +219,7 @@ export class PhoneNumbersClient {
     constructor(url: string, credential: TokenCredential, options?: PhoneNumbersClientOptions);
     beginPurchasePhoneNumbers(searchId: string, options?: BeginPurchasePhoneNumbersOptions): Promise<PollerLike<PollOperationState<PurchasePhoneNumbersResult>, PurchasePhoneNumbersResult>>;
     beginReleasePhoneNumber(phoneNumber: string, options?: BeginReleasePhoneNumberOptions): Promise<PollerLike<PollOperationState<ReleasePhoneNumberResult>, ReleasePhoneNumberResult>>;
-    beginReservationPurchase(reservationId: string, options?: PhoneNumbersStartReservationPurchaseOptionalParams): Promise<PollerLike<PollOperationState<PhoneNumbersStartReservationPurchaseResponse>, PhoneNumbersStartReservationPurchaseResponse>>;
+    beginReservationPurchase(reservationId: string, options?: PhoneNumbersPurchaseReservationOptionalParams): Promise<PollerLike<PollOperationState<PhoneNumbersPurchaseReservationResponse>, PhoneNumbersPurchaseReservationResponse>>;
     beginSearchAvailablePhoneNumbers(search: SearchAvailablePhoneNumbersRequest, options?: BeginSearchAvailablePhoneNumbersOptions): Promise<PollerLike<PollOperationState<PhoneNumberSearchResult>, PhoneNumberSearchResult>>;
     beginUpdatePhoneNumberCapabilities(phoneNumber: string, request: PhoneNumberCapabilitiesRequest, options?: BeginUpdatePhoneNumberCapabilitiesOptions): Promise<PollerLike<PollOperationState<PurchasedPhoneNumber>, PurchasedPhoneNumber>>;
     browseAvailablePhoneNumbers(countryCode: string, request: PhoneNumbersBrowseRequest): Promise<PhoneNumbersBrowseAvailableNumbersResponse>;
@@ -305,6 +305,23 @@ export interface PhoneNumbersListReservationsOptionalParams extends coreClient.O
 }
 
 // @public
+export interface PhoneNumbersPurchaseReservationHeaders {
+    operationId?: string;
+    operationLocation?: string;
+    reservationPurchaseId?: string;
+}
+
+// @public
+export interface PhoneNumbersPurchaseReservationOptionalParams extends coreClient.OperationOptions {
+    agreeToNotResell?: boolean;
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type PhoneNumbersPurchaseReservationResponse = PhoneNumbersPurchaseReservationHeaders;
+
+// @public
 export interface PhoneNumbersReservation {
     readonly expiresAt?: Date;
     readonly id?: string;
@@ -313,23 +330,6 @@ export interface PhoneNumbersReservation {
     };
     readonly status?: ReservationStatus;
 }
-
-// @public
-export interface PhoneNumbersStartReservationPurchaseHeaders {
-    operationId?: string;
-    operationLocation?: string;
-    reservationPurchaseId?: string;
-}
-
-// @public
-export interface PhoneNumbersStartReservationPurchaseOptionalParams extends coreClient.OperationOptions {
-    agreeToNotResell?: boolean;
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type PhoneNumbersStartReservationPurchaseResponse = PhoneNumbersStartReservationPurchaseHeaders;
 
 // @public
 export type PhoneNumberType = "geographic" | "tollFree";

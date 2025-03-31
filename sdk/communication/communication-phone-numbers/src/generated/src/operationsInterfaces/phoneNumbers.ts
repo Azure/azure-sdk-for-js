@@ -29,8 +29,8 @@ import {
   PhoneNumbersGetReservationOptionalParams,
   PhoneNumbersGetReservationResponse,
   PhoneNumbersDeleteReservationOptionalParams,
-  PhoneNumbersStartReservationPurchaseOptionalParams,
-  PhoneNumbersStartReservationPurchaseResponse,
+  PhoneNumbersPurchaseReservationOptionalParams,
+  PhoneNumbersPurchaseReservationResponse,
   PhoneNumberAssignmentType,
   PhoneNumberCapabilities,
   PhoneNumbersSearchAvailablePhoneNumbersOptionalParams,
@@ -163,13 +163,13 @@ export interface PhoneNumbers {
    * @param reservationId The id of the reservation.
    * @param options The options parameters.
    */
-  beginStartReservationPurchase(
+  beginPurchaseReservation(
     reservationId: string,
-    options?: PhoneNumbersStartReservationPurchaseOptionalParams,
+    options?: PhoneNumbersPurchaseReservationOptionalParams,
   ): Promise<
     PollerLike<
-      PollOperationState<PhoneNumbersStartReservationPurchaseResponse>,
-      PhoneNumbersStartReservationPurchaseResponse
+      PollOperationState<PhoneNumbersPurchaseReservationResponse>,
+      PhoneNumbersPurchaseReservationResponse
     >
   >;
   /**
@@ -181,10 +181,10 @@ export interface PhoneNumbers {
    * @param reservationId The id of the reservation.
    * @param options The options parameters.
    */
-  beginStartReservationPurchaseAndWait(
+  beginPurchaseReservationAndWait(
     reservationId: string,
-    options?: PhoneNumbersStartReservationPurchaseOptionalParams,
-  ): Promise<PhoneNumbersStartReservationPurchaseResponse>;
+    options?: PhoneNumbersPurchaseReservationOptionalParams,
+  ): Promise<PhoneNumbersPurchaseReservationResponse>;
   /**
    * Search for available phone numbers to purchase.
    * @param countryCode The ISO 3166-2 country code, e.g. US.

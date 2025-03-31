@@ -31,8 +31,8 @@ import type {
   PhoneNumbersGetReservationResponse,
   PhoneNumbersListReservationsOptionalParams,
   PhoneNumbersReservation,
-  PhoneNumbersStartReservationPurchaseOptionalParams,
-  PhoneNumbersStartReservationPurchaseResponse,
+  PhoneNumbersPurchaseReservationOptionalParams,
+  PhoneNumbersPurchaseReservationResponse,
   PurchasedPhoneNumber,
 } from "./generated/src/models/index.js";
 import type {
@@ -519,18 +519,18 @@ export class PhoneNumbersClient {
    */
   public beginReservationPurchase(
     reservationId: string,
-    options: PhoneNumbersStartReservationPurchaseOptionalParams = {},
+    options: PhoneNumbersPurchaseReservationOptionalParams = {},
   ): Promise<
     PollerLike<
-      PollOperationState<PhoneNumbersStartReservationPurchaseResponse>,
-      PhoneNumbersStartReservationPurchaseResponse
+      PollOperationState<PhoneNumbersPurchaseReservationResponse>,
+      PhoneNumbersPurchaseReservationResponse
     >
   > {
     return tracingClient.withSpan(
       "PhoneNumbersClient-startReservationPurchase",
       options,
       (updatedOptions) => {
-        return this.client.phoneNumbers.beginStartReservationPurchase(reservationId, {
+        return this.client.phoneNumbers.beginPurchaseReservation(reservationId, {
           ...updatedOptions,
         });
       },

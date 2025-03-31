@@ -400,8 +400,8 @@ export interface OperatorDetails {
 /** The incurred cost for this phone number. */
 export interface AvailablePhoneNumberCost extends PhoneNumberCost {}
 
-/** Defines headers for PhoneNumbers_startReservationPurchase operation. */
-export interface PhoneNumbersStartReservationPurchaseHeaders {
+/** Defines headers for PhoneNumbers_purchaseReservation operation. */
+export interface PhoneNumbersPurchaseReservationHeaders {
   /** URL to query for status of the operation. */
   operationLocation?: string;
   /** The operation id. */
@@ -634,7 +634,7 @@ export interface PhoneNumbersDeleteReservationOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface PhoneNumbersStartReservationPurchaseOptionalParams
+export interface PhoneNumbersPurchaseReservationOptionalParams
   extends coreClient.OperationOptions {
   /** The agreement to not resell the phone numbers. Defaults to false if not provided. */
   agreeToNotResell?: boolean;
@@ -644,9 +644,9 @@ export interface PhoneNumbersStartReservationPurchaseOptionalParams
   resumeFrom?: string;
 }
 
-/** Contains response data for the startReservationPurchase operation. */
-export type PhoneNumbersStartReservationPurchaseResponse =
-  PhoneNumbersStartReservationPurchaseHeaders;
+/** Contains response data for the purchaseReservation operation. */
+export type PhoneNumbersPurchaseReservationResponse =
+  PhoneNumbersPurchaseReservationHeaders;
 
 /** Optional parameters. */
 export interface PhoneNumbersSearchAvailablePhoneNumbersOptionalParams

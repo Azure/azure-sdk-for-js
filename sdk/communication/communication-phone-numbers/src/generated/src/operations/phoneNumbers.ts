@@ -49,8 +49,8 @@ import {
   PhoneNumbersGetReservationOptionalParams,
   PhoneNumbersGetReservationResponse,
   PhoneNumbersDeleteReservationOptionalParams,
-  PhoneNumbersStartReservationPurchaseOptionalParams,
-  PhoneNumbersStartReservationPurchaseResponse,
+  PhoneNumbersPurchaseReservationOptionalParams,
+  PhoneNumbersPurchaseReservationResponse,
   PhoneNumberAssignmentType,
   PhoneNumberCapabilities,
   PhoneNumbersSearchAvailablePhoneNumbersOptionalParams,
@@ -679,27 +679,27 @@ export class PhoneNumbersImpl implements PhoneNumbers {
    * @param reservationId The id of the reservation.
    * @param options The options parameters.
    */
-  async beginStartReservationPurchase(
+  async beginPurchaseReservation(
     reservationId: string,
-    options?: PhoneNumbersStartReservationPurchaseOptionalParams,
+    options?: PhoneNumbersPurchaseReservationOptionalParams,
   ): Promise<
     PollerLike<
-      PollOperationState<PhoneNumbersStartReservationPurchaseResponse>,
-      PhoneNumbersStartReservationPurchaseResponse
+      PollOperationState<PhoneNumbersPurchaseReservationResponse>,
+      PhoneNumbersPurchaseReservationResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<PhoneNumbersStartReservationPurchaseResponse> => {
+    ): Promise<PhoneNumbersPurchaseReservationResponse> => {
       return tracingClient.withSpan(
-        "PhoneNumbersClient.beginStartReservationPurchase",
+        "PhoneNumbersClient.beginPurchaseReservation",
         options ?? {},
         async () => {
           return this.client.sendOperationRequest(
             args,
             spec,
-          ) as Promise<PhoneNumbersStartReservationPurchaseResponse>;
+          ) as Promise<PhoneNumbersPurchaseReservationResponse>;
         },
       );
     };
@@ -738,7 +738,7 @@ export class PhoneNumbersImpl implements PhoneNumbers {
     const lro = createLroSpec({
       sendOperationFn,
       args: { reservationId, options },
-      spec: startReservationPurchaseOperationSpec,
+      spec: purchaseReservationOperationSpec,
     });
     const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
@@ -757,14 +757,11 @@ export class PhoneNumbersImpl implements PhoneNumbers {
    * @param reservationId The id of the reservation.
    * @param options The options parameters.
    */
-  async beginStartReservationPurchaseAndWait(
+  async beginPurchaseReservationAndWait(
     reservationId: string,
-    options?: PhoneNumbersStartReservationPurchaseOptionalParams,
-  ): Promise<PhoneNumbersStartReservationPurchaseResponse> {
-    const poller = await this.beginStartReservationPurchase(
-      reservationId,
-      options,
-    );
+    options?: PhoneNumbersPurchaseReservationOptionalParams,
+  ): Promise<PhoneNumbersPurchaseReservationResponse> {
+    const poller = await this.beginPurchaseReservation(reservationId, options);
     return poller.pollUntilDone();
   }
 
@@ -1589,21 +1586,21 @@ const deleteReservationOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const startReservationPurchaseOperationSpec: coreClient.OperationSpec = {
+const purchaseReservationOperationSpec: coreClient.OperationSpec = {
   path: "/availablePhoneNumbers/reservations/{reservationId}/:purchase",
   httpMethod: "POST",
   responses: {
     200: {
-      headersMapper: Mappers.PhoneNumbersStartReservationPurchaseHeaders,
+      headersMapper: Mappers.PhoneNumbersPurchaseReservationHeaders,
     },
     201: {
-      headersMapper: Mappers.PhoneNumbersStartReservationPurchaseHeaders,
+      headersMapper: Mappers.PhoneNumbersPurchaseReservationHeaders,
     },
     202: {
-      headersMapper: Mappers.PhoneNumbersStartReservationPurchaseHeaders,
+      headersMapper: Mappers.PhoneNumbersPurchaseReservationHeaders,
     },
     204: {
-      headersMapper: Mappers.PhoneNumbersStartReservationPurchaseHeaders,
+      headersMapper: Mappers.PhoneNumbersPurchaseReservationHeaders,
     },
     default: {
       bodyMapper: Mappers.CommunicationErrorResponse,
