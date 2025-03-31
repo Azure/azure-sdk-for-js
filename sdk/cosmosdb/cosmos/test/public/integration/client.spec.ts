@@ -66,7 +66,7 @@ const testDataset = {
   },
 };
 
-describe("TestingCredentialsintegrationforClient", () => {
+describe("Testing Credentials integration for Client", () => {
   // endpoint for mock server, which doesn't conflict with emulator's endpoints.
   const mockedEndpoint = "https://localhost:8082";
   const aadToken = "aadToken";
