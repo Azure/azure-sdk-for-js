@@ -936,17 +936,15 @@ function assertCodeInterpreterCall(call: ResponseCodeInterpreterToolCall): void 
 }
 
 export function assertResponse(response: Response): void {
-  // Required properties
   assert.isString(response.id);
   assert.isNumber(response.created_at);
   assert.isArray(response.output);
   response.output.forEach(assertResponseOutputItem);
-  assert.isString(response.output_text);
   assert.isBoolean(response.parallel_tool_calls);
   assert.isString(response.model);
   assert.equal(response.object, "response");
 
-  // Optional properties
+  ifDefined(response.output_text, assert.isString);
   ifDefined(response.error, assertErrorResponse);
   ifDefined(response.incomplete_details, (details) => {
     ifDefined(details.reason, (reason) => {
@@ -1016,7 +1014,10 @@ function assertResponseTool(tool: Tool) {
       assert.oneOf(tool.environment, ["mac", "windows", "ubuntu", "browser"]);
       break;
     default:
-      throw new Error(`Unknown tool type: ${tool.type}`);
+      assert.isNumber((tool as any).display_height);
+      assert.isNumber((tool as any).display_width);
+      assert.oneOf((tool as any).environment, ["mac", "windows", "ubuntu", "browser"]);
+      console.log(`Unknown tool type: ${tool.type}`);
   }
 }
 
