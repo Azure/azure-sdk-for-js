@@ -14,7 +14,7 @@ require("dotenv/config");
  * This sample demonstrates how to Gets a list of agent pools in the specified managed cluster.
  *
  * @summary Gets a list of agent pools in the specified managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2024-10-01/examples/AgentPoolsList.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2025-01-01/examples/AgentPoolsList.json
  */
 async function listAgentPoolsByManagedCluster() {
   const subscriptionId =
@@ -24,7 +24,7 @@ async function listAgentPoolsByManagedCluster() {
   const credential = new DefaultAzureCredential();
   const client = new ContainerServiceClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.agentPools.list(resourceGroupName, resourceName)) {
+  for await (const item of client.agentPools.list(resourceGroupName, resourceName)) {
     resArray.push(item);
   }
   console.log(resArray);

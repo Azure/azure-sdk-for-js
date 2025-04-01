@@ -16,7 +16,7 @@ import {
   FavoritesAddResponse,
   FavoritesUpdateOptionalParams,
   FavoritesUpdateResponse,
-  FavoritesDeleteOptionalParams
+  FavoritesDeleteOptionalParams,
 } from "../models/index.js";
 
 /** Interface representing a Favorites. */
@@ -30,7 +30,7 @@ export interface Favorites {
   list(
     resourceGroupName: string,
     resourceName: string,
-    options?: FavoritesListOptionalParams
+    options?: FavoritesListOptionalParams,
   ): Promise<FavoritesListResponse>;
   /**
    * Get a single favorite by its FavoriteId, defined within an Application Insights component.
@@ -43,7 +43,7 @@ export interface Favorites {
     resourceGroupName: string,
     resourceName: string,
     favoriteId: string,
-    options?: FavoritesGetOptionalParams
+    options?: FavoritesGetOptionalParams,
   ): Promise<FavoritesGetResponse>;
   /**
    * Adds a new favorites to an Application Insights component.
@@ -59,7 +59,7 @@ export interface Favorites {
     resourceName: string,
     favoriteId: string,
     favoriteProperties: ApplicationInsightsComponentFavorite,
-    options?: FavoritesAddOptionalParams
+    options?: FavoritesAddOptionalParams,
   ): Promise<FavoritesAddResponse>;
   /**
    * Updates a favorite that has already been added to an Application Insights component.
@@ -74,7 +74,7 @@ export interface Favorites {
     resourceName: string,
     favoriteId: string,
     favoriteProperties: ApplicationInsightsComponentFavorite,
-    options?: FavoritesUpdateOptionalParams
+    options?: FavoritesUpdateOptionalParams,
   ): Promise<FavoritesUpdateResponse>;
   /**
    * Remove a favorite that is associated to an Application Insights component.
@@ -87,6 +87,6 @@ export interface Favorites {
     resourceGroupName: string,
     resourceName: string,
     favoriteId: string,
-    options?: FavoritesDeleteOptionalParams
+    options?: FavoritesDeleteOptionalParams,
   ): Promise<void>;
 }

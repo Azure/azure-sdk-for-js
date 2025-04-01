@@ -4,7 +4,7 @@
 
 ```ts
 
-import { ClientOptions } from '@azure-rest/core-client';
+import type { ClientOptions } from '@azure-rest/core-client';
 import type { OperationOptions } from '@azure-rest/core-client';
 import type { OperationState } from '@azure/core-lro';
 import type { PollerLike } from '@azure/core-lro';
@@ -310,7 +310,7 @@ export interface ConnectionsOperations {
 export enum connectionToolType {
     AzureFunction = "azure_function",
     BingGrounding = "bing_grounding",
-    MicrosoftFabric = "microsoft_fabric",
+    MicrosoftFabric = "fabric_dataagent",
     SharepointGrounding = "sharepoint_grounding"
 }
 
@@ -959,14 +959,14 @@ export interface MessageTextFilePathDetailsOutput {
 
 // @public
 export interface MicrosoftFabricToolDefinition extends ToolDefinitionParent {
-    fabricAISkill: ToolConnectionList;
-    type: "fabric_aiskill";
+    fabricDataAgent: ToolConnectionList;
+    type: "fabric_dataagent";
 }
 
 // @public
 export interface MicrosoftFabricToolDefinitionOutput extends ToolDefinitionOutputParent {
-    fabricAISkill: ToolConnectionListOutput;
-    type: "fabric_aiskill";
+    fabricDataAgent: ToolConnectionListOutput;
+    type: "fabric_dataagent";
 }
 
 // @public
@@ -1458,8 +1458,8 @@ export interface RunStepMessageCreationReferenceOutput {
 
 // @public
 export interface RunStepMicrosoftFabricToolCallOutput extends RunStepToolCallOutputParent {
-    fabricAISkill: Record<string, string>;
-    type: "fabric_aiskill";
+    fabricDataAgent: Record<string, string>;
+    type: "fabric_dataagent";
 }
 
 // @public
@@ -1721,6 +1721,9 @@ export class ToolSet {
     addConnectionTool(toolType: connectionToolType, connectionIds: string[]): {
         definition: ToolDefinition;
     };
+    addFabricTool(connectionId: string): {
+        definition: ToolDefinition;
+    };
     addFileSearchTool(vectorStoreIds?: string[], vectorStores?: Array<VectorStoreConfigurations>, definitionDetails?: FileSearchToolDefinitionDetails): {
         definition: FileSearchToolDefinition;
         resources: ToolResources;
@@ -1747,6 +1750,9 @@ export class ToolUtility {
         resources: ToolResources;
     };
     static createConnectionTool(toolType: connectionToolType, connectionIds: string[]): {
+        definition: ToolDefinition;
+    };
+    static createFabricTool(connectionId: string): {
         definition: ToolDefinition;
     };
     static createFileSearchTool(vectorStoreIds?: string[], vectorStores?: Array<VectorStoreConfigurations>, definitionDetails?: FileSearchToolDefinitionDetails): {

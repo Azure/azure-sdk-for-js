@@ -45,8 +45,8 @@ async function getInformationAboutAnIncrementalSnapshot() {
 }
 
 async function main() {
-  getInformationAboutASnapshot();
-  getInformationAboutAnIncrementalSnapshot();
+  await getInformationAboutASnapshot();
+  await getInformationAboutAnIncrementalSnapshot();
 }
 
 main().catch(console.error);

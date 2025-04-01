@@ -10,13 +10,13 @@
 // Licensed under the MIT License.
 const { DataBoxManagementClient } = require("@azure/arm-databox");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to This method gets the unencrypted secrets related to the job.
  *
  * @summary This method gets the unencrypted secrets related to the job.
- * x-ms-original-file: specification/databox/resource-manager/Microsoft.DataBox/stable/2022-12-01/examples/JobsListCredentials.json
+ * x-ms-original-file: specification/databox/resource-manager/Microsoft.DataBox/stable/2025-02-01/examples/JobsListCredentials.json
  */
 async function jobsListCredentials() {
   const subscriptionId = process.env["DATABOX_SUBSCRIPTION_ID"] || "YourSubscriptionId";
@@ -25,14 +25,14 @@ async function jobsListCredentials() {
   const credential = new DefaultAzureCredential();
   const client = new DataBoxManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.jobs.listCredentials(resourceGroupName, jobName)) {
+  for await (const item of client.jobs.listCredentials(resourceGroupName, jobName)) {
     resArray.push(item);
   }
   console.log(resArray);
 }
 
 async function main() {
-  jobsListCredentials();
+  await jobsListCredentials();
 }
 
 main().catch(console.error);

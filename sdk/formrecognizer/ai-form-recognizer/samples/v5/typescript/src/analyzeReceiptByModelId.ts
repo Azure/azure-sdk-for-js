@@ -14,26 +14,25 @@
  * @summary use the "prebuilt-receipt" model ID to extract data from a receipt document (weakly-typed)
  */
 
-import {
-  AzureKeyCredential,
-  DocumentAnalysisClient,
+import type {
   DocumentArrayField,
   DocumentObjectField,
   DocumentStringField,
 } from "@azure/ai-form-recognizer";
-
+import { DocumentAnalysisClient } from "@azure/ai-form-recognizer";
+import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
 async function main(): Promise<void> {
   const endpoint = process.env.FORM_RECOGNIZER_ENDPOINT || "<endpoint>";
-  const credential = new AzureKeyCredential(process.env.FORM_RECOGNIZER_API_KEY || "<api key>");
+  const credential = new DefaultAzureCredential();
 
   const client = new DocumentAnalysisClient(endpoint, credential);
 
   const poller = await client.beginAnalyzeDocumentFromUrl(
     "prebuilt-receipt",
     // The Document Intelligence service will access the following URL to a receipt image and extract data from it
-    "https://raw.githubusercontent.com/Azure/azure-sdk-for-js/main/sdk/formrecognizer/ai-form-recognizer/assets/receipt/contoso-receipt.png"
+    "https://raw.githubusercontent.com/Azure/azure-sdk-for-js/main/sdk/formrecognizer/ai-form-recognizer/assets/receipt/contoso-receipt.png",
   );
   poller.onProgress((state) => console.log("Operation:", state.modelId, state.status));
 

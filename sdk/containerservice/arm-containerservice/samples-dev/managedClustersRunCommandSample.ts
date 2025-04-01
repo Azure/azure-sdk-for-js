@@ -6,10 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import {
-  RunCommandRequest,
-  ContainerServiceClient,
-} from "@azure/arm-containerservice";
+import type { RunCommandRequest } from "@azure/arm-containerservice";
+import { ContainerServiceClient } from "@azure/arm-containerservice";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -17,7 +15,7 @@ import "dotenv/config";
  * This sample demonstrates how to AKS will create a pod to run the command. This is primarily useful for private clusters. For more information see [AKS Run Command](https://docs.microsoft.com/azure/aks/private-clusters#aks-run-command-preview).
  *
  * @summary AKS will create a pod to run the command. This is primarily useful for private clusters. For more information see [AKS Run Command](https://docs.microsoft.com/azure/aks/private-clusters#aks-run-command-preview).
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2024-10-01/examples/RunCommandRequest.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2025-01-01/examples/RunCommandRequest.json
  */
 async function submitNewCommand(): Promise<void> {
   const subscriptionId =
