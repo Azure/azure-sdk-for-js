@@ -1,9 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { ICachePlugin, INativeBrokerPlugin } from "@azure/msal-node";
 import type { TokenCachePersistenceOptions } from "../msal/nodeFlows/tokenCachePersistenceOptions.js";
-import type { VSCodeCredentialFinder } from "../credentials/visualStudioCodeCredentialPlugin.js";
-
 /**
  * The type of an Azure Identity plugin, a function accepting a plugin
  * context.
@@ -18,21 +17,15 @@ export interface CachePluginControl {
     persistenceFactory: (
       options?: TokenCachePersistenceOptions,
       // eslint-disable-next-line @typescript-eslint/consistent-type-imports
-    ) => Promise<import("@azure/msal-node").ICachePlugin>,
+    ) => Promise<ICachePlugin>,
   ): void;
 }
 
 export interface NativeBrokerPluginControl {
   // eslint-disable-next-line @typescript-eslint/consistent-type-imports
-  setNativeBroker(nativeBroker: import("@azure/msal-node").INativeBrokerPlugin): void;
+  setNativeBroker(nativeBroker: INativeBrokerPlugin): void;
 }
 
-/**
- * Plugin context entries for controlling VisualStudioCodeCredential.
- */
-export interface VisualStudioCodeCredentialControl {
-  setVsCodeCredentialFinder(finder: VSCodeCredentialFinder): void;
-}
 
 /**
  * Context options passed to a plugin during initialization.
@@ -45,5 +38,4 @@ export interface VisualStudioCodeCredentialControl {
 export interface AzurePluginContext {
   cachePluginControl: CachePluginControl;
   nativeBrokerPluginControl: NativeBrokerPluginControl;
-  vsCodeCredentialControl: VisualStudioCodeCredentialControl;
 }
