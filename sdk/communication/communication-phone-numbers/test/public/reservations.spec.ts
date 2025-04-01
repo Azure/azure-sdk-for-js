@@ -6,7 +6,7 @@ import { isPlaybackMode, type Recorder } from "@azure-tools/test-recorder";
 import type { PhoneNumbersBrowseRequest, PhoneNumbersClient } from "../../src/index.js";
 import { createRecordedClient, createRecordedClientWithToken } from "./utils/recordedClient.js";
 import { isClientErrorStatusCode } from "./utils/statusCodeHelpers.js";
-import { describe, it, assert, beforeEach, afterEach, beforeAll, afterAll } from "vitest";
+import { describe, it, assert, beforeEach, afterEach, beforeAll } from "vitest";
 import { getReservationId } from "./utils/testPhoneNumber.js";
 
 matrix([[true, false]], async (useAad) => {
@@ -26,10 +26,6 @@ matrix([[true, false]], async (useAad) => {
 
     afterEach(async () => {
       await recorder.stop();
-    });
-
-    afterAll(async () => {
-      // await client.deleteReservation(reservationId);
     });
 
     it("can browse available phone number", { timeout: 60000 }, async () => {
@@ -182,6 +178,7 @@ matrix([[true, false]], async (useAad) => {
         updatedPhoneNumbersReservation.phoneNumbers,
         reservationId,
       );
+
       assert.isFalse(
         Object.keys(updatedReservationResponse.phoneNumbers || {}).includes(
           phoneNumbers[0].id as string,
