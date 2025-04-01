@@ -5,10 +5,12 @@ parameters:
   Tag: ''
   AdditionalTag: ''
   DependsOn: []
+  VarDependencies: []
 
 jobs:
 - job: PublishPackage
   dependsOn: ${{ parameters.DependsOn }}
+  variables: ${{ parameters.VarDependencies }}
   condition: succeeded()
   templateContext:
     type: releaseJob
