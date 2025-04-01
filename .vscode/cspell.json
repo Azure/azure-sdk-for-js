@@ -169,7 +169,7 @@
   "overrides": [
     {
       "filename": "eng/pipelines",
-      "words": ["azuresdkartifacts", "gdnbaselines", "policheck", "issecret", "dlrw"]
+      "words": ["azuresdkartifacts", "codeql", "gdnbaselines", "policheck", "issecret", "dlrw", "LINUXVMIMAGE", "LINUXPOOL", "WINDOWSVMIMAGE", "WINDOWSPOOL", "MACVMIMAGE"]
     },
     {
       "filename": "eng/tools/rush-runner.js",
