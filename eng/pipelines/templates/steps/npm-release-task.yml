@@ -11,10 +11,6 @@ jobs:
 - deployment: PublishPackage
   environment: 'npm'
   dependsOn: ${{ parameters.DependsOn }}
-  variables:
-    - ${{ each var in parameters.VarDependencies }}:
-      - name: ${{ var.name }}
-        value: ${{ var.value }}
   condition: succeeded()
   templateContext:
     type: releaseJob
