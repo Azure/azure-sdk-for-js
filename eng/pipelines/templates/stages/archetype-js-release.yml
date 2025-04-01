@@ -93,7 +93,7 @@ stages:
                     Artifact: ${{artifact}}
                     Registry: ${{parameters.Registry}}
                     PathToArtifacts: $(Pipeline.Workspace)/${{parameters.ArtifactName}}/${{artifact.name}}
-                    Tag: "$[dependencies.PrePublishPackage.outputs['SetTag.Tag']]
+                    Tag: $[dependencies.PrePublishPackage.outputs['SetTag.Tag']]
                     AdditionalTag: $[dependencies.PrePublishPackage.outputs['SetTag.AdditionalTag']]
                     DependsOn:
                       - 'PrePublishPackage'
