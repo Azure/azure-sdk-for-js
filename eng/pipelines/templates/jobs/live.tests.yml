@@ -111,6 +111,9 @@ jobs:
 
       - script: |
           npm install -g pnpm
+        displayName: "Install Pnpm"
+
+      - script: |
           pnpm install
         displayName: "Install library dependencies"
 
@@ -137,7 +140,7 @@ jobs:
         condition: and(succeededOrFailed(),ne(variables['DependencyVersion'],''))
 
       - script: |
-          node $(Build.SourcesDirectory)/common/scripts/install-run-rushx.js build
+          pnpm run build
         displayName: "Build test package"
         workingDirectory: $(PackageTestPath)
         condition: and(succeededOrFailed(),ne(variables['DependencyVersion'],''))
@@ -212,7 +215,7 @@ jobs:
               $env:AZURESUBSCRIPTION_CLIENT_ID = $account.Id
               $env:AZURESUBSCRIPTION_TENANT_ID = $account.Tenants
 
-              node ../../../common/scripts/install-run-rushx.js integration-test:$(TestType)
+              pnpm run integration-test:$(TestType)
               exit $LASTEXITCODE
           displayName: "Integration test libraries"
           condition: and(succeededOrFailed(),ne(variables['TestType'],'sample'),eq(variables['DependencyVersion'],''))
@@ -233,7 +236,7 @@ jobs:
               $env:AZURESUBSCRIPTION_CLIENT_ID = $account.Id
               $env:AZURESUBSCRIPTION_TENANT_ID = $account.Tenants
 
-              node $(Build.SourcesDirectory)/common/scripts/install-run-rushx.js integration-test:$(TestType)
+              pnpm run integration-test:$(TestType)
               exit $LASTEXITCODE
           displayName: "Integration test libraries"
           condition: and(succeeded(),ne(variables['TestType'],'sample'),ne(variables['DependencyVersion'],''))
@@ -256,7 +259,7 @@ jobs:
               $env:AZURESUBSCRIPTION_CLIENT_ID = $account.Id
               $env:AZURESUBSCRIPTION_TENANT_ID = $account.Tenants
 
-              node ../../../common/scripts/install-run-rushx.js execute:samples
+              pnpm run execute:samples
               exit $LASTEXITCODE
           displayName: "Execute Samples"
           env:
@@ -270,7 +273,7 @@ jobs:
 
       - ${{ else }}:
         - script: |
-            node ../../../common/scripts/install-run-rushx.js integration-test:$(TestType)
+            pnpm run integration-test:$(TestType)
           displayName: "Integration test libraries"
           workingDirectory: $(PackagePath)
           condition: and(succeededOrFailed(),ne(variables['TestType'],'sample'),eq(variables['DependencyVersion'],''))
@@ -280,7 +283,7 @@ jobs:
             ${{ insert }}: ${{ parameters.EnvVars }}
 
         - script: |
-            node $(Build.SourcesDirectory)/common/scripts/install-run-rushx.js integration-test:$(TestType)
+            pnpm run integration-test:$(TestType)
           displayName: "Integration test libraries"
           workingDirectory: $(PackageTestPath)
           condition: and(succeeded(),ne(variables['TestType'],'sample'),ne(variables['DependencyVersion'],''))
@@ -292,7 +295,7 @@ jobs:
         - ${{ parameters.PostSteps }}
 
         - script: |
-            node ../../../common/scripts/install-run-rushx.js execute:samples
+            pnpm run execute:samples
           displayName: "Execute Samples"
           workingDirectory: $(PackagePath)
           env:
@@ -330,8 +333,7 @@ jobs:
 
       # Unlink node_modules folders to significantly improve performance of subsequent tasks
       # which need to walk the directory tree (and are hardcoded to follow symlinks).
-      # Retry for 30 seconds, since this command may fail with error "Another rush command is already
-      # running in this repository" if the previous rush command was killed.
+      # Retry for 30 seconds, since this command may fail with error.
       - pwsh: |
           for ($i=0; $i -lt 30; $i++) {
             pnpm run purge

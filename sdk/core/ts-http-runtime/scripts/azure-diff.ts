@@ -141,11 +141,11 @@ async function main(): Promise<void> {
       );
       console.error("  To fix:");
       console.error(
-        "  - Run `rushx lint:fix` in the ts-http-runtime package to update review/azure-core-comparison.diff, then have a look and see what's changed.",
+        "  - Run `npm run lint:fix` in the ts-http-runtime package to update review/azure-core-comparison.diff, then have a look and see what's changed.",
       );
       console.error("  - Apply your Core changes to the ts-http-runtime package as appropriate.");
       console.error(
-        "  - Run `rushx lint:fix` again package to update the diff report, and commit the changes.",
+        "  - Run `npm run lint:fix` again package to update the diff report, and commit the changes.",
       );
       exit(1);
     }

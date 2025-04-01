@@ -26,9 +26,12 @@ steps:
   - template: /eng/common/pipelines/templates/steps/daily-dev-build-variable.yml
 
   - script: |
+      npm install -g pnpm
+    displayName: "Install Pnpm"
+
+  - script: |
       npm install ./eng/tools/versioning
       node eng/tools/versioning/set-dev.js --build-id "$(Build.BuildNumber)" --repo-root "$(Build.SourcesDirectory)" --service "$(folder)"
-      npm install -g pnpm
       pnpm install
     condition: and(succeeded(),eq(variables['SetDevVersion'],'true'))
     displayName: "Update package versions for dev build"
@@ -39,7 +42,6 @@ steps:
       ServiceDirectory: ${{parameters.ServiceDirectory}}
 
   - script: |
-      npm install -g pnpm
       pnpm install
     condition: and(succeeded(),ne(variables['SetDevVersion'],'true'))
     displayName: "Install library dependencies"
@@ -49,25 +51,9 @@ steps:
       PackageInfo: $(Build.ArtifactStagingDirectory)/PackageInfo
       Artifacts: ${{ parameters.Artifacts }}
 
-  - ${{ if and(eq(variables['System.TeamProject'], 'internal'), in(variables['Build.Reason'], 'IndividualCI', 'BatchedCI')) }}:
-    - task: AzureCLI@2
-      inputs:
-        azureSubscription: 'Azure SDK Artifacts'
-        scriptType: 'bash'
-        scriptLocation: 'inlineScript'
-        inlineScript: |
-          az account show
-          expiry=`date -u -d "45 minutes" '+%Y-%m-%dT%H:%MZ'`
-          sasToken=$(az storage container generate-sas --account-name azuresdkartifacts --name azure-sdk-for-js-rush-cache --permissions dlrw --auth-mode login --as-user --expiry $expiry --https-only -o tsv)
-          echo "##vso[task.setvariable variable=rushBuildCacheCred;issecret=true;]$sasToken"
-
   - pwsh: |
       node eng/tools/ci-runner/index.js build "$(ChangedServices)" -packages "$(ArtifactPackageNames)"
     displayName: "Build libraries"
-    env:
-      ${{ if and(eq(variables['System.TeamProject'], 'internal'), in(variables['Build.Reason'], 'IndividualCI', 'BatchedCI')) }}:
-        RUSH_BUILD_CACHE_CREDENTIAL: $(rushBuildCacheCred)
-        RUSH_BUILD_CACHE_WRITE_ALLOWED: 1
 
   - script: |
       node eng/tools/ci-runner/index.js build:samples "$(ChangedServices)" -packages "$(ArtifactPackageNames)"

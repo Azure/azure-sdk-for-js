@@ -200,6 +200,9 @@ stages:
 
                             - bash: |
                                 npm install -g pnpm
+                              displayName: "Install Pnpm"
+
+                            - bash: |
                                 pnpm install
                               displayName: "Install library dependencies"
 
