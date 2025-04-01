@@ -67,6 +67,9 @@ steps:
 
   - script: |
       npm install -g pnpm
+    displayName: "Install Pnpm"
+
+  - script: |
       pnpm install
     displayName: "Install library dependencies"
 

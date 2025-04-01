@@ -26,9 +26,12 @@ steps:
   - template: /eng/common/pipelines/templates/steps/daily-dev-build-variable.yml
 
   - script: |
+      npm install -g pnpm
+    displayName: "Install Pnpm"
+
+  - script: |
       npm install ./eng/tools/versioning
       node eng/tools/versioning/set-dev.js --build-id "$(Build.BuildNumber)" --repo-root "$(Build.SourcesDirectory)" --service "$(folder)"
-      npm install -g pnpm
       pnpm install
     condition: and(succeeded(),eq(variables['SetDevVersion'],'true'))
     displayName: "Update package versions for dev build"
@@ -39,7 +42,6 @@ steps:
       ServiceDirectory: ${{parameters.ServiceDirectory}}
 
   - script: |
-      npm install -g pnpm
       pnpm install
     condition: and(succeeded(),ne(variables['SetDevVersion'],'true'))
     displayName: "Install library dependencies"
