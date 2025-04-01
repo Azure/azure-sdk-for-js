@@ -24,6 +24,7 @@ export {
   DeleteOperationInput,
   PatchOperationInput,
   BulkPatchOperation,
+  BulkOperationResult,
 } from "./utils/batch";
 export {
   PatchOperation,
@@ -158,3 +159,4 @@ export {
   CosmosEncryptedNumber,
   CosmosEncryptedNumberType,
 } from "./encryption";
+export { BulkStreamer, BulkOperations, ItemOperation } from "./bulk";

@@ -53,7 +53,7 @@ import { DiagnosticNodeType } from "../../diagnostics/DiagnosticNodeInternal";
 import {
   getEmptyCosmosDiagnostics,
   withDiagnostics,
-  addDignosticChild,
+  addDiagnosticChild,
 } from "../../utils/diagnostics";
 import { randomUUID } from "@azure/core-util";
 import { readPartitionKeyDefinition } from "../ClientUtils";
@@ -64,6 +64,7 @@ import type { Resource } from "../Resource";
 import { TypeMarker } from "../../encryption/enums/TypeMarker";
 import { EncryptionItemQueryIterator } from "../../encryption/EncryptionItemQueryIterator";
 import { ErrorResponse } from "../../request";
+import { BulkStreamer } from "../../bulk/BulkStreamer";
 
 /**
  * @hidden
@@ -731,6 +732,40 @@ export class Items {
   }
 
   /**
+   * provides streamer for bulk operations
+   * @param options - used for modifying the request
+   * @returns an instance of bulk streamer
+   * @example
+   * ```typescript
+   * const createOperations: OperationInput[] = [
+   *   {
+   *      operationType: "Create",
+   *      resourceBody: { id: "doc1", name: "sample", key: "A" }
+   *   },
+   *   {
+   *      operationType: "Create",
+   *      resourceBody: { id: "doc2", name: "other", key: "A"
+   *   }
+   * ];
+   * const readOperation: OperationInput = { operationType: "Read", id: "doc1", partitionKey: "A" };
+   *
+   * const bulkStreamer = container.items.getBulkStreamer();
+   * bulkStreamer.add(createOperations);
+   * bulkStreamer.add(readOperation);
+   * const response = await bulkStreamer.endStream();
+   * ```
+   */
+  public getBulkStreamer(options: RequestOptions = {}): BulkStreamer {
+    const bulkStreamer = new BulkStreamer(
+      this.container,
+      this.clientContext,
+      this.partitionKeyRangeCache,
+      options,
+    );
+    return bulkStreamer;
+  }
+
+  /**
    * Execute bulk operations on items.
    *
    * Bulk takes an array of Operations which are typed based on what the operation does.
@@ -851,7 +886,7 @@ export class Items {
       }
       let response: Response<OperationResponse[]>;
       try {
-        response = await addDignosticChild(
+        response = await addDiagnosticChild(
           async (childNode: DiagnosticNodeInternal) =>
             this.clientContext.bulk({
               body: batch.operations,

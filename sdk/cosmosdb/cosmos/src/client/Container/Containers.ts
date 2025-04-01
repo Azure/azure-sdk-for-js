@@ -221,7 +221,6 @@ export class Containers {
         body.clientEncryptionPolicy.policyFormatVersion ?? 1;
       validateClientEncryptionPolicy(body.clientEncryptionPolicy, body.partitionKey);
     }
-
     const response = await this.clientContext.create<ContainerRequest, ContainerDefinition>({
       body,
       path,
@@ -230,13 +229,22 @@ export class Containers {
       diagnosticNode,
       options,
     });
+    if (!response || !response.result) {
+      throw new ErrorResponse("Failed to create container with id: " + body.id);
+    }
+    let containerId = response.result.id;
+    // for AAD containers we need to extract the containerId from result.body
+    if (!containerId && "body" in response.result && response.result.body) {
+      containerId = (response.result as any).body.id;
+    }
     const ref = new Container(
       this.database,
-      response.result.id,
+      containerId,
       this.clientContext,
       this.encryptionManager,
       response.result._rid,
     );
+    this.clientContext.partitionKeyDefinitionCache[ref.url] = response.result.partitionKey;
     return new ContainerResponse(
       response.result,
       response.headers,

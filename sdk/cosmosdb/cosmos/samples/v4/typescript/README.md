@@ -15,6 +15,7 @@ These sample programs show how to use the TypeScript client libraries for Azure 
 | --------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
 | [AlterQueryThroughput.ts][alterquerythroughput]                                                                             | Updates a container offer to change query throughput.                                                                 |
 | [Bulk.ts][bulk]                                                                                                             | Shows a simple bulk call with each BulkOperation type.                                                                |
+| [BulkStreamer.ts][bulkstreamer]                                                                                             | Demonstrates an example of streamable bulk operation.                                                                 |
 | [BulkUpdateWithSproc.ts][bulkupdatewithsproc]                                                                               | Bulk Updates documents with a Stored Procedure. Prefer `container.items().bulk()` to this behavior.                   |
 | [ChangeFeed.ts][changefeed]                                                                                                 | Demonstrates using a ChangeFeed.                                                                                      |
 | [ChangeFeedIterator\ChangeFeedHierarchicalPartitionKey.ts][changefeediterator_changefeedhierarchicalpartitionkey]           | Demonstrates using a ChangeFeed for a partition key                                                                   |
@@ -29,6 +30,7 @@ These sample programs show how to use the TypeScript client libraries for Azure 
 | [IndexManagement.ts][indexmanagement]                                                                                       | Shows various ways to manage indexing items or changing container index policies.                                     |
 | [ItemManagement.ts][itemmanagement]                                                                                         | Demonstrates item creation, read, delete and reading all items belonging to a container.                              |
 | [QueryThroughput.ts][querythroughput]                                                                                       | Demonstrates query throughput scenarios.                                                                              |
+| [Query\FullTextSearch.ts][query_fulltextsearch]                                                                             | Demonstrates full text search queries.                                                                                |
 | [SasTokenAuth.ts][sastokenauth]                                                                                             | Demonstrates using SasTokens for granting scoped access to Cosmos resources. _Private feature_                        |
 | [ServerSideScripts.ts][serversidescripts]                                                                                   | Demonstrates using stored procedures for server side run functions                                                    |
 
@@ -86,11 +88,13 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 
 [alterquerythroughput]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/typescript/src/AlterQueryThroughput.ts
 [bulk]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/typescript/src/Bulk.ts
+[bulkstreamer]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/typescript/src/BulkStreamer.ts
 [bulkupdatewithsproc]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/typescript/src/BulkUpdateWithSproc.ts
 [changefeed]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/typescript/src/ChangeFeed.ts
 [changefeediterator_changefeedhierarchicalpartitionkey]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/typescript/src/ChangeFeedIterator/ChangeFeedHierarchicalPartitionKey.ts
 [changefeediterator_changefeediteratorallversionsanddeletes]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/typescript/src/ChangeFeedIterator/ChangeFeedIteratorAllVersionsAndDeletes.ts
 [changefeediterator_changefeediteratorlatestversion]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/typescript/src/ChangeFeedIterator/ChangeFeedIteratorLatestVersion.ts
+[clientsideencryption]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/typescript/src/ClientSideEncryption.ts
 [containermanagement]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/typescript/src/ContainerManagement.ts
 [databasemanagement]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/typescript/src/DatabaseManagement.ts
 [diagnostics]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/typescript/src/Diagnostics.ts
@@ -99,6 +103,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [indexmanagement]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/typescript/src/IndexManagement.ts
 [itemmanagement]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/typescript/src/ItemManagement.ts
 [querythroughput]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/typescript/src/QueryThroughput.ts
+[query_fulltextsearch]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/typescript/src/Query/FullTextSearch.ts
 [sastokenauth]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/typescript/src/SasTokenAuth.ts
 [serversidescripts]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/typescript/src/ServerSideScripts.ts
 [apiref]: https://learn.microsoft.com/javascript/api/@azure/cosmos

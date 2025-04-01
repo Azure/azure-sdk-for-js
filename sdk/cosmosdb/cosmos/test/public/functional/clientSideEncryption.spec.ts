@@ -10,6 +10,8 @@ import type {
   ContainerDefinition,
   OperationInput,
   PatchOperation,
+  BulkStreamer,
+  BulkOperationResult,
 } from "../../../src";
 import {
   CosmosClient,
@@ -30,6 +32,7 @@ import {
   ChangeFeedRetentionTimeSpan,
   PartitionKeyKind,
   PermissionMode,
+  BulkOperations,
 } from "../../../src";
 import { masterKey } from "../common/_fakeTestSecrets";
 import { endpoint } from "../common/_testConfig";
@@ -442,6 +445,103 @@ describe("ClientSideEncryption", function (this: Suite) {
     verifyExpectedDocResponse(new TestDoc(docToUpsert), response[3].resourceBody);
     assert.equal(StatusCodes.NoContent, response[4].statusCode);
     assert.isNotObject(response[4].resourceBody);
+    clientWithBulk.dispose();
+  });
+
+  it("encryption streamer bulk operation", async () => {
+    const docToCreate = TestDoc.create();
+
+    const { resource: docToReplace } = await testCreateItem(encryptionContainer);
+    docToReplace.nonsensitive = randomUUID();
+    docToReplace.sensitive_StringFormat = randomUUID();
+
+    const { resource: docToUpsert } = await testCreateItem(encryptionContainer);
+    docToUpsert.nonsensitive = randomUUID();
+    docToUpsert.sensitive_StringFormat = randomUUID();
+
+    const { resource: docToPatch } = await testCreateItem(encryptionContainer);
+    const stringToReplace = randomUUID();
+
+    // doc not created before
+    const docToUpsert2 = TestDoc.create();
+
+    const { resource: docToDelete } = await testCreateItem(encryptionContainer);
+
+    const clientWithBulk = new CosmosClient({
+      endpoint: endpoint,
+      key: masterKey,
+      encryptionPolicy: {
+        enableEncryption: true,
+        keyEncryptionKeyResolver: new MockKeyVaultEncryptionKeyResolver(),
+        encryptionKeyResolverName: testKeyVault,
+      },
+    });
+
+    const databaseWithBulk = clientWithBulk.database(database.id);
+    const encryptionContainerWithBulk = databaseWithBulk.container(encryptionContainer.id);
+
+    const operations = [
+      BulkOperations.getCreateItemOperation(
+        docToCreate.PK,
+        JSON.parse(JSON.stringify(docToCreate)),
+      ),
+      BulkOperations.getUpsertItemOperation(
+        docToUpsert2.PK,
+        JSON.parse(JSON.stringify(docToUpsert2)),
+      ),
+      BulkOperations.getReplaceItemOperation(
+        docToReplace.id,
+        docToReplace.PK,
+        JSON.parse(JSON.stringify(docToReplace)),
+      ),
+      BulkOperations.getUpsertItemOperation(
+        docToUpsert.PK,
+        JSON.parse(JSON.stringify(docToUpsert)),
+      ),
+      BulkOperations.getDeleteItemOperation(docToDelete.id, docToDelete.PK),
+      BulkOperations.getPatchItemOperation(docToPatch.id, docToPatch.PK, {
+        operations: [
+          {
+            op: PatchOperationType.replace,
+            path: "/sensitive_StringFormat",
+            value: stringToReplace,
+          },
+        ],
+      }),
+    ];
+    let bulkStreamer: BulkStreamer;
+    let response: BulkOperationResult[];
+    try {
+      bulkStreamer = encryptionContainerWithBulk.items.getBulkStreamer();
+      response = await Promise.all(bulkStreamer.execute(operations));
+    } finally {
+      bulkStreamer.dispose();
+    }
+    bulkStreamer.dispose();
+    operations.forEach((originalOp, index) => {
+      assert.deepEqual(
+        response[index].operationInput,
+        originalOp,
+        `Expected operationInput at index ${index} to match the original operation`,
+      );
+    });
+    assert.equal(StatusCodes.Created, response[0].statusCode);
+    verifyExpectedDocResponse(docToCreate, response[0].resourceBody);
+    verifyDiagnostics(response[0].diagnostics, true, true, 12, 12);
+    assert.equal(StatusCodes.Created, response[1].statusCode);
+    verifyExpectedDocResponse(docToUpsert2, response[1].resourceBody);
+    verifyDiagnostics(response[1].diagnostics, true, true, 12, 12);
+    assert.equal(StatusCodes.Ok, response[2].statusCode);
+    verifyExpectedDocResponse(new TestDoc(docToReplace), response[2].resourceBody);
+    verifyDiagnostics(response[2].diagnostics, true, true, 12, 12);
+    assert.equal(StatusCodes.Ok, response[3].statusCode);
+    verifyExpectedDocResponse(new TestDoc(docToUpsert), response[3].resourceBody);
+    verifyDiagnostics(response[3].diagnostics, true, true, 12, 12);
+    assert.equal(StatusCodes.NoContent, response[4].statusCode);
+    assert.isNotObject(response[4].resourceBody);
+    assert.equal(StatusCodes.Ok, response[5].statusCode);
+    assert.equal(stringToReplace, response[5].resourceBody.sensitive_StringFormat);
+    verifyDiagnostics(response[5].diagnostics, false, true, undefined, 12);
     clientWithBulk.dispose();
   });
 
@@ -1843,6 +1943,133 @@ describe("ClientSideEncryption", function (this: Suite) {
     }
     // retry bulk operation with 2nd client
     const res = await otherEncryptionContainer.items.bulk(operations);
+    assert.equal(StatusCodes.Ok, res[0].statusCode);
+    assert.equal(StatusCodes.Ok, res[1].statusCode);
+    assert.equal(StatusCodes.Created, res[2].statusCode);
+    await verifyItemByRead(encryptionContainerToDelete, docToReplace);
+    await testCreateItem(encryptionContainerToDelete);
+    await verifyItemByRead(encryptionContainerToDelete, docToUpsert);
+    // validate if the right policy was used, by reading them all back
+    await otherEncryptionContainer.items.readAll().fetchAll();
+    otherClient.dispose();
+  });
+
+  it("encryption validate policy refresh post container delete with bulk streamer", async () => {
+    // create a container with 1st client
+    let paths = [
+      "/sensitive_IntArray",
+      "/sensitive_NestedObjectFormatL1",
+      "/sensitive_DoubleFormat",
+    ].map(
+      (path) =>
+        new ClientEncryptionIncludedPath(
+          path,
+          "key1",
+          EncryptionType.DETERMINISTIC,
+          EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
+        ),
+    );
+    let encryptionPolicy = new ClientEncryptionPolicy(paths, 2);
+    let containerProperties: ContainerDefinition = {
+      id: randomUUID(),
+      partitionKey: { paths: ["/sensitive_DoubleFormat"] },
+      clientEncryptionPolicy: encryptionPolicy,
+    };
+    const encryptionContainerToDelete = (await database.containers.create(containerProperties))
+      .container;
+    await encryptionContainerToDelete.initializeEncryption();
+    // create a document with 2nd client on same database and container
+    const otherClient = new CosmosClient({
+      endpoint: endpoint,
+      key: masterKey,
+      encryptionPolicy: {
+        enableEncryption: true,
+        keyEncryptionKeyResolver: new MockKeyVaultEncryptionKeyResolver(),
+        encryptionKeyResolverName: testKeyVault,
+      },
+    });
+    const otherDatabase = otherClient.database(database.id);
+    const otherEncryptionContainer = otherDatabase.container(encryptionContainerToDelete.id);
+    const testDoc = TestDoc.create();
+    const createResponse = await otherEncryptionContainer.items.create(testDoc);
+    assert.equal(StatusCodes.Created, createResponse.statusCode);
+    verifyExpectedDocResponse(testDoc, createResponse.resource);
+    // Client 1 Deletes the Container referenced in Client 2 and Recreate with different policy
+    await database.container(encryptionContainerToDelete.id).delete();
+    paths = [
+      new ClientEncryptionIncludedPath(
+        "/sensitive_StringFormat",
+        "key1",
+        EncryptionType.DETERMINISTIC,
+        EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
+      ),
+      new ClientEncryptionIncludedPath(
+        "/sensitive_BoolFormat",
+        "key2",
+        EncryptionType.DETERMINISTIC,
+        EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
+      ),
+      new ClientEncryptionIncludedPath(
+        "/PK",
+        "key2",
+        EncryptionType.DETERMINISTIC,
+        EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
+      ),
+    ];
+    encryptionPolicy = new ClientEncryptionPolicy(paths, 2);
+    containerProperties = {
+      id: encryptionContainerToDelete.id,
+      partitionKey: { paths: ["/PK"] },
+      clientEncryptionPolicy: encryptionPolicy,
+    };
+    await database.containers.create(containerProperties);
+    try {
+      await testCreateItem(encryptionContainerToDelete);
+      assert.fail("create operation should fail");
+    } catch (err) {
+      verifyDiagnostics(err.diagnostics, true, false, 3, 3);
+      assert.ok(
+        err.message.includes(
+          "Operation has failed due to a possible mismatch in Client Encryption Policy configured on the container.",
+        ),
+      );
+    }
+    const docToReplace = (await testCreateItem(encryptionContainerToDelete)).resource;
+    docToReplace.sensitive_StringFormat = "docToBeReplaced";
+    const docToUpsert = (await testCreateItem(encryptionContainerToDelete)).resource;
+    docToUpsert.sensitive_StringFormat = "docToBeUpserted";
+    const docToCreate = TestDoc.create();
+    docToCreate.PK = "newPK";
+    const operations = [
+      BulkOperations.getUpsertItemOperation(docToUpsert.PK, docToUpsert),
+      BulkOperations.getReplaceItemOperation(docToReplace.id, docToReplace.PK, docToReplace),
+      BulkOperations.getCreateItemOperation(
+        docToCreate.PK,
+        JSON.parse(JSON.stringify(docToCreate)),
+      ),
+    ];
+    let bulkStreamer: BulkStreamer;
+    try {
+      bulkStreamer = otherEncryptionContainer.items.getBulkStreamer();
+      await Promise.all(bulkStreamer.execute(operations));
+      assert.fail("bulk operation should fail");
+    } catch (error) {
+      assert.ok(
+        error.message.includes(
+          "Operation has failed due to a possible mismatch in Client Encryption Policy configured on the container.",
+        ),
+      );
+    } finally {
+      bulkStreamer.dispose();
+    }
+    // retry bulk operation with 2nd client
+    let res: BulkOperationResult[];
+    try {
+      bulkStreamer = otherEncryptionContainer.items.getBulkStreamer();
+      res = await Promise.all(bulkStreamer.execute(operations));
+    } finally {
+      bulkStreamer.dispose();
+    }
     assert.equal(StatusCodes.Ok, res[0].statusCode);
     assert.equal(StatusCodes.Ok, res[1].statusCode);
     assert.equal(StatusCodes.Created, res[2].statusCode);

@@ -39,6 +39,7 @@ import { DefaultDiagnosticFormatter } from "./diagnostics/DiagnosticFormatter";
 import { CosmosDbDiagnosticLevel } from "./diagnostics/CosmosDbDiagnosticLevel";
 import { randomUUID } from "@azure/core-util";
 import { getUserAgent } from "./common/platform";
+import type { RetryOptions } from "./retry/retryOptions";
 const logger: AzureLogger = createClientLogger("ClientContext");
 
 const QueryJsonContentType = "application/query+json";
@@ -91,6 +92,7 @@ export class ClientContext {
     }
     this.initializeDiagnosticSettings(diagnosticLevel);
   }
+
   /** @hidden */
   public async read<T>({
     path,
@@ -999,5 +1001,12 @@ export class ClientContext {
     this.cosmosClientOptions.defaultHeaders[Constants.HttpHeaders.UserAgent] = updatedUserAgent;
     this.cosmosClientOptions.defaultHeaders[Constants.HttpHeaders.CustomUserAgent] =
       updatedUserAgent;
+  }
+
+  /**
+   * @internal
+   */
+  public getRetryOptions(): RetryOptions {
+    return this.connectionPolicy.retryOptions;
   }
 }
