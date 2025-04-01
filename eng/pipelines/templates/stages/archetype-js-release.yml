@@ -82,6 +82,7 @@ stages:
                           echo "##vso[task.setvariable variable=Tag;isOutput=true]$($result.Tag)"
                           echo "##vso[task.setvariable variable=AdditionalTag;isOutput=true]$($result.AdditionalTag)"
                         condition: and(succeeded(), ne(variables['Skip.AutoAddTag'], 'true'))
+                        name: SetTag
                         displayName: Set Tag and Additional Tag
                       - script: >
                           npm install $(SetPackageArchive.Package.Archive)
@@ -97,8 +98,8 @@ stages:
                       DependsOn:
                         - 'PrePublishPackage'
                       VarDependencies:
-                        Tag: $[dependencies.PrePublishPackage.outputs['SetPackageArchive.Tag']]
-                        AdditionalTag: $[dependencies.PrePublishPackage.outputs['SetPackageArchive.AdditionalTag']]
+                        Tag: $[dependencies.PrePublishPackage.outputs['SetTag.Tag']]
+                        AdditionalTag: $[dependencies.PrePublishPackage.outputs['SetTag.AdditionalTag']]
                   - job: PostPublishPackage
                     dependsOn: PublishPackage
                     variables:
