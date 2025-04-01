@@ -160,12 +160,12 @@ async function getAGalleryImageVersion() {
 }
 
 async function main() {
-  getAGalleryImageVersionWithReplicationStatus();
-  getAGalleryImageVersionWithSnapshotsAsASource();
-  getAGalleryImageVersionWithValidationProfileAndReplicationStatus();
-  getAGalleryImageVersionWithValidationProfile();
-  getAGalleryImageVersionWithVhdAsASource();
-  getAGalleryImageVersion();
+  await getAGalleryImageVersionWithReplicationStatus();
+  await getAGalleryImageVersionWithSnapshotsAsASource();
+  await getAGalleryImageVersionWithValidationProfileAndReplicationStatus();
+  await getAGalleryImageVersionWithValidationProfile();
+  await getAGalleryImageVersionWithVhdAsASource();
+  await getAGalleryImageVersion();
 }
 
 main().catch(console.error);

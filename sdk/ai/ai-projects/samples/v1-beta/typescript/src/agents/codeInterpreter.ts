@@ -11,10 +11,9 @@ import type { MessageImageFileContentOutput, MessageTextContentOutput } from "@a
 import { AIProjectsClient, isOutputOfType, ToolUtility } from "@azure/ai-projects";
 import { delay } from "@azure/core-util";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
 import * as fs from "fs";
 import path from "node:path";
-dotenv.config();
+import "dotenv/config";
 
 const connectionString =
   process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] || "<project connection string>";
@@ -104,7 +103,7 @@ export async function main(): Promise<void> {
   if (fileContent) {
     const chunks: Buffer[] = [];
     for await (const chunk of fileContent) {
-      chunks.push(Buffer.from(chunk));
+      chunks.push(Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk));
     }
     const buffer = Buffer.concat(chunks);
     fs.writeFileSync(imageFileName, buffer);

@@ -1,53 +1,50 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import * as assert from "assert";
-import * as sinon from "sinon";
+
 import { SpanKind, SpanStatusCode } from "@opentelemetry/api";
 import { ExportResultCode, millisToHrTime } from "@opentelemetry/core";
 import { LoggerProvider, LogRecord } from "@opentelemetry/sdk-logs";
-import { LiveMetrics } from "../../../../src/metrics/quickpulse/liveMetrics";
-import { InternalConfig } from "../../../../src/shared";
+import { LiveMetrics } from "../../../../src/metrics/quickpulse/liveMetrics.js";
+import { InternalConfig } from "../../../../src/shared/index.js";
 import {
   QuickPulseMetricNames,
   QuickPulseOpenTelemetryMetricNames,
-} from "../../../../src/metrics/quickpulse/types";
-/* eslint-disable-next-line @typescript-eslint/no-redeclare */
-import type { Exception, RemoteDependency, Request } from "../../../../src/generated";
+} from "../../../../src/metrics/quickpulse/types.js";
+import type { Exception, RemoteDependency, Request } from "../../../../src/generated/index.js";
 import type { AccessToken, TokenCredential } from "@azure/core-auth";
-import { resourceMetricsToQuickpulseDataPoint } from "../../../../src/metrics/quickpulse/utils";
+import { resourceMetricsToQuickpulseDataPoint } from "../../../../src/metrics/quickpulse/utils.js";
 import {
   ATTR_HTTP_REQUEST_METHOD,
   ATTR_HTTP_RESPONSE_STATUS_CODE,
   ATTR_URL_FULL,
 } from "@opentelemetry/semantic-conventions";
+import type { MockInstance } from "vitest";
+import { afterEach, assert, beforeEach, describe, expect, it, vi } from "vitest";
 
+/* eslint-disable @typescript-eslint/no-unnecessary-type-assertion */
 describe("#LiveMetrics", () => {
-  let exportStub: sinon.SinonStub;
+  let exportStub: MockInstance<(typeof autoCollect)["quickpulseExporter"]["export"]>;
   let autoCollect: LiveMetrics;
 
-  before(() => {
+  beforeEach(() => {
     const config = new InternalConfig();
     config.azureMonitorExporterOptions.connectionString =
       "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333;";
     autoCollect = new LiveMetrics(config);
-    exportStub = sinon.stub(autoCollect["quickpulseExporter"], "export").callsFake(
-      (spans: any, resultCallback: any) =>
+    exportStub = vi.spyOn(autoCollect["quickpulseExporter"], "export").mockImplementation(
+      (_, resultCallback) =>
         new Promise((resolve) => {
           resultCallback({
             code: ExportResultCode.SUCCESS,
           });
-          resolve(spans);
+          resolve();
         }),
     );
   });
 
   afterEach(() => {
-    exportStub.resetHistory();
-  });
-
-  after(() => {
-    exportStub.restore();
     autoCollect.shutdown();
+    vi.restoreAllMocks();
   });
 
   it("should observe instruments during collection", async () => {
@@ -135,8 +132,8 @@ describe("#LiveMetrics", () => {
 
     await new Promise((resolve) => setTimeout(resolve, 1000));
 
-    assert.ok(exportStub.called);
-    const resourceMetrics = exportStub.args[0][0];
+    expect(exportStub).toHaveBeenCalled();
+    const resourceMetrics = exportStub.mock.calls[0][0];
     const scopeMetrics = resourceMetrics.scopeMetrics;
     assert.strictEqual(scopeMetrics.length, 1, "scopeMetrics count");
     const metrics = scopeMetrics[0].metrics;
@@ -155,19 +152,19 @@ describe("#LiveMetrics", () => {
     assert.strictEqual(metrics[0].dataPoints.length, 1, "dataPoints count");
     // ( (98765432 * 2) + (100000 * 4) + 12345678 /7)
     assert.strictEqual(
-      metrics[0].dataPoints[0].value.toFixed(2),
+      (metrics[0].dataPoints[0].value as number).toFixed(2),
       "30039506.00",
       "REQUEST_DURATION value",
     );
     assert.strictEqual(metrics[1].descriptor.name, QuickPulseOpenTelemetryMetricNames.REQUEST_RATE);
     assert.strictEqual(metrics[1].dataPoints.length, 1, "dataPoints count");
-    assert.ok(metrics[1].dataPoints[0].value > 0, "REQUEST_RATE value");
+    assert.isAbove(metrics[1].dataPoints[0].value as number, 0, "REQUEST_RATE value");
     assert.strictEqual(
       metrics[2].descriptor.name,
       QuickPulseOpenTelemetryMetricNames.REQUEST_FAILURE_RATE,
     );
     assert.strictEqual(metrics[2].dataPoints.length, 1, "dataPoints count");
-    assert.ok(metrics[2].dataPoints[0].value > 0, "REQUEST_FAILURE_RATE value");
+    assert.isAbove(metrics[2].dataPoints[0].value as number, 0, "REQUEST_FAILURE_RATE value");
     assert.strictEqual(
       metrics[3].descriptor.name,
       QuickPulseOpenTelemetryMetricNames.DEPENDENCY_DURATION,
@@ -175,7 +172,7 @@ describe("#LiveMetrics", () => {
     assert.strictEqual(metrics[3].dataPoints.length, 1, "dataPoints count");
     // (12345678 + (900000 * 3)/4)
     assert.strictEqual(
-      metrics[3].dataPoints[0].value.toFixed(2),
+      (metrics[3].dataPoints[0].value as number).toFixed(2),
       "3761419.50",
       "DEPENDENCY_DURATION value",
     );
@@ -184,31 +181,35 @@ describe("#LiveMetrics", () => {
       QuickPulseOpenTelemetryMetricNames.DEPENDENCY_RATE,
     );
     assert.strictEqual(metrics[4].dataPoints.length, 1, "dataPoints count");
-    assert.ok(metrics[4].dataPoints[0].value > 0, "DEPENDENCY_RATE value");
+    assert.isAbove(metrics[4].dataPoints[0].value as number, 0, "DEPENDENCY_RATE value");
     assert.strictEqual(
       metrics[5].descriptor.name,
       QuickPulseOpenTelemetryMetricNames.DEPENDENCY_FAILURE_RATE,
     );
     assert.strictEqual(metrics[5].dataPoints.length, 1, "dataPoints count");
-    assert.ok(metrics[5].dataPoints[0].value > 0, "DEPENDENCY_FAILURE_RATE value");
+    assert.isAbove(metrics[5].dataPoints[0].value as number, 0, "DEPENDENCY_FAILURE_RATE value");
     assert.strictEqual(
       metrics[6].descriptor.name,
       QuickPulseOpenTelemetryMetricNames.PHYSICAL_BYTES,
     );
     assert.strictEqual(metrics[6].dataPoints.length, 1, "dataPoints count");
-    assert.ok(metrics[6].dataPoints[0].value > 0, "PHYSICAL_BYTES dataPoint value");
+    assert.isAbove(metrics[6].dataPoints[0].value as number, 0, "PHYSICAL_BYTES value");
     assert.strictEqual(
       metrics[7].descriptor.name,
       QuickPulseOpenTelemetryMetricNames.PROCESSOR_TIME_NORMALIZED,
     );
     assert.strictEqual(metrics[7].dataPoints.length, 1, "dataPoints count");
-    assert.ok(metrics[7].dataPoints[0].value >= 0, "PROCESSOR_TIME_NORMALIZED dataPoint value");
+    assert.isAtLeast(
+      metrics[7].dataPoints[0].value as number,
+      0,
+      "PROCESSOR_TIME_NORMALIZED value",
+    );
     assert.strictEqual(
       metrics[8].descriptor.name,
       QuickPulseOpenTelemetryMetricNames.EXCEPTION_RATE,
     );
     assert.strictEqual(metrics[8].dataPoints.length, 1, "dataPoints count");
-    assert.ok(metrics[5].dataPoints[0].value > 0, "EXCEPTION_RATE value");
+    assert.isAbove(metrics[8].dataPoints[0].value as number, 0, "EXCEPTION_RATE value");
 
     // Validate documents
     const documents = autoCollect.getDocuments();
@@ -271,25 +272,25 @@ describe("#LiveMetrics", () => {
     );
     assert.ok(monitoringDataPoints[0].metrics?.length === 11);
     assert.ok(
-      monitoringDataPoints[0].metrics[6].name === QuickPulseMetricNames.PHYSICAL_BYTES.toString(),
+      monitoringDataPoints[0].metrics![6].name === QuickPulseMetricNames.PHYSICAL_BYTES.toString(),
     );
-    assert.ok(monitoringDataPoints[0].metrics[6].value > 0);
+    assert.ok(monitoringDataPoints[0].metrics![6].value > 0);
     assert.ok(
-      monitoringDataPoints[0].metrics[7].name === QuickPulseMetricNames.COMMITTED_BYTES.toString(),
-    );
-    assert.ok(
-      monitoringDataPoints[0].metrics[7].value === monitoringDataPoints[0].metrics[6].value,
+      monitoringDataPoints[0].metrics![7].name === QuickPulseMetricNames.COMMITTED_BYTES.toString(),
     );
     assert.ok(
-      monitoringDataPoints[0].metrics[8].name ===
+      monitoringDataPoints[0].metrics![7].value === monitoringDataPoints[0].metrics![6].value,
+    );
+    assert.ok(
+      monitoringDataPoints[0].metrics![8].name ===
         QuickPulseMetricNames.PROCESSOR_TIME_NORMALIZED.toString(),
     );
-    assert.ok(monitoringDataPoints[0].metrics[8].value >= 0);
+    assert.ok(monitoringDataPoints[0].metrics![8].value >= 0);
     assert.ok(
-      monitoringDataPoints[0].metrics[9].name === QuickPulseMetricNames.PROCESSOR_TIME.toString(),
+      monitoringDataPoints[0].metrics![9].name === QuickPulseMetricNames.PROCESSOR_TIME.toString(),
     );
     assert.ok(
-      monitoringDataPoints[0].metrics[9].value === monitoringDataPoints[0].metrics[8].value,
+      monitoringDataPoints[0].metrics![9].value === monitoringDataPoints[0].metrics![8].value,
     );
   });
 
@@ -378,8 +379,8 @@ describe("#LiveMetrics", () => {
 
     await new Promise((resolve) => setTimeout(resolve, 1000));
 
-    assert.ok(exportStub.called);
-    const resourceMetrics = exportStub.args[0][0];
+    expect(exportStub).toHaveBeenCalled();
+    const resourceMetrics = exportStub.mock.calls[0][0];
     const scopeMetrics = resourceMetrics.scopeMetrics;
     assert.strictEqual(scopeMetrics.length, 1, "scopeMetrics count");
     const metrics = scopeMetrics[0].metrics;
@@ -398,19 +399,19 @@ describe("#LiveMetrics", () => {
     assert.strictEqual(metrics[0].dataPoints.length, 1, "dataPoints count");
     // ( (98765432 * 2) + (100000 * 4) + 12345678 /7)
     assert.strictEqual(
-      metrics[0].dataPoints[0].value.toFixed(2),
+      (metrics[0].dataPoints[0].value as number).toFixed(2),
       "30039506.00",
       "REQUEST_DURATION value",
     );
     assert.strictEqual(metrics[1].descriptor.name, QuickPulseOpenTelemetryMetricNames.REQUEST_RATE);
     assert.strictEqual(metrics[1].dataPoints.length, 1, "dataPoints count");
-    assert.ok(metrics[1].dataPoints[0].value > 0, "REQUEST_RATE value");
+    assert.isAbove(metrics[1].dataPoints[0].value as number, 0, "REQUEST_RATE value");
     assert.strictEqual(
       metrics[2].descriptor.name,
       QuickPulseOpenTelemetryMetricNames.REQUEST_FAILURE_RATE,
     );
     assert.strictEqual(metrics[2].dataPoints.length, 1, "dataPoints count");
-    assert.ok(metrics[2].dataPoints[0].value > 0, "REQUEST_FAILURE_RATE value");
+    assert.isAbove(metrics[2].dataPoints[0].value as number, 0, "REQUEST_FAILURE_RATE value");
     assert.strictEqual(
       metrics[3].descriptor.name,
       QuickPulseOpenTelemetryMetricNames.DEPENDENCY_DURATION,
@@ -418,7 +419,7 @@ describe("#LiveMetrics", () => {
     assert.strictEqual(metrics[3].dataPoints.length, 1, "dataPoints count");
     // (12345678 + (900000 * 3)/4)
     assert.strictEqual(
-      metrics[3].dataPoints[0].value.toFixed(2),
+      (metrics[3].dataPoints[0].value as number).toFixed(2),
       "3761419.50",
       "DEPENDENCY_DURATION value",
     );
@@ -427,31 +428,31 @@ describe("#LiveMetrics", () => {
       QuickPulseOpenTelemetryMetricNames.DEPENDENCY_RATE,
     );
     assert.strictEqual(metrics[4].dataPoints.length, 1, "dataPoints count");
-    assert.ok(metrics[4].dataPoints[0].value > 0, "DEPENDENCY_RATE value");
+    assert.isAbove(metrics[4].dataPoints[0].value as number, 0, "DEPENDENCY_RATE value");
     assert.strictEqual(
       metrics[5].descriptor.name,
       QuickPulseOpenTelemetryMetricNames.DEPENDENCY_FAILURE_RATE,
     );
     assert.strictEqual(metrics[5].dataPoints.length, 1, "dataPoints count");
-    assert.ok(metrics[5].dataPoints[0].value > 0, "DEPENDENCY_FAILURE_RATE value");
+    assert.isAbove(metrics[5].dataPoints[0].value as number, 0, "DEPENDENCY_FAILURE_RATE value");
     assert.strictEqual(
       metrics[6].descriptor.name,
       QuickPulseOpenTelemetryMetricNames.PHYSICAL_BYTES,
     );
     assert.strictEqual(metrics[6].dataPoints.length, 1, "dataPoints count");
-    assert.ok(metrics[6].dataPoints[0].value > 0, "PHYSICAL_BYTES dataPoint value");
+    assert.isAbove(metrics[6].dataPoints[0].value as number, 0, "PHYSICAL_BYTES value");
     assert.strictEqual(
       metrics[7].descriptor.name,
       QuickPulseOpenTelemetryMetricNames.PROCESSOR_TIME_NORMALIZED,
     );
     assert.strictEqual(metrics[7].dataPoints.length, 1, "dataPoints count");
-    assert.ok(metrics[7].dataPoints[0].value >= 0, "PROCESSOR_TIME_NORMALIZED dataPoint value");
+    assert.isAbove(metrics[7].dataPoints[0].value as number, 0, "PROCESSOR_TIME_NORMALIZED value");
     assert.strictEqual(
       metrics[8].descriptor.name,
       QuickPulseOpenTelemetryMetricNames.EXCEPTION_RATE,
     );
     assert.strictEqual(metrics[8].dataPoints.length, 1, "dataPoints count");
-    assert.ok(metrics[5].dataPoints[0].value > 0, "EXCEPTION_RATE value");
+    assert.isAbove(metrics[8].dataPoints[0].value as number, 0, "EXCEPTION_RATE value");
 
     // Validate documents
     const documents = autoCollect.getDocuments();
@@ -514,37 +515,37 @@ describe("#LiveMetrics", () => {
     );
     assert.ok(monitoringDataPoints[0].metrics?.length === 11);
     assert.ok(
-      monitoringDataPoints[0].metrics[6].name === QuickPulseMetricNames.PHYSICAL_BYTES.toString(),
+      monitoringDataPoints[0].metrics![6].name === QuickPulseMetricNames.PHYSICAL_BYTES.toString(),
     );
-    assert.ok(monitoringDataPoints[0].metrics[6].value > 0);
+    assert.ok(monitoringDataPoints[0].metrics![6].value > 0);
     assert.ok(
-      monitoringDataPoints[0].metrics[7].name === QuickPulseMetricNames.COMMITTED_BYTES.toString(),
-    );
-    assert.ok(
-      monitoringDataPoints[0].metrics[7].value === monitoringDataPoints[0].metrics[6].value,
+      monitoringDataPoints[0].metrics![7].name === QuickPulseMetricNames.COMMITTED_BYTES.toString(),
     );
     assert.ok(
-      monitoringDataPoints[0].metrics[8].name ===
+      monitoringDataPoints[0].metrics![7].value === monitoringDataPoints[0].metrics![6].value,
+    );
+    assert.ok(
+      monitoringDataPoints[0].metrics![8].name ===
         QuickPulseMetricNames.PROCESSOR_TIME_NORMALIZED.toString(),
     );
-    assert.ok(monitoringDataPoints[0].metrics[8].value >= 0);
+    assert.ok(monitoringDataPoints[0].metrics![8].value >= 0);
     assert.ok(
-      monitoringDataPoints[0].metrics[9].name === QuickPulseMetricNames.PROCESSOR_TIME.toString(),
+      monitoringDataPoints[0].metrics![9].name === QuickPulseMetricNames.PROCESSOR_TIME.toString(),
     );
     assert.ok(
-      monitoringDataPoints[0].metrics[9].value === monitoringDataPoints[0].metrics[8].value,
+      monitoringDataPoints[0].metrics![9].value === monitoringDataPoints[0].metrics![8].value,
     );
   });
 
   it("should retrieve meter provider", () => {
+    autoCollect.activateMetrics();
     assert.ok(autoCollect.getMeterProvider());
   });
 
-  it("should not collect when disabled", () => {
+  it("should not collect when disabled", async () => {
     autoCollect.deactivateMetrics();
-    setTimeout(() => {
-      assert.ok(exportStub.notCalled);
-    }, 120);
+    await new Promise((resolve) => setTimeout(resolve, 120));
+    expect(exportStub).not.toHaveBeenCalled();
   });
 
   it("entra authentication", () => {
@@ -639,3 +640,4 @@ describe("#LiveMetrics", () => {
     );
   });
 });
+/* eslint-enable @typescript-eslint/no-unnecessary-type-assertion */

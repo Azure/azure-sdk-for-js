@@ -1,6 +1,6 @@
 {
   "name": "@azure/communication-common",
-  "version": "2.3.2",
+  "version": "2.3.2-beta.2",
   "description": "Common package for Azure Communication services.",
   "sdk-type": "client",
   "main": "./dist/commonjs/index.js",
@@ -59,7 +59,8 @@
   "dependencies": {
     "@azure/abort-controller": "^2.1.2",
     "@azure/core-auth": "^1.9.0",
-    "@azure/core-rest-pipeline": "^1.18.2",
+    "@azure-rest/core-client": "^2.3.3",
+    "@azure/core-rest-pipeline": "^1.17.0",
     "@azure/core-tracing": "^1.2.0",
     "@azure/core-util": "^1.11.0",
     "events": "^3.3.0",
@@ -69,6 +70,7 @@
   "devDependencies": {
     "@azure-tools/test-utils-vitest": "^1.0.0",
     "@azure/dev-tool": "^1.0.0",
+    "@azure/identity": "~4.3.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure/logger": "^1.1.4",
     "@types/node": "^18.0.0",
@@ -76,6 +78,7 @@
     "@vitest/coverage-istanbul": "^3.0.9",
     "eslint": "^9.9.0",
     "mockdate": "^3.0.5",
+    "nock": "14.0.1",
     "playwright": "^1.48.0",
     "typescript": "~5.8.2",
     "vitest": "^3.0.9"
