@@ -29,6 +29,7 @@ stages:
                   os: linux
                 steps:
                   - checkout: self
+                  - download: current
                   - template: /eng/common/pipelines/templates/steps/retain-run.yml
                   - template: /eng/common/pipelines/templates/steps/set-test-pipeline-version.yml
                     parameters:
