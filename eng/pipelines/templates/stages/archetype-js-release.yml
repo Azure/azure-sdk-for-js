@@ -95,8 +95,8 @@ stages:
                       DependsOn:
                         - 'PrePublishPackage'
                       VarDependencies:
-                        - Tag: $[dependencies.PrePublishPackage.outputs['SetPackageArchive.Tag']]
-                        - AdditionalTag: $[dependencies.PrePublishPackage.outputs['SetPackageArchive.AdditionalTag']]
+                        Tag: $[dependencies.PrePublishPackage.outputs['SetPackageArchive.Tag']]
+                        AdditionalTag: $[dependencies.PrePublishPackage.outputs['SetPackageArchive.AdditionalTag']]
                   - job: PostPublishPackage
                     dependsOn: PublishPackage
                     variables:
