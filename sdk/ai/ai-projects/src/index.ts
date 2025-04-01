@@ -9,5 +9,6 @@ export { TelemetryOperations, TelemetryOptions } from "./telemetry/index.js";
 
 export * from "./agents/inputOutputs.js";
 export * from "./connections/inputOutput.js";
+export { AzureAISearchQueryTypeEnum } from "./customization/models.js";
 
 export { AIProjectsClient, AIProjectsClientOptions, ProjectsClientOptions };

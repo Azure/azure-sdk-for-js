@@ -325,12 +325,35 @@ export interface AzureAISearchResource {
   indexes?: Array<IndexResource>;
 }
 
+export enum AzureAISearchQueryTypeEnum {
+  /** Simple query type */
+  Simple = "simple",
+  /** Semantic query type */
+  Semantic = "semantic",
+  /** Vector query type */
+  Vector = "vector",
+  /** Vector simple hybrid query type */
+  VectorSimpleHybrid = "vector_simple_hybrid",
+  /** Vector semantic hybrid query type */
+  VectorSemanticHybrid = "vector_semantic_hybrid",
+}
+
 /** A Index resource. */
 export interface IndexResource {
   /** An index connection id in an IndexResource attached to this agent. */
   indexConnectionId: string;
   /** The name of an index in an IndexResource attached to this agent. */
   indexName: string;
+  /**
+   * Type of query in an AIIndexResource attached to this agent.
+   *
+   * Possible values: "simple", "semantic", "vector", "vector_simple_hybrid", "vector_semantic_hybrid"
+   */
+  queryType?: AzureAISearchQueryTypeEnum;
+  /** Number of documents to retrieve from search and present to the model. */
+  topK?: number;
+  /** Odata filter string for search resource. */
+  filter?: string;
 }
 
 /**

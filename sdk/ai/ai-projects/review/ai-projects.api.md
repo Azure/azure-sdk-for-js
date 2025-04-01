@@ -187,6 +187,15 @@ export interface AIProjectsClientOptions extends ProjectsClientOptions {
 // @public
 export type AuthenticationTypeOutput = "ApiKey" | "AAD" | "SAS";
 
+// @public (undocumented)
+export enum AzureAISearchQueryTypeEnum {
+    Semantic = "semantic",
+    Simple = "simple",
+    Vector = "vector",
+    VectorSemanticHybrid = "vector_semantic_hybrid",
+    VectorSimpleHybrid = "vector_simple_hybrid"
+}
+
 // @public
 export interface AzureAISearchResource {
     indexes?: Array<IndexResource>;
@@ -641,8 +650,11 @@ export interface IncompleteRunDetailsOutput {
 
 // @public
 export interface IndexResource {
+    filter?: string;
     indexConnectionId: string;
     indexName: string;
+    queryType?: AzureAISearchQueryTypeEnum;
+    topK?: number;
 }
 
 // @public
@@ -1737,7 +1749,7 @@ export class ToolSet {
 
 // @public
 export class ToolUtility {
-    static createAzureAISearchTool(indexConnectionId: string, indexName: string): {
+    static createAzureAISearchTool(indexConnectionId: string, indexName: string, queryType?: AzureAISearchQueryTypeEnum, topK?: number, filter?: string): {
         definition: AzureAISearchToolDefinition;
         resources: ToolResources;
     };
