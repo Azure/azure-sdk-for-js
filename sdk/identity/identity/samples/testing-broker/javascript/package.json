@@ -27,7 +27,7 @@
   },
   "dependencies": {
     "dotenv": "latest",
-    "@azure/identity": "^4.8.1",
+    "@azure/identity": "./azure-identity-4.8.1.tgz",
     "electron": "^27.0.0",
     "@azure/logger": "^1.0.4"
   }
