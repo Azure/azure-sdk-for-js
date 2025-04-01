@@ -165,6 +165,7 @@ stages:
                       os: windows
                     steps:
                       - checkout: self
+                      - download: current
                       - pwsh: |
                           Get-ChildItem -Recurse ${{parameters.ArtifactName}}/${{artifact.name}}
                         workingDirectory: $(Pipeline.Workspace)
@@ -186,6 +187,7 @@ stages:
                       os: linux
                     steps:
                       - checkout: self
+                      - download: current
                       - template: /eng/pipelines/templates/steps/common.yml
                       - bash: |
                           npm install
