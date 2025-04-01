@@ -39,7 +39,7 @@ const options: AzureMonitorOpenTelemetryOptions = {
 useAzureMonitor(options);
 ```
 
-- Connection String could be set using the environment variable APPLICATIONINSIGHTS_CONNECTION_STRING
+- Connection String could be set using the environment variable `APPLICATIONINSIGHTS_CONNECTION_STRING`.
 
 ## Configuration
 
@@ -81,6 +81,8 @@ const options: AzureMonitorOpenTelemetryOptions = {
   resource: resource,
   logRecordProcessors: [],
   spanProcessors: [],
+  enableTraceBasedSamplingForLogs: false,
+  enableAutoCollectPerformance: false,
 };
 useAzureMonitor(options);
 ```
@@ -161,6 +163,11 @@ useAzureMonitor(options);
   <tr>
     <td><code>enableTraceBasedSamplingForLogs</code></td>
     <td>Enable log sampling based on trace.</td>
+    <td><code>false</code></td>
+  </tr>
+  <tr>
+    <td><code>enableAutoCollectPerformance</code></td>
+    <td>Enable performance counters.</td>
     <td><code>false</code></td>
   </tr>
 </table>
@@ -419,7 +426,7 @@ You might use the following ways to filter out telemetry before it leaves your a
 1.  Use a custom processor. You can use a custom span processor to exclude certain spans from being exported. To mark spans to not be exported, set `TraceFlag` to `DEFAULT`.
     Use the add [custom property example](#add-a-custom-property-to-a-trace), but replace the following lines of code:
 
-        ```ts snippet:ReadmeSampleCustomProcessor
+      ```ts snippet:ReadmeSampleCustomProcessor
         import { SpanProcessor, ReadableSpan } from "@opentelemetry/sdk-trace-base";
         import { Span, Context, SpanKind, TraceFlags } from "@opentelemetry/api";
 
@@ -439,7 +446,7 @@ You might use the following ways to filter out telemetry before it leaves your a
             }
           }
         }
-        ```
+      ```
 
 ## Custom telemetry
 
