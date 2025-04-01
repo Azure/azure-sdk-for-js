@@ -59,15 +59,17 @@ export const restrictedToPackages = [
 ];
 
 /**
- * Helper function that determines the rush command flag to use based on each individual package name
+ * Helper function that determines the filter to use based on each individual package name
  *
  * If the targeted package is one of the restricted packages with a ton of dependents, we only want to run that package
  * and not all of its dependents.
  * @param {string[]} packageNames - An array of strings containing the packages names to run the action on.
  * @param {string} action - The action being performed ("build", "build:test", "build:samples", "unit-test:node", "unit-test:browser"
  * @param {string[]} serviceDirs - An array of strings containing the serviceDirs affected
+ * @returns {string[]} - An array of workspace filters
  */
-export const getDirectionMappedPackages = (packageNames, action, serviceDirs) => {
+export const getFilteredPackages = (packageNames, action, serviceDirs) => {
+  /** @type {string[]} */
   const mappedPackages = [];
 
   let fullPackageNames = packageNames.slice();
@@ -90,27 +92,26 @@ export const getDirectionMappedPackages = (packageNames, action, serviceDirs) =>
   if (action.startsWith("build")) {
     for (const packageName of fullPackageNames) {
       /**  @type {string} */
-      let rushCommandFlag;
+      let filter;
 
       if (restrictedToPackages.includes(packageName)) {
         // if this is one of our restricted packages with a ton of deps, make it targeted
         // as including all dependents will be too much
-        rushCommandFlag = "--to";
+        filter = `${packageName}...`; // package and its dependencies
       } else if (action === "build") {
-        rushCommandFlag = "--from";
+        filter = `...${packageName}...`; // package and its dependents
       } else {
-        // --impacted-by is only safe if the packages have already been built, since it won't build
-        // unrelated dependencies
-        rushCommandFlag = "--impacted-by";
+        filter = `...${packageName}...`;
       }
 
-      mappedPackages.push([rushCommandFlag, packageName]);
+      mappedPackages.push(filter);
     }
   } else {
-    // we are in a test task of some kind
-    const rushCommandFlag = isReducedTestScopeEnabled ? "--only" : "--impacted-by";
-
-    mappedPackages.push(...fullPackageNames.map((p) => [rushCommandFlag, p]));
+    mappedPackages.push(
+      ...fullPackageNames.map((p) =>
+        isReducedTestScopeEnabled ? `${p}` : `...${p}`,
+      ),
+    );
   }
 
   return mappedPackages;

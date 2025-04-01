@@ -17929,8 +17929,6 @@ importers:
         specifier: catalog:testing
         version: 3.0.9(@types/debug@4.1.12)(@types/node@18.19.81)(@vitest/browser@3.0.9)(jsdom@16.7.0)(msw@2.7.3(@types/node@18.19.81)(typescript@5.8.2))(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.0)
 
-  sdk/notificationhubs/notification-hubs/dist-test/browser: {}
-
   sdk/oep/arm-oep:
     dependencies:
       '@azure/abort-controller':

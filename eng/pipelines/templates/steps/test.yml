@@ -14,24 +14,24 @@ steps:
       ServiceDirectory: ${{parameters.ServiceDirectory}}
 
   - script: |
-      node common/scripts/install-run-rush.js install
-    displayName: "Install dependencies"
+      npm install -g pnpm
+    displayName: "Install Pnpm"
+
+  - script: |
+      pnpm install
+    displayName: "Install library dependencies"
 
   - template: /eng/pipelines/templates/steps/set-artifact-packages.yml
     parameters:
       PackageInfo: $(Build.ArtifactStagingDirectory)/PackageInfo
       Artifacts: ${{ parameters.Artifacts }}
 
-  # Option "-p max" ensures parallelism is set to the number of cores on all platforms, which improves build times.
-  # The default on Windows is "cores - 1" (microsoft/rushstack#436).
   - script: |
-      node eng/tools/rush-runner/index.js build $(ChangedServices) -packages "$(ArtifactPackageNames)" --verbose -p max
+      node eng/tools/ci-runner/index.js build $(ChangedServices) -packages "$(ArtifactPackageNames)"
     displayName: "Build libraries"
 
-  # Option "-p max" ensures parallelism is set to the number of cores on all platforms, which improves build times.
-  # The default on Windows is "cores - 1" (microsoft/rushstack#436).
   - script: |
-      node eng/tools/rush-runner/index.js build:test $(ChangedServices) -packages "$(ArtifactPackageNames)" --verbose -p max
+      node eng/tools/ci-runner/index.js build:test $(ChangedServices) -packages "$(ArtifactPackageNames)"
     displayName: "Build test assets"
 
   - template: ../steps/use-node-test-version.yml
@@ -39,17 +39,13 @@ steps:
   - ${{ if eq(parameters.TestProxy, true) }}:
     - template: /eng/common/testproxy/test-proxy-standalone-tool.yml
 
-  # Option "-p max" ensures parallelism is set to the number of cores on all platforms, which improves build times.
-  # The default on Windows is "cores - 1" (microsoft/rushstack#436).
   - script: |
-      node eng/tools/rush-runner/index.js unit-test:node $(ChangedServices) -packages "$(ArtifactPackageNames)" --ci --verbose -p max
+      node eng/tools/ci-runner/index.js unit-test:node $(ChangedServices) -packages "$(ArtifactPackageNames)" --ci
     displayName: "Test libraries"
     condition: and(succeeded(),eq(variables['TestType'], 'node'))
 
-  # Option "-p max" ensures parallelism is set to the number of cores on all platforms, which improves build times.
-  # The default on Windows is "cores - 1" (microsoft/rushstack#436).
   - script: |
-      node eng/tools/rush-runner/index.js unit-test:browser $(ChangedServices) -packages "$(ArtifactPackageNames)" --ci --verbose -p max
+      node eng/tools/ci-runner/index.js unit-test:browser $(ChangedServices) -packages "$(ArtifactPackageNames)" --ci
     displayName: "Test libraries"
     condition: and(succeeded(),eq(variables['TestType'], 'browser'))
 
@@ -65,7 +61,7 @@ steps:
   # running in this repository" if the previous rush command was killed.
   - pwsh: |
       for ($i=0; $i -lt 30; $i++) {
-        node eng/tools/rush-runner/index.js unlink
+        pnpm run purge
         if ($lastexitcode -eq 0) {
           break
         }
@@ -74,7 +70,7 @@ steps:
         }
       }
     condition: always()
-    displayName: "Unlink dependencies"
+    displayName: "Purge dependencies"
 
   # It's important for performance to pass "sdk" as "searchFolder" to avoid looking under root "node_modules".
   # PublishTestResults.searchFolder only supports absolute paths, not relative.

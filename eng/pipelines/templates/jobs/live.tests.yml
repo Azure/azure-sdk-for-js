@@ -110,19 +110,16 @@ jobs:
                 ${{ insert }}: ${{ parameters.EnvVars }}
 
       - script: |
-          node common/scripts/install-run-rush.js install
-        displayName: "Install dependencies"
+          npm install -g pnpm
+          pnpm install
+        displayName: "Install library dependencies"
 
-      # Option "-p max" ensures parallelism is set to the number of cores on all platforms, which improves build times.
-      # The default on Windows is "cores - 1" (microsoft/rushstack#436).
       - script: |
-          node common/scripts/install-run-rush.js build -t "${{parameters.PackageName}}" --verbose -p max
+          pnpm run --filter=${{parameters.PackageName}}... build
         displayName: "Build libraries"
 
-      # Option "-p max" ensures parallelism is set to the number of cores on all platforms, which improves build times.
-      # The default on Windows is "cores - 1" (microsoft/rushstack#436).
       - script: |
-          node common/scripts/install-run-rush.js build:test -t "${{parameters.PackageName}}" --verbose -p max
+          pnpm run --filter=${{parameters.PackageName}}... build:test
         displayName: "Build test assets"
         condition: and(succeededOrFailed(),eq(variables['DependencyVersion'],''))
 
@@ -134,8 +131,8 @@ jobs:
         condition: and(succeededOrFailed(),ne(variables['DependencyVersion'],''))
 
       - script: |
-          node common/scripts/install-run-rush.js update
-        displayName: "Rush update"
+          pnpm install
+        displayName: "Re-run Pnpm install"
         workingDirectory: $(Build.SourcesDirectory)
         condition: and(succeededOrFailed(),ne(variables['DependencyVersion'],''))
 
@@ -337,7 +334,7 @@ jobs:
       # running in this repository" if the previous rush command was killed.
       - pwsh: |
           for ($i=0; $i -lt 30; $i++) {
-            node eng/tools/rush-runner/index.js unlink
+            pnpm run purge
             if ($lastexitcode -eq 0) {
               break
             }
@@ -346,7 +343,7 @@ jobs:
             }
           }
         condition: always()
-        displayName: "Unlink dependencies"
+        displayName: "Purge dependencies"
 
       # It's important for performance to pass "sdk" as "searchFolder" to avoid looking under root "node_modules".
       # PublishTestResults.searchFolder only supports absolute paths, not relative.

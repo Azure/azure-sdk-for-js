@@ -21,33 +21,34 @@ stages:
               ServiceDirectory: core
 
           - script: |
-              node common/scripts/install-run-rush.js install
+              npm install -g pnpm
+              pnpm install
             displayName: "Install library dependencies"
 
           - script: |
-              node common/scripts/install-run-rush.js build -t @azure/eslint-plugin-azure-sdk --verbose
+              pnpm run --filter @azure/eslint-plugin-azure-sdk... build
             displayName: "Build ESLint Plugin"
 
           - script: |
-              node eng/tools/rush-runner/index.js build monitor -packages "azure-monitor-opentelemetry-exporter" --verbose
+              node eng/tools/ci-runner/index.js build monitor -packages "azure-monitor-opentelemetry-exporter"
             displayName: "Build packages to enable typed checking"
 
           - script: |
-              node common/scripts/install-run-rush.js lint -p max --verbose
+              pnpm run lint
             displayName: "Lint All Packages"
 
           - script: |
-              node common/scripts/install-run-rush.js build -p max --verbose
+              pnpm run build
             displayName: "Build All Packages"
 
           - script: |
-              node common/scripts/install-run-rush.js build:test -t @azure/identity -t @azure/app-configuration -t @azure/event-hubs -t @azure-rest/synapse-access-control -t @azure/storage-blob --verbose
+              pnpm run --filter @azure/identity... --filter @azure/app-configuration... --filter @azure/event-hubs... --workspace-concurrency=1 build:test
             displayName: "Build Tests for Selected Packages"
 
           - script: |
-              node common/scripts/install-run-rush.js unit-test -t @azure/identity -t @azure/app-configuration -t @azure/event-hubs -p 1 --verbose
+              pnpm run --filter=@azure/identity... --filter=@azure/app-configuration... --filter=@azure/event-hubs... --workspace-concurrency=1 unit-test
             displayName: "Run Unit Tests for Selected Packages"
 
           - script: |
-              node common/scripts/install-run-rush.js integration-test --only @azure/app-configuration --only @azure/storage-blob --only @azure-rest/synapse-access-control -p 1 --verbose
+              pnpm run --filter=@azure/app-configuration --filter=@azure/storage-blob --filter=@azure-rest/synapse-access-control --workspace-concurrency=1 integration-test
             displayName: "Run Integration Tests for Selected Packages"

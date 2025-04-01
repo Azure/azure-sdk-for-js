@@ -199,8 +199,9 @@ stages:
                               displayName: Increment package version
 
                             - bash: |
-                                node common/scripts/install-run-rush.js install
-                              displayName: "Install dependencies"
+                                npm install -g pnpm
+                                pnpm install
+                              displayName: "Install library dependencies"
 
                             # Disabled until packages can be updated to support ES2019 syntax.
                             # - bash: |
