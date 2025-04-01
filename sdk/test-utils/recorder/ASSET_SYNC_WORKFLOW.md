@@ -205,14 +205,6 @@ If tests run in playback mode successfully in the CI pipelines but fail on your 
 
 This is particularly helpful when you've been switching branches or if there have been significant recording changes
 
-### Outdated test-proxy version
-If you're experiencing issues that might be related to an older version of test-proxy, check your test logs for the installation location
-- Look for log lines like: `[test-proxy] Test proxy executable already exists at /home/codespace/.cache/azsdk-dev-tool/1.0.0-dev.20250221.1/Azure.Sdk.Tools.TestProxy, not downloading it.`
-- Delete the folder containing the test-proxy executable (in the example above, delete the `/home/codespace/.cache/azsdk-dev-tool/1.0.0-dev.20250221.1/` directory)
-- This will force a fresh download of the test-proxy when you run your tests again
-
-This is especially helpful if there are recent bug fixes in the test-proxy that you need
-
 ## Frequently Asked Questions
 
 **Q: Do I need to migrate all packages at once?**
