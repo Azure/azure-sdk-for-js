@@ -22,7 +22,7 @@
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "integration-test:browser": "echo skipped",
     "integration-test:node": "dev-tool run test:vitest --no-test-proxy -- test/internal/functional/*.test.ts",
-    "lint:build-type-check-prereqs": "node ../../../common/scripts/install-run-rush.js build -t @azure/monitor-opentelemetry-exporter",
+    "lint:build-type-check-prereqs": "pnpm install && pnpm build --filter=@azure/monitor-opentelemetry-exporter...",
     "lint": "npm run lint:build-type-check-prereqs && eslint package.json api-extractor.json src test",
     "lint:fix": "eslint package.json api-extractor.json src test --fix --fix-type [problem,suggestion]",
     "pack": "npm pack 2>&1",
