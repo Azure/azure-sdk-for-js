@@ -12,6 +12,8 @@ export interface AbortSignalLike {
   readonly aborted: boolean;
   /**
    * The reason why the signal was aborted.
+   *
+   * {@link https://developer.mozilla.org/docs/Web/API/AbortSignal/reason|MDN Reference}
    */
   readonly reason?: any;
   /**

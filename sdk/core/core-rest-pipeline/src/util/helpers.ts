@@ -28,10 +28,9 @@ export function delay<T>(
     let onAborted: (() => void) | undefined = undefined;
 
     const abortReason =
-      // use the signal's reason if available
-      options?.abortSignal?.reason ??
-      // fallback to legacy code
+    // A custom error message takes precedence
       options?.abortErrorMsg ??
+      options?.abortSignal?.reason ??
       StandardAbortMessage;
     const rejectOnAbort = (): void => {
       return reject(new AbortError(abortReason));
