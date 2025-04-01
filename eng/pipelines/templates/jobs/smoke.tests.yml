@@ -55,22 +55,22 @@ jobs:
       condition: and(succeeded(), eq(dependencies.smoke_test_eligibility.outputs['check_smoke_tests.RunSmokeTests'], true))
     strategy:
       matrix:
-        Mac Node $(NODE_VERSION_N1) (AzureCloud):
+        Mac node lts maintenance:
           Pool: Azure Pipelines
           OSVmImage: "macos-latest"
-          NodeTestVersion: $(NODE_VERSION_N1)
-        Windows $(NODE_VERSION_N2) (AzureCloud):
+          NodeTestVersion: $(NODE_VERSION_LTS_MAINTENANCE)
+        Windows node lts active:
           Pool: "azsdk-pool-mms-win-2022-general"
           OSVmImage: "MMS2022"
-          NodeTestVersion: $(NODE_VERSION_N2)
-        Linux $(NODE_VERSION_N1) (AzureCloud):
+          NodeTestVersion: $(NODE_VERSION_LTS_ACTIVE)
+        Linux node lts maintenance:
           Pool: "azsdk-pool-mms-ubuntu-2004-general"
           OSVmImage: "MMSUbuntu20.04"
-          NodeTestVersion: $(NODE_VERSION_N1)
-        Linux $(NODE_VERSION_N2) (AzureCloud):
+          NodeTestVersion: $(NODE_VERSION_LTS_MAINTENANCE)
+        Linux node lts active:
           Pool: "azsdk-pool-mms-ubuntu-2004-general"
           OSVmImage: "MMSUbuntu20.04"
-          NodeTestVersion: $(NODE_VERSION_N2)
+          NodeTestVersion: $(NODE_VERSION_LTS_ACTIVE)
 
     pool:
       name: $(Pool)

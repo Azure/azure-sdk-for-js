@@ -1,5 +1,5 @@
 parameters:
-  NodeVersion: $(NODE_VERSION_N2)
+  NodeVersion: $(NODE_VERSION_LTS_MAINTENANCE)
 
 steps:
   - task: NodeTool@0

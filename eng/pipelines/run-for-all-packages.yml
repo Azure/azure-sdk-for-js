@@ -16,7 +16,7 @@ stages:
         steps:
           - template: /eng/pipelines/templates/steps/use-node-version.yml
             parameters:
-              NodeVersion: $(NODE_VERSION_N1)
+              NodeVersion: $(NODE_VERSION_LTS_ACTIVE)
 
           - template: ./templates/steps/generate-doc.yml
             parameters:

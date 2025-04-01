@@ -6,9 +6,9 @@ parameters:
   # default: 'Linux, Windows'
   default: 'Linux'
 - name: LanguageVersion
-  displayName: LanguageVersion (18, 20, 22)
+  displayName: LanguageVersion (MAINTENANCE, CURRENT, ACTIVE)
   type: string
-  default: '$(NODE_VERSION_N2)'
+  default: '$(NODE_VERSION_LTS_MAINTENANCE)'
 - name: PackageVersions
   displayName: PackageVersions (regex of package versions to run)
   type: string

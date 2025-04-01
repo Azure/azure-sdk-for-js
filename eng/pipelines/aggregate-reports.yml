@@ -25,7 +25,7 @@ stages:
         steps:
           - template: /eng/pipelines/templates/steps/use-node-version.yml
             parameters:
-              NodeVersion: $(NODE_VERSION_N2)
+              NodeVersion: $(NODE_VERSION_LTS_MAINTENANCE)
 
           - task: PowerShell@2
             inputs:
