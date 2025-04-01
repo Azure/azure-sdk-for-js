@@ -13,8 +13,7 @@ jobs:
   dependsOn: ${{ parameters.DependsOn }}
   variables:
     -${{ each var in parameters.VarDependencies }}:
-      - name: ${{ var.name }}
-        value: ${{ var.value }}
+      - ${{ var.name }}: ${{ var.value }}
   condition: succeeded()
   templateContext:
     type: releaseJob
