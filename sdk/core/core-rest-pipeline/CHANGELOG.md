@@ -8,6 +8,8 @@
 
 ### Bugs Fixed
 
+- Fixed an issue where the original abort signal's reason was not propagated correctly [#33594](https://github.com/Azure/azure-sdk-for-js/pull/33594)
+
 ### Other Changes
 
 ## 1.19.1 (2025-03-06)

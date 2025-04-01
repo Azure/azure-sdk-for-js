@@ -6,6 +6,8 @@
 
 ### Features Added
 
+- Added `reason` to `AbortSignalLike` to support capturing the abort reason. [#33594](https://github.com/Azure/azure-sdk-for-js/pull/33594)
+
 ### Breaking Changes
 
 ### Bugs Fixed
