@@ -37,9 +37,6 @@ catalogs:
     '@azure/msal-browser':
       specifier: ^4.8.0
       version: 4.8.0
-    '@azure/msal-node':
-      specifier: ^3.4.0
-      version: 3.4.0
     '@azure/msal-node-extensions':
       specifier: ^1.5.8
       version: 1.5.9
@@ -192,6 +189,9 @@ catalogs:
     vitest:
       specifier: ^3.0.9
       version: 3.0.9
+
+overrides:
+  '@azure/msal-node': 3.3.0
 
 importers:
 
@@ -4094,8 +4094,8 @@ importers:
         specifier: catalog:internal
         version: 4.8.0
       '@azure/msal-node':
-        specifier: catalog:identity
-        version: 3.4.0
+        specifier: 3.3.0
+        version: 3.3.0
       '@types/node':
         specifier: 'catalog:'
         version: 18.19.81
@@ -12293,8 +12293,8 @@ importers:
         specifier: catalog:identity
         version: 4.8.0
       '@azure/msal-node':
-        specifier: catalog:identity
-        version: 3.4.0
+        specifier: 3.3.0
+        version: 3.3.0
       events:
         specifier: catalog:polyfills
         version: 3.3.0
@@ -12378,8 +12378,8 @@ importers:
         specifier: workspace:*
         version: link:../identity
       '@azure/msal-node':
-        specifier: catalog:identity
-        version: 3.4.0
+        specifier: 3.3.0
+        version: 3.3.0
       '@azure/msal-node-extensions':
         specifier: catalog:identity
         version: 1.5.9
@@ -12445,8 +12445,8 @@ importers:
         specifier: workspace:*
         version: link:../identity
       '@azure/msal-node':
-        specifier: catalog:identity
-        version: 3.4.0
+        specifier: 3.3.0
+        version: 3.3.0
       '@azure/msal-node-extensions':
         specifier: catalog:identity
         version: 1.5.9
@@ -27029,6 +27029,10 @@ packages:
     resolution: {integrity: sha512-z7kJlMW3IAETyq82LDKJqr++IeOvU728q9lkuTFjEIPUWxnB1OlmuPCF32fYurxOnOnJeFEZxjbEzq8xyP0aag==}
     engines: {node: '>=0.8.0'}
 
+  '@azure/msal-common@15.2.1':
+    resolution: {integrity: sha512-eZHtYE5OHDN0o2NahCENkczQ6ffGc0MoUSAI3hpwGpZBHJXaEQMMZPWtIx86da2L9w7uT+Tr/xgJbGwIkvTZTQ==}
+    engines: {node: '>=0.8.0'}
+
   '@azure/msal-common@15.3.0':
     resolution: {integrity: sha512-lh+eZfibGwtQxFnx+mj6cYWn0pwA8tDnn8CBs9P21nC7Uw5YWRwfXaXdVQSMENZ5ojRqR+NzRaucEo4qUvs3pA==}
     engines: {node: '>=0.8.0'}
@@ -27044,8 +27048,8 @@ packages:
   '@azure/msal-node-runtime@0.18.1':
     resolution: {integrity: sha512-vaUkpSiXD33/iDyZt1VZDEyOxvlNMT5o9D4ruIqkUmULyKgUik0y86DK2dsqZql/LU04T5siuq1AMTus+15SvA==}
 
-  '@azure/msal-node@3.4.0':
-    resolution: {integrity: sha512-b4wBaPV68i+g61wFOfl5zh1lQ9UylgCQpI2638pJHV0SINneO78hOFdnX8WCoGw5OOc4Eewth9pYOg7gaiyUYw==}
+  '@azure/msal-node@3.3.0':
+    resolution: {integrity: sha512-ulsT3EHF1RQ29X55cxBLgKsIKWni9JdbUqG7sipGVP4uhWcBpmm/vhKOMH340+27Acm9+kHGnN/5XmQ5LrIDgA==}
     engines: {node: '>=16'}
 
   '@azure/openai@1.0.0-beta.12':
@@ -33107,7 +33111,7 @@ snapshots:
       '@azure/core-util': 1.11.0
       '@azure/logger': 1.1.4
       '@azure/msal-browser': 4.8.0
-      '@azure/msal-node': 3.4.0
+      '@azure/msal-node': 3.3.0
       events: 3.3.0
       jws: 4.0.0
       open: 10.1.0
@@ -33211,6 +33215,8 @@ snapshots:
     dependencies:
       '@azure/msal-common': 15.3.0
 
+  '@azure/msal-common@15.2.1': {}
+
   '@azure/msal-common@15.3.0': {}
 
   '@azure/msal-common@15.4.0': {}
@@ -33223,9 +33229,9 @@ snapshots:
 
   '@azure/msal-node-runtime@0.18.1': {}
 
-  '@azure/msal-node@3.4.0':
+  '@azure/msal-node@3.3.0':
     dependencies:
-      '@azure/msal-common': 15.3.0
+      '@azure/msal-common': 15.2.1
       jsonwebtoken: 9.0.2
       uuid: 8.3.2
 
