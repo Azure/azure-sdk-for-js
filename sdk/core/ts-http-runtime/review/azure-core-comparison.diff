@@ -23,10 +23,10 @@ index d075fbb..9f62db0 100644
   * } catch (e) {
 diff --git a/src/abort-controller/AbortSignalLike.ts b/src/abort-controller/AbortSignalLike.ts
 deleted file mode 100644
-index b5b390d..0000000
+index 1117c04..0000000
 --- a/src/abort-controller/AbortSignalLike.ts
 +++ /dev/null
-@@ -1,29 +0,0 @@
+@@ -1,35 +0,0 @@
 -// Copyright (c) Microsoft Corporation.
 -// Licensed under the MIT License.
 -
@@ -39,6 +39,12 @@ index b5b390d..0000000
 -   * Indicates if the signal has already been aborted.
 -   */
 -  readonly aborted: boolean;
+-  /**
+-   * The reason why the signal was aborted.
+-   *
+-   * {@link https://developer.mozilla.org/docs/Web/API/AbortSignal/reason|MDN Reference}
+-   */
+-  readonly reason?: any;
 -  /**
 -   * Add new "abort" event listener, only support "abort" event.
 -   */
@@ -1524,7 +1530,7 @@ index fefe550..fb56a78 100644
      // Both XHR and Fetch expect to handle redirects automatically,
      // so only include this policy when we're in Node.
 diff --git a/src/fetchHttpClient.ts b/src/fetchHttpClient.ts
-index ad162e3..ae5349c 100644
+index 63a1f95..4ebb2bc 100644
 --- a/src/fetchHttpClient.ts
 +++ b/src/fetchHttpClient.ts
 @@ -1,7 +1,7 @@
@@ -1980,7 +1986,7 @@ index 3e33a3b..3654566 100644
 +  return TYPESPEC_RUNTIME_LOG_LEVELS.includes(logLevel as any);
  }
 diff --git a/src/nodeHttpClient.ts b/src/nodeHttpClient.ts
-index 264a28e..2b974db 100644
+index 4e3ae77..663be41 100644
 --- a/src/nodeHttpClient.ts
 +++ b/src/nodeHttpClient.ts
 @@ -5,7 +5,7 @@ import * as http from "node:http";
@@ -1992,6 +1998,15 @@ index 264a28e..2b974db 100644
  import type {
    HttpClient,
    HttpHeaders,
+@@ -244,7 +244,7 @@ class NodeHttpClient implements HttpClient {
+ 
+       abortController.signal.addEventListener("abort", () => {
+         const abortError = new AbortError(
+-          abortController.signal?.reason ??
++          request.abortSignal?.reason ??
+             "The operation was aborted. Rejecting from abort signal callback while making request.",
+         );
+         req.destroy(abortError);
 diff --git a/src/pipelineRequest.ts b/src/pipelineRequest.ts
 index 5947165..6c09a01 100644
 --- a/src/pipelineRequest.ts
@@ -3021,7 +3036,7 @@ index deeee45..0000000
 -  };
 -}
 diff --git a/src/policies/retryPolicy.ts b/src/policies/retryPolicy.ts
-index 6d2afd5..badccb2 100644
+index 0d79924..179a1bf 100644
 --- a/src/policies/retryPolicy.ts
 +++ b/src/policies/retryPolicy.ts
 @@ -4,10 +4,11 @@
@@ -3047,6 +3062,16 @@ index 6d2afd5..badccb2 100644
  }
  
  /**
+@@ -71,7 +72,8 @@ export function retryPolicy(
+ 
+         if (request.abortSignal?.aborted) {
+           logger.error(`Retry ${retryCount}: Request aborted.`);
+-          throw new AbortError(request.abortSignal.reason);
++          const abortError = new AbortError(request.abortSignal?.reason);
++          throw abortError;
+         }
+ 
+         if (retryCount >= (options.maxRetries ?? DEFAULT_RETRY_POLICY_COUNT)) {
 diff --git a/src/policies/setClientRequestIdPolicy.ts b/src/policies/setClientRequestIdPolicy.ts
 deleted file mode 100644
 index a40d4ab..0000000
@@ -4047,7 +4072,7 @@ index 84999ab..0000000
 -  namespace?: string;
 -}
 diff --git a/src/util/aborterUtils.ts b/src/util/aborterUtils.ts
-index ce29be9..7affd69 100644
+index 2f347b9..00cb1f5 100644
 --- a/src/util/aborterUtils.ts
 +++ b/src/util/aborterUtils.ts
 @@ -1,8 +1,6 @@
@@ -4102,7 +4127,7 @@ index 457bc22..cbadccf 100644
  import { getRawContent } from "./file.js";
  
 diff --git a/src/util/createAbortablePromise.ts b/src/util/createAbortablePromise.ts
-index 25cf55a..685eaed 100644
+index 8360bf9..a01f302 100644
 --- a/src/util/createAbortablePromise.ts
 +++ b/src/util/createAbortablePromise.ts
 @@ -1,7 +1,7 @@
@@ -4128,7 +4153,7 @@ index 48d09e6..65c0e25 100644
  
  /**
 diff --git a/src/util/helpers.ts b/src/util/helpers.ts
-index f6819e8..a5b7c9d 100644
+index fff4438..c82c4c2 100644
 --- a/src/util/helpers.ts
 +++ b/src/util/helpers.ts
 @@ -1,7 +1,7 @@
@@ -4149,6 +4174,17 @@ index f6819e8..a5b7c9d 100644
      abortErrorMsg?: string;
    },
  ): Promise<T | void> {
+@@ -29,9 +29,7 @@ export function delay<T>(
+ 
+     const abortReason =
+       // A custom error message takes precedence
+-      options?.abortErrorMsg ??
+-      options?.abortSignal?.reason ??
+-      StandardAbortMessage;
++      options?.abortErrorMsg ?? options?.abortSignal?.reason ?? StandardAbortMessage;
+     const rejectOnAbort = (): void => {
+       return reject(new AbortError(abortReason));
+     };
 diff --git a/src/util/httpMethods.ts b/src/util/httpMethods.ts
 deleted file mode 100644
 index 2748031..0000000

@@ -4,6 +4,7 @@
 import { describe, it, assert, expect, vi, afterEach } from "vitest";
 import { createAbortablePromise } from "../../src/util/createAbortablePromise.js";
 import { cancelablePromiseRace } from "../../src/util/aborterUtils.js";
+import { AbortError } from "../../src/index.js";
 
 describe("createAbortablePromise", function () {
   let token: ReturnType<typeof setTimeout>;
@@ -137,16 +138,11 @@ describe("cancelablePromiseRace", function () {
   it("should respect the abort signal supplied", async function () {
     const aborter = new AbortController();
     setTimeout(() => aborter.abort(), function1Delay / 2);
-    let errorThrown = false;
-    try {
-      await cancelablePromiseRace<[number, string, void]>([function1, function2, function3], {
+    await expect(
+      cancelablePromiseRace<[number, string, void]>([function1, function2, function3], {
         abortSignal: aborter.signal,
-      }); // all are aborted
-    } catch (error) {
-      errorThrown = true;
-      assert.strictEqual((error as { message: string }).message, "The operation was aborted.");
-    }
-    assert.isTrue(errorThrown);
+      }),
+    ).rejects.toThrowError(AbortError);
     assert.isTrue(function1Aborted); // checks 1 is aborted
     assert.isTrue(function2Aborted); // checks 2 is aborted
     assert.isTrue(function3Aborted); // checks 3 is aborted

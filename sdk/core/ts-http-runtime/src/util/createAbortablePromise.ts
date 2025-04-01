@@ -28,7 +28,7 @@ export function createAbortablePromise<T>(
   const { cleanupBeforeAbort, abortSignal, abortErrorMsg } = options ?? {};
   return new Promise((resolve, reject) => {
     function rejectOnAbort(): void {
-      reject(new AbortError(abortErrorMsg ?? "The operation was aborted."));
+      reject(new AbortError(abortErrorMsg ?? abortSignal?.reason ?? "The operation was aborted."));
     }
     function removeListeners(): void {
       abortSignal?.removeEventListener("abort", onAbort);

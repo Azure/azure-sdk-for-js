@@ -27,10 +27,11 @@ export function delay<T>(
     let timer: ReturnType<typeof setTimeout> | undefined = undefined;
     let onAborted: (() => void) | undefined = undefined;
 
+    const abortReason =
+      // A custom error message takes precedence
+      options?.abortErrorMsg ?? options?.abortSignal?.reason ?? StandardAbortMessage;
     const rejectOnAbort = (): void => {
-      return reject(
-        new AbortError(options?.abortErrorMsg ? options?.abortErrorMsg : StandardAbortMessage),
-      );
+      return reject(new AbortError(abortReason));
     };
 
     const removeListeners = (): void => {
