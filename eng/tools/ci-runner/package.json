@@ -1,5 +1,5 @@
 {
-  "name": "@azure-tools/rush-runner",
+  "name": "@azure-tools/ci-runner",
   "type": "module",
   "prettier": "../../../common/tools/eslint-plugin-azure-sdk/prettier.json",
   "scripts": {

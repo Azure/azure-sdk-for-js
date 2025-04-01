@@ -152,7 +152,7 @@ export const getServicePackages = (serviceDirs, artifactNames) => {
   const packageNames = [];
   /** @type {string[]} */
   const packageDirs = [];
-  let validSdkTypes = ["client", "mgmt", "perf-test", "utility"]; // valid "sdk-type"s that we are looking for, to be able to apply rush-runner jobs on
+  let validSdkTypes = ["client", "mgmt", "perf-test", "utility"]; // valid "sdk-type"s that we are looking for, to be able to apply ci-runner jobs on
   const artifacts = artifactNames.split(",");
   for (const serviceDir of serviceDirs) {
     const searchDir = path.resolve(path.join(getBaseDir(), "sdk", serviceDir));

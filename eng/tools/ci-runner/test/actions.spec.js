@@ -49,11 +49,11 @@ describe("executeActions", () => {
     ]);
   });
 
-  it("should pass through arguments for rush", () => {
-    const rushArgs = ["--logLevel", "info"];
-    executeActions("build", ["appconfiguration"], rushArgs, "azure-app-configuration");
+  it("should pass through arguments", () => {
+    const runArgs = ["--logLevel", "info"];
+    executeActions("build", ["appconfiguration"], runArgs, "azure-app-configuration");
     assert.deepEqual(vi.mocked(spawnPnpm).mock.calls, [
-      [baseDir, "run", "--filter", "...@azure/app-configuration...", "build", ...rushArgs],
+      [baseDir, "run", "--filter", "...@azure/app-configuration...", "build", ...runArgs],
     ]);
   });
 
