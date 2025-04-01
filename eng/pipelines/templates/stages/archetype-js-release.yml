@@ -97,6 +97,9 @@ stages:
                       AdditionalTag: "$(AdditionalTag)"
                       DependsOn:
                         - 'PrePublishPackage'
+                      VarDependencies:
+                        Tag: $[dependencies.PrePublishPackage.outputs['SetTag.Tag']]
+                        AdditionalTag: $[dependencies.PrePublishPackage.outputs['SetTag.AdditionalTag']]
                   - job: PostPublishPackage
                     dependsOn: PublishPackage
                     variables:
