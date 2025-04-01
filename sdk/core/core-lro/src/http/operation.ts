@@ -138,7 +138,7 @@ function transformStatus(inputs: { status: unknown; statusCode: number }): Opera
       `Polling was unsuccessful. Expected status to have a string value or no value but it has instead: ${status}. This doesn't necessarily indicate the operation has failed. Check your Azure subscription or resource status for more information.`,
     );
   }
-  logger.verbose(`Transforming status: ${status} with status code: ${statusCode}.`);
+  logger.verbose(`LRO: Transforming status: ${status} with status code: ${statusCode}.`);
   const lowerCaseStatus = status?.toLocaleLowerCase();
   if (!lowerCaseStatus) {
     return toOperationStatus(statusCode);
@@ -149,7 +149,7 @@ function transformStatus(inputs: { status: unknown; statusCode: number }): Opera
   if (lowerCaseStatus.includes("fail")) {
     return "failed";
   }
-  if (lowerCaseStatus.includes("cancel") && lowerCaseStatus.includes("led")) {
+  if (["canceled", "cancelled"].includes(lowerCaseStatus)) {
     return "canceled";
   }
   return "running";
