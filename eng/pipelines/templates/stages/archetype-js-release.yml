@@ -58,70 +58,70 @@ stages:
                       RepoId: Azure/azure-sdk-for-js
                       WorkingDirectory: $(System.DefaultWorkingDirectory)
               - ${{if ne(artifact.skipPublishPackage, 'true')}}:
-                  - job: PrePublishPackage
-                    displayName: Pre Publish to npmjs
-                    condition: and(succeeded(), ne(variables['Skip.PublishPackage'], 'true'))
-                    dependsOn: TagRepository
-                    pool:
-                      name: azsdk-pool-mms-ubuntu-2004-general
-                      image: azsdk-pool-mms-ubuntu-2004-1espt
-                      os: linux
-                    steps:
-                      - checkout: self
-                      - download: current
-                      - script: |
-                          export DETECTED_PACKAGE_NAME=`ls $(Pipeline.Workspace)/${{parameters.ArtifactName}}/${{artifact.name}}/*.tgz`
-                          echo "##vso[task.setvariable variable=Package.Archive;isOutput=true]$DETECTED_PACKAGE_NAME"
-                        name: SetPackageArchive
-                        displayName: Detecting package archive
-                      - pwsh: |
-                          write-host '$(SetPackageArchive.Package.Archive)'
-                          $result = eng/scripts/get-npm-tags.ps1 -packageArtifact '$(SetPackageArchive.Package.Archive)' -workingDirectory '$(System.DefaultWorkingDirectory)/temp'
-                          write-host "Tag: $($result.Tag)"
-                          write-host "Additional tag: $($result.AdditionalTag)"
-                          echo "##vso[task.setvariable variable=Tag;isOutput=true]$($result.Tag)"
-                          echo "##vso[task.setvariable variable=AdditionalTag;isOutput=true]$($result.AdditionalTag)"
-                        condition: and(succeeded(), ne(variables['Skip.AutoAddTag'], 'true'))
-                        name: SetTag
-                        displayName: Set Tag and Additional Tag
-                      - script: >
-                          npm install $(SetPackageArchive.Package.Archive)
-                        displayName: Validating package can be installed
-                        condition: succeeded()
-                  - template: /eng/pipelines/templates/steps/npm-release-task.yml
-                    parameters:
-                      Artifact: ${{artifact}}
-                      Registry: ${{parameters.Registry}}
-                      PathToArtifacts: $(Pipeline.Workspace)/${{parameters.ArtifactName}}/${{artifact.name}}
-                      Tag: "$[dependencies.PrePublishPackage.outputs['SetTag.Tag']]
-                      AdditionalTag: $[dependencies.PrePublishPackage.outputs['SetTag.AdditionalTag']]
-                      DependsOn:
-                        - 'PrePublishPackage'
-                  - job: PostPublishPackage
-                    dependsOn: PublishPackage
-                    variables:
-                      PackageArchive: $[dependencies.PrePublishPackage.outputs['SetPackageArchive.Package.Archive']]
-                    pool:
-                      name: azsdk-pool-mms-ubuntu-2004-general
-                      image: azsdk-pool-mms-ubuntu-2004-1espt
-                      os: linux
-                    displayName: Post Publish to npmjs
-                    steps:
+                - job: PrePublishPackage
+                  displayName: Pre Publish to npmjs
+                  condition: and(succeeded(), ne(variables['Skip.PublishPackage'], 'true'))
+                  dependsOn: TagRepository
+                  pool:
+                    name: azsdk-pool-mms-ubuntu-2004-general
+                    image: azsdk-pool-mms-ubuntu-2004-1espt
+                    os: linux
+                  steps:
                     - checkout: self
                     - download: current
+                    - script: |
+                        export DETECTED_PACKAGE_NAME=`ls $(Pipeline.Workspace)/${{parameters.ArtifactName}}/${{artifact.name}}/*.tgz`
+                        echo "##vso[task.setvariable variable=Package.Archive;isOutput=true]$DETECTED_PACKAGE_NAME"
+                      name: SetPackageArchive
+                      displayName: Detecting package archive
                     - pwsh: |
-                        write-host "$(PackageArchive)"
-                        eng/scripts/cleanup-npm-next-tag.ps1 -packageArtifact $(PackageArchive) -workingDirectory $(System.DefaultWorkingDirectory)/temp -npmToken $(azure-sdk-npm-token)
-                      displayName: Cleanup Npm Next Tag
-                      condition: and(succeeded(), ne(variables['Skip.RemoveOldTag'], 'true'))
-                    - template: /eng/common/pipelines/templates/steps/create-apireview.yml
-                      parameters:
-                        ArtifactPath: $(Pipeline.Workspace)/packages
-                        Artifacts: ${{parameters.Artifacts}}
-                        ConfigFileDir: $(Pipeline.Workspace)/packages/PackageInfo
-                        MarkPackageAsShipped: true
-                        ArtifactName: ${{parameters.ArtifactName}}
-                        PackageName: ${{artifact.name}}
+                        write-host '$(SetPackageArchive.Package.Archive)'
+                        $result = eng/scripts/get-npm-tags.ps1 -packageArtifact '$(SetPackageArchive.Package.Archive)' -workingDirectory '$(System.DefaultWorkingDirectory)/temp'
+                        write-host "Tag: $($result.Tag)"
+                        write-host "Additional tag: $($result.AdditionalTag)"
+                        echo "##vso[task.setvariable variable=Tag;isOutput=true]$($result.Tag)"
+                        echo "##vso[task.setvariable variable=AdditionalTag;isOutput=true]$($result.AdditionalTag)"
+                      condition: and(succeeded(), ne(variables['Skip.AutoAddTag'], 'true'))
+                      name: SetTag
+                      displayName: Set Tag and Additional Tag
+                    - script: >
+                        npm install $(SetPackageArchive.Package.Archive)
+                      displayName: Validating package can be installed
+                      condition: succeeded()
+                - template: /eng/pipelines/templates/steps/npm-release-task.yml
+                  parameters:
+                    Artifact: ${{artifact}}
+                    Registry: ${{parameters.Registry}}
+                    PathToArtifacts: $(Pipeline.Workspace)/${{parameters.ArtifactName}}/${{artifact.name}}
+                    Tag: "$[dependencies.PrePublishPackage.outputs['SetTag.Tag']]
+                    AdditionalTag: $[dependencies.PrePublishPackage.outputs['SetTag.AdditionalTag']]
+                    DependsOn:
+                      - 'PrePublishPackage'
+                - job: PostPublishPackage
+                  dependsOn: PublishPackage
+                  variables:
+                    PackageArchive: $[dependencies.PrePublishPackage.outputs['SetPackageArchive.Package.Archive']]
+                  pool:
+                    name: azsdk-pool-mms-ubuntu-2004-general
+                    image: azsdk-pool-mms-ubuntu-2004-1espt
+                    os: linux
+                  displayName: Post Publish to npmjs
+                  steps:
+                  - checkout: self
+                  - download: current
+                  - pwsh: |
+                      write-host "$(PackageArchive)"
+                      eng/scripts/cleanup-npm-next-tag.ps1 -packageArtifact $(PackageArchive) -workingDirectory $(System.DefaultWorkingDirectory)/temp -npmToken $(azure-sdk-npm-token)
+                    displayName: Cleanup Npm Next Tag
+                    condition: and(succeeded(), ne(variables['Skip.RemoveOldTag'], 'true'))
+                  - template: /eng/common/pipelines/templates/steps/create-apireview.yml
+                    parameters:
+                      ArtifactPath: $(Pipeline.Workspace)/packages
+                      Artifacts: ${{parameters.Artifacts}}
+                      ConfigFileDir: $(Pipeline.Workspace)/packages/PackageInfo
+                      MarkPackageAsShipped: true
+                      ArtifactName: ${{parameters.ArtifactName}}
+                      PackageName: ${{artifact.name}}
               - ${{if ne(artifact.skipPublishDocMs, 'true')}}:
                   - job: PublishDocs
                     displayName: Docs.MS Release
