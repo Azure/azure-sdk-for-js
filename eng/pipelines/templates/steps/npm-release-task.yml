@@ -5,7 +5,7 @@ parameters:
   Tag: ''
   AdditionalTag: ''
   DependsOn: []
-  VarDependencies: []
+  VarDependencies: {}
 
 jobs:
 - job: PublishPackage
