@@ -63,7 +63,7 @@ export class InternalConfig implements AzureMonitorOpenTelemetryOptions {
     this.enableLiveMetrics = true;
     this.enableStandardMetrics = true;
     this.enableTraceBasedSamplingForLogs = false;
-    this.enableAutoCollectPerformance = false;
+    this.enableAutoCollectPerformance = true;
     this.instrumentationOptions = {
       http: { enabled: true },
       azureSdk: { enabled: false },
