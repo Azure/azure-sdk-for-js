@@ -71,7 +71,7 @@ steps:
     displayName: "Install library dependencies"
 
   - pwsh: |
-      pnpm run --filter=@azure/eslint-plugin-azure-sdk... build
+      pnpm run --filter @azure/eslint-plugin-azure-sdk... build
       node eng/tools/ci-runner/index.js lint "$(ChangedServices)"
     displayName: "Build ESLint Plugin and Lint Libraries"
 

@@ -115,11 +115,11 @@ jobs:
         displayName: "Install library dependencies"
 
       - script: |
-          pnpm run --filter=${{parameters.PackageName}}... build
+          pnpm run --filter ${{parameters.PackageName}}... build
         displayName: "Build libraries"
 
       - script: |
-          pnpm run --filter=${{parameters.PackageName}}... build:test
+          pnpm run --filter ${{parameters.PackageName}}... build:test
         displayName: "Build test assets"
         condition: and(succeededOrFailed(),eq(variables['DependencyVersion'],''))
 
