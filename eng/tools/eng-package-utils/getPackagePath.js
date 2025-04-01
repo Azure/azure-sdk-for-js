@@ -15,19 +15,19 @@ let argv = require("yargs")
   })
   .help().argv;
 
-const { getRushSpec } = require("./index");
 const path = require("path");
+const {findPackages} = require('@pnpm/fs.find-packages')
 
 async function main(argv) {
   const packageName = argv["package-name"];
   const repoRoot = argv["repo-root"];
-  const rushSpec = await getRushSpec(repoRoot);
 
-  const targetPackage = rushSpec.projects.find(
-    packageSpec => packageSpec.packageName == packageName
-  );
+  const pkgs = (await findPackages(repoRoot, {
+    patterns: ["sdk/*/*", "common/tools/*"]
+  })).filter(pkg => pkg.manifest.name === packageName);
 
-  const targetPackagePath = path.join(repoRoot, targetPackage.projectFolder);
+  const targetPackagePath = pkgs[0].rootDirRealPath;
+  
   console.log(`##vso[task.setvariable variable=PackagePath]${targetPackagePath}`);
   console.log(`Emitted variable "PackagePath" with content: ${targetPackagePath}`);
 }
