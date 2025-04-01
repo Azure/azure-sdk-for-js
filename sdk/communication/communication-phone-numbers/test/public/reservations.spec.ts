@@ -192,5 +192,40 @@ matrix([[true, false]], async (useAad) => {
 
       await client.deleteReservation(reservationId);
     });
+
+    it("throws error when starting purchase without agreement to not resell", { timeout: 60000 }, async () => {
+      const browseAvailableNumberRequest: PhoneNumbersBrowseRequest = {
+        phoneNumberType: "tollFree",
+        capabilities: {
+          calling: "outbound",
+        },
+        assignmentType: "application",
+      };
+
+      const browseAvailableNumbers = await client.browseAvailablePhoneNumbers(
+        "FR",
+        browseAvailableNumberRequest,
+      );
+
+      const phoneNumbers = browseAvailableNumbers.phoneNumbers;
+      const phoneNumbersReservation = {
+        phoneNumbers: { [phoneNumbers[0].id as string]: phoneNumbers[0] },
+      };
+
+      await client.createOrUpdateReservation(phoneNumbersReservation.phoneNumbers,reservationId);
+
+      try {
+        await client.beginReservationPurchase(reservationId, {
+          agreeToNotResell: false,});
+      } catch (error: any) {
+        assert.isTrue(
+          isClientErrorStatusCode(error.statusCode),
+          `Status code ${error.statusCode} does not indicate client error.`,
+        );
+        return;
+      }
+
+      assert.fail("beginReservationPurchase should have thrown an exception.");
+    });
   });
 });
