@@ -143,7 +143,7 @@ function transformStatus(inputs: { status: unknown; statusCode: number }): Opera
   if (!lowerCaseStatus) {
     return toOperationStatus(statusCode);
   }
-  if (lowerCaseStatus.includes("succe")) {
+  if (lowerCaseStatus.includes("succeeded")) {
     return "succeeded";
   }
   if (lowerCaseStatus.includes("fail")) {
