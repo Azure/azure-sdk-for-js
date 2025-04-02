@@ -110,10 +110,6 @@ jobs:
       os: linux
     steps:
     - checkout: self
-    - pwsh: |
-        write-host "Package name: $(PackageName)"
-        write-host "Original tags: $(OriginalTags)"
-        write-host "Intended tag version: $(IntendedTagVersion)"
     - task: Powershell@2
       displayName: Verify package tags
       inputs:
