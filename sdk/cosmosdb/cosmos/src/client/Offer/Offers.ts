@@ -32,6 +32,20 @@ export class Offers {
   /**
    * Query all offers.
    * @param query - Query configuration for the operation. See {@link SqlQuerySpec} for more info on how to configure a query.
+   * @example Read offer for a specific id.
+   * ```ts snippet:OffersQuery
+   * import { CosmosClient, SqlQuerySpec } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   *
+   * const querySpec: SqlQuerySpec = {
+   *   query: `SELECT * FROM root r WHERE r.id = @offer`,
+   *   parameters: [{ name: "@offer", value: "<offer-id>" }],
+   * };
+   * const { resources: offer } = await client.offers.query(querySpec).fetchAll();
+   * ```
    */
   public query<T>(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<T>;
   public query<T>(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<T> {
@@ -51,8 +65,14 @@ export class Offers {
   /**
    * Read all offers.
    * @example Read all offers to array.
-   * ```typescript
-   * const {body: offerList} = await client.offers.readAll().fetchAll();
+   * ```ts snippet:OffersReadAll
+   * import { CosmosClient } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   *
+   * const { resources: offerList } = await client.offers.readAll().fetchAll();
    * ```
    */
   public readAll(options?: FeedOptions): QueryIterator<OfferDefinition & Resource> {

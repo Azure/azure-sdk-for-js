@@ -1,7 +1,7 @@
 /**
  * This is the main configuration file for Rush.
  * For full documentation, please see https://rushjs.io
- */{
+ */ {
   "$schema": "https://developer.microsoft.com/json-schemas/rush/v5/rush.schema.json",
   /**
    * (Required) This specifies the version of the Rush engine to be used in this repo.
@@ -2308,8 +2308,18 @@
       "versionPolicyName": "management"
     },
     {
+      "packageName": "@azure/arm-agricultureplatform",
+      "projectFolder": "sdk/agricultureplatform/arm-agricultureplatform",
+      "versionPolicyName": "management"
+    },
+    {
       "packageName": "@azure/arm-connectedcache",
       "projectFolder": "sdk/connectedcache/arm-connectedcache",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-arizeaiobservabilityeval",
+      "projectFolder": "sdk/liftrarize/arm-arizeaiobservabilityeval",
       "versionPolicyName": "management"
     },
     {
@@ -2330,6 +2340,16 @@
     {
       "packageName": "@azure/arm-databasewatcher",
       "projectFolder": "sdk/databasewatcher/arm-databasewatcher",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-durabletask",
+      "projectFolder": "sdk/durabletask/arm-durabletask",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-migrationassessment",
+      "projectFolder": "sdk/migrate/arm-migrationassessment",
       "versionPolicyName": "management"
     },
     {

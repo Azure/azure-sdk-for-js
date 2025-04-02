@@ -1,0 +1,42 @@
+{
+  "name": "@azure-samples/arm-durabletask-ts-beta",
+  "private": true,
+  "version": "1.0.0",
+  "description": "@azure/arm-durabletask client library samples for TypeScript (Beta)",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "scripts": {
+    "build": "tsc",
+    "prebuild": "rimraf dist/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js.git",
+    "directory": "sdk/durabletask/arm-durabletask"
+  },
+  "keywords": [
+    "node",
+    "azure",
+    "cloud",
+    "typescript",
+    "browser",
+    "isomorphic"
+  ],
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/durabletask/arm-durabletask",
+  "dependencies": {
+    "@azure/arm-durabletask": "next",
+    "dotenv": "latest",
+    "@azure/identity": "^4.8.0"
+  },
+  "devDependencies": {
+    "@types/node": "^18.0.0",
+    "typescript": "~5.8.2",
+    "rimraf": "latest"
+  }
+}

@@ -14,16 +14,15 @@
  */
 
 const {
-  AzureKeyCredential,
   DocumentModelAdministrationClient,
   DocumentModelBuildMode,
 } = require("@azure/ai-form-recognizer");
-
-require("dotenv").config();
+const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv/config");
 
 async function main() {
   const endpoint = process.env.FORM_RECOGNIZER_ENDPOINT || "<endpoint>";
-  const credential = new AzureKeyCredential(process.env.FORM_RECOGNIZER_API_KEY || "<api key>");
+  const credential = new DefaultAzureCredential();
 
   const random = Date.now().toString();
   const modelId =
@@ -40,7 +39,7 @@ async function main() {
         containerUrl: trainingDataSasUrl,
       },
     },
-    DocumentModelBuildMode.Template
+    DocumentModelBuildMode.Template,
   );
   const model = await poller.pollUntilDone();
 
@@ -53,7 +52,7 @@ async function main() {
 
   console.log("Document Types:");
   for (const [docType, { description, fieldSchema: schema }] of Object.entries(
-    model.docTypes || {}
+    model.docTypes || {},
   )) {
     console.log(`- Name: "${docType}"`);
     console.log(`  Description: "${description}"`);

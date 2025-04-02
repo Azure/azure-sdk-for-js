@@ -34,6 +34,16 @@ export class Offer {
 
   /**
    * Read the {@link OfferDefinition} for the given {@link Offer}.
+   * @example
+   * ```ts snippet:OfferRead
+   * import { CosmosClient } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   *
+   * const { resource: offer } = await client.offer("<offer-id>").read();
+   * ```
    */
   public async read(options?: RequestOptions): Promise<OfferResponse> {
     return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
@@ -57,6 +67,18 @@ export class Offer {
   /**
    * Replace the given {@link Offer} with the specified {@link OfferDefinition}.
    * @param body - The specified {@link OfferDefinition}
+   * @example replace offer with a new offer definition with updated throughput
+   * ```ts snippet:OfferReplace
+   * import { CosmosClient } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   * const { resource: offer } = await client.offer("<offer-id>").read();
+   * // @ts-preservewhitespace
+   * offer.content.offerThroughput = 1000;
+   * await client.offer("<offer-id>").replace(offer);
+   * ```
    */
   public async replace(body: OfferDefinition, options?: RequestOptions): Promise<OfferResponse> {
     return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {

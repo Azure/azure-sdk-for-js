@@ -81,15 +81,21 @@ export class QueryIterator<T> {
    * If you're using TypeScript, you can use the following polyfill as long
    * as you target ES6 or higher and are running on Node 6 or higher.
    *
-   * ```typescript
+   * ```ts snippet:ignore
    * if (!Symbol || !Symbol.asyncIterator) {
    *   (Symbol as any).asyncIterator = Symbol.for("Symbol.asyncIterator");
    * }
    * ```
    *
    * @example Iterate over all databases
-   * ```typescript
-   * for await(const { resources: db } of client.databases.readAll().getAsyncIterator()) {
+   * ```ts snippet:QueryIteratorIterateDatabases
+   * import { CosmosClient } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   *
+   * for await (const { resources: db } of client.databases.readAll().getAsyncIterator()) {
    *   console.log(`Got ${db} from AsyncIterator`);
    * }
    * ```

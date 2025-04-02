@@ -63,8 +63,21 @@ export class Container {
    * For reading, replacing, or deleting an existing item, use `.item(id)`.
    *
    * @example Create a new item
-   * ```typescript
-   * const {body: createdItem} = await container.items.create({id: "<item id>", properties: {}});
+   * ```ts snippet:ContainerItems
+   * import { CosmosClient } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   *
+   * const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+   *
+   * const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
+   *
+   * const { resource: createdItem } = await container.items.create({
+   *   id: "<item id>",
+   *   properties: {},
+   * });
    * ```
    */
   public get items(): Items {
@@ -150,7 +163,21 @@ export class Container {
    * @param id - The id of the {@link Item}.
    * @param partitionKeyValue - The value of the {@link Item} partition key
    * @example Replace an item
-   * `const {body: replacedItem} = await container.item("<item id>", "<partition key value>").replace({id: "<item id>", title: "Updated post", authorID: 5});`
+   * ```ts snippet:ContainerItem
+   * import { CosmosClient } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   *
+   * const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+   *
+   * const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
+   *
+   * const { body: replacedItem } = await container
+   *   .item("<item id>", "<partition key value>")
+   *   .replace({ id: "<item id>", title: "Updated post", authorID: 5 });
+   * ```
    */
   public item(id: string, partitionKeyValue?: PartitionKey): Item {
     return new Item(this, id, this.clientContext, partitionKeyValue);
@@ -166,7 +193,19 @@ export class Container {
     return new Conflict(this, id, this.clientContext, partitionKey);
   }
 
-  /** Read the container's definition */
+  /**
+   * Read the container's definition
+   * @example
+   * ```ts snippet:ContainerRead
+   * import { CosmosClient } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   *
+   * const { resource: database } = await client.database("<db id>").container("<container id>").read();
+   * ```
+   */
   public async read(options?: RequestOptions): Promise<ContainerResponse> {
     return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
       return this.readInternal(diagnosticNode, options);
@@ -199,7 +238,31 @@ export class Container {
     );
   }
 
-  /** Replace the container's definition */
+  /**
+   * Replace the container's definition
+   * @example
+   * ```ts snippet:ContainerReplace
+   * import { CosmosClient } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   *
+   * const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+   *
+   * const containerDefinition = {
+   *   id: "Test Container",
+   *   partitionKey: {
+   *     paths: ["/key1"],
+   *   },
+   *   throughput: 1000,
+   * };
+   * const { container } = await database.containers.createIfNotExists(containerDefinition);
+   *
+   * containerDefinition.throughput = 400;
+   * const { container: replacedContainer } = await container.replace(containerDefinition);
+   * ```
+   */
   public async replace(
     body: ContainerDefinition,
     options?: RequestOptions,
@@ -230,7 +293,19 @@ export class Container {
     }, this.clientContext);
   }
 
-  /** Delete the container */
+  /**
+   * Delete the container
+   * @example
+   * ```ts snippet:DatabaseDeleteContainer
+   * import { CosmosClient } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   *
+   * await client.database("<db id>").container("<container id>").delete();
+   * ```
+   */
   public async delete(options?: RequestOptions): Promise<ContainerResponse> {
     return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
       const path = getPathFromLink(this.url);
@@ -300,6 +375,19 @@ export class Container {
 
   /**
    * Gets offer on container. If none exists, returns an OfferResponse with undefined.
+   * @example
+   * ```ts snippet:ContainerReadOffer
+   * import { CosmosClient } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   *
+   * const { resource: offer } = await client
+   *   .database("<db id>")
+   *   .container("<container id>")
+   *   .readOffer();
+   * ```
    */
   public async readOffer(options: RequestOptions = {}): Promise<OfferResponse> {
     return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
@@ -346,6 +434,25 @@ export class Container {
     }, this.clientContext);
   }
 
+  /**
+   * Gets the partition key ranges for the container.
+   * @param feedOptions - Options for the request.
+   * @returns An iterator of partition key ranges.
+   * @example
+   * ```ts snippet:ContainerReadPartitionKeyRanges
+   * import { CosmosClient } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   *
+   * const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+   *
+   * const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
+   *
+   * const { resources: ranges } = await container.readPartitionKeyRanges().fetchAll();
+   * ```
+   */
   public readPartitionKeyRanges(feedOptions?: FeedOptions): QueryIterator<PartitionKeyRange> {
     feedOptions = feedOptions || {};
     return this.clientContext.queryPartitionKeyRanges(this.url, undefined, feedOptions);
@@ -353,6 +460,20 @@ export class Container {
   /**
    *
    * @returns all the feed ranges for which changefeed could be fetched.
+   * @example
+   * ```ts snippet:ContainerGetFeedRanges
+   * import { CosmosClient } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   *
+   * const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+   *
+   * const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
+   *
+   * const { resources: ranges } = await container.getFeedRanges();
+   * ```
    */
   public async getFeedRanges(): Promise<ReadonlyArray<FeedRange>> {
     return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
@@ -371,6 +492,34 @@ export class Container {
   /**
    * Delete all documents belong to the container for the provided partition key value
    * @param partitionKey - The partition key value of the items to be deleted
+   * @example
+   * ```ts snippet:ContainerDeleteAllItemsForPartitionKey
+   * import { CosmosClient } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   *
+   * const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+   *
+   * const { container } = await database.containers.createIfNotExists({
+   *   id: "Test Container",
+   *   partitionKey: {
+   *     paths: ["/state"],
+   *   },
+   * });
+   *
+   * const cities = [
+   *   { id: "1", name: "Olympia", state: "WA", isCapitol: true },
+   *   { id: "2", name: "Redmond", state: "WA", isCapitol: false },
+   *   { id: "3", name: "Olympia", state: "IL", isCapitol: false },
+   * ];
+   * for (const city of cities) {
+   *   await container.items.create(city);
+   * }
+   *
+   * await container.deleteAllItemsForPartitionKey("WA");
+   * ```
    */
   public async deleteAllItemsForPartitionKey(
     partitionKey: PartitionKey,
@@ -423,6 +572,55 @@ export class Container {
   }
   /**
    * Warms up encryption related caches for the container.
+   * @example
+   * ```ts snippet:ContainerIntializeEncryption
+   * import { ClientSecretCredential } from "@azure/identity";
+   * import {
+   *   AzureKeyVaultEncryptionKeyResolver,
+   *   CosmosClient,
+   *   EncryptionType,
+   *   EncryptionAlgorithm,
+   *   ClientEncryptionIncludedPath,
+   *   ClientEncryptionPolicy,
+   * } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const credentials = new ClientSecretCredential("<tenant-id>", "<client-id>", "<app-secret>");
+   * const keyResolver = new AzureKeyVaultEncryptionKeyResolver(credentials);
+   * const client = new CosmosClient({
+   *   endpoint,
+   *   key,
+   *   clientEncryptionOptions: {
+   *     keyEncryptionKeyResolver: keyResolver,
+   *   },
+   * });
+   * const { database } = await client.databases.createIfNotExists({ id: "<db id>" });
+   *
+   * const paths = ["/path1", "/path2", "/path3"].map(
+   *   (path) =>
+   *     ({
+   *       path: path,
+   *       clientEncryptionKeyId: "< cek - id >",
+   *       encryptionType: EncryptionType.DETERMINISTIC,
+   *       encryptionAlgorithm: EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
+   *     }) as ClientEncryptionIncludedPath,
+   * );
+   * const clientEncryptionPolicy: ClientEncryptionPolicy = {
+   *   includedPaths: paths,
+   *   policyFormatVersion: 2,
+   * };
+   * const containerDefinition = {
+   *   id: "Test Container",
+   *   partitionKey: {
+   *     paths: ["/id"],
+   *   },
+   *   clientEncryptionPolicy: clientEncryptionPolicy,
+   * };
+   * const { container } = await database.containers.createIfNotExists(containerDefinition);
+   *
+   * await container.initializeEncryption();
+   * ```
    */
   public async initializeEncryption(): Promise<void> {
     if (!this.clientContext.enableEncryption) {

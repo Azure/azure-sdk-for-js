@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 import type { ClientContext } from "../../ClientContext.js";
 import { Constants, isResourceValid, ResourceType, StatusCodes } from "../../common/index.js";
 import type { CosmosClient } from "../../CosmosClient.js";
@@ -15,7 +16,7 @@ import { DatabaseResponse } from "./DatabaseResponse.js";
 import { validateOffer } from "../../utils/offers.js";
 import type { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal.js";
 import { getEmptyCosmosDiagnostics, withDiagnostics } from "../../utils/diagnostics.js";
-import { EncryptionManager } from "../../encryption/EncryptionManager.js";
+import type { EncryptionManager } from "../../encryption/EncryptionManager.js";
 
 /**
  * Operations for creating new databases, and reading/querying all databases
@@ -44,14 +45,18 @@ export class Databases {
    * @param options - Use to set options like response page size, continuation tokens, etc.
    * @returns {@link QueryIterator} Allows you to return all databases in an array or iterate over them one at a time.
    * @example Read all databases to array.
-   * ```typescript
+   * ```ts snippet:DatabasesQueryDatabases
+   * import { CosmosClient, SqlQuerySpec } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   *
    * const querySpec: SqlQuerySpec = {
-   *   query: "SELECT * FROM root r WHERE r.id = @db",
-   *   parameters: [
-   *     {name: "@db", value: "Todo"}
-   *   ]
+   *   query: `SELECT * FROM root r WHERE r.id = @database`,
+   *   parameters: [{ name: "@database", value: "Todo" }],
    * };
-   * const {body: databaseList} = await client.databases.query(querySpec).fetchAll();
+   * const { resources: databaseList } = await client.databases.query(querySpec).fetchAll();
    * ```
    */
   public query(query: string | SqlQuerySpec, options?: FeedOptions): QueryIterator<any>;
@@ -61,14 +66,18 @@ export class Databases {
    * @param options - Use to set options like response page size, continuation tokens, etc.
    * @returns {@link QueryIterator} Allows you to return all databases in an array or iterate over them one at a time.
    * @example Read all databases to array.
-   * ```typescript
+   * ```ts snippet:DatabasesQueryDatabases
+   * import { CosmosClient, SqlQuerySpec } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   *
    * const querySpec: SqlQuerySpec = {
-   *   query: "SELECT * FROM root r WHERE r.id = @db",
-   *   parameters: [
-   *     {name: "@db", value: "Todo"}
-   *   ]
+   *   query: `SELECT * FROM root r WHERE r.id = @database`,
+   *   parameters: [{ name: "@database", value: "Todo" }],
    * };
-   * const {body: databaseList} = await client.databases.query(querySpec).fetchAll();
+   * const { resources: databaseList } = await client.databases.query(querySpec).fetchAll();
    * ```
    */
   public query<T>(query: string | SqlQuerySpec, options?: FeedOptions): QueryIterator<T>;
@@ -100,6 +109,17 @@ export class Databases {
    *
    * @param body - The {@link DatabaseDefinition} that represents the {@link Database} to be created.
    * @param options - Use to set options like response page size, continuation tokens, etc.
+   * @example
+   * ```ts snippet:CosmosClientDatabases
+   * import { CosmosClient } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   * const { resource: databaseDefinition, database } = await client.databases.create({
+   *   id: "<name here>",
+   * });
+   * ```
    */
   public async create(
     body: DatabaseRequest,
@@ -193,6 +213,16 @@ export class Databases {
    *
    * @param body - The {@link DatabaseDefinition} that represents the {@link Database} to be created.
    * @param options - Additional options for the request
+   * @example
+   * ```ts snippet:ReadmeSampleCreateDatabase
+   * import { CosmosClient } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   *
+   * const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+   * ```
    */
   public async createIfNotExists(
     body: DatabaseRequest,
@@ -230,8 +260,14 @@ export class Databases {
    * @param options - Use to set options like response page size, continuation tokens, etc.
    * @returns {@link QueryIterator} Allows you to return all databases in an array or iterate over them one at a time.
    * @example Read all databases to array.
-   * ```typescript
-   * const {body: databaseList} = await client.databases.readAll().fetchAll();
+   * ```ts snippet:DatabasesReadAll
+   * import { CosmosClient } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   *
+   * const { resources: databaseList } = await client.databases.readAll().fetchAll();
    * ```
    */
   public readAll(options?: FeedOptions): QueryIterator<DatabaseDefinition & Resource> {

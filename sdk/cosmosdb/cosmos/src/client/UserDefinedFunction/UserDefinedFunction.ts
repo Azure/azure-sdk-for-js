@@ -40,6 +40,18 @@ export class UserDefinedFunction {
 
   /**
    * Read the {@link UserDefinedFunctionDefinition} for the given {@link UserDefinedFunction}.
+   * @example
+   * ```ts snippet:UserDefinedFunctionRead
+   * import { CosmosClient } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   * const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+   * const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
+   *
+   * const { resource: udf } = await container.scripts.userDefinedFunction("<udf-id>").read();
+   * ```
    */
   public async read(options?: RequestOptions): Promise<UserDefinedFunctionResponse> {
     return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
@@ -66,6 +78,27 @@ export class UserDefinedFunction {
   /**
    * Replace the given {@link UserDefinedFunction} with the specified {@link UserDefinedFunctionDefinition}.
    * @param options -
+   * @example
+   * ```ts snippet:UserDefinedFunctionReplace
+   * import { CosmosClient, UserDefinedFunctionDefinition } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   * const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+   * const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
+   *
+   * const udfDefinition: UserDefinedFunctionDefinition = {
+   *   id: "sample udf",
+   *   body: "function () { const x = 10; }",
+   * };
+   * await container.scripts.userDefinedFunctions.create(udfDefinition);
+   *
+   * udfDefinition.body = "function () { const x = 20; }";
+   * const { resource: replacedUdf } = await container.scripts
+   *   .userDefinedFunction(udfDefinition.id)
+   *   .replace(udfDefinition);
+   * ```
    */
   public async replace(
     body: UserDefinedFunctionDefinition,
@@ -104,6 +137,18 @@ export class UserDefinedFunction {
 
   /**
    * Delete the given {@link UserDefined}.
+   * @example
+   * ```ts snippet:UserDefinedFunctionDelete
+   * import { CosmosClient } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   * const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+   * const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
+   *
+   * await container.scripts.userDefinedFunction("<udf-id>").delete();
+   * ```
    */
   public async delete(options?: RequestOptions): Promise<UserDefinedFunctionResponse> {
     return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {

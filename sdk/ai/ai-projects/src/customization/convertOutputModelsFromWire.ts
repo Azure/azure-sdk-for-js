@@ -115,8 +115,9 @@ function convertMicrosoftFabricToolDefinitionOutput(
   input: GeneratedModels.MicrosoftFabricToolDefinitionOutput,
 ): PublicModels.MicrosoftFabricToolDefinitionOutput {
   return {
-    type: "fabric_aiskill",
-    fabricAISkill: input.fabric_aiskill && convertToolConnectionListOutput(input.fabric_aiskill),
+    type: "fabric_dataagent",
+    fabricDataAgent:
+      input.fabric_dataagent && convertToolConnectionListOutput(input.fabric_dataagent),
   };
 }
 
@@ -204,7 +205,7 @@ function convertAzureAISearchResourceOutput(
 }
 
 function convertIndexResourceOutput(
-  input: GeneratedModels.IndexResourceOutput,
+  input: GeneratedModels.AISearchIndexResourceOutput,
 ): PublicModels.IndexResourceOutput {
   return { indexConnectionId: input.index_connection_id, indexName: input.index_name };
 }
@@ -248,7 +249,7 @@ function convertToolDefinitionOutput(
       return convertBingGroundingToolDefinitionOutput(
         tool as GeneratedModels.BingGroundingToolDefinitionOutput,
       );
-    case "microsoft_fabric":
+    case "fabric_dataagent":
       return convertMicrosoftFabricToolDefinitionOutput(
         tool as GeneratedModels.MicrosoftFabricToolDefinitionOutput,
       );
@@ -710,7 +711,7 @@ function convertRunStepToolCallOutput(
       return convertRunStepSharepointToolCallOutput(
         input as GeneratedModels.RunStepSharepointToolCallOutput,
       );
-    case "microsoft_fabric":
+    case "fabric_dataagent":
       return convertRunStepMicrosoftFabricToolCallOutput(
         input as GeneratedModels.RunStepMicrosoftFabricToolCallOutput,
       );
@@ -804,7 +805,7 @@ function convertRunStepMicrosoftFabricToolCallOutput(
   return {
     type: input.type,
     id: input.id,
-    fabricAISkill: input.fabric_aiskill,
+    fabricDataAgent: input.fabric_dataagent,
   };
 }
 

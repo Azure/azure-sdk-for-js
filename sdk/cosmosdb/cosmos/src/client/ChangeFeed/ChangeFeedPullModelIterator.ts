@@ -17,10 +17,23 @@ export interface ChangeFeedPullModelIterator<T> {
   /**
    * Gets an async iterator which will yield change feed results.
    * @example Get changefeed for an entire container from now
-   * ```typescript
+   * ```ts snippet:ChangeFeedPullModelIteratorIterate
+   * import { CosmosClient, ChangeFeedStartFrom } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   *
+   * const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+   *
+   * const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
+   *
    * const options = { changeFeedStartFrom: ChangeFeedStartFrom.Now() };
-   * for await(const res of container.items.getChangeFeedIterator(options).getAsyncIterator()) {
-   *   //process res
+   * for await (const results of container.items.getChangeFeedIterator(options).getAsyncIterator()) {
+   *   // Process result
+   *   for (const resource of results.result) {
+   *     console.log(resource);
+   *   }
    * }
    * ```
    */
