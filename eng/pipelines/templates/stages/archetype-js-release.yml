@@ -99,7 +99,9 @@ stages:
                     DependsOn:
                       - 'PrePublishPackage'
                 - job: PostPublishPackage
-                  dependsOn: PublishPackage
+                  dependsOn:
+                    - 'PrePublishPackage'
+                    - 'PublishPackage'
                   variables:
                     PackageArchive: $[dependencies.PrePublishPackage.outputs['SetPackageArchive.Package.Archive']]
                   pool:
