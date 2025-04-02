@@ -25,8 +25,8 @@ jobs:
       artifactName: packages
       targetPath: $(Pipeline.Workspace)/packages
   pool:
-    name: azsdk-pool-mms-ubuntu-2004-general
-    image: azsdk-pool-mms-ubuntu-2004-1espt
+    name: $(LINUXPOOL)
+    image: $(LINUXVMIMAGE)
     os: linux
   displayName: 'Publish ${{parameters.Artifact.name}} to ${{parameters.Registry}}'
   strategy:
@@ -106,13 +106,17 @@ jobs:
     dependsOn: PublishPackage
     condition: succeeded()
     variables:
-      PackageName: $[dependencies.PublishPackage.outputs['SetPackageVar.PackageName']]
-      OriginalTags: $[dependencies.PublishPackage.outputs['SetPackageVar.OriginalTags']]
-      IntendedTagVersion: $[dependencies.PublishPackage.outputs['SetPackageVar.IntendedTagVersion']]
+      - template: /eng/pipelines/templates/variables/image.yml
+      - name: PackageName
+        value: $[dependencies.PublishPackage.outputs['SetPackageVar.PackageName']]
+      - name: OriginalTags
+        value: $[dependencies.PublishPackage.outputs['SetPackageVar.OriginalTags']]
+      - name: IntendedTagVersion
+        value: $[dependencies.PublishPackage.outputs['SetPackageVar.IntendedTagVersion']]
     displayName: 'Verify package tags'
     pool:
-      name: azsdk-pool-mms-ubuntu-2004-general
-      image: azsdk-pool-mms-ubuntu-2004-1espt
+      name: $(LINUXPOOL)
+      image: $(LINUXVMIMAGE)
       os: linux
     steps:
     - checkout: self
