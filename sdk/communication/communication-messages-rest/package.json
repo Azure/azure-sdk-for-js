@@ -59,7 +59,7 @@
   "autoPublish": false,
   "dependencies": {
     "@azure-rest/core-client": "workspace:*",
-    "@azure/communication-common": "^2.3.1",
+    "@azure/communication-common": "workspace:*",
     "@azure/core-auth": "workspace:*",
     "@azure/core-paging": "workspace:*",
     "@azure/core-rest-pipeline": "workspace:*",
@@ -80,7 +80,6 @@
     "autorest": "latest",
     "dotenv": "catalog:testing",
     "eslint": "catalog:",
-    "karma-source-map-support": "~1.4.0",
     "playwright": "catalog:testing",
     "typescript": "catalog:",
     "vitest": "catalog:testing"

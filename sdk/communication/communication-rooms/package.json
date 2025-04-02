@@ -8,7 +8,7 @@
     "node": ">=18.0.0"
   },
   "dependencies": {
-    "@azure/communication-common": "^2.3.1",
+    "@azure/communication-common": "workspace:*",
     "@azure/core-auth": "workspace:*",
     "@azure/core-client": "workspace:*",
     "@azure/core-paging": "workspace:*",
