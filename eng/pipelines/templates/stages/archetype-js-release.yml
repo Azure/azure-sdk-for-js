@@ -222,7 +222,7 @@ stages:
       - template: /eng/pipelines/templates/variables/globals.yml
     jobs:
       - ${{ each artifact in parameters.Artifacts }}:
-          - ${{if and(ne(artifact.skipPublishDevFeed, 'true', or(eq(variables['SetDevVersion'], 'true'), and(eq(variables['Build.Reason'],'Schedule'), eq(variables['System.TeamProject'], 'internal')))))}}:
+          - ${{if and(ne(artifact.skipPublishDevFeed, 'true'), or(eq(variables['SetDevVersion'], 'true'), and(eq(variables['Build.Reason'],'Schedule'), eq(variables['System.TeamProject'], 'internal'))))}}:
             - job:
               displayName: 'Detecting package archive_${{artifact.name}}'
               steps:
