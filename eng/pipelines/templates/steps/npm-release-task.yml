@@ -110,12 +110,16 @@ jobs:
       os: linux
     steps:
     - checkout: self
+    - pwsh: |
+        write-host "Package name: $(PackageName)"
+        write-host "Original tags: $(OriginalTags)"
+        write-host "Intended tag version: $(IntendedTagVersion)"
     - task: Powershell@2
       displayName: Verify package tags
       inputs:
         targetType: filePath
         filePath: eng/scripts/verify-npm-tags.ps1
-        arguments: -originalDistTags '$(OriginalTags)' -intendedTag '${{parameters.Tag}}' -intendedTagVersion '$(IntendedTagVersion)' -packageName '$(PackageName)' -npmToken '$(azure-sdk-npm-token)'
+        arguments: -originalDistTags "$(OriginalTags)" -intendedTag "${{parameters.Tag}}" -intendedTagVersion "$(IntendedTagVersion)" -packageName "$(PackageName)" -npmToken "$(azure-sdk-npm-token)"
         pwsh: true
 
     - ${{ if ne(parameters.AdditionalTag, '') }}:
