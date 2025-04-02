@@ -79,11 +79,15 @@ stages:
                         $result = eng/scripts/get-npm-tags.ps1 -packageArtifact '$(SetPackageArchive.Package.Archive)' -workingDirectory '$(System.DefaultWorkingDirectory)/temp'
                         echo "##vso[task.setvariable variable=Tag;isOutput=true]$($result.Tag)"
                         echo "##vso[task.setvariable variable=AdditionalTag;isOutput=true]$($result.AdditionalTag)"
-                        write-host "Tag: $(SetTag.Tag)"
-                        write-host "Additional tag: $(SetTag.AdditionalTag)"
+                        write-host "Tag: $($result.Tag)"
+                        write-host "Additional tag: $($result.AdditionalTag)"
                       condition: and(succeeded(), ne(variables['Skip.AutoAddTag'], 'true'))
                       name: SetTag
                       displayName: Set Tag and Additional Tag
+                    - pwsh: |
+                        write-host '$(SetTag.Tag)'
+                        write-host '$(SetTag.AdditionalTag)'
+                      displayName: testing Tags
                     - script: >
                         npm install $(SetPackageArchive.Package.Archive)
                       displayName: Validating package can be installed
