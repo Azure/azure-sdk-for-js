@@ -223,9 +223,7 @@ export class PhoneNumbersClient {
     beginSearchAvailablePhoneNumbers(search: SearchAvailablePhoneNumbersRequest, options?: BeginSearchAvailablePhoneNumbersOptions): Promise<PollerLike<PollOperationState<PhoneNumberSearchResult>, PhoneNumberSearchResult>>;
     beginUpdatePhoneNumberCapabilities(phoneNumber: string, request: PhoneNumberCapabilitiesRequest, options?: BeginUpdatePhoneNumberCapabilitiesOptions): Promise<PollerLike<PollOperationState<PurchasedPhoneNumber>, PurchasedPhoneNumber>>;
     browseAvailablePhoneNumbers(countryCode: string, request: PhoneNumbersBrowseRequest): Promise<PhoneNumbersBrowseAvailableNumbersResponse>;
-    createOrUpdateReservation(phoneNumbers: {
-        [propertyName: string]: AvailablePhoneNumber | null;
-    }, reservationId?: string, options?: OperationOptions): Promise<PhoneNumbersCreateOrUpdateReservationResponse>;
+    createOrUpdateReservation(reservation: PhoneNumbersReservation, options?: OperationOptions): Promise<PhoneNumbersCreateOrUpdateReservationResponse>;
     deleteReservation(reservationId: string, options?: PhoneNumbersDeleteReservationOptionalParams): Promise<void>;
     getPurchasedPhoneNumber(phoneNumber: string, options?: GetPurchasedPhoneNumberOptions): Promise<PurchasedPhoneNumber>;
     getReservation(reservationId: string, options?: PhoneNumbersGetReservationOptionalParams): Promise<PhoneNumbersGetReservationResponse>;
@@ -235,7 +233,7 @@ export class PhoneNumbersClient {
     listAvailableOfferings(countryCode: string, options?: ListOfferingsOptions): PagedAsyncIterableIterator<PhoneNumberOffering>;
     listAvailableTollFreeAreaCodes(countryCode: string, options?: ListTollFreeAreaCodesOptions): PagedAsyncIterableIterator<PhoneNumberAreaCode>;
     listPurchasedPhoneNumbers(options?: ListPurchasedPhoneNumbersOptions): PagedAsyncIterableIterator<PurchasedPhoneNumber>;
-    listReservations(options?: PhoneNumbersListReservationsOptionalParams): PagedAsyncIterableIterator<PhoneNumbersReservation>;
+    listReservations(options?: PhoneNumbersListReservationsOptionalParams): PagedAsyncIterableIterator<PhoneNumbersReservationInternal>;
     searchOperatorInformation(phoneNumbers: string[], options?: SearchOperatorInformationOptions): Promise<OperatorInformationResult>;
 }
 
@@ -245,14 +243,7 @@ export interface PhoneNumbersClientOptions extends CommonClientOptions {
 }
 
 // @public
-export interface PhoneNumbersCreateOrUpdateReservationOptionalParams extends coreClient.OperationOptions {
-    phoneNumbers?: {
-        [propertyName: string]: AvailablePhoneNumber | null;
-    };
-}
-
-// @public
-export type PhoneNumbersCreateOrUpdateReservationResponse = PhoneNumbersReservation;
+export type PhoneNumbersCreateOrUpdateReservationResponse = PhoneNumbersReservationInternal;
 
 // @public
 export interface PhoneNumbersDeleteReservationOptionalParams extends coreClient.OperationOptions {
@@ -289,7 +280,7 @@ export interface PhoneNumbersGetReservationOptionalParams extends coreClient.Ope
 }
 
 // @public
-export type PhoneNumbersGetReservationResponse = PhoneNumbersReservation;
+export type PhoneNumbersGetReservationResponse = PhoneNumbersReservationInternal;
 
 // @public
 export interface PhoneNumbersListAreaCodesOptionalParams extends coreClient.OperationOptions {
@@ -323,8 +314,23 @@ export interface PhoneNumbersPurchaseReservationOptionalParams extends coreClien
 // @public
 export type PhoneNumbersPurchaseReservationResponse = PhoneNumbersPurchaseReservationHeaders;
 
+// @public (undocumented)
+export class PhoneNumbersReservation implements PhoneNumbersReservationInternal {
+    constructor(id: string, phoneNumbers?: {
+        [propertyName: string]: AvailablePhoneNumber | null;
+    });
+    addPhoneNumber(phoneNumber: AvailablePhoneNumber): void;
+    // (undocumented)
+    id: string;
+    // (undocumented)
+    readonly phoneNumbers: {
+        [propertyName: string]: AvailablePhoneNumber | null;
+    };
+    removePhoneNumber(phoneNumber: AvailablePhoneNumber): void;
+}
+
 // @public
-export interface PhoneNumbersReservation {
+export interface PhoneNumbersReservationInternal {
     readonly expiresAt?: Date;
     readonly id?: string;
     phoneNumbers?: {

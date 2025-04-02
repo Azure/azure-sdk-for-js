@@ -3,7 +3,7 @@
 
 import { matrix } from "@azure-tools/test-utils-vitest";
 import { env, isPlaybackMode, type Recorder } from "@azure-tools/test-recorder";
-import type { PhoneNumbersBrowseRequest, PhoneNumbersClient } from "../../src/index.js";
+import { PhoneNumbersReservation, type PhoneNumbersBrowseRequest, type PhoneNumbersClient } from "../../src/index.js";
 import { createRecordedClient, createRecordedClientWithToken } from "./utils/recordedClient.js";
 import { describe, it, assert, beforeEach, afterEach, beforeAll } from "vitest";
 import { getReservationId } from "./utils/testPhoneNumber.js";
@@ -49,14 +49,10 @@ matrix([[true, false]], async (useAad) => {
           : "";
 
         assert.isNotEmpty(phoneNumberForPurchase);
-        const phoneNumbersReservation = {
-          phoneNumbers: { [phoneNumbers[0].id as string]: phoneNumbers[0] },
-        };
+        const phoneNumbersReservation = new PhoneNumbersReservation(reservationId);
+        phoneNumbersReservation.addPhoneNumber(phoneNumbers[0]);
 
-        const reservationResponse = await client.createOrUpdateReservation(
-          phoneNumbersReservation.phoneNumbers,
-          reservationId,
-        );
+        const reservationResponse = await client.createOrUpdateReservation(phoneNumbersReservation);
         const responseReservationId = reservationResponse.id ? reservationResponse.id : "";
         assert.equal(reservationResponse.status, "active");
         assert.isTrue(reservationResponse.id !== "");

@@ -30,11 +30,10 @@ import type {
   PhoneNumbersGetReservationOptionalParams,
   PhoneNumbersGetReservationResponse,
   PhoneNumbersListReservationsOptionalParams,
-  PhoneNumbersReservation,
   PhoneNumbersPurchaseReservationOptionalParams,
   PhoneNumbersPurchaseReservationResponse,
+  PhoneNumbersReservationInternal,
   PurchasedPhoneNumber,
-  AvailablePhoneNumber,
 } from "./generated/src/models/index.js";
 import type {
   GetPurchasedPhoneNumberOptions,
@@ -44,6 +43,7 @@ import type {
   ListOfferingsOptions,
   ListPurchasedPhoneNumbersOptions,
   ListTollFreeAreaCodesOptions,
+  PhoneNumbersReservation,
   PurchasePhoneNumbersResult,
   ReleasePhoneNumberResult,
   SearchAvailablePhoneNumbersRequest,
@@ -59,7 +59,6 @@ import { createPhoneNumbersPagingPolicy } from "./utils/customPipelinePolicies.j
 import type { CommonClientOptions, OperationOptions } from "@azure/core-client";
 import { logger } from "./utils/index.js";
 import { tracingClient } from "./generated/src/tracing.js";
-import { generateGUID } from "./utils/helpers.js";
 
 /**
  * Client options used to configure the PhoneNumbersClient API requests.
@@ -631,18 +630,17 @@ export class PhoneNumbersClient {
    * ```
    *
    * Create or update a reservation.
-   * @param phoneNumbers - The phone numbers to be reserved. The key is the phone number ID and the value is the phone number details.
-   * @param reservationId - The id of the reservation if it's not provided it will generate a random one.
+   * @param reservation - Reservation object containing the phone numbers to be reserved and the reservationId.
    * @param options - The options parameters.
    */
   public async createOrUpdateReservation(
-    phoneNumbers: { [propertyName: string]: AvailablePhoneNumber | null },
-    reservationId?: string,
+    // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
+    reservation: PhoneNumbersReservation,
     options?: OperationOptions,
   ): Promise<PhoneNumbersCreateOrUpdateReservationResponse> {
     const reservationOptionalParams: PhoneNumbersCreateOrUpdateReservationOptionalParams = {
       ...options,
-      phoneNumbers: phoneNumbers,
+      phoneNumbers: reservation.phoneNumbers,
     };
     const { span, updatedOptions } = tracingClient.startSpan(
       "PhoneNumbersClient-createOrUpdateReservation",
@@ -650,9 +648,7 @@ export class PhoneNumbersClient {
     );
 
     try {
-      const newReservationId =
-        reservationId && reservationId.trim() !== "" ? reservationId : generateGUID();
-      return this.client.phoneNumbers.createOrUpdateReservation(newReservationId, updatedOptions);
+      return this.client.phoneNumbers.createOrUpdateReservation(reservation.id, updatedOptions);
     } catch (e: any) {
       span.setStatus({
         status: "error",
@@ -907,7 +903,7 @@ export class PhoneNumbersClient {
    */
   public listReservations(
     options: PhoneNumbersListReservationsOptionalParams = {},
-  ): PagedAsyncIterableIterator<PhoneNumbersReservation> {
+  ): PagedAsyncIterableIterator<PhoneNumbersReservationInternal> {
     const { span, updatedOptions } = tracingClient.startSpan(
       "PhoneNumbersClient-listReservations",
       options,

@@ -34,7 +34,7 @@ import {
   PhoneNumbersListOfferingsNextOptionalParams,
   PhoneNumbersListOfferingsOptionalParams,
   PhoneNumbersListOfferingsResponse,
-  PhoneNumbersReservation,
+  PhoneNumbersReservationInternal,
   PhoneNumbersListReservationsNextOptionalParams,
   PhoneNumbersListReservationsOptionalParams,
   PhoneNumbersListReservationsResponse,
@@ -368,7 +368,7 @@ export class PhoneNumbersImpl implements PhoneNumbers {
    */
   public listReservations(
     options?: PhoneNumbersListReservationsOptionalParams,
-  ): PagedAsyncIterableIterator<PhoneNumbersReservation> {
+  ): PagedAsyncIterableIterator<PhoneNumbersReservationInternal> {
     const iter = this.listReservationsPagingAll(options);
     return {
       next() {
@@ -389,7 +389,7 @@ export class PhoneNumbersImpl implements PhoneNumbers {
   private async *listReservationsPagingPage(
     options?: PhoneNumbersListReservationsOptionalParams,
     settings?: PageSettings,
-  ): AsyncIterableIterator<PhoneNumbersReservation[]> {
+  ): AsyncIterableIterator<PhoneNumbersReservationInternal[]> {
     let result: PhoneNumbersListReservationsResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
@@ -410,7 +410,7 @@ export class PhoneNumbersImpl implements PhoneNumbers {
 
   private async *listReservationsPagingAll(
     options?: PhoneNumbersListReservationsOptionalParams,
-  ): AsyncIterableIterator<PhoneNumbersReservation> {
+  ): AsyncIterableIterator<PhoneNumbersReservationInternal> {
     for await (const page of this.listReservationsPagingPage(options)) {
       yield* page;
     }
@@ -1534,13 +1534,13 @@ const createOrUpdateReservationOperationSpec: coreClient.OperationSpec = {
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.PhoneNumbersReservation,
+      bodyMapper: Mappers.PhoneNumbersReservationInternal,
     },
     201: {
-      bodyMapper: Mappers.PhoneNumbersReservation,
+      bodyMapper: Mappers.PhoneNumbersReservationInternal,
     },
     207: {
-      bodyMapper: Mappers.PhoneNumbersReservation,
+      bodyMapper: Mappers.PhoneNumbersReservationInternal,
     },
     default: {
       bodyMapper: Mappers.CommunicationErrorResponse,
@@ -1548,7 +1548,7 @@ const createOrUpdateReservationOperationSpec: coreClient.OperationSpec = {
   },
   requestBody: {
     parameterPath: { phoneNumbers: ["options", "phoneNumbers"] },
-    mapper: { ...Mappers.PhoneNumbersReservation, required: true },
+    mapper: { ...Mappers.PhoneNumbersReservationInternal, required: true },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.reservationId],
@@ -1561,7 +1561,7 @@ const getReservationOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PhoneNumbersReservation,
+      bodyMapper: Mappers.PhoneNumbersReservationInternal,
     },
     default: {
       bodyMapper: Mappers.CommunicationErrorResponse,

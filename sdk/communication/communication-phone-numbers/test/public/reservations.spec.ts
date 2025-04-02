@@ -2,8 +2,13 @@
 // Licensed under the MIT License.
 
 import { matrix } from "@azure-tools/test-utils-vitest";
-import { isPlaybackMode, type Recorder } from "@azure-tools/test-recorder";
-import type { PhoneNumbersBrowseRequest, PhoneNumbersClient } from "../../src/index.js";
+import { type Recorder } from "@azure-tools/test-recorder";
+import type {
+  PhoneNumbersBrowseRequest,
+  PhoneNumbersClient} from "../../src/index.js";
+import {
+  PhoneNumbersReservation,
+} from "../../src/index.js";
 import { createRecordedClient, createRecordedClientWithToken } from "./utils/recordedClient.js";
 import { isClientErrorStatusCode } from "./utils/statusCodeHelpers.js";
 import { describe, it, assert, beforeEach, afterEach, beforeAll } from "vitest";
@@ -106,14 +111,10 @@ matrix([[true, false]], async (useAad) => {
         );
 
         const phoneNumbers = browseAvailableNumbers.phoneNumbers;
-        const phoneNumbersReservation = {
-          phoneNumbers: { [phoneNumbers[0].id as string]: phoneNumbers[0] },
-        };
+        const phoneNumbersReservation = new PhoneNumbersReservation(reservationId);
+        phoneNumbersReservation.addPhoneNumber(phoneNumbers[0]);
 
-        const reservationResponse = await client.createOrUpdateReservation(
-          phoneNumbersReservation.phoneNumbers,
-          isPlaybackMode() ? getReservationId() : "",
-        );
+        const reservationResponse = await client.createOrUpdateReservation(phoneNumbersReservation);
         const responseReservationId = reservationResponse.id ? reservationResponse.id : "";
         assert.equal(reservationResponse.status, "active");
         assert.isTrue(reservationResponse.id !== "");
@@ -141,43 +142,25 @@ matrix([[true, false]], async (useAad) => {
       );
 
       const phoneNumbers = browseAvailableNumbers.phoneNumbers;
-      let phoneNumbersReservation = {
-        phoneNumbers: { [phoneNumbers[0].id as string]: phoneNumbers[0] },
-      };
+      const phoneNumbersReservation = new PhoneNumbersReservation(reservationId);
+      phoneNumbersReservation.addPhoneNumber(phoneNumbers[0]);
 
-      const reservationResponse = await client.createOrUpdateReservation(
-        phoneNumbersReservation.phoneNumbers,
-        reservationId,
-      );
+      const reservationResponse = await client.createOrUpdateReservation(phoneNumbersReservation);
       assert.equal(reservationResponse.status, "active");
       assert.isTrue(reservationResponse.id === reservationId);
 
-      phoneNumbersReservation = {
-        phoneNumbers: {
-          [phoneNumbers[0].id as string]: phoneNumbers[0],
-          [phoneNumbers[1].id as string]: phoneNumbers[1],
-        },
-      };
-      let updatedReservationResponse = await client.createOrUpdateReservation(
-        phoneNumbersReservation.phoneNumbers,
-        reservationId,
-      );
+      phoneNumbersReservation.addPhoneNumber(phoneNumbers[1]);
+      let updatedReservationResponse =
+        await client.createOrUpdateReservation(phoneNumbersReservation);
       assert.isTrue(
         Object.keys(updatedReservationResponse.phoneNumbers || {}).includes(
           phoneNumbers[1].id as string,
         ),
       );
 
-      const updatedPhoneNumbersReservation = {
-        phoneNumbers: {
-          [phoneNumbers[0].id as string]: null,
-          [phoneNumbers[1].id as string]: null,
-        },
-      };
-      updatedReservationResponse = await client.createOrUpdateReservation(
-        updatedPhoneNumbersReservation.phoneNumbers,
-        reservationId,
-      );
+      phoneNumbersReservation.removePhoneNumber(phoneNumbers[0]);
+      phoneNumbersReservation.removePhoneNumber(phoneNumbers[1]);
+      updatedReservationResponse = await client.createOrUpdateReservation(phoneNumbersReservation);
 
       assert.isFalse(
         Object.keys(updatedReservationResponse.phoneNumbers || {}).includes(
@@ -193,39 +176,43 @@ matrix([[true, false]], async (useAad) => {
       await client.deleteReservation(reservationId);
     });
 
-    it("throws error when starting purchase without agreement to not resell", { timeout: 60000 }, async () => {
-      const browseAvailableNumberRequest: PhoneNumbersBrowseRequest = {
-        phoneNumberType: "tollFree",
-        capabilities: {
-          calling: "outbound",
-        },
-        assignmentType: "application",
-      };
+    it(
+      "throws error when starting purchase without agreement to not resell",
+      { timeout: 60000 },
+      async () => {
+        const browseAvailableNumberRequest: PhoneNumbersBrowseRequest = {
+          phoneNumberType: "tollFree",
+          capabilities: {
+            calling: "outbound",
+          },
+          assignmentType: "application",
+        };
 
-      const browseAvailableNumbers = await client.browseAvailablePhoneNumbers(
-        "FR",
-        browseAvailableNumberRequest,
-      );
-
-      const phoneNumbers = browseAvailableNumbers.phoneNumbers;
-      const phoneNumbersReservation = {
-        phoneNumbers: { [phoneNumbers[0].id as string]: phoneNumbers[0] },
-      };
-
-      await client.createOrUpdateReservation(phoneNumbersReservation.phoneNumbers,reservationId);
-
-      try {
-        await client.beginReservationPurchase(reservationId, {
-          agreeToNotResell: false,});
-      } catch (error: any) {
-        assert.isTrue(
-          isClientErrorStatusCode(error.statusCode),
-          `Status code ${error.statusCode} does not indicate client error.`,
+        const browseAvailableNumbers = await client.browseAvailablePhoneNumbers(
+          "FR",
+          browseAvailableNumberRequest,
         );
-        return;
-      }
 
-      assert.fail("beginReservationPurchase should have thrown an exception.");
-    });
+        const phoneNumbers = browseAvailableNumbers.phoneNumbers;
+        const phoneNumbersReservation = new PhoneNumbersReservation(reservationId);
+        phoneNumbersReservation.addPhoneNumber(phoneNumbers[0]);
+
+        await client.createOrUpdateReservation(phoneNumbersReservation);
+
+        try {
+          await client.beginReservationPurchase(reservationId, {
+            agreeToNotResell: false,
+          });
+        } catch (error: any) {
+          assert.isTrue(
+            isClientErrorStatusCode(error.statusCode),
+            `Status code ${error.statusCode} does not indicate client error.`,
+          );
+          return;
+        }
+
+        assert.fail("beginReservationPurchase should have thrown an exception.");
+      },
+    );
   });
 });

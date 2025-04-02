@@ -3,9 +3,11 @@
 
 import type { OperationOptions } from "@azure/core-client";
 import type {
+  AvailablePhoneNumber,
   PhoneNumberAssignmentType,
   PhoneNumberSearchRequest,
   PhoneNumbersListAreaCodesOptionalParams,
+  PhoneNumbersReservationInternal,
   PhoneNumberType,
 } from "./generated/src/models/index.js";
 
@@ -91,6 +93,39 @@ export interface ListOfferingsOptions extends OperationOptions {
   assignmentType?: PhoneNumberAssignmentType;
 }
 
+export class PhoneNumbersReservation implements PhoneNumbersReservationInternal {
+  id: string;
+  readonly phoneNumbers: { [propertyName: string]: AvailablePhoneNumber | null } = {};
+
+  constructor(
+    id: string,
+    phoneNumbers: { [propertyName: string]: AvailablePhoneNumber | null } = {},
+  ) {
+    this.id = id;
+    this.phoneNumbers = phoneNumbers;
+  }
+
+  /**
+   * Adds phone numbers to the reservation.
+   */
+  addPhoneNumber(phoneNumber: AvailablePhoneNumber): void {
+    // Implementation for adding phone numbers to the reservation
+    if (phoneNumber.id) {
+      this.phoneNumbers[phoneNumber.id] = phoneNumber;
+    }
+  }
+
+  /**
+   * Removes phone numbers from the reservation.
+   */
+  removePhoneNumber(phoneNumber: AvailablePhoneNumber): void {
+    // Implementation for removing a phone numbers from the reservation
+    if (phoneNumber.id) {
+      this.phoneNumbers[phoneNumber.id] = null;
+    }
+  }
+}
+
 export {
   AvailablePhoneNumber,
   AvailablePhoneNumberCost,
@@ -109,7 +144,6 @@ export {
   PhoneNumberCapabilityType,
   PhoneNumberCost,
   PhoneNumberCountry,
-  PhoneNumbersCreateOrUpdateReservationOptionalParams,
   PhoneNumbersCreateOrUpdateReservationResponse,
   PhoneNumbersDeleteReservationOptionalParams,
   PhoneNumbersGetReservationOptionalParams,
@@ -124,7 +158,7 @@ export {
   PhoneNumbersPurchaseReservationHeaders,
   PhoneNumbersPurchaseReservationOptionalParams,
   PhoneNumbersPurchaseReservationResponse,
-  PhoneNumbersReservation,
+  PhoneNumbersReservationInternal,
   PhoneNumberType,
   PurchasedPhoneNumber,
   OperatorDetails,

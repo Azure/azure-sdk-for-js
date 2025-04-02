@@ -79,3 +79,12 @@ directive:
   transform: >
     $["format"] = "";
 ```
+
+### Change naming of PhoneNumbersReservation to PhoneNumbersReservationInternal
+``` yaml
+directive:
+  from: swagger-document
+  where: "$.definitions.PhoneNumbersReservation"
+  transform: >
+    $["x-ms-client-name"] = "PhoneNumbersReservationInternal";
+```

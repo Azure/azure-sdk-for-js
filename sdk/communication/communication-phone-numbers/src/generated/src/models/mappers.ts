@@ -555,7 +555,7 @@ export const PhoneNumbersReservations: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "PhoneNumbersReservation",
+              className: "PhoneNumbersReservationInternal",
             },
           },
         },
@@ -570,10 +570,10 @@ export const PhoneNumbersReservations: coreClient.CompositeMapper = {
   },
 };
 
-export const PhoneNumbersReservation: coreClient.CompositeMapper = {
+export const PhoneNumbersReservationInternal: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "PhoneNumbersReservation",
+    className: "PhoneNumbersReservationInternal",
     modelProperties: {
       id: {
         serializedName: "id",
