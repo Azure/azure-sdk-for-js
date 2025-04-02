@@ -391,4 +391,89 @@ describe("CallRecording Live Tests", () => {
       await callerCallAutomationClient.getCallRecording().stop(recordingStateResult.recordingId);
     },
   );
+
+  it(
+    "Creates a call start and stop recording and get record result then hangs up",
+    { timeout: 60000 },
+    async function (ctx) {
+      const fullTitle: string | undefined =
+        ctx.task.suite && ctx.task.suite.name && ctx.task.name
+          ? `${ctx.task.suite.name} ${ctx.task.name}`
+          : undefined;
+      testName = fullTitle
+        ? fullTitle.replace(/ /g, "_")
+        : "create_call_start_and_stop_recording_and_get_record_result_then_hang_up";
+      await loadPersistedEvents(testName);
+
+      const callInvite: CallInvite = { targetParticipant: testUser2 };
+      const uniqueId = await serviceBusWithNewCall(testUser, testUser2);
+      const callBackUrl: string = dispatcherCallback + `?q=${uniqueId}`;
+      const createCallOption: CreateCallOptions = { operationContext: "recordingCreateCall" };
+
+      const result = await callerCallAutomationClient.createCall(
+        callInvite,
+        callBackUrl,
+        createCallOption,
+      );
+      const incomingCallContext = await waitForIncomingCallContext(uniqueId, 8000);
+      const callConnectionId: string = result.callConnectionProperties.callConnectionId
+        ? result.callConnectionProperties.callConnectionId
+        : "";
+      assert.isDefined(incomingCallContext);
+
+      if (incomingCallContext) {
+        const answerCallOption: AnswerCallOptions = { operationContext: "recordingAnswer" };
+        await receiverCallAutomationClient.answerCall(
+          incomingCallContext,
+          callBackUrl,
+          answerCallOption,
+        );
+      }
+      const callConnectedEvent = await waitForEvent("CallConnected", callConnectionId, 8000);
+
+      assert.isDefined(callConnectedEvent);
+      callConnection = result.callConnection;
+
+      const playSource: FileSource[] = [
+        {
+          url: fileSourceUrl,
+          kind: "fileSource",
+        },
+      ];
+
+      // Call recording can fail when no audio is in call, we will play audio to avoid that.
+      const playToAllOptions: PlayOptions = { operationContext: "recordingPlay" };
+      await callConnection.getCallMedia().playToAll(playSource, playToAllOptions);
+
+      const recOptions: StartRecordingOptions = {
+        recordingStateCallbackEndpointUrl: callBackUrl,
+        callLocator: {
+          id: (await callConnection.getCallConnectionProperties()).serverCallId || "",
+          kind: "serverCallLocator",
+        },
+        recordingChannel: "unmixed",
+        recordingFormat: "wav",
+        recordingContent: "audio",
+      };
+
+      const recordingStateResult = await callerCallAutomationClient
+        .getCallRecording()
+        .start(recOptions);
+
+      // Delay for 6 seconds, this is to let the recording state change to active
+      await new Promise((resolve) => setTimeout(resolve, 6000));
+      const recStatus = await callerCallAutomationClient
+        .getCallRecording()
+        .getState(recordingStateResult.recordingId);
+      assert.equal(recStatus.recordingState, "active");
+      await callerCallAutomationClient.getCallRecording().stop(recordingStateResult.recordingId);
+      // Delay for 6 seconds, this is to let the recording state change to in-active
+      await new Promise((resolve) => setTimeout(resolve, 6000));
+
+      const recordingResult = await callerCallAutomationClient
+        .getCallRecording()
+        .getRecordingResult(recordingStateResult.recordingId);
+      assert.isDefined(recordingResult);
+    },
+  );
 });
