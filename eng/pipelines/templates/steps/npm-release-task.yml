@@ -115,8 +115,8 @@ jobs:
         value: $[dependencies.PublishPackage.outputs['SetPackageVar.IntendedTagVersion']]
     displayName: 'Verify package tags'
     pool:
-      name: $(LINUXPOOL)
-      image: $(LINUXVMIMAGE)
+      name: azsdk-pool-mms-ubuntu-2004-general
+      image: azsdk-pool-mms-ubuntu-2004-1espt
       os: linux
     steps:
     - checkout: self
