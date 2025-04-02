@@ -23,15 +23,15 @@ jobs:
       pnpm update
     displayName: "Run Pnpm Update"
 
-  # - template: /eng/common/pipelines/templates/steps/create-pull-request.yml
-  #   parameters:
-  #     RepoName: azure-sdk-for-js
-  #     BaseBranchName: feat/pnpm-prep
-  #     PRBranchName: automated-deps-update
-  #     CommitMsg: "Automatic pnpm update"
-  #     PRTitle: "[EngSys] automatic pnpm update"
-  #     PRBody: "This is an automatic PR generated weekly with changes from running the command pnpm update"
-  #     PushArgs: "-f"
+  - template: /eng/common/pipelines/templates/steps/create-pull-request.yml
+    parameters:
+      RepoName: azure-sdk-for-js
+      BaseBranchName: feat/pnpm-prep
+      PRBranchName: automated-deps-update
+      CommitMsg: "Automatic pnpm update"
+      PRTitle: "[EngSys] automatic pnpm update"
+      PRBody: "This is an automatic PR generated weekly with changes from running the command pnpm update"
+      PushArgs: "-f"
 
 
 - job: 'CheckDependency'
