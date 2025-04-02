@@ -189,6 +189,16 @@ export interface PhoneNumberOffering {
     phoneNumberType?: PhoneNumberType;
 }
 
+// @public (undocumented)
+export interface PhoneNumberReservationParams extends PhoneNumbersReservationInternal {
+    // (undocumented)
+    id: string;
+    // (undocumented)
+    readonly phoneNumbers: {
+        [propertyName: string]: AvailablePhoneNumber | null;
+    };
+}
+
 // @public
 export interface PhoneNumbersBrowseAvailableNumbersOptionalParams extends coreClient.OperationOptions {
     assignmentType?: PhoneNumberAssignmentType;
@@ -223,7 +233,7 @@ export class PhoneNumbersClient {
     beginSearchAvailablePhoneNumbers(search: SearchAvailablePhoneNumbersRequest, options?: BeginSearchAvailablePhoneNumbersOptions): Promise<PollerLike<PollOperationState<PhoneNumberSearchResult>, PhoneNumberSearchResult>>;
     beginUpdatePhoneNumberCapabilities(phoneNumber: string, request: PhoneNumberCapabilitiesRequest, options?: BeginUpdatePhoneNumberCapabilitiesOptions): Promise<PollerLike<PollOperationState<PurchasedPhoneNumber>, PurchasedPhoneNumber>>;
     browseAvailablePhoneNumbers(countryCode: string, request: PhoneNumbersBrowseRequest): Promise<PhoneNumbersBrowseAvailableNumbersResponse>;
-    createOrUpdateReservation(reservation: PhoneNumbersReservation, options?: OperationOptions): Promise<PhoneNumbersCreateOrUpdateReservationResponse>;
+    createOrUpdateReservation(reservation: PhoneNumberReservationParams, options?: OperationOptions): Promise<PhoneNumbersCreateOrUpdateReservationResponse>;
     deleteReservation(reservationId: string, options?: PhoneNumbersDeleteReservationOptionalParams): Promise<void>;
     getPurchasedPhoneNumber(phoneNumber: string, options?: GetPurchasedPhoneNumberOptions): Promise<PurchasedPhoneNumber>;
     getReservation(reservationId: string, options?: PhoneNumbersGetReservationOptionalParams): Promise<PhoneNumbersGetReservationResponse>;
@@ -315,7 +325,7 @@ export interface PhoneNumbersPurchaseReservationOptionalParams extends coreClien
 export type PhoneNumbersPurchaseReservationResponse = PhoneNumbersPurchaseReservationHeaders;
 
 // @public (undocumented)
-export class PhoneNumbersReservation implements PhoneNumbersReservationInternal {
+export class PhoneNumbersReservation implements PhoneNumberReservationParams {
     constructor(id: string, phoneNumbers?: {
         [propertyName: string]: AvailablePhoneNumber | null;
     });

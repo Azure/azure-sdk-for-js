@@ -43,7 +43,7 @@ import type {
   ListOfferingsOptions,
   ListPurchasedPhoneNumbersOptions,
   ListTollFreeAreaCodesOptions,
-  PhoneNumbersReservation,
+  PhoneNumberReservationParams,
   PurchasePhoneNumbersResult,
   ReleasePhoneNumberResult,
   SearchAvailablePhoneNumbersRequest,
@@ -617,13 +617,10 @@ export class PhoneNumbersClient {
    * const client = new PhoneNumbersClient("<endpoint-from-resource>", credential);
    *
    * const reservationId = "<reservation-id>";
-   * const options: PhoneNumbersCreateOrUpdateReservationOptionalParams = {
-      phoneNumbers: { 
-        [1234567890]: phoneNumberDetails : AvailablePhoneNumber
-      }
-   * };
+   * const phoneNumbersReservation = new PhoneNumbersReservation(reservationId);
+   * phoneNumbersReservation.addPhoneNumber(phoneNumbers[0]);
    *
-   * const reservationResponse = await client.createOrUpdateReservation(reservationId, options);
+   * const reservationResponse = await client.createOrUpdateReservation(phoneNumbersReservation, options);
    *
    * console.log(`Reservation updated with status: ${reservationResponse.status}`);
    * console.log(`Updated reservation details: ${JSON.stringify(reservationResponse)}`);
@@ -634,8 +631,7 @@ export class PhoneNumbersClient {
    * @param options - The options parameters.
    */
   public async createOrUpdateReservation(
-    // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
-    reservation: PhoneNumbersReservation,
+    reservation: PhoneNumberReservationParams,
     options?: OperationOptions,
   ): Promise<PhoneNumbersCreateOrUpdateReservationResponse> {
     const reservationOptionalParams: PhoneNumbersCreateOrUpdateReservationOptionalParams = {

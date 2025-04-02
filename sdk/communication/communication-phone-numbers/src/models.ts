@@ -93,7 +93,12 @@ export interface ListOfferingsOptions extends OperationOptions {
   assignmentType?: PhoneNumberAssignmentType;
 }
 
-export class PhoneNumbersReservation implements PhoneNumbersReservationInternal {
+export interface PhoneNumberReservationParams extends PhoneNumbersReservationInternal {
+  id: string;
+  readonly phoneNumbers: { [propertyName: string]: AvailablePhoneNumber | null };
+}
+
+export class PhoneNumbersReservation implements PhoneNumberReservationParams {
   id: string;
   readonly phoneNumbers: { [propertyName: string]: AvailablePhoneNumber | null } = {};
 
