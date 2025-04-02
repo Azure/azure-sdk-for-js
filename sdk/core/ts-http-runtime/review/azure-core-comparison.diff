@@ -4153,7 +4153,7 @@ index 48d09e6..65c0e25 100644
  
  /**
 diff --git a/src/util/helpers.ts b/src/util/helpers.ts
-index fff4438..c82c4c2 100644
+index 16e96e5..c82c4c2 100644
 --- a/src/util/helpers.ts
 +++ b/src/util/helpers.ts
 @@ -1,7 +1,7 @@
@@ -4174,17 +4174,6 @@ index fff4438..c82c4c2 100644
      abortErrorMsg?: string;
    },
  ): Promise<T | void> {
-@@ -29,9 +29,7 @@ export function delay<T>(
- 
-     const abortReason =
-       // A custom error message takes precedence
--      options?.abortErrorMsg ??
--      options?.abortSignal?.reason ??
--      StandardAbortMessage;
-+      options?.abortErrorMsg ?? options?.abortSignal?.reason ?? StandardAbortMessage;
-     const rejectOnAbort = (): void => {
-       return reject(new AbortError(abortReason));
-     };
 diff --git a/src/util/httpMethods.ts b/src/util/httpMethods.ts
 deleted file mode 100644
 index 2748031..0000000
