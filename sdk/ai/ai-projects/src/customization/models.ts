@@ -156,6 +156,10 @@ export interface OpenApiFunctionDefinition {
   spec: unknown;
   /** Open API authentication details */
   auth: OpenApiAuthDetails;
+  /** List of OpenAPI spec parameters that will use user-provided defaults */
+  default_params?: string[];
+  /** List of functions returned in response */
+  functions?: Array<FunctionDefinition>;
 }
 
 /** authentication details for OpenApiFunctionDefinition */

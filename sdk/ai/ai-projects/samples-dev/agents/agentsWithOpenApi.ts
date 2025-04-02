@@ -36,6 +36,7 @@ export async function main(): Promise<void> {
     auth: {
       type: "anonymous",
     },
+    default_params: ["format"], // optional
   };
 
   // Create OpenApi tool
