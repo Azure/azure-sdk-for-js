@@ -8,6 +8,8 @@ export type GetConstitutionParameters = RequestParameters;
 export type ListConsortiumMembersParameters = RequestParameters;
 export type GetEnclaveQuotesParameters = RequestParameters;
 export type ListCollectionsParameters = RequestParameters;
+export type ListUserDefinedFunctionsParameters = RequestParameters;
+
 
 export interface ListLedgerEntriesQueryParamProperties {
   /** The collection id. */

@@ -18,6 +18,7 @@ import type {
   LedgerEntryOutput,
   PagedUsersOutput,
   LedgerUserOutput,
+  PagedUserDefinedFunctionsOutput,
 } from "./outputModels.js";
 
 /** The constitution is a script that assesses and applies proposals from consortium members. */
@@ -214,4 +215,16 @@ export interface GetUserDefinedEndpoint200Response extends HttpResponse {
 export interface GetUserDefinedEndpointDefaultResponse extends HttpResponse {
   status: string;
   body: ConfidentialLedgerErrorOutput;
+}
+
+/** User defined functions stored in the Confidential Ledger */
+export interface ListUserDefinedFunctions200Response extends HttpResponse {
+    status: "200";
+    body: PagedUserDefinedFunctionsOutput;
+}
+
+/** User defined functions stored in the Confidential Ledger */
+export interface ListUserDefinedFunctionsDefaultResponse extends HttpResponse {
+    status: string;
+    body: ConfidentialLedgerErrorOutput;
 }
