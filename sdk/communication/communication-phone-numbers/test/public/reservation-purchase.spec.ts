@@ -17,7 +17,7 @@ matrix([[true, false]], async (useAad) => {
 
   describe(
     `PhoneNumbersClient - reservations${useAad ? " [AAD]" : ""}`,
-    { skip: !includePhoneNumberLiveTests && !isPlaybackMode() },
+    { skip: includePhoneNumberLiveTests || isPlaybackMode() },
     () => {
       let recorder: Recorder;
       let client: PhoneNumbersClient;
