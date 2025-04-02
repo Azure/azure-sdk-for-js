@@ -360,7 +360,7 @@ ruleTester.run("ts-package-json-sdktype", rule, {
       errors: [
         {
           message:
-            "unrecognized sdk-type value: clien. Expected one of 'client', 'mgmt', 'perf-test', or 'utility'.",
+            "unrecognized sdk-type value: clien. Expected one of 'client', 'mgmt', or 'utility.'",
         },
       ],
     },
@@ -371,7 +371,7 @@ ruleTester.run("ts-package-json-sdktype", rule, {
       errors: [
         {
           message:
-            "unrecognized sdk-type value: mgm. Expected one of 'client', 'mgmt', 'perf-test', or 'utility'.",
+            "unrecognized sdk-type value: mgm. Expected one of 'client', 'mgmt', or 'utility.'",
         },
       ],
     },
@@ -382,7 +382,7 @@ ruleTester.run("ts-package-json-sdktype", rule, {
       errors: [
         {
           message:
-            "unrecognized sdk-type value: util. Expected one of 'client', 'mgmt', 'perf-test', or 'utility'.",
+            "unrecognized sdk-type value: util. Expected one of 'client', 'mgmt', or 'utility.'",
         },
       ],
     },
