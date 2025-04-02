@@ -675,6 +675,9 @@ export class LiveMetrics {
   }
 
   private parseDocumentFilterConfiguration(response: PublishResponse | IsSubscribedResponse): void {
+    if (!response.documentStreams) {
+      return;
+    }
     response.documentStreams.forEach((documentStreamInfo) => {
       documentStreamInfo.documentFilterGroups.forEach((documentFilterGroupInfo) => {
         try {
@@ -761,6 +764,9 @@ export class LiveMetrics {
   }
 
   private parseMetricFilterConfiguration(response: PublishResponse | IsSubscribedResponse): void {
+    if (!response.metrics) {
+      return;
+    }
     response.metrics.forEach((derivedMetricInfo) => {
       try {
         if (!this.seenMetricIds.has(derivedMetricInfo.id)) {
