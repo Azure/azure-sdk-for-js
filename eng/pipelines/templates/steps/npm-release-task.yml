@@ -5,9 +5,15 @@ parameters:
   Tag: ''
   AdditionalTag: ''
   DependsOn: []
+  VarDependences: {}
 
 jobs:
 - deployment: PublishPackage
+  variables:
+    - ${{ each var in parameters.VarDependences }}:
+      - name: ${{ var.key }}
+        value: ${{ var.value }}
+    - template: /eng/pipelines/templates/variables/image.yml
   environment: 'npm'
   dependsOn: ${{ parameters.DependsOn }}
   condition: succeeded()
@@ -83,7 +89,7 @@ jobs:
               Approvers: ${{ coalesce(variables['Build.RequestedForEmail'], 'azuresdk@microsoft.com') }}
               ServiceEndpointUrl: 'https://api.esrp.microsoft.com'
               MainPublisher: 'ESRPRELPACMANTEST'
-              productstate: ${{parameters.Tag}}
+              productstate: $(Tag)
 
         - ${{ else }}:
           - task: PowerShell@2
@@ -91,7 +97,7 @@ jobs:
             inputs:
               targetType: filePath
               filePath: eng/tools/publish-to-npm.ps1
-              arguments: -pathToArtifacts ${{parameters.PathToArtifacts}} -accessLevel "public" -tag "${{parameters.Tag}}" -additionalTag "${{parameters.AdditionalTag}}" -registry ${{parameters.Registry}} -npmToken $(azure-sdk-npm-token)
+              arguments: -pathToArtifacts ${{parameters.PathToArtifacts}} -accessLevel "public" -tag "${{parameters.Tag}}" -additionalTag "$(AdditionalTag)" -registry ${{parameters.Registry}} -npmToken $(azure-sdk-npm-token)
               pwsh: true
             condition: succeeded()
 
@@ -115,15 +121,15 @@ jobs:
       inputs:
         targetType: filePath
         filePath: eng/scripts/verify-npm-tags.ps1
-        arguments: -originalDistTags "$(OriginalTags)" -intendedTag "${{parameters.Tag}}" -intendedTagVersion "$(IntendedTagVersion)" -packageName "$(PackageName)" -npmToken "$(azure-sdk-npm-token)"
+        arguments: -originalDistTags "$(OriginalTags)" -intendedTag "$(Tag)" -intendedTagVersion "$(IntendedTagVersion)" -packageName "$(PackageName)" -npmToken "$(azure-sdk-npm-token)"
         pwsh: true
 
-    - ${{ if ne(parameters.AdditionalTag, '') }}:
+    - ${{ if ne($(AdditionalTag), '') }}:
       - task: PowerShell@2
         displayName: Add Additional Tag
         inputs:
           targetType: filePath
           filePath: eng/tools/publish-to-npm.ps1
-          arguments: -addTag $true -pathToArtifacts ${{parameters.PathToArtifacts}} -accessLevel "public" -tag "${{parameters.AdditionalTag}}" -registry ${{parameters.Registry}} -npmToken $(azure-sdk-npm-token)
+          arguments: -addTag $true -pathToArtifacts ${{parameters.PathToArtifacts}} -accessLevel "public" -tag "$(AdditionalTag)" -registry ${{parameters.Registry}} -npmToken $(azure-sdk-npm-token)
           pwsh: true
         condition: succeeded()
