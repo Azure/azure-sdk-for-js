@@ -8,7 +8,7 @@
  * It requires the following environment variables to be set:
  * - DOCUMENT_TRANSLATION_ENDPOINT: The endpoint URL for the Document Translation service.
  * - STORAGE_BLOB_ENDPOINT: The endpoint URL for the Azure Blob Storage account.
- * - TRANSLATION_FILE: The URL of the PDF file to be translated.
+ * - TRANSLATION_FILE: The URL of the file to be translated.
  */
 
 import "dotenv/config";
@@ -21,8 +21,8 @@ import { BlobServiceClient } from "@azure/storage-blob";
 import { createRestError } from "@azure-rest/core-client";
 import https from "node:https";
 import path from "node:path";
-import fs from "node:fs";
 import { fileURLToPath } from "node:url";
+import type { Readable } from "node:stream";
 
 const endpoint =
   process.env["DOCUMENT_TRANSLATION_ENDPOINT"] ||
@@ -39,24 +39,22 @@ export async function main(): Promise<void> {
   const blobServiceClient = new BlobServiceClient(blobEndpoint, credential);
   const sourceContainerClient = blobServiceClient.getContainerClient("docs");
   await sourceContainerClient.createIfNotExists();
-  const sourceBlobName = "file.pdf";
+  const sourceBlobName = path.basename(new URL(fileUrl).pathname);
   const sourceBlobClient = sourceContainerClient.getBlobClient(sourceBlobName);
   const blockBlobClient = sourceBlobClient.getBlockBlobClient();
 
-  await new Promise<void>((resolve, reject) => {
+  const stream = await new Promise<Readable>((resolve, reject) => {
     https
       .get(fileUrl, (response) => {
         if (response.statusCode !== 200) {
           reject(new Error(`Failed to fetch file. Status code: ${response.statusCode}`));
           return;
         }
-        blockBlobClient
-          .uploadStream(response)
-          .then(() => resolve())
-          .catch(reject);
+        resolve(response);
       })
       .on("error", reject);
   });
+  await blockBlobClient.uploadStream(stream);
 
   const targetContainerClient = blobServiceClient.getContainerClient("translations");
   await targetContainerClient.createIfNotExists();
@@ -101,17 +99,9 @@ export async function main(): Promise<void> {
 
   for await (const blob of targetContainerClient.listBlobsFlat()) {
     const translatedBlobClient = targetContainerClient.getBlobClient(blob.name);
-    const downloadResponse = await translatedBlobClient.download();
-    const localFilePath = path.join(__dirname, "downloadedTranslatedFile.pdf");
-    const writableStream = fs.createWriteStream(localFilePath);
-    if (downloadResponse.readableStreamBody) {
-      downloadResponse.readableStreamBody.pipe(writableStream);
-      writableStream.on("finish", () => {
-        console.log(`Translated file downloaded to ${localFilePath}`);
-      });
-    } else {
-      console.error("No content available to download.");
-    }
+    const filePath = path.join(__dirname, blob.name);
+    await translatedBlobClient.downloadToFile(filePath);
+    console.log("Translated file downloaded to:", filePath);
   }
 }
 

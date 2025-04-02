@@ -30,6 +30,14 @@
     "review/",
     "CHANGELOG.md"
   ],
+  "//metadata": {
+    "constantPaths": [
+      {
+        "path": "src/documentTranslationClient.ts",
+        "prefix": "userAgentInfo"
+      }
+    ]
+  },
   "engines": {
     "node": ">=18.0.0"
   },
