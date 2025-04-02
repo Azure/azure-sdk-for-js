@@ -219,12 +219,12 @@ export interface GetUserDefinedEndpointDefaultResponse extends HttpResponse {
 
 /** User defined functions stored in the Confidential Ledger */
 export interface ListUserDefinedFunctions200Response extends HttpResponse {
-    status: "200";
-    body: PagedUserDefinedFunctionsOutput;
+  status: "200";
+  body: PagedUserDefinedFunctionsOutput;
 }
 
 /** User defined functions stored in the Confidential Ledger */
 export interface ListUserDefinedFunctionsDefaultResponse extends HttpResponse {
-    status: string;
-    body: ConfidentialLedgerErrorOutput;
+  status: string;
+  body: ConfidentialLedgerErrorOutput;
 }

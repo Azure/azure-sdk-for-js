@@ -54,7 +54,7 @@ import type {
   CreateOrUpdateUser200Response,
   CreateOrUpdateUserDefaultResponse,
   ListUserDefinedFunctions200Response,
-  ListUserDefinedFunctionsDefaultResponse
+  ListUserDefinedFunctionsDefaultResponse,
 } from "./responses.js";
 import type { Client, StreamableMethod } from "@azure-rest/core-client";
 
@@ -159,13 +159,12 @@ export interface DeleteUser {
 }
 
 export interface ListUserDefinedFunctions {
-    /** User defined functions stored in the Confidential Ledger */
-    get(
-        options?: ListUserDefinedFunctionsParameters,
-    ): StreamableMethod<
-        | ListUserDefinedFunctions200Response
-        | ListUserDefinedFunctionsDefaultResponse
-    >;
+  /** User defined functions stored in the Confidential Ledger */
+  get(
+    options?: ListUserDefinedFunctionsParameters,
+  ): StreamableMethod<
+    ListUserDefinedFunctions200Response | ListUserDefinedFunctionsDefaultResponse
+  >;
 }
 
 export interface Routes {
