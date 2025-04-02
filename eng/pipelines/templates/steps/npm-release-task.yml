@@ -10,7 +10,7 @@ parameters:
 jobs:
 - deployment: PublishPackage
   variables:
-    - ${{ each var in parameters.VarDependences }}:
+    - ${{ each var in parameters.VarDependencies }}:
       - name: ${{ var.key }}
         value: ${{ var.value }}
     - template: /eng/pipelines/templates/variables/image.yml
