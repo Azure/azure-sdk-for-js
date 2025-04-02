@@ -17,6 +17,17 @@ export interface ChatRequestSystemMessage extends ChatRequestMessageParent {
   content: string;
 }
 
+/**
+ * A request chat message containing developer instructions that influence how the model will generate a chat completions
+ * response. Some AI models support a developer message instead of a system message.
+ */
+export interface ChatRequestDeveloperMessage extends ChatRequestMessageParent {
+  /** The chat role associated with this message, which is always 'developer' for developer messages. */
+  role: "developer";
+  /** The contents of the developer message. */
+  content: string;
+}
+
 /** A request chat message representing user input to the assistant. */
 export interface ChatRequestUserMessage extends ChatRequestMessageParent {
   /** The chat role associated with this message, which is always 'user' for user messages. */
@@ -59,6 +70,42 @@ export interface ChatMessageImageUrl {
    * Possible values: "auto", "low", "high"
    */
   detail?: ChatMessageImageDetailLevel;
+}
+
+/** A structured chat content item for audio content passed as a url. */
+export interface ChatMessageAudioUrlContentItem
+  extends ChatMessageContentItemParent {
+  /** The discriminated object type: always 'audio_url' for this type. */
+  type: "audio_url";
+  /** The details of the audio url. */
+  audio_url: ChatMessageInputAudioUrl;
+}
+
+/** The details of the audio url. */
+export interface ChatMessageInputAudioUrl {
+  /** The URL of the audio content. */
+  url: string;
+}
+
+/** A structured chat content item for audio content passed as base64 encoded data. */
+export interface ChatMessageAudioDataContentItem
+  extends ChatMessageContentItemParent {
+  /** The discriminated object type: always 'input_audio' for this type. */
+  type: "input_audio";
+  /** The details of the input audio data. */
+  input_audio: ChatMessageInputAudio;
+}
+
+/** The details of the input audio data. */
+export interface ChatMessageInputAudio {
+  /** Base64 encoded audio data */
+  data: string;
+  /**
+   * The audio format of the audio content.
+   *
+   * Possible values: "wav", "mp3"
+   */
+  format: AudioContentFormat;
 }
 
 /** A request chat message representing response or action from the assistant. */
@@ -147,16 +194,16 @@ export interface ChatCompletionsResponseFormatJsonSchema
 }
 
 /**
- * Defines the response format for chat completions as JSON with a given schema. The AI model
- * will need to adhere to this schema when generating completions.
+ * Defines the response format for chat completions as JSON with a given schema.
+ * The AI model will need to adhere to this schema when generating completions.
  */
 export interface ChatCompletionsResponseFormatJsonSchemaDefinition {
   /** A name that labels this JSON schema. Must be a-z, A-Z, 0-9, or contain underscores and dashes, with a maximum length of 64. */
   name: string;
   /**
    * The definition of the JSON schema. See https://json-schema.org/overview/what-is-jsonschema.
-   * Note that AI models usually only support a subset of the keywords defined by JSON schema. Consult your AI model documentation
-   * to determine what is supported.
+   * Note that AI models usually only support a subset of the keywords defined by JSON schema.
+   * Consult your AI model documentation to determine what is supported.
    */
   schema: Record<string, unknown>;
   /** A description of the response format, used by the AI model to determine how to generate responses in this format. */
@@ -164,8 +211,8 @@ export interface ChatCompletionsResponseFormatJsonSchemaDefinition {
   /**
    * If set to true, the service will error out if the provided JSON schema contains keywords
    * not supported by the AI model. An example of such keyword may be `maxLength` for JSON type `string`.
-   * If false, and the provided JSON schema contains keywords not supported
-   * by the AI model, the AI model will not error out. Instead it will ignore the unsupported keywords.
+   * If false, and the provided JSON schema contains keywords not supported by the AI model,
+   * the AI model will not error out. Instead it will ignore the unsupported keywords.
    */
   strict?: boolean;
 }
@@ -220,6 +267,7 @@ export interface ImageEmbeddingInput {
 export type ChatRequestMessage =
   | ChatRequestMessageParent
   | ChatRequestSystemMessage
+  | ChatRequestDeveloperMessage
   | ChatRequestUserMessage
   | ChatRequestAssistantMessage
   | ChatRequestToolMessage;
@@ -227,7 +275,9 @@ export type ChatRequestMessage =
 export type ChatMessageContentItem =
   | ChatMessageContentItemParent
   | ChatMessageTextContentItem
-  | ChatMessageImageContentItem;
+  | ChatMessageImageContentItem
+  | ChatMessageAudioUrlContentItem
+  | ChatMessageAudioDataContentItem;
 /**
  * Represents the format that the model must output. Use this to enable JSON mode instead of the default text mode.
  * Note that to enable JSON mode, some AI models may also require you to instruct the model to produce JSON
@@ -244,6 +294,8 @@ export type ExtraParameters = string;
 export type ChatRole = string;
 /** Alias for ChatMessageImageDetailLevel */
 export type ChatMessageImageDetailLevel = string;
+/** Alias for AudioContentFormat */
+export type AudioContentFormat = string;
 /** Alias for ChatCompletionsToolChoicePreset */
 export type ChatCompletionsToolChoicePreset = string;
 /** Alias for EmbeddingEncodingFormat */

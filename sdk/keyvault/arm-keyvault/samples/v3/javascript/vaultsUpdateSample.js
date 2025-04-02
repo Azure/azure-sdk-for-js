@@ -10,13 +10,13 @@
 // Licensed under the MIT License.
 const { KeyVaultManagementClient } = require("@azure/arm-keyvault");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Update a key vault in the specified subscription.
  *
  * @summary Update a key vault in the specified subscription.
- * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2023-07-01/examples/updateVault.json
+ * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2024-11-01/examples/updateVault.json
  */
 async function updateAnExistingVault() {
   const subscriptionId =
@@ -83,7 +83,7 @@ async function updateAnExistingVault() {
 }
 
 async function main() {
-  updateAnExistingVault();
+  await updateAnExistingVault();
 }
 
 main().catch(console.error);

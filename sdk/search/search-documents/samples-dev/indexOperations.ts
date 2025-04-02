@@ -11,7 +11,7 @@ import { SearchIndexClient } from "@azure/search-documents";
 import "dotenv/config";
 
 const endpoint = process.env.ENDPOINT || "";
-const TEST_INDEX_NAME = "example-index-sample-1";
+const INDEX_NAME = "example-index-sample-1";
 
 async function createIndex(indexName: string, client: SearchIndexClient): Promise<void> {
   console.log(`Creating Index Operation`);
@@ -59,7 +59,7 @@ async function createIndex(indexName: string, client: SearchIndexClient): Promis
 async function getAndUpdateIndex(indexName: string, client: SearchIndexClient): Promise<void> {
   console.log(`Get And Update Index Operation`);
   const index: SearchIndex = await client.getIndex(indexName);
-  await index.fields.push({
+  index.fields.push({
     type: "Edm.DateTimeOffset",
     name: "lastUpdatedOn",
     filterable: true,
@@ -139,13 +139,13 @@ async function main(): Promise<void> {
   }
   const client = new SearchIndexClient(endpoint, new DefaultAzureCredential());
   try {
-    await createIndex(TEST_INDEX_NAME, client);
-    await getAndUpdateIndex(TEST_INDEX_NAME, client);
-    await getIndexStatistics(TEST_INDEX_NAME, client);
+    await createIndex(INDEX_NAME, client);
+    await getAndUpdateIndex(INDEX_NAME, client);
+    await getIndexStatistics(INDEX_NAME, client);
     await getServiceStatistics(client);
     await listIndexes(client);
   } finally {
-    await deleteIndex(TEST_INDEX_NAME, client);
+    await deleteIndex(INDEX_NAME, client);
   }
 }
 

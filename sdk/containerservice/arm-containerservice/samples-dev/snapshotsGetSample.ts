@@ -14,7 +14,7 @@ import "dotenv/config";
  * This sample demonstrates how to Gets a snapshot.
  *
  * @summary Gets a snapshot.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2024-10-01/examples/SnapshotsGet.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2025-01-01/examples/SnapshotsGet.json
  */
 async function getSnapshot(): Promise<void> {
   const subscriptionId =

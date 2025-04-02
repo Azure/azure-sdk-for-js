@@ -10,13 +10,13 @@
 // Licensed under the MIT License.
 const { KeyVaultManagementClient } = require("@azure/arm-keyvault");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Deletes the specified private endpoint connection associated with the key vault.
  *
  * @summary Deletes the specified private endpoint connection associated with the key vault.
- * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2023-07-01/examples/deletePrivateEndpointConnection.json
+ * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2024-11-01/examples/deletePrivateEndpointConnection.json
  */
 async function keyVaultDeletePrivateEndpointConnection() {
   const subscriptionId =
@@ -29,13 +29,13 @@ async function keyVaultDeletePrivateEndpointConnection() {
   const result = await client.privateEndpointConnections.beginDeleteAndWait(
     resourceGroupName,
     vaultName,
-    privateEndpointConnectionName
+    privateEndpointConnectionName,
   );
   console.log(result);
 }
 
 async function main() {
-  keyVaultDeletePrivateEndpointConnection();
+  await keyVaultDeletePrivateEndpointConnection();
 }
 
 main().catch(console.error);

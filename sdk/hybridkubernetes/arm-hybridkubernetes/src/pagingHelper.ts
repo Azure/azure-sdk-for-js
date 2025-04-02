@@ -13,11 +13,11 @@ export interface PageInfo {
 const pageMap = new WeakMap<object, PageInfo>();
 
 /**
- * Given a result page from a pageable operation, returns a
- * continuation token that can be used to begin paging from
+ * Given the last `.value` produced by the `byPage` iterator,
+ * returns a continuation token that can be used to begin paging from
  * that point later.
- * @param page A result object from calling .byPage() on a paged operation.
- * @returns The continuation token that can be passed into byPage().
+ * @param page An object from accessing `value` on the IteratorResult from a `byPage` iterator.
+ * @returns The continuation token that can be passed into byPage() during future calls.
  */
 export function getContinuationToken(page: unknown): string | undefined {
   if (typeof page !== "object" || page === null) {
@@ -26,10 +26,7 @@ export function getContinuationToken(page: unknown): string | undefined {
   return pageMap.get(page)?.continuationToken;
 }
 
-export function setContinuationToken(
-  page: unknown,
-  continuationToken: string | undefined
-): void {
+export function setContinuationToken(page: unknown, continuationToken: string | undefined): void {
   if (typeof page !== "object" || page === null || !continuationToken) {
     return;
   }

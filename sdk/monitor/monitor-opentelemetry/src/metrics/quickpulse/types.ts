@@ -2,8 +2,6 @@
 // Licensed under the MIT License.
 
 import type { TokenCredential } from "@azure/core-auth";
-import type { MonitoringDataPoint, PublishResponse } from "../../generated";
-import type { DocumentIngress, CollectionConfigurationError } from "../../generated";
 import {
   ATTR_CLIENT_ADDRESS,
   ATTR_CLIENT_PORT,
@@ -42,6 +40,8 @@ import {
   SEMATTRS_RPC_GRPC_STATUS_CODE,
   SEMATTRS_RPC_SYSTEM,
 } from "@opentelemetry/semantic-conventions";
+import type { MonitoringDataPoint, PublishResponse } from "../../generated/index.js";
+import type { DocumentIngress, CollectionConfigurationError } from "../../generated/index.js";
 
 /**
  * Quickpulse Exporter Options

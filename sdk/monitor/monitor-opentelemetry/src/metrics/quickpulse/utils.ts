@@ -16,8 +16,8 @@ import type {
   Request,
   Trace,
   CollectionConfigurationError,
-} from "../../generated";
-import { KnownDocumentType } from "../../generated";
+} from "../../generated/index.js";
+import { KnownDocumentType } from "../../generated/index.js";
 import type { Attributes } from "@opentelemetry/api";
 import { SpanKind, SpanStatusCode } from "@opentelemetry/api";
 import {
@@ -62,32 +62,48 @@ import { SDK_INFO, hrTimeToMilliseconds } from "@opentelemetry/core";
 import type { Histogram, ResourceMetrics } from "@opentelemetry/sdk-metrics";
 import { DataPointType } from "@opentelemetry/sdk-metrics";
 import {
+  APPLICATION_INSIGHTS_SHIM_VERSION,
   AZURE_MONITOR_AUTO_ATTACH,
   AZURE_MONITOR_OPENTELEMETRY_VERSION,
   AZURE_MONITOR_PREFIX,
   AttachTypePrefix,
-} from "../../types";
-import type { RequestData, DependencyData, ExceptionData, TraceData, TelemetryData } from "./types";
+} from "../../types.js";
+import type {
+  RequestData,
+  DependencyData,
+  ExceptionData,
+  TraceData,
+  TelemetryData,
+} from "./types.js";
 import {
   QuickPulseMetricNames,
   QuickPulseOpenTelemetryMetricNames,
   DependencyTypes,
   legacySemanticValues,
   httpSemanticValues,
-} from "./types";
-import { getOsPrefix } from "../../utils/common";
-import { getResourceProvider } from "../../utils/common";
+} from "./types.js";
+import { getOsPrefix } from "../../utils/common.js";
+import { getResourceProvider } from "../../utils/common.js";
 import type { LogAttributes } from "@opentelemetry/api-logs";
-import { getDependencyTarget, isSqlDB, isExceptionTelemetry } from "../utils";
-import { Logger } from "../../shared/logging";
+import { getDependencyTarget, isSqlDB, isExceptionTelemetry } from "../utils.js";
+import { Logger } from "../../shared/logging/index.js";
 
 /** Get the internal SDK version */
 export function getSdkVersion(): string {
   const { nodeVersion } = process.versions;
   const opentelemetryVersion = SDK_INFO[SEMRESATTRS_TELEMETRY_SDK_VERSION];
-  const version = `ext${AZURE_MONITOR_OPENTELEMETRY_VERSION}`;
+  const version = getSdkVersionType();
   const internalSdkVersion = `${process.env[AZURE_MONITOR_PREFIX] ?? ""}node${nodeVersion}:otel${opentelemetryVersion}:${version}`;
   return internalSdkVersion;
+}
+
+/** Get the internal SDK version type */
+export function getSdkVersionType(): string {
+  if (process.env[APPLICATION_INSIGHTS_SHIM_VERSION]) {
+    return `sha${process.env[APPLICATION_INSIGHTS_SHIM_VERSION]}`;
+  } else {
+    return `dst${AZURE_MONITOR_OPENTELEMETRY_VERSION}`;
+  }
 }
 
 // eslint-disable-next-line tsdoc/syntax

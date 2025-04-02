@@ -11,14 +11,13 @@
  * different targets
  */
 
-const { TextAnalyticsClient, AzureKeyCredential } = require("@azure/ai-text-analytics");
-
+const { TextAnalyticsClient } = require("@azure/ai-text-analytics");
+const { DefaultAzureCredential } = require("@azure/identity");
 // Load the .env file if it exists
-require("dotenv").config();
+require("dotenv/config");
 
 // You will need to set these environment variables or edit the following values
-const endpoint = process.env["ENDPOINT"] || "<cognitive services endpoint>";
-const apiKey = process.env["TEXT_ANALYTICS_API_KEY"] || "<api key>";
+const endpoint = process.env["LANGUAGE_ENDPOINT"] || "<endpoint>";
 
 const documents = [
   {
@@ -51,7 +50,7 @@ const documents = [
 async function main() {
   console.log("=== Opinion Mining Sample ===");
 
-  const client = new TextAnalyticsClient(endpoint, new AzureKeyCredential(apiKey));
+  const client = new TextAnalyticsClient(endpoint, new DefaultAzureCredential());
 
   const results = await client.analyzeSentiment(documents, { includeOpinionMining: true });
 
@@ -72,9 +71,9 @@ async function main() {
           console.log(`\t\t  Target sentiment: ${target.sentiment}`);
           console.log("\t\t  Target confidence scores:", target.confidenceScores);
           console.log("\t\t  Target assessments");
-          for (const { text, sentiment } of assessments) {
+          for (const { text, sentiment: innerSentiment } of assessments) {
             console.log(`\t\t\t- Text: ${text}`);
-            console.log(`\t\t\t  Sentiment: ${sentiment}`);
+            console.log(`\t\t\t  Sentiment: ${innerSentiment}`);
           }
         }
       }

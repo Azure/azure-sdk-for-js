@@ -13,31 +13,28 @@
  * @summary Demonstrates how to defer a message for later processing.
  */
 
-import {
-  ServiceBusClient,
-  delay,
+import type {
   ProcessErrorArgs,
   ServiceBusReceivedMessage,
   ServiceBusMessage,
 } from "@azure/service-bus";
+import { ServiceBusClient, delay } from "@azure/service-bus";
 import { DefaultAzureCredential } from "@azure/identity";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
-
+import "dotenv/config";
 // Define connection string and related Service Bus entity names here
 const fqdn = process.env.SERVICEBUS_FQDN || "<your-servicebus-namespace>.servicebus.windows.net";
 const queueName = process.env.QUEUE_NAME || "<queue name>";
 const credential = new DefaultAzureCredential();
 
-export async function main() {
+export async function main(): Promise<void> {
   await sendMessages();
   await receiveMessage();
 }
 
 // Shuffle and send messages
-async function sendMessages() {
+async function sendMessages(): Promise<void> {
   const sbClient = new ServiceBusClient(fqdn, credential);
   // createSender() can also be used to create a sender for a topic.
   const sender = sbClient.createSender(queueName);
@@ -74,7 +71,7 @@ async function sendMessages() {
   await sbClient.close();
 }
 
-async function receiveMessage() {
+async function receiveMessage(): Promise<void> {
   const sbClient = new ServiceBusClient(fqdn, credential);
 
   // If receiving from a subscription, you can use the createReceiver(topicName, subscriptionName) overload

@@ -12,7 +12,7 @@ import * as fr from "@azure/ai-form-recognizer";
  * Extract key information from receipts.
  */
 export const PrebuiltReceiptModel = fr.createModelFromSchema(
-  modelInfo()
+  modelInfo(),
 ) as fr.DocumentModel<PrebuiltReceiptResult>;
 
 export interface PrebuiltReceiptResult extends fr.AnalyzeResultCommon {
@@ -701,7 +701,7 @@ export interface ReceiptHotelItemsElement {
 /**
  * The raw model schema.
  */
-function modelInfo() {
+function modelInfo(): any {
   return {
     modelId: "prebuilt-receipt",
     description: "Extract key information from receipts.",

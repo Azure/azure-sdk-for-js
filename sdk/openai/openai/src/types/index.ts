@@ -38,6 +38,7 @@ declare module "openai/resources/index" {
      *   This additional specification is only compatible with Azure OpenAI.
      */
     data_sources?: Array<AzureChatExtensionConfiguration>;
+    user_security_context?: AzureUserSecurityContext;
   }
 
   interface ChatCompletionCreateParamsStreaming {
@@ -46,6 +47,7 @@ declare module "openai/resources/index" {
      *   This additional specification is only compatible with Azure OpenAI.
      */
     data_sources?: Array<AzureChatExtensionConfiguration>;
+    user_security_context?: AzureUserSecurityContext;
   }
 
   interface ChatCompletion {
@@ -135,6 +137,28 @@ declare module "openai/resources/index" {
      * been filtered and its id.
      */
     prompt_filter_results?: ImageGenerationPromptFilterResults;
+  }
+
+  export interface AzureUserSecurityContext {
+    /**
+     * Azure-only field. User security context contains several parameters that describe the
+     * application itself, and the end user that interacts with the application. These fields assist
+     * your security operations teams to investigate and mitigate security incidents by providing
+     * a comprehensive approach to protecting your AI applications.
+     * [Learn more](https://aka.ms/TP4AI/Documentation/EndUserContext) about protecting AI applications using
+     * Microsoft Defender for Cloud. The name of the application. Sensitive personal information should not be
+     * included in this field.
+     */
+    application_name?: string;
+
+    /** This identifier is the Microsoft Entra ID (formerly Azure Active Directory) user object ID used to authenticate end-users within the generative AI application. Sensitive personal information should not be included in this field. */
+    end_user_id?: string;
+
+    /** The Microsoft 365 tenant ID the end user belongs to. It's required when the generative AI application is multitenant. */
+    end_user_tenant_id?: string;
+
+    /** Captures the original client's IP address. */
+    source_ip?: string;
   }
 
   export interface UploadPart {

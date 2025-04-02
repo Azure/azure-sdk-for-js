@@ -5,7 +5,6 @@ import { createSasTokenProvider } from "@azure/core-amqp";
 import { AzureNamedKeyCredential, AzureSASCredential } from "@azure/core-auth";
 import type { ServiceBusReceiver } from "../../src/index.js";
 import { ServiceBusClient, parseServiceBusConnectionString } from "../../src/index.js";
-import { getEnvVars } from "../public/utils/envVarUtils.js";
 import { TestClientType } from "../public/utils/testUtils.js";
 import type {
   ServiceBusClientForTests,
@@ -14,14 +13,17 @@ import type {
 import { createServiceBusClientForTests } from "../public/utils/testutils2.js";
 import { afterAll, beforeAll, describe, it } from "vitest";
 import { assert } from "../public/utils/chai.js";
+import { getConnectionString } from "../utils/injectables.js";
 
 type UnpackReturnType<T extends (...args: any) => any> =
   ReturnType<T> extends Promise<infer U> ? U : never;
 
-const { SERVICEBUS_CONNECTION_STRING: serviceBusConnectionString } = getEnvVars();
-
-[TestClientType.UnpartitionedQueue, TestClientType.UnpartitionedSubscription].forEach(
+describe
+  .runIf(getConnectionString())
+  .each([TestClientType.UnpartitionedQueue, TestClientType.UnpartitionedSubscription])(
+  "[%s] Authentication",
   (entityType) => {
+    const serviceBusConnectionString = getConnectionString()!;
     describe(`Authentication via SAK to ${TestClientType[entityType]}`, () => {
       let tempClient: ServiceBusClientForTests;
       let entities: UnpackReturnType<ServiceBusTestHelpers["createTestEntities"]>;

@@ -29,7 +29,7 @@ async function getACommunityGallery() {
 }
 
 async function main() {
-  getACommunityGallery();
+  await getACommunityGallery();
 }
 
 main().catch(console.error);

@@ -1,28 +1,36 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  type TracingClient,
-  type TracingContext,
-  type TracingSpan,
-  createTracingClient,
-} from "@azure/core-tracing";
-import { logger } from "./logger.js";
-import { getErrorMessage } from "@azure/core-util";
-import {
-  tryProcessResponse,
-  onStartTracing,
-  tryProcessError,
-  getSpanName,
-  getRequestBody,
-} from "./tracingHelper.js";
+/**
+ * THIS IS AN AUTO-GENERATED FILE - DO NOT EDIT!
+ *
+ * Any changes you make here may be lost.
+ *
+ * If you need to make changes, please do so in the original source file, \{project-root\}/sources/custom
+ */
+
 import type {
   PipelinePolicy,
   PipelineRequest,
   PipelineResponse,
   SendRequest,
 } from "@azure/core-rest-pipeline";
+import {
+  type TracingClient,
+  type TracingContext,
+  type TracingSpan,
+  createTracingClient,
+} from "@azure/core-tracing";
+import { getErrorMessage } from "@azure/core-util";
 import { SDK_VERSION } from "./constants.js";
+import { logger } from "./logger.js";
+import {
+  getRequestBody,
+  getSpanName,
+  onStartTracing,
+  tryProcessError,
+  tryProcessResponse,
+} from "./tracingHelper.js";
 
 /**
  * The programmatic identifier of the tracingPolicy.
@@ -40,7 +48,6 @@ export function tracingPolicy(): PipelinePolicy {
     packageName: "@azure/ai-inference-rest",
     packageVersion: SDK_VERSION,
   });
-
   return {
     name: tracingPolicyName,
     async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
@@ -97,3 +104,4 @@ function tryCreateSpan(
     return undefined;
   }
 }
+

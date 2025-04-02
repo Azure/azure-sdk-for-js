@@ -1,12 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * THIS IS AN AUTO-GENERATED FILE - DO NOT EDIT!
+ *
+ * Any changes you make here may be lost.
+ *
+ * If you need to make changes, please do so in the original source file, \{project-root\}/sources/custom
+ */
+
+import type { ErrorResponse, HttpResponse } from "@azure-rest/core-client";
 import type { RawHttpHeaders } from "@azure/core-rest-pipeline";
-import type { HttpResponse, ErrorResponse } from "@azure-rest/core-client";
 import type {
   ChatCompletionsOutput,
-  ModelInfoOutput,
   EmbeddingsResultOutput,
+  ModelInfoOutput,
 } from "./outputModels.js";
 
 /** The request has succeeded. */

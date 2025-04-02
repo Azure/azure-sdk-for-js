@@ -32,7 +32,7 @@ import {
   ServiceRegionConfigurationResponse,
   ServiceRegionConfigurationByResourceGroupOptionalParams,
   ServiceRegionConfigurationByResourceGroupResponse,
-  ServiceListAvailableSkusByResourceGroupNextResponse
+  ServiceListAvailableSkusByResourceGroupNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -60,13 +60,13 @@ export class ServiceImpl implements Service {
     resourceGroupName: string,
     location: string,
     availableSkuRequest: AvailableSkuRequest,
-    options?: ServiceListAvailableSkusByResourceGroupOptionalParams
+    options?: ServiceListAvailableSkusByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<SkuInformation> {
     const iter = this.listAvailableSkusByResourceGroupPagingAll(
       resourceGroupName,
       location,
       availableSkuRequest,
-      options
+      options,
     );
     return {
       next() {
@@ -84,9 +84,9 @@ export class ServiceImpl implements Service {
           location,
           availableSkuRequest,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -95,7 +95,7 @@ export class ServiceImpl implements Service {
     location: string,
     availableSkuRequest: AvailableSkuRequest,
     options?: ServiceListAvailableSkusByResourceGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<SkuInformation[]> {
     let result: ServiceListAvailableSkusByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -104,7 +104,7 @@ export class ServiceImpl implements Service {
         resourceGroupName,
         location,
         availableSkuRequest,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -117,7 +117,7 @@ export class ServiceImpl implements Service {
         location,
         availableSkuRequest,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -130,13 +130,13 @@ export class ServiceImpl implements Service {
     resourceGroupName: string,
     location: string,
     availableSkuRequest: AvailableSkuRequest,
-    options?: ServiceListAvailableSkusByResourceGroupOptionalParams
+    options?: ServiceListAvailableSkusByResourceGroupOptionalParams,
   ): AsyncIterableIterator<SkuInformation> {
     for await (const page of this.listAvailableSkusByResourceGroupPagingPage(
       resourceGroupName,
       location,
       availableSkuRequest,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -154,11 +154,11 @@ export class ServiceImpl implements Service {
     resourceGroupName: string,
     location: string,
     availableSkuRequest: AvailableSkuRequest,
-    options?: ServiceListAvailableSkusByResourceGroupOptionalParams
+    options?: ServiceListAvailableSkusByResourceGroupOptionalParams,
   ): Promise<ServiceListAvailableSkusByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, location, availableSkuRequest, options },
-      listAvailableSkusByResourceGroupOperationSpec
+      listAvailableSkusByResourceGroupOperationSpec,
     );
   }
 
@@ -172,11 +172,11 @@ export class ServiceImpl implements Service {
   validateAddress(
     location: string,
     validateAddress: ValidateAddress,
-    options?: ServiceValidateAddressOptionalParams
+    options?: ServiceValidateAddressOptionalParams,
   ): Promise<ServiceValidateAddressResponse> {
     return this.client.sendOperationRequest(
       { location, validateAddress, options },
-      validateAddressOperationSpec
+      validateAddressOperationSpec,
     );
   }
 
@@ -191,11 +191,11 @@ export class ServiceImpl implements Service {
     resourceGroupName: string,
     location: string,
     validationRequest: ValidationRequestUnion,
-    options?: ServiceValidateInputsByResourceGroupOptionalParams
+    options?: ServiceValidateInputsByResourceGroupOptionalParams,
   ): Promise<ServiceValidateInputsByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, location, validationRequest, options },
-      validateInputsByResourceGroupOperationSpec
+      validateInputsByResourceGroupOperationSpec,
     );
   }
 
@@ -208,11 +208,11 @@ export class ServiceImpl implements Service {
   validateInputs(
     location: string,
     validationRequest: ValidationRequestUnion,
-    options?: ServiceValidateInputsOptionalParams
+    options?: ServiceValidateInputsOptionalParams,
   ): Promise<ServiceValidateInputsResponse> {
     return this.client.sendOperationRequest(
       { location, validationRequest, options },
-      validateInputsOperationSpec
+      validateInputsOperationSpec,
     );
   }
 
@@ -225,11 +225,11 @@ export class ServiceImpl implements Service {
   regionConfiguration(
     location: string,
     regionConfigurationRequest: RegionConfigurationRequest,
-    options?: ServiceRegionConfigurationOptionalParams
+    options?: ServiceRegionConfigurationOptionalParams,
   ): Promise<ServiceRegionConfigurationResponse> {
     return this.client.sendOperationRequest(
       { location, regionConfigurationRequest, options },
-      regionConfigurationOperationSpec
+      regionConfigurationOperationSpec,
     );
   }
 
@@ -245,11 +245,11 @@ export class ServiceImpl implements Service {
     resourceGroupName: string,
     location: string,
     regionConfigurationRequest: RegionConfigurationRequest,
-    options?: ServiceRegionConfigurationByResourceGroupOptionalParams
+    options?: ServiceRegionConfigurationByResourceGroupOptionalParams,
   ): Promise<ServiceRegionConfigurationByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, location, regionConfigurationRequest, options },
-      regionConfigurationByResourceGroupOperationSpec
+      regionConfigurationByResourceGroupOperationSpec,
     );
   }
 
@@ -267,75 +267,73 @@ export class ServiceImpl implements Service {
     location: string,
     availableSkuRequest: AvailableSkuRequest,
     nextLink: string,
-    options?: ServiceListAvailableSkusByResourceGroupNextOptionalParams
+    options?: ServiceListAvailableSkusByResourceGroupNextOptionalParams,
   ): Promise<ServiceListAvailableSkusByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, location, availableSkuRequest, nextLink, options },
-      listAvailableSkusByResourceGroupNextOperationSpec
+      listAvailableSkusByResourceGroupNextOperationSpec,
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listAvailableSkusByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBox/locations/{location}/availableSkus",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.AvailableSkusResult
+const listAvailableSkusByResourceGroupOperationSpec: coreClient.OperationSpec =
+  {
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBox/locations/{location}/availableSkus",
+    httpMethod: "POST",
+    responses: {
+      200: {
+        bodyMapper: Mappers.AvailableSkusResult,
+      },
+      default: {
+        bodyMapper: Mappers.ApiError,
+      },
     },
-    default: {
-      bodyMapper: Mappers.ApiError
-    }
-  },
-  requestBody: Parameters.availableSkuRequest,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.location
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
-};
+    requestBody: Parameters.availableSkuRequest,
+    queryParameters: [Parameters.apiVersion],
+    urlParameters: [
+      Parameters.$host,
+      Parameters.subscriptionId,
+      Parameters.resourceGroupName,
+      Parameters.location,
+    ],
+    headerParameters: [Parameters.accept, Parameters.contentType],
+    mediaType: "json",
+    serializer,
+  };
 const validateAddressOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.DataBox/locations/{location}/validateAddress",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.DataBox/locations/{location}/validateAddress",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.AddressValidationOutput
+      bodyMapper: Mappers.AddressValidationOutput,
     },
     default: {
-      bodyMapper: Mappers.ApiError
-    }
+      bodyMapper: Mappers.ApiError,
+    },
   },
   requestBody: Parameters.validateAddress,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location
+    Parameters.location,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const validateInputsByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBox/locations/{location}/validateInputs",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBox/locations/{location}/validateInputs",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.ValidationResponse
+      bodyMapper: Mappers.ValidationResponse,
     },
     default: {
-      bodyMapper: Mappers.ApiError
-    }
+      bodyMapper: Mappers.ApiError,
+    },
   },
   requestBody: Parameters.validationRequest,
   queryParameters: [Parameters.apiVersion],
@@ -343,101 +341,100 @@ const validateInputsByResourceGroupOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.location
+    Parameters.location,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const validateInputsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.DataBox/locations/{location}/validateInputs",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.DataBox/locations/{location}/validateInputs",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.ValidationResponse
+      bodyMapper: Mappers.ValidationResponse,
     },
     default: {
-      bodyMapper: Mappers.ApiError
-    }
+      bodyMapper: Mappers.ApiError,
+    },
   },
   requestBody: Parameters.validationRequest,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location
+    Parameters.location,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const regionConfigurationOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.DataBox/locations/{location}/regionConfiguration",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.DataBox/locations/{location}/regionConfiguration",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.RegionConfigurationResponse
+      bodyMapper: Mappers.RegionConfigurationResponse,
     },
     default: {
-      bodyMapper: Mappers.ApiError
-    }
+      bodyMapper: Mappers.ApiError,
+    },
   },
   requestBody: Parameters.regionConfigurationRequest,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location
+    Parameters.location,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
-const regionConfigurationByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBox/locations/{location}/regionConfiguration",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.RegionConfigurationResponse
+const regionConfigurationByResourceGroupOperationSpec: coreClient.OperationSpec =
+  {
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBox/locations/{location}/regionConfiguration",
+    httpMethod: "POST",
+    responses: {
+      200: {
+        bodyMapper: Mappers.RegionConfigurationResponse,
+      },
+      default: {
+        bodyMapper: Mappers.ApiError,
+      },
     },
-    default: {
-      bodyMapper: Mappers.ApiError
-    }
-  },
-  requestBody: Parameters.regionConfigurationRequest,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.location
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
-};
-const listAvailableSkusByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.AvailableSkusResult
+    requestBody: Parameters.regionConfigurationRequest,
+    queryParameters: [Parameters.apiVersion],
+    urlParameters: [
+      Parameters.$host,
+      Parameters.subscriptionId,
+      Parameters.resourceGroupName,
+      Parameters.location,
+    ],
+    headerParameters: [Parameters.accept, Parameters.contentType],
+    mediaType: "json",
+    serializer,
+  };
+const listAvailableSkusByResourceGroupNextOperationSpec: coreClient.OperationSpec =
+  {
+    path: "{nextLink}",
+    httpMethod: "GET",
+    responses: {
+      200: {
+        bodyMapper: Mappers.AvailableSkusResult,
+      },
+      default: {
+        bodyMapper: Mappers.ApiError,
+      },
     },
-    default: {
-      bodyMapper: Mappers.ApiError
-    }
-  },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.nextLink,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.location
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
-};
+    urlParameters: [
+      Parameters.$host,
+      Parameters.nextLink,
+      Parameters.subscriptionId,
+      Parameters.resourceGroupName,
+      Parameters.location,
+    ],
+    headerParameters: [Parameters.accept, Parameters.contentType],
+    mediaType: "json",
+    serializer,
+  };

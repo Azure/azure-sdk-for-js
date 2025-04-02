@@ -16,7 +16,7 @@ require("dotenv/config");
  * This sample demonstrates how to Update a proximity placement group.
  *
  * @summary Update a proximity placement group.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/proximityPlacementGroupExamples/ProximityPlacementGroup_Patch.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/proximityPlacementGroupExamples/ProximityPlacementGroup_Patch.json
  */
 async function updateAProximityPlacementGroup() {
   const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
@@ -36,7 +36,7 @@ async function updateAProximityPlacementGroup() {
 }
 
 async function main() {
-  updateAProximityPlacementGroup();
+  await updateAProximityPlacementGroup();
 }
 
 main().catch(console.error);

@@ -9,7 +9,7 @@
 import {
   OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter
+  OperationQueryParameter,
 } from "@azure/core-client";
 import {
   MarkDevicesShippedRequest as MarkDevicesShippedRequestMapper,
@@ -21,7 +21,7 @@ import {
   AvailableSkuRequest as AvailableSkuRequestMapper,
   ValidateAddress as ValidateAddressMapper,
   ValidationRequest as ValidationRequestMapper,
-  RegionConfigurationRequest as RegionConfigurationRequestMapper
+  RegionConfigurationRequest as RegionConfigurationRequestMapper,
 } from "../models/mappers.js";
 
 export const accept: OperationParameter = {
@@ -31,9 +31,9 @@ export const accept: OperationParameter = {
     isConstant: true,
     serializedName: "Accept",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const $host: OperationURLParameter = {
@@ -42,22 +42,22 @@ export const $host: OperationURLParameter = {
     serializedName: "$host",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-12-01",
+    defaultValue: "2025-02-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const nextLink: OperationURLParameter = {
@@ -66,10 +66,10 @@ export const nextLink: OperationURLParameter = {
     serializedName: "nextLink",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const subscriptionId: OperationURLParameter = {
@@ -78,9 +78,9 @@ export const subscriptionId: OperationURLParameter = {
     serializedName: "subscriptionId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const skipToken: OperationQueryParameter = {
@@ -88,9 +88,9 @@ export const skipToken: OperationQueryParameter = {
   mapper: {
     serializedName: "$skipToken",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const contentType: OperationParameter = {
@@ -100,14 +100,14 @@ export const contentType: OperationParameter = {
     isConstant: true,
     serializedName: "Content-Type",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const markDevicesShippedRequest: OperationParameter = {
   parameterPath: "markDevicesShippedRequest",
-  mapper: MarkDevicesShippedRequestMapper
+  mapper: MarkDevicesShippedRequestMapper,
 };
 
 export const jobName: OperationURLParameter = {
@@ -116,14 +116,14 @@ export const jobName: OperationURLParameter = {
     constraints: {
       Pattern: new RegExp("^[-\\w\\.]+$"),
       MaxLength: 24,
-      MinLength: 3
+      MinLength: 3,
     },
     serializedName: "jobName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const resourceGroupName: OperationURLParameter = {
@@ -132,9 +132,9 @@ export const resourceGroupName: OperationURLParameter = {
     serializedName: "resourceGroupName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const expand: OperationQueryParameter = {
@@ -142,19 +142,19 @@ export const expand: OperationQueryParameter = {
   mapper: {
     serializedName: "$expand",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const jobResource: OperationParameter = {
   parameterPath: "jobResource",
-  mapper: JobResourceMapper
+  mapper: JobResourceMapper,
 };
 
 export const jobResourceUpdateParameter: OperationParameter = {
   parameterPath: "jobResourceUpdateParameter",
-  mapper: JobResourceUpdateParameterMapper
+  mapper: JobResourceUpdateParameterMapper,
 };
 
 export const ifMatch: OperationParameter = {
@@ -162,29 +162,29 @@ export const ifMatch: OperationParameter = {
   mapper: {
     serializedName: "If-Match",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const shipmentPickUpRequest: OperationParameter = {
   parameterPath: "shipmentPickUpRequest",
-  mapper: ShipmentPickUpRequestMapper
+  mapper: ShipmentPickUpRequestMapper,
 };
 
 export const cancellationReason: OperationParameter = {
   parameterPath: "cancellationReason",
-  mapper: CancellationReasonMapper
+  mapper: CancellationReasonMapper,
 };
 
 export const mitigateJobRequest: OperationParameter = {
   parameterPath: "mitigateJobRequest",
-  mapper: MitigateJobRequestMapper
+  mapper: MitigateJobRequestMapper,
 };
 
 export const availableSkuRequest: OperationParameter = {
   parameterPath: "availableSkuRequest",
-  mapper: AvailableSkuRequestMapper
+  mapper: AvailableSkuRequestMapper,
 };
 
 export const location: OperationURLParameter = {
@@ -193,22 +193,22 @@ export const location: OperationURLParameter = {
     serializedName: "location",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const validateAddress: OperationParameter = {
   parameterPath: "validateAddress",
-  mapper: ValidateAddressMapper
+  mapper: ValidateAddressMapper,
 };
 
 export const validationRequest: OperationParameter = {
   parameterPath: "validationRequest",
-  mapper: ValidationRequestMapper
+  mapper: ValidationRequestMapper,
 };
 
 export const regionConfigurationRequest: OperationParameter = {
   parameterPath: "regionConfigurationRequest",
-  mapper: RegionConfigurationRequestMapper
+  mapper: RegionConfigurationRequestMapper,
 };

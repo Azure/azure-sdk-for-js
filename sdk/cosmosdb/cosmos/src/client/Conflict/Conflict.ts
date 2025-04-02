@@ -40,6 +40,18 @@ export class Conflict {
 
   /**
    * Read the {@link ConflictDefinition} for the given {@link Conflict}.
+   * @example
+   * ```ts snippet:ConflictRead
+   * import { CosmosClient } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   * const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+   * const container = database.container("Test Container");
+   *
+   * const { resource: conflict } = await container.conflict("<conflict-id>").read();
+   * ```
    */
   public async read(options?: RequestOptions): Promise<ConflictResponse> {
     return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
@@ -66,6 +78,18 @@ export class Conflict {
 
   /**
    * Delete the given {@link ConflictDefinition}.
+   * @example
+   * ```ts snippet:ConflictDelete
+   * import { CosmosClient } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   * const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+   * const container = database.container("Test Container");
+   *
+   * await container.conflict("<conflict-id>").delete();
+   * ```
    */
   public async delete(options?: RequestOptions): Promise<ConflictResponse> {
     return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {

@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { dirname } from "path";
+import { dirname } from "node:path";
 import type { FullConfig } from "@playwright/test";
-import playwrightServiceEntra from "../playwrightServiceEntra";
-import { loadCustomerGlobalFunction } from "../../common/executor";
-import customerConfig from "../../common/customerConfig";
+import playwrightServiceEntra from "../playwrightServiceEntra.js";
+import { loadCustomerGlobalFunction } from "../../common/executor.js";
+import customerConfig from "../../common/customerConfig.js";
 
 const playwrightServiceGlobalSetupWrapper = async (config: FullConfig): Promise<any> => {
   const rootDir = config.configFile ? dirname(config.configFile!) : process.cwd();

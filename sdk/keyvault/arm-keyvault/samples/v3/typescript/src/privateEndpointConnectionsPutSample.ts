@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   PrivateEndpointConnection,
-  KeyVaultManagementClient
+  KeyVaultManagementClient,
 } from "@azure/arm-keyvault";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -19,7 +19,7 @@ import "dotenv/config";
  * This sample demonstrates how to Updates the specified private endpoint connection associated with the key vault.
  *
  * @summary Updates the specified private endpoint connection associated with the key vault.
- * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2023-07-01/examples/putPrivateEndpointConnection.json
+ * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2024-11-01/examples/putPrivateEndpointConnection.json
  */
 async function keyVaultPutPrivateEndpointConnection(): Promise<void> {
   const subscriptionId =
@@ -33,8 +33,8 @@ async function keyVaultPutPrivateEndpointConnection(): Promise<void> {
     etag: "",
     privateLinkServiceConnectionState: {
       description: "My name is Joe and I'm approving this.",
-      status: "Approved"
-    }
+      status: "Approved",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new KeyVaultManagementClient(credential, subscriptionId);
@@ -42,13 +42,13 @@ async function keyVaultPutPrivateEndpointConnection(): Promise<void> {
     resourceGroupName,
     vaultName,
     privateEndpointConnectionName,
-    properties
+    properties,
   );
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  keyVaultPutPrivateEndpointConnection();
+  await keyVaultPutPrivateEndpointConnection();
 }
 
 main().catch(console.error);

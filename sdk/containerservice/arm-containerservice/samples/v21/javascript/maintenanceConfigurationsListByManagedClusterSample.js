@@ -14,7 +14,7 @@ require("dotenv/config");
  * This sample demonstrates how to Gets a list of maintenance configurations in the specified managed cluster.
  *
  * @summary Gets a list of maintenance configurations in the specified managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2024-10-01/examples/MaintenanceConfigurationsList.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2025-01-01/examples/MaintenanceConfigurationsList.json
  */
 async function listMaintenanceConfigurationsByManagedCluster() {
   const subscriptionId =
@@ -24,7 +24,7 @@ async function listMaintenanceConfigurationsByManagedCluster() {
   const credential = new DefaultAzureCredential();
   const client = new ContainerServiceClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.maintenanceConfigurations.listByManagedCluster(
+  for await (const item of client.maintenanceConfigurations.listByManagedCluster(
     resourceGroupName,
     resourceName,
   )) {
@@ -37,7 +37,7 @@ async function listMaintenanceConfigurationsByManagedCluster() {
  * This sample demonstrates how to Gets a list of maintenance configurations in the specified managed cluster.
  *
  * @summary Gets a list of maintenance configurations in the specified managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2024-10-01/examples/MaintenanceConfigurationsList_MaintenanceWindow.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2025-01-01/examples/MaintenanceConfigurationsList_MaintenanceWindow.json
  */
 async function listMaintenanceConfigurationsConfiguredWithMaintenanceWindowByManagedCluster() {
   const subscriptionId =
@@ -47,7 +47,7 @@ async function listMaintenanceConfigurationsConfiguredWithMaintenanceWindowByMan
   const credential = new DefaultAzureCredential();
   const client = new ContainerServiceClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.maintenanceConfigurations.listByManagedCluster(
+  for await (const item of client.maintenanceConfigurations.listByManagedCluster(
     resourceGroupName,
     resourceName,
   )) {

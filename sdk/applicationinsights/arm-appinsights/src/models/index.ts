@@ -8,6 +8,102 @@
 
 import * as coreClient from "@azure/core-client";
 
+/** Describes the list of Application Insights Resources. */
+export interface ApplicationInsightsComponentListResult {
+  /** List of Application Insights component definitions. */
+  value: ApplicationInsightsComponent[];
+  /** The URI to get the next set of Application Insights component definitions if too many components where returned in the result set. */
+  nextLink?: string;
+}
+
+/** The private link scope resource reference. */
+export interface PrivateLinkScopedResource {
+  /** The full resource Id of the private link scope resource. */
+  resourceId?: string;
+  /** The private link scope unique Identifier. */
+  scopeId?: string;
+}
+
+/** An azure resource object */
+export interface ComponentsResource {
+  /**
+   * Azure resource Id
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * Azure resource name
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * Azure resource type
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /** Resource location */
+  location: string;
+  /** Resource tags */
+  tags?: { [propertyName: string]: string };
+}
+
+export interface ErrorResponseComponents {
+  /** Error response indicates Insights service is not able to process the incoming request. The reason is provided in the error message. */
+  error?: ErrorResponseComponentsError;
+}
+
+/** Error response indicates Insights service is not able to process the incoming request. The reason is provided in the error message. */
+export interface ErrorResponseComponentsError {
+  /**
+   * Error code.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly code?: string;
+  /**
+   * Error message indicating why the operation failed.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+}
+
+/** A container holding only the Tags for a resource, allowing the user to update the tags on a WebTest instance. */
+export interface TagsResource {
+  /** Resource tags */
+  tags?: { [propertyName: string]: string };
+}
+
+/** Describes the body of a purge request for an App Insights component */
+export interface ComponentPurgeBody {
+  /** Table from which to purge data. */
+  table: string;
+  /** The set of columns and filters (queries) to run over them to purge the resulting data. */
+  filters: ComponentPurgeBodyFilters[];
+}
+
+/** User-defined filters to return data which will be purged from the table. */
+export interface ComponentPurgeBodyFilters {
+  /** The column of the table over which the given query should run */
+  column?: string;
+  /** A query operator to evaluate over the provided column and value(s). Supported operators are ==, =~, in, in~, >, >=, <, <=, between, and have the same behavior as they would in a KQL query. */
+  operator?: string;
+  /** the value for the operator to function over. This can be a number (e.g., > 100), a string (timestamp >= '2017-09-01') or array of values. */
+  value?: any;
+  /** When filtering over custom dimensions, this key will be used as the name of the custom dimension. */
+  key?: string;
+}
+
+/** Response containing operationId for a specific purge action. */
+export interface ComponentPurgeResponse {
+  /** Id to use when querying for status for a particular purge operation. */
+  operationId: string;
+}
+
+/** Response containing status for a specific purge operation. */
+export interface ComponentPurgeStatusResponse {
+  /** Status of the operation represented by the requested Id. */
+  status: PurgeState;
+}
+
 /** Annotations list result. */
 export interface AnnotationsListResult {
   /**
@@ -565,17 +661,17 @@ export interface ApplicationInsightsComponentWebTestLocation {
   readonly tag?: string;
 }
 
-/** A list of 0 or more Application Insights web test definitions. */
+/** A list of 0 or more Application Insights WebTest definitions. */
 export interface WebTestListResult {
-  /** Set of Application Insights web test definitions. */
+  /** Set of Application Insights WebTest definitions. */
   value: WebTest[];
-  /** The link to get the next part of the returned list of web tests, should the return set be too large for a single request. May be null. */
+  /** The link to get the next part of the returned list of WebTest, should the return set be too large for a single request. May be null. */
   nextLink?: string;
 }
 
-/** Geo-physical location to run a web test from. You must specify one or more locations for the test to run from. */
+/** Geo-physical location to run a WebTest from. You must specify one or more locations for the test to run from. */
 export interface WebTestGeolocation {
-  /** Location ID for the webtest to run from. */
+  /** Location ID for the WebTest to run from. */
   location?: string;
 }
 
@@ -583,6 +679,54 @@ export interface WebTestGeolocation {
 export interface WebTestPropertiesConfiguration {
   /** The XML specification of a WebTest to run against an application. */
   webTest?: string;
+}
+
+/** The collection of request properties */
+export interface WebTestPropertiesRequest {
+  /** Url location to test. */
+  requestUrl?: string;
+  /** List of headers and their values to add to the WebTest call. */
+  headers?: HeaderField[];
+  /** Http verb to use for this web test. */
+  httpVerb?: string;
+  /** Base64 encoded string body to send with this web test. */
+  requestBody?: string;
+  /** Parse Dependent request for this WebTest. */
+  parseDependentRequests?: boolean;
+  /** Follow redirects for this web test. */
+  followRedirects?: boolean;
+}
+
+/** A header to add to the WebTest. */
+export interface HeaderField {
+  /** The name of the header. */
+  headerFieldName?: string;
+  /** The value of the header. */
+  headerFieldValue?: string;
+}
+
+/** The collection of validation rule properties */
+export interface WebTestPropertiesValidationRules {
+  /** The collection of content validation properties */
+  contentValidation?: WebTestPropertiesValidationRulesContentValidation;
+  /** Checks to see if the SSL cert is still valid. */
+  sSLCheck?: boolean;
+  /** A number of days to check still remain before the the existing SSL cert expires.  Value must be positive and the SSLCheck must be set to true. */
+  sSLCertRemainingLifetimeCheck?: number;
+  /** Validate that the WebTest returns the http status code provided. */
+  expectedHttpStatusCode?: number;
+  /** When set, validation will ignore the status code. */
+  ignoreHttpStatusCode?: boolean;
+}
+
+/** The collection of content validation properties */
+export interface WebTestPropertiesValidationRulesContentValidation {
+  /** Content to look for in the return of the WebTest.  Must not be null or empty. */
+  contentMatch?: string;
+  /** When set, this value makes the ContentMatch validation case insensitive. */
+  ignoreCase?: boolean;
+  /** When true, validation will pass if there is a match for the ContentMatch string.  If false, validation will fail if there is a match */
+  passIfTextFound?: boolean;
 }
 
 /** An azure resource object */
@@ -604,12 +748,6 @@ export interface WebtestsResource {
   readonly type?: string;
   /** Resource location */
   location: string;
-  /** Resource tags */
-  tags?: { [propertyName: string]: string };
-}
-
-/** A container holding only the Tags for a resource, allowing the user to update the tags on a WebTest instance. */
-export interface TagsResource {
   /** Resource tags */
   tags?: { [propertyName: string]: string };
 }
@@ -649,6 +787,52 @@ export interface ApplicationInsightsComponentAnalyticsItem {
 export interface ApplicationInsightsComponentAnalyticsItemProperties {
   /** A function alias, used when the type of the item is Function */
   functionAlias?: string;
+}
+
+/** Result of the request to list Azure Workbooks operations. It contains a list of operations and a URL link to get the next set of results. */
+export interface OperationListResult {
+  /** List of Workbook operations supported by the Microsoft.Insights resource provider. */
+  value?: Operation[];
+  /** URL to get the next set of operation list results if there are any. */
+  nextLink?: string;
+}
+
+/** Azure Workbooks REST API operation */
+export interface Operation {
+  /** Operation name: {provider}/{resource}/{operation} */
+  name?: string;
+  /** The object that represents the operation. */
+  display?: OperationDisplay;
+}
+
+/** The object that represents the operation. */
+export interface OperationDisplay {
+  /** Service provider: Microsoft.Insights */
+  provider?: string;
+  /** Resource on which the operation is performed: Profile, endpoint, etc. */
+  resource?: string;
+  /** Operation type: Read, write, delete, etc. */
+  operation?: string;
+}
+
+/** Error response indicates Insights service is not able to process the incoming request. The reason is provided in the error message. */
+export interface ErrorResponse {
+  /** Error code. */
+  code?: string;
+  /** Error message indicating why the operation failed. */
+  message?: string;
+  /** The list of invalid fields send in request, in case of validation error. */
+  details?: ErrorFieldContract[];
+}
+
+/** Error Field contract. */
+export interface ErrorFieldContract {
+  /** Property level error code. */
+  code?: string;
+  /** Human-readable representation of property-level error. */
+  message?: string;
+  /** Property name. */
+  target?: string;
 }
 
 /** WorkbookTemplate list result. */
@@ -745,12 +929,12 @@ export interface WorkbookTemplateUpdateParameters {
 }
 
 /** Workbook list result. */
-export interface MyWorkbooksListResult {
+export interface WorkbooksListResult {
   /**
-   * An array of private workbooks.
+   * An array of workbooks.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly value?: MyWorkbook[];
+  readonly value?: Workbook[];
   nextLink?: string;
 }
 
@@ -768,81 +952,6 @@ export interface SystemData {
   lastModifiedByType?: CreatedByType;
   /** The timestamp of resource last modification (UTC) */
   lastModifiedAt?: Date;
-}
-
-/** An azure resource object */
-export interface MyWorkbookResource {
-  /** Identity used for BYOS */
-  identity?: MyWorkbookManagedIdentity;
-  /** Azure resource Id */
-  id?: string;
-  /** Azure resource name */
-  name?: string;
-  /** Azure resource type */
-  type?: string;
-  /** Resource location */
-  location?: string;
-  /** Resource tags */
-  tags?: { [propertyName: string]: string };
-  /** Resource etag */
-  etag?: { [propertyName: string]: string };
-}
-
-/** Customer Managed Identity */
-export interface MyWorkbookManagedIdentity {
-  /** Customer Managed Identity */
-  userAssignedIdentities?: MyWorkbookUserAssignedIdentities;
-  /** The identity type. */
-  type?: MyWorkbookManagedIdentityType;
-}
-
-/** Customer Managed Identity */
-export interface MyWorkbookUserAssignedIdentities {
-  /**
-   * The principal ID of resource identity.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly principalId?: string;
-  /**
-   * The tenant ID of resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly tenantId?: string;
-}
-
-/** Error response. */
-export interface MyWorkbookError {
-  /** The error details. */
-  error?: ErrorDefinition;
-}
-
-/** Error definition. */
-export interface ErrorDefinition {
-  /**
-   * Service specific error code which serves as the substatus for the HTTP error code.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly code?: string;
-  /**
-   * Description of the error.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly message?: string;
-  /**
-   * Internal error details.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly innererror?: any;
-}
-
-/** Workbook list result. */
-export interface WorkbooksListResult {
-  /**
-   * An array of workbooks.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly value?: Workbook[];
-  nextLink?: string;
 }
 
 /** Managed service identity (system assigned and/or user assigned identities) */
@@ -918,7 +1027,16 @@ export interface WorkbookErrorDefinition {
    * Internal error details.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly innerError?: any;
+  readonly innererror?: WorkbookInnerErrorTrace;
+}
+
+/** Error details */
+export interface WorkbookInnerErrorTrace {
+  /**
+   * detailed error trace
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly trace?: string[];
 }
 
 /** The parameters that can be provided when updating workbook properties properties. */
@@ -941,94 +1059,13 @@ export interface WorkbookUpdateParameters {
   revision?: string;
 }
 
-/** Describes the list of Application Insights Resources. */
-export interface ApplicationInsightsComponentListResult {
-  /** List of Application Insights component definitions. */
-  value: ApplicationInsightsComponent[];
-  /** The URI to get the next set of Application Insights component definitions if too many components where returned in the result set. */
-  nextLink?: string;
-}
-
-/** The private link scope resource reference. */
-export interface PrivateLinkScopedResource {
-  /** The full resource Id of the private link scope resource. */
-  resourceId?: string;
-  /** The private link scope unique Identifier. */
-  scopeId?: string;
-}
-
-/** An azure resource object */
-export interface ComponentsResource {
+/** The response to a live token query. */
+export interface LiveTokenResponse {
   /**
-   * Azure resource Id
+   * JWT token for accessing live metrics stream data.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly id?: string;
-  /**
-   * Azure resource name
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * Azure resource type
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /** Resource location */
-  location: string;
-  /** Resource tags */
-  tags?: { [propertyName: string]: string };
-}
-
-export interface ErrorResponseComponents {
-  /** Error response indicates Insights service is not able to process the incoming request. The reason is provided in the error message. */
-  error?: ErrorResponseComponentsError;
-}
-
-/** Error response indicates Insights service is not able to process the incoming request. The reason is provided in the error message. */
-export interface ErrorResponseComponentsError {
-  /**
-   * Error code.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly code?: string;
-  /**
-   * Error message indicating why the operation failed.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly message?: string;
-}
-
-/** Describes the body of a purge request for an App Insights component */
-export interface ComponentPurgeBody {
-  /** Table from which to purge data. */
-  table: string;
-  /** The set of columns and filters (queries) to run over them to purge the resulting data. */
-  filters: ComponentPurgeBodyFilters[];
-}
-
-/** User-defined filters to return data which will be purged from the table. */
-export interface ComponentPurgeBodyFilters {
-  /** The column of the table over which the given query should run */
-  column?: string;
-  /** A query operator to evaluate over the provided column and value(s). Supported operators are ==, =~, in, in~, >, >=, <, <=, between, and have the same behavior as they would in a KQL query. */
-  operator?: string;
-  /** the value for the operator to function over. This can be a number (e.g., > 100), a string (timestamp >= '2017-09-01') or array of values. */
-  value?: any;
-  /** When filtering over custom dimensions, this key will be used as the name of the custom dimension. */
-  key?: string;
-}
-
-/** Response containing operationId for a specific purge action. */
-export interface ComponentPurgeResponse {
-  /** Id to use when querying for status for a particular purge operation. */
-  operationId: string;
-}
-
-/** Response containing status for a specific purge operation. */
-export interface ComponentPurgeStatusResponse {
-  /** Status of the operation represented by the requested Id. */
-  status: PurgeState;
+  readonly liveToken?: string;
 }
 
 export interface ErrorResponseLinkedStorage {
@@ -1056,60 +1093,67 @@ export interface ComponentLinkedStorageAccountsPatch {
   linkedStorageAccount?: string;
 }
 
-/** The response to a live token query. */
-export interface LiveTokenResponse {
+/** Workbook list result. */
+export interface DeletedWorkbooksListResult {
   /**
-   * JWT token for accessing live metrics stream data.
+   * An array of workbooks.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly liveToken?: string;
-}
-
-/** Error response indicates Insights service is not able to process the incoming request. The reason is provided in the error message. */
-export interface ErrorResponse {
-  /** Error code. */
-  code?: string;
-  /** Error message indicating why the operation failed. */
-  message?: string;
-}
-
-/** CDN REST API operation */
-export interface Operation {
-  /** Operation name: {provider}/{resource}/{operation} */
-  name?: string;
-  /** The object that represents the operation. */
-  display?: OperationDisplay;
-}
-
-/** The object that represents the operation. */
-export interface OperationDisplay {
-  /** Service provider: Microsoft.Cdn */
-  provider?: string;
-  /** Resource on which the operation is performed: Profile, endpoint, etc. */
-  resource?: string;
-  /** Operation type: Read, write, delete, etc. */
-  operation?: string;
-}
-
-/** Result of the request to list CDN operations. It contains a list of operations and a URL link to get the next set of results. */
-export interface OperationListResult {
-  /** List of CDN operations supported by the CDN resource provider. */
-  value?: Operation[];
-  /** URL to get the next set of operation list results if there are any. */
+  readonly value?: DeletedWorkbook[];
   nextLink?: string;
 }
 
-/** Error details */
-export interface InnerErrorTrace {
+/** Common fields that are returned in the response for all Azure Resource Manager resources */
+export interface ResourceAutoGenerated {
   /**
-   * detailed error trace
+   * Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly trace?: string[];
+  readonly id?: string;
+  /**
+   * The name of the resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * Azure Resource Manager metadata containing createdBy and modifiedBy information.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+}
+
+/** Error response. */
+export interface DeletedWorkbookError {
+  /** The error details. */
+  error?: DeletedWorkbookErrorDefinition;
+}
+
+/** Error definition. */
+export interface DeletedWorkbookErrorDefinition {
+  /**
+   * Service specific error code which serves as the substatus for the HTTP error code.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly code?: string;
+  /**
+   * Description of the error.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+  /**
+   * Internal error details.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly innererror?: DeletedWorkbookInnerErrorTrace;
 }
 
 /** Error details */
-export interface WorkbookInnerErrorTrace {
+export interface DeletedWorkbookInnerErrorTrace {
   /**
    * detailed error trace
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1150,100 +1194,6 @@ export interface OperationInfo {
   /** Description of the operation */
   description?: string;
 }
-
-/** An Application Insights web test definition. */
-export interface WebTest extends WebtestsResource {
-  /** The kind of web test that this web test watches. Choices are ping and multistep. */
-  kind?: WebTestKind;
-  /** Unique ID of this WebTest. This is typically the same value as the Name field. */
-  syntheticMonitorId?: string;
-  /** User defined name if this WebTest. */
-  webTestName?: string;
-  /** Purpose/user defined descriptive test for this WebTest. */
-  description?: string;
-  /** Is the test actively being monitored. */
-  enabled?: boolean;
-  /** Interval in seconds between test runs for this WebTest. Default value is 300. */
-  frequency?: number;
-  /** Seconds until this WebTest will timeout and fail. Default value is 30. */
-  timeout?: number;
-  /** The kind of web test this is, valid choices are ping and multistep. */
-  webTestKind?: WebTestKind;
-  /** Allow for retries should this WebTest fail. */
-  retryEnabled?: boolean;
-  /** A list of where to physically run the tests from to give global coverage for accessibility of your application. */
-  locations?: WebTestGeolocation[];
-  /** An XML configuration specification for a WebTest. */
-  configuration?: WebTestPropertiesConfiguration;
-  /**
-   * Current state of this component, whether or not is has been provisioned within the resource group it is defined. Users cannot change this value but are able to read from it. Values will include Succeeded, Deploying, Canceled, and Failed.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: string;
-}
-
-/** An Application Insights workbook template definition. */
-export interface WorkbookTemplate extends WorkbookTemplateResource {
-  /** Priority of the template. Determines which template to open when a workbook gallery is opened in viewer mode. */
-  priority?: number;
-  /** Information about the author of the workbook template. */
-  author?: string;
-  /** Valid JSON object containing workbook template payload. */
-  templateData?: Record<string, unknown>;
-  /** Workbook galleries supported by the template. */
-  galleries?: WorkbookTemplateGallery[];
-  /** Key value pair of localized gallery. Each key is the locale code of languages supported by the Azure portal. */
-  localized?: { [propertyName: string]: WorkbookTemplateLocalizedGallery[] };
-}
-
-/** An Application Insights private workbook definition. */
-export interface MyWorkbook extends MyWorkbookResource {
-  /** The kind of workbook. Choices are user and shared. */
-  kind?: Kind;
-  /**
-   * Metadata pertaining to creation and last modification of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
-  /** The user-defined name of the private workbook. */
-  displayName?: string;
-  /** Configuration of this particular private workbook. Configuration data is a string containing valid JSON */
-  serializedData?: string;
-  /** This instance's version of the data model. This can change as new features are added that can be marked private workbook. */
-  version?: string;
-  /**
-   * Date and time in UTC of the last modification that was made to this private workbook definition.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly timeModified?: string;
-  /** Workbook category, as defined by the user at creation time. */
-  category?: string;
-  /** A list of 0 or more tags that are associated with this private workbook definition */
-  tagsPropertiesTags?: string[];
-  /**
-   * Unique user id of the specific user that owns this private workbook.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly userId?: string;
-  /** Optional resourceId for a source resource. */
-  sourceId?: string;
-  /** BYOS Storage Account URI */
-  storageUri?: string;
-}
-
-/** Identity used for BYOS */
-export interface WorkbookResourceIdentity extends ManagedServiceIdentity {}
-
-/** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
-export interface TrackedResource extends Resource {
-  /** Resource tags. */
-  tags?: { [propertyName: string]: string };
-  /** The geo-location where the resource lives */
-  location: string;
-}
-
-/** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
-export interface ProxyResource extends Resource {}
 
 /** An Application Insights component definition. */
 export interface ApplicationInsightsComponent extends ComponentsResource {
@@ -1336,6 +1286,77 @@ export interface ApplicationInsightsComponent extends ComponentsResource {
   forceCustomerStorageForProfiler?: boolean;
 }
 
+/** An Application Insights WebTest definition. */
+export interface WebTest extends WebtestsResource {
+  /** The kind of WebTest that this web test watches. Choices are ping, multistep and standard. */
+  kind?: WebTestKind;
+  /** Unique ID of this WebTest. This is typically the same value as the Name field. */
+  syntheticMonitorId?: string;
+  /** User defined name if this WebTest. */
+  webTestName?: string;
+  /** User defined description for this WebTest. */
+  description?: string;
+  /** Is the test actively being monitored. */
+  enabled?: boolean;
+  /** Interval in seconds between test runs for this WebTest. Default value is 300. */
+  frequency?: number;
+  /** Seconds until this WebTest will timeout and fail. Default value is 30. */
+  timeout?: number;
+  /** The kind of web test this is, valid choices are ping, multistep and standard. */
+  webTestKind?: WebTestKind;
+  /** Allow for retries should this WebTest fail. */
+  retryEnabled?: boolean;
+  /** A list of where to physically run the tests from to give global coverage for accessibility of your application. */
+  locations?: WebTestGeolocation[];
+  /** An XML configuration specification for a WebTest. */
+  configuration?: WebTestPropertiesConfiguration;
+  /**
+   * Current state of this component, whether or not is has been provisioned within the resource group it is defined. Users cannot change this value but are able to read from it. Values will include Succeeded, Deploying, Canceled, and Failed.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: string;
+  /** The collection of request properties */
+  request?: WebTestPropertiesRequest;
+  /** The collection of validation rule properties */
+  validationRules?: WebTestPropertiesValidationRules;
+}
+
+/** An Application Insights workbook template definition. */
+export interface WorkbookTemplate extends WorkbookTemplateResource {
+  /** Priority of the template. Determines which template to open when a workbook gallery is opened in viewer mode. */
+  priority?: number;
+  /** Information about the author of the workbook template. */
+  author?: string;
+  /** Valid JSON object containing workbook template payload. */
+  templateData?: Record<string, unknown>;
+  /** Workbook galleries supported by the template. */
+  galleries?: WorkbookTemplateGallery[];
+  /** Key value pair of localized gallery. Each key is the locale code of languages supported by the Azure portal. */
+  localized?: { [propertyName: string]: WorkbookTemplateLocalizedGallery[] };
+}
+
+/** Identity used for BYOS */
+export interface WorkbookResourceIdentity extends ManagedServiceIdentity {}
+
+/** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
+export interface TrackedResource extends Resource {
+  /** Resource tags. */
+  tags?: { [propertyName: string]: string };
+  /** The geo-location where the resource lives */
+  location: string;
+}
+
+/** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
+export interface ProxyResource extends Resource {}
+
+/** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
+export interface TrackedResourceAutoGenerated extends ResourceAutoGenerated {
+  /** Resource tags. */
+  tags?: { [propertyName: string]: string };
+  /** The geo-location where the resource lives */
+  location: string;
+}
+
 /** An azure resource object */
 export interface WorkbookResource extends TrackedResource {
   /** Identity used for BYOS */
@@ -1350,6 +1371,14 @@ export interface WorkbookResource extends TrackedResource {
 export interface ComponentLinkedStorageAccounts extends ProxyResource {
   /** Linked storage account resource ID */
   linkedStorageAccount?: string;
+}
+
+/** An azure resource object */
+export interface DeletedWorkbookResource extends TrackedResourceAutoGenerated {
+  /** The kind of workbook. Only valid value is shared. */
+  kind?: WorkbookSharedTypeKind;
+  /** Resource etag */
+  etag?: string;
 }
 
 /** A workbook definition. */
@@ -1392,6 +1421,146 @@ export interface Workbook extends WorkbookResource {
   readonly revision?: string;
 }
 
+/** A workbook definition. */
+export interface DeletedWorkbook extends DeletedWorkbookResource {
+  /** The user-defined name (display name) of the workbook. */
+  displayName?: string;
+  /** Configuration of this particular workbook. Configuration data is a string containing valid JSON */
+  serializedData?: string;
+  /** Workbook schema version format, like 'Notebook/1.0', which should match the workbook in serializedData */
+  version?: string;
+  /**
+   * Date and time in UTC of the last modification that was made to this workbook definition.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly timeModified?: Date;
+  /** Workbook category, as defined by the user at creation time. */
+  category?: string;
+  /** Being deprecated, please use the other tags field */
+  tagsPropertiesTags?: string[];
+  /**
+   * Unique user id of the specific user that owns this workbook.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly userId?: string;
+  /** ResourceId for a source resource. */
+  sourceId?: string;
+  /** The resourceId to the storage account when bring your own storage is used */
+  storageUri?: string;
+  /** The description of the workbook. */
+  description?: string;
+  /**
+   * The unique revision id for this workbook definition
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly revision?: string;
+}
+
+/** Known values of {@link ApplicationType} that the service accepts. */
+export enum KnownApplicationType {
+  /** Web */
+  Web = "web",
+  /** Other */
+  Other = "other",
+}
+
+/**
+ * Defines values for ApplicationType. \
+ * {@link KnownApplicationType} can be used interchangeably with ApplicationType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **web** \
+ * **other**
+ */
+export type ApplicationType = string;
+
+/** Known values of {@link FlowType} that the service accepts. */
+export enum KnownFlowType {
+  /** Bluefield */
+  Bluefield = "Bluefield",
+}
+
+/**
+ * Defines values for FlowType. \
+ * {@link KnownFlowType} can be used interchangeably with FlowType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Bluefield**
+ */
+export type FlowType = string;
+
+/** Known values of {@link RequestSource} that the service accepts. */
+export enum KnownRequestSource {
+  /** Rest */
+  Rest = "rest",
+}
+
+/**
+ * Defines values for RequestSource. \
+ * {@link KnownRequestSource} can be used interchangeably with RequestSource,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **rest**
+ */
+export type RequestSource = string;
+
+/** Known values of {@link PublicNetworkAccessType} that the service accepts. */
+export enum KnownPublicNetworkAccessType {
+  /** Enables connectivity to Application Insights through public DNS. */
+  Enabled = "Enabled",
+  /** Disables public connectivity to Application Insights through public DNS. */
+  Disabled = "Disabled",
+}
+
+/**
+ * Defines values for PublicNetworkAccessType. \
+ * {@link KnownPublicNetworkAccessType} can be used interchangeably with PublicNetworkAccessType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled**: Enables connectivity to Application Insights through public DNS. \
+ * **Disabled**: Disables public connectivity to Application Insights through public DNS.
+ */
+export type PublicNetworkAccessType = string;
+
+/** Known values of {@link IngestionMode} that the service accepts. */
+export enum KnownIngestionMode {
+  /** ApplicationInsights */
+  ApplicationInsights = "ApplicationInsights",
+  /** ApplicationInsightsWithDiagnosticSettings */
+  ApplicationInsightsWithDiagnosticSettings = "ApplicationInsightsWithDiagnosticSettings",
+  /** LogAnalytics */
+  LogAnalytics = "LogAnalytics",
+}
+
+/**
+ * Defines values for IngestionMode. \
+ * {@link KnownIngestionMode} can be used interchangeably with IngestionMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **ApplicationInsights** \
+ * **ApplicationInsightsWithDiagnosticSettings** \
+ * **LogAnalytics**
+ */
+export type IngestionMode = string;
+
+/** Known values of {@link PurgeState} that the service accepts. */
+export enum KnownPurgeState {
+  /** Pending */
+  Pending = "pending",
+  /** Completed */
+  Completed = "completed",
+}
+
+/**
+ * Defines values for PurgeState. \
+ * {@link KnownPurgeState} can be used interchangeably with PurgeState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **pending** \
+ * **completed**
+ */
+export type PurgeState = string;
+
 /** Known values of {@link FavoriteSourceType} that the service accepts. */
 export enum KnownFavoriteSourceType {
   /** Retention */
@@ -1409,7 +1578,7 @@ export enum KnownFavoriteSourceType {
   /** Impact */
   Impact = "impact",
   /** Segmentation */
-  Segmentation = "segmentation"
+  Segmentation = "segmentation",
 }
 
 /**
@@ -1433,7 +1602,7 @@ export enum KnownItemScopePath {
   /** AnalyticsItems */
   AnalyticsItems = "analyticsItems",
   /** MyanalyticsItems */
-  MyanalyticsItems = "myanalyticsItems"
+  MyanalyticsItems = "myanalyticsItems",
 }
 
 /**
@@ -1451,7 +1620,7 @@ export enum KnownItemScope {
   /** Shared */
   Shared = "shared",
   /** User */
-  User = "user"
+  User = "user",
 }
 
 /**
@@ -1475,7 +1644,7 @@ export enum KnownItemTypeParameter {
   /** Folder */
   Folder = "folder",
   /** Recent */
-  Recent = "recent"
+  Recent = "recent",
 }
 
 /**
@@ -1500,7 +1669,7 @@ export enum KnownItemType {
   /** Recent */
   Recent = "recent",
   /** Function */
-  Function = "function"
+  Function = "function",
 }
 
 /**
@@ -1524,7 +1693,7 @@ export enum KnownCategoryType {
   /** Performance */
   Performance = "performance",
   /** Retention */
-  Retention = "retention"
+  Retention = "retention",
 }
 
 /**
@@ -1539,24 +1708,6 @@ export enum KnownCategoryType {
  */
 export type CategoryType = string;
 
-/** Known values of {@link Kind} that the service accepts. */
-export enum KnownKind {
-  /** User */
-  User = "user",
-  /** Shared */
-  Shared = "shared"
-}
-
-/**
- * Defines values for Kind. \
- * {@link KnownKind} can be used interchangeably with Kind,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **user** \
- * **shared**
- */
-export type Kind = string;
-
 /** Known values of {@link CreatedByType} that the service accepts. */
 export enum KnownCreatedByType {
   /** User */
@@ -1566,7 +1717,7 @@ export enum KnownCreatedByType {
   /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
   /** Key */
-  Key = "Key"
+  Key = "Key",
 }
 
 /**
@@ -1581,24 +1732,6 @@ export enum KnownCreatedByType {
  */
 export type CreatedByType = string;
 
-/** Known values of {@link MyWorkbookManagedIdentityType} that the service accepts. */
-export enum KnownMyWorkbookManagedIdentityType {
-  /** UserAssigned */
-  UserAssigned = "UserAssigned",
-  /** None */
-  None = "None"
-}
-
-/**
- * Defines values for MyWorkbookManagedIdentityType. \
- * {@link KnownMyWorkbookManagedIdentityType} can be used interchangeably with MyWorkbookManagedIdentityType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **UserAssigned** \
- * **None**
- */
-export type MyWorkbookManagedIdentityType = string;
-
 /** Known values of {@link ManagedServiceIdentityType} that the service accepts. */
 export enum KnownManagedServiceIdentityType {
   /** None */
@@ -1608,7 +1741,7 @@ export enum KnownManagedServiceIdentityType {
   /** UserAssigned */
   UserAssigned = "UserAssigned",
   /** SystemAssignedUserAssigned */
-  SystemAssignedUserAssigned = "SystemAssigned,UserAssigned"
+  SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
 }
 
 /**
@@ -1626,7 +1759,7 @@ export type ManagedServiceIdentityType = string;
 /** Known values of {@link WorkbookSharedTypeKind} that the service accepts. */
 export enum KnownWorkbookSharedTypeKind {
   /** Shared */
-  Shared = "shared"
+  Shared = "shared",
 }
 
 /**
@@ -1641,7 +1774,7 @@ export type WorkbookSharedTypeKind = string;
 /** Known values of {@link WorkbookUpdateSharedTypeKind} that the service accepts. */
 export enum KnownWorkbookUpdateSharedTypeKind {
   /** Shared */
-  Shared = "shared"
+  Shared = "shared",
 }
 
 /**
@@ -1653,115 +1786,10 @@ export enum KnownWorkbookUpdateSharedTypeKind {
  */
 export type WorkbookUpdateSharedTypeKind = string;
 
-/** Known values of {@link ApplicationType} that the service accepts. */
-export enum KnownApplicationType {
-  /** Web */
-  Web = "web",
-  /** Other */
-  Other = "other"
-}
-
-/**
- * Defines values for ApplicationType. \
- * {@link KnownApplicationType} can be used interchangeably with ApplicationType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **web** \
- * **other**
- */
-export type ApplicationType = string;
-
-/** Known values of {@link FlowType} that the service accepts. */
-export enum KnownFlowType {
-  /** Bluefield */
-  Bluefield = "Bluefield"
-}
-
-/**
- * Defines values for FlowType. \
- * {@link KnownFlowType} can be used interchangeably with FlowType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Bluefield**
- */
-export type FlowType = string;
-
-/** Known values of {@link RequestSource} that the service accepts. */
-export enum KnownRequestSource {
-  /** Rest */
-  Rest = "rest"
-}
-
-/**
- * Defines values for RequestSource. \
- * {@link KnownRequestSource} can be used interchangeably with RequestSource,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **rest**
- */
-export type RequestSource = string;
-
-/** Known values of {@link PublicNetworkAccessType} that the service accepts. */
-export enum KnownPublicNetworkAccessType {
-  /** Enables connectivity to Application Insights through public DNS. */
-  Enabled = "Enabled",
-  /** Disables public connectivity to Application Insights through public DNS. */
-  Disabled = "Disabled"
-}
-
-/**
- * Defines values for PublicNetworkAccessType. \
- * {@link KnownPublicNetworkAccessType} can be used interchangeably with PublicNetworkAccessType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Enabled**: Enables connectivity to Application Insights through public DNS. \
- * **Disabled**: Disables public connectivity to Application Insights through public DNS.
- */
-export type PublicNetworkAccessType = string;
-
-/** Known values of {@link IngestionMode} that the service accepts. */
-export enum KnownIngestionMode {
-  /** ApplicationInsights */
-  ApplicationInsights = "ApplicationInsights",
-  /** ApplicationInsightsWithDiagnosticSettings */
-  ApplicationInsightsWithDiagnosticSettings = "ApplicationInsightsWithDiagnosticSettings",
-  /** LogAnalytics */
-  LogAnalytics = "LogAnalytics"
-}
-
-/**
- * Defines values for IngestionMode. \
- * {@link KnownIngestionMode} can be used interchangeably with IngestionMode,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **ApplicationInsights** \
- * **ApplicationInsightsWithDiagnosticSettings** \
- * **LogAnalytics**
- */
-export type IngestionMode = string;
-
-/** Known values of {@link PurgeState} that the service accepts. */
-export enum KnownPurgeState {
-  /** Pending */
-  Pending = "pending",
-  /** Completed */
-  Completed = "completed"
-}
-
-/**
- * Defines values for PurgeState. \
- * {@link KnownPurgeState} can be used interchangeably with PurgeState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **pending** \
- * **completed**
- */
-export type PurgeState = string;
-
 /** Known values of {@link StorageType} that the service accepts. */
 export enum KnownStorageType {
   /** ServiceProfiler */
-  ServiceProfiler = "ServiceProfiler"
+  ServiceProfiler = "ServiceProfiler",
 }
 
 /**
@@ -1775,7 +1803,76 @@ export type StorageType = string;
 /** Defines values for FavoriteType. */
 export type FavoriteType = "shared" | "user";
 /** Defines values for WebTestKind. */
-export type WebTestKind = "ping" | "multistep";
+export type WebTestKind = "ping" | "multistep" | "standard";
+
+/** Optional parameters. */
+export interface ComponentsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type ComponentsListResponse = ApplicationInsightsComponentListResult;
+
+/** Optional parameters. */
+export interface ComponentsListByResourceGroupOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroup operation. */
+export type ComponentsListByResourceGroupResponse =
+  ApplicationInsightsComponentListResult;
+
+/** Optional parameters. */
+export interface ComponentsDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface ComponentsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type ComponentsGetResponse = ApplicationInsightsComponent;
+
+/** Optional parameters. */
+export interface ComponentsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdate operation. */
+export type ComponentsCreateOrUpdateResponse = ApplicationInsightsComponent;
+
+/** Optional parameters. */
+export interface ComponentsUpdateTagsOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the updateTags operation. */
+export type ComponentsUpdateTagsResponse = ApplicationInsightsComponent;
+
+/** Optional parameters. */
+export interface ComponentsPurgeOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the purge operation. */
+export type ComponentsPurgeResponse = ComponentPurgeResponse;
+
+/** Optional parameters. */
+export interface ComponentsGetPurgeStatusOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getPurgeStatus operation. */
+export type ComponentsGetPurgeStatusResponse = ComponentPurgeStatusResponse;
+
+/** Optional parameters. */
+export interface ComponentsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type ComponentsListNextResponse = ApplicationInsightsComponentListResult;
+
+/** Optional parameters. */
+export interface ComponentsListByResourceGroupNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroupNext operation. */
+export type ComponentsListByResourceGroupNextResponse =
+  ApplicationInsightsComponentListResult;
 
 /** Optional parameters. */
 export interface AnnotationsListOptionalParams
@@ -1834,98 +1931,112 @@ export interface ExportConfigurationsListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type ExportConfigurationsListResponse = ApplicationInsightsComponentExportConfiguration[];
+export type ExportConfigurationsListResponse =
+  ApplicationInsightsComponentExportConfiguration[];
 
 /** Optional parameters. */
 export interface ExportConfigurationsCreateOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the create operation. */
-export type ExportConfigurationsCreateResponse = ApplicationInsightsComponentExportConfiguration[];
+export type ExportConfigurationsCreateResponse =
+  ApplicationInsightsComponentExportConfiguration[];
 
 /** Optional parameters. */
 export interface ExportConfigurationsDeleteOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the delete operation. */
-export type ExportConfigurationsDeleteResponse = ApplicationInsightsComponentExportConfiguration;
+export type ExportConfigurationsDeleteResponse =
+  ApplicationInsightsComponentExportConfiguration;
 
 /** Optional parameters. */
 export interface ExportConfigurationsGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type ExportConfigurationsGetResponse = ApplicationInsightsComponentExportConfiguration;
+export type ExportConfigurationsGetResponse =
+  ApplicationInsightsComponentExportConfiguration;
 
 /** Optional parameters. */
 export interface ExportConfigurationsUpdateOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the update operation. */
-export type ExportConfigurationsUpdateResponse = ApplicationInsightsComponentExportConfiguration;
+export type ExportConfigurationsUpdateResponse =
+  ApplicationInsightsComponentExportConfiguration;
 
 /** Optional parameters. */
 export interface ComponentCurrentBillingFeaturesGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type ComponentCurrentBillingFeaturesGetResponse = ApplicationInsightsComponentBillingFeatures;
+export type ComponentCurrentBillingFeaturesGetResponse =
+  ApplicationInsightsComponentBillingFeatures;
 
 /** Optional parameters. */
 export interface ComponentCurrentBillingFeaturesUpdateOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the update operation. */
-export type ComponentCurrentBillingFeaturesUpdateResponse = ApplicationInsightsComponentBillingFeatures;
+export type ComponentCurrentBillingFeaturesUpdateResponse =
+  ApplicationInsightsComponentBillingFeatures;
 
 /** Optional parameters. */
 export interface ComponentQuotaStatusGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type ComponentQuotaStatusGetResponse = ApplicationInsightsComponentQuotaStatus;
+export type ComponentQuotaStatusGetResponse =
+  ApplicationInsightsComponentQuotaStatus;
 
 /** Optional parameters. */
 export interface ComponentFeatureCapabilitiesGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type ComponentFeatureCapabilitiesGetResponse = ApplicationInsightsComponentFeatureCapabilities;
+export type ComponentFeatureCapabilitiesGetResponse =
+  ApplicationInsightsComponentFeatureCapabilities;
 
 /** Optional parameters. */
 export interface ComponentAvailableFeaturesGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type ComponentAvailableFeaturesGetResponse = ApplicationInsightsComponentAvailableFeatures;
+export type ComponentAvailableFeaturesGetResponse =
+  ApplicationInsightsComponentAvailableFeatures;
 
 /** Optional parameters. */
 export interface ProactiveDetectionConfigurationsListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type ProactiveDetectionConfigurationsListResponse = ApplicationInsightsComponentProactiveDetectionConfiguration[];
+export type ProactiveDetectionConfigurationsListResponse =
+  ApplicationInsightsComponentProactiveDetectionConfiguration[];
 
 /** Optional parameters. */
 export interface ProactiveDetectionConfigurationsGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type ProactiveDetectionConfigurationsGetResponse = ApplicationInsightsComponentProactiveDetectionConfiguration;
+export type ProactiveDetectionConfigurationsGetResponse =
+  ApplicationInsightsComponentProactiveDetectionConfiguration;
 
 /** Optional parameters. */
 export interface ProactiveDetectionConfigurationsUpdateOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the update operation. */
-export type ProactiveDetectionConfigurationsUpdateResponse = ApplicationInsightsComponentProactiveDetectionConfiguration;
+export type ProactiveDetectionConfigurationsUpdateResponse =
+  ApplicationInsightsComponentProactiveDetectionConfiguration;
 
 /** Optional parameters. */
 export interface WorkItemConfigurationsListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type WorkItemConfigurationsListResponse = WorkItemConfigurationsListResult;
+export type WorkItemConfigurationsListResponse =
+  WorkItemConfigurationsListResult;
 
 /** Optional parameters. */
 export interface WorkItemConfigurationsCreateOptionalParams
@@ -2005,7 +2116,8 @@ export interface WebTestLocationsListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type WebTestLocationsListResponse = ApplicationInsightsWebTestLocationsListResult;
+export type WebTestLocationsListResponse =
+  ApplicationInsightsWebTestLocationsListResult;
 
 /** Optional parameters. */
 export interface WebTestsListByResourceGroupOptionalParams
@@ -2080,13 +2192,14 @@ export interface AnalyticsItemsListOptionalParams
   /** Enum indicating if this item definition is owned by a specific user or is shared between all users with access to the Application Insights component. */
   scope?: ItemScope;
   /** Enum indicating the type of the Analytics item. */
-  typeParam?: ItemTypeParameter;
+  type?: ItemTypeParameter;
   /** Flag indicating whether or not to return the content of each applicable item. If false, only return the item information. */
   includeContent?: boolean;
 }
 
 /** Contains response data for the list operation. */
-export type AnalyticsItemsListResponse = ApplicationInsightsComponentAnalyticsItem[];
+export type AnalyticsItemsListResponse =
+  ApplicationInsightsComponentAnalyticsItem[];
 
 /** Optional parameters. */
 export interface AnalyticsItemsGetOptionalParams
@@ -2098,7 +2211,8 @@ export interface AnalyticsItemsGetOptionalParams
 }
 
 /** Contains response data for the get operation. */
-export type AnalyticsItemsGetResponse = ApplicationInsightsComponentAnalyticsItem;
+export type AnalyticsItemsGetResponse =
+  ApplicationInsightsComponentAnalyticsItem;
 
 /** Optional parameters. */
 export interface AnalyticsItemsPutOptionalParams
@@ -2108,7 +2222,8 @@ export interface AnalyticsItemsPutOptionalParams
 }
 
 /** Contains response data for the put operation. */
-export type AnalyticsItemsPutResponse = ApplicationInsightsComponentAnalyticsItem;
+export type AnalyticsItemsPutResponse =
+  ApplicationInsightsComponentAnalyticsItem;
 
 /** Optional parameters. */
 export interface AnalyticsItemsDeleteOptionalParams
@@ -2120,11 +2235,26 @@ export interface AnalyticsItemsDeleteOptionalParams
 }
 
 /** Optional parameters. */
+export interface OperationsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type OperationsListResponse = OperationListResult;
+
+/** Optional parameters. */
+export interface OperationsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type OperationsListNextResponse = OperationListResult;
+
+/** Optional parameters. */
 export interface WorkbookTemplatesListByResourceGroupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
-export type WorkbookTemplatesListByResourceGroupResponse = WorkbookTemplatesListResult;
+export type WorkbookTemplatesListByResourceGroupResponse =
+  WorkbookTemplatesListResult;
 
 /** Optional parameters. */
 export interface WorkbookTemplatesGetOptionalParams
@@ -2153,89 +2283,6 @@ export interface WorkbookTemplatesUpdateOptionalParams
 
 /** Contains response data for the update operation. */
 export type WorkbookTemplatesUpdateResponse = WorkbookTemplate;
-
-/** Optional parameters. */
-export interface MyWorkbooksListByResourceGroupOptionalParams
-  extends coreClient.OperationOptions {
-  /** Flag indicating whether or not to return the full content for each applicable workbook. If false, only return summary content for workbooks. */
-  canFetchContent?: boolean;
-  /** Tags presents on each workbook returned. */
-  tags?: string[];
-  /** Azure Resource Id that will fetch all linked workbooks. */
-  sourceId?: string;
-}
-
-/** Contains response data for the listByResourceGroup operation. */
-export type MyWorkbooksListByResourceGroupResponse = MyWorkbooksListResult;
-
-/** Optional parameters. */
-export interface MyWorkbooksListBySubscriptionOptionalParams
-  extends coreClient.OperationOptions {
-  /** Flag indicating whether or not to return the full content for each applicable workbook. If false, only return summary content for workbooks. */
-  canFetchContent?: boolean;
-  /** Tags presents on each workbook returned. */
-  tags?: string[];
-}
-
-/** Contains response data for the listBySubscription operation. */
-export type MyWorkbooksListBySubscriptionResponse = MyWorkbooksListResult;
-
-/** Optional parameters. */
-export interface MyWorkbooksGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type MyWorkbooksGetResponse = MyWorkbook;
-
-/** Optional parameters. */
-export interface MyWorkbooksDeleteOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
-export interface MyWorkbooksCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Azure Resource Id that will fetch all linked workbooks. */
-  sourceId?: string;
-}
-
-/** Contains response data for the createOrUpdate operation. */
-export type MyWorkbooksCreateOrUpdateResponse = MyWorkbook;
-
-/** Optional parameters. */
-export interface MyWorkbooksUpdateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Azure Resource Id that will fetch all linked workbooks. */
-  sourceId?: string;
-}
-
-/** Contains response data for the update operation. */
-export type MyWorkbooksUpdateResponse = MyWorkbook;
-
-/** Optional parameters. */
-export interface MyWorkbooksListByResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Flag indicating whether or not to return the full content for each applicable workbook. If false, only return summary content for workbooks. */
-  canFetchContent?: boolean;
-  /** Tags presents on each workbook returned. */
-  tags?: string[];
-  /** Azure Resource Id that will fetch all linked workbooks. */
-  sourceId?: string;
-}
-
-/** Contains response data for the listByResourceGroupNext operation. */
-export type MyWorkbooksListByResourceGroupNextResponse = MyWorkbooksListResult;
-
-/** Optional parameters. */
-export interface MyWorkbooksListBySubscriptionNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Flag indicating whether or not to return the full content for each applicable workbook. If false, only return summary content for workbooks. */
-  canFetchContent?: boolean;
-  /** Tags presents on each workbook returned. */
-  tags?: string[];
-}
-
-/** Contains response data for the listBySubscriptionNext operation. */
-export type MyWorkbooksListBySubscriptionNextResponse = MyWorkbooksListResult;
 
 /** Optional parameters. */
 export interface WorkbooksListBySubscriptionOptionalParams
@@ -2315,26 +2362,14 @@ export type WorkbooksRevisionGetResponse = Workbook;
 
 /** Optional parameters. */
 export interface WorkbooksListBySubscriptionNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Flag indicating whether or not to return the full content for each applicable workbook. If false, only return summary content for workbooks. */
-  canFetchContent?: boolean;
-  /** Tags presents on each workbook returned. */
-  tags?: string[];
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
 export type WorkbooksListBySubscriptionNextResponse = WorkbooksListResult;
 
 /** Optional parameters. */
 export interface WorkbooksListByResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Flag indicating whether or not to return the full content for each applicable workbook. If false, only return summary content for workbooks. */
-  canFetchContent?: boolean;
-  /** Tags presents on each workbook returned. */
-  tags?: string[];
-  /** Azure Resource Id that will fetch all linked workbooks. */
-  sourceId?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
 export type WorkbooksListByResourceGroupNextResponse = WorkbooksListResult;
@@ -2347,103 +2382,60 @@ export interface WorkbooksRevisionsListNextOptionalParams
 export type WorkbooksRevisionsListNextResponse = WorkbooksListResult;
 
 /** Optional parameters. */
-export interface ComponentsListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type ComponentsListResponse = ApplicationInsightsComponentListResult;
-
-/** Optional parameters. */
-export interface ComponentsListByResourceGroupOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByResourceGroup operation. */
-export type ComponentsListByResourceGroupResponse = ApplicationInsightsComponentListResult;
-
-/** Optional parameters. */
-export interface ComponentsDeleteOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
-export interface ComponentsGetOptionalParams
+export interface LiveTokenGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type ComponentsGetResponse = ApplicationInsightsComponent;
-
-/** Optional parameters. */
-export interface ComponentsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the createOrUpdate operation. */
-export type ComponentsCreateOrUpdateResponse = ApplicationInsightsComponent;
-
-/** Optional parameters. */
-export interface ComponentsUpdateTagsOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the updateTags operation. */
-export type ComponentsUpdateTagsResponse = ApplicationInsightsComponent;
-
-/** Optional parameters. */
-export interface ComponentsPurgeOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the purge operation. */
-export type ComponentsPurgeResponse = ComponentPurgeResponse;
-
-/** Optional parameters. */
-export interface ComponentsGetPurgeStatusOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the getPurgeStatus operation. */
-export type ComponentsGetPurgeStatusResponse = ComponentPurgeStatusResponse;
-
-/** Optional parameters. */
-export interface ComponentsListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type ComponentsListNextResponse = ApplicationInsightsComponentListResult;
-
-/** Optional parameters. */
-export interface ComponentsListByResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByResourceGroupNext operation. */
-export type ComponentsListByResourceGroupNextResponse = ApplicationInsightsComponentListResult;
+export type LiveTokenGetResponse = LiveTokenResponse;
 
 /** Optional parameters. */
 export interface ComponentLinkedStorageAccountsGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type ComponentLinkedStorageAccountsGetResponse = ComponentLinkedStorageAccounts;
+export type ComponentLinkedStorageAccountsGetResponse =
+  ComponentLinkedStorageAccounts;
 
 /** Optional parameters. */
 export interface ComponentLinkedStorageAccountsCreateAndUpdateOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the createAndUpdate operation. */
-export type ComponentLinkedStorageAccountsCreateAndUpdateResponse = ComponentLinkedStorageAccounts;
+export type ComponentLinkedStorageAccountsCreateAndUpdateResponse =
+  ComponentLinkedStorageAccounts;
 
 /** Optional parameters. */
 export interface ComponentLinkedStorageAccountsUpdateOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the update operation. */
-export type ComponentLinkedStorageAccountsUpdateResponse = ComponentLinkedStorageAccounts;
+export type ComponentLinkedStorageAccountsUpdateResponse =
+  ComponentLinkedStorageAccounts;
 
 /** Optional parameters. */
 export interface ComponentLinkedStorageAccountsDeleteOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface LiveTokenGetOptionalParams
+export interface DeletedWorkbooksListBySubscriptionOptionalParams
+  extends coreClient.OperationOptions {
+  /** Tags presents on each workbook returned. */
+  tags?: string[];
+  /** Category of workbook to return. */
+  category?: CategoryType;
+}
+
+/** Contains response data for the listBySubscription operation. */
+export type DeletedWorkbooksListBySubscriptionResponse =
+  DeletedWorkbooksListResult;
+
+/** Optional parameters. */
+export interface DeletedWorkbooksListBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Contains response data for the get operation. */
-export type LiveTokenGetResponse = LiveTokenResponse;
+/** Contains response data for the listBySubscriptionNext operation. */
+export type DeletedWorkbooksListBySubscriptionNextResponse =
+  DeletedWorkbooksListResult;
 
 /** Optional parameters. */
 export interface ApplicationInsightsManagementClientOptionalParams

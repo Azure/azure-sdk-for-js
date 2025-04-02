@@ -12,6 +12,7 @@ import nock from "nock";
 import { NetworkStatsbeatMetrics } from "../../src/export/statsbeat/networkStatsbeatMetrics.js";
 import { AZURE_MONITOR_AUTO_ATTACH, StatsbeatCounter } from "../../src/export/statsbeat/types.js";
 import { getInstance } from "../../src/export/statsbeat/longIntervalStatsbeatMetrics.js";
+import { getInstance as getContext } from "../../src/platform/nodejs/context/context.js";
 import { AzureMonitorTraceExporter } from "../../src/export/trace.js";
 import { diag } from "@opentelemetry/api";
 import { describe, it, assert, expect, vi, beforeAll, afterAll } from "vitest";
@@ -119,6 +120,7 @@ describe("#AzureMonitorStatsbeatExporter", () => {
         statsbeat.countSuccess(100);
         const metric = statsbeat["networkStatsbeatCollection"][0];
         assert.strictEqual(metric.intervalRequestExecutionTime, 100);
+        assert.strictEqual(metric.totalSuccessfulRequestCount, 1);
 
         // Ensure network statsbeat attributes are populated
         assert.strictEqual(statsbeat["attach"], "Manual");
@@ -151,6 +153,7 @@ describe("#AzureMonitorStatsbeatExporter", () => {
 
         // Ensure network statsbeat attributes are populated
         assert.strictEqual(statsbeat["attach"], "IntegratedAuto");
+        assert.ok(getContext().tags["ai.internal.sdkVersion"]);
         process.env = originalEnv;
       });
 
@@ -344,7 +347,7 @@ describe("#AzureMonitorStatsbeatExporter", () => {
 
         await new Promise((resolve) => setTimeout(resolve, 500));
         expect(mockExport).toHaveBeenCalled();
-        const resourceMetrics = mockExport.mock.calls[1][0];
+        const resourceMetrics = mockExport.mock.calls[0][0];
         const scopeMetrics = resourceMetrics.scopeMetrics;
         const metrics = scopeMetrics[0].metrics;
 

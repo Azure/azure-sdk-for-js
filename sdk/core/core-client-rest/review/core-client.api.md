@@ -98,7 +98,7 @@ export type HttpBrowserStreamResponse = HttpResponse & {
 
 // @public
 export type HttpNodeStreamResponse = HttpResponse & {
-    body?: NodeJS.ReadableStream;
+    body?: NodeJSReadableStream;
 };
 
 // @public
@@ -113,6 +113,11 @@ export type HttpResponse = {
 export interface InnerError {
     code: string;
     innererror?: InnerError;
+}
+
+// @public
+export interface NodeJSReadableStream extends NodeJS.ReadableStream {
+    destroy(error?: Error): void;
 }
 
 // @public

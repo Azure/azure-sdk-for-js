@@ -2,17 +2,7 @@
 // Licensed under the MIT License.
 
 import { VectorDbContext } from "../../api/vectorDbContext.js";
-import {
-  listBySubscription,
-  listByResourceGroup,
-  $delete,
-  update,
-  createOrUpdate,
-  get,
-} from "../../api/organizations/index.js";
 import { OrganizationResource, OrganizationResourceUpdate } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
 import {
   OrganizationsListBySubscriptionOptionalParams,
   OrganizationsListByResourceGroupOptionalParams,
@@ -20,7 +10,17 @@ import {
   OrganizationsUpdateOptionalParams,
   OrganizationsCreateOrUpdateOptionalParams,
   OrganizationsGetOptionalParams,
-} from "../../api/options.js";
+} from "../../api/organizations/options.js";
+import {
+  listBySubscription,
+  listByResourceGroup,
+  $delete,
+  update,
+  createOrUpdate,
+  get,
+} from "../../api/organizations/operations.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Organizations operations. */
 export interface OrganizationsOperations {
@@ -66,7 +66,7 @@ export interface OrganizationsOperations {
   ) => Promise<OrganizationResource>;
 }
 
-export function getOrganizations(context: VectorDbContext) {
+function _getOrganizations(context: VectorDbContext) {
   return {
     listBySubscription: (options?: OrganizationsListBySubscriptionOptionalParams) =>
       listBySubscription(context, options),
@@ -99,8 +99,8 @@ export function getOrganizations(context: VectorDbContext) {
   };
 }
 
-export function getOrganizationsOperations(context: VectorDbContext): OrganizationsOperations {
+export function _getOrganizationsOperations(context: VectorDbContext): OrganizationsOperations {
   return {
-    ...getOrganizations(context),
+    ..._getOrganizations(context),
   };
 }

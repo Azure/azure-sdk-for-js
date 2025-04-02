@@ -7,6 +7,7 @@
 ### Features Added
 
 - Adds support for `ungrounded_material` in `ContentFilterResultsForChoiceOutput`.
+- Adds support for `user_security_context` in `ChatCompletionCreateParamsNonStreaming` and `ChatCompletionCreateParamsStreaming`.
 
 ### Breaking Changes
 

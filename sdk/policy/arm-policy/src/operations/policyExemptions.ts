@@ -32,10 +32,13 @@ import {
   PolicyExemptionsCreateOrUpdateResponse,
   PolicyExemptionsGetOptionalParams,
   PolicyExemptionsGetResponse,
+  PolicyExemptionUpdate,
+  PolicyExemptionsUpdateOptionalParams,
+  PolicyExemptionsUpdateResponse,
   PolicyExemptionsListNextResponse,
   PolicyExemptionsListForResourceGroupNextResponse,
   PolicyExemptionsListForResourceNextResponse,
-  PolicyExemptionsListForManagementGroupNextResponse
+  PolicyExemptionsListForManagementGroupNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -61,7 +64,7 @@ export class PolicyExemptionsImpl implements PolicyExemptions {
    * @param options The options parameters.
    */
   public list(
-    options?: PolicyExemptionsListOptionalParams
+    options?: PolicyExemptionsListOptionalParams,
   ): PagedAsyncIterableIterator<PolicyExemption> {
     const iter = this.listPagingAll(options);
     return {
@@ -76,13 +79,13 @@ export class PolicyExemptionsImpl implements PolicyExemptions {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     options?: PolicyExemptionsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<PolicyExemption[]> {
     let result: PolicyExemptionsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -103,7 +106,7 @@ export class PolicyExemptionsImpl implements PolicyExemptions {
   }
 
   private async *listPagingAll(
-    options?: PolicyExemptionsListOptionalParams
+    options?: PolicyExemptionsListOptionalParams,
   ): AsyncIterableIterator<PolicyExemption> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
@@ -122,7 +125,7 @@ export class PolicyExemptionsImpl implements PolicyExemptions {
    */
   public listForResourceGroup(
     resourceGroupName: string,
-    options?: PolicyExemptionsListForResourceGroupOptionalParams
+    options?: PolicyExemptionsListForResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<PolicyExemption> {
     const iter = this.listForResourceGroupPagingAll(resourceGroupName, options);
     return {
@@ -139,16 +142,16 @@ export class PolicyExemptionsImpl implements PolicyExemptions {
         return this.listForResourceGroupPagingPage(
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listForResourceGroupPagingPage(
     resourceGroupName: string,
     options?: PolicyExemptionsListForResourceGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<PolicyExemption[]> {
     let result: PolicyExemptionsListForResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -163,7 +166,7 @@ export class PolicyExemptionsImpl implements PolicyExemptions {
       result = await this._listForResourceGroupNext(
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -174,11 +177,11 @@ export class PolicyExemptionsImpl implements PolicyExemptions {
 
   private async *listForResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: PolicyExemptionsListForResourceGroupOptionalParams
+    options?: PolicyExemptionsListForResourceGroupOptionalParams,
   ): AsyncIterableIterator<PolicyExemption> {
     for await (const page of this.listForResourceGroupPagingPage(
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -216,7 +219,7 @@ export class PolicyExemptionsImpl implements PolicyExemptions {
     parentResourcePath: string,
     resourceType: string,
     resourceName: string,
-    options?: PolicyExemptionsListForResourceOptionalParams
+    options?: PolicyExemptionsListForResourceOptionalParams,
   ): PagedAsyncIterableIterator<PolicyExemption> {
     const iter = this.listForResourcePagingAll(
       resourceGroupName,
@@ -224,7 +227,7 @@ export class PolicyExemptionsImpl implements PolicyExemptions {
       parentResourcePath,
       resourceType,
       resourceName,
-      options
+      options,
     );
     return {
       next() {
@@ -244,9 +247,9 @@ export class PolicyExemptionsImpl implements PolicyExemptions {
           resourceType,
           resourceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -257,7 +260,7 @@ export class PolicyExemptionsImpl implements PolicyExemptions {
     resourceType: string,
     resourceName: string,
     options?: PolicyExemptionsListForResourceOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<PolicyExemption[]> {
     let result: PolicyExemptionsListForResourceResponse;
     let continuationToken = settings?.continuationToken;
@@ -268,7 +271,7 @@ export class PolicyExemptionsImpl implements PolicyExemptions {
         parentResourcePath,
         resourceType,
         resourceName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -283,7 +286,7 @@ export class PolicyExemptionsImpl implements PolicyExemptions {
         resourceType,
         resourceName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -298,7 +301,7 @@ export class PolicyExemptionsImpl implements PolicyExemptions {
     parentResourcePath: string,
     resourceType: string,
     resourceName: string,
-    options?: PolicyExemptionsListForResourceOptionalParams
+    options?: PolicyExemptionsListForResourceOptionalParams,
   ): AsyncIterableIterator<PolicyExemption> {
     for await (const page of this.listForResourcePagingPage(
       resourceGroupName,
@@ -306,7 +309,7 @@ export class PolicyExemptionsImpl implements PolicyExemptions {
       parentResourcePath,
       resourceType,
       resourceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -323,11 +326,11 @@ export class PolicyExemptionsImpl implements PolicyExemptions {
    */
   public listForManagementGroup(
     managementGroupId: string,
-    options?: PolicyExemptionsListForManagementGroupOptionalParams
+    options?: PolicyExemptionsListForManagementGroupOptionalParams,
   ): PagedAsyncIterableIterator<PolicyExemption> {
     const iter = this.listForManagementGroupPagingAll(
       managementGroupId,
-      options
+      options,
     );
     return {
       next() {
@@ -343,16 +346,16 @@ export class PolicyExemptionsImpl implements PolicyExemptions {
         return this.listForManagementGroupPagingPage(
           managementGroupId,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listForManagementGroupPagingPage(
     managementGroupId: string,
     options?: PolicyExemptionsListForManagementGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<PolicyExemption[]> {
     let result: PolicyExemptionsListForManagementGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -367,7 +370,7 @@ export class PolicyExemptionsImpl implements PolicyExemptions {
       result = await this._listForManagementGroupNext(
         managementGroupId,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -378,11 +381,11 @@ export class PolicyExemptionsImpl implements PolicyExemptions {
 
   private async *listForManagementGroupPagingAll(
     managementGroupId: string,
-    options?: PolicyExemptionsListForManagementGroupOptionalParams
+    options?: PolicyExemptionsListForManagementGroupOptionalParams,
   ): AsyncIterableIterator<PolicyExemption> {
     for await (const page of this.listForManagementGroupPagingPage(
       managementGroupId,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -403,11 +406,11 @@ export class PolicyExemptionsImpl implements PolicyExemptions {
   delete(
     scope: string,
     policyExemptionName: string,
-    options?: PolicyExemptionsDeleteOptionalParams
+    options?: PolicyExemptionsDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { scope, policyExemptionName, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -429,11 +432,11 @@ export class PolicyExemptionsImpl implements PolicyExemptions {
     scope: string,
     policyExemptionName: string,
     parameters: PolicyExemption,
-    options?: PolicyExemptionsCreateOrUpdateOptionalParams
+    options?: PolicyExemptionsCreateOrUpdateOptionalParams,
   ): Promise<PolicyExemptionsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       { scope, policyExemptionName, parameters, options },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -450,11 +453,34 @@ export class PolicyExemptionsImpl implements PolicyExemptions {
   get(
     scope: string,
     policyExemptionName: string,
-    options?: PolicyExemptionsGetOptionalParams
+    options?: PolicyExemptionsGetOptionalParams,
   ): Promise<PolicyExemptionsGetResponse> {
     return this.client.sendOperationRequest(
       { scope, policyExemptionName, options },
-      getOperationSpec
+      getOperationSpec,
+    );
+  }
+
+  /**
+   *  This operation updates a policy exemption with the given scope and name.
+   * @param scope The scope of the policy exemption. Valid scopes are: management group (format:
+   *              '/providers/Microsoft.Management/managementGroups/{managementGroup}'), subscription (format:
+   *              '/subscriptions/{subscriptionId}'), resource group (format:
+   *              '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}', or resource (format:
+   *              '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/[{parentResourcePath}/]{resourceType}/{resourceName}'
+   * @param policyExemptionName The name of the policy exemption to delete.
+   * @param parameters Parameters for policy exemption patch request.
+   * @param options The options parameters.
+   */
+  update(
+    scope: string,
+    policyExemptionName: string,
+    parameters: PolicyExemptionUpdate,
+    options?: PolicyExemptionsUpdateOptionalParams,
+  ): Promise<PolicyExemptionsUpdateResponse> {
+    return this.client.sendOperationRequest(
+      { scope, policyExemptionName, parameters, options },
+      updateOperationSpec,
     );
   }
 
@@ -468,7 +494,7 @@ export class PolicyExemptionsImpl implements PolicyExemptions {
    * @param options The options parameters.
    */
   private _list(
-    options?: PolicyExemptionsListOptionalParams
+    options?: PolicyExemptionsListOptionalParams,
   ): Promise<PolicyExemptionsListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
@@ -485,11 +511,11 @@ export class PolicyExemptionsImpl implements PolicyExemptions {
    */
   private _listForResourceGroup(
     resourceGroupName: string,
-    options?: PolicyExemptionsListForResourceGroupOptionalParams
+    options?: PolicyExemptionsListForResourceGroupOptionalParams,
   ): Promise<PolicyExemptionsListForResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listForResourceGroupOperationSpec
+      listForResourceGroupOperationSpec,
     );
   }
 
@@ -525,7 +551,7 @@ export class PolicyExemptionsImpl implements PolicyExemptions {
     parentResourcePath: string,
     resourceType: string,
     resourceName: string,
-    options?: PolicyExemptionsListForResourceOptionalParams
+    options?: PolicyExemptionsListForResourceOptionalParams,
   ): Promise<PolicyExemptionsListForResourceResponse> {
     return this.client.sendOperationRequest(
       {
@@ -534,9 +560,9 @@ export class PolicyExemptionsImpl implements PolicyExemptions {
         parentResourcePath,
         resourceType,
         resourceName,
-        options
+        options,
       },
-      listForResourceOperationSpec
+      listForResourceOperationSpec,
     );
   }
 
@@ -551,11 +577,11 @@ export class PolicyExemptionsImpl implements PolicyExemptions {
    */
   private _listForManagementGroup(
     managementGroupId: string,
-    options?: PolicyExemptionsListForManagementGroupOptionalParams
+    options?: PolicyExemptionsListForManagementGroupOptionalParams,
   ): Promise<PolicyExemptionsListForManagementGroupResponse> {
     return this.client.sendOperationRequest(
       { managementGroupId, options },
-      listForManagementGroupOperationSpec
+      listForManagementGroupOperationSpec,
     );
   }
 
@@ -566,11 +592,11 @@ export class PolicyExemptionsImpl implements PolicyExemptions {
    */
   private _listNext(
     nextLink: string,
-    options?: PolicyExemptionsListNextOptionalParams
+    options?: PolicyExemptionsListNextOptionalParams,
   ): Promise<PolicyExemptionsListNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 
@@ -583,11 +609,11 @@ export class PolicyExemptionsImpl implements PolicyExemptions {
   private _listForResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: PolicyExemptionsListForResourceGroupNextOptionalParams
+    options?: PolicyExemptionsListForResourceGroupNextOptionalParams,
   ): Promise<PolicyExemptionsListForResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listForResourceGroupNextOperationSpec
+      listForResourceGroupNextOperationSpec,
     );
   }
 
@@ -610,7 +636,7 @@ export class PolicyExemptionsImpl implements PolicyExemptions {
     resourceType: string,
     resourceName: string,
     nextLink: string,
-    options?: PolicyExemptionsListForResourceNextOptionalParams
+    options?: PolicyExemptionsListForResourceNextOptionalParams,
   ): Promise<PolicyExemptionsListForResourceNextResponse> {
     return this.client.sendOperationRequest(
       {
@@ -620,9 +646,9 @@ export class PolicyExemptionsImpl implements PolicyExemptions {
         resourceType,
         resourceName,
         nextLink,
-        options
+        options,
       },
-      listForResourceNextOperationSpec
+      listForResourceNextOperationSpec,
     );
   }
 
@@ -635,11 +661,11 @@ export class PolicyExemptionsImpl implements PolicyExemptions {
   private _listForManagementGroupNext(
     managementGroupId: string,
     nextLink: string,
-    options?: PolicyExemptionsListForManagementGroupNextOptionalParams
+    options?: PolicyExemptionsListForManagementGroupNextOptionalParams,
   ): Promise<PolicyExemptionsListForManagementGroupNextResponse> {
     return this.client.sendOperationRequest(
       { managementGroupId, nextLink, options },
-      listForManagementGroupNextOperationSpec
+      listForManagementGroupNextOperationSpec,
     );
   }
 }
@@ -647,231 +673,246 @@ export class PolicyExemptionsImpl implements PolicyExemptions {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{scope}/providers/Microsoft.Authorization/policyExemptions/{policyExemptionName}",
+  path: "/{scope}/providers/Microsoft.Authorization/policyExemptions/{policyExemptionName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
     Parameters.scope,
-    Parameters.policyExemptionName
+    Parameters.policyExemptionName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{scope}/providers/Microsoft.Authorization/policyExemptions/{policyExemptionName}",
+  path: "/{scope}/providers/Microsoft.Authorization/policyExemptions/{policyExemptionName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.PolicyExemption
+      bodyMapper: Mappers.PolicyExemption,
     },
     201: {
-      bodyMapper: Mappers.PolicyExemption
+      bodyMapper: Mappers.PolicyExemption,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  requestBody: Parameters.parameters4,
+  requestBody: Parameters.parameters6,
   queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
     Parameters.scope,
-    Parameters.policyExemptionName
+    Parameters.policyExemptionName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{scope}/providers/Microsoft.Authorization/policyExemptions/{policyExemptionName}",
+  path: "/{scope}/providers/Microsoft.Authorization/policyExemptions/{policyExemptionName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PolicyExemption
+      bodyMapper: Mappers.PolicyExemption,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
     Parameters.scope,
-    Parameters.policyExemptionName
+    Parameters.policyExemptionName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const updateOperationSpec: coreClient.OperationSpec = {
+  path: "/{scope}/providers/Microsoft.Authorization/policyExemptions/{policyExemptionName}",
+  httpMethod: "PATCH",
+  responses: {
+    200: {
+      bodyMapper: Mappers.PolicyExemption,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  requestBody: Parameters.parameters7,
+  queryParameters: [Parameters.apiVersion2],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.scope,
+    Parameters.policyExemptionName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Authorization/policyExemptions",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Authorization/policyExemptions",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PolicyExemptionListResult
+      bodyMapper: Mappers.PolicyExemptionListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.filter, Parameters.apiVersion2],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listForResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Authorization/policyExemptions",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Authorization/policyExemptions",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PolicyExemptionListResult
+      bodyMapper: Mappers.PolicyExemptionListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.filter, Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.subscriptionId
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listForResourceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{parentResourcePath}/{resourceType}/{resourceName}/providers/Microsoft.Authorization/policyExemptions",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{parentResourcePath}/{resourceType}/{resourceName}/providers/Microsoft.Authorization/policyExemptions",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PolicyExemptionListResult
+      bodyMapper: Mappers.PolicyExemptionListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.filter, Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.resourceProviderNamespace,
     Parameters.parentResourcePath,
     Parameters.resourceType,
-    Parameters.resourceName
+    Parameters.resourceName1,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listForManagementGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Authorization/policyExemptions",
+  path: "/providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Authorization/policyExemptions",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PolicyExemptionListResult
+      bodyMapper: Mappers.PolicyExemptionListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.filter, Parameters.apiVersion2],
   urlParameters: [Parameters.$host, Parameters.managementGroupId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PolicyExemptionListResult
+      bodyMapper: Mappers.PolicyExemptionListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listForResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PolicyExemptionListResult
+      bodyMapper: Mappers.PolicyExemptionListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.subscriptionId
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listForResourceNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PolicyExemptionListResult
+      bodyMapper: Mappers.PolicyExemptionListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.resourceProviderNamespace,
     Parameters.parentResourcePath,
     Parameters.resourceType,
-    Parameters.resourceName
+    Parameters.resourceName1,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listForManagementGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PolicyExemptionListResult
+      bodyMapper: Mappers.PolicyExemptionListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
-    Parameters.managementGroupId
+    Parameters.managementGroupId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

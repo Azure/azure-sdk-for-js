@@ -1,33 +1,33 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { JwtPayload, VersionInfo } from "../common/types";
+import type { JwtPayload, VersionInfo } from "../common/types.js";
 import {
   API_VERSION,
   Constants,
   InternalEnvironmentVariables,
   MINIMUM_SUPPORTED_PLAYWRIGHT_VERSION,
   ServiceEnvironmentVariable,
-} from "../common/constants";
-import { ServiceErrorMessageConstants } from "../common/messages";
-import { EntraIdAccessToken } from "../common/entraIdAccessToken";
-import { coreLogger } from "../common/logger";
+} from "../common/constants.js";
+import { ServiceErrorMessageConstants } from "../common/messages.js";
+import { coreLogger } from "../common/logger.js";
 import type { TokenCredential } from "@azure/identity";
-import ReporterUtils from "./reporterUtils";
-import { CIInfoProvider } from "./cIInfoProvider";
-import { getPackageManager } from "./packageManager";
-import { execSync } from "child_process";
+import ReporterUtils from "./reporterUtils.js";
+import { CIInfoProvider } from "./cIInfoProvider.js";
+import * as process from "node:process";
+import { parseJwt } from "./parseJwt.js";
+import { getPlaywrightVersion } from "./getPlaywrightVersion.js";
+import { createEntraIdAccessToken } from "../common/entraIdAccessToken.js";
+
+// Re-exporting for backward compatibility
+export { getPlaywrightVersion } from "./getPlaywrightVersion.js";
+export { parseJwt } from "./parseJwt.js";
 
 export const exitWithFailureMessage = (error: { key: string; message: string }): never => {
   console.log();
   console.error(error.message);
   // eslint-disable-next-line n/no-process-exit
   process.exit(1);
-};
-export const base64UrlDecode = (base64Url: string): string => {
-  const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
-  const buffer = Buffer.from(base64, "base64");
-  return buffer.toString("utf-8");
 };
 
 export const populateValuesFromServiceUrl = (): { region: string; accountId: string } | null => {
@@ -45,14 +45,6 @@ export const populateValuesFromServiceUrl = (): { region: string; accountId: str
     }
   }
   return null;
-};
-export const parseJwt = <T = JwtPayload>(token: string): T => {
-  const parts = token.split(".");
-  if (parts.length !== 3) {
-    throw new Error("Invalid JWT token.");
-  }
-  const payload = base64UrlDecode(parts[1]!);
-  return JSON.parse(payload) as T;
 };
 
 export const getAccessToken = (): string | undefined => {
@@ -125,7 +117,7 @@ export const warnIfAccessTokenCloseToExpiry = (): void => {
 };
 
 export const fetchOrValidateAccessToken = async (credential?: TokenCredential): Promise<string> => {
-  const entraIdAccessToken = new EntraIdAccessToken(credential);
+  const entraIdAccessToken = createEntraIdAccessToken(credential);
   if (entraIdAccessToken.token && entraIdAccessToken.doesEntraIdAccessTokenNeedRotation()) {
     await entraIdAccessToken.fetchEntraIdAccessToken();
   }
@@ -145,22 +137,6 @@ export const emitReportingUrl = (): void => {
     process.env[InternalEnvironmentVariables.MPT_SERVICE_REPORTING_URL] =
       `https://${region}.reporting.api.${domain}`;
   }
-};
-
-export const getPlaywrightVersion = (): string => {
-  if (process.env[InternalEnvironmentVariables.MPT_PLAYWRIGHT_VERSION]) {
-    return process.env[InternalEnvironmentVariables.MPT_PLAYWRIGHT_VERSION]!;
-  }
-
-  const packageManager = getPackageManager();
-  const command = packageManager.runCommand("playwright", "--version");
-  const stdout = execSync(command).toString().trim();
-  const version = packageManager.getVersionFromStdout(stdout);
-  process.env[InternalEnvironmentVariables.MPT_PLAYWRIGHT_VERSION] = version;
-  coreLogger.info(
-    `Playwright version being used - ${process.env[InternalEnvironmentVariables.MPT_PLAYWRIGHT_VERSION]}`,
-  );
-  return process.env[InternalEnvironmentVariables.MPT_PLAYWRIGHT_VERSION]!;
 };
 
 export const getPackageVersion = (): string => {
@@ -193,6 +169,7 @@ export const validatePlaywrightVersion = (): void => {
 
   const minimumSupportedVersionInfo = getVersionInfo(minimumSupportedVersion);
   const installedVersionInfo = getVersionInfo(installedVersion);
+
   const isInstalledVersionGreater =
     installedVersionInfo.major > minimumSupportedVersionInfo.major ||
     (installedVersionInfo.major === minimumSupportedVersionInfo.major &&

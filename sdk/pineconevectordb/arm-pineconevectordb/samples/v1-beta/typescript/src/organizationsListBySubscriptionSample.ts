@@ -15,7 +15,7 @@ async function organizationsListBySubscriptionMaximumSet(): Promise<void> {
   const subscriptionId = "76a38ef6-c8c1-4f0d-bfe0-00ec782c8077";
   const client = new VectorDbClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.organizations.listBySubscription()) {
+  for await (const item of client.organizations.listBySubscription()) {
     resArray.push(item);
   }
 
@@ -23,7 +23,7 @@ async function organizationsListBySubscriptionMaximumSet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  organizationsListBySubscriptionMaximumSet();
+  await organizationsListBySubscriptionMaximumSet();
 }
 
 main().catch(console.error);

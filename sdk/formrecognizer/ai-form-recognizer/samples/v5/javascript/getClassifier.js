@@ -8,16 +8,14 @@
  * @summary get information about a classifier by its ID
  */
 
-const {
-  AzureKeyCredential,
-  DocumentModelAdministrationClient,
-} = require("@azure/ai-form-recognizer");
+const { DocumentModelAdministrationClient } = require("@azure/ai-form-recognizer");
+const { DefaultAzureCredential } = require("@azure/identity");
 
-require("dotenv").config();
+require("dotenv/config");
 
 async function main() {
   const endpoint = process.env.FORM_RECOGNIZER_ENDPOINT || "<endpoint>";
-  const credential = new AzureKeyCredential(process.env.FORM_RECOGNIZER_API_KEY || "<api key>");
+  const credential = new DefaultAzureCredential();
 
   const client = new DocumentModelAdministrationClient(endpoint, credential);
 

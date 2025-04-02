@@ -4,27 +4,19 @@
 import {
   DefaultConnectOptionsConstants,
   InternalEnvironmentVariables,
-} from "../../src/common/constants";
-import { PlaywrightServiceConfig } from "../../src/common/playwrightServiceConfig";
-import { expect } from "@azure-tools/test-utils";
-import sinon from "sinon";
-import { getAndSetRunId } from "../../src/utils/utils";
+} from "../../src/common/constants.js";
+import { PlaywrightServiceConfig } from "../../src/common/playwrightServiceConfig.js";
+import { getAndSetRunId } from "../../src/utils/utils.js";
+import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
 
 describe("PlaywrightServiceConfig", () => {
-  let sandbox: sinon.SinonSandbox;
-
   beforeEach(() => {
-    sandbox = sinon.createSandbox();
-    sandbox.stub(console, "error");
-    sandbox.stub(console, "log");
+    vi.spyOn(console, "error");
+    vi.spyOn(console, "log");
   });
 
   afterEach(() => {
-    sandbox.restore();
-  });
-
-  after(() => {
-    sandbox.restore();
+    vi.restoreAllMocks();
   });
 
   it("should set service config object with default values", () => {
@@ -42,7 +34,7 @@ describe("PlaywrightServiceConfig", () => {
     expect(playwrightServiceConfig.exposeNetwork).to.equal(
       DefaultConnectOptionsConstants.DEFAULT_EXPOSE_NETWORK,
     );
-    expect(process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_ID]).to.undefined;
+    expect(process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_ID]).toBeUndefined();
 
     delete process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_ID];
     delete process.env[InternalEnvironmentVariables.MPT_SERVICE_OS];
@@ -96,7 +88,7 @@ describe("PlaywrightServiceConfig", () => {
     expect(playwrightServiceConfig.serviceOs).to.equal(
       DefaultConnectOptionsConstants.DEFAULT_SERVICE_OS,
     );
-    expect(playwrightServiceConfig.runId).to.exist;
+    expect(playwrightServiceConfig.runId).toBeDefined();
     expect(playwrightServiceConfig.runName).to.equal("");
     expect(playwrightServiceConfig.timeout).to.equal(
       DefaultConnectOptionsConstants.DEFAULT_TIMEOUT,

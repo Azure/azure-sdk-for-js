@@ -6,6 +6,7 @@ import { createRecordingClient, generateHttpClient } from "../utils/mockClient.j
 import {
   baseUri,
   CALL_CALLBACK_URL,
+  CALL_CONNECTION_ID,
   CALL_SERVER_CALL_ID,
   CALL_TARGET_ID,
   generateToken,
@@ -178,6 +179,32 @@ describe("CallRecording Unit Tests", () => {
     );
     assert.equal(request.method, "POST");
   });
+
+  it("makes successful startRecording request with call connection id", async () => {
+    const mockResponse: RestModel.RecordingStateResponse = {
+      recordingId: RECORDING_ID,
+      recordingState: RECORDING_STATE,
+    };
+
+    const mockHttpClient = generateHttpClient(200, mockResponse);
+    callRecording = createRecordingClient(mockHttpClient);
+    const spy = vi.spyOn(mockHttpClient, "sendRequest");
+
+    const recOptions: StartRecordingOptions = {
+      recordingStateCallbackEndpointUrl: CALL_CALLBACK_URL,
+      callConnectionId: CALL_CONNECTION_ID,
+      recordingChannel: "unmixed",
+      recordingFormat: "wav",
+      recordingContent: "audio",
+    };
+
+    await callRecording.start(recOptions);
+    const request = spy.mock.calls[0][0];
+    const data = JSON.parse(request.body?.toString() || "");
+
+    assert.equal(data.recordingStateCallbackUri, CALL_CALLBACK_URL);
+    assert.equal(request.method, "POST");
+  });
 });
 
 describe("CallRecording Live Tests", () => {
@@ -250,7 +277,7 @@ describe("CallRecording Live Tests", () => {
         answerCallOption,
       );
     }
-    const callConnectedEvent = await waitForEvent("CallConnected", callConnectionId, 8000);
+    const callConnectedEvent = await waitForEvent("CallConnected", callConnectionId, 10000);
 
     assert.isDefined(callConnectedEvent);
     callConnection = result.callConnection;
@@ -290,9 +317,8 @@ describe("CallRecording Live Tests", () => {
     await callerCallAutomationClient.getCallRecording().stop(recordingStateResult.recordingId);
   });
 
-  // Skipped for now as recording result is not getting generated.
-  it.skip(
-    "Creates a call start and stop recording and get record result then hangs up",
+  it(
+    "Creates a call, start recording with call connection id, and hangs up",
     { timeout: 60000 },
     async function (ctx) {
       const fullTitle: string | undefined =
@@ -301,7 +327,7 @@ describe("CallRecording Live Tests", () => {
           : undefined;
       testName = fullTitle
         ? fullTitle.replace(/ /g, "_")
-        : "create_call_start_and_stop_recording_and_get_record_result_then_hang_up";
+        : "create_call_start_recording_and_hang_up";
       await loadPersistedEvents(testName);
 
       const callInvite: CallInvite = { targetParticipant: testUser2 };
@@ -346,10 +372,7 @@ describe("CallRecording Live Tests", () => {
 
       const recOptions: StartRecordingOptions = {
         recordingStateCallbackEndpointUrl: callBackUrl,
-        callLocator: {
-          id: (await callConnection.getCallConnectionProperties()).serverCallId || "",
-          kind: "serverCallLocator",
-        },
+        callConnectionId: callConnectionId,
         recordingChannel: "unmixed",
         recordingFormat: "wav",
         recordingContent: "audio",
@@ -366,13 +389,6 @@ describe("CallRecording Live Tests", () => {
         .getState(recordingStateResult.recordingId);
       assert.equal(recStatus.recordingState, "active");
       await callerCallAutomationClient.getCallRecording().stop(recordingStateResult.recordingId);
-      // Delay for 6 seconds, this is to let the recording state change to in-active
-      await new Promise((resolve) => setTimeout(resolve, 6000));
-
-      const recordingResult = await callerCallAutomationClient
-        .getCallRecording()
-        .getRecordingResult(recordingStateResult.recordingId);
-      assert.isDefined(recordingResult);
     },
   );
 });

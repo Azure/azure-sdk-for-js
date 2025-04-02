@@ -14,22 +14,18 @@ async function organizationsUpdateMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "76a38ef6-c8c1-4f0d-bfe0-00ec782c8077";
   const client = new VectorDbClient(credential, subscriptionId);
-  const result = await client.organizations.update(
-    "rgopenapi",
-    "example-organization-name",
-    {
-      tags: { "new-tag": "new.tag.value" },
-      identity: {
-        type: "None",
-        userAssignedIdentities: { ident573739201: {} },
-      },
+  const result = await client.organizations.update("rgopenapi", "example-organization-name", {
+    tags: { "new-tag": "new.tag.value" },
+    identity: {
+      type: "None",
+      userAssignedIdentities: { ident573739201: {} },
     },
-  );
+  });
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  organizationsUpdateMaximumSet();
+  await organizationsUpdateMaximumSet();
 }
 
 main().catch(console.error);

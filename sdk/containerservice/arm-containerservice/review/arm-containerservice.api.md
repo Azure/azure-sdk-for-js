@@ -4,11 +4,11 @@
 
 ```ts
 
-import * as coreAuth from '@azure/core-auth';
+import type * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
-import { OperationState } from '@azure/core-lro';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { SimplePollerLike } from '@azure/core-lro';
+import type { OperationState } from '@azure/core-lro';
+import type { PagedAsyncIterableIterator } from '@azure/core-paging';
+import type { SimplePollerLike } from '@azure/core-lro';
 
 // @public
 export interface AbsoluteMonthlySchedule {
@@ -47,6 +47,7 @@ export interface AgentPool extends SubResource {
     enableUltraSSD?: boolean;
     readonly eTag?: string;
     gpuInstanceProfile?: GPUInstanceProfile;
+    gpuProfile?: GPUProfile;
     hostGroupID?: string;
     kubeletConfig?: KubeletConfig;
     kubeletDiskType?: KubeletDiskType;
@@ -283,6 +284,9 @@ export interface AgentPoolWindowsProfile {
 }
 
 // @public
+export type ArtifactSource = string;
+
+// @public
 export interface AzureKeyVaultKms {
     enabled?: boolean;
     keyId?: string;
@@ -490,7 +494,15 @@ export type Format = string;
 export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
+export type GPUDriver = string;
+
+// @public
 export type GPUInstanceProfile = string;
+
+// @public
+export interface GPUProfile {
+    driver?: GPUDriver;
+}
 
 // @public
 export type IpFamily = string;
@@ -558,6 +570,12 @@ export enum KnownAgentPoolType {
 }
 
 // @public
+export enum KnownArtifactSource {
+    Cache = "Cache",
+    Direct = "Direct"
+}
+
+// @public
 export enum KnownBackendPoolType {
     NodeIP = "NodeIP",
     NodeIPConfiguration = "NodeIPConfiguration"
@@ -602,6 +620,12 @@ export enum KnownExtendedLocationTypes {
 export enum KnownFormat {
     Azure = "azure",
     Exec = "exec"
+}
+
+// @public
+export enum KnownGPUDriver {
+    Install = "Install",
+    None = "None"
 }
 
 // @public
@@ -742,6 +766,7 @@ export enum KnownOSType {
 export enum KnownOutboundType {
     LoadBalancer = "loadBalancer",
     ManagedNATGateway = "managedNATGateway",
+    None = "none",
     UserAssignedNATGateway = "userAssignedNATGateway",
     UserDefinedRouting = "userDefinedRouting"
 }
@@ -1039,6 +1064,7 @@ export interface ManagedCluster extends TrackedResource {
     autoUpgradeProfile?: ManagedClusterAutoUpgradeProfile;
     azureMonitorProfile?: ManagedClusterAzureMonitorProfile;
     readonly azurePortalFqdn?: string;
+    bootstrapProfile?: ManagedClusterBootstrapProfile;
     readonly currentKubernetesVersion?: string;
     disableLocalAccounts?: boolean;
     diskEncryptionSetID?: string;
@@ -1129,6 +1155,7 @@ export interface ManagedClusterAgentPoolProfileProperties {
     enableUltraSSD?: boolean;
     readonly eTag?: string;
     gpuInstanceProfile?: GPUInstanceProfile;
+    gpuProfile?: GPUProfile;
     hostGroupID?: string;
     kubeletConfig?: KubeletConfig;
     kubeletDiskType?: KubeletDiskType;
@@ -1203,6 +1230,12 @@ export interface ManagedClusterAzureMonitorProfileMetrics {
 }
 
 // @public
+export interface ManagedClusterBootstrapProfile {
+    artifactSource?: ArtifactSource;
+    containerRegistryId?: string;
+}
+
+// @public
 export interface ManagedClusterCostAnalysis {
     enabled?: boolean;
 }
@@ -1250,7 +1283,7 @@ export interface ManagedClusterListResult {
 export interface ManagedClusterLoadBalancerProfile {
     allocatedOutboundPorts?: number;
     backendPoolType?: BackendPoolType;
-    effectiveOutboundIPs?: ResourceReference[];
+    readonly effectiveOutboundIPs?: ResourceReference[];
     enableMultipleStandardLoadBalancers?: boolean;
     idleTimeoutInMinutes?: number;
     managedOutboundIPs?: ManagedClusterLoadBalancerProfileManagedOutboundIPs;
@@ -1286,7 +1319,7 @@ export interface ManagedClusterMetricsProfile {
 
 // @public
 export interface ManagedClusterNATGatewayProfile {
-    effectiveOutboundIPs?: ResourceReference[];
+    readonly effectiveOutboundIPs?: ResourceReference[];
     idleTimeoutInMinutes?: number;
     managedOutboundIPProfile?: ManagedClusterManagedOutboundIPProfile;
 }
@@ -1473,6 +1506,7 @@ export type ManagedClustersDeleteResponse = ManagedClustersDeleteHeaders;
 // @public
 export interface ManagedClusterSecurityProfile {
     azureKeyVaultKms?: AzureKeyVaultKms;
+    customCATrustCertificates?: Uint8Array[];
     defender?: ManagedClusterSecurityProfileDefender;
     imageCleaner?: ManagedClusterSecurityProfileImageCleaner;
     workloadIdentity?: ManagedClusterSecurityProfileWorkloadIdentity;

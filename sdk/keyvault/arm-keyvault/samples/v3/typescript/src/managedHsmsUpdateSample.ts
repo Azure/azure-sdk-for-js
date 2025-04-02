@@ -16,7 +16,7 @@ import "dotenv/config";
  * This sample demonstrates how to Update a managed HSM Pool in the specified subscription.
  *
  * @summary Update a managed HSM Pool in the specified subscription.
- * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2023-07-01/examples/ManagedHsm_Update.json
+ * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2024-11-01/examples/ManagedHsm_Update.json
  */
 async function updateAnExistingManagedHsmPool(): Promise<void> {
   const subscriptionId =
@@ -26,20 +26,20 @@ async function updateAnExistingManagedHsmPool(): Promise<void> {
     process.env["KEYVAULT_RESOURCE_GROUP"] || "hsm-group";
   const name = "hsm1";
   const parameters: ManagedHsm = {
-    tags: { dept: "hsm", environment: "dogfood", slice: "A" }
+    tags: { dept: "hsm", environment: "dogfood", slice: "A" },
   };
   const credential = new DefaultAzureCredential();
   const client = new KeyVaultManagementClient(credential, subscriptionId);
   const result = await client.managedHsms.beginUpdateAndWait(
     resourceGroupName,
     name,
-    parameters
+    parameters,
   );
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  updateAnExistingManagedHsmPool();
+  await updateAnExistingManagedHsmPool();
 }
 
 main().catch(console.error);

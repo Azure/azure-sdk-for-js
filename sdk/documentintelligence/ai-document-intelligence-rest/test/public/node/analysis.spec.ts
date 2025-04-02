@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 import type { Recorder } from "@azure-tools/test-recorder";
-import { assertEnvironmentVariable } from "@azure-tools/test-recorder";
 import { createRecorder, testPollingOptions } from "../utils/recorderUtils.js";
 import DocumentIntelligence from "../../../src/index.js";
 import { assert, describe, beforeEach, afterEach, it } from "vitest";
@@ -20,7 +19,6 @@ import fs from "node:fs";
 import type {
   AnalyzeOperationOutput,
   DocumentBarcodeOutput,
-  DocumentModelBuildOperationDetailsOutput,
   DocumentModelDetailsOutput,
   DocumentTableOutput,
   DocumentIntelligenceClient,
@@ -31,6 +29,8 @@ import {
   parseResultIdFromResponse,
   streamToUint8Array,
 } from "../../../src/index.js";
+import { getEndpoint, getSelectionMarkStorageContainerSasUrl } from "../../utils/injectables.js";
+import { createTestCredential } from "@azure-tools/test-credential";
 
 describe("DocumentIntelligenceClient", () => {
   let recorder: Recorder;
@@ -39,8 +39,8 @@ describe("DocumentIntelligenceClient", () => {
     recorder = await createRecorder(context);
     await recorder.setMatcher("BodilessMatcher");
     client = DocumentIntelligence(
-      assertEnvironmentVariable("DOCUMENT_INTELLIGENCE_ENDPOINT"),
-      { key: assertEnvironmentVariable("DOCUMENT_INTELLIGENCE_API_KEY") },
+      getEndpoint(),
+      createTestCredential(),
       recorder.configureClientOptions({}),
     );
   });
@@ -69,9 +69,10 @@ describe("DocumentIntelligenceClient", () => {
         throw initialResponse.body.error;
       }
 
-      const poller = getLongRunningPoller(client, initialResponse, { ...testPollingOptions });
-      const analyzeResult = ((await poller.pollUntilDone()).body as AnalyzeOperationOutput)
-        .analyzeResult;
+      const response = await getLongRunningPoller(client, initialResponse, {
+        ...testPollingOptions,
+      });
+      const analyzeResult = (response.body as AnalyzeOperationOutput).analyzeResult;
 
       const pages = analyzeResult?.pages;
       const tables = analyzeResult?.tables;
@@ -103,10 +104,11 @@ describe("DocumentIntelligenceClient", () => {
         throw initialResponse.body.error;
       }
 
-      const poller = getLongRunningPoller(client, initialResponse, { ...testPollingOptions });
+      const response = await getLongRunningPoller(client, initialResponse, {
+        ...testPollingOptions,
+      });
 
-      const analyzeResult = ((await poller.pollUntilDone()).body as AnalyzeOperationOutput)
-        .analyzeResult;
+      const analyzeResult = (response.body as AnalyzeOperationOutput).analyzeResult;
 
       const pages = analyzeResult?.pages;
       const paragraphs = analyzeResult?.paragraphs;
@@ -138,9 +140,10 @@ describe("DocumentIntelligenceClient", () => {
         throw initialResponse.body.error;
       }
 
-      const poller = getLongRunningPoller(client, initialResponse, { ...testPollingOptions });
-      const analyzeResult = ((await poller.pollUntilDone()).body as AnalyzeOperationOutput)
-        .analyzeResult;
+      const response = await getLongRunningPoller(client, initialResponse, {
+        ...testPollingOptions,
+      });
+      const analyzeResult = (response.body as AnalyzeOperationOutput).analyzeResult;
 
       const pages = analyzeResult?.pages;
       const tables = analyzeResult?.tables;
@@ -169,9 +172,10 @@ describe("DocumentIntelligenceClient", () => {
         throw initialResponse.body.error;
       }
 
-      const poller = getLongRunningPoller(client, initialResponse, { ...testPollingOptions });
-      const analyzeResult = ((await poller.pollUntilDone()).body as AnalyzeOperationOutput)
-        .analyzeResult;
+      const response = await getLongRunningPoller(client, initialResponse, {
+        ...testPollingOptions,
+      });
+      const analyzeResult = (response.body as AnalyzeOperationOutput).analyzeResult;
 
       const pages = analyzeResult?.pages;
       const tables = analyzeResult?.tables;
@@ -201,9 +205,10 @@ describe("DocumentIntelligenceClient", () => {
         throw initialResponse.body.error;
       }
 
-      const poller = getLongRunningPoller(client, initialResponse, { ...testPollingOptions });
-      const analyzeResult = ((await poller.pollUntilDone()).body as AnalyzeOperationOutput)
-        .analyzeResult;
+      const response = await getLongRunningPoller(client, initialResponse, {
+        ...testPollingOptions,
+      });
+      const analyzeResult = (response.body as AnalyzeOperationOutput).analyzeResult;
 
       const pages = analyzeResult?.pages;
       const tables = analyzeResult?.tables;
@@ -229,9 +234,10 @@ describe("DocumentIntelligenceClient", () => {
       if (isUnexpected(initialResponse)) {
         throw initialResponse.body.error;
       }
-      const poller = getLongRunningPoller(client, initialResponse, { ...testPollingOptions });
-      const analyzeResult = ((await poller.pollUntilDone()).body as AnalyzeOperationOutput)
-        .analyzeResult;
+      const response = await getLongRunningPoller(client, initialResponse, {
+        ...testPollingOptions,
+      });
+      const analyzeResult = (response.body as AnalyzeOperationOutput).analyzeResult;
 
       const pages = analyzeResult?.pages;
       const tables = analyzeResult?.tables;
@@ -261,9 +267,8 @@ describe("DocumentIntelligenceClient", () => {
         throw initialResponse.body.error;
       }
 
-      const poller = getLongRunningPoller(client, initialResponse);
-      const analyzeResult = ((await poller.pollUntilDone()).body as AnalyzeOperationOutput)
-        .analyzeResult;
+      const response = await getLongRunningPoller(client, initialResponse);
+      const analyzeResult = (response.body as AnalyzeOperationOutput).analyzeResult;
       const pages = analyzeResult?.pages;
       assert.equal(pages?.[0].pageNumber, 1);
       assert.isNotEmpty(pages?.[0].selectionMarks);
@@ -286,8 +291,7 @@ describe("DocumentIntelligenceClient", () => {
           throw initialResponse.body.error;
         }
 
-        const poller = getLongRunningPoller(client, initialResponse, { ...testPollingOptions });
-        (await poller.pollUntilDone()).body as AnalyzeOperationOutput;
+        await getLongRunningPoller(client, initialResponse, { ...testPollingOptions });
         assert.fail("Expected an exception due to invalid locale.");
       } catch (ex: any) {
         assert.ok((ex as Error).message.includes("Invalid argument."));
@@ -308,8 +312,7 @@ describe("DocumentIntelligenceClient", () => {
       if (isUnexpected(initialResponse)) {
         throw initialResponse.body.error;
       }
-      const poller = getLongRunningPoller(client, initialResponse, { ...testPollingOptions });
-      await poller.pollUntilDone();
+      await getLongRunningPoller(client, initialResponse, { ...testPollingOptions });
     });
 
     it("invalid pages throws", async () => {
@@ -328,8 +331,7 @@ describe("DocumentIntelligenceClient", () => {
         if (isUnexpected(initialResponse)) {
           throw initialResponse.body.error;
         }
-        const poller = getLongRunningPoller(client, initialResponse, { ...testPollingOptions });
-        await poller.pollUntilDone();
+        await getLongRunningPoller(client, initialResponse, { ...testPollingOptions });
         assert.fail("Expected an exception due to invalid pages.");
       } catch (ex: any) {
         // Just make sure we didn't get a bad error message
@@ -353,9 +355,10 @@ describe("DocumentIntelligenceClient", () => {
       if (isUnexpected(initialResponse)) {
         throw initialResponse.body.error;
       }
-      const poller = getLongRunningPoller(client, initialResponse, { ...testPollingOptions });
-      const analyzeResult = ((await poller.pollUntilDone()).body as AnalyzeOperationOutput)
-        .analyzeResult;
+      const response = await getLongRunningPoller(client, initialResponse, {
+        ...testPollingOptions,
+      });
+      const analyzeResult = (response.body as AnalyzeOperationOutput).analyzeResult;
 
       const pages = analyzeResult?.pages;
 
@@ -387,9 +390,10 @@ describe("DocumentIntelligenceClient", () => {
       if (isUnexpected(initialResponse)) {
         throw initialResponse.body.error;
       }
-      const poller = getLongRunningPoller(client, initialResponse, { ...testPollingOptions });
-      const analyzeResult = ((await poller.pollUntilDone()).body as AnalyzeOperationOutput)
-        .analyzeResult;
+      const response = await getLongRunningPoller(client, initialResponse, {
+        ...testPollingOptions,
+      });
+      const analyzeResult = (response.body as AnalyzeOperationOutput).analyzeResult;
 
       const pages = analyzeResult?.pages;
 
@@ -412,9 +416,10 @@ describe("DocumentIntelligenceClient", () => {
       if (isUnexpected(initialResponse)) {
         throw initialResponse.body.error;
       }
-      const poller = getLongRunningPoller(client, initialResponse, { ...testPollingOptions });
-      const analyzeResult = ((await poller.pollUntilDone()).body as AnalyzeOperationOutput)
-        .analyzeResult;
+      const response = await getLongRunningPoller(client, initialResponse, {
+        ...testPollingOptions,
+      });
+      const analyzeResult = (response.body as AnalyzeOperationOutput).analyzeResult;
 
       const pages = analyzeResult?.pages;
 
@@ -444,9 +449,7 @@ describe("DocumentIntelligenceClient", () => {
             buildMode: "template",
             modelId: modelName,
             azureBlobSource: {
-              containerUrl: assertEnvironmentVariable(
-                "DOCUMENT_INTELLIGENCE_SELECTION_MARK_STORAGE_CONTAINER_SAS_URL",
-              ),
+              containerUrl: getSelectionMarkStorageContainerSasUrl(),
             },
           },
         });
@@ -454,20 +457,17 @@ describe("DocumentIntelligenceClient", () => {
         if (isUnexpected(initialResponse)) {
           throw initialResponse.body.error;
         }
-        const poller = getLongRunningPoller(client, initialResponse);
-        const response = (
-          (await poller.pollUntilDone()).body as DocumentModelBuildOperationDetailsOutput
-        ).result;
-        if (!response) {
-          throw new Error("Expected a DocumentModelDetailsOutput response.");
+        const response = await getLongRunningPoller(client, initialResponse);
+        if (isUnexpected(response)) {
+          throw response.body.error;
         }
-        _model = response;
+        _model = response.body as DocumentModelDetailsOutput;
         assert.ok(_model.modelId);
       }
 
       return _model;
     }
-    it.skip("with selection marks", async () => {
+    it("with selection marks", async () => {
       const { modelId } = await requireModel();
 
       const filePath = path.join(ASSET_PATH, "forms", "selection_mark_form.pdf");
@@ -485,9 +485,13 @@ describe("DocumentIntelligenceClient", () => {
         throw initialResponse.body.error;
       }
 
-      const poller = getLongRunningPoller(client, initialResponse, { ...testPollingOptions });
-      const analyzeResult = ((await poller.pollUntilDone()).body as AnalyzeOperationOutput)
-        .analyzeResult;
+      const response = await getLongRunningPoller(client, initialResponse, {
+        ...testPollingOptions,
+      });
+      if (isUnexpected(response)) {
+        throw response.body.error;
+      }
+      const analyzeResult = (response.body as AnalyzeOperationOutput).analyzeResult;
 
       const documents = analyzeResult?.documents;
       const pages = analyzeResult?.pages;
@@ -523,9 +527,10 @@ describe("DocumentIntelligenceClient", () => {
         throw initialResponse.body.error;
       }
 
-      const poller = getLongRunningPoller(client, initialResponse, { ...testPollingOptions });
-      const analyzeResult = ((await poller.pollUntilDone()).body as AnalyzeOperationOutput)
-        .analyzeResult;
+      const response = await getLongRunningPoller(client, initialResponse, {
+        ...testPollingOptions,
+      });
+      const analyzeResult = (response.body as AnalyzeOperationOutput).analyzeResult;
       const documents = analyzeResult?.documents;
       assert.isNotEmpty(documents);
 
@@ -552,9 +557,10 @@ describe("DocumentIntelligenceClient", () => {
         throw initialResponse.body.error;
       }
 
-      const poller = getLongRunningPoller(client, initialResponse, { ...testPollingOptions });
-      const analyzeResult = ((await poller.pollUntilDone()).body as AnalyzeOperationOutput)
-        .analyzeResult;
+      const response = await getLongRunningPoller(client, initialResponse, {
+        ...testPollingOptions,
+      });
+      const analyzeResult = (response.body as AnalyzeOperationOutput).analyzeResult;
       const documents = analyzeResult?.documents;
       assert.isNotEmpty(documents);
 
@@ -579,9 +585,10 @@ describe("DocumentIntelligenceClient", () => {
         throw initialResponse.body.error;
       }
 
-      const poller = getLongRunningPoller(client, initialResponse, { ...testPollingOptions });
-      const analyzeResult = ((await poller.pollUntilDone()).body as AnalyzeOperationOutput)
-        .analyzeResult;
+      const response = await getLongRunningPoller(client, initialResponse, {
+        ...testPollingOptions,
+      });
+      const analyzeResult = (response.body as AnalyzeOperationOutput).analyzeResult;
       const documents = analyzeResult?.documents;
       assert.isNotEmpty(documents);
 
@@ -604,9 +611,10 @@ describe("DocumentIntelligenceClient", () => {
         throw initialResponse.body.error;
       }
 
-      const poller = getLongRunningPoller(client, initialResponse, { ...testPollingOptions });
-      const analyzeResult = ((await poller.pollUntilDone()).body as AnalyzeOperationOutput)
-        .analyzeResult;
+      const response = await getLongRunningPoller(client, initialResponse, {
+        ...testPollingOptions,
+      });
+      const analyzeResult = (response.body as AnalyzeOperationOutput).analyzeResult;
       const documents = analyzeResult?.documents;
       assert.isNotEmpty(documents);
 
@@ -630,8 +638,7 @@ describe("DocumentIntelligenceClient", () => {
         throw initialResponse.body.error;
       }
 
-      const poller = getLongRunningPoller(client, initialResponse, { ...testPollingOptions });
-      (await poller.pollUntilDone()).body as AnalyzeOperationOutput;
+      await getLongRunningPoller(client, initialResponse, { ...testPollingOptions });
     });
 
     it("invalid locale throws", async () => {
@@ -678,9 +685,10 @@ describe("DocumentIntelligenceClient", () => {
         throw initialResponse.body.error;
       }
 
-      const poller = getLongRunningPoller(client, initialResponse, { ...testPollingOptions });
-      const analyzeResult = ((await poller.pollUntilDone()).body as AnalyzeOperationOutput)
-        .analyzeResult;
+      const response = await getLongRunningPoller(client, initialResponse, {
+        ...testPollingOptions,
+      });
+      const analyzeResult = (response.body as AnalyzeOperationOutput).analyzeResult;
       const documents = analyzeResult?.documents;
       const pages = analyzeResult?.pages;
       const tables = analyzeResult?.tables;
@@ -709,9 +717,10 @@ describe("DocumentIntelligenceClient", () => {
         throw initialResponse.body.error;
       }
 
-      const poller = getLongRunningPoller(client, initialResponse, { ...testPollingOptions });
-      const analyzeResult = ((await poller.pollUntilDone()).body as AnalyzeOperationOutput)
-        .analyzeResult;
+      const response = await getLongRunningPoller(client, initialResponse, {
+        ...testPollingOptions,
+      });
+      const analyzeResult = (response.body as AnalyzeOperationOutput).analyzeResult;
       const documents = analyzeResult?.documents;
       const pages = analyzeResult?.pages;
       const tables = analyzeResult?.tables;
@@ -768,9 +777,10 @@ describe("DocumentIntelligenceClient", () => {
         throw initialResponse.body.error;
       }
 
-      const poller = getLongRunningPoller(client, initialResponse, { ...testPollingOptions });
-      const analyzeResult = ((await poller.pollUntilDone()).body as AnalyzeOperationOutput)
-        .analyzeResult;
+      const response = await getLongRunningPoller(client, initialResponse, {
+        ...testPollingOptions,
+      });
+      const analyzeResult = (response.body as AnalyzeOperationOutput).analyzeResult;
 
       const documents = analyzeResult?.documents;
       const receipt = documents?.[0];
@@ -796,9 +806,10 @@ describe("DocumentIntelligenceClient", () => {
         throw initialResponse.body.error;
       }
 
-      const poller = getLongRunningPoller(client, initialResponse, { ...testPollingOptions });
-      const analyzeResult = ((await poller.pollUntilDone()).body as AnalyzeOperationOutput)
-        .analyzeResult;
+      const response = await getLongRunningPoller(client, initialResponse, {
+        ...testPollingOptions,
+      });
+      const analyzeResult = (response.body as AnalyzeOperationOutput).analyzeResult;
 
       const documents = analyzeResult?.documents;
       const idDocument = documents?.[0];
@@ -848,9 +859,10 @@ describe("DocumentIntelligenceClient", () => {
         throw initialResponse.body.error;
       }
 
-      const poller = getLongRunningPoller(client, initialResponse, { ...testPollingOptions });
-      const analyzeResult = ((await poller.pollUntilDone()).body as AnalyzeOperationOutput)
-        .analyzeResult;
+      const response = await getLongRunningPoller(client, initialResponse, {
+        ...testPollingOptions,
+      });
+      const analyzeResult = (response.body as AnalyzeOperationOutput).analyzeResult;
 
       const documents = analyzeResult?.documents;
       const w2Naive = documents?.[0];
@@ -880,9 +892,10 @@ describe("DocumentIntelligenceClient", () => {
         throw initialResponse.body.error;
       }
 
-      const poller = getLongRunningPoller(client, initialResponse, { ...testPollingOptions });
-      const analyzeResult = ((await poller.pollUntilDone()).body as AnalyzeOperationOutput)
-        .analyzeResult;
+      const response = await getLongRunningPoller(client, initialResponse, {
+        ...testPollingOptions,
+      });
+      const analyzeResult = (response.body as AnalyzeOperationOutput).analyzeResult;
 
       const documents = analyzeResult?.documents;
 
@@ -910,8 +923,7 @@ describe("DocumentIntelligenceClient", () => {
       }
       const batchResultId = parseResultIdFromResponse(initialResponse);
 
-      const poller = getLongRunningPoller(client, initialResponse, { ...testPollingOptions });
-      await poller.pollUntilDone();
+      await getLongRunningPoller(client, initialResponse, { ...testPollingOptions });
       const response = await client
         .path(
           "/documentModels/{modelId}/analyzeBatchResults/{resultId}",
@@ -948,8 +960,7 @@ describe("DocumentIntelligenceClient", () => {
         throw initialResponse.body.error;
       }
 
-      const poller = getLongRunningPoller(client, initialResponse, { ...testPollingOptions });
-      await poller.pollUntilDone();
+      await getLongRunningPoller(client, initialResponse, { ...testPollingOptions });
       const resultId = parseResultIdFromResponse(initialResponse);
 
       await client
@@ -976,8 +987,7 @@ describe("DocumentIntelligenceClient", () => {
         throw initialResponse.body.error;
       }
 
-      const poller = getLongRunningPoller(client, initialResponse, { ...testPollingOptions });
-      await poller.pollUntilDone();
+      await getLongRunningPoller(client, initialResponse, { ...testPollingOptions });
 
       const resultId = parseResultIdFromResponse(initialResponse);
       const output = await client
@@ -1012,8 +1022,10 @@ describe("DocumentIntelligenceClient", () => {
         throw initialResponse.body.error;
       }
 
-      const poller = getLongRunningPoller(client, initialResponse, { ...testPollingOptions });
-      const result = (await poller.pollUntilDone()).body as AnalyzeOperationOutput;
+      const response = await getLongRunningPoller(client, initialResponse, {
+        ...testPollingOptions,
+      });
+      const result = response.body as AnalyzeOperationOutput;
       const figures = result.analyzeResult?.figures;
       assert.isArray(figures);
       assert.isNotEmpty(figures?.[0]);

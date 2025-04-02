@@ -32,11 +32,11 @@ export class LiveTokenImpl implements LiveToken {
    */
   get(
     resourceUri: string,
-    options?: LiveTokenGetOptionalParams
+    options?: LiveTokenGetOptionalParams,
   ): Promise<LiveTokenGetResponse> {
     return this.client.sendOperationRequest(
       { resourceUri, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 }
@@ -48,14 +48,14 @@ const getOperationSpec: coreClient.OperationSpec = {
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.LiveTokenResponse
+      bodyMapper: Mappers.LiveTokenResponse,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponseLinkedStorage
-    }
+      bodyMapper: Mappers.ErrorResponseLinkedStorage,
+    },
   },
   queryParameters: [Parameters.apiVersion6],
   urlParameters: [Parameters.$host, Parameters.resourceUri],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

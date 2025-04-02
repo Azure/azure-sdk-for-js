@@ -6,20 +6,20 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { ApplicationInsightsManagementClient } = require("@azure/arm-appinsights");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv/config");
 
 /**
- * This sample demonstrates how to Get all Application Insights web tests defined within a specified resource group.
+ * This sample demonstrates how to Get all Application Insights web tests defined for the specified resource group.
  *
- * @summary Get all Application Insights web tests defined within a specified resource group.
- * x-ms-original-file: specification/applicationinsights/resource-manager/Microsoft.Insights/stable/2015-05-01/examples/WebTestListByResourceGroup.json
+ * @summary Get all Application Insights web tests defined for the specified resource group.
+ * x-ms-original-file: specification/applicationinsights/resource-manager/Microsoft.Insights/stable/2022-06-15/examples/WebTestListByResourceGroup.json
  */
 async function webTestListByResourceGroup() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "my-resource-group";
+  const subscriptionId = process.env["APPLICATIONINSIGHTS_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName =
+    process.env["APPLICATIONINSIGHTS_RESOURCE_GROUP"] || "my-resource-group";
   const credential = new DefaultAzureCredential();
   const client = new ApplicationInsightsManagementClient(credential, subscriptionId);
   const resArray = new Array();
@@ -29,4 +29,8 @@ async function webTestListByResourceGroup() {
   console.log(resArray);
 }
 
-webTestListByResourceGroup().catch(console.error);
+async function main() {
+  await webTestListByResourceGroup();
+}
+
+main().catch(console.error);

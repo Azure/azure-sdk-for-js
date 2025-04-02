@@ -119,9 +119,9 @@ async function updateASimpleGalleryImageVersionWithoutSourceId() {
 }
 
 async function main() {
-  restoreASoftDeletedGalleryImageVersion();
-  updateASimpleGalleryImageVersionManagedImageAsSource();
-  updateASimpleGalleryImageVersionWithoutSourceId();
+  await restoreASoftDeletedGalleryImageVersion();
+  await updateASimpleGalleryImageVersionManagedImageAsSource();
+  await updateASimpleGalleryImageVersionWithoutSourceId();
 }
 
 main().catch(console.error);

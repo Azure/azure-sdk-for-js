@@ -36,7 +36,7 @@ describe("snippets", () => {
     });
   });
 
-  it("ReadmeSampleUploadJmxFile", async () => {
+  it("ReadmeSampleUploadTestScriptFile", async () => {
     const endpoint = "https://<endpoint>";
     const client = AzureLoadTesting(endpoint, new DefaultAzureCredential());
     // @ts-preserve-whitespace
@@ -132,7 +132,7 @@ describe("snippets", () => {
       throw metricsResult.body.error;
     }
     // @ts-preserve-whitespace
-    for (const timeSeries of metricsResult.body.timeseries) {
+    for (const timeSeries of metricsResult.body.value) {
       console.log(timeSeries);
     }
   });

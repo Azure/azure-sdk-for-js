@@ -10,13 +10,13 @@
 // Licensed under the MIT License.
 const { DataBoxManagementClient } = require("@azure/arm-databox");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Gets information about the specified job.
  *
  * @summary Gets information about the specified job.
- * x-ms-original-file: specification/databox/resource-manager/Microsoft.DataBox/stable/2022-12-01/examples/JobsGet.json
+ * x-ms-original-file: specification/databox/resource-manager/Microsoft.DataBox/stable/2025-02-01/examples/JobsGet.json
  */
 async function jobsGet() {
   const subscriptionId = process.env["DATABOX_SUBSCRIPTION_ID"] || "YourSubscriptionId";
@@ -34,7 +34,7 @@ async function jobsGet() {
  * This sample demonstrates how to Gets information about the specified job.
  *
  * @summary Gets information about the specified job.
- * x-ms-original-file: specification/databox/resource-manager/Microsoft.DataBox/stable/2022-12-01/examples/JobsGetCmk.json
+ * x-ms-original-file: specification/databox/resource-manager/Microsoft.DataBox/stable/2025-02-01/examples/JobsGetCmk.json
  */
 async function jobsGetCmk() {
   const subscriptionId = process.env["DATABOX_SUBSCRIPTION_ID"] || "YourSubscriptionId";
@@ -52,7 +52,7 @@ async function jobsGetCmk() {
  * This sample demonstrates how to Gets information about the specified job.
  *
  * @summary Gets information about the specified job.
- * x-ms-original-file: specification/databox/resource-manager/Microsoft.DataBox/stable/2022-12-01/examples/JobsGetCopyStuck.json
+ * x-ms-original-file: specification/databox/resource-manager/Microsoft.DataBox/stable/2025-02-01/examples/JobsGetCopyStuck.json
  */
 async function jobsGetCopyStuck() {
   const subscriptionId = process.env["DATABOX_SUBSCRIPTION_ID"] || "YourSubscriptionId";
@@ -70,7 +70,7 @@ async function jobsGetCopyStuck() {
  * This sample demonstrates how to Gets information about the specified job.
  *
  * @summary Gets information about the specified job.
- * x-ms-original-file: specification/databox/resource-manager/Microsoft.DataBox/stable/2022-12-01/examples/JobsGetExport.json
+ * x-ms-original-file: specification/databox/resource-manager/Microsoft.DataBox/stable/2025-02-01/examples/JobsGetExport.json
  */
 async function jobsGetExport() {
   const subscriptionId = process.env["DATABOX_SUBSCRIPTION_ID"] || "YourSubscriptionId";
@@ -88,7 +88,7 @@ async function jobsGetExport() {
  * This sample demonstrates how to Gets information about the specified job.
  *
  * @summary Gets information about the specified job.
- * x-ms-original-file: specification/databox/resource-manager/Microsoft.DataBox/stable/2022-12-01/examples/JobsGetWaitingForAction.json
+ * x-ms-original-file: specification/databox/resource-manager/Microsoft.DataBox/stable/2025-02-01/examples/JobsGetWaitingForAction.json
  */
 async function jobsGetWaitingForAction() {
   const subscriptionId = process.env["DATABOX_SUBSCRIPTION_ID"] || "YourSubscriptionId";
@@ -103,11 +103,11 @@ async function jobsGetWaitingForAction() {
 }
 
 async function main() {
-  jobsGet();
-  jobsGetCmk();
-  jobsGetCopyStuck();
-  jobsGetExport();
-  jobsGetWaitingForAction();
+  await jobsGet();
+  await jobsGetCmk();
+  await jobsGetCopyStuck();
+  await jobsGetExport();
+  await jobsGetWaitingForAction();
 }
 
 main().catch(console.error);
