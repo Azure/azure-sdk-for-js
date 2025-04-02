@@ -19,7 +19,7 @@ $RepoRoot = Resolve-Path -Path "${PSScriptRoot}/../.."
 Write-Host "Repo root: $RepoRoot"
 
 # $ghIssues = Get-GitHubIssues -RepoOwner $RepoOwner -RepoName $RepoName -CreatedBy "azure-sdk" -Labels "dependency-upgrade-required" -AuthToken $AuthToken
-$ghIssues = []
+$ghIssues = @()
 # Check and return if an issue already exists to upgrade the package 
 function Get-GithubIssue($IssueTitle) {
   foreach ($issue in $ghIssues) {
