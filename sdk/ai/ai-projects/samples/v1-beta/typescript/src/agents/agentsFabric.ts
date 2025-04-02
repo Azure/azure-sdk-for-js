@@ -38,7 +38,6 @@ export async function main(): Promise<void> {
     name: "my-agent",
     instructions: "You are a helpful agent",
     tools: [fabricTool.definition],
-    toolResources: {}, // Add empty tool_resources which is required by the API
   });
   console.log(`Created agent, agent ID : ${agent.id}`);
 

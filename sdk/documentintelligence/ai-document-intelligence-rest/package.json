@@ -35,7 +35,9 @@
   "files": [
     "dist/",
     "README.md",
-    "LICENSE"
+    "LICENSE",
+    "review/",
+    "CHANGELOG.md"
   ],
   "sdk-type": "client",
   "repository": "github:Azure/azure-sdk-for-js",

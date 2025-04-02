@@ -41,6 +41,18 @@ export class Trigger {
 
   /**
    * Read the {@link TriggerDefinition} for the given {@link Trigger}.
+   * @example
+   * ```ts snippet:TriggerRead
+   * import { CosmosClient } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   * const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+   * const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
+   *
+   * const { resource: trigger } = await container.scripts.trigger("<trigger-id>").read();
+   * ```
    */
   public async read(options?: RequestOptions): Promise<TriggerResponse> {
     return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
@@ -67,6 +79,28 @@ export class Trigger {
   /**
    * Replace the given {@link Trigger} with the specified {@link TriggerDefinition}.
    * @param body - The specified {@link TriggerDefinition} to replace the existing definition with.
+   * @example
+   * ```ts snippet:TriggerReplace
+   * import { CosmosClient, TriggerDefinition, TriggerType, TriggerOperation } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   * const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+   * const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
+   *
+   * const triggerDefinition: TriggerDefinition = {
+   *   id: "sample trigger",
+   *   body: "serverScript() { var x = 10; }",
+   *   triggerType: TriggerType.Pre,
+   *   triggerOperation: TriggerOperation.All,
+   * };
+   *
+   * const { resource: trigger } = await container.scripts.triggers.create(triggerDefinition);
+   *
+   * trigger.body = "function () { const x = 20; console.log(x); }";
+   * const { resource: replacedTrigger } = await container.scripts.trigger(trigger.id).replace(trigger);
+   * ```
    */
   public async replace(
     body: TriggerDefinition,
@@ -105,6 +139,18 @@ export class Trigger {
 
   /**
    * Delete the given {@link Trigger}.
+   * @example
+   * ```ts snippet:TriggerDelete
+   * import { CosmosClient } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   * const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+   * const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
+   *
+   * await container.scripts.trigger("<trigger-id>").delete();
+   * ```
    */
   public async delete(options?: RequestOptions): Promise<TriggerResponse> {
     return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
