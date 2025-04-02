@@ -128,7 +128,7 @@ jobs:
         arguments: -originalDistTags "$(OriginalTags)" -intendedTag "$(Tag)" -intendedTagVersion "$(IntendedTagVersion)" -packageName "$(PackageName)" -npmToken "$(azure-sdk-npm-token)"
         pwsh: true
 
-    - ${{ if ne($(AdditionalTag), '') }}:
+    - ${{ if ne(variables['AdditionalTag'], '') }}:
       - task: PowerShell@2
         displayName: Add Additional Tag
         inputs:
