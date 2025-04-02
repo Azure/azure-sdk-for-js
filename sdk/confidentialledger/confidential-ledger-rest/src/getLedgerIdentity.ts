@@ -12,8 +12,8 @@ export async function getLedgerIdentity(
   ledgerId: string,
   identityServiceBaseUrl: string = "https://identity.confidential-ledger.core.azure.com",
 ): Promise<LedgerIdentity> {
-  const client = getClient(identityServiceBaseUrl);
-
+    const client = getClient(identityServiceBaseUrl);
+    console.log(ledgerId)
   const cert = await client.pathUnchecked("/ledgerIdentity/{ledgerId}", ledgerId).get();
 
   const updatedCert = {
