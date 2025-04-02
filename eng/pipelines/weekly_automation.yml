@@ -48,6 +48,10 @@ jobs:
   - template: /eng/common/pipelines/templates/steps/set-default-branch.yml
 
   - script: |
+      npm install -g pnpm
+    displayName: "Install Pnpm"
+
+  - script: |
       pnpm run purge
       git clean -xdf
     displayName: "Rush Unlink"
