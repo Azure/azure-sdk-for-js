@@ -76,6 +76,10 @@ function Set-GitHubIssue($Package) {
 Write-Host "Running pnpm install --latest"
 $rushUpdateOutput = pnpm update --latest
 write-host $rushUpdateOutput
+$gitDifOutput = git --no-pager diff
+foreach ($line in $gitDifOutput) {
+  write-host $line
+}
 foreach ($line in $rushUpdateOutput) { 
   if ($line -match $deprecatedDependencyRegex) {
     $p = New-Object PSObject -Property @{
