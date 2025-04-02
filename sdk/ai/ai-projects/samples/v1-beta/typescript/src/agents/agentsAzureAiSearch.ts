@@ -7,8 +7,18 @@
  * @summary demonstrates how to use agent operations with the Azure AI Search tool.
  */
 
-import type { MessageContentOutput, MessageTextContentOutput, RunStepToolCallDetailsOutput, RunStepAzureAISearchToolCallOutput } from "@azure/ai-projects";
-import { AIProjectsClient, isOutputOfType, ToolUtility, AzureAISearchQueryTypeEnum } from "@azure/ai-projects";
+import type {
+  MessageContentOutput,
+  MessageTextContentOutput,
+  RunStepToolCallDetailsOutput,
+  RunStepAzureAISearchToolCallOutput,
+} from "@azure/ai-projects";
+import {
+  AIProjectsClient,
+  isOutputOfType,
+  ToolUtility,
+  AzureAISearchQueryTypeEnum,
+} from "@azure/ai-projects";
 import { delay } from "@azure/core-util";
 import { DefaultAzureCredential } from "@azure/identity";
 
@@ -32,9 +42,11 @@ export async function main(): Promise<void> {
   const azureAISearchTool = ToolUtility.createAzureAISearchTool(
     connection.id,
     "ai-search-sample",
-    AzureAISearchQueryTypeEnum.Simple,
-    3,
-    ""
+    {
+      queryType: AzureAISearchQueryTypeEnum.Simple,
+      topK: 3,
+      filter: "",
+    },
   );
 
   // Create agent with the Azure AI search tool

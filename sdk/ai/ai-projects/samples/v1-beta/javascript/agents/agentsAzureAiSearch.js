@@ -33,13 +33,11 @@ async function main() {
   const connection = await client.connections.getConnection(connectionName);
 
   // Initialize Azure AI Search tool
-  const azureAISearchTool = ToolUtility.createAzureAISearchTool(
-    connection.id,
-    "ai-search-sample",
-    AzureAISearchQueryTypeEnum.Simple,
-    3,
-    "",
-  );
+  const azureAISearchTool = ToolUtility.createAzureAISearchTool(connection.id, "ai-search-sample", {
+    queryType: AzureAISearchQueryTypeEnum.Simple,
+    topK: 3,
+    filter: "",
+  });
 
   // Create agent with the Azure AI search tool
   const agent = await client.agents.createAgent("gpt-4o", {

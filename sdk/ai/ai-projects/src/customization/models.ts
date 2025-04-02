@@ -337,6 +337,11 @@ export enum AzureAISearchQueryTypeEnum {
   /** Vector semantic hybrid query type */
   VectorSemanticHybrid = "vector_semantic_hybrid",
 }
+export interface CreateAzureAISearchToolOptions {
+  queryType?: AzureAISearchQueryTypeEnum
+  topK?: number;
+  filter?: string;
+}
 
 /** A Index resource. */
 export interface IndexResource {

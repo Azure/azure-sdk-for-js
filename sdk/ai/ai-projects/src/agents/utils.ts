@@ -21,7 +21,7 @@ import type {
   AzureFunctionStorageQueue,
   AzureFunctionDefinition,
 } from "./inputOutputs.js";
-import type { AzureAISearchQueryTypeEnum } from "../customization/models.js";
+import type { CreateAzureAISearchToolOptions } from "../customization/models.js";
 
 /**
  * Determines if the given output is of the specified type.
@@ -165,9 +165,7 @@ export class ToolUtility {
   static createAzureAISearchTool(
     indexConnectionId: string,
     indexName: string,
-    queryType?: AzureAISearchQueryTypeEnum,
-    topK?: number,
-    filter?: string,
+    options?: CreateAzureAISearchToolOptions,
   ): { definition: AzureAISearchToolDefinition; resources: ToolResources } {
     return {
       definition: { type: "azure_ai_search" },
@@ -177,9 +175,9 @@ export class ToolUtility {
             {
               indexConnectionId: indexConnectionId,
               indexName: indexName,
-              queryType,
-              topK,
-              filter,
+              queryType: options?.queryType,
+              topK: options?.topK,
+              filter: options?.filter,
             },
           ],
         },

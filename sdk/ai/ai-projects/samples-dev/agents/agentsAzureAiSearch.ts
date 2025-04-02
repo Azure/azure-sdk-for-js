@@ -43,9 +43,11 @@ export async function main(): Promise<void> {
   const azureAISearchTool = ToolUtility.createAzureAISearchTool(
     connection.id,
     "ai-search-sample",
-    AzureAISearchQueryTypeEnum.Simple,
-    3,
-    "",
+    {
+      queryType: AzureAISearchQueryTypeEnum.Simple,
+      topK: 3,
+      filter: "",
+    },
   );
 
   // Create agent with the Azure AI search tool

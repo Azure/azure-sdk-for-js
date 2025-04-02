@@ -374,6 +374,16 @@ export interface CreateAndRunThreadOptions {
     truncationStrategy?: TruncationObject | null;
 }
 
+// @public (undocumented)
+export interface CreateAzureAISearchToolOptions {
+    // (undocumented)
+    filter?: string;
+    // (undocumented)
+    queryType?: AzureAISearchQueryTypeEnum;
+    // (undocumented)
+    topK?: number;
+}
+
 // @public
 export interface CreateMessageOptionalParams extends OperationOptions {
 }
@@ -1749,7 +1759,7 @@ export class ToolSet {
 
 // @public
 export class ToolUtility {
-    static createAzureAISearchTool(indexConnectionId: string, indexName: string, queryType?: AzureAISearchQueryTypeEnum, topK?: number, filter?: string): {
+    static createAzureAISearchTool(indexConnectionId: string, indexName: string, options?: CreateAzureAISearchToolOptions): {
         definition: AzureAISearchToolDefinition;
         resources: ToolResources;
     };
