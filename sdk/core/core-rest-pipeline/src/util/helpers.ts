@@ -28,10 +28,8 @@ export function delay<T>(
     let onAborted: (() => void) | undefined = undefined;
 
     const abortReason =
-    // A custom error message takes precedence
-      options?.abortErrorMsg ??
-      options?.abortSignal?.reason ??
-      StandardAbortMessage;
+      // A custom error message takes precedence
+      options?.abortErrorMsg ?? options?.abortSignal?.reason ?? StandardAbortMessage;
     const rejectOnAbort = (): void => {
       return reject(new AbortError(abortReason));
     };
