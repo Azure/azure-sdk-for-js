@@ -14,19 +14,12 @@ param (
 
 $dependencyUpgradeLabel = "dependency-upgrade-required"
 $deprecatedDependency = "Deprecated-Dependency"
-$dependencyRegex = "^\+\s(?<pkg>[\S]*)\s(?<version>[\S]*)\s\((?<newVersion>[0-9\.a-b]*).*\)\s?(?<deprecated>deprecated)?"
+$deprecatedDependencyRegex = "^\+\s(?<pkg>[\S]*)\s|\sWARN\(?<deprecated>deprecated\)"
 $RepoRoot = Resolve-Path -Path "${PSScriptRoot}/../.."
 Write-Host "Repo root: $RepoRoot"
-$pnpmConfigFile = Join-path -Path $RepoRoot "common" "config" "rush" "pnpm-config.json"
-Write-Host "Path to pnpm-config.json: $pnpmConfigFile"
-$commonConfigFile = Join-path -Path $RepoRoot "common" "config" "rush" "common-versions.json"
-Write-Host "Path to common-versions.json: $commonConfigFile"
-
-$EngCommonScriptsPath = Join-Path (Resolve-Path "${PSScriptRoot}/..") "common" "scripts"
-. (Join-Path $EngCommonScriptsPath common.ps1)
 
 $ghIssues = Get-GitHubIssues -RepoOwner $RepoOwner -RepoName $RepoName -CreatedBy "azure-sdk" -Labels "dependency-upgrade-required" -AuthToken $AuthToken
-# Check and return if an isue already exists to upgrade the package 
+# Check and return if an issue already exists to upgrade the package 
 function Get-GithubIssue($IssueTitle) {
   foreach ($issue in $ghIssues) {
     if ($issue.title -eq $IssueTitle) {
@@ -79,37 +72,20 @@ function Set-GitHubIssue($Package) {
   }
 }
 
-
-# Update rush configuration files to alter settings
-if ((Test-Path $pnpmConfigFile) -and (Test-Path $commonConfigFile)) {
-  $pnpmConfigJson = Get-Content -Path $pnpmConfigFile | ConvertFrom-Json
-  $pnpmConfigJson.strictPeerDependencies = $false
-  Set-Content -Path $pnpmConfigFile -Value (ConvertTo-Json -InputObject $pnpmConfigJson)
-
-  $configJson = Get-Content -Path $commonConfigFile | ConvertFrom-Json
-  $configJson.implicitlyPreferredVersions = $true
-  Set-Content -Path $commonConfigFile -Value (ConvertTo-Json -InputObject $configJson)
-}
-else {
-  Write-Error "Failed to find $($pnpmConfigFile) and/or $($commonConfigFile). Verify repo root parameter."
-  exit 1
-}
-
-# Run rush update --full
-Write-Host "Running rush update"
-$rushUpdateOutput = node common/scripts/install-run-rush.js update --full
+Write-Host "Running pnpm install --latest"
+$rushUpdateOutput = pnpm update --latest
 write-host $rushUpdateOutput
-foreach ($line in $rushUpdateOutput) {
-  if ($line -match $dependencyRegex -and !$matches['pkg'].StartsWith("@azure")) {
+foreach ($line in $rushUpdateOutput) { 
+  if ($line -match $deprecatedDependencyRegex) {
     $p = New-Object PSObject -Property @{
-      Name         = $matches['pkg']  
+      Name         = $matches['pkg']
       OldVersion   = [AzureEngSemanticVersion]::ParseVersionString($matches['version'])
       NewVersion   = [AzureEngSemanticVersion]::ParseVersionString($matches['newVersion'])
       IsDeprecated = ($matches['deprecated'] -eq "deprecated")
     }
 
     if ($null -ne $p.OldVersion -and $null -ne $p.NewVersion) {
-      Set-GitHubIssue -Package $p
+      # Set-GitHubIssue -Package $p
       Start-Sleep -s 5
     }    
   }
