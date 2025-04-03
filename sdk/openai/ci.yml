@@ -27,7 +27,3 @@ extends:
     Artifacts:
       - name: azure-openai
         safeName: azureopenai
-        # Disable publishing to learn.microsoft.com until support is added
-        # to type2docfx tooling for this kind of package layout
-        # https://github.com/Azure/azure-sdk-for-js/issues/31787
-        skipPublishDocMs: true
