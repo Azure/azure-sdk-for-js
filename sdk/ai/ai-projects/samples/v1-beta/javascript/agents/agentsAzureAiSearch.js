@@ -7,12 +7,7 @@
  * @summary demonstrates how to use agent operations with the Azure AI Search tool.
  */
 
-const {
-  AIProjectsClient,
-  isOutputOfType,
-  ToolUtility,
-  AzureAISearchQueryTypeEnum,
-} = require("@azure/ai-projects");
+const { AIProjectsClient, isOutputOfType, ToolUtility } = require("@azure/ai-projects");
 const { delay } = require("@azure/core-util");
 const { DefaultAzureCredential } = require("@azure/identity");
 
@@ -34,7 +29,7 @@ async function main() {
 
   // Initialize Azure AI Search tool
   const azureAISearchTool = ToolUtility.createAzureAISearchTool(connection.id, "ai-search-sample", {
-    queryType: AzureAISearchQueryTypeEnum.Simple,
+    queryType: "simple",
     topK: 3,
     filter: "",
   });

@@ -17,7 +17,6 @@ import {
   AIProjectsClient,
   isOutputOfType,
   ToolUtility,
-  AzureAISearchQueryTypeEnum,
 } from "@azure/ai-projects";
 import { delay } from "@azure/core-util";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -39,15 +38,11 @@ export async function main(): Promise<void> {
   const connection = await client.connections.getConnection(connectionName);
 
   // Initialize Azure AI Search tool
-  const azureAISearchTool = ToolUtility.createAzureAISearchTool(
-    connection.id,
-    "ai-search-sample",
-    {
-      queryType: AzureAISearchQueryTypeEnum.Simple,
-      topK: 3,
-      filter: "",
-    },
-  );
+  const azureAISearchTool = ToolUtility.createAzureAISearchTool(connection.id, "ai-search-sample", {
+    queryType: "simple",
+    topK: 3,
+    filter: "",
+  });
 
   // Create agent with the Azure AI search tool
   const agent = await client.agents.createAgent("gpt-4o", {

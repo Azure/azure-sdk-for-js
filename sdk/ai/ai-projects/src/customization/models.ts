@@ -325,20 +325,14 @@ export interface AzureAISearchResource {
   indexes?: Array<IndexResource>;
 }
 
-export enum AzureAISearchQueryTypeEnum {
-  /** Simple query type */
-  Simple = "simple",
-  /** Semantic query type */
-  Semantic = "semantic",
-  /** Vector query type */
-  Vector = "vector",
-  /** Vector simple hybrid query type */
-  VectorSimpleHybrid = "vector_simple_hybrid",
-  /** Vector semantic hybrid query type */
-  VectorSemanticHybrid = "vector_semantic_hybrid",
-}
+export type AzureAISearchQueryType =
+  | "simple"
+  | "semantic"
+  | "vector"
+  | "vector_simple_hybrid"
+  | "vector_semantic_hybrid";
 export interface CreateAzureAISearchToolOptions {
-  queryType?: AzureAISearchQueryTypeEnum;
+  queryType?: AzureAISearchQueryType;
   topK?: number;
   filter?: string;
 }
@@ -354,7 +348,7 @@ export interface IndexResource {
    *
    * Possible values: "simple", "semantic", "vector", "vector_simple_hybrid", "vector_semantic_hybrid"
    */
-  queryType?: AzureAISearchQueryTypeEnum;
+  queryType?: AzureAISearchQueryType;
   /** Number of documents to retrieve from search and present to the model. */
   topK?: number;
   /** Odata filter string for search resource. */

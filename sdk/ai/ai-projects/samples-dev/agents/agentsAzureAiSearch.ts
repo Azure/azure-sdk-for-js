@@ -14,12 +14,7 @@ import type {
   RunStepToolCallDetailsOutput,
   RunStepAzureAISearchToolCallOutput,
 } from "@azure/ai-projects";
-import {
-  AIProjectsClient,
-  isOutputOfType,
-  ToolUtility,
-  AzureAISearchQueryTypeEnum,
-} from "@azure/ai-projects";
+import { AIProjectsClient, isOutputOfType, ToolUtility } from "@azure/ai-projects";
 import { delay } from "@azure/core-util";
 import { DefaultAzureCredential } from "@azure/identity";
 
@@ -41,7 +36,7 @@ export async function main(): Promise<void> {
 
   // Initialize Azure AI Search tool
   const azureAISearchTool = ToolUtility.createAzureAISearchTool(connection.id, "ai-search-sample", {
-    queryType: AzureAISearchQueryTypeEnum.Simple,
+    queryType: "simple",
     topK: 3,
     filter: "",
   });
