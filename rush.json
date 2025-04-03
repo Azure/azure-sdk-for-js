@@ -963,11 +963,6 @@
       "versionPolicyName": "test"
     },
     {
-      "packageName": "@azure/mixed-reality-remote-rendering",
-      "projectFolder": "sdk/remoterendering/mixed-reality-remote-rendering",
-      "versionPolicyName": "client"
-    },
-    {
       "packageName": "@azure/arm-network",
       "projectFolder": "sdk/network/arm-network",
       "versionPolicyName": "management"
