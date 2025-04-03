@@ -1054,9 +1054,6 @@ importers:
       '@rush-temp/mixed-reality-authentication':
         specifier: file:./projects/mixed-reality-authentication.tgz
         version: file:projects/mixed-reality-authentication.tgz(@types/debug@4.1.12)(msw@2.7.3(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(vite@6.2.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)
-      '@rush-temp/mixed-reality-remote-rendering':
-        specifier: file:./projects/mixed-reality-remote-rendering.tgz
-        version: file:projects/mixed-reality-remote-rendering.tgz(@types/debug@4.1.12)(msw@2.7.3(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(vite@6.2.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)
       '@rush-temp/mock-hub':
         specifier: file:./projects/mock-hub.tgz
         version: file:projects/mock-hub.tgz(@types/debug@4.1.12)(@vitest/browser@3.0.9)(msw@2.7.3(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(yaml@2.7.0)
@@ -3633,7 +3630,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/data-tables@file:projects/data-tables.tgz':
-    resolution: {integrity: sha512-CaFVQhmwrFTckjS0UxckHF2Qnj3ZfZKOEiRijGXrXQ4Iht+HHMyu1Nqc6AK1eDfmzzVToGh4rPM07l9KwLdAaA==, tarball: file:projects/data-tables.tgz}
+    resolution: {integrity: sha512-88KUaQ3vooFUIjw8lJiWVblKaIIf8XnlJ1vHdCg+L+TozSC87jarse4cdi0r1+09IIqTlmyxiS7Y83Mj8dNcJw==, tarball: file:projects/data-tables.tgz}
     version: 0.0.0
 
   '@rush-temp/defender-easm@file:projects/defender-easm.tgz':
@@ -3782,10 +3779,6 @@ packages:
 
   '@rush-temp/mixed-reality-authentication@file:projects/mixed-reality-authentication.tgz':
     resolution: {integrity: sha512-2Kz3gkctI5gsewfwSx9K1bAiOzK4NFJPLDisdLEnvSPvceyQuP6Of0ALJp4ge2fm8znBoU8wCDxG/XK/pMFe8g==, tarball: file:projects/mixed-reality-authentication.tgz}
-    version: 0.0.0
-
-  '@rush-temp/mixed-reality-remote-rendering@file:projects/mixed-reality-remote-rendering.tgz':
-    resolution: {integrity: sha512-ua96keJww6KLCjRK4ivY/5V2hIM1WM7Qk3849gatuplBhnypaiQBdJ3MwA4QTsnKFKiBiyHC5Tug3dj3rVUHkg==, tarball: file:projects/mixed-reality-remote-rendering.tgz}
     version: 0.0.0
 
   '@rush-temp/mock-hub@file:projects/mock-hub.tgz':
@@ -21863,42 +21856,6 @@ snapshots:
 
   '@rush-temp/mixed-reality-authentication@file:projects/mixed-reality-authentication.tgz(@types/debug@4.1.12)(msw@2.7.3(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(vite@6.2.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)':
     dependencies:
-      '@types/node': 18.19.80
-      '@vitest/browser': 3.0.9(@types/node@18.19.80)(playwright@1.51.1)(typescript@5.8.2)(vite@6.2.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.9)
-      '@vitest/coverage-istanbul': 3.0.9(vitest@3.0.9)
-      dotenv: 16.4.7
-      eslint: 9.22.0
-      playwright: 1.51.1
-      tslib: 2.8.1
-      typescript: 5.8.2
-      vitest: 3.0.9(@types/debug@4.1.12)(@types/node@18.19.80)(@vitest/browser@3.0.9)(msw@2.7.3(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(yaml@2.7.0)
-    transitivePeerDependencies:
-      - '@edge-runtime/vm'
-      - '@types/debug'
-      - '@vitest/ui'
-      - bufferutil
-      - happy-dom
-      - jiti
-      - jsdom
-      - less
-      - lightningcss
-      - msw
-      - safaridriver
-      - sass
-      - sass-embedded
-      - stylus
-      - sugarss
-      - supports-color
-      - terser
-      - tsx
-      - utf-8-validate
-      - vite
-      - webdriverio
-      - yaml
-
-  '@rush-temp/mixed-reality-remote-rendering@file:projects/mixed-reality-remote-rendering.tgz(@types/debug@4.1.12)(msw@2.7.3(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(vite@6.2.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)':
-    dependencies:
-      '@azure/core-lro': 2.7.2
       '@types/node': 18.19.80
       '@vitest/browser': 3.0.9(@types/node@18.19.80)(playwright@1.51.1)(typescript@5.8.2)(vite@6.2.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.9)
       '@vitest/coverage-istanbul': 3.0.9(vitest@3.0.9)

@@ -33,10 +33,7 @@ resource webPubSub 'Microsoft.SignalRService/webPubSub@2024-04-01-preview' = {
 }
 
 resource ownerRoleAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
-  name: guid('ownerRoleId', webpubsubName)
-  dependsOn: [
-    webPubSub
-  ]
+  name: guid('ownerRoleId', webPubSub.id)
   properties: {
     roleDefinitionId: resourceId('Microsoft.Authorization/roleDefinitions', ownerRoleId)
     principalId: testApplicationOid
@@ -44,10 +41,7 @@ resource ownerRoleAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01
 }
 
 resource operatorRoleAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
-  name: guid('operatorRoleId', webpubsubName)
-  dependsOn: [
-    webPubSub
-  ]
+  name: guid('operatorRoleId', webPubSub.id)
   properties: {
     roleDefinitionId: resourceId('Microsoft.Authorization/roleDefinitions', operatorRoleId)
     principalId: testApplicationOid
@@ -56,5 +50,5 @@ resource operatorRoleAssignment 'Microsoft.Authorization/roleAssignments@2022-04
 
 output WPS_CONNECTION_STRING string = listKeys(webPubSub.id, apiVersion).primaryConnectionString
 output WPS_API_KEY string = listKeys(webPubSub.id, apiVersion).primaryKey
-output WPS_ENDPOINT string = split(split(listKeys(webPubSub.id, apiVersion).primaryConnectionString, ';')[0], '=')[1]
+output WPS_ENDPOINT string = webPubSub.properties.hostName
 output WPS_REVERSE_PROXY_ENDPOINT string = split(split(listKeys(webPubSub.id, apiVersion).primaryConnectionString, ';')[0], '=')[1]
