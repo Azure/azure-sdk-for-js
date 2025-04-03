@@ -75,7 +75,7 @@ describe("New session token", () => {
   });
 });
 
-describe("Integrated Cache Staleness", async () => {
+describe("ujjwal soni ujjwal", async () => {
   beforeEach(async () => {
     await removeAllDatabases();
   });
@@ -103,7 +103,7 @@ describe("Integrated Cache Staleness", async () => {
                 context.headers["x-ms-consistency-level"] === "Session",
               `${context.headers["x-ms-consistency-level"]} = EVENTUAL or SESSION`,
             );
-            if (context.headers["x-ms-dedicatedgateway-bypass-cache"]) {
+            if (context.headers["x-ms-dedicatedgateway-bypass-cache"] !== undefined) {
               assert.ok(typeof context.headers["x-ms-dedicatedgateway-bypass-cache"] === "boolean");
               assert.ok(context.headers["x-ms-dedicatedgateway-bypass-cache"] === true);
             }
@@ -113,7 +113,7 @@ describe("Integrated Cache Staleness", async () => {
                 "x-ms-dedicatedgateway-max-age will be ignored.",
               );
             }
-            if (context.headers["x-ms-dedicatedgateway-max-age"]) {
+            if (context.headers["x-ms-dedicatedgateway-max-age"] !== undefined) {
               assert.ok(typeof context.headers["x-ms-dedicatedgateway-max-age"] !== "undefined");
               assert.ok(
                 typeof context.headers["x-ms-dedicatedgateway-max-age"] === "string",
