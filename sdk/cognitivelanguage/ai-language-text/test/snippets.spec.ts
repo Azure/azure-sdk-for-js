@@ -1,14 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { TextAnalysisClient } from "../src/index.js";
+import {
+  AnalyzeBatchAction,
+  AzureKeyCredential,
+  KnownPiiEntityCategory,
+  KnownPiiEntityDomain,
+  TextAnalysisClient,
+} from "../src/index.js";
 import { DefaultAzureCredential } from "@azure/identity";
-import { AzureKeyCredential } from "@azure/core-auth";
 import { setLogLevel } from "@azure/logger";
 import { describe, it } from "vitest";
 
 describe("snippets", () => {
-  it("ReadmeSampleCreateClient_Node", async () => {
+  it("ReadmeSampleCreateClient_Key", async () => {
     const endpoint = "https://<resource name>.cognitiveservices.azure.com";
     const credential = new AzureKeyCredential("<api key>");
 
@@ -77,7 +82,7 @@ describe("snippets", () => {
       "I visited the Space Needle 2 times.",
     ];
     // @ts-preserve-whitespace
-    const client = new TextAnalysisClient("<endpoint>", new AzureKeyCredential("<API key>"));
+    const client = new TextAnalysisClient("<endpoint>", new DefaultAzureCredential());
     // @ts-preserve-whitespace
     const results = await client.analyze("EntityRecognition", documents);
     // @ts-preserve-whitespace
@@ -98,7 +103,7 @@ describe("snippets", () => {
       "This was a waste of my time. The speaker put me to sleep.",
     ];
     // @ts-preserve-whitespace
-    const client = new TextAnalysisClient("<endpoint>", new AzureKeyCredential("<API key>"));
+    const client = new TextAnalysisClient("<endpoint>", new DefaultAzureCredential());
     // @ts-preserve-whitespace
     const results = await client.analyze("SentimentAnalysis", documents);
     // @ts-preserve-whitespace
@@ -122,7 +127,7 @@ describe("snippets", () => {
   });
 
   it("Sample_PIIEntityRecognition", async () => {
-    const client = new TextAnalysisClient("<endpoint>", new AzureKeyCredential("<API key>"));
+    const client = new TextAnalysisClient("<endpoint>", new DefaultAzureCredential());
     // @ts-preserve-whitespace
     const documents = ["My phone number is 555-5555"];
     // @ts-preserve-whitespace
@@ -149,7 +154,7 @@ describe("snippets", () => {
       "Steve Ballmer stepped down as CEO of Microsoft and was succeeded by Satya Nadella.",
     ];
     // @ts-preserve-whitespace
-    const client = new TextAnalysisClient("<endpoint>", new AzureKeyCredential("<API key>"));
+    const client = new TextAnalysisClient("<endpoint>", new DefaultAzureCredential());
     // @ts-preserve-whitespace
     const results = await client.analyze("EntityLinking", documents);
     // @ts-preserve-whitespace
@@ -181,7 +186,7 @@ describe("snippets", () => {
       "I will travel to South America in the summer.",
     ];
     // @ts-preserve-whitespace
-    const client = new TextAnalysisClient("<endpoint>", new AzureKeyCredential("<API key>"));
+    const client = new TextAnalysisClient("<endpoint>", new DefaultAzureCredential());
     // @ts-preserve-whitespace
     const results = await client.analyze("KeyPhraseExtraction", documents);
     // @ts-preserve-whitespace
@@ -207,7 +212,7 @@ describe("snippets", () => {
       "Detta är ett dokument skrivet på engelska.",
     ];
     // @ts-preserve-whitespace
-    const client = new TextAnalysisClient("<endpoint>", new AzureKeyCredential("<API key>"));
+    const client = new TextAnalysisClient("<endpoint>", new DefaultAzureCredential());
     // @ts-preserve-whitespace
     const result = await client.analyze("LanguageDetection", documents, "us", {
       modelVersion: "2022-04-10-preview",
@@ -229,7 +234,7 @@ describe("snippets", () => {
       "Patient does not suffer from high blood pressure.",
     ];
     // @ts-preserve-whitespace
-    const client = new TextAnalysisClient("<endpoint>", new AzureKeyCredential("<API key>"));
+    const client = new TextAnalysisClient("<endpoint>", new DefaultAzureCredential());
     // @ts-preserve-whitespace
     const actions: AnalyzeBatchAction[] = [
       {
@@ -302,7 +307,7 @@ describe("snippets", () => {
            “Being able to improve healthcare, being able to improve education, economic development is going to improve the quality of life in the communities.”`,
     ];
     // @ts-preserve-whitespace
-    const client = new TextAnalysisClient("<endpoint>", new AzureKeyCredential("<API key>"));
+    const client = new TextAnalysisClient("<endpoint>", new DefaultAzureCredential());
     // @ts-preserve-whitespace
     const actions: AnalyzeBatchAction[] = [
       {
@@ -357,7 +362,7 @@ describe("snippets", () => {
            “Being able to improve healthcare, being able to improve education, economic development is going to improve the quality of life in the communities.”`,
     ];
     // @ts-preserve-whitespace
-    const client = new TextAnalysisClient("<endpoint>", new AzureKeyCredential("<API key>"));
+    const client = new TextAnalysisClient("<endpoint>", new DefaultAzureCredential());
     // @ts-preserve-whitespace
     const actions: AnalyzeBatchAction[] = [
       {
@@ -405,13 +410,13 @@ describe("snippets", () => {
       "Last week we stayed at Hotel Foo to celebrate our anniversary. The staff knew about our anniversary so they helped me organize a little surprise for my partner. The room was clean and with the decoration I requested. It was perfect!",
     ];
     // @ts-preserve-whitespace
-    const client = new TextAnalysisClient("<endpoint>", new AzureKeyCredential("<API key>"));
+    const client = new TextAnalysisClient("<endpoint>", new DefaultAzureCredential());
     // @ts-preserve-whitespace
     const actions: AnalyzeBatchAction[] = [
       {
         kind: "CustomEntityRecognition",
-        deploymentName,
-        projectName,
+        deploymentName: "<deployment name>",
+        projectName: "<project name>",
       },
     ];
     const poller = await client.beginAnalyzeBatch(actions, documents, "en");
@@ -444,13 +449,13 @@ describe("snippets", () => {
       "The plot begins with a large group of characters where everyone thinks that the two main ones should be together but foolish things keep them apart. Misunderstandings, miscommunication, and confusion cause a series of humorous situations.",
     ];
     // @ts-preserve-whitespace
-    const client = new TextAnalysisClient("<endpoint>", new AzureKeyCredential("<API key>"));
+    const client = new TextAnalysisClient("<endpoint>", new DefaultAzureCredential());
     // @ts-preserve-whitespace
     const actions: AnalyzeBatchAction[] = [
       {
         kind: "CustomSingleLabelClassification",
-        deploymentName,
-        projectName,
+        deploymentName: "<deployment name>",
+        projectName: "<project name>",
       },
     ];
     const poller = await client.beginAnalyzeBatch(actions, documents, "en");
@@ -482,13 +487,13 @@ describe("snippets", () => {
       "The plot begins with a large group of characters where everyone thinks that the two main ones should be together but foolish things keep them apart. Misunderstandings, miscommunication, and confusion cause a series of humorous situations.",
     ];
     // @ts-preserve-whitespace
-    const client = new TextAnalysisClient("<endpoint>", new AzureKeyCredential("<API key>"));
+    const client = new TextAnalysisClient("<endpoint>", new DefaultAzureCredential());
     // @ts-preserve-whitespace
     const actions: AnalyzeBatchAction[] = [
       {
         kind: "CustomMultiLabelClassification",
-        deploymentName,
-        projectName,
+        deploymentName: "<deployment name>",
+        projectName: "<project name>",
       },
     ];
     const poller = await client.beginAnalyzeBatch(actions, documents, "en");
@@ -527,7 +532,7 @@ describe("snippets", () => {
       "We went to Contoso Steakhouse located at midtown NYC last week for a dinner party, and we adore the spot! They provide marvelous food and they have a great menu. The chief cook happens to be the owner (I think his name is John Doe) and he is super nice, coming out of the kitchen and greeted us all. We enjoyed very much dining in the place! The Sirloin steak I ordered was tender and juicy, and the place was impeccably clean. You can even pre-order from their online menu at www.contososteakhouse.com, call 312-555-0176 or send email to order@contososteakhouse.com! The only complaint I have is the food didn't come fast enough. Overall I highly recommend it!",
     ];
     // @ts-preserve-whitespace
-    const client = new TextAnalysisClient("<endpoint>", new AzureKeyCredential("<API key>"));
+    const client = new TextAnalysisClient("<endpoint>", new DefaultAzureCredential());
     // @ts-preserve-whitespace
     const actions: AnalyzeBatchAction[] = [
       {
