@@ -14,7 +14,7 @@ import "dotenv/config";
  * This sample demonstrates how to Gets the results of a command which has been run on the Managed Cluster.
  *
  * @summary Gets the results of a command which has been run on the Managed Cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2024-10-01/examples/RunCommandResultFailed.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2025-01-01/examples/RunCommandResultFailed.json
  */
 async function commandFailedResult(): Promise<void> {
   const subscriptionId =
@@ -38,7 +38,7 @@ async function commandFailedResult(): Promise<void> {
  * This sample demonstrates how to Gets the results of a command which has been run on the Managed Cluster.
  *
  * @summary Gets the results of a command which has been run on the Managed Cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2024-10-01/examples/RunCommandResultSucceed.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2025-01-01/examples/RunCommandResultSucceed.json
  */
 async function commandSucceedResult(): Promise<void> {
   const subscriptionId =

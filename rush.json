@@ -1,7 +1,7 @@
 /**
  * This is the main configuration file for Rush.
  * For full documentation, please see https://rushjs.io
- */{
+ */ {
   "$schema": "https://developer.microsoft.com/json-schemas/rush/v5/rush.schema.json",
   /**
    * (Required) This specifies the version of the Rush engine to be used in this repo.
@@ -779,7 +779,7 @@
     },
     {
       "packageName": "@azure-tests/perf-data-tables",
-      "projectFolder": "sdk/tables/perf-tests/data-tables",
+      "projectFolder": "sdk/tables/data-tables-perf-tests",
       "versionPolicyName": "test"
     },
     {
@@ -839,67 +839,67 @@
     },
     {
       "packageName": "@azure-tests/perf-ai-form-recognizer",
-      "projectFolder": "sdk/formrecognizer/perf-tests/ai-form-recognizer",
+      "projectFolder": "sdk/formrecognizer/ai-form-recognizer-perf-tests",
       "versionPolicyName": "test"
     },
     {
       "packageName": "@azure-tests/perf-eventgrid",
-      "projectFolder": "sdk/eventgrid/perf-tests/eventgrid",
+      "projectFolder": "sdk/eventgrid/eventgrid-perf-tests",
       "versionPolicyName": "test"
     },
     {
       "packageName": "@azure-tests/perf-ai-text-analytics",
-      "projectFolder": "sdk/textanalytics/perf-tests/ai-text-analytics",
+      "projectFolder": "sdk/textanalytics/ai-text-analytics-perf-tests",
       "versionPolicyName": "test"
     },
     {
       "packageName": "@azure-tests/perf-ai-language-text",
-      "projectFolder": "sdk/cognitivelanguage/perf-tests/ai-language-text",
+      "projectFolder": "sdk/cognitivelanguage/ai-language-text-perf-tests",
       "versionPolicyName": "test"
     },
     {
       "packageName": "@azure-tests/perf-storage-blob",
-      "projectFolder": "sdk/storage/perf-tests/storage-blob",
+      "projectFolder": "sdk/storage/storage-blob-perf-tests",
       "versionPolicyName": "test"
     },
     {
       "packageName": "@azure-tests/perf-storage-file-share",
-      "projectFolder": "sdk/storage/perf-tests/storage-file-share",
+      "projectFolder": "sdk/storage/storage-file-share-perf-tests",
       "versionPolicyName": "test"
     },
     {
       "packageName": "@azure-tests/perf-storage-file-datalake",
-      "projectFolder": "sdk/storage/perf-tests/storage-file-datalake",
+      "projectFolder": "sdk/storage/storage-file-datalake-perf-tests",
       "versionPolicyName": "test"
     },
     {
       "packageName": "@azure-tests/perf-keyvault-keys",
-      "projectFolder": "sdk/keyvault/perf-tests/keyvault-keys",
+      "projectFolder": "sdk/keyvault/keyvault-keys-perf-tests",
       "versionPolicyName": "test"
     },
     {
       "packageName": "@azure-tests/perf-keyvault-certificates",
-      "projectFolder": "sdk/keyvault/perf-tests/keyvault-certificates",
+      "projectFolder": "sdk/keyvault/keyvault-certificates-perf-tests",
       "versionPolicyName": "test"
     },
     {
       "packageName": "@azure-tests/perf-keyvault-secrets",
-      "projectFolder": "sdk/keyvault/perf-tests/keyvault-secrets",
+      "projectFolder": "sdk/keyvault/keyvault-secrets-perf-tests",
       "versionPolicyName": "test"
     },
     {
       "packageName": "@azure-tests/perf-identity",
-      "projectFolder": "sdk/identity/perf-tests/identity",
+      "projectFolder": "sdk/identity/identity-perf-tests",
       "versionPolicyName": "test"
     },
     {
       "packageName": "@azure-tests/perf-service-bus",
-      "projectFolder": "sdk/servicebus/perf-tests/service-bus",
+      "projectFolder": "sdk/servicebus/service-bus-perf-tests",
       "versionPolicyName": "test"
     },
     {
       "packageName": "@azure-tests/perf-event-hubs",
-      "projectFolder": "sdk/eventhub/perf-tests/event-hubs",
+      "projectFolder": "sdk/eventhub/event-hubs-perf-tests",
       "versionPolicyName": "test"
     },
     {
@@ -919,47 +919,47 @@
     },
     {
       "packageName": "@azure-tests/perf-search-documents",
-      "projectFolder": "sdk/search/perf-tests/search-documents",
+      "projectFolder": "sdk/search/search-documents-perf-tests",
       "versionPolicyName": "test"
     },
     {
       "packageName": "@azure-tests/perf-ai-metrics-advisor",
-      "projectFolder": "sdk/metricsadvisor/perf-tests/ai-metrics-advisor",
+      "projectFolder": "sdk/metricsadvisor/ai-metrics-advisor-perf-tests",
       "versionPolicyName": "test"
     },
     {
       "packageName": "@azure-tests/perf-container-registry",
-      "projectFolder": "sdk/containerregistry/perf-tests/container-registry",
+      "projectFolder": "sdk/containerregistry/container-registry-perf-tests",
       "versionPolicyName": "test"
     },
     {
       "packageName": "@azure-tests/perf-core-rest-pipeline",
-      "projectFolder": "sdk/core/perf-tests/core-rest-pipeline",
+      "projectFolder": "sdk/core/core-rest-pipeline-perf-tests",
       "versionPolicyName": "test"
     },
     {
       "packageName": "@azure-tests/perf-app-configuration",
-      "projectFolder": "sdk/appconfiguration/perf-tests/app-configuration",
+      "projectFolder": "sdk/appconfiguration/app-configuration-perf-tests",
       "versionPolicyName": "test"
     },
     {
       "packageName": "@azure-tests/perf-monitor-query",
-      "projectFolder": "sdk/monitor/perf-tests/monitor-query",
+      "projectFolder": "sdk/monitor/monitor-query-perf-tests",
       "versionPolicyName": "test"
     },
     {
       "packageName": "@azure-tests/perf-monitor-ingestion",
-      "projectFolder": "sdk/monitor/perf-tests/monitor-ingestion",
+      "projectFolder": "sdk/monitor/monitor-ingestion-perf-tests",
       "versionPolicyName": "test"
     },
     {
       "packageName": "@azure-tests/perf-template",
-      "projectFolder": "sdk/template/perf-tests/template",
+      "projectFolder": "sdk/template/template-perf-tests",
       "versionPolicyName": "test"
     },
     {
       "packageName": "@azure-tests/perf-schema-registry-avro",
-      "projectFolder": "sdk/schemaregistry/perf-tests/schema-registry-avro",
+      "projectFolder": "sdk/schemaregistry/schema-registry-avro-perf-tests",
       "versionPolicyName": "test"
     },
     {
@@ -2119,7 +2119,7 @@
     },
     {
       "packageName": "@azure-tests/perf-monitor-opentelemetry",
-      "projectFolder": "sdk/monitor/perf-tests/monitor-opentelemetry",
+      "projectFolder": "sdk/monitor/monitor-opentelemetry-perf-tests",
       "versionPolicyName": "test"
     },
     {
@@ -2303,8 +2303,18 @@
       "versionPolicyName": "management"
     },
     {
+      "packageName": "@azure/arm-agricultureplatform",
+      "projectFolder": "sdk/agricultureplatform/arm-agricultureplatform",
+      "versionPolicyName": "management"
+    },
+    {
       "packageName": "@azure/arm-connectedcache",
       "projectFolder": "sdk/connectedcache/arm-connectedcache",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-arizeaiobservabilityeval",
+      "projectFolder": "sdk/liftrarize/arm-arizeaiobservabilityeval",
       "versionPolicyName": "management"
     },
     {
@@ -2325,6 +2335,21 @@
     {
       "packageName": "@azure/arm-databasewatcher",
       "projectFolder": "sdk/databasewatcher/arm-databasewatcher",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-durabletask",
+      "projectFolder": "sdk/durabletask/arm-durabletask",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-migrationassessment",
+      "projectFolder": "sdk/migrate/arm-migrationassessment",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-weightsandbiases",
+      "projectFolder": "sdk/liftrweightsandbiases/arm-weightsandbiases",
       "versionPolicyName": "management"
     }
   ]

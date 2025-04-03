@@ -11,9 +11,9 @@
 # Misc.
 ################
 
-/.devcontainer/ @jeremymeng
-/documentation/ @jeremymeng
-/samples/       @jeremymeng
+/.devcontainer/ @jeremymeng @Azure/azure-sdk-eng @Azure/azure-sdk-for-js-core
+/documentation/ @jeremymeng @Azure/azure-sdk-js-dev
+/samples/       @jeremymeng @Azure/azure-sdk-js-dev
 
 ################
 # Architecture
@@ -101,7 +101,7 @@
 
 # PRLabel: %Communication - Rooms
 # ServiceLabel: %Communication - Rooms
-/sdk/communication/communication-rooms/ @anujissarMS @minnieliu @paolamvhz @shwali-msft @allchiang-msft
+/sdk/communication/communication-rooms/ @minnieliu @paolamvhz @allchiang-msft @mayssamm
 
 # PRLabel: %Communication - SMS
 # ServiceLabel: %Communication - SMS
@@ -261,10 +261,10 @@ sdk/ai/ai-inference-rest @glharper @dargilco @jhakulin
 # ServiceOwners: @glharper @dargilco
 
 # PRLLabel: %AI Projects
-sdk/ai/ai-projects @ganeshyb @GraceBrigham
+sdk/ai/ai-projects @ganeshyb @GraceBrigham @glharper @dargilco @jhakulin @ZachhK
 
 # ServiceLabel: %AI Projects
-# ServiceOwners: @ganeshyb @GraceBrigham
+# ServiceOwners: @ganeshyb @GraceBrigham @glharper @dargilco @jhakulin @ZachhK
 
 # PRLabel: %Image Analysis
 # ServiceLabel: %Image Analysis
@@ -322,6 +322,10 @@ sdk/ai/ai-projects @ganeshyb @GraceBrigham
 # ServiceLabel: %Microsoft Playwright Testing
 /sdk/playwrighttesting/ @Sid200026 @puagarwa @ShreyaAnand
 
+# PRLabel: %Azure Load Testing
+# ServiceLabel: %Azure Load Testing
+/sdk/loadtesting/ @prativen @mitsha-microsoft @ninallam
+
 # API review files
 /sdk/**/review/*api.md @bterlson @Azure/azure-sdk-for-js-core
 
@@ -334,6 +338,9 @@ sdk/ai/ai-projects @ganeshyb @GraceBrigham
 # Management Plane
 # PRLabel: %Mgmt
 /sdk/advisor/arm-advisor/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
+/sdk/agricultureplatform/arm-agricultureplatform/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
 /sdk/analysisservices/arm-analysisservices/ @qiaozha @MaryGao
@@ -540,6 +547,9 @@ sdk/ai/ai-projects @ganeshyb @GraceBrigham
 /sdk/dns/arm-dns/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/durabletask/arm-durabletask/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/dns/arm-dns-profile-2020-09-01-hybrid/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
@@ -654,10 +664,16 @@ sdk/ai/ai-projects @ganeshyb @GraceBrigham
 /sdk/labservices/arm-labservices/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/liftrarize/arm-arizeaiobservabilityeval/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/largeinstance/arm-largeinstance/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
 /sdk/links/arm-links/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
+/sdk/liftrweightsandbiases/arm-weightsandbiases/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
 /sdk/pineconevectordb/arm-pineconevectordb/ @qiaozha @MaryGao
@@ -720,6 +736,9 @@ sdk/ai/ai-projects @ganeshyb @GraceBrigham
 /sdk/migrate/arm-migrate/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/migrate/arm-migrationassessment/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/mixedreality/arm-mixedreality/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
@@ -751,9 +770,6 @@ sdk/ai/ai-projects @ganeshyb @GraceBrigham
 
 # PRLabel: %Mgmt
 /sdk/networkcloud/arm-networkcloud/      @qiaozha @MaryGao
-
-# PRLabel: %Mgmt
-/sdk/networkanalytics/arm-networkanalytics/      @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
 /sdk/network/arm-network-profile-2020-09-01-hybrid/ @qiaozha @MaryGao
@@ -1605,7 +1621,6 @@ sdk/ai/ai-projects @ganeshyb @GraceBrigham
 # Make sure to not check in anymore test-resources.json files
 # and review bicep scripts for any exposed secrets
 /sdk/**/*.bicep @deyaaeldeen @jeremymeng @Azure/azure-sdk-for-js-core
-/sdk/**/test-resources.json @deyaaeldeen @jeremymeng @Azure/azure-sdk-for-js-core
 
 #########################
 # Eng Sys and CODEOWNERS

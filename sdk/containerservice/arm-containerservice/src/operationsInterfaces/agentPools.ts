@@ -6,9 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { SimplePollerLike, OperationState } from "@azure/core-lro";
-import {
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
+import type { SimplePollerLike, OperationState } from "@azure/core-lro";
+import type {
   AgentPool,
   AgentPoolsListOptionalParams,
   AgentPoolsAbortLatestOperationOptionalParams,
@@ -138,12 +138,7 @@ export interface AgentPools {
     resourceName: string,
     agentPoolName: string,
     options?: AgentPoolsDeleteOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<AgentPoolsDeleteResponse>,
-      AgentPoolsDeleteResponse
-    >
-  >;
+  ): Promise<SimplePollerLike<OperationState<AgentPoolsDeleteResponse>, AgentPoolsDeleteResponse>>;
   /**
    * Deletes an agent pool in the specified managed cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.

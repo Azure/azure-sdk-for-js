@@ -25,18 +25,18 @@ import { logger } from "./logger.js";
 import type { OpenAI } from "openai";
 import type { Sku } from "@azure/arm-cognitiveservices";
 
-export type AcceptableErrors = {
+export type SkippableErrors = {
   messageSubstring: string[];
 };
 
-const GlobalAcceptedErrors: AcceptableErrors = {
-  messageSubstring: ["Rate limit is exceeded"],
+const GlobalSkippableErrors: SkippableErrors = {
+  messageSubstring: ["Rate limit is exceeded", "400 Unsupported Model"],
 };
 
 export const maxRetriesOption = { maxRetries: 0 };
 
 export enum APIVersion {
-  Preview = "2025-01-01-preview",
+  Preview = "2025-03-01-preview",
   Stable = "2024-10-21",
   OpenAI = "OpenAI",
   "2024_10_01_preview" = "2024-10-01-preview",
@@ -120,7 +120,7 @@ export type DeploymentTestingParameters<T> = {
   run: (client: OpenAI, model: string) => Promise<T>;
   validate?: (result: T) => void;
   modelsListToSkip?: Partial<ModelInfo>[];
-  acceptableErrors?: AcceptableErrors;
+  acceptableErrors?: SkippableErrors;
 };
 
 /**
@@ -157,7 +157,7 @@ export async function testWithDeployments<T>({
               done.skip(`Skipping due to acceptable error: ${error}`);
             }
             if (
-              GlobalAcceptedErrors.messageSubstring.some((match) => error.message.includes(match))
+              GlobalSkippableErrors.messageSubstring.some((match) => error.message.includes(match))
             ) {
               done.skip(`Skipping due to global acceptable error: ${error}`);
             }
