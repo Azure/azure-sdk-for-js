@@ -13,6 +13,10 @@ import { QueryRange } from "../../routing";
 import { FeedRangeInternal } from "./FeedRange";
 import { hashV2PartitionKey } from "../../utils/hashing/v2";
 import { PartitionKeyInternal } from "../../documents/PartitionKeyInternal";
+import { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
+import { EncryptionProcessor } from "../../encryption";
+import { ChangeFeedMode } from "./ChangeFeedMode";
+import { ChangeFeedIteratorResponse } from "./ChangeFeedIteratorResponse";
 
 /**
  * @hidden
@@ -152,4 +156,36 @@ export function getEffectivePartitionKeyForMultiHashPartitioning(
 ): string {
   const hashArray = partitionKeyInternal.map((item) => hashV2PartitionKey([item]));
   return hashArray.join("");
+}
+
+/**
+ * @hidden
+ */
+export async function decryptChangeFeedResponse(
+  result: ChangeFeedIteratorResponse<any>,
+  diagnosticNode: DiagnosticNodeInternal,
+  changeFeedMode: ChangeFeedMode,
+  encryptionProcessor: EncryptionProcessor,
+): Promise<void> {
+  let count = 0;
+  diagnosticNode.beginEncryptionDiagnostics(Constants.Encryption.DiagnosticsDecryptOperation);
+  for (let item of result.result) {
+    if (changeFeedMode === ChangeFeedMode.AllVersionsAndDeletes) {
+      if ("current" in item && item.current !== null) {
+        const { body, propertiesDecryptedCount } = await encryptionProcessor.decrypt(item.current);
+        item.current = body;
+        count += propertiesDecryptedCount;
+      }
+      if ("previous" in item && item.previous !== null) {
+        const { body, propertiesDecryptedCount } = await encryptionProcessor.decrypt(item.previous);
+        item.previous = body;
+        count += propertiesDecryptedCount;
+      }
+    } else {
+      const { body, propertiesDecryptedCount } = await encryptionProcessor.decrypt(item);
+      item = body;
+      count += propertiesDecryptedCount;
+    }
+  }
+  diagnosticNode.endEncryptionDiagnostics(Constants.Encryption.DiagnosticsDecryptOperation, count);
 }
