@@ -9,6 +9,7 @@ import { AzureVMwareSolutionAPI } from "@azure/arm-avs";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
+// test
 /**
  * This sample demonstrates how to Get a WorkloadNetworkDhcp
  *
