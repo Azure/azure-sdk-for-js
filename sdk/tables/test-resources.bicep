@@ -45,6 +45,22 @@ resource storageAccount 'Microsoft.Storage/storageAccounts@2024-01-01' = {
     }
     accessTier: 'Hot'
   }
+  resource tableService 'tableServices@2024-01-01' = {
+    name: 'default'
+    properties: {
+      cors: {
+        corsRules: [
+          {
+            allowedOrigins: ['*']
+            allowedMethods: ['DELETE', 'GET', 'HEAD', 'MERGE', 'POST', 'OPTIONS', 'PUT', 'PATCH']
+            maxAgeInSeconds: 86400
+            exposedHeaders: ['*']
+            allowedHeaders: ['*']
+          }
+        ]
+      }
+    }
+  }
 }
 
 // Outputs
