@@ -81,8 +81,6 @@ stages:
                         echo "##vso[task.setvariable variable=AdditionalTag;isOutput=true]$($result.AdditionalTag)"
                         write-host "Tag: $($result.Tag)"
                         write-host "Additional tag: $($result.AdditionalTag)"
-                        write-host $(Tag)
-                        write-host $(AdditionalTag)
                       condition: and(succeeded(), ne(variables['Skip.AutoAddTag'], 'true'))
                       name: SetTag
                       displayName: Set Tag and Additional Tag
