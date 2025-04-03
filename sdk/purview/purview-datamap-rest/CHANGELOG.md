@@ -2,13 +2,8 @@
 
 ### 1.0.0-beta.3 (Unreleased)
 
-#### Features Added
-
-#### Breaking Changes
-
 #### Bugs Fixed
-
-#### Other Changes
+- Update type of endorsements from string to list of string
 
 ### 1.0.0-beta.2 (2025-02-10)
 
