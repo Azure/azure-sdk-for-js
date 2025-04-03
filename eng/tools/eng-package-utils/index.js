@@ -1,22 +1,19 @@
-const fs = require("fs");
-const path = require("path");
-const parse = require("../../../common/lib/jju/parse").parse;
-const { promisify } = require("util");
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 
-const readFileAsync = promisify(fs.readFile);
-const writeFileAsync = promisify(fs.writeFile);
+// @ts-check
 
-async function readFile(filename) {
-  return await readFileAsync(filename, { encoding: "utf-8" });
-}
+import { readFile, writeFile } from "node:fs/promises";
+import path from "node:path";
+import { parse } from "../commonLib/jju/parse.js";
+import { findPackages } from "@pnpm/fs.find-packages";
 
-async function writeFile(filename, contents) {
-  return await writeFileAsync(filename, contents);
-}
-
-async function readFileJson(filename) {
+/**
+ * @param {string} filename - file to read from
+ */
+export async function readFileJson(filename) {
   try {
-    const fileContents = await readFile(filename);
+    const fileContents = await readFile(filename, { encoding: "utf8" });
     const jsonResult = parse(fileContents);
     return jsonResult;
   } catch (ex) {
@@ -24,7 +21,10 @@ async function readFileJson(filename) {
   }
 }
 
-async function writePackageJson(filename, contentObject) {
+/**
+ * @param {string} filename - file to write to
+ * @param {object} contentObject - The content to write to the file.
+ */ export async function writePackageJson(filename, contentObject) {
   try {
     const contentString = JSON.stringify(contentObject, null, 2);
     await writeFile(filename, `${contentString}\n`);
@@ -33,46 +33,77 @@ async function writePackageJson(filename, contentObject) {
   }
 }
 
-//This gets the list of rush packages as well as their packageJsons
-//This is specifically used in set-dev-dependencies script
-const getRushPackageJsons = async repoRoot => {
-  const rushPath = path.resolve(path.join(repoRoot, "rush.json"));
-  const baseDir = path.dirname(rushPath);
-  const rushJson = parse(await readFile(rushPath, "utf8"));
-  const packageData = {};
+function getVersionPolicyName(project) {
+  const packageName = project.manifest.name;
+  const packageDir = project.rootDirRealPath;
+  if (packageName.startsWith("@azure-tests/")) {
+    return "test";
+  } else if (
+    packageName.startsWith("@azure-tools/") ||
+    packageName === "@azure/dev-tool" ||
+    packageName === "@azure/eslint-plugin" ||
+    packageName === "@azure/mock-hub" ||
+    packageName === "@azure/storage-internal-avro"
+  ) {
+    return "utility";
+  } else if (packageName.includes("/arm-")) {
+    return "management";
+  } else if (packageDir.includes("sdk/core")) {
+    return "core";
+  }
 
-  for (const proj of rushJson.projects) {
-    const filePath = path.join(baseDir, proj.projectFolder, "package.json");
-    const packageJson = parse(await readFile(filePath, "utf8"));
-    packageData[packageJson.name] = {
-      src: filePath,
-      json: packageJson,
-      versionPolicy: proj.versionPolicyName,
-      projectFolder: proj.projectFolder,
-      newVer: undefined
+  return "unknown";
+}
+
+/**
+ * Gets the list of packages as well as their package.json file content.
+ * This is specifically used in set-dev-dependencies script.
+ *
+ * @param {string} repoRoot - path to the root of the repo
+ * @returns {Promise<Record<string, {src: string, json: object, versionPolicy: string, projectFolder: string, newVer: string | undefined}>>}
+ */
+export async function getPackageJsons(repoRoot) {
+  const packageData = {};
+  const pkgs = await findPackages(repoRoot, {
+    patterns: ["sdk/*/*", "common/tools/*"],
+  });
+
+  for (const proj of pkgs) {
+    packageData[proj.manifest.name] = {
+      src: path.join(proj.rootDirRealPath, "package.json"),
+      json: proj.manifest,
+      versionPolicy: getVersionPolicyName(proj),
+      projectFolder: proj.rootDirRealPath,
+      newVer: undefined,
     };
   }
   return packageData;
-};
-
-async function getRushSpec(repoRoot) {
-  const rushPath = path.resolve(path.join(repoRoot, "rush.json"));
-  return await readFileJson(rushPath);
 }
 
-async function getRushCommonVersions(repoRoot) {
-  const commonVersionsPath = path.resolve(path.join(repoRoot, "/common/config/rush/common-versions.json"));
-  return await readFileJson(commonVersionsPath);
+/**
+ * @param {string} repoRoot - path to the root of the repo
+ * @returns {Promise<{ projects: {packageName: string, projectFolder: string, versionNamePolicy: string}[] }>}
+ */
+export async function getPackageSpec(repoRoot) {
+  const pkgs = await findPackages(repoRoot, {
+    patterns: ["sdk/*/*", "common/tools/*"],
+  });
+
+  const projects = pkgs.map((proj) => {
+    if (!proj.manifest?.name || !proj.rootDirRealPath) {
+      throw new Error(`Package ${proj.manifest?.name} does not have a name or rootDirRealPath`);
+    }
+
+    return {
+      packageName: proj.manifest.name,
+      projectFolder: proj.rootDirRealPath,
+      versionNamePolicy: getVersionPolicyName(proj),
+    };
+  });
+
+  return { projects };
 }
 
 // This regex is taken from # https://semver.org/#is-there-a-suggested-regular-expression-regex-to-check-a-semver-string
 // and adapted to exclude beginning of line (^) and end of line ($) anchors.
 const semverRegex = `(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-((?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\\+([0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?`;
-
-module.exports.readFile = readFile;
-module.exports.readFileJson = readFileJson;
-module.exports.writeFile = writeFile;
-module.exports.writePackageJson = writePackageJson;
-module.exports.getRushSpec = getRushSpec;
-module.exports.getRushPackageJsons = getRushPackageJsons;
-module.exports.getRushCommonVersions = getRushCommonVersions;
