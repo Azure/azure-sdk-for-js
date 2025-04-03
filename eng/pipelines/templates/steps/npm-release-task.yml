@@ -103,7 +103,10 @@ jobs:
 
 - ${{ if eq(parameters.Registry, 'https://registry.npmjs.org/') }}:
   - job: VerifyPackageTags
-    dependsOn: PublishPackage
+    dependsOn:
+      - PublishPackage
+      - ${{ each dep in parameters.DependsOn }}:
+        - ${{ dep }}
     condition: succeeded()
     variables:
       - template: /eng/pipelines/templates/variables/image.yml
