@@ -138,27 +138,21 @@ function transformStatus(inputs: { status: unknown; statusCode: number }): Opera
       `Polling was unsuccessful. Expected status to have a string value or no value but it has instead: ${status}. This doesn't necessarily indicate the operation has failed. Check your Azure subscription or resource status for more information.`,
     );
   }
-  switch (status?.toLocaleLowerCase()) {
-    case undefined:
-      return toOperationStatus(statusCode);
-    case "succeeded":
-      return "succeeded";
-    case "failed":
-      return "failed";
-    case "running":
-    case "accepted":
-    case "started":
-    case "canceling":
-    case "cancelling":
-      return "running";
-    case "canceled":
-    case "cancelled":
-      return "canceled";
-    default: {
-      logger.verbose(`LRO: unrecognized operation status: ${status}`);
-      return status as OperationStatus;
-    }
+  logger.verbose(`LRO: Transforming status: ${status} with status code: ${statusCode}.`);
+  const lowerCaseStatus = status?.toLocaleLowerCase();
+  if (!lowerCaseStatus) {
+    return toOperationStatus(statusCode);
   }
+  if (lowerCaseStatus.includes("succeeded")) {
+    return "succeeded";
+  }
+  if (lowerCaseStatus.includes("fail")) {
+    return "failed";
+  }
+  if (["canceled", "cancelled"].includes(lowerCaseStatus)) {
+    return "canceled";
+  }
+  return "running";
 }
 
 function getStatus(rawResponse: RawResponse): OperationStatus {
