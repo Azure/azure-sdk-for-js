@@ -21,7 +21,18 @@ import type {
   PhoneNumberCountry,
   PhoneNumberLocality,
   PhoneNumberOffering,
+  PhoneNumbersBrowseAvailableNumbersResponse,
+  PhoneNumbersBrowseRequest,
+  PhoneNumbersCreateOrUpdateReservationOptionalParams,
+  PhoneNumbersCreateOrUpdateReservationResponse,
+  PhoneNumbersDeleteReservationOptionalParams,
   PhoneNumberSearchResult,
+  PhoneNumbersGetReservationOptionalParams,
+  PhoneNumbersGetReservationResponse,
+  PhoneNumbersListReservationsOptionalParams,
+  PhoneNumbersPurchaseReservationOptionalParams,
+  PhoneNumbersPurchaseReservationResponse,
+  PhoneNumbersReservationInternal,
   PurchasedPhoneNumber,
 } from "./generated/src/models/index.js";
 import type {
@@ -32,6 +43,7 @@ import type {
   ListOfferingsOptions,
   ListPurchasedPhoneNumbersOptions,
   ListTollFreeAreaCodesOptions,
+  PhoneNumberReservationParams,
   PurchasePhoneNumbersResult,
   ReleasePhoneNumberResult,
   SearchAvailablePhoneNumbersRequest,
@@ -44,7 +56,7 @@ import type {
   BeginUpdatePhoneNumberCapabilitiesOptions,
 } from "./lroModels.js";
 import { createPhoneNumbersPagingPolicy } from "./utils/customPipelinePolicies.js";
-import type { CommonClientOptions } from "@azure/core-client";
+import type { CommonClientOptions, OperationOptions } from "@azure/core-client";
 import { logger } from "./utils/index.js";
 import { tracingClient } from "./generated/src/tracing.js";
 
@@ -133,6 +145,41 @@ export class PhoneNumbersClient {
   }
 
   /**
+   * Deletes a reservation by its ID..
+   *
+   * Example usage:
+   * ```ts snippet:PhoneNumbersClientDeleteReservation
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { PhoneNumbersClient } from "@azure/communication-phone-numbers";
+   *
+   * const credential = new DefaultAzureCredential();
+   * const client = new PhoneNumbersClient("<endpoint-from-resource>", credential);
+   *
+   * const reservationId = "<reservation-id>";
+   * await client.deleteReservation(reservationId);
+   *
+   * console.log(`Reservation with ID ${reservationId} has been deleted.`);
+   * ```
+   * Delete a reservation.
+   * @param reservationId - The id of the reservation.
+   * @param options - Additional request options.
+   */
+  public deleteReservation(
+    reservationId: string,
+    options: PhoneNumbersDeleteReservationOptionalParams = {},
+  ): Promise<void> {
+    return tracingClient.withSpan(
+      "PhoneNumbersClient-deleteReservation",
+      options,
+      (updatedOptions) => {
+        return this.client.phoneNumbers.deleteReservation(reservationId, {
+          ...updatedOptions,
+        });
+      },
+    );
+  }
+
+  /**
    * Gets the details of a purchased phone number. Includes phone number, cost, country code, etc.
    *
    * @param phoneNumber - The E.164 formatted phone number being fetched. The leading plus can be either + or encoded as %2B.
@@ -147,6 +194,43 @@ export class PhoneNumbersClient {
       options,
       (updatedOptions) => {
         return this.client.phoneNumbers.getByNumber(phoneNumber, {
+          ...updatedOptions,
+        });
+      },
+    );
+  }
+
+  /**
+   * Retrieves the reservation with the given ID, including all of the phone numbers associated with it.
+   *
+   * Example usage:
+   * ```ts snippet:PhoneNumbersClientListPurchasedPhoneNumbers
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { PhoneNumbersClient } from "@azure/communication-phone-numbers";
+   *
+   * const credential = new DefaultAzureCredential();
+   * const client = new PhoneNumbersClient("<endpoint-from-resource>", credential);
+   *
+   * const reservationId = "<reservation-id>";
+   * const reservationResponse = await client.getReservation(reservationId);
+   *
+   * console.log(`Reservation ID: ${reservationResponse.id}`);
+   * console.log(`Reservation status: ${reservationResponse.status}`);
+   * console.log(`Phone numbers in reservation: ${reservationResponse.phoneNumbers}`);
+   * ```
+   * Get a reservation.
+   * @param reservationId - The id of the reservation.
+   * @param options - Additional request options.
+   */
+  public getReservation(
+    reservationId: string,
+    options: PhoneNumbersGetReservationOptionalParams = {},
+  ): Promise<PhoneNumbersGetReservationResponse> {
+    return tracingClient.withSpan(
+      "PhoneNumbersClient-getReservation",
+      options,
+      (updatedOptions) => {
+        return this.client.phoneNumbers.getReservation(reservationId, {
           ...updatedOptions,
         });
       },
@@ -185,6 +269,60 @@ export class PhoneNumbersClient {
     try {
       return this.client.phoneNumbers.listPhoneNumbers({
         ...updatedOptions,
+      });
+    } catch (e: any) {
+      span.setStatus({
+        status: "error",
+        error: e,
+      });
+
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Browses for available phone numbers to purchase.
+   *
+   * Example usage:
+   * ```ts snippet:PhoneNumbersClientBrowseAvailablePhoneNumbers
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { PhoneNumbersClient } from "@azure/communication-phone-numbers";
+   *
+   * const credential = new DefaultAzureCredential();
+   * const client = new PhoneNumbersClient("<endpoint-from-resource>", credential);
+   *
+   * const browseAvailableNumberRequest: PhoneNumbersBrowseRequest = {
+   *   phoneNumberType: "tollFree",
+   *   capabilities: {
+   *     sms: "outbound",
+   *     calling: "none",
+   *   },
+   *   assignmentType: "application",
+   * };
+   * const browseAvailableNumbers = await client.browseAvailablePhoneNumbers("US", browseAvailableNumberRequest);
+   * for (const phoneNumber of browseAvailableNumbers.phoneNumbers) {
+   *   console.log("Found phone number: ", phoneNumber.phoneNumber);
+   * }
+   * ```
+   * Browse available phone numbers
+   * @param countryCode - The ISO 3166-2 country code, e.g. US.
+   * @param request - The request parameters for browsing available phone numbers.
+   */
+  public browseAvailablePhoneNumbers(
+    countryCode: string,
+    request: PhoneNumbersBrowseRequest,
+  ): Promise<PhoneNumbersBrowseAvailableNumbersResponse> {
+    const { span, updatedOptions } = tracingClient.startSpan(
+      "PhoneNumbersClient-browseAvailableNumbers",
+    );
+
+    try {
+      const { phoneNumberType, ...rest } = request;
+      return this.client.phoneNumbers.browseAvailableNumbers(countryCode, phoneNumberType, {
+        ...updatedOptions,
+        ...rest,
       });
     } catch (e: any) {
       span.setStatus({
@@ -341,6 +479,7 @@ export class PhoneNumbersClient {
    */
   public beginPurchasePhoneNumbers(
     searchId: string,
+    agreeToNotResell?: boolean,
     options: BeginPurchasePhoneNumbersOptions = {},
   ): Promise<
     PollerLike<PollOperationState<PurchasePhoneNumbersResult>, PurchasePhoneNumbersResult>
@@ -349,7 +488,56 @@ export class PhoneNumbersClient {
       "PhoneNumbersClient-beginPurchasePhoneNumbers",
       options,
       (updatedOptions) => {
-        return this.client.phoneNumbers.beginPurchasePhoneNumbers({ ...updatedOptions, searchId });
+        return this.client.phoneNumbers.beginPurchasePhoneNumbers({
+          ...updatedOptions,
+          searchId,
+          agreeToNotResell,
+        });
+      },
+    );
+  }
+
+  /**
+   * Starts the purchase of the phone number(s) in the search associated with a given id.
+   *
+   * This function returns a Long Running Operation poller that allows you to wait indefinitely until the operation is complete.
+   *
+   * Example usage:
+   * ```ts snippet:PhoneNumbersClientBeginReservationPurchase
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { PhoneNumbersClient } from "@azure/communication-phone-numbers";
+   *
+   * const credential = new DefaultAzureCredential();
+   * const client = new PhoneNumbersClient("<endpoint-from-resource>", credential);
+   *
+   * const reservationId = "<reservation-id>";
+   *
+   * const purchasePoller = await client.beginReservationPurchase(reservationId);
+   *
+   * // Purchase is underway.
+   * const purchaseResult = await purchasePoller.pollUntilDone();
+   * console.log(`Successfully purchased phone numbers in reservation: ${reservationId}`);
+   * ```
+   * Begins the purchase of the phone numbers in the reservation with the given ID.
+   * @param reservationId - The id of the reservation.
+   * @param options - Additional request options.
+   */
+  public beginReservationPurchase(
+    reservationId: string,
+    options: PhoneNumbersPurchaseReservationOptionalParams = {},
+  ): Promise<
+    PollerLike<
+      PollOperationState<PhoneNumbersPurchaseReservationResponse>,
+      PhoneNumbersPurchaseReservationResponse
+    >
+  > {
+    return tracingClient.withSpan(
+      "PhoneNumbersClient-beginPurchaseReservation",
+      options,
+      (updatedOptions) => {
+        return this.client.phoneNumbers.beginPurchaseReservation(reservationId, {
+          ...updatedOptions,
+        });
       },
     );
   }
@@ -410,6 +598,68 @@ export class PhoneNumbersClient {
         });
       },
     );
+  }
+
+  /**
+   * Adds and removes phone numbers from the reservation with the given ID. The response will be the
+   * updated state of the reservation. Phone numbers can be reserved by including them in the payload. If
+   * a number is already in the reservation, it will be ignored. To remove a phone number, set it
+   * explicitly to null in the request payload. This operation is idempotent. If a reservation with the
+   * same ID already exists, it will be updated, otherwise a new one is created. Only reservations with
+   * 'active' status can be updated. Updating a reservation will extend the expiration time of the
+   * reservation to 15 minutes after the last change, up to a maximum of 2 hours from creation time.
+   * Partial success is possible, in which case the response will have a 207 status code.
+   *
+   * Example usage:
+   * ```ts snippet:PhoneNumbersClientCreateOrUpdateReservation
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import {
+   *   PhoneNumbersClient,
+   *   PhoneNumbersCreateOrUpdateReservationOptionalParams,
+   * } from "@azure/communication-phone-numbers";
+   *
+   * const credential = new DefaultAzureCredential();
+   * const client = new PhoneNumbersClient("<endpoint-from-resource>", credential);
+   *
+   * const reservationId = "<reservation-id>";
+   * const phoneNumbersReservation = new PhoneNumbersReservation(reservationId);
+   * phoneNumbersReservation.addPhoneNumber(phoneNumbers[0]);
+   *
+   * const reservationResponse = await client.createOrUpdateReservation(phoneNumbersReservation, options);
+   *
+   * console.log(`Reservation updated with status: ${reservationResponse.status}`);
+   * console.log(`Updated reservation details: ${JSON.stringify(reservationResponse)}`);
+   * ```
+   *
+   * Create or update a reservation.
+   * @param reservation - Reservation object containing the phone numbers to be reserved and the reservationId.
+   * @param options - The options parameters.
+   */
+  public async createOrUpdateReservation(
+    reservation: PhoneNumberReservationParams,
+    options?: OperationOptions,
+  ): Promise<PhoneNumbersCreateOrUpdateReservationResponse> {
+    const reservationOptionalParams: PhoneNumbersCreateOrUpdateReservationOptionalParams = {
+      ...options,
+      phoneNumbers: reservation.phoneNumbers,
+    };
+    const { span, updatedOptions } = tracingClient.startSpan(
+      "PhoneNumbersClient-createOrUpdateReservation",
+      reservationOptionalParams,
+    );
+
+    try {
+      return this.client.phoneNumbers.createOrUpdateReservation(reservation.id, updatedOptions);
+    } catch (e: any) {
+      span.setStatus({
+        status: "error",
+        error: e,
+      });
+
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -620,6 +870,48 @@ export class PhoneNumbersClient {
 
     try {
       return this.client.phoneNumbers.listOfferings(countryCode, {
+        ...updatedOptions,
+      });
+    } catch (e: any) {
+      span.setStatus({
+        status: "error",
+        error: e,
+      });
+
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Iterates all phone number reservations.
+   *
+   * Example usage:
+   * ```ts snippet:PhoneNumbersClientListReservations
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { PhoneNumbersClient } from "@azure/communication-phone-numbers";
+   *
+   * const credential = new DefaultAzureCredential();
+   * const client = new PhoneNumbersClient("<endpoint-from-resource>", credential);
+   *
+   * for await (const reservation of client.listReservations()) {
+   *   console.log("reservation: ", reservation.id);
+   * }
+   * ```
+   * List all phone number reservations. Note that the reservations will not be populated with the phone numbers associated with them.
+   * @param options - The optional parameters.
+   */
+  public listReservations(
+    options: PhoneNumbersListReservationsOptionalParams = {},
+  ): PagedAsyncIterableIterator<PhoneNumbersReservationInternal> {
+    const { span, updatedOptions } = tracingClient.startSpan(
+      "PhoneNumbersClient-listReservations",
+      options,
+    );
+
+    try {
+      return this.client.phoneNumbers.listReservations({
         ...updatedOptions,
       });
     } catch (e: any) {

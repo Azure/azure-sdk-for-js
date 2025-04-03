@@ -14,6 +14,33 @@ import type { PollOperationState } from '@azure/core-lro';
 import type { TokenCredential } from '@azure/core-auth';
 
 // @public
+export interface AvailablePhoneNumber {
+    assignmentType: PhoneNumberAssignmentType;
+    capabilities: PhoneNumberCapabilities;
+    readonly cost?: AvailablePhoneNumberCost;
+    countryCode: string;
+    readonly error?: AvailablePhoneNumberError;
+    readonly id?: string;
+    readonly isAgreementToNotResellRequired?: boolean;
+    readonly phoneNumber?: string;
+    phoneNumberType: PhoneNumberType;
+    readonly status?: AvailablePhoneNumberStatus;
+}
+
+// @public
+export interface AvailablePhoneNumberCost extends PhoneNumberCost {
+}
+
+// @public
+export interface AvailablePhoneNumberError {
+    readonly code?: string;
+    readonly message?: string;
+}
+
+// @public
+export type AvailablePhoneNumberStatus = "available" | "reserved" | "expired" | "error" | "purchased";
+
+// @public
 export interface BeginPurchasePhoneNumbersOptions extends OperationOptions {
 }
 
@@ -115,6 +142,12 @@ export interface PhoneNumberAreaCode {
 export type PhoneNumberAssignmentType = "person" | "application";
 
 // @public
+export interface PhoneNumberBrowseCapabilitiesRequest {
+    calling?: PhoneNumberCapabilityType;
+    sms?: PhoneNumberCapabilityType;
+}
+
+// @public
 export interface PhoneNumberCapabilities {
     calling: PhoneNumberCapabilityType;
     sms: PhoneNumberCapabilityType;
@@ -156,28 +189,74 @@ export interface PhoneNumberOffering {
     phoneNumberType?: PhoneNumberType;
 }
 
+// @public (undocumented)
+export interface PhoneNumberReservationParams extends PhoneNumbersReservationInternal {
+    // (undocumented)
+    id: string;
+    // (undocumented)
+    readonly phoneNumbers: {
+        [propertyName: string]: AvailablePhoneNumber | null;
+    };
+}
+
+// @public
+export interface PhoneNumbersBrowseAvailableNumbersOptionalParams extends coreClient.OperationOptions {
+    assignmentType?: PhoneNumberAssignmentType;
+    capabilities?: PhoneNumberBrowseCapabilitiesRequest;
+    phoneNumberPrefixes?: string[];
+}
+
+// @public
+export type PhoneNumbersBrowseAvailableNumbersResponse = PhoneNumbersBrowseResult;
+
+// @public
+export interface PhoneNumbersBrowseRequest {
+    assignmentType?: PhoneNumberAssignmentType;
+    capabilities?: PhoneNumberBrowseCapabilitiesRequest;
+    phoneNumberPrefixes?: string[];
+    phoneNumberType: PhoneNumberType;
+}
+
+// @public
+export interface PhoneNumbersBrowseResult {
+    phoneNumbers: AvailablePhoneNumber[];
+}
+
 // @public
 export class PhoneNumbersClient {
     constructor(connectionString: string, options?: PhoneNumbersClientOptions);
     constructor(url: string, credential: KeyCredential, options?: PhoneNumbersClientOptions);
     constructor(url: string, credential: TokenCredential, options?: PhoneNumbersClientOptions);
-    beginPurchasePhoneNumbers(searchId: string, options?: BeginPurchasePhoneNumbersOptions): Promise<PollerLike<PollOperationState<PurchasePhoneNumbersResult>, PurchasePhoneNumbersResult>>;
+    beginPurchasePhoneNumbers(searchId: string, agreeToNotResell?: boolean, options?: BeginPurchasePhoneNumbersOptions): Promise<PollerLike<PollOperationState<PurchasePhoneNumbersResult>, PurchasePhoneNumbersResult>>;
     beginReleasePhoneNumber(phoneNumber: string, options?: BeginReleasePhoneNumberOptions): Promise<PollerLike<PollOperationState<ReleasePhoneNumberResult>, ReleasePhoneNumberResult>>;
+    beginReservationPurchase(reservationId: string, options?: PhoneNumbersPurchaseReservationOptionalParams): Promise<PollerLike<PollOperationState<PhoneNumbersPurchaseReservationResponse>, PhoneNumbersPurchaseReservationResponse>>;
     beginSearchAvailablePhoneNumbers(search: SearchAvailablePhoneNumbersRequest, options?: BeginSearchAvailablePhoneNumbersOptions): Promise<PollerLike<PollOperationState<PhoneNumberSearchResult>, PhoneNumberSearchResult>>;
     beginUpdatePhoneNumberCapabilities(phoneNumber: string, request: PhoneNumberCapabilitiesRequest, options?: BeginUpdatePhoneNumberCapabilitiesOptions): Promise<PollerLike<PollOperationState<PurchasedPhoneNumber>, PurchasedPhoneNumber>>;
+    browseAvailablePhoneNumbers(countryCode: string, request: PhoneNumbersBrowseRequest): Promise<PhoneNumbersBrowseAvailableNumbersResponse>;
+    createOrUpdateReservation(reservation: PhoneNumberReservationParams, options?: OperationOptions): Promise<PhoneNumbersCreateOrUpdateReservationResponse>;
+    deleteReservation(reservationId: string, options?: PhoneNumbersDeleteReservationOptionalParams): Promise<void>;
     getPurchasedPhoneNumber(phoneNumber: string, options?: GetPurchasedPhoneNumberOptions): Promise<PurchasedPhoneNumber>;
+    getReservation(reservationId: string, options?: PhoneNumbersGetReservationOptionalParams): Promise<PhoneNumbersGetReservationResponse>;
     listAvailableCountries(options?: ListAvailableCountriesOptions): PagedAsyncIterableIterator<PhoneNumberCountry>;
     listAvailableGeographicAreaCodes(countryCode: string, options?: ListGeographicAreaCodesOptions): PagedAsyncIterableIterator<PhoneNumberAreaCode>;
     listAvailableLocalities(countryCode: string, options?: ListLocalitiesOptions): PagedAsyncIterableIterator<PhoneNumberLocality>;
     listAvailableOfferings(countryCode: string, options?: ListOfferingsOptions): PagedAsyncIterableIterator<PhoneNumberOffering>;
     listAvailableTollFreeAreaCodes(countryCode: string, options?: ListTollFreeAreaCodesOptions): PagedAsyncIterableIterator<PhoneNumberAreaCode>;
     listPurchasedPhoneNumbers(options?: ListPurchasedPhoneNumbersOptions): PagedAsyncIterableIterator<PurchasedPhoneNumber>;
+    listReservations(options?: PhoneNumbersListReservationsOptionalParams): PagedAsyncIterableIterator<PhoneNumbersReservationInternal>;
     searchOperatorInformation(phoneNumbers: string[], options?: SearchOperatorInformationOptions): Promise<OperatorInformationResult>;
 }
 
 // @public
 export interface PhoneNumbersClientOptions extends CommonClientOptions {
     acceptLanguage?: string;
+}
+
+// @public
+export type PhoneNumbersCreateOrUpdateReservationResponse = PhoneNumbersReservationInternal;
+
+// @public
+export interface PhoneNumbersDeleteReservationOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
@@ -194,11 +273,24 @@ export interface PhoneNumberSearchResult {
     assignmentType: PhoneNumberAssignmentType;
     capabilities: PhoneNumberCapabilities;
     cost: PhoneNumberCost;
+    error?: PhoneNumberSearchResultError;
+    errorCode?: number;
+    isAgreementToNotResellRequired?: boolean;
     phoneNumbers: string[];
     phoneNumberType: PhoneNumberType;
     searchExpiresBy: Date;
     searchId: string;
 }
+
+// @public
+export type PhoneNumberSearchResultError = "NoError" | "UnknownErrorCode" | "OutOfStock" | "AuthorizationDenied" | "MissingAddress" | "InvalidAddress" | "InvalidOfferModel" | "NotEnoughLicenses" | "NoWallet" | "NotEnoughCredit" | "NumbersPartiallyAcquired" | "AllNumbersNotAcquired" | "ReservationExpired" | "PurchaseFailed" | "BillingUnavailable" | "ProvisioningFailed" | "UnknownSearchError";
+
+// @public
+export interface PhoneNumbersGetReservationOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PhoneNumbersGetReservationResponse = PhoneNumbersReservationInternal;
 
 // @public
 export interface PhoneNumbersListAreaCodesOptionalParams extends coreClient.OperationOptions {
@@ -208,6 +300,53 @@ export interface PhoneNumbersListAreaCodesOptionalParams extends coreClient.Oper
     locality?: string;
     maxPageSize?: number;
     skip?: number;
+}
+
+// @public
+export interface PhoneNumbersListReservationsOptionalParams extends coreClient.OperationOptions {
+    maxPageSize?: number;
+}
+
+// @public
+export interface PhoneNumbersPurchaseReservationHeaders {
+    operationId?: string;
+    operationLocation?: string;
+    reservationPurchaseId?: string;
+}
+
+// @public
+export interface PhoneNumbersPurchaseReservationOptionalParams extends coreClient.OperationOptions {
+    agreeToNotResell?: boolean;
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type PhoneNumbersPurchaseReservationResponse = PhoneNumbersPurchaseReservationHeaders;
+
+// @public (undocumented)
+export class PhoneNumbersReservation implements PhoneNumberReservationParams {
+    constructor(id: string, phoneNumbers?: {
+        [propertyName: string]: AvailablePhoneNumber | null;
+    });
+    addPhoneNumber(phoneNumber: AvailablePhoneNumber): void;
+    // (undocumented)
+    id: string;
+    // (undocumented)
+    readonly phoneNumbers: {
+        [propertyName: string]: AvailablePhoneNumber | null;
+    };
+    removePhoneNumber(phoneNumber: AvailablePhoneNumber): void;
+}
+
+// @public
+export interface PhoneNumbersReservationInternal {
+    readonly expiresAt?: Date;
+    readonly id?: string;
+    phoneNumbers?: {
+        [propertyName: string]: AvailablePhoneNumber | null;
+    };
+    readonly status?: ReservationStatus;
 }
 
 // @public
@@ -232,6 +371,9 @@ export interface PurchasePhoneNumbersResult {
 // @public
 export interface ReleasePhoneNumberResult {
 }
+
+// @public
+export type ReservationStatus = "active" | "submitted" | "completed" | "expired";
 
 // @public
 export interface SearchAvailablePhoneNumbersRequest extends PhoneNumberSearchRequest {
