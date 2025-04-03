@@ -20,6 +20,7 @@
     "@azure-tools/eng-package-utils": "file:../eng-package-utils",
     "semver": "^7.5.4",
     "yargs": "^17.7.2",
-    "yargs-parser": "^21.1.1"
+    "yargs-parser": "^21.1.1",
+    "@pnpm/fs.find-packages": "^1000.0.8"
   }
 }

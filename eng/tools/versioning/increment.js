@@ -4,17 +4,17 @@ let argv = require("yargs")
       type: "string",
       describe:
         "name of the artifact to be incremented (e.g. azure-keyvault-secrets), will be translated to @azure/(package) format",
-      demandOption: true
+      demandOption: true,
     },
     "repo-root": {
       type: "string",
       default: "../../../",
       describe: "root of the repository (e.g. ../../../)",
-      demandOption: true
+      demandOption: true,
     },
     "dry-run": {
-      type: "boolean"
-    }
+      type: "boolean",
+    },
   })
   .help().argv;
 
@@ -22,6 +22,7 @@ const path = require("path");
 const semver = require("semver");
 const versionUtils = require("./VersionUtils");
 const packageUtils = require("@azure-tools/eng-package-utils");
+const { findPackages } = require("@pnpm/fs.find-packages");
 
 function incrementVersion(currentVersion) {
   const prerelease = semver.prerelease(currentVersion);
@@ -37,12 +38,13 @@ async function main(argv) {
   const repoRoot = argv["repo-root"];
   const dryRun = argv["dry-run"];
 
-  const rushSpec = await packageUtils.getRushSpec(repoRoot);
-  const targetPackage = rushSpec.projects.find(
-    (packageSpec) => packageSpec.packageName.replace("@", "").replace("/", "-") == artifactName
-  );
+  const pkgs = (
+    await findPackages(repoRoot, {
+      patterns: ["sdk/*/*", "common/tools/*"],
+    })
+  ).filter((pkg) => pkg.manifest.namereplace("@", "").replace("/", "-") == artifactName);
 
-  const targetPackagePath = path.join(repoRoot, targetPackage.projectFolder);
+  const targetPackagePath = pkgs[0].rootDirRealPath;
   const packageJsonLocation = path.join(targetPackagePath, "package.json");
 
   const packageJsonContents = await packageUtils.readFileJson(packageJsonLocation);
@@ -58,7 +60,7 @@ async function main(argv) {
 
   const updatedPackageJson = {
     ...packageJsonContents,
-    version: newVersion
+    version: newVersion,
   };
   await packageUtils.writePackageJson(packageJsonLocation, updatedPackageJson);
 
@@ -69,7 +71,7 @@ async function main(argv) {
     repoRoot,
     newVersion,
     true,
-    false
+    false,
   );
   if (!updateStatus) {
     process.exit(1);

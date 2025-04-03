@@ -4,34 +4,34 @@ let argv = require("yargs")
       type: "string",
       describe:
         "name of the artifact to be set (e.g. azure-keyvault-secrets), will be translated to @azure/(package) format",
-      demandOption: true
+      demandOption: true,
     },
     "new-version": {
       type: "string",
       describe: "package version string",
-      demandOption: true
+      demandOption: true,
     },
     "release-date": {
       type: "string",
       default: new Date().toISOString().slice(0, 10),
       describe: "the date of intended release",
-      demandOption: false
+      demandOption: false,
     },
     "replace-latest-entry-title": {
       type: "string",
       default: true,
       describe: "indicates if to replace the latest changelog entry",
-      demandOption: false
+      demandOption: false,
     },
     "repo-root": {
       type: "string",
       default: "../../../",
       describe: "root of the repository (e.g. ../../../)",
-      demandOption: true
+      demandOption: true,
     },
     "dry-run": {
-      type: "boolean"
-    }
+      type: "boolean",
+    },
   })
   .help().argv;
 
@@ -47,13 +47,12 @@ async function main(argv) {
   const repoRoot = argv["repo-root"];
   const dryRun = argv["dry-run"];
 
-  const rushSpec = await packageUtils.getRushSpec(repoRoot);
-
-  const targetPackage = rushSpec.projects.find(
-    (packageSpec) => packageSpec.packageName.replace("@", "").replace("/", "-") == artifactName
-  );
-
-  const targetPackagePath = path.join(repoRoot, targetPackage.projectFolder);
+  const pkgs = (
+    await findPackages(repoRoot, {
+      patterns: ["sdk/*/*", "common/tools/*"],
+    })
+  ).filter((pkg) => pkg.manifest.namereplace("@", "").replace("/", "-") == artifactName);
+  const targetPackagePath = pkgs[0].rootDirRealPath;
   const packageJsonLocation = path.join(targetPackagePath, "package.json");
 
   const packageJsonContents = await packageUtils.readFileJson(packageJsonLocation);
@@ -68,7 +67,7 @@ async function main(argv) {
 
   const updatedPackageJson = {
     ...packageJsonContents,
-    version: newVersion
+    version: newVersion,
   };
   await packageUtils.writePackageJson(packageJsonLocation, updatedPackageJson);
 
@@ -81,7 +80,7 @@ async function main(argv) {
     newVersion,
     false,
     replaceLatestEntryTitle,
-    releaseDate
+    releaseDate,
   );
   if (!updateStatus) {
     process.exit(1);

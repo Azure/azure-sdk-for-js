@@ -39,12 +39,12 @@ function updateChangelog(
   newVersion,
   unreleased,
   replaceLatestVersionTitle,
-  releaseDate = null
+  releaseDate = null,
 ) {
   const service = path.basename(path.dirname(targetPackagePath));
   const changelogPath = path.join(targetPackagePath, "CHANGELOG.md");
   const updateChangelogPath = path.resolve(
-    path.join(repoRoot, "eng/common/scripts/Update-ChangeLog.ps1")
+    path.join(repoRoot, "eng/common/scripts/Update-ChangeLog.ps1"),
   );
   let args = [
     updateChangelogPath,
@@ -56,7 +56,7 @@ function updateChangelog(
     packageName,
     "--Unreleased:$" + unreleased,
     "--ReplaceLatestEntryTitle:$" + replaceLatestVersionTitle,
-    "--ChangelogPath:" + changelogPath
+    "--ChangelogPath:" + changelogPath,
   ];
   if (releaseDate != null) {
     args.push("--ReleaseDate:" + releaseDate);
