@@ -13,11 +13,7 @@ import type {
   RunStepToolCallDetailsOutput,
   RunStepAzureAISearchToolCallOutput,
 } from "@azure/ai-projects";
-import {
-  AIProjectsClient,
-  isOutputOfType,
-  ToolUtility,
-} from "@azure/ai-projects";
+import { AIProjectsClient, isOutputOfType, ToolUtility } from "@azure/ai-projects";
 import { delay } from "@azure/core-util";
 import { DefaultAzureCredential } from "@azure/identity";
 

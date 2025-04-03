@@ -325,15 +325,21 @@ export interface AzureAISearchResource {
   indexes?: Array<IndexResource>;
 }
 
+/** the query type for the Azure AI Search tool */
 export type AzureAISearchQueryType =
   | "simple"
   | "semantic"
   | "vector"
   | "vector_simple_hybrid"
   | "vector_semantic_hybrid";
+
+/** the optional parameters for the Azure AI Search tool */
 export interface CreateAzureAISearchToolOptions {
+  /** the query type of azure ai search. */
   queryType?: AzureAISearchQueryType;
+  /** the topK number of documents to retrieve from azure ai search. */
   topK?: number;
+  /** the filter used for azure ai search. */
   filter?: string;
 }
 
