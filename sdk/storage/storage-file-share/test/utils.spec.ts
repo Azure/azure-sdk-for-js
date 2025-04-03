@@ -1,14 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import { assert } from "chai";
 import {
   sanitizeHeaders,
   sanitizeURL,
   extractConnectionStringParts,
   isIpEndpointStyle,
-} from "../src/utils/utils.common";
+} from "../src/utils/utils.common.js";
 import { createHttpHeaders } from "@azure/core-rest-pipeline";
+import { describe, it, assert } from "vitest";
 
 describe("Utility Helpers", () => {
   const protocol = "https";
@@ -18,7 +17,7 @@ describe("Utility Helpers", () => {
   const customDomainFileEndpoint = `${protocol}://customdomain.com`;
   const sharedAccessSignature = "sasToken";
 
-  function verifySASConnectionString(sasConnectionString: string) {
+  function verifySASConnectionString(sasConnectionString: string): void {
     const connectionStringParts = extractConnectionStringParts(sasConnectionString);
     assert.equal(
       "SASConnString",

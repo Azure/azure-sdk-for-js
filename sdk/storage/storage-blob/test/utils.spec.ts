@@ -2,14 +2,14 @@
 // Licensed under the MIT License.
 
 import { createHttpHeaders } from "@azure/core-rest-pipeline";
-import { assert } from "chai";
 import {
   sanitizeHeaders,
   sanitizeURL,
   extractConnectionStringParts,
   isIpEndpointStyle,
   setURLParameter,
-} from "../src/utils/utils.common";
+} from "../src/utils/utils.common.js";
+import { describe, it, assert } from "vitest";
 
 describe("Utility Helpers", () => {
   const protocol = "https";
@@ -19,7 +19,7 @@ describe("Utility Helpers", () => {
   const customDomainBlobEndpoint = `${protocol}://customdomain.com`;
   const sharedAccessSignature = "sasToken";
 
-  function verifySASConnectionString(sasConnectionString: string) {
+  function verifySASConnectionString(sasConnectionString: string): void {
     const connectionStringParts = extractConnectionStringParts(sasConnectionString);
     assert.equal(
       "SASConnString",
@@ -38,7 +38,7 @@ describe("Utility Helpers", () => {
     );
   }
 
-  it("setURLParameter correctly updates parameters", function () {
+  it("setURLParameter correctly updates parameters", () => {
     assert.equal(setURLParameter("http://test.com/", "a", "b"), "http://test.com/?a=b");
     assert.equal(
       setURLParameter("http://test.com/container/blob", "a", "b"),
@@ -108,7 +108,7 @@ describe("Utility Helpers", () => {
     );
   });
 
-  it("extractConnectionStringParts parses sas connection string with queue and file endpoints", async function () {
+  it("extractConnectionStringParts parses sas connection string with queue and file endpoints", async () => {
     verifySASConnectionString(
       `BlobEndpoint=${blobEndpoint};
         FileEndpoint=https://storagesample.file.core.windows.net;
@@ -116,7 +116,7 @@ describe("Utility Helpers", () => {
     );
   });
 
-  it("extractConnectionStringParts parses sas connection string with queue endpoint", async function () {
+  it("extractConnectionStringParts parses sas connection string with queue endpoint", async () => {
     verifySASConnectionString(
       `BlobEndpoint=${blobEndpoint};
         FileEndpoint=https://storagesample.file.core.windows.net;
@@ -124,7 +124,7 @@ describe("Utility Helpers", () => {
     );
   });
 
-  it("extractConnectionStringParts parses sas connection string with custom domain", async function () {
+  it("extractConnectionStringParts parses sas connection string with custom domain", async () => {
     const sasConnectionString = `BlobEndpoint=${customDomainBlobEndpoint};
     SharedAccessSignature=${sharedAccessSignature}`;
     const connectionStringParts = extractConnectionStringParts(sasConnectionString);
@@ -212,7 +212,7 @@ describe("Utility Helpers", () => {
     );
   });
 
-  it("isIpEndpointStyle", async function () {
+  it("isIpEndpointStyle", async () => {
     assert.equal(
       isIpEndpointStyle(new URL("https://192.0.0.10:1900/accountName/containerName/blobName")),
       true,

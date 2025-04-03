@@ -19,7 +19,7 @@ import {
   QueueGetAccessPolicyResponse,
   QueueSetAccessPolicyOptionalParams,
   QueueSetAccessPolicyResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a Queue. */
 export interface Queue {

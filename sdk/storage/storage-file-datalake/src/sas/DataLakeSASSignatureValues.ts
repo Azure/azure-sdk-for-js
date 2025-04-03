@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { StorageSharedKeyCredential } from "../credentials/StorageSharedKeyCredential";
-import { UserDelegationKeyCredential } from "../credentials/UserDelegationKeyCredential";
-import { DataLakeSASPermissions } from "./DataLakeSASPermissions";
-import { FileSystemSASPermissions } from "./FileSystemSASPermissions";
-import type { UserDelegationKey } from "../models";
-import type { SasIPRange } from "./SasIPRange";
-import { ipRangeToString } from "./SasIPRange";
-import type { SASProtocol } from "./SASQueryParameters";
-import { SASQueryParameters } from "./SASQueryParameters";
-import { SERVICE_VERSION } from "../utils/constants";
-import { truncatedISO8061Date } from "../utils/utils.common";
-import { DirectorySASPermissions } from "./DirectorySASPermissions";
+
+import { StorageSharedKeyCredential } from "../credentials/StorageSharedKeyCredential.js";
+import { UserDelegationKeyCredential } from "../credentials/UserDelegationKeyCredential.js";
+import { DataLakeSASPermissions } from "./DataLakeSASPermissions.js";
+import { FileSystemSASPermissions } from "./FileSystemSASPermissions.js";
+import type { UserDelegationKey } from "../models.js";
+import type { SasIPRange } from "./SasIPRange.js";
+import { ipRangeToString } from "./SasIPRange.js";
+import type { SASProtocol } from "./SASQueryParameters.js";
+import { SASQueryParameters } from "./SASQueryParameters.js";
+import { SERVICE_VERSION } from "../utils/constants.js";
+import { truncatedISO8061Date } from "../utils/utils.common.js";
+import { DirectorySASPermissions } from "./DirectorySASPermissions.js";
 
 /**
  * ONLY AVAILABLE IN NODE.JS RUNTIME.
@@ -155,7 +156,7 @@ export interface DataLakeSASSignatureValues {
  *
  * Fill in the required details before running the following snippets.
  * @example
- * ```js
+ * ```ts snippet:ignore
  * // Generate service level SAS for a file system
  * const containerSAS = generateDataLakeSASQueryParameters({
  *     fileSystemName, // Required
@@ -172,7 +173,7 @@ export interface DataLakeSASSignatureValues {
  *
  * // Fill in the required details before running the snippet.
  * @example
- * ```js
+ * ```ts snippet:ignore
  * // Generate service level SAS for a file
  * const fileSAS = generateDataLakeSASQueryParameters({
  *     fileSystemName, // Required
@@ -208,7 +209,7 @@ export function generateDataLakeSASQueryParameters(
  * WARNING: identifier will be ignored when generating user delegation SAS, permissions and expiresOn are required.
  *
  * @example
- * ```js
+ * ```ts snippet:ignore
  * // Generate user delegation SAS for a file system
  * const userDelegationKey = await dataLakeServiceClient.getUserDelegationKey(startsOn, expiresOn);
  * const fileSystemSAS = generateDataLakeSASQueryParameters({
