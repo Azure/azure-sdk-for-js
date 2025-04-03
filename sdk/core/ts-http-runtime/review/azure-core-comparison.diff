@@ -1409,7 +1409,7 @@ index c7c1eb6..15bdc45 100644
      onResponse: options.onResponse,
    };
 diff --git a/src/client/restError.ts b/src/client/restError.ts
-index 3df6036..d653f06 100644
+index 747e774..d653f06 100644
 --- a/src/client/restError.ts
 +++ b/src/client/restError.ts
 @@ -1,8 +1,9 @@
@@ -1424,6 +1424,15 @@ index 3df6036..d653f06 100644
  import type { PathUncheckedResponse } from "./common.js";
  
  /**
+@@ -22,7 +23,7 @@ export function createRestError(
+   const message =
+     typeof messageOrResponse === "string"
+       ? messageOrResponse
+-      : (internalError?.message ?? `Unexpected status code: ${resp.status}`);
++      : (internalError.message ?? `Unexpected status code: ${resp.status}`);
+   return new RestError(message, {
+     statusCode: statusCodeToNumber(resp.status),
+     code: internalError?.code,
 diff --git a/src/client/sendRequest.ts b/src/client/sendRequest.ts
 index 4ee4778..dc3b0f5 100644
 --- a/src/client/sendRequest.ts
