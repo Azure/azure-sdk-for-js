@@ -31,8 +31,9 @@ import {
   TriggerType,
   UserDefinedFunctionDefinition,
   StoredProcedureDefinition,
-} from "@azure/cosmos";
+} from "../src/index.js";
 import { ClientSecretCredential } from "@azure/identity";
+import { describe, it } from "vitest";
 
 describe("snippets", () => {
   it("ReadmeSampleCreateClient", () => {

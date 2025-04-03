@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { ClientContext } from "../../ClientContext";
+
+import type { ClientContext } from "../../ClientContext.js";
 import {
   Constants,
   createDocumentCollectionUri,
@@ -11,39 +12,38 @@ import {
   ResourceType,
   StatusCodes,
   SubStatusCodes,
-} from "../../common";
-import type { PartitionKey, PartitionKeyDefinition } from "../../documents";
-import { convertToInternalPartitionKey } from "../../documents";
-import type { SqlQuerySpec } from "../../queryExecutionContext";
-import type { QueryIterator } from "../../queryIterator";
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-import type { FeedOptions, RequestOptions, Response } from "../../request";
-import { ResourceResponse } from "../../request";
-import type { PartitionedQueryExecutionInfo } from "../../request/ErrorResponse";
-import { ErrorResponse } from "../../request/ErrorResponse";
-import { Conflict, Conflicts } from "../Conflict";
-import type { Database } from "../Database";
-import { Item, Items } from "../Item";
-import { Scripts } from "../Script/Scripts";
-import type { ContainerDefinition } from "./ContainerDefinition";
-import { ContainerResponse } from "./ContainerResponse";
-import type { PartitionKeyRange } from "./PartitionKeyRange";
-import type { OfferDefinition } from "../Offer";
-import { Offer } from "../Offer";
-import { OfferResponse } from "../Offer/OfferResponse";
-import type { Resource } from "../Resource";
-import type { FeedRange } from "../ChangeFeed";
-import { FeedRangeInternal } from "../ChangeFeed";
-import type { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
+} from "../../common/index.js";
+import type { PartitionKey, PartitionKeyDefinition } from "../../documents/index.js";
+import { convertToInternalPartitionKey } from "../../documents/index.js";
+import type { SqlQuerySpec } from "../../queryExecutionContext/index.js";
+import type { QueryIterator } from "../../queryIterator.js";
+import type { FeedOptions, RequestOptions, Response } from "../../request/index.js";
+import { ResourceResponse } from "../../request/index.js";
+import type { PartitionedQueryExecutionInfo } from "../../request/ErrorResponse.js";
+import { ErrorResponse } from "../../request/ErrorResponse.js";
+import { Conflict, Conflicts } from "../Conflict/index.js";
+import type { Database } from "../Database/index.js";
+import { Item, Items } from "../Item/index.js";
+import { Scripts } from "../Script/Scripts.js";
+import type { ContainerDefinition } from "./ContainerDefinition.js";
+import { ContainerResponse } from "./ContainerResponse.js";
+import type { PartitionKeyRange } from "./PartitionKeyRange.js";
+import type { OfferDefinition } from "../Offer/index.js";
+import { Offer } from "../Offer/index.js";
+import { OfferResponse } from "../Offer/OfferResponse.js";
+import type { Resource } from "../Resource.js";
+import type { FeedRange } from "../ChangeFeed/index.js";
+import { FeedRangeInternal } from "../ChangeFeed/index.js";
+import type { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal.js";
 import {
   getEmptyCosmosDiagnostics,
   withDiagnostics,
   withMetadataDiagnostics,
-} from "../../utils/diagnostics";
-import { MetadataLookUpType } from "../../CosmosDiagnostics";
-import type { EncryptionSettingForProperty } from "../../encryption";
-import { EncryptionProcessor } from "../../encryption";
-import type { EncryptionManager } from "../../encryption/EncryptionManager";
+} from "../../utils/diagnostics.js";
+import { MetadataLookUpType } from "../../CosmosDiagnostics.js";
+import type { EncryptionSettingForProperty } from "../../encryption/index.js";
+import { EncryptionProcessor } from "../../encryption/index.js";
+import type { EncryptionManager } from "../../encryption/EncryptionManager.js";
 
 /**
  * Operations for reading, replacing, or deleting a specific, existing container by id.

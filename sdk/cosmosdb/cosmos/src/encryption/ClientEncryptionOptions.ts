@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { EncryptionKeyResolver } from ".";
+import type { EncryptionKeyResolver } from "./index.js";
 
 /**
  * Represents the encryption options associated with a CosmosClient.
