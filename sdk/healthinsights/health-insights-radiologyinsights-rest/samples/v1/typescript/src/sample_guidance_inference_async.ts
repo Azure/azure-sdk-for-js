@@ -7,15 +7,13 @@
 import { DefaultAzureCredential } from "@azure/identity";
 
 import "dotenv/config";
-import {
+import AzureHealthInsightsClient, {
+  ClinicalDocumentType,
   CreateJobParameters,
   RadiologyInsightsJobOutput,
-} from "@azure-rest/health-insights-radiologyinsights";
-import AzureHealthInsightsClient, {
   getLongRunningPoller,
-  isUnexpected,
-} from "@azure-rest/health-insights-radiologyinsights";
-
+  isUnexpected
+} from "../src/index.js";
 // You will need to set this environment variables or edit the following values
 
 const endpoint = process.env["HEALTH_INSIGHTS_ENDPOINT"] || "";

@@ -2,26 +2,24 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Displays the clinical guidance of the Radiology Insights request.
+ * @summary Displays the quality measuref the Radiology Insights request.
  */
 import { DefaultAzureCredential } from "@azure/identity";
-
 import "dotenv/config";
-import {
+
+import AzureHealthInsightsClient, {
+  ClinicalDocumentType,
   CreateJobParameters,
   RadiologyInsightsJobOutput,
-} from "@azure-rest/health-insights-radiologyinsights";
-import AzureHealthInsightsClient, {
   getLongRunningPoller,
-  isUnexpected,
-} from "@azure-rest/health-insights-radiologyinsights";
-
+  isUnexpected
+} from "../src/index.js";
 // You will need to set this environment variables or edit the following values
 
 const endpoint = process.env["HEALTH_INSIGHTS_ENDPOINT"] || "";
 
 /**
- * Print the clinical guidance inference
+ * Print the clincal guidance inference
  */
 
 function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput): void {
@@ -32,46 +30,23 @@ function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput): void
         patientResult.inferences.forEach(
           (inference: {
             kind: string;
-            finding?: any;
-            identifier?: any;
-            presentGuidanceInformation?: any[];
-            ranking?: any;
-            recommendationProposals?: any;
-            missingGuidanceInformation?: string[];
+            qualityMeasureDenominator: string;
+            complianceType: string;
+            qualityCriteria?: string[];
           }) => {
-            if (inference.kind === "guidance") {
-              console.log("Guidance Inference found:");
-              if ("finding" in inference) {
-                const find = inference.finding;
-                if ("code" in find) {
-                  const fcode = find.code;
-                  console.log("   Finding Code: ");
-                  displayCodes(fcode);
-                }
+            if (inference.kind === "qualityMeasure") {
+              console.log("Quality Measure Inference found:");
+
+              if ("qualityMeasureDenominator" in inference) {
+                console.log("   Quality Measure Denominator: ", inference.qualityMeasureDenominator);
               }
 
-              if ("identifier" in inference) {
-                console.log("   Identifier: ", inference.identifier);
-                if ("code" in inference.identifier) {
-                  displayCodes(inference.identifier.code);
-                }
+              if ("complianceType" in inference) {
+                console.log("   Compliance Type: ", inference.complianceType);
               }
 
-              inference.presentGuidanceInformation?.forEach((presentInfo: any) => {
-                console.log("   Present Guidance Information: ");
-                displayPresentGuidanceInformation(presentInfo);
-              })
-
-              if ("ranking" in inference) {
-                console.log("   Ranking: ", inference.ranking);
-              }
-
-              if ("recommendationProposals" in inference) {
-                console.log("   Recommendation Proposal: ", inference.recommendationProposals.recommendedProcedure.kind);
-              }
-
-              inference.missingGuidanceInformation?.forEach((missingInfo: any) => {
-                console.log("   Missing Guidance Information: ", missingInfo);
+              inference.qualityCriteria?.forEach((criteria: any) => {
+                console.log("   Quality Criterium: ", criteria);
               })
 
             }
@@ -83,73 +58,6 @@ function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput): void
         console.log(error.code, ":", error.message);
       }
     }
-
-    function displayCodes(codeableConcept: any): void {
-      codeableConcept.coding?.forEach((coding: any) => {
-        if ("code" in coding) {
-          if ("display" in coding && "system" in coding && "code" in coding) {
-            console.log(
-              "      Coding: " + coding.code + ", " + coding.display + " (" + coding.system + ")",
-            );
-          }
-        }
-      });
-    }
-
-    function displayPresentGuidanceInformation(guidanceinfo: any): void {
-      console.log("     Present Guidance Information Item: ", guidanceinfo.presentGuidanceItem);
-
-      guidanceinfo.presentGuidanceValues?.forEach((sizes: any) => {
-        console.log("     Present Guidance Value: ", sizes);
-      })
-
-      guidanceinfo.sizes?.forEach((sizes: any) => {
-        if ("valueQuantity" in sizes) {
-          console.log("     Size valueQuantity: ");
-          displayQuantityOutput(guidanceinfo.sizes.valueQuantity);
-        }
-        if ("valueRange" in sizes) {
-          if ("low" in sizes.valueRange) {
-            console.log("     Size ValueRange: min", sizes.valueRange.low);
-          }
-          if ("high" in sizes.valueRange) {
-            console.log("     Size ValueRange: max", sizes.valueRange.high);
-          }
-        }
-      })
-
-      if ("maximumDiameterAsInText" in guidanceinfo) {
-        console.log("     Maximum Diameter As In Text: ");
-        displayQuantityOutput(guidanceinfo.maximumDiameterAsInText);
-      }
-
-      if ("extension" in guidanceinfo) {
-        console.log("     Extension: ");
-        displaySectionInfo(guidanceinfo.extension);
-      }
-    }
-
-    function displayQuantityOutput(quantity: any): void {
-      if ("value" in quantity) {
-        console.log("     Value: ", quantity.value);
-      }
-      if ("unit" in quantity) {
-        console.log("     Unit: ", quantity.unit);
-      }
-    }
-
-    function displaySectionInfo(inference: { extension: any[] }): void {
-      inference.extension?.forEach((ext: any) => {
-        if ("url" in ext && ext.url === "section") {
-          console.log("   Section:");
-          ext.extension?.forEach((subextension: { url: string; valueString: string }) => {
-            if ("url" in subextension && "valueString" in subextension) {
-              console.log("      " + subextension.url + ": " + subextension.valueString);
-            }
-          });
-        }
-      });
-    }
   }
 
 }
@@ -157,7 +65,7 @@ function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput): void
 function createRequestBody(): CreateJobParameters {
   const codingData = {
     system: "http://www.ama-assn.org/go/cpt",
-    code: "71250",
+    code: "CTCHWO",
     display: "CT CHEST WO CONTRAST",
   };
 
@@ -196,10 +104,27 @@ function createRequestBody(): CreateJobParameters {
 
   const content = {
     sourceType: "inline",
-    value: `History:
-    Left renal tumor with thin septations.
-    Findings:
-    There is a right kidney tumor with nodular calcification.`,
+    value: `EXAM: CT CHEST WO CONTRAST
+
+INDICATION: abnormal lung findings. History of emphysema.
+
+TECHNIQUE: Helical CT images through the chest, without contrast. This exam was performed using one or more of the following dose reduction techniques: Automated exposure control, adjustment of the mA and/or kV according to patient size, and/or use of iterative reconstruction technique. 
+
+COMPARISON: Chest CT dated 6/21/2022.
+Number of previous CT examinations or cardiac nuclear medicine (myocardial perfusion) examinations performed in the preceding 12-months: 2
+
+FINDINGS:
+Heart size is normal. No pericardial effusion. Thoracic aorta as well as pulmonary arteries are normal in caliber. There are dense coronary artery calcifications. No enlarged axillary, mediastinal, or hilar lymph nodes by CT size criteria. Central airways are widely patent. No bronchial wall thickening. No pneumothorax, pleural effusion or pulmonary edema. The previously identified posterior right upper lobe nodules are no longer seen. However, there are multiple new small pulmonary nodules. An 8 mm nodule in the right upper lobe, image #15 series 4. New posterior right upper lobe nodule measuring 6 mm, image #28 series 4. New 1.2 cm pulmonary nodule, right upper lobe, image #33 series 4. New 4 mm pulmonary nodule left upper lobe, image #22 series 4. New 8 mm pulmonary nodule in the left upper lobe adjacent to the fissure, image #42 series 4. A few new tiny 2 to 3 mm pulmonary nodules are also noted in the left lower lobe. As before there is a background of severe emphysema. No evidence of pneumonia.
+Limited evaluation of the upper abdomen shows no concerning abnormality.
+Review of bone windows shows no aggressive appearing osseous lesions.
+
+
+IMPRESSION:
+
+1. Previously identified small pulmonary nodules in the right upper lobe have resolved, but there are multiple new small nodules scattered throughout both lungs. Recommend short-term follow-up with noncontrast chest CT in 3 months as per current  Current guidelines (2017 Fleischner Society).
+2. Severe emphysema.
+
+Findings communicated to Dr. Jane Smith.`,
   };
 
   const patientDocumentData = {
@@ -302,5 +227,5 @@ export async function main(): Promise<void> {
 }
 
 main().catch((err) => {
-  console.error("The clinical guidance encountered an error:", err);
+  console.error("The quality measure encountered an error:", err);
 });

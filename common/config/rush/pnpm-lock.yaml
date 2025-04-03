@@ -3677,7 +3677,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/health-insights-radiologyinsights@file:projects/health-insights-radiologyinsights.tgz':
-    resolution: {integrity: sha512-qW+nHhYN+A+lIXyGgloSQY9lsiBwp2KBINE/D8Kuu4TK6eHjdYXUeN7bOKUvcTQqnsvydB3GWjq0RM8wmQQqyA==, tarball: file:projects/health-insights-radiologyinsights.tgz}
+    resolution: {integrity: sha512-43FEDJOaa+fWp8NxA9B4OMBqHikPpR+Ozq2gQSmhNSQKBnSB+3pr+p6gsh+z7zWs8VgopG8jRin4xmI6XANhuQ==, tarball: file:projects/health-insights-radiologyinsights.tgz}
     version: 0.0.0
 
   '@rush-temp/identity-broker@file:projects/identity-broker.tgz':
@@ -20990,11 +20990,14 @@ snapshots:
       dotenv: 16.4.7
       eslint: 9.23.0
       playwright: 1.51.1
+      ts-node: 10.9.2(@types/node@18.19.84)(typescript@5.8.2)
       tslib: 2.8.1
       typescript: 5.8.2
       vitest: 3.1.1(@types/debug@4.1.12)(@types/node@18.19.84)(@vitest/browser@3.1.1)(tsx@4.19.3)(yaml@2.7.1)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
+      - '@swc/core'
+      - '@swc/wasm'
       - '@types/debug'
       - '@vitest/ui'
       - bufferutil

@@ -2,26 +2,24 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Displays the clinical guidance of the Radiology Insights request.
+ * @summary Displays the quality measuref the Radiology Insights request.
  */
 import { DefaultAzureCredential } from "@azure/identity";
-
 import "dotenv/config";
-import {
+
+import AzureHealthInsightsClient, {
+  ClinicalDocumentType,
   CreateJobParameters,
   RadiologyInsightsJobOutput,
-} from "@azure-rest/health-insights-radiologyinsights";
-import AzureHealthInsightsClient, {
   getLongRunningPoller,
-  isUnexpected,
-} from "@azure-rest/health-insights-radiologyinsights";
-
+  isUnexpected
+} from "../src/index.js";
 // You will need to set this environment variables or edit the following values
 
 const endpoint = process.env["HEALTH_INSIGHTS_ENDPOINT"] || "";
 
 /**
- * Print the clinical guidance inference
+ * Print the clincal guidance inference
  */
 
 function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput): void {
@@ -32,47 +30,31 @@ function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput): void
         patientResult.inferences.forEach(
           (inference: {
             kind: string;
-            finding?: any;
-            identifier?: any;
-            presentGuidanceInformation?: any[];
-            ranking?: any;
-            recommendationProposals?: any;
-            missingGuidanceInformation?: string[];
+            category: string;
+            categoryDescription: string;
+            singleValue?: string[];
+            rangeValue?: any;
           }) => {
-            if (inference.kind === "guidance") {
-              console.log("Guidance Inference found:");
-              if ("finding" in inference) {
-                const find = inference.finding;
-                if ("code" in find) {
-                  const fcode = find.code;
-                  console.log("   Finding Code: ");
-                  displayCodes(fcode);
-                }
+            if (inference.kind === "scoringAndAssessment") {
+              console.log("Scoring and Assessment Inference found:");
+
+              if ("category" in inference) {
+                console.log("   Category: ", inference.category);
               }
 
-              if ("identifier" in inference) {
-                console.log("   Identifier: ", inference.identifier);
-                if ("code" in inference.identifier) {
-                  displayCodes(inference.identifier.code);
-                }
+              if ("categoryDescription" in inference) {
+                console.log("   Category Description: ", inference.categoryDescription);
               }
 
-              inference.presentGuidanceInformation?.forEach((presentInfo: any) => {
-                console.log("   Present Guidance Information: ");
-                displayPresentGuidanceInformation(presentInfo);
-              })
-
-              if ("ranking" in inference) {
-                console.log("   Ranking: ", inference.ranking);
+              if ("singleValue" in inference) {
+                console.log("   Singe Value: ", inference.singleValue);
               }
 
-              if ("recommendationProposals" in inference) {
-                console.log("   Recommendation Proposal: ", inference.recommendationProposals.recommendedProcedure.kind);
+              if ("rangeValue" in inference) {
+                console.log("   Range Value: ");
+                displayValueRange(inference.rangeValue);
               }
 
-              inference.missingGuidanceInformation?.forEach((missingInfo: any) => {
-                console.log("   Missing Guidance Information: ", missingInfo);
-              })
 
             }
           })
@@ -83,82 +65,24 @@ function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput): void
         console.log(error.code, ":", error.message);
       }
     }
-
-    function displayCodes(codeableConcept: any): void {
-      codeableConcept.coding?.forEach((coding: any) => {
-        if ("code" in coding) {
-          if ("display" in coding && "system" in coding && "code" in coding) {
-            console.log(
-              "      Coding: " + coding.code + ", " + coding.display + " (" + coding.system + ")",
-            );
-          }
-        }
-      });
-    }
-
-    function displayPresentGuidanceInformation(guidanceinfo: any): void {
-      console.log("     Present Guidance Information Item: ", guidanceinfo.presentGuidanceItem);
-
-      guidanceinfo.presentGuidanceValues?.forEach((sizes: any) => {
-        console.log("     Present Guidance Value: ", sizes);
-      })
-
-      guidanceinfo.sizes?.forEach((sizes: any) => {
-        if ("valueQuantity" in sizes) {
-          console.log("     Size valueQuantity: ");
-          displayQuantityOutput(guidanceinfo.sizes.valueQuantity);
-        }
-        if ("valueRange" in sizes) {
-          if ("low" in sizes.valueRange) {
-            console.log("     Size ValueRange: min", sizes.valueRange.low);
-          }
-          if ("high" in sizes.valueRange) {
-            console.log("     Size ValueRange: max", sizes.valueRange.high);
-          }
-        }
-      })
-
-      if ("maximumDiameterAsInText" in guidanceinfo) {
-        console.log("     Maximum Diameter As In Text: ");
-        displayQuantityOutput(guidanceinfo.maximumDiameterAsInText);
-      }
-
-      if ("extension" in guidanceinfo) {
-        console.log("     Extension: ");
-        displaySectionInfo(guidanceinfo.extension);
-      }
-    }
-
-    function displayQuantityOutput(quantity: any): void {
-      if ("value" in quantity) {
-        console.log("     Value: ", quantity.value);
-      }
-      if ("unit" in quantity) {
-        console.log("     Unit: ", quantity.unit);
-      }
-    }
-
-    function displaySectionInfo(inference: { extension: any[] }): void {
-      inference.extension?.forEach((ext: any) => {
-        if ("url" in ext && ext.url === "section") {
-          console.log("   Section:");
-          ext.extension?.forEach((subextension: { url: string; valueString: string }) => {
-            if ("url" in subextension && "valueString" in subextension) {
-              console.log("      " + subextension.url + ": " + subextension.valueString);
-            }
-          });
-        }
-      });
-    }
   }
-
 }
+
+function displayValueRange(range: any): void {
+  if ("minimum" in range) {
+    console.log("     Min: ", range.minimum);
+  }
+  if ("maximum" in range) {
+    console.log("     Max: ", range.maximum);
+  }
+}
+
 // Create request body for radiology insights
 function createRequestBody(): CreateJobParameters {
   const codingData = {
     system: "http://www.ama-assn.org/go/cpt",
-    code: "71250",
-    display: "CT CHEST WO CONTRAST",
+    code: "USTHY",
+    display: "US THYROID",
   };
 
   const code = {
@@ -196,10 +120,23 @@ function createRequestBody(): CreateJobParameters {
 
   const content = {
     sourceType: "inline",
-    value: `History:
-    Left renal tumor with thin septations.
-    Findings:
-    There is a right kidney tumor with nodular calcification.`,
+    value: `Exam: US THYROID
+
+Clinical History: Thyroid nodules. 76 year old patient.
+
+Comparison: none.
+
+Findings:
+Right lobe: 4.8 x 1.6 x 1.4 cm
+Left Lobe: 4.1 x 1.3 x 1.3 cm
+
+Isthmus: 4 mm
+
+There are multiple cystic and partly cystic sub-5 mm nodules noted within the right lobe (TIRADS 2).
+In the lower pole of the left lobe there is a 9 x 8 x 6 mm predominantly solid isoechoic nodule (TIRADS 3).
+
+Impression:
+Multiple bilateral small cystic benign thyroid nodules. A low suspicion 9 mm left lobe thyroid nodule (TI-RADS 3) which, given its small size, does not warrant follow-up.`,
   };
 
   const patientDocumentData = {
@@ -302,5 +239,5 @@ export async function main(): Promise<void> {
 }
 
 main().catch((err) => {
-  console.error("The clinical guidance encountered an error:", err);
+  console.error("The quality measure encountered an error:", err);
 });
