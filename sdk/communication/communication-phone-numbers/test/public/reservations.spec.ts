@@ -3,8 +3,12 @@
 
 import { matrix } from "@azure-tools/test-utils-vitest";
 import { type Recorder } from "@azure-tools/test-recorder";
-import type { PhoneNumbersBrowseRequest, PhoneNumbersClient } from "../../src/index.js";
-import { PhoneNumbersReservation } from "../../src/index.js";
+import {
+  PhoneNumbersReservation,
+  type PhoneNumbersBrowseRequest,
+  type PhoneNumbersClient,
+  type SearchAvailablePhoneNumbersRequest,
+} from "../../src/index.js";
 import { createRecordedClient, createRecordedClientWithToken } from "./utils/recordedClient.js";
 import { isClientErrorStatusCode } from "./utils/statusCodeHelpers.js";
 import { describe, it, assert, beforeEach, afterEach, beforeAll } from "vitest";
@@ -173,7 +177,7 @@ matrix([[true, false]], async (useAad) => {
     });
 
     it(
-      "throws error when starting purchase without agreement to not resell",
+      "throws error when starting purchase without agreement to not resell Browse API",
       { timeout: 60000 },
       async () => {
         const browseAvailableNumberRequest: PhoneNumbersBrowseRequest = {
@@ -199,6 +203,40 @@ matrix([[true, false]], async (useAad) => {
           await client.beginReservationPurchase(reservationId, {
             agreeToNotResell: false,
           });
+        } catch (error: any) {
+          assert.isTrue(
+            isClientErrorStatusCode(error.statusCode),
+            `Status code ${error.statusCode} does not indicate client error.`,
+          );
+          return;
+        }
+
+        assert.fail("beginReservationPurchase should have thrown an exception.");
+      },
+    );
+
+    it(
+      "throws error when starting purchase without agreement to not resell search API",
+      { timeout: 60000 },
+      async () => {
+        const searchRequest: SearchAvailablePhoneNumbersRequest = {
+          countryCode: "FR",
+          phoneNumberType: "tollFree",
+          assignmentType: "application",
+          capabilities: {
+            sms: "none",
+            calling: "outbound",
+          },
+        };
+
+        const searchPoller = await client.beginSearchAvailablePhoneNumbers(searchRequest);
+
+        const results = await searchPoller.pollUntilDone();
+        assert.ok(searchPoller.getOperationState().isCompleted);
+        assert.equal(results.phoneNumbers.length, 1);
+
+        try {
+          await client.beginPurchasePhoneNumbers(reservationId, false);
         } catch (error: any) {
           assert.isTrue(
             isClientErrorStatusCode(error.statusCode),

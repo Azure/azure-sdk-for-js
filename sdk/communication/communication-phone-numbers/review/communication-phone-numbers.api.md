@@ -227,7 +227,7 @@ export class PhoneNumbersClient {
     constructor(connectionString: string, options?: PhoneNumbersClientOptions);
     constructor(url: string, credential: KeyCredential, options?: PhoneNumbersClientOptions);
     constructor(url: string, credential: TokenCredential, options?: PhoneNumbersClientOptions);
-    beginPurchasePhoneNumbers(searchId: string, options?: BeginPurchasePhoneNumbersOptions): Promise<PollerLike<PollOperationState<PurchasePhoneNumbersResult>, PurchasePhoneNumbersResult>>;
+    beginPurchasePhoneNumbers(searchId: string, agreeToNotResell?: boolean, options?: BeginPurchasePhoneNumbersOptions): Promise<PollerLike<PollOperationState<PurchasePhoneNumbersResult>, PurchasePhoneNumbersResult>>;
     beginReleasePhoneNumber(phoneNumber: string, options?: BeginReleasePhoneNumberOptions): Promise<PollerLike<PollOperationState<ReleasePhoneNumberResult>, ReleasePhoneNumberResult>>;
     beginReservationPurchase(reservationId: string, options?: PhoneNumbersPurchaseReservationOptionalParams): Promise<PollerLike<PollOperationState<PhoneNumbersPurchaseReservationResponse>, PhoneNumbersPurchaseReservationResponse>>;
     beginSearchAvailablePhoneNumbers(search: SearchAvailablePhoneNumbersRequest, options?: BeginSearchAvailablePhoneNumbersOptions): Promise<PollerLike<PollOperationState<PhoneNumberSearchResult>, PhoneNumberSearchResult>>;

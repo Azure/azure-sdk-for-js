@@ -479,6 +479,7 @@ export class PhoneNumbersClient {
    */
   public beginPurchasePhoneNumbers(
     searchId: string,
+    agreeToNotResell?: boolean,
     options: BeginPurchasePhoneNumbersOptions = {},
   ): Promise<
     PollerLike<PollOperationState<PurchasePhoneNumbersResult>, PurchasePhoneNumbersResult>
@@ -487,7 +488,11 @@ export class PhoneNumbersClient {
       "PhoneNumbersClient-beginPurchasePhoneNumbers",
       options,
       (updatedOptions) => {
-        return this.client.phoneNumbers.beginPurchasePhoneNumbers({ ...updatedOptions, searchId });
+        return this.client.phoneNumbers.beginPurchasePhoneNumbers({
+          ...updatedOptions,
+          searchId,
+          agreeToNotResell,
+        });
       },
     );
   }
