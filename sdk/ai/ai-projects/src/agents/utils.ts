@@ -21,6 +21,7 @@ import type {
   AzureFunctionStorageQueue,
   AzureFunctionDefinition,
 } from "./inputOutputs.js";
+import type { CreateAzureAISearchToolOptions } from "../customization/models.js";
 
 /**
  * Determines if the given output is of the specified type.
@@ -42,7 +43,7 @@ export enum connectionToolType {
   /** Bing grounding search tool */
   BingGrounding = "bing_grounding",
   /** Microsoft Fabric tool */
-  MicrosoftFabric = "microsoft_fabric",
+  MicrosoftFabric = "fabric_dataagent",
   /** Sharepoint tool */
   SharepointGrounding = "sharepoint_grounding",
   /** Azure Function tool */
@@ -51,7 +52,7 @@ export enum connectionToolType {
 
 const toolMap = {
   bing_grounding: "bingGrounding",
-  microsoft_fabric: "microsoftFabric",
+  fabric_dataagent: "fabric_dataagent",
   sharepoint_grounding: "sharepointGrounding",
   azure_function: "azureFunction",
 };
@@ -164,12 +165,38 @@ export class ToolUtility {
   static createAzureAISearchTool(
     indexConnectionId: string,
     indexName: string,
+    options?: CreateAzureAISearchToolOptions,
   ): { definition: AzureAISearchToolDefinition; resources: ToolResources } {
     return {
       definition: { type: "azure_ai_search" },
       resources: {
         azureAISearch: {
-          indexes: [{ indexConnectionId: indexConnectionId, indexName: indexName }],
+          indexes: [
+            {
+              indexConnectionId: indexConnectionId,
+              indexName: indexName,
+              queryType: options?.queryType,
+              topK: options?.topK,
+              filter: options?.filter,
+            },
+          ],
+        },
+      },
+    };
+  }
+
+  /**
+   * Creates a Microsoft Fabric tool
+   *
+   * @param connectionIds - A list of the IDs of the Fabric connections to use.
+   * @returns An object containing the definition for the Microsoft Fabric tool
+   */
+  static createFabricTool(connectionId: string): { definition: ToolDefinition } {
+    return {
+      definition: {
+        type: "fabric_dataagent",
+        fabricDataAgent: {
+          connections: [{ connectionId: connectionId }],
         },
       },
     };
@@ -339,6 +366,17 @@ export class ToolSet {
     );
     this.toolDefinitions.push(tool.definition);
     this.toolResources = { ...this.toolResources, ...tool.resources };
+    return tool;
+  }
+  /**
+   * Adds a Microsoft Fabric tool to the tool set.
+   *
+   * @param connectionId - The ID of the Fabric connection to use.
+   * @returns An object containing the definition for the Microsoft Fabric tool
+   */
+  addFabricTool(connectionId: string): { definition: ToolDefinition } {
+    const tool = ToolUtility.createFabricTool(connectionId);
+    this.toolDefinitions.push(tool.definition);
     return tool;
   }
 }

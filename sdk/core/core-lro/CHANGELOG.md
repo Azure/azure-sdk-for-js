@@ -13,6 +13,8 @@
 
 ### Other Changes
 
+- Logs the status in the polling response before it is being transformed.
+
 ## 3.1.0 (2024-09-12)
 
 ### Features Added

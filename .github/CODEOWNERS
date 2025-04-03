@@ -261,10 +261,10 @@ sdk/ai/ai-inference-rest @glharper @dargilco @jhakulin
 # ServiceOwners: @glharper @dargilco
 
 # PRLLabel: %AI Projects
-sdk/ai/ai-projects @ganeshyb @GraceBrigham
+sdk/ai/ai-projects @ganeshyb @GraceBrigham @glharper @dargilco @jhakulin @ZachhK
 
 # ServiceLabel: %AI Projects
-# ServiceOwners: @ganeshyb @GraceBrigham
+# ServiceOwners: @ganeshyb @GraceBrigham @glharper @dargilco @jhakulin @ZachhK
 
 # PRLabel: %Image Analysis
 # ServiceLabel: %Image Analysis
