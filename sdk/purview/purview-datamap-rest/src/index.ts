@@ -10,12 +10,5 @@ export * from "./clientDefinitions.js";
 export * from "./isUnexpected.js";
 export * from "./models.js";
 export * from "./outputModels.js";
-export * from "./serializeHelper.js";
-export {
-  createFile,
-  createFileFromStream,
-  type CreateFileOptions,
-  type CreateFileFromStreamOptions,
-} from "@azure/core-rest-pipeline";
 
 export default PurviewDataMapClient;
