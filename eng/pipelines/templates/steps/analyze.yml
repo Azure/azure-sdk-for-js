@@ -56,6 +56,11 @@ steps:
       ServiceDirectories: $(ChangedServicesCsv)
 
   - script: |
+      npm install
+    workingDirectory: $(System.DefaultWorkingDirectory)/eng/tools/eng-package-utils
+    displayName: "Install eng-package-utils dependencies"
+
+  - script: |
       npm ci
     workingDirectory: $(System.DefaultWorkingDirectory)/eng/tools/analyze-deps
     displayName: "Install tool dependencies"

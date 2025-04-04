@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "analyze-deps": "node index.js"
   },
@@ -11,9 +12,10 @@
   "dependencies": {
     "argparse": "^2.0.1",
     "handlebars": "^4.7.8",
-    "jju": "^1.4.0",
+    "json5": "^2.2.3",
     "js-yaml": "^4.0.0",
     "semver": "^7.5.4",
-    "tar": "^6.2.1"
+    "tar": "^6.2.1",
+    "@azure-tools/eng-package-utils": "file:../eng-package-utils"
   }
 }
