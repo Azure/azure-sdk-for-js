@@ -11,13 +11,13 @@ const { DefaultAzureCredential } = require("@azure/identity");
 // Load the .env file (you will need to set these environment variables)
 require("dotenv/config");
 
-const endoint = process.env["COMMUNICATION_ENDPOINT"] || "";
+const endpoint = process.env["COMMUNICATION_ENDPOINT"] || "";
 const senderAddress = process.env["SENDER_ADDRESS"] || "";
 const recipientAddress = process.env["RECIPIENT_ADDRESS"] || "";
 
 const sendSingleEmail = async () => {
   // Create the Email Client
-  const emailClient = new EmailClient(endoint, new DefaultAzureCredential());
+  const emailClient = new EmailClient(endpoint, new DefaultAzureCredential());
 
   // Create the Email Message to be sent
   const message = {
