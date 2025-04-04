@@ -48,8 +48,10 @@ function getVersionPolicyName(project) {
     return "utility";
   } else if (packageName.includes("/arm-")) {
     return "management";
-  } else if (packageDir.includes("sdk/core")) {
+  } else if (packageDir.includes("sdk/core") || packageDir.includes("sdk\\core")) {
     return "core";
+  } else if (packageDir.includes("sdk/") || packageDir.includes("sdk\\")) {
+    return "client";
   }
 
   return "unknown";
@@ -82,7 +84,7 @@ export async function getPackageJsons(repoRoot) {
 
 /**
  * @param {string} repoRoot - path to the root of the repo
- * @returns {Promise<{ projects: {packageName: string, projectFolder: string, versionNamePolicy: string}[] }>}
+ * @returns {Promise<{ projects: {packageName: string, projectFolder: string, versionPolicyName: string}[] }>}
  */
 export async function getPackageSpec(repoRoot) {
   const pkgs = await findPackages(repoRoot, {
@@ -97,7 +99,7 @@ export async function getPackageSpec(repoRoot) {
     return {
       packageName: proj.manifest.name,
       projectFolder: proj.rootDirRealPath,
-      versionNamePolicy: getVersionPolicyName(proj),
+      versionPolicyName: getVersionPolicyName(proj),
     };
   });
 
