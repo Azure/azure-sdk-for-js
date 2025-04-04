@@ -30,7 +30,18 @@ steps:
     displayName: "Install Pnpm"
 
   - script: |
-      npm install ./eng/tools/versioning
+      npm install
+    condition: and(succeeded(),eq(variables['SetDevVersion'],'true'))
+    workingDirectory: ./eng/tools/eng-package-utils
+    displayName: Install eng-package-utils dependencies
+
+  - script: |
+      npm install
+    condition: and(succeeded(),eq(variables['SetDevVersion'],'true'))
+    workingDirectory: ./eng/tools/versioning
+    displayName: Install versioning tool dependencies
+
+  - script: |
       node eng/tools/versioning/set-dev.js --build-id "$(Build.BuildNumber)" --repo-root "$(Build.SourcesDirectory)" --service "$(folder)"
       pnpm install
     condition: and(succeeded(),eq(variables['SetDevVersion'],'true'))

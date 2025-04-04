@@ -41,7 +41,7 @@ function getVersionPolicyName(project) {
   } else if (
     packageName.startsWith("@azure-tools/") ||
     packageName === "@azure/dev-tool" ||
-    packageName === "@azure/eslint-plugin" ||
+    packageName === "@azure/eslint-plugin-azure-sdk" ||
     packageName === "@azure/mock-hub" ||
     packageName === "@azure/storage-internal-avro"
   ) {
