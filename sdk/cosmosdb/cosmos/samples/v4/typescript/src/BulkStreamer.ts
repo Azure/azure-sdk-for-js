@@ -13,7 +13,7 @@ import {
   CosmosClient,
   BulkOperations,
   ItemOperation,
-  BulkStreamer,
+  BulkHelper,
   BulkOperationResult,
 } from "@azure/cosmos";
 import assert from "assert";
@@ -22,12 +22,12 @@ const key = process.env.COSMOS_KEY || "<cosmos key>";
 const endpoint = process.env.COSMOS_ENDPOINT || "<cosmos endpoint>";
 
 async function run(): Promise<void> {
-  const containerId = "bulkStreamerContainer";
+  const containerId = "bulkHelperContainer";
   const client = new CosmosClient({
     key: key,
     endpoint: endpoint,
   });
-  const { database } = await client.databases.create({ id: "bulkStreamer db" });
+  const { database } = await client.databases.create({ id: "bulkHelper db" });
   logStep(`Creating container '${containerId}' with partition key /key`);
   const { container } = await database.containers.create({
     id: containerId,
@@ -42,7 +42,7 @@ async function run(): Promise<void> {
   const chunkSize = 1000;
 
   logStep("Get instance of bulk streamer");
-  const bulkStreamer: BulkStreamer = container.items.getBulkStreamer();
+  const bulkHelper: BulkHelper = container.items.getBulkHelper();
   let operationPromises: Promise<BulkOperationResult>[] = [];
 
   for (let i = 0; i < totalOperations; i += chunkSize) {
@@ -57,7 +57,7 @@ async function run(): Promise<void> {
     logStep(`Adding chunk of ${chunkSize} operations to execute starting at document id ${i + 1}`);
 
     // Execute chunk and obtain list of promises for each operation.
-    const executePromises = bulkStreamer.execute(operationsChunk);
+    const executePromises = bulkHelper.execute(operationsChunk);
     operationPromises.push(...executePromises);
     // process operation result as it resolves
     executePromises.forEach((result) =>
@@ -70,7 +70,7 @@ async function run(): Promise<void> {
 
   // make sure that all promises are settled before disposing of the bulk streamer
   logStep("Dispose of bulk streamer...");
-  bulkStreamer.dispose();
+  bulkHelper.dispose();
   await container.delete();
   await finish();
 }

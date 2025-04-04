@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 import { Constants } from "../common";
 import type { BulkPartitionMetric } from "./BulkPartitionMetric";
-import type { Limiter } from "./Limiter";
+import type { LimiterQueue } from "./Limiter";
 /**
  * This class implements a congestion control algorithm which dynamically adjusts the degree
  * of concurrency based on the throttling and number of processed items.
@@ -12,7 +12,7 @@ import type { Limiter } from "./Limiter";
 
 export class BulkCongestionAlgorithm {
   // The semaphore to control the degree of concurrency.
-  private limiter: Limiter;
+  private limiterQueue: LimiterQueue;
   // captures metrics upto previous requests for a partition.
   private oldPartitionMetric: BulkPartitionMetric;
   // captures metrics upto current request for a partition.
@@ -24,11 +24,11 @@ export class BulkCongestionAlgorithm {
   private currentDegreeOfConcurrency: number;
 
   constructor(
-    limiter: Limiter,
+    limiterQueue: LimiterQueue,
     partitionMetric: BulkPartitionMetric,
     oldPartitionMetric: BulkPartitionMetric,
   ) {
-    this.limiter = limiter;
+    this.limiterQueue = limiterQueue;
     this.oldPartitionMetric = oldPartitionMetric;
     this.partitionMetric = partitionMetric;
     this.currentDegreeOfConcurrency = 1;
@@ -62,12 +62,8 @@ export class BulkCongestionAlgorithm {
       this.congestionDecreaseFactor,
       Math.floor(this.currentDegreeOfConcurrency / 2),
     );
-    // block permits
-    for (let i = 0; i < decreaseCount; i++) {
-      this.limiter.take(() => {});
-    }
-
     this.currentDegreeOfConcurrency -= decreaseCount;
+    this.limiterQueue.setConcurrency(this.currentDegreeOfConcurrency);
     // In case of throttling increase the wait time to adjust the degree of concurrency.
     this.congestionWaitTimeInMs += 1000;
   }
@@ -77,10 +73,8 @@ export class BulkCongestionAlgorithm {
       this.currentDegreeOfConcurrency + this.congestionIncreaseFactor <=
       Constants.BulkMaxDegreeOfConcurrency
     ) {
-      if (this.limiter.current() > 0) {
-        this.limiter.leave(this.congestionIncreaseFactor);
-      }
       this.currentDegreeOfConcurrency += this.congestionIncreaseFactor;
+      this.limiterQueue.setConcurrency(this.currentDegreeOfConcurrency);
     }
   }
 }

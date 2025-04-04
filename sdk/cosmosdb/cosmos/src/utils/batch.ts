@@ -3,7 +3,7 @@
 
 import type { JSONObject } from "../queryExecutionContext";
 import { extractPartitionKeys, undefinedPartitionKey } from "../extractPartitionKey";
-import type { CosmosDiagnostics, DiagnosticNodeInternal, RequestOptions, StatusCode } from "..";
+import type { CosmosDiagnostics, DiagnosticNodeInternal, ErrorResponse, RequestOptions, StatusCode } from "..";
 import type {
   PartitionKey,
   PartitionKeyDefinition,
@@ -16,7 +16,7 @@ import { bodyFromData } from "../request/request";
 import { Constants } from "../common/constants";
 import { randomUUID } from "@azure/core-util";
 import type { BulkResponse, ItemBulkOperation } from "../bulk";
-import type { ItemOperation } from "../bulk/ItemOperation";
+import type { CosmosHeaders } from "../queryExecutionContext/CosmosHeaders";
 
 export type Operation =
   | CreateOperation
@@ -34,12 +34,29 @@ export interface Batch {
   operations: Operation[];
 }
 
+
 export type BulkOperationResponse = OperationResponse[] & { diagnostics: CosmosDiagnostics };
+
+export interface CosmosBulkResponse {
+  /** list of operation results corresponding to each operation */
+  operations: CosmosBulkOperationResult[];
+  /** boolean to represent if all the operations have succeeded. value is false if even a single operation failed */
+  isSuccess: boolean;
+}
+
+export interface CosmosBulkOperationResult {
+  /** the original operation input passed */
+  operationInput: OperationInput;
+  /** response from the backend for the item operation  */
+  response?: ExtendedOperationResponse;
+  /** any exceptions are captured here */
+  error?: ErrorResponse;
+}
 
 /**
  * response for a specific operation in streamed bulk operation
  */
-export interface BulkOperationResult extends OperationResponse {
+export interface ExtendedOperationResponse extends OperationResponse {
   /**
    * details of status of an operation
    */
@@ -56,12 +73,10 @@ export interface BulkOperationResult extends OperationResponse {
    * in case the operation is rate limited, indicates the time post which a retry can be attempted.
    */
   retryAfter?: number;
-  /**
-   * represents operation details
-   */
-  operationInput?: ItemOperation;
+  /** headers associated with the operation */
+  headers?: CosmosHeaders;
   /** diagnostic details associated with operation */
-  diagnostics?: CosmosDiagnostics;
+  diagnostics: CosmosDiagnostics;
 }
 
 export interface OperationResponse {

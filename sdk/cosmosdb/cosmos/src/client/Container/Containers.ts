@@ -14,7 +14,7 @@ import { DEFAULT_PARTITION_KEY_PATH } from "../../common/partitionKeys";
 import type { SqlQuerySpec } from "../../queryExecutionContext";
 import { mergeHeaders } from "../../queryExecutionContext";
 import { QueryIterator } from "../../queryIterator";
-import type { FeedOptions, RequestOptions } from "../../request";
+import { ErrorResponse, type FeedOptions, type RequestOptions } from "../../request";
 import type { Database } from "../Database";
 import type { Resource } from "../Resource";
 import { Container } from "./Container";

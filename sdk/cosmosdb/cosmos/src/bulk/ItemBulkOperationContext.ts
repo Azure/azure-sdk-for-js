@@ -3,7 +3,7 @@
 
 import { type DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal";
 import type { RetryPolicy } from "../retry/RetryPolicy";
-import type { BulkOperationResult } from "../utils/batch";
+import type { CosmosBulkOperationResult } from "../utils/batch";
 import { TaskCompletionSource } from "../utils/batch";
 
 /**
@@ -14,16 +14,16 @@ export class ItemBulkOperationContext {
   pkRangeId: string;
   retryPolicy: RetryPolicy;
   diagnosticNode: DiagnosticNodeInternal;
-  private readonly taskCompletionSource: TaskCompletionSource<BulkOperationResult>;
+  private readonly taskCompletionSource: TaskCompletionSource<CosmosBulkOperationResult>;
 
   constructor(pkRangeId: string, retryPolicy: RetryPolicy, diagnosticNode: DiagnosticNodeInternal) {
     this.pkRangeId = pkRangeId;
     this.retryPolicy = retryPolicy;
     this.diagnosticNode = diagnosticNode;
-    this.taskCompletionSource = new TaskCompletionSource<BulkOperationResult>();
+    this.taskCompletionSource = new TaskCompletionSource<CosmosBulkOperationResult>();
   }
 
-  public get operationPromise(): Promise<BulkOperationResult> {
+  public get operationPromise(): Promise<CosmosBulkOperationResult> {
     return this.taskCompletionSource.task;
   }
 
@@ -36,7 +36,7 @@ export class ItemBulkOperationContext {
     this.pkRangeId = pkRangeId;
   }
 
-  complete(result: BulkOperationResult): void {
+  complete(result: CosmosBulkOperationResult): void {
     this.taskCompletionSource.setResult(result);
   }
 

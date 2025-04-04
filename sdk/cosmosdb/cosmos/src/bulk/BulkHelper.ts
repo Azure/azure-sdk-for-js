@@ -8,42 +8,43 @@ import { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal";
 import { DiagnosticNodeType } from "../diagnostics/DiagnosticNodeInternal";
 import { ErrorResponse, type RequestOptions } from "../request";
 import type { PartitionKeyRangeCache } from "../routing";
-import type { BulkOperationResult, Operation } from "../utils/batch";
-import { BulkOperationType, isKeyInRange } from "../utils/batch";
+import type { CosmosBulkOperationResult, CosmosBulkResponse, Operation, OperationInput } from "../utils/batch";
+import { isKeyInRange } from "../utils/batch";
 import { hashPartitionKey } from "../utils/hashing/hash";
 import { ResourceThrottleRetryPolicy } from "../retry";
-import { BulkStreamerPerPartition } from "./BulkStreamerPerPartition";
+import { BulkHelperPerPartition } from "./BulkHelperPerPartition";
 import { ItemBulkOperationContext } from "./ItemBulkOperationContext";
-import { Constants, copyObject, getPathFromLink, ResourceType } from "../common";
+import { copyObject, getPathFromLink, ResourceType, sleep } from "../common";
 import { BulkResponse } from "./BulkResponse";
 import type { ItemBulkOperation } from "./ItemBulkOperation";
 import { addDiagnosticChild } from "../utils/diagnostics";
 import { BulkExecutionRetryPolicy } from "../retry/bulkExecutionRetryPolicy";
 import type { RetryPolicy } from "../retry/RetryPolicy";
-import { Limiter } from "./Limiter";
 import { convertToInternalPartitionKey, type PartitionKeyDefinition } from "../documents";
-import type { ItemOperation } from "./ItemOperation";
-import type { PatchOperation } from "../utils/patch";
 
 /**
- * BulkStreamer for bulk operations in a container.
- * It maintains one @see {@link BulkStreamerPerPartition} for each Partition Key Range, which allows independent execution of requests. Semaphores are in place to rate limit the operations
- * at the Streamer / Partition Key Range level, this means that we can send parallel and independent requests to different Partition Key Ranges, but for the same Range, requests
- * will be limited. Two callback implementations define how a particular request should be executed, and how operations should be retried. When the streamer dispatches a batch
+ * BulkHelper for bulk operations in a container.
+ * It maintains one @see {@link BulkHelperPerPartition} for each Partition Key Range, which allows independent execution of requests. Semaphores are in place to rate limit the operations
+ * at the helper / Partition Key Range level, this means that we can send parallel and independent requests to different Partition Key Ranges, but for the same Range, requests
+ * will be limited. Two callback implementations define how a particular request should be executed, and how operations should be retried. When the helper dispatches a batch
  * the batch will create a request and call the execute callback (executeRequest), if conditions are met, it might call the retry callback (reBatchOperation).
  * @hidden
  */
 
-export class BulkStreamer {
+export class BulkHelper {
   private readonly container: Container;
   private readonly clientContext: ClientContext;
   private readonly partitionKeyRangeCache: PartitionKeyRangeCache;
-  private readonly streamersByPartitionKeyRangeId: Map<string, BulkStreamerPerPartition>;
-  private readonly limitersByPartitionKeyRangeId: Map<string, Limiter>;
+  private readonly helpersByPartitionKeyRangeId: Map<string, BulkHelperPerPartition>;
   private options: RequestOptions;
   private partitionKeyDefinition: PartitionKeyDefinition;
   private partitionKeyDefinitionPromise: Promise<PartitionKeyDefinition>;
   private isCancelled: boolean;
+  private operationsCountRef: { processedOperationCount: number, failedOperationCount: number } = { processedOperationCount: 0, failedOperationCount: 0 };
+
+  private operationPromisesList: Promise<CosmosBulkOperationResult>[] = [];
+  private congestionControlTimer: NodeJS.Timeout;
+  private readonly congestionControlDelayInMs: number = 1000;
 
   /**
    * @internal
@@ -57,38 +58,55 @@ export class BulkStreamer {
     this.container = container;
     this.clientContext = clientContext;
     this.partitionKeyRangeCache = partitionKeyRangeCache;
-    this.streamersByPartitionKeyRangeId = new Map();
-    this.limitersByPartitionKeyRangeId = new Map();
+    this.helpersByPartitionKeyRangeId = new Map();
     this.options = options;
     this.executeRequest = this.executeRequest.bind(this);
     this.reBatchOperation = this.reBatchOperation.bind(this);
     this.isCancelled = false;
+    this.runCongestionControlTimer();
   }
 
   /**
-   * adds operation(s) to the streamer
+   * adds operation(s) to the helper
    * @param operationInput - bulk operation or list of bulk operations
    */
-  execute(operationInput: ItemOperation[]): Promise<BulkOperationResult>[] {
+  async execute(operationInput: OperationInput[]): Promise<CosmosBulkResponse> {
     if (this.isCancelled) {
       throw new ErrorResponse("Bulk execution cancelled due to a previous error.");
     }
-    return operationInput.map((operation) => this.addOperation(operation));
-  }
-
-  /**
-   * dispose all the timers, streamers, and limiters
-   * @returns bulk response
-   */
-  dispose(): void {
-    for (const streamer of this.streamersByPartitionKeyRangeId.values()) {
-      streamer.disposeTimers();
+    const addOperationPromises: Promise<void>[] = [];
+    for (let i = 0; i < operationInput.length; i++) {
+      if (i % 1000 === 0) {
+        await sleep(0);
+      }
+      addOperationPromises.push(this.addOperation(operationInput[i]));
     }
-    this.streamersByPartitionKeyRangeId.clear();
-    this.limitersByPartitionKeyRangeId.clear();
+    await Promise.allSettled(addOperationPromises);
+    while (this.operationsCountRef.processedOperationCount < operationInput.length) {
+      // wait for all operations to be fulfilled
+      this.helpersByPartitionKeyRangeId.forEach((helper) => {
+        helper.dispatchUnfilledBatch();
+      });
+      await sleep(1000);
+    }
+    const operationResults = await Promise.allSettled(this.operationPromisesList);
+    const bulkResponse = {
+      operations: operationResults.map((operationResult) => {
+        if (operationResult.status === "fulfilled") {
+          return operationResult.value;
+        } else {
+          return operationResult.reason;
+        }
+      }),
+      isSuccess: this.operationsCountRef.failedOperationCount ? false : true,
+    }
+    if(this.congestionControlTimer) {
+      clearInterval(this.congestionControlTimer);
+    }
+    return bulkResponse;
   }
 
-  private async addOperation(operation: ItemOperation): Promise<BulkOperationResult> {
+  private async addOperation(operation: OperationInput): Promise<void> {
     if (this.isCancelled) {
       throw new ErrorResponse("Bulk execution cancelled due to a previous error.");
     }
@@ -125,13 +143,13 @@ export class BulkStreamer {
       if (this.clientContext.enableEncryption) {
         operation = copyObject(operation);
         await this.container.checkAndInitializeEncryption();
-        operation = await this.encryptionHelper(operation, diagnosticNode);
+        // operation = await this.encryptionHelper(operation, diagnosticNode);
       }
       partitionKeyRangeId = await this.resolvePartitionKeyRangeId(operation, diagnosticNode);
     } catch (error) {
       operationError = error;
     }
-    const streamerForPartition = this.getStreamerForPKRange(partitionKeyRangeId);
+    const helperForPartition = this.gethelperForPKRange(partitionKeyRangeId);
     // TODO: change implementation to add just retry context instead of retry policy in operation context
     const retryPolicy = this.getRetryPolicy();
     const context = new ItemBulkOperationContext(partitionKeyRangeId, retryPolicy, diagnosticNode);
@@ -140,61 +158,61 @@ export class BulkStreamer {
       operationInput: operation,
       operationContext: context,
     };
+    this.operationPromisesList.push(context.operationPromise);
     // if there was an error during encryption or resolving pkRangeId, reject the operation
     if (operationError) {
       context.fail(operationError);
-    } else {
-      streamerForPartition.add(itemOperation);
+      return Promise.reject();
     }
-    return context.operationPromise;
+    return helperForPartition.add(itemOperation);
   }
 
-  private async encryptionHelper(
-    operation: ItemOperation,
-    diagnosticNode: DiagnosticNodeInternal,
-  ): Promise<ItemOperation> {
-    const partitionKeyInternal = convertToInternalPartitionKey(operation.partitionKey);
-    operation.partitionKey =
-      await this.container.encryptionProcessor.getEncryptedPartitionKeyValue(partitionKeyInternal);
-    switch (operation.operationType) {
-      case BulkOperationType.Create:
-      case BulkOperationType.Upsert:
-        operation.resourceBody = await this.container.encryptionProcessor.encrypt(
-          operation.resourceBody,
-          diagnosticNode,
-        );
-        break;
-      case BulkOperationType.Read:
-      case BulkOperationType.Delete:
-        operation.id = await this.container.encryptionProcessor.getEncryptedId(operation.id);
-        break;
-      case BulkOperationType.Replace:
-        operation.id = await this.container.encryptionProcessor.getEncryptedId(operation.id);
-        operation.resourceBody = await this.container.encryptionProcessor.encrypt(
-          operation.resourceBody,
-          diagnosticNode,
-        );
-        break;
-      case BulkOperationType.Patch: {
-        operation.id = await this.container.encryptionProcessor.getEncryptedId(operation.id);
-        const body = operation.resourceBody;
-        const patchRequestBody = (Array.isArray(body) ? body : body.operations) as PatchOperation[];
-        for (const patchOperation of patchRequestBody) {
-          if ("value" in patchOperation) {
-            patchOperation.value = await this.container.encryptionProcessor.encryptProperty(
-              patchOperation.path,
-              patchOperation.value,
-            );
-          }
-        }
-        break;
-      }
-    }
-    return operation;
-  }
+  // private async encryptionHelper(
+  //   operation: ItemOperation,
+  //   diagnosticNode: DiagnosticNodeInternal,
+  // ): Promise<ItemOperation> {
+  //   const partitionKeyInternal = convertToInternalPartitionKey(operation.partitionKey);
+  //   operation.partitionKey =
+  //     await this.container.encryptionProcessor.getEncryptedPartitionKeyValue(partitionKeyInternal);
+  //   switch (operation.operationType) {
+  //     case BulkOperationType.Create:
+  //     case BulkOperationType.Upsert:
+  //       operation.resourceBody = await this.container.encryptionProcessor.encrypt(
+  //         operation.resourceBody,
+  //         diagnosticNode,
+  //       );
+  //       break;
+  //     case BulkOperationType.Read:
+  //     case BulkOperationType.Delete:
+  //       operation.id = await this.container.encryptionProcessor.getEncryptedId(operation.id);
+  //       break;
+  //     case BulkOperationType.Replace:
+  //       operation.id = await this.container.encryptionProcessor.getEncryptedId(operation.id);
+  //       operation.resourceBody = await this.container.encryptionProcessor.encrypt(
+  //         operation.resourceBody,
+  //         diagnosticNode,
+  //       );
+  //       break;
+  //     case BulkOperationType.Patch: {
+  //       operation.id = await this.container.encryptionProcessor.getEncryptedId(operation.id);
+  //       const body = operation.resourceBody;
+  //       const patchRequestBody = (Array.isArray(body) ? body : body.operations) as PatchOperation[];
+  //       for (const patchOperation of patchRequestBody) {
+  //         if ("value" in patchOperation) {
+  //           patchOperation.value = await this.container.encryptionProcessor.encryptProperty(
+  //             patchOperation.path,
+  //             patchOperation.value,
+  //           );
+  //         }
+  //       }
+  //       break;
+  //     }
+  //   }
+  //   return operation;
+  // }
 
   private async resolvePartitionKeyRangeId(
-    operation: ItemOperation,
+    operation: OperationInput,
     diagnosticNode: DiagnosticNodeInternal,
   ): Promise<string> {
     try {
@@ -238,7 +256,6 @@ export class BulkStreamer {
     }
     if (!operations.length) return;
     const pkRangeId = operations[0].operationContext.pkRangeId;
-    const limiter = this.getLimiterForPKRange(pkRangeId);
     const path = getPathFromLink(this.container.url, ResourceType.item);
     const requestBody: Operation[] = [];
     for (const itemBulkOperation of operations) {
@@ -247,54 +264,38 @@ export class BulkStreamer {
     if (!this.options.containerRid) {
       this.options.containerRid = this.container._rid;
     }
-    return new Promise<BulkResponse>((resolve, reject) => {
-      limiter.take(async () => {
+    try {
+      const response = await addDiagnosticChild(
+        async (childNode: DiagnosticNodeInternal) =>
+          this.clientContext.bulk({
+            body: requestBody,
+            partitionKeyRangeId: pkRangeId,
+            path: path,
+            resourceId: this.container.url,
+            options: this.options,
+            diagnosticNode: childNode,
+          }),
+        diagnosticNode,
+        DiagnosticNodeType.BATCH_REQUEST,
+      );
+      if (!response) {
+        throw new ErrorResponse("Failed to fetch bulk response.");
+      }
+      return BulkResponse.fromResponseMessage(response, operations);
+    } catch (error) {
+      if (this.clientContext.enableEncryption) {
         try {
-          // Check if any split/merge has happened on other batches belonging to same partition.
-          // If so, don't send this request, and re-batch the operations.
-          const stopDispatch = await limiter.isStopped();
-          if (stopDispatch) {
-            operations.map((operation) => {
-              this.reBatchOperation(operation, diagnosticNode);
-            });
-            // Return empty response as the request is not sent.
-            return resolve(BulkResponse.createEmptyResponse(operations, 0, 0, {}));
-          }
-          const response = await addDiagnosticChild(
-            async (childNode: DiagnosticNodeInternal) =>
-              this.clientContext.bulk({
-                body: requestBody,
-                partitionKeyRangeId: pkRangeId,
-                path: path,
-                resourceId: this.container.url,
-                options: this.options,
-                diagnosticNode: childNode,
-              }),
-            diagnosticNode,
-            DiagnosticNodeType.BATCH_REQUEST,
-          );
-          if (!response) {
-            throw new ErrorResponse("Failed to fetch bulk response.");
-          }
-          return resolve(BulkResponse.fromResponseMessage(response, operations));
-        } catch (error) {
-          if (this.clientContext.enableEncryption) {
-            try {
-              await this.container.throwIfRequestNeedsARetryPostPolicyRefresh(error);
-            } catch (err) {
-              this.cancelExecution();
-              return reject(err);
-            }
-          }
-          return resolve(BulkResponse.fromResponseMessage(error, operations));
-        } finally {
-          limiter.leave();
+          await this.container.throwIfRequestNeedsARetryPostPolicyRefresh(error);
+        } catch (err) {
+          this.cancelExecution();
+          return;
         }
-      });
-    });
+      }
+      return BulkResponse.fromResponseMessage(error, operations);
+    }
   }
 
-  private prepareOperation(operationInput: ItemOperation): Operation {
+  private prepareOperation(operationInput: OperationInput): Operation {
     operationInput.partitionKey = convertToInternalPartitionKey(operationInput.partitionKey);
     return {
       ...operationInput,
@@ -311,43 +312,37 @@ export class BulkStreamer {
       diagnosticNode,
     );
     operation.operationContext.updatePKRangeId(partitionKeyRangeId);
-    const streamer = this.getStreamerForPKRange(partitionKeyRangeId);
-    streamer.add(operation);
-  }
-
-  private getLimiterForPKRange(pkRangeId: string): Limiter {
-    let limiter = this.limitersByPartitionKeyRangeId.get(pkRangeId);
-    if (!limiter) {
-      limiter = new Limiter(Constants.BulkMaxDegreeOfConcurrency);
-      // starting with degree of concurrency as 1
-      for (let i = 1; i < Constants.BulkMaxDegreeOfConcurrency; ++i) {
-        limiter.take(() => {});
-      }
-      this.limitersByPartitionKeyRangeId.set(pkRangeId, limiter);
-    }
-    return limiter;
+    const helper = this.gethelperForPKRange(partitionKeyRangeId);
+    helper.add(operation);
   }
 
   private cancelExecution(): void {
     this.isCancelled = true;
-    this.dispose();
   }
 
-  private getStreamerForPKRange(pkRangeId: string): BulkStreamerPerPartition {
-    if (this.streamersByPartitionKeyRangeId.has(pkRangeId)) {
-      return this.streamersByPartitionKeyRangeId.get(pkRangeId);
+  private gethelperForPKRange(pkRangeId: string): BulkHelperPerPartition {
+    if (this.helpersByPartitionKeyRangeId.has(pkRangeId)) {
+      return this.helpersByPartitionKeyRangeId.get(pkRangeId);
     }
-    const limiter = this.getLimiterForPKRange(pkRangeId);
-    const newStreamer = new BulkStreamerPerPartition(
+    // const limiter = this.getLimiterForPKRange(pkRangeId);
+    const newhelper = new BulkHelperPerPartition(
       this.executeRequest,
       this.reBatchOperation,
-      limiter,
       this.clientContext.diagnosticLevel,
       this.clientContext.enableEncryption,
       this.clientContext.getClientConfig(),
       this.container.encryptionProcessor,
+      this.operationsCountRef
     );
-    this.streamersByPartitionKeyRangeId.set(pkRangeId, newStreamer);
-    return newStreamer;
+    this.helpersByPartitionKeyRangeId.set(pkRangeId, newhelper);
+    return newhelper;
+  }
+
+  private runCongestionControlTimer(): void {
+    this.congestionControlTimer = setInterval(() => {
+      this.helpersByPartitionKeyRangeId.forEach((helper) => {
+        helper.runCongestionAlgorithm();
+      });
+    }, this.congestionControlDelayInMs);
   }
 }

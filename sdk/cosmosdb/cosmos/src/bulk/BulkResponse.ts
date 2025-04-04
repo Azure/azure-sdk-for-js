@@ -5,7 +5,7 @@ import { Constants, StatusCodes, SubStatusCodes } from "../common";
 import type { CosmosDiagnostics } from "../CosmosDiagnostics";
 import type { CosmosHeaders } from "../queryExecutionContext";
 import type { StatusCode, SubStatusCode, Response } from "../request";
-import type { BulkOperationResult } from "../utils/batch";
+import type { ExtendedOperationResponse } from "../utils/batch";
 import { isSuccessStatusCode } from "../utils/batch";
 import type { ItemBulkOperation } from "./ItemBulkOperation";
 
@@ -19,7 +19,7 @@ export class BulkResponse {
   subStatusCode: SubStatusCode;
   headers: CosmosHeaders;
   operations: ItemBulkOperation[];
-  results: BulkOperationResult[] = [];
+  results: ExtendedOperationResponse[] = [];
   diagnostics: CosmosDiagnostics;
 
   constructor(
@@ -88,12 +88,12 @@ export class BulkResponse {
     responseMessage: Response<any>,
     operations: ItemBulkOperation[],
   ): BulkResponse {
-    const results: BulkOperationResult[] = [];
+    const results: ExtendedOperationResponse[] = [];
 
     if (responseMessage.result) {
       for (let i = 0; i < operations.length; i++) {
         const itemResponse = responseMessage.result[i];
-        const result: BulkOperationResult = {
+        const result: ExtendedOperationResponse = {
           statusCode: itemResponse?.statusCode,
           subStatusCode: itemResponse?.subStatusCode ?? SubStatusCodes.Unknown,
           eTag: itemResponse?.eTag,
@@ -102,7 +102,9 @@ export class BulkResponse {
           sessionToken: responseMessage.headers?.[Constants.HttpHeaders.SessionToken],
           requestCharge: itemResponse?.requestCharge,
           resourceBody: itemResponse?.resourceBody,
-          operationInput: operations[i].plainTextOperationInput,
+          // diagnostics will be filled in BulkBatcher dispatch to capture the complete diagnostics(e.g. decryption)
+          diagnostics: null,
+          headers: responseMessage.headers,
         };
         results.push(result);
       }
@@ -135,7 +137,7 @@ export class BulkResponse {
 
   private createAndPopulateResults(operations: ItemBulkOperation[], retryAfterInMs: number): void {
     this.results = operations.map(
-      (operation): BulkOperationResult => ({
+      (): ExtendedOperationResponse => ({
         statusCode: this.statusCode,
         subStatusCode: this.subStatusCode,
         eTag: this.headers?.[Constants.HttpHeaders.ETag],
@@ -144,7 +146,9 @@ export class BulkResponse {
         sessionToken: this.headers?.[Constants.HttpHeaders.SessionToken],
         requestCharge: this.headers?.[Constants.HttpHeaders.RequestCharge],
         resourceBody: undefined,
-        operationInput: operation.plainTextOperationInput,
+        // to be filled later in BulkBatcher dispatch
+        diagnostics: null,
+        headers: this.headers,
       }),
     );
   }
