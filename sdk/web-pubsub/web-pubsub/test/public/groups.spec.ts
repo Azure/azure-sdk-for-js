@@ -1,13 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Recorder, assertEnvironmentVariable } from "@azure-tools/test-recorder";
-import type { WebPubSubGroup } from "../src/index.js";
-import { WebPubSubServiceClient } from "../src/index.js";
-import recorderOptions from "./testEnv.js";
+import { Recorder } from "@azure-tools/test-recorder";
+import type { WebPubSubGroup } from "../../src/index.js";
+import { WebPubSubServiceClient } from "../../src/index.js";
+import recorderOptions from "../testEnv.js";
 import type { FullOperationResponse } from "@azure/core-client";
 import type { RestError } from "@azure/core-rest-pipeline";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
+import { getEndpoint } from "../utils/injectables.js";
+import { createTestCredential } from "@azure-tools/test-credential";
 
 describe("Group client working with a group", () => {
   let recorder: Recorder;
@@ -20,7 +22,8 @@ describe("Group client working with a group", () => {
     recorder = new Recorder(ctx);
     await recorder.start(recorderOptions);
     const hubClient = new WebPubSubServiceClient(
-      assertEnvironmentVariable("WPS_CONNECTION_STRING"),
+      getEndpoint(),
+      createTestCredential(),
       "simplechat",
       recorder.configureClientOptions({}),
     );
@@ -115,7 +118,8 @@ describe("client working with multiple groups", () => {
     recorder = new Recorder(ctx);
     await recorder.start(recorderOptions);
     hubClient = new WebPubSubServiceClient(
-      assertEnvironmentVariable("WPS_CONNECTION_STRING"),
+      getEndpoint(),
+      createTestCredential(),
       "simplechat",
       recorder.configureClientOptions({}),
     );

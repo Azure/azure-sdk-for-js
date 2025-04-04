@@ -1,36 +1,32 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  Recorder,
-  isLiveMode,
-  assertEnvironmentVariable,
-  isPlaybackMode,
-  env,
-} from "@azure-tools/test-recorder";
-import { WebPubSubServiceClient, AzureKeyCredential } from "../src/index.js";
-import recorderOptions from "./testEnv.js";
+import { Recorder } from "@azure-tools/test-recorder";
+import { WebPubSubServiceClient, AzureKeyCredential } from "../../src/index.js";
+import recorderOptions from "../testEnv.js";
 import type { FullOperationResponse, OperationOptions } from "@azure/core-client";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { describe, it, assert, expect, beforeEach, afterEach, beforeAll } from "vitest";
+import { describe, it, assert, expect, beforeEach, afterEach } from "vitest";
 import { toSupportTracing } from "@azure-tools/test-utils-vitest";
-import { parseJwt } from "./testUtils.js";
+import { parseJwt } from "../testUtils.js";
+import {
+  getConnectionString,
+  getEndpoint,
+  getKey,
+  getReverseProxyEndpoint,
+  getSocketIOEndpoint,
+  isLocalAuthDisabled,
+  isLiveMode,
+} from "../utils/injectables.js";
 
 expect.extend({ toSupportTracing });
 
 describe("HubClient", () => {
   describe("Constructing a HubClient", () => {
-    beforeAll(() => {
-      if (isPlaybackMode()) {
-        env.WPS_CONNECTION_STRING = recorderOptions.envSetupForPlayback.WPS_CONNECTION_STRING;
-        env.WPS_ENDPOINT = recorderOptions.envSetupForPlayback.WPS_ENDPOINT;
-        env.WPS_API_KEY = recorderOptions.envSetupForPlayback.WPS_API_KEY;
-      }
-    });
     const credential = createTestCredential();
     it("takes a connection string, hub name, and options", () => {
       assert.doesNotThrow(() => {
-        new WebPubSubServiceClient(assertEnvironmentVariable("WPS_CONNECTION_STRING"), "test-hub", {
+        new WebPubSubServiceClient(getEndpoint(), createTestCredential(), "test-hub", {
           retryOptions: { maxRetries: 2 },
         });
       });
@@ -38,27 +34,17 @@ describe("HubClient", () => {
 
     it("takes an endpoint, an API key, a hub name, and options", () => {
       assert.doesNotThrow(() => {
-        new WebPubSubServiceClient(
-          assertEnvironmentVariable("WPS_ENDPOINT"),
-          new AzureKeyCredential(assertEnvironmentVariable("WPS_API_KEY")),
-          "test-hub",
-          {
-            retryOptions: { maxRetries: 2 },
-          },
-        );
+        new WebPubSubServiceClient(getEndpoint(), new AzureKeyCredential(getKey()), "test-hub", {
+          retryOptions: { maxRetries: 2 },
+        });
       });
     });
 
     it("takes an endpoint, DefaultAzureCredential, a hub name, and options", () => {
       assert.doesNotThrow(() => {
-        new WebPubSubServiceClient(
-          assertEnvironmentVariable("WPS_ENDPOINT"),
-          credential,
-          "test-hub",
-          {
-            retryOptions: { maxRetries: 2 },
-          },
-        );
+        new WebPubSubServiceClient(getEndpoint(), credential, "test-hub", {
+          retryOptions: { maxRetries: 2 },
+        });
       });
     });
   });
@@ -76,7 +62,8 @@ describe("HubClient", () => {
       await recorder.start(recorderOptions);
 
       client = new WebPubSubServiceClient(
-        assertEnvironmentVariable("WPS_CONNECTION_STRING"),
+        getEndpoint(),
+        createTestCredential(),
         "simplechat",
         recorder.configureClientOptions({}),
       );
@@ -129,7 +116,7 @@ describe("HubClient", () => {
 
     it("can broadcast using the DAC", async () => {
       const dacClient = new WebPubSubServiceClient(
-        assertEnvironmentVariable("WPS_ENDPOINT"),
+        getEndpoint(),
         credential,
         "simplechat",
         recorder.configureClientOptions({}),
@@ -146,12 +133,12 @@ describe("HubClient", () => {
       assert.equal(lastResponse?.status, 202);
     });
 
-    it("can broadcast using APIM", async () => {
+    it.runIf(!isLocalAuthDisabled())("can broadcast using APIM", async () => {
       const apimClient = new WebPubSubServiceClient(
-        assertEnvironmentVariable("WPS_CONNECTION_STRING"),
+        getConnectionString(),
         "simplechat",
         recorder.configureClientOptions({
-          reverseProxyEndpoint: assertEnvironmentVariable("WPS_REVERSE_PROXY_ENDPOINT"),
+          reverseProxyEndpoint: getReverseProxyEndpoint(),
         }),
       );
 
@@ -233,8 +220,7 @@ describe("HubClient", () => {
       assert.equal(lastResponse?.status, 204);
     });
 
-    // likely bug in recorder for this test - recording not generating properly
-    it("can check if a connection exists", { skip: !isLiveMode() }, async () => {
+    it.runIf(isLiveMode())("can check if a connection exists", async () => {
       const res = await client.connectionExists("xxx");
       assert.ok(!res);
     });
@@ -255,7 +241,7 @@ describe("HubClient", () => {
     });
 
     // likely bug in recorder for this test - recording not generating properly
-    it("can revoke permissions from connections", { skip: !isLiveMode() }, async () => {
+    it.runIf(isLiveMode())("can revoke permissions from connections", async () => {
       await client.revokePermission("invalid-id", "joinLeaveGroup", { targetName: "x" });
       // Service doesn't throw error for invalid connection-ids
     });
@@ -306,7 +292,7 @@ describe("HubClient", () => {
       ]);
     });
 
-    it("can generate client tokens", async () => {
+    it.runIf(isLiveMode())("can generate client tokens", async () => {
       const res = await client.getClientAccessToken({
         userId: "brian",
         groups: ["group1"],
@@ -316,10 +302,13 @@ describe("HubClient", () => {
       assert.ok(url.searchParams.has("access_token"));
       assert.equal(url.host, new URL(client.endpoint).host);
       assert.equal(url.pathname, `/client/hubs/${client.hubName}`);
-      assert.equal(tokenPayload.aud, client.endpoint + `client/hubs/${client.hubName}`);
+      assert.equal(
+        tokenPayload.aud,
+        new URL(`client/hubs/${client.hubName}`, client.endpoint).toString(),
+      );
     });
 
-    it("can generate default client tokens", async () => {
+    it.runIf(isLiveMode())("can generate default client tokens", async () => {
       const res = await client.getClientAccessToken({
         userId: "brian",
         groups: ["group1"],
@@ -330,10 +319,13 @@ describe("HubClient", () => {
       assert.ok(url.searchParams.has("access_token"));
       assert.equal(url.host, new URL(client.endpoint).host);
       assert.equal(url.pathname, `/client/hubs/${client.hubName}`);
-      assert.equal(tokenPayload.aud, client.endpoint + `client/hubs/${client.hubName}`);
+      assert.equal(
+        tokenPayload.aud,
+        new URL(`client/hubs/${client.hubName}`, client.endpoint).toString(),
+      );
     });
 
-    it("can generate client MQTT tokens", async () => {
+    it.runIf(isLiveMode())("can generate client MQTT tokens", async () => {
       const res = await client.getClientAccessToken({
         userId: "brian",
         groups: ["group1"],
@@ -344,13 +336,15 @@ describe("HubClient", () => {
       assert.ok(url.searchParams.has("access_token"));
       assert.equal(url.host, new URL(client.endpoint).host);
       assert.equal(url.pathname, `/clients/mqtt/hubs/${client.hubName}`);
-      assert.equal(tokenPayload.aud, client.endpoint + `clients/mqtt/hubs/${client.hubName}`);
+      assert.equal(
+        tokenPayload.aud,
+        new URL(`clients/mqtt/hubs/${client.hubName}`, client.endpoint).toString(),
+      );
     });
 
-    // Recording not generated properly, so only run in live mode
-    it("can generate default client tokens with DAC", { skip: !isLiveMode() }, async () => {
+    it.runIf(isLiveMode())("can generate default client tokens with DAC", async () => {
       const dacClient = new WebPubSubServiceClient(
-        assertEnvironmentVariable("WPS_ENDPOINT"),
+        getEndpoint(),
         credential,
         "simplechat",
         recorder.configureClientOptions({}),
@@ -365,12 +359,15 @@ describe("HubClient", () => {
       assert.ok(url.searchParams.has("access_token"));
       assert.equal(url.host, new URL(client.endpoint).host);
       assert.equal(url.pathname, `/client/hubs/${client.hubName}`);
-      assert.equal(tokenPayload.aud, client.endpoint + `client/hubs/${client.hubName}`);
+      assert.equal(
+        tokenPayload.aud,
+        new URL(`client/hubs/${client.hubName}`, client.endpoint).toString(),
+      );
     });
 
-    it("can generate client MQTT tokens with DAC", { skip: !isLiveMode() }, async () => {
+    it.runIf(isLiveMode())("can generate client MQTT tokens with DAC", async () => {
       const dacClient = new WebPubSubServiceClient(
-        assertEnvironmentVariable("WPS_ENDPOINT"),
+        getEndpoint(),
         credential,
         "simplechat",
         recorder.configureClientOptions({}),
@@ -385,12 +382,15 @@ describe("HubClient", () => {
       assert.ok(url.searchParams.has("access_token"));
       assert.equal(url.host, new URL(client.endpoint).host);
       assert.equal(url.pathname, `/clients/mqtt/hubs/${client.hubName}`);
-      assert.equal(tokenPayload.aud, client.endpoint + `clients/mqtt/hubs/${client.hubName}`);
+      assert.equal(
+        tokenPayload.aud,
+        new URL(`clients/mqtt/hubs/${client.hubName}`, client.endpoint).toString(),
+      );
     });
 
-    it("can generate client socketIO tokens with DAC", { skip: !isLiveMode() }, async () => {
+    it.runIf(isLiveMode())("can generate client socketIO tokens with DAC", async () => {
       const dacClient = new WebPubSubServiceClient(
-        assertEnvironmentVariable("WPS_SOCKETIO_ENDPOINT"),
+        getSocketIOEndpoint(),
         credential,
         "simplechat",
         recorder.configureClientOptions({}),
@@ -406,7 +406,7 @@ describe("HubClient", () => {
       assert.equal(url.pathname, `/clients/socketio/hubs/${dacClient.hubName}`);
       assert.equal(
         tokenPayload.aud,
-        dacClient.endpoint + `/clients/socketio/hubs/${dacClient.hubName}`,
+        new URL(`/clients/socketio/hubs/${dacClient.hubName}`, dacClient.endpoint).toString(),
       );
     });
   });

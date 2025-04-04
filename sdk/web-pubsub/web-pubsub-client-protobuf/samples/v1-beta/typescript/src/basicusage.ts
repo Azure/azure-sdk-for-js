@@ -5,23 +5,23 @@
  * @summary Basic usage of web-pubsub-client
  */
 
-import {
-  WebPubSubClient,
+import type {
   WebPubSubClientCredential,
   SendToGroupOptions,
   GetClientAccessUrlOptions,
-  WebPubSubClientOptions,
 } from "@azure/web-pubsub-client";
+import { WebPubSubClient } from "@azure/web-pubsub-client";
 import { WebPubSubProtobufReliableProtocol } from "@azure/web-pubsub-client-protobuf";
 import { WebPubSubServiceClient } from "@azure/web-pubsub";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
 
-require("dotenv").config();
-
+const endpoint = process.env.WPS_ENDPOINT || "";
 const hubName = "sample_chat";
 const groupName = "testGroup";
-const serviceClient = new WebPubSubServiceClient(process.env.WPS_CONNECTION_STRING!, hubName);
+const serviceClient = new WebPubSubServiceClient(endpoint, new DefaultAzureCredential(), hubName);
 
-const fetchClientAccessUrl = async (_: GetClientAccessUrlOptions) => {
+const fetchClientAccessUrl = async (_: GetClientAccessUrlOptions): Promise<string> => {
   return (
     await serviceClient.getClientAccessToken({
       roles: [`webpubsub.joinLeaveGroup.${groupName}`, `webpubsub.sendToGroup.${groupName}`],
@@ -30,11 +30,11 @@ const fetchClientAccessUrl = async (_: GetClientAccessUrlOptions) => {
 };
 
 async function main(): Promise<void> {
-  let client = new WebPubSubClient(
+  const client = new WebPubSubClient(
     {
       getClientAccessUrl: fetchClientAccessUrl,
     } as WebPubSubClientCredential,
-    { protocol: WebPubSubProtobufReliableProtocol() } as WebPubSubClientOptions
+    { protocol: WebPubSubProtobufReliableProtocol() },
   );
 
   client.on("connected", (e) => {
@@ -56,7 +56,9 @@ async function main(): Promise<void> {
   client.on("group-message", (e) => {
     if (e.message.data instanceof ArrayBuffer) {
       console.log(
-        `Received message from ${e.message.group} ${Buffer.from(e.message.data).toString("base64")}`
+        `Received message from ${e.message.group} ${Buffer.from(e.message.data).toString(
+          "base64",
+        )}`,
       );
     } else {
       console.log(`Received message from ${e.message.group} ${e.message.data}`);
@@ -71,11 +73,11 @@ async function main(): Promise<void> {
   } as SendToGroupOptions);
   await client.sendToGroup(groupName, { a: 12, b: "hello" }, "json");
   await client.sendToGroup(groupName, "hello json", "json");
-  var buf = Buffer.from("aGVsbG9w", "base64");
+  const buf = Buffer.from("aGVsbG9w", "base64");
   await client.sendToGroup(
     groupName,
     buf.buffer.slice(buf.byteOffset, buf.byteOffset + buf.byteLength),
-    "binary"
+    "binary",
   );
   await delay(1000);
   await client.stop();
@@ -83,9 +85,9 @@ async function main(): Promise<void> {
 
 main().catch((e) => {
   console.error("Sample encountered an error", e);
-  process.exit(1);
+  throw e;
 });
 
-function delay(ms: number) {
+function delay(ms: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }

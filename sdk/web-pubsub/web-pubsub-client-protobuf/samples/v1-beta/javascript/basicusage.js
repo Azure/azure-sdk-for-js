@@ -8,12 +8,13 @@
 const { WebPubSubClient } = require("@azure/web-pubsub-client");
 const { WebPubSubProtobufReliableProtocol } = require("@azure/web-pubsub-client-protobuf");
 const { WebPubSubServiceClient } = require("@azure/web-pubsub");
+const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv/config");
 
-require("dotenv").config();
-
+const endpoint = process.env.WPS_ENDPOINT || "";
 const hubName = "sample_chat";
 const groupName = "testGroup";
-const serviceClient = new WebPubSubServiceClient(process.env.WPS_CONNECTION_STRING, hubName);
+const serviceClient = new WebPubSubServiceClient(endpoint, new DefaultAzureCredential(), hubName);
 
 const fetchClientAccessUrl = async (_) => {
   return (
@@ -24,11 +25,11 @@ const fetchClientAccessUrl = async (_) => {
 };
 
 async function main() {
-  let client = new WebPubSubClient(
+  const client = new WebPubSubClient(
     {
       getClientAccessUrl: fetchClientAccessUrl,
     },
-    { protocol: WebPubSubProtobufReliableProtocol() }
+    { protocol: WebPubSubProtobufReliableProtocol() },
   );
 
   client.on("connected", (e) => {
@@ -50,7 +51,7 @@ async function main() {
   client.on("group-message", (e) => {
     if (e.message.data instanceof ArrayBuffer) {
       console.log(
-        `Received message from ${e.message.group} ${Buffer.from(e.message.data).toString("base64")}`
+        `Received message from ${e.message.group} ${Buffer.from(e.message.data).toString("base64")}`,
       );
     } else {
       console.log(`Received message from ${e.message.group} ${e.message.data}`);
@@ -65,11 +66,11 @@ async function main() {
   });
   await client.sendToGroup(groupName, { a: 12, b: "hello" }, "json");
   await client.sendToGroup(groupName, "hello json", "json");
-  var buf = Buffer.from("aGVsbG9w", "base64");
+  const buf = Buffer.from("aGVsbG9w", "base64");
   await client.sendToGroup(
     groupName,
     buf.buffer.slice(buf.byteOffset, buf.byteOffset + buf.byteLength),
-    "binary"
+    "binary",
   );
   await delay(1000);
   await client.stop();
@@ -77,7 +78,7 @@ async function main() {
 
 main().catch((e) => {
   console.error("Sample encountered an error", e);
-  process.exit(1);
+  throw e;
 });
 
 function delay(ms) {

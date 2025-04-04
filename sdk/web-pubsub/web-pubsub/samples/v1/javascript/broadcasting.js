@@ -6,10 +6,11 @@
  */
 
 const { WebPubSubServiceClient } = require("@azure/web-pubsub");
+const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv/config");
 
-require("dotenv").config();
-
-const chatHub = new WebPubSubServiceClient(process.env.WPS_CONNECTION_STRING, "chat");
+const endpoint = process.env.WPS_ENDPOINT || "";
+const chatHub = new WebPubSubServiceClient(endpoint, new DefaultAzureCredential(), "chat");
 
 async function main() {
   // send a text message to the entire hub
@@ -24,7 +25,7 @@ async function main() {
   for (let i = 0; i < 10; i++) {
     data[i] = i;
   }
-  chatHub.sendToAll(data.buffer);
+  await chatHub.sendToAll(data.buffer);
 }
 
 main().catch((e) => {
