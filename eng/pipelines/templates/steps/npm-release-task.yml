@@ -10,10 +10,10 @@ parameters:
 jobs:
 - deployment: PublishPackage
   variables:
+    - template: /eng/pipelines/templates/variables/image.yml
     - ${{ each var in parameters.VarDependencies }}:
       - name: ${{ var.key }}
         value: ${{ var.value }}
-    - template: /eng/pipelines/templates/variables/image.yml
   environment: 'npm'
   dependsOn: ${{ parameters.DependsOn }}
   condition: succeeded()
@@ -116,6 +116,9 @@ jobs:
         value: $[dependencies.PublishPackage.outputs['SetPackageVar.OriginalTags']]
       - name: IntendedTagVersion
         value: $[dependencies.PublishPackage.outputs['SetPackageVar.IntendedTagVersion']]
+      - ${{ each var in parameters.VarDependencies }}:
+        - name: ${{ var.key }}
+          value: ${{ var.value }}
     displayName: 'Verify package tags'
     pool:
       name: azsdk-pool-mms-ubuntu-2004-general
