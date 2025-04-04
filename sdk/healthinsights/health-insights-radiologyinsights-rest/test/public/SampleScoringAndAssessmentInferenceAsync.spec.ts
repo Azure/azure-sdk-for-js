@@ -9,8 +9,8 @@ import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 const codingData = {
   system: "http://www.ama-assn.org/go/cpt",
-  code: "ANG366",
-  display: "XA VENACAVA FILTER INSERTION",
+  code: "USTHY",
+  display: "US THYROID",
 };
 
 const code = {
@@ -18,8 +18,8 @@ const code = {
 };
 
 const patientInfo = {
-  sex: "male",
-  birthDate: "1980-04-22T02:00:00+00:00",
+  sex: "female",
+  birthDate: "1959-11-11T19:00:00+00:00",
 };
 
 const encounterData = {
@@ -38,7 +38,7 @@ const authorData = {
 
 const orderedProceduresData = {
   code: code,
-  description: "XA VENACAVA FILTER INSERTION",
+  description: "CT CHEST WO CONTRAST",
 };
 
 const administrativeMetadata = {
@@ -48,12 +48,23 @@ const administrativeMetadata = {
 
 const content = {
   sourceType: "inline",
-  value: `FINDINGS:
-  1. Inferior vena cavagram using CO2 contrast shows the IVC is normal
-  in course and caliber without filling defects to indicate clot. It
-  measures 19.8 mm. in diameter infrarenally.
+  value: `Exam: US THYROID
 
-  2. Successful placement of IVC filter in infrarenal location.`,
+Clinical History: Thyroid nodules. 76 year old patient.
+
+Comparison: none.
+
+Findings:
+Right lobe: 4.8 x 1.6 x 1.4 cm
+Left Lobe: 4.1 x 1.3 x 1.3 cm
+
+Isthmus: 4 mm
+
+There are multiple cystic and partly cystic sub-5 mm nodules noted within the right lobe (TIRADS 2).
+In the lower pole of the left lobe there is a 9 x 8 x 6 mm predominantly solid isoechoic nodule (TIRADS 3).
+
+Impression:
+Multiple bilateral small cystic benign thyroid nodules. A low suspicion 9 mm left lobe thyroid nodule (TI-RADS 3) which, given its small size, does not warrant follow-up.`,
 };
 
 const patientDocumentData = {
@@ -66,11 +77,11 @@ const patientDocumentData = {
   administrativeMetadata: administrativeMetadata,
   content: content,
   createdAt: "2021-05-31T16:00:00.000Z",
-  orderedProceduresAsCsv: "XA VENACAVA FILTER INSERTION",
+  orderedProceduresAsCsv: "CT CHEST WO CONTRAST",
 };
 
 const patientData = {
-  id: "Roberto Lewis",
+  id: "Samantha Jones",
   details: patientInfo,
   encounters: [encounterData],
   patientDocuments: [patientDocumentData],
@@ -131,43 +142,33 @@ const param = {
 
 /**
  *
- * Display the finding inference of the Radiology Insights request.
+ * Display the Scoring and Assessment Inference of the Radiology Insights request.
  *
  */
 
-function findFinding(res: any): void {
+function findSAInference(res: any): void {
   if ("result" in res.body) {
     res.body.result?.patientResults.forEach((patientResult: any) => {
       if (patientResult.inferences) {
         patientResult.inferences.forEach((inference: any) => {
-          if (inference.kind === "finding") {
-            console.log("Finding Inference found: ");
+          if (inference.kind === "scoringAndAssessment") {
+            console.log("Scoring and Assessment Inference found:");
 
-            const find = inference.finding;
-            if ("code" in find) {
-              const fcode = find.code;
-              console.log("   Code: ");
-              displayCodes(fcode);
+            if ("category" in inference) {
+              console.log("   Category: ", inference.category);
             }
 
-            find.interpretation?.forEach((inter: { coding: any }) => {
-              console.log("   Interpretation: ");
-              displayCodes(inter);
-            });
+            if ("categoryDescription" in inference) {
+              console.log("   Category Description: ", inference.categoryDescription);
+            }
 
-            inference.finding.component?.forEach(
-              (comp: { code: any; valueCodeableConcept: any }) => {
-                console.log("   Component code: ");
-                displayCodes(comp.code);
-                if ("valueCodeableConcept" in comp) {
-                  console.log("     Value component codeable concept: ");
-                  displayCodes(comp.valueCodeableConcept);
-                }
-              },
-            );
+            if ("singleValue" in inference) {
+              console.log("   Singe Value: ", inference.singleValue);
+            }
 
-            if ("extension" in inference) {
-              displaySectionInfo(inference);
+            if ("rangeValue" in inference) {
+              console.log("   Range Value: ");
+              displayValueRange(inference.rangeValue);
             }
           }
         });
@@ -175,31 +176,18 @@ function findFinding(res: any): void {
     });
   }
 
-  function displayCodes(codeableConcept: { coding: any[] }): void {
-    codeableConcept.coding?.forEach((coding: any) => {
-      if ("code" in coding) {
-        console.log(
-          "      Coding: " + coding.code + ", " + coding.display + " (" + coding.system + ")",
-        );
-      }
-    });
+  function displayValueRange(range: any): void {
+    if ("minimum" in range) {
+      console.log("     Min: ", range.minimum);
+    }
+    if ("maximum" in range) {
+      console.log("     Max: ", range.maximum);
+    }
   }
 
-  function displaySectionInfo(inference: { extension: any[] }): void {
-    inference.extension?.forEach((ext: any) => {
-      if ("url" in ext && ext.url === "section") {
-        console.log("   Section:");
-        ext.extension?.forEach((subextension: { url: string; valueString: string }) => {
-          if ("url" in subextension && "valueString" in subextension) {
-            console.log("      " + subextension.url + ": " + subextension.valueString);
-          }
-        });
-      }
-    });
-  }
 }
 
-describe("Finding Inference Test", () => {
+describe("Scoring and Assessment Inference Test", () => {
   let recorder: Recorder;
   let client: AzureHealthInsightsClient;
 
@@ -212,14 +200,14 @@ describe("Finding Inference Test", () => {
     await recorder.stop();
   });
 
-  it("finding inference test", async () => {
+  it("scoring and assessment inference test", async () => {
     const result = await client
-      .path("/radiology-insights/jobs/{id}", "jobId-17138794807336")
+      .path("/radiology-insights/jobs/{id}", "jobId-17138795260271")
       .put(param);
     const poller = await getLongRunningPoller(client, result);
     const res = await poller.pollUntilDone();
     console.log(res);
     assert.equal(res.status, "200");
-    findFinding(res);
+    findSAInference(res);
   });
 });

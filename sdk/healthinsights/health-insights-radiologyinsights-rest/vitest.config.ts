@@ -10,6 +10,8 @@ export default mergeConfig(
     test: {
       testTimeout: 1200000,
       hookTimeout: 1200000,
+      reporters: ['default', 'junit'],
+      outputFile: './test-results/results.xml',
     },
   }),
 );
