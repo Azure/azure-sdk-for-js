@@ -1,4 +1,4 @@
-# Azure Communication Services - Email client library samples for JavaScript
+# Azure Communication Services - Email client library samples for JavaScript (Beta)
 
 These sample programs show how to use the JavaScript client libraries for Azure Communication Services - Email in some common scenarios.
 
@@ -43,7 +43,7 @@ node sendEmailMultipleRecipients.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx dev-tool run vendored cross-env COMMUNICATION_CONNECTION_STRING="<communication connection string>" SENDER_ADDRESS="<sender address>" RECIPIENT_ADDRESS="<recipient address>" SECOND_RECIPIENT_ADDRESS="<second recipient address>" node sendEmailMultipleRecipients.js
+npx dev-tool run vendored cross-env COMMUNICATION_ENDPOINT="<communication endpoint>" SENDER_ADDRESS="<sender address>" RECIPIENT_ADDRESS="<recipient address>" SECOND_RECIPIENT_ADDRESS="<second recipient address>" node sendEmailMultipleRecipients.js
 ```
 
 ## Next Steps
@@ -54,7 +54,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [sendemailsinglerecipient]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-email/samples/v1-beta/javascript/sendEmailSingleRecipient.js
 [sendemailwithattachments]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-email/samples/v1-beta/javascript/sendEmailWithAttachments.js
 [sendemailwithinlineattachments]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-email/samples/v1-beta/javascript/sendEmailWithInlineAttachments.js
-[apiref]: https://learn.microsoft.com/javascript/api/@azure/communication-email
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/communication-email?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azurecommunicationservicesresource]: https://learn.microsoft.com/azure/communication-services/quickstarts/create-communication-resource
 [createinstance_emailcommunicationservicesresource]: https://aka.ms/acsemail/createemailresource
