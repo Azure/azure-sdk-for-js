@@ -137,7 +137,7 @@ export interface CallAutomationClientOptions extends CommonClientOptions {
 }
 
 // @public
-export type CallAutomationEvent = AddParticipantSucceeded | AddParticipantFailed | RemoveParticipantSucceeded | RemoveParticipantFailed | CallConnected | CallDisconnected | CallTransferAccepted | CallTransferFailed | ParticipantsUpdated | RecordingStateChanged | PlayCompleted | PlayFailed | PlayCanceled | RecognizeCompleted | RecognizeCanceled | RecognizeFailed | ContinuousDtmfRecognitionToneReceived | ContinuousDtmfRecognitionToneFailed | ContinuousDtmfRecognitionStopped | SendDtmfTonesCompleted | SendDtmfTonesFailed | CancelAddParticipantSucceeded | CancelAddParticipantFailed | TranscriptionStarted | TranscriptionStopped | TranscriptionUpdated | TranscriptionFailed | CreateCallFailed | AnswerFailed | HoldFailed | ConnectFailed | MediaStreamingStarted | MediaStreamingStopped | MediaStreamingFailed | StartRecordingFailed | PlayStarted | PlayPaused | PlayResumed | HoldAudioStarted | HoldAudioPaused | HoldAudioResumed | HoldAudioCompleted;
+export type CallAutomationEvent = AddParticipantSucceeded | AddParticipantFailed | RemoveParticipantSucceeded | RemoveParticipantFailed | CallConnected | CallDisconnected | CallTransferAccepted | CallTransferFailed | ParticipantsUpdated | RecordingStateChanged | PlayCompleted | PlayFailed | PlayCanceled | RecognizeCompleted | RecognizeCanceled | RecognizeFailed | ContinuousDtmfRecognitionToneReceived | ContinuousDtmfRecognitionToneFailed | ContinuousDtmfRecognitionStopped | SendDtmfTonesCompleted | SendDtmfTonesFailed | CancelAddParticipantSucceeded | CancelAddParticipantFailed | TranscriptionStarted | TranscriptionStopped | TranscriptionUpdated | TranscriptionFailed | CreateCallFailed | AnswerFailed | HoldFailed | ConnectFailed | MediaStreamingStarted | MediaStreamingStopped | MediaStreamingFailed | StartRecordingFailed | PlayStarted | PlayPaused | PlayResumed | HoldAudioStarted | HoldAudioPaused | HoldAudioResumed | HoldAudioCompleted | IncomingCall;
 
 // @public
 export class CallAutomationEventProcessor {
@@ -663,6 +663,24 @@ export interface HoldOptions extends OperationOptions {
     operationCallbackUri?: string;
     operationContext?: string;
     playSource?: FileSource | TextSource | SsmlSource;
+}
+
+// Warning: (ae-forgotten-export) The symbol "RestIncomingCall" needs to be exported by the entry point index.d.ts
+//
+// @public
+export interface IncomingCall extends Omit<RestIncomingCall, "to" | "from" | "customContext" | "incomingCallContext" | "onBehalfOfCallee" | "correlationId" | "resultInformation"> {
+    callConnectionId: string;
+    callerDisplayName?: string;
+    correlationId: string;
+    // Warning: (ae-forgotten-export) The symbol "CustomCallingContextInternal" needs to be exported by the entry point index.d.ts
+    customContext?: CustomCallingContextInternal;
+    from?: CommunicationIdentifierModel;
+    incomingCallContext?: string;
+    kind: "IncomingCall";
+    onBehalfOfCallee?: CommunicationIdentifierModel;
+    resultInformation?: ResultInformation;
+    // Warning: (ae-forgotten-export) The symbol "CommunicationIdentifierModel" needs to be exported by the entry point index.d.ts
+    to?: CommunicationIdentifierModel;
 }
 
 // @public
