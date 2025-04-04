@@ -903,11 +903,6 @@
       "versionPolicyName": "test"
     },
     {
-      "packageName": "@azure/mixed-reality-authentication",
-      "projectFolder": "sdk/mixedreality/mixed-reality-authentication",
-      "versionPolicyName": "client"
-    },
-    {
       "packageName": "@azure/web-pubsub",
       "projectFolder": "sdk/web-pubsub/web-pubsub",
       "versionPolicyName": "client"
@@ -1540,11 +1535,6 @@
     {
       "packageName": "@azure/arm-migrate",
       "projectFolder": "sdk/migrate/arm-migrate",
-      "versionPolicyName": "management"
-    },
-    {
-      "packageName": "@azure/arm-mixedreality",
-      "projectFolder": "sdk/mixedreality/arm-mixedreality",
       "versionPolicyName": "management"
     },
     {

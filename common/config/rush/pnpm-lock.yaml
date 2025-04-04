@@ -523,9 +523,6 @@ importers:
       '@rush-temp/arm-migrationdiscoverysap':
         specifier: file:./projects/arm-migrationdiscoverysap.tgz
         version: file:projects/arm-migrationdiscoverysap.tgz(@types/debug@4.1.12)(msw@2.7.3(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(vite@6.2.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)
-      '@rush-temp/arm-mixedreality':
-        specifier: file:./projects/arm-mixedreality.tgz
-        version: file:projects/arm-mixedreality.tgz(@types/debug@4.1.12)(msw@2.7.3(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(vite@6.2.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)
       '@rush-temp/arm-mobilenetwork':
         specifier: file:./projects/arm-mobilenetwork.tgz
         version: file:projects/arm-mobilenetwork.tgz(@types/debug@4.1.12)(msw@2.7.3(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(vite@6.2.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)
@@ -1051,9 +1048,6 @@ importers:
       '@rush-temp/microsoft-playwright-testing':
         specifier: file:./projects/microsoft-playwright-testing.tgz
         version: file:projects/microsoft-playwright-testing.tgz(msw@2.7.3(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(vite@6.2.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)
-      '@rush-temp/mixed-reality-authentication':
-        specifier: file:./projects/mixed-reality-authentication.tgz
-        version: file:projects/mixed-reality-authentication.tgz(@types/debug@4.1.12)(msw@2.7.3(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(vite@6.2.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)
       '@rush-temp/mock-hub':
         specifier: file:./projects/mock-hub.tgz
         version: file:projects/mock-hub.tgz(@types/debug@4.1.12)(@vitest/browser@3.0.9)(msw@2.7.3(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(yaml@2.7.0)
@@ -3073,10 +3067,6 @@ packages:
     resolution: {integrity: sha512-YoL1qzjKfHBrA4TeDrL+waWElsta00l65MNk/VXZZegMsOHVtscM4adxMcjWH26P3Mx/dK1J0lMCle3yztNL7Q==, tarball: file:projects/arm-migrationdiscoverysap.tgz}
     version: 0.0.0
 
-  '@rush-temp/arm-mixedreality@file:projects/arm-mixedreality.tgz':
-    resolution: {integrity: sha512-mxfjLpJpj5JmWM0KAsnfeD767lNCxtKxH/CmqoNQw1qrog3cBw6rts0WGA6tqicPB//Vao/JMfQOXuwXupvTjQ==, tarball: file:projects/arm-mixedreality.tgz}
-    version: 0.0.0
-
   '@rush-temp/arm-mobilenetwork@file:projects/arm-mobilenetwork.tgz':
     resolution: {integrity: sha512-NDq14f4VHhkH2QprT25T0VlO7OSdy2I/z9oMRSUrJte8Rgx2XdeB29yl9PQBr7I4wjnf50uB2JuAENPmpm6Ppw==, tarball: file:projects/arm-mobilenetwork.tgz}
     version: 0.0.0
@@ -3775,10 +3765,6 @@ packages:
 
   '@rush-temp/microsoft-playwright-testing@file:projects/microsoft-playwright-testing.tgz':
     resolution: {integrity: sha512-sVU4AhYy8i4VhihEGOHMZLmUggC15w2JvBfGUC+i+q7nxmE3sIbO+EzicltK811tg0QQML6lAzKonojrK4FO6g==, tarball: file:projects/microsoft-playwright-testing.tgz}
-    version: 0.0.0
-
-  '@rush-temp/mixed-reality-authentication@file:projects/mixed-reality-authentication.tgz':
-    resolution: {integrity: sha512-2Kz3gkctI5gsewfwSx9K1bAiOzK4NFJPLDisdLEnvSPvceyQuP6Of0ALJp4ge2fm8znBoU8wCDxG/XK/pMFe8g==, tarball: file:projects/mixed-reality-authentication.tgz}
     version: 0.0.0
 
   '@rush-temp/mock-hub@file:projects/mock-hub.tgz':
@@ -15547,39 +15533,6 @@ snapshots:
       - webdriverio
       - yaml
 
-  '@rush-temp/arm-mixedreality@file:projects/arm-mixedreality.tgz(@types/debug@4.1.12)(msw@2.7.3(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(vite@6.2.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)':
-    dependencies:
-      '@types/node': 18.19.80
-      '@vitest/browser': 3.0.9(@types/node@18.19.80)(playwright@1.51.1)(typescript@5.8.2)(vite@6.2.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.9)
-      '@vitest/coverage-istanbul': 3.0.9(vitest@3.0.9)
-      playwright: 1.51.1
-      tslib: 2.8.1
-      typescript: 5.8.2
-      vitest: 3.0.9(@types/debug@4.1.12)(@types/node@18.19.80)(@vitest/browser@3.0.9)(msw@2.7.3(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(yaml@2.7.0)
-    transitivePeerDependencies:
-      - '@edge-runtime/vm'
-      - '@types/debug'
-      - '@vitest/ui'
-      - bufferutil
-      - happy-dom
-      - jiti
-      - jsdom
-      - less
-      - lightningcss
-      - msw
-      - safaridriver
-      - sass
-      - sass-embedded
-      - stylus
-      - sugarss
-      - supports-color
-      - terser
-      - tsx
-      - utf-8-validate
-      - vite
-      - webdriverio
-      - yaml
-
   '@rush-temp/arm-mobilenetwork@file:projects/arm-mobilenetwork.tgz(@types/debug@4.1.12)(msw@2.7.3(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(vite@6.2.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)':
     dependencies:
       '@azure/core-lro': 2.7.2
@@ -21833,41 +21786,6 @@ snapshots:
       vitest: 3.0.9(@types/debug@4.1.12)(@types/node@20.17.24)(@vitest/browser@3.0.9)(msw@2.7.3(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(yaml@2.7.0)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
-      - '@vitest/ui'
-      - bufferutil
-      - happy-dom
-      - jiti
-      - jsdom
-      - less
-      - lightningcss
-      - msw
-      - safaridriver
-      - sass
-      - sass-embedded
-      - stylus
-      - sugarss
-      - supports-color
-      - terser
-      - tsx
-      - utf-8-validate
-      - vite
-      - webdriverio
-      - yaml
-
-  '@rush-temp/mixed-reality-authentication@file:projects/mixed-reality-authentication.tgz(@types/debug@4.1.12)(msw@2.7.3(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(vite@6.2.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)':
-    dependencies:
-      '@types/node': 18.19.80
-      '@vitest/browser': 3.0.9(@types/node@18.19.80)(playwright@1.51.1)(typescript@5.8.2)(vite@6.2.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.9)
-      '@vitest/coverage-istanbul': 3.0.9(vitest@3.0.9)
-      dotenv: 16.4.7
-      eslint: 9.22.0
-      playwright: 1.51.1
-      tslib: 2.8.1
-      typescript: 5.8.2
-      vitest: 3.0.9(@types/debug@4.1.12)(@types/node@18.19.80)(@vitest/browser@3.0.9)(msw@2.7.3(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(yaml@2.7.0)
-    transitivePeerDependencies:
-      - '@edge-runtime/vm'
-      - '@types/debug'
       - '@vitest/ui'
       - bufferutil
       - happy-dom
