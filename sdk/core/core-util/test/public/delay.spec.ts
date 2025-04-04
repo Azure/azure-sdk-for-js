@@ -23,18 +23,18 @@ describe("delay", function () {
   it("should return when the abort signal is called", async function () {
     const delayTime = 2500;
     const controller = new AbortController();
-    const StandardAbortMessage = "The operation was aborted.";
+    const abortMessage = "The operation was aborted.";
     const delayPromise = delay(delayTime, {
       abortSignal: controller.signal,
-      abortErrorMsg: StandardAbortMessage,
+      abortErrorMsg: abortMessage,
     });
     try {
-      controller.abort();
+      controller.abort(abortMessage);
       await delayPromise;
       assert.fail();
     } catch (err: any) {
       assert.strictEqual(err.name, "AbortError");
-      assert.strictEqual(err.message, StandardAbortMessage);
+      assert.strictEqual(err.message, abortMessage);
     }
   });
 
