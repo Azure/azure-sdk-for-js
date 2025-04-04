@@ -126,6 +126,13 @@ jobs:
       os: linux
     steps:
     - checkout: self
+    - pwsh: |
+        write-host "PackageName: $(PackageName)"
+        write-host "OriginalTags: $(OriginalTags)"
+        write-host "IntendedTagVersion: $(IntendedTagVersion)"
+        write-host "Tag: $(Tag)"
+        write-host "AdditionalTag: $(AdditionalTag)"
+      displayName: Debug variables
     - task: Powershell@2
       displayName: Verify package tags
       inputs:
