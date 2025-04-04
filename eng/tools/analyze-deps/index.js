@@ -12,7 +12,7 @@ import { fileURLToPath } from "node:url";
 
 import argparse from "argparse";
 import Handlebars from "handlebars";
-import jju from "jju";
+import json5 from "json5";
 import tar from "tar";
 import yaml from "js-yaml";
 import { getPackageJsons } from "@azure-tools/eng-package-utils";
@@ -82,7 +82,7 @@ const getTarballPackages = async (tarballDir) => {
   for (const file of files) {
     const filePath = path.join(tarballDir, file);
     if (path.extname(filePath).toLowerCase() === ".tgz") {
-      const packageJson = jju.parse(
+      const packageJson = json5.parse(
         await readCompressedFile(filePath, "package/package.json", "utf8"),
       );
       appendPackageData(packageData, filePath, packageJson);

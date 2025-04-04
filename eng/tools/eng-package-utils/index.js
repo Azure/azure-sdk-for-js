@@ -5,7 +5,7 @@
 
 import { readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
-import { parse } from "../commonLib/jju/parse.js";
+import json5 from "json5";
 import { findPackages } from "@pnpm/fs.find-packages";
 
 /**
@@ -14,7 +14,7 @@ import { findPackages } from "@pnpm/fs.find-packages";
 export async function readFileJson(filename) {
   try {
     const fileContents = await readFile(filename, { encoding: "utf8" });
-    const jsonResult = parse(fileContents);
+    const jsonResult = json5.parse(fileContents);
     return jsonResult;
   } catch (ex) {
     console.error(ex);
