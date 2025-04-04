@@ -12,7 +12,7 @@ export interface PurviewDataMapClientOptions extends ClientOptions {}
 
 /**
  * Initialize a new instance of `PurviewDataMapClient`
- * @param endpointParam - A sequence of textual characters.
+ * @param endpointParam - Represent a URL string as described by https://url.spec.whatwg.org/
  * @param credentials - uniquely identify client credential
  * @param options - the parameter for all optional parameters
  */
@@ -21,8 +21,9 @@ export default function createClient(
   credentials: TokenCredential,
   options: PurviewDataMapClientOptions = {},
 ): PurviewDataMapClient {
-  const endpointUrl = options.endpoint ?? options.baseUrl ?? `${endpointParam}/datamap/api`;
-  const userAgentInfo = `azsdk-js-purview-datamap-rest/1.0.0-beta.3`;
+  const endpointUrl =
+    options.endpoint ?? options.baseUrl ?? `${endpointParam}/datamap/api`;
+  const userAgentInfo = `azsdk-js-purview-datamap-rest/1.0.0-beta.1`;
   const userAgentPrefix =
     options.userAgentOptions && options.userAgentOptions.userAgentPrefix
       ? `${options.userAgentOptions.userAgentPrefix} ${userAgentInfo}`
@@ -36,10 +37,16 @@ export default function createClient(
       logger: options.loggingOptions?.logger ?? logger.info,
     },
     credentials: {
-      scopes: options.credentials?.scopes ?? ["https://purview.azure.net/.default"],
+      scopes: options.credentials?.scopes ?? [
+        "https://purview.azure.net/.default",
+      ],
     },
   };
-  const client = getClient(endpointUrl, credentials, options) as PurviewDataMapClient;
+  const client = getClient(
+    endpointUrl,
+    credentials,
+    options,
+  ) as PurviewDataMapClient;
 
   client.pipeline.removePolicy({ name: "ApiVersionPolicy" });
   if (options.apiVersion) {
