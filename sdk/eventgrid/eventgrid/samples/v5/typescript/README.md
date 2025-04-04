@@ -65,16 +65,16 @@ node dist/consumeEventsFromServiceBusQueue.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx dev-tool run vendored cross-env SERVICE_BUS_CONNECTION_STRING="<service bus connection string>" SERVICE_BUS_QUEUE_NAME="<service bus queue name>" node dist/consumeEventsFromServiceBusQueue.js
+npx dev-tool run vendored cross-env SERVICE_BUS_FQDN="<service bus fqdn>" SERVICE_BUS_QUEUE_NAME="<service bus queue name>" node dist/consumeEventsFromServiceBusQueue.js
 ```
 
 ## Next Steps
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[consumeeventsfromservicebusqueue]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventgrid/eventgrid/samples/v4/typescript/src/consumeEventsFromServiceBusQueue.ts
-[sendeventgridevent]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventgrid/eventgrid/samples/v4/typescript/src/sendEventGridEvent.ts
-[sendcloudevent]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventgrid/eventgrid/samples/v4/typescript/src/sendCloudEvent.ts
+[consumeeventsfromservicebusqueue]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventgrid/eventgrid/samples/v5/typescript/src/consumeEventsFromServiceBusQueue.ts
+[sendeventgridevent]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventgrid/eventgrid/samples/v5/typescript/src/sendEventGridEvent.ts
+[sendcloudevent]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventgrid/eventgrid/samples/v5/typescript/src/sendCloudEvent.ts
 [apiref]: https://learn.microsoft.com/javascript/api/@azure/eventgrid
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azureeventgridcustomtopic,configuredtousetheeventgridschema]: https://learn.microsoft.com/azure/event-grid/scripts/event-grid-cli-create-custom-topic
