@@ -52,6 +52,9 @@ importers:
       '@rush-temp/ai-projects':
         specifier: file:./projects/ai-projects.tgz
         version: file:projects/ai-projects.tgz(@types/debug@4.1.12)(tsx@4.19.3)(vite@6.2.4(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(yaml@2.7.1)
+      '@rush-temp/ai-projects-1dp':
+        specifier: file:./projects/ai-projects-1dp.tgz
+        version: file:projects/ai-projects-1dp.tgz(@types/debug@4.1.12)(tsx@4.19.3)(vite@6.2.4(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(yaml@2.7.1)
       '@rush-temp/ai-text-analytics':
         specifier: file:./projects/ai-text-analytics.tgz
         version: file:projects/ai-text-analytics.tgz(@types/debug@4.1.12)(tsx@4.19.3)(vite@6.2.4(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(yaml@2.7.1)
@@ -2420,6 +2423,10 @@ packages:
     resolution: {integrity: sha512-cDsgBWAC83I7bqESQnzhidIPg7L3iq8ZEsaxLQ2DLRWOPTsKze1kGJrbd6e2fXTz1rpSv4JmUklLu0Sj5DKEUw==, tarball: file:projects/ai-metrics-advisor.tgz}
     version: 0.0.0
 
+  '@rush-temp/ai-projects-1dp@file:projects/ai-projects-1dp.tgz':
+    resolution: {integrity: sha512-6h53vTBOzwDrZr3pEQTxgd/6HD8fs9SDl8pl5k538WU5NcjsT/RKAV5r2vcQWhKj/dpAkMlJJFtn/2p7qr8b3g==, tarball: file:projects/ai-projects-1dp.tgz}
+    version: 0.0.0
+
   '@rush-temp/ai-projects@file:projects/ai-projects.tgz':
     resolution: {integrity: sha512-CubMG3yKEhJqaN1sGjeABgDb0N9bXZkt3RGtNURESlkssBrNbR9vqF5a8nOF8x9ig+zcfs1D1zc4VCRwrRJEag==, tarball: file:projects/ai-projects.tgz}
     version: 0.0.0
@@ -2429,11 +2436,11 @@ packages:
     version: 0.0.0
 
   '@rush-temp/ai-translation-document@file:projects/ai-translation-document.tgz':
-    resolution: {integrity: sha512-zAdwzqTfMuuEV9EfulYOJtcNa7gu4lEl4fatX2FhlOvENpHL2twQdp0KshyyVJ48hKHMss49XaYDeFhOSu9DQg==, tarball: file:projects/ai-translation-document.tgz}
+    resolution: {integrity: sha512-DXBpmF26jnfQOqJrmsW/Xpsw6OpWsF+oSC+MXQB3VtFbSUvCip9YVP/ie8R+j1Z+bgrNyse7cC9gNVYhYILpUQ==, tarball: file:projects/ai-translation-document.tgz}
     version: 0.0.0
 
   '@rush-temp/ai-translation-text@file:projects/ai-translation-text.tgz':
-    resolution: {integrity: sha512-iGkBSgKEEQhQkI0p1BSdQdbl0o+39hiWEcsbDUb1KgPPZwBSoV5c/GunKwQzcyaPKaFH7dal/aF2MQZeLeCkYw==, tarball: file:projects/ai-translation-text.tgz}
+    resolution: {integrity: sha512-J8s0TlSmeGrXPwN9oOnB8T64yRlZbSFS02nLoeGdC0sae32AX+V3penShziif/lEhX/jT8Tj5Pttz8gpSRHtZg==, tarball: file:projects/ai-translation-text.tgz}
     version: 0.0.0
 
   '@rush-temp/ai-vision-face@file:projects/ai-vision-face.tgz':
@@ -9900,6 +9907,45 @@ snapshots:
       dotenv: 16.4.7
       eslint: 9.23.0
       playwright: 1.51.1
+      tslib: 2.8.1
+      typescript: 5.8.2
+      vitest: 3.1.1(@types/debug@4.1.12)(@types/node@18.19.84)(@vitest/browser@3.1.1)(tsx@4.19.3)(yaml@2.7.1)
+    transitivePeerDependencies:
+      - '@edge-runtime/vm'
+      - '@types/debug'
+      - '@vitest/ui'
+      - bufferutil
+      - happy-dom
+      - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
+      - supports-color
+      - terser
+      - tsx
+      - utf-8-validate
+      - vite
+      - webdriverio
+      - yaml
+
+  '@rush-temp/ai-projects-1dp@file:projects/ai-projects-1dp.tgz(@types/debug@4.1.12)(tsx@4.19.3)(vite@6.2.4(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(yaml@2.7.1)':
+    dependencies:
+      '@opentelemetry/api': 1.9.0
+      '@opentelemetry/instrumentation': 0.57.0(@opentelemetry/api@1.9.0)
+      '@opentelemetry/sdk-trace-node': 1.30.1(@opentelemetry/api@1.9.0)
+      '@types/node': 18.19.84
+      '@vitest/browser': 3.1.1(playwright@1.51.1)(vite@6.2.4(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.1)
+      '@vitest/coverage-istanbul': 3.1.1(vitest@3.1.1)
+      dotenv: 16.4.7
+      eslint: 9.23.0
+      playwright: 1.51.1
+      prettier: 3.5.3
       tslib: 2.8.1
       typescript: 5.8.2
       vitest: 3.1.1(@types/debug@4.1.12)(@types/node@18.19.84)(@vitest/browser@3.1.1)(tsx@4.19.3)(yaml@2.7.1)
