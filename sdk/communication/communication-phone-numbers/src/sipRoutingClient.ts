@@ -16,10 +16,12 @@ import type {
   SipRoutingError,
 } from "./generated/src/siprouting/models/index.js";
 import type {
+  GetSipTrunksOptions,
   ListSipRoutesOptions,
   ListSipTrunksOptions,
   SipTrunk,
   SipTrunkRoute,
+  TestRoutesWithNumberResponse,
 } from "./models.js";
 import { transformFromRestModel, transformIntoRestModel } from "./mappers.js";
 import type { CommonClientOptions, OperationOptions } from "@azure/core-client";
@@ -148,7 +150,8 @@ export class SipRoutingClient {
    * @param fqdn - The trunk's FQDN.
    * @param options - The options parameters.
    */
-  public async getTrunk(fqdn: string, options: OperationOptions = {}): Promise<SipTrunk> {
+  // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
+  public async getTrunk(fqdn: string, options: GetSipTrunksOptions = {}): Promise<SipTrunk> {
     return tracingClient.withSpan("SipRoutingClient-getTrunk", options, async (updatedOptions) => {
       const trunks = await this.getTrunksInternal(updatedOptions);
       const trunk = trunks.find((value: SipTrunk) => value.fqdn === fqdn);
@@ -299,13 +302,49 @@ export class SipRoutingClient {
     );
   }
 
+  /**
+   * Test routes with number.
+   * @param targetPhoneNumber - target phone number to test routes.
+   * @param routes - sip trunk routes.
+   * @param options - The options parameters for routes.
+   */
+  public async testRoutesWithNumber(
+    targetPhoneNumber: string,
+    routes: SipTrunkRoute[],
+    options: OperationOptions = {},
+  ): Promise<TestRoutesWithNumberResponse> {
+    return tracingClient.withSpan(
+      "SipRoutingClient-testRoutesWithNumber",
+      options,
+      async (updatedOptions) => {
+        return this.testRoutesWithNumberInternal(targetPhoneNumber, routes, updatedOptions);
+      },
+    );
+  }
+
+  private async testRoutesWithNumberInternal(
+    targetPhoneNumber: string,
+    routes: SipTrunkRoute[],
+    options?: OperationOptions,
+  ): Promise<TestRoutesWithNumberResponse> {
+    const optionalParams = {
+      routes: routes,
+      ...options,
+    };
+    return this.client.sipRouting.testRoutesWithNumber(targetPhoneNumber, optionalParams);
+  }
+
   private async getRoutesInternal(options: OperationOptions): Promise<SipTrunkRoute[]> {
     const config = await this.client.sipRouting.get(options);
     return config.routes || [];
   }
 
-  private async getTrunksInternal(options: OperationOptions): Promise<SipTrunk[]> {
-    const config = await this.client.sipRouting.get(options);
+  private async getTrunksInternal(options: GetSipTrunksOptions): Promise<SipTrunk[]> {
+    const optionalParams = {
+      expand: options.expand !== undefined ? options.expand : undefined,
+      ...options,
+    };
+    const config = await this.client.sipRouting.get(optionalParams);
     return transformFromRestModel(config.trunks);
   }
 
@@ -328,7 +367,7 @@ export class SipRoutingClient {
   private async *listTrunksPagingPage(
     options: ListSipTrunksOptions = {},
   ): AsyncIterableIterator<SipTrunk[]> {
-    const apiResult = await this.getTrunksInternal(options as OperationOptions);
+    const apiResult = await this.getTrunksInternal(options);
     yield apiResult;
   }
 

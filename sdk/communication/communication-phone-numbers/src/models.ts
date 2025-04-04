@@ -8,6 +8,13 @@ import type {
   PhoneNumbersListAreaCodesOptionalParams,
   PhoneNumberType,
 } from "./generated/src/models/index.js";
+import type {
+  Health,
+  IpAddressVersion,
+  PrivacyHeader,
+  RoutesForNumber,
+  SipRoutingGetOptionalParams,
+} from "./generated/src/siprouting/models/index.js";
 
 /**
  * The result of the phone numbers purchase operation.
@@ -81,7 +88,12 @@ export interface ListSipRoutesOptions extends OperationOptions {}
 /**
  * Additional options that can be passed to list SIP trunks.
  */
-export interface ListSipTrunksOptions extends OperationOptions {}
+export interface ListSipTrunksOptions extends SipRoutingGetOptionalParams {}
+
+/**
+ * Additional options that can be passed to get SIP trunks.
+ */
+export interface GetSipTrunksOptions extends SipRoutingGetOptionalParams {}
 
 /**
  * Additional options that can be passed to the available offerings request.
@@ -114,7 +126,24 @@ export {
   OperatorNumberType,
 } from "./generated/src/models/index.js";
 
-export { SipRoutingError, SipTrunkRoute } from "./generated/src/siprouting/models/index.js";
+export {
+  SipRoutingError,
+  SipTrunkRoute,
+  RoutesForNumber,
+  SipRoutingGetOptionalParams,
+  ExpandEnum,
+  KnownExpandEnum,
+  Health,
+  Tls,
+  Ping,
+  OverallHealth,
+  TlsStatus,
+  PingStatus,
+  OverallHealthStatus,
+  InactiveStatusReason,
+  PrivacyHeader,
+  IpAddressVersion,
+} from "./generated/src/siprouting/models/index.js";
 
 /**
  * Represents a SIP trunk for routing calls. See RFC 4904.
@@ -128,4 +157,19 @@ export interface SipTrunk {
    * Gets or sets SIP signaling port of the trunk.
    */
   sipSignalingPort: number;
+  /** Enabled flag */
+  enabled?: boolean;
+  /** Represents health state of a SIP trunk for routing calls. */
+  health?: Health;
+  /** When enabled, removes Azure Communication Services from the signaling path on call transfer and sets the SIP Refer-To header to the trunk's FQDN. By default false. */
+  directTransfer?: boolean;
+  /** SIP Privacy header. Default value is id. */
+  privacyHeader?: PrivacyHeader;
+  /** IP address version used by the trunk. The default value is ipv4. */
+  ipAddressVersion?: IpAddressVersion;
 }
+
+/**
+ * Test Routes with number response.
+ */
+export interface TestRoutesWithNumberResponse extends RoutesForNumber {}
