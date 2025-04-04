@@ -75,7 +75,7 @@ export async function getPackageJsons(repoRoot) {
       src: path.join(proj.rootDirRealPath, "package.json"),
       json: proj.manifest,
       versionPolicy: getVersionPolicyName(proj),
-      projectFolder: proj.rootDirRealPath,
+      projectFolder: path.relative(repoRoot, proj.rootDirRealPath).replaceAll("\\", "/"),
       newVer: undefined,
     };
   }
@@ -98,7 +98,7 @@ export async function getPackageSpec(repoRoot) {
 
     return {
       packageName: proj.manifest.name,
-      projectFolder: proj.rootDirRealPath,
+      projectFolder: path.relative(repoRoot, proj.rootDirRealPath).replaceAll("\\", "/"),
       versionPolicyName: getVersionPolicyName(proj),
     };
   });
