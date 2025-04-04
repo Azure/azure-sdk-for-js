@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import nock from "nock";
 import type { Container } from "../../../src/index.js";
 import { CosmosClient, PatchOperationType, ResourceType } from "../../../src/index.js";
 import { getTestContainer } from "../../public/common/TestHelpers.js";
 import type { AccessToken, TokenCredential } from "@azure/identity";
 import { RequestHandler } from "../../../src/request/RequestHandler.js";
+import nock from "nock";
 import { masterKey } from "../../public/common/_fakeTestSecrets.js";
 import { endpoint } from "../../public/common/_testConfig.js";
 import type { MockInstance } from "vitest";

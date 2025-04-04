@@ -75,7 +75,7 @@ describe("New session token", () => {
   });
 });
 
-describe("ujjwal soni ujjwal", async () => {
+describe("Integrated Cache Staleness", async () => {
   beforeEach(async () => {
     await removeAllDatabases();
   });
