@@ -268,6 +268,9 @@ function convertIndexResource(
   return {
     index_connection_id: source.indexConnectionId,
     index_name: source.indexName,
+    query_type: source.queryType,
+    top_k: source.topK,
+    filter: source.filter,
   };
 }
 
