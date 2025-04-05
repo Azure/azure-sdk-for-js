@@ -12,6 +12,7 @@ import type {
 } from "@azure/communication-rooms";
 import { RoomsClient } from "@azure/communication-rooms";
 import { CommunicationIdentityClient } from "@azure/communication-identity";
+import { DefaultAzureCredential } from "@azure/identity";
 
 // Load the .env file if it exists
 import "dotenv/config";
@@ -20,17 +21,17 @@ export async function main(): Promise<void> {
   console.log("Room Operations JavaScript Sample");
   console.log("_________________________________\n\n");
 
-  const connectionString =
-    process.env["COMMUNICATION_SAMPLES_CONNECTION_STRING"] ||
-    "endpoint=https://<resource-name>.communication.azure.com/;<access-key>";
+  const endpoint =
+    process.env["COMMUNICATION_ENDPOINT"] || "https://<resource-name>.communication.azure.com";
 
-  const identityClient = new CommunicationIdentityClient(connectionString);
+  const credential = new DefaultAzureCredential();
+  const identityClient = new CommunicationIdentityClient(endpoint, credential);
   const user1 = await identityClient.createUserAndToken(["voip"]);
 
   console.log("Creating room...");
 
   // create RoomsClient
-  const roomsClient: RoomsClient = new RoomsClient(connectionString);
+  const roomsClient: RoomsClient = new RoomsClient(endpoint, credential);
 
   const validFrom = new Date(Date.now());
   const validForDays = 10;
