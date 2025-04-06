@@ -8,11 +8,7 @@ The Azure resource that is used by the tests in this project is:
 
 - An existing Communication Services resource. If you need to create the resource, you can use the [Azure Portal][azure_portal] or [Azure CLI][azure_cli].
 
-To run the live tests, you will need to set the below environment variables:
-
-- `TEST_MODE`: Should have `live` assigned if you want to run live without recording. Assign `record` to run live with recording.
-- `COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING`: The primary connection string of the Communication Services resource in your account.
-- `BASE_URL`: The endpoint of the Azure Communication resource.
+To run the live tests, you will need to set the environment variables specified in test/sample.env.
 
 [azure_sub]: https://azure.microsoft.com/free/
 [azure_portal]: https://portal.azure.com

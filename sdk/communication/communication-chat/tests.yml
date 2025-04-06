@@ -7,10 +7,5 @@ extends:
       ServiceDirectory: communication
       MatrixFilters:
         - DependencyVersion=^$
-      CloudConfig:
-        Public:
-          SubscriptionConfigurations:
-            - $(sub-config-communication-services-cloud-test-resources-common)
-            - $(sub-config-communication-services-cloud-test-resources-js)
       TestResourceDirectories:
         - communication/test-resources/

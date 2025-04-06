@@ -64,7 +64,7 @@ describe("ChatClient", () => {
     });
   });
 
-  describe.runIf(!isNodeLike || isLiveMode())("Realtime Notifications", () => {
+  describe.runIf(!isNodeLike && isLiveMode())("Realtime Notifications", () => {
     beforeAll(async () => {
       // Create a thread
       const request = {
