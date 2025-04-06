@@ -2,13 +2,13 @@
 // Licensed under the MIT License.
 
 import type { Recorder } from "@azure-tools/test-recorder";
-import { isLiveMode } from "@azure-tools/test-recorder";
 import { isNodeLike } from "@azure/core-util";
 import type { ChatClient, ChatThreadClient } from "../../src/index.js";
 import { createChatClient, createRecorder, createTestUser } from "./utils/recordedClient.js";
 import type { CommunicationIdentifier } from "@azure/communication-common";
 import type { CommunicationUserToken } from "@azure/communication-identity";
 import { describe, it, assert, expect, vi, beforeEach, afterEach, beforeAll } from "vitest";
+import { isLiveMode } from "../utils/injectables.js";
 
 describe("ChatClient", () => {
   let threadId: string | undefined;
@@ -64,7 +64,7 @@ describe("ChatClient", () => {
     });
   });
 
-  describe("Realtime Notifications", { skip: isNodeLike || !isLiveMode() }, () => {
+  describe.runIf(!isNodeLike || isLiveMode())("Realtime Notifications", () => {
     beforeAll(async () => {
       // Create a thread
       const request = {
@@ -292,28 +292,18 @@ describe("ChatClient", () => {
     );
 
     // TODO: Read receipt notification is timing out even with increased timeout
-    it(
-      "successfully listens to readReceiptReceivedEvents",
-      { timeout: 8000, skip: true },
-      () =>
-        new Promise<void>((resolve) => {
-          function listener(): void {
-            resolve();
-          }
-
-          chatClient.on("readReceiptReceived", listener);
-
-          // Send read receipt
-          const message = { content: "content" };
-          chatThreadClient
-            .sendMessage(message)
-            .then((result) => {
-              return chatThreadClient.sendReadReceipt({
-                chatMessageId: result.id,
-              });
-            })
-            .catch((error) => console.error(error));
+    it.skip("successfully listens to readReceiptReceivedEvents", async () => {
+      const message = { content: "content" };
+      await Promise.all([
+        chatThreadClient.sendMessage(message).then((result) => {
+          return chatThreadClient.sendReadReceipt({
+            chatMessageId: result.id,
+          });
         }),
-    );
+        new Promise<void>((resolve) => {
+          chatClient.on("readReceiptReceived", () => resolve());
+        }),
+      ]);
+    });
   });
 });
