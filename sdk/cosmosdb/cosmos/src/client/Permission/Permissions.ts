@@ -52,7 +52,10 @@ export class Permissions {
    * ```
    */
   public query(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<any>;
-
+  /**
+   * Query all permissions.
+   * @param query - Query configuration for the operation. See {@link SqlQuerySpec} for more info on how to configure a query.
+   */
   public query<T>(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<T>;
   public query<T>(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<T> {
     const path = getPathFromLink(this.user.url, ResourceType.permission);

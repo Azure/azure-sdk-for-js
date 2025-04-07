@@ -43,7 +43,10 @@ export class Offers {
    * ```
    */
   public query(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<any>;
-
+  /**
+   * Query all offers.
+   * @param query - Query configuration for the operation. See {@link SqlQuerySpec} for more info on how to configure a query.
+   */
   public query<T>(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<T>;
   public query<T>(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<T> {
     return new QueryIterator(this.clientContext, query, options, (diagnosticNode, innerOptions) => {
