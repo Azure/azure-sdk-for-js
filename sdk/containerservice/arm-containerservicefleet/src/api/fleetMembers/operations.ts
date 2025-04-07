@@ -51,15 +51,13 @@ export function _listByFleetSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _listByFleetDeserialize(
@@ -111,23 +109,17 @@ export function _$deleteSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .delete({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        ...(options?.ifMatch !== undefined
-          ? { "If-Match": options?.ifMatch }
-          : {}),
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).delete({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      ...(options?.ifMatch !== undefined ? { "If-Match": options?.ifMatch } : {}),
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
-export async function _$deleteDeserialize(
-  result: PathUncheckedResponse,
-): Promise<void> {
+export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
   const expectedStatuses = ["200", "202", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -151,24 +143,13 @@ export function $delete(
   fleetMemberName: string,
   options: FleetMembersDeleteOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(
-    context,
-    _$deleteDeserialize,
-    ["200", "202", "204"],
-    {
-      updateIntervalInMs: options?.updateIntervalInMs,
-      abortSignal: options?.abortSignal,
-      getInitialResponse: () =>
-        _$deleteSend(
-          context,
-          resourceGroupName,
-          fleetName,
-          fleetMemberName,
-          options,
-        ),
-      resourceLocationConfig: "location",
-    },
-  ) as PollerLike<OperationState<void>, void>;
+  return getLongRunningPoller(context, _$deleteDeserialize, ["200", "202", "204"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _$deleteSend(context, resourceGroupName, fleetName, fleetMemberName, options),
+    resourceLocationConfig: "location",
+  }) as PollerLike<OperationState<void>, void>;
 }
 
 export function _updateAsyncSend(
@@ -192,25 +173,19 @@ export function _updateAsyncSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .patch({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        ...(options?.ifMatch !== undefined
-          ? { "If-Match": options?.ifMatch }
-          : {}),
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: fleetMemberUpdateSerializer(properties),
-    });
+  return context.path(path).patch({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      ...(options?.ifMatch !== undefined ? { "If-Match": options?.ifMatch } : {}),
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: fleetMemberUpdateSerializer(properties),
+  });
 }
 
-export async function _updateAsyncDeserialize(
-  result: PathUncheckedResponse,
-): Promise<FleetMember> {
+export async function _updateAsyncDeserialize(result: PathUncheckedResponse): Promise<FleetMember> {
   const expectedStatuses = ["200", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -230,25 +205,13 @@ export function updateAsync(
   properties: FleetMemberUpdate,
   options: FleetMembersUpdateAsyncOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<FleetMember>, FleetMember> {
-  return getLongRunningPoller(
-    context,
-    _updateAsyncDeserialize,
-    ["200", "202"],
-    {
-      updateIntervalInMs: options?.updateIntervalInMs,
-      abortSignal: options?.abortSignal,
-      getInitialResponse: () =>
-        _updateAsyncSend(
-          context,
-          resourceGroupName,
-          fleetName,
-          fleetMemberName,
-          properties,
-          options,
-        ),
-      resourceLocationConfig: "location",
-    },
-  ) as PollerLike<OperationState<FleetMember>, FleetMember>;
+  return getLongRunningPoller(context, _updateAsyncDeserialize, ["200", "202"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _updateAsyncSend(context, resourceGroupName, fleetName, fleetMemberName, properties, options),
+    resourceLocationConfig: "location",
+  }) as PollerLike<OperationState<FleetMember>, FleetMember>;
 }
 
 export function _createSend(
@@ -272,28 +235,20 @@ export function _createSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .put({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        ...(options?.ifMatch !== undefined
-          ? { "If-Match": options?.ifMatch }
-          : {}),
-        ...(options?.ifNoneMatch !== undefined
-          ? { "If-None-Match": options?.ifNoneMatch }
-          : {}),
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: fleetMemberSerializer(resource),
-    });
+  return context.path(path).put({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      ...(options?.ifMatch !== undefined ? { "If-Match": options?.ifMatch } : {}),
+      ...(options?.ifNoneMatch !== undefined ? { "If-None-Match": options?.ifNoneMatch } : {}),
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: fleetMemberSerializer(resource),
+  });
 }
 
-export async function _createDeserialize(
-  result: PathUncheckedResponse,
-): Promise<FleetMember> {
+export async function _createDeserialize(result: PathUncheckedResponse): Promise<FleetMember> {
   const expectedStatuses = ["200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -317,14 +272,7 @@ export function create(
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
-      _createSend(
-        context,
-        resourceGroupName,
-        fleetName,
-        fleetMemberName,
-        resource,
-        options,
-      ),
+      _createSend(context, resourceGroupName, fleetName, fleetMemberName, resource, options),
     resourceLocationConfig: "azure-async-operation",
   }) as PollerLike<OperationState<FleetMember>, FleetMember>;
 }
@@ -349,20 +297,16 @@ export function _getSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
-export async function _getDeserialize(
-  result: PathUncheckedResponse,
-): Promise<FleetMember> {
+export async function _getDeserialize(result: PathUncheckedResponse): Promise<FleetMember> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -381,12 +325,6 @@ export async function get(
   fleetMemberName: string,
   options: FleetMembersGetOptionalParams = { requestOptions: {} },
 ): Promise<FleetMember> {
-  const result = await _getSend(
-    context,
-    resourceGroupName,
-    fleetName,
-    fleetMemberName,
-    options,
-  );
+  const result = await _getSend(context, resourceGroupName, fleetName, fleetMemberName, options);
   return _getDeserialize(result);
 }

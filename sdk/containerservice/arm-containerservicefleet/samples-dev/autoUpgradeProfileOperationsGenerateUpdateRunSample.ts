@@ -14,11 +14,7 @@ async function autoUpgradeProfileOperationsGenerateUpdateRunMaximumSet(): Promis
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ContainerServiceFleetClient(credential, subscriptionId);
-  await client.autoUpgradeProfileOperations.generateUpdateRun(
-    "rgfleets",
-    "fleet1",
-    "aup1",
-  );
+  await client.autoUpgradeProfileOperations.generateUpdateRun("rgfleets", "fleet1", "aup1");
 }
 
 async function main(): Promise<void> {

@@ -15,10 +15,7 @@ async function listTheFleetUpdateStrategyResourcesByFleetGeneratedByMaximumSetRu
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ContainerServiceFleetClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.fleetUpdateStrategies.listByFleet(
-    "rgfleets",
-    "fleet1",
-  )) {
+  for await (const item of client.fleetUpdateStrategies.listByFleet("rgfleets", "fleet1")) {
     resArray.push(item);
   }
 
@@ -36,10 +33,7 @@ async function listTheFleetUpdateStrategyResourcesByFleet(): Promise<void> {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ContainerServiceFleetClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.fleetUpdateStrategies.listByFleet(
-    "rg1",
-    "fleet1",
-  )) {
+  for await (const item of client.fleetUpdateStrategies.listByFleet("rg1", "fleet1")) {
     resArray.push(item);
   }
 

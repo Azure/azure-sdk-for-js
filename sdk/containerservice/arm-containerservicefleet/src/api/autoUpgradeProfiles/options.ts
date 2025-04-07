@@ -4,12 +4,10 @@
 import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface AutoUpgradeProfilesListByFleetOptionalParams
-  extends OperationOptions {}
+export interface AutoUpgradeProfilesListByFleetOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface AutoUpgradeProfilesDeleteOptionalParams
-  extends OperationOptions {
+export interface AutoUpgradeProfilesDeleteOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** The request should only proceed if an entity matches this string. */
@@ -17,8 +15,7 @@ export interface AutoUpgradeProfilesDeleteOptionalParams
 }
 
 /** Optional parameters. */
-export interface AutoUpgradeProfilesCreateOrUpdateOptionalParams
-  extends OperationOptions {
+export interface AutoUpgradeProfilesCreateOrUpdateOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** The request should only proceed if an entity matches this string. */
@@ -28,5 +25,4 @@ export interface AutoUpgradeProfilesCreateOrUpdateOptionalParams
 }
 
 /** Optional parameters. */
-export interface AutoUpgradeProfilesGetOptionalParams
-  extends OperationOptions {}
+export interface AutoUpgradeProfilesGetOptionalParams extends OperationOptions {}

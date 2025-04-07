@@ -67,14 +67,7 @@ function _getAutoUpgradeProfiles(context: ContainerServiceFleetContext) {
       fleetName: string,
       autoUpgradeProfileName: string,
       options?: AutoUpgradeProfilesDeleteOptionalParams,
-    ) =>
-      $delete(
-        context,
-        resourceGroupName,
-        fleetName,
-        autoUpgradeProfileName,
-        options,
-      ),
+    ) => $delete(context, resourceGroupName, fleetName, autoUpgradeProfileName, options),
     createOrUpdate: (
       resourceGroupName: string,
       fleetName: string,
@@ -95,14 +88,7 @@ function _getAutoUpgradeProfiles(context: ContainerServiceFleetContext) {
       fleetName: string,
       autoUpgradeProfileName: string,
       options?: AutoUpgradeProfilesGetOptionalParams,
-    ) =>
-      get(
-        context,
-        resourceGroupName,
-        fleetName,
-        autoUpgradeProfileName,
-        options,
-      ),
+    ) => get(context, resourceGroupName, fleetName, autoUpgradeProfileName, options),
   };
 }
 

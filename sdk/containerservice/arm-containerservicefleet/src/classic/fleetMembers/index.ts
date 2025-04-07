@@ -77,38 +77,21 @@ function _getFleetMembers(context: ContainerServiceFleetContext) {
       fleetName: string,
       fleetMemberName: string,
       options?: FleetMembersDeleteOptionalParams,
-    ) =>
-      $delete(context, resourceGroupName, fleetName, fleetMemberName, options),
+    ) => $delete(context, resourceGroupName, fleetName, fleetMemberName, options),
     updateAsync: (
       resourceGroupName: string,
       fleetName: string,
       fleetMemberName: string,
       properties: FleetMemberUpdate,
       options?: FleetMembersUpdateAsyncOptionalParams,
-    ) =>
-      updateAsync(
-        context,
-        resourceGroupName,
-        fleetName,
-        fleetMemberName,
-        properties,
-        options,
-      ),
+    ) => updateAsync(context, resourceGroupName, fleetName, fleetMemberName, properties, options),
     create: (
       resourceGroupName: string,
       fleetName: string,
       fleetMemberName: string,
       resource: FleetMember,
       options?: FleetMembersCreateOptionalParams,
-    ) =>
-      create(
-        context,
-        resourceGroupName,
-        fleetName,
-        fleetMemberName,
-        resource,
-        options,
-      ),
+    ) => create(context, resourceGroupName, fleetName, fleetMemberName, resource, options),
     get: (
       resourceGroupName: string,
       fleetName: string,

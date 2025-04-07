@@ -36,20 +36,16 @@ export function _generateUpdateRunSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
-export async function _generateUpdateRunDeserialize(
-  result: PathUncheckedResponse,
-): Promise<void> {
+export async function _generateUpdateRunDeserialize(result: PathUncheckedResponse): Promise<void> {
   const expectedStatuses = ["202", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -70,22 +66,17 @@ export function generateUpdateRun(
     requestOptions: {},
   },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(
-    context,
-    _generateUpdateRunDeserialize,
-    ["202", "200"],
-    {
-      updateIntervalInMs: options?.updateIntervalInMs,
-      abortSignal: options?.abortSignal,
-      getInitialResponse: () =>
-        _generateUpdateRunSend(
-          context,
-          resourceGroupName,
-          fleetName,
-          autoUpgradeProfileName,
-          options,
-        ),
-      resourceLocationConfig: "azure-async-operation",
-    },
-  ) as PollerLike<OperationState<void>, void>;
+  return getLongRunningPoller(context, _generateUpdateRunDeserialize, ["202", "200"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _generateUpdateRunSend(
+        context,
+        resourceGroupName,
+        fleetName,
+        autoUpgradeProfileName,
+        options,
+      ),
+    resourceLocationConfig: "azure-async-operation",
+  }) as PollerLike<OperationState<void>, void>;
 }

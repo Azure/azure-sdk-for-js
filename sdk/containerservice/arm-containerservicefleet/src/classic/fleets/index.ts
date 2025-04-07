@@ -2,11 +2,7 @@
 // Licensed under the MIT License.
 
 import { ContainerServiceFleetContext } from "../../api/containerServiceFleetContext.js";
-import {
-  Fleet,
-  FleetPatch,
-  FleetCredentialResults,
-} from "../../models/models.js";
+import { Fleet, FleetPatch, FleetCredentialResults } from "../../models/models.js";
 import {
   FleetsListCredentialsOptionalParams,
   FleetsListBySubscriptionOptionalParams,
@@ -91,35 +87,26 @@ function _getFleets(context: ContainerServiceFleetContext) {
       resourceGroupName: string,
       options?: FleetsListByResourceGroupOptionalParams,
     ) => listByResourceGroup(context, resourceGroupName, options),
-    delete: (
-      resourceGroupName: string,
-      fleetName: string,
-      options?: FleetsDeleteOptionalParams,
-    ) => $delete(context, resourceGroupName, fleetName, options),
+    delete: (resourceGroupName: string, fleetName: string, options?: FleetsDeleteOptionalParams) =>
+      $delete(context, resourceGroupName, fleetName, options),
     updateAsync: (
       resourceGroupName: string,
       fleetName: string,
       properties: FleetPatch,
       options?: FleetsUpdateAsyncOptionalParams,
-    ) =>
-      updateAsync(context, resourceGroupName, fleetName, properties, options),
+    ) => updateAsync(context, resourceGroupName, fleetName, properties, options),
     create: (
       resourceGroupName: string,
       fleetName: string,
       resource: Fleet,
       options?: FleetsCreateOptionalParams,
     ) => create(context, resourceGroupName, fleetName, resource, options),
-    get: (
-      resourceGroupName: string,
-      fleetName: string,
-      options?: FleetsGetOptionalParams,
-    ) => get(context, resourceGroupName, fleetName, options),
+    get: (resourceGroupName: string, fleetName: string, options?: FleetsGetOptionalParams) =>
+      get(context, resourceGroupName, fleetName, options),
   };
 }
 
-export function _getFleetsOperations(
-  context: ContainerServiceFleetContext,
-): FleetsOperations {
+export function _getFleetsOperations(context: ContainerServiceFleetContext): FleetsOperations {
   return {
     ..._getFleets(context),
   };
