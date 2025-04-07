@@ -71,11 +71,6 @@ export class AIProjectClient {
     credential: KeyCredential | TokenCredential,
     options: AIProjectClientOptionalParams = {},
   ): AIProjectClient {
-    return new AIProjectClient(
-      endpoint,
-      credential,
-      options,
-    );
+    return new AIProjectClient(endpoint, credential, options);
   }
-
 }

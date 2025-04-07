@@ -3,7 +3,7 @@
 
 /**
  * This sample demonstrates how to use the AIProjectClient to manage indexes.
- * 
+ *
  * @summary Given an AIProjectClient, this sample demonstrates how to enumerate the properties of all indexes,
  * get the properties of an index by its name, and delete an index.
  */
@@ -14,8 +14,7 @@ import * as dotenv from "dotenv";
 
 dotenv.config();
 
-const endpoint =
-  process.env["AZURE_AI_PROJECT_ENDPOINT_STRING"] || "<project endpoint string>";
+const endpoint = process.env["AZURE_AI_PROJECT_ENDPOINT_STRING"] || "<project endpoint string>";
 const apiKey = process.env["AZURE_AI_PROJECT_API_KEY"] || "<project key>";
 
 export async function main(): Promise<void> {
@@ -41,7 +40,7 @@ export async function main(): Promise<void> {
 
   console.log("Delete the Index versions created above:");
   await project.indexes.deleteVersion(indexName, "1");
-  
+
   console.log("Index operations completed successfully");
 }
 

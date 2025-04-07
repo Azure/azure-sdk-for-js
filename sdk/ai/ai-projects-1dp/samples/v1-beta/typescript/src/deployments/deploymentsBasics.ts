@@ -3,7 +3,7 @@
 
 /**
  * This sample demonstrates how to use the AIProjectClient to manage deployments.
- * 
+ *
  * @summary Given an AIProjectClient, this sample demonstrates how to enumerate the properties of all deployments,
  * get the properties of a deployment by its name, and delete a deployment.
  */
@@ -14,8 +14,7 @@ import { AzureKeyCredential } from "@azure/core-auth";
 import * as dotenv from "dotenv";
 dotenv.config();
 
-const endpoint =
-  process.env["AZURE_AI_PROJECT_ENDPOINT_STRING"] || "<project endpoint string>";
+const endpoint = process.env["AZURE_AI_PROJECT_ENDPOINT_STRING"] || "<project endpoint string>";
 const apiKey = process.env["AZURE_AI_PROJECT_API_KEY"] || "<project key>";
 const modelPublisher = process.env["MODEL_PUBLISHER"] || "<model publisher>";
 
@@ -38,7 +37,9 @@ export async function main(): Promise<void> {
     filteredDeployments.push(deployment);
     console.log(deployment);
   }
-  console.log(`Retrieved ${filteredDeployments.length} deployments from model publisher '${modelPublisher}'`);
+  console.log(
+    `Retrieved ${filteredDeployments.length} deployments from model publisher '${modelPublisher}'`,
+  );
 
   // Get a single deployment by name
   if (deployments.length > 0) {

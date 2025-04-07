@@ -18,6 +18,7 @@ export class AIProjectClient {
     readonly deployments: DeploymentsOperations;
     readonly evaluationResults: EvaluationResultsOperations;
     readonly evaluations: EvaluationsOperations;
+    static fromEndpoint(endpoint: string, credential: KeyCredential | TokenCredential, options?: AIProjectClientOptionalParams): AIProjectClient;
     readonly indexes: IndexesOperations;
     readonly pipeline: Pipeline;
     readonly redTeams: RedTeamsOperations;
