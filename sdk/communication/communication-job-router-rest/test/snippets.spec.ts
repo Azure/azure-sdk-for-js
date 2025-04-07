@@ -1,22 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { DefaultAzureCredential } from "@azure/identity";
 import JobRouterClient from "../src/index.js";
 import { setLogLevel } from "@azure/logger";
 import { describe, it } from "vitest";
-import { isUnexpected } from "../generated/isUnexpected.js";
 
 describe("snippets", () => {
   it("ReadmeSampleCreateClient", async () => {
-    const connectionString =
-      "endpoint=https://<YOUR_ACS>.communication.azure.com/;accesskey=<YOUR_ACCESS_KEY>";
-    const routerClient = JobRouterClient(connectionString);
+    const endpoint = "https://<YOUR_ACS>.communication.azure.com/";
+    const routerClient = JobRouterClient(endpoint, new DefaultAzureCredential());
   });
 
   it("ReadmeSampleCreateDistributionPolicy", async () => {
-    const connectionString =
-      "endpoint=https://<YOUR_ACS>.communication.azure.com/;accesskey=<YOUR_ACCESS_KEY>";
-    const routerClient = JobRouterClient(connectionString);
+    const endpoint = "https://<YOUR_ACS>.communication.azure.com/";
+    const routerClient = JobRouterClient(endpoint, new DefaultAzureCredential());
     // @ts-preserve-whitespace
     const id = "distribution-policy-123";
     const result = await routerClient
@@ -37,9 +35,8 @@ describe("snippets", () => {
   });
 
   it("ReadmeSampleCreateQueue", async () => {
-    const connectionString =
-      "endpoint=https://<YOUR_ACS>.communication.azure.com/;accesskey=<YOUR_ACCESS_KEY>";
-    const routerClient = JobRouterClient(connectionString);
+    const endpoint = "https://<YOUR_ACS>.communication.azure.com/";
+    const routerClient = JobRouterClient(endpoint, new DefaultAzureCredential());
     // @ts-preserve-whitespace
     const distributionPolicyId = "distribution-policy-123";
     const queueId = "queue-123";
@@ -53,9 +50,8 @@ describe("snippets", () => {
   });
 
   it("ReadmeSampleCreateWorkers", async () => {
-    const connectionString =
-      "endpoint=https://<YOUR_ACS>.communication.azure.com/;accesskey=<YOUR_ACCESS_KEY>";
-    const routerClient = JobRouterClient(connectionString);
+    const endpoint = "https://<YOUR_ACS>.communication.azure.com/";
+    const routerClient = JobRouterClient(endpoint, new DefaultAzureCredential());
     // @ts-preserve-whitespace
     const id = "router-worker-123";
     const result = await routerClient.path("/routing/workers/{workerId}", id).patch({
@@ -79,9 +75,8 @@ describe("snippets", () => {
   });
 
   it("ReadmeSampleCreateJob", async () => {
-    const connectionString =
-      "endpoint=https://<YOUR_ACS>.communication.azure.com/;accesskey=<YOUR_ACCESS_KEY>";
-    const routerClient = JobRouterClient(connectionString);
+    const endpoint = "https://<YOUR_ACS>.communication.azure.com/";
+    const routerClient = JobRouterClient(endpoint, new DefaultAzureCredential());
     // @ts-preserve-whitespace
     const queueId = "queue-123";
     const jobId = "router-job-123";
@@ -98,9 +93,8 @@ describe("snippets", () => {
   });
 
   it("ReadmeSampleCreateClassificationPolicy", async () => {
-    const connectionString =
-      "endpoint=https://<YOUR_ACS>.communication.azure.com/;accesskey=<YOUR_ACCESS_KEY>";
-    const routerClient = JobRouterClient(connectionString);
+    const endpoint = "https://<YOUR_ACS>.communication.azure.com/";
+    const routerClient = JobRouterClient(endpoint, new DefaultAzureCredential());
     // @ts-preserve-whitespace
     const classificationPolicyId = "classification-policy-123";
     // @ts-preserve-whitespace
@@ -135,9 +129,8 @@ describe("snippets", () => {
   });
 
   it("ReadmeSampleCreateJobWithClassificationPolicy", async () => {
-    const connectionString =
-      "endpoint=https://<YOUR_ACS>.communication.azure.com/;accesskey=<YOUR_ACCESS_KEY>";
-    const routerClient = JobRouterClient(connectionString);
+    const endpoint = "https://<YOUR_ACS>.communication.azure.com/";
+    const routerClient = JobRouterClient(endpoint, new DefaultAzureCredential());
     // @ts-preserve-whitespace
     const jobId = "router-job-123";
     const classificationPolicyId = "classification-policy-123";
@@ -155,9 +148,8 @@ describe("snippets", () => {
   });
 
   it("ReadmeSampleAcceptOrDeclineOffer", async () => {
-    const connectionString =
-      "endpoint=https://<YOUR_ACS>.communication.azure.com/;accesskey=<YOUR_ACCESS_KEY>";
-    const routerClient = JobRouterClient(connectionString);
+    const endpoint = "https://<YOUR_ACS>.communication.azure.com/";
+    const routerClient = JobRouterClient(endpoint, new DefaultAzureCredential());
     // @ts-preserve-whitespace
     const workerId = "router-worker-123";
     const offerId = "offer-id";
@@ -173,9 +165,8 @@ describe("snippets", () => {
   });
 
   it("ReadmeSampleCompleteJob", async () => {
-    const connectionString =
-      "endpoint=https://<YOUR_ACS>.communication.azure.com/;accesskey=<YOUR_ACCESS_KEY>";
-    const routerClient = JobRouterClient(connectionString);
+    const endpoint = "https://<YOUR_ACS>.communication.azure.com/";
+    const routerClient = JobRouterClient(endpoint, new DefaultAzureCredential());
     // @ts-preserve-whitespace
     const workerId = "router-worker-123";
     const jobId = "job-id";
@@ -191,9 +182,8 @@ describe("snippets", () => {
   });
 
   it("ReadmeSampleCloseJob", async () => {
-    const connectionString =
-      "endpoint=https://<YOUR_ACS>.communication.azure.com/;accesskey=<YOUR_ACCESS_KEY>";
-    const routerClient = JobRouterClient(connectionString);
+    const endpoint = "https://<YOUR_ACS>.communication.azure.com/";
+    const routerClient = JobRouterClient(endpoint, new DefaultAzureCredential());
     // @ts-preserve-whitespace
     const workerId = "router-worker-123";
     const jobId = "job-id";

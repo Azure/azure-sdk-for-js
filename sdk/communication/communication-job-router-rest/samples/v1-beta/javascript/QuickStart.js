@@ -3,14 +3,16 @@
 /**
  * @summary Quick start workflow for creating queue, job and worker, routing/matching job with worker
  */
-const JobRouter = require("@azure-rest/communication-job-router").default;
-require("dotenv").config();
+const JobRouter = require("@azure-rest/communication-job-router").default,
+  { isUnexpected } = require("@azure-rest/communication-job-router");
+const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv/config");
 
-const connectionString = process.env["COMMUNICATION_CONNECTION_STRING"] || "";
+const endpoint = process.env["COMMUNICATION_ENDPOINT"] || "";
 
 async function quickStart() {
   // Create the Router Client
-  const routerClient = JobRouter(connectionString);
+  const routerClient = JobRouter(endpoint, new DefaultAzureCredential());
 
   // Create a Distribution Policy
   const distributionPolicyId = "distribution-policy-123";
@@ -19,9 +21,9 @@ async function quickStart() {
     .patch({
       contentType: "application/merge-patch+json",
       body: {
-        name: "distribution-policy-123",
+        name: "distribution policy 123",
         mode: {
-          kind: "longest-idle",
+          kind: "longestIdle",
           minConcurrentOffers: 1,
           maxConcurrentOffers: 5,
           bypassSelectors: false,
@@ -88,12 +90,12 @@ async function quickStart() {
   // However, we could also wait a few seconds and then query the worker directly against the Job Router API to see if
   // an offer was issued to it.
   const workerResponse = await routerClient.path("/routing/workers/{workerId}", workerId).get();
-  if (workerResponse.status !== "200") {
-    throw new Error("get works fails");
+  if (isUnexpected(workerResponse)) {
+    throw workerResponse;
   }
   const workerResult = workerResponse.body;
 
-  for await (let offer of workerResult.offers) {
+  for await (const offer of workerResult.offers) {
     console.log(`Worker ${workerId} has an active offer for job ${offer.jobId}`);
   }
 
@@ -108,8 +110,8 @@ async function quickStart() {
   const acceptJobOfferResponse = await routerClient
     .path("/routing/workers/{workerId}/offers/{offerId}:accept", workerId, offerId)
     .post();
-  if (acceptJobOfferResponse.status !== "200") {
-    throw new Error("accept job offer fails");
+  if (isUnexpected(acceptJobOfferResponse)) {
+    throw acceptJobOfferResponse;
   }
   const acceptJobOfferResult = acceptJobOfferResponse.body;
 
@@ -120,15 +122,15 @@ async function quickStart() {
 
   // verify job assignment is populated when querying job
   let updatedJobResponse = await routerClient.path("/routing/jobs/{jobId}", jobId).get();
-  if (updatedJobResponse.status !== "200") {
-    throw new Error("get job fails");
+  if (isUnexpected(updatedJobResponse)) {
+    throw updatedJobResponse;
   }
   let updatedJob = updatedJobResponse.body;
 
   console.log(`Job assignment has been successful: 
   ${
-    updatedJob.status == "assigned" &&
-    updatedJob.assignments.hasOwnProperty(acceptJobOfferResult.assignmentId)
+    updatedJob.status === "assigned" &&
+    Object.prototype.hasOwnProperty.call(updatedJob.assignments, acceptJobOfferResult.assignmentId)
   }`);
 
   // Completing a job
@@ -165,7 +167,7 @@ async function quickStart() {
 
   // Optionally, a job can also be set up to be marked as closed in the future.
   const afterTwoSeconds = new Date();
-  afterTwoSeconds.setSeconds(afterTwoSeconds.getSeconds() + 2);
+  await afterTwoSeconds.setSeconds(afterTwoSeconds.getSeconds() + 2);
   const closeJobInFuture = await routerClient
     .path(
       "/routing/jobs/{jobId}/assignments/{assignmentId}:close",
@@ -183,12 +185,12 @@ async function quickStart() {
   await delay(2000);
 
   updatedJobResponse = await routerClient.path("/routing/jobs/{jobId}", jobId).get();
-  if (updatedJobResponse.status !== "200") {
-    throw new Error("get job fails");
+  if (isUnexpected(updatedJobResponse)) {
+    throw updatedJobResponse;
   }
   updatedJob = updatedJobResponse.body;
 
-  console.log(`Updated job status: ${updatedJob.status == "closed"}`);
+  console.log(`Updated job status: ${updatedJob.status === "closed"}`);
 }
 
 function delay(ms) {

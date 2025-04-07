@@ -2,31 +2,36 @@
 // Licensed under the MIT License.
 
 import type { ClientOptions } from "@azure-rest/core-client";
-import * as dotenv from "dotenv";
 import type { RecorderStartOptions, TestInfo } from "@azure-tools/test-recorder";
-import { Recorder, env } from "@azure-tools/test-recorder";
+import { Recorder } from "@azure-tools/test-recorder";
 import JobRouter from "../../../src/index.js";
 import type { AzureCommunicationRoutingServiceClient } from "../../../src/index.js";
-import { isNodeLike } from "@azure/core-util";
 import { generateToken } from "../../public/utils/connection.js";
-
-if (isNodeLike) {
-  dotenv.config();
-}
-
-const envSetupForPlayback: { [k: string]: string } = {
-  COMMUNICATION_CONNECTION_STRING: "endpoint=https://endpoint/;accesskey=banana",
-};
+import { getConnectionString, getEndpoint } from "../../utils/injectables.js";
+import * as MOCKS from "../../utils/constants.js";
 
 const fakeToken = generateToken();
 export const recorderOptions: RecorderStartOptions = {
-  envSetupForPlayback,
+  envSetupForPlayback: {},
   sanitizerOptions: {
     bodyKeySanitizers: [{ jsonPath: "$.accessToken.token", value: fakeToken }],
+    uriSanitizers: [
+      {
+        target: getEndpoint(),
+        value: MOCKS.ENDPOINT,
+      },
+    ],
+    connectionStringSanitizers: [
+      {
+        actualConnString: getConnectionString(),
+        fakeConnString: MOCKS.CONNECTION_STRING,
+      },
+    ],
   },
   removeCentralSanitizers: [
     "AZSDK3493", // .name in the body is not a secret and is listed below in the beforeEach section
     "AZSDK3430", // .id in the body is not a secret and is listed below in the beforeEach section
+    "AZSDK4001",
   ],
 };
 
@@ -50,7 +55,7 @@ export async function createRecordedRouterClientWithConnectionString(
 
   return {
     routerClient: JobRouter(
-      env.COMMUNICATION_CONNECTION_STRING as string,
+      getConnectionString(),
       recorder.configureClientOptions({}) as ClientOptions,
     ),
     recorder,

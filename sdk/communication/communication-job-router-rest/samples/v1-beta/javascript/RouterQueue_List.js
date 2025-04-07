@@ -4,15 +4,16 @@
  * @summary job queue crud
  */
 const JobRouter = require("@azure-rest/communication-job-router").default,
-  { paginate } = require("@azure-rest/communication-job-router");
-require("dotenv").config();
+  { isUnexpected, paginate } = require("@azure-rest/communication-job-router");
+const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv/config");
 
-const connectionString = process.env["COMMUNICATION_CONNECTION_STRING"] || "";
+const endpoint = process.env["COMMUNICATION_ENDPOINT"] || "";
 
 // List exception policies
 async function listJobQueues() {
   // Create the Router Client
-  const routerClient = JobRouter(connectionString);
+  const routerClient = JobRouter(endpoint, new DefaultAzureCredential());
 
   const maxPageSize = 3;
   // Get the first page which also contains information on how to get the next page.
@@ -20,7 +21,7 @@ async function listJobQueues() {
     .path("/routing/queues")
     .get({ queryParameters: { maxpagesize: maxPageSize } });
 
-  if (initialResponse.status == "200") {
+  if (!isUnexpected(initialResponse)) {
     // The paginate helper creates a paged async iterator using metadata from the first page.
     const items = paginate(routerClient, initialResponse);
 

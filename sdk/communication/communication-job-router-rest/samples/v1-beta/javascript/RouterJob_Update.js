@@ -4,14 +4,15 @@
  * @summary router job crud
  */
 const JobRouter = require("@azure-rest/communication-job-router").default;
-require("dotenv").config();
+const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv/config");
 
-const connectionString = process.env["COMMUNICATION_CONNECTION_STRING"] || "";
+const endpoint = process.env["COMMUNICATION_ENDPOINT"] || "";
 
 // Update a router job
 async function updateRouterJob() {
   // Create the JobRouter Client
-  const routerClient = JobRouter(connectionString);
+  const routerClient = JobRouter(endpoint, new DefaultAzureCredential());
 
   const queueId = "queue-123";
   await routerClient.path("/routing/queues/{queueId}", queueId).patch({

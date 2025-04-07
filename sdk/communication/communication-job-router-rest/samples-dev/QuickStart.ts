@@ -10,13 +10,17 @@ import type {
   RouterJobOutput,
 } from "@azure-rest/communication-job-router";
 import JobRouter, { isUnexpected } from "@azure-rest/communication-job-router";
+import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-const connectionString = process.env["COMMUNICATION_CONNECTION_STRING"] || "";
+const endpoint = process.env["COMMUNICATION_ENDPOINT"] || "";
 
 async function quickStart(): Promise<void> {
   // Create the Router Client
-  const routerClient: AzureCommunicationRoutingServiceClient = JobRouter(connectionString);
+  const routerClient: AzureCommunicationRoutingServiceClient = JobRouter(
+    endpoint,
+    new DefaultAzureCredential(),
+  );
 
   // Create a Distribution Policy
   const distributionPolicyId = "distribution-policy-123";

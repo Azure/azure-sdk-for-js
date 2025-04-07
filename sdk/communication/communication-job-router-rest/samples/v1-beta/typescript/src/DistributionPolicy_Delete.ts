@@ -4,24 +4,26 @@
  * @summary Distribution policy crud
  */
 
+import type { AzureCommunicationRoutingServiceClient } from "@azure-rest/communication-job-router";
+import JobRouter from "@azure-rest/communication-job-router";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
 
-import JobRouter, {
-  AzureCommunicationRoutingServiceClient
-} from "@azure-rest/communication-job-router";
-import * as dotenv from "dotenv";
-dotenv.config();
-
-const connectionString = process.env["COMMUNICATION_CONNECTION_STRING"] || "";
+const endpoint = process.env["COMMUNICATION_ENDPOINT"] || "";
 
 // Delete distribution policy
 async function deleteDistributionPolicy(): Promise<void> {
   // Create the Router Client
-  const routerClient: AzureCommunicationRoutingServiceClient =
-    JobRouter(connectionString);
+  const routerClient: AzureCommunicationRoutingServiceClient = JobRouter(
+    endpoint,
+    new DefaultAzureCredential(),
+  );
 
   const policyId = "distribution-policy-123";
 
-  const result = await routerClient.path("/routing/distributionPolicies/{distributionPolicyId}", policyId).delete();
+  const result = await routerClient
+    .path("/routing/distributionPolicies/{distributionPolicyId}", policyId)
+    .delete();
 
   console.log("distribution policy: " + result);
 }

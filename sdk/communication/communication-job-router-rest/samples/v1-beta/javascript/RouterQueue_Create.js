@@ -4,14 +4,15 @@
  * @summary job queue crud
  */
 const JobRouter = require("@azure-rest/communication-job-router").default;
-require("dotenv").config();
+const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv/config");
 
-const connectionString = process.env["COMMUNICATION_CONNECTION_STRING"] || "";
+const endpoint = process.env["COMMUNICATION_ENDPOINT"] || "";
 
 // Create a router jobQueue
 async function createJobQueue() {
   // Create the Router Client
-  const routerClient = JobRouter(connectionString);
+  const routerClient = JobRouter(endpoint, new DefaultAzureCredential());
 
   const distributionPolicyId = "distribution-policy-123";
   await routerClient
@@ -19,9 +20,9 @@ async function createJobQueue() {
     .patch({
       contentType: "application/merge-patch+json",
       body: {
-        name: "distribution-policy-123",
+        name: "distribution policy 123",
         mode: {
-          kind: "longest-idle",
+          kind: "longestIdle",
           minConcurrentOffers: 1,
           maxConcurrentOffers: 5,
           bypassSelectors: false,

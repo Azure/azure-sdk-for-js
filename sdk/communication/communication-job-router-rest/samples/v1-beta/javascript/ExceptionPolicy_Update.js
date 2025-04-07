@@ -5,17 +5,19 @@
  */
 
 const JobRouter = require("@azure-rest/communication-job-router").default;
-require("dotenv").config();
-const connectionString = process.env["COMMUNICATION_CONNECTION_STRING"] || "";
+const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv/config");
+
+const endpoint = process.env["COMMUNICATION_ENDPOINT"] || "";
 
 // Update a exception policy
 async function updateExceptionPolicy() {
   // Create the Router Client
-  const routerClient = JobRouter(connectionString);
+  const routerClient = JobRouter(endpoint, new DefaultAzureCredential());
 
   // define exception trigger for queue over flow
   const queueLengthExceptionTrigger = {
-    kind: "queue-length",
+    kind: "queueLength",
     threshold: 10,
   };
 

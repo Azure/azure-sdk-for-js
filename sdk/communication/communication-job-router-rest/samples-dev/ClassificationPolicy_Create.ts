@@ -10,13 +10,17 @@ import type {
   AzureCommunicationRoutingServiceClient,
 } from "@azure-rest/communication-job-router";
 import JobRouter from "@azure-rest/communication-job-router";
+import { DefaultAzureCredential } from "@azure/identity";
 
-const connectionString = process.env["COMMUNICATION_CONNECTION_STRING"] || "";
+const endpoint = process.env["COMMUNICATION_ENDPOINT"] || "";
 
 // Create a classification policy
 async function createClassificationPolicy(): Promise<void> {
   // Create the Router Client
-  const routerClient: AzureCommunicationRoutingServiceClient = JobRouter(connectionString);
+  const routerClient: AzureCommunicationRoutingServiceClient = JobRouter(
+    endpoint,
+    new DefaultAzureCredential(),
+  );
 
   const distributionPolicyId = "distribution-policy-123";
   await routerClient
