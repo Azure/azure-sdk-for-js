@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   CreateAgentParameters,
   ListAgentsParameters,
   GetAgentParameters,
@@ -56,7 +56,7 @@ import {
   ListScheduleParameters,
   DisableScheduleParameters,
 } from "./parameters.js";
-import {
+import type {
   CreateAgent200Response,
   CreateAgentDefaultResponse,
   ListAgents200Response,
@@ -164,7 +164,7 @@ import {
   DisableSchedule204Response,
   DisableScheduleDefaultResponse,
 } from "./responses.js";
-import { Client, StreamableMethod } from "@azure-rest/core-client";
+import type { Client, StreamableMethod } from "@azure-rest/core-client";
 
 export interface CreateAgent {
   /** Creates a new agent. */

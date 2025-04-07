@@ -12,7 +12,7 @@ import * as fr from "@azure/ai-form-recognizer";
  * Extract key information from United States Internal Revenue Service Form 1098 (2021-current).
  */
 export const PrebuiltTaxUs1098Model = fr.createModelFromSchema(
-  modelInfo()
+  modelInfo(),
 ) as fr.DocumentModel<PrebuiltTaxUs1098Result>;
 
 export interface PrebuiltTaxUs1098Result extends fr.AnalyzeResultCommon {
@@ -188,7 +188,7 @@ export interface TaxUs1098Lender {
 /**
  * The raw model schema.
  */
-function modelInfo() {
+function modelInfo(): any {
   return {
     modelId: "prebuilt-tax.us.1098",
     description:

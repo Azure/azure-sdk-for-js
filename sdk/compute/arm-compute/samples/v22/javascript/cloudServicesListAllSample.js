@@ -23,14 +23,14 @@ async function listCloudServicesInASubscription() {
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.cloudServices.listAll()) {
+  for await (const item of client.cloudServices.listAll()) {
     resArray.push(item);
   }
   console.log(resArray);
 }
 
 async function main() {
-  listCloudServicesInASubscription();
+  await listCloudServicesInASubscription();
 }
 
 main().catch(console.error);

@@ -8,19 +8,19 @@
  */
 
 import { TableClient } from "@azure/data-tables";
+import { DefaultAzureCredential, type TokenCredential } from "@azure/identity";
 import "dotenv/config";
 
 const tablesUrl = process.env["TABLES_URL"] || "";
-const sasToken = process.env["SAS_TOKEN"] || "";
 
-async function updateAndUpsertEntities(): Promise<void> {
+async function updateAndUpsertEntities(credential: TokenCredential): Promise<void> {
   console.log("== Update and Upsert entities Sample ==");
 
   // Note that this sample assumes that a table with tableName exists
   const tableName = `updateAndUpsertEntitiesTable`;
 
   // See authenticationMethods sample for other options of creating a new client
-  const client = new TableClient(`${tablesUrl}${sasToken}`, tableName);
+  const client = new TableClient(tablesUrl, tableName, credential);
 
   // Create the table
   await client.createTable();
@@ -81,7 +81,8 @@ interface Entity {
 }
 
 export async function main(): Promise<void> {
-  await updateAndUpsertEntities();
+  const credential = new DefaultAzureCredential();
+  await updateAndUpsertEntities(credential);
 }
 
 main().catch((err) => {

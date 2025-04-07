@@ -12,6 +12,8 @@
 
 ### Other Changes
 
+- Handling REST errors that don't have a response body.
+
 ## 2.3.4 (2025-03-06)
 
 ### Bugs Fixed

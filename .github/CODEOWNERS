@@ -261,10 +261,10 @@ sdk/ai/ai-inference-rest @glharper @dargilco @jhakulin
 # ServiceOwners: @glharper @dargilco
 
 # PRLLabel: %AI Projects
-sdk/ai/ai-projects @ganeshyb @GraceBrigham
+sdk/ai/ai-projects @ganeshyb @GraceBrigham @glharper @dargilco @jhakulin @ZachhK
 
 # ServiceLabel: %AI Projects
-# ServiceOwners: @ganeshyb @GraceBrigham
+# ServiceOwners: @ganeshyb @GraceBrigham @glharper @dargilco @jhakulin @ZachhK
 
 # PRLabel: %Image Analysis
 # ServiceLabel: %Image Analysis
@@ -338,6 +338,9 @@ sdk/ai/ai-projects @ganeshyb @GraceBrigham
 # Management Plane
 # PRLabel: %Mgmt
 /sdk/advisor/arm-advisor/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
+/sdk/agricultureplatform/arm-agricultureplatform/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
 /sdk/analysisservices/arm-analysisservices/ @qiaozha @MaryGao
@@ -544,6 +547,9 @@ sdk/ai/ai-projects @ganeshyb @GraceBrigham
 /sdk/dns/arm-dns/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/durabletask/arm-durabletask/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/dns/arm-dns-profile-2020-09-01-hybrid/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
@@ -728,6 +734,9 @@ sdk/ai/ai-projects @ganeshyb @GraceBrigham
 
 # PRLabel: %Mgmt
 /sdk/migrate/arm-migrate/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
+/sdk/migrate/arm-migrationassessment/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
 /sdk/mixedreality/arm-mixedreality/ @qiaozha @MaryGao
@@ -1010,8 +1019,8 @@ sdk/ai/ai-projects @ganeshyb @GraceBrigham
 
 # PRLabel: %Monitor
 /sdk/monitor/monitor-ingestion/ @srnagar @lmolkova @Azure/azure-sdk-write-monitor-data-plane
-/sdk/monitor/monitor-opentelemetry @hectorhdzg @JacksonWeber @harsimar @MSNev
-/sdk/monitor/monitor-opentelemetry-exporter @hectorhdzg @JacksonWeber @harsimar @MSNev
+/sdk/monitor/monitor-opentelemetry @hectorhdzg @JacksonWeber @harsimar @MSNev @Karlie-777 @siyuniu-ms @rads-1996
+/sdk/monitor/monitor-opentelemetry-exporter @hectorhdzg @JacksonWeber @harsimar @MSNev @Karlie-777 @siyuniu-ms @rads-1996
 /sdk/monitor/monitor-query/ @srnagar @lmolkova @Azure/azure-sdk-write-monitor-data-plane
 /sdk/monitor/perf-tests/ @srnagar @Azure/azure-sdk-write-monitor-data-plane
 
