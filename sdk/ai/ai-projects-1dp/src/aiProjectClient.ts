@@ -59,4 +59,23 @@ export class AIProjectClient {
   public readonly evaluations: EvaluationsOperations;
   /** The operation groups for connections */
   public readonly connections: ConnectionsOperations;
+
+  /**
+   * Creates a new instance of AzureAIProjectClient
+   * @param endpoint - The endpoint to use
+   * @param credential - The credential to use
+   * @param options - The parameter for all optional parameters
+   */
+  static fromEndpoint(
+    endpoint: string,
+    credential: KeyCredential | TokenCredential,
+    options: AIProjectClientOptionalParams = {},
+  ): AIProjectClient {
+    return new AIProjectClient(
+      endpoint,
+      credential,
+      options,
+    );
+  }
+
 }
