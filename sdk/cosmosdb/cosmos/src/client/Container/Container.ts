@@ -188,6 +188,18 @@ export class Container {
    *
    * Use `.conflicts` for creating new conflicts, or querying/reading all conflicts.
    * @param id - The id of the {@link Conflict}.
+   * @example
+   * ```ts snippet:ConflictRead
+   * import { CosmosClient } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   * const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+   * const container = database.container("Test Container");
+   *
+   * const { resource: conflict } = await container.conflict("<conflict-id>").read();
+   * ```
    */
   public conflict(id: string, partitionKey?: PartitionKey): Conflict {
     return new Conflict(this, id, this.clientContext, partitionKey);

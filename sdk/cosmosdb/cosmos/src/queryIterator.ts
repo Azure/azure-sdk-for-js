@@ -159,6 +159,22 @@ export class QueryIterator<T> {
 
   /**
    * Fetch all pages for the query and return a single FeedResponse.
+   * @example
+   * ```ts snippet:ReadmeSampleQueryDatabase
+   * import { CosmosClient } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   *
+   * const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+   *
+   * const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
+   *
+   * const { resources } = await container.items
+   *   .query("SELECT * from c WHERE c.isCapitol = true")
+   *   .fetchAll();
+   * ```
    */
 
   public async fetchAll(): Promise<FeedResponse<T>> {
@@ -187,6 +203,32 @@ export class QueryIterator<T> {
    * This may or may not fetch more pages from the backend depending on your settings
    * and the type of query. Aggregate queries will generally fetch all backend pages
    * before returning the first batch of responses.
+   *
+   * @example
+   * ```ts snippet:ReadmeSampleNonStreamableCrossPartitionQuery
+   * import { CosmosClient } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   *
+   * const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+   *
+   * const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
+   *
+   * const querySpec = {
+   *   query: "SELECT c.status, COUNT(c.id) AS count FROM c GROUP BY c.status",
+   * };
+   * const queryOptions = {
+   *   maxItemCount: 10, // maximum number of items to return per page
+   *   enableCrossPartitionQuery: true,
+   * };
+   * const querIterator = container.items.query(querySpec, queryOptions);
+   * while (querIterator.hasMoreResults()) {
+   *   const { resources: result } = await querIterator.fetchNext();
+   *   //Do something with result
+   * }
+   * ```
    */
   public async fetchNext(): Promise<FeedResponse<T>> {
     return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
@@ -232,6 +274,27 @@ export class QueryIterator<T> {
 
   /**
    * Reset the QueryIterator to the beginning and clear all the resources inside it
+   * @example
+   * ```ts snippet:QueryIteratorReset
+   * import { CosmosClient } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   * const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+   * const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
+   *
+   * const querySpec = {
+   *   query: "SELECT c.status, COUNT(c.id) AS count FROM c GROUP BY c.status",
+   * };
+   * const querIterator = container.items.query(querySpec);
+   * while (querIterator.hasMoreResults()) {
+   *   const { resources: result } = await querIterator.fetchNext();
+   *   //Do something with result
+   * }
+   * querIterator.reset();
+   * ```
+   *
    */
   public reset(): void {
     this.correlatedActivityId = randomUUID();

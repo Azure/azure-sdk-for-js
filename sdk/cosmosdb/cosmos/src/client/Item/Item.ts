@@ -86,7 +86,7 @@ export class Item {
    *   id: string;
    * }
    *
-   * const { resource: item } = await container.item("id").read<TodoItem>();
+   * const { resource: item } = await container.item("id", "<pkValue>").read<TodoItem>();
    * ```
    */
   public async read<T extends ItemDefinition = any>(
@@ -173,7 +173,25 @@ export class Item {
    *
    * @param body - The definition to replace the existing {@link Item}'s definition with.
    * @param options - Additional options for the request
+   * @example
+   * ```ts snippet:ItemReplaceItemDefinition
+   * import { CosmosClient, ItemDefinition } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   * const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+   * const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
+   *
+   * const item: ItemDefinition = {
+   *   id: "id",
+   *   title: "new_title",
+   * };
+   *
+   * const { resource: replacedItem } = await container.item("id").replace(item);
+   * ```
    */
+
   public replace(
     body: ItemDefinition,
     options?: RequestOptions,
@@ -206,7 +224,7 @@ export class Item {
    *   id: string;
    * }
    *
-   * const { resource: item } = await container.item("id").read<TodoItem>();
+   * const { resource: item } = await container.item("id", "<pkValue>").read<TodoItem>();
    *
    * item.done = true;
    * const { resource: replacedItem } = await container.item("id").replace<TodoItem>(item);
@@ -339,7 +357,7 @@ export class Item {
    *   id: string;
    * }
    *
-   * const { resource: item } = await container.item("id").read<TodoItem>();
+   * const { resource: item } = await container.item("id", "<pkValue>").read<TodoItem>();
    *
    * await container.item("id").delete<TodoItem>();
    * ```
@@ -433,7 +451,7 @@ export class Item {
    *
    * const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
    *
-   * const { resource: item } = await container.item("id").read<TodoItem>();
+   * const { resource: item } = await container.item("id", "<pkValue>").read<TodoItem>();
    *
    * const { resource: patchedItem } = await container.item("id").patch<TodoItem>([
    *   {
