@@ -73,6 +73,11 @@ jobs:
             name: SetPackageVar
             displayName: Get original tags
 
+          - pwsh: |
+              write-host "package name: $(SetPackageVar.PackageName)"
+              write-host "original tags: $(SetPackageVar.OriginalTags)"
+              write-host "intended tag version: $(SetPackageVar.IntendedTagVersion)"
+
           - task: EsrpRelease@9
             displayName: 'Publish ${{parameters.Artifact.name}} to ESRP'
             inputs:
