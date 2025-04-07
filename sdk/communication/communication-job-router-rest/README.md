@@ -84,10 +84,10 @@ First we need to construct an `AzureCommunicationRoutingServiceClient`.
 
 ```ts snippet:ReadmeSampleCreateClient
 import JobRouterClient from "@azure-rest/communication-job-router";
+import { DefaultAzureCredential } from "@azure/identity";
 
-const connectionString =
-  "endpoint=https://<YOUR_ACS>.communication.azure.com/;accesskey=<YOUR_ACCESS_KEY>";
-const routerClient = JobRouterClient(connectionString);
+const endpoint = "https://<YOUR_ACS>.communication.azure.com/";
+const routerClient = JobRouterClient(endpoint, new DefaultAzureCredential());
 ```
 
 ### Create a Distribution Policy
@@ -96,10 +96,10 @@ This policy determines which workers will receive job offers as jobs are distrib
 
 ```ts snippet:ReadmeSampleCreateDistributionPolicy
 import JobRouterClient from "@azure-rest/communication-job-router";
+import { DefaultAzureCredential } from "@azure/identity";
 
-const connectionString =
-  "endpoint=https://<YOUR_ACS>.communication.azure.com/;accesskey=<YOUR_ACCESS_KEY>";
-const routerClient = JobRouterClient(connectionString);
+const endpoint = "https://<YOUR_ACS>.communication.azure.com/";
+const routerClient = JobRouterClient(endpoint, new DefaultAzureCredential());
 
 const id = "distribution-policy-123";
 const result = await routerClient
@@ -125,10 +125,10 @@ This queue offers jobs to workers according to our previously created distributi
 
 ```ts snippet:ReadmeSampleCreateQueue
 import JobRouterClient from "@azure-rest/communication-job-router";
+import { DefaultAzureCredential } from "@azure/identity";
 
-const connectionString =
-  "endpoint=https://<YOUR_ACS>.communication.azure.com/;accesskey=<YOUR_ACCESS_KEY>";
-const routerClient = JobRouterClient(connectionString);
+const endpoint = "https://<YOUR_ACS>.communication.azure.com/";
+const routerClient = JobRouterClient(endpoint, new DefaultAzureCredential());
 
 const distributionPolicyId = "distribution-policy-123";
 const queueId = "queue-123";
@@ -150,10 +150,10 @@ These workers are assigned to our previously created "Sales" queue and have some
 
 ```ts snippet:ReadmeSampleCreateWorkers
 import JobRouterClient from "@azure-rest/communication-job-router";
+import { DefaultAzureCredential } from "@azure/identity";
 
-const connectionString =
-  "endpoint=https://<YOUR_ACS>.communication.azure.com/;accesskey=<YOUR_ACCESS_KEY>";
-const routerClient = JobRouterClient(connectionString);
+const endpoint = "https://<YOUR_ACS>.communication.azure.com/";
+const routerClient = JobRouterClient(endpoint, new DefaultAzureCredential());
 
 const id = "router-worker-123";
 const result = await routerClient.path("/routing/workers/{workerId}", id).patch({
@@ -186,10 +186,10 @@ We can create a job with the following:
 
 ```ts snippet:ReadmeSampleCreateJob
 import JobRouterClient from "@azure-rest/communication-job-router";
+import { DefaultAzureCredential } from "@azure/identity";
 
-const connectionString =
-  "endpoint=https://<YOUR_ACS>.communication.azure.com/;accesskey=<YOUR_ACCESS_KEY>";
-const routerClient = JobRouterClient(connectionString);
+const endpoint = "https://<YOUR_ACS>.communication.azure.com/";
+const routerClient = JobRouterClient(endpoint, new DefaultAzureCredential());
 
 const queueId = "queue-123";
 const jobId = "router-job-123";
@@ -213,10 +213,10 @@ This policy classifies jobs upon creation.
 
 ```ts snippet:ReadmeSampleCreateClassificationPolicy
 import JobRouterClient from "@azure-rest/communication-job-router";
+import { DefaultAzureCredential } from "@azure/identity";
 
-const connectionString =
-  "endpoint=https://<YOUR_ACS>.communication.azure.com/;accesskey=<YOUR_ACCESS_KEY>";
-const routerClient = JobRouterClient(connectionString);
+const endpoint = "https://<YOUR_ACS>.communication.azure.com/";
+const routerClient = JobRouterClient(endpoint, new DefaultAzureCredential());
 
 const classificationPolicyId = "classification-policy-123";
 
@@ -259,10 +259,10 @@ This job will be classified with our previously created classification policy. I
 
 ```ts snippet:ReadmeSampleCreateJobWithClassificationPolicy
 import JobRouterClient from "@azure-rest/communication-job-router";
+import { DefaultAzureCredential } from "@azure/identity";
 
-const connectionString =
-  "endpoint=https://<YOUR_ACS>.communication.azure.com/;accesskey=<YOUR_ACCESS_KEY>";
-const routerClient = JobRouterClient(connectionString);
+const endpoint = "https://<YOUR_ACS>.communication.azure.com/";
+const routerClient = JobRouterClient(endpoint, new DefaultAzureCredential());
 
 const jobId = "router-job-123";
 const classificationPolicyId = "classification-policy-123";
@@ -356,10 +356,10 @@ Once you receive a `RouterWorkerOfferIssued` event you can accept or decline the
 
 ```ts snippet:ReadmeSampleAcceptOrDeclineOffer
 import JobRouterClient from "@azure-rest/communication-job-router";
+import { DefaultAzureCredential } from "@azure/identity";
 
-const connectionString =
-  "endpoint=https://<YOUR_ACS>.communication.azure.com/;accesskey=<YOUR_ACCESS_KEY>";
-const routerClient = JobRouterClient(connectionString);
+const endpoint = "https://<YOUR_ACS>.communication.azure.com/";
+const routerClient = JobRouterClient(endpoint, new DefaultAzureCredential());
 
 const workerId = "router-worker-123";
 const offerId = "offer-id";
@@ -380,10 +380,10 @@ The `assignmentId` received from the previous step's response is required to com
 
 ```ts snippet:ReadmeSampleCompleteJob
 import JobRouterClient from "@azure-rest/communication-job-router";
+import { DefaultAzureCredential } from "@azure/identity";
 
-const connectionString =
-  "endpoint=https://<YOUR_ACS>.communication.azure.com/;accesskey=<YOUR_ACCESS_KEY>";
-const routerClient = JobRouterClient(connectionString);
+const endpoint = "https://<YOUR_ACS>.communication.azure.com/";
+const routerClient = JobRouterClient(endpoint, new DefaultAzureCredential());
 
 const workerId = "router-worker-123";
 const jobId = "job-id";
@@ -404,10 +404,10 @@ Once the worker has completed the wrap-up phase of the job we can close the job 
 
 ```ts snippet:ReadmeSampleCloseJob
 import JobRouterClient from "@azure-rest/communication-job-router";
+import { DefaultAzureCredential } from "@azure/identity";
 
-const connectionString =
-  "endpoint=https://<YOUR_ACS>.communication.azure.com/;accesskey=<YOUR_ACCESS_KEY>";
-const routerClient = JobRouterClient(connectionString);
+const endpoint = "https://<YOUR_ACS>.communication.azure.com/";
+const routerClient = JobRouterClient(endpoint, new DefaultAzureCredential());
 
 const workerId = "router-worker-123";
 const jobId = "job-id";

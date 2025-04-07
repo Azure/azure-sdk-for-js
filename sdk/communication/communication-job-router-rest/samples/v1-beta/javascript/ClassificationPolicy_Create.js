@@ -1,20 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-const dotenv = require("dotenv");
+require("dotenv/config");
 /**
  * @summary Classification policy crud
  */
 const JobRouter = require("@azure-rest/communication-job-router").default;
+const { DefaultAzureCredential } = require("@azure/identity");
 
-dotenv.config();
-
-const connectionString = process.env["COMMUNICATION_CONNECTION_STRING"] || "";
+const endpoint = process.env["COMMUNICATION_ENDPOINT"] || "";
 
 // Create a classification policy
 async function createClassificationPolicy() {
   // Create the Router Client
-  const routerClient = JobRouter(connectionString);
+  const routerClient = JobRouter(endpoint, new DefaultAzureCredential());
 
   const distributionPolicyId = "distribution-policy-123";
   await routerClient
@@ -24,7 +23,7 @@ async function createClassificationPolicy() {
       body: {
         name: "distribution-policy-123",
         mode: {
-          kind: "longest-idle",
+          kind: "longestIdle",
           minConcurrentOffers: 1,
           maxConcurrentOffers: 5,
           bypassSelectors: false,
@@ -35,7 +34,7 @@ async function createClassificationPolicy() {
 
   // define exception trigger for queue over flow
   const queueLengthExceptionTrigger = {
-    kind: "queue-length",
+    kind: "queueLength",
     threshold: 100,
   };
 
@@ -86,7 +85,7 @@ async function createClassificationPolicy() {
           },
         ],
         prioritizationRule: {
-          kind: "expression-rule",
+          kind: "expression",
           language: "powerFx",
           expression: 'If(job.department = "xbox", 2, 1)',
         },
@@ -127,7 +126,7 @@ async function createClassificationPolicy() {
           },
         ],
         prioritizationRule: {
-          kind: "static-rule",
+          kind: "static",
           value: { default: 2 },
         },
       },
@@ -136,4 +135,4 @@ async function createClassificationPolicy() {
   console.log("classification policy: " + result);
 }
 
-void createClassificationPolicy();
+createClassificationPolicy().catch(console.error);

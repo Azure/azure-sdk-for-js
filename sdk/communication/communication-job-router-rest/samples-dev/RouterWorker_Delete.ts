@@ -5,14 +5,18 @@
  */
 import type { AzureCommunicationRoutingServiceClient } from "@azure-rest/communication-job-router";
 import JobRouter from "@azure-rest/communication-job-router";
+import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-const connectionString = process.env["COMMUNICATION_CONNECTION_STRING"] || "";
+const endpoint = process.env["COMMUNICATION_ENDPOINT"] || "";
 
 // Delete router worker
 async function deleteRouterWorker(): Promise<void> {
   // Create the Router Client
-  const routerClient: AzureCommunicationRoutingServiceClient = JobRouter(connectionString);
+  const routerClient: AzureCommunicationRoutingServiceClient = JobRouter(
+    endpoint,
+    new DefaultAzureCredential(),
+  );
 
   const entityId = "router-worker-123";
 

@@ -1,47 +1,31 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import * as dotenv from "dotenv";
 import type { RecorderStartOptions, SanitizerOptions, TestInfo } from "@azure-tools/test-recorder";
-import {
-  Recorder,
-  assertEnvironmentVariable,
-  env,
-  isPlaybackMode,
-} from "@azure-tools/test-recorder";
+import { Recorder } from "@azure-tools/test-recorder";
 import type { SipTrunk, SipTrunkRoute } from "../../../../src/index.js";
 import { SipRoutingClient } from "../../../../src/index.js";
-import { parseConnectionString } from "@azure/communication-common";
 import type { TokenCredential } from "@azure/identity";
-import { isNodeLike } from "@azure/core-util";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { randomUUID } from "@azure/core-util";
 import { createMSUserAgentPolicy } from "./msUserAgentPolicy.js";
-
-if (isNodeLike) {
-  dotenv.config();
-}
+import {
+  getAzureTestDomain,
+  getLiveTestDynamicConnectionString,
+  getLiveTestDynamicEndpoint,
+} from "../../../utils/injectables.js";
+import * as MOCKS from "../../../utils/constants.js";
 
 export interface RecordedClient<T> {
   client: T;
   recorder: Recorder;
 }
 
-const envSetupForPlayback: { [k: string]: string } = {
-  COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING: "endpoint=https://endpoint/;accesskey=YQ==",
-  SKIP_UPDATE_CAPABILITIES_LIVE_TESTS: "false",
-  COMMUNICATION_ENDPOINT: "https://endpoint/",
-  AZURE_CLIENT_ID: "azure_client_id",
-  AZURE_CLIENT_SECRET: "azure_client_secret",
-  AZURE_TENANT_ID: "azure_tenant_id",
-  AZURE_USERAGENT_OVERRIDE: "fake-useragent",
-};
-
 const sanitizerOptions: SanitizerOptions = {
   connectionStringSanitizers: [
     {
-      actualConnString: env.COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING,
-      fakeConnString: envSetupForPlayback["COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING"],
+      actualConnString: getLiveTestDynamicConnectionString(),
+      fakeConnString: MOCKS.CONNECTION_STRING,
     },
   ],
   generalSanitizers: [
@@ -57,14 +41,21 @@ const sanitizerOptions: SanitizerOptions = {
       value: `sanitized`,
     },
   ],
+  uriSanitizers: [
+    {
+      target: getLiveTestDynamicEndpoint(),
+      value: MOCKS.ENDPOINT,
+    },
+  ],
 };
 
 const recorderOptions: RecorderStartOptions = {
-  envSetupForPlayback,
+  envSetupForPlayback: {},
   sanitizerOptions: sanitizerOptions,
   removeCentralSanitizers: [
     "AZSDK3493", // .name in the body is not a secret and is listed below in the beforeEach section
     "AZSDK3430", // .id in the body is not a secret and is listed below in the beforeEach section
+    "AZSDK4001",
   ],
 };
 
@@ -86,7 +77,7 @@ export async function createRecordedClient(
   const recorder = await createRecorder(context);
 
   const client = new SipRoutingClient(
-    assertEnvironmentVariable("COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING"),
+    getLiveTestDynamicConnectionString(),
     recorder.configureClientOptions({
       additionalPolicies: [
         {
@@ -113,20 +104,9 @@ export async function createRecordedClientWithToken(
 ): Promise<RecordedClient<SipRoutingClient>> {
   const recorder = await createRecorder(context);
 
-  let credential: TokenCredential;
-  const endpoint = parseConnectionString(
-    assertEnvironmentVariable("COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING"),
-  ).endpoint;
-
-  if (isPlaybackMode()) {
-    credential = createMockToken();
-  } else {
-    credential = createTestCredential();
-  }
-
   const client = new SipRoutingClient(
-    endpoint,
-    credential,
+    getLiveTestDynamicEndpoint(),
+    createTestCredential(),
     recorder.configureClientOptions({
       additionalPolicies: [
         {
@@ -142,9 +122,7 @@ export async function createRecordedClientWithToken(
 }
 
 export async function clearSipConfiguration(): Promise<void> {
-  const client = new SipRoutingClient(
-    assertEnvironmentVariable("COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING"),
-  );
+  const client = new SipRoutingClient(getLiveTestDynamicConnectionString());
   await client.setRoutes([]);
   await client.setTrunks([]);
 }
@@ -177,8 +155,4 @@ export async function listAllRoutes(client: SipRoutingClient): Promise<SipTrunkR
     }
   }
   return result;
-}
-
-function getAzureTestDomain(): string {
-  return env.AZURE_TEST_DOMAIN ?? "sanitized.sbc.test";
 }

@@ -5,14 +5,15 @@
  * @summary Classification policy crud
  */
 const JobRouter = require("@azure-rest/communication-job-router").default;
-require("dotenv").config();
+const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv/config");
 
-const connectionString = process.env["COMMUNICATION_CONNECTION_STRING"] || "";
+const endpoint = process.env["COMMUNICATION_ENDPOINT"] || "";
 
 // Update a classification policy
 async function updateClassificationPolicy() {
   // Create the Router Client
-  const routerClient = JobRouter(connectionString);
+  const routerClient = JobRouter(endpoint, new DefaultAzureCredential());
 
   const classificationPolicyId = "classification-policy-123";
   const salesQueueId = "queue-123";
@@ -36,7 +37,7 @@ async function updateClassificationPolicy() {
           },
         ],
         prioritizationRule: {
-          kind: "expression-rule",
+          kind: "expression",
           language: "powerFx",
           expression: 'If(job.department = "xbox", 2, 1)',
         },
@@ -46,4 +47,4 @@ async function updateClassificationPolicy() {
   console.log("classification policy: " + result);
 }
 
-void updateClassificationPolicy();
+updateClassificationPolicy().catch(console.error);

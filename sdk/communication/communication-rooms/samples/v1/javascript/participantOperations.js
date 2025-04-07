@@ -7,25 +7,25 @@
 
 const { RoomsClient } = require("@azure/communication-rooms");
 const { CommunicationIdentityClient } = require("@azure/communication-identity");
-
+const { DefaultAzureCredential } = require("@azure/identity");
 // Load the .env file if it exists
 require("dotenv/config");
 async function main() {
   console.log("Room Participant Operations JavaScript Sample");
   console.log("_________________________________\n");
 
-  const connectionString =
-    process.env["COMMUNICATION_SAMPLES_CONNECTION_STRING"] ||
-    "endpoint=https://<resource-name>.communication.azure.com/;<access-key>";
+  const endpoint =
+    process.env["COMMUNICATION_ENDPOINT"] || "https://<resource-name>.communication.azure.com";
 
-  const identityClient = new CommunicationIdentityClient(connectionString);
+  const credential = new DefaultAzureCredential();
+  const identityClient = new CommunicationIdentityClient(endpoint, credential);
   const user1 = await identityClient.createUserAndToken(["voip"]);
   const user2 = await identityClient.createUserAndToken(["voip"]);
 
   console.log("Creating room...");
 
   // create RoomsClient
-  const roomsClient = new RoomsClient(connectionString);
+  const roomsClient = new RoomsClient(endpoint, credential);
 
   const validFrom = new Date();
   const validUntil = new Date(validFrom.getTime() + 5 * 60 * 1000);

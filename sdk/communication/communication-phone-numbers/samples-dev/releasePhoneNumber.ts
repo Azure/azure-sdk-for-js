@@ -6,6 +6,7 @@
  */
 
 import { PhoneNumbersClient } from "@azure/communication-phone-numbers";
+import { DefaultAzureCredential } from "@azure/identity";
 
 // Load the .env file if it exists
 import "dotenv/config";
@@ -14,12 +15,12 @@ export async function main(): Promise<void> {
   console.log("\n== Release Phone Numbers Sample ==\n");
 
   // You will need to set this environment variable or edit the following values
-  const connectionString =
+  const endpoint =
     process.env.COMMUNICATION_SAMPLES_CONNECTION_STRING ||
-    "endpoint=https://resourceName.communication.azure.net/;accessKey=test-key";
+    "https://resourceName.communication.azure.net/";
 
   // create new client
-  const client = new PhoneNumbersClient(connectionString);
+  const client = new PhoneNumbersClient(endpoint, new DefaultAzureCredential());
 
   // You will need to set any of these environment variables or edit the following values
   const phoneNumberToRelease =

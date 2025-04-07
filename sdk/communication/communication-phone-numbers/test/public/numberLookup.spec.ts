@@ -4,8 +4,8 @@
 import type { Recorder } from "@azure-tools/test-recorder";
 import type { PhoneNumbersClient } from "../../src/index.js";
 import { createRecordedClient } from "./utils/recordedClient.js";
-import { getPhoneNumber } from "./utils/testPhoneNumber.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
+import { getAzurePhoneNumber } from "../utils/injectables.js";
 
 describe(`PhoneNumbersClient - look up phone number`, () => {
   let recorder: Recorder;
@@ -20,7 +20,7 @@ describe(`PhoneNumbersClient - look up phone number`, () => {
   });
 
   it("can look up a phone number", { timeout: 60000 }, async () => {
-    const phoneNumbers = [getPhoneNumber()];
+    const phoneNumbers = [getAzurePhoneNumber()];
     const operatorInformation = await client.searchOperatorInformation(phoneNumbers);
 
     const resultPhoneNumber = operatorInformation.values
@@ -30,7 +30,7 @@ describe(`PhoneNumbersClient - look up phone number`, () => {
   });
 
   it("errors if multiple phone numbers are requested", { timeout: 60000 }, async () => {
-    const phoneNumbers = [getPhoneNumber(), getPhoneNumber()];
+    const phoneNumbers = [getAzurePhoneNumber(), getAzurePhoneNumber()];
     try {
       await client.searchOperatorInformation(phoneNumbers);
     } catch (error: any) {
@@ -40,7 +40,7 @@ describe(`PhoneNumbersClient - look up phone number`, () => {
   });
 
   it("respects includeAdditionalOperatorDetails option", { timeout: 60000 }, async () => {
-    const phoneNumbers = [getPhoneNumber()];
+    const phoneNumbers = [getAzurePhoneNumber()];
 
     let operatorInformation = await client.searchOperatorInformation(phoneNumbers, {
       includeAdditionalOperatorDetails: false,

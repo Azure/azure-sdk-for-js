@@ -5,14 +5,15 @@
  */
 
 const JobRouter = require("@azure-rest/communication-job-router").default;
-require("dotenv").config();
+const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv/config");
 
-const connectionString = process.env["COMMUNICATION_CONNECTION_STRING"] || "";
+const endpoint = process.env["COMMUNICATION_ENDPOINT"] || "";
 
 // Update a distribution policy
 async function updateDistributionPolicy() {
   // Create the Router Client
-  const routerClient = JobRouter(connectionString);
+  const routerClient = JobRouter(endpoint, new DefaultAzureCredential());
 
   const id = "distribution-policy-123";
   const result = await routerClient
@@ -22,7 +23,7 @@ async function updateDistributionPolicy() {
       body: {
         name: "distribution-policy-123",
         mode: {
-          kind: "longest-idle",
+          kind: "longestIdle",
           minConcurrentOffers: 1,
           maxConcurrentOffers: 5,
           bypassSelectors: false,

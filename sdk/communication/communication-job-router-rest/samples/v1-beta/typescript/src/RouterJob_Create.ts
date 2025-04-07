@@ -3,60 +3,71 @@
 /**
  * @summary router job crud
  */
-import JobRouter, {
+import type {
   AzureCommunicationRoutingServiceClient,
-  QueueLengthExceptionTrigger
+  QueueLengthExceptionTrigger,
 } from "@azure-rest/communication-job-router";
-import * as dotenv from "dotenv";
-dotenv.config();
+import JobRouter from "@azure-rest/communication-job-router";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
 
-const connectionString = process.env["COMMUNICATION_CONNECTION_STRING"] || "";
+const endpoint = process.env["COMMUNICATION_ENDPOINT"] || "";
 
 // Create a router job
 async function createRouterJob(): Promise<void> {
   // Create the Router Client
-  const routerClient: AzureCommunicationRoutingServiceClient =
-    JobRouter(connectionString);
+  const routerClient: AzureCommunicationRoutingServiceClient = JobRouter(
+    endpoint,
+    new DefaultAzureCredential(),
+  );
 
   const distributionPolicyId = "distribution-policy-123";
-  await routerClient.path("/routing/distributionPolicies/{distributionPolicyId}", distributionPolicyId).patch({
-    contentType: "application/merge-patch+json",
-    body: {
-      name: "distribution-policy-123",
-      mode: {
-        kind: "longest-idle",
-        minConcurrentOffers: 1,
-        maxConcurrentOffers: 5,
-        bypassSelectors: false,
+  await routerClient
+    .path("/routing/distributionPolicies/{distributionPolicyId}", distributionPolicyId)
+    .patch({
+      contentType: "application/merge-patch+json",
+      body: {
+        name: "distribution policy 123",
+        mode: {
+          kind: "longestIdle",
+          minConcurrentOffers: 1,
+          maxConcurrentOffers: 5,
+          bypassSelectors: false,
+        },
+        offerExpiresAfterSeconds: 120,
       },
-      offerExpiresAfterSeconds: 120,
-    }
-  })
+    });
 
   // define exception trigger for queue over flow
   const queueLengthExceptionTrigger: QueueLengthExceptionTrigger = {
-    kind: "queue-length",
+    kind: "queueLength",
     threshold: 100,
   };
 
   const exceptionPolicyId = "exception-policy-123";
-  await routerClient.path("/routing/exceptionPolicies/{exceptionPolicyId}", exceptionPolicyId).patch({
-    contentType: "application/merge-patch+json",
-    body: {
-      name: "test-policy",
-      exceptionRules: [{
-        id: "MaxWaitTimeExceeded",
-        actions: [{
-          kind: "reclassify",
-          classificationPolicyId: "Main",
-          labelsToUpsert: {
-            escalated: true,
+  await routerClient
+    .path("/routing/exceptionPolicies/{exceptionPolicyId}", exceptionPolicyId)
+    .patch({
+      contentType: "application/merge-patch+json",
+      body: {
+        name: "test-policy",
+        exceptionRules: [
+          {
+            id: "MaxWaitTimeExceeded",
+            actions: [
+              {
+                kind: "reclassify",
+                classificationPolicyId: "Main",
+                labelsToUpsert: {
+                  escalated: true,
+                },
+              },
+            ],
+            trigger: queueLengthExceptionTrigger,
           },
-        }],
-        trigger: queueLengthExceptionTrigger,
-      }]
-    }
-  });
+        ],
+      },
+    });
 
   const queueId = "queue-123";
   await routerClient.path("/routing/queues/{queueId}", queueId).patch({
@@ -66,9 +77,8 @@ async function createRouterJob(): Promise<void> {
       name: "Main",
       labels: {},
       exceptionPolicyId: "exception-policy-123",
-    }
-  })
-
+    },
+  });
 
   const jobId = "router-job-123";
   const result = await routerClient.path("/routing/jobs/{jobId}", jobId).patch({
@@ -79,8 +89,8 @@ async function createRouterJob(): Promise<void> {
       channelReference: "abc",
       priority: 2,
       labels: {},
-    }
-  })
+    },
+  });
 
   console.log("router job: " + result);
 }

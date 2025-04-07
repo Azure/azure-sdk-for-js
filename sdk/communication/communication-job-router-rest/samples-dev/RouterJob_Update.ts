@@ -5,14 +5,18 @@
  */
 import type { AzureCommunicationRoutingServiceClient } from "@azure-rest/communication-job-router";
 import JobRouter from "@azure-rest/communication-job-router";
+import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-const connectionString = process.env["COMMUNICATION_CONNECTION_STRING"] || "";
+const endpoint = process.env["COMMUNICATION_ENDPOINT"] || "";
 
 // Update a router job
 async function updateRouterJob(): Promise<void> {
   // Create the JobRouter Client
-  const routerClient: AzureCommunicationRoutingServiceClient = JobRouter(connectionString);
+  const routerClient: AzureCommunicationRoutingServiceClient = JobRouter(
+    endpoint,
+    new DefaultAzureCredential(),
+  );
 
   const queueId = "queue-123";
   await routerClient.path("/routing/queues/{queueId}", queueId).patch({
