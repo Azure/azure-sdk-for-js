@@ -412,7 +412,7 @@ Next, we'll take the package `@azure/arm-monitor` as an example to guide you how
 - Step 2: Add declarations for common variables e.g monitor client, its diagnostic name and subscription id.
 - Step 3: Create the monitor client in `beforeEach` and call `client.diagnosticSettings.createOrUpdate` in test case.
   - Read the `subscriptionId` from `env`.
-  - Call `createTestCredential` to init your credential and refer [here](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/recorder/MIGRATION.md#aad-and-the-new-noopcredential) for more details.
+  - Call `createTestCredential` to init your credential and refer [here](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/recorder/README.md#azure-toolstest-credential-package-and-the-noopcredential) for more details.
   - Wrap the `option` with test options by calling `recorder.configureClientOptions(options)`.
 - Step 4[Optional]: Specify environment variables that would be faked in the recordings in map `envSetupForPlayback`.
 - Step 5: Add necessary assertions in your test case.
