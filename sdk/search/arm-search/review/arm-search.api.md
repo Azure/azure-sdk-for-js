@@ -4,11 +4,11 @@
 
 ```ts
 
-import * as coreAuth from '@azure/core-auth';
+import type * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
-import { OperationState } from '@azure/core-lro';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { SimplePollerLike } from '@azure/core-lro';
+import type { OperationState } from '@azure/core-lro';
+import type { PagedAsyncIterableIterator } from '@azure/core-paging';
+import type { SimplePollerLike } from '@azure/core-lro';
 
 // @public
 export type AadAuthFailureMode = "http403" | "http401WithBearerChallenge";
@@ -726,8 +726,6 @@ export class SearchManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     queryKeys: QueryKeys;
     // (undocumented)
-    service: Service;
-    // (undocumented)
     services: Services;
     // (undocumented)
     sharedPrivateLinkResources: SharedPrivateLinkResources;
@@ -821,15 +819,11 @@ export interface SearchServiceUpdate extends Resource {
 }
 
 // @public
-export interface Service {
-    beginUpgrade(resourceGroupName: string, searchServiceName: string, options?: ServiceUpgradeOptionalParams): Promise<SimplePollerLike<OperationState<ServiceUpgradeResponse>, ServiceUpgradeResponse>>;
-    beginUpgradeAndWait(resourceGroupName: string, searchServiceName: string, options?: ServiceUpgradeOptionalParams): Promise<ServiceUpgradeResponse>;
-}
-
-// @public
 export interface Services {
     beginCreateOrUpdate(resourceGroupName: string, searchServiceName: string, service: SearchService, options?: ServicesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ServicesCreateOrUpdateResponse>, ServicesCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, searchServiceName: string, service: SearchService, options?: ServicesCreateOrUpdateOptionalParams): Promise<ServicesCreateOrUpdateResponse>;
+    beginUpgrade(resourceGroupName: string, searchServiceName: string, options?: ServicesUpgradeOptionalParams): Promise<SimplePollerLike<OperationState<ServicesUpgradeResponse>, ServicesUpgradeResponse>>;
+    beginUpgradeAndWait(resourceGroupName: string, searchServiceName: string, options?: ServicesUpgradeOptionalParams): Promise<ServicesUpgradeResponse>;
     checkNameAvailability(name: string, options?: ServicesCheckNameAvailabilityOptionalParams): Promise<ServicesCheckNameAvailabilityResponse>;
     delete(resourceGroupName: string, searchServiceName: string, options?: ServicesDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, searchServiceName: string, options?: ServicesGetOptionalParams): Promise<ServicesGetResponse>;
@@ -910,19 +904,19 @@ export interface ServicesUpdateOptionalParams extends coreClient.OperationOption
 export type ServicesUpdateResponse = SearchService;
 
 // @public
-export interface ServiceUpgradeHeaders {
+export interface ServicesUpgradeHeaders {
     // (undocumented)
     location?: string;
 }
 
 // @public
-export interface ServiceUpgradeOptionalParams extends coreClient.OperationOptions {
+export interface ServicesUpgradeOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ServiceUpgradeResponse = SearchService;
+export type ServicesUpgradeResponse = SearchService;
 
 // @public
 export interface ShareablePrivateLinkResourceProperties {

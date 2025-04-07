@@ -8,12 +8,12 @@
 
 import * as coreClient from "@azure/core-client";
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
-import {
+import type {
   PipelineRequest,
   PipelineResponse,
   SendRequest,
 } from "@azure/core-rest-pipeline";
-import * as coreAuth from "@azure/core-auth";
+import type * as coreAuth from "@azure/core-auth";
 import {
   OperationsImpl,
   OfferingsImpl,
@@ -25,9 +25,8 @@ import {
   SharedPrivateLinkResourcesImpl,
   UsagesImpl,
   NetworkSecurityPerimeterConfigurationsImpl,
-  ServiceImpl,
 } from "./operations/index.js";
-import {
+import type {
   Operations,
   Offerings,
   AdminKeys,
@@ -38,11 +37,10 @@ import {
   SharedPrivateLinkResources,
   Usages,
   NetworkSecurityPerimeterConfigurations,
-  Service,
 } from "./operationsInterfaces/index.js";
 import * as Parameters from "./models/parameters.js";
 import * as Mappers from "./models/mappers.js";
-import {
+import type {
   SearchManagementClientOptionalParams,
   UsageBySubscriptionSkuOptionalParams,
   UsageBySubscriptionSkuResponse,
@@ -95,7 +93,7 @@ export class SearchManagementClient extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-search/3.3.0-beta.2`;
+    const packageDetails = `azsdk-js-arm-search/1.0.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -161,7 +159,6 @@ export class SearchManagementClient extends coreClient.ServiceClient {
     this.usages = new UsagesImpl(this);
     this.networkSecurityPerimeterConfigurations =
       new NetworkSecurityPerimeterConfigurationsImpl(this);
-    this.service = new ServiceImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -220,7 +217,6 @@ export class SearchManagementClient extends coreClient.ServiceClient {
   sharedPrivateLinkResources: SharedPrivateLinkResources;
   usages: Usages;
   networkSecurityPerimeterConfigurations: NetworkSecurityPerimeterConfigurations;
-  service: Service;
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);

@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreClient from "@azure/core-client";
+import type * as coreClient from "@azure/core-client";
 
 /** The result of the request to list REST API operations. It contains a list of operations and a URL to get the next set of results. */
 export interface OperationListResult {
@@ -907,13 +907,13 @@ export interface NetworkSecurityPerimeterConfiguration extends ProxyResource {
   provisioningIssues?: NSPProvisioningIssue[];
 }
 
-/** Defines headers for NetworkSecurityPerimeterConfigurations_reconcile operation. */
-export interface NetworkSecurityPerimeterConfigurationsReconcileHeaders {
+/** Defines headers for Services_upgrade operation. */
+export interface ServicesUpgradeHeaders {
   location?: string;
 }
 
-/** Defines headers for Service_upgrade operation. */
-export interface ServiceUpgradeHeaders {
+/** Defines headers for NetworkSecurityPerimeterConfigurations_reconcile operation. */
+export interface NetworkSecurityPerimeterConfigurationsReconcileHeaders {
   location?: string;
 }
 
@@ -1425,6 +1425,18 @@ export interface ServicesCheckNameAvailabilityOptionalParams
 export type ServicesCheckNameAvailabilityResponse = CheckNameAvailabilityOutput;
 
 /** Optional parameters. */
+export interface ServicesUpgradeOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the upgrade operation. */
+export type ServicesUpgradeResponse = SearchService;
+
+/** Optional parameters. */
 export interface ServicesListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {
   /** Parameter group */
@@ -1633,18 +1645,6 @@ export interface NetworkSecurityPerimeterConfigurationsListByServiceNextOptional
 /** Contains response data for the listByServiceNext operation. */
 export type NetworkSecurityPerimeterConfigurationsListByServiceNextResponse =
   NetworkSecurityPerimeterConfigurationListResult;
-
-/** Optional parameters. */
-export interface ServiceUpgradeOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the upgrade operation. */
-export type ServiceUpgradeResponse = SearchService;
 
 /** Optional parameters. */
 export interface SearchManagementClientOptionalParams

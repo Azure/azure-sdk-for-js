@@ -6,20 +6,20 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import type {
+  PagedAsyncIterableIterator,
+  PageSettings,
+} from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper.js";
-import { SharedPrivateLinkResources } from "../operationsInterfaces/index.js";
+import type { SharedPrivateLinkResources } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
-import { SearchManagementClient } from "../searchManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import type { SearchManagementClient } from "../searchManagementClient.js";
+import type { SimplePollerLike, OperationState } from "@azure/core-lro";
+import { createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
-import {
+import type {
   SharedPrivateLinkResource,
   SharedPrivateLinkResourcesListByServiceNextOptionalParams,
   SharedPrivateLinkResourcesListByServiceOptionalParams,

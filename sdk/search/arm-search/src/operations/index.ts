@@ -16,4 +16,3 @@ export * from "./privateEndpointConnections.js";
 export * from "./sharedPrivateLinkResources.js";
 export * from "./usages.js";
 export * from "./networkSecurityPerimeterConfigurations.js";
-export * from "./service.js";

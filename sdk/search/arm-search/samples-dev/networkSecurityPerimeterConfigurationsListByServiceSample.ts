@@ -23,7 +23,7 @@ async function listNspConfigsBySearchService(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new SearchManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.networkSecurityPerimeterConfigurations.listByService(
+  for await (const item of client.networkSecurityPerimeterConfigurations.listByService(
     resourceGroupName,
     searchServiceName,
   )) {

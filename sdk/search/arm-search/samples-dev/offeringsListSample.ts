@@ -20,7 +20,7 @@ async function searchListOfferings(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new SearchManagementClient(credential);
   const resArray = new Array();
-  for await (let item of client.offerings.list()) {
+  for await (const item of client.offerings.list()) {
     resArray.push(item);
   }
   console.log(resArray);

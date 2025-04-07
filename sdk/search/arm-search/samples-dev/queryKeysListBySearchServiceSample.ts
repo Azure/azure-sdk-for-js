@@ -23,7 +23,7 @@ async function searchListQueryKeysBySearchService(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new SearchManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.queryKeys.listBySearchService(
+  for await (const item of client.queryKeys.listBySearchService(
     resourceGroupName,
     searchServiceName,
   )) {

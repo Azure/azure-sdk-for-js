@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreClient from "@azure/core-client";
+import type * as coreClient from "@azure/core-client";
 
 export const OperationListResult: coreClient.CompositeMapper = {
   type: {
@@ -2219,6 +2219,21 @@ export const NetworkSecurityPerimeterConfiguration: coreClient.CompositeMapper =
     },
   };
 
+export const ServicesUpgradeHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ServicesUpgradeHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
 export const NetworkSecurityPerimeterConfigurationsReconcileHeaders: coreClient.CompositeMapper =
   {
     type: {
@@ -2234,18 +2249,3 @@ export const NetworkSecurityPerimeterConfigurationsReconcileHeaders: coreClient.
       },
     },
   };
-
-export const ServiceUpgradeHeaders: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ServiceUpgradeHeaders",
-    modelProperties: {
-      location: {
-        serializedName: "location",
-        type: {
-          name: "String",
-        },
-      },
-    },
-  },
-};

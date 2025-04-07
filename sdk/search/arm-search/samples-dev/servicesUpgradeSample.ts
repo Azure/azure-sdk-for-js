@@ -11,27 +11,26 @@ import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
 /**
- * This sample demonstrates how to Gets a list of all Search services in the given resource group.
+ * This sample demonstrates how to Upgrades the Azure AI Search service to the latest version available.
  *
- * @summary Gets a list of all Search services in the given resource group.
- * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/preview/2025-02-01-preview/examples/SearchListServicesByResourceGroup.json
+ * @summary Upgrades the Azure AI Search service to the latest version available.
+ * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/preview/2025-02-01-preview/examples/UpgradeSearchServiceToLatestVersion.json
  */
-async function searchListServicesByResourceGroup(): Promise<void> {
+async function upgradeSearchServiceToLatestVersion(): Promise<void> {
   const subscriptionId = process.env["SEARCH_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["SEARCH_RESOURCE_GROUP"] || "rg1";
+  const searchServiceName = "mysearchservice";
   const credential = new DefaultAzureCredential();
   const client = new SearchManagementClient(credential, subscriptionId);
-  const resArray = new Array();
-  for await (const item of client.services.listByResourceGroup(
+  const result = await client.services.beginUpgradeAndWait(
     resourceGroupName,
-  )) {
-    resArray.push(item);
-  }
-  console.log(resArray);
+    searchServiceName,
+  );
+  console.log(result);
 }
 
 async function main(): Promise<void> {
-  await searchListServicesByResourceGroup();
+  await upgradeSearchServiceToLatestVersion();
 }
 
 main().catch(console.error);
