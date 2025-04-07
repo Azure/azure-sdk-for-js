@@ -60,6 +60,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [datasets_datasetsbasics]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects-1dp/samples/v1-beta/javascript/datasets/datasetsBasics.js
 [deployments_deploymentsbasics]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects-1dp/samples/v1-beta/javascript/deployments/deploymentsBasics.js
 [indexes_indexesbasics]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects-1dp/samples/v1-beta/javascript/indexes/indexesBasics.js
-[apiref]: https://learn.microsoft.com/javascript/api/@azure/ai-projects-1dp
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/ai-projects
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/ai/ai-projects-1dp/README.md

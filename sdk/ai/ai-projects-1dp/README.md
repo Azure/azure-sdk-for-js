@@ -7,11 +7,11 @@ Use the AI Projects client library (in preview) to:
 - **Develop Agents using the Azure AI Agent Service**, leveraging an extensive ecosystem of models, tools, and capabilities from OpenAI, Microsoft, and other LLM providers. The Azure AI Agent Service enables the building of Agents for a wide range of generative AI use cases. The package is currently in private preview.
 - **Enable OpenTelemetry tracing**.
 
-[Product documentation](https://aka.ms/azsdk/azure-ai-projects-1dp/product-doc)
+[Product documentation](https://aka.ms/azsdk/azure-ai-projects/product-doc)
 
 | [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/ai/ai-projects-1dp/samples)
 | [Package (npm)](https://www.npmjs.com/package/@azure/ai-projects-1dp)
-| [API reference documentation](https://learn.microsoft.com/javascript/api/overview/azure/ai-projects-1dp-readme?view=azure-node-preview)
+| [API reference documentation](https://learn.microsoft.com/javascript/api/overview/azure/ai-projects-readme?view=azure-node-preview)
 
 ## Table of contents
 

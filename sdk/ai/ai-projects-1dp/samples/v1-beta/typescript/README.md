@@ -72,7 +72,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [datasets_datasetsbasics]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects-1dp/samples/v1-beta/typescript/src/datasets/datasetsBasics.ts
 [deployments_deploymentsbasics]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects-1dp/samples/v1-beta/typescript/src/deployments/deploymentsBasics.ts
 [indexes_indexesbasics]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects-1dp/samples/v1-beta/typescript/src/indexes/indexesBasics.ts
-[apiref]: https://learn.microsoft.com/javascript/api/@azure/ai-projects-1dp
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/ai-projects
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/ai/ai-projects-1dp/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html
