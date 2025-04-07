@@ -4033,7 +4033,7 @@ export interface SearchResultValueOutput {
     contact?: Array<ContactSearchResultValueOutput>;
     createTime?: number;
     description?: string;
-    endorsement?: string[];
+    endorsement?: string;
     entityType?: string;
     glossary?: string;
     glossaryType?: string;
@@ -4089,7 +4089,7 @@ export interface SuggestResultValueOutput {
     contact?: Array<ContactSearchResultValueOutput>;
     createTime?: number;
     description?: string;
-    endorsement?: string[];
+    endorsement?: string;
     entityType?: string;
     glossary?: string;
     glossaryType?: string;
