@@ -196,12 +196,7 @@ export interface AtlasEntityHeaders {
 
 export interface BusinessMetadataOptionsFilePartDescriptor {
   name: "file";
-  body:
-    | string
-    | Uint8Array
-    | ReadableStream<Uint8Array>
-    | NodeJS.ReadableStream
-    | File;
+  body: string | Uint8Array | ReadableStream<Uint8Array> | NodeJS.ReadableStream | File;
   filename?: string;
   contentType?: string;
 }
@@ -1238,9 +1233,7 @@ export type EntityStatus = string;
 /** Alias for AtlasTermAssignmentStatus */
 export type AtlasTermAssignmentStatus = string;
 /** Business metadata to send to the service */
-export type BusinessMetadataOptions =
-  | FormData
-  | Array<BusinessMetadataOptionsFilePartDescriptor>;
+export type BusinessMetadataOptions = FormData | Array<BusinessMetadataOptionsFilePartDescriptor>;
 /** Alias for AtlasTermRelationshipStatus */
 export type AtlasTermRelationshipStatus = string;
 /** Alias for TermStatus */

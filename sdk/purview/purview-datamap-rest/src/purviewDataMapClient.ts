@@ -21,8 +21,7 @@ export default function createClient(
   credentials: TokenCredential,
   options: PurviewDataMapClientOptions = {},
 ): PurviewDataMapClient {
-  const endpointUrl =
-    options.endpoint ?? options.baseUrl ?? `${endpointParam}/datamap/api`;
+  const endpointUrl = options.endpoint ?? options.baseUrl ?? `${endpointParam}/datamap/api`;
   const userAgentInfo = `azsdk-js-purview-datamap-rest/1.0.0-beta.1`;
   const userAgentPrefix =
     options.userAgentOptions && options.userAgentOptions.userAgentPrefix
@@ -37,16 +36,10 @@ export default function createClient(
       logger: options.loggingOptions?.logger ?? logger.info,
     },
     credentials: {
-      scopes: options.credentials?.scopes ?? [
-        "https://purview.azure.net/.default",
-      ],
+      scopes: options.credentials?.scopes ?? ["https://purview.azure.net/.default"],
     },
   };
-  const client = getClient(
-    endpointUrl,
-    credentials,
-    options,
-  ) as PurviewDataMapClient;
+  const client = getClient(endpointUrl, credentials, options) as PurviewDataMapClient;
 
   client.pipeline.removePolicy({ name: "ApiVersionPolicy" });
   if (options.apiVersion) {
