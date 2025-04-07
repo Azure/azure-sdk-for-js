@@ -13,13 +13,9 @@ const {
   CosmosClient,
   AzureKeyVaultEncryptionKeyResolver,
   EncryptionKeyResolverName,
-  EncryptionTimeToLive,
   EncryptionAlgorithm,
   KeyEncryptionAlgorithm,
-  EncryptionKeyWrapMetadata,
-  ClientEncryptionIncludedPath,
   EncryptionType,
-  ClientEncryptionPolicy,
   EncryptionQueryBuilder,
 } = require("@azure/cosmos");
 const { finish, handleError, logStep } = require("./Shared/handleError");
@@ -28,7 +24,7 @@ const key = process.env.COSMOS_KEY || "<cosmos key>";
 const endpoint = process.env.COSMOS_ENDPOINT || "<cosmos endpoint>";
 const databaseId = process.env.COSMOS_DATABASE || "<cosmos database>";
 const containerId = process.env.COSMOS_CONTAINER || "<cosmos container>";
-var client;
+let client;
 
 async function run() {
   logStep("Create encryption enabled cosmos client");
@@ -40,13 +36,10 @@ async function run() {
   client = new CosmosClient({
     endpoint: endpoint,
     key: key,
-    encryptionPolicy: {
-      enableEncryption: true,
+    clientEncryptionOptions: {
       keyEncryptionKeyResolver: keyResolver,
-      encryptionKeyResolverName: EncryptionKeyResolverName.AzureKeyVault,
-      // We can set encryption key time to live in hours (EncryptionTimeToLive.FromHours),
-      //  minutes (EncryptionTimeToLive.FromMinutes), and with no ttl (EncryptiontimeToLive.NoTTL)
-      encryptionKeyTimeToLive: EncryptionTimeToLive.FromMinutes(10),
+      // setting 3600 seconds (1 hour) TTL for encryption keys. Default is 7200 seconds
+      encryptionKeyTimeToLiveInSeconds: 3600,
     },
   });
 
@@ -55,12 +48,12 @@ async function run() {
   console.log(`Database with id ${databaseId} created`);
 
   // metadata for the customer managed key that will be used to wrap client encryption key
-  const metadata = new EncryptionKeyWrapMetadata(
-    EncryptionKeyResolverName.AzureKeyVault,
-    "akvKey",
-    "https://<my-key-vault-1>.vault.azure.net/keys/cmk1/<version>", // key-vault url
-    KeyEncryptionAlgorithm.RSA_OAEP,
-  );
+  const metadata = {
+    type: EncryptionKeyResolverName.AzureKeyVault,
+    name: "akvKey",
+    value: "https://<my-key-vault-1>.vault.azure.net/keys/cmk1/<version>", // key-vault url
+    algorithm: KeyEncryptionAlgorithm.RSA_OAEP,
+  };
   await database.createClientEncryptionKey(
     "cek1",
     EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
@@ -70,18 +63,18 @@ async function run() {
 
   logStep("Create client encryption included path and policy");
   // adding id, salary and ssn properties for encryption
-  const paths = ["/salary", "/ssn", "/id"].map(
-    (path) =>
-      new ClientEncryptionIncludedPath(
-        path,
-        "cek1",
-        EncryptionType.DETERMINISTIC,
-        EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
-      ),
-  );
+  const paths = ["/salary", "/ssn", "/id"].map((path) => ({
+    path: path,
+    clientEncryptionKeyId: "cek1",
+    encryptionType: EncryptionType.DETERMINISTIC,
+    encryptionAlgorithm: EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
+  }));
   // creating client encryption policy with included paths and policy version 2.
   // policy version 2 must be used if we encrypt id or partition key
-  const clientEncryptionPolicy = new ClientEncryptionPolicy(paths, 2);
+  const clientEncryptionPolicy = {
+    includedPaths: paths,
+    policyFormatVersion: 2,
+  };
 
   logStep("Create container with client encryption policy");
   const containerDefinition = {
@@ -128,7 +121,7 @@ async function run() {
   // use EncryptionQueryBuilder to create query with encrypted parameter
   const queryBuilder1 = new EncryptionQueryBuilder("SELECT * FROM c WHERE c.ssn = @ssn");
   // add string parameter to query
-  queryBuilder1.addStringParameter("@ssn", item2.ssn, "/ssn");
+  queryBuilder1.addParameter("@ssn", item2.ssn, "/ssn");
   // use getEncryptionQueryIterator to get the iterator with encrypted parameters
   const iterator1 = await container.items.getEncryptionQueryIterator(queryBuilder1);
   const { resources: result1 } = await iterator1.fetchAll();
@@ -137,19 +130,19 @@ async function run() {
   logStep("Query with object parameter");
   const queryBuilder2 = new EncryptionQueryBuilder("SELECT * FROM c WHERE c.salary = @salary");
   // add object parameter to query
-  queryBuilder2.addObjectParameter("@salary", item1.salary, "/salary");
+  queryBuilder2.addParameter("@salary", item1.salary, "/salary");
   const iterator2 = await container.items.getEncryptionQueryIterator(queryBuilder2);
   const { resources: result2 } = await iterator2.fetchAll();
   console.log(`Query results: `, result2);
 
   logStep("rewrap client encryption key");
   // new metadata for rewrapping client encryption key
-  const newMetadata = new EncryptionKeyWrapMetadata(
-    EncryptionKeyResolverName.AzureKeyVault,
-    "v4key",
-    "https://<my-key-vault-1>.vault.azure.net/keys/cmk2/<version>",
-    KeyEncryptionAlgorithm.RSA_OAEP,
-  );
+  const newMetadata = {
+    type: EncryptionKeyResolverName.AzureKeyVault,
+    name: "v4key",
+    value: "https://<my-key-vault-1>.vault.azure.net/keys/cmk2/<version>",
+    algorithm: KeyEncryptionAlgorithm.RSA_OAEP,
+  };
   await database.rewrapClientEncryptionKey("cek1", newMetadata);
   console.log(`rewrapped client encryption key with id cek1`);
   // recommended to dispose client after use to clear all the timers

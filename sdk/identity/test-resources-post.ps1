@@ -4,17 +4,31 @@
 # IMPORTANT: Do not invoke this file directly. Please instead run eng/New-TestResources.ps1 from the repository root.
 
 param (
-  [Parameter(ValueFromRemainingArguments = $true)]
-  $RemainingArguments,
-
   [Parameter()]
   [hashtable] $DeploymentOutputs,
 
   [Parameter()]
   [switch] $CI = ($null -ne $env:SYSTEM_TEAMPROJECTID),
 
+  [Parameter(Mandatory = $true)]
+  [ValidateNotNullOrEmpty()]
+  [string] $SubscriptionId,
+
+  [Parameter(Mandatory = $true)]
+  [ValidateNotNullOrEmpty()]
+  [string] $TenantId,
+
   [Parameter()]
-  [hashtable] $AdditionalParameters = @{}
+  [ValidatePattern('^[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}$')]
+  [string] $TestApplicationId,
+
+  [Parameter(Mandatory = $true)]
+  [ValidateNotNullOrEmpty()]
+  [string] $Environment,
+
+  # Captures any arguments from eng/New-TestResources.ps1 not declared here (no parameter errors).
+  [Parameter(ValueFromRemainingArguments = $true)]
+  $RemainingArguments
 )
 
 if (!$AdditionalParameters['deployMIResources']) {
@@ -39,8 +53,8 @@ Write-Host "Working directory: $workingFolder"
 
 if ($CI) {
   Write-Host "Logging in to service principal"
-  az login --service-principal -u $env:ARM_CLIENT_ID --tenant $env:ARM_TENANT_ID --allow-no-subscriptions --federated-token $env:ARM_OIDC_TOKEN
-  az account set --subscription $DeploymentOutputs['IDENTITY_SUBSCRIPTION_ID']
+  az login --service-principal -u $TestApplicationId --tenant $TenantId --allow-no-subscriptions --federated-token $env:ARM_OIDC_TOKEN
+  az account set --subscription $SubscriptionId
 }
 
 # Azure Functions app deployment

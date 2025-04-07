@@ -923,17 +923,17 @@ async function createOrUpdateASimpleGalleryImageVersionWithTargetExtendedLocatio
 }
 
 async function main() {
-  createOrUpdateASimpleGalleryImageVersionUsingVMAsSource();
-  createOrUpdateASimpleGalleryImageVersionUsingCommunityGalleryImageAsSource();
-  createOrUpdateASimpleGalleryImageVersionUsingManagedImageAsSource();
-  createOrUpdateASimpleGalleryImageVersionUsingMixOfDisksAndSnapshotsAsASource();
-  createOrUpdateASimpleGalleryImageVersionUsingShallowReplicationMode();
-  createOrUpdateASimpleGalleryImageVersionUsingSharedImageAsSource();
-  createOrUpdateASimpleGalleryImageVersionUsingSnapshotsAsASource();
-  createOrUpdateASimpleGalleryImageVersionUsingVhdAsASourceWithCustomUefiKeys();
-  createOrUpdateASimpleGalleryImageVersionUsingVhdAsASource();
-  createOrUpdateASimpleGalleryImageVersionWithDirectDriveReplicas();
-  createOrUpdateASimpleGalleryImageVersionWithTargetExtendedLocationsSpecified();
+  await createOrUpdateASimpleGalleryImageVersionUsingVMAsSource();
+  await createOrUpdateASimpleGalleryImageVersionUsingCommunityGalleryImageAsSource();
+  await createOrUpdateASimpleGalleryImageVersionUsingManagedImageAsSource();
+  await createOrUpdateASimpleGalleryImageVersionUsingMixOfDisksAndSnapshotsAsASource();
+  await createOrUpdateASimpleGalleryImageVersionUsingShallowReplicationMode();
+  await createOrUpdateASimpleGalleryImageVersionUsingSharedImageAsSource();
+  await createOrUpdateASimpleGalleryImageVersionUsingSnapshotsAsASource();
+  await createOrUpdateASimpleGalleryImageVersionUsingVhdAsASourceWithCustomUefiKeys();
+  await createOrUpdateASimpleGalleryImageVersionUsingVhdAsASource();
+  await createOrUpdateASimpleGalleryImageVersionWithDirectDriveReplicas();
+  await createOrUpdateASimpleGalleryImageVersionWithTargetExtendedLocationsSpecified();
 }
 
 main().catch(console.error);

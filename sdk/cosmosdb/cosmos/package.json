@@ -1,6 +1,6 @@
 {
   "name": "@azure/cosmos",
-  "version": "4.2.1",
+  "version": "4.3.0",
   "description": "Microsoft Azure Cosmos DB Service Node.js SDK for NOSQL API",
   "sdk-type": "client",
   "keywords": [
@@ -76,7 +76,7 @@
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
     "unit-test:browser": "echo skipped",
     "unit-test:node": "dev-tool run test:node-ts-input -- --timeout 100000 './test/internal/unit/**/*.spec.ts'",
-    "update-snippets": "echo skipped"
+    "update-snippets": "dev-tool run update-snippets"
   },
   "repository": "github:Azure/azure-sdk-for-js",
   "license": "MIT",
@@ -124,7 +124,7 @@
     "sinon": "^17.0.0",
     "source-map-support": "^0.5.9",
     "ts-node": "^10.0.0",
-    "typescript": "~5.7.2"
+    "typescript": "~5.8.2"
   },
   "//sampleConfiguration": {
     "skip": [

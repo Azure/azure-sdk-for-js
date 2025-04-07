@@ -2,9 +2,9 @@
 // Licensed under the MIT License.
 import type { ClientOptions } from "@azure-rest/core-client";
 import { getClient } from "@azure-rest/core-client";
-import { logger } from "./logger";
+import { logger } from "./logger.js";
 import type { TokenCredential, KeyCredential } from "@azure/core-auth";
-import type { DocumentTranslationClient } from "./clientDefinitions";
+import type { DocumentTranslationClient } from "./clientDefinitions.js";
 
 /** The optional parameters for the client */
 export interface DocumentTranslationClientOptions extends ClientOptions {
@@ -24,7 +24,7 @@ export default function createClient(
   { apiVersion = "2024-05-01", ...options }: DocumentTranslationClientOptions = {},
 ): DocumentTranslationClient {
   const endpointUrl = options.endpoint ?? options.baseUrl ?? `${endpointParam}/translator`;
-  const userAgentInfo = `azsdk-js-ai-translation-document-rest/1.0.0-beta.1`;
+  const userAgentInfo = `azsdk-js-ai-translation-document-rest/1.0.0`;
   const userAgentPrefix =
     options.userAgentOptions && options.userAgentOptions.userAgentPrefix
       ? `${options.userAgentOptions.userAgentPrefix} ${userAgentInfo}`

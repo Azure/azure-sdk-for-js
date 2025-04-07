@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { StorageManagementClient } from "@azure/arm-storage";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -16,7 +14,7 @@ import "dotenv/config";
  * This sample demonstrates how to Gets the table with the specified table name, under the specified account if it exists.
  *
  * @summary Gets the table with the specified table name, under the specified account if it exists.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/TableOperationGet.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2024-01-01/examples/TableOperationGet.json
  */
 async function tableOperationGet(): Promise<void> {
   const subscriptionId =
@@ -35,7 +33,7 @@ async function tableOperationGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  tableOperationGet();
+  await tableOperationGet();
 }
 
 main().catch(console.error);

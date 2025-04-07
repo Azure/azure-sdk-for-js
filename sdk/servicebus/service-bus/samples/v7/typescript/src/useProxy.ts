@@ -13,14 +13,12 @@ import WebSocket from "ws";
 import { HttpsProxyAgent } from "https-proxy-agent";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
-
+import "dotenv/config";
 // Define connection string for your Service Bus instance here
 const fqdn = process.env.SERVICEBUS_FQDN || "<your-servicebus-namespace>.servicebus.windows.net";
 const queueName = process.env.QUEUE_NAME || "<queue name>";
 
-export async function main() {
+export async function main(): Promise<void> {
   const proxyInfo = process.env.HTTP_PROXY || process.env.HTTPS_PROXY;
 
   if (!proxyInfo) {

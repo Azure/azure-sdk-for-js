@@ -28,11 +28,11 @@
   "dependencies": {
     "@azure/ai-projects": "next",
     "dotenv": "latest",
-    "@azure/monitor-opentelemetry-exporter": "^1.0.0-beta.28",
+    "@azure/monitor-opentelemetry-exporter": "^1.0.0-beta.29",
     "@azure/opentelemetry-instrumentation-azure-sdk": "^1.0.0-beta.7",
     "@opentelemetry/api": "^1.9.0",
-    "@opentelemetry/instrumentation": "0.53.0",
-    "@opentelemetry/sdk-trace-node": "^1.9.0",
+    "@opentelemetry/instrumentation": "0.57.0",
+    "@opentelemetry/sdk-trace-node": "^1.30.0",
     "@azure/core-util": "^1.9.0",
     "@azure/identity": "^4.3.0"
   }

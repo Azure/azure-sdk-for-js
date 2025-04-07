@@ -2,7 +2,7 @@
   "name": "@azure/keyvault-secrets",
   "sdk-type": "client",
   "author": "Microsoft Corporation",
-  "version": "4.9.1",
+  "version": "4.10.0-beta.2",
   "license": "MIT",
   "description": "Isomorphic client library for Azure KeyVault's secrets.",
   "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-secrets/README.md",
@@ -43,7 +43,7 @@
     "execute:samples": "dev-tool samples run samples-dev",
     "extract-api": "dev-tool run build-package && dev-tool run extract-api",
     "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
-    "generate:client": "autorest --typescript swagger/README.md",
+    "generate:client": "node ../generate.js",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "integration-test:browser": "echo skipped",
     "integration-test:node": "dev-tool run test:vitest --no-test-proxy --esm -- --test-timeout 350000",
@@ -68,10 +68,6 @@
       {
         "path": "src/constants.ts",
         "prefix": "SDK_VERSION"
-      },
-      {
-        "path": "swagger/README.md",
-        "prefix": "package-version"
       }
     ]
   },
@@ -113,12 +109,12 @@
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure/identity": "^4.6.0",
     "@types/node": "^18.0.0",
-    "@vitest/coverage-istanbul": "^3.0.5",
+    "@vitest/coverage-istanbul": "^3.0.9",
     "dotenv": "^16.0.0",
     "eslint": "^9.9.0",
     "playwright": "^1.47.2",
-    "typescript": "~5.7.2",
-    "vitest": "^3.0.5"
+    "typescript": "~5.8.2",
+    "vitest": "^3.0.9"
   },
   "type": "module",
   "tshy": {

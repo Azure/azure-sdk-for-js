@@ -32,8 +32,9 @@ export type AggregateType = "Average" | "Count" | "Max" | "Min" | "Sum" | "MakeS
 // @public
 export class AzureKeyVaultEncryptionKeyResolver implements EncryptionKeyResolver {
     constructor(credentials: TokenCredential);
-    unwrapKey(encryptionKeyId: string, algorithm: string, wrappedKey: Buffer): Promise<Buffer>;
-    wrapKey(encryptionKeyId: string, algorithm: string, unwrappedKey: Buffer): Promise<Buffer>;
+    encryptionKeyResolverName: EncryptionKeyResolverName;
+    unwrapKey(encryptionKeyId: string, algorithm: string, wrappedKey: Uint8Array): Promise<Uint8Array>;
+    wrapKey(encryptionKeyId: string, algorithm: string, unwrappedKey: Uint8Array): Promise<Uint8Array>;
 }
 
 // @public (undocumented)
@@ -310,8 +311,7 @@ export class ClientContext {
 }
 
 // @public
-export class ClientEncryptionIncludedPath {
-    constructor(path: string, clientEncryptionKeyId: string, encryptionType: EncryptionType, encryptionAlgorithm: EncryptionAlgorithm);
+export interface ClientEncryptionIncludedPath {
     clientEncryptionKeyId: string;
     encryptionAlgorithm: EncryptionAlgorithm;
     encryptionType: EncryptionType;
@@ -319,36 +319,37 @@ export class ClientEncryptionIncludedPath {
 }
 
 // @public
-export interface ClientEncryptionKeyDefinition {
-    id: string;
-}
-
-// @public
 export interface ClientEncryptionKeyProperties {
     encryptionAlgorithm: string;
     encryptionKeyWrapMetadata: EncryptionKeyWrapMetadata;
     id: string;
-    wrappedDataEncryptionKey: Buffer;
+    wrappedDataEncryptionKey: Uint8Array;
 }
 
 // @public
-export interface ClientEncryptionKeyRequest extends ClientEncryptionKeyDefinition {
+export interface ClientEncryptionKeyRequest {
     encryptionAlgorithm: string;
+    id: string;
     keyWrapMetadata: EncryptionKeyWrapMetadata;
     wrappedDataEncryptionKey: string;
 }
 
 // @public
-export class ClientEncryptionKeyResponse extends ResourceResponse<ClientEncryptionKeyDefinition & Resource> {
-    constructor(resource: ClientEncryptionKeyDefinition & Resource, headers: CosmosHeaders, statusCode: number, clientEncryptionKeyProperties: ClientEncryptionKeyProperties, diagnostics: CosmosDiagnostics);
+export class ClientEncryptionKeyResponse extends ResourceResponse<Resource> {
+    constructor(resource: Resource, headers: CosmosHeaders, statusCode: number, clientEncryptionKeyProperties: ClientEncryptionKeyProperties, diagnostics: CosmosDiagnostics);
     readonly clientEncryptionKeyProperties: ClientEncryptionKeyProperties;
 }
 
 // @public
-export class ClientEncryptionPolicy {
-    constructor(includedPaths: ClientEncryptionIncludedPath[], policyFormatVersion?: number);
+export interface ClientEncryptionOptions {
+    encryptionKeyTimeToLiveInSeconds?: number;
+    keyEncryptionKeyResolver: EncryptionKeyResolver;
+}
+
+// @public
+export interface ClientEncryptionPolicy {
     includedPaths: ClientEncryptionIncludedPath[];
-    policyFormatVersion: number;
+    policyFormatVersion?: number;
 }
 
 // @public (undocumented)
@@ -596,6 +597,7 @@ export const Constants: {
         DedicatedGatewayPerRequestBypassCache: string;
         ForceRefresh: string;
         PriorityLevel: string;
+        ThroughputBucket: string;
         IsClientEncryptedHeader: string;
         IntendedCollectionHeader: string;
         DatabaseRidHeader: string;
@@ -604,7 +606,6 @@ export const Constants: {
     ThrottledRequestMaxRetryAttemptCount: number;
     ThrottledRequestMaxWaitTimeInSeconds: number;
     ThrottledRequestFixedRetryIntervalInMs: number;
-    PREFER_RETURN_MINIMAL: string;
     WritableLocations: string;
     ReadableLocations: string;
     LocationUnavailableExpirationTimeInMs: number;
@@ -665,12 +666,14 @@ export const Constants: {
     };
     AllVersionsAndDeletesChangeFeedWireFormatVersion: string;
     ChangeFeedIfNoneMatchStartFromNowHeader: string;
-    DefaultEncryptionCacheTimeToLiveInHours: number;
+    DefaultEncryptionCacheTimeToLiveInSeconds: number;
     EncryptionCacheRefreshIntervalInMs: number;
 };
 
 // @public
 export class Container {
+    // Warning: (ae-forgotten-export) The symbol "EncryptionManager" needs to be exported by the entry point index.d.ts
+    constructor(database: Database, id: string, clientContext: ClientContext, encryptionManager?: EncryptionManager, _rid?: string);
     conflict(id: string, partitionKey?: PartitionKey): Conflict;
     get conflicts(): Conflicts;
     // (undocumented)
@@ -693,7 +696,6 @@ export class Container {
     readInternal(diagnosticNode: DiagnosticNodeInternal, options?: RequestOptions): Promise<ContainerResponse>;
     readOffer(options?: RequestOptions): Promise<OfferResponse>;
     readPartitionKeyDefinition(diagnosticNode: DiagnosticNodeInternal): Promise<ResourceResponse<PartitionKeyDefinition>>;
-    // (undocumented)
     readPartitionKeyRanges(feedOptions?: FeedOptions): QueryIterator<PartitionKeyRange>;
     replace(body: ContainerDefinition, options?: RequestOptions): Promise<ContainerResponse>;
     get scripts(): Scripts;
@@ -744,6 +746,7 @@ export class ContainerResponse extends ResourceResponse<ContainerDefinition & Re
 
 // @public
 export class Containers {
+    constructor(database: Database, clientContext: ClientContext, encryptionManager?: EncryptionManager);
     create(body: ContainerRequest, options?: RequestOptions): Promise<ContainerResponse>;
     createIfNotExists(body: ContainerRequest, options?: RequestOptions): Promise<ContainerResponse>;
     // (undocumented)
@@ -777,6 +780,7 @@ export class CosmosClient {
 export interface CosmosClientOptions {
     aadCredentials?: TokenCredential;
     agent?: Agent;
+    clientEncryptionOptions?: ClientEncryptionOptions;
     connectionPolicy?: ConnectionPolicy;
     connectionString?: string;
     consistencyLevel?: keyof typeof ConsistencyLevel;
@@ -786,7 +790,6 @@ export interface CosmosClientOptions {
     defaultHeaders?: CosmosHeaders_2;
     // (undocumented)
     diagnosticLevel?: CosmosDbDiagnosticLevel;
-    encryptionPolicy?: EncryptionPolicy;
     endpoint?: string;
     httpClient?: HttpClient;
     key?: string;
@@ -794,6 +797,7 @@ export interface CosmosClientOptions {
     resourceTokens?: {
         [resourcePath: string]: string;
     };
+    throughputBucket?: number;
     tokenProvider?: TokenProvider;
     userAgentSuffix?: string;
 }
@@ -816,6 +820,18 @@ export class CosmosDiagnostics {
     readonly clientSideRequestStatistics: ClientSideRequestStatistics;
     // (undocumented)
     readonly diagnosticNode: DiagnosticNode;
+}
+
+// @public
+export interface CosmosEncryptedNumber {
+    numberType: CosmosEncryptedNumberType;
+    value: number;
+}
+
+// @public
+export enum CosmosEncryptedNumberType {
+    Float = "Float",
+    Integer = "Integer"
 }
 
 // @public (undocumented)
@@ -848,20 +864,21 @@ export interface CreateOperationInput {
 
 // @public
 export class Database {
+    constructor(client: CosmosClient, id: string, clientContext: ClientContext, encryptionManager?: EncryptionManager, _rid?: string);
     // (undocumented)
     readonly client: CosmosClient;
     container(id: string): Container;
     readonly containers: Containers;
-    createClientEncryptionKey(id: string, encryptionAlgorithm: EncryptionAlgorithm, keyWrapMetadata: EncryptionKeyWrapMetadata): Promise<ClientEncryptionKeyResponse>;
+    createClientEncryptionKey(clientEncryptionKeyId: string, encryptionAlgorithm: EncryptionAlgorithm, keyWrapMetadata: EncryptionKeyWrapMetadata): Promise<ClientEncryptionKeyResponse>;
     delete(options?: RequestOptions): Promise<DatabaseResponse>;
     // (undocumented)
     readonly id: string;
     read(options?: RequestOptions): Promise<DatabaseResponse>;
-    readClientEncryptionKey(id: string): Promise<ClientEncryptionKeyResponse>;
+    readClientEncryptionKey(clientEncryptionKeyId: string): Promise<ClientEncryptionKeyResponse>;
     // (undocumented)
     readInternal(diagnosticNode: DiagnosticNodeInternal, options?: RequestOptions): Promise<DatabaseResponse>;
     readOffer(options?: RequestOptions): Promise<OfferResponse>;
-    rewrapClientEncryptionKey(id: string, newKeyWrapMetadata: EncryptionKeyWrapMetadata): Promise<ClientEncryptionKeyResponse>;
+    rewrapClientEncryptionKey(clientEncryptionKeyId: string, newKeyWrapMetadata: EncryptionKeyWrapMetadata): Promise<ClientEncryptionKeyResponse>;
     get url(): string;
     user(id: string): User;
     readonly users: Users;
@@ -919,6 +936,7 @@ export class DatabaseResponse extends ResourceResponse<DatabaseDefinition & Reso
 
 // @public
 export class Databases {
+    constructor(client: CosmosClient, clientContext: ClientContext, encryptionManager?: EncryptionManager);
     // (undocumented)
     readonly client: CosmosClient;
     create(body: DatabaseRequest, options?: RequestOptions): Promise<DatabaseResponse>;
@@ -1060,19 +1078,16 @@ export enum EncryptionAlgorithm {
 
 // @public
 export interface EncryptionDiagnostics {
-    decryptContent: {
-        [key: string]: any;
-    };
-    encryptContent: {
-        [key: string]: any;
-    };
+    decryptContent: Record<string, any>;
+    encryptContent: Record<string, any>;
     processingDurationInMs: number;
 }
 
 // @public
 export interface EncryptionKeyResolver {
-    unwrapKey(encryptionKeyId: string, algorithm: string, wrappedKey: Buffer): Promise<Buffer>;
-    wrapKey(encryptionKeyId: string, algorithm: string, unwrappedKey: Buffer): Promise<Buffer>;
+    encryptionKeyResolverName: string;
+    unwrapKey(encryptionKeyId: string, algorithm: string, wrappedKey: Uint8Array): Promise<Uint8Array>;
+    wrapKey(encryptionKeyId: string, algorithm: string, unwrappedKey: Uint8Array): Promise<Uint8Array>;
 }
 
 // @public
@@ -1081,8 +1096,7 @@ export enum EncryptionKeyResolverName {
 }
 
 // @public
-export class EncryptionKeyWrapMetadata {
-    constructor(type: EncryptionKeyResolverName, name: string, value: string, algorithm: KeyEncryptionAlgorithm);
+export interface EncryptionKeyWrapMetadata {
     algorithm: KeyEncryptionAlgorithm;
     name: string;
     type: EncryptionKeyResolverName;
@@ -1090,32 +1104,10 @@ export class EncryptionKeyWrapMetadata {
 }
 
 // @public
-export interface EncryptionPolicy {
-    enableEncryption: boolean;
-    encryptionKeyResolverName?: string;
-    encryptionKeyTimeToLive?: EncryptionTimeToLive;
-    keyEncryptionKeyResolver?: EncryptionKeyResolver;
-}
-
-// @public
 export class EncryptionQueryBuilder {
     constructor(query: string);
-    addArrayParameter(name: string, value: JSONArray, path: string): void;
-    addBooleanParameter(name: string, value: boolean, path: string): void;
-    addDateParameter(name: string, value: Date, path: string): void;
-    addFloatParameter(name: string, value: number, path: string): void;
-    addIntegerParameter(name: string, value: number, path: string): void;
-    addNullParameter(name: string, path: string): void;
-    addObjectParameter(name: string, value: JSONObject, path: string): void;
-    addStringParameter(name: string, value: string, path: string): void;
+    addParameter(name: string, value: boolean | string | null | JSONArray | JSONObject | Date | CosmosEncryptedNumber, path: string): void;
     addUnencryptedParameter(name: string, value: JSONValue, path: string): void;
-}
-
-// @public
-export class EncryptionTimeToLive {
-    static FromHours(hours: number): number;
-    static FromMinutes(minutes: number): number;
-    static NoTTL(): number;
 }
 
 // @public
@@ -1382,12 +1374,12 @@ export enum IndexKind {
 
 // @public
 export class Item {
-    constructor(container: Container, clientContext: ClientContext, id?: string, partitionKey?: PartitionKey);
+    constructor(container: Container, id: string, clientContext: ClientContext, partitionKey?: PartitionKey);
     // (undocumented)
     readonly container: Container;
     delete<T extends ItemDefinition = any>(options?: RequestOptions): Promise<ItemResponse<T>>;
     // (undocumented)
-    readonly id?: string;
+    readonly id: string;
     patch<T extends ItemDefinition = any>(body: PatchRequestBody, options?: RequestOptions): Promise<ItemResponse<T>>;
     read<T extends ItemDefinition = any>(options?: RequestOptions): Promise<ItemResponse<T>>;
     replace(body: ItemDefinition, options?: RequestOptions): Promise<ItemResponse<ItemDefinition>>;
@@ -1855,6 +1847,8 @@ export interface QueryInfo {
 
 // @public
 export class QueryIterator<T> {
+    // Warning: (ae-forgotten-export) The symbol "FetchFunctionCallback" needs to be exported by the entry point index.d.ts
+    constructor(clientContext: ClientContext, query: SqlQuerySpec | string, options: FeedOptions, fetchFunctions: FetchFunctionCallback | FetchFunctionCallback[], resourceLink?: string, resourceType?: ResourceType);
     fetchAll(): Promise<FeedResponse<T>>;
     // (undocumented)
     fetchAllInternal(diagnosticNode: DiagnosticNodeInternal): Promise<FeedResponse<T>>;
@@ -2085,7 +2079,6 @@ export interface RequestOptions extends SharedOptions {
         type: string;
         condition: string;
     };
-    contentResponseOnWriteEnabled?: boolean;
     disableAutomaticIdGeneration?: boolean;
     enableScriptLogging?: boolean;
     indexingDirective?: string;
@@ -2355,6 +2348,7 @@ export interface SharedOptions {
     maxIntegratedCacheStalenessInMs?: number;
     priorityLevel?: PriorityLevel;
     sessionToken?: string;
+    throughputBucket?: number;
 }
 
 // @public (undocumented)

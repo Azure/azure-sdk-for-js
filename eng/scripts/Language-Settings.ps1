@@ -7,9 +7,8 @@ $MetadataUri = "https://raw.githubusercontent.com/Azure/azure-sdk/main/_data/rel
 $GithubUri = "https://github.com/Azure/azure-sdk-for-js"
 $PackageRepositoryUri = "https://www.npmjs.com/package"
 $ReducedDependencyLookup = @{
-  'core'       = @('@azure-rest/synapse-access-control', '@azure/arm-resources', '@azure/identity', '@azure/service-bus', '@azure/template')
-  'test-utils' = @('@azure-tests/perf-storage-blob', '@azure/arm-eventgrid', '@azure/ai-text-analytics', '@azure/identity', '@azure/template')
-  'identity'   = @('@azure-tests/perf-storage-blob', '@azure/ai-text-analytics', '@azure/arm-resources', '@azure/identity-cache-persistence', '@azure/identity-vscode', '@azure/storage-blob', '@azure/template')
+  'test-utils' = @('@azure-tests/perf-storage-blob')
+  'identity'   = @('@azure-tests/perf-storage-blob')
 }
 
 . "$PSScriptRoot/docs/Docs-ToC.ps1"
@@ -39,75 +38,26 @@ function Get-javascript-AdditionalValidationPackagesFromPackageSet {
     [Parameter(Mandatory = $true)]
     $AllPkgProps
   )
-  $additionalValidationPackages = @()
+  $existingPackages = @($LocatedPackages | ForEach-Object { $_.Name })
+  $additionalDetectedPackages = @()
+  $uniqueResultSet = @()
 
-  function isOther($fileName) {
-    $startsWithPrefixes = @(".config", ".devcontainer", ".github", ".scripts", ".vscode", "common", "design", "documentation", "eng", "samples")
-
-    foreach ($prefix in $startsWithPrefixes) {
-      if ($fileName.StartsWith($prefix)) {
-        return $true
-      }
-    }
-
-    return $false
-  }
-
-  $targetedFiles = $diffObj.ChangedFiles
-  if ($diff.DeletedFiles) {
-    if (-not $targetedFiles) {
-      $targetedFiles = @()
-    }
-    $targetedFiles += $diff.DeletedFiles
-  }
-
-  # The targetedFiles needs to filter out anything in the ExcludePaths
-  # otherwise it'll end up processing things below that it shouldn't be.
-  foreach ($excludePath in $diffObj.ExcludePaths) {
-    $targetedFiles = $targetedFiles | Where-Object { -not $_.StartsWith($excludePath.TrimEnd("/") + "/") }
-  }
-
-  $changedServices = @()
-  foreach ($file in $targetedFiles) {
-    $pathComponents = $file -split "/"
-    # handle changes only in sdk/<service>/<file>/<extension>
-    if ($pathComponents.Length -eq 3 -and $pathComponents[0] -eq "sdk") {
-      $changedServices += $pathComponents[1]
-    }
-
-    # handle any changes under sdk/<file>.<extension> or in the root of
-    # the repository
-    if (($pathComponents.Length -eq 2 -and $pathComponents[0] -eq "sdk") -or
-        ($pathComponents.Length -eq 1)) {
-      $changedServices += "template"
-    }
-  }
-  $othersChanged = @()
-
-  if ($targetedFiles) {
-    $othersChanged = $targetedFiles | Where-Object { isOther $_ }
-  }
-  $changedServices = $changedServices | Get-Unique
-
-  if ($othersChanged) {
-    $additionalPackages = $ReducedDependencyLookup["core"] | ForEach-Object { $me = $_; $AllPkgProps | Where-Object { $_.Name -eq $me } | Select-Object -First 1 }
-    $additionalValidationPackages += $additionalPackages
-  }
-
+  # we don't currently have a way to trigger a package that doesn't exist in an artifact set
+  # so we can't trigger @azure-tests/perf-storage-blob based on changes to sdk/test-utils/ using any common tooling
+  # for now we will handle this in this function.
   foreach ($changedService in $changedServices) {
     if ($ReducedDependencyLookup.ContainsKey($changedService)) {
-      $additionalPackages = $ReducedDependencyLookup[$changedService] | ForEach-Object { $me = $_; $AllPkgProps | Where-Object { $_.Name -eq $me } | Select-Object -First 1 }
-      $additionalValidationPackages += $additionalPackages
-    }
-    else {
-      $additionalPackages = $AllPkgProps | Where-Object { $_.ServiceDirectory -eq $changedService }
-      $additionalValidationPackages += $additionalPackages
+      $additionalPackages = $ReducedDependencyLookup[$changedService] `
+      | ForEach-Object { $me = $_; $AllPkgProps | Where-Object { $_.Name -eq $me } | Select-Object -First 1 }
+
+      # we don't need to worry about duplicates here, we'll handle that later
+      $additionalDetectedPackages += $additionalPackages
     }
   }
 
-  $uniqueResultSet = @()
-  foreach ($pkg in $additionalValidationPackages) {
-    if ($uniqueResultSet -notcontains $pkg -and $LocatedPackages -notcontains $pkg) {
+  foreach ($pkg in $additionalDetectedPackages) {
+    $alreadyIncluded = $uniqueResultSet | ForEach-Object { $_.Name }
+    if ($existingPackages -notcontains $pkg.Name -and $alreadyIncluded -notcontains $pkg.Name) {
       $pkg.IncludedForValidation = $true
       $uniqueResultSet += $pkg
     }
@@ -171,6 +121,18 @@ function Get-javascript-PackageInfoFromRepo ($pkgPath, $serviceDirectory) {
   }
 
   return $packageProps
+}
+
+function Get-PackageInfoNameOverride {
+  param(
+    [Parameter(Mandatory = $true)]
+    [PackageProps] $PkgProps
+  )
+  if ($PkgProps.ArtifactName) {
+    return $PkgProps.ArtifactName
+  }
+  LogError "In Get-PackageInfoNameOverride-PkgProps, PkgProps with name $($PkgProps.Name) did not contain an ArtifactName"
+  exit 1
 }
 
 # Returns the npm publish status of a package id and version.

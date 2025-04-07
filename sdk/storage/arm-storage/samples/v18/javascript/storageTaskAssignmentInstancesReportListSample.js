@@ -6,17 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { StorageManagementClient } = require("@azure/arm-storage");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Fetch the report summary of a single storage task assignment's instances
  *
  * @summary Fetch the report summary of a single storage task assignment's instances
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/storageTaskAssignmentsList/ListStorageTaskAssignmentInstancesReportSummary.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2024-01-01/examples/storageTaskAssignmentsList/ListStorageTaskAssignmentInstancesReportSummary.json
  */
 async function listStorageTaskAssignmentInstancesReportSummary() {
   const subscriptionId =
@@ -27,7 +25,7 @@ async function listStorageTaskAssignmentInstancesReportSummary() {
   const credential = new DefaultAzureCredential();
   const client = new StorageManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.storageTaskAssignmentInstancesReport.list(
+  for await (const item of client.storageTaskAssignmentInstancesReport.list(
     resourceGroupName,
     accountName,
     storageTaskAssignmentName,
@@ -38,7 +36,7 @@ async function listStorageTaskAssignmentInstancesReportSummary() {
 }
 
 async function main() {
-  listStorageTaskAssignmentInstancesReportSummary();
+  await listStorageTaskAssignmentInstancesReportSummary();
 }
 
 main().catch(console.error);

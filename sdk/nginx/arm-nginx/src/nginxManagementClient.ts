@@ -15,12 +15,14 @@ import {
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
+  ApiKeysImpl,
   CertificatesImpl,
   ConfigurationsImpl,
   DeploymentsImpl,
   OperationsImpl,
 } from "./operations/index.js";
 import {
+  ApiKeys,
   Certificates,
   Configurations,
   Deployments,
@@ -36,7 +38,7 @@ export class NginxManagementClient extends coreClient.ServiceClient {
   /**
    * Initializes a new instance of the NginxManagementClient class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
-   * @param subscriptionId The ID of the target subscription.
+   * @param subscriptionId The ID of the target subscription. The value must be an UUID.
    * @param options The parameter options
    */
   constructor(
@@ -114,7 +116,8 @@ export class NginxManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2024-01-01-preview";
+    this.apiVersion = options.apiVersion || "2024-11-01-preview";
+    this.apiKeys = new ApiKeysImpl(this);
     this.certificates = new CertificatesImpl(this);
     this.configurations = new ConfigurationsImpl(this);
     this.deployments = new DeploymentsImpl(this);
@@ -150,6 +153,7 @@ export class NginxManagementClient extends coreClient.ServiceClient {
     this.pipeline.addPolicy(apiVersionPolicy);
   }
 
+  apiKeys: ApiKeys;
   certificates: Certificates;
   configurations: Configurations;
   deployments: Deployments;
