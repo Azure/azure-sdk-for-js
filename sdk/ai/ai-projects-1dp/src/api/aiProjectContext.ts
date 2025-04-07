@@ -43,10 +43,10 @@ export function createAIProject(
       scopes: options.credentials?.scopes ?? [
         "https://cognitiveservices.azure.com/.default",
       ],
+      apiKeyHeaderName: options.credentials?.apiKeyHeaderName ?? "Ocp-Apim-Subscription-Key",
     },
   };
   const clientContext = getClient(endpointUrl, credential, updatedOptions);
-
   if (isKeyCredential(credential)) {
     clientContext.pipeline.addPolicy({
       name: "customKeyCredentialPolicy",
@@ -64,12 +64,12 @@ export function createAIProject(
       // Use the apiVersion defined in request url directly
       // Append one if there is no apiVersion and we have one at client options
       const url = new URL(req.url);
-      if (!url.searchParams.get("api-version")) {
-        req.url = `${req.url}${
-          Array.from(url.searchParams.keys()).length > 0 ? "&" : "?"
-        }api-version=${apiVersion}`;
-      }
-
+      const defaultApiVersion = url.searchParams.get("api-version") ?? apiVersion;
+      // remove api-version from url
+      url.searchParams.delete("api-version");
+      // add api-version to url
+      req.url = `${url.toString()}${Array.from(url.searchParams.keys()).length > 0 ? "&" : "?"
+        }api-version=${defaultApiVersion}`;
       return next(req);
     },
   });
