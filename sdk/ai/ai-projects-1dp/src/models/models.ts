@@ -35,12 +35,7 @@ export type ConnectionType =
   | "AppInsights"
   | "CustomKeys";
 /** The authentication type used by the connection */
-export type AuthenticationType =
-  | "ApiKey"
-  | "AAD"
-  | "SAS"
-  | "CustomKeys"
-  | "None";
+export type AuthenticationType = "ApiKey" | "AAD" | "SAS" | "CustomKeys" | "None";
 
 /** Paged collection of Connection items */
 export interface _PagedConnection {
@@ -173,9 +168,7 @@ export function evaluatorConfigurationRecordSerializer(
 ): Record<string, any> {
   const result: Record<string, any> = {};
   Object.keys(item).map((key) => {
-    result[key] = !item[key]
-      ? item[key]
-      : evaluatorConfigurationSerializer(item[key]);
+    result[key] = !item[key] ? item[key] : evaluatorConfigurationSerializer(item[key]);
   });
   return result;
 }
@@ -185,9 +178,7 @@ export function evaluatorConfigurationRecordDeserializer(
 ): Record<string, EvaluatorConfiguration> {
   const result: Record<string, any> = {};
   Object.keys(item).map((key) => {
-    result[key] = !item[key]
-      ? item[key]
-      : evaluatorConfigurationDeserializer(item[key]);
+    result[key] = !item[key] ? item[key] : evaluatorConfigurationDeserializer(item[key]);
   });
   return result;
 }
@@ -202,9 +193,7 @@ export interface EvaluatorConfiguration {
   dataMapping?: Record<string, string>;
 }
 
-export function evaluatorConfigurationSerializer(
-  item: EvaluatorConfiguration,
-): any {
+export function evaluatorConfigurationSerializer(item: EvaluatorConfiguration): any {
   return {
     id: item["id"],
     initParams: item["initParams"],
@@ -212,9 +201,7 @@ export function evaluatorConfigurationSerializer(
   };
 }
 
-export function evaluatorConfigurationDeserializer(
-  item: any,
-): EvaluatorConfiguration {
+export function evaluatorConfigurationDeserializer(item: any): EvaluatorConfiguration {
   return {
     id: item["id"],
     initParams: item["initParams"],
@@ -257,26 +244,20 @@ export interface _PagedDatasetVersion {
   nextLink?: string;
 }
 
-export function _pagedDatasetVersionDeserializer(
-  item: any,
-): _PagedDatasetVersion {
+export function _pagedDatasetVersionDeserializer(item: any): _PagedDatasetVersion {
   return {
     value: datasetVersionUnionArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function datasetVersionUnionArraySerializer(
-  result: Array<DatasetVersionUnion>,
-): any[] {
+export function datasetVersionUnionArraySerializer(result: Array<DatasetVersionUnion>): any[] {
   return result.map((item) => {
     return datasetVersionUnionSerializer(item);
   });
 }
 
-export function datasetVersionUnionArrayDeserializer(
-  result: Array<DatasetVersionUnion>,
-): any[] {
+export function datasetVersionUnionArrayDeserializer(result: Array<DatasetVersionUnion>): any[] {
   return result.map((item) => {
     return datasetVersionUnionDeserializer(item);
   });
@@ -330,10 +311,7 @@ export function datasetVersionDeserializer(item: any): DatasetVersion {
 }
 
 /** Alias for DatasetVersionUnion */
-export type DatasetVersionUnion =
-  | FileDatasetVersion
-  | FolderDatasetVersion
-  | DatasetVersion;
+export type DatasetVersionUnion = FileDatasetVersion | FolderDatasetVersion | DatasetVersion;
 
 export function datasetVersionUnionSerializer(item: DatasetVersionUnion): any {
   switch (item.type) {
@@ -348,9 +326,7 @@ export function datasetVersionUnionSerializer(item: DatasetVersionUnion): any {
   }
 }
 
-export function datasetVersionUnionDeserializer(
-  item: any,
-): DatasetVersionUnion {
+export function datasetVersionUnionDeserializer(item: any): DatasetVersionUnion {
   switch (item.type) {
     case "uri_file":
       return fileDatasetVersionDeserializer(item as FileDatasetVersion);
@@ -406,9 +382,7 @@ export interface FolderDatasetVersion extends DatasetVersion {
   type: "uri_folder";
 }
 
-export function folderDatasetVersionSerializer(
-  item: FolderDatasetVersion,
-): any {
+export function folderDatasetVersionSerializer(item: FolderDatasetVersion): any {
   return {
     datasetUri: item["datasetUri"],
     type: item["type"],
@@ -418,9 +392,7 @@ export function folderDatasetVersionSerializer(
   };
 }
 
-export function folderDatasetVersionDeserializer(
-  item: any,
-): FolderDatasetVersion {
+export function folderDatasetVersionDeserializer(item: any): FolderDatasetVersion {
   return {
     datasetUri: item["datasetUri"],
     type: item["type"],
@@ -444,9 +416,7 @@ export interface PendingUploadRequest {
   pendingUploadType: "TemporaryBlobReference";
 }
 
-export function pendingUploadRequestSerializer(
-  item: PendingUploadRequest,
-): any {
+export function pendingUploadRequestSerializer(item: PendingUploadRequest): any {
   return {
     pendingUploadId: item["pendingUploadId"],
     connectionName: item["connectionName"],
@@ -466,9 +436,7 @@ export interface PendingUploadResponse {
   pendingUploadType: "TemporaryBlobReference";
 }
 
-export function pendingUploadResponseDeserializer(
-  item: any,
-): PendingUploadResponse {
+export function pendingUploadResponseDeserializer(item: any): PendingUploadResponse {
   return {
     blobReferenceForConsumption: blobReferenceForConsumptionDeserializer(
       item["blobReferenceForConsumption"],
@@ -489,9 +457,7 @@ export interface BlobReferenceForConsumption {
   credential: SasCredential;
 }
 
-export function blobReferenceForConsumptionDeserializer(
-  item: any,
-): BlobReferenceForConsumption {
+export function blobReferenceForConsumptionDeserializer(item: any): BlobReferenceForConsumption {
   return {
     blobUri: item["blobUri"],
     storageAccountArmId: item["storageAccountArmId"],
@@ -582,11 +548,7 @@ export function indexDeserializer(item: any): Index {
 }
 
 /** Alias for IndexUnion */
-export type IndexUnion =
-  | AzureAISearchIndex
-  | ManagedAzureAISearchIndex
-  | CosmosDBIndex
-  | Index;
+export type IndexUnion = AzureAISearchIndex | ManagedAzureAISearchIndex | CosmosDBIndex | Index;
 
 export function indexUnionSerializer(item: IndexUnion): any {
   switch (item.type) {
@@ -594,9 +556,7 @@ export function indexUnionSerializer(item: IndexUnion): any {
       return azureAISearchIndexSerializer(item as AzureAISearchIndex);
 
     case "ManagedAzureSearch":
-      return managedAzureAISearchIndexSerializer(
-        item as ManagedAzureAISearchIndex,
-      );
+      return managedAzureAISearchIndexSerializer(item as ManagedAzureAISearchIndex);
 
     case "CosmosDBNoSqlVectorStore":
       return cosmosDBIndexSerializer(item as CosmosDBIndex);
@@ -612,9 +572,7 @@ export function indexUnionDeserializer(item: any): IndexUnion {
       return azureAISearchIndexDeserializer(item as AzureAISearchIndex);
 
     case "ManagedAzureSearch":
-      return managedAzureAISearchIndexDeserializer(
-        item as ManagedAzureAISearchIndex,
-      );
+      return managedAzureAISearchIndexDeserializer(item as ManagedAzureAISearchIndex);
 
     case "CosmosDBNoSqlVectorStore":
       return cosmosDBIndexDeserializer(item as CosmosDBIndex);
@@ -625,10 +583,7 @@ export function indexUnionDeserializer(item: any): IndexUnion {
 }
 
 /** Type of IndexType */
-export type IndexType =
-  | "AzureSearch"
-  | "CosmosDBNoSqlVectorStore"
-  | "ManagedAzureSearch";
+export type IndexType = "AzureSearch" | "CosmosDBNoSqlVectorStore" | "ManagedAzureSearch";
 
 /** Azure AI Search Index Definition */
 export interface AzureAISearchIndex extends Index {
@@ -673,9 +628,7 @@ export interface ManagedAzureAISearchIndex extends Index {
   vectorStoreId: string;
 }
 
-export function managedAzureAISearchIndexSerializer(
-  item: ManagedAzureAISearchIndex,
-): any {
+export function managedAzureAISearchIndexSerializer(item: ManagedAzureAISearchIndex): any {
   return {
     type: item["type"],
     stage: item["stage"],
@@ -685,9 +638,7 @@ export function managedAzureAISearchIndexSerializer(
   };
 }
 
-export function managedAzureAISearchIndexDeserializer(
-  item: any,
-): ManagedAzureAISearchIndex {
+export function managedAzureAISearchIndexDeserializer(item: any): ManagedAzureAISearchIndex {
   return {
     type: item["type"],
     stage: item["stage"],
@@ -723,9 +674,7 @@ export function cosmosDBIndexSerializer(item: CosmosDBIndex): any {
     connectionName: item["connectionName"],
     databaseName: item["databaseName"],
     containerName: item["containerName"],
-    embeddingConfiguration: embeddingConfigurationSerializer(
-      item["embeddingConfiguration"],
-    ),
+    embeddingConfiguration: embeddingConfigurationSerializer(item["embeddingConfiguration"]),
   };
 }
 
@@ -741,9 +690,7 @@ export function cosmosDBIndexDeserializer(item: any): CosmosDBIndex {
     connectionName: item["connectionName"],
     databaseName: item["databaseName"],
     containerName: item["containerName"],
-    embeddingConfiguration: embeddingConfigurationDeserializer(
-      item["embeddingConfiguration"],
-    ),
+    embeddingConfiguration: embeddingConfigurationDeserializer(item["embeddingConfiguration"]),
   };
 }
 
@@ -755,18 +702,14 @@ export interface EmbeddingConfiguration {
   embeddingField: string;
 }
 
-export function embeddingConfigurationSerializer(
-  item: EmbeddingConfiguration,
-): any {
+export function embeddingConfigurationSerializer(item: EmbeddingConfiguration): any {
   return {
     modelDeploymentName: item["modelDeploymentName"],
     embeddingField: item["embeddingField"],
   };
 }
 
-export function embeddingConfigurationDeserializer(
-  item: any,
-): EmbeddingConfiguration {
+export function embeddingConfigurationDeserializer(item: any): EmbeddingConfiguration {
   return {
     modelDeploymentName: item["modelDeploymentName"],
     embeddingField: item["embeddingField"],
@@ -875,9 +818,7 @@ export function _pagedDeploymentDeserializer(item: any): _PagedDeployment {
   };
 }
 
-export function deploymentUnionArrayDeserializer(
-  result: Array<DeploymentUnion>,
-): any[] {
+export function deploymentUnionArrayDeserializer(result: Array<DeploymentUnion>): any[] {
   return result.map((item) => {
     return deploymentUnionDeserializer(item);
   });
@@ -891,26 +832,20 @@ export interface _PagedEvaluationResult {
   nextLink?: string;
 }
 
-export function _pagedEvaluationResultDeserializer(
-  item: any,
-): _PagedEvaluationResult {
+export function _pagedEvaluationResultDeserializer(item: any): _PagedEvaluationResult {
   return {
     value: evaluationResultArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function evaluationResultArraySerializer(
-  result: Array<EvaluationResult>,
-): any[] {
+export function evaluationResultArraySerializer(result: Array<EvaluationResult>): any[] {
   return result.map((item) => {
     return evaluationResultSerializer(item);
   });
 }
 
-export function evaluationResultArrayDeserializer(
-  result: Array<EvaluationResult>,
-): any[] {
+export function evaluationResultArrayDeserializer(result: Array<EvaluationResult>): any[] {
   return result.map((item) => {
     return evaluationResultDeserializer(item);
   });

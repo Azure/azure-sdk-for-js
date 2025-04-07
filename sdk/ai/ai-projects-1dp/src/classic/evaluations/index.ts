@@ -19,31 +19,21 @@ export interface EvaluationsOperations {
     options?: EvaluationsCreateRunOptionalParams,
   ) => Promise<Evaluation>;
   /** List evaluation runs */
-  list: (
-    options?: EvaluationsListOptionalParams,
-  ) => PagedAsyncIterableIterator<Evaluation>;
+  list: (options?: EvaluationsListOptionalParams) => PagedAsyncIterableIterator<Evaluation>;
   /** Get an evaluation run by name. */
-  get: (
-    name: string,
-    options?: EvaluationsGetOptionalParams,
-  ) => Promise<Evaluation>;
+  get: (name: string, options?: EvaluationsGetOptionalParams) => Promise<Evaluation>;
 }
 
 function _getEvaluations(context: AIProjectContext) {
   return {
-    createRun: (
-      evaluation: Evaluation,
-      options?: EvaluationsCreateRunOptionalParams,
-    ) => createRun(context, evaluation, options),
+    createRun: (evaluation: Evaluation, options?: EvaluationsCreateRunOptionalParams) =>
+      createRun(context, evaluation, options),
     list: (options?: EvaluationsListOptionalParams) => list(context, options),
-    get: (name: string, options?: EvaluationsGetOptionalParams) =>
-      get(context, name, options),
+    get: (name: string, options?: EvaluationsGetOptionalParams) => get(context, name, options),
   };
 }
 
-export function _getEvaluationsOperations(
-  context: AIProjectContext,
-): EvaluationsOperations {
+export function _getEvaluationsOperations(context: AIProjectContext): EvaluationsOperations {
   return {
     ..._getEvaluations(context),
   };

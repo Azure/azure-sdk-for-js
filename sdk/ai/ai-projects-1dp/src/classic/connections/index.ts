@@ -13,27 +13,19 @@ import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.j
 /** Interface representing a Connections operations. */
 export interface ConnectionsOperations {
   /** List all connections in the project */
-  list: (
-    options?: ConnectionsListOptionalParams,
-  ) => PagedAsyncIterableIterator<Connection>;
+  list: (options?: ConnectionsListOptionalParams) => PagedAsyncIterableIterator<Connection>;
   /** Get a connection by name. */
-  get: (
-    name: string,
-    options?: ConnectionsGetOptionalParams,
-  ) => Promise<Connection>;
+  get: (name: string, options?: ConnectionsGetOptionalParams) => Promise<Connection>;
 }
 
 function _getConnections(context: AIProjectContext) {
   return {
     list: (options?: ConnectionsListOptionalParams) => list(context, options),
-    get: (name: string, options?: ConnectionsGetOptionalParams) =>
-      get(context, name, options),
+    get: (name: string, options?: ConnectionsGetOptionalParams) => get(context, name, options),
   };
 }
 
-export function _getConnectionsOperations(
-  context: AIProjectContext,
-): ConnectionsOperations {
+export function _getConnectionsOperations(context: AIProjectContext): ConnectionsOperations {
   return {
     ..._getConnections(context),
   };

@@ -13,27 +13,19 @@ import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.j
 /** Interface representing a Deployments operations. */
 export interface DeploymentsOperations {
   /** List all deployed models in the project */
-  list: (
-    options?: DeploymentsListOptionalParams,
-  ) => PagedAsyncIterableIterator<DeploymentUnion>;
+  list: (options?: DeploymentsListOptionalParams) => PagedAsyncIterableIterator<DeploymentUnion>;
   /** Get a deployed model. */
-  get: (
-    name: string,
-    options?: DeploymentsGetOptionalParams,
-  ) => Promise<DeploymentUnion>;
+  get: (name: string, options?: DeploymentsGetOptionalParams) => Promise<DeploymentUnion>;
 }
 
 function _getDeployments(context: AIProjectContext) {
   return {
     list: (options?: DeploymentsListOptionalParams) => list(context, options),
-    get: (name: string, options?: DeploymentsGetOptionalParams) =>
-      get(context, name, options),
+    get: (name: string, options?: DeploymentsGetOptionalParams) => get(context, name, options),
   };
 }
 
-export function _getDeploymentsOperations(
-  context: AIProjectContext,
-): DeploymentsOperations {
+export function _getDeploymentsOperations(context: AIProjectContext): DeploymentsOperations {
   return {
     ..._getDeployments(context),
   };

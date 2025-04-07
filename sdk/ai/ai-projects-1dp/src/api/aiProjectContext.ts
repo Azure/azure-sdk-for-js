@@ -4,11 +4,7 @@
 import { logger } from "../logger.js";
 import { KnownVersions } from "../models/models.js";
 import { Client, ClientOptions, getClient } from "@azure-rest/core-client";
-import {
-  KeyCredential,
-  isKeyCredential,
-  TokenCredential,
-} from "@azure/core-auth";
+import { KeyCredential, isKeyCredential, TokenCredential } from "@azure/core-auth";
 
 export interface AIProjectContext extends Client {
   /** The API version to use for this operation. */
@@ -28,8 +24,7 @@ export function createAIProject(
   credential: KeyCredential | TokenCredential,
   options: AIProjectClientOptionalParams = {},
 ): AIProjectContext {
-  const endpointUrl =
-    options.endpoint ?? options.baseUrl ?? String(endpointParam);
+  const endpointUrl = options.endpoint ?? options.baseUrl ?? String(endpointParam);
   const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
   const userAgentInfo = `azsdk-js-ai-projects-1dp/1.0.0-beta.1`;
   const userAgentPrefix = prefixFromOptions
@@ -40,9 +35,7 @@ export function createAIProject(
     userAgentOptions: { userAgentPrefix },
     loggingOptions: { logger: options.loggingOptions?.logger ?? logger.info },
     credentials: {
-      scopes: options.credentials?.scopes ?? [
-        "https://cognitiveservices.azure.com/.default",
-      ],
+      scopes: options.credentials?.scopes ?? ["https://cognitiveservices.azure.com/.default"],
       apiKeyHeaderName: options.credentials?.apiKeyHeaderName ?? "Ocp-Apim-Subscription-Key",
     },
   };
@@ -68,8 +61,9 @@ export function createAIProject(
       // remove api-version from url
       url.searchParams.delete("api-version");
       // add api-version to url
-      req.url = `${url.toString()}${Array.from(url.searchParams.keys()).length > 0 ? "&" : "?"
-        }api-version=${defaultApiVersion}`;
+      req.url = `${url.toString()}${
+        Array.from(url.searchParams.keys()).length > 0 ? "&" : "?"
+      }api-version=${defaultApiVersion}`;
       return next(req);
     },
   });

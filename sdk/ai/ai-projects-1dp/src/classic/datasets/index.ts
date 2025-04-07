@@ -99,33 +99,19 @@ function _getDatasets(context: AIProjectContext) {
       body: DatasetVersionUnion,
       options?: DatasetsCreateVersionOptionalParams,
     ) => createVersion(context, name, version, body, options),
-    create: (
-      name: string,
-      body: DatasetVersionUnion,
-      options?: DatasetsCreateOptionalParams,
-    ) => create(context, name, body, options),
-    deleteVersion: (
-      name: string,
-      version: string,
-      options?: DatasetsDeleteVersionOptionalParams,
-    ) => deleteVersion(context, name, version, options),
-    getVersion: (
-      name: string,
-      version: string,
-      options?: DatasetsGetVersionOptionalParams,
-    ) => getVersion(context, name, version, options),
-    listLatest: (options?: DatasetsListLatestOptionalParams) =>
-      listLatest(context, options),
-    listVersions: (
-      name: string,
-      options?: DatasetsListVersionsOptionalParams,
-    ) => listVersions(context, name, options),
+    create: (name: string, body: DatasetVersionUnion, options?: DatasetsCreateOptionalParams) =>
+      create(context, name, body, options),
+    deleteVersion: (name: string, version: string, options?: DatasetsDeleteVersionOptionalParams) =>
+      deleteVersion(context, name, version, options),
+    getVersion: (name: string, version: string, options?: DatasetsGetVersionOptionalParams) =>
+      getVersion(context, name, version, options),
+    listLatest: (options?: DatasetsListLatestOptionalParams) => listLatest(context, options),
+    listVersions: (name: string, options?: DatasetsListVersionsOptionalParams) =>
+      listVersions(context, name, options),
   };
 }
 
-export function _getDatasetsOperations(
-  context: AIProjectContext,
-): DatasetsOperations {
+export function _getDatasetsOperations(context: AIProjectContext): DatasetsOperations {
   return {
     ..._getDatasets(context),
   };

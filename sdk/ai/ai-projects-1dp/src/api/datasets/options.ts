@@ -5,12 +5,10 @@ import { ListViewType } from "../../models/models.js";
 import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface DatasetsStartPendingUploadOptionalParams
-  extends OperationOptions {}
+export interface DatasetsStartPendingUploadOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface DatasetsStartPendingUploadVersionOptionalParams
-  extends OperationOptions {}
+export interface DatasetsStartPendingUploadVersionOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface DatasetsCreateVersionOptionalParams extends OperationOptions {}

@@ -16,8 +16,7 @@ import { AzureKeyCredential } from "@azure/core-auth";
 import * as dotenv from "dotenv";
 dotenv.config();
 
-const endpoint =
-  process.env["AZURE_AI_PROJECT_ENDPOINT_STRING"] || "<project endpoint string>";
+const endpoint = process.env["AZURE_AI_PROJECT_ENDPOINT_STRING"] || "<project endpoint string>";
 const apiKey = process.env["AZURE_AI_PROJECT_API_KEY"] || "<project key>";
 
 export async function main(): Promise<void> {
@@ -37,7 +36,9 @@ export async function main(): Promise<void> {
 
   // List all connections of a specific type
   const auzreAIConnections: Connection[] = [];
-  for await (const azureOpenAIConnection of project.connections.list({ connectionType: "AzureOpenAI" })) {
+  for await (const azureOpenAIConnection of project.connections.list({
+    connectionType: "AzureOpenAI",
+  })) {
     auzreAIConnections.push(azureOpenAIConnection);
   }
   console.log(`Retrieved ${auzreAIConnections.length} Azure OpenAI connections`);

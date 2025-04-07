@@ -54,17 +54,15 @@ export function _startPendingUploadSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: pendingUploadRequestSerializer(body),
-    });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: pendingUploadRequestSerializer(body),
+  });
 }
 
 export async function _startPendingUploadDeserialize(
@@ -88,13 +86,7 @@ export async function startPendingUpload(
     requestOptions: {},
   },
 ): Promise<PendingUploadResponse> {
-  const result = await _startPendingUploadSend(
-    context,
-    name,
-    version,
-    body,
-    options,
-  );
+  const result = await _startPendingUploadSend(context, name, version, body, options);
   return _startPendingUploadDeserialize(result);
 }
 
@@ -118,17 +110,15 @@ export function _createVersionSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .put({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: evaluationResultSerializer(body),
-    });
+  return context.path(path).put({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: evaluationResultSerializer(body),
+  });
 }
 
 export async function _createVersionDeserialize(
@@ -152,13 +142,7 @@ export async function createVersion(
     requestOptions: {},
   },
 ): Promise<EvaluationResult> {
-  const result = await _createVersionSend(
-    context,
-    name,
-    version,
-    body,
-    options,
-  );
+  const result = await _createVersionSend(context, name, version, body, options);
   return _createVersionDeserialize(result);
 }
 
@@ -178,35 +162,31 @@ export function _createSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        ...(options?.repeatabilityRequestId !== undefined
-          ? { "Repeatability-Request-ID": options?.repeatabilityRequestId }
-          : {}),
-        ...(options?.repeatabilityFirstSent !== undefined
-          ? {
-              "Repeatability-First-Sent": !options?.repeatabilityFirstSent
-                ? options?.repeatabilityFirstSent
-                : options?.repeatabilityFirstSent.toUTCString(),
-            }
-          : {}),
-        ...(options?.clientRequestId !== undefined
-          ? { "x-ms-client-request-id": options?.clientRequestId }
-          : {}),
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: evaluationResultSerializer(body),
-    });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      ...(options?.repeatabilityRequestId !== undefined
+        ? { "Repeatability-Request-ID": options?.repeatabilityRequestId }
+        : {}),
+      ...(options?.repeatabilityFirstSent !== undefined
+        ? {
+            "Repeatability-First-Sent": !options?.repeatabilityFirstSent
+              ? options?.repeatabilityFirstSent
+              : options?.repeatabilityFirstSent.toUTCString(),
+          }
+        : {}),
+      ...(options?.clientRequestId !== undefined
+        ? { "x-ms-client-request-id": options?.clientRequestId }
+        : {}),
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: evaluationResultSerializer(body),
+  });
 }
 
-export async function _createDeserialize(
-  result: PathUncheckedResponse,
-): Promise<EvaluationResult> {
+export async function _createDeserialize(result: PathUncheckedResponse): Promise<EvaluationResult> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
@@ -245,20 +225,16 @@ export function _deleteVersionSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .delete({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).delete({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
-export async function _deleteVersionDeserialize(
-  result: PathUncheckedResponse,
-): Promise<void> {
+export async function _deleteVersionDeserialize(result: PathUncheckedResponse): Promise<void> {
   const expectedStatuses = ["204"];
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
@@ -297,15 +273,13 @@ export function _getVersionSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _getVersionDeserialize(
@@ -347,15 +321,13 @@ export function _listLatestSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _listLatestDeserialize(
@@ -402,15 +374,13 @@ export function _listVersionsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _listVersionsDeserialize(

@@ -5,16 +5,13 @@ import { ListViewType } from "../../models/models.js";
 import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface EvaluationResultsStartPendingUploadOptionalParams
-  extends OperationOptions {}
+export interface EvaluationResultsStartPendingUploadOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface EvaluationResultsCreateVersionOptionalParams
-  extends OperationOptions {}
+export interface EvaluationResultsCreateVersionOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface EvaluationResultsCreateOptionalParams
-  extends OperationOptions {
+export interface EvaluationResultsCreateOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   repeatabilityRequestId?: string;
   /** Specifies the date and time at which the request was first created. */
@@ -24,16 +21,13 @@ export interface EvaluationResultsCreateOptionalParams
 }
 
 /** Optional parameters. */
-export interface EvaluationResultsDeleteVersionOptionalParams
-  extends OperationOptions {}
+export interface EvaluationResultsDeleteVersionOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface EvaluationResultsGetVersionOptionalParams
-  extends OperationOptions {}
+export interface EvaluationResultsGetVersionOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface EvaluationResultsListLatestOptionalParams
-  extends OperationOptions {
+export interface EvaluationResultsListLatestOptionalParams extends OperationOptions {
   /** Top count of results, top count cannot be greater than the page size. If topCount > page size, results with be default page size count will be returned */
   top?: number;
   /** Continuation token for pagination. */
@@ -45,8 +39,7 @@ export interface EvaluationResultsListLatestOptionalParams
 }
 
 /** Optional parameters. */
-export interface EvaluationResultsListVersionsOptionalParams
-  extends OperationOptions {
+export interface EvaluationResultsListVersionsOptionalParams extends OperationOptions {
   /** Top count of results, top count cannot be greater than the page size. If topCount > page size, results with be default page size count will be returned */
   top?: number;
   /** Continuation token for pagination. */

@@ -103,10 +103,8 @@ function _getEvaluationResults(context: AIProjectContext) {
     ) => getVersion(context, name, version, options),
     listLatest: (options?: EvaluationResultsListLatestOptionalParams) =>
       listLatest(context, options),
-    listVersions: (
-      name: string,
-      options?: EvaluationResultsListVersionsOptionalParams,
-    ) => listVersions(context, name, options),
+    listVersions: (name: string, options?: EvaluationResultsListVersionsOptionalParams) =>
+      listVersions(context, name, options),
   };
 }
 

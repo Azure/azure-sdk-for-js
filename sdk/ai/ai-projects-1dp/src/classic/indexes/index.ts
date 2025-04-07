@@ -49,9 +49,7 @@ export interface IndexesOperations {
     options?: IndexesGetVersionOptionalParams,
   ) => Promise<IndexUnion>;
   /** List the latest version of each Index */
-  listLatest: (
-    options?: IndexesListLatestOptionalParams,
-  ) => PagedAsyncIterableIterator<IndexUnion>;
+  listLatest: (options?: IndexesListLatestOptionalParams) => PagedAsyncIterableIterator<IndexUnion>;
   /** List all versions of the given Index */
   listVersions: (
     name: string,
@@ -67,31 +65,19 @@ function _getIndexes(context: AIProjectContext) {
       body: IndexUnion,
       options?: IndexesCreateVersionOptionalParams,
     ) => createVersion(context, name, version, body, options),
-    create: (
-      name: string,
-      body: IndexUnion,
-      options?: IndexesCreateOptionalParams,
-    ) => create(context, name, body, options),
-    deleteVersion: (
-      name: string,
-      version: string,
-      options?: IndexesDeleteVersionOptionalParams,
-    ) => deleteVersion(context, name, version, options),
-    getVersion: (
-      name: string,
-      version: string,
-      options?: IndexesGetVersionOptionalParams,
-    ) => getVersion(context, name, version, options),
-    listLatest: (options?: IndexesListLatestOptionalParams) =>
-      listLatest(context, options),
+    create: (name: string, body: IndexUnion, options?: IndexesCreateOptionalParams) =>
+      create(context, name, body, options),
+    deleteVersion: (name: string, version: string, options?: IndexesDeleteVersionOptionalParams) =>
+      deleteVersion(context, name, version, options),
+    getVersion: (name: string, version: string, options?: IndexesGetVersionOptionalParams) =>
+      getVersion(context, name, version, options),
+    listLatest: (options?: IndexesListLatestOptionalParams) => listLatest(context, options),
     listVersions: (name: string, options?: IndexesListVersionsOptionalParams) =>
       listVersions(context, name, options),
   };
 }
 
-export function _getIndexesOperations(
-  context: AIProjectContext,
-): IndexesOperations {
+export function _getIndexesOperations(context: AIProjectContext): IndexesOperations {
   return {
     ..._getIndexes(context),
   };

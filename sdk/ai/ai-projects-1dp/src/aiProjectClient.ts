@@ -1,39 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  createAIProject,
-  AIProjectContext,
-  AIProjectClientOptionalParams,
-} from "./api/index.js";
-import {
-  RedTeamsOperations,
-  _getRedTeamsOperations,
-} from "./classic/redTeams/index.js";
+import { createAIProject, AIProjectContext, AIProjectClientOptionalParams } from "./api/index.js";
+import { RedTeamsOperations, _getRedTeamsOperations } from "./classic/redTeams/index.js";
 import {
   EvaluationResultsOperations,
   _getEvaluationResultsOperations,
 } from "./classic/evaluationResults/index.js";
-import {
-  DeploymentsOperations,
-  _getDeploymentsOperations,
-} from "./classic/deployments/index.js";
-import {
-  IndexesOperations,
-  _getIndexesOperations,
-} from "./classic/indexes/index.js";
-import {
-  DatasetsOperations,
-  _getDatasetsOperations,
-} from "./classic/datasets/index.js";
-import {
-  EvaluationsOperations,
-  _getEvaluationsOperations,
-} from "./classic/evaluations/index.js";
-import {
-  ConnectionsOperations,
-  _getConnectionsOperations,
-} from "./classic/connections/index.js";
+import { DeploymentsOperations, _getDeploymentsOperations } from "./classic/deployments/index.js";
+import { IndexesOperations, _getIndexesOperations } from "./classic/indexes/index.js";
+import { DatasetsOperations, _getDatasetsOperations } from "./classic/datasets/index.js";
+import { EvaluationsOperations, _getEvaluationsOperations } from "./classic/evaluations/index.js";
+import { ConnectionsOperations, _getConnectionsOperations } from "./classic/connections/index.js";
 import { Pipeline } from "@azure/core-rest-pipeline";
 import { KeyCredential, TokenCredential } from "@azure/core-auth";
 
