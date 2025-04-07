@@ -116,11 +116,11 @@ jobs:
     variables:
       - template: /eng/pipelines/templates/variables/image.yml
       - name: PackageName
-        value: $[dependencies.PublishPackage.outputs['SetPackageVar.PackageName']]
+        value: $[dependencies.PublishPackage.outputs['PublishPackage.SetPackageVar.PackageName']]
       - name: OriginalTags
-        value: $[dependencies.PublishPackage.outputs['SetPackageVar.OriginalTags']]
+        value: $[dependencies.PublishPackage.outputs['PublishPackage.SetPackageVar.OriginalTags']]
       - name: IntendedTagVersion
-        value: $[dependencies.PublishPackage.outputs['SetPackageVar.IntendedTagVersion']]
+        value: $[dependencies.PublishPackage.outputs['PublishPackage.SetPackageVar.IntendedTagVersion']]
       - ${{ each var in parameters.VarDependencies }}:
         - name: ${{ var.key }}
           value: ${{ var.value }}
@@ -133,6 +133,7 @@ jobs:
     - checkout: self
     - pwsh: |
         write-host "PackageName: $(PackageName)"
+        write-host "PackageName: "$[dependencies.PublishPackage.outputs['SetPackageVar.PackageName']]"
         write-host "OriginalTags: $(OriginalTags)"
         write-host "IntendedTagVersion: $(IntendedTagVersion)"
         write-host "Tag: $(Tag)"
