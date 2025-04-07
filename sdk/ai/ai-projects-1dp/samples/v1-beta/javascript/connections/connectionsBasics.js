@@ -8,32 +8,37 @@
  * get the properties of a default connection, and get the properties of a connection by its name.
  */
 
-const { AIProjectsClient } = require("@azure/ai-projects-1dp");
-const { DefaultAzureCredential } = require("@azure/identity");
+const { AIProjectClient } = require("@azure/ai-projects-1dp");
+const { AzureKeyCredential } = require("@azure/core-auth");
 
 require("dotenv").config();
 
-const connectionString =
-  process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] || "<project connection string>";
+const endpoint = process.env["AZURE_AI_PROJECT_ENDPOINT_STRING"] || "<project endpoint string>";
+const apiKey = process.env["AZURE_AI_PROJECT_API_KEY"] || "<project key>";
 
 async function main() {
-  const client = AIProjectsClient.fromConnectionString(
-    connectionString || "",
-    new DefaultAzureCredential(),
-  );
+  const project = new AIProjectClient(endpoint, new AzureKeyCredential(apiKey));
 
   // List the details of all the connections
-  const connections = await client.connections.listConnections();
+  const connections = [];
+  for await (const connection of project.connections.list()) {
+    connections.push(connection);
+  }
   console.log(`Retrieved ${connections.length} connections`);
 
   // Get the details of a connection, without credentials
   const connectionName = connections[0].name;
-  const connection = await client.connections.getConnection(connectionName);
+  const connection = await project.connections.get(connectionName);
   console.log(`Retrieved connection, connection name: ${connection.name}`);
 
-  // Get the details of a connection, including credentials (if available)
-  const connectionWithSecrets = await client.connections.getConnectionWithSecrets(connectionName);
-  console.log(`Retrieved connection with secrets, connection name: ${connectionWithSecrets.name}`);
+  // List all connections of a specific type
+  const auzreAIConnections = [];
+  for await (const azureOpenAIConnection of project.connections.list({
+    connectionType: "AzureOpenAI",
+  })) {
+    auzreAIConnections.push(azureOpenAIConnection);
+  }
+  console.log(`Retrieved ${auzreAIConnections.length} Azure OpenAI connections`);
 }
 
 main().catch((err) => {
