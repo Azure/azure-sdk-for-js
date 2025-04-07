@@ -67,13 +67,13 @@ npm install
 3. Run whichever samples you like (note that some samples may require additional setup, see the table above):
 
 ```bash
-node agents\codeInterpreterWithStreaming.js
+node agents/codeInterpreterWithStreaming.js
 ```
 
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx dev-tool run vendored cross-env AZURE_AI_PROJECTS_CONNECTION_STRING="<azure ai projects connection string>" node agents\codeInterpreterWithStreaming.js
+npx dev-tool run vendored cross-env AZURE_AI_PROJECTS_CONNECTION_STRING="<azure ai projects connection string>" node agents/codeInterpreterWithStreaming.js
 ```
 
 ## Next Steps

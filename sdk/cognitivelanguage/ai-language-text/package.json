@@ -52,6 +52,11 @@
       "azure-cognitive-services",
       "language-service"
     ],
+    "skip": [
+      "customEntityRecognition.js",
+      "customMultiLabelClassification.js",
+      "customSingleLabelClassification.js"
+    ],
     "requiredResources": {
       "Azure Cognitive Services instance": "https://learn.microsoft.com/azure/cognitive-services/cognitive-services-apis-create-account"
     }
@@ -96,10 +101,10 @@
     "tslib": "^2.8.1"
   },
   "devDependencies": {
+    "@azure-rest/core-client": "^2.3.4",
     "@azure-tools/test-credential": "^2.0.0",
     "@azure-tools/test-recorder": "^4.1.0",
-    "@azure-tools/test-utils-vitest": "^1.0.0",
-    "@azure/ai-language-textauthoring": "1.0.0-beta.1",
+    "@azure/arm-cognitiveservices": "7.6.0",
     "@azure/core-util": "^1.9.0",
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
@@ -108,7 +113,6 @@
     "@types/node": "^18.0.0",
     "@vitest/browser": "^3.0.9",
     "@vitest/coverage-istanbul": "^3.0.9",
-    "chai": "^5.1.2",
     "chai-exclude": "^3.0.0",
     "dotenv": "^16.0.0",
     "eslint": "^9.9.0",
