@@ -505,10 +505,10 @@ describe("snippets", () => {
       maxItemCount: 10, // maximum number of items to return per page
       enableCrossPartitionQuery: true,
     };
-    const querIterator = container.items.query(querySpec, queryOptions);
-    while (querIterator.hasMoreResults()) {
+    const queryIterator = container.items.query(querySpec, queryOptions);
+    while (queryIterator.hasMoreResults()) {
       // @ts-ignore
-      const { resources: result } = await querIterator.fetchNext();
+      const { resources: result } = await queryIterator.fetchNext();
       //Do something with result
     }
   });
@@ -1722,12 +1722,12 @@ describe("snippets", () => {
     const querySpec = {
       query: "SELECT c.status, COUNT(c.id) AS count FROM c GROUP BY c.status",
     };
-    const querIterator = container.items.query(querySpec);
-    while (querIterator.hasMoreResults()) {
+    const queryIterator = container.items.query(querySpec);
+    while (queryIterator.hasMoreResults()) {
       // @ts-ignore
-      const { resources: result } = await querIterator.fetchNext();
+      const { resources: result } = await queryIterator.fetchNext();
       //Do something with result
     }
-    querIterator.reset();
+    queryIterator.reset();
   });
 });
