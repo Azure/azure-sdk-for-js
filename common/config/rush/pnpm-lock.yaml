@@ -2674,7 +2674,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-containerservicefleet@file:projects/arm-containerservicefleet.tgz':
-    resolution: {integrity: sha512-t7aii4oQ9565lxTlLr5kUlXa1dYQdbYZvhuu+m46nf4I5ndV/010mWKZguGmZGJPIW3r1PHFdWp4lbjmdNJkcA==, tarball: file:projects/arm-containerservicefleet.tgz}
+    resolution: {integrity: sha512-LkO8OuZjtrmDRI2KtjFs32Vaic32DLFZyHA1H53k84s8Gv837PXZyX+t99JAfgGa4hCF6rb2wRi04UX0NR3v4A==, tarball: file:projects/arm-containerservicefleet.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-cosmosdb@file:projects/arm-cosmosdb.tgz':
@@ -7681,6 +7681,11 @@ packages:
     engines: {node: '>=14.17'}
     hasBin: true
 
+  typescript@5.8.3:
+    resolution: {integrity: sha512-p1diW6TqL9L07nNxvRMM7hMMw4c5XOo/1ibL4aAIGmSAt9slTE1Xgw5KWuof2uTOvCg9BY7ZRi+GaF+7sfgPeQ==}
+    engines: {node: '>=14.17'}
+    hasBin: true
+
   ua-parser-js@0.7.40:
     resolution: {integrity: sha512-us1E3K+3jJppDBa3Tl0L3MOJiGhe1C6P0+nIvQAFYbxlMAx0h81eOwLmU57xgqToduDDPx3y5QsdjPfDu+FgOQ==}
     hasBin: true
@@ -12086,11 +12091,11 @@ snapshots:
 
   '@rush-temp/arm-containerservicefleet@file:projects/arm-containerservicefleet.tgz(@types/debug@4.1.12)(tsx@4.19.3)(vite@6.2.5(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(yaml@2.7.1)':
     dependencies:
-      '@azure/core-lro': 2.7.2
       '@types/node': 18.19.86
       '@vitest/browser': 3.1.1(playwright@1.51.1)(vite@6.2.5(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.1)
       '@vitest/coverage-istanbul': 3.1.1(vitest@3.1.1)
       dotenv: 16.4.7
+      eslint: 9.24.0
       playwright: 1.51.1
       tslib: 2.8.1
       typescript: 5.8.2
@@ -20361,7 +20366,7 @@ snapshots:
 
   '@rush-temp/dev-tool@file:projects/dev-tool.tgz(@types/debug@4.1.12)(@vitest/browser@3.1.1)':
     dependencies:
-      '@_ts/max': typescript@5.8.2
+      '@_ts/max': typescript@5.8.3
       '@_ts/min': typescript@4.2.4
       '@arethetypeswrong/cli': 0.17.4
       '@azure/identity': 4.8.0
@@ -27709,6 +27714,8 @@ snapshots:
   typescript@5.7.3: {}
 
   typescript@5.8.2: {}
+
+  typescript@5.8.3: {}
 
   ua-parser-js@0.7.40: {}
 
