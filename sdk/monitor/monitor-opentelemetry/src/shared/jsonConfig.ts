@@ -37,7 +37,7 @@ export class JsonConfig implements AzureMonitorOpenTelemetryOptions {
   /** Enable log sampling based on trace (Default true) */
   public enableTraceBasedSamplingForLogs?: boolean;
   /** Enable Performance Counter feature */
-  enableAutoCollectPerformance?: boolean;
+  public enablePerformanceCounters?: boolean;
 
   public browserSdkLoaderOptions?: BrowserSdkLoaderOptions;
 

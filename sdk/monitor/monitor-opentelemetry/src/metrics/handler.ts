@@ -71,7 +71,7 @@ export class MetricHandler {
     if (this._config.enableLiveMetrics) {
       this._liveMetrics = new LiveMetrics(this._config);
     }
-    if (this._config.enableAutoCollectPerformance) {
+    if (this._config.enablePerformanceCounters) {
       this._performanceCounters = new PerformanceCounterMetrics(this._config);
     }
   }

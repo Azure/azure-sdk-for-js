@@ -82,7 +82,7 @@ const options: AzureMonitorOpenTelemetryOptions = {
   logRecordProcessors: [],
   spanProcessors: [],
   enableTraceBasedSamplingForLogs: false,
-  enableAutoCollectPerformance: true,
+  enablePerformanceCounters: true,
 };
 useAzureMonitor(options);
 ```
@@ -166,7 +166,7 @@ useAzureMonitor(options);
     <td><code>false</code></td>
   </tr>
   <tr>
-    <td><code>enableAutoCollectPerformance</code></td>
+    <td><code>enablePerformanceCounters</code></td>
     <td>Enable performance counters.</td>
     <td><code>true</code></td>
   </tr>

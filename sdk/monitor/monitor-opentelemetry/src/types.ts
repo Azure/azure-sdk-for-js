@@ -23,7 +23,7 @@ export interface AzureMonitorOpenTelemetryOptions {
   /** Enable log sampling based on trace (Default true) */
   enableTraceBasedSamplingForLogs?: boolean;
   /** Enable Performance Counter feature */
-  enableAutoCollectPerformance?: boolean;
+  enablePerformanceCounters?: boolean;
   /** OpenTelemetry Instrumentations options included as part of Azure Monitor (azureSdk, http, mongoDb, mySql, postgreSql, redis, redis4) */
   instrumentationOptions?: InstrumentationOptions;
   /** Application Insights Web Instrumentation options (enabled, connectionString, src, config)*/

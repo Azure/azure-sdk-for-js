@@ -36,7 +36,7 @@ export class InternalConfig implements AzureMonitorOpenTelemetryOptions {
   /** Enable log sampling based on trace (Default true) */
   enableTraceBasedSamplingForLogs?: boolean;
   /** Enable Performance Counter feature */
-  enableAutoCollectPerformance?: boolean;
+  enablePerformanceCounters?: boolean;
 
   private _resource: Resource = Resource.empty();
 
@@ -63,7 +63,7 @@ export class InternalConfig implements AzureMonitorOpenTelemetryOptions {
     this.enableLiveMetrics = true;
     this.enableStandardMetrics = true;
     this.enableTraceBasedSamplingForLogs = false;
-    this.enableAutoCollectPerformance = true;
+    this.enablePerformanceCounters = true;
     this.instrumentationOptions = {
       http: { enabled: true },
       azureSdk: { enabled: false },
@@ -108,10 +108,10 @@ export class InternalConfig implements AzureMonitorOpenTelemetryOptions {
         options.enableTraceBasedSamplingForLogs !== undefined
           ? options.enableTraceBasedSamplingForLogs
           : this.enableTraceBasedSamplingForLogs;
-      this.enableAutoCollectPerformance =
-        options.enableAutoCollectPerformance !== undefined
-          ? options.enableAutoCollectPerformance
-          : this.enableAutoCollectPerformance;
+      this.enablePerformanceCounters =
+        options.enablePerformanceCounters !== undefined
+          ? options.enablePerformanceCounters
+          : this.enablePerformanceCounters;
     }
     // JSON configuration will take precedence over other settings
     this._mergeConfig();

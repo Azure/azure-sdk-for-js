@@ -14,8 +14,8 @@ import type { SpanProcessor } from '@opentelemetry/sdk-trace-base';
 export interface AzureMonitorOpenTelemetryOptions {
     azureMonitorExporterOptions?: AzureMonitorExporterOptions;
     browserSdkLoaderOptions?: BrowserSdkLoaderOptions;
-    enableAutoCollectPerformance?: boolean;
     enableLiveMetrics?: boolean;
+    enablePerformanceCounters?: boolean;
     enableStandardMetrics?: boolean;
     enableTraceBasedSamplingForLogs?: boolean;
     instrumentationOptions?: InstrumentationOptions;
