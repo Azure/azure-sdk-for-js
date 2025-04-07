@@ -191,6 +191,11 @@ stages:
                             - template: /eng/pipelines/templates/steps/common.yml
                             - bash: |
                                 npm install
+                              workingDirectory: ./eng/tools/eng-package-utils
+                              displayName: Install eng-package-utils dependencies
+
+                            - bash: |
+                                npm install
                               workingDirectory: ./eng/tools/versioning
                               displayName: Install versioning tool dependencies
 

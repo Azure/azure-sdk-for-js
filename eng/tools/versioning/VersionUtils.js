@@ -1,13 +1,17 @@
-const path = require("path");
-const { readFile, writeFile } = require("@azure-tools/eng-package-utils");
-var spawnSync = require("child_process").spawnSync,
-  child;
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+// @ts-check
+
+import path from "node:path";
+import { readFile, writeFile } from "node:fs/promises";
+import { spawnSync } from "node:child_process";
 
 // This is done to update files which are only periodically generated and
 // checked in. Since these files could be generated once between many versions
 // we need to make sure that the versions in the generated files move up
 // as well
-async function updatePackageConstants(packagePath, packageJson, newVersion) {
+export async function updatePackageConstants(packagePath, packageJson, newVersion) {
   // No constant metadata, skip
   if (!("//metadata" in packageJson) || !packageJson["//metadata"].constantPaths) {
     return;
@@ -15,7 +19,7 @@ async function updatePackageConstants(packagePath, packageJson, newVersion) {
 
   for (const constantFileSpec of packageJson["//metadata"].constantPaths) {
     const targetPath = path.join(packagePath, constantFileSpec.path);
-    const fileContents = await readFile(targetPath);
+    const fileContents = await readFile(targetPath, { encoding: "utf8" });
 
     const versionExpression = buildSemverRegex(constantFileSpec.prefix);
     const updatedContents = fileContents.replace(versionExpression, `$1${newVersion}`);
@@ -32,19 +36,19 @@ function buildSemverRegex(prefix) {
   return new RegExp(`(${prefix}.*?)(${semverRegex.toString()})`, "g");
 }
 
-function updateChangelog(
+export function updateChangelog(
   targetPackagePath,
   packageName,
   repoRoot,
   newVersion,
   unreleased,
   replaceLatestVersionTitle,
-  releaseDate = null
+  releaseDate = null,
 ) {
   const service = path.basename(path.dirname(targetPackagePath));
   const changelogPath = path.join(targetPackagePath, "CHANGELOG.md");
   const updateChangelogPath = path.resolve(
-    path.join(repoRoot, "eng/common/scripts/Update-ChangeLog.ps1")
+    path.join(repoRoot, "eng/common/scripts/Update-ChangeLog.ps1"),
   );
   let args = [
     updateChangelogPath,
@@ -56,13 +60,13 @@ function updateChangelog(
     packageName,
     "--Unreleased:$" + unreleased,
     "--ReplaceLatestEntryTitle:$" + replaceLatestVersionTitle,
-    "--ChangelogPath:" + changelogPath
+    "--ChangelogPath:" + changelogPath,
   ];
   if (releaseDate != null) {
     args.push("--ReleaseDate:" + releaseDate);
   }
 
-  child = spawnSync("pwsh", args);
+  const child = spawnSync("pwsh", args);
   const out = child.stdout.toString();
   const err = child.stderr.toString();
 
@@ -87,6 +91,3 @@ function updateChangelog(
 // This regex is taken from # https://semver.org/#is-there-a-suggested-regular-expression-regex-to-check-a-semver-string
 // and adapted to exclude beginning of line (^) and end of line ($) anchors.
 const semverRegex = `(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-((?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\\+([0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?`;
-
-module.exports.updatePackageConstants = updatePackageConstants;
-module.exports.updateChangelog = updateChangelog;

@@ -1,4 +1,14 @@
-let argv = require("yargs")
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+// @ts-check
+
+import process from "node:process";
+import yargs from "yargs";
+import { hideBin } from "yargs/helpers";
+import { findPackages } from "@pnpm/fs.find-packages";
+
+const argv = yargs(hideBin(process.argv))
   .options({
     "package-name": {
       type: "string",
@@ -14,9 +24,6 @@ let argv = require("yargs")
     },
   })
   .help().argv;
-
-const path = require("path");
-const { findPackages } = require("@pnpm/fs.find-packages");
 
 async function main(argv) {
   const packageName = argv["package-name"];

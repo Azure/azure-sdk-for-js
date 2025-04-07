@@ -6,7 +6,6 @@ import { join as pathJoin } from "node:path";
 import { execSync } from "node:child_process";
 import { getBaseDir } from "./env.js";
 import { existsSync, readFileSync } from "node:fs";
-import { parse } from "../../../../common/lib/jju/parse.js";
 
 /**
  * Runs test-proxy restore for the given packages.
@@ -23,16 +22,11 @@ export function runTestProxyRestore(packages) {
 
   console.log("Starting test-proxy restore for packages:", packages);
   const completedPackages = [];
+  // TODO: find out how to get the package info with pnpm
+  return;
   for (const packageName of packages) {
-    const rushSpec = readFileJson(pathJoin(getBaseDir(), "rush.json"));
-
-    // Find the target package
-    const targetPackage = rushSpec.projects.find(
-      (packageSpec) => packageSpec.packageName == packageName,
-    );
-
     // Get the directory of the target package
-    const targetPackageDir = pathJoin(getBaseDir(), targetPackage.projectFolder);
+    const targetPackageDir = "sdk/some/path"; // pathJoin(getBaseDir(), targetPackage.projectFolder);
 
     // Path to the assets.json file in the target package directory
     const assetsJsonPath = pathJoin(targetPackageDir, "assets.json");
@@ -52,14 +46,4 @@ export function runTestProxyRestore(packages) {
     }
   }
   console.log("Completed test-proxy restore for the packages:", completedPackages);
-}
-
-function readFileJson(filename) {
-  try {
-    const fileContents = readFileSync(filename);
-    const jsonResult = parse(fileContents);
-    return jsonResult;
-  } catch (ex) {
-    console.error(ex);
-  }
 }
