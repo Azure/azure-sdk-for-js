@@ -1,46 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 import type { RecorderStartOptions, SanitizerOptions, TestInfo } from "@azure-tools/test-recorder";
-import { Recorder, env, isPlaybackMode } from "@azure-tools/test-recorder";
+import { Recorder } from "@azure-tools/test-recorder";
 import { CommunicationIdentityClient } from "../../../src/index.js";
-import type { TokenCredential } from "@azure/core-auth";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { parseConnectionString } from "@azure/communication-common";
+import * as MOCKS from "../../utils/constants.js";
+import { getConnectionString, getEndpoint } from "../../utils/injectables.js";
 
 export interface RecordedClient<T> {
   client: T;
   recorder: Recorder;
 }
 
-const envSetupForPlayback: { [k: string]: string } = {
-  COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING: "endpoint=https://endpoint/;accesskey=banana",
-  INCLUDE_PHONENUMBER_LIVE_TESTS: "false",
-  COMMUNICATION_ENDPOINT: "https://endpoint/",
-  AZURE_CLIENT_ID: "SomeClientId",
-  AZURE_CLIENT_SECRET: "azure_client_secret",
-  AZURE_TENANT_ID: "SomeTenantId",
-  COMMUNICATION_MSAL_USERNAME: "MSALUsername",
-  COMMUNICATION_MSAL_PASSWORD: "MSALPassword",
-  COMMUNICATION_M365_APP_ID: "00000000-0000-0000-0000-000000000000",
-  COMMUNICATION_M365_AAD_TENANT: "00000000-0000-0000-0000-000000000000",
-  COMMUNICATION_M365_SCOPE: "M365Scope",
-  COMMUNICATION_EXPIRED_TEAMS_TOKEN: "ExpiredToken",
-  SKIP_INT_IDENTITY_EXCHANGE_TOKEN_TEST: "false",
-};
-
 const sanitizerOptions: SanitizerOptions = {
   connectionStringSanitizers: [
     {
-      actualConnString: env.COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING,
-      fakeConnString: envSetupForPlayback["COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING"],
-    },
-  ],
-  uriSanitizers: [
-    {
-      regex: true,
-      target: `(.*)/identities/(?<secret_content>.*?)[/|?](.*)`,
-      value: "sanitized",
-      groupForReplace: "secret_content",
+      actualConnString: getConnectionString(),
+      fakeConnString: MOCKS.CONNECTION_STRING,
     },
   ],
   generalSanitizers: [
@@ -53,12 +30,30 @@ const sanitizerOptions: SanitizerOptions = {
       target: `[0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{12}`,
       value: `sanitized`,
     },
+    {
+      regex: true,
+      target: "8:acs:[A-Za-z0-9-_]+",
+      value: "Sanitized",
+    },
+  ],
+  uriSanitizers: [
+    {
+      regex: true,
+      target: `(.*)/identities/(?<secret_content>.*?)[/|?](.*)`,
+      value: "sanitized",
+      groupForReplace: "secret_content",
+    },
+    {
+      target: getEndpoint(),
+      value: MOCKS.ENDPOINT,
+    },
   ],
 };
 
 const recorderOptions: RecorderStartOptions = {
-  envSetupForPlayback,
+  envSetupForPlayback: {},
   sanitizerOptions: sanitizerOptions,
+  removeCentralSanitizers: ["AZSDK4001"],
 };
 
 export async function createRecorder(context: TestInfo | undefined): Promise<Recorder> {
@@ -79,7 +74,7 @@ export async function createRecordedCommunicationIdentityClient(
   const recorder = await createRecorder(context);
 
   const client = new CommunicationIdentityClient(
-    env.COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING ?? "",
+    getConnectionString(),
     recorder.configureClientOptions({}),
   );
 
@@ -93,24 +88,9 @@ export async function createRecordedCommunicationIdentityClientWithToken(
   context: TestInfo,
 ): Promise<RecordedClient<CommunicationIdentityClient>> {
   const recorder = await createRecorder(context);
-
-  let credential: TokenCredential;
-  const endpoint = parseConnectionString(
-    env.COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING ?? "",
-  ).endpoint;
-  if (isPlaybackMode()) {
-    credential = {
-      getToken: async (_scopes: any) => {
-        return { token: "testToken", expiresOnTimestamp: 11111 };
-      },
-    };
-  } else {
-    credential = createTestCredential();
-  }
-
   const client = new CommunicationIdentityClient(
-    endpoint,
-    credential,
+    getEndpoint(),
+    createTestCredential(),
     recorder.configureClientOptions({}),
   );
 

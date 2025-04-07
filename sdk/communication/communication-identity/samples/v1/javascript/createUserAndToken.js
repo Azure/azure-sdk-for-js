@@ -6,33 +6,31 @@
  */
 
 const { CommunicationIdentityClient } = require("@azure/communication-identity");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 // Load the .env file if it exists
-require("dotenv").config();
+require("dotenv/config");
 
 // You will need to set this environment variables or edit the following values
-const connectionString =
-  process.env["COMMUNICATION_CONNECTION_STRING"] || "<communication service connection string>";
+const endpoint = process.env["COMMUNICATION_ENDPOINT"] || "<communication service endpoint>";
 
 async function main() {
   console.log("\n== Create User and Token Sample ==\n");
-  const client = new CommunicationIdentityClient(connectionString);
+  const client = new CommunicationIdentityClient(endpoint, new DefaultAzureCredential());
   const scopes = ["chat"];
 
   // Create user with default token
   console.log("Creating User and Token");
   const communicationUserToken = await client.createUserAndToken(scopes);
   console.log(`Created user with id: ${communicationUserToken.user.communicationUserId}`);
-  console.log(`Issued token: ${communicationUserToken.token}`);
   console.log(`Token expires on: ${communicationUserToken.expiresOn}`);
 
   // Create user with token with custom expiration
   console.log("Creating User and Token with custom expiration.");
   const userAndTokenOptions = { tokenExpiresInMinutes: 60 };
-  const { user, token, expiresOn } = await client.createUserAndToken(scopes, userAndTokenOptions);
+  const { user, expiresOn } = await client.createUserAndToken(scopes, userAndTokenOptions);
 
   console.log(`Created user with id: ${user.communicationUserId}`);
-  console.log(`Issued token with custom expiration: ${token}`);
   console.log(`Token expires on: ${expiresOn}`);
 }
 
