@@ -6,10 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import type {
-  PagedAsyncIterableIterator,
-  PageSettings,
-} from "@azure/core-paging";
+import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper.js";
 import type { Usages } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
@@ -78,11 +75,7 @@ export class UsagesImpl implements Usages {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listBySubscriptionNext(
-        location,
-        continuationToken,
-        options,
-      );
+      result = await this._listBySubscriptionNext(location, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -94,10 +87,7 @@ export class UsagesImpl implements Usages {
     location: string,
     options?: UsagesListBySubscriptionOptionalParams,
   ): AsyncIterableIterator<QuotaUsageResult> {
-    for await (const page of this.listBySubscriptionPagingPage(
-      location,
-      options,
-    )) {
+    for await (const page of this.listBySubscriptionPagingPage(location, options)) {
       yield* page;
     }
   }
@@ -111,10 +101,7 @@ export class UsagesImpl implements Usages {
     location: string,
     options?: UsagesListBySubscriptionOptionalParams,
   ): Promise<UsagesListBySubscriptionResponse> {
-    return this.client.sendOperationRequest(
-      { location, options },
-      listBySubscriptionOperationSpec,
-    );
+    return this.client.sendOperationRequest({ location, options }, listBySubscriptionOperationSpec);
   }
 
   /**
@@ -149,11 +136,7 @@ const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.location,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.location],
   headerParameters: [Parameters.accept, Parameters.clientRequestId],
   serializer,
 };

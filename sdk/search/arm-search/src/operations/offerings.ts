@@ -6,10 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import type {
-  PagedAsyncIterableIterator,
-  PageSettings,
-} from "@azure/core-paging";
+import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import type { Offerings } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
@@ -79,9 +76,7 @@ export class OfferingsImpl implements Offerings {
    * Lists all of the features and SKUs offered by the Azure AI Search service in each region.
    * @param options The options parameters.
    */
-  private _list(
-    options?: OfferingsListOptionalParams,
-  ): Promise<OfferingsListResponse> {
+  private _list(options?: OfferingsListOptionalParams): Promise<OfferingsListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
 }

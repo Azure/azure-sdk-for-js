@@ -7,10 +7,7 @@
  */
 
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
-import type {
-  OfferingsByRegion,
-  OfferingsListOptionalParams,
-} from "../models/index.js";
+import type { OfferingsByRegion, OfferingsListOptionalParams } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Offerings. */
@@ -19,7 +16,5 @@ export interface Offerings {
    * Lists all of the features and SKUs offered by the Azure AI Search service in each region.
    * @param options The options parameters.
    */
-  list(
-    options?: OfferingsListOptionalParams,
-  ): PagedAsyncIterableIterator<OfferingsByRegion>;
+  list(options?: OfferingsListOptionalParams): PagedAsyncIterableIterator<OfferingsByRegion>;
 }

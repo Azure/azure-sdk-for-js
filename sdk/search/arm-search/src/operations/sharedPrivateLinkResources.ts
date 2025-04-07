@@ -6,10 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import type {
-  PagedAsyncIterableIterator,
-  PageSettings,
-} from "@azure/core-paging";
+import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper.js";
 import type { SharedPrivateLinkResources } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
@@ -34,9 +31,7 @@ import type {
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing SharedPrivateLinkResources operations. */
-export class SharedPrivateLinkResourcesImpl
-  implements SharedPrivateLinkResources
-{
+export class SharedPrivateLinkResourcesImpl implements SharedPrivateLinkResources {
   private readonly client: SearchManagementClient;
 
   /**
@@ -60,11 +55,7 @@ export class SharedPrivateLinkResourcesImpl
     searchServiceName: string,
     options?: SharedPrivateLinkResourcesListByServiceOptionalParams,
   ): PagedAsyncIterableIterator<SharedPrivateLinkResource> {
-    const iter = this.listByServicePagingAll(
-      resourceGroupName,
-      searchServiceName,
-      options,
-    );
+    const iter = this.listByServicePagingAll(resourceGroupName, searchServiceName, options);
     return {
       next() {
         return iter.next();
@@ -95,11 +86,7 @@ export class SharedPrivateLinkResourcesImpl
     let result: SharedPrivateLinkResourcesListByServiceResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByService(
-        resourceGroupName,
-        searchServiceName,
-        options,
-      );
+      result = await this._listByService(resourceGroupName, searchServiceName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -168,8 +155,7 @@ export class SharedPrivateLinkResourcesImpl
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -303,8 +289,7 @@ export class SharedPrivateLinkResourcesImpl
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -447,11 +432,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.sharedPrivateLinkResourceName,
   ],
-  headerParameters: [
-    Parameters.accept,
-    Parameters.clientRequestId,
-    Parameters.contentType,
-  ],
+  headerParameters: [Parameters.accept, Parameters.clientRequestId, Parameters.contentType],
   mediaType: "json",
   serializer,
 };

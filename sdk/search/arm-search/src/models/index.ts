@@ -1284,22 +1284,19 @@ export type PrivateLinkServiceConnectionStatus =
   | "Disconnected";
 
 /** Optional parameters. */
-export interface OperationsListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface OperationsListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type OperationsListResponse = OperationListResult;
 
 /** Optional parameters. */
-export interface OfferingsListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface OfferingsListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type OfferingsListResponse = OfferingsListResult;
 
 /** Optional parameters. */
-export interface AdminKeysGetOptionalParams
-  extends coreClient.OperationOptions {
+export interface AdminKeysGetOptionalParams extends coreClient.OperationOptions {
   /** Parameter group */
   searchManagementRequestOptions?: SearchManagementRequestOptions;
 }
@@ -1308,8 +1305,7 @@ export interface AdminKeysGetOptionalParams
 export type AdminKeysGetResponse = AdminKeyResult;
 
 /** Optional parameters. */
-export interface AdminKeysRegenerateOptionalParams
-  extends coreClient.OperationOptions {
+export interface AdminKeysRegenerateOptionalParams extends coreClient.OperationOptions {
   /** Parameter group */
   searchManagementRequestOptions?: SearchManagementRequestOptions;
 }
@@ -1318,8 +1314,7 @@ export interface AdminKeysRegenerateOptionalParams
 export type AdminKeysRegenerateResponse = AdminKeyResult;
 
 /** Optional parameters. */
-export interface QueryKeysCreateOptionalParams
-  extends coreClient.OperationOptions {
+export interface QueryKeysCreateOptionalParams extends coreClient.OperationOptions {
   /** Parameter group */
   searchManagementRequestOptions?: SearchManagementRequestOptions;
 }
@@ -1328,8 +1323,7 @@ export interface QueryKeysCreateOptionalParams
 export type QueryKeysCreateResponse = QueryKey;
 
 /** Optional parameters. */
-export interface QueryKeysListBySearchServiceOptionalParams
-  extends coreClient.OperationOptions {
+export interface QueryKeysListBySearchServiceOptionalParams extends coreClient.OperationOptions {
   /** Parameter group */
   searchManagementRequestOptions?: SearchManagementRequestOptions;
 }
@@ -1338,8 +1332,7 @@ export interface QueryKeysListBySearchServiceOptionalParams
 export type QueryKeysListBySearchServiceResponse = ListQueryKeysResult;
 
 /** Optional parameters. */
-export interface QueryKeysDeleteOptionalParams
-  extends coreClient.OperationOptions {
+export interface QueryKeysDeleteOptionalParams extends coreClient.OperationOptions {
   /** Parameter group */
   searchManagementRequestOptions?: SearchManagementRequestOptions;
 }
@@ -1355,8 +1348,7 @@ export interface QueryKeysListBySearchServiceNextOptionalParams
 export type QueryKeysListBySearchServiceNextResponse = ListQueryKeysResult;
 
 /** Optional parameters. */
-export interface ServicesCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface ServicesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
   /** Parameter group */
   searchManagementRequestOptions?: SearchManagementRequestOptions;
   /** Delay to wait until next poll, in milliseconds. */
@@ -1369,8 +1361,7 @@ export interface ServicesCreateOrUpdateOptionalParams
 export type ServicesCreateOrUpdateResponse = SearchService;
 
 /** Optional parameters. */
-export interface ServicesUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface ServicesUpdateOptionalParams extends coreClient.OperationOptions {
   /** Parameter group */
   searchManagementRequestOptions?: SearchManagementRequestOptions;
 }
@@ -1388,15 +1379,13 @@ export interface ServicesGetOptionalParams extends coreClient.OperationOptions {
 export type ServicesGetResponse = SearchService;
 
 /** Optional parameters. */
-export interface ServicesDeleteOptionalParams
-  extends coreClient.OperationOptions {
+export interface ServicesDeleteOptionalParams extends coreClient.OperationOptions {
   /** Parameter group */
   searchManagementRequestOptions?: SearchManagementRequestOptions;
 }
 
 /** Optional parameters. */
-export interface ServicesListByResourceGroupOptionalParams
-  extends coreClient.OperationOptions {
+export interface ServicesListByResourceGroupOptionalParams extends coreClient.OperationOptions {
   /** Parameter group */
   searchManagementRequestOptions?: SearchManagementRequestOptions;
 }
@@ -1405,8 +1394,7 @@ export interface ServicesListByResourceGroupOptionalParams
 export type ServicesListByResourceGroupResponse = SearchServiceListResult;
 
 /** Optional parameters. */
-export interface ServicesListBySubscriptionOptionalParams
-  extends coreClient.OperationOptions {
+export interface ServicesListBySubscriptionOptionalParams extends coreClient.OperationOptions {
   /** Parameter group */
   searchManagementRequestOptions?: SearchManagementRequestOptions;
 }
@@ -1415,8 +1403,7 @@ export interface ServicesListBySubscriptionOptionalParams
 export type ServicesListBySubscriptionResponse = SearchServiceListResult;
 
 /** Optional parameters. */
-export interface ServicesCheckNameAvailabilityOptionalParams
-  extends coreClient.OperationOptions {
+export interface ServicesCheckNameAvailabilityOptionalParams extends coreClient.OperationOptions {
   /** Parameter group */
   searchManagementRequestOptions?: SearchManagementRequestOptions;
 }
@@ -1425,8 +1412,7 @@ export interface ServicesCheckNameAvailabilityOptionalParams
 export type ServicesCheckNameAvailabilityResponse = CheckNameAvailabilityOutput;
 
 /** Optional parameters. */
-export interface ServicesUpgradeOptionalParams
-  extends coreClient.OperationOptions {
+export interface ServicesUpgradeOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -1437,8 +1423,7 @@ export interface ServicesUpgradeOptionalParams
 export type ServicesUpgradeResponse = SearchService;
 
 /** Optional parameters. */
-export interface ServicesListByResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions {
+export interface ServicesListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
   /** Parameter group */
   searchManagementRequestOptions?: SearchManagementRequestOptions;
 }
@@ -1447,8 +1432,7 @@ export interface ServicesListByResourceGroupNextOptionalParams
 export type ServicesListByResourceGroupNextResponse = SearchServiceListResult;
 
 /** Optional parameters. */
-export interface ServicesListBySubscriptionNextOptionalParams
-  extends coreClient.OperationOptions {
+export interface ServicesListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
   /** Parameter group */
   searchManagementRequestOptions?: SearchManagementRequestOptions;
 }
@@ -1464,8 +1448,7 @@ export interface PrivateLinkResourcesListSupportedOptionalParams
 }
 
 /** Contains response data for the listSupported operation. */
-export type PrivateLinkResourcesListSupportedResponse =
-  PrivateLinkResourcesResult;
+export type PrivateLinkResourcesListSupportedResponse = PrivateLinkResourcesResult;
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionsUpdateOptionalParams
@@ -1475,12 +1458,10 @@ export interface PrivateEndpointConnectionsUpdateOptionalParams
 }
 
 /** Contains response data for the update operation. */
-export type PrivateEndpointConnectionsUpdateResponse =
-  PrivateEndpointConnection;
+export type PrivateEndpointConnectionsUpdateResponse = PrivateEndpointConnection;
 
 /** Optional parameters. */
-export interface PrivateEndpointConnectionsGetOptionalParams
-  extends coreClient.OperationOptions {
+export interface PrivateEndpointConnectionsGetOptionalParams extends coreClient.OperationOptions {
   /** Parameter group */
   searchManagementRequestOptions?: SearchManagementRequestOptions;
 }
@@ -1496,8 +1477,7 @@ export interface PrivateEndpointConnectionsDeleteOptionalParams
 }
 
 /** Contains response data for the delete operation. */
-export type PrivateEndpointConnectionsDeleteResponse =
-  PrivateEndpointConnection;
+export type PrivateEndpointConnectionsDeleteResponse = PrivateEndpointConnection;
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionsListByServiceOptionalParams
@@ -1507,8 +1487,7 @@ export interface PrivateEndpointConnectionsListByServiceOptionalParams
 }
 
 /** Contains response data for the listByService operation. */
-export type PrivateEndpointConnectionsListByServiceResponse =
-  PrivateEndpointConnectionListResult;
+export type PrivateEndpointConnectionsListByServiceResponse = PrivateEndpointConnectionListResult;
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionsListByServiceNextOptionalParams
@@ -1533,12 +1512,10 @@ export interface SharedPrivateLinkResourcesCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type SharedPrivateLinkResourcesCreateOrUpdateResponse =
-  SharedPrivateLinkResource;
+export type SharedPrivateLinkResourcesCreateOrUpdateResponse = SharedPrivateLinkResource;
 
 /** Optional parameters. */
-export interface SharedPrivateLinkResourcesGetOptionalParams
-  extends coreClient.OperationOptions {
+export interface SharedPrivateLinkResourcesGetOptionalParams extends coreClient.OperationOptions {
   /** Parameter group */
   searchManagementRequestOptions?: SearchManagementRequestOptions;
 }
@@ -1565,8 +1542,7 @@ export interface SharedPrivateLinkResourcesListByServiceOptionalParams
 }
 
 /** Contains response data for the listByService operation. */
-export type SharedPrivateLinkResourcesListByServiceResponse =
-  SharedPrivateLinkResourceListResult;
+export type SharedPrivateLinkResourcesListByServiceResponse = SharedPrivateLinkResourceListResult;
 
 /** Optional parameters. */
 export interface SharedPrivateLinkResourcesListByServiceNextOptionalParams
@@ -1580,8 +1556,7 @@ export type SharedPrivateLinkResourcesListByServiceNextResponse =
   SharedPrivateLinkResourceListResult;
 
 /** Optional parameters. */
-export interface UsagesListBySubscriptionOptionalParams
-  extends coreClient.OperationOptions {
+export interface UsagesListBySubscriptionOptionalParams extends coreClient.OperationOptions {
   /** Parameter group */
   searchManagementRequestOptions?: SearchManagementRequestOptions;
 }
@@ -1590,8 +1565,7 @@ export interface UsagesListBySubscriptionOptionalParams
 export type UsagesListBySubscriptionResponse = QuotaUsagesListResult;
 
 /** Optional parameters. */
-export interface UsagesListBySubscriptionNextOptionalParams
-  extends coreClient.OperationOptions {
+export interface UsagesListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
   /** Parameter group */
   searchManagementRequestOptions?: SearchManagementRequestOptions;
 }
@@ -1600,8 +1574,7 @@ export interface UsagesListBySubscriptionNextOptionalParams
 export type UsagesListBySubscriptionNextResponse = QuotaUsagesListResult;
 
 /** Optional parameters. */
-export interface UsageBySubscriptionSkuOptionalParams
-  extends coreClient.OperationOptions {
+export interface UsageBySubscriptionSkuOptionalParams extends coreClient.OperationOptions {
   /** Parameter group */
   searchManagementRequestOptions?: SearchManagementRequestOptions;
 }
@@ -1647,8 +1620,7 @@ export type NetworkSecurityPerimeterConfigurationsListByServiceNextResponse =
   NetworkSecurityPerimeterConfigurationListResult;
 
 /** Optional parameters. */
-export interface SearchManagementClientOptionalParams
-  extends coreClient.ServiceClientOptions {
+export interface SearchManagementClientOptionalParams extends coreClient.ServiceClientOptions {
   /** server parameter */
   $host?: string;
   /** Api Version */

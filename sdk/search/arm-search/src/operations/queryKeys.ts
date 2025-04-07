@@ -6,10 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import type {
-  PagedAsyncIterableIterator,
-  PageSettings,
-} from "@azure/core-paging";
+import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper.js";
 import type { QueryKeys } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
@@ -53,11 +50,7 @@ export class QueryKeysImpl implements QueryKeys {
     searchServiceName: string,
     options?: QueryKeysListBySearchServiceOptionalParams,
   ): PagedAsyncIterableIterator<QueryKey> {
-    const iter = this.listBySearchServicePagingAll(
-      resourceGroupName,
-      searchServiceName,
-      options,
-    );
+    const iter = this.listBySearchServicePagingAll(resourceGroupName, searchServiceName, options);
     return {
       next() {
         return iter.next();
@@ -88,11 +81,7 @@ export class QueryKeysImpl implements QueryKeys {
     let result: QueryKeysListBySearchServiceResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listBySearchService(
-        resourceGroupName,
-        searchServiceName,
-        options,
-      );
+      result = await this._listBySearchService(resourceGroupName, searchServiceName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);

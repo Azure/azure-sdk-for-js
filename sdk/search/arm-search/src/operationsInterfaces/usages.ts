@@ -7,10 +7,7 @@
  */
 
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
-import type {
-  QuotaUsageResult,
-  UsagesListBySubscriptionOptionalParams,
-} from "../models/index.js";
+import type { QuotaUsageResult, UsagesListBySubscriptionOptionalParams } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Usages. */
