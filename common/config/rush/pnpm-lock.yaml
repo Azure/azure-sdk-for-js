@@ -3514,7 +3514,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/communication-job-router@file:projects/communication-job-router.tgz':
-    resolution: {integrity: sha512-CSt4UMkRQbaiWMU9BL6nZVgQbmnEYDdNignEeVRtkmTwD7Zx0e7W19YFK6Y+A9fTVlpZNqU/vLt2MTZXv0Z/Kw==, tarball: file:projects/communication-job-router.tgz}
+    resolution: {integrity: sha512-gOd7KzyMUHmENSudR6+tRCppJHZj7goJaamvtRn0mDaNU9R0+3AD/tnLXiG1OjuCP1vP/fAC885WOpqtC1LJ5g==, tarball: file:projects/communication-job-router.tgz}
     version: 0.0.0
 
   '@rush-temp/communication-messages@file:projects/communication-messages.tgz':
@@ -3522,7 +3522,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/communication-phone-numbers@file:projects/communication-phone-numbers.tgz':
-    resolution: {integrity: sha512-xtL1g9Yljj9WQAphFGLnj4EwBkjml4DbpxXwSjx0tMx+QKdmL64AVa5JDOMwC6STnw1IiPvIGjtHAFeUud/r9Q==, tarball: file:projects/communication-phone-numbers.tgz}
+    resolution: {integrity: sha512-JaQ0GjgpNqkC7aYMnLscHrBUKQEm/BLSjtYh/ubekA0Orxz0OzA2wk8TJY5EUStU2LEadc1mH6SIDCvU3b9etg==, tarball: file:projects/communication-phone-numbers.tgz}
     version: 0.0.0
 
   '@rush-temp/communication-recipient-verification@file:projects/communication-recipient-verification.tgz':
@@ -19484,6 +19484,7 @@ snapshots:
     dependencies:
       '@azure/communication-common': 2.3.1
       '@azure/core-lro': 2.7.2
+      '@azure/keyvault-secrets': 4.9.0
       '@types/node': 18.19.86
       '@vitest/browser': 3.1.1(playwright@1.51.1)(vite@6.2.5(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.1)
       '@vitest/coverage-istanbul': 3.1.1(vitest@3.1.1)

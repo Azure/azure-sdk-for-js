@@ -3,19 +3,20 @@
 
 import { SipRoutingClient } from "@azure/communication-phone-numbers";
 import { randomUUID } from "@azure/core-util";
+import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
 // NOTE: Before running the example please make sure that the trunks and the routes are empty for specified connection string.
 // Otherwise the example may fail on data constraints.
-const connectionString =
+const endpoint =
   process.env.COMMUNICATION_SAMPLES_CONNECTION_STRING ||
-  "endpoint=https://resourceName.communication.azure.net/;accessKey=test-key";
+  "https://resourceName.communication.azure.net/";
 
 export async function main(): Promise<void> {
   console.log("\n== Update SIP Routing Client Example ==\n");
 
   // Build client
-  const client = new SipRoutingClient(connectionString);
+  const client = new SipRoutingClient(endpoint, new DefaultAzureCredential());
 
   // TODO replace with real FQDN
   const firstTrunkFqdn = `sample.${randomUUID()}.com`;
@@ -61,14 +62,12 @@ export async function main(): Promise<void> {
   });
 
   // Get trunks
-  const trunks = await client.listTrunks();
-  for await (const trunk of trunks) {
+  for await (const trunk of client.listTrunks()) {
     console.log(`Trunk ${trunk.fqdn}:${trunk.sipSignalingPort}`);
   }
 
   // Get routes
-  const routes = await client.listRoutes();
-  for await (const route of routes) {
+  for await (const route of client.listRoutes()) {
     console.log(`Route ${route.name} with pattern ${route.numberPattern}`);
     console.log(`Route's trunks: ${route.trunks?.join()}`);
   }

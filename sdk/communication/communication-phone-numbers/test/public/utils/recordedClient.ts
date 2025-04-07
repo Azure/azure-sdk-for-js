@@ -1,40 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import * as dotenv from "dotenv";
 
 import type { RecorderStartOptions, SanitizerOptions, TestInfo } from "@azure-tools/test-recorder";
-import { Recorder, env, isPlaybackMode } from "@azure-tools/test-recorder";
+import { Recorder } from "@azure-tools/test-recorder";
 import { PhoneNumbersClient } from "../../../src/index.js";
-import { parseConnectionString } from "@azure/communication-common";
 import type { TokenCredential } from "@azure/identity";
-import { isNodeLike } from "@azure/core-util";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { createMSUserAgentPolicy } from "./msUserAgentPolicy.js";
-
-if (isNodeLike) {
-  dotenv.config();
-}
+import { getConnectionString, getEndpoint, isPlaybackMode } from "../../utils/injectables.js";
+import * as MOCKS from "../../utils/constants.js";
 
 export interface RecordedClient<T> {
   client: T;
   recorder: Recorder;
 }
 
-const envSetupForPlayback: { [k: string]: string } = {
-  COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING: "endpoint=https://endpoint/;accesskey=banana",
-  COMMUNICATION_ENDPOINT: "https://endpoint/",
-  AZURE_CLIENT_ID: "SomeClientId",
-  AZURE_CLIENT_SECRET: "azure_client_secret",
-  AZURE_TENANT_ID: "SomeTenantId",
-  AZURE_PHONE_NUMBER: "+14155550100",
-  AZURE_USERAGENT_OVERRIDE: "fake-useragent",
-};
-
 const sanitizerOptions: SanitizerOptions = {
   connectionStringSanitizers: [
     {
-      actualConnString: env.COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING,
-      fakeConnString: envSetupForPlayback["COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING"],
+      actualConnString: getConnectionString(),
+      fakeConnString: MOCKS.CONNECTION_STRING,
     },
   ],
   generalSanitizers: [
@@ -55,14 +40,21 @@ const sanitizerOptions: SanitizerOptions = {
       value: `sanitized`,
     },
   ],
+  uriSanitizers: [
+    {
+      target: getEndpoint(),
+      value: MOCKS.ENDPOINT,
+    },
+  ],
 };
 
 const recorderOptions: RecorderStartOptions = {
-  envSetupForPlayback,
+  envSetupForPlayback: {},
   sanitizerOptions: sanitizerOptions,
   removeCentralSanitizers: [
     "AZSDK3493", // .name in the body is not a secret and is listed below in the beforeEach section
     "AZSDK3430", // .id in the body is not a secret and is listed below in the beforeEach section
+    "AZSDK4001",
   ],
 };
 
@@ -84,7 +76,7 @@ export async function createRecordedClient(
   const recorder = await createRecorder(context);
 
   const client = new PhoneNumbersClient(
-    env.COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING ?? "",
+    getConnectionString(),
     recorder.configureClientOptions({
       additionalPolicies: [
         {
@@ -111,21 +103,9 @@ export async function createRecordedClientWithToken(
   context: TestInfo,
 ): Promise<RecordedClient<PhoneNumbersClient>> {
   const recorder = await createRecorder(context);
-
-  let credential: TokenCredential;
-  const endpoint = parseConnectionString(
-    env.COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING ?? "",
-  ).endpoint;
-
-  if (isPlaybackMode()) {
-    credential = createMockToken();
-  } else {
-    credential = createTestCredential();
-  }
-
   const client = new PhoneNumbersClient(
-    endpoint,
-    credential,
+    getEndpoint(),
+    createTestCredential(),
     recorder.configureClientOptions({
       additionalPolicies: [
         {
