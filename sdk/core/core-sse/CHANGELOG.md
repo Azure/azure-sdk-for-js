@@ -1,16 +1,10 @@
 # Release History
 
-## 2.1.4 (Unreleased)
+## 2.2.0 (2025-04-07)
 
 ### Features Added
 
 - `createSseStream` now supports NodeJS streams as input.
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
 
 ## 2.1.3 (2024-08-13)
 

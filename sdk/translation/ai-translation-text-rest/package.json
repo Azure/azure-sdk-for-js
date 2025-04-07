@@ -26,7 +26,9 @@
   "files": [
     "dist/",
     "README.md",
-    "LICENSE"
+    "LICENSE",
+    "review/",
+    "CHANGELOG.md"
   ],
   "engines": {
     "node": ">=18.0.0"
@@ -37,6 +39,9 @@
       "azure",
       "azure-cognitive-services",
       "azure-translator"
+    ],
+    "skip": [
+      "translateCustom.js"
     ],
     "requiredResources": {
       "Translator resource instance": "https://learn.microsoft.com/azure/cognitive-services/Translator/create-translator-resource"
@@ -81,7 +86,7 @@
   "devDependencies": {
     "@azure-tools/test-credential": "^2.0.0",
     "@azure-tools/test-recorder": "^4.1.0",
-    "@azure-tools/test-utils-vitest": "^1.0.0",
+    "@azure/arm-cognitiveservices": "^7.6.0",
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure/identity": "^4.7.0",

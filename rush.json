@@ -1,7 +1,8 @@
 /**
  * This is the main configuration file for Rush.
  * For full documentation, please see https://rushjs.io
- */ {
+ */
+{
   "$schema": "https://developer.microsoft.com/json-schemas/rush/v5/rush.schema.json",
   /**
    * (Required) This specifies the version of the Rush engine to be used in this repo.
@@ -366,11 +367,6 @@
       "versionPolicyName": "client"
     },
     {
-      "packageName": "@azure/ai-language-textauthoring",
-      "projectFolder": "sdk/cognitivelanguage/ai-language-textauthoring",
-      "versionPolicyName": "client"
-    },
-    {
       "packageName": "@azure/openai",
       "projectFolder": "sdk/openai/openai",
       "versionPolicyName": "client"
@@ -593,7 +589,7 @@
       "versionPolicyName": "client"
     },
     {
-      "packageName": "@azure/mock-hub",
+      "packageName": "@azure-tools/mock-hub",
       "projectFolder": "sdk/eventhub/mock-hub",
       "versionPolicyName": "utility"
     },

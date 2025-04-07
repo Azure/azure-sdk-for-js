@@ -8,19 +8,15 @@
  * @summary multi-label classification of pieces of text
  */
 
-import {
-  AnalyzeBatchAction,
-  AzureKeyCredential,
-  TextAnalysisClient,
-} from "@azure/ai-language-text";
+import type { AnalyzeBatchAction } from "@azure/ai-language-text";
+import { TextAnalysisClient } from "@azure/ai-language-text";
+import { DefaultAzureCredential } from "@azure/identity";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
 // You will need to set these environment variables or edit the following values
-const endpoint = process.env["ENDPOINT"] || "<cognitive language service endpoint>";
-const apiKey = process.env["AZURE_LANGUAGE_KEY"] || "<api key>";
+const endpoint = process.env["LANGUAGE_ENDPOINT"] || "<cognitive language service endpoint>";
 const deploymentName = process.env["MULTI_LABEL_CLASSIFY_DEPLOYMENT_NAME"] || "deployment name";
 const projectName = process.env["MULTI_LABEL_CLASSIFY_PROJECT_NAME"] || "deployment name";
 
@@ -28,10 +24,10 @@ const documents = [
   "The plot begins with a large group of characters where everyone thinks that the two main ones should be together but foolish things keep them apart. Misunderstandings, miscommunication, and confusion cause a series of humorous situations.",
 ];
 
-export async function main() {
+export async function main(): Promise<void> {
   console.log("== Custom Entity Recognition Sample ==");
 
-  const client = new TextAnalysisClient(endpoint, new AzureKeyCredential(apiKey));
+  const client = new TextAnalysisClient(endpoint, new DefaultAzureCredential());
   const actions: AnalyzeBatchAction[] = [
     {
       kind: "CustomMultiLabelClassification",
@@ -45,7 +41,7 @@ export async function main() {
   for await (const actionResult of results) {
     if (actionResult.kind !== "CustomMultiLabelClassification") {
       throw new Error(
-        `Expected a CustomMultiLabelClassification results but got: ${actionResult.kind}`
+        `Expected a CustomMultiLabelClassification results but got: ${actionResult.kind}`,
       );
     }
     if (actionResult.error) {
