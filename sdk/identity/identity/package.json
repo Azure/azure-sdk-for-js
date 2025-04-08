@@ -97,6 +97,7 @@
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure/keyvault-keys": "^4.2.0",
+    "@types/jsonwebtoken": "^9.0.0",
     "@types/ms": "^2.1.0",
     "@types/node": "^18.0.0",
     "@vitest/browser": "^3.0.9",
