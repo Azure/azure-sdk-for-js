@@ -6,6 +6,7 @@
 
 - Support setting the AiLocationIp on logs and events.
 - Add support for performance counters.
+- Support `syntheticSource` from `user_agent.synthetic.type` semantic convention.
 
 ### Other Changes
 
