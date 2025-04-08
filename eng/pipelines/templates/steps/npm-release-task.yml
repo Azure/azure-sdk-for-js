@@ -72,12 +72,6 @@ jobs:
               echo "##vso[task.setvariable variable=IntendedTagVersion;isOutput=true]$packageVersion"
             name: SetPackageVar
             displayName: Get original tags
-
-          - pwsh: |
-              write-host "package name: $(SetPackageVar.PackageName)"
-              write-host "original tags: $(SetPackageVar.OriginalTags)"
-              write-host "intended tag version: $(SetPackageVar.IntendedTagVersion)"
-
           - task: EsrpRelease@9
             displayName: 'Publish ${{parameters.Artifact.name}} to ESRP'
             inputs:
@@ -131,14 +125,6 @@ jobs:
       os: linux
     steps:
     - checkout: self
-    - pwsh: |
-        write-host "PackageName: $(PackageName)"
-        write-host "PackageName: "$[dependencies.PublishPackage.outputs['SetPackageVar.PackageName']]"
-        write-host "OriginalTags: $(OriginalTags)"
-        write-host "IntendedTagVersion: $(IntendedTagVersion)"
-        write-host "Tag: $(Tag)"
-        write-host "AdditionalTag: $(AdditionalTag)"
-      displayName: Debug variables
     - task: Powershell@2
       displayName: Verify package tags
       inputs:
