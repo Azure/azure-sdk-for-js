@@ -1,16 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import nock from "nock";
 import type { Container } from "../../../src/index.js";
 import { CosmosClient, PatchOperationType, ResourceType } from "../../../src/index.js";
 import { getTestContainer } from "../../public/common/TestHelpers.js";
 import type { AccessToken, TokenCredential } from "@azure/identity";
 import { RequestHandler } from "../../../src/request/RequestHandler.js";
-import nock from "nock";
 import { masterKey } from "../../public/common/_fakeTestSecrets.js";
 import { endpoint } from "../../public/common/_testConfig.js";
 import type { MockInstance } from "vitest";
-import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
+import { describe, it, expect, vi, beforeEach, afterEach, afterAll } from "vitest";
+
+if (!nock.isActive()) {
+  nock.activate();
+}
 
 class MockCredential implements TokenCredential {
   constructor(public returnPromise: Promise<AccessToken | null>) {}
@@ -76,14 +80,14 @@ describe("Testing Credentials integration for Client", () => {
     spy = vi.spyOn(RequestHandler, "request");
   }
 
-  afterEach(async () => {
-    vi.restoreAllMocks();
-  });
-
   describe("Client Test With AAD Credentials", () => {
     let client: CosmosClient;
 
     beforeEach(async () => {
+      if (!nock.isActive()) {
+        nock.activate();
+      }
+      setupMockResponse();
       client = new CosmosClient({
         endpoint: mockedEndpoint,
         aadCredentials: new MockCredential(
@@ -93,11 +97,16 @@ describe("Testing Credentials integration for Client", () => {
     });
 
     afterEach(async () => {
+      vi.restoreAllMocks();
       nock.cleanAll();
     });
 
+    afterAll(() => {
+      nock.restore();
+    });
+
     it("Test pipeline setup for items.create for aadCredentials", async () => {
-      setupMockResponse();
+      // setupMockResponse();
       const container: Container = await getTestContainer("Test Container", client);
       setupSpyOnRequestHandler();
       await container.items.create(item1Definition);
@@ -105,7 +114,7 @@ describe("Testing Credentials integration for Client", () => {
     });
 
     it("Test pipeline setup for items.read for aadCredentials", async () => {
-      setupMockResponse();
+      // setupMockResponse();
       const container: Container = await getTestContainer("Test Container", client);
       await container.items.create(item1Definition);
       setupSpyOnRequestHandler();
@@ -114,7 +123,7 @@ describe("Testing Credentials integration for Client", () => {
     });
 
     it("Test pipeline setup for items.patch", async () => {
-      setupMockResponse();
+      // setupMockResponse();
       const container: Container = await getTestContainer("Test Container", client);
       await container.items.create(item1Definition);
       setupSpyOnRequestHandler();
@@ -123,7 +132,7 @@ describe("Testing Credentials integration for Client", () => {
     });
 
     it("Test pipeline setup for items.replace", async () => {
-      setupMockResponse();
+      // setupMockResponse();
       const container: Container = await getTestContainer("Test Container", client);
       setupSpyOnRequestHandler();
       await container
@@ -133,7 +142,7 @@ describe("Testing Credentials integration for Client", () => {
     });
 
     it("Test pipeline setup for items.upsert", async () => {
-      setupMockResponse();
+      // setupMockResponse();
       const container: Container = await getTestContainer("Test Container", client);
       setupSpyOnRequestHandler();
       await container.items.upsert(testDataset.itemGetResponse);
@@ -141,7 +150,7 @@ describe("Testing Credentials integration for Client", () => {
     });
 
     it("Test pipeline setup for items.delete", async () => {
-      setupMockResponse();
+      // setupMockResponse();
       const container: Container = await getTestContainer("Test Container", client);
       await container.items.create(item1Definition);
       setupSpyOnRequestHandler();
@@ -150,7 +159,7 @@ describe("Testing Credentials integration for Client", () => {
     });
 
     it("Test pipeline setup for items.batch", async () => {
-      setupMockResponse();
+      // setupMockResponse();
       const container: Container = await getTestContainer("Test Container", client);
       setupSpyOnRequestHandler();
       await container.items.batch([]);
