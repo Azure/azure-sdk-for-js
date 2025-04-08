@@ -1,4 +1,5 @@
 import * as fs from "fs";
+import * as path from "path";
 import { inferenceClient } from "./azureOpenAIClient";
 import { ChatRequestMessage, isUnexpected } from "@azure-rest/ai-inference";
 
@@ -23,11 +24,87 @@ function extractContext(filePath: string, lineNumbers: number[], contextRadius =
 }
 
 /**
- * Analyzes uncovered lines of code by querying Azure OpenAI to identify specific scenarios,
- * edge cases, or error conditions that would trigger these uncovered lines.
+ * Reads the entire content of a source file.
+ *
+ * @param filePath - Path to the source file.
+ * @returns The content of the file as a string.
  */
-export async function analyzeCoverage(): Promise<void> {
-  // Define uncovered lines of code to analyze.
+function readSourceFile(filePath: string): string {
+  return fs.readFileSync(filePath, "utf-8");
+}
+
+/**
+ * Generates a detailed prompt for Azure OpenAI to create tests based on existing test examples,
+ * coverage analysis insights, and the full source file content.
+ */
+function generateTestGenerationPrompt(
+  coverageAnalysis: string,
+  sourceFileContent: string,
+  sourceFileName: string,
+): string {
+  const guidelines = `
+You are an expert software engineer tasked with generating unit tests in TypeScript using Vitest. Follow these guidelines strictly:
+
+- Use Vitest's describe/it structure clearly.
+- Use assertions from Vitest's assert module (assert.equal, assert.deepEqual, assert.isDefined, assert.ok, assert.throws).
+- Clearly structure tests with setup (beforeEach) and teardown (afterEach) hooks when necessary.
+- Follow the style and conventions demonstrated in the provided examples below.
+
+Examples from existing tests:
+
+### Example from featureFlag.spec.ts:
+\`\`\`typescript
+describe("AppConfigurationClient - FeatureFlag", () => {
+  describe("FeatureFlag configuration setting", () => {
+    beforeEach(async (ctx) => {
+      recorder = await startRecorder(ctx);
+      client = createAppConfigurationClientForTests(recorder.configureClientOptions({}));
+      // setup code...
+    });
+
+    afterEach(async () => {
+      await recorder.stop();
+    });
+
+    it("can add and get FeatureFlag", async () => {
+      const response = await client.getConfigurationSetting({ key: baseSetting.key });
+      assert.isDefined(response);
+      assert.equal(response.key, baseSetting.key);
+    });
+  });
+});
+\`\`\`
+
+### Example from helpers.spec.ts:
+\`\`\`typescript
+describe("helper methods", () => {
+  it("checkAndFormatIfAndIfNoneMatch", () => {
+    const result = checkAndFormatIfAndIfNoneMatch({ key: "testKey" }, {});
+    assert.deepEqual(result, { ifMatch: undefined, ifNoneMatch: undefined });
+  });
+});
+\`\`\`
+
+Based on the following coverage analysis insights and the provided source file content, generate appropriate tests to cover the uncovered scenarios:
+
+### Coverage Analysis Insights:
+${coverageAnalysis}
+
+### Source File Content (${sourceFileName}):
+\`\`\`typescript
+${sourceFileContent}
+\`\`\`
+
+Provide only the complete test file content in your response, formatted as valid TypeScript code.
+`;
+
+  return guidelines;
+}
+
+/**
+ * Main function to analyze coverage and generate tests.
+ */
+export async function analyzeCoverageAndGenerateTests(): Promise<void> {
   const uncoveredLines = {
     // '/home/codespace/workspace/sdk/appconfiguration/app-configuration/src/appConfigCredential.ts': [
     //   21, 22, 23, 24, 25, 26,
@@ -56,28 +133,21 @@ export async function analyzeCoverage(): Promise<void> {
     uncoveredLinesWithContext[filePath] = extractContext(filePath, lines);
   }
 
-  console.log("Uncovered lines of code with context:", JSON.stringify(uncoveredLinesWithContext, null, 2));
-  // Construct the prompt to send to Azure OpenAI.
-  const prompt = `
+  const coveragePrompt = `
 Given the following uncovered lines of code along with their surrounding context, identify specific scenarios, edge cases, or error conditions that would trigger these uncovered lines. Provide concrete test scenarios or inputs for each uncovered line.
 
 ${JSON.stringify(uncoveredLinesWithContext, null, 2)}
 `;
 
-  // Prepare messages for Azure OpenAI inference request.
-  const messages: ChatRequestMessage[] = [
-    {
-      role: "system",
-      content: "You are an expert software engineer helping analyze test coverage.",
-    },
-    { role: "user", content: prompt },
+  const coverageMessages: ChatRequestMessage[] = [
+    { role: "system", content: "You are an expert software engineer helping analyze test coverage." },
+    { role: "user", content: coveragePrompt },
   ];
 
-  // Send request to Azure OpenAI inference endpoint.
-  const result = await inferenceClient.path("/chat/completions").post({
+  const coverageResult = await inferenceClient.path("/chat/completions").post({
     body: {
-      messages,
-      temperature: 0.5, // Lower temperature for more deterministic responses
+      messages: coverageMessages,
+      temperature: 0.5,
       top_p: 1,
       frequency_penalty: 0,
       presence_penalty: 0,
@@ -85,19 +155,59 @@ ${JSON.stringify(uncoveredLinesWithContext, null, 2)}
     },
   });
 
-  // Handle unexpected responses from Azure OpenAI.
-  if (isUnexpected(result)) {
-    console.error(`Unexpected response here: ${result.status} - ${result.body}`);
+  if (isUnexpected(coverageResult)) {
+    console.error(`Unexpected response: ${coverageResult.status} - ${coverageResult.body}`);
     return;
   }
 
-  // Extract and log the analysis provided by Azure OpenAI.
-  const analysis = result.body.choices[0]?.message?.content || "No analysis provided.";
-  console.log("Coverage Analysis from Azure OpenAI:");
-  console.log(analysis);
+  const coverageAnalysis = coverageResult.body.choices[0]?.message?.content || "No analysis provided.";
+  console.log(coverageAnalysis)
+  // Dynamically read the full source file content based on uncoveredLines
+  // TODO: [0] works because we only have one file, but this should be improved to handle multiple files
+  // and their respective uncovered lines.
+  // For now, we will just read the first file in the uncoveredLines object
+  // and use it for test generation.
+  const sourceFilePath = Object.keys(uncoveredLines)[0];
+  const sourceFileContent = readSourceFile(sourceFilePath);
+  const sourceFileName = path.basename(sourceFilePath);
+
+  // Generate prompt for test generation based on coverage analysis and full source file content
+  const testGenerationPrompt = generateTestGenerationPrompt(
+    coverageAnalysis,
+    sourceFileContent,
+    sourceFileName,
+  );
+
+  const testGenerationMessages: ChatRequestMessage[] = [
+    { role: "system", content: "You are an expert software engineer generating unit tests." },
+    { role: "user", content: testGenerationPrompt },
+  ];
+
+  const testGenerationResult = await inferenceClient.path("/chat/completions").post({
+    body: {
+      messages: testGenerationMessages,
+      temperature: 0.3, // Lower temperature for more deterministic test generation
+      top_p: 1,
+      frequency_penalty: 0,
+      presence_penalty: 0,
+      model: process.env.AZURE_OPENAI_DEPLOYMENT,
+    },
+  });
+
+  if (isUnexpected(testGenerationResult)) {
+    console.error(`Unexpected response: ${testGenerationResult.status} - ${testGenerationResult.body}`);
+    return;
+  }
+
+  const generatedTests = testGenerationResult.body.choices[0]?.message?.content || "";
+
+  // Write generated tests to a new file
+  const outputPath = path.join(__dirname, `../outputs/generated-${sourceFileName.replace(".ts", ".spec.ts")}`);
+  fs.writeFileSync(outputPath, generatedTests);
+  console.log(`Generated tests written to ${outputPath}`);
 }
 
-// Execute the coverage analysis and handle any errors.
-analyzeCoverage().catch((err) => {
-  console.error("The sample encountered an error:", err);
+// Execute the analysis and test generation
+analyzeCoverageAndGenerateTests().catch((err) => {
+  console.error("Error during analysis and test generation:", err);
 });

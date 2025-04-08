@@ -31,3 +31,8 @@ const projectFolders: Record<string, string> = {
   // Add new packages here
 };
 ```
+## temp analyzer
+This tool analyzes the output of the test generator AI tool and generates a summary report.
+```bash
+ts-node src/tempAnalyzer.ts > out.log
+```
