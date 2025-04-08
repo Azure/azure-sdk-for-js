@@ -17,7 +17,6 @@ describe("Vector search feature", async () => {
   describe("VectorEmbeddingPolicy", async () => {
     let database: Database;
     beforeAll(async () => {
-      // removeAllDatabases();
       database = await getTestDatabase("vector embedding database");
     });
 
@@ -64,6 +63,11 @@ describe("Vector search feature", async () => {
       assert(containerdef.vectorEmbeddingPolicy.vectorEmbeddings[0].path === "/vector1");
       assert(containerdef.vectorEmbeddingPolicy.vectorEmbeddings[1].path === "/vector2");
       assert(containerdef.vectorEmbeddingPolicy.vectorEmbeddings[2].path === "/vector3");
+      try {
+        await database.container(containerName).delete();
+      } catch {
+        // Ignore if container is not found
+      }
     });
 
     // skipping the test case for now. Will enable it once the changes are live on backend
@@ -182,6 +186,11 @@ describe("Vector search feature", async () => {
         assert(e.code === 400);
         assert(e.body.message.includes("vector2 not matching in Embedding's path"));
       }
+      try {
+        await database.container(containerName).delete();
+      } catch {
+        // Ignore if container is not found
+      }
     });
 
     it("should fail to replace vector indexing policy", async () => {
@@ -215,6 +224,11 @@ describe("Vector search feature", async () => {
         assert.fail("Container replace should have failed for indexing policy.");
       } catch (e) {
         assert(e.code === 400);
+      }
+      try {
+        await database.container(containerId).delete();
+      } catch {
+        // Ignore if container is not found
       }
     });
 
@@ -585,6 +599,7 @@ describe("Full text search feature", async () => {
     assert(containerdef.fullTextPolicy.fullTextPaths.length === 2);
     assert(containerdef.fullTextPolicy.fullTextPaths[0].path === "/text1");
     assert(containerdef.fullTextPolicy.fullTextPaths[1].path === "/text2");
+    await database.container(containerName).delete();
   });
 
   it("should execute a full text query", async () => {
@@ -606,6 +621,7 @@ describe("Full text search feature", async () => {
       result.push(...(await queryIterator.fetchNext()).resources);
     }
     assert(result.length === 2);
+    await database.container(containerName).delete();
   });
 
   it("should execute a full text query with RRF score", async () => {
@@ -654,6 +670,7 @@ describe("Full text search feature", async () => {
     }
 
     assert(result.length === 2);
+    await database.container(containerName).delete();
   });
 
   it("should execute a full text query with fetchAll", async () => {
@@ -672,5 +689,6 @@ describe("Full text search feature", async () => {
     const queryIterator = container.items.query(query, queryOptions);
     const result = await queryIterator.fetchAll();
     assert(result.resources.length === 2);
+    await database.container(containerName).delete();
   });
 });

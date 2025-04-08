@@ -5,6 +5,7 @@ import type {
   Container,
   ContainerDefinition,
   ContainerRequest,
+  Database,
   ItemDefinition,
   PatchOperation,
   RequestOptions,
@@ -18,7 +19,6 @@ import {
   bulkReplaceItems,
   createOrUpsertItem,
   getTestDatabase,
-  removeAllDatabases,
   replaceOrUpsertItem,
   addEntropy,
   getTestContainer,
@@ -33,7 +33,7 @@ import {
 } from "../../../../src/documents/index.js";
 import { PriorityLevel } from "../../../../src/documents/PriorityLevel.js";
 import { getCurrentTimestampInMs } from "../../../../src/utils/time.js";
-import { describe, it, assert, beforeEach, beforeAll } from "vitest";
+import { describe, it, assert, beforeEach, beforeAll, afterAll } from "vitest";
 
 /**
  * Tests Item api.
@@ -193,9 +193,6 @@ async function CRUDTestRunner(dataset: CRUDTestDataSet, isUpsertTest: boolean): 
 }
 
 describe("Item CRUD hierarchical partition", () => {
-  beforeEach(async () => {
-    // await removeAllDatabases();
-  });
   it("hierarchycal partitions", async () => {
     const dbName = "hierarchical partition db";
     const database = await getTestDatabase(dbName);
@@ -238,6 +235,9 @@ describe("Item CRUD hierarchical partition", () => {
       beforeCreateDocumentsCount + 1,
       "create should increase the number of documents",
     );
+    if (container) {
+      await container.database.delete();
+    }
   });
 });
 
@@ -245,10 +245,6 @@ describe(
   "Create, Upsert, Read, Update, Replace, Delete Operations on Item",
   { timeout: 10000 },
   () => {
-    beforeEach(async () => {
-      // await removeAllDatabases();
-    });
-
     async function multiplePartitionCRUDTest(dataset: MultiCRUDTestDataSet): Promise<void> {
       const database = await getTestDatabase(dataset.dbName);
       const { resource: containerdef } = await database.containers.create(
@@ -531,6 +527,9 @@ describe(
         const container = await getTestContainer("db1", undefined, { partitionKey: "/id" });
         const { resource: resource } = await container.items.upsert({ key1: 0, key2: 0 });
         assert.ok(resource.id);
+        if (container) {
+          await container.database.delete();
+        }
       });
 
       it("should create a new resource if /id is passed and resource doesn't exist", async () => {
@@ -541,6 +540,9 @@ describe(
           key2: 0,
         });
         assert.ok(resource.id);
+        if (container) {
+          await container.database.delete();
+        }
       });
       it("should update a resource if /id is passed and exists in container", async () => {
         const container = await getTestContainer("db1", undefined, { partitionKey: "/id" });
@@ -553,16 +555,28 @@ describe(
           key2: 2,
         });
         assert.strictEqual(resource1.id, resource2.id);
+        if (container) {
+          await container.database.delete();
+        }
       });
     });
 
     describe("Test diagnostics for item CRUD", async () => {
-      const container = await getTestContainer("db1", undefined, {
-        throughput: 20000,
-        partitionKey: "/id",
+      let container: Container;
+      let itemId: string;
+      beforeAll(async () => {
+        container = await getTestContainer("db1", undefined, {
+          throughput: 20000,
+          partitionKey: "/id",
+        });
+        // Test diagnostic for item create
+        itemId = "2";
       });
-      // Test diagnostic for item create
-      const itemId = "2";
+      afterAll(async () => {
+        if (container) {
+          await container.database.delete();
+        }
+      });
       it("Test diagnostics for item.create", async () => {
         const startTimestamp = getCurrentTimestampInMs();
         await testForDiagnostics(
@@ -936,13 +950,16 @@ describe("patch operations", () => {
 });
 
 describe("Item CRUD with priority", { timeout: 10000 }, () => {
+  let database: Database;
   beforeEach(async () => {
-    // await removeAllDatabases();
+    if (database) {
+      await database.delete();
+    }
   });
 
   const documentCRUDTest = async function (isUpsertTest: boolean): Promise<void> {
     // create database
-    const database = await getTestDatabase("sample 中文 database");
+    database = await getTestDatabase("sample 中文 database");
     // create container
     const { resource: containerdef } = await database.containers.create(
       { id: "sample container" },
