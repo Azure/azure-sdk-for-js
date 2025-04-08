@@ -88,12 +88,6 @@ describe("Testing Credentials integration for Client", () => {
         nock.activate();
       }
       setupMockResponse();
-      client = new CosmosClient({
-        endpoint: mockedEndpoint,
-        aadCredentials: new MockCredential(
-          Promise.resolve({ token: aadToken, expiresOnTimestamp: 0 }),
-        ),
-      });
     });
 
     afterEach(async () => {
@@ -106,6 +100,12 @@ describe("Testing Credentials integration for Client", () => {
     });
 
     it("Test pipeline setup for items.create for aadCredentials", async () => {
+      client = new CosmosClient({
+        endpoint: mockedEndpoint,
+        aadCredentials: new MockCredential(
+          Promise.resolve({ token: aadToken, expiresOnTimestamp: 0 }),
+        ),
+      });
       const container: Container = await getTestContainer("Test Container", client);
       setupSpyOnRequestHandler();
       await container.items.create(item1Definition);
@@ -113,6 +113,12 @@ describe("Testing Credentials integration for Client", () => {
     });
 
     it("Test pipeline setup for items.read for aadCredentials", async () => {
+      client = new CosmosClient({
+        endpoint: mockedEndpoint,
+        aadCredentials: new MockCredential(
+          Promise.resolve({ token: aadToken, expiresOnTimestamp: 0 }),
+        ),
+      });
       const container: Container = await getTestContainer("Test Container", client);
       await container.items.create(item1Definition);
       setupSpyOnRequestHandler();
@@ -121,6 +127,12 @@ describe("Testing Credentials integration for Client", () => {
     });
 
     it("Test pipeline setup for items.patch", async () => {
+      client = new CosmosClient({
+        endpoint: mockedEndpoint,
+        aadCredentials: new MockCredential(
+          Promise.resolve({ token: aadToken, expiresOnTimestamp: 0 }),
+        ),
+      });
       const container: Container = await getTestContainer("Test Container", client);
       await container.items.create(item1Definition);
       setupSpyOnRequestHandler();
@@ -129,6 +141,12 @@ describe("Testing Credentials integration for Client", () => {
     });
 
     it("Test pipeline setup for items.replace", async () => {
+      client = new CosmosClient({
+        endpoint: mockedEndpoint,
+        aadCredentials: new MockCredential(
+          Promise.resolve({ token: aadToken, expiresOnTimestamp: 0 }),
+        ),
+      });
       const container: Container = await getTestContainer("Test Container", client);
       setupSpyOnRequestHandler();
       await container
@@ -138,6 +156,12 @@ describe("Testing Credentials integration for Client", () => {
     });
 
     it("Test pipeline setup for items.upsert", async () => {
+      client = new CosmosClient({
+        endpoint: mockedEndpoint,
+        aadCredentials: new MockCredential(
+          Promise.resolve({ token: aadToken, expiresOnTimestamp: 0 }),
+        ),
+      });
       const container: Container = await getTestContainer("Test Container", client);
       setupSpyOnRequestHandler();
       await container.items.upsert(testDataset.itemGetResponse);
@@ -145,6 +169,12 @@ describe("Testing Credentials integration for Client", () => {
     });
 
     it("Test pipeline setup for items.delete", async () => {
+      client = new CosmosClient({
+        endpoint: mockedEndpoint,
+        aadCredentials: new MockCredential(
+          Promise.resolve({ token: aadToken, expiresOnTimestamp: 0 }),
+        ),
+      });
       const container: Container = await getTestContainer("Test Container", client);
       await container.items.create(item1Definition);
       setupSpyOnRequestHandler();
@@ -153,6 +183,12 @@ describe("Testing Credentials integration for Client", () => {
     });
 
     it("Test pipeline setup for items.batch", async () => {
+      client = new CosmosClient({
+        endpoint: mockedEndpoint,
+        aadCredentials: new MockCredential(
+          Promise.resolve({ token: aadToken, expiresOnTimestamp: 0 }),
+        ),
+      });
       const container: Container = await getTestContainer("Test Container", client);
       setupSpyOnRequestHandler();
       await container.items.batch([]);
