@@ -2,12 +2,12 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Uses AAD credentials to authenticate with the CosmosClient.
+ * @summary Uses Entra Auth credentials to authenticate with the CosmosClient.
  */
 
 require("dotenv").config();
 
-const { UsernamePasswordCredential } = require("@azure/identity");
+const { DefaultAzureCredential } = require("@azure/identity");
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 const { CosmosClient } = require("@azure/cosmos");
@@ -19,14 +19,10 @@ const existingContainerId = process.env.COSMOS_CONTAINER || "<cosmos container>"
 
 async function run() {
   logStep("Create credential object from @azure/identity");
-  const credentials = new UsernamePasswordCredential(
-    "fake-tenant-id",
-    "fake-client-id",
-    "fakeUsername",
-    "fakePassword"
-  );
+  const credentials = new DefaultAzureCredential();
+
   logStep("Pass credentials to client object with key aadCredentials");
-  const aadClient = new CosmosClient({
+  const entraAuthClient = new CosmosClient({
     endpoint,
     aadCredentials: credentials,
   });
@@ -41,12 +37,12 @@ async function run() {
   );
 
   // fails
-  await aadClient.databases.readAll({}).fetchAll();
+  await entraAuthClient.databases.readAll({}).fetchAll();
   // succeeds
   await genericClient.databases.readAll({}).fetchAll();
 
   // succeeds
-  await aadClient.database("example").container(existingContainerId).items.readAll();
+  await entraAuthClient.database("example").container(existingContainerId).items.readAll();
   // succeeds
   await genericClient.database("example").container(existingContainerId).items.readAll();
 
