@@ -463,4 +463,56 @@ describe("HttpsPipeline", function () {
       ),
     ).toEqualTypeOf<PipelineResponse>();
   });
+
+  describe("requestOverrides", function () {
+    it("is undefined by default", async function() {
+      const testHttpClient: HttpClient = {
+        sendRequest: async (request) => {
+          assert.strictEqual(request.requestOverrides, undefined);
+          return {
+            request,
+            headers: createHttpHeaders(),
+            status: 200,
+          };
+        },
+      };
+
+      const pipeline = createPipelineFromOptions({});
+      const request = createPipelineRequest({ url: "https://example.com" });
+      await pipeline.sendRequest(testHttpClient, request);
+    });
+
+    it("sets and overrides request properties", async function () {
+      const testHttpClient: HttpClient = {
+        sendRequest: async (request) => {
+          assert.deepEqual(request.requestOverrides?.timeout, 1);
+          assert.deepEqual(request.requestOverrides?.priority, "low");
+          const updated = {
+            ...request,
+            ...request.requestOverrides,
+          };
+          return {
+            request: updated,
+            headers: createHttpHeaders(),
+            status: 200,
+          };
+        },
+      };
+
+      const pipeline = createPipelineFromOptions({});
+      pipeline.addPolicy({
+        name: "test",
+        sendRequest: async (request, next) => {
+          request.requestOverrides = { timeout: 1, priority: "low" };
+          return next(request);
+        },
+      });
+      const request = createPipelineRequest({ url: "https://example.com" });
+      request.timeout = 0;
+
+      const response = await pipeline.sendRequest(testHttpClient, request);
+      assert.strictEqual(response.request.timeout, 1);
+      assert.strictEqual((response.request as any).priority, "low");
+    });
+  })
 });
