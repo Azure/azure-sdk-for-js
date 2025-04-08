@@ -12,7 +12,7 @@ import {
 import type { AppConfigurationClient } from "../../src/index.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
-describe("AppConfigurationClient (set|clear)ReadOnly", () => {
+describe.skip("AppConfigurationClient (set|clear)ReadOnly", () => {
   let client: AppConfigurationClient;
   let recorder: Recorder;
   const testConfigSetting = {

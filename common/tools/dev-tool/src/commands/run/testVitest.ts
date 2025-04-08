@@ -76,7 +76,8 @@ export default leafCommand(commandInfo, async (options) => {
     args = "-c vitest.esm.config.ts";
   }
 
-  const vitestArgs = updatedArgs?.length ? updatedArgs.join(" ") : "";
+  let vitestArgs = updatedArgs?.length ? updatedArgs.join(" ") : "";
+  vitestArgs += " --coverage";
   const command = {
     command: `vitest ${args} ${vitestArgs}`,
     name: "vitest",

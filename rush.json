@@ -565,6 +565,11 @@
       ]
     },
     {
+      "packageName": "@azure-tools/test-generator-ai",
+      "projectFolder": "common/tools/test-generator-ai",
+      "versionPolicyName": "utility"
+    },
+    {
       "packageName": "@azure/eventgrid",
       "projectFolder": "sdk/eventgrid/eventgrid",
       "versionPolicyName": "client"

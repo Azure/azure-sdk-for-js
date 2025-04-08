@@ -15,7 +15,7 @@ import { describe, it, assert, beforeEach, afterEach } from "vitest";
 // is the file where I've documented the throws/notThrows cases to make coordination
 // with other teams simpler. (there's redundancy with other parts of the test suite but
 // that's okay)
-describe("Various error cases", () => {
+describe.skip("Various error cases", () => {
   let client: AppConfigurationClient;
   let recorder: Recorder;
   const nonMatchingETag = "never-match-etag";

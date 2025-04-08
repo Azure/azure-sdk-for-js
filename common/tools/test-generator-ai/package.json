@@ -1,0 +1,55 @@
+{
+  "name": "@azure-tools/test-generator-ai",
+  "version": "1.0.0",
+  "description": "A helpful tool for azure-sdk-for-js developers",
+  "sdk-type": "utility",
+  "bin": {
+    "test-generator-ai": "./dist/cli.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "build:samples": "echo Skipped.",
+    "build:test": "echo Skipped.",
+    "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"*.{js,json}\"",
+    "clean": "rimraf --glob dist dist-* *.tgz *.log",
+    "extract-api": "echo skipped",
+    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"*.{js,json}\"",
+    "integration-test": "echo skipped",
+    "integration-test:browser": "echo skipped",
+    "integration-test:node": "echo skipped",
+    "lint": "eslint src test",
+    "lint:fix": "eslint src test --fix --fix-type [problem,suggestion]",
+    "pack": "npm pack 2>&1",
+    "prebuild": "npm run clean",
+    "test": "echo Skipped.",
+    "unit-test": "npm run unit-test:node",
+    "unit-test:browser": "echo skipped",
+    "unit-test:node": "vitest",
+    "update-snippets": "echo skipped"
+  },
+  "repository": "github:Azure/azure-sdk-for-js",
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/azure/azure-sdk-for-js/issues"
+  },
+  "homepage": "https://github.com/azure/azure-sdk-for-js/tree/main/common/tools/test-generator-ai/",
+  "sideEffects": false,
+  "private": true,
+  "prettier": "../eslint-plugin-azure-sdk/prettier.json",
+  "dependencies": {
+    "openai": "^4.92.1",
+    "dotenv": "^16.4.7",
+    "@azure/core-auth": "^1.9.0",
+    "@azure-rest/ai-inference": "1.0.0-beta.6",
+    "prettier": "^3.5.3"
+  },
+  "devDependencies": {
+    "@types/node": "^18.0.0",
+    "typescript": "^5.0.0",
+    "eslint": "^8.0.0"
+  }
+}

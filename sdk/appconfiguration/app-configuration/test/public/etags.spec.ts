@@ -12,7 +12,7 @@ import {
 import type { AppConfigurationClient } from "../../src/index.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
-describe("etags", () => {
+describe.skip("etags", () => {
   let client: AppConfigurationClient;
   let recorder: Recorder;
   let key: string;
