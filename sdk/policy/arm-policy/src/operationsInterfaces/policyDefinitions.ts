@@ -6,8 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import {
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
+import type {
   PolicyDefinition,
   PolicyDefinitionsListOptionalParams,
   PolicyDefinitionsListBuiltInOptionalParams,
@@ -42,9 +42,7 @@ export interface PolicyDefinitions {
    * whose category match the {value}.
    * @param options The options parameters.
    */
-  list(
-    options?: PolicyDefinitionsListOptionalParams,
-  ): PagedAsyncIterableIterator<PolicyDefinition>;
+  list(options?: PolicyDefinitionsListOptionalParams): PagedAsyncIterableIterator<PolicyDefinition>;
   /**
    * This operation retrieves a list of all the built-in policy definitions that match the optional given
    * $filter. If $filter='policyType -eq {value}' is provided, the returned list only includes all

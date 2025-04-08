@@ -92,9 +92,8 @@ az cognitiveservices account keys list --resource-group <your-resource-group-nam
 
 Once you have an API key and endpoint, you can use the `AzureKeyCredential` class to authenticate the client as follows:
 
-```ts snippet:ReadmeSampleCreateClient_Node
-import { AzureKeyCredential } from "@azure/core-auth";
-import { TextAnalysisClient } from "@azure/ai-language-text";
+```ts snippet:ReadmeSampleCreateClient_Key
+import { AzureKeyCredential, TextAnalysisClient } from "@azure/ai-language-text";
 
 const endpoint = "https://<resource name>.cognitiveservices.azure.com";
 const credential = new AzureKeyCredential("<api key>");

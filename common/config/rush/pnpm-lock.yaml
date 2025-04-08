@@ -42,10 +42,7 @@ importers:
         version: file:projects/ai-language-conversations.tgz(@types/debug@4.1.12)(tsx@4.19.3)(vite@6.2.5(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(yaml@2.7.1)
       '@rush-temp/ai-language-text':
         specifier: file:./projects/ai-language-text.tgz
-        version: file:projects/ai-language-text.tgz(@types/debug@4.1.12)(tsx@4.19.3)(vite@6.2.5(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(yaml@2.7.1)
-      '@rush-temp/ai-language-textauthoring':
-        specifier: file:./projects/ai-language-textauthoring.tgz
-        version: file:projects/ai-language-textauthoring.tgz(@types/debug@4.1.12)(tsx@4.19.3)(vite@6.2.5(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(yaml@2.7.1)
+        version: file:projects/ai-language-text.tgz(@types/debug@4.1.12)(chai@5.2.0)(tsx@4.19.3)(vite@6.2.5(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(yaml@2.7.1)
       '@rush-temp/ai-metrics-advisor':
         specifier: file:./projects/ai-metrics-advisor.tgz
         version: file:projects/ai-metrics-advisor.tgz(@types/debug@4.1.12)(tsx@4.19.3)(vite@6.2.5(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(yaml@2.7.1)
@@ -2413,15 +2410,11 @@ packages:
     version: 0.0.0
 
   '@rush-temp/ai-language-conversations@file:projects/ai-language-conversations.tgz':
-    resolution: {integrity: sha512-nShlZ4jUVcsCtL9MV0B3RDE7epbAY2jnO6HddQpYdNek2YasRsz1BDc5RuCrJC+Necm90kxT3Y2tD2lzzDoDJQ==, tarball: file:projects/ai-language-conversations.tgz}
+    resolution: {integrity: sha512-Y96jE02xa3HYLXuXcTQRaeIw8yzT5Pv5aX9ESD6wctfPcxWQeSnSKNK9UqGQRlZx6B6xs7fEtp42ZLhidV1MsQ==, tarball: file:projects/ai-language-conversations.tgz}
     version: 0.0.0
 
   '@rush-temp/ai-language-text@file:projects/ai-language-text.tgz':
-    resolution: {integrity: sha512-rVwidbivBOFtSoBjijJsVW7cBVahbFw0y0jazYwEU8aA2Jg7sI3bs3oQwQllvHAdjULzhCstWsjjpbsOLJTM2Q==, tarball: file:projects/ai-language-text.tgz}
-    version: 0.0.0
-
-  '@rush-temp/ai-language-textauthoring@file:projects/ai-language-textauthoring.tgz':
-    resolution: {integrity: sha512-acghtiGDOP4bJSZ0WbTZlhJnx3WSCTQhNehOZwcjLqas8ukt7LngV/V2PjBuPvSvJtBXOSoLoaVP9FWWb48Oug==, tarball: file:projects/ai-language-textauthoring.tgz}
+    resolution: {integrity: sha512-k0e9/7k3Umd4G9Pe18v2EDTXLxxvenftruqfZ4SE+wUaX0L3CLmBuLilBMRBs7Vsxwxt5W3iVTKkF/VWfJLdKQ==, tarball: file:projects/ai-language-text.tgz}
     version: 0.0.0
 
   '@rush-temp/ai-metrics-advisor@file:projects/ai-metrics-advisor.tgz':
@@ -3177,7 +3170,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-policy@file:projects/arm-policy.tgz':
-    resolution: {integrity: sha512-j/kWu+yyAHmo8FO941GqOsivWOgDgVhoSfChNDdxE4xLcnMeR55oPNr6O4GF1lTccUVLuOfqg1wPVaULAFlWBg==, tarball: file:projects/arm-policy.tgz}
+    resolution: {integrity: sha512-eG2msw9BjjdYyVmU8OIbHWkhosPcUSedfWbK6D4nGNLtwWpwBlL8wtWG0Sn1zz8kSm4/Z0O4tzGKZBiV53qknw==, tarball: file:projects/arm-policy.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-policyinsights@file:projects/arm-policyinsights.tgz':
@@ -3297,7 +3290,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-search@file:projects/arm-search.tgz':
-    resolution: {integrity: sha512-mJ9Jp6phUQHp/DAT5wcoiOpwEIQor5L6JkaCuw6Pn0h8rZq/MhJy9XnzZT1jVZgqGp6f/p5JIvD3Qh9pB0BoQA==, tarball: file:projects/arm-search.tgz}
+    resolution: {integrity: sha512-VjC10vN+NyOsOH/CVRFf/nftu5USLjOVo1CSnUk0ZSyyHKhWgkN0GwQooDR7+qOxcgb/ALDhxUzBj7CUMQJiuw==, tarball: file:projects/arm-search.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-security@file:projects/arm-security.tgz':
@@ -3621,7 +3614,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/data-tables@file:projects/data-tables.tgz':
-    resolution: {integrity: sha512-CaFVQhmwrFTckjS0UxckHF2Qnj3ZfZKOEiRijGXrXQ4Iht+HHMyu1Nqc6AK1eDfmzzVToGh4rPM07l9KwLdAaA==, tarball: file:projects/data-tables.tgz}
+    resolution: {integrity: sha512-88KUaQ3vooFUIjw8lJiWVblKaIIf8XnlJ1vHdCg+L+TozSC87jarse4cdi0r1+09IIqTlmyxiS7Y83Mj8dNcJw==, tarball: file:projects/data-tables.tgz}
     version: 0.0.0
 
   '@rush-temp/defender-easm@file:projects/defender-easm.tgz':
@@ -3645,7 +3638,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/event-hubs@file:projects/event-hubs.tgz':
-    resolution: {integrity: sha512-ZuR8dNXLr2Ez2C4Mk9tNz/3jfUA+3lJ9uB8Ff2PcYC0G03tcFEdl3jwiVGjDXQJIrdUYKjotyH09x3jwBfXQKQ==, tarball: file:projects/event-hubs.tgz}
+    resolution: {integrity: sha512-RIRzDPhSanA/bj6lkf+TND1BUXmJ/KlFEEdALRw7E4XkvTjsTharq8eMhe2Pkd7TOvYFjLeTtLXSSSSJMdY3ow==, tarball: file:projects/event-hubs.tgz}
     version: 0.0.0
 
   '@rush-temp/eventgrid-namespaces@file:projects/eventgrid-namespaces.tgz':
@@ -9802,14 +9795,13 @@ snapshots:
       - webdriverio
       - yaml
 
-  '@rush-temp/ai-language-text@file:projects/ai-language-text.tgz(@types/debug@4.1.12)(tsx@4.19.3)(vite@6.2.5(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(yaml@2.7.1)':
+  '@rush-temp/ai-language-text@file:projects/ai-language-text.tgz(@types/debug@4.1.12)(chai@5.2.0)(tsx@4.19.3)(vite@6.2.5(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(yaml@2.7.1)':
     dependencies:
       '@azure/core-lro': 2.7.2
       '@types/node': 18.19.86
       '@types/unzipper': 0.10.11
       '@vitest/browser': 3.1.1(playwright@1.51.1)(vite@6.2.5(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.1)
       '@vitest/coverage-istanbul': 3.1.1(vitest@3.1.1)
-      chai: 5.2.0
       chai-exclude: 3.0.0(chai@5.2.0)
       dotenv: 16.4.7
       eslint: 9.24.0
@@ -9823,43 +9815,7 @@ snapshots:
       - '@types/debug'
       - '@vitest/ui'
       - bufferutil
-      - happy-dom
-      - jiti
-      - jsdom
-      - less
-      - lightningcss
-      - msw
-      - safaridriver
-      - sass
-      - sass-embedded
-      - stylus
-      - sugarss
-      - supports-color
-      - terser
-      - tsx
-      - utf-8-validate
-      - vite
-      - webdriverio
-      - yaml
-
-  '@rush-temp/ai-language-textauthoring@file:projects/ai-language-textauthoring.tgz(@types/debug@4.1.12)(tsx@4.19.3)(vite@6.2.5(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(yaml@2.7.1)':
-    dependencies:
-      '@azure/core-lro': 2.7.2
-      '@types/node': 18.19.86
-      '@vitest/browser': 3.1.1(playwright@1.51.1)(vite@6.2.5(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.1)
-      '@vitest/coverage-istanbul': 3.1.1(vitest@3.1.1)
-      autorest: 3.7.1
-      dotenv: 16.4.7
-      eslint: 9.24.0
-      playwright: 1.51.1
-      tslib: 2.8.1
-      typescript: 5.8.3
-      vitest: 3.1.1(@types/debug@4.1.12)(@types/node@18.19.86)(@vitest/browser@3.1.1)(tsx@4.19.3)(yaml@2.7.1)
-    transitivePeerDependencies:
-      - '@edge-runtime/vm'
-      - '@types/debug'
-      - '@vitest/ui'
-      - bufferutil
+      - chai
       - happy-dom
       - jiti
       - jsdom
@@ -16414,7 +16370,7 @@ snapshots:
       dotenv: 16.4.7
       playwright: 1.51.1
       tslib: 2.8.1
-      typescript: 5.6.3
+      typescript: 5.7.3
       vitest: 3.1.1(@types/debug@4.1.12)(@types/node@18.19.86)(@vitest/browser@3.1.1)(tsx@4.19.3)(yaml@2.7.1)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
@@ -17458,7 +17414,7 @@ snapshots:
       dotenv: 16.4.7
       playwright: 1.51.1
       tslib: 2.8.1
-      typescript: 5.8.3
+      typescript: 5.7.3
       vitest: 3.1.1(@types/debug@4.1.12)(@types/node@18.19.86)(@vitest/browser@3.1.1)(tsx@4.19.3)(yaml@2.7.1)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
