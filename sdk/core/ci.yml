@@ -28,13 +28,7 @@ pr:
       - sdk/core/
       - eng/
       - common/
-      - package.json
-      - tsconfig.json
-      - tsconfig.lib.json
-      - tsconfig.test.json
-      - pnpm-*.yaml
     exclude:
-      - common/smoke-test/
       - eng/common/
 
 extends:
@@ -45,60 +39,165 @@ extends:
       - name: azure-abort-controller
         safeName: azureabortcontroller
         triggeringPaths:
+        - package.json
         - pnpm-lock.yaml
+        - pnpm-workspace.yaml
+        - tsconfig.json
+        - tsconfig.lib.json
+        - tsconfig.test.json
+        - eng/
+        - common/tools
       - name: azure-core-amqp
         safeName: azurecoreamqp
         triggeringPaths:
+        - package.json
         - pnpm-lock.yaml
+        - pnpm-workspace.yaml
+        - tsconfig.json
+        - tsconfig.lib.json
+        - tsconfig.test.json
+        - eng/
+        - common/tools
       - name: azure-core-auth
         safeName: azurecoreauth
         triggeringPaths:
+        - package.json
         - pnpm-lock.yaml
+        - pnpm-workspace.yaml
+        - tsconfig.json
+        - tsconfig.lib.json
+        - tsconfig.test.json
+        - eng/
+        - common/tools
       - name: azure-core-client
         safeName: azurecoreclient
         triggeringPaths:
+        - package.json
         - pnpm-lock.yaml
+        - pnpm-workspace.yaml
+        - tsconfig.json
+        - tsconfig.lib.json
+        - tsconfig.test.json
+        - eng/
+        - common/tools
       - name: azure-rest-core-client
         safeName: azurerestcoreclient
         triggeringPaths:
+        - package.json
         - pnpm-lock.yaml
+        - pnpm-workspace.yaml
+        - tsconfig.json
+        - tsconfig.lib.json
+        - tsconfig.test.json
+        - eng/
+        - common/tools
       - name: azure-core-rest-pipeline
         safeName: azurecorerestpipeline
         triggeringPaths:
+        - package.json
         - pnpm-lock.yaml
+        - pnpm-workspace.yaml
+        - tsconfig.json
+        - tsconfig.lib.json
+        - tsconfig.test.json
+        - eng/
+        - common/tools
       - name: azure-core-lro
         safeName: azurecorelro
         triggeringPaths:
+        - package.json
         - pnpm-lock.yaml
+        - pnpm-workspace.yaml
+        - tsconfig.json
+        - tsconfig.lib.json
+        - tsconfig.test.json
+        - eng/
+        - common/tools
       - name: azure-core-paging
         safeName: azurecorepaging
         triggeringPaths:
+        - package.json
         - pnpm-lock.yaml
+        - pnpm-workspace.yaml
+        - tsconfig.json
+        - tsconfig.lib.json
+        - tsconfig.test.json
+        - eng/
+        - common/tools
       - name: azure-core-tracing
         safeName: azurecoretracing
         triggeringPaths:
+        - package.json
         - pnpm-lock.yaml
+        - pnpm-workspace.yaml
+        - tsconfig.json
+        - tsconfig.lib.json
+        - tsconfig.test.json
+        - eng/
+        - common/tools
       - name: azure-core-xml
         safeName: azurecorexml
         triggeringPaths:
+        - package.json
         - pnpm-lock.yaml
+        - pnpm-workspace.yaml
+        - tsconfig.json
+        - tsconfig.lib.json
+        - tsconfig.test.json
+        - eng/
+        - common/tools
       - name: azure-core-util
         safeName: azurecoreutil
         triggeringPaths:
+        - package.json
         - pnpm-lock.yaml
+        - pnpm-workspace.yaml
+        - tsconfig.json
+        - tsconfig.lib.json
+        - tsconfig.test.json
+        - eng/
+        - common/tools
       - name: azure-logger
         safeName: azurelogger
         triggeringPaths:
+        - package.json
         - pnpm-lock.yaml
+        - pnpm-workspace.yaml
+        - tsconfig.json
+        - tsconfig.lib.json
+        - tsconfig.test.json
+        - eng/
+        - common/tools
       - name: azure-core-http-compat
         safeName: azurecorehttpcompat
         triggeringPaths:
+        - package.json
         - pnpm-lock.yaml
+        - pnpm-workspace.yaml
+        - tsconfig.json
+        - tsconfig.lib.json
+        - tsconfig.test.json
+        - eng/
+        - common/tools
       - name: azure-core-sse
         safeName: azurecoresse
         triggeringPaths:
+        - package.json
         - pnpm-lock.yaml
+        - pnpm-workspace.yaml
+        - tsconfig.json
+        - tsconfig.lib.json
+        - tsconfig.test.json
+        - eng/
+        - common/tools
       - name: typespec-ts-http-runtime
         safeName: typespectshttpruntime
         triggeringPaths:
+        - package.json
         - pnpm-lock.yaml
+        - pnpm-workspace.yaml
+        - tsconfig.json
+        - tsconfig.lib.json
+        - tsconfig.test.json
+        - eng/
+        - common/tools
