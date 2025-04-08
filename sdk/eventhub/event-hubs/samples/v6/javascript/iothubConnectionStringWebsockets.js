@@ -12,24 +12,23 @@
  * https://learn.microsoft.com/en-us/azure/iot-hub/iot-hub-devguide-messages-read-builtin
  */
 
-import * as crypto from "node:crypto";
-import { Buffer } from "node:buffer";
-import type { AmqpError } from "rhea-promise";
-import { Connection, ReceiverEvents, parseConnectionString } from "rhea-promise";
-import * as rheaPromise from "rhea-promise";
-import { EventHubConsumerClient, earliestEventPosition } from "@azure/event-hubs";
-import { SecretClient } from "@azure/keyvault-secrets";
-import { DefaultAzureCredential } from "@azure/identity";
-import WebSocket from "ws";
+const crypto = require("node:crypto");
+const { Buffer } = require("node:buffer");
+const { Connection, ReceiverEvents, parseConnectionString } = require("rhea-promise");
+const rheaPromise = require("rhea-promise");
+const { EventHubConsumerClient, earliestEventPosition } = require("@azure/event-hubs");
+const { SecretClient } = require("@azure/keyvault-secrets");
+const { DefaultAzureCredential } = require("@azure/identity");
+const WebSocket = require("ws");
 
 // Load the .env file if it exists
-import "dotenv/config";
+require("dotenv/config");
 
 /**
  * Type guard for AmqpError.
  * @param err - An unknown error.
  */
-function isAmqpError(err: any): err is AmqpError {
+function isAmqpError(err) {
   return rheaPromise.isAmqpError(err);
 }
 
@@ -41,12 +40,7 @@ const iotHubConnectionStringName =
   process.env["IOTHUB_CONNECTION_STRING_SECRET_NAME"] || "<your iot hub connection string name>";
 
 // This code is modified from https://learn.microsoft.com/en-us/azure/iot-hub/iot-hub-devguide-security#security-tokens.
-function generateSasToken(
-  resourceUri: string,
-  signingKey: string,
-  policyName: string,
-  expiresInMins: number,
-): string {
+function generateSasToken(resourceUri, signingKey, policyName, expiresInMins) {
   resourceUri = encodeURIComponent(resourceUri);
 
   const expiresInSeconds = Math.ceil(Date.now() / 1000 + expiresInMins * 60);
@@ -68,12 +62,9 @@ function generateSasToken(
  * @returns An Event Hubs-compatible connection string in the format:
  * `"Endpoint=sb://<hostname>;EntityPath=<your-iot-hub>;SharedAccessKeyName=<KeyName>;SharedAccessKey=<Key>"`
  */
-async function convertIotHubToEventHubsConnectionString(connectionString: string): Promise<string> {
-  const { HostName, SharedAccessKeyName, SharedAccessKey } = parseConnectionString<{
-    HostName: string;
-    SharedAccessKeyName: string;
-    SharedAccessKey: string;
-  }>(connectionString);
+async function convertIotHubToEventHubsConnectionString(connectionString) {
+  const { HostName, SharedAccessKeyName, SharedAccessKey } =
+    parseConnectionString(connectionString);
 
   // Verify that the required info is in the connection string.
   if (!HostName || !SharedAccessKey || !SharedAccessKeyName) {
@@ -93,7 +84,7 @@ async function convertIotHubToEventHubsConnectionString(connectionString: string
     `${HostName}/messages/events`,
     SharedAccessKey,
     SharedAccessKeyName,
-    5, // token expires in 5 minutes
+    5,
   );
 
   const connection = new Connection({
@@ -139,7 +130,7 @@ async function convertIotHubToEventHubsConnectionString(connectionString: string
   });
 }
 
-export async function main(): Promise<void> {
+async function main() {
   console.log(`Running iothubConnectionString sample`);
 
   const kvClient = new SecretClient(keyvaultUri, new DefaultAzureCredential());
@@ -181,3 +172,5 @@ export async function main(): Promise<void> {
 main().catch((error) => {
   console.error("Error running sample:", error);
 });
+
+module.exports = { main };

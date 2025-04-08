@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Demonstrates how to convert an IoT Hub connection string to an Event Hubs connection string that points to the built-in messaging endpoint using WebSockets.
+ * @summary Demonstrates how to convert an IoT Hub connection string to an Event Hubs connection string that points to the built-in messaging endpoint.
  */
 
 /*
@@ -12,26 +12,17 @@
  * https://learn.microsoft.com/en-us/azure/iot-hub/iot-hub-devguide-messages-read-builtin
  */
 
-import * as crypto from "node:crypto";
-import { Buffer } from "node:buffer";
-import type { AmqpError } from "rhea-promise";
-import { Connection, ReceiverEvents, parseConnectionString } from "rhea-promise";
-import * as rheaPromise from "rhea-promise";
-import { EventHubConsumerClient, earliestEventPosition } from "@azure/event-hubs";
-import { SecretClient } from "@azure/keyvault-secrets";
-import { DefaultAzureCredential } from "@azure/identity";
-import WebSocket from "ws";
+const crypto = require("node:crypto");
+const { Buffer } = require("node:buffer");
+const { Connection, ReceiverEvents, parseConnectionString } = require("rhea-promise");
+const rheaPromise = require("rhea-promise");
+const { EventHubConsumerClient, earliestEventPosition } = require("@azure/event-hubs");
+const { ErrorNameConditionMapper: AMQPError } = require("@azure/core-amqp");
+const { SecretClient } = require("@azure/keyvault-secrets");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 // Load the .env file if it exists
-import "dotenv/config";
-
-/**
- * Type guard for AmqpError.
- * @param err - An unknown error.
- */
-function isAmqpError(err: any): err is AmqpError {
-  return rheaPromise.isAmqpError(err);
-}
+require("dotenv/config");
 
 const consumerGroup = process.env["EVENTHUB_CONSUMER_GROUP_NAME"] || "<your consumer group name>";
 // IoT Hub connection string is stored in Key Vault.
@@ -40,13 +31,16 @@ const keyvaultUri = process.env["KEYVAULT_URI"] || "<your keyvault uri>";
 const iotHubConnectionStringName =
   process.env["IOTHUB_CONNECTION_STRING_SECRET_NAME"] || "<your iot hub connection string name>";
 
+/**
+ * Type guard for AmqpError.
+ * @param err - An unknown error.
+ */
+function isAmqpError(err) {
+  return rheaPromise.isAmqpError(err);
+}
+
 // This code is modified from https://learn.microsoft.com/en-us/azure/iot-hub/iot-hub-devguide-security#security-tokens.
-function generateSasToken(
-  resourceUri: string,
-  signingKey: string,
-  policyName: string,
-  expiresInMins: number,
-): string {
+function generateSasToken(resourceUri, signingKey, policyName, expiresInMins) {
   resourceUri = encodeURIComponent(resourceUri);
 
   const expiresInSeconds = Math.ceil(Date.now() / 1000 + expiresInMins * 60);
@@ -68,12 +62,9 @@ function generateSasToken(
  * @returns An Event Hubs-compatible connection string in the format:
  * `"Endpoint=sb://<hostname>;EntityPath=<your-iot-hub>;SharedAccessKeyName=<KeyName>;SharedAccessKey=<Key>"`
  */
-async function convertIotHubToEventHubsConnectionString(connectionString: string): Promise<string> {
-  const { HostName, SharedAccessKeyName, SharedAccessKey } = parseConnectionString<{
-    HostName: string;
-    SharedAccessKeyName: string;
-    SharedAccessKey: string;
-  }>(connectionString);
+async function convertIotHubToEventHubsConnectionString(connectionString) {
+  const { HostName, SharedAccessKeyName, SharedAccessKey } =
+    parseConnectionString(connectionString);
 
   // Verify that the required info is in the connection string.
   if (!HostName || !SharedAccessKey || !SharedAccessKeyName) {
@@ -93,7 +84,7 @@ async function convertIotHubToEventHubsConnectionString(connectionString: string
     `${HostName}/messages/events`,
     SharedAccessKey,
     SharedAccessKeyName,
-    5, // token expires in 5 minutes
+    5,
   );
 
   const connection = new Connection({
@@ -101,14 +92,9 @@ async function convertIotHubToEventHubsConnectionString(connectionString: string
     host: HostName,
     hostname: HostName,
     username: `${SharedAccessKeyName}@sas.root.${iotHubName}`,
-    port: 443,
+    port: 5671,
     reconnect: false,
     password: token,
-    webSocketOptions: {
-      webSocket: WebSocket,
-      protocol: ["AMQPWSB10"],
-      url: `wss://${HostName}:${443}/$servicebus/websocket`,
-    },
   });
   await connection.open();
 
@@ -120,13 +106,18 @@ async function convertIotHubToEventHubsConnectionString(connectionString: string
   return new Promise((resolve, reject) => {
     receiver.on(ReceiverEvents.receiverError, (context) => {
       const error = context.receiver && context.receiver.error;
-      if (isAmqpError(error) && error.condition === "amqp:link:redirect") {
-        const hostname = error.info && error.info.hostname;
-        if (!hostname) {
+      if (isAmqpError(error) && error.condition === AMQPError.LinkRedirectError && error.info) {
+        const hostname = error.info.hostname;
+        // an example: "amqps://iothub.test-1234.servicebus.windows.net:5671/hub-name/$management"
+        const iotAddress = error.info.address;
+        const regex = /:\d+\/(.*)\/\$management/i;
+        const regexResults = regex.exec(iotAddress);
+        if (!hostname || !regexResults) {
           reject(error);
         } else {
+          const eventHubName = regexResults[1];
           resolve(
-            `Endpoint=sb://${hostname}/;EntityPath=${iotHubName};SharedAccessKeyName=${SharedAccessKeyName};SharedAccessKey=${SharedAccessKey}`,
+            `Endpoint=sb://${hostname}/;EntityPath=${eventHubName};SharedAccessKeyName=${SharedAccessKeyName};SharedAccessKey=${SharedAccessKey}`,
           );
         }
       } else {
@@ -139,7 +130,7 @@ async function convertIotHubToEventHubsConnectionString(connectionString: string
   });
 }
 
-export async function main(): Promise<void> {
+async function main() {
   console.log(`Running iothubConnectionString sample`);
 
   const kvClient = new SecretClient(keyvaultUri, new DefaultAzureCredential());
@@ -181,3 +172,5 @@ export async function main(): Promise<void> {
 main().catch((error) => {
   console.error("Error running sample:", error);
 });
+
+module.exports = { main };
