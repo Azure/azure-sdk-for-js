@@ -33,6 +33,20 @@ The current implementation includes:
 4. **Automated Build Error Resolution**:
    - Resolves TypeScript build errors in tests generated for uncovered lines by doing multiple iterations of building and fixing the build errors.
 
+## Example
+
+- Test file generated for `@azure/app-configuration` based on the uncovered lines from code coverage.
+    ![Tests generated - sneakpeek](image.png)
+    Link to file - https://github.com/Azure/azure-sdk-for-js/blob/70adbc5a89a8b249bd71bf04e7fc120f3d5cbe60/sdk/appconfiguration/app-configuration/test/public/generated-featureFlag.spec.ts
+- Before
+  ![Code coverage - before](image-1.png)
+  Example uncovered lines in red:
+  ![Example uncovered lines](image-2.png)
+- After
+  ![Code coverage - after](image-3.png)
+  Full coverage now:
+  ![alt text](image-4.png)
+
 ---
 
 ### Workflow/Architecture
