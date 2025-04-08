@@ -1,31 +1,30 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { randomBytes } from "crypto";
-import * as fs from "fs";
-import * as path from "path";
+import { randomBytes } from "node:crypto";
+import * as fs from "node:fs";
+import * as path from "node:path";
 import { config } from "dotenv";
-
-import { SimpleTokenCredential } from "./testutils.common";
+import { SimpleTokenCredential } from "./testutils.common.js";
 import { createTestCredential } from "@azure-tools/test-credential";
-import type { StoragePipelineOptions } from "../../src";
-import { StorageSharedKeyCredential } from "../../src";
-import { BlobServiceClient } from "../../src";
-import { getUniqueName, configureBlobStorageClient } from "./testutils.common";
-import { newPipeline } from "../../src";
+import type { StoragePipelineOptions } from "../../src/index.js";
+import { StorageSharedKeyCredential } from "../../src/index.js";
+import { BlobServiceClient } from "../../src/index.js";
+import { getUniqueName, configureBlobStorageClient } from "./testutils.common.js";
+import { newPipeline } from "../../src/index.js";
 import {
   generateAccountSASQueryParameters,
   AccountSASPermissions,
   SASProtocol,
   AccountSASResourceTypes,
   AccountSASServices,
-} from "../../src";
-import { extractConnectionStringParts } from "../../src/utils/utils.common";
+} from "../../src/index.js";
+import { extractConnectionStringParts } from "../../src/utils/utils.common.js";
 import type { AccessToken, TokenCredential } from "@azure/core-auth";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { env } from "@azure-tools/test-recorder";
 
-export * from "./testutils.common";
+export * from "./testutils.common.js";
 config();
 
 export function getGenericCredential(accountType: string): StorageSharedKeyCredential {
@@ -327,4 +326,31 @@ export function getSignatureFromSasUrl(sasUrl: string): string {
   const url = new URL(sasUrl);
   const signature = url.searchParams.get("sig");
   return signature!;
+}
+
+// Mock a Browser file with specified name and size
+export function getBrowserFile(name: string, size: number): File {
+  const uint8Arr = new Uint8Array(size);
+  for (let j = 0; j < size; j++) {
+    uint8Arr[j] = Math.floor(Math.random() * 256);
+  }
+
+  return new File([uint8Arr], name);
+}
+
+export function arrayBufferEqual(buf1: ArrayBuffer, buf2: ArrayBuffer): boolean {
+  if (buf1.byteLength !== buf2.byteLength) {
+    return false;
+  }
+
+  const uint8Arr1 = new Uint8Array(buf1);
+  const uint8Arr2 = new Uint8Array(buf2);
+
+  for (let i = 0; i < uint8Arr1.length; i++) {
+    if (uint8Arr1[i] !== uint8Arr2[i]) {
+      return false;
+    }
+  }
+
+  return true;
 }
