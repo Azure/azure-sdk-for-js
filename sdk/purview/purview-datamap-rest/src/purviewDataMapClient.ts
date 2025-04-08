@@ -8,7 +8,7 @@ import type { TokenCredential } from "@azure/core-auth";
 import type { PurviewDataMapClient } from "./clientDefinitions.js";
 
 /** The optional parameters for the client */
-export interface PurviewDataMapClientOptions extends ClientOptions { }
+export interface PurviewDataMapClientOptions extends ClientOptions {}
 
 /**
  * Initialize a new instance of `PurviewDataMapClient`
