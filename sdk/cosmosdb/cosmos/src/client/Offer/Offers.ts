@@ -27,11 +27,6 @@ export class Offers {
   /**
    * Query all offers.
    * @param query - Query configuration for the operation. See {@link SqlQuerySpec} for more info on how to configure a query.
-   */
-  public query(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<any>;
-  /**
-   * Query all offers.
-   * @param query - Query configuration for the operation. See {@link SqlQuerySpec} for more info on how to configure a query.
    * @example Read offer for a specific id.
    * ```ts snippet:OffersQuery
    * import { CosmosClient, SqlQuerySpec } from "@azure/cosmos";
@@ -46,6 +41,11 @@ export class Offers {
    * };
    * const { resources: offer } = await client.offers.query(querySpec).fetchAll();
    * ```
+   */
+  public query(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<any>;
+  /**
+   * Query all offers.
+   * @param query - Query configuration for the operation. See {@link SqlQuerySpec} for more info on how to configure a query.
    */
   public query<T>(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<T>;
   public query<T>(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<T> {

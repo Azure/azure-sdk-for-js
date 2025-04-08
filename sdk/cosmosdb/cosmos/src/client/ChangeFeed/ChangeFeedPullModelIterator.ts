@@ -12,6 +12,43 @@ export interface ChangeFeedPullModelIterator<T> {
   readonly hasMoreResults: boolean;
   /**
    * Returns next set of results for the change feed.
+   * @example
+   * ```ts snippet:ReadmeSampleChangeFeedPullModelIteratorPartitionKey
+   * import {
+   *   CosmosClient,
+   *   PartitionKeyDefinitionVersion,
+   *   PartitionKeyKind,
+   *   ChangeFeedStartFrom,
+   * } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   *
+   * const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+   *
+   * const containerDefinition = {
+   *   id: "Test Database",
+   *   partitionKey: {
+   *     paths: ["/name", "/address/zip"],
+   *     version: PartitionKeyDefinitionVersion.V2,
+   *     kind: PartitionKeyKind.MultiHash,
+   *   },
+   * };
+   * const { container } = await database.containers.createIfNotExists(containerDefinition);
+   *
+   * const partitionKey = "some-partition-Key-value";
+   * const options = {
+   *   changeFeedStartFrom: ChangeFeedStartFrom.Beginning(partitionKey),
+   * };
+   *
+   * const iterator = container.items.getChangeFeedIterator(options);
+   *
+   * while (iterator.hasMoreResults) {
+   *   const response = await iterator.readNext();
+   *   // process this response
+   * }
+   * ```
    */
   readNext(): Promise<ChangeFeedIteratorResponse<Array<T & Resource>>>;
   /**
