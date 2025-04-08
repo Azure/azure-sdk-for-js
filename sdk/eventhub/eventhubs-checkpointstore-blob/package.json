@@ -72,7 +72,7 @@
   "dependencies": {
     "@azure/abort-controller": "^2.1.2",
     "@azure/core-paging": "^1.6.2",
-    "@azure/event-hubs": "6.0.0",
+    "@azure/event-hubs": "^6.0.0",
     "@azure/logger": "^1.1.4",
     "@azure/storage-blob": "^12.26.0",
     "tslib": "^2.6.3"
