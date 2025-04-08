@@ -1,25 +1,31 @@
 ---
 page_type: sample
 languages:
-  - javascript
+  - typescript
 products:
   - azure
   - azure-event-hubs
-urlFragment: eventhubs-checkpointstore-blob-javascript-beta
+urlFragment: eventhubs-checkpointstore-blob-typescript
 ---
 
-# Azure Event Hubs - Checkpoint Store client library samples for JavaScript (Beta)
+# Azure Event Hubs - Checkpoint Store client library samples for TypeScript
 
-These sample programs show how to use the JavaScript client libraries for Azure Event Hubs - Checkpoint Store in some common scenarios.
+These sample programs show how to use the TypeScript client libraries for Azure Event Hubs - Checkpoint Store in some common scenarios.
 
 | **File Name**                                                                 | **Description**                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
 | ----------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| [receiveEventsUsingCheckpointStore.js][receiveeventsusingcheckpointstore]     | Demonstrates how to use the EventHubConsumerClient to process events from all partitions of a consumer group in an Event Hubs instance, as well as checkpointing along the way. Checkpointing using a durable store allows your application to be more resilient. When you restart your application after a crash (or an intentional stop), your application can continue consuming events from where it last checkpointed.                                                                                                                |
-| [receiveEventsWithApiSpecificStorage.js][receiveeventswithapispecificstorage] | Demonstrates how to use the EventHubConsumerClient to process events from all partitions of a consumer group in an Event Hubs instance, as well as checkpointing along the way. This sample uses the `createCustomPipeline` function to override the targetted version of the Storage service. Checkpointing using a durable store allows your application to be more resilient. When you restart your application after a crash (or an intentional stop), your application can continue consuming events from where it last checkpointed. |
+| [receiveEventsUsingCheckpointStore.ts][receiveeventsusingcheckpointstore]     | Demonstrates how to use the EventHubConsumerClient to process events from all partitions of a consumer group in an Event Hubs instance, as well as checkpointing along the way. Checkpointing using a durable store allows your application to be more resilient. When you restart your application after a crash (or an intentional stop), your application can continue consuming events from where it last checkpointed.                                                                                                                |
+| [receiveEventsWithApiSpecificStorage.ts][receiveeventswithapispecificstorage] | Demonstrates how to use the EventHubConsumerClient to process events from all partitions of a consumer group in an Event Hubs instance, as well as checkpointing along the way. This sample uses the `createCustomPipeline` function to override the targetted version of the Storage service. Checkpointing using a durable store allows your application to be more resilient. When you restart your application after a crash (or an intentional stop), your application can continue consuming events from where it last checkpointed. |
 
 ## Prerequisites
 
 The sample programs are compatible with [LTS versions of Node.js](https://github.com/nodejs/release#release-schedule).
+
+Before running the samples in Node, they must be compiled to JavaScript using the TypeScript compiler. For more information on TypeScript, see the [TypeScript documentation][typescript]. Install the TypeScript compiler using:
+
+```bash
+npm install -g typescript
+```
 
 You need [an Azure subscription][freesub] and the following Azure resources to run these sample programs:
 
@@ -40,28 +46,35 @@ To run the samples using the published version of the package:
 npm install
 ```
 
-2. Edit the file `sample.env`, adding the correct credentials to access the Azure service and run the samples. Then rename the file from `sample.env` to just `.env`. The sample programs will read this file automatically.
-
-3. Run whichever samples you like (note that some samples may require additional setup, see the table above):
+2. Compile the samples:
 
 ```bash
-node receiveEventsUsingCheckpointStore.js
+npm run build
+```
+
+3. Edit the file `sample.env`, adding the correct credentials to access the Azure service and run the samples. Then rename the file from `sample.env` to just `.env`. The sample programs will read this file automatically.
+
+4. Run whichever samples you like (note that some samples may require additional setup, see the table above):
+
+```bash
+node dist/receiveEventsUsingCheckpointStore.js
 ```
 
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx dev-tool run vendored cross-env EVENTHUB_FQDN="<eventhub fqdn>" EVENTHUB_NAME="<eventhub name>" EVENTHUB_CONSUMER_GROUP="<eventhub consumer group>" STORAGE_ENDPOINT="<storage endpoint>" node receiveEventsUsingCheckpointStore.js
+npx dev-tool run vendored cross-env EVENTHUB_FQDN="<eventhub fqdn>" EVENTHUB_NAME="<eventhub name>" EVENTHUB_CONSUMER_GROUP_NAME="<eventhub consumer group name>" STORAGE_ENDPOINT="<storage endpoint>" node dist/receiveEventsUsingCheckpointStore.js
 ```
 
 ## Next Steps
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[receiveeventsusingcheckpointstore]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventhub/eventhubs-checkpointstore-blob/samples/v1-beta/javascript/receiveEventsUsingCheckpointStore.js
-[receiveeventswithapispecificstorage]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventhub/eventhubs-checkpointstore-blob/samples/v1-beta/javascript/receiveEventsWithApiSpecificStorage.js
+[receiveeventsusingcheckpointstore]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventhub/eventhubs-checkpointstore-blob/samples/v2/typescript/src/receiveEventsUsingCheckpointStore.ts
+[receiveeventswithapispecificstorage]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventhub/eventhubs-checkpointstore-blob/samples/v2/typescript/src/receiveEventsWithApiSpecificStorage.ts
 [apiref]: https://learn.microsoft.com/javascript/api/@azure/eventhubs-checkpointstore-blob
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azureeventhub]: https://learn.microsoft.com/azure/event-hubs/event-hubs-create
 [createinstance_azurestorageaccount]: https://learn.microsoft.com/azure/storage/common/storage-account-overview
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/eventhub/eventhubs-checkpointstore-blob/README.md
+[typescript]: https://www.typescriptlang.org/docs/home.html
