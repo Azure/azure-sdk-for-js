@@ -10,14 +10,14 @@
  * @summary applies multiple Text Analytics actions per document
  */
 
-const { AzureKeyCredential, TextAnalysisClient } = require("@azure/ai-language-text");
+const { TextAnalysisClient } = require("@azure/ai-language-text");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 // Load the .env file if it exists
-require("dotenv").config();
+require("dotenv/config");
 
 // You will need to set these environment variables or edit the following values
-const endpoint = process.env["ENDPOINT"] || "<cognitive language service endpoint>";
-const apiKey = process.env["LANGUAGE_API_KEY"] || "<api key>";
+const endpoint = process.env["LANGUAGE_ENDPOINT"] || "<cognitive language service endpoint>";
 
 const documents = [
   "Microsoft was founded by Bill Gates and Paul Allen.",
@@ -30,7 +30,7 @@ const documents = [
 async function main() {
   console.log("== Batch Sample ==");
 
-  const client = new TextAnalysisClient(endpoint, new AzureKeyCredential(apiKey));
+  const client = new TextAnalysisClient(endpoint, new DefaultAzureCredential());
   const actions = [
     {
       kind: "EntityRecognition",
@@ -49,7 +49,7 @@ async function main() {
 
   poller.onProgress(() => {
     console.log(
-      `Number of actions still in progress: ${poller.getOperationState().actionInProgressCount}`
+      `Number of actions still in progress: ${poller.getOperationState().actionInProgressCount}`,
     );
   });
 
