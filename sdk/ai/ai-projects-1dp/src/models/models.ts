@@ -1,5 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+/* eslint-disable @typescript-eslint/naming-convention */
+/* eslint-disable tsdoc/syntax */
 
 /** Response from the listSecrets operation */
 export interface Connection {

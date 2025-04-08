@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+/* eslint-disable tsdoc/syntax */
 
 import { ListViewType } from "../../models/models.js";
 import { OperationOptions } from "@azure-rest/core-client";

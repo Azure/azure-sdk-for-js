@@ -1,9 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-//---------------------
 // interfaces
-//---------------------
 interface ValueOptions {
   isFirst: boolean; // is first value in the expression
   op?: string; // operator
@@ -73,6 +71,7 @@ function getExpandedValue(option: ValueOptions) {
       vals.push(`${getFirstOrSep(op, isFirst)}`);
       if (named && varName) {
         vals.push(`${encodeURIComponent(varName)}`);
+        // eslint-disable-next-line no-unused-expressions
         val === "" ? vals.push(ifEmpty) : vals.push("=");
       }
       vals.push(encodeComponent(val, reserved, op));
@@ -88,6 +87,7 @@ function getExpandedValue(option: ValueOptions) {
       vals.push(`${getFirstOrSep(op, isFirst)}`);
       if (key) {
         vals.push(`${encodeURIComponent(key)}`);
+        // eslint-disable-next-line no-unused-expressions
         named && val === "" ? vals.push(ifEmpty) : vals.push("=");
       }
       vals.push(encodeComponent(val, reserved, op));
@@ -143,6 +143,7 @@ function getVarValue(option: ValueOptions): string | undefined {
     if (named && varName) {
       // No need to encode varName considering it is already encoded
       vals.push(varName);
+      // eslint-disable-next-line no-unused-expressions
       val === "" ? vals.push(ifEmpty) : vals.push("=");
     }
     if (modifier && modifier !== "*") {
@@ -165,17 +166,20 @@ export function expandUrlTemplate(
   context: Record<string, any>,
   option?: UrlTemplateOptions,
 ): string {
+  // eslint-disable-next-line no-useless-escape
   return template.replace(/\{([^\{\}]+)\}|([^\{\}]+)/g, (_, expr, text) => {
     if (!expr) {
       return encodeReservedComponent(text);
     }
     let op;
     if (["+", "#", ".", "/", ";", "?", "&"].includes(expr[0])) {
+      // eslint-disable-next-line no-unused-expressions
       (op = expr[0]), (expr = expr.slice(1));
     }
     const varList = expr.split(/,/g);
     const result = [];
     for (const varSpec of varList) {
+      // eslint-disable-next-line no-useless-escape
       const varMatch = /([^:\*]*)(?::(\d+)|(\*))?/.exec(varSpec);
       if (!varMatch || !varMatch[1]) {
         continue;
