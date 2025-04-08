@@ -675,6 +675,9 @@ export class LiveMetrics {
   }
 
   private parseDocumentFilterConfiguration(response: PublishResponse | IsSubscribedResponse): void {
+    if (!response?.documentStreams || typeof response.documentStreams.forEach !== "function") {
+      return;
+    }
     response.documentStreams.forEach((documentStreamInfo) => {
       documentStreamInfo.documentFilterGroups.forEach((documentFilterGroupInfo) => {
         try {
@@ -761,6 +764,10 @@ export class LiveMetrics {
   }
 
   private parseMetricFilterConfiguration(response: PublishResponse | IsSubscribedResponse): void {
+    // eslint-disable-next-line eqeqeq
+    if (!response?.documentStreams || typeof response.documentStreams.forEach !== "function") {
+      return;
+    }
     response.metrics.forEach((derivedMetricInfo) => {
       try {
         if (!this.seenMetricIds.has(derivedMetricInfo.id)) {
