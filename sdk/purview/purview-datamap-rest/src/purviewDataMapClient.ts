@@ -8,7 +8,7 @@ import type { TokenCredential } from "@azure/core-auth";
 import type { PurviewDataMapClient } from "./clientDefinitions.js";
 
 /** The optional parameters for the client */
-export interface PurviewDataMapClientOptions extends ClientOptions {}
+export interface PurviewDataMapClientOptions extends ClientOptions { }
 
 /**
  * Initialize a new instance of `PurviewDataMapClient`
@@ -22,7 +22,7 @@ export default function createClient(
   options: PurviewDataMapClientOptions = {},
 ): PurviewDataMapClient {
   const endpointUrl = options.endpoint ?? options.baseUrl ?? `${endpointParam}/datamap/api`;
-  const userAgentInfo = `azsdk-js-purview-datamap-rest/1.0.0-beta.1`;
+  const userAgentInfo = `azsdk-js-purview-datamap-rest/1.0.0-beta.3`;
   const userAgentPrefix =
     options.userAgentOptions && options.userAgentOptions.userAgentPrefix
       ? `${options.userAgentOptions.userAgentPrefix} ${userAgentInfo}`
