@@ -1,0 +1,33 @@
+{
+  "name": "@azure-samples/ai-projects-1dp-js-beta",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Azure AI Projects client library samples for JavaScript (Beta)",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js.git",
+    "directory": "sdk/ai/ai-projects-1dp"
+  },
+  "keywords": [
+    "node",
+    "azure",
+    "cloud",
+    "typescript",
+    "browser",
+    "isomorphic"
+  ],
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/ai/ai-projects-1dp",
+  "dependencies": {
+    "@azure/ai-projects-1dp": "next",
+    "dotenv": "latest",
+    "@azure/core-auth": "^1.6.0"
+  }
+}
