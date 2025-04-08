@@ -223,3 +223,18 @@ export interface EndpointPropertiesOutput {
 export interface InterpreterReusePolicyOutput {
   key: string;
 }
+
+/** Paginated user defined functions returned in response to a query. */
+export interface PagedUserDefinedFunctionsOutput {
+  functions: Array<UserDefinedFunctionOutput>;
+  /** Path from which to retrieve the next page of results. */
+  nextLink?: string;
+}
+
+/** A user defined function in the ledger. */
+export interface UserDefinedFunctionOutput {
+  /** Code of the user defined function in JavaScript. */
+  code: string;
+  /** ID of the user defined function. */
+  readonly id?: string;
+}
