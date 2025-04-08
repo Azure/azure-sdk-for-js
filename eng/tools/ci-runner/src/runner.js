@@ -3,7 +3,7 @@
 
 // @ts-check
 
-import { spawnPnpm, spawnPnpmRun } from "./spawn.js";
+import { spawnPnpm, spawnPnpmRun, spawnPnpmWithOutput } from "./spawn.js";
 import { getBaseDir } from "./env.js";
 import { join as pathJoin } from "node:path";
 import { runTestProxyRestore } from "./testProxyRestore.js";
@@ -32,6 +32,10 @@ export function runAllWithDirection(action, filters, extraParams, ciFlag) {
     filteredPackages: filters,
   });
 
+  const packages = filters.flatMap((pkg) => {
+    return ["--filter", pkg];
+  });
+
   // Restore assets for packages that are being 'unit-test'-ed in the CI pipeline
   if (
     // 1. eng/tools/ci-runner/index.js is running in CI: "--ci" flag is set
@@ -45,7 +49,16 @@ export function runAllWithDirection(action, filters, extraParams, ciFlag) {
     console.log(`TODO: can we still find a way to list packages?`);
 
     // Get the list of packages to run the action on
-    let listCommandOutput = "";
+    let listCommandOutput = spawnPnpmWithOutput(
+      getBaseDir(),
+      "list",
+      "--json",
+      "--depth",
+      "-1",
+      "--only-projects",
+      ...packages,
+    );
+
     try {
       //TODO: find out list of packages to run unit tests
     } catch (error) {
@@ -54,18 +67,11 @@ export function runAllWithDirection(action, filters, extraParams, ciFlag) {
 
     if (listCommandOutput) {
       // Parse the output to get package names
-      const packages = parsePackageNames(listCommandOutput);
-
+      const parsed = JSON.parse(listCommandOutput);
       // Run test-proxy restore for the parsed packages
-      runTestProxyRestore(packages);
+      runTestProxyRestore(parsed);
     }
   }
-
-  const packages = filters.flatMap((pkg) => {
-        return ["--filter", pkg];
-  });
-
-  console.dir(packages);
   return spawnPnpm(getBaseDir(), "run", ...packages, action, ...extraParams);
 }
 
@@ -86,25 +92,4 @@ export function runInPackageDirs(action, packageDirs, onError) {
     exitCode = exitCode || dirExitCode;
   }
   return exitCode;
-}
-
-/**
- * Parses the output of the `rush list ...` command to extract package names.
- *
- * @param {string} rushListOutput - The output string from the rush list command.
- * @returns {string[]} - An array of package names that start with '@azure'.
- */
-function parsePackageNames(rushListOutput) {
-  const packageNames = [];
-  const lines = rushListOutput.split("\n"); // Split the output into lines
-
-  for (const line of lines) {
-    const trimmedLine = line.trim(); // Trim whitespace
-    if (trimmedLine.startsWith("@azure")) {
-      // Assuming package names start with '@azure'
-      packageNames.push(trimmedLine);
-    }
-  }
-
-  return packageNames;
 }

@@ -45,3 +45,18 @@ export function spawnPnpmRun(cwd, ...args) {
   const command = isWindows() ? "pnpm.CMD" : "pnpm";
   return spawnWithLog(command, cwd, "run", ...args);
 }
+
+export function spawnPnpmWithOutput(cwd, ...args) {
+  const command = isWindows() ? "pnpm.CMD" : "pnpm";
+  console.log(`Executing: "${command} ${args.join(" ")}" in ${cwd}\n\n`);
+  const proc = spawnSync(command, args, { cwd, stdio: "pipe", shell: isWindows() });
+
+  if (proc.error) {
+    throw new Error(`Error executing command: ${proc.error.message}`);
+  }
+
+  const output = proc.stdout.toString();
+  console.log(`\n\n${command} exited with code ${proc.status}`);
+
+  return output;
+}
