@@ -5,7 +5,8 @@
  * @summary Demonstrates how to send events to a specific partition in an Event Hub.
  */
 
-import { CreateBatchOptions, EventHubProducerClient, RetryMode } from "@azure/event-hubs";
+import type { CreateBatchOptions } from "@azure/event-hubs";
+import { EventHubProducerClient, RetryMode } from "@azure/event-hubs";
 import { DefaultAzureCredential } from "@azure/identity";
 
 // Load the .env file if it exists

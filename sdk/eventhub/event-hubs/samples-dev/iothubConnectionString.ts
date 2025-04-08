@@ -171,7 +171,7 @@ export async function main(): Promise<void> {
   );
 
   // Wait for a bit before cleaning up the sample
-  await setTimeout(async () => {
+  setTimeout(async () => {
     await subscription.close();
     await consumerClient.close();
     console.log(`Exiting iothubConnectionString sample`);

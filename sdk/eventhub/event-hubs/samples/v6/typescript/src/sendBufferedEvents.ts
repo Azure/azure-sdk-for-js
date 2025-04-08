@@ -8,7 +8,8 @@
  * after a given amount of time or after a given amount of events are in a batch instead of you managing the same explicitly.
  */
 
-import { EventHubBufferedProducerClient, OnSendEventsErrorContext } from "@azure/event-hubs";
+import type { OnSendEventsErrorContext } from "@azure/event-hubs";
+import { EventHubBufferedProducerClient } from "@azure/event-hubs";
 import { DefaultAzureCredential } from "@azure/identity";
 
 // Load the .env file if it exists

@@ -5,10 +5,10 @@ languages:
 products:
   - azure
   - azure-event-hubs
-urlFragment: event-hubs-javascript-beta
+urlFragment: event-hubs-javascript
 ---
 
-# Azure Event Hubs client library samples for JavaScript (Beta)
+# Azure Event Hubs client library samples for JavaScript
 
 These sample programs show how to use the JavaScript client libraries for Azure Event Hubs in some common scenarios.
 
@@ -63,14 +63,14 @@ npx dev-tool run vendored cross-env EVENTHUB_FQDN="<eventhub fqdn>" EVENTHUB_NAM
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[sendbufferedevents]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventhub/event-hubs/samples/v5-beta/javascript/sendBufferedEvents.js
-[sendevents]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventhub/event-hubs/samples/v5-beta/javascript/sendEvents.js
-[sendeventstospecificpartition]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventhub/event-hubs/samples/v5-beta/javascript/sendEventsToSpecificPartition.js
-[receiveevents]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventhub/event-hubs/samples/v5-beta/javascript/receiveEvents.js
-[iothubconnectionstring]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventhub/event-hubs/samples/v5-beta/javascript/iothubConnectionString.js
-[iothubconnectionstringwebsockets]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventhub/event-hubs/samples/v5-beta/javascript/iothubConnectionStringWebsockets.js
-[usewithiothub]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventhub/event-hubs/samples/v5-beta/javascript/useWithIotHub.js
-[websockets]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventhub/event-hubs/samples/v5-beta/javascript/websockets.js
+[sendbufferedevents]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventhub/event-hubs/samples/v6/javascript/sendBufferedEvents.js
+[sendevents]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventhub/event-hubs/samples/v6/javascript/sendEvents.js
+[sendeventstospecificpartition]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventhub/event-hubs/samples/v6/javascript/sendEventsToSpecificPartition.js
+[receiveevents]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventhub/event-hubs/samples/v6/javascript/receiveEvents.js
+[iothubconnectionstring]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventhub/event-hubs/samples/v6/javascript/iothubConnectionString.js
+[iothubconnectionstringwebsockets]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventhub/event-hubs/samples/v6/javascript/iothubConnectionStringWebsockets.js
+[usewithiothub]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventhub/event-hubs/samples/v6/javascript/useWithIotHub.js
+[websockets]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventhub/event-hubs/samples/v6/javascript/websockets.js
 [apiref]: https://learn.microsoft.com/javascript/api/@azure/event-hubs
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azureeventhub]: https://learn.microsoft.com/azure/event-hubs/event-hubs-create

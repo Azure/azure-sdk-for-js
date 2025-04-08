@@ -12,7 +12,6 @@
 
 const WebSocket = require("ws");
 const { HttpsProxyAgent } = require("https-proxy-agent");
-
 const { EventHubConsumerClient } = require("@azure/event-hubs");
 const { DefaultAzureCredential } = require("@azure/identity");
 

@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Demonstrates how to convert an IoT Hub connection string to an Event Hubs connection string that points to the built-in messaging endpoint.
+ * @summary Demonstrates how to convert an IoT Hub connection string to an Event Hubs connection string that points to the built-in messaging endpoint using WebSockets.
  */
 
 /*
@@ -12,24 +12,18 @@
  * https://learn.microsoft.com/en-us/azure/iot-hub/iot-hub-devguide-messages-read-builtin
  */
 
-import * as crypto from "crypto";
-import { Buffer } from "buffer";
-import { AmqpError, Connection, ReceiverEvents, parseConnectionString } from "rhea-promise";
+import * as crypto from "node:crypto";
+import { Buffer } from "node:buffer";
+import type { AmqpError } from "rhea-promise";
+import { Connection, ReceiverEvents, parseConnectionString } from "rhea-promise";
 import * as rheaPromise from "rhea-promise";
 import { EventHubConsumerClient, earliestEventPosition } from "@azure/event-hubs";
-import { ErrorNameConditionMapper as AMQPError } from "@azure/core-amqp";
 import { SecretClient } from "@azure/keyvault-secrets";
 import { DefaultAzureCredential } from "@azure/identity";
+import WebSocket from "ws";
 
 // Load the .env file if it exists
 import "dotenv/config";
-
-const consumerGroup = process.env["EVENTHUB_CONSUMER_GROUP_NAME"] || "<your consumer group name>";
-// IoT Hub connection string is stored in Key Vault.
-const keyvaultUri = process.env["KEYVAULT_URI"] || "<your keyvault uri>";
-// IoT Hub connection string name in Key Vault.
-const iotHubConnectionStringName =
-  process.env["IOTHUB_CONNECTION_STRING_SECRET_NAME"] || "<your iot hub connection string name>";
 
 /**
  * Type guard for AmqpError.
@@ -38,6 +32,13 @@ const iotHubConnectionStringName =
 function isAmqpError(err: any): err is AmqpError {
   return rheaPromise.isAmqpError(err);
 }
+
+const consumerGroup = process.env["EVENTHUB_CONSUMER_GROUP_NAME"] || "<your consumer group name>";
+// IoT Hub connection string is stored in Key Vault.
+const keyvaultUri = process.env["KEYVAULT_URI"] || "<your keyvault uri>";
+// IoT Hub connection string name in Key Vault.
+const iotHubConnectionStringName =
+  process.env["IOTHUB_CONNECTION_STRING_SECRET_NAME"] || "<your iot hub connection string name>";
 
 // This code is modified from https://learn.microsoft.com/en-us/azure/iot-hub/iot-hub-devguide-security#security-tokens.
 function generateSasToken(
@@ -79,7 +80,7 @@ async function convertIotHubToEventHubsConnectionString(connectionString: string
     throw new Error(`Invalid IotHub connection string.`);
   }
 
-  //Extract the IotHub name from the hostname.
+  // Extract the IotHub name from the hostname.
   const [iotHubName] = HostName.split(".");
 
   if (!iotHubName) {
@@ -100,9 +101,14 @@ async function convertIotHubToEventHubsConnectionString(connectionString: string
     host: HostName,
     hostname: HostName,
     username: `${SharedAccessKeyName}@sas.root.${iotHubName}`,
-    port: 5671,
+    port: 443,
     reconnect: false,
     password: token,
+    webSocketOptions: {
+      webSocket: WebSocket,
+      protocol: ["AMQPWSB10"],
+      url: `wss://${HostName}:${443}/$servicebus/websocket`,
+    },
   });
   await connection.open();
 
@@ -114,18 +120,13 @@ async function convertIotHubToEventHubsConnectionString(connectionString: string
   return new Promise((resolve, reject) => {
     receiver.on(ReceiverEvents.receiverError, (context) => {
       const error = context.receiver && context.receiver.error;
-      if (isAmqpError(error) && error.condition === AMQPError.LinkRedirectError && error.info) {
-        const hostname = error.info.hostname;
-        // an example: "amqps://iothub.test-1234.servicebus.windows.net:5671/hub-name/$management"
-        const iotAddress = error.info.address;
-        const regex = /:\d+\/(.*)\/\$management/i;
-        const regexResults = regex.exec(iotAddress);
-        if (!hostname || !regexResults) {
+      if (isAmqpError(error) && error.condition === "amqp:link:redirect") {
+        const hostname = error.info && error.info.hostname;
+        if (!hostname) {
           reject(error);
         } else {
-          const eventHubName = regexResults[1];
           resolve(
-            `Endpoint=sb://${hostname}/;EntityPath=${eventHubName};SharedAccessKeyName=${SharedAccessKeyName};SharedAccessKey=${SharedAccessKey}`,
+            `Endpoint=sb://${hostname}/;EntityPath=${iotHubName};SharedAccessKeyName=${SharedAccessKeyName};SharedAccessKey=${SharedAccessKey}`,
           );
         }
       } else {
@@ -138,7 +139,7 @@ async function convertIotHubToEventHubsConnectionString(connectionString: string
   });
 }
 
-export async function main() {
+export async function main(): Promise<void> {
   console.log(`Running iothubConnectionString sample`);
 
   const kvClient = new SecretClient(keyvaultUri, new DefaultAzureCredential());

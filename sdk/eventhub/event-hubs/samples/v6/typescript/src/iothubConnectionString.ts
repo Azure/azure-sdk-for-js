@@ -12,17 +12,18 @@
  * https://learn.microsoft.com/en-us/azure/iot-hub/iot-hub-devguide-messages-read-builtin
  */
 
-const crypto = require("crypto");
-const { Buffer } = require("buffer");
-const { Connection, ReceiverEvents, parseConnectionString } = require("rhea-promise");
-const rheaPromise = require("rhea-promise");
-const { EventHubConsumerClient, earliestEventPosition } = require("@azure/event-hubs");
-const { ErrorNameConditionMapper: AMQPError } = require("@azure/core-amqp");
-const { SecretClient } = require("@azure/keyvault-secrets");
-const { DefaultAzureCredential } = require("@azure/identity");
+import * as crypto from "node:crypto";
+import { Buffer } from "node:buffer";
+import type { AmqpError } from "rhea-promise";
+import { Connection, ReceiverEvents, parseConnectionString } from "rhea-promise";
+import * as rheaPromise from "rhea-promise";
+import { EventHubConsumerClient, earliestEventPosition } from "@azure/event-hubs";
+import { ErrorNameConditionMapper as AMQPError } from "@azure/core-amqp";
+import { SecretClient } from "@azure/keyvault-secrets";
+import { DefaultAzureCredential } from "@azure/identity";
 
 // Load the .env file if it exists
-require("dotenv/config");
+import "dotenv/config";
 
 const consumerGroup = process.env["EVENTHUB_CONSUMER_GROUP_NAME"] || "<your consumer group name>";
 // IoT Hub connection string is stored in Key Vault.
@@ -35,12 +36,17 @@ const iotHubConnectionStringName =
  * Type guard for AmqpError.
  * @param err - An unknown error.
  */
-function isAmqpError(err) {
+function isAmqpError(err: any): err is AmqpError {
   return rheaPromise.isAmqpError(err);
 }
 
 // This code is modified from https://learn.microsoft.com/en-us/azure/iot-hub/iot-hub-devguide-security#security-tokens.
-function generateSasToken(resourceUri, signingKey, policyName, expiresInMins) {
+function generateSasToken(
+  resourceUri: string,
+  signingKey: string,
+  policyName: string,
+  expiresInMins: number,
+): string {
   resourceUri = encodeURIComponent(resourceUri);
 
   const expiresInSeconds = Math.ceil(Date.now() / 1000 + expiresInMins * 60);
@@ -62,16 +68,19 @@ function generateSasToken(resourceUri, signingKey, policyName, expiresInMins) {
  * @returns An Event Hubs-compatible connection string in the format:
  * `"Endpoint=sb://<hostname>;EntityPath=<your-iot-hub>;SharedAccessKeyName=<KeyName>;SharedAccessKey=<Key>"`
  */
-async function convertIotHubToEventHubsConnectionString(connectionString) {
-  const { HostName, SharedAccessKeyName, SharedAccessKey } =
-    parseConnectionString(connectionString);
+async function convertIotHubToEventHubsConnectionString(connectionString: string): Promise<string> {
+  const { HostName, SharedAccessKeyName, SharedAccessKey } = parseConnectionString<{
+    HostName: string;
+    SharedAccessKeyName: string;
+    SharedAccessKey: string;
+  }>(connectionString);
 
   // Verify that the required info is in the connection string.
   if (!HostName || !SharedAccessKey || !SharedAccessKeyName) {
     throw new Error(`Invalid IotHub connection string.`);
   }
 
-  //Extract the IotHub name from the hostname.
+  // Extract the IotHub name from the hostname.
   const [iotHubName] = HostName.split(".");
 
   if (!iotHubName) {
@@ -84,7 +93,7 @@ async function convertIotHubToEventHubsConnectionString(connectionString) {
     `${HostName}/messages/events`,
     SharedAccessKey,
     SharedAccessKeyName,
-    5,
+    5, // token expires in 5 minutes
   );
 
   const connection = new Connection({
@@ -130,7 +139,7 @@ async function convertIotHubToEventHubsConnectionString(connectionString) {
   });
 }
 
-async function main() {
+export async function main(): Promise<void> {
   console.log(`Running iothubConnectionString sample`);
 
   const kvClient = new SecretClient(keyvaultUri, new DefaultAzureCredential());
@@ -172,5 +181,3 @@ async function main() {
 main().catch((error) => {
   console.error("Error running sample:", error);
 });
-
-module.exports = { main };
