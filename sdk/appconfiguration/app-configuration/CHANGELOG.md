@@ -4,7 +4,7 @@
 
 ### Other Changes
 
-- Update README with a link to [*`@azure/app-configuration-provider`*](https://www.npmjs.com/package/@azure/app-configuration-provider) 
+- Update README with a link to [*`@azure/app-configuration-provider`*](https://www.npmjs.com/package/@azure/app-configuration-provider). [#33152](https://github.com/Azure/azure-sdk-for-js/pull/33152)
 
 ## 1.9.0-beta.1 (2025-03-11)
 
