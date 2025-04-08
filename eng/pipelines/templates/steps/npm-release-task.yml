@@ -125,6 +125,7 @@ jobs:
       os: linux
     steps:
     - checkout: self
+    - download: current
     - task: Powershell@2
       displayName: Verify package tags
       inputs:
