@@ -35,16 +35,42 @@ The current implementation includes:
 ## Example
 
 - Test file generated for `@azure/app-configuration` based on the uncovered lines from code coverage.
-    ![Tests generated - sneakpeek](image.png)
+    ![image](https://gist.github.com/user-attachments/assets/c810b86a-3242-4637-a685-abe7763cd64c)
     Link to file - https://github.com/Azure/azure-sdk-for-js/blob/70adbc5a89a8b249bd71bf04e7fc120f3d5cbe60/sdk/appconfiguration/app-configuration/test/public/generated-featureFlag.spec.ts
 - Before
-  ![Code coverage - before](image-1.png)
+  ![image-1](https://gist.github.com/user-attachments/assets/cee90263-5eac-41ab-8e3b-9cc855adf211)
   Example uncovered lines in red:
-  ![Example uncovered lines](image-2.png)
+  ![image-2](https://gist.github.com/user-attachments/assets/e5dd532c-412c-40eb-bc2f-0a6731e5038a)
 - After
-  ![Code coverage - after](image-3.png)
+  ![image-3](https://gist.github.com/user-attachments/assets/c84a8755-867d-43d7-a94f-40dbae5778f3)
   Full coverage now:
-  ![alt text](image-4.png)
+  ![image-4](https://gist.github.com/user-attachments/assets/49509c81-d271-41ad-b7f1-7c56a9705ad4)
+
+---
+
+## Benefits and Impact
+
+1. **Maintainability**:
+   - Enables confident refactoring with comprehensive test coverage.   
+   - **Risk Mitigation**: Prevents regressions by ensuring changes don’t break functionality.
+   - Acts as living documentation, clarifying code behavior for future development.
+
+2. **Productivity**:
+   - Automates repetitive tasks and reduces rework.
+   - Frees developers to focus on new features.
+
+3. **Code Quality**:
+   - Detects bugs early and ensures reliable, maintainable code.
+   - Simplifies debugging and reduces manual testing effort.
+
+---
+
+## Future Enhancements
+
+- **Multi-file & Multi-package Support**: Extend the tool to handle multiple files and packages simultaneously, improving scalability.
+- **Expanding to Other Languages**: Adapt the tool to support additional languages beyond TypeScript, broadening its applicability.
+- **CI/CD Integration**: Integrate seamlessly into our CI workflows.
+- **Customizable AI Prompts and Models**: Allow customization of AI prompts and model parameters to better suit specific project needs and coding standards.
 
 ---
 
@@ -80,31 +106,4 @@ graph TD
         K
     end
 ```
-
----
-
-## Benefits and Impact
-
-1. **Maintainability**:
-   - Enables confident refactoring with comprehensive test coverage.   
-   - **Risk Mitigation**: Prevents regressions by ensuring changes don’t break functionality.
-   - Acts as living documentation, clarifying code behavior for future development.
-
-2. **Productivity**:
-   - Automates repetitive tasks and reduces rework.
-   - Frees developers to focus on new features.
-
-3. **Code Quality**:
-   - Detects bugs early and ensures reliable, maintainable code.
-   - Simplifies debugging and reduces manual testing effort.
-
----
-
-## Future Enhancements
-
-- **Multi-file & Multi-package Support**: Extend the tool to handle multiple files and packages simultaneously, improving scalability.
-- **Expanding to Other Languages**: Adapt the tool to support additional languages beyond TypeScript, broadening its applicability.
-- **CI/CD Integration**: Integrate seamlessly into our CI workflows.
-- **Customizable AI Prompts and Models**: Allow customization of AI prompts and model parameters to better suit specific project needs and coding standards.
-
 ---
