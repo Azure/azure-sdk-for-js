@@ -651,7 +651,7 @@ function convertRunStepDetailsOutput(
       return convertRunStepMessageCreationDetailsOutput(
         input as GeneratedModels.RunStepMessageCreationDetailsOutput,
       );
-    case "tool_call":
+    case "tool_calls":
       return convertRunStepToolCallDetailsOutput(
         input as GeneratedModels.RunStepToolCallDetailsOutput,
       );

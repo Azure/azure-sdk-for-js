@@ -108,7 +108,7 @@ const examplePackageGood = `{
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure/identity": "^2.0.1",
-    "@azure/mock-hub": "^1.0.0",
+    "@azure-tools/mock-hub": "^1.0.0",
     "@azure-tools/test-utils": "^1.0.0",
     "@azure-tools/test-perf": "^1.0.0",
     "@rollup/plugin-commonjs": "11.0.2",
@@ -260,7 +260,7 @@ const examplePackageBad = `{
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure/identity": "^2.0.1",
-    "@azure/mock-hub": "^1.0.0",
+    "@azure-tools/mock-hub": "^1.0.0",
     "@azure-tools/test-utils": "^1.0.0",
     "@azure-tools/test-perf": "^1.0.0",
     "@rollup/plugin-commonjs": "11.0.2",
@@ -360,7 +360,7 @@ ruleTester.run("ts-package-json-sdktype", rule, {
       errors: [
         {
           message:
-            "unrecognized sdk-type value: clien. Expected one of 'client', 'mgmt', or 'utility.'",
+            "unrecognized sdk-type value: clien. Expected one of 'client', 'mgmt', 'perf-test', or 'utility'.",
         },
       ],
     },
@@ -371,7 +371,7 @@ ruleTester.run("ts-package-json-sdktype", rule, {
       errors: [
         {
           message:
-            "unrecognized sdk-type value: mgm. Expected one of 'client', 'mgmt', or 'utility.'",
+            "unrecognized sdk-type value: mgm. Expected one of 'client', 'mgmt', 'perf-test', or 'utility'.",
         },
       ],
     },
@@ -382,7 +382,7 @@ ruleTester.run("ts-package-json-sdktype", rule, {
       errors: [
         {
           message:
-            "unrecognized sdk-type value: util. Expected one of 'client', 'mgmt', or 'utility.'",
+            "unrecognized sdk-type value: util. Expected one of 'client', 'mgmt', 'perf-test', or 'utility'.",
         },
       ],
     },

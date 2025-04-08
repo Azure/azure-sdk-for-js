@@ -21,6 +21,7 @@ import type {
   AzureFunctionStorageQueue,
   AzureFunctionDefinition,
 } from "./inputOutputs.js";
+import type { CreateAzureAISearchToolOptions } from "../customization/models.js";
 
 /**
  * Determines if the given output is of the specified type.
@@ -164,12 +165,21 @@ export class ToolUtility {
   static createAzureAISearchTool(
     indexConnectionId: string,
     indexName: string,
+    options?: CreateAzureAISearchToolOptions,
   ): { definition: AzureAISearchToolDefinition; resources: ToolResources } {
     return {
       definition: { type: "azure_ai_search" },
       resources: {
         azureAISearch: {
-          indexes: [{ indexConnectionId: indexConnectionId, indexName: indexName }],
+          indexes: [
+            {
+              indexConnectionId: indexConnectionId,
+              indexName: indexName,
+              queryType: options?.queryType,
+              topK: options?.topK,
+              filter: options?.filter,
+            },
+          ],
         },
       },
     };
