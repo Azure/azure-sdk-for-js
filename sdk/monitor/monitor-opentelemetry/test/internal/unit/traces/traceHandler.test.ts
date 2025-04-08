@@ -4,7 +4,10 @@
 import { TraceHandler } from "../../../../src/traces/index.js";
 import { MetricHandler } from "../../../../src/metrics/index.js";
 import { InternalConfig } from "../../../../src/shared/index.js";
-import type { HttpInstrumentationConfig } from "@opentelemetry/instrumentation-http";
+import {
+  HttpInstrumentation,
+  type HttpInstrumentationConfig,
+} from "@opentelemetry/instrumentation-http";
 import type { ReadableSpan, SpanProcessor } from "@opentelemetry/sdk-trace-base";
 import type { ProxyTracerProvider, Span } from "@opentelemetry/api";
 import { metrics, trace } from "@opentelemetry/api";
@@ -83,6 +86,14 @@ describe("Library/TraceHandler", () => {
     handler = new TraceHandler(_config, metricHandler);
     tracerProvider.addSpanProcessor(handler.getAzureMonitorSpanProcessor());
     tracerProvider.addSpanProcessor(handler.getBatchSpanProcessor());
+
+    // Because the instrumentation is registered globally, its config is not updated
+    // when the handler is created. We need to mock the getConfig method to return
+    // the updated config.
+    vi.spyOn(HttpInstrumentation.prototype, "getConfig").mockImplementation(() => {
+      return httpConfig;
+    });
+
     exportSpy = vi
       .spyOn(handler["_azureExporter"], "export")
       .mockImplementation((spans: any, resultCallback: any) => {
@@ -98,7 +109,6 @@ describe("Library/TraceHandler", () => {
         });
       });
 
-    vi.resetModules();
     // Load Http modules, HTTP instrumentation hook will be created in OpenTelemetry
     // eslint-disable-next-line @typescript-eslint/no-require-imports
     require("http");
@@ -231,12 +241,12 @@ describe("Library/TraceHandler", () => {
       );
     });
 
-    // TODO: these tests pass in isolation but not as a group due to test pollution. Resolve the test pollution separately
-    it.todo("should not track dependencies if configured off", async () => {
+    it("should not track dependencies if configured off", async () => {
       const httpConfig: HttpInstrumentationConfig = {
         enabled: true,
         ignoreOutgoingRequestHook: () => true,
       };
+
       createHandler(httpConfig);
       await makeHttpRequest();
       await tracerProvider.forceFlush();
@@ -246,11 +256,12 @@ describe("Library/TraceHandler", () => {
       assert.deepStrictEqual(spans[0].kind, 1, "Span Kind"); // Incoming only
     });
 
-    it.todo("should not track requests if configured off", async () => {
+    it("should not track requests if configured off", async () => {
       const httpConfig: HttpInstrumentationConfig = {
         enabled: true,
         ignoreIncomingRequestHook: () => true,
       };
+
       createHandler(httpConfig);
       await makeHttpRequest();
       await tracerProvider.forceFlush();
@@ -260,12 +271,10 @@ describe("Library/TraceHandler", () => {
       assert.deepStrictEqual(spans[0].kind, 2, "Span Kind"); // Outgoing only
     });
 
-    it.todo("http should not track if instrumentations are disabled", async () => {
+    it("http should not track if instrumentations are disabled", () => {
       createHandler({ enabled: false });
-      await makeHttpRequest();
-      await makeHttpRequest();
-      await tracerProvider.forceFlush();
-      expect(exportSpy).not.toHaveBeenCalled();
+      // No HTTP instrumentation should be created
+      expect(handler.getInstrumentations()).toHaveLength(0);
     });
   });
 });

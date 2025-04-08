@@ -101,7 +101,7 @@ export interface BingGroundingToolDefinition extends ToolDefinitionParent {
   bingGrounding: ToolConnectionList;
 }
 
-/** A set of connection resources currently used by either the `bing_grounding`, `fabric_aiskill`, or `sharepoint_grounding` tools. */
+/** A set of connection resources currently used by either the `bing_grounding`, `fabric_dataagent`, or `sharepoint_grounding` tools. */
 export interface ToolConnectionList {
   /**
    * The connections attached to this tool. There can be a maximum of 1 connection
@@ -118,10 +118,10 @@ export interface ToolConnection {
 
 /** The input definition information for a Microsoft Fabric tool as used to configure an agent. */
 export interface MicrosoftFabricToolDefinition extends ToolDefinitionParent {
-  /** The object type, which is always 'fabric_aiskill'. */
-  type: "fabric_aiskill";
+  /** The object type, which is always 'fabric_dataagent'. */
+  type: "fabric_dataagent";
   /** The list of connections used by the Microsoft Fabric tool. */
-  fabricAISkill: ToolConnectionList;
+  fabricDataAgent: ToolConnectionList;
 }
 
 /** The input definition information for a sharepoint tool as used to configure an agent. */
@@ -325,12 +325,40 @@ export interface AzureAISearchResource {
   indexes?: Array<IndexResource>;
 }
 
+/** the query type for the Azure AI Search tool */
+export type AzureAISearchQueryType =
+  | "simple"
+  | "semantic"
+  | "vector"
+  | "vector_simple_hybrid"
+  | "vector_semantic_hybrid";
+
+/** the optional parameters for the Azure AI Search tool */
+export interface CreateAzureAISearchToolOptions {
+  /** the query type of azure ai search. */
+  queryType?: AzureAISearchQueryType;
+  /** the topK number of documents to retrieve from azure ai search. */
+  topK?: number;
+  /** the filter used for azure ai search. */
+  filter?: string;
+}
+
 /** A Index resource. */
 export interface IndexResource {
   /** An index connection id in an IndexResource attached to this agent. */
   indexConnectionId: string;
   /** The name of an index in an IndexResource attached to this agent. */
   indexName: string;
+  /**
+   * Type of query in an AIIndexResource attached to this agent.
+   *
+   * Possible values: "simple", "semantic", "vector", "vector_simple_hybrid", "vector_semantic_hybrid"
+   */
+  queryType?: AzureAISearchQueryType;
+  /** Number of documents to retrieve from search and present to the model. */
+  topK?: number;
+  /** Odata filter string for search resource. */
+  filter?: string;
 }
 
 /**
@@ -540,7 +568,7 @@ export interface AgentsNamedToolChoice {
   /**
    * the type of tool. If type is `function`, the function name must be set.
    *
-   * Possible values: "function", "code_interpreter", "file_search", "bing_grounding", "fabric_aiskill", "sharepoint_grounding", "azure_ai_search"
+   * Possible values: "function", "code_interpreter", "file_search", "bing_grounding", "fabric_dataagent", "sharepoint_grounding", "azure_ai_search"
    */
   type: AgentsNamedToolChoiceType;
   /** The name of the function to call */

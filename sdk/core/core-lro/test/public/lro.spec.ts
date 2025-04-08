@@ -3153,6 +3153,55 @@ matrix(
           assert.isNotNull(poller.operationState);
           assert.equal(poller.operationState!.status, "running");
         });
+        it("handles polling response with unknown success status", async () => {
+          const poller = createTestPoller({
+            routes: [
+              {
+                method: "POST",
+                status: 200,
+              },
+              {
+                method: "GET",
+                status: 200,
+                body: `{ "status": "unknown" }`,
+              },
+              {
+                method: "GET",
+                status: 200,
+                body: `{ "status": "partially_succeeded" }`,
+              },
+            ],
+            implName,
+            throwOnNon2xxResponse,
+          });
+          const result = await poller.pollUntilDone();
+          assert.equal(result.statusCode, 200);
+        });
+
+        it("handles polling response with unknown fail status", async () => {
+          const poller = createTestPoller({
+            routes: [
+              {
+                method: "POST",
+                status: 200,
+              },
+              {
+                method: "GET",
+                status: 200,
+                body: `{ "status": "unknown" }`,
+              },
+              {
+                method: "GET",
+                status: 200,
+                body: `{ "status": "VerificationFailed" }`,
+              },
+            ],
+            implName,
+            throwOnNon2xxResponse,
+          });
+          const result = await poller.pollUntilDone();
+          assert.equal(result.statusCode, 200);
+        });
       });
 
       describe("promise poller", () => {

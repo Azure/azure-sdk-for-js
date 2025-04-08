@@ -1,11 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
+import { Recorder } from "@azure-tools/test-recorder";
 import type { TableClient } from "../../src/index.js";
 import { createTableClient } from "./utils/recordedClient.js";
 import { isNodeLike } from "@azure/core-util";
 import { describe, it, assert, beforeEach, afterEach, beforeAll, afterAll } from "vitest";
+import { isPlaybackMode } from "../utils/injectables.js";
 
 describe(`Access Policy operations`, { skip: !isNodeLike }, () => {
   let client: TableClient;
@@ -15,7 +16,12 @@ describe(`Access Policy operations`, { skip: !isNodeLike }, () => {
 
   beforeEach(async (ctx) => {
     recorder = new Recorder(ctx);
-    client = await createTableClient(tableName, "AccountKey", recorder);
+    const c = await createTableClient(tableName, "AccountKey", recorder);
+    if (!c) {
+      ctx.skip("Shared Key Access is not supported");
+      return;
+    }
+    client = c;
   });
 
   afterEach(async () => {
@@ -24,7 +30,7 @@ describe(`Access Policy operations`, { skip: !isNodeLike }, () => {
 
   beforeAll(async () => {
     if (!isPlaybackMode()) {
-      unrecordedClient = await createTableClient(tableName, "SASConnectionString");
+      unrecordedClient = await createTableClient(tableName, "TokenCredential");
       await unrecordedClient.createTable();
     }
   });

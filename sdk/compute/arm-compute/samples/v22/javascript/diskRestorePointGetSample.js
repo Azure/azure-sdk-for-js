@@ -59,8 +59,8 @@ async function getAnIncrementalDiskRestorePointWhenSourceResourceIsFromADifferen
 }
 
 async function main() {
-  getAnIncrementalDiskRestorePointResource();
-  getAnIncrementalDiskRestorePointWhenSourceResourceIsFromADifferentRegion();
+  await getAnIncrementalDiskRestorePointResource();
+  await getAnIncrementalDiskRestorePointWhenSourceResourceIsFromADifferentRegion();
 }
 
 main().catch(console.error);

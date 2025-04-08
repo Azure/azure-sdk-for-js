@@ -1,5 +1,22 @@
 # Release History
     
+## 21.5.0 (2025-03-24)
+    
+### Features Added
+
+  - Added Interface GPUProfile
+  - Added Interface ManagedClusterBootstrapProfile
+  - Added Type Alias ArtifactSource
+  - Added Type Alias GPUDriver
+  - Interface AgentPool has a new optional parameter gpuProfile
+  - Interface ManagedCluster has a new optional parameter bootstrapProfile
+  - Interface ManagedClusterAgentPoolProfileProperties has a new optional parameter gpuProfile
+  - Interface ManagedClusterSecurityProfile has a new optional parameter customCATrustCertificates
+  - Added Enum KnownArtifactSource
+  - Added Enum KnownGPUDriver
+  - Enum KnownOutboundType has a new value None
+    
+    
 ## 22.0.0-beta.1 (2025-03-13)
 Compared with version 21.4.0
     

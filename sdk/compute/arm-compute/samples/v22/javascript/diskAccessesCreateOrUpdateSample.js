@@ -34,7 +34,7 @@ async function createADiskAccessResource() {
 }
 
 async function main() {
-  createADiskAccessResource();
+  await createADiskAccessResource();
 }
 
 main().catch(console.error);
