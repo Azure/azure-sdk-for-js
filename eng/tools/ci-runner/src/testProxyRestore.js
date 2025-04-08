@@ -22,24 +22,21 @@ export function runTestProxyRestore(packages) {
 
   console.log("Starting test-proxy restore for packages:", packages);
   const completedPackages = [];
-  // TODO: find out how to get the package info with pnpm
-  return;
-  for (const packageName of packages) {
+  for (const pkg of packages) {
     // Get the directory of the target package
-    const targetPackageDir = "sdk/some/path"; // pathJoin(getBaseDir(), targetPackage.projectFolder);
-
+    const targetPackageDir = pkg.path;
     // Path to the assets.json file in the target package directory
     const assetsJsonPath = pathJoin(targetPackageDir, "assets.json");
 
     // Check if the assets.json file exists
     if (existsSync(assetsJsonPath)) {
       try {
-        console.log(`Executing test-proxy restore for ${packageName}`);
+        console.log(`Executing test-proxy restore for ${pkg.name}`);
         execSync(`${proxyExe} restore -a "assets.json"`, {
           cwd: targetPackageDir,
           stdio: "inherit",
         });
-        completedPackages.push(packageName);
+        completedPackages.push(pkg.name);
       } catch (error) {
         console.error(`Error executing test-proxy restore: ${error.message}`);
       }
