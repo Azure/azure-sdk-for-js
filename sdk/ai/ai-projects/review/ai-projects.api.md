@@ -260,11 +260,9 @@ export interface AzureFunctionToolDefinitionOutput extends ToolDefinitionOutputP
     type: "azure_function";
 }
 
-// @public (undocumented)
+// @public
 export interface BingCustomSearchToolDefinitionOutput extends ToolDefinitionOutputParent {
-    // (undocumented)
     bingCustomSearch?: SearchConfigurationListOutput;
-    // (undocumented)
     type: "bing_custom_search";
 }
 
@@ -1556,17 +1554,14 @@ export enum RunStreamEvent {
     ThreadRunRequiresAction = "thread.run.requires_action"
 }
 
-// @public (undocumented)
+// @public
 export interface SearchConfigurationListOutput {
-    // (undocumented)
     searchConfigurations?: Array<SearchConfigurationOutput>;
 }
 
-// @public (undocumented)
+// @public
 export interface SearchConfigurationOutput {
-    // (undocumented)
     connectionId: string;
-    // (undocumented)
     instanceName: string;
 }
 
