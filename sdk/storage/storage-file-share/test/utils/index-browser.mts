@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import type { TokenCredential } from "@azure/core-auth";
-import { AnonymousCredential } from "@azure/storage-blob";
+import { AnonymousCredential } from "@azure/storage-common";
 import { newPipeline } from "../../src/Pipeline.js";
 import type { ShareClientConfig, ShareClientOptions } from "../../src/models.js";
 import { ShareServiceClient } from "../../src/ShareServiceClient.js";

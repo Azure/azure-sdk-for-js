@@ -5,15 +5,15 @@
 ```ts
 
 import type { AbortSignalLike } from '@azure/abort-controller';
-import { AnonymousCredential } from '@azure/storage-blob';
-import { AnonymousCredentialPolicy } from '@azure/storage-blob';
+import { AnonymousCredential } from '@azure/storage-common';
+import { AnonymousCredentialPolicy } from '@azure/storage-common';
 import { AzureLogger } from '@azure/logger';
-import { BaseRequestPolicy } from '@azure/storage-blob';
+import { BaseRequestPolicy } from '@azure/storage-common';
 import * as coreClient from '@azure/core-client';
 import * as coreHttpCompat from '@azure/core-http-compat';
 import * as coreRestPipeline from '@azure/core-rest-pipeline';
-import { Credential as Credential_2 } from '@azure/storage-blob';
-import { CredentialPolicy } from '@azure/storage-blob';
+import { Credential as Credential_2 } from '@azure/storage-common';
+import { CredentialPolicy } from '@azure/storage-common';
 import { HttpHeadersLike as HttpHeaders } from '@azure/core-http-compat';
 import { CompatResponse as HttpOperationResponse } from '@azure/core-http-compat';
 import { RequestBodyType as HttpRequestBody } from '@azure/core-rest-pipeline';
@@ -25,9 +25,13 @@ import { RequestPolicy } from '@azure/core-http-compat';
 import { RequestPolicyFactory } from '@azure/core-http-compat';
 import { RequestPolicyOptionsLike as RequestPolicyOptions } from '@azure/core-http-compat';
 import { RestError } from '@azure/core-rest-pipeline';
-import { StorageBrowserPolicyFactory } from '@azure/storage-blob';
-import { StorageSharedKeyCredential } from '@azure/storage-blob';
-import { StorageSharedKeyCredentialPolicy } from '@azure/storage-blob';
+import { StorageBrowserPolicyFactory } from '@azure/storage-common';
+import { StorageRetryOptions } from '@azure/storage-common';
+import { StorageRetryPolicy } from '@azure/storage-common';
+import { StorageRetryPolicyFactory } from '@azure/storage-common';
+import { StorageRetryPolicyType } from '@azure/storage-common';
+import { StorageSharedKeyCredential } from '@azure/storage-common';
+import { StorageSharedKeyCredentialPolicy } from '@azure/storage-common';
 import type { TokenCredential } from '@azure/core-auth';
 import type { TransferProgressEvent } from '@azure/core-rest-pipeline';
 import type { UserAgentPolicyOptions } from '@azure/core-rest-pipeline';
@@ -2160,38 +2164,18 @@ export interface StoragePipelineOptions {
     httpClient?: RequestPolicy;
     keepAliveOptions?: KeepAliveOptions;
     proxyOptions?: ProxySettings;
-    retryOptions?: StorageRetryOptions;
+    // Warning: (ae-forgotten-export) The symbol "StorageRetryOptions_2" needs to be exported by the entry point index.d.ts
+    retryOptions?: StorageRetryOptions_2;
     userAgentOptions?: UserAgentPolicyOptions;
 }
 
-// @public
-export interface StorageRetryOptions {
-    readonly maxRetryDelayInMs?: number;
-    readonly maxTries?: number;
-    readonly retryDelayInMs?: number;
-    readonly retryPolicyType?: StorageRetryPolicyType;
-    readonly tryTimeoutInMs?: number;
-}
+export { StorageRetryOptions }
 
-// @public
-export class StorageRetryPolicy extends BaseRequestPolicy {
-    constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions, retryOptions?: StorageRetryOptions);
-    protected attemptSendRequest(request: WebResource, secondaryHas404: boolean, attempt: number): Promise<HttpOperationResponse>;
-    sendRequest(request: WebResource): Promise<HttpOperationResponse>;
-    protected shouldRetry(isPrimaryRetry: boolean, attempt: number, response?: HttpOperationResponse, err?: RestError): boolean;
-}
+export { StorageRetryPolicy }
 
-// @public
-export class StorageRetryPolicyFactory implements RequestPolicyFactory {
-    constructor(retryOptions?: StorageRetryOptions);
-    create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): StorageRetryPolicy;
-}
+export { StorageRetryPolicyFactory }
 
-// @public
-export enum StorageRetryPolicyType {
-    EXPONENTIAL = 0,
-    FIXED = 1
-}
+export { StorageRetryPolicyType }
 
 export { StorageSharedKeyCredential }
 

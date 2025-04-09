@@ -133,9 +133,9 @@ import {
   parseOctalFileMode,
   toOctalFileMode,
 } from "./utils/utils.common.js";
-import { Credential } from "@azure/storage-blob";
-import { StorageSharedKeyCredential } from "@azure/storage-blob";
-import { AnonymousCredential } from "@azure/storage-blob";
+import { Credential } from "@azure/storage-common";
+import { StorageSharedKeyCredential } from "@azure/storage-common";
+import { AnonymousCredential } from "@azure/storage-common";
 import { tracingClient } from "./utils/tracing.js";
 import type { CommonOptions } from "./StorageClient.js";
 import { StorageClient } from "./StorageClient.js";

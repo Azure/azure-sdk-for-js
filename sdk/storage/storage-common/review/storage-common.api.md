@@ -4,7 +4,37 @@
 
 ```ts
 
+import type { CompatResponse } from '@azure/core-http-compat';
 import type { HttpClient } from '@azure/core-rest-pipeline';
+import type { HttpPipelineLogLevel } from '@azure/core-http-compat';
+import type { PipelinePolicy } from '@azure/core-rest-pipeline';
+import type { RequestPolicy } from '@azure/core-http-compat';
+import type { RequestPolicyFactory } from '@azure/core-http-compat';
+import type { RequestPolicyOptionsLike } from '@azure/core-http-compat';
+import type { RestError } from '@azure/core-rest-pipeline';
+import type { WebResourceLike } from '@azure/core-http-compat';
+
+// @public
+export class AnonymousCredential extends Credential_2 {
+    create(nextPolicy: RequestPolicy, options: RequestPolicyOptionsLike): AnonymousCredentialPolicy;
+}
+
+// @public
+export class AnonymousCredentialPolicy extends CredentialPolicy {
+    constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptionsLike);
+}
+
+// @public
+export abstract class BaseRequestPolicy implements RequestPolicy {
+    protected constructor(
+    _nextPolicy: RequestPolicy,
+    _options: RequestPolicyOptionsLike);
+    log(logLevel: HttpPipelineLogLevel, message: string): void;
+    readonly _nextPolicy: RequestPolicy;
+    readonly _options: RequestPolicyOptionsLike;
+    abstract sendRequest(webResource: WebResourceLike): Promise<CompatResponse>;
+    shouldLog(logLevel: HttpPipelineLogLevel): boolean;
+}
 
 // @public
 export class BufferScheduler {
@@ -12,11 +42,116 @@ export class BufferScheduler {
     do(): Promise<void>;
 }
 
+// @public
+abstract class Credential_2 implements RequestPolicyFactory {
+    create(_nextPolicy: RequestPolicy, _options: RequestPolicyOptionsLike): RequestPolicy;
+}
+export { Credential_2 as Credential }
+
+// @public
+export abstract class CredentialPolicy extends BaseRequestPolicy {
+    sendRequest(request: WebResourceLike): Promise<CompatResponse>;
+    protected signRequest(request: WebResourceLike): WebResourceLike;
+}
+
+// @public
+export type CredentialPolicyCreator = (nextPolicy: RequestPolicy, options: RequestPolicyOptionsLike) => CredentialPolicy;
+
 // @public (undocumented)
 export function getCachedDefaultHttpClient(): HttpClient;
 
 // @public
+export function NewRetryPolicyFactory(retryOptions?: StorageRetryOptions): RequestPolicyFactory;
+
+// @public
 export type OutgoingHandler = (body: () => NodeJS.ReadableStream, length: number, offset?: number) => Promise<any>;
+
+// @public
+export class StorageBrowserPolicy extends BaseRequestPolicy {
+    constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptionsLike);
+    sendRequest(request: WebResourceLike): Promise<CompatResponse>;
+}
+
+// @public
+export function storageBrowserPolicy(): PipelinePolicy;
+
+// @public
+export class StorageBrowserPolicyFactory implements RequestPolicyFactory {
+    create(nextPolicy: RequestPolicy, options: RequestPolicyOptionsLike): StorageBrowserPolicy;
+}
+
+// @public
+export const storageBrowserPolicyName = "storageBrowserPolicy";
+
+// @public
+export function storageCorrectContentLengthPolicy(): PipelinePolicy;
+
+// @public
+export const storageCorrectContentLengthPolicyName = "StorageCorrectContentLengthPolicy";
+
+// @public
+export interface StorageRetryOptions {
+    readonly maxRetryDelayInMs?: number;
+    readonly maxTries?: number;
+    readonly retryDelayInMs?: number;
+    readonly retryPolicyType?: StorageRetryPolicyType;
+    readonly secondaryHost?: string;
+    readonly tryTimeoutInMs?: number;
+}
+
+// @public
+export class StorageRetryPolicy extends BaseRequestPolicy {
+    constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptionsLike, retryOptions?: StorageRetryOptions);
+    protected attemptSendRequest(request: WebResourceLike, secondaryHas404: boolean, attempt: number): Promise<CompatResponse>;
+    sendRequest(request: WebResourceLike): Promise<CompatResponse>;
+    protected shouldRetry(isPrimaryRetry: boolean, attempt: number, response?: CompatResponse, err?: RestError): boolean;
+}
+
+// @public
+export function storageRetryPolicy(options?: StorageRetryOptions): PipelinePolicy;
+
+// @public
+export class StorageRetryPolicyFactory implements RequestPolicyFactory {
+    constructor(retryOptions?: StorageRetryOptions);
+    create(nextPolicy: RequestPolicy, options: RequestPolicyOptionsLike): StorageRetryPolicy;
+}
+
+// @public
+export const storageRetryPolicyName = "storageRetryPolicy";
+
+// @public
+export enum StorageRetryPolicyType {
+    EXPONENTIAL = 0,
+    FIXED = 1
+}
+
+// @public
+export class StorageSharedKeyCredential extends Credential_2 {
+    constructor(accountName: string, accountKey: string);
+    readonly accountName: string;
+    computeHMACSHA256(stringToSign: string): string;
+    create(nextPolicy: RequestPolicy, options: RequestPolicyOptionsLike): StorageSharedKeyCredentialPolicy;
+}
+
+// @public
+export class StorageSharedKeyCredentialPolicy extends CredentialPolicy {
+    constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptionsLike, factory: StorageSharedKeyCredential);
+    protected signRequest(request: WebResourceLike): WebResourceLike;
+}
+
+// @public
+export function storageSharedKeyCredentialPolicy(options: StorageSharedKeyCredentialPolicyOptions): PipelinePolicy;
+
+// @public
+export const storageSharedKeyCredentialPolicyName = "storageSharedKeyCredentialPolicy";
+
+// @public
+export interface StorageSharedKeyCredentialPolicyOptions {
+    // (undocumented)
+    accountKey: Buffer;
+    // (undocumented)
+    accountName: string;
+}
 
 // (No @packageDocumentation comment for this package)
 
