@@ -101,15 +101,23 @@ export interface BingGroundingToolDefinition extends ToolDefinitionParent {
   bingGrounding: ToolConnectionList;
 }
 
+/**
+ * The input definition information for a bing custom search tool as used to configure an agent.
+ */
 export interface BingCustomSearchToolDefinition extends ToolDefinitionParent {
-  type: "bing_custom_search",
+  /** The object type, which is always 'bing_custom_search'. */
+  type: "bing_custom_search";
+  /** The list of connections used by the bing custom search tool. */
   bingCustomSearch?: SearchConfigurationList;
 }
 
+/** The array of search configurations used by the bing custom search tool. */
 export interface SearchConfigurationList {
+  /** The list of connections used by the bing custom search tool. */
   searchConfigurations: Array<SearchConfiguration>;
 }
 
+/** The input definition information for a search configuration. */
 export interface SearchConfiguration {
   /** A connection in a ToolConnectionList attached to this tool. */
   connectionId: string;

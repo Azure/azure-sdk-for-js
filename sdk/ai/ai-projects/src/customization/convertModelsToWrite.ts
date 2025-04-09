@@ -129,9 +129,13 @@ function convertBingCustomSearchToolDefinition(
 ): GeneratedModels.BingCustomSearchToolDefinition {
   return {
     type: source.type,
-    bing_custom_search: source?.bingCustomSearch?.searchConfigurations ?
-      { search_configurations: source.bingCustomSearch.searchConfigurations.map(convertToolSearchConfiguration) } :
-      { search_configurations: [] },
+    bing_custom_search: source?.bingCustomSearch?.searchConfigurations
+      ? {
+          search_configurations: source.bingCustomSearch.searchConfigurations.map(
+            convertToolSearchConfiguration,
+          ),
+        }
+      : { search_configurations: [] },
   };
 }
 
@@ -559,5 +563,5 @@ function convertToolSearchConfiguration(
   return {
     connection_id: source.connectionId,
     instance_name: source.instanceName,
-  }
+  };
 }

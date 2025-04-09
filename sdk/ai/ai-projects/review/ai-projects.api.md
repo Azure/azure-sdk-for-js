@@ -261,6 +261,12 @@ export interface AzureFunctionToolDefinitionOutput extends ToolDefinitionOutputP
 }
 
 // @public
+export interface BingCustomSearchToolDefinition extends ToolDefinitionParent {
+    bingCustomSearch?: SearchConfigurationList;
+    type: "bing_custom_search";
+}
+
+// @public
 export interface BingCustomSearchToolDefinitionOutput extends ToolDefinitionOutputParent {
     bingCustomSearch?: SearchConfigurationListOutput;
     type: "bing_custom_search";
@@ -1555,6 +1561,17 @@ export enum RunStreamEvent {
 }
 
 // @public
+export interface SearchConfiguration {
+    connectionId: string;
+    instanceName: string;
+}
+
+// @public
+export interface SearchConfigurationList {
+    searchConfigurations: Array<SearchConfiguration>;
+}
+
+// @public
 export interface SearchConfigurationListOutput {
     searchConfigurations?: Array<SearchConfigurationOutput>;
 }
@@ -1695,8 +1712,6 @@ export interface ToolConnectionOutput {
     connectionId: string;
 }
 
-// Warning: (ae-forgotten-export) The symbol "BingCustomSearchToolDefinition" needs to be exported by the entry point index.d.ts
-//
 // @public
 export type ToolDefinition = ToolDefinitionParent | CodeInterpreterToolDefinition | FileSearchToolDefinition | FunctionToolDefinition | BingGroundingToolDefinition | MicrosoftFabricToolDefinition | SharepointToolDefinition | AzureAISearchToolDefinition | OpenApiToolDefinition | BingCustomSearchToolDefinition | AzureFunctionToolDefinition;
 

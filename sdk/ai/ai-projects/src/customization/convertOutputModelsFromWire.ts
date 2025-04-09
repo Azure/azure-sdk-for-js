@@ -102,8 +102,9 @@ function convertBingCustomSearchToolDefinitionOutput(
 ): PublicModels.BingCustomSearchToolDefinitionOutput {
   return {
     type: "bing_custom_search",
-    bingCustomSearch:
-      input.bing_custom_search ? convertToolSearchConfigurationListOutput(input.bing_custom_search) : undefined,
+    bingCustomSearch: input.bing_custom_search
+      ? convertToolSearchConfigurationListOutput(input.bing_custom_search)
+      : undefined,
   };
 }
 
@@ -111,7 +112,7 @@ function convertToolSearchConfigurationListOutput(
   input: GeneratedModels.SearchConfigurationListOutput,
 ): PublicModels.SearchConfigurationListOutput {
   return {
-    searchConfigurations: input.search_configurations?.map(item => ({
+    searchConfigurations: input.search_configurations?.map((item) => ({
       connectionId: item.connection_id,
       instanceName: item.instance_name,
     })),

@@ -89,14 +89,14 @@ export class ToolUtility {
   /**
    * Creates a bing custom search tool
    *
-   * @param searchConfigurations - The ID of bing search connection and instanceName. 
+   * @param searchConfigurations - The ID of bing search connection and instanceName.
    *
    * @returns An object containing the definition and resources for the bing custom search tool
    */
 
-  static createBingCustomSearchTool(
-    searchConfigurations: SearchConfigurationOutput[],
-  ): { definition: ToolDefinition } {
+  static createBingCustomSearchTool(searchConfigurations: SearchConfigurationOutput[]): {
+    definition: ToolDefinition;
+  } {
     return {
       definition: {
         type: "bing_custom_search",
