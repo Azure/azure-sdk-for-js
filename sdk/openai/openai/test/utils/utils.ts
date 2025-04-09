@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { assert, test, describe } from "vitest";
+import type { TestContext } from "vitest";
+import { assert, describe, test } from "vitest";
 import {
-  type PipelineRequest,
-  type PipelineResponse,
-  RestError,
   createDefaultHttpClient,
   createEmptyPipeline,
   createHttpHeaders,
   createPipelineRequest,
+  type PipelineRequest,
+  type PipelineResponse,
+  RestError,
 } from "@azure/core-rest-pipeline";
 import type { Run } from "openai/resources/beta/threads/runs/runs.mjs";
 import type { AzureChatExtensionConfiguration } from "../../src/types/index.js";
@@ -22,7 +23,7 @@ import type {
   ResourceInfo,
 } from "./types.js";
 import { logger } from "./logger.js";
-import type { OpenAI } from "openai";
+import type { AzureClientOptions, OpenAI } from "openai";
 import type { Sku } from "@azure/arm-cognitiveservices";
 
 export type SkippableErrors = {
@@ -139,36 +140,61 @@ export async function testWithDeployments<T>({
   acceptableErrors,
 }: DeploymentTestingParameters<T>): Promise<void> {
   assert.isNotEmpty(clientsAndDeploymentsInfo.clientsAndDeployments, "No deployments found");
-  describe.concurrent.each(clientsAndDeploymentsInfo.clientsAndDeployments)(
-    "$client.baseURL",
-    async function ({ client, deployments }) {
-      for (const deployment of deployments) {
-        test.concurrent(`${deployment.model.name} (${deployment.model.version})`, async (done) => {
-          if (modelsListToSkip && isModelInList(deployment.model, modelsListToSkip)) {
-            done.skip(`Skipping ${deployment.model.name} : ${deployment.model.version}`);
-          }
+  const cd = clientsAndDeploymentsInfo.clientsAndDeployments;
+  describe.concurrent.each(cd)("$client.baseURL", async function ({ client, deployments }) {
+    for (const deployment of deployments) {
+      test.concurrent(`${deployment.model.name} (${deployment.model.version})`, async (context) => {
+        const azClient = client as unknown as AzureClientOptions;
 
-          let result;
-          try {
-            result = await run(client, deployment.deploymentName);
-          } catch (e) {
-            const error = e as any;
-            if (acceptableErrors?.messageSubstring.some((match) => error.message.includes(match))) {
-              done.skip(`Skipping due to acceptable error: ${error}`);
-            }
-            if (
-              GlobalSkippableErrors.messageSubstring.some((match) => error.message.includes(match))
-            ) {
-              done.skip(`Skipping due to global acceptable error: ${error}`);
-            }
-            throw e;
+        // Vitest recommended way to set task meta data:
+        // https://vitest.dev/advanced/metadata
+        // eslint-disable-next-line no-param-reassign
+        context.task.meta.matrix = {
+          name: getParentSuiteName(context),
+          apiVersion: azClient.apiVersion,
+          modelName: deployment.model.name,
+          modelVersion: deployment.model.version,
+        };
+
+        if (modelsListToSkip && isModelInList(deployment.model, modelsListToSkip)) {
+          context.skip(`Skipping ${deployment.model.name}:${deployment.model.version}`);
+        }
+
+        let result;
+        try {
+          result = await run(client, deployment.deploymentName);
+        } catch (e) {
+          const error = e as any;
+          if (acceptableErrors?.messageSubstring.some((match) => error.message.includes(match))) {
+            context.skip(`Skipping due to acceptable error: ${error}`);
           }
-          validate?.(result);
-          return;
-        });
-      }
-    },
-  );
+          if (
+            GlobalSkippableErrors.messageSubstring.some((match) => error.message.includes(match))
+          ) {
+            context.skip(`Skipping due to global acceptable error: ${error}`);
+          }
+          throw e;
+        }
+        validate?.(result);
+        return;
+      });
+    }
+  });
+}
+
+function getParentSuiteName(context: TestContext): string {
+  let ptr = context.task.suite;
+  const names: string[] = [];
+
+  // Traverse up the chain of suites
+  while (ptr) {
+    names.unshift(ptr.name);
+    // remove any text in [brackets] from the name
+    names[0] = names[0].replace(/\s*\[.*?\]/, "");
+    ptr = ptr.suite;
+  }
+  names.splice(-1); // Remove the last `skipLast` suite name
+  return names.join(" > ");
 }
 
 export function filterDeployments<DeploymentsT extends Pick<ResourceInfo, "deployments">>(

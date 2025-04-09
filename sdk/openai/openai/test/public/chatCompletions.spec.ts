@@ -262,7 +262,7 @@ describe.shuffle.each(APIMatrix)("Chat Completions [%s]", (apiVersion: APIVersio
     });
 
     describe.concurrent.each(createAzureSearchExtensions())(
-      "works with data sources [%o]",
+      "works with data sources [$parameters.index_name]",
       async (config) => {
         await testWithDeployments({
           clientsAndDeploymentsInfo,
@@ -290,7 +290,7 @@ describe.shuffle.each(APIMatrix)("Chat Completions [%s]", (apiVersion: APIVersio
       },
     );
     describe.concurrent.each(createAzureSearchExtensions())(
-      "works with data sources and user security context [%o]",
+      "works with data sources and user security context [$parameters.index_name]",
       async (config) => {
         await testWithDeployments({
           clientsAndDeploymentsInfo,
@@ -394,7 +394,7 @@ describe.shuffle.each(APIMatrix)("Chat Completions [%s]", (apiVersion: APIVersio
     });
 
     describe.concurrent.each(createAzureSearchExtensions())(
-      "works with data sources [%o]",
+      "works with data sources [$parameters.index_name]",
       async (config) => {
         await testWithDeployments({
           clientsAndDeploymentsInfo,
@@ -426,7 +426,7 @@ describe.shuffle.each(APIMatrix)("Chat Completions [%s]", (apiVersion: APIVersio
     );
 
     describe.concurrent.each(createAzureSearchExtensions())(
-      "works with data sources and user security context [%o])",
+      "works with data sources and user security context [$parameters.index_name])",
       async (config) => {
         await testWithDeployments({
           clientsAndDeploymentsInfo,
