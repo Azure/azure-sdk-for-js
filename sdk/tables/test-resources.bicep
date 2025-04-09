@@ -1,24 +1,14 @@
 param baseName string
-param baseTime string = utcNow('u')
 param testApplicationOid string
+param supportsSafeSecretStandard bool = false
 
-var storageEndpointSuffix = environment().suffixes.storage
-var storageApiVersion = '2023-05-01'
 var blobDataContributorRoleId = subscriptionResourceId('Microsoft.Authorization/roleDefinitions', '0a9a7e1f-b9d0-4cc4-a60d-0319b160aaa3')
 var location = resourceGroup().location
 var accountName = baseName
-var accountNameTidy = toLower(trim(accountName))
-var accountSasProperties = {
-  signedServices: 'bfqt'
-  signedPermission: 'rwdlacup'
-  signedResourceTypes: 'sco'
-  keyToSign: 'key2'
-  signedExpiry: dateTimeAdd(baseTime, 'PT2H')
-}
 
 // Role Assignment for Blob Data Contributor
 resource roleAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
-  name: guid('tableDataContributorRoleId', resourceGroup().id)
+  name: guid('tableDataContributorRoleId', storageAccount.id, blobDataContributorRoleId)
   properties: {
     roleDefinitionId: blobDataContributorRoleId
     principalId: testApplicationOid
@@ -26,7 +16,7 @@ resource roleAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
 }
 
 // Storage Account
-resource storageAccount 'Microsoft.Storage/storageAccounts@2023-05-01' = {
+resource storageAccount 'Microsoft.Storage/storageAccounts@2024-01-01' = {
   name: accountName
   location: location
   sku: {
@@ -40,6 +30,7 @@ resource storageAccount 'Microsoft.Storage/storageAccounts@2023-05-01' = {
       ipRules: []
       defaultAction: 'Allow'
     }
+    allowSharedKeyAccess: !supportsSafeSecretStandard
     supportsHttpsTrafficOnly: true
     encryption: {
       services: {
@@ -54,13 +45,26 @@ resource storageAccount 'Microsoft.Storage/storageAccounts@2023-05-01' = {
     }
     accessTier: 'Hot'
   }
+  resource tableService 'tableServices@2024-01-01' = {
+    name: 'default'
+    properties: {
+      cors: {
+        corsRules: [
+          {
+            allowedOrigins: ['*']
+            allowedMethods: ['DELETE', 'GET', 'HEAD', 'MERGE', 'POST', 'OPTIONS', 'PUT', 'PATCH']
+            maxAgeInSeconds: 86400
+            exposedHeaders: ['*']
+            allowedHeaders: ['*']
+          }
+        ]
+      }
+    }
+  }
 }
 
 // Outputs
-output RESOURCE_GROUP_NAME string = resourceGroup().name
-output ACCOUNT_NAME string = accountName
-output ACCOUNT_KEY string = listKeys(storageAccount.id, storageApiVersion).keys[0].value
-output SAS_TOKEN string = '?${listAccountSas(accountNameTidy, storageApiVersion, accountSasProperties).accountSasToken}'
-output SAS_CONNECTION_STRING string = 'TableEndpoint=https://${accountName}.table.${storageEndpointSuffix}/;SharedAccessSignature=${listAccountSas(accountNameTidy, storageApiVersion, accountSasProperties).accountSasToken}'
-output ACCOUNT_CONNECTION_STRING string = 'DefaultEndpointsProtocol=https;AccountName=${accountName};AccountKey=${listKeys(storageAccount.id, storageApiVersion).keys[0].value};EndpointSuffix=${storageEndpointSuffix}'
-output TABLES_URL string = 'https://${accountName}.table.${storageEndpointSuffix}'
+output SUBSCRIPTION_ID string = subscription().subscriptionId
+output RESOURCE_GROUP string = resourceGroup().name
+output ACCOUNT_NAME string = storageAccount.name
+output TABLES_URL string = storageAccount.properties.primaryEndpoints.table

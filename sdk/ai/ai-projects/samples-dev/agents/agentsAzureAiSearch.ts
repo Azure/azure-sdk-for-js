@@ -8,7 +8,12 @@
  *
  */
 
-import type { MessageContentOutput, MessageTextContentOutput } from "@azure/ai-projects";
+import type {
+  MessageContentOutput,
+  MessageTextContentOutput,
+  RunStepToolCallDetailsOutput,
+  RunStepAzureAISearchToolCallOutput,
+} from "@azure/ai-projects";
 import { AIProjectsClient, isOutputOfType, ToolUtility } from "@azure/ai-projects";
 import { delay } from "@azure/core-util";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -30,10 +35,14 @@ export async function main(): Promise<void> {
   const connection = await client.connections.getConnection(connectionName);
 
   // Initialize Azure AI Search tool
-  const azureAISearchTool = ToolUtility.createAzureAISearchTool(connection.id, connection.name);
+  const azureAISearchTool = ToolUtility.createAzureAISearchTool(connection.id, "ai-search-sample", {
+    queryType: "simple",
+    topK: 3,
+    filter: "",
+  });
 
   // Create agent with the Azure AI search tool
-  const agent = await client.agents.createAgent("gpt-4-0125-preview", {
+  const agent = await client.agents.createAgent("gpt-4o", {
     name: "my-agent",
     instructions: "You are a helpful agent",
     tools: [azureAISearchTool.definition],
@@ -48,7 +57,7 @@ export async function main(): Promise<void> {
   // Create message to thread
   const message = await client.agents.createMessage(thread.id, {
     role: "user",
-    content: "Hello, send an email with the datetime and weather information in New York",
+    content: "What is the temperature rating of the cozynights sleeping bag?",
   });
   console.log(`Created message, message ID: ${message.id}`);
 
@@ -59,10 +68,32 @@ export async function main(): Promise<void> {
     run = await client.agents.getRun(thread.id, run.id);
   }
   if (run.status === "failed") {
-    console.log(`Run failed: ${run.lastError}`);
+    console.log(`Run failed:`, JSON.stringify(run, null, 2));
   }
   console.log(`Run finished with status: ${run.status}`);
 
+  // Fetch run steps to get the details of agent run
+  const { data: runSteps } = await client.agents.listRunSteps(thread.id, run.id);
+
+  for (const step of runSteps) {
+    console.log(`Step ID: ${step.id}, Status: ${step.status}`);
+    const stepDetails = step.stepDetails;
+    if (isOutputOfType<RunStepToolCallDetailsOutput>(stepDetails, "tool_calls")) {
+      const toolCalls = stepDetails.toolCalls;
+      for (const toolCall of toolCalls) {
+        console.log(`Tool Call ID: ${toolCall.id}, Tool type: ${toolCall.type}`);
+        if (isOutputOfType<RunStepAzureAISearchToolCallOutput>(toolCall, "azure_ai_search")) {
+          {
+            const azureAISearch = toolCall.azureAISearch;
+            if (azureAISearch) {
+              console.log(`Azure AI Search Tool Call input: ${azureAISearch.input}`);
+              console.log(`Azure AI Search Tool Call output: ${azureAISearch.output}`);
+            }
+          }
+        }
+      }
+    }
+  }
   // Delete the assistant when done
   await client.agents.deleteAgent(agent.id);
   console.log(`Deleted agent, agent ID: ${agent.id}`);

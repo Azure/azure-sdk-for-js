@@ -7,21 +7,19 @@
  */
 
 import { odata, TableClient } from "@azure/data-tables";
-
-// Load the .env file if it exists
+import { DefaultAzureCredential, type TokenCredential } from "@azure/identity";
 import "dotenv/config";
-const tablesUrl = process.env["TABLES_URL"] || "";
-const sasToken = process.env["SAS_TOKEN"] || "";
 
-async function listEntities(): Promise<void> {
+const tablesUrl = process.env["TABLES_URL"] || "";
+
+async function listEntities(credential: TokenCredential): Promise<void> {
   console.log("== List entities Sample ==");
 
   // Note that this sample assumes that a table with tableName exists
   const tableName = `queryEntitiesTable`;
   console.log(tableName);
 
-  // See authenticationMethods sample for other options of creating a new client
-  const client = new TableClient(`${tablesUrl}${sasToken}`, tableName);
+  const client = new TableClient(tablesUrl, tableName, credential);
   // Create the table
   await client.createTable();
 
@@ -31,7 +29,7 @@ async function listEntities(): Promise<void> {
     rowKey: "1",
     name: "Markers",
     price: 5.0,
-    quantity: 34
+    quantity: 34,
   };
 
   const planner: Entity = {
@@ -39,7 +37,7 @@ async function listEntities(): Promise<void> {
     rowKey: "2",
     name: "Planner",
     price: 7.0,
-    quantity: 34
+    quantity: 34,
   };
 
   // create entities for marker and planner
@@ -48,7 +46,7 @@ async function listEntities(): Promise<void> {
 
   // List all entities with PartitionKey "Stationery"
   const listResults = client.listEntities<Entity>({
-    queryOptions: { filter: odata`PartitionKey eq ${partitionKey}` }
+    queryOptions: { filter: odata`PartitionKey eq ${partitionKey}` },
   });
 
   for await (const product of listResults) {
@@ -57,7 +55,7 @@ async function listEntities(): Promise<void> {
 
   // List all entities with a price less than 6.0
   const priceListResults = client.listEntities({
-    queryOptions: { filter: odata`price le 6` }
+    queryOptions: { filter: odata`price le 6` },
   });
 
   console.log("-- Products with a price less or equals to 6.00");
@@ -67,7 +65,7 @@ async function listEntities(): Promise<void> {
 }
 
 // Sample of how to retreive the top N entities for a query
-async function listTopNEntities(): Promise<void> {
+async function listTopNEntities(credential: TokenCredential): Promise<void> {
   // This is the max number of items
   const topN = 1;
   const partitionKey = "Stationery";
@@ -76,13 +74,13 @@ async function listTopNEntities(): Promise<void> {
   const tableName = `queryEntitiesTable`;
 
   // See authenticationMethods sample for other options of creating a new client
-  const client = new TableClient(`${tablesUrl}${sasToken}`, tableName);
+  const client = new TableClient(tablesUrl, tableName, credential);
 
   // List all entities with PartitionKey "Stationery"
   const listResults = client.listEntities<Entity>({
     queryOptions: {
-      filter: odata`PartitionKey eq ${partitionKey}`
-    }
+      filter: odata`PartitionKey eq ${partitionKey}`,
+    },
   });
 
   let topEntities = [];
@@ -112,8 +110,9 @@ interface Entity {
 }
 
 export async function main(): Promise<void> {
-  await listEntities();
-  await listTopNEntities();
+  const credential = new DefaultAzureCredential();
+  await listEntities(credential);
+  await listTopNEntities(credential);
 }
 
 main().catch((err) => {

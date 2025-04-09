@@ -25,7 +25,7 @@ import {
   DirectoryForceCloseHandlesResponse,
   DirectoryRenameOptionalParams,
   DirectoryRenameResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a Directory. */
 export interface Directory {

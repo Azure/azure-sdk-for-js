@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import {
+import type {
   OperationParameter,
   OperationURLParameter,
   OperationQueryParameter,
@@ -18,11 +18,24 @@ import {
   PolicySetDefinitionVersion as PolicySetDefinitionVersionMapper,
   PolicyAssignment as PolicyAssignmentMapper,
   PolicyAssignmentUpdate as PolicyAssignmentUpdateMapper,
-  PolicyExemption as PolicyExemptionMapper,
-  PolicyExemptionUpdate as PolicyExemptionUpdateMapper,
-  Variable as VariableMapper,
-  VariableValue as VariableValueMapper,
 } from "../models/mappers.js";
+
+export const contentType: OperationParameter = {
+  parameterPath: ["options", "contentType"],
+  mapper: {
+    defaultValue: "application/json",
+    isConstant: true,
+    serializedName: "Content-Type",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const parameters: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: PolicyDefinitionMapper,
+};
 
 export const accept: OperationParameter = {
   parameterPath: "accept",
@@ -46,69 +59,6 @@ export const $host: OperationURLParameter = {
     },
   },
   skipEncoding: true,
-};
-
-export const policyMode: OperationURLParameter = {
-  parameterPath: "policyMode",
-  mapper: {
-    serializedName: "policyMode",
-    required: true,
-    type: {
-      name: "String",
-    },
-  },
-};
-
-export const apiVersion: OperationQueryParameter = {
-  parameterPath: "apiVersion",
-  mapper: {
-    defaultValue: "2020-09-01",
-    isConstant: true,
-    serializedName: "api-version",
-    type: {
-      name: "String",
-    },
-  },
-};
-
-export const filter: OperationQueryParameter = {
-  parameterPath: ["options", "filter"],
-  mapper: {
-    serializedName: "$filter",
-    type: {
-      name: "String",
-    },
-  },
-  skipEncoding: true,
-};
-
-export const nextLink: OperationURLParameter = {
-  parameterPath: "nextLink",
-  mapper: {
-    serializedName: "nextLink",
-    required: true,
-    type: {
-      name: "String",
-    },
-  },
-  skipEncoding: true,
-};
-
-export const contentType: OperationParameter = {
-  parameterPath: ["options", "contentType"],
-  mapper: {
-    defaultValue: "application/json",
-    isConstant: true,
-    serializedName: "Content-Type",
-    type: {
-      name: "String",
-    },
-  },
-};
-
-export const parameters: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: PolicyDefinitionMapper,
 };
 
 export const subscriptionId: OperationURLParameter = {
@@ -136,10 +86,10 @@ export const policyDefinitionName: OperationURLParameter = {
   },
 };
 
-export const apiVersion1: OperationQueryParameter = {
+export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2023-04-01",
+    defaultValue: "2024-05-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -159,6 +109,17 @@ export const managementGroupId: OperationURLParameter = {
   },
 };
 
+export const filter: OperationQueryParameter = {
+  parameterPath: ["options", "filter"],
+  mapper: {
+    serializedName: "$filter",
+    type: {
+      name: "String",
+    },
+  },
+  skipEncoding: true,
+};
+
 export const top: OperationQueryParameter = {
   parameterPath: ["options", "top"],
   mapper: {
@@ -171,6 +132,18 @@ export const top: OperationQueryParameter = {
       name: "Number",
     },
   },
+};
+
+export const nextLink: OperationURLParameter = {
+  parameterPath: "nextLink",
+  mapper: {
+    serializedName: "nextLink",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+  skipEncoding: true,
 };
 
 export const managementGroupName: OperationURLParameter = {
@@ -352,92 +325,4 @@ export const policyAssignmentId: OperationURLParameter = {
     },
   },
   skipEncoding: true,
-};
-
-export const policyExemptionName: OperationURLParameter = {
-  parameterPath: "policyExemptionName",
-  mapper: {
-    serializedName: "policyExemptionName",
-    required: true,
-    type: {
-      name: "String",
-    },
-  },
-};
-
-export const apiVersion2: OperationQueryParameter = {
-  parameterPath: "apiVersion",
-  mapper: {
-    defaultValue: "2022-07-01-preview",
-    isConstant: true,
-    serializedName: "api-version",
-    type: {
-      name: "String",
-    },
-  },
-};
-
-export const parameters6: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: PolicyExemptionMapper,
-};
-
-export const parameters7: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: PolicyExemptionUpdateMapper,
-};
-
-export const resourceName1: OperationURLParameter = {
-  parameterPath: "resourceName",
-  mapper: {
-    serializedName: "resourceName",
-    required: true,
-    type: {
-      name: "String",
-    },
-  },
-};
-
-export const variableName: OperationURLParameter = {
-  parameterPath: "variableName",
-  mapper: {
-    serializedName: "variableName",
-    required: true,
-    type: {
-      name: "String",
-    },
-  },
-};
-
-export const apiVersion3: OperationQueryParameter = {
-  parameterPath: "apiVersion",
-  mapper: {
-    defaultValue: "2022-08-01-preview",
-    isConstant: true,
-    serializedName: "api-version",
-    type: {
-      name: "String",
-    },
-  },
-};
-
-export const parameters8: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: VariableMapper,
-};
-
-export const variableValueName: OperationURLParameter = {
-  parameterPath: "variableValueName",
-  mapper: {
-    serializedName: "variableValueName",
-    required: true,
-    type: {
-      name: "String",
-    },
-  },
-};
-
-export const parameters9: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: VariableValueMapper,
 };

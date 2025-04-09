@@ -9,6 +9,7 @@ import type {
   FileSearchToolDefinitionDetails,
   FunctionDefinition,
   FunctionToolDefinition,
+  SearchConfigurationOutput,
   OpenApiFunctionDefinition,
   OpenApiToolDefinition,
   RequiredActionOutput,
@@ -21,6 +22,7 @@ import type {
   AzureFunctionStorageQueue,
   AzureFunctionDefinition,
 } from "./inputOutputs.js";
+import type { CreateAzureAISearchToolOptions } from "../customization/models.js";
 
 /**
  * Determines if the given output is of the specified type.
@@ -47,6 +49,8 @@ export enum connectionToolType {
   SharepointGrounding = "sharepoint_grounding",
   /** Azure Function tool */
   AzureFunction = "azure_function",
+  /** Bing custom search tool */
+  BingCustomSearch = "bing_custom_search",
 }
 
 const toolMap = {
@@ -54,6 +58,7 @@ const toolMap = {
   fabric_dataagent: "fabric_dataagent",
   sharepoint_grounding: "sharepointGrounding",
   azure_function: "azureFunction",
+  bing_custom_search: "bingCustomSearch",
 };
 
 /**
@@ -76,6 +81,30 @@ export class ToolUtility {
         type: toolType,
         [toolMap[toolType]]: {
           connections: connectionIds.map((connectionId) => ({ connectionId: connectionId })),
+        },
+      },
+    };
+  }
+
+  /**
+   * Creates a bing custom search tool
+   *
+   * @param searchConfigurations - The ID of bing search connection and instanceName.
+   *
+   * @returns An object containing the definition and resources for the bing custom search tool
+   */
+
+  static createBingCustomSearchTool(searchConfigurations: SearchConfigurationOutput[]): {
+    definition: ToolDefinition;
+  } {
+    return {
+      definition: {
+        type: "bing_custom_search",
+        bingCustomSearch: {
+          searchConfigurations: searchConfigurations.map((searchConfiguration) => ({
+            connectionId: searchConfiguration.connectionId,
+            instanceName: searchConfiguration.instanceName,
+          })),
         },
       },
     };
@@ -164,12 +193,21 @@ export class ToolUtility {
   static createAzureAISearchTool(
     indexConnectionId: string,
     indexName: string,
+    options?: CreateAzureAISearchToolOptions,
   ): { definition: AzureAISearchToolDefinition; resources: ToolResources } {
     return {
       definition: { type: "azure_ai_search" },
       resources: {
         azureAISearch: {
-          indexes: [{ indexConnectionId: indexConnectionId, indexName: indexName }],
+          indexes: [
+            {
+              indexConnectionId: indexConnectionId,
+              indexName: indexName,
+              queryType: options?.queryType,
+              topK: options?.topK,
+              filter: options?.filter,
+            },
+          ],
         },
       },
     };

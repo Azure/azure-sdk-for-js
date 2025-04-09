@@ -12,7 +12,7 @@ export interface PurviewDataMapClientOptions extends ClientOptions {}
 
 /**
  * Initialize a new instance of `PurviewDataMapClient`
- * @param endpointParam - A sequence of textual characters.
+ * @param endpointParam - Represent a URL string as described by https://url.spec.whatwg.org/
  * @param credentials - uniquely identify client credential
  * @param options - the parameter for all optional parameters
  */

@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import { assert } from "chai";
-
-import type { StorageSharedKeyCredential, ContainerClient, BlobServiceClient } from "../../src";
+import type {
+  StorageSharedKeyCredential,
+  ContainerClient,
+  BlobServiceClient,
+} from "../../src/index.js";
 import {
   AppendBlobClient,
   newPipeline,
   generateBlobSASQueryParameters,
   BlobSASPermissions,
-} from "../../src";
+} from "../../src/index.js";
 import {
   getBSU,
   getConnectionStringFromEnvironment,
@@ -20,14 +21,14 @@ import {
   getUniqueName,
   configureBlobStorageClient,
   SimpleTokenCredential,
-} from "../utils";
+} from "../utils/index.js";
 import type { TokenCredential } from "@azure/core-auth";
-import { assertClientUsesTokenCredential } from "../utils/assert";
+import { assertClientUsesTokenCredential } from "../utils/assert.js";
 import { Recorder, isLiveMode } from "@azure-tools/test-recorder";
-import { Test_CPK_INFO } from "../utils/fakeTestSecrets";
-import type { Context } from "mocha";
-import { getBlobServiceAccountAudience } from "../../src/models";
+import { Test_CPK_INFO } from "../utils/fakeTestSecrets.js";
+import { getBlobServiceAccountAudience } from "../../src/models.js";
 import { createTestCredential } from "@azure-tools/test-credential";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("AppendBlobClient Node.js only", () => {
   let containerName: string;
@@ -40,8 +41,8 @@ describe("AppendBlobClient Node.js only", () => {
   let blobServiceClient: BlobServiceClient;
   const timeoutForLargeFileUploadingTest = 20 * 60 * 1000;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async (ctx) => {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderEnvSetup);
     await recorder.addSanitizers(
       {
@@ -63,12 +64,12 @@ describe("AppendBlobClient Node.js only", () => {
     appendBlobClient = containerClient.getAppendBlobClient(blobName);
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await containerClient.delete();
     await recorder.stop();
   });
 
-  it("can be created with a url and a credential", async function () {
+  it("can be created with a url and a credential", async () => {
     const credential = (appendBlobClient as any).credential as StorageSharedKeyCredential;
     const newClient = new AppendBlobClient(appendBlobClient.url, credential);
     configureBlobStorageClient(recorder, newClient);
@@ -77,7 +78,7 @@ describe("AppendBlobClient Node.js only", () => {
     await newClient.download();
   });
 
-  it("can be created with a url and a credential and an option bag", async function () {
+  it("can be created with a url and a credential and an option bag", async () => {
     const credential = (appendBlobClient as any).credential as StorageSharedKeyCredential;
     const newClient = new AppendBlobClient(appendBlobClient.url, credential, {
       userAgentOptions: { userAgentPrefix: "test/1.0" },
@@ -88,7 +89,7 @@ describe("AppendBlobClient Node.js only", () => {
     await newClient.download();
   });
 
-  it("can be created with a url and a TokenCredential", async function () {
+  it("can be created with a url and a TokenCredential", async () => {
     const tokenCredential: TokenCredential = {
       getToken: () =>
         Promise.resolve({
@@ -167,7 +168,7 @@ describe("AppendBlobClient Node.js only", () => {
     await newClient.download();
   });
 
-  it("can be created with a connection string", async function () {
+  it("can be created with a connection string", async () => {
     const newClient = new AppendBlobClient(
       getConnectionStringFromEnvironment(),
       containerName,
@@ -179,7 +180,7 @@ describe("AppendBlobClient Node.js only", () => {
     await newClient.download();
   });
 
-  it("can be created with a connection string and an option bag", async function () {
+  it("can be created with a connection string and an option bag", async () => {
     const newClient = new AppendBlobClient(
       getConnectionStringFromEnvironment(),
       containerName,
@@ -196,7 +197,7 @@ describe("AppendBlobClient Node.js only", () => {
     await newClient.download();
   });
 
-  it("appendBlockFromURL", async function () {
+  it("appendBlockFromURL", async () => {
     await appendBlobClient.create();
 
     const content = "Hello World!";
@@ -229,7 +230,7 @@ describe("AppendBlobClient Node.js only", () => {
     assert.equal(downloadResponse.contentLength!, content.length * 2);
   });
 
-  it("appendBlockFromURL - source SAS and destination bearer token", async function (this: Context) {
+  it("appendBlockFromURL - source SAS and destination bearer token", async () => {
     await appendBlobClient.create();
 
     const content = "Hello World!";
@@ -269,7 +270,7 @@ describe("AppendBlobClient Node.js only", () => {
     assert.equal(downloadResponse.contentLength!, content.length);
   });
 
-  it("appendBlockFromURL - source bear token and destination account key", async function (this: Context) {
+  it("appendBlockFromURL - source bear token and destination account key", async () => {
     await appendBlobClient.create();
 
     const content = "Hello World!";
@@ -293,7 +294,7 @@ describe("AppendBlobClient Node.js only", () => {
     assert.equal(downloadResponse.contentLength!, content.length);
   });
 
-  it("appendBlockFromURL - destination bearer token", async function (this: Context) {
+  it("appendBlockFromURL - destination bearer token", async () => {
     await appendBlobClient.create();
 
     const content = "Hello World!";
@@ -428,22 +429,26 @@ describe("AppendBlobClient Node.js only", () => {
     assert.equal(downloadResponse.contentLength!, content.length * 2);
   });
 
-  it("appendBlock - append large block", async function (this: Context) {
-    if (!isLiveMode()) {
-      // Recorder file larger than github limitation
-      this.skip();
-    }
-    await appendBlobClient.create();
+  it(
+    "appendBlock - append large block",
+    { timeout: timeoutForLargeFileUploadingTest },
+    async (ctx) => {
+      if (!isLiveMode()) {
+        // Recorder file larger than github limitation
+        ctx.skip();
+      }
+      await appendBlobClient.create();
 
-    const largeBlockSize = 100 * 1024 * 1024;
-    const content = new Uint8Array(largeBlockSize);
-    for (let i = 0; i < largeBlockSize; i = i + 1000) {
-      content[i] = i;
-    }
-    await appendBlobClient.appendBlock(content, content.length);
+      const largeBlockSize = 100 * 1024 * 1024;
+      const content = new Uint8Array(largeBlockSize);
+      for (let i = 0; i < largeBlockSize; i = i + 1000) {
+        content[i] = i;
+      }
+      await appendBlobClient.appendBlock(content, content.length);
 
-    const downloadResponse = await appendBlobClient.downloadToBuffer(0);
-    assert.deepStrictEqual(downloadResponse, content);
-    assert.equal(downloadResponse.length, content.length);
-  }).timeout(timeoutForLargeFileUploadingTest);
+      const downloadResponse = await appendBlobClient.downloadToBuffer(0);
+      assert.deepStrictEqual(downloadResponse, content);
+      assert.equal(downloadResponse.length, content.length);
+    },
+  );
 });

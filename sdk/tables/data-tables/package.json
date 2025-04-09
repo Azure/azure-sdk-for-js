@@ -30,7 +30,7 @@
     "test:node": "npm run build:test && npm run unit-test:node && npm run integration-test:node",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
     "unit-test:browser": "npm run clean && dev-tool run build-package && dev-tool run build-test && dev-tool run test:vitest --browser",
-    "unit-test:node": "dev-tool run test:vitest",
+    "unit-test:node": "dev-tool run test:vitest --test-proxy-debug",
     "update-snippets": "dev-tool run update-snippets"
   },
   "files": [
@@ -69,6 +69,7 @@
     "@azure-tools/test-credential": "^2.0.0",
     "@azure-tools/test-recorder": "^4.1.0",
     "@azure-tools/test-utils-vitest": "^1.0.0",
+    "@azure/arm-storage": "^18.4.0",
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure/identity": "^4.7.0",
@@ -86,6 +87,9 @@
     "productSlugs": [
       "azure",
       "azure-table-storage"
+    ],
+    "skip": [
+      "generateTableSAS.js"
     ],
     "requiredResources": {
       "Azure Storage instance": "https://learn.microsoft.com/azure/storage/tables/table-storage-quickstart-portal"

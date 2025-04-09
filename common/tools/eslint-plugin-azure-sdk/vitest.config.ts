@@ -16,6 +16,7 @@ export default defineConfig({
     watch: false,
     include: ["tests/**/*.ts"],
     exclude: ["tests/ruleTester.ts", "tests/fixture/**"],
+    testTimeout: 10000,
     coverage: {
       include: ["src/**/*.ts"],
       exclude: ["vitest*.config.ts", "tests/fixture/**"],

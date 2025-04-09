@@ -2,12 +2,11 @@
 // Licensed under the MIT License.
 
 import { isNodeLike } from "@azure/core-util";
-import { assert } from "@azure-tools/test-utils";
 import { isPlaybackMode, Recorder, delay } from "@azure-tools/test-recorder";
 
-import type { DataLakeDirectoryClient, DataLakeFileSystemClient } from "../src";
-import { DataLakeFileClient } from "../src";
-import { toPermissionsString } from "../src/transforms";
+import type { DataLakeDirectoryClient, DataLakeFileSystemClient } from "../src/index.js";
+import { DataLakeFileClient } from "../src/index.js";
+import { toPermissionsString } from "../src/transforms.js";
 import {
   bodyToString,
   getDataLakeServiceClient,
@@ -16,10 +15,13 @@ import {
   recorderEnvSetup,
   sleep,
   uriSanitizers,
-} from "./utils";
-import type { Context } from "mocha";
-import { Test_CPK_INFO } from "./utils/fakeTestSecrets";
-import { useFakeTimers } from "sinon";
+} from "./utils/index.js";
+import { Test_CPK_INFO } from "./utils/fakeTestSecrets.js";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
+import { toSupportTracing } from "@azure-tools/test-utils-vitest";
+import type { OperationOptions } from "@azure/core-client";
+
+expect.extend({ toSupportTracing });
 
 describe("DataLakePathClient", () => {
   let fileSystemName: string;
@@ -30,8 +32,8 @@ describe("DataLakePathClient", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async (ctx) => {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderEnvSetup);
     await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
     const serviceClient = getDataLakeServiceClient(recorder);
@@ -45,7 +47,7 @@ describe("DataLakePathClient", () => {
     await fileClient.flush(content.length);
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await fileSystemClient.deleteIfExists();
     await recorder.stop();
   });
@@ -912,13 +914,10 @@ describe("DataLakePathClient", () => {
   });
 
   it("read with default parameters and tracing", async () => {
-    await assert.supportsTracing(
-      async (options) => {
-        const result = await fileClient.read(undefined, undefined, options);
-        assert.deepStrictEqual(await bodyToString(result, content.length), content);
-      },
-      ["DataLakeFileClient-read"],
-    );
+    await expect(async (options: OperationOptions) => {
+      const result = await fileClient.read(undefined, undefined, options);
+      assert.deepStrictEqual(await bodyToString(result, content.length), content);
+    }).toSupportTracing(["DataLakeFileClient-read"]);
   });
 
   it("verify fileName and fileSystemName passed to the client", async () => {
@@ -1394,12 +1393,13 @@ describe("DataLakePathClient", () => {
     const now = new Date(recorder.variable("now", new Date().toISOString())); // Flaky workaround for the recording to work.
     const delta = 5 * 1000;
     const expiresOn = new Date(now.getTime() + delta);
-    const clock = useFakeTimers(now);
+    vi.useFakeTimers();
+    vi.setSystemTime(now);
     let setExpiryPromise: Promise<unknown>;
     try {
       setExpiryPromise = fileClient.setExpiry("Absolute", { expiresOn });
     } finally {
-      clock.restore();
+      vi.useRealTimers();
     }
     await setExpiryPromise;
 
@@ -1452,8 +1452,8 @@ describe("DataLakePathClient with CPK", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async (ctx) => {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderEnvSetup);
     await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
     const serviceClient = getDataLakeServiceClient(recorder);
@@ -1466,7 +1466,7 @@ describe("DataLakePathClient with CPK", () => {
     dirClient = fileSystemClient.getDirectoryClient(dirName);
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await fileSystemClient.deleteIfExists();
     await recorder.stop();
   });
@@ -1849,14 +1849,14 @@ describe("DataLakePathClient - Encryption Scope", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
+  beforeEach(async (ctx) => {
     try {
       encryptionScopeName = getEncryptionScope();
     } catch {
-      this.skip();
+      ctx.skip();
     }
 
-    recorder = new Recorder(this.currentTest);
+    recorder = new Recorder(ctx);
     await recorder.start(recorderEnvSetup);
     await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
     const serviceClient = getDataLakeServiceClient(recorder);
@@ -1870,7 +1870,7 @@ describe("DataLakePathClient - Encryption Scope", () => {
     });
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await fileSystemClient?.deleteIfExists();
     if (recorder) {
       await recorder.stop();

@@ -57,9 +57,8 @@ import { textAnalyticsAzureKeyCredentialPolicy } from "./azureKeyCredentialPolic
  *
  * #### API Key
  *
- * ```ts snippet:ReadmeSampleCreateClient_Node
- * import { AzureKeyCredential } from "@azure/core-auth";
- * import { TextAnalysisClient } from "@azure/ai-language-text";
+ * ```ts snippet:ReadmeSampleCreateClient_Key
+ * import { AzureKeyCredential, TextAnalysisClient } from "@azure/ai-language-text";
  *
  * const endpoint = "https://<resource name>.cognitiveservices.azure.com";
  * const credential = new AzureKeyCredential("<api key>");
@@ -96,9 +95,8 @@ export class TextAnalysisClient {
    *
    * ### Example
    *
-   * ```ts snippet:ReadmeSampleCreateClient_Node
-   * import { AzureKeyCredential } from "@azure/core-auth";
-   * import { TextAnalysisClient } from "@azure/ai-language-text";
+   * ```ts snippet:ReadmeSampleCreateClient_Key
+   * import { AzureKeyCredential, TextAnalysisClient } from "@azure/ai-language-text";
    *
    * const endpoint = "https://<resource name>.cognitiveservices.azure.com";
    * const credential = new AzureKeyCredential("<api key>");
@@ -196,7 +194,7 @@ export class TextAnalysisClient {
    *
    * ```ts snippet:Sample_LanguageDetection
    * import { TextAnalysisClient } from "@azure/ai-language-text";
-   * import { AzureKeyCredential } from "@azure/core-auth";
+   * import { DefaultAzureCredential } from "@azure/identity";
    *
    * const documents = [
    *   "This document is written in English.",
@@ -206,7 +204,7 @@ export class TextAnalysisClient {
    *   "Detta är ett dokument skrivet på engelska.",
    * ];
    *
-   * const client = new TextAnalysisClient("<endpoint>", new AzureKeyCredential("<API key>"));
+   * const client = new TextAnalysisClient("<endpoint>", new DefaultAzureCredential());
    *
    * const result = await client.analyze("LanguageDetection", documents, "us", {
    *   modelVersion: "2022-04-10-preview",
@@ -253,7 +251,7 @@ export class TextAnalysisClient {
    *
    * ```ts snippet:Sample_LanguageDetection
    * import { TextAnalysisClient } from "@azure/ai-language-text";
-   * import { AzureKeyCredential } from "@azure/core-auth";
+   * import { DefaultAzureCredential } from "@azure/identity";
    *
    * const documents = [
    *   "This document is written in English.",
@@ -263,7 +261,7 @@ export class TextAnalysisClient {
    *   "Detta är ett dokument skrivet på engelska.",
    * ];
    *
-   * const client = new TextAnalysisClient("<endpoint>", new AzureKeyCredential("<API key>"));
+   * const client = new TextAnalysisClient("<endpoint>", new DefaultAzureCredential());
    *
    * const result = await client.analyze("LanguageDetection", documents, "us", {
    *   modelVersion: "2022-04-10-preview",
@@ -322,14 +320,14 @@ export class TextAnalysisClient {
    *
    * ```ts snippet:Sample_SentimentAnalysis
    * import { TextAnalysisClient } from "@azure/ai-language-text";
-   * import { AzureKeyCredential } from "@azure/core-auth";
+   * import { DefaultAzureCredential } from "@azure/identity";
    *
    * const documents = [
    *   "I had the best day of my life.",
    *   "This was a waste of my time. The speaker put me to sleep.",
    * ];
    *
-   * const client = new TextAnalysisClient("<endpoint>", new AzureKeyCredential("<API key>"));
+   * const client = new TextAnalysisClient("<endpoint>", new DefaultAzureCredential());
    *
    * const results = await client.analyze("SentimentAnalysis", documents);
    *
@@ -358,10 +356,14 @@ export class TextAnalysisClient {
    * #### Personally identifiable information
    *
    * ```ts snippet:Sample_PIIEntityRecognition
-   * import { TextAnalysisClient } from "@azure/ai-language-text";
-   * import { AzureKeyCredential } from "@azure/core-auth";
+   * import {
+   *   TextAnalysisClient,
+   *   KnownPiiEntityDomain,
+   *   KnownPiiEntityCategory,
+   * } from "@azure/ai-language-text";
+   * import { DefaultAzureCredential } from "@azure/identity";
    *
-   * const client = new TextAnalysisClient("<endpoint>", new AzureKeyCredential("<API key>"));
+   * const client = new TextAnalysisClient("<endpoint>", new DefaultAzureCredential());
    *
    * const documents = ["My phone number is 555-5555"];
    *
@@ -418,14 +420,14 @@ export class TextAnalysisClient {
    *
    * ```ts snippet:Sample_SentimentAnalysis
    * import { TextAnalysisClient } from "@azure/ai-language-text";
-   * import { AzureKeyCredential } from "@azure/core-auth";
+   * import { DefaultAzureCredential } from "@azure/identity";
    *
    * const documents = [
    *   "I had the best day of my life.",
    *   "This was a waste of my time. The speaker put me to sleep.",
    * ];
    *
-   * const client = new TextAnalysisClient("<endpoint>", new AzureKeyCredential("<API key>"));
+   * const client = new TextAnalysisClient("<endpoint>", new DefaultAzureCredential());
    *
    * const results = await client.analyze("SentimentAnalysis", documents);
    *
@@ -454,10 +456,14 @@ export class TextAnalysisClient {
    * #### Personally identifiable information
    *
    * ```ts snippet:Sample_PIIEntityRecognition
-   * import { TextAnalysisClient } from "@azure/ai-language-text";
-   * import { AzureKeyCredential } from "@azure/core-auth";
+   * import {
+   *   TextAnalysisClient,
+   *   KnownPiiEntityDomain,
+   *   KnownPiiEntityCategory,
+   * } from "@azure/ai-language-text";
+   * import { DefaultAzureCredential } from "@azure/identity";
    *
-   * const client = new TextAnalysisClient("<endpoint>", new AzureKeyCredential("<API key>"));
+   * const client = new TextAnalysisClient("<endpoint>", new DefaultAzureCredential());
    *
    * const documents = ["My phone number is 555-5555"];
    *
@@ -588,8 +594,8 @@ export class TextAnalysisClient {
    * #### Key phrase extraction and Pii entity recognition
    *
    * ```ts snippet:Sample_ActionBatching
-   * import { TextAnalysisClient } from "@azure/ai-language-text";
-   * import { AzureKeyCredential } from "@azure/core-auth";
+   * import { TextAnalysisClient, AnalyzeBatchAction } from "@azure/ai-language-text";
+   * import { DefaultAzureCredential } from "@azure/identity";
    *
    * const documents = [
    *   "Microsoft was founded by Bill Gates and Paul Allen.",
@@ -599,7 +605,7 @@ export class TextAnalysisClient {
    *   "We went to Contoso Steakhouse located at midtown NYC last week for a dinner party, and we adore the spot! They provide marvelous food and they have a great menu. The chief cook happens to be the owner (I think his name is John Doe) and he is super nice, coming out of the kitchen and greeted us all. We enjoyed very much dining in the place! The Sirloin steak I ordered was tender and juicy, and the place was impeccably clean. You can even pre-order from their online menu at www.contososteakhouse.com, call 312-555-0176 or send email to order@contososteakhouse.com! The only complaint I have is the food didn't come fast enough. Overall I highly recommend it!",
    * ];
    *
-   * const client = new TextAnalysisClient("<endpoint>", new AzureKeyCredential("<API key>"));
+   * const client = new TextAnalysisClient("<endpoint>", new DefaultAzureCredential());
    *
    * const actions: AnalyzeBatchAction[] = [
    *   {
@@ -722,8 +728,8 @@ export class TextAnalysisClient {
    * #### Keyphrase extraction and Pii entity recognition
    *
    * ```ts snippet:Sample_ActionBatching
-   * import { TextAnalysisClient } from "@azure/ai-language-text";
-   * import { AzureKeyCredential } from "@azure/core-auth";
+   * import { TextAnalysisClient, AnalyzeBatchAction } from "@azure/ai-language-text";
+   * import { DefaultAzureCredential } from "@azure/identity";
    *
    * const documents = [
    *   "Microsoft was founded by Bill Gates and Paul Allen.",
@@ -733,7 +739,7 @@ export class TextAnalysisClient {
    *   "We went to Contoso Steakhouse located at midtown NYC last week for a dinner party, and we adore the spot! They provide marvelous food and they have a great menu. The chief cook happens to be the owner (I think his name is John Doe) and he is super nice, coming out of the kitchen and greeted us all. We enjoyed very much dining in the place! The Sirloin steak I ordered was tender and juicy, and the place was impeccably clean. You can even pre-order from their online menu at www.contososteakhouse.com, call 312-555-0176 or send email to order@contososteakhouse.com! The only complaint I have is the food didn't come fast enough. Overall I highly recommend it!",
    * ];
    *
-   * const client = new TextAnalysisClient("<endpoint>", new AzureKeyCredential("<API key>"));
+   * const client = new TextAnalysisClient("<endpoint>", new DefaultAzureCredential());
    *
    * const actions: AnalyzeBatchAction[] = [
    *   {

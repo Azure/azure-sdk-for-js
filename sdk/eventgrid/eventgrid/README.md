@@ -143,37 +143,36 @@ Event Grid supports multiple schemas for encoding events. When a Custom Topic or
 If your topic is configured to use the Event Grid Schema, set "EventGrid" as the schema type:
 
 ```ts snippet:ReadmeSampleCreateClient_EventGrid
-import { EventGridPublisherClient, AzureKeyCredential } from "@azure/eventgrid";
+import { EventGridPublisherClient } from "@azure/eventgrid";
+import { DefaultAzureCredential } from "@azure/identity";
 
 const client = new EventGridPublisherClient(
   "<endpoint>",
   "EventGrid",
-  new AzureKeyCredential("<API Key>"),
+  new DefaultAzureCredential(),
 );
 ```
 
 If your topic is configured to use the Cloud Event Schema, set "CloudEvent" as the schema type:
 
 ```ts snippet:ReadmeSampleCreateClient_CloudEvent
-import { EventGridPublisherClient, AzureKeyCredential } from "@azure/eventgrid";
+import { EventGridPublisherClient } from "@azure/eventgrid";
+import { DefaultAzureCredential } from "@azure/identity";
 
 const client = new EventGridPublisherClient(
   "<endpoint>",
   "CloudEvent",
-  new AzureKeyCredential("<API Key>"),
+  new DefaultAzureCredential(),
 );
 ```
 
 If your topic is configured to use a Custom Event Schema, set "Custom" as the schema type:
 
 ```ts snippet:ReadmeSampleCreateClient_Custom
-import { EventGridPublisherClient, AzureKeyCredential } from "@azure/eventgrid";
+import { EventGridPublisherClient } from "@azure/eventgrid";
+import { DefaultAzureCredential } from "@azure/identity";
 
-const client = new EventGridPublisherClient(
-  "<endpoint>",
-  "Custom",
-  new AzureKeyCredential("<API Key>"),
-);
+const client = new EventGridPublisherClient("<endpoint>", "Custom", new DefaultAzureCredential());
 ```
 
 Constructing the client with a different schema than what the topic is configured to expect will result in an error from the service and your events will not be published.
@@ -210,12 +209,13 @@ This library has been tested and validated on [Kubernetes using Azure Arc][event
 ### Publish a Custom Event to an Event Grid Topic using the Event Grid Schema
 
 ```ts snippet:ReadmeSample_PublishCustomEvent
-import { EventGridPublisherClient, AzureKeyCredential } from "@azure/eventgrid";
+import { EventGridPublisherClient } from "@azure/eventgrid";
+import { DefaultAzureCredential } from "@azure/identity";
 
 const client = new EventGridPublisherClient(
   "<endpoint>",
   "EventGrid",
-  new AzureKeyCredential("<API key>"),
+  new DefaultAzureCredential(),
 );
 
 await client.send([
@@ -235,12 +235,13 @@ await client.send([
 Publishing events to an Event Grid Domain is similar to publish to an Event Grid Topic, except that when using the Event Grid schema for events, you must include the `topic` property. When publishing events in the Cloud Events 1.0 schema, the required `source` property is used as the name of the topic in the domain to publish to:
 
 ```ts snippet:ReadmeSample_PublishCustomEventToDomain
-import { EventGridPublisherClient, AzureKeyCredential } from "@azure/eventgrid";
+import { EventGridPublisherClient } from "@azure/eventgrid";
+import { DefaultAzureCredential } from "@azure/identity";
 
 const client = new EventGridPublisherClient(
   "<endpoint>",
   "EventGrid",
-  new AzureKeyCredential("<API key>"),
+  new DefaultAzureCredential(),
 );
 
 await client.send([

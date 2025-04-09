@@ -22,7 +22,7 @@ import {
   BlockListType,
   BlockBlobGetBlockListOptionalParams,
   BlockBlobGetBlockListResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a BlockBlob. */
 export interface BlockBlob {

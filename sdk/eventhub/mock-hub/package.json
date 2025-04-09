@@ -1,5 +1,5 @@
 {
-  "name": "@azure/mock-hub",
+  "name": "@azure-tools/mock-hub",
   "version": "1.0.0",
   "private": true,
   "author": "Microsoft Corporation",

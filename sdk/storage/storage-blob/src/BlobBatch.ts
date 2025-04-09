@@ -15,14 +15,14 @@ import {
   createEmptyPipeline,
   createHttpHeaders,
 } from "@azure/core-rest-pipeline";
-import { isNode } from "@azure/core-util";
-import { AnonymousCredential } from "./credentials/AnonymousCredential";
-import type { BlobDeleteOptions, BlobSetTierOptions } from "./Clients";
-import { BlobClient } from "./Clients";
-import type { AccessTier } from "./generatedModels";
-import { Mutex } from "./utils/Mutex";
-import { Pipeline } from "./Pipeline";
-import { getURLPath, getURLPathAndQuery, iEqual } from "./utils/utils.common";
+import { isNodeLike } from "@azure/core-util";
+import { AnonymousCredential } from "./credentials/AnonymousCredential.js";
+import type { BlobDeleteOptions, BlobSetTierOptions } from "./Clients.js";
+import { BlobClient } from "./Clients.js";
+import type { AccessTier } from "./generatedModels.js";
+import { Mutex } from "./utils/Mutex.js";
+import { Pipeline } from "./Pipeline.js";
+import { getURLPath, getURLPathAndQuery, iEqual } from "./utils/utils.common.js";
 import { stringifyXML } from "@azure/core-xml";
 import {
   HeaderConstants,
@@ -30,11 +30,11 @@ import {
   HTTP_VERSION_1_1,
   HTTP_LINE_ENDING,
   StorageOAuthScopes,
-} from "./utils/constants";
-import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
-import { tracingClient } from "./utils/tracing";
+} from "./utils/constants.js";
+import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential.js";
+import { tracingClient } from "./utils/tracing.js";
 import { authorizeRequestOnTenantChallenge, serializationPolicy } from "@azure/core-client";
-import { storageSharedKeyCredentialPolicy } from "./policies/StorageSharedKeyCredentialPolicyV2";
+import { storageSharedKeyCredentialPolicy } from "./policies/StorageSharedKeyCredentialPolicyV2.js";
 
 /**
  * A request associated with a batch operation.
@@ -165,7 +165,7 @@ export class BlobBatch {
 
     if (
       typeof urlOrBlobClient === "string" &&
-      ((isNode && credentialOrOptions instanceof StorageSharedKeyCredential) ||
+      ((isNodeLike && credentialOrOptions instanceof StorageSharedKeyCredential) ||
         credentialOrOptions instanceof AnonymousCredential ||
         isTokenCredential(credentialOrOptions))
     ) {
@@ -269,7 +269,7 @@ export class BlobBatch {
 
     if (
       typeof urlOrBlobClient === "string" &&
-      ((isNode && credentialOrTier instanceof StorageSharedKeyCredential) ||
+      ((isNodeLike && credentialOrTier instanceof StorageSharedKeyCredential) ||
         credentialOrTier instanceof AnonymousCredential ||
         isTokenCredential(credentialOrTier))
     ) {

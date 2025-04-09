@@ -9,18 +9,16 @@
  */
 
 const { ConversationAnalysisClient } = require("@azure/ai-language-conversations");
-const { AzureKeyCredential } = require("@azure/core-auth");
-require("dotenv").config();
+const { DefaultAzureCredential } = require("@azure/identity");
 
-//Get secrets
-//You will have to set these environment variables for the sample to work
+require("dotenv/config");
+
 const cluEndpoint =
-  process.env.AZURE_CONVERSATIONS_ENDPOINT || "https://dummyendpoint.cognitiveservices.azure.com";
-const cluKey = process.env.AZURE_CONVERSATIONS_KEY || "<api-key>";
+  process.env.LANGUAGE_ENDPOINT || "https://dummyendpoint.cognitiveservices.azure.com";
 const projectName = process.env.AZURE_CONVERSATIONS_PROJECT_NAME || "<project-name>";
 const deploymentName = process.env.AZURE_CONVERSATIONS_DEPLOYMENT_NAME || "<deployment-name>";
 
-const service = new ConversationAnalysisClient(cluEndpoint, new AzureKeyCredential(cluKey));
+const service = new ConversationAnalysisClient(cluEndpoint, new DefaultAzureCredential());
 
 const body = {
   kind: "Conversation",
@@ -38,14 +36,14 @@ const body = {
 };
 
 async function main() {
-  //Analyze query
+  // Analyze query
   const { result } = await service.analyzeConversation(body);
   console.log("query: ", result.query);
   console.log("project kind: ", result.prediction.projectKind);
   console.log("top intent: ", result.prediction.topIntent);
 
   const prediction = result.prediction;
-  if (prediction.projectKind == "Conversation") {
+  if (prediction.projectKind === "Conversation") {
     console.log("category: ", prediction.intents[0].category);
     console.log("confidence score: ", prediction.intents[0].confidence);
     console.log("entities:");
@@ -67,8 +65,8 @@ async function main() {
         console.log("extra info:");
         for (const data of entity.extraInformation) {
           console.log("kind: ", data.extraInformationKind);
-          if (data.extraInformationKind == "ListKey") console.log("key: ", data.key);
-          if (data.extraInformationKind == "EntitySubtype") console.log("value: ", data.value);
+          if (data.extraInformationKind === "ListKey") console.log("key: ", data.key);
+          if (data.extraInformationKind === "EntitySubtype") console.log("value: ", data.value);
         }
       }
     }

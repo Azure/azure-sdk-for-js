@@ -7,20 +7,17 @@
  * @summary Conversation Summarization
  */
 
-const { AzureKeyCredential } = require("@azure/core-auth");
 const { ConversationAnalysisClient } = require("@azure/ai-language-conversations");
-require("dotenv").config();
+const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv/config");
 
-//Get secrets
-//You will have to set these environment variables for the sample to work
 const cluEndpoint =
-  process.env.AZURE_CONVERSATIONS_ENDPOINT || "https://dummyendpoint.cognitiveservices.azure.com";
-const cluKey = process.env.AZURE_CONVERSATIONS_KEY || "<api-key>";
+  process.env.LANGUAGE_ENDPOINT || "https://dummyendpoint.cognitiveservices.azure.com";
 
-const service = new ConversationAnalysisClient(cluEndpoint, new AzureKeyCredential(cluKey));
+const service = new ConversationAnalysisClient(cluEndpoint, new DefaultAzureCredential());
 
 async function main() {
-  //Analyze query
+  // Analyze query
   const poller = await service.beginConversationAnalysis({
     displayName: "Analyze conversations from xxx",
     analysisInput: {
@@ -67,18 +64,18 @@ async function main() {
   if (actionResult.tasks.items === undefined) return;
 
   const taskResult = actionResult.tasks.items[0];
-  if (taskResult.kind == "conversationalSummarizationResults") {
+  if (taskResult.kind === "conversationalSummarizationResults") {
     console.log("... view task status ...");
     console.log("status: %s", taskResult.status);
     const resolutionResult = taskResult.results;
-    if (resolutionResult.errors && resolutionResult.errors.length != 0) {
-      console.log("... errors occured ...");
+    if (resolutionResult.errors && resolutionResult.errors.length !== 0) {
+      console.log("... errors occurred ...");
       for (const error of resolutionResult.errors) {
         console.log(error);
       }
     } else {
       const conversationResult = resolutionResult.conversations[0];
-      if (conversationResult.warnings && conversationResult.warnings.length != 0) {
+      if (conversationResult.warnings && conversationResult.warnings.length !== 0) {
         console.log("... view warnings ...");
         for (const warning of conversationResult.warnings) {
           console.log(warning);

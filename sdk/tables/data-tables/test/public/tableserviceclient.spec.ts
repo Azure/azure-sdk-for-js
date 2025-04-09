@@ -1,16 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
+import { Recorder } from "@azure-tools/test-recorder";
 import type { TableItem, TableItemResultPage, TableServiceClient } from "../../src/index.js";
 import { odata } from "../../src/index.js";
 import type { FullOperationResponse, OperationOptions } from "@azure/core-client";
 import { createTableServiceClient } from "./utils/recordedClient.js";
-import { isNodeLike } from "@azure/core-util";
+import { delay, isNodeLike } from "@azure/core-util";
 import { describe, it, assert, expect, beforeEach, afterEach, beforeAll, afterAll } from "vitest";
 import { toSupportTracing } from "@azure-tools/test-utils-vitest";
+import { isPlaybackMode } from "../utils/injectables.js";
 
 expect.extend({ toSupportTracing });
+
+const waitTimeout = isPlaybackMode() ? 0 : 3000;
 
 describe(`TableServiceClient`, () => {
   let client: TableServiceClient;
@@ -41,6 +44,7 @@ describe(`TableServiceClient`, () => {
         }
       }
 
+      await delay(waitTimeout);
       await client.deleteTable(tableName, { onResponse: (res) => (deleteTableResult = res) });
 
       assert.equal(deleteTableResult?.status, 204);
@@ -70,6 +74,7 @@ describe(`TableServiceClient`, () => {
       if (!isPlaybackMode()) {
         try {
           for (const table of tableNames) {
+            await delay(waitTimeout);
             await unRecordedClient.deleteTable(table);
           }
         } catch (error: any) {
@@ -191,6 +196,7 @@ describe(`TableServiceClient`, () => {
         } catch {
           // ignore exceptions
         }
+        await delay(waitTimeout);
         await client.deleteTable(tableName, options);
       }).toSupportTracing([
         "TableServiceClient.createTable",

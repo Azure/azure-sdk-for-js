@@ -8,13 +8,16 @@ import {
   getUniqueName,
   recorderEnvSetup,
   uriSanitizers,
-} from "./utils";
-import type { QueueServiceClient } from "../src";
-import { QueueClient } from "../src";
-import { assert } from "@azure-tools/test-utils";
+} from "./utils/index.js";
+import type { QueueServiceClient } from "../src/index.js";
+import { QueueClient } from "../src/index.js";
 import type { RestError } from "@azure/core-rest-pipeline";
 import { Recorder } from "@azure-tools/test-recorder";
-import type { Context } from "mocha";
+import { describe, it, assert, expect, beforeEach, afterEach } from "vitest";
+import { toSupportTracing } from "@azure-tools/test-utils-vitest";
+import type { OperationOptions } from "@azure/core-client";
+
+expect.extend({ toSupportTracing });
 
 describe("QueueClient", () => {
   let queueServiceClient: QueueServiceClient;
@@ -23,8 +26,8 @@ describe("QueueClient", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async (ctx) => {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderEnvSetup);
     await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
     queueServiceClient = getQSU(recorder);
@@ -33,7 +36,7 @@ describe("QueueClient", () => {
     await queueClient.create();
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await queueClient.delete();
     await recorder.stop();
   });
@@ -76,9 +79,8 @@ describe("QueueClient", () => {
     assert.ok(error!.response!.bodyAsText!.includes("QueueNotFound"));
   });
 
-  it("create with default parameters", (done) => {
+  it("create with default parameters", () => {
     // create() with default parameters has been tested in beforeEach
-    done();
   });
 
   it("create with all parameters", async () => {
@@ -146,9 +148,8 @@ describe("QueueClient", () => {
     assert.ok(res2.succeeded);
   });
 
-  it("delete", (done) => {
+  it("delete", () => {
     // delete() with default parameters has been tested in afterEach
-    done();
   });
 
   // getAccessPolicy and setAccessPolicy is in node's cases.
@@ -213,12 +214,9 @@ describe("QueueClient", () => {
   });
 
   it("getProperties with tracing", async () => {
-    await assert.supportsTracing(
-      async (options) => {
-        await queueClient.getProperties(options);
-      },
-      ["QueueClient-getProperties"],
-    );
+    await expect(async (options: OperationOptions) => {
+      await queueClient.getProperties(options);
+    }).toSupportTracing(["QueueClient-getProperties"]);
   });
 });
 
@@ -226,7 +224,11 @@ describe("QueueClient - Verify Name Properties", () => {
   const queueName = "queueName";
   const accountName = "myaccount";
 
-  function verifyNameProperties(url: string, inputAccountName: string, inputQueueName: string) {
+  function verifyNameProperties(
+    url: string,
+    inputAccountName: string,
+    inputQueueName: string,
+  ): void {
     const newClient = new QueueClient(url);
     assert.equal(newClient.name, inputQueueName, "Queue name is not the same as the one provided.");
     assert.equal(

@@ -5,15 +5,19 @@ import type { TokenCredential } from "@azure/core-auth";
 import { createTestCredential } from "@azure-tools/test-credential";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { env } from "@azure-tools/test-recorder";
-import { randomBytes } from "crypto";
-import * as fs from "fs";
-import * as path from "path";
+import { randomBytes } from "node:crypto";
+import * as fs from "node:fs";
+import * as path from "node:path";
 
-import { DataLakeServiceClient } from "../../src/DataLakeServiceClient";
-import type { StoragePipelineOptions } from "../../src";
-import { newPipeline, StorageSharedKeyCredential } from "../../src";
-import { getUniqueName, SimpleTokenCredential, configureStorageClient } from "./testutils.common";
-import type { DataLakeSASSignatureValues } from "../../src";
+import { DataLakeServiceClient } from "../../src/DataLakeServiceClient.js";
+import type { StoragePipelineOptions } from "../../src/index.js";
+import { newPipeline, StorageSharedKeyCredential } from "../../src/index.js";
+import {
+  getUniqueName,
+  SimpleTokenCredential,
+  configureStorageClient,
+} from "./testutils.common.js";
+import type { DataLakeSASSignatureValues } from "../../src/index.js";
 import {
   AccountSASPermissions,
   AccountSASResourceTypes,
@@ -21,10 +25,10 @@ import {
   DataLakeFileSystemClient,
   generateAccountSASQueryParameters,
   generateDataLakeSASQueryParameters,
-} from "../../src";
-import { extractConnectionStringParts } from "../../src/utils/utils.common";
+} from "../../src/index.js";
+import { extractConnectionStringParts } from "../../src/utils/utils.common.js";
 
-export * from "./testutils.common";
+export * from "./testutils.common.js";
 
 export function getGenericCredential(accountType: string): StorageSharedKeyCredential {
   const accountNameEnvVar = `${accountType}ACCOUNT_NAME`;
@@ -229,7 +233,7 @@ export async function createRandomLocalFile(
     const ws = fs.createWriteStream(destFile);
     let offsetInMB = 0;
 
-    function randomValueHex(len = blockSize) {
+    function randomValueHex(len = blockSize): string {
       return randomBytes(Math.ceil(len / 2))
         .toString("hex") // convert to hexadecimal format
         .slice(0, len); // return required number of characters
