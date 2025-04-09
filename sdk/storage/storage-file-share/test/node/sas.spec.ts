@@ -1,8 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import { assert } from "chai";
-
 import {
   AccountSASPermissions,
   AccountSASResourceTypes,
@@ -12,29 +9,29 @@ import {
   ShareClient,
   ShareFileClient,
   ShareServiceClient,
-} from "../../src";
-import { AnonymousCredential } from "../../../storage-blob/src/credentials/AnonymousCredential";
-import type { StorageSharedKeyCredential } from "../../../storage-blob/src/credentials/StorageSharedKeyCredential";
-import { FileSASPermissions } from "../../src/FileSASPermissions";
-import { generateFileSASQueryParameters } from "../../src/FileSASSignatureValues";
-import { newPipeline } from "../../src/Pipeline";
-import { ShareSASPermissions } from "../../src/ShareSASPermissions";
+} from "../../src/index.js";
+import { AnonymousCredential } from "@azure/storage-blob";
+import type { StorageSharedKeyCredential } from "@azure/storage-blob";
+import { FileSASPermissions } from "../../src/FileSASPermissions.js";
+import { generateFileSASQueryParameters } from "../../src/FileSASSignatureValues.js";
+import { newPipeline } from "../../src/Pipeline.js";
+import { ShareSASPermissions } from "../../src/ShareSASPermissions.js";
 import {
   configureStorageClient,
   getBSU,
   getUniqueName,
   recorderEnvSetup,
   uriSanitizers,
-} from "../utils";
+} from "../utils/index.js";
 import { delay, Recorder } from "@azure-tools/test-recorder";
-import type { Context } from "mocha";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("Shared Access Signature (SAS) generation Node.js only", () => {
   let recorder: Recorder;
   let serviceClient: ShareServiceClient;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async (ctx) => {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderEnvSetup);
     await recorder.addSanitizers(
       {
@@ -48,7 +45,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     serviceClient = getBSU(recorder);
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 

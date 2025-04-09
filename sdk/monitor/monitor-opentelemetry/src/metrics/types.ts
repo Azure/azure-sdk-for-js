@@ -34,6 +34,8 @@ export enum PerformanceCounterMetricNames {
   PROCESS_TIME = "Process_Time",
   REQUEST_RATE = "Request_Rate",
   REQUEST_DURATION = "Request_Execution_Time",
+  PROCESS_TIME_NORMALIZED = "Process_Time_Normalized",
+  EXCEPTION_RATE = "Exception_Rate",
 }
 
 export type MetricDimensionTypeKeys =
