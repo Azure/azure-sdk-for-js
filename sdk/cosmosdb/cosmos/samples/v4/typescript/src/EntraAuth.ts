@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import "dotenv/config";
-import { UsernamePasswordCredential } from "@azure/identity";
+import { DefaultAzureCredential } from "@azure/identity";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import { CosmosClient } from "@azure/cosmos";
@@ -14,14 +14,10 @@ const existingContainerId = process.env.COSMOS_CONTAINER || "<cosmos container>"
 
 async function run(): Promise<void> {
   logStep("Create credential object from @azure/identity");
-  const credentials = new UsernamePasswordCredential(
-    "fake-tenant-id",
-    "fake-client-id",
-    "fakeUsername",
-    "fakePassword",
-  );
+  const credentials = new DefaultAzureCredential();
+
   logStep("Pass credentials to client object with key aadCredentials");
-  const aadClient = new CosmosClient({
+  const entraAuthClient = new CosmosClient({
     endpoint,
     aadCredentials: credentials,
   });
@@ -36,12 +32,12 @@ async function run(): Promise<void> {
   );
 
   // fails
-  await aadClient.databases.readAll({}).fetchAll();
+  await entraAuthClient.databases.readAll({}).fetchAll();
   // succeeds
   await genericClient.databases.readAll({}).fetchAll();
 
   // succeeds
-  await aadClient.database("example").container(existingContainerId).items.readAll();
+  await entraAuthClient.database("example").container(existingContainerId).items.readAll();
   // succeeds
   await genericClient.database("example").container(existingContainerId).items.readAll();
 

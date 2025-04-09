@@ -188,6 +188,9 @@ export interface AIProjectsClientOptions extends ProjectsClientOptions {
 export type AuthenticationTypeOutput = "ApiKey" | "AAD" | "SAS";
 
 // @public
+export type AzureAISearchQueryType = "simple" | "semantic" | "vector" | "vector_simple_hybrid" | "vector_semantic_hybrid";
+
+// @public
 export interface AzureAISearchResource {
     indexes?: Array<IndexResource>;
 }
@@ -363,6 +366,13 @@ export interface CreateAndRunThreadOptions {
     tools?: Array<ToolDefinition> | null;
     topP?: number | null;
     truncationStrategy?: TruncationObject | null;
+}
+
+// @public
+export interface CreateAzureAISearchToolOptions {
+    filter?: string;
+    queryType?: AzureAISearchQueryType;
+    topK?: number;
 }
 
 // @public
@@ -641,8 +651,11 @@ export interface IncompleteRunDetailsOutput {
 
 // @public
 export interface IndexResource {
+    filter?: string;
     indexConnectionId: string;
     indexName: string;
+    queryType?: AzureAISearchQueryType;
+    topK?: number;
 }
 
 // @public
@@ -1737,7 +1750,7 @@ export class ToolSet {
 
 // @public
 export class ToolUtility {
-    static createAzureAISearchTool(indexConnectionId: string, indexName: string): {
+    static createAzureAISearchTool(indexConnectionId: string, indexName: string, options?: CreateAzureAISearchToolOptions): {
         definition: AzureAISearchToolDefinition;
         resources: ToolResources;
     };

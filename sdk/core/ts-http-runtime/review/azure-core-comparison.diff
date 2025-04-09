@@ -1409,7 +1409,7 @@ index c7c1eb6..15bdc45 100644
      onResponse: options.onResponse,
    };
 diff --git a/src/client/restError.ts b/src/client/restError.ts
-index 3df6036..d653f06 100644
+index 747e774..6b630ef 100644
 --- a/src/client/restError.ts
 +++ b/src/client/restError.ts
 @@ -1,8 +1,9 @@

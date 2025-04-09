@@ -16,7 +16,7 @@ import {
   AppendBlobAppendBlockFromUrlResponse,
   AppendBlobSealOptionalParams,
   AppendBlobSealResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a AppendBlob. */
 export interface AppendBlob {
