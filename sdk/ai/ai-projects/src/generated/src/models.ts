@@ -156,6 +156,10 @@ export interface OpenApiFunctionDefinition {
   spec: unknown;
   /** Open API authentication details */
   auth: OpenApiAuthDetails;
+  /** List of OpenAPI spec parameters that will use user-provided defaults */
+  default_params?: string[];
+  /** List of functions returned in response */
+  functions?: Array<FunctionDefinition>;
 }
 
 /** authentication details for OpenApiFunctionDefinition */
@@ -195,6 +199,31 @@ export interface OpenApiManagedAuthDetails extends OpenApiAuthDetailsParent {
 export interface OpenApiManagedSecurityScheme {
   /** Authentication scope for managed_identity auth type */
   audience: string;
+}
+
+/** The input definition information for a Bing custom search tool as used to configure an agent. */
+export interface BingCustomSearchToolDefinition extends ToolDefinitionParent {
+  /** The object type, which is always 'bing_custom_search'. */
+  type: "bing_custom_search";
+  /** The list of search configurations used by the bing custom search tool. */
+  bing_custom_search: SearchConfigurationList;
+}
+
+/** A list of search configurations currently used by the `bing_custom_search` tool. */
+export interface SearchConfigurationList {
+  /**
+   * The connections attached to this tool. There can be a maximum of 1 connection
+   * resource attached to the tool.
+   */
+  search_configurations: Array<SearchConfiguration>;
+}
+
+/** A custom search configuration. */
+export interface SearchConfiguration {
+  /** A connection in a ToolConnectionList attached to this tool. */
+  connection_id: string;
+  /** Name of the custom configuration instance given to config. */
+  instance_name: string;
 }
 
 /** The input definition information for a azure function tool as used to configure an agent. */
@@ -537,7 +566,7 @@ export interface AgentsNamedToolChoice {
   /**
    * the type of tool. If type is `function`, the function name must be set.
    *
-   * Possible values: "function", "code_interpreter", "file_search", "bing_grounding", "fabric_dataagent", "sharepoint_grounding", "azure_ai_search"
+   * Possible values: "function", "code_interpreter", "file_search", "bing_grounding", "fabric_dataagent", "sharepoint_grounding", "azure_ai_search", "bing_custom_search"
    */
   type: AgentsNamedToolChoiceType;
   /** The name of the function to call */
@@ -870,6 +899,7 @@ export type ToolDefinition =
   | SharepointToolDefinition
   | AzureAISearchToolDefinition
   | OpenApiToolDefinition
+  | BingCustomSearchToolDefinition
   | AzureFunctionToolDefinition;
 /** authentication details for OpenApiFunctionDefinition */
 export type OpenApiAuthDetails =

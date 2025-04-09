@@ -280,6 +280,34 @@ describe("snippets", function () {
     console.log(`Created agent, agent ID: ${agent.id}`);
   });
 
+  it("createAgentWithOpenApi", async function () {
+    // Read in OpenApi spec
+    const filePath = "./data/weatherOpenApi.json";
+    const openApiSpec = JSON.parse(fs.readFileSync(filePath, "utf-8"));
+
+    // Define OpenApi function
+    const openApiFunction = {
+      name: "getWeather",
+      spec: openApiSpec,
+      description: "Retrieve weather information for a location",
+      auth: {
+        type: "anonymous",
+      },
+      default_params: ["format"], // optional
+    };
+
+    // Create OpenApi tool
+    const openApiTool = ToolUtility.createOpenApiTool(openApiFunction);
+
+    // Create agent with OpenApi tool
+    const agent = await client.agents.createAgent("gpt-4o-mini", {
+      name: "myAgent",
+      instructions: "You are a helpful agent",
+      tools: [openApiTool.definition],
+    });
+    console.log(`Created agent, agent ID: ${agent.id}`);
+  });
+
   it("createAgentWithFabric", async function () {
     const fabricConnection = await client.connections.getConnection(
       process.env["FABRIC_CONNECTION_NAME"] || "<connection-name>",

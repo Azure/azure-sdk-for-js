@@ -1094,7 +1094,9 @@ export interface OpenApiConnectionSecuritySchemeOutput {
 // @public
 export interface OpenApiFunctionDefinition {
     auth: OpenApiAuthDetails;
+    default_params?: string[];
     description?: string;
+    functions?: Array<FunctionDefinition>;
     name: string;
     spec: unknown;
 }
