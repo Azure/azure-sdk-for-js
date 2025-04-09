@@ -25,7 +25,7 @@ const connectionString =
   process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] || "<project connection string>";
 
 export async function main(): Promise<void> {
-  // Create an Azure AI Client from a connection string, copied from your AI Studio project.
+  // Create an an Azure AI Project client from a connection string, copied from your AI Foundry project web page.
   // At the moment, it should be in the format "<HostName>;<AzureSubscriptionId>;<ResourceGroup>;<HubName>"
   // Customer needs to login to Azure subscription via Azure CLI and set the environment variables
   const client = AIProjectsClient.fromConnectionString(
