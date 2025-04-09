@@ -1,10 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SipTrunk } from "./models.js";
+import type { SipTrunk, SipDomain } from "./models.js";
 import type {
   SipTrunk as RestSipTrunk,
+  SipDomain as RestSipDomain,
   TrunkUpdate as RestTrunkUpdate,
+  DomainPatch as RestDomainUpdate,
 } from "./generated/src/siprouting/models/index.js";
 
 /**
@@ -41,6 +43,28 @@ export function transformFromRestModel(
 
 /**
  * @internal
+ * Transforming SIP domains REST model to SDK model
+ */
+export function transformDomainsFromRestModel(
+  domains: { [propertyName: string]: RestSipDomain } | undefined,
+): SipDomain[] {
+  const result: SipDomain[] = [];
+
+  if (domains) {
+    Object.keys(domains).forEach((fqdn: string) => {
+      const enabled = domains[fqdn].enabled;
+      result.push({
+        fqdn: fqdn,
+        enabled: enabled,
+      } as SipDomain);
+    });
+  }
+
+  return result;
+}
+
+/**
+ * @internal
  * Transforming SIP trunks SDK model to REST model
  */
 export function transformIntoRestModel(trunks: SipTrunk[]): {
@@ -56,6 +80,24 @@ export function transformIntoRestModel(trunks: SipTrunk[]): {
       privacyHeader: trunk.privacyHeader,
       ipAddressVersion: trunk.ipAddressVersion,
     } as RestTrunkUpdate;
+  });
+
+  return result;
+}
+
+/**
+ * @internal
+ * Transforming SIP domains SDK model to REST model
+ */
+export function transformDomainsIntoRestModel(domains: SipDomain[]): {
+  [propertyName: string]: RestDomainUpdate;
+} {
+  const result: { [propertyName: string]: RestDomainUpdate } = {};
+
+  domains.forEach((domain: SipDomain) => {
+    result[domain.fqdn] = {
+      enabled: domain.enabled,
+    } as RestDomainUpdate;
   });
 
   return result;

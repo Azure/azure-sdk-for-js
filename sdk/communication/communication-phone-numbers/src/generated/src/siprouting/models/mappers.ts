@@ -17,7 +17,7 @@ export const SipConfiguration: coreClient.CompositeMapper = {
         serializedName: "domains",
         type: {
           name: "Dictionary",
-          value: { type: { name: "Composite", className: "Domain" } },
+          value: { type: { name: "Composite", className: "SipDomain" } },
         },
       },
       trunks: {
@@ -46,10 +46,10 @@ export const SipConfiguration: coreClient.CompositeMapper = {
   },
 };
 
-export const Domain: coreClient.CompositeMapper = {
+export const SipDomain: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "Domain",
+    className: "SipDomain",
     modelProperties: {
       enabled: {
         serializedName: "enabled",
@@ -84,7 +84,7 @@ export const SipTrunk: coreClient.CompositeMapper = {
         serializedName: "health",
         type: {
           name: "Composite",
-          className: "Health",
+          className: "TrunkHealth",
         },
       },
       directTransfer: {
@@ -109,23 +109,23 @@ export const SipTrunk: coreClient.CompositeMapper = {
   },
 };
 
-export const Health: coreClient.CompositeMapper = {
+export const TrunkHealth: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "Health",
+    className: "TrunkHealth",
     modelProperties: {
       tls: {
         serializedName: "tls",
         type: {
           name: "Composite",
-          className: "Tls",
+          className: "TlsHealth",
         },
       },
       ping: {
         serializedName: "ping",
         type: {
           name: "Composite",
-          className: "Ping",
+          className: "PingHealth",
         },
       },
       overall: {
@@ -139,10 +139,10 @@ export const Health: coreClient.CompositeMapper = {
   },
 };
 
-export const Tls: coreClient.CompositeMapper = {
+export const TlsHealth: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "Tls",
+    className: "TlsHealth",
     modelProperties: {
       status: {
         serializedName: "status",
@@ -155,10 +155,10 @@ export const Tls: coreClient.CompositeMapper = {
   },
 };
 
-export const Ping: coreClient.CompositeMapper = {
+export const PingHealth: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "Ping",
+    className: "PingHealth",
     modelProperties: {
       status: {
         serializedName: "status",

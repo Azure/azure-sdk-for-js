@@ -19,7 +19,7 @@ export interface SipConfiguration {
    * Validated Domains.
    * Map key is domain.
    */
-  domains?: { [propertyName: string]: Domain };
+  domains?: { [propertyName: string]: SipDomain };
   /**
    * SIP trunks for routing calls.
    * Map key is trunk's FQDN (1-249 characters).
@@ -33,7 +33,7 @@ export interface SipConfiguration {
  * Represents Domain object as response of validation api.
  * Map key is domain.
  */
-export interface Domain {
+export interface SipDomain {
   /** Enabled flag */
   enabled: boolean;
 }
@@ -48,7 +48,7 @@ export interface SipTrunk {
    * Represents health state of a SIP trunk for routing calls.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly health?: Health;
+  readonly health?: TrunkHealth;
   /** When enabled, removes Azure Communication Services from the signaling path on call transfer and sets the SIP Refer-To header to the trunk's FQDN. By default false. */
   directTransfer?: boolean;
   /** SIP Privacy header. Default value is id. */
@@ -58,23 +58,23 @@ export interface SipTrunk {
 }
 
 /** Represents health state of a SIP trunk for routing calls. */
-export interface Health {
+export interface TrunkHealth {
   /** The status of the TLS connections of the Trunk. */
-  tls: Tls;
+  tls: TlsHealth;
   /** The status of SIP OPTIONS message sent by Trunk. */
-  ping: Ping;
+  ping: PingHealth;
   /** The overall health status of Trunk. */
   overall: OverallHealth;
 }
 
 /** The status of the TLS connections of the Trunk. */
-export interface Tls {
+export interface TlsHealth {
   /** The status of the TLS connections of the Trunk. */
   status: TlsStatus;
 }
 
 /** The status of SIP OPTIONS message sent by Trunk. */
-export interface Ping {
+export interface PingHealth {
   /** The status of SIP OPTIONS message sent by Trunk. */
   status: PingStatus;
 }
@@ -84,7 +84,7 @@ export interface OverallHealth {
   /** The overall health status of Trunk. */
   status: OverallHealthStatus;
   /** The reason overall status of Trunk is inactive. */
-  reason?: InactiveStatusReason;
+  reason?: UnhealthyStatusReason;
 }
 
 /** Represents a trunk route for routing calls. */
@@ -140,7 +140,7 @@ export interface SipConfigurationUpdate {
    * Domains that will be used.
    * Map key is domain.
    */
-  domains?: { [propertyName: string]: DomainPatch };
+  domains?: { [propertyName: string]: DomainPatch | null };
   /**
    * SIP trunks for routing calls.
    * Map key is trunk's FQDN (1-249 characters).
@@ -211,8 +211,8 @@ export type TlsStatus = "unknown" | "ok" | "certExpiring" | "certExpired";
 export type PingStatus = "unknown" | "ok" | "expired" | "error";
 /** Defines values for OverallHealthStatus. */
 export type OverallHealthStatus = "unknown" | "active" | "inactive";
-/** Defines values for InactiveStatusReason. */
-export type InactiveStatusReason =
+/** Defines values for UnhealthyStatusReason. */
+export type UnhealthyStatusReason =
   | "noRecentCalls"
   | "noRecentPings"
   | "noRecentCallsAndPings";
@@ -238,7 +238,7 @@ export interface SipRoutingUpdateOptionalParams
    * Domains that will be used.
    * Map key is domain.
    */
-  domains?: { [propertyName: string]: DomainPatch };
+  domains?: { [propertyName: string]: DomainPatch | null };
   /**
    * SIP trunks for routing calls.
    * Map key is trunk's FQDN (1-249 characters).
@@ -258,7 +258,7 @@ export interface SipRoutingTestRoutesWithNumberOptionalParams
    * Validated Domains.
    * Map key is domain.
    */
-  domains?: { [propertyName: string]: Domain };
+  domains?: { [propertyName: string]: SipDomain };
   /**
    * SIP trunks for routing calls.
    * Map key is trunk's FQDN (1-249 characters).

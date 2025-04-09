@@ -67,6 +67,16 @@ directive:
       $["x-nullable"] = true;
 ```
 
+### Directive changing "DomainPatch" as nullable
+
+```yaml
+directive:
+  - from: swagger-document
+    where: "$.definitions.DomainPatch"
+    transform: >
+      $["x-nullable"] = true;
+```
+
 ### Directive for resolving default error type as "CommunicationErrorResponse"
 
 ```yaml
@@ -83,6 +93,7 @@ directive:
     }
     $.responses = newResponses;
 ```
+
 ```yaml
 directive:
   from: swagger-document
@@ -101,4 +112,54 @@ directive:
     if ($.modelAsString) {
       $.modelAsString = false
     }
+```
+
+### Directive renaming "Domain" model to "SipDomain"
+
+```yaml
+directive:
+  - from: swagger-document
+    where: "$.definitions.Domain"
+    transform: >
+      $["x-ms-client-name"] = "SipDomain";
+```
+
+### Directive renaming Health to TrunkHealth
+
+```yaml
+directive:
+    - from: swagger-document
+      where: "$.definitions.Health"
+      transform: >
+          $["x-ms-client-name"] = "TrunkHealth";
+```
+
+### Directive renaming Tls to TlsHealth
+
+```yaml
+directive:
+    - from: swagger-document
+      where: "$.definitions.Tls"
+      transform: >
+          $["x-ms-client-name"] = "TlsHealth";
+```
+
+### Directive renaming Ping to PingHealth
+
+```yaml
+directive:
+    - from: swagger-document
+      where: "$.definitions.Ping"
+      transform: >
+          $["x-ms-client-name"] = "PingHealth";
+```
+
+### Directive renaming "inactiveStatusReason" enum to "unhealthyStatusReason"
+
+```yaml
+directive:
+    - from: swagger-document
+      where: "$.definitions.OverallHealth"
+      transform: >
+          $.properties.reason["x-ms-enum"].name = "unhealthyStatusReason";
 ```
