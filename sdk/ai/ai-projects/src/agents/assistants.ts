@@ -63,7 +63,6 @@ export async function createAgent(
     "CreateAgent",
     createOptions,
     async (updatedOptions) => {
-      console.log("createAgent updatedOptions", updatedOptions);
       const result = await context.path("/assistants").post(updatedOptions);
       if (!expectedStatuses.includes(result.status)) {
         throw createOpenAIError(result);
