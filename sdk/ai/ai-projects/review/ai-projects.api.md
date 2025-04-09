@@ -260,6 +260,14 @@ export interface AzureFunctionToolDefinitionOutput extends ToolDefinitionOutputP
     type: "azure_function";
 }
 
+// @public (undocumented)
+export interface BingCustomSearchToolDefinitionOutput extends ToolDefinitionOutputParent {
+    // (undocumented)
+    bingCustomSearch?: SearchConfigurationListOutput;
+    // (undocumented)
+    type: "bing_custom_search";
+}
+
 // @public
 export interface BingGroundingToolDefinition extends ToolDefinitionParent {
     bingGrounding: ToolConnectionList;
@@ -312,6 +320,7 @@ export interface ConnectionsOperations {
 // @public
 export enum connectionToolType {
     AzureFunction = "azure_function",
+    BingCustomSearch = "bing_custom_search",
     BingGrounding = "bing_grounding",
     MicrosoftFabric = "fabric_dataagent",
     SharepointGrounding = "sharepoint_grounding"
@@ -1547,6 +1556,20 @@ export enum RunStreamEvent {
     ThreadRunRequiresAction = "thread.run.requires_action"
 }
 
+// @public (undocumented)
+export interface SearchConfigurationListOutput {
+    // (undocumented)
+    searchConfigurations?: Array<SearchConfigurationOutput>;
+}
+
+// @public (undocumented)
+export interface SearchConfigurationOutput {
+    // (undocumented)
+    connectionId: string;
+    // (undocumented)
+    instanceName: string;
+}
+
 // @public
 export interface SharepointToolDefinition extends ToolDefinitionParent {
     sharepointGrounding: ToolConnectionList;
@@ -1677,11 +1700,13 @@ export interface ToolConnectionOutput {
     connectionId: string;
 }
 
+// Warning: (ae-forgotten-export) The symbol "BingCustomSearchToolDefinition" needs to be exported by the entry point index.d.ts
+//
 // @public
-export type ToolDefinition = ToolDefinitionParent | CodeInterpreterToolDefinition | FileSearchToolDefinition | FunctionToolDefinition | BingGroundingToolDefinition | MicrosoftFabricToolDefinition | SharepointToolDefinition | AzureAISearchToolDefinition | OpenApiToolDefinition | AzureFunctionToolDefinition;
+export type ToolDefinition = ToolDefinitionParent | CodeInterpreterToolDefinition | FileSearchToolDefinition | FunctionToolDefinition | BingGroundingToolDefinition | MicrosoftFabricToolDefinition | SharepointToolDefinition | AzureAISearchToolDefinition | OpenApiToolDefinition | BingCustomSearchToolDefinition | AzureFunctionToolDefinition;
 
 // @public
-export type ToolDefinitionOutput = ToolDefinitionOutputParent | CodeInterpreterToolDefinitionOutput | FileSearchToolDefinitionOutput | FunctionToolDefinitionOutput | BingGroundingToolDefinitionOutput | MicrosoftFabricToolDefinitionOutput | SharepointToolDefinitionOutput | AzureAISearchToolDefinitionOutput | OpenApiToolDefinitionOutput | AzureFunctionToolDefinitionOutput;
+export type ToolDefinitionOutput = ToolDefinitionOutputParent | CodeInterpreterToolDefinitionOutput | FileSearchToolDefinitionOutput | FunctionToolDefinitionOutput | BingGroundingToolDefinitionOutput | MicrosoftFabricToolDefinitionOutput | SharepointToolDefinitionOutput | AzureAISearchToolDefinitionOutput | OpenApiToolDefinitionOutput | BingCustomSearchToolDefinitionOutput | AzureFunctionToolDefinitionOutput;
 
 // @public
 export interface ToolDefinitionOutputParent {
@@ -1757,6 +1782,9 @@ export class ToolUtility {
     static createAzureFunctionTool(name: string, description: string, parameters: unknown, inputQueue: AzureFunctionStorageQueue, outputQueue: AzureFunctionStorageQueue, definitionDetails: AzureFunctionDefinition): {
         definition: AzureFunctionToolDefinition;
         resources: ToolResources;
+    };
+    static createBingCustomSearchTool(searchConfigurations: SearchConfigurationOutput[]): {
+        definition: ToolDefinition;
     };
     static createCodeInterpreterTool(fileIds?: string[], dataSources?: Array<VectorStoreDataSource>): {
         definition: CodeInterpreterToolDefinition;

@@ -101,6 +101,22 @@ export interface BingGroundingToolDefinition extends ToolDefinitionParent {
   bingGrounding: ToolConnectionList;
 }
 
+export interface BingCustomSearchToolDefinition extends ToolDefinitionParent {
+  type: "bing_custom_search",
+  bingCustomSearch?: SearchConfigurationList;
+}
+
+export interface SearchConfigurationList {
+  searchConfigurations: Array<SearchConfiguration>;
+}
+
+export interface SearchConfiguration {
+  /** A connection in a ToolConnectionList attached to this tool. */
+  connectionId: string;
+  /** Name of the custom configuration instance given to config. */
+  instanceName: string;
+}
+
 /** A set of connection resources currently used by either the `bing_grounding`, `fabric_dataagent`, or `sharepoint_grounding` tools. */
 export interface ToolConnectionList {
   /**
@@ -862,6 +878,7 @@ export type ToolDefinition =
   | SharepointToolDefinition
   | AzureAISearchToolDefinition
   | OpenApiToolDefinition
+  | BingCustomSearchToolDefinition
   | AzureFunctionToolDefinition;
 /** authentication details for OpenApiFunctionDefinition */
 export type OpenApiAuthDetails =

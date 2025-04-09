@@ -66,6 +66,11 @@ export interface BingGroundingToolDefinitionOutput extends ToolDefinitionOutputP
   bingGrounding: ToolConnectionListOutput;
 }
 
+export interface BingCustomSearchToolDefinitionOutput extends ToolDefinitionOutputParent {
+  type: "bing_custom_search";
+  bingCustomSearch?: SearchConfigurationListOutput
+}
+
 /** A set of connection resources currently used by either the `bing_grounding`, `fabric_dataagent`, or `sharepoint_grounding` tools. */
 export interface ToolConnectionListOutput {
   /**
@@ -73,6 +78,15 @@ export interface ToolConnectionListOutput {
    * resource attached to the tool.
    */
   connections?: Array<ToolConnectionOutput>;
+}
+
+export interface SearchConfigurationListOutput {
+  searchConfigurations?: Array<SearchConfigurationOutput>;
+}
+
+export interface SearchConfigurationOutput {
+  connectionId: string;
+  instanceName: string;
 }
 
 /** A connection resource. */
@@ -1540,6 +1554,7 @@ export type ToolDefinitionOutput =
   | SharepointToolDefinitionOutput
   | AzureAISearchToolDefinitionOutput
   | OpenApiToolDefinitionOutput
+  | BingCustomSearchToolDefinitionOutput
   | AzureFunctionToolDefinitionOutput;
 /** authentication details for OpenApiFunctionDefinition */
 export type OpenApiAuthDetailsOutput =
