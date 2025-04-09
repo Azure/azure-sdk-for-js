@@ -8,14 +8,8 @@
  * @summary demonstrates how to use agent operations with the Bing Customer Search tool.
  */
 
-
-
 import type { MessageContentOutput, MessageTextContentOutput } from "@azure/ai-projects";
-import {
-  AIProjectsClient,
-  ToolUtility,
-  isOutputOfType,
-} from "@azure/ai-projects";
+import { AIProjectsClient, ToolUtility, isOutputOfType } from "@azure/ai-projects";
 import { delay } from "@azure/core-util";
 import { DefaultAzureCredential } from "@azure/identity";
 
@@ -38,15 +32,18 @@ export async function main(): Promise<void> {
   console.log(`Bing custom search connection ID:`, bingCustomSearchConnection.id);
 
   // Initialize agent bing custom search tool with the connection id
-  const bingCustomSearchTool = ToolUtility.createBingCustomSearchTool([{
-    connectionId: bingCustomSearchConnection.id,
-    instanceName: bingCustomSearchConnection.name,
-  }]);
+  const bingCustomSearchTool = ToolUtility.createBingCustomSearchTool([
+    {
+      connectionId: bingCustomSearchConnection.id,
+      instanceName: bingCustomSearchConnection.name,
+    },
+  ]);
 
   // Create agent with the bing tool and process assistant run
   const agent = await client.agents.createAgent("gpt-4o", {
     name: "my-agent",
-    instructions: "You are a customer support chatbot. Use the tools provided and your knowledge base to best respond to customer queries",
+    instructions:
+      "You are a customer support chatbot. Use the tools provided and your knowledge base to best respond to customer queries",
     tools: [bingCustomSearchTool.definition],
     requestOptions: {
       headers: {
