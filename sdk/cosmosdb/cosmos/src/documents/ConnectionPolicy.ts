@@ -27,7 +27,7 @@ export interface ConnectionPolicy {
   useMultipleWriteLocations?: boolean;
   /** Rate in milliseconds at which the client will refresh the endpoints list in the background */
   endpointRefreshRateInMs?: number;
-  /** Flag to enable/disable background refreshing of endpoints. Defaults to false.
+  /** Flag to enable/disable background refreshing of endpoints. Defaults to true.
    * Endpoint discovery using `enableEndpointsDiscovery` will still work for failed requests. */
   enableBackgroundEndpointRefreshing?: boolean;
 }
