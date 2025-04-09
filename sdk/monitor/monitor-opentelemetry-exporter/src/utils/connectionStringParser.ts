@@ -32,7 +32,7 @@ export class ConnectionStringParser {
         return { ...fields, [key]: value };
       }
       diag.error(
-        "Connection string key-value pair is invalid: Entire connection string will be discarded"
+        "Connection string key-value pair is invalid: Entire connection string will be discarded",
       );
       isValid = false;
       return fields;
@@ -62,9 +62,7 @@ export class ConnectionStringParser {
         );
       }
     } else {
-      diag.error(
-        "An invalid connection string was passed in. There may be telemetry loss",
-      );
+      diag.error("An invalid connection string was passed in. There may be telemetry loss");
     }
 
     return result;

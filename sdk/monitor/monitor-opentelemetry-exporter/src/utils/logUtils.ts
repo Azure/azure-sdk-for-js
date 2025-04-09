@@ -21,7 +21,7 @@ import {
 } from "@opentelemetry/semantic-conventions";
 import type { Measurements, Properties, Tags } from "../types.js";
 import { httpSemanticValues, legacySemanticValues, MaxPropertyLengths } from "../types.js";
-import type { Attributes} from "@opentelemetry/api";
+import type { Attributes } from "@opentelemetry/api";
 import { diag } from "@opentelemetry/api";
 import {
   ApplicationInsightsAvailabilityBaseType,

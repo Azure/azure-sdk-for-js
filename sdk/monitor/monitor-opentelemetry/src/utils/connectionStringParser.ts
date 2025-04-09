@@ -62,9 +62,7 @@ export class ConnectionStringParser {
         );
       }
     } else {
-      diag.error(
-        "An invalid connection string was passed in. There may be telemetry loss",
-      );
+      diag.error("An invalid connection string was passed in. There may be telemetry loss");
     }
 
     return result;
