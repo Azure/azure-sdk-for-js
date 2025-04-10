@@ -1,14 +1,11 @@
 # Release History
 
-## 2.1.0-beta.2 (Unreleased)
+
+## 3.0.0-beta.1 (2025-04-09)
 
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+- Add Unified Messaging.
 
 ## 2.1.0-beta.1 (2025-02-11)
 
