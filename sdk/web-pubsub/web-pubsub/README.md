@@ -100,8 +100,13 @@ When the client is connected, it can send messages to the upstream application, 
 
 ```ts snippet:ReadmeSampleGetClientAccessToken
 import { WebPubSubServiceClient } from "@azure/web-pubsub";
+import { DefaultAzureCredential } from "@azure/identity";
 
-const serviceClient = new WebPubSubServiceClient("<ConnectionString>", "<hubName>");
+const serviceClient = new WebPubSubServiceClient(
+  "<Endpoint>",
+  new DefaultAzureCredential(),
+  "<hubName>",
+);
 
 // Get the access token for the WebSocket client connection to use
 let token = await serviceClient.getClientAccessToken();
@@ -117,8 +122,13 @@ token = await serviceClient.getClientAccessToken({ userId: "user1", groups: ["Gr
 
 ```ts snippet:ReadmeSampleSendToAll
 import { WebPubSubServiceClient } from "@azure/web-pubsub";
+import { DefaultAzureCredential } from "@azure/identity";
 
-const serviceClient = new WebPubSubServiceClient("<ConnectionString>", "<hubName>");
+const serviceClient = new WebPubSubServiceClient(
+  "<Endpoint>",
+  new DefaultAzureCredential(),
+  "<hubName>",
+);
 
 // Send a JSON message
 await serviceClient.sendToAll({ message: "Hello world!" });
@@ -137,8 +147,13 @@ Details about `filter` syntax please see [OData filter syntax for Azure Web PubS
 
 ```ts snippet:ReadmeSampleSendToAllWithFilter
 import { WebPubSubServiceClient, odata } from "@azure/web-pubsub";
+import { DefaultAzureCredential } from "@azure/identity";
 
-const serviceClient = new WebPubSubServiceClient("<ConnectionString>", "<hubName>");
+const serviceClient = new WebPubSubServiceClient(
+  "<Endpoint>",
+  new DefaultAzureCredential(),
+  "<hubName>",
+);
 
 // Send a JSON message to anonymous connections
 await serviceClient.sendToAll({ message: "Hello world!" }, { filter: "userId eq null" });
@@ -158,8 +173,13 @@ await serviceClient.sendToAll("Hello world!", {
 
 ```ts snippet:ReadmeSampleSendToGroup
 import { WebPubSubServiceClient } from "@azure/web-pubsub";
+import { DefaultAzureCredential } from "@azure/identity";
 
-const serviceClient = new WebPubSubServiceClient("<ConnectionString>", "<hubName>");
+const serviceClient = new WebPubSubServiceClient(
+  "<Endpoint>",
+  new DefaultAzureCredential(),
+  "<hubName>",
+);
 
 const groupClient = serviceClient.group("<groupName>");
 
@@ -181,8 +201,13 @@ await groupClient.sendToAll(payload.buffer);
 
 ```ts snippet:ReadmeSampleSendToUser
 import { WebPubSubServiceClient } from "@azure/web-pubsub";
+import { DefaultAzureCredential } from "@azure/identity";
 
-const serviceClient = new WebPubSubServiceClient("<ConnectionString>", "<hubName>");
+const serviceClient = new WebPubSubServiceClient(
+  "<Endpoint>",
+  new DefaultAzureCredential(),
+  "<hubName>",
+);
 
 // Send a JSON message
 await serviceClient.sendToUser("user1", { message: "Hello world!" });
@@ -199,8 +224,13 @@ await serviceClient.sendToUser("user1", payload.buffer);
 
 ```ts snippet:ReadmeSampleCheckGroup
 import { WebPubSubServiceClient } from "@azure/web-pubsub";
+import { DefaultAzureCredential } from "@azure/identity";
 
-const serviceClient = new WebPubSubServiceClient("<ConnectionString>", "<hubName>");
+const serviceClient = new WebPubSubServiceClient(
+  "<Endpoint>",
+  new DefaultAzureCredential(),
+  "<hubName>",
+);
 
 const groupClient = serviceClient.group("<groupName>");
 
@@ -215,8 +245,13 @@ const hasConnections = await serviceClient.groupExists("<groupName>");
 
 ```ts snippet:ReadmeSampleRawResponse
 import { WebPubSubServiceClient } from "@azure/web-pubsub";
+import { DefaultAzureCredential } from "@azure/identity";
 
-const serviceClient = new WebPubSubServiceClient("<ConnectionString>", "<hubName>");
+const serviceClient = new WebPubSubServiceClient(
+  "<Endpoint>",
+  new DefaultAzureCredential(),
+  "<hubName>",
+);
 
 function onResponse(rawResponse) {
   console.log(rawResponse);

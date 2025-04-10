@@ -1834,6 +1834,50 @@ export interface RestHoldAudioCompleted {
   resultInformation?: RestResultInformation;
 }
 
+/** The incoming call event. */
+export interface RestIncomingCall {
+  /**
+   * The communication identifier of the target user.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly to?: CommunicationIdentifierModel;
+  /**
+   * The communication identifier of the user who initiated the call.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly from?: CommunicationIdentifierModel;
+  /**
+   * Display name of caller.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly callerDisplayName?: string;
+  /**
+   * The server call id.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly serverCallId?: string;
+  /**
+   * Custom Context of Incoming Call
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly customContext?: CustomCallingContextInternal;
+  /**
+   * Incoming call context.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly incomingCallContext?: string;
+  /**
+   * The communication identifier of the user on behalf of whom the call is made.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly onBehalfOfCallee?: CommunicationIdentifierModel;
+  /**
+   * Correlation ID for event to call correlation. Also called ChainId for skype chain ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly correlationId?: string;
+}
+
 /** Azure Open AI Dialog */
 export interface AzureOpenAIDialog extends BaseDialog {
   /** Polymorphic discriminator, which specifies the different types this object can be */
