@@ -10,9 +10,9 @@ import type {
 } from "./generated/src/models/index.js";
 import type {
   TrunkHealth,
+  SipTrunkRoute,
   IpAddressVersion,
   PrivacyHeader,
-  RoutesForNumber,
 } from "./generated/src/siprouting/models/index.js";
 
 /**

@@ -271,11 +271,6 @@ export interface ReleasePhoneNumberResult {
 }
 
 // @public
-export interface RoutesForNumber {
-    matchingRoutes?: SipTrunkRoute[];
-}
-
-// @public
 export interface SearchAvailablePhoneNumbersRequest extends PhoneNumberSearchRequest {
     countryCode: string;
 }
@@ -346,7 +341,9 @@ export interface SipTrunkRoute {
 }
 
 // @public
-export type TestRoutesWithNumberResult = RoutesForNumber;
+export interface TestRoutesWithNumberResult {
+    matchingRoutes?: SipTrunkRoute[];
+}
 
 // @public
 export interface TlsHealth {
