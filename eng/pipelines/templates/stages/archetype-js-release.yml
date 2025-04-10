@@ -107,8 +107,8 @@ stages:
                     - 'PrePublishPackage'
                     - 'PublishPackage'
                   variables:
-                    - Name: Package.Archive
-                      Value: $[dependencies.PrePublishPackage.outputs['SetPackageArchive.Package.Archive']]
+                    - name: Package.Archive
+                      value: $[dependencies.PrePublishPackage.outputs['SetPackageArchive.Package.Archive']]
                     - template: /eng/pipelines/templates/variables/image.yml
                   pool:
                     name: $(LINUXPOOL)
