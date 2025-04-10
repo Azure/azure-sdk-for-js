@@ -2,6 +2,7 @@ packages:
   - 'sdk/**'
   - common/tools/dev-tool
   - common/tools/eslint-plugin-azure-sdk
+  - common/tools/turborepo-remote-cache
   - common/tools/vite-plugin-browser-test-map
   - '!sdk/**/dist/**'
   - '!sdk/**/dist-test/**'
