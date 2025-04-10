@@ -3475,7 +3475,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/communication-email@file:projects/communication-email.tgz':
-    resolution: {integrity: sha512-dr9s08PwdJMuyg09r75WfJddri4i7iyYeZ7xM9qsH42NlwNRpZnOzOAd6nhBv0+QOk1vtLIrchB9x+OFH5BySQ==, tarball: file:projects/communication-email.tgz}
+    resolution: {integrity: sha512-ceM+5ZMhdqmXlCJVgKjyCYNggf9HTdd+UNKVAGv+lMWYIuLGug5G1+f58i23572HLLR2jjrDtJdrbdp4Jfx1fA==, tarball: file:projects/communication-email.tgz}
     version: 0.0.0
 
   '@rush-temp/communication-identity@file:projects/communication-identity.tgz':
@@ -18547,6 +18547,7 @@ snapshots:
 
   '@rush-temp/communication-email@file:projects/communication-email.tgz(@types/debug@4.1.12)(tsx@4.19.3)(vite@6.2.6(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(yaml@2.7.1)':
     dependencies:
+      '@azure-tools/test-credential': 1.3.1
       '@azure/communication-common': 2.3.1
       '@azure/core-lro': 2.7.2
       '@types/node': 18.19.86
