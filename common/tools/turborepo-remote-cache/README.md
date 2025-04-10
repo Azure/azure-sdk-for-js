@@ -81,6 +81,27 @@ To configure TurboRepo Build to use the remote cache, you need to create the `.t
 }
 ```
 
+### Creating a New Azure Storage Account
+If you don't have an Azure Storage account, you can create one using the Azure CLI. First, log in to your Azure account:
+
+```bash
+az login
+```
+
+Then, create a new resource group:
+
+```bash
+az group create --name myResourceGroup --location eastus
+```
+Next, create a new storage account with our bicep template:
+
+```bash
+az deployment group create \
+  --resource-group <RESOURCE_GROUP_NAME> \
+  --template-file cache.bicep \
+  --parameters storageAccountName=mycustomstorage containerName=mycustomcontainer
+```
+
 ## Troubleshooting
 
 ### Logging
