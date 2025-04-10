@@ -1442,6 +1442,10 @@ packages:
     resolution: {integrity: sha512-eZHtYE5OHDN0o2NahCENkczQ6ffGc0MoUSAI3hpwGpZBHJXaEQMMZPWtIx86da2L9w7uT+Tr/xgJbGwIkvTZTQ==}
     engines: {node: '>=0.8.0'}
 
+  '@azure/msal-common@15.3.0':
+    resolution: {integrity: sha512-lh+eZfibGwtQxFnx+mj6cYWn0pwA8tDnn8CBs9P21nC7Uw5YWRwfXaXdVQSMENZ5ojRqR+NzRaucEo4qUvs3pA==}
+    engines: {node: '>=0.8.0'}
+
   '@azure/msal-common@15.4.0':
     resolution: {integrity: sha512-reeIUDXt6Xc+FpCBDEbUFQWvJ6SjE0JwsGYIfa3ZCR6Tpzjc9J1v+/InQgfCeJzfTRd7PDJVxI6TSzOmOd7+Ag==}
     engines: {node: '>=0.8.0'}
@@ -1459,6 +1463,10 @@ packages:
 
   '@azure/msal-node@3.3.0':
     resolution: {integrity: sha512-ulsT3EHF1RQ29X55cxBLgKsIKWni9JdbUqG7sipGVP4uhWcBpmm/vhKOMH340+27Acm9+kHGnN/5XmQ5LrIDgA==}
+    engines: {node: '>=16'}
+
+  '@azure/msal-node@3.4.0':
+    resolution: {integrity: sha512-b4wBaPV68i+g61wFOfl5zh1lQ9UylgCQpI2638pJHV0SINneO78hOFdnX8WCoGw5OOc4Eewth9pYOg7gaiyUYw==}
     engines: {node: '>=16'}
 
   '@azure/openai@1.0.0-beta.12':
@@ -2429,11 +2437,11 @@ packages:
     version: 0.0.0
 
   '@rush-temp/ai-translation-document@file:projects/ai-translation-document.tgz':
-    resolution: {integrity: sha512-zAdwzqTfMuuEV9EfulYOJtcNa7gu4lEl4fatX2FhlOvENpHL2twQdp0KshyyVJ48hKHMss49XaYDeFhOSu9DQg==, tarball: file:projects/ai-translation-document.tgz}
+    resolution: {integrity: sha512-DXBpmF26jnfQOqJrmsW/Xpsw6OpWsF+oSC+MXQB3VtFbSUvCip9YVP/ie8R+j1Z+bgrNyse7cC9gNVYhYILpUQ==, tarball: file:projects/ai-translation-document.tgz}
     version: 0.0.0
 
   '@rush-temp/ai-translation-text@file:projects/ai-translation-text.tgz':
-    resolution: {integrity: sha512-iGkBSgKEEQhQkI0p1BSdQdbl0o+39hiWEcsbDUb1KgPPZwBSoV5c/GunKwQzcyaPKaFH7dal/aF2MQZeLeCkYw==, tarball: file:projects/ai-translation-text.tgz}
+    resolution: {integrity: sha512-J8s0TlSmeGrXPwN9oOnB8T64yRlZbSFS02nLoeGdC0sae32AX+V3penShziif/lEhX/jT8Tj5Pttz8gpSRHtZg==, tarball: file:projects/ai-translation-text.tgz}
     version: 0.0.0
 
   '@rush-temp/ai-vision-face@file:projects/ai-vision-face.tgz':
@@ -3693,7 +3701,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/identity@file:projects/identity.tgz':
-    resolution: {integrity: sha512-CSOdi8rs21xe1Uo54fXNZik6ND4vP83IrDFYEvPu+KSvXESqV3njZtACIjtks9sFpl9z++K4P7y5V9paMQnNxg==, tarball: file:projects/identity.tgz}
+    resolution: {integrity: sha512-gJ1gQ4EepVe+j5tpAHvGpnrgTNbX3pnNc2O0eYj5rltQWMC3bQbvvtBGQW8gM6mrpd36O+lci0LJ4N9v0WenkA==, tarball: file:projects/identity.tgz}
     version: 0.0.0
 
   '@rush-temp/iot-device-update@file:projects/iot-device-update.tgz':
@@ -7680,6 +7688,11 @@ packages:
     engines: {node: '>=14.17'}
     hasBin: true
 
+  typescript@5.8.3:
+    resolution: {integrity: sha512-p1diW6TqL9L07nNxvRMM7hMMw4c5XOo/1ibL4aAIGmSAt9slTE1Xgw5KWuof2uTOvCg9BY7ZRi+GaF+7sfgPeQ==}
+    engines: {node: '>=14.17'}
+    hasBin: true
+
   ua-parser-js@0.7.40:
     resolution: {integrity: sha512-us1E3K+3jJppDBa3Tl0L3MOJiGhe1C6P0+nIvQAFYbxlMAx0h81eOwLmU57xgqToduDDPx3y5QsdjPfDu+FgOQ==}
     hasBin: true
@@ -8466,6 +8479,8 @@ snapshots:
 
   '@azure/msal-common@15.2.1': {}
 
+  '@azure/msal-common@15.3.0': {}
+
   '@azure/msal-common@15.4.0': {}
 
   '@azure/msal-node-extensions@1.5.9':
@@ -8485,6 +8500,12 @@ snapshots:
   '@azure/msal-node@3.3.0':
     dependencies:
       '@azure/msal-common': 15.2.1
+      jsonwebtoken: 9.0.2
+      uuid: 8.3.2
+
+  '@azure/msal-node@3.4.0':
+    dependencies:
+      '@azure/msal-common': 15.3.0
       jsonwebtoken: 9.0.2
       uuid: 8.3.2
 
@@ -20391,7 +20412,7 @@ snapshots:
 
   '@rush-temp/dev-tool@file:projects/dev-tool.tgz(@types/debug@4.1.12)(@vitest/browser@3.1.1)':
     dependencies:
-      '@_ts/max': typescript@5.8.2
+      '@_ts/max': typescript@5.8.3
       '@_ts/min': typescript@4.2.4
       '@arethetypeswrong/cli': 0.17.4
       '@azure/identity': 4.8.0
@@ -21132,7 +21153,7 @@ snapshots:
     dependencies:
       '@azure/keyvault-keys': 4.9.0
       '@azure/msal-browser': 4.9.1
-      '@azure/msal-node': 3.3.0
+      '@azure/msal-node': 3.4.0
       '@types/jsonwebtoken': 9.0.9
       '@types/jws': 3.2.10
       '@types/ms': 2.1.0
@@ -27740,6 +27761,8 @@ snapshots:
   typescript@5.7.3: {}
 
   typescript@5.8.2: {}
+
+  typescript@5.8.3: {}
 
   ua-parser-js@0.7.40: {}
 
