@@ -105,7 +105,7 @@ describe("Integrated Cache Staleness", async () => {
             );
             if (context.headers["x-ms-dedicatedgateway-bypass-cache"] !== undefined) {
               assert.ok(typeof context.headers["x-ms-dedicatedgateway-bypass-cache"] === "string");
-              assert.ok(context.headers["x-ms-dedicatedgateway-bypass-cache"] === true);
+              assert.ok(context.headers["x-ms-dedicatedgateway-bypass-cache"] === "true");
             }
             if (context.headers["x-ms-dedicatedgateway-max-age"] === "null") {
               assert.ok(
