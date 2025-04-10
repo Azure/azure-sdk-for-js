@@ -1,11 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import type { RetryCallback } from "../utils/batch";
+import type { BulkBatcher } from "./BulkBatcher";
+import type { BulkPartitionMetric } from "./BulkPartitionMetric";
+
 export type Task<T = any> = () => Promise<T>;
 
-interface QueueItem<T = any> {
-  task: Task<T>;
-  resolve: (value: T | PromiseLike<T>) => void;
+interface QueueItem {
+  batcher: BulkBatcher;
+  resolve: (value: any) => void;
   reject: (reason?: any) => void;
 }
 
@@ -68,6 +72,7 @@ function scheduleCallback(fn: () => void): void {
   } else if (typeof setImmediate === "function") {
     setImmediate(fn);
   } else {
+
     // eslint-disable-next-line promise/catch-or-return
     Promise.resolve().then(fn);
   }
@@ -94,27 +99,29 @@ export class LimiterQueue {
   private scheduled = false;
   // indicates whether the queue is currently in the process of dequeueing and executing tasks
   private processing = false;
+  private retrier: RetryCallback;
+  private partitionMetric: BulkPartitionMetric;
+
 
   /**
    * Creates a new HighPerformanceQueue.
    */
-  constructor(concurrency: number) {
-    if (concurrency < 1) {
-      throw new Error("Concurrency must be at least 1");
-    }
+  constructor(concurrency: number, partitionMetric: BulkPartitionMetric, retrier: RetryCallback) {
     this.concurrency = concurrency;
+    this.partitionMetric = partitionMetric;
+    this.retrier = retrier;
   }
 
   /**
    * Enqueue a task and return a Promise that resolves or rejects when the task completes.
    * If the queue has been terminated via pauseAndClear, the promise resolves immediately with the terminated value.
    */
-  public push<T = any>(task: Task<T>): Promise<T> {
+  public push(batcher: BulkBatcher): Promise<any> {
     if (this.terminated) {
       return Promise.resolve(this.terminatedValue);
     }
-    return new Promise<T>((resolve, reject) => {
-      this.tasks.push({ task, resolve, reject });
+    return new Promise<any>((resolve, reject) => {
+      this.tasks.push({ batcher, resolve, reject });
       this.scheduleProcess();
     });
   }
@@ -123,14 +130,17 @@ export class LimiterQueue {
    * Permanently pauses processing and clears the queue.
    * All queued tasks and subsequent push() calls will immediately resolve with the provided custom value.
    */
-  public pauseAndClear<T = any>(customValue: T): void {
+  public async pauseAndClear<T = any>(customValue: T): Promise<void> {
     this.terminated = true;
     this.terminatedValue = customValue;
     while (!this.tasks.isEmpty()) {
-      const item = this.tasks.shift();
-      if (item) {
-        item.resolve(customValue);
+      const queueItem = this.tasks.shift();
+      if (!queueItem) break;
+      const operations = queueItem.batcher.getOperations();
+      for (const operation of operations) {
+        await this.retrier(operation, operation.operationContext.diagnosticNode);
       }
+      queueItem.resolve(customValue);
     }
   }
 
@@ -155,30 +165,29 @@ export class LimiterQueue {
 
     try {
       while (!this.terminated && this.running < this.concurrency && !this.tasks.isEmpty()) {
-        const item = this.tasks.shift();
-        if (!item) break;
+        const queueItem = this.tasks.shift();
+        if (!queueItem) break;
 
         this.running++;
 
         // Handle synchronous exceptions
-        let taskPromise: Promise<unknown>;
+        let dispatchPromise: Promise<any>;
         try {
-          taskPromise = item.task();
+          dispatchPromise = queueItem.batcher.dispatch(this.partitionMetric);
         } catch (err) {
           // Handle synchronous errors
-          item.reject(err);
+          queueItem.reject(err);
           this.running--;
           continue;
         }
 
-        // Safe promise handling without ESLint warnings
-        void taskPromise
+        void dispatchPromise
           // eslint-disable-next-line promise/always-return
           .then((result) => {
-            item.resolve(result);
+            queueItem.resolve(result);
           })
           .catch((err) => {
-            item.reject(err);
+            queueItem.reject(err);
           })
           .finally(() => {
             this.running--;
@@ -186,10 +195,8 @@ export class LimiterQueue {
               this.scheduleProcess();
             }
           });
-        console.log("Task completed:", item.task);
       }
     } catch (err) {
-      // Catch any unexpected errors in the processing loop
       console.error("Unexpected error in task queue processing:", err);
     } finally {
       this.processing = false;
@@ -210,5 +217,9 @@ export class LimiterQueue {
       // scheduleCallback(() => this.process());
     }
   }
+
+  public hasQueuedBatches(): boolean {
+    return this.tasks.length > 0;
+  }
 }
- 
+

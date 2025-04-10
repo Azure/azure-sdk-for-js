@@ -42,7 +42,7 @@ export class BulkBatcher {
     clientConfig: ClientConfigDiagnostic,
     encryptionProcessor: EncryptionProcessor,
     operationsCountRef: { processedOperationCount: number, failedOperationCount: number } = { processedOperationCount: 0, failedOperationCount: 0 }
-,
+    ,
   ) {
     this.batchOperationsList = [];
     this.executor = executor;
@@ -104,71 +104,67 @@ export class BulkBatcher {
     );
     try {
       const response = await this.executor(this.batchOperationsList, diagnosticNode);
-      // status code of 0 represents an empty response,
-      // we are sending this back from executor in case of 410 error
-      if (response.statusCode === 0) {
-          return;
-      }
+
       const hasThrottles = 1;
       const noThrottle = 0;
       const numThrottle = response.results.some((result) => result.statusCode === StatusCodes.TooManyRequests)
-          ? hasThrottles
-          : noThrottle;
+        ? hasThrottles
+        : noThrottle;
       const splitOrMerge = response.results.some((result) => result.statusCode === StatusCodes.Gone)
-          ? true
-          : false;
+        ? true
+        : false;
       if (splitOrMerge) {
-          this.limiter.pauseAndClear(null);
+        this.limiter.pauseAndClear(null);
       }
       partitionMetric.add(this.batchOperationsList.length, getCurrentTimestampInMs() - startTime, numThrottle);
       for (let i = 0; i < response.operations.length; i++) {
-          const operation = response.operations[i];
-          const bulkOperationResult = response.results[i];
-          if (!isSuccessStatusCode(bulkOperationResult.statusCode)) {
-              const errorResponse = new ErrorResponse();
-              errorResponse.code = bulkOperationResult.statusCode;
-              errorResponse.substatus = bulkOperationResult.subStatusCode;
-              errorResponse.retryAfterInMs = bulkOperationResult.retryAfter;
-              const shouldRetry = await operation.operationContext.retryPolicy.shouldRetry(errorResponse, diagnosticNode);
-              if (shouldRetry) {
-                  await this.retrier(operation, diagnosticNode);
-                  continue;
-              }
+        const operation = response.operations[i];
+        const bulkOperationResult = response.results[i];
+        if (!isSuccessStatusCode(bulkOperationResult.statusCode)) {
+          const errorResponse = new ErrorResponse();
+          errorResponse.code = bulkOperationResult.statusCode;
+          errorResponse.substatus = bulkOperationResult.subStatusCode;
+          errorResponse.retryAfterInMs = bulkOperationResult.retryAfter;
+          const shouldRetry = await operation.operationContext.retryPolicy.shouldRetry(errorResponse, diagnosticNode);
+          if (shouldRetry) {
+            await this.retrier(operation, diagnosticNode);
+            continue;
           }
-          try {
-              if (this.encryptionEnabled && bulkOperationResult.resourceBody) {
-                  bulkOperationResult.resourceBody = await this.encryptionProcessor.decrypt(bulkOperationResult.resourceBody);
-              }
+        }
+        try {
+          if (this.encryptionEnabled && bulkOperationResult.resourceBody) {
+            bulkOperationResult.resourceBody = await this.encryptionProcessor.decrypt(bulkOperationResult.resourceBody);
           }
-          catch (error) {
-              // if decryption fails after successful write operation, fail the operation with internal server error
-              if (operation.operationInput.operationType !== "Read") {
-                  const decryptionError = new ErrorResponse(`Item ${operation.operationInput.operationType} operation was successful but response decryption failed: + ${error.message}`);
-                  decryptionError.code = StatusCodes.ServiceUnavailable;
-                  throw decryptionError;
-              }
+        }
+        catch (error) {
+          // if decryption fails after successful write operation, fail the operation with internal server error
+          if (operation.operationInput.operationType !== "Read") {
+            const decryptionError = new ErrorResponse(`Item ${operation.operationInput.operationType} operation was successful but response decryption failed: + ${error.message}`);
+            decryptionError.code = StatusCodes.ServiceUnavailable;
+            throw decryptionError;
           }
-          operation.operationContext.addDiagnosticChild(diagnosticNode);
-          bulkOperationResult.diagnostics = operation.operationContext.diagnosticNode.toDiagnostic(this.clientConfigDiagnostics);
-          const bulkItemResponse: CosmosBulkOperationResult = {
-              operationInput: operation.operationInput,
-          };
-          if (!isSuccessStatusCode(bulkOperationResult.statusCode)) {
-              this.operationsCountRef.failedOperationCount++;
-              const operationError = new ErrorResponse();
-              operationError.code = bulkOperationResult.statusCode;
-              operationError.substatus = bulkOperationResult.subStatusCode;
-              operationError.activityId = bulkOperationResult.activityId;
-              operationError.headers = bulkOperationResult.headers;
-              operationError.retryAfterInMs = bulkOperationResult.retryAfter;
-              operationError.diagnostics = bulkOperationResult.diagnostics;
-              bulkItemResponse.error = operationError
-          }
-          else {
-              bulkItemResponse.response = bulkOperationResult;
-          }
-          operation.operationContext.complete(bulkItemResponse);
-          this.operationsCountRef.processedOperationCount++;
+        }
+        operation.operationContext.addDiagnosticChild(diagnosticNode);
+        bulkOperationResult.diagnostics = operation.operationContext.diagnosticNode.toDiagnostic(this.clientConfigDiagnostics);
+        const bulkItemResponse: CosmosBulkOperationResult = {
+          operationInput: operation.operationInput,
+        };
+        if (!isSuccessStatusCode(bulkOperationResult.statusCode)) {
+          this.operationsCountRef.failedOperationCount++;
+          const operationError = new ErrorResponse();
+          operationError.code = bulkOperationResult.statusCode;
+          operationError.substatus = bulkOperationResult.subStatusCode;
+          operationError.activityId = bulkOperationResult.activityId;
+          operationError.headers = bulkOperationResult.headers;
+          operationError.retryAfterInMs = bulkOperationResult.retryAfter;
+          operationError.diagnostics = bulkOperationResult.diagnostics;
+          bulkItemResponse.error = operationError
+        }
+        else {
+          bulkItemResponse.response = bulkOperationResult;
+        }
+        operation.operationContext.complete(bulkItemResponse);
+        this.operationsCountRef.processedOperationCount++;
       }
     } catch (error) {
       // Mark all operations in the batch as failed
@@ -181,5 +177,9 @@ export class BulkBatcher {
       // Clean up batch state
       this.batchOperationsList = [];
     }
+  }
+
+  public getOperations(): ItemBulkOperation[] {
+    return this.batchOperationsList;
   }
 }

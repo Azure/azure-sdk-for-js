@@ -9,12 +9,12 @@ import { DiagnosticNodeType } from "../diagnostics/DiagnosticNodeInternal";
 import { ErrorResponse, type RequestOptions } from "../request";
 import type { PartitionKeyRangeCache } from "../routing";
 import type { CosmosBulkOperationResult, CosmosBulkResponse, Operation, OperationInput } from "../utils/batch";
-import { isKeyInRange } from "../utils/batch";
+import { encryptOperationInput, isKeyInRange } from "../utils/batch";
 import { hashPartitionKey } from "../utils/hashing/hash";
 import { ResourceThrottleRetryPolicy } from "../retry";
 import { BulkHelperPerPartition } from "./BulkHelperPerPartition";
 import { ItemBulkOperationContext } from "./ItemBulkOperationContext";
-import { copyObject, getPathFromLink, ResourceType, sleep } from "../common";
+import { Constants, copyObject, getPathFromLink, ResourceType, sleep } from "../common";
 import { BulkResponse } from "./BulkResponse";
 import type { ItemBulkOperation } from "./ItemBulkOperation";
 import { addDiagnosticChild } from "../utils/diagnostics";
@@ -76,7 +76,7 @@ export class BulkHelper {
     }
     const addOperationPromises: Promise<void>[] = [];
     for (let i = 0; i < operationInput.length; i++) {
-      if (i % 1000 === 0) {
+      if (i % 100 === 0) {
         await sleep(0);
       }
       addOperationPromises.push(this.addOperation(operationInput[i]));
@@ -100,13 +100,24 @@ export class BulkHelper {
       }),
       isSuccess: this.operationsCountRef.failedOperationCount ? false : true,
     }
-    if(this.congestionControlTimer) {
+    if (this.congestionControlTimer) {
       clearInterval(this.congestionControlTimer);
     }
     return bulkResponse;
   }
 
+
+  public shouldSleep(): boolean {
+    for (const helper of this.helpersByPartitionKeyRangeId.values()) {
+      if (helper.shouldSleep()) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   private async addOperation(operation: OperationInput): Promise<void> {
+    // TODO: return error in case of missing id, pk
     if (this.isCancelled) {
       throw new ErrorResponse("Bulk execution cancelled due to a previous error.");
     }
@@ -143,7 +154,14 @@ export class BulkHelper {
       if (this.clientContext.enableEncryption) {
         operation = copyObject(operation);
         await this.container.checkAndInitializeEncryption();
-        // operation = await this.encryptionHelper(operation, diagnosticNode);
+        diagnosticNode.beginEncryptionDiagnostics(Constants.Encryption.DiagnosticsEncryptOperation)
+        const { operation: encryptedOp, totalPropertiesEncryptedCount } =
+          await encryptOperationInput(operation, 0);
+        operation = encryptedOp;
+        diagnosticNode.endEncryptionDiagnostics(
+          Constants.Encryption.DiagnosticsDecryptOperation,
+          totalPropertiesEncryptedCount,
+        )
       }
       partitionKeyRangeId = await this.resolvePartitionKeyRangeId(operation, diagnosticNode);
     } catch (error) {
@@ -161,55 +179,13 @@ export class BulkHelper {
     this.operationPromisesList.push(context.operationPromise);
     // if there was an error during encryption or resolving pkRangeId, reject the operation
     if (operationError) {
+      this.operationsCountRef.failedOperationCount++;
+      this.operationsCountRef.processedOperationCount++;
       context.fail(operationError);
       return Promise.reject();
     }
     return helperForPartition.add(itemOperation);
   }
-
-  // private async encryptionHelper(
-  //   operation: ItemOperation,
-  //   diagnosticNode: DiagnosticNodeInternal,
-  // ): Promise<ItemOperation> {
-  //   const partitionKeyInternal = convertToInternalPartitionKey(operation.partitionKey);
-  //   operation.partitionKey =
-  //     await this.container.encryptionProcessor.getEncryptedPartitionKeyValue(partitionKeyInternal);
-  //   switch (operation.operationType) {
-  //     case BulkOperationType.Create:
-  //     case BulkOperationType.Upsert:
-  //       operation.resourceBody = await this.container.encryptionProcessor.encrypt(
-  //         operation.resourceBody,
-  //         diagnosticNode,
-  //       );
-  //       break;
-  //     case BulkOperationType.Read:
-  //     case BulkOperationType.Delete:
-  //       operation.id = await this.container.encryptionProcessor.getEncryptedId(operation.id);
-  //       break;
-  //     case BulkOperationType.Replace:
-  //       operation.id = await this.container.encryptionProcessor.getEncryptedId(operation.id);
-  //       operation.resourceBody = await this.container.encryptionProcessor.encrypt(
-  //         operation.resourceBody,
-  //         diagnosticNode,
-  //       );
-  //       break;
-  //     case BulkOperationType.Patch: {
-  //       operation.id = await this.container.encryptionProcessor.getEncryptedId(operation.id);
-  //       const body = operation.resourceBody;
-  //       const patchRequestBody = (Array.isArray(body) ? body : body.operations) as PatchOperation[];
-  //       for (const patchOperation of patchRequestBody) {
-  //         if ("value" in patchOperation) {
-  //           patchOperation.value = await this.container.encryptionProcessor.encryptProperty(
-  //             patchOperation.path,
-  //             patchOperation.value,
-  //           );
-  //         }
-  //       }
-  //       break;
-  //     }
-  //   }
-  //   return operation;
-  // }
 
   private async resolvePartitionKeyRangeId(
     operation: OperationInput,

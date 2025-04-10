@@ -37,6 +37,7 @@ export class BulkCongestionAlgorithm {
   run(): void {
     const elapsedTimeInMs =
       this.partitionMetric.timeTakenInMs - this.oldPartitionMetric.timeTakenInMs;
+
     if (elapsedTimeInMs >= this.congestionWaitTimeInMs) {
       const diffThrottle =
         this.partitionMetric.numberOfThrottles - this.oldPartitionMetric.numberOfThrottles;

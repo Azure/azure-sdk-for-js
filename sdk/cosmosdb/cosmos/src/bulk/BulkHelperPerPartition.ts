@@ -57,13 +57,13 @@ export class BulkHelperPerPartition {
     this.partitionMetric = new BulkPartitionMetric();
     this.operationsCountRef = operationsCountRef;
     this.currentBatcher = this.createBulkBatcher();
+    this.lock = semaphore(1);
+    this.dispatchLimiter = new LimiterQueue(this.initialConcurrency, this.partitionMetric, this.retrier);
     this.congestionControlAlgorithm = new BulkCongestionAlgorithm(
       this.dispatchLimiter,
       this.partitionMetric,
       this.oldPartitionMetric,
     );
-    this.lock = semaphore(1);
-    this.dispatchLimiter = new LimiterQueue(this.initialConcurrency);
   }
 
   /**
@@ -79,12 +79,15 @@ export class BulkHelperPerPartition {
           while (!this.currentBatcher.tryAdd(operation)) {
             const fullBatch = this.getBatchToQueueAndCreate();
             if (fullBatch) {
-              this.dispatchLimiter.push(() => fullBatch.dispatch(this.partitionMetric));
+              this.dispatchLimiter.push(fullBatch);
             }
           }
           // At this point the operation was added.
           resolve();
         } catch (err) {
+          operation.operationContext.fail(err);
+          this.operationsCountRef.failedOperationCount++;
+          this.operationsCountRef.processedOperationCount++;
           reject(err);
         } finally {
           this.lock.leave();
@@ -114,7 +117,7 @@ export class BulkHelperPerPartition {
         if (!this.currentBatcher.isEmpty()) {
           const batch = this.currentBatcher;
           this.currentBatcher = this.createBulkBatcher();
-          this.dispatchLimiter.push(() => batch.dispatch(this.partitionMetric));
+          this.dispatchLimiter.push(batch);
         }
       } finally {
         this.lock.leave();
@@ -135,7 +138,11 @@ export class BulkHelperPerPartition {
     );
   }
 
-  runCongestionAlgorithm(): void {
+  public runCongestionAlgorithm(): void {
     this.congestionControlAlgorithm.run();
+  }
+
+  public shouldSleep(): boolean {
+    return this.dispatchLimiter.hasQueuedBatches();
   }
 }
