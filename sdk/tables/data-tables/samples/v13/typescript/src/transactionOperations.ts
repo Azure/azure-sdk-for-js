@@ -7,18 +7,19 @@
  * @summary sends transactional batch requests
  */
 
-import { TableClient, TransactionAction } from "@azure/data-tables";
-
-// Load the .env file if it exists
+import type { TransactionAction } from "@azure/data-tables";
+import { TableClient } from "@azure/data-tables";
+import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
-const connectionString = process.env["ACCOUNT_CONNECTION_STRING"] || "";
+
+const endpoint = process.env.TABLES_URL || "https://accountname.table.core.windows.net/";
 
 async function batchOperations(): Promise<void> {
   console.log("== Batch Operations Sample ==");
   const tableName = `transactionsSample`;
 
   // See authenticationMethods sample for other options of creating a new client
-  const client = TableClient.fromConnectionString(connectionString, tableName);
+  const client = new TableClient(endpoint, tableName, new DefaultAzureCredential());
 
   // Create the table
   await client.createTable();
@@ -33,8 +34,8 @@ async function batchOperations(): Promise<void> {
         rowKey: "A1",
         name: "Marker Set",
         price: 5.0,
-        quantity: 21
-      }
+        quantity: 21,
+      },
     ],
     [
       "create",
@@ -43,8 +44,8 @@ async function batchOperations(): Promise<void> {
         rowKey: "A2",
         name: "Pen Set",
         price: 2.0,
-        quantity: 6
-      }
+        quantity: 6,
+      },
     ],
     [
       "create",
@@ -53,9 +54,9 @@ async function batchOperations(): Promise<void> {
         rowKey: "A3",
         name: "Pencil",
         price: 1.5,
-        quantity: 100
-      }
-    ]
+        quantity: 100,
+      },
+    ],
   ];
 
   // Submit the transaction with the list of actions.
@@ -92,8 +93,8 @@ async function batchOperations(): Promise<void> {
     [
       "update",
       { partitionKey, rowKey: "A2", name: "[Updated - Replace] Pen Set", price: 99, quantity: 33 },
-      "Replace"
-    ]
+      "Replace",
+    ],
   ];
 
   const updateResult = await client.submitTransaction(updateTransaction);

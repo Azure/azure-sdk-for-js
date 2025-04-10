@@ -9,20 +9,15 @@
  */
 
 import type { Edm } from "@azure/data-tables";
-import { TableClient, AzureNamedKeyCredential } from "@azure/data-tables";
+import { TableClient } from "@azure/data-tables";
+import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
 const tablesUrl = process.env["TABLES_URL"] || "";
-const accountName = process.env["ACCOUNT_NAME"] || "";
-const accountKey = process.env["ACCOUNT_KEY"] || "";
 
 async function workingWithInt64(): Promise<void> {
   console.log("working with Int64 sample");
-  const client = new TableClient(
-    tablesUrl,
-    "testInt64",
-    new AzureNamedKeyCredential(accountName, accountKey),
-  );
+  const client = new TableClient(tablesUrl, "testInt64", new DefaultAzureCredential());
 
   await client.createTable();
 

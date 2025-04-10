@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { BatchSubRequest } from "./BlobBatch";
+import type { BatchSubRequest } from "./BlobBatch.js";
 import type { HttpHeadersLike } from "@azure/core-http-compat";
 
 /**
