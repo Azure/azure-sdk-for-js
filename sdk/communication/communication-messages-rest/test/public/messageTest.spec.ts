@@ -142,7 +142,7 @@ describe("Notification Messages Test", () => {
       channelRegistrationId: env.CHANNEL_ID || "",
       to: [env.RECIPIENT_PHONE_NUMBER || ""],
       emoji: "😍",
-      messageId: "0e7a200b-24fa-41f4-8561-05b7fbdefecd",
+      messageId: "e9522767-765c-4244-b448-27a67df5ee0e",
     };
 
     const result = await client.path("/messages/notifications:send").post({
