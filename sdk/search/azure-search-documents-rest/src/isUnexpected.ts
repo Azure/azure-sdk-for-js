@@ -165,14 +165,10 @@ const responseMap: Record<string, string[]> = {
 };
 
 export function isUnexpected(
-  response:
-    | IndexesGetServiceStatistics200Response
-    | IndexesGetServiceStatisticsDefaultResponse,
+  response: IndexesGetServiceStatistics200Response | IndexesGetServiceStatisticsDefaultResponse,
 ): response is IndexesGetServiceStatisticsDefaultResponse;
 export function isUnexpected(
-  response:
-    | IndexesGetIndexStatsSummary200Response
-    | IndexesGetIndexStatsSummaryDefaultResponse,
+  response: IndexesGetIndexStatsSummary200Response | IndexesGetIndexStatsSummaryDefaultResponse,
 ): response is IndexesGetIndexStatsSummaryDefaultResponse;
 export function isUnexpected(
   response: DocumentsCount200Response | DocumentsCountDefaultResponse,
@@ -190,25 +186,16 @@ export function isUnexpected(
   response: DocumentsSuggestGet200Response | DocumentsSuggestGetDefaultResponse,
 ): response is DocumentsSuggestGetDefaultResponse;
 export function isUnexpected(
-  response:
-    | DocumentsSuggestPost200Response
-    | DocumentsSuggestPostDefaultResponse,
+  response: DocumentsSuggestPost200Response | DocumentsSuggestPostDefaultResponse,
 ): response is DocumentsSuggestPostDefaultResponse;
 export function isUnexpected(
-  response:
-    | DocumentsIndex200Response
-    | DocumentsIndex207Response
-    | DocumentsIndexDefaultResponse,
+  response: DocumentsIndex200Response | DocumentsIndex207Response | DocumentsIndexDefaultResponse,
 ): response is DocumentsIndexDefaultResponse;
 export function isUnexpected(
-  response:
-    | DocumentsAutocompleteGet200Response
-    | DocumentsAutocompleteGetDefaultResponse,
+  response: DocumentsAutocompleteGet200Response | DocumentsAutocompleteGetDefaultResponse,
 ): response is DocumentsAutocompleteGetDefaultResponse;
 export function isUnexpected(
-  response:
-    | DocumentsAutocompletePost200Response
-    | DocumentsAutocompletePostDefaultResponse,
+  response: DocumentsAutocompletePost200Response | DocumentsAutocompletePostDefaultResponse,
 ): response is DocumentsAutocompletePostDefaultResponse;
 export function isUnexpected(
   response:
@@ -223,29 +210,19 @@ export function isUnexpected(
     | IndexesDataSourcesDeleteDefaultResponse,
 ): response is IndexesDataSourcesDeleteDefaultResponse;
 export function isUnexpected(
-  response:
-    | IndexesDataSourcesGet200Response
-    | IndexesDataSourcesGetDefaultResponse,
+  response: IndexesDataSourcesGet200Response | IndexesDataSourcesGetDefaultResponse,
 ): response is IndexesDataSourcesGetDefaultResponse;
 export function isUnexpected(
-  response:
-    | IndexesDataSourcesList200Response
-    | IndexesDataSourcesListDefaultResponse,
+  response: IndexesDataSourcesList200Response | IndexesDataSourcesListDefaultResponse,
 ): response is IndexesDataSourcesListDefaultResponse;
 export function isUnexpected(
-  response:
-    | IndexesDataSourcesCreate201Response
-    | IndexesDataSourcesCreateDefaultResponse,
+  response: IndexesDataSourcesCreate201Response | IndexesDataSourcesCreateDefaultResponse,
 ): response is IndexesDataSourcesCreateDefaultResponse;
 export function isUnexpected(
-  response:
-    | IndexesIndexersReset204Response
-    | IndexesIndexersResetDefaultResponse,
+  response: IndexesIndexersReset204Response | IndexesIndexersResetDefaultResponse,
 ): response is IndexesIndexersResetDefaultResponse;
 export function isUnexpected(
-  response:
-    | IndexesIndexersResetDocs204Response
-    | IndexesIndexersResetDocsDefaultResponse,
+  response: IndexesIndexersResetDocs204Response | IndexesIndexersResetDocsDefaultResponse,
 ): response is IndexesIndexersResetDocsDefaultResponse;
 export function isUnexpected(
   response: IndexesIndexersRun202Response | IndexesIndexersRunDefaultResponse,
@@ -269,14 +246,10 @@ export function isUnexpected(
   response: IndexesIndexersList200Response | IndexesIndexersListDefaultResponse,
 ): response is IndexesIndexersListDefaultResponse;
 export function isUnexpected(
-  response:
-    | IndexesIndexersCreate201Response
-    | IndexesIndexersCreateDefaultResponse,
+  response: IndexesIndexersCreate201Response | IndexesIndexersCreateDefaultResponse,
 ): response is IndexesIndexersCreateDefaultResponse;
 export function isUnexpected(
-  response:
-    | IndexesIndexersGetStatus200Response
-    | IndexesIndexersGetStatusDefaultResponse,
+  response: IndexesIndexersGetStatus200Response | IndexesIndexersGetStatusDefaultResponse,
 ): response is IndexesIndexersGetStatusDefaultResponse;
 export function isUnexpected(
   response:
@@ -294,19 +267,13 @@ export function isUnexpected(
   response: IndexesSkillsetsGet200Response | IndexesSkillsetsGetDefaultResponse,
 ): response is IndexesSkillsetsGetDefaultResponse;
 export function isUnexpected(
-  response:
-    | IndexesSkillsetsList200Response
-    | IndexesSkillsetsListDefaultResponse,
+  response: IndexesSkillsetsList200Response | IndexesSkillsetsListDefaultResponse,
 ): response is IndexesSkillsetsListDefaultResponse;
 export function isUnexpected(
-  response:
-    | IndexesSkillsetsCreate201Response
-    | IndexesSkillsetsCreateDefaultResponse,
+  response: IndexesSkillsetsCreate201Response | IndexesSkillsetsCreateDefaultResponse,
 ): response is IndexesSkillsetsCreateDefaultResponse;
 export function isUnexpected(
-  response:
-    | IndexesSkillsetsResetSkills204Response
-    | IndexesSkillsetsResetSkillsDefaultResponse,
+  response: IndexesSkillsetsResetSkills204Response | IndexesSkillsetsResetSkillsDefaultResponse,
 ): response is IndexesSkillsetsResetSkillsDefaultResponse;
 export function isUnexpected(
   response:
@@ -321,24 +288,16 @@ export function isUnexpected(
     | IndexesSynonymMapsDeleteDefaultResponse,
 ): response is IndexesSynonymMapsDeleteDefaultResponse;
 export function isUnexpected(
-  response:
-    | IndexesSynonymMapsGet200Response
-    | IndexesSynonymMapsGetDefaultResponse,
+  response: IndexesSynonymMapsGet200Response | IndexesSynonymMapsGetDefaultResponse,
 ): response is IndexesSynonymMapsGetDefaultResponse;
 export function isUnexpected(
-  response:
-    | IndexesSynonymMapsList200Response
-    | IndexesSynonymMapsListDefaultResponse,
+  response: IndexesSynonymMapsList200Response | IndexesSynonymMapsListDefaultResponse,
 ): response is IndexesSynonymMapsListDefaultResponse;
 export function isUnexpected(
-  response:
-    | IndexesSynonymMapsCreate201Response
-    | IndexesSynonymMapsCreateDefaultResponse,
+  response: IndexesSynonymMapsCreate201Response | IndexesSynonymMapsCreateDefaultResponse,
 ): response is IndexesSynonymMapsCreateDefaultResponse;
 export function isUnexpected(
-  response:
-    | IndexesIndexesCreate201Response
-    | IndexesIndexesCreateDefaultResponse,
+  response: IndexesIndexesCreate201Response | IndexesIndexesCreateDefaultResponse,
 ): response is IndexesIndexesCreateDefaultResponse;
 export function isUnexpected(
   response: IndexesIndexesList200Response | IndexesIndexesListDefaultResponse,
@@ -359,19 +318,13 @@ export function isUnexpected(
   response: IndexesIndexesGet200Response | IndexesIndexesGetDefaultResponse,
 ): response is IndexesIndexesGetDefaultResponse;
 export function isUnexpected(
-  response:
-    | IndexesIndexesGetStatistics200Response
-    | IndexesIndexesGetStatisticsDefaultResponse,
+  response: IndexesIndexesGetStatistics200Response | IndexesIndexesGetStatisticsDefaultResponse,
 ): response is IndexesIndexesGetStatisticsDefaultResponse;
 export function isUnexpected(
-  response:
-    | IndexesIndexesAnalyze200Response
-    | IndexesIndexesAnalyzeDefaultResponse,
+  response: IndexesIndexesAnalyze200Response | IndexesIndexesAnalyzeDefaultResponse,
 ): response is IndexesIndexesAnalyzeDefaultResponse;
 export function isUnexpected(
-  response:
-    | IndexesAliasesCreate201Response
-    | IndexesAliasesCreateDefaultResponse,
+  response: IndexesAliasesCreate201Response | IndexesAliasesCreateDefaultResponse,
 ): response is IndexesAliasesCreateDefaultResponse;
 export function isUnexpected(
   response: IndexesAliasesList200Response | IndexesAliasesListDefaultResponse,
@@ -583,24 +536,17 @@ function getParametrizedPathSuccess(method: string, path: string): string[] {
 
     // track if we have found a match to return the values found.
     let found = true;
-    for (
-      let i = candidateParts.length - 1, j = pathParts.length - 1;
-      i >= 1 && j >= 1;
-      i--, j--
-    ) {
-      if (
-        candidateParts[i]?.startsWith("{") &&
-        candidateParts[i]?.indexOf("}") !== -1
-      ) {
+    for (let i = candidateParts.length - 1, j = pathParts.length - 1; i >= 1 && j >= 1; i--, j--) {
+      if (candidateParts[i]?.startsWith("{") && candidateParts[i]?.indexOf("}") !== -1) {
         const start = candidateParts[i]!.indexOf("}") + 1,
           end = candidateParts[i]?.length;
         // If the current part of the candidate is a "template" part
         // Try to use the suffix of pattern to match the path
         // {guid} ==> $
         // {guid}:export ==> :export$
-        const isMatched = new RegExp(
-          `${candidateParts[i]?.slice(start, end)}`,
-        ).test(pathParts[j] || "");
+        const isMatched = new RegExp(`${candidateParts[i]?.slice(start, end)}`).test(
+          pathParts[j] || "",
+        );
 
         if (!isMatched) {
           found = false;

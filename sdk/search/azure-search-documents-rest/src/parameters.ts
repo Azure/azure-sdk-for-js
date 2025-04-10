@@ -39,8 +39,8 @@ export interface IndexesGetServiceStatisticsHeaderParam {
   headers?: RawHttpHeadersInput & IndexesGetServiceStatisticsHeaders;
 }
 
-export type IndexesGetServiceStatisticsParameters =
-  IndexesGetServiceStatisticsHeaderParam & RequestParameters;
+export type IndexesGetServiceStatisticsParameters = IndexesGetServiceStatisticsHeaderParam &
+  RequestParameters;
 
 export interface IndexesGetIndexStatsSummaryHeaders {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
@@ -51,8 +51,8 @@ export interface IndexesGetIndexStatsSummaryHeaderParam {
   headers?: RawHttpHeadersInput & IndexesGetIndexStatsSummaryHeaders;
 }
 
-export type IndexesGetIndexStatsSummaryParameters =
-  IndexesGetIndexStatsSummaryHeaderParam & RequestParameters;
+export type IndexesGetIndexStatsSummaryParameters = IndexesGetIndexStatsSummaryHeaderParam &
+  RequestParameters;
 
 export interface DocumentsCountHeaders {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
@@ -63,8 +63,7 @@ export interface DocumentsCountHeaderParam {
   headers?: RawHttpHeadersInput & DocumentsCountHeaders;
 }
 
-export type DocumentsCountParameters = DocumentsCountHeaderParam &
-  RequestParameters;
+export type DocumentsCountParameters = DocumentsCountHeaderParam & RequestParameters;
 
 export interface DocumentsSearchGetHeaders {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
@@ -644,10 +643,9 @@ export interface DocumentsAutocompleteGetHeaderParam {
   headers?: RawHttpHeadersInput & DocumentsAutocompleteGetHeaders;
 }
 
-export type DocumentsAutocompleteGetParameters =
-  DocumentsAutocompleteGetQueryParam &
-    DocumentsAutocompleteGetHeaderParam &
-    RequestParameters;
+export type DocumentsAutocompleteGetParameters = DocumentsAutocompleteGetQueryParam &
+  DocumentsAutocompleteGetHeaderParam &
+  RequestParameters;
 
 export interface DocumentsAutocompletePostHeaders {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
@@ -663,10 +661,9 @@ export interface DocumentsAutocompletePostHeaderParam {
   headers?: RawHttpHeadersInput & DocumentsAutocompletePostHeaders;
 }
 
-export type DocumentsAutocompletePostParameters =
-  DocumentsAutocompletePostHeaderParam &
-    DocumentsAutocompletePostBodyParam &
-    RequestParameters;
+export type DocumentsAutocompletePostParameters = DocumentsAutocompletePostHeaderParam &
+  DocumentsAutocompletePostBodyParam &
+  RequestParameters;
 
 export interface IndexesDataSourcesCreateOrUpdateHeaders {
   /** Defines the If-Match condition. The operation will be performed only if the ETag on the server matches this value. */
@@ -716,8 +713,8 @@ export interface IndexesDataSourcesDeleteHeaderParam {
   headers?: RawHttpHeadersInput & IndexesDataSourcesDeleteHeaders;
 }
 
-export type IndexesDataSourcesDeleteParameters =
-  IndexesDataSourcesDeleteHeaderParam & RequestParameters;
+export type IndexesDataSourcesDeleteParameters = IndexesDataSourcesDeleteHeaderParam &
+  RequestParameters;
 
 export interface IndexesDataSourcesGetHeaders {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
@@ -728,8 +725,7 @@ export interface IndexesDataSourcesGetHeaderParam {
   headers?: RawHttpHeadersInput & IndexesDataSourcesGetHeaders;
 }
 
-export type IndexesDataSourcesGetParameters = IndexesDataSourcesGetHeaderParam &
-  RequestParameters;
+export type IndexesDataSourcesGetParameters = IndexesDataSourcesGetHeaderParam & RequestParameters;
 
 export interface IndexesDataSourcesListHeaders {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
@@ -753,10 +749,9 @@ export interface IndexesDataSourcesListHeaderParam {
   headers?: RawHttpHeadersInput & IndexesDataSourcesListHeaders;
 }
 
-export type IndexesDataSourcesListParameters =
-  IndexesDataSourcesListQueryParam &
-    IndexesDataSourcesListHeaderParam &
-    RequestParameters;
+export type IndexesDataSourcesListParameters = IndexesDataSourcesListQueryParam &
+  IndexesDataSourcesListHeaderParam &
+  RequestParameters;
 
 export interface IndexesDataSourcesCreateHeaders {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
@@ -772,10 +767,9 @@ export interface IndexesDataSourcesCreateHeaderParam {
   headers?: RawHttpHeadersInput & IndexesDataSourcesCreateHeaders;
 }
 
-export type IndexesDataSourcesCreateParameters =
-  IndexesDataSourcesCreateHeaderParam &
-    IndexesDataSourcesCreateBodyParam &
-    RequestParameters;
+export type IndexesDataSourcesCreateParameters = IndexesDataSourcesCreateHeaderParam &
+  IndexesDataSourcesCreateBodyParam &
+  RequestParameters;
 
 export interface IndexesIndexersResetHeaders {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
@@ -786,8 +780,7 @@ export interface IndexesIndexersResetHeaderParam {
   headers?: RawHttpHeadersInput & IndexesIndexersResetHeaders;
 }
 
-export type IndexesIndexersResetParameters = IndexesIndexersResetHeaderParam &
-  RequestParameters;
+export type IndexesIndexersResetParameters = IndexesIndexersResetHeaderParam & RequestParameters;
 
 export interface IndexesIndexersResetDocsHeaders {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
@@ -819,11 +812,10 @@ export interface IndexesIndexersResetDocsHeaderParam {
   headers?: RawHttpHeadersInput & IndexesIndexersResetDocsHeaders;
 }
 
-export type IndexesIndexersResetDocsParameters =
-  IndexesIndexersResetDocsQueryParam &
-    IndexesIndexersResetDocsHeaderParam &
-    IndexesIndexersResetDocsBodyParam &
-    RequestParameters;
+export type IndexesIndexersResetDocsParameters = IndexesIndexersResetDocsQueryParam &
+  IndexesIndexersResetDocsHeaderParam &
+  IndexesIndexersResetDocsBodyParam &
+  RequestParameters;
 
 export interface IndexesIndexersRunHeaders {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
@@ -834,8 +826,7 @@ export interface IndexesIndexersRunHeaderParam {
   headers?: RawHttpHeadersInput & IndexesIndexersRunHeaders;
 }
 
-export type IndexesIndexersRunParameters = IndexesIndexersRunHeaderParam &
-  RequestParameters;
+export type IndexesIndexersRunParameters = IndexesIndexersRunHeaderParam & RequestParameters;
 
 export interface IndexesIndexersCreateOrUpdateHeaders {
   /** Defines the If-Match condition. The operation will be performed only if the ETag on the server matches this value. */
@@ -868,11 +859,10 @@ export interface IndexesIndexersCreateOrUpdateHeaderParam {
   headers: RawHttpHeadersInput & IndexesIndexersCreateOrUpdateHeaders;
 }
 
-export type IndexesIndexersCreateOrUpdateParameters =
-  IndexesIndexersCreateOrUpdateQueryParam &
-    IndexesIndexersCreateOrUpdateHeaderParam &
-    IndexesIndexersCreateOrUpdateBodyParam &
-    RequestParameters;
+export type IndexesIndexersCreateOrUpdateParameters = IndexesIndexersCreateOrUpdateQueryParam &
+  IndexesIndexersCreateOrUpdateHeaderParam &
+  IndexesIndexersCreateOrUpdateBodyParam &
+  RequestParameters;
 
 export interface IndexesIndexersDeleteHeaders {
   /** Defines the If-Match condition. The operation will be performed only if the ETag on the server matches this value. */
@@ -887,8 +877,7 @@ export interface IndexesIndexersDeleteHeaderParam {
   headers?: RawHttpHeadersInput & IndexesIndexersDeleteHeaders;
 }
 
-export type IndexesIndexersDeleteParameters = IndexesIndexersDeleteHeaderParam &
-  RequestParameters;
+export type IndexesIndexersDeleteParameters = IndexesIndexersDeleteHeaderParam & RequestParameters;
 
 export interface IndexesIndexersGetHeaders {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
@@ -899,8 +888,7 @@ export interface IndexesIndexersGetHeaderParam {
   headers?: RawHttpHeadersInput & IndexesIndexersGetHeaders;
 }
 
-export type IndexesIndexersGetParameters = IndexesIndexersGetHeaderParam &
-  RequestParameters;
+export type IndexesIndexersGetParameters = IndexesIndexersGetHeaderParam & RequestParameters;
 
 export interface IndexesIndexersListHeaders {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
@@ -955,8 +943,8 @@ export interface IndexesIndexersGetStatusHeaderParam {
   headers?: RawHttpHeadersInput & IndexesIndexersGetStatusHeaders;
 }
 
-export type IndexesIndexersGetStatusParameters =
-  IndexesIndexersGetStatusHeaderParam & RequestParameters;
+export type IndexesIndexersGetStatusParameters = IndexesIndexersGetStatusHeaderParam &
+  RequestParameters;
 
 export interface IndexesSkillsetsCreateOrUpdateHeaders {
   /** Defines the If-Match condition. The operation will be performed only if the ETag on the server matches this value. */
@@ -992,11 +980,10 @@ export interface IndexesSkillsetsCreateOrUpdateHeaderParam {
   headers: RawHttpHeadersInput & IndexesSkillsetsCreateOrUpdateHeaders;
 }
 
-export type IndexesSkillsetsCreateOrUpdateParameters =
-  IndexesSkillsetsCreateOrUpdateQueryParam &
-    IndexesSkillsetsCreateOrUpdateHeaderParam &
-    IndexesSkillsetsCreateOrUpdateBodyParam &
-    RequestParameters;
+export type IndexesSkillsetsCreateOrUpdateParameters = IndexesSkillsetsCreateOrUpdateQueryParam &
+  IndexesSkillsetsCreateOrUpdateHeaderParam &
+  IndexesSkillsetsCreateOrUpdateBodyParam &
+  RequestParameters;
 
 export interface IndexesSkillsetsDeleteHeaders {
   /** Defines the If-Match condition. The operation will be performed only if the ETag on the server matches this value. */
@@ -1011,8 +998,8 @@ export interface IndexesSkillsetsDeleteHeaderParam {
   headers?: RawHttpHeadersInput & IndexesSkillsetsDeleteHeaders;
 }
 
-export type IndexesSkillsetsDeleteParameters =
-  IndexesSkillsetsDeleteHeaderParam & RequestParameters;
+export type IndexesSkillsetsDeleteParameters = IndexesSkillsetsDeleteHeaderParam &
+  RequestParameters;
 
 export interface IndexesSkillsetsGetHeaders {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
@@ -1023,8 +1010,7 @@ export interface IndexesSkillsetsGetHeaderParam {
   headers?: RawHttpHeadersInput & IndexesSkillsetsGetHeaders;
 }
 
-export type IndexesSkillsetsGetParameters = IndexesSkillsetsGetHeaderParam &
-  RequestParameters;
+export type IndexesSkillsetsGetParameters = IndexesSkillsetsGetHeaderParam & RequestParameters;
 
 export interface IndexesSkillsetsListHeaders {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
@@ -1066,10 +1052,9 @@ export interface IndexesSkillsetsCreateHeaderParam {
   headers?: RawHttpHeadersInput & IndexesSkillsetsCreateHeaders;
 }
 
-export type IndexesSkillsetsCreateParameters =
-  IndexesSkillsetsCreateHeaderParam &
-    IndexesSkillsetsCreateBodyParam &
-    RequestParameters;
+export type IndexesSkillsetsCreateParameters = IndexesSkillsetsCreateHeaderParam &
+  IndexesSkillsetsCreateBodyParam &
+  RequestParameters;
 
 export interface IndexesSkillsetsResetSkillsHeaders {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
@@ -1088,10 +1073,9 @@ export interface IndexesSkillsetsResetSkillsHeaderParam {
   headers?: RawHttpHeadersInput & IndexesSkillsetsResetSkillsHeaders;
 }
 
-export type IndexesSkillsetsResetSkillsParameters =
-  IndexesSkillsetsResetSkillsHeaderParam &
-    IndexesSkillsetsResetSkillsBodyParam &
-    RequestParameters;
+export type IndexesSkillsetsResetSkillsParameters = IndexesSkillsetsResetSkillsHeaderParam &
+  IndexesSkillsetsResetSkillsBodyParam &
+  RequestParameters;
 
 export interface IndexesSynonymMapsCreateOrUpdateHeaders {
   /** Defines the If-Match condition. The operation will be performed only if the ETag on the server matches this value. */
@@ -1131,8 +1115,8 @@ export interface IndexesSynonymMapsDeleteHeaderParam {
   headers?: RawHttpHeadersInput & IndexesSynonymMapsDeleteHeaders;
 }
 
-export type IndexesSynonymMapsDeleteParameters =
-  IndexesSynonymMapsDeleteHeaderParam & RequestParameters;
+export type IndexesSynonymMapsDeleteParameters = IndexesSynonymMapsDeleteHeaderParam &
+  RequestParameters;
 
 export interface IndexesSynonymMapsGetHeaders {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
@@ -1143,8 +1127,7 @@ export interface IndexesSynonymMapsGetHeaderParam {
   headers?: RawHttpHeadersInput & IndexesSynonymMapsGetHeaders;
 }
 
-export type IndexesSynonymMapsGetParameters = IndexesSynonymMapsGetHeaderParam &
-  RequestParameters;
+export type IndexesSynonymMapsGetParameters = IndexesSynonymMapsGetHeaderParam & RequestParameters;
 
 export interface IndexesSynonymMapsListHeaders {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
@@ -1168,10 +1151,9 @@ export interface IndexesSynonymMapsListHeaderParam {
   headers?: RawHttpHeadersInput & IndexesSynonymMapsListHeaders;
 }
 
-export type IndexesSynonymMapsListParameters =
-  IndexesSynonymMapsListQueryParam &
-    IndexesSynonymMapsListHeaderParam &
-    RequestParameters;
+export type IndexesSynonymMapsListParameters = IndexesSynonymMapsListQueryParam &
+  IndexesSynonymMapsListHeaderParam &
+  RequestParameters;
 
 export interface IndexesSynonymMapsCreateHeaders {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
@@ -1187,10 +1169,9 @@ export interface IndexesSynonymMapsCreateHeaderParam {
   headers?: RawHttpHeadersInput & IndexesSynonymMapsCreateHeaders;
 }
 
-export type IndexesSynonymMapsCreateParameters =
-  IndexesSynonymMapsCreateHeaderParam &
-    IndexesSynonymMapsCreateBodyParam &
-    RequestParameters;
+export type IndexesSynonymMapsCreateParameters = IndexesSynonymMapsCreateHeaderParam &
+  IndexesSynonymMapsCreateBodyParam &
+  RequestParameters;
 
 export interface IndexesIndexesCreateHeaders {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
@@ -1271,11 +1252,10 @@ export interface IndexesIndexesCreateOrUpdateHeaderParam {
   headers: RawHttpHeadersInput & IndexesIndexesCreateOrUpdateHeaders;
 }
 
-export type IndexesIndexesCreateOrUpdateParameters =
-  IndexesIndexesCreateOrUpdateQueryParam &
-    IndexesIndexesCreateOrUpdateHeaderParam &
-    IndexesIndexesCreateOrUpdateBodyParam &
-    RequestParameters;
+export type IndexesIndexesCreateOrUpdateParameters = IndexesIndexesCreateOrUpdateQueryParam &
+  IndexesIndexesCreateOrUpdateHeaderParam &
+  IndexesIndexesCreateOrUpdateBodyParam &
+  RequestParameters;
 
 export interface IndexesIndexesDeleteHeaders {
   /** Defines the If-Match condition. The operation will be performed only if the ETag on the server matches this value. */
@@ -1290,8 +1270,7 @@ export interface IndexesIndexesDeleteHeaderParam {
   headers?: RawHttpHeadersInput & IndexesIndexesDeleteHeaders;
 }
 
-export type IndexesIndexesDeleteParameters = IndexesIndexesDeleteHeaderParam &
-  RequestParameters;
+export type IndexesIndexesDeleteParameters = IndexesIndexesDeleteHeaderParam & RequestParameters;
 
 export interface IndexesIndexesGetHeaders {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
@@ -1302,8 +1281,7 @@ export interface IndexesIndexesGetHeaderParam {
   headers?: RawHttpHeadersInput & IndexesIndexesGetHeaders;
 }
 
-export type IndexesIndexesGetParameters = IndexesIndexesGetHeaderParam &
-  RequestParameters;
+export type IndexesIndexesGetParameters = IndexesIndexesGetHeaderParam & RequestParameters;
 
 export interface IndexesIndexesGetStatisticsHeaders {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
@@ -1314,8 +1292,8 @@ export interface IndexesIndexesGetStatisticsHeaderParam {
   headers?: RawHttpHeadersInput & IndexesIndexesGetStatisticsHeaders;
 }
 
-export type IndexesIndexesGetStatisticsParameters =
-  IndexesIndexesGetStatisticsHeaderParam & RequestParameters;
+export type IndexesIndexesGetStatisticsParameters = IndexesIndexesGetStatisticsHeaderParam &
+  RequestParameters;
 
 export interface IndexesIndexesAnalyzeHeaders {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
@@ -1362,8 +1340,7 @@ export interface IndexesAliasesListHeaderParam {
   headers?: RawHttpHeadersInput & IndexesAliasesListHeaders;
 }
 
-export type IndexesAliasesListParameters = IndexesAliasesListHeaderParam &
-  RequestParameters;
+export type IndexesAliasesListParameters = IndexesAliasesListHeaderParam & RequestParameters;
 
 export interface IndexesAliasesCreateOrUpdateHeaders {
   /** Defines the If-Match condition. The operation will be performed only if the ETag on the server matches this value. */
@@ -1385,10 +1362,9 @@ export interface IndexesAliasesCreateOrUpdateHeaderParam {
   headers: RawHttpHeadersInput & IndexesAliasesCreateOrUpdateHeaders;
 }
 
-export type IndexesAliasesCreateOrUpdateParameters =
-  IndexesAliasesCreateOrUpdateHeaderParam &
-    IndexesAliasesCreateOrUpdateBodyParam &
-    RequestParameters;
+export type IndexesAliasesCreateOrUpdateParameters = IndexesAliasesCreateOrUpdateHeaderParam &
+  IndexesAliasesCreateOrUpdateBodyParam &
+  RequestParameters;
 
 export interface IndexesAliasesDeleteHeaders {
   /** Defines the If-Match condition. The operation will be performed only if the ETag on the server matches this value. */
@@ -1403,8 +1379,7 @@ export interface IndexesAliasesDeleteHeaderParam {
   headers?: RawHttpHeadersInput & IndexesAliasesDeleteHeaders;
 }
 
-export type IndexesAliasesDeleteParameters = IndexesAliasesDeleteHeaderParam &
-  RequestParameters;
+export type IndexesAliasesDeleteParameters = IndexesAliasesDeleteHeaderParam & RequestParameters;
 
 export interface IndexesAliasesGetHeaders {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
@@ -1415,5 +1390,4 @@ export interface IndexesAliasesGetHeaderParam {
   headers?: RawHttpHeadersInput & IndexesAliasesGetHeaders;
 }
 
-export type IndexesAliasesGetParameters = IndexesAliasesGetHeaderParam &
-  RequestParameters;
+export type IndexesAliasesGetParameters = IndexesAliasesGetHeaderParam & RequestParameters;

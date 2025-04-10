@@ -588,15 +588,13 @@ export interface SearchIndexerDataIdentityParent {
 }
 
 /** Clears the identity property of a datasource. */
-export interface SearchIndexerDataNoneIdentity
-  extends SearchIndexerDataIdentityParent {
+export interface SearchIndexerDataNoneIdentity extends SearchIndexerDataIdentityParent {
   /** The discriminator for derived types. */
   "@odata.type": "#Microsoft.Azure.Search.DataNoneIdentity";
 }
 
 /** Specifies the identity for a datasource to use. */
-export interface SearchIndexerDataUserAssignedIdentity
-  extends SearchIndexerDataIdentityParent {
+export interface SearchIndexerDataUserAssignedIdentity extends SearchIndexerDataIdentityParent {
   /**
    * The fully qualified Azure resource Id of a user assigned managed identity
    * typically in the form
@@ -617,8 +615,7 @@ export interface DataChangeDetectionPolicyParent {
  * Defines a data change detection policy that captures changes based on the value
  * of a high water mark column.
  */
-export interface HighWaterMarkChangeDetectionPolicy
-  extends DataChangeDetectionPolicyParent {
+export interface HighWaterMarkChangeDetectionPolicy extends DataChangeDetectionPolicyParent {
   /** The name of the high water mark column. */
   highWaterMarkColumnName: string;
   /** A URI fragment specifying the type of data change detection policy. */
@@ -629,8 +626,7 @@ export interface HighWaterMarkChangeDetectionPolicy
  * Defines a data change detection policy that captures changes using the
  * Integrated Change Tracking feature of Azure SQL Database.
  */
-export interface SqlIntegratedChangeTrackingPolicy
-  extends DataChangeDetectionPolicyParent {
+export interface SqlIntegratedChangeTrackingPolicy extends DataChangeDetectionPolicyParent {
   /** A URI fragment specifying the type of data change detection policy. */
   "@odata.type": "#Microsoft.Azure.Search.SqlIntegratedChangeTrackingPolicy";
 }
@@ -645,8 +641,7 @@ export interface DataDeletionDetectionPolicyParent {
  * strategy. It determines whether an item should be deleted based on the value of
  * a designated 'soft delete' column.
  */
-export interface SoftDeleteColumnDeletionDetectionPolicy
-  extends DataDeletionDetectionPolicyParent {
+export interface SoftDeleteColumnDeletionDetectionPolicy extends DataDeletionDetectionPolicyParent {
   /** The name of the column to use for soft-deletion detection. */
   softDeleteColumnName?: string;
   /** The marker value that identifies an item as deleted. */
@@ -807,8 +802,7 @@ export interface IndexingParameters {
  * A dictionary of indexer-specific configuration properties. Each name is the
  * name of a specific property. Each value must be of a primitive type.
  */
-export interface IndexingParametersConfiguration
-  extends Record<string, unknown> {
+export interface IndexingParametersConfiguration extends Record<string, unknown> {
   /**
    * Represents the parsing mode for indexing from an Azure blob data source.
    *
@@ -1566,8 +1560,7 @@ export interface DocumentExtractionSkill extends SearchIndexerSkillParent {
  * A skill that extracts content and layout information (as markdown), via Azure
  * AI Services, from files within the enrichment pipeline.
  */
-export interface DocumentIntelligenceLayoutSkill
-  extends SearchIndexerSkillParent {
+export interface DocumentIntelligenceLayoutSkill extends SearchIndexerSkillParent {
   /**
    * Controls the cardinality of the output produced by the skill. Default is 'oneToMany'.
    *
@@ -1717,8 +1710,7 @@ export interface CognitiveServicesAccountParent {
  * An empty object that represents the default Azure AI service resource for a
  * skillset.
  */
-export interface DefaultCognitiveServicesAccount
-  extends CognitiveServicesAccountParent {
+export interface DefaultCognitiveServicesAccount extends CognitiveServicesAccountParent {
   /**
    * A URI fragment specifying the type of Azure AI service resource attached to a
    * skillset.
@@ -1730,8 +1722,7 @@ export interface DefaultCognitiveServicesAccount
  * The multi-region account key of an Azure AI service resource that's attached to
  * a skillset.
  */
-export interface CognitiveServicesAccountKey
-  extends CognitiveServicesAccountParent {
+export interface CognitiveServicesAccountKey extends CognitiveServicesAccountParent {
   /** The key used to provision the Azure AI service resource attached to a skillset. */
   key: string;
   /**
@@ -1761,8 +1752,7 @@ export interface AIServicesAccountKey extends CognitiveServicesAccountParent {
  * The multi-region account of an Azure AI service resource that's attached to a
  * skillset.
  */
-export interface AIServicesAccountIdentity
-  extends CognitiveServicesAccountParent {
+export interface AIServicesAccountIdentity extends CognitiveServicesAccountParent {
   /**
    * The user-assigned managed identity used for connections to AI Service. If not
    * specified, the system-assigned managed identity is used. On updates to the
@@ -1854,8 +1844,7 @@ export interface SearchIndexerKnowledgeStoreFileProjectionSelector
  * A dictionary of knowledge store-specific configuration properties. Each name is
  * the name of a specific property. Each value must be of a primitive type.
  */
-export interface SearchIndexerKnowledgeStoreParameters
-  extends Record<string, unknown> {
+export interface SearchIndexerKnowledgeStoreParameters extends Record<string, unknown> {
   /**
    * Whether or not projections should synthesize a generated key name if one isn't
    * already present.
@@ -1899,8 +1888,7 @@ export interface SearchIndexerIndexProjectionSelector {
  * A dictionary of index projection-specific configuration properties. Each name
  * is the name of a specific property. Each value must be of a primitive type.
  */
-export interface SearchIndexerIndexProjectionsParameters
-  extends Record<string, unknown> {
+export interface SearchIndexerIndexProjectionsParameters extends Record<string, unknown> {
   /**
    * Defines behavior of the index projections in relation to the rest of the
    * indexer.
@@ -2511,8 +2499,7 @@ export interface MicrosoftLanguageTokenizer extends LexicalTokenizerParent {
  * Divides text using language-specific rules and reduces words to their base
  * forms.
  */
-export interface MicrosoftLanguageStemmingTokenizer
-  extends LexicalTokenizerParent {
+export interface MicrosoftLanguageStemmingTokenizer extends LexicalTokenizerParent {
   /**
    * The maximum token length. Tokens longer than the maximum length are split.
    * Maximum token length that can be used is 300 characters. Tokens longer than 300
@@ -3347,8 +3334,7 @@ export interface VectorSearchAlgorithmConfigurationParent {
  * neighbors algorithm used during indexing and querying. The HNSW algorithm
  * offers a tunable trade-off between search speed and accuracy.
  */
-export interface HnswAlgorithmConfiguration
-  extends VectorSearchAlgorithmConfigurationParent {
+export interface HnswAlgorithmConfiguration extends VectorSearchAlgorithmConfigurationParent {
   /** Contains the parameters specific to HNSW algorithm. */
   hnswParameters?: HnswParameters;
   /** The name of the kind of algorithm being configured for use with vector search. */
@@ -3492,8 +3478,7 @@ export interface WebApiVectorizerParameters {
 }
 
 /** Clears the identity property of a datasource. */
-export interface AIServicesVisionVectorizer
-  extends VectorSearchVectorizerParent {
+export interface AIServicesVisionVectorizer extends VectorSearchVectorizerParent {
   /** Contains the parameters specific to AI Services Vision embedding vectorization. */
   AIServicesVisionParameters?: AIServicesVisionParameters;
   /**
@@ -3639,8 +3624,7 @@ export interface RescoringOptions {
  * Contains configuration options specific to the scalar quantization compression
  * method used during indexing and querying.
  */
-export interface ScalarQuantizationCompression
-  extends VectorSearchCompressionParent {
+export interface ScalarQuantizationCompression extends VectorSearchCompressionParent {
   /** Contains the parameters specific to Scalar Quantization. */
   scalarQuantizationParameters?: ScalarQuantizationParameters;
   /**
@@ -3664,8 +3648,7 @@ export interface ScalarQuantizationParameters {
  * Contains configuration options specific to the binary quantization compression
  * method used during indexing and querying.
  */
-export interface BinaryQuantizationCompression
-  extends VectorSearchCompressionParent {
+export interface BinaryQuantizationCompression extends VectorSearchCompressionParent {
   /**
    * The name of the kind of compression method being configured for use with vector
    * search.
@@ -3838,10 +3821,7 @@ export type TokenFilter =
   | UniqueTokenFilter
   | WordDelimiterTokenFilter;
 /** Base type for character filters. */
-export type CharFilter =
-  | CharFilterParent
-  | MappingCharFilter
-  | PatternReplaceCharFilter;
+export type CharFilter = CharFilterParent | MappingCharFilter | PatternReplaceCharFilter;
 /** Base type for normalizers. */
 export type LexicalNormalizer = LexicalNormalizerParent | CustomNormalizer;
 /**

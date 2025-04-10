@@ -22,10 +22,7 @@ export interface DocumentsClientOptions extends ClientOptions {
 export default function createClient(
   endpointParam: string,
   credentials: TokenCredential | KeyCredential,
-  {
-    apiVersion = "2025-03-01-preview",
-    ...options
-  }: DocumentsClientOptions = {},
+  { apiVersion = "2025-03-01-preview", ...options }: DocumentsClientOptions = {},
 ): DocumentsClient {
   const endpointUrl = options.endpoint ?? options.baseUrl ?? `${endpointParam}`;
   const userAgentInfo = `azsdk-js-azure-search-documents-rest/1.0.0-beta.1`;
@@ -42,17 +39,11 @@ export default function createClient(
       logger: options.loggingOptions?.logger ?? logger.info,
     },
     credentials: {
-      scopes: options.credentials?.scopes ?? [
-        "https://search.azure.com/.default",
-      ],
+      scopes: options.credentials?.scopes ?? ["https://search.azure.com/.default"],
       apiKeyHeaderName: options.credentials?.apiKeyHeaderName ?? "api-key",
     },
   };
-  const client = getClient(
-    endpointUrl,
-    credentials,
-    options,
-  ) as DocumentsClient;
+  const client = getClient(endpointUrl, credentials, options) as DocumentsClient;
 
   client.pipeline.removePolicy({ name: "ApiVersionPolicy" });
   client.pipeline.addPolicy({

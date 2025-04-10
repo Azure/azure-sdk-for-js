@@ -34,8 +34,7 @@ export interface IndexesGetServiceStatistics200Response extends HttpResponse {
   body: SearchServiceStatisticsOutput;
 }
 
-export interface IndexesGetServiceStatisticsDefaultResponse
-  extends HttpResponse {
+export interface IndexesGetServiceStatisticsDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
 }
@@ -46,8 +45,7 @@ export interface IndexesGetIndexStatsSummary200Response extends HttpResponse {
   body: ListIndexStatsSummaryOutput;
 }
 
-export interface IndexesGetIndexStatsSummaryDefaultResponse
-  extends HttpResponse {
+export interface IndexesGetIndexStatsSummaryDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
 }
@@ -164,21 +162,18 @@ export interface DocumentsAutocompletePostDefaultResponse extends HttpResponse {
 }
 
 /** The request has succeeded. */
-export interface IndexesDataSourcesCreateOrUpdate200Response
-  extends HttpResponse {
+export interface IndexesDataSourcesCreateOrUpdate200Response extends HttpResponse {
   status: "200";
   body: SearchIndexerDataSourceOutput;
 }
 
 /** The request has succeeded and a new resource has been created as a result. */
-export interface IndexesDataSourcesCreateOrUpdate201Response
-  extends HttpResponse {
+export interface IndexesDataSourcesCreateOrUpdate201Response extends HttpResponse {
   status: "201";
   body: SearchIndexerDataSourceOutput;
 }
 
-export interface IndexesDataSourcesCreateOrUpdateDefaultResponse
-  extends HttpResponse {
+export interface IndexesDataSourcesCreateOrUpdateDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
 }
@@ -273,8 +268,7 @@ export interface IndexesIndexersCreateOrUpdate201Response extends HttpResponse {
   body: SearchIndexerOutput;
 }
 
-export interface IndexesIndexersCreateOrUpdateDefaultResponse
-  extends HttpResponse {
+export interface IndexesIndexersCreateOrUpdateDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
 }
@@ -339,21 +333,18 @@ export interface IndexesIndexersGetStatusDefaultResponse extends HttpResponse {
 }
 
 /** The request has succeeded. */
-export interface IndexesSkillsetsCreateOrUpdate200Response
-  extends HttpResponse {
+export interface IndexesSkillsetsCreateOrUpdate200Response extends HttpResponse {
   status: "200";
   body: SearchIndexerSkillsetOutput;
 }
 
 /** The request has succeeded and a new resource has been created as a result. */
-export interface IndexesSkillsetsCreateOrUpdate201Response
-  extends HttpResponse {
+export interface IndexesSkillsetsCreateOrUpdate201Response extends HttpResponse {
   status: "201";
   body: SearchIndexerSkillsetOutput;
 }
 
-export interface IndexesSkillsetsCreateOrUpdateDefaultResponse
-  extends HttpResponse {
+export interface IndexesSkillsetsCreateOrUpdateDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
 }
@@ -411,28 +402,24 @@ export interface IndexesSkillsetsResetSkills204Response extends HttpResponse {
   status: "204";
 }
 
-export interface IndexesSkillsetsResetSkillsDefaultResponse
-  extends HttpResponse {
+export interface IndexesSkillsetsResetSkillsDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
 }
 
 /** The request has succeeded. */
-export interface IndexesSynonymMapsCreateOrUpdate200Response
-  extends HttpResponse {
+export interface IndexesSynonymMapsCreateOrUpdate200Response extends HttpResponse {
   status: "200";
   body: SynonymMapOutput;
 }
 
 /** The request has succeeded and a new resource has been created as a result. */
-export interface IndexesSynonymMapsCreateOrUpdate201Response
-  extends HttpResponse {
+export interface IndexesSynonymMapsCreateOrUpdate201Response extends HttpResponse {
   status: "201";
   body: SynonymMapOutput;
 }
 
-export interface IndexesSynonymMapsCreateOrUpdateDefaultResponse
-  extends HttpResponse {
+export interface IndexesSynonymMapsCreateOrUpdateDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
 }
@@ -519,8 +506,7 @@ export interface IndexesIndexesCreateOrUpdate201Response extends HttpResponse {
   body: SearchIndexOutput;
 }
 
-export interface IndexesIndexesCreateOrUpdateDefaultResponse
-  extends HttpResponse {
+export interface IndexesIndexesCreateOrUpdateDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
 }
@@ -557,8 +543,7 @@ export interface IndexesIndexesGetStatistics200Response extends HttpResponse {
   body: GetIndexStatisticsResultOutput;
 }
 
-export interface IndexesIndexesGetStatisticsDefaultResponse
-  extends HttpResponse {
+export interface IndexesIndexesGetStatisticsDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
 }
@@ -608,8 +593,7 @@ export interface IndexesAliasesCreateOrUpdate201Response extends HttpResponse {
   body: SearchAliasOutput;
 }
 
-export interface IndexesAliasesCreateOrUpdateDefaultResponse
-  extends HttpResponse {
+export interface IndexesAliasesCreateOrUpdateDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
 }

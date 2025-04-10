@@ -507,8 +507,7 @@ export interface VectorThresholdOutputParent {
  * version. The threshold direction (larger or smaller) will be chosen
  * automatically according to the metric used by the field.
  */
-export interface VectorSimilarityThresholdOutput
-  extends VectorThresholdOutputParent {
+export interface VectorSimilarityThresholdOutput extends VectorThresholdOutputParent {
   /**
    * The threshold will filter based on the similarity metric value. Note this is
    * the canonical definition of similarity metric, not the 'distance' version. The
@@ -525,8 +524,7 @@ export interface VectorSimilarityThresholdOutput
  * Note this is the @search.score returned as part of the search response. The
  * threshold direction will be chosen for higher @search.score.
  */
-export interface SearchScoreThresholdOutput
-  extends VectorThresholdOutputParent {
+export interface SearchScoreThresholdOutput extends VectorThresholdOutputParent {
   /**
    * The threshold will filter based on the '@search.score' value. Note this is the
    * @search.score returned as part of the search response. The threshold direction
@@ -570,8 +568,7 @@ export interface VectorizableTextQueryOutput extends VectorQueryOutputParent {
  * The query parameters to use for vector search when an url that represents an
  * image value that needs to be vectorized is provided.
  */
-export interface VectorizableImageUrlQueryOutput
-  extends VectorQueryOutputParent {
+export interface VectorizableImageUrlQueryOutput extends VectorQueryOutputParent {
   /** The URL of an image to be vectorized to perform a vector search query. */
   url?: string;
   /** The kind of vector query being performed. */
@@ -582,8 +579,7 @@ export interface VectorizableImageUrlQueryOutput
  * The query parameters to use for vector search when a base 64 encoded binary of
  * an image that needs to be vectorized is provided.
  */
-export interface VectorizableImageBinaryQueryOutput
-  extends VectorQueryOutputParent {
+export interface VectorizableImageBinaryQueryOutput extends VectorQueryOutputParent {
   /**
    * The base 64 encoded binary of an image to be vectorized to perform a vector
    * search query.
@@ -928,8 +924,7 @@ export interface SearchIndexerDataIdentityOutputParent {
 }
 
 /** Clears the identity property of a datasource. */
-export interface SearchIndexerDataNoneIdentityOutput
-  extends SearchIndexerDataIdentityOutputParent {
+export interface SearchIndexerDataNoneIdentityOutput extends SearchIndexerDataIdentityOutputParent {
   /** The discriminator for derived types. */
   "@odata.type": "#Microsoft.Azure.Search.DataNoneIdentity";
 }
@@ -1148,8 +1143,7 @@ export interface IndexingParametersOutput {
  * A dictionary of indexer-specific configuration properties. Each name is the
  * name of a specific property. Each value must be of a primitive type.
  */
-export interface IndexingParametersConfigurationOutput
-  extends Record<string, any> {
+export interface IndexingParametersConfigurationOutput extends Record<string, any> {
   /**
    * Represents the parsing mode for indexing from an Azure blob data source.
    *
@@ -1593,8 +1587,7 @@ export interface ConditionalSkillOutput extends SearchIndexerSkillOutputParent {
 }
 
 /** A skill that uses text analytics for key phrase extraction. */
-export interface KeyPhraseExtractionSkillOutput
-  extends SearchIndexerSkillOutputParent {
+export interface KeyPhraseExtractionSkillOutput extends SearchIndexerSkillOutputParent {
   /**
    * A value indicating which language code to use. Default is `en`.
    *
@@ -1641,8 +1634,7 @@ export interface OcrSkillOutput extends SearchIndexerSkillOutputParent {
  * A skill that analyzes image files. It extracts a rich set of visual features
  * based on the image content.
  */
-export interface ImageAnalysisSkillOutput
-  extends SearchIndexerSkillOutputParent {
+export interface ImageAnalysisSkillOutput extends SearchIndexerSkillOutputParent {
   /**
    * A value indicating which language code to use. Default is `en`.
    *
@@ -1662,8 +1654,7 @@ export interface ImageAnalysisSkillOutput
  * code for every document submitted on the request. The language code is paired
  * with a score indicating the confidence of the analysis.
  */
-export interface LanguageDetectionSkillOutput
-  extends SearchIndexerSkillOutputParent {
+export interface LanguageDetectionSkillOutput extends SearchIndexerSkillOutputParent {
   /**
    * A country code to use as a hint to the language detection model if it cannot
    * disambiguate the language.
@@ -1708,8 +1699,7 @@ export interface MergeSkillOutput extends SearchIndexerSkillOutputParent {
 }
 
 /** This skill is deprecated. Use the V3.EntityRecognitionSkill instead. */
-export interface EntityRecognitionSkillOutput
-  extends SearchIndexerSkillOutputParent {
+export interface EntityRecognitionSkillOutput extends SearchIndexerSkillOutputParent {
   /** A list of entity categories that should be extracted. */
   categories?: EntityCategoryOutput[];
   /**
@@ -1773,8 +1763,7 @@ export interface SentimentSkillV3Output extends SearchIndexerSkillOutputParent {
 }
 
 /** Using the Text Analytics API, extracts linked entities from text. */
-export interface EntityLinkingSkillOutput
-  extends SearchIndexerSkillOutputParent {
+export interface EntityLinkingSkillOutput extends SearchIndexerSkillOutputParent {
   /** A value indicating which language code to use. Default is `en`. */
   defaultLanguageCode?: string;
   /**
@@ -1794,8 +1783,7 @@ export interface EntityLinkingSkillOutput
 }
 
 /** Using the Text Analytics API, extracts entities of different types from text. */
-export interface EntityRecognitionSkillV3Output
-  extends SearchIndexerSkillOutputParent {
+export interface EntityRecognitionSkillV3Output extends SearchIndexerSkillOutputParent {
   /** A list of entity categories that should be extracted. */
   categories?: string[];
   /** A value indicating which language code to use. Default is `en`. */
@@ -1820,8 +1808,7 @@ export interface EntityRecognitionSkillV3Output
  * Using the Text Analytics API, extracts personal information from an input text
  * and gives you the option of masking it.
  */
-export interface PIIDetectionSkillOutput
-  extends SearchIndexerSkillOutputParent {
+export interface PIIDetectionSkillOutput extends SearchIndexerSkillOutputParent {
   /** A value indicating which language code to use. Default is `en`. */
   defaultLanguageCode?: string;
   /**
@@ -1924,8 +1911,7 @@ export interface AzureOpenAITokenizerParametersOutput {
 }
 
 /** A skill looks for text from a custom, user-defined list of words and phrases. */
-export interface CustomEntityLookupSkillOutput
-  extends SearchIndexerSkillOutputParent {
+export interface CustomEntityLookupSkillOutput extends SearchIndexerSkillOutputParent {
   /**
    * A value indicating which language code to use. Default is `en`.
    *
@@ -2053,8 +2039,7 @@ export interface CustomEntityAliasOutput {
 }
 
 /** A skill to translate text from one language to another. */
-export interface TextTranslationSkillOutput
-  extends SearchIndexerSkillOutputParent {
+export interface TextTranslationSkillOutput extends SearchIndexerSkillOutputParent {
   /**
    * The language code to translate documents into for documents that don't specify
    * the to language explicitly.
@@ -2082,8 +2067,7 @@ export interface TextTranslationSkillOutput
 }
 
 /** A skill that extracts content from a file within the enrichment pipeline. */
-export interface DocumentExtractionSkillOutput
-  extends SearchIndexerSkillOutputParent {
+export interface DocumentExtractionSkillOutput extends SearchIndexerSkillOutputParent {
   /** The parsingMode for the skill. Will be set to 'default' if not defined. */
   parsingMode?: string;
   /** The type of data to be extracted for the skill. Will be set to 'contentAndMetadata' if not defined. */
@@ -2098,8 +2082,7 @@ export interface DocumentExtractionSkillOutput
  * A skill that extracts content and layout information (as markdown), via Azure
  * AI Services, from files within the enrichment pipeline.
  */
-export interface DocumentIntelligenceLayoutSkillOutput
-  extends SearchIndexerSkillOutputParent {
+export interface DocumentIntelligenceLayoutSkillOutput extends SearchIndexerSkillOutputParent {
   /**
    * Controls the cardinality of the output produced by the skill. Default is 'oneToMany'.
    *
@@ -2160,8 +2143,7 @@ export interface WebApiSkillOutput extends SearchIndexerSkillOutputParent {
  * Learning (AML) model. Once an AML model is trained and deployed, an AML skill
  * integrates it into AI enrichment.
  */
-export interface AzureMachineLearningSkillOutput
-  extends SearchIndexerSkillOutputParent {
+export interface AzureMachineLearningSkillOutput extends SearchIndexerSkillOutputParent {
   /**
    * (Required for no authentication or key authentication) The scoring URI of the
    * AML service to which the JSON payload will be sent. Only the https URI scheme
@@ -2200,8 +2182,7 @@ export interface AzureMachineLearningSkillOutput
  * Allows you to generate a vector embedding for a given text input using the
  * Azure OpenAI resource.
  */
-export interface AzureOpenAIEmbeddingSkillOutput
-  extends SearchIndexerSkillOutputParent {
+export interface AzureOpenAIEmbeddingSkillOutput extends SearchIndexerSkillOutputParent {
   /** The resource URI of the Azure OpenAI resource. */
   resourceUri?: string;
   /** ID of the Azure OpenAI model deployment on the designated resource. */
@@ -2230,8 +2211,7 @@ export interface AzureOpenAIEmbeddingSkillOutput
  * Allows you to generate a vector embedding for a given image or text input using
  * the Azure AI Services Vision Vectorize API.
  */
-export interface VisionVectorizeSkillOutput
-  extends SearchIndexerSkillOutputParent {
+export interface VisionVectorizeSkillOutput extends SearchIndexerSkillOutputParent {
   /**
    * The version of the model to use when calling the AI Services Vision service. It
    * will default to the latest available when not specified.
@@ -2265,8 +2245,7 @@ export interface DefaultCognitiveServicesAccountOutput
  * The multi-region account key of an Azure AI service resource that's attached to
  * a skillset.
  */
-export interface CognitiveServicesAccountKeyOutput
-  extends CognitiveServicesAccountOutputParent {
+export interface CognitiveServicesAccountKeyOutput extends CognitiveServicesAccountOutputParent {
   /** The key used to provision the Azure AI service resource attached to a skillset. */
   key: string;
   /**
@@ -2280,8 +2259,7 @@ export interface CognitiveServicesAccountKeyOutput
  * The account key of an Azure AI service resource that's attached to a skillset,
  * to be used with the resource's subdomain.
  */
-export interface AIServicesAccountKeyOutput
-  extends CognitiveServicesAccountOutputParent {
+export interface AIServicesAccountKeyOutput extends CognitiveServicesAccountOutputParent {
   /** The key used to provision the Azure AI service resource attached to a skillset. */
   key: string;
   /** The subdomain url for the corresponding AI Service. */
@@ -2297,8 +2275,7 @@ export interface AIServicesAccountKeyOutput
  * The multi-region account of an Azure AI service resource that's attached to a
  * skillset.
  */
-export interface AIServicesAccountIdentityOutput
-  extends CognitiveServicesAccountOutputParent {
+export interface AIServicesAccountIdentityOutput extends CognitiveServicesAccountOutputParent {
   /**
    * The user-assigned managed identity used for connections to AI Service. If not
    * specified, the system-assigned managed identity is used. On updates to the
@@ -2390,8 +2367,7 @@ export interface SearchIndexerKnowledgeStoreFileProjectionSelectorOutput
  * A dictionary of knowledge store-specific configuration properties. Each name is
  * the name of a specific property. Each value must be of a primitive type.
  */
-export interface SearchIndexerKnowledgeStoreParametersOutput
-  extends Record<string, any> {
+export interface SearchIndexerKnowledgeStoreParametersOutput extends Record<string, any> {
   /**
    * Whether or not projections should synthesize a generated key name if one isn't
    * already present.
@@ -2435,8 +2411,7 @@ export interface SearchIndexerIndexProjectionSelectorOutput {
  * A dictionary of index projection-specific configuration properties. Each name
  * is the name of a specific property. Each value must be of a primitive type.
  */
-export interface SearchIndexerIndexProjectionsParametersOutput
-  extends Record<string, any> {
+export interface SearchIndexerIndexProjectionsParametersOutput extends Record<string, any> {
   /**
    * Defines behavior of the index projections in relation to the rest of the
    * indexer.
@@ -2763,8 +2738,7 @@ export interface ScoringFunctionOutputParent {
  * Defines a function that boosts scores based on distance from a geographic
  * location.
  */
-export interface DistanceScoringFunctionOutput
-  extends ScoringFunctionOutputParent {
+export interface DistanceScoringFunctionOutput extends ScoringFunctionOutputParent {
   /** Parameter values for the distance scoring function. */
   distance: DistanceScoringParametersOutput;
   /**
@@ -2789,8 +2763,7 @@ export interface DistanceScoringParametersOutput {
 }
 
 /** Defines a function that boosts scores based on the value of a date-time field. */
-export interface FreshnessScoringFunctionOutput
-  extends ScoringFunctionOutputParent {
+export interface FreshnessScoringFunctionOutput extends ScoringFunctionOutputParent {
   /** Parameter values for the freshness scoring function. */
   freshness: FreshnessScoringParametersOutput;
   /**
@@ -2807,8 +2780,7 @@ export interface FreshnessScoringParametersOutput {
 }
 
 /** Defines a function that boosts scores based on the magnitude of a numeric field. */
-export interface MagnitudeScoringFunctionOutput
-  extends ScoringFunctionOutputParent {
+export interface MagnitudeScoringFunctionOutput extends ScoringFunctionOutputParent {
   /** Parameter values for the magnitude scoring function. */
   magnitude: MagnitudeScoringParametersOutput;
   /**
@@ -2954,8 +2926,7 @@ export interface PatternAnalyzerOutput extends LexicalAnalyzerOutputParent {
  * Standard Apache Lucene analyzer; Composed of the standard tokenizer, lowercase
  * filter and stop filter.
  */
-export interface LuceneStandardAnalyzerOutput
-  extends LexicalAnalyzerOutputParent {
+export interface LuceneStandardAnalyzerOutput extends LexicalAnalyzerOutputParent {
   /**
    * The maximum token length. Default is 255. Tokens longer than the maximum length
    * are split. The maximum token length that can be used is 300 characters.
@@ -3036,8 +3007,7 @@ export interface KeywordTokenizerV2Output extends LexicalTokenizerOutputParent {
 }
 
 /** Divides text using language-specific rules. */
-export interface MicrosoftLanguageTokenizerOutput
-  extends LexicalTokenizerOutputParent {
+export interface MicrosoftLanguageTokenizerOutput extends LexicalTokenizerOutputParent {
   /**
    * The maximum token length. Tokens longer than the maximum length are split.
    * Maximum token length that can be used is 300 characters. Tokens longer than 300
@@ -3064,8 +3034,7 @@ export interface MicrosoftLanguageTokenizerOutput
  * Divides text using language-specific rules and reduces words to their base
  * forms.
  */
-export interface MicrosoftLanguageStemmingTokenizerOutput
-  extends LexicalTokenizerOutputParent {
+export interface MicrosoftLanguageStemmingTokenizerOutput extends LexicalTokenizerOutputParent {
   /**
    * The maximum token length. Tokens longer than the maximum length are split.
    * Maximum token length that can be used is 300 characters. Tokens longer than 300
@@ -3110,8 +3079,7 @@ export interface NGramTokenizerOutput extends LexicalTokenizerOutputParent {
  * Tokenizer for path-like hierarchies. This tokenizer is implemented using Apache
  * Lucene.
  */
-export interface PathHierarchyTokenizerV2Output
-  extends LexicalTokenizerOutputParent {
+export interface PathHierarchyTokenizerV2Output extends LexicalTokenizerOutputParent {
   /** The delimiter character to use. Default is "/". */
   delimiter?: string;
   /** A value that, if set, replaces the delimiter character. Default is "/". */
@@ -3159,8 +3127,7 @@ export interface PatternTokenizerOutput extends LexicalTokenizerOutputParent {
  * Breaks text following the Unicode Text Segmentation rules. This tokenizer is
  * implemented using Apache Lucene.
  */
-export interface LuceneStandardTokenizerV2Output
-  extends LexicalTokenizerOutputParent {
+export interface LuceneStandardTokenizerV2Output extends LexicalTokenizerOutputParent {
   /**
    * The maximum token length. Default is 255. Tokens longer than the maximum length
    * are split. The maximum token length that can be used is 300 characters.
@@ -3174,8 +3141,7 @@ export interface LuceneStandardTokenizerV2Output
  * Tokenizes urls and emails as one token. This tokenizer is implemented using
  * Apache Lucene.
  */
-export interface UaxUrlEmailTokenizerOutput
-  extends LexicalTokenizerOutputParent {
+export interface UaxUrlEmailTokenizerOutput extends LexicalTokenizerOutputParent {
   /**
    * The maximum token length. Default is 255. Tokens longer than the maximum length
    * are split. The maximum token length that can be used is 300 characters.
@@ -3252,8 +3218,7 @@ export interface CommonGramTokenFilterOutput extends TokenFilterOutputParent {
  * Decomposes compound words found in many Germanic languages. This token filter
  * is implemented using Apache Lucene.
  */
-export interface DictionaryDecompounderTokenFilterOutput
-  extends TokenFilterOutputParent {
+export interface DictionaryDecompounderTokenFilterOutput extends TokenFilterOutputParent {
   /** The list of words to match against. */
   wordList: string[];
   /**
@@ -3328,8 +3293,7 @@ export interface KeepTokenFilterOutput extends TokenFilterOutputParent {
 }
 
 /** Marks terms as keywords. This token filter is implemented using Apache Lucene. */
-export interface KeywordMarkerTokenFilterOutput
-  extends TokenFilterOutputParent {
+export interface KeywordMarkerTokenFilterOutput extends TokenFilterOutputParent {
   /** A list of words to mark as keywords. */
   keywords: string[];
   /**
@@ -3393,8 +3357,7 @@ export interface NGramTokenFilterV2Output extends TokenFilterOutputParent {
  * Uses Java regexes to emit multiple tokens - one for each capture group in one
  * or more patterns. This token filter is implemented using Apache Lucene.
  */
-export interface PatternCaptureTokenFilterOutput
-  extends TokenFilterOutputParent {
+export interface PatternCaptureTokenFilterOutput extends TokenFilterOutputParent {
   /** A list of patterns to match against each token. */
   patterns: string[];
   /**
@@ -3414,8 +3377,7 @@ export interface PatternCaptureTokenFilterOutput
  * result would be "aa#bb aa#bb". This token filter is implemented using Apache
  * Lucene.
  */
-export interface PatternReplaceTokenFilterOutput
-  extends TokenFilterOutputParent {
+export interface PatternReplaceTokenFilterOutput extends TokenFilterOutputParent {
   /** A regular expression pattern. */
   pattern: string;
   /** The replacement text. */
@@ -3518,8 +3480,7 @@ export interface StemmerTokenFilterOutput extends TokenFilterOutputParent {
  * placed before any stemming filters. This token filter is implemented using
  * Apache Lucene.
  */
-export interface StemmerOverrideTokenFilterOutput
-  extends TokenFilterOutputParent {
+export interface StemmerOverrideTokenFilterOutput extends TokenFilterOutputParent {
   /**
    * A list of stemming rules in the following format: "word => stem", for example:
    * "ran => run".
@@ -3619,8 +3580,7 @@ export interface UniqueTokenFilterOutput extends TokenFilterOutputParent {
  * Splits words into subwords and performs optional transformations on subword
  * groups. This token filter is implemented using Apache Lucene.
  */
-export interface WordDelimiterTokenFilterOutput
-  extends TokenFilterOutputParent {
+export interface WordDelimiterTokenFilterOutput extends TokenFilterOutputParent {
   /**
    * A value indicating whether to generate part words. If set, causes parts of
    * words to be generated; for example "AzureSearch" becomes "Azure" "Search".
@@ -3765,8 +3725,7 @@ export interface SimilarityAlgorithmOutputParent {
  * length normalization as well as coordinating factors that penalize documents
  * that only partially match the searched queries.
  */
-export interface ClassicSimilarityAlgorithmOutput
-  extends SimilarityAlgorithmOutputParent {
+export interface ClassicSimilarityAlgorithmOutput extends SimilarityAlgorithmOutputParent {
   /** The discriminator for derived types. */
   "@odata.type": "#Microsoft.Azure.Search.ClassicSimilarity";
 }
@@ -3777,8 +3736,7 @@ export interface ClassicSimilarityAlgorithmOutput
  * parameter) as well as term frequency saturation (controlled by the 'k1'
  * parameter).
  */
-export interface BM25SimilarityAlgorithmOutput
-  extends SimilarityAlgorithmOutputParent {
+export interface BM25SimilarityAlgorithmOutput extends SimilarityAlgorithmOutputParent {
   /**
    * This property controls the scaling function between the term frequency of each
    * matching terms and the final relevance score of a document-query pair. By
@@ -3981,8 +3939,7 @@ export interface VectorSearchVectorizerOutputParent {
 }
 
 /** Specifies the Azure OpenAI resource used to vectorize a query string. */
-export interface AzureOpenAIVectorizerOutput
-  extends VectorSearchVectorizerOutputParent {
+export interface AzureOpenAIVectorizerOutput extends VectorSearchVectorizerOutputParent {
   /** Contains the parameters specific to Azure OpenAI embedding vectorization. */
   azureOpenAIParameters?: AzureOpenAIVectorizerParametersOutput;
   /**
@@ -4016,8 +3973,7 @@ export interface AzureOpenAIVectorizerParametersOutput {
  * query string. Integration of an external vectorizer is achieved using the
  * custom Web API interface of a skillset.
  */
-export interface WebApiVectorizerOutput
-  extends VectorSearchVectorizerOutputParent {
+export interface WebApiVectorizerOutput extends VectorSearchVectorizerOutputParent {
   /** Specifies the properties of the user-defined vectorizer. */
   customWebApiParameters?: WebApiVectorizerParametersOutput;
   /**
@@ -4058,8 +4014,7 @@ export interface WebApiVectorizerParametersOutput {
 }
 
 /** Clears the identity property of a datasource. */
-export interface AIServicesVisionVectorizerOutput
-  extends VectorSearchVectorizerOutputParent {
+export interface AIServicesVisionVectorizerOutput extends VectorSearchVectorizerOutputParent {
   /** Contains the parameters specific to AI Services Vision embedding vectorization. */
   AIServicesVisionParameters?: AIServicesVisionParametersOutput;
   /**
@@ -4097,8 +4052,7 @@ export interface AIServicesVisionParametersOutput {
  * Specifies an Azure Machine Learning endpoint deployed via the Azure AI Foundry
  * Model Catalog for generating the vector embedding of a query string.
  */
-export interface AMLVectorizerOutput
-  extends VectorSearchVectorizerOutputParent {
+export interface AMLVectorizerOutput extends VectorSearchVectorizerOutputParent {
   /** Specifies the properties of the AML vectorizer. */
   amlParameters?: AMLParametersOutput;
   /**
@@ -4206,8 +4160,7 @@ export interface RescoringOptionsOutput {
  * Contains configuration options specific to the scalar quantization compression
  * method used during indexing and querying.
  */
-export interface ScalarQuantizationCompressionOutput
-  extends VectorSearchCompressionOutputParent {
+export interface ScalarQuantizationCompressionOutput extends VectorSearchCompressionOutputParent {
   /** Contains the parameters specific to Scalar Quantization. */
   scalarQuantizationParameters?: ScalarQuantizationParametersOutput;
   /**
@@ -4231,8 +4184,7 @@ export interface ScalarQuantizationParametersOutput {
  * Contains configuration options specific to the binary quantization compression
  * method used during indexing and querying.
  */
-export interface BinaryQuantizationCompressionOutput
-  extends VectorSearchCompressionOutputParent {
+export interface BinaryQuantizationCompressionOutput extends VectorSearchCompressionOutputParent {
   /**
    * The name of the kind of compression method being configured for use with vector
    * search.
@@ -4426,9 +4378,7 @@ export type CharFilterOutput =
   | MappingCharFilterOutput
   | PatternReplaceCharFilterOutput;
 /** Base type for normalizers. */
-export type LexicalNormalizerOutput =
-  | LexicalNormalizerOutputParent
-  | CustomNormalizerOutput;
+export type LexicalNormalizerOutput = LexicalNormalizerOutputParent | CustomNormalizerOutput;
 /**
  * Base type for similarity algorithms. Similarity algorithms are used to
  * calculate scores that tie queries to documents. The higher the score, the more

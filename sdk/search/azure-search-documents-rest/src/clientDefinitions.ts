@@ -169,8 +169,7 @@ export interface IndexesGetServiceStatistics {
   get(
     options?: IndexesGetServiceStatisticsParameters,
   ): StreamableMethod<
-    | IndexesGetServiceStatistics200Response
-    | IndexesGetServiceStatisticsDefaultResponse
+    IndexesGetServiceStatistics200Response | IndexesGetServiceStatisticsDefaultResponse
   >;
 }
 
@@ -179,8 +178,7 @@ export interface IndexesGetIndexStatsSummary {
   get(
     options?: IndexesGetIndexStatsSummaryParameters,
   ): StreamableMethod<
-    | IndexesGetIndexStatsSummary200Response
-    | IndexesGetIndexStatsSummaryDefaultResponse
+    IndexesGetIndexStatsSummary200Response | IndexesGetIndexStatsSummaryDefaultResponse
   >;
 }
 
@@ -188,27 +186,21 @@ export interface DocumentsCount {
   /** Queries the number of documents in the index. */
   get(
     options?: DocumentsCountParameters,
-  ): StreamableMethod<
-    DocumentsCount200Response | DocumentsCountDefaultResponse
-  >;
+  ): StreamableMethod<DocumentsCount200Response | DocumentsCountDefaultResponse>;
 }
 
 export interface DocumentsSearchGet {
   /** Searches for documents in the index. */
   get(
     options?: DocumentsSearchGetParameters,
-  ): StreamableMethod<
-    DocumentsSearchGet200Response | DocumentsSearchGetDefaultResponse
-  >;
+  ): StreamableMethod<DocumentsSearchGet200Response | DocumentsSearchGetDefaultResponse>;
 }
 
 export interface DocumentsSearchPost {
   /** Searches for documents in the index. */
   post(
     options: DocumentsSearchPostParameters,
-  ): StreamableMethod<
-    DocumentsSearchPost200Response | DocumentsSearchPostDefaultResponse
-  >;
+  ): StreamableMethod<DocumentsSearchPost200Response | DocumentsSearchPostDefaultResponse>;
 }
 
 export interface DocumentsGet {
@@ -222,18 +214,14 @@ export interface DocumentsSuggestGet {
   /** Suggests documents in the index that match the given partial query text. */
   get(
     options: DocumentsSuggestGetParameters,
-  ): StreamableMethod<
-    DocumentsSuggestGet200Response | DocumentsSuggestGetDefaultResponse
-  >;
+  ): StreamableMethod<DocumentsSuggestGet200Response | DocumentsSuggestGetDefaultResponse>;
 }
 
 export interface DocumentsSuggestPost {
   /** Suggests documents in the index that match the given partial query text. */
   post(
     options: DocumentsSuggestPostParameters,
-  ): StreamableMethod<
-    DocumentsSuggestPost200Response | DocumentsSuggestPostDefaultResponse
-  >;
+  ): StreamableMethod<DocumentsSuggestPost200Response | DocumentsSuggestPostDefaultResponse>;
 }
 
 export interface DocumentsIndex {
@@ -241,9 +229,7 @@ export interface DocumentsIndex {
   post(
     options: DocumentsIndexParameters,
   ): StreamableMethod<
-    | DocumentsIndex200Response
-    | DocumentsIndex207Response
-    | DocumentsIndexDefaultResponse
+    DocumentsIndex200Response | DocumentsIndex207Response | DocumentsIndexDefaultResponse
   >;
 }
 
@@ -255,8 +241,7 @@ export interface DocumentsAutocompleteGet {
   get(
     options: DocumentsAutocompleteGetParameters,
   ): StreamableMethod<
-    | DocumentsAutocompleteGet200Response
-    | DocumentsAutocompleteGetDefaultResponse
+    DocumentsAutocompleteGet200Response | DocumentsAutocompleteGetDefaultResponse
   >;
 }
 
@@ -268,8 +253,7 @@ export interface DocumentsAutocompletePost {
   post(
     options: DocumentsAutocompletePostParameters,
   ): StreamableMethod<
-    | DocumentsAutocompletePost200Response
-    | DocumentsAutocompletePostDefaultResponse
+    DocumentsAutocompletePost200Response | DocumentsAutocompletePostDefaultResponse
   >;
 }
 
@@ -293,24 +277,19 @@ export interface IndexesDataSourcesCreateOrUpdate {
   /** Retrieves a datasource definition. */
   get(
     options?: IndexesDataSourcesGetParameters,
-  ): StreamableMethod<
-    IndexesDataSourcesGet200Response | IndexesDataSourcesGetDefaultResponse
-  >;
+  ): StreamableMethod<IndexesDataSourcesGet200Response | IndexesDataSourcesGetDefaultResponse>;
 }
 
 export interface IndexesDataSourcesList {
   /** Lists all datasources available for a search service. */
   get(
     options?: IndexesDataSourcesListParameters,
-  ): StreamableMethod<
-    IndexesDataSourcesList200Response | IndexesDataSourcesListDefaultResponse
-  >;
+  ): StreamableMethod<IndexesDataSourcesList200Response | IndexesDataSourcesListDefaultResponse>;
   /** Creates a new datasource. */
   post(
     options: IndexesDataSourcesCreateParameters,
   ): StreamableMethod<
-    | IndexesDataSourcesCreate201Response
-    | IndexesDataSourcesCreateDefaultResponse
+    IndexesDataSourcesCreate201Response | IndexesDataSourcesCreateDefaultResponse
   >;
 }
 
@@ -318,9 +297,7 @@ export interface IndexesIndexersReset {
   /** Resets the change tracking state associated with an indexer. */
   post(
     options?: IndexesIndexersResetParameters,
-  ): StreamableMethod<
-    IndexesIndexersReset204Response | IndexesIndexersResetDefaultResponse
-  >;
+  ): StreamableMethod<IndexesIndexersReset204Response | IndexesIndexersResetDefaultResponse>;
 }
 
 export interface IndexesIndexersResetDocs {
@@ -331,8 +308,7 @@ export interface IndexesIndexersResetDocs {
   post(
     options?: IndexesIndexersResetDocsParameters,
   ): StreamableMethod<
-    | IndexesIndexersResetDocs204Response
-    | IndexesIndexersResetDocsDefaultResponse
+    IndexesIndexersResetDocs204Response | IndexesIndexersResetDocsDefaultResponse
   >;
 }
 
@@ -340,9 +316,7 @@ export interface IndexesIndexersRun {
   /** Runs an indexer on-demand. */
   post(
     options?: IndexesIndexersRunParameters,
-  ): StreamableMethod<
-    IndexesIndexersRun202Response | IndexesIndexersRunDefaultResponse
-  >;
+  ): StreamableMethod<IndexesIndexersRun202Response | IndexesIndexersRunDefaultResponse>;
 }
 
 export interface IndexesIndexersCreateOrUpdate {
@@ -365,24 +339,18 @@ export interface IndexesIndexersCreateOrUpdate {
   /** Retrieves an indexer definition. */
   get(
     options?: IndexesIndexersGetParameters,
-  ): StreamableMethod<
-    IndexesIndexersGet200Response | IndexesIndexersGetDefaultResponse
-  >;
+  ): StreamableMethod<IndexesIndexersGet200Response | IndexesIndexersGetDefaultResponse>;
 }
 
 export interface IndexesIndexersList {
   /** Lists all indexers available for a search service. */
   get(
     options?: IndexesIndexersListParameters,
-  ): StreamableMethod<
-    IndexesIndexersList200Response | IndexesIndexersListDefaultResponse
-  >;
+  ): StreamableMethod<IndexesIndexersList200Response | IndexesIndexersListDefaultResponse>;
   /** Creates a new indexer. */
   post(
     options: IndexesIndexersCreateParameters,
-  ): StreamableMethod<
-    IndexesIndexersCreate201Response | IndexesIndexersCreateDefaultResponse
-  >;
+  ): StreamableMethod<IndexesIndexersCreate201Response | IndexesIndexersCreateDefaultResponse>;
 }
 
 export interface IndexesIndexersGetStatus {
@@ -390,8 +358,7 @@ export interface IndexesIndexersGetStatus {
   get(
     options?: IndexesIndexersGetStatusParameters,
   ): StreamableMethod<
-    | IndexesIndexersGetStatus200Response
-    | IndexesIndexersGetStatusDefaultResponse
+    IndexesIndexersGetStatus200Response | IndexesIndexersGetStatusDefaultResponse
   >;
 }
 
@@ -418,24 +385,18 @@ export interface IndexesSkillsetsCreateOrUpdate {
   /** Retrieves a skillset in a search service. */
   get(
     options?: IndexesSkillsetsGetParameters,
-  ): StreamableMethod<
-    IndexesSkillsetsGet200Response | IndexesSkillsetsGetDefaultResponse
-  >;
+  ): StreamableMethod<IndexesSkillsetsGet200Response | IndexesSkillsetsGetDefaultResponse>;
 }
 
 export interface IndexesSkillsetsList {
   /** List all skillsets in a search service. */
   get(
     options?: IndexesSkillsetsListParameters,
-  ): StreamableMethod<
-    IndexesSkillsetsList200Response | IndexesSkillsetsListDefaultResponse
-  >;
+  ): StreamableMethod<IndexesSkillsetsList200Response | IndexesSkillsetsListDefaultResponse>;
   /** Creates a new skillset in a search service. */
   post(
     options: IndexesSkillsetsCreateParameters,
-  ): StreamableMethod<
-    IndexesSkillsetsCreate201Response | IndexesSkillsetsCreateDefaultResponse
-  >;
+  ): StreamableMethod<IndexesSkillsetsCreate201Response | IndexesSkillsetsCreateDefaultResponse>;
 }
 
 export interface IndexesSkillsetsResetSkills {
@@ -443,8 +404,7 @@ export interface IndexesSkillsetsResetSkills {
   post(
     options: IndexesSkillsetsResetSkillsParameters,
   ): StreamableMethod<
-    | IndexesSkillsetsResetSkills204Response
-    | IndexesSkillsetsResetSkillsDefaultResponse
+    IndexesSkillsetsResetSkills204Response | IndexesSkillsetsResetSkillsDefaultResponse
   >;
 }
 
@@ -468,24 +428,19 @@ export interface IndexesSynonymMapsCreateOrUpdate {
   /** Retrieves a synonym map definition. */
   get(
     options?: IndexesSynonymMapsGetParameters,
-  ): StreamableMethod<
-    IndexesSynonymMapsGet200Response | IndexesSynonymMapsGetDefaultResponse
-  >;
+  ): StreamableMethod<IndexesSynonymMapsGet200Response | IndexesSynonymMapsGetDefaultResponse>;
 }
 
 export interface IndexesSynonymMapsList {
   /** Lists all synonym maps available for a search service. */
   get(
     options?: IndexesSynonymMapsListParameters,
-  ): StreamableMethod<
-    IndexesSynonymMapsList200Response | IndexesSynonymMapsListDefaultResponse
-  >;
+  ): StreamableMethod<IndexesSynonymMapsList200Response | IndexesSynonymMapsListDefaultResponse>;
   /** Creates a new synonym map. */
   post(
     options: IndexesSynonymMapsCreateParameters,
   ): StreamableMethod<
-    | IndexesSynonymMapsCreate201Response
-    | IndexesSynonymMapsCreateDefaultResponse
+    IndexesSynonymMapsCreate201Response | IndexesSynonymMapsCreateDefaultResponse
   >;
 }
 
@@ -493,15 +448,11 @@ export interface IndexesIndexesCreate {
   /** Creates a new search index. */
   post(
     options: IndexesIndexesCreateParameters,
-  ): StreamableMethod<
-    IndexesIndexesCreate201Response | IndexesIndexesCreateDefaultResponse
-  >;
+  ): StreamableMethod<IndexesIndexesCreate201Response | IndexesIndexesCreateDefaultResponse>;
   /** Lists all indexes available for a search service. */
   get(
     options?: IndexesIndexesListParameters,
-  ): StreamableMethod<
-    IndexesIndexesList200Response | IndexesIndexesListDefaultResponse
-  >;
+  ): StreamableMethod<IndexesIndexesList200Response | IndexesIndexesListDefaultResponse>;
 }
 
 export interface IndexesIndexesCreateOrUpdate {
@@ -529,9 +480,7 @@ export interface IndexesIndexesCreateOrUpdate {
   /** Retrieves an index definition. */
   get(
     options?: IndexesIndexesGetParameters,
-  ): StreamableMethod<
-    IndexesIndexesGet200Response | IndexesIndexesGetDefaultResponse
-  >;
+  ): StreamableMethod<IndexesIndexesGet200Response | IndexesIndexesGetDefaultResponse>;
 }
 
 export interface IndexesIndexesGetStatistics {
@@ -542,8 +491,7 @@ export interface IndexesIndexesGetStatistics {
   get(
     options?: IndexesIndexesGetStatisticsParameters,
   ): StreamableMethod<
-    | IndexesIndexesGetStatistics200Response
-    | IndexesIndexesGetStatisticsDefaultResponse
+    IndexesIndexesGetStatistics200Response | IndexesIndexesGetStatisticsDefaultResponse
   >;
 }
 
@@ -551,24 +499,18 @@ export interface IndexesIndexesAnalyze {
   /** Shows how an analyzer breaks text into tokens. */
   post(
     options: IndexesIndexesAnalyzeParameters,
-  ): StreamableMethod<
-    IndexesIndexesAnalyze200Response | IndexesIndexesAnalyzeDefaultResponse
-  >;
+  ): StreamableMethod<IndexesIndexesAnalyze200Response | IndexesIndexesAnalyzeDefaultResponse>;
 }
 
 export interface IndexesAliasesCreate {
   /** Creates a new search alias. */
   post(
     options: IndexesAliasesCreateParameters,
-  ): StreamableMethod<
-    IndexesAliasesCreate201Response | IndexesAliasesCreateDefaultResponse
-  >;
+  ): StreamableMethod<IndexesAliasesCreate201Response | IndexesAliasesCreateDefaultResponse>;
   /** Lists all aliases available for a search service. */
   get(
     options?: IndexesAliasesListParameters,
-  ): StreamableMethod<
-    IndexesAliasesList200Response | IndexesAliasesListDefaultResponse
-  >;
+  ): StreamableMethod<IndexesAliasesList200Response | IndexesAliasesListDefaultResponse>;
 }
 
 export interface IndexesAliasesCreateOrUpdate {
@@ -595,9 +537,7 @@ export interface IndexesAliasesCreateOrUpdate {
   /** Retrieves an alias definition. */
   get(
     options?: IndexesAliasesGetParameters,
-  ): StreamableMethod<
-    IndexesAliasesGet200Response | IndexesAliasesGetDefaultResponse
-  >;
+  ): StreamableMethod<IndexesAliasesGet200Response | IndexesAliasesGetDefaultResponse>;
 }
 
 export interface Routes {
@@ -606,38 +546,22 @@ export interface Routes {
   /** Resource for '/indexstats' has methods for the following verbs: get */
   (path: "/indexstats"): IndexesGetIndexStatsSummary;
   /** Resource for '/indexes('\{indexName\}')/docs/$count' has methods for the following verbs: get */
-  (
-    path: "/indexes('{indexName}')/docs/$count",
-    indexName: string,
-  ): DocumentsCount;
+  (path: "/indexes('{indexName}')/docs/$count", indexName: string): DocumentsCount;
   /** Resource for '/indexes('\{indexName\}')/docs' has methods for the following verbs: get */
   (path: "/indexes('{indexName}')/docs", indexName: string): DocumentsSearchGet;
   /** Resource for '/indexes('\{indexName\}')/docs/search.post.search' has methods for the following verbs: post */
-  (
-    path: "/indexes('{indexName}')/docs/search.post.search",
-    indexName: string,
-  ): DocumentsSearchPost;
+  (path: "/indexes('{indexName}')/docs/search.post.search", indexName: string): DocumentsSearchPost;
   /** Resource for '/indexes('\{indexName\}')/docs('\{key\}')' has methods for the following verbs: get */
-  (
-    path: "/indexes('{indexName}')/docs('{key}')",
-    key: string,
-    indexName: string,
-  ): DocumentsGet;
+  (path: "/indexes('{indexName}')/docs('{key}')", key: string, indexName: string): DocumentsGet;
   /** Resource for '/indexes('\{indexName\}')/docs/search.suggest' has methods for the following verbs: get */
-  (
-    path: "/indexes('{indexName}')/docs/search.suggest",
-    indexName: string,
-  ): DocumentsSuggestGet;
+  (path: "/indexes('{indexName}')/docs/search.suggest", indexName: string): DocumentsSuggestGet;
   /** Resource for '/indexes('\{indexName\}')/docs/search.post.suggest' has methods for the following verbs: post */
   (
     path: "/indexes('{indexName}')/docs/search.post.suggest",
     indexName: string,
   ): DocumentsSuggestPost;
   /** Resource for '/indexes('\{indexName\}')/docs/search.index' has methods for the following verbs: post */
-  (
-    path: "/indexes('{indexName}')/docs/search.index",
-    indexName: string,
-  ): DocumentsIndex;
+  (path: "/indexes('{indexName}')/docs/search.index", indexName: string): DocumentsIndex;
   /** Resource for '/indexes('\{indexName\}')/docs/search.autocomplete' has methods for the following verbs: get */
   (
     path: "/indexes('{indexName}')/docs/search.autocomplete",
@@ -656,37 +580,22 @@ export interface Routes {
   /** Resource for '/datasources' has methods for the following verbs: get, post */
   (path: "/datasources"): IndexesDataSourcesList;
   /** Resource for '/indexers('\{indexerName\}')/search.reset' has methods for the following verbs: post */
-  (
-    path: "/indexers('{indexerName}')/search.reset",
-    indexerName: string,
-  ): IndexesIndexersReset;
+  (path: "/indexers('{indexerName}')/search.reset", indexerName: string): IndexesIndexersReset;
   /** Resource for '/indexers('\{indexerName\}')/search.resetdocs' has methods for the following verbs: post */
   (
     path: "/indexers('{indexerName}')/search.resetdocs",
     indexerName: string,
   ): IndexesIndexersResetDocs;
   /** Resource for '/indexers('\{indexerName\}')/search.run' has methods for the following verbs: post */
-  (
-    path: "/indexers('{indexerName}')/search.run",
-    indexerName: string,
-  ): IndexesIndexersRun;
+  (path: "/indexers('{indexerName}')/search.run", indexerName: string): IndexesIndexersRun;
   /** Resource for '/indexers('\{indexerName\}')' has methods for the following verbs: put, delete, get */
-  (
-    path: "/indexers('{indexerName}')",
-    indexerName: string,
-  ): IndexesIndexersCreateOrUpdate;
+  (path: "/indexers('{indexerName}')", indexerName: string): IndexesIndexersCreateOrUpdate;
   /** Resource for '/indexers' has methods for the following verbs: get, post */
   (path: "/indexers"): IndexesIndexersList;
   /** Resource for '/indexers('\{indexerName\}')/search.status' has methods for the following verbs: get */
-  (
-    path: "/indexers('{indexerName}')/search.status",
-    indexerName: string,
-  ): IndexesIndexersGetStatus;
+  (path: "/indexers('{indexerName}')/search.status", indexerName: string): IndexesIndexersGetStatus;
   /** Resource for '/skillsets('\{skillsetName\}')' has methods for the following verbs: put, delete, get */
-  (
-    path: "/skillsets('{skillsetName}')",
-    skillsetName: string,
-  ): IndexesSkillsetsCreateOrUpdate;
+  (path: "/skillsets('{skillsetName}')", skillsetName: string): IndexesSkillsetsCreateOrUpdate;
   /** Resource for '/skillsets' has methods for the following verbs: get, post */
   (path: "/skillsets"): IndexesSkillsetsList;
   /** Resource for '/skillsets('\{skillsetName\}')/search.resetskills' has methods for the following verbs: post */
@@ -704,27 +613,15 @@ export interface Routes {
   /** Resource for '/indexes' has methods for the following verbs: post, get */
   (path: "/indexes"): IndexesIndexesCreate;
   /** Resource for '/indexes('\{indexName\}')' has methods for the following verbs: put, delete, get */
-  (
-    path: "/indexes('{indexName}')",
-    indexName: string,
-  ): IndexesIndexesCreateOrUpdate;
+  (path: "/indexes('{indexName}')", indexName: string): IndexesIndexesCreateOrUpdate;
   /** Resource for '/indexes('\{indexName\}')/search.stats' has methods for the following verbs: get */
-  (
-    path: "/indexes('{indexName}')/search.stats",
-    indexName: string,
-  ): IndexesIndexesGetStatistics;
+  (path: "/indexes('{indexName}')/search.stats", indexName: string): IndexesIndexesGetStatistics;
   /** Resource for '/indexes('\{indexName\}')/search.analyze' has methods for the following verbs: post */
-  (
-    path: "/indexes('{indexName}')/search.analyze",
-    indexName: string,
-  ): IndexesIndexesAnalyze;
+  (path: "/indexes('{indexName}')/search.analyze", indexName: string): IndexesIndexesAnalyze;
   /** Resource for '/aliases' has methods for the following verbs: post, get */
   (path: "/aliases"): IndexesAliasesCreate;
   /** Resource for '/aliases('\{aliasName\}')' has methods for the following verbs: put, delete, get */
-  (
-    path: "/aliases('{aliasName}')",
-    aliasName: string,
-  ): IndexesAliasesCreateOrUpdate;
+  (path: "/aliases('{aliasName}')", aliasName: string): IndexesAliasesCreateOrUpdate;
 }
 
 export type DocumentsClient = Client & {
