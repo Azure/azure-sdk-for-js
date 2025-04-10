@@ -120,7 +120,7 @@ describe.skip("Integrated Cache Staleness", async () => {
                 `${context.headers["x-ms-dedicatedgateway-max-age"]} = string`,
               );
               assert.ok(
-                context.headers["x-ms-dedicatedgateway-max-age"] === `"${dedicatedGatewayMaxAge}"`,
+                context.headers["x-ms-dedicatedgateway-max-age"] === `${dedicatedGatewayMaxAge}`,
                 `${context.headers["x-ms-dedicatedgateway-max-age"]} = "${dedicatedGatewayMaxAge}"`,
               );
             }
