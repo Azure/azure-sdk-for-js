@@ -7,7 +7,7 @@ import type {
   SendRequest,
   PipelinePolicy,
 } from "@azure/core-rest-pipeline";
-import { HeaderConstants } from "../utils/constants";
+import { HeaderConstants } from "../utils/constants.js";
 
 /**
  * The programmatic identifier of the storageCorrectContentLengthPolicy.

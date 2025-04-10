@@ -1,29 +1,28 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { assert } from "chai";
 import {
   getQSU,
   getConnectionStringFromEnvironment,
   recorderEnvSetup,
   configureStorageClient,
-} from "../utils";
+} from "../utils/index.js";
 import { Recorder } from "@azure-tools/test-recorder";
-import { QueueServiceClient } from "../../src/QueueServiceClient";
-import { newPipeline } from "../../src";
+import { QueueServiceClient } from "../../src/QueueServiceClient.js";
+import { newPipeline } from "../../src/index.js";
 import type { TokenCredential } from "@azure/core-auth";
-import { assertClientUsesTokenCredential } from "../utils/assert";
-import type { Context } from "mocha";
+import { assertClientUsesTokenCredential } from "../utils/assert.js";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("QueueServiceClient Node.js only", () => {
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async (ctx) => {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderEnvSetup);
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 

@@ -1,14 +1,20 @@
 # Release History
 
-## 2.3.5 (Unreleased)
+## 2.3.6 (Unreleased)
 
 ### Features Added
-
-- `asNodeStream` now returns a `NodeJSReadableStream` which can be canceled by calling the `destroy` method.
 
 ### Breaking Changes
 
 ### Bugs Fixed
+
+### Other Changes
+
+## 2.3.5 (2025-04-07)
+
+### Features Added
+
+- `asNodeStream` now returns a `NodeJSReadableStream` which can be canceled by calling the `destroy` method.
 
 ### Other Changes
 
