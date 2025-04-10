@@ -148,7 +148,6 @@ export {
 export {
   SipRoutingError,
   SipTrunkRoute,
-  RoutesForNumber,
   TrunkHealth,
   TlsHealth,
   PingHealth,
@@ -212,4 +211,9 @@ export interface SipDomain {
 /**
  * Test Routes with number operation result.
  */
-export type TestRoutesWithNumberResult = RoutesForNumber;
+export interface TestRoutesWithNumberResult {
+  /**
+   * The list of routes whose number patterns are matched by the target number. The routes are displayed and applied in the same order as in SipConfiguration.
+   */
+  matchingRoutes?: SipTrunkRoute[]
+}
