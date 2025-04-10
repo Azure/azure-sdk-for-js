@@ -1,10 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { WebPubSubServiceClient, odata } from "../src/index.js";
-import { isLiveMode, assertEnvironmentVariable } from "@azure-tools/test-recorder";
+import { WebPubSubServiceClient, odata } from "../../src/index.js";
 import { WebSocket } from "ws";
 import { describe, it, assert } from "vitest";
+import { getEndpoint, isLiveMode } from "../utils/injectables.js";
+import { createTestCredential } from "@azure-tools/test-credential";
 
 function defer<T>(): {
   promise: Promise<T>;
@@ -95,19 +96,15 @@ function getEndSignal(id: number | undefined = undefined): Uint8Array {
 }
 
 describe("ServiceClient to manage the connected WebSocket connections", () => {
-  it(
+  it.runIf(isLiveMode())(
     "Simple clients can receive expected messages with different content types",
-    { skip: !isLiveMode() },
     async () => {
       const hub = "SimpleClientCanReceiveMessage";
 
       const messages: SimpleWebSocketFrame[] = [];
 
       // Get token
-      const serviceClient = new WebPubSubServiceClient(
-        assertEnvironmentVariable("WPS_CONNECTION_STRING"),
-        hub,
-      );
+      const serviceClient = new WebPubSubServiceClient(getEndpoint(), createTestCredential(), hub);
       const token = await serviceClient.getClientAccessToken();
       const endSignal = defer<void>();
       // Start simple WebSocket connections
@@ -142,19 +139,15 @@ describe("ServiceClient to manage the connected WebSocket connections", () => {
     },
   );
 
-  it(
+  it.runIf(isLiveMode())(
     "Simple clients can can join group and receive group messages",
-    { skip: !isLiveMode() },
     async () => {
       const hub = "SimpleClientCanReceiveGroupMessage";
 
       const messages: SimpleWebSocketFrame[] = [];
 
       // Get token
-      const serviceClient = new WebPubSubServiceClient(
-        assertEnvironmentVariable("WPS_CONNECTION_STRING"),
-        hub,
-      );
+      const serviceClient = new WebPubSubServiceClient(getEndpoint(), createTestCredential(), hub);
       const token = await serviceClient.getClientAccessToken({
         groups: ["group1", "group2"],
       });
@@ -200,18 +193,14 @@ describe("ServiceClient to manage the connected WebSocket connections", () => {
     },
   );
 
-  it(
+  it.runIf(isLiveMode())(
     "Subprotocol clients can receive expected messages with different content types",
-    { skip: !isLiveMode() },
     async () => {
       const hub = "PubSubClientCanReceiveMessage";
       const messages: PubSubWebSocketFrame[] = [];
 
       // Get token
-      const serviceClient = new WebPubSubServiceClient(
-        assertEnvironmentVariable("WPS_CONNECTION_STRING"),
-        hub,
-      );
+      const serviceClient = new WebPubSubServiceClient(getEndpoint(), createTestCredential(), hub);
       const token = await serviceClient.getClientAccessToken();
       const endSignal = defer<void>();
       const connectedSignal = defer<void>();
@@ -261,16 +250,13 @@ describe("ServiceClient to manage the connected WebSocket connections", () => {
     },
   );
 
-  it("Clients can receive messages with filters", { skip: !isLiveMode() }, async () => {
+  it.runIf(isLiveMode())("Clients can receive messages with filters", async () => {
     const hub = "ClientCanReceiveMessageWithFilters";
 
     const messages: SimpleWebSocketFrame[] = [];
 
     // Get token
-    const serviceClient = new WebPubSubServiceClient(
-      assertEnvironmentVariable("WPS_CONNECTION_STRING"),
-      hub,
-    );
+    const serviceClient = new WebPubSubServiceClient(getEndpoint(), createTestCredential(), hub);
     const token = await serviceClient.getClientAccessToken({ groups: ["groupA"] });
     const endSignal = defer<void>();
     // Start simple WebSocket connections
@@ -314,16 +300,13 @@ describe("ServiceClient to manage the connected WebSocket connections", () => {
     assert.equal(messages[1].dataAsString, "Hello world!");
   });
 
-  it("Clients can join or leave multiple groups with filter", { skip: !isLiveMode() }, async () => {
+  it.runIf(isLiveMode())("Clients can join or leave multiple groups with filter", async () => {
     const hub = "ClientsCanJoinOrLeaveMultipleGroupsWithFilter";
 
     const messages: SimpleWebSocketFrame[] = [];
 
     // Get token
-    const serviceClient = new WebPubSubServiceClient(
-      assertEnvironmentVariable("WPS_CONNECTION_STRING"),
-      hub,
-    );
+    const serviceClient = new WebPubSubServiceClient(getEndpoint(), createTestCredential(), hub);
     const token = await serviceClient.getClientAccessToken({ userId: "user 1" });
     const startSignal = defer<void>();
     const endSignal = defer<void>();
