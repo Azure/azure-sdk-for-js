@@ -2,21 +2,22 @@
 // Licensed under the MIT License.
 
 import type { Recorder } from "@azure-tools/test-recorder";
-import { assertEnvironmentVariable, testPollingOptions } from "@azure-tools/test-recorder";
+import { testPollingOptions } from "@azure-tools/test-recorder";
 import { createRecorder } from "../utils/recorderUtils.js";
 import DocumentIntelligence from "../../../src/index.js";
 import { assert, describe, beforeEach, afterEach, it } from "vitest";
 import { getRandomNumber, containerSasUrl } from "../utils/utils.js";
 import type {
   AnalyzeOperationOutput,
-  DocumentModelBuildOperationDetailsOutput,
-  DocumentModelComposeOperationDetailsOutput,
-  DocumentModelCopyToOperationDetailsOutput,
   DocumentModelDetailsOutput,
   DocumentTypeDetails,
   DocumentIntelligenceClient,
+  DocumentTypeDetailsOutput,
 } from "../../../src/index.js";
 import { getLongRunningPoller, isUnexpected, paginate } from "../../../src/index.js";
+import { getEndpoint } from "../../utils/injectables.js";
+import { createTestCredential } from "@azure-tools/test-credential";
+import { buildClassifier } from "../utils/buildClassifier.js";
 
 describe("model management", () => {
   let recorder: Recorder;
@@ -24,8 +25,8 @@ describe("model management", () => {
   beforeEach(async (context) => {
     recorder = await createRecorder(context);
     client = DocumentIntelligence(
-      assertEnvironmentVariable("DOCUMENT_INTELLIGENCE_ENDPOINT"),
-      { key: assertEnvironmentVariable("DOCUMENT_INTELLIGENCE_API_KEY") },
+      getEndpoint(),
+      createTestCredential(),
       recorder.configureClientOptions({}),
     );
   });
@@ -50,7 +51,7 @@ describe("model management", () => {
       return (id += 1);
     }
 
-    describe.skip(`custom model from trainingdata-v3`, async () => {
+    describe(`custom model from trainingdata-v3`, async () => {
       let _model: DocumentModelDetailsOutput;
 
       let modelId: string;
@@ -75,14 +76,9 @@ describe("model management", () => {
           if (isUnexpected(initialResponse)) {
             throw initialResponse.body.error;
           }
-          const poller = getLongRunningPoller(client, initialResponse);
-          const response = (
-            (await poller.pollUntilDone()).body as DocumentModelBuildOperationDetailsOutput
-          ).result;
-          if (!response) {
-            throw new Error("Expected a DocumentModelDetailsOutput response.");
-          }
-          _model = response;
+          const response = await getLongRunningPoller(client, initialResponse);
+          const result = response.body as DocumentModelDetailsOutput;
+          _model = result;
 
           assert.equal(_model.modelId, modelId);
 
@@ -134,11 +130,10 @@ describe("model management", () => {
             throw initialResponse.body.error;
           }
 
-          const poller = getLongRunningPoller(client, initialResponse, {
+          const response = await getLongRunningPoller(client, initialResponse, {
             intervalInMs: testPollingOptions.updateIntervalInMs,
           });
-          const analyzeResult = ((await poller.pollUntilDone()).body as AnalyzeOperationOutput)
-            .analyzeResult;
+          const analyzeResult = (response.body as AnalyzeOperationOutput).analyzeResult;
 
           const documents = analyzeResult?.documents;
           const tables = analyzeResult?.tables;
@@ -227,9 +222,11 @@ describe("model management", () => {
 
   // #endregion
 
-  it.skip(`compose model`, async function () {
+  it(`compose model`, async function () {
     // Helper function to train/validate single model
-    async function makeModel(prefix: string): Promise<Record<string, DocumentTypeDetails>> {
+    async function makeModel(
+      prefix: string,
+    ): Promise<{ docTypes: Record<string, DocumentTypeDetailsOutput> }> {
       const testModelId = recorder.variable(prefix, `${prefix}${getRandomNumber()}`);
       const initialResponse = await client.path("/documentModels:build").post({
         body: {
@@ -243,28 +240,29 @@ describe("model management", () => {
       if (isUnexpected(initialResponse)) {
         throw initialResponse.body.error;
       }
-      const poller = getLongRunningPoller(client, initialResponse);
-      const { modelId, docTypes } = (
-        (await poller.pollUntilDone()).body as DocumentModelBuildOperationDetailsOutput
-      ).result!;
+      const response = await getLongRunningPoller(client, initialResponse);
+      const { modelId, docTypes } = response.body as DocumentModelDetailsOutput;
 
       assert.equal(modelId, testModelId);
       if (!docTypes) {
         throw new Error("Expected docTypes to be defined");
       }
-
-      return { modelId: docTypes };
+      const updated: Record<string, DocumentTypeDetails> = {};
+      for (const key of Object.keys(docTypes)) {
+        updated[key] = {
+          modelId,
+        };
+      }
+      return { docTypes: updated };
     }
 
-    const modelIdDoctypeMap = await Promise.all([makeModel("input1"), makeModel("input2")]);
+    const [component1, component2] = await Promise.all([makeModel("input1"), makeModel("input2")]);
 
     const modelId = recorder.variable("composedModelName", `composedModelName${getRandomNumber()}`);
-    const component1 = modelIdDoctypeMap[0];
-    const component2 = modelIdDoctypeMap[1];
     const initialResponse = await client.path("/documentModels:compose").post({
       body: {
-        classifierId: recorder.variable("classifierId", `classifierId${getRandomNumber()}`),
-        docTypes: { component1, component2 },
+        classifierId: (await buildClassifier(client, recorder)).classifierId,
+        docTypes: { ...component1.docTypes, ...component2.docTypes },
         modelId,
       },
     });
@@ -272,11 +270,9 @@ describe("model management", () => {
     if (isUnexpected(initialResponse)) {
       throw initialResponse.body.error;
     }
-    const poller = getLongRunningPoller(client, initialResponse);
+    const response = await getLongRunningPoller(client, initialResponse);
 
-    const composedModel = (
-      (await poller.pollUntilDone()).body as DocumentModelComposeOperationDetailsOutput
-    ).result!;
+    const composedModel = response.body as DocumentModelDetailsOutput;
     assert.ok(composedModel.modelId);
     assert.equal(composedModel.modelId, modelId);
     assert.ok(composedModel.docTypes);
@@ -285,19 +281,7 @@ describe("model management", () => {
     assert.equal(Object.entries(composedModel.docTypes ?? {}).length, 2);
   });
 
-  it.skip(`copy model`, async function () {
-    // Since this test is isolated, we'll create a fresh set of resources for it
-    await recorder.addSanitizers(
-      {
-        bodyKeySanitizers: [
-          {
-            jsonPath: "$.accessToken",
-            value: "access_token",
-          },
-        ],
-      },
-      ["playback", "record"],
-    );
+  it(`copy model`, async function () {
     const modelId = recorder.variable("copySource", `copySource${getRandomNumber()}`);
 
     const initialResponse = await client.path("/documentModels:build").post({
@@ -312,10 +296,8 @@ describe("model management", () => {
     if (isUnexpected(initialResponse)) {
       throw initialResponse.body.error;
     }
-    const trainingPoller = getLongRunningPoller(client, initialResponse);
-    const sourceModel = (
-      (await trainingPoller.pollUntilDone()).body as DocumentModelBuildOperationDetailsOutput
-    ).result!;
+    const response = await getLongRunningPoller(client, initialResponse);
+    const sourceModel = response.body as DocumentModelDetailsOutput;
 
     assert.equal(sourceModel.modelId, modelId);
 
@@ -338,10 +320,8 @@ describe("model management", () => {
     if (isUnexpected(copyInitResponse)) {
       throw copyInitResponse.body.error;
     }
-    const copyPoller = getLongRunningPoller(client, copyInitResponse);
-    const copyResult = (
-      (await copyPoller.pollUntilDone()).body as DocumentModelCopyToOperationDetailsOutput
-    ).result!;
+    const copyResponse = await getLongRunningPoller(client, copyInitResponse);
+    const copyResult = copyResponse.body as DocumentModelDetailsOutput;
 
     assert.ok(copyResult, "Expecting valid copy result");
     assert.equal(copyResult.modelId, targetAuth.body.targetModelId);

@@ -16,7 +16,7 @@ import {
   APIKeysDeleteOptionalParams,
   APIKeysDeleteResponse,
   APIKeysGetOptionalParams,
-  APIKeysGetResponse
+  APIKeysGetResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -31,7 +31,7 @@ export interface APIKeys {
   list(
     resourceGroupName: string,
     resourceName: string,
-    options?: APIKeysListOptionalParams
+    options?: APIKeysListOptionalParams,
   ): PagedAsyncIterableIterator<ApplicationInsightsComponentAPIKey>;
   /**
    * Create an API Key of an Application Insights component.
@@ -45,7 +45,7 @@ export interface APIKeys {
     resourceGroupName: string,
     resourceName: string,
     aPIKeyProperties: APIKeyRequest,
-    options?: APIKeysCreateOptionalParams
+    options?: APIKeysCreateOptionalParams,
   ): Promise<APIKeysCreateResponse>;
   /**
    * Delete an API Key of an Application Insights component.
@@ -58,7 +58,7 @@ export interface APIKeys {
     resourceGroupName: string,
     resourceName: string,
     keyId: string,
-    options?: APIKeysDeleteOptionalParams
+    options?: APIKeysDeleteOptionalParams,
   ): Promise<APIKeysDeleteResponse>;
   /**
    * Get the API Key for this key id.
@@ -71,6 +71,6 @@ export interface APIKeys {
     resourceGroupName: string,
     resourceName: string,
     keyId: string,
-    options?: APIKeysGetOptionalParams
+    options?: APIKeysGetOptionalParams,
   ): Promise<APIKeysGetResponse>;
 }

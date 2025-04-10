@@ -8,21 +8,21 @@
  * @summary shows how to choose model versions for pre-built models.
  */
 
-const { TextAnalysisClient, AzureKeyCredential } = require("@azure/ai-language-text");
+const { TextAnalysisClient } = require("@azure/ai-language-text");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 // Load the .env file if it exists
-require("dotenv").config();
+require("dotenv/config");
 
 // You will need to set these environment variables or edit the following values
-const endpoint = process.env["ENDPOINT"] || "<cognitive language service endpoint>";
-const apiKey = process.env["LANGUAGE_API_KEY"] || "<api key>";
+const endpoint = process.env["LANGUAGE_ENDPOINT"] || "<cognitive language service endpoint>";
 
 const documents = ["This document is written in English."];
 
 async function main() {
   console.log("== Choosing Model Version Sample ==");
 
-  const client = new TextAnalysisClient(endpoint, new AzureKeyCredential(apiKey));
+  const client = new TextAnalysisClient(endpoint, new DefaultAzureCredential());
 
   await client.analyze("SentimentAnalysis", documents, "en", {
     /**
@@ -39,7 +39,7 @@ async function main() {
     onResponse: (_rawResponse, flatResponse) => {
       const modelVersion = flatResponse.results.modelVersion;
       console.log(
-        `The result of the sentiment analysis was computed using model version: ${modelVersion}`
+        `The result of the sentiment analysis was computed using model version: ${modelVersion}`,
       );
     },
   });
@@ -59,7 +59,7 @@ async function main() {
       },
     ],
     documents,
-    "en"
+    "en",
   );
   const results = await poller.pollUntilDone();
   for await (const actionResult of results) {
@@ -71,7 +71,7 @@ async function main() {
       throw new Error(`Unexpected error (${code}): ${message}`);
     }
     console.log(
-      `The result of the healthcare analysis was computed using model version: ${actionResult.modelVersion} `
+      `The result of the healthcare analysis was computed using model version: ${actionResult.modelVersion} `,
     );
   }
 }

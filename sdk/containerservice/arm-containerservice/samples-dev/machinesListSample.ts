@@ -14,7 +14,7 @@ import "dotenv/config";
  * This sample demonstrates how to Gets a list of machines in the specified agent pool.
  *
  * @summary Gets a list of machines in the specified agent pool.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2024-10-01/examples/MachineList.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2025-01-01/examples/MachineList.json
  */
 async function listMachinesInAnAgentpoolByManagedCluster(): Promise<void> {
   const subscriptionId =
@@ -27,7 +27,7 @@ async function listMachinesInAnAgentpoolByManagedCluster(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ContainerServiceClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.machines.list(
+  for await (const item of client.machines.list(
     resourceGroupName,
     resourceName,
     agentPoolName,

@@ -11,8 +11,6 @@ import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   EventSubscription,
   SystemTopicEventSubscriptionsListBySystemTopicOptionalParams,
-  SystemTopicEventSubscriptionsGetDeliveryAttributesOptionalParams,
-  SystemTopicEventSubscriptionsGetDeliveryAttributesResponse,
   SystemTopicEventSubscriptionsGetOptionalParams,
   SystemTopicEventSubscriptionsGetResponse,
   SystemTopicEventSubscriptionsCreateOrUpdateOptionalParams,
@@ -23,6 +21,8 @@ import {
   SystemTopicEventSubscriptionsUpdateResponse,
   SystemTopicEventSubscriptionsGetFullUrlOptionalParams,
   SystemTopicEventSubscriptionsGetFullUrlResponse,
+  SystemTopicEventSubscriptionsGetDeliveryAttributesOptionalParams,
+  SystemTopicEventSubscriptionsGetDeliveryAttributesResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -39,19 +39,6 @@ export interface SystemTopicEventSubscriptions {
     systemTopicName: string,
     options?: SystemTopicEventSubscriptionsListBySystemTopicOptionalParams,
   ): PagedAsyncIterableIterator<EventSubscription>;
-  /**
-   * Get all delivery attributes for an event subscription.
-   * @param resourceGroupName The name of the resource group within the user's subscription.
-   * @param systemTopicName Name of the system topic.
-   * @param eventSubscriptionName Name of the event subscription.
-   * @param options The options parameters.
-   */
-  getDeliveryAttributes(
-    resourceGroupName: string,
-    systemTopicName: string,
-    eventSubscriptionName: string,
-    options?: SystemTopicEventSubscriptionsGetDeliveryAttributesOptionalParams,
-  ): Promise<SystemTopicEventSubscriptionsGetDeliveryAttributesResponse>;
   /**
    * Get an event subscription.
    * @param resourceGroupName The name of the resource group within the user's subscription.
@@ -180,4 +167,17 @@ export interface SystemTopicEventSubscriptions {
     eventSubscriptionName: string,
     options?: SystemTopicEventSubscriptionsGetFullUrlOptionalParams,
   ): Promise<SystemTopicEventSubscriptionsGetFullUrlResponse>;
+  /**
+   * Get all delivery attributes for an event subscription.
+   * @param resourceGroupName The name of the resource group within the user's subscription.
+   * @param systemTopicName Name of the system topic.
+   * @param eventSubscriptionName Name of the event subscription.
+   * @param options The options parameters.
+   */
+  getDeliveryAttributes(
+    resourceGroupName: string,
+    systemTopicName: string,
+    eventSubscriptionName: string,
+    options?: SystemTopicEventSubscriptionsGetDeliveryAttributesOptionalParams,
+  ): Promise<SystemTopicEventSubscriptionsGetDeliveryAttributesResponse>;
 }

@@ -6,6 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 import { DataBoxManagementClient } from "@azure/arm-databox";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -14,15 +16,20 @@ import "dotenv/config";
  * This sample demonstrates how to Deletes a job.
  *
  * @summary Deletes a job.
- * x-ms-original-file: specification/databox/resource-manager/Microsoft.DataBox/stable/2022-12-01/examples/JobsDelete.json
+ * x-ms-original-file: specification/databox/resource-manager/Microsoft.DataBox/stable/2025-02-01/examples/JobsDelete.json
  */
 async function jobsDelete(): Promise<void> {
-  const subscriptionId = process.env["DATABOX_SUBSCRIPTION_ID"] || "YourSubscriptionId";
-  const resourceGroupName = process.env["DATABOX_RESOURCE_GROUP"] || "YourResourceGroupName";
+  const subscriptionId =
+    process.env["DATABOX_SUBSCRIPTION_ID"] || "YourSubscriptionId";
+  const resourceGroupName =
+    process.env["DATABOX_RESOURCE_GROUP"] || "YourResourceGroupName";
   const jobName = "TestJobName1";
   const credential = new DefaultAzureCredential();
   const client = new DataBoxManagementClient(credential, subscriptionId);
-  const result = await client.jobs.beginDeleteAndWait(resourceGroupName, jobName);
+  const result = await client.jobs.beginDeleteAndWait(
+    resourceGroupName,
+    jobName,
+  );
   console.log(result);
 }
 

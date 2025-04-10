@@ -1,15 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { assert } from "chai";
 import type { Pipeline, PipelineRequest, SendRequest } from "@azure/core-rest-pipeline";
-
-import type { ContainerClient, BlobServiceClient } from "../src";
-import { RestError } from "../src";
-import { getBSU, getUniqueName, recorderEnvSetup, uriSanitizers } from "./utils";
-import { injectorPolicy, injectorPolicyName } from "./utils/InjectorPolicy";
+import type { ContainerClient, BlobServiceClient } from "../src/index.js";
+import { RestError } from "../src/index.js";
+import { getBSU, getUniqueName, recorderEnvSetup, uriSanitizers } from "./utils/index.js";
+import { injectorPolicy, injectorPolicyName } from "./utils/InjectorPolicy.js";
 import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
-import type { Context } from "mocha";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("RetryPolicy", () => {
   let blobServiceClient: BlobServiceClient;
@@ -18,8 +16,8 @@ describe("RetryPolicy", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async (ctx) => {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderEnvSetup);
     await recorder.addSanitizers({ uriSanitizers }, ["playback", "record"]);
     blobServiceClient = getBSU(recorder);
@@ -28,14 +26,14 @@ describe("RetryPolicy", () => {
     await containerClient.create();
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     const pipeline: Pipeline = (containerClient as any).storageClientContext.pipeline;
     pipeline.removePolicy({ name: injectorPolicyName });
     await containerClient.delete();
     await recorder.stop();
   });
 
-  it("Retry Policy should work when first request fails with 500", async function () {
+  it("Retry Policy should work when first request fails with 500", async () => {
     let injectCounter = 0;
     const injector = injectorPolicy(() => {
       if (injectCounter === 0) {
@@ -63,7 +61,7 @@ describe("RetryPolicy", () => {
     assert.deepEqual(result.metadata, metadata);
   });
 
-  it("Retry Policy should abort when abort event trigger during retry interval", async function () {
+  it("Retry Policy should abort when abort event trigger during retry interval", async () => {
     let injectCounter = 0;
     const injector = injectorPolicy(() => {
       if (injectCounter < 2) {
@@ -98,7 +96,7 @@ describe("RetryPolicy", () => {
     assert.ok(hasError);
   });
 
-  it("Retry Policy should failed when requests always fail with 500", async function () {
+  it("Retry Policy should failed when requests always fail with 500", async () => {
     const injector = injectorPolicy(() => {
       return new RestError("Server Internal Error", {
         code: "ServerInternalError",
@@ -125,7 +123,7 @@ describe("RetryPolicy", () => {
     assert.ok(hasError);
   });
 
-  it("Retry Policy should work for secondary endpoint", async function () {
+  it("Retry Policy should work for secondary endpoint", async () => {
     let injectCounter = 0;
     const injector = injectorPolicy(() => {
       if (injectCounter++ < 1) {
@@ -184,7 +182,7 @@ describe("RetryPolicy", () => {
     assert.deepStrictEqual(new URL(finalRequestURL).hostname, secondaryHost);
   });
 
-  it("Retry Policy should work when on PARSE_ERROR with unclosed root tag", async function () {
+  it("Retry Policy should work when on PARSE_ERROR with unclosed root tag", async () => {
     let injectCounter = 0;
     const injector = injectorPolicy(() => {
       if (injectCounter === 0) {

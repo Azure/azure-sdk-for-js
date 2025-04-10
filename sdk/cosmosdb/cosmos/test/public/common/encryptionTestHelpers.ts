@@ -22,12 +22,14 @@ import type {
 import {
   Constants,
   EncryptionAlgorithm,
+  EncryptionKeyResolverName,
   EncryptionQueryBuilder,
   ErrorResponse,
   StatusCodes,
 } from "../../../src";
 import { assert } from "chai";
 export class MockKeyVaultEncryptionKeyResolver implements EncryptionKeyResolver {
+  encryptionKeyResolverName = EncryptionKeyResolverName.AzureKeyVault;
   private keyInfo: { [key: string]: number } = {
     cmkpath1: 1,
     cmkpath2: 2,
@@ -541,7 +543,7 @@ export async function verifyItemByRead(
 export async function validateQueryResults(
   container: Container,
   query: EncryptionQueryBuilder | SqlQuerySpec,
-  expectedDocList: TestDoc[],
+  expectedDocList: any[],
   decryptOperation: boolean = true,
   expectedPropertiesDecryptedCount: number = 12,
   options?: RequestOptions,

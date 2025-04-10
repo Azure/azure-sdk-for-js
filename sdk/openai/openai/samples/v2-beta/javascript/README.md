@@ -25,6 +25,8 @@ These sample programs show how to use the JavaScript client libraries for Azure 
 | [embeddings.js][embeddings]                                                         | generates embedding vectors from a prompt using Azure OpenAI Get Embeddings. |
 | [images.js][images]                                                                 | generates images from prompts using Azure OpenAI Batch Image Generation.     |
 | [onYourData.js][onyourdata]                                                         | chat completions with your own data.                                         |
+| [responsesStream.js][responsesstream]                                               | streams text completions from Azure OpenAI.                                  |
+| [responsesStreamingTools.js][responsesstreamingtools]                               | streams function calls for database queries using Azure OpenAI.              |
 | [streamChatCompletions.js][streamchatcompletions]                                   | list chat completions.                                                       |
 | [streamChatCompletionsWithContentFilter.js][streamchatcompletionswithcontentfilter] | get completions.                                                             |
 | [streamCompletions.js][streamcompletions]                                           | list completions.                                                            |
@@ -83,6 +85,8 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [embeddings]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v2-beta/javascript/embeddings.js
 [images]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v2-beta/javascript/images.js
 [onyourdata]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v2-beta/javascript/onYourData.js
+[responsesstream]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v2-beta/javascript/responsesStream.js
+[responsesstreamingtools]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v2-beta/javascript/responsesStreamingTools.js
 [streamchatcompletions]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v2-beta/javascript/streamChatCompletions.js
 [streamchatcompletionswithcontentfilter]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v2-beta/javascript/streamChatCompletionsWithContentFilter.js
 [streamcompletions]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v2-beta/javascript/streamCompletions.js

@@ -13,8 +13,7 @@ const { ServiceBusClient, ServiceBusAdministrationClient } = require("@azure/ser
 const { DefaultAzureCredential } = require("@azure/identity");
 
 // Load the .env file if it exists
-require("dotenv").config();
-
+require("dotenv/config");
 // Define connection string and related Service Bus entity names here
 const fqdn = process.env.SERVICEBUS_FQDN || "<your-servicebus-namespace>.servicebus.windows.net";
 const topicName = "TopicSubscriptionWithRuleOperationsSample" + new Date().getTime();

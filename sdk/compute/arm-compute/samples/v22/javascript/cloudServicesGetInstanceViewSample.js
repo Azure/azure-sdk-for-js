@@ -29,7 +29,7 @@ async function getCloudServiceInstanceViewWithMultipleRoles() {
 }
 
 async function main() {
-  getCloudServiceInstanceViewWithMultipleRoles();
+  await getCloudServiceInstanceViewWithMultipleRoles();
 }
 
 main().catch(console.error);

@@ -10,14 +10,13 @@
  * inputs for flexibility
  */
 
-const { TextAnalyticsClient, AzureKeyCredential } = require("@azure/ai-text-analytics");
-
+const { TextAnalyticsClient } = require("@azure/ai-text-analytics");
+const { DefaultAzureCredential } = require("@azure/identity");
 // Load the .env file if it exists
-require("dotenv").config();
+require("dotenv/config");
 
 // You will need to set this environment variables or edit the following values
-const endpoint = process.env["ENDPOINT"] || "<cognitive services endpoint>";
-const apiKey = process.env["TEXT_ANALYTICS_API_KEY"] || "<api key>";
+const endpoint = process.env["LANGUAGE_ENDPOINT"] || "<endpoint>";
 
 /**
  * DetectLanguageInput objects allow for specification of country hints on a
@@ -58,7 +57,7 @@ const textDocumentInputs = [
 async function main() {
   console.log("== Alternative Document Input Objects Sample ==");
 
-  const client = new TextAnalyticsClient(endpoint, new AzureKeyCredential(apiKey));
+  const client = new TextAnalyticsClient(endpoint, new DefaultAzureCredential());
 
   console.log("-- Detect Language --");
   // DetectLanguageInput objects may be used with the detectLanguage method

@@ -7,10 +7,10 @@ import type {
   BrowserSdkLoaderOptions,
   AzureMonitorOpenTelemetryOptions,
   InstrumentationOptions,
-} from "../types";
+} from "../types.js";
 import type { AzureMonitorExporterOptions } from "@azure/monitor-opentelemetry-exporter";
-import { JsonConfig } from "./jsonConfig";
-import { Logger } from "./logging";
+import { JsonConfig } from "./jsonConfig.js";
+import { Logger } from "./logging/index.js";
 import {
   azureAppServiceDetector,
   azureFunctionsDetector,
@@ -35,6 +35,8 @@ export class InternalConfig implements AzureMonitorOpenTelemetryOptions {
   enableStandardMetrics?: boolean;
   /** Enable log sampling based on trace (Default true) */
   enableTraceBasedSamplingForLogs?: boolean;
+  /** Enable Performance Counter feature */
+  enablePerformanceCounters?: boolean;
 
   private _resource: Resource = Resource.empty();
 
@@ -61,6 +63,7 @@ export class InternalConfig implements AzureMonitorOpenTelemetryOptions {
     this.enableLiveMetrics = true;
     this.enableStandardMetrics = true;
     this.enableTraceBasedSamplingForLogs = false;
+    this.enablePerformanceCounters = true;
     this.instrumentationOptions = {
       http: { enabled: true },
       azureSdk: { enabled: false },
@@ -105,6 +108,10 @@ export class InternalConfig implements AzureMonitorOpenTelemetryOptions {
         options.enableTraceBasedSamplingForLogs !== undefined
           ? options.enableTraceBasedSamplingForLogs
           : this.enableTraceBasedSamplingForLogs;
+      this.enablePerformanceCounters =
+        options.enablePerformanceCounters !== undefined
+          ? options.enablePerformanceCounters
+          : this.enablePerformanceCounters;
     }
     // JSON configuration will take precedence over other settings
     this._mergeConfig();

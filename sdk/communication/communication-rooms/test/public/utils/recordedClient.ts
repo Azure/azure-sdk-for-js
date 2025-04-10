@@ -23,7 +23,8 @@ export interface RecordedClient<T> {
 }
 
 const envSetupForPlayback: { [k: string]: string } = {
-  COMMUNICATION_CONNECTION_STRING_ROOMS: "endpoint=https://endpoint/;accesskey=banana",
+  COMMUNICATION_CONNECTION_STRING_ROOMS:
+    "endpoint=https://endpoint.communication.azure.com/;accesskey=banana",
 };
 
 const fakeToken = generateToken();

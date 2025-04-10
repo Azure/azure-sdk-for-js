@@ -156,10 +156,6 @@ To learn more about Azure AD integration in Azure Storage, see the [Azure.Identi
 import { DefaultAzureCredential } from "@azure/identity";
 import { TableServiceClient } from "@azure/data-tables";
 
-// DefaultAzureCredential expects the following three environment variables:
-// - AZURE_TENANT_ID: The tenant ID in Azure Active Directory
-// - AZURE_CLIENT_ID: The application (client) ID registered in the AAD tenant
-// - AZURE_CLIENT_SECRET: The client secret for the registered application
 const credential = new DefaultAzureCredential();
 const account = "<account name>";
 
@@ -190,12 +186,13 @@ const serviceClientWithSAS = new TableServiceClient(
 You can list tables within an account through a `TableServiceClient` instance calling the `listTables` function. This function returns a `PageableAsyncIterator` that you can consume using `for-await-of`
 
 ```ts snippet:ReadmeSampleListTables
-import { AzureNamedKeyCredential, TableServiceClient } from "@azure/data-tables";
+import { DefaultAzureCredential } from "@azure/identity";
+import { TableServiceClient } from "@azure/data-tables";
 
 const account = "<account>";
 const accountKey = "<accountkey>";
 
-const credential = new AzureNamedKeyCredential(account, accountKey);
+const credential = new DefaultAzureCredential();
 const serviceClient = new TableServiceClient(
   `https://${account}.table.core.windows.net`,
   credential,
@@ -214,12 +211,13 @@ You can create a table through a `TableServiceClient` instance calling the `crea
 Note that `createTable` won't throw an error when the table already exists.
 
 ```ts snippet:ReadmeSampleCreateTable
-import { AzureNamedKeyCredential, TableServiceClient } from "@azure/data-tables";
+import { DefaultAzureCredential } from "@azure/identity";
+import { TableServiceClient } from "@azure/data-tables";
 
 const account = "<account>";
 const accountKey = "<accountkey>";
 
-const credential = new AzureNamedKeyCredential(account, accountKey);
+const credential = new DefaultAzureCredential();
 const serviceClient = new TableServiceClient(
   `https://${account}.table.core.windows.net`,
   credential,
@@ -233,12 +231,13 @@ await serviceClient.createTable(tableName);
 Here is a sample that demonstrates how to test if the table already exists when attempting to create it:
 
 ```ts snippet:ReadmeSampleCreateTable_IfExists
-import { AzureNamedKeyCredential, TableServiceClient } from "@azure/data-tables";
+import { DefaultAzureCredential } from "@azure/identity";
+import { TableServiceClient } from "@azure/data-tables";
 
 const account = "<account>";
 const accountKey = "<accountkey>";
 
-const credential = new AzureNamedKeyCredential(account, accountKey);
+const credential = new DefaultAzureCredential();
 const serviceClient = new TableServiceClient(
   `https://${account}.table.core.windows.net`,
   credential,
@@ -292,10 +291,6 @@ To learn more about Azure AD integration in Azure Storage, see the [Azure.Identi
 import { DefaultAzureCredential } from "@azure/identity";
 import { TableClient } from "@azure/data-tables";
 
-// DefaultAzureCredential expects the following three environment variables:
-// - AZURE_TENANT_ID: The tenant ID in Azure Active Directory
-// - AZURE_CLIENT_ID: The application (client) ID registered in the AAD tenant
-// - AZURE_CLIENT_SECRET: The client secret for the registered application
 const credential = new DefaultAzureCredential();
 const account = "<account name>";
 const tableName = "<tableName>";
@@ -330,13 +325,14 @@ const clientWithSAS = new TableClient(
 You can list entities within a table by through a `TableClient` instance calling the `listEntities` function. This function returns a `PageableAsyncIterator` that you can consume using `for-await-of`
 
 ```ts snippet:ReadmeSampleListEntities
-import { AzureNamedKeyCredential, TableClient } from "@azure/data-tables";
+import { DefaultAzureCredential } from "@azure/identity";
+import { TableClient } from "@azure/data-tables";
 
 const account = "<account>";
 const accountKey = "<accountkey>";
 const tableName = "<tableName>";
 
-const credential = new AzureNamedKeyCredential(account, accountKey);
+const credential = new DefaultAzureCredential();
 const client = new TableClient(`https://${account}.table.core.windows.net`, tableName, credential);
 
 let i = 0;
@@ -351,13 +347,14 @@ for await (const entity of entities) {
 You can create a new Entity in a table by through a `TableClient` instance calling the `createEntity` function. This function takes the entity to insert as a parameter. The entity must contain `partitionKey` and `rowKey`.
 
 ```ts snippet:ReadmeSampleCreateEntity
-import { AzureNamedKeyCredential, TableClient } from "@azure/data-tables";
+import { DefaultAzureCredential } from "@azure/identity";
+import { TableClient } from "@azure/data-tables";
 
 const account = "<account>";
 const accountKey = "<accountkey>";
 const tableName = "<tableName>";
 
-const credential = new AzureNamedKeyCredential(account, accountKey);
+const credential = new DefaultAzureCredential();
 const client = new TableClient(`https://${account}.table.core.windows.net`, tableName, credential);
 
 const testEntity = {

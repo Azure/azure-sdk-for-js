@@ -81,7 +81,7 @@ To create a room, call the `createRoom` method. All settings are optional.
 
 If `validFrom` is not provided, it is defaulted to the current datetime. If `validUntil` is not provided, the default is `validFrom + 180 days`.
 
-When defining `participants`, if `role` is not specified, then it will be `attendee` by default.
+When defining `participants`, if `role` is not specified, then it will be `attendee` by default. Starting in 1.2.0 release, participants may have `collaborator` as a supported role. 
 
 Starting in 1.1.0 release, `PstnDialOutEnabled` property is added to enable or disable PSTN Dial-Out feature in a room. The `PstnDialOutEnabled` is an optional property. If `PstnDialOutEnabled` is not provided, then the default for `PstnDialOutEnabled` is false.
 

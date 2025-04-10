@@ -1,11 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { createSseStream } from "../../../src/index.js";
+import { createSseStream, NodeJSReadableStream } from "../../../src/index.js";
 import { type Client, getClient } from "@azure-rest/core-client";
 import { assert, beforeAll, beforeEach, afterEach, describe, it } from "vitest";
 import { port } from "../../server/config.mjs";
-import type { IncomingMessage } from "http";
 import { matrix } from "@azure-tools/test-utils-vitest";
 import { isRestError } from "@azure/core-rest-pipeline";
 
@@ -18,7 +17,7 @@ async function sendRequest(
   client: Client,
   path: string,
   abortSignal?: AbortSignal,
-): Promise<IncomingMessage> {
+): Promise<NodeJSReadableStream> {
   const res = await client
     .pathUnchecked(path)
     .get({ accept: contentType, abortSignal })
@@ -33,7 +32,7 @@ async function sendRequest(
   if (!receivedContentType.includes(contentType)) {
     throw new Error(`Expected a text/event-stream content but received"${receivedContentType}"`);
   }
-  return res.body as IncomingMessage;
+  return res.body;
 }
 
 describe("[Node] Connections", () => {
@@ -71,7 +70,7 @@ describe("[Node] Connections", () => {
         });
 
         it("loop until stream ends and then break", async function () {
-          let stream: IncomingMessage;
+          let stream: NodeJSReadableStream;
           try {
             stream = await sendRequest(client, path);
           } catch (e) {
@@ -88,7 +87,7 @@ describe("[Node] Connections", () => {
               ran = true;
               if (sse.data === "[DONE]") {
                 if (path.includes("no-fin")) {
-                  assert.isNull(stream.socket);
+                  assert.isNull((stream as any).socket);
                 }
                 break;
               }
@@ -100,7 +99,7 @@ describe("[Node] Connections", () => {
         });
 
         it("break early from loop", async function () {
-          let stream: IncomingMessage;
+          let stream: NodeJSReadableStream;
           try {
             // sometimes the server gets into a bad state and doesn't respond so we need to timeout
             stream = await sendRequest(client, path, AbortSignal.timeout(25000));

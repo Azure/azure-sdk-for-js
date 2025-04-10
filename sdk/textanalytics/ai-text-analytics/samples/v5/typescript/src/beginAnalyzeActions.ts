@@ -10,13 +10,14 @@
  * @summary applies multiple Text Analytics actions per document
  */
 
-import { TextAnalyticsClient, AzureKeyCredential } from "@azure/ai-text-analytics";
+import { TextAnalyticsClient } from "@azure/ai-text-analytics";
+import { DefaultAzureCredential } from "@azure/identity";
 
 // Load the .env file if it exists
 import "dotenv/config";
+
 // You will need to set these environment variables or edit the following values
-const endpoint = process.env["ENDPOINT"] || "<cognitive services endpoint>";
-const apiKey = process.env["TEXT_ANALYTICS_API_KEY"] || "<api key>";
+const endpoint = process.env["LANGUAGE_ENDPOINT"] || "<endpoint>";
 
 const documents = [
   "Microsoft was founded by Bill Gates and Paul Allen.",
@@ -29,7 +30,7 @@ const documents = [
 export async function main(): Promise<void> {
   console.log("== Analyze Sample ==");
 
-  const client = new TextAnalyticsClient(endpoint, new AzureKeyCredential(apiKey));
+  const client = new TextAnalyticsClient(endpoint, new DefaultAzureCredential());
 
   const actions = {
     recognizeEntitiesActions: [{ modelVersion: "latest" }],
@@ -42,14 +43,14 @@ export async function main(): Promise<void> {
 
   poller.onProgress(() => {
     console.log(
-      `Number of actions still in progress: ${poller.getOperationState().actionsInProgressCount}`
+      `Number of actions still in progress: ${poller.getOperationState().actionsInProgressCount}`,
     );
   });
 
   console.log(`The analyze actions operation created on ${poller.getOperationState().createdOn}`);
 
   console.log(
-    `The analyze actions operation results will expire on ${poller.getOperationState().expiresOn}`
+    `The analyze actions operation results will expire on ${poller.getOperationState().expiresOn}`,
   );
 
   const resultPages = await poller.pollUntilDone();

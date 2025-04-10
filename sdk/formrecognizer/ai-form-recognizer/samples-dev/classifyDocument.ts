@@ -7,13 +7,13 @@
  * @summary use a custom classifier to classify a document
  */
 
-import { AzureKeyCredential, DocumentAnalysisClient } from "@azure/ai-form-recognizer";
-
+import { DocumentAnalysisClient } from "@azure/ai-form-recognizer";
+import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
 async function main(): Promise<void> {
   const endpoint = process.env.FORM_RECOGNIZER_ENDPOINT || "<endpoint>";
-  const credential = new AzureKeyCredential(process.env.FORM_RECOGNIZER_API_KEY || "<api key>");
+  const credential = new DefaultAzureCredential();
 
   const documentUrl =
     "https://raw.githubusercontent.com/Azure/azure-sdk-for-js/main/sdk/formrecognizer/ai-form-recognizer/assets/invoice/Invoice_1.pdf";

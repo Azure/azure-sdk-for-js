@@ -12,7 +12,7 @@ import * as fr from "@azure/ai-form-recognizer";
  * Extract text, layout, entities, and general key-value pairs from documents.
  */
 export const PrebuiltDocumentModel = fr.createModelFromSchema(
-  modelInfo()
+  modelInfo(),
 ) as fr.DocumentModel<PrebuiltDocumentResult>;
 
 export interface PrebuiltDocumentResult extends fr.AnalyzeResultCommon {
@@ -45,7 +45,7 @@ export interface PrebuiltDocumentResult extends fr.AnalyzeResultCommon {
 /**
  * The raw model schema.
  */
-function modelInfo() {
+function modelInfo(): any {
   return {
     modelId: "prebuilt-document",
     description: "Extract text, layout, entities, and general key-value pairs from documents.",

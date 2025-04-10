@@ -18,7 +18,7 @@ async function organizationsDeleteMaximumSet() {
 }
 
 async function main() {
-  organizationsDeleteMaximumSet();
+  await organizationsDeleteMaximumSet();
 }
 
 main().catch(console.error);

@@ -34,11 +34,11 @@
     "@azure/identity": "^4.6.0",
     "@azure/logger": "^1.1.4",
     "@types/node": "^18.0.0",
-    "@vitest/browser": "^3.0.3",
-    "@vitest/coverage-istanbul": "^3.0.3",
+    "@vitest/browser": "^3.0.9",
+    "@vitest/coverage-istanbul": "^3.0.9",
     "playwright": "^1.50.1",
-    "typescript": "~5.7.2",
-    "vitest": "^3.0.3"
+    "typescript": "~5.8.2",
+    "vitest": "^3.0.9"
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/features/arm-features",
   "repository": "github:Azure/azure-sdk-for-js",

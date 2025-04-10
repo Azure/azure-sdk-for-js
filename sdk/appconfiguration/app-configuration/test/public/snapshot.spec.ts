@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import type { Recorder } from "@azure-tools/test-recorder";
-import { isPlaybackMode, testPollingOptions } from "@azure-tools/test-recorder";
+import { testPollingOptions } from "@azure-tools/test-recorder";
 import type { AppConfigurationClient } from "../../src/appConfigurationClient.js";
 import type {
   ConfigurationSnapshot,
@@ -110,7 +110,7 @@ describe("AppConfigurationClient snapshot", () => {
     });
 
     // Skipping all "accepts operation options flaky tests" https://github.com/Azure/azure-sdk-for-js/issues/26447
-    it.skip("accepts  operation options", { skip: isPlaybackMode() }, async () => {
+    it.skip("accepts  operation options", async () => {
       await assertThrowsAbortError(async () => {
         await client.beginCreateSnapshotAndWait(snapshot1, {
           requestOptions: {
@@ -175,7 +175,7 @@ describe("AppConfigurationClient snapshot", () => {
       );
     });
 
-    it.skip("accepts operation options", { skip: isPlaybackMode() }, async () => {
+    it.skip("accepts operation options", async () => {
       await assertThrowsAbortError(async () => {
         await client.archiveSnapshot(newSnapshot.name, {
           requestOptions: {
@@ -201,7 +201,7 @@ describe("AppConfigurationClient snapshot", () => {
       await client.archiveSnapshot(newSnapshot.name);
     });
 
-    it.skip("accepts operation options", { skip: isPlaybackMode() }, async () => {
+    it.skip("accepts operation options", async () => {
       await assertThrowsAbortError(async () => {
         await client.recoverSnapshot(newSnapshot.name, {
           requestOptions: {
@@ -223,7 +223,7 @@ describe("AppConfigurationClient snapshot", () => {
     });
 
     // Check issue https://github.com/Azure/azure-sdk-for-js/issues/26447
-    it.skip("accepts operation options", { skip: isPlaybackMode() }, async () => {
+    it.skip("accepts operation options", async () => {
       newSnapshot = await client.beginCreateSnapshotAndWait(snapshot1, testPollingOptions);
       await assertThrowsAbortError(async () => {
         await client.getSnapshot(newSnapshot.name, {

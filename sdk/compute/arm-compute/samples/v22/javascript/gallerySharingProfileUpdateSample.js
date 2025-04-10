@@ -85,9 +85,9 @@ async function shareAGalleryToCommunity() {
 }
 
 async function main() {
-  addSharingIdToTheSharingProfileOfAGallery();
-  resetSharingProfileOfAGallery();
-  shareAGalleryToCommunity();
+  await addSharingIdToTheSharingProfileOfAGallery();
+  await resetSharingProfileOfAGallery();
+  await shareAGalleryToCommunity();
 }
 
 main().catch(console.error);

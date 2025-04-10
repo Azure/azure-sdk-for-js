@@ -8,13 +8,13 @@
  * @summary analyze a document using a model by ID
  */
 
-import { AzureKeyCredential, DocumentAnalysisClient } from "@azure/ai-form-recognizer";
-
+import { DocumentAnalysisClient } from "@azure/ai-form-recognizer";
+import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
 async function main(): Promise<void> {
   const endpoint = process.env.FORM_RECOGNIZER_ENDPOINT || "<endpoint>";
-  const credential = new AzureKeyCredential(process.env.FORM_RECOGNIZER_API_KEY || "<api key>");
+  const credential = new DefaultAzureCredential();
   const client = new DocumentAnalysisClient(endpoint, credential);
 
   const modelId = process.env.FORM_RECOGNIZER_CUSTOM_MODEL_ID || "<custom model ID>";

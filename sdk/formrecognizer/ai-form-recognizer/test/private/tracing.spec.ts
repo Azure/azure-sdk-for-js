@@ -60,8 +60,8 @@ describe("supports tracing", () => {
       });
     });
 
-    it("beginAnalyzeDocument", () => {
-      expect(
+    it("beginAnalyzeDocument", async () => {
+      await expect(
         fakeIt(async (options: { tracingOptions?: OperationTracingOptions }) => {
           await dac.beginAnalyzeDocument(
             "test",

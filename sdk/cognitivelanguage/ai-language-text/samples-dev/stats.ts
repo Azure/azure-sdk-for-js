@@ -9,14 +9,14 @@
  */
 
 import type { TextDocumentBatchStatistics } from "@azure/ai-language-text";
-import { TextAnalysisClient, AzureKeyCredential } from "@azure/ai-language-text";
+import { TextAnalysisClient } from "@azure/ai-language-text";
+import { DefaultAzureCredential } from "@azure/identity";
 
 // Load the .env file if it exists
 import "dotenv/config";
 
 // You will need to set these environment variables or edit the following values
-const endpoint = process.env["ENDPOINT"] || "<cognitive language service endpoint>";
-const apiKey = process.env["LANGUAGE_API_KEY"] || "<api key>";
+const endpoint = process.env["LANGUAGE_ENDPOINT"] || "<cognitive language service endpoint>";
 
 const documents = [
   "Microsoft moved its headquarters to Bellevue, Washington in January 1979.",
@@ -26,7 +26,7 @@ const documents = [
 export async function main(): Promise<void> {
   console.log("== Statistics Sample ==");
 
-  const client = new TextAnalysisClient(endpoint, new AzureKeyCredential(apiKey));
+  const client = new TextAnalysisClient(endpoint, new DefaultAzureCredential());
 
   const results = await client.analyze("EntityLinking", documents, "en", {
     /**
@@ -91,9 +91,9 @@ export async function main(): Promise<void> {
       for (const doc of action.results) {
         if (!doc.error) {
           console.log(`\t\t- Document ID: ${doc.id}`);
-          const stats = doc.statistics!;
-          console.log(`\t\t\t- Character count: ${stats.characterCount}`);
-          console.log(`\t\t\t- Transaction count: ${stats.transactionCount}`);
+          const docStats = doc.statistics!;
+          console.log(`\t\t\t- Character count: ${docStats.characterCount}`);
+          console.log(`\t\t\t- Transaction count: ${docStats.transactionCount}`);
         }
       }
     }

@@ -10,7 +10,7 @@ import "@azure/openai/types";
 describe("snippets", () => {
   it("ReadmeSampleAnalyzeBusinessData", async () => {
     // Import OpenAI Type Helpers
-    import "@azure/openai/types";
+    // FIX: import "@azure/openai/types";
     // @ts-preserve-whitespace
     const credential = new DefaultAzureCredential();
     const scope = "https://cognitiveservices.azure.com/.default";
@@ -21,7 +21,7 @@ describe("snippets", () => {
     const azureSearchIndexName = "<search index>";
     // @ts-preserve-whitespace
     const deployment = "gpt-4-1106-preview";
-    const apiVersion = "2024-11-01-preview";
+    const apiVersion = "2025-03-01-preview";
     const client = new AzureOpenAI({ azureADTokenProvider, deployment, apiVersion });
     const events = await client.chat.completions.create({
       stream: true,
@@ -57,7 +57,7 @@ describe("snippets", () => {
 
   it("ReadmeSampleContentFilteredChatCompletions", async () => {
     // Import OpenAI Type Helpers
-    import "@azure/openai/types";
+    // FIX: import "@azure/openai/types";
     // @ts-preserve-whitespace
     const credential = new DefaultAzureCredential();
     const scope = "https://cognitiveservices.azure.com/.default";
@@ -68,7 +68,7 @@ describe("snippets", () => {
     const azureSearchIndexName = "<search index>";
     // @ts-preserve-whitespace
     const deployment = "gpt-4-1106-preview";
-    const apiVersion = "2024-11-01-preview";
+    const apiVersion = "2025-03-01-preview";
     const client = new AzureOpenAI({ azureADTokenProvider, deployment, apiVersion });
     const events = await client.chat.completions.create({
       messages: [

@@ -5,6 +5,7 @@ import type { HttpMethods, PipelineRequest, PipelineResponse } from "@azure/core
 import { createHttpHeaders, isRestError } from "@azure/core-rest-pipeline";
 import type { ResponseBody } from "../../src/http/models.js";
 import { assert } from "vitest";
+import type { OperationState } from "../../src/index.js";
 
 export interface RouteProcessor {
   method: string;
@@ -23,7 +24,7 @@ export interface LroResponseSpec {
 export type ImplementationName = "createPoller";
 
 export type Result = ResponseBody & { statusCode: number };
-export type State = any;
+export type State = OperationState<Result>;
 
 export function createProcessor(settings: {
   status: number;
@@ -95,7 +96,7 @@ export async function assertError(
 }
 
 export async function assertDivergentBehavior(inputs: {
-  op: Promise<Result>;
+  op: Promise<Result | State>;
   throwOnNon2xxResponse: boolean;
   throwing: {
     statusCode?: number;

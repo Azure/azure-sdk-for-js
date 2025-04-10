@@ -16,7 +16,7 @@ import {
   PrivateEndpointConnectionsPutOptionalParams,
   PrivateEndpointConnectionsPutResponse,
   PrivateEndpointConnectionsDeleteOptionalParams,
-  PrivateEndpointConnectionsDeleteResponse
+  PrivateEndpointConnectionsDeleteResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -32,7 +32,7 @@ export interface PrivateEndpointConnections {
   listByResource(
     resourceGroupName: string,
     vaultName: string,
-    options?: PrivateEndpointConnectionsListByResourceOptionalParams
+    options?: PrivateEndpointConnectionsListByResourceOptionalParams,
   ): PagedAsyncIterableIterator<PrivateEndpointConnection>;
   /**
    * Gets the specified private endpoint connection associated with the key vault.
@@ -46,7 +46,7 @@ export interface PrivateEndpointConnections {
     resourceGroupName: string,
     vaultName: string,
     privateEndpointConnectionName: string,
-    options?: PrivateEndpointConnectionsGetOptionalParams
+    options?: PrivateEndpointConnectionsGetOptionalParams,
   ): Promise<PrivateEndpointConnectionsGetResponse>;
   /**
    * Updates the specified private endpoint connection associated with the key vault.
@@ -62,7 +62,7 @@ export interface PrivateEndpointConnections {
     vaultName: string,
     privateEndpointConnectionName: string,
     properties: PrivateEndpointConnection,
-    options?: PrivateEndpointConnectionsPutOptionalParams
+    options?: PrivateEndpointConnectionsPutOptionalParams,
   ): Promise<PrivateEndpointConnectionsPutResponse>;
   /**
    * Deletes the specified private endpoint connection associated with the key vault.
@@ -76,7 +76,7 @@ export interface PrivateEndpointConnections {
     resourceGroupName: string,
     vaultName: string,
     privateEndpointConnectionName: string,
-    options?: PrivateEndpointConnectionsDeleteOptionalParams
+    options?: PrivateEndpointConnectionsDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<PrivateEndpointConnectionsDeleteResponse>,
@@ -95,6 +95,6 @@ export interface PrivateEndpointConnections {
     resourceGroupName: string,
     vaultName: string,
     privateEndpointConnectionName: string,
-    options?: PrivateEndpointConnectionsDeleteOptionalParams
+    options?: PrivateEndpointConnectionsDeleteOptionalParams,
   ): Promise<PrivateEndpointConnectionsDeleteResponse>;
 }

@@ -6,6 +6,7 @@ import type { EncryptionKeyResolver } from "./EncryptionKeyResolver";
 import type { KeyWrapAlgorithm } from "@azure/keyvault-keys";
 import { KeyClient } from "@azure/keyvault-keys";
 import { ErrorResponse } from "../../request";
+import { EncryptionKeyResolverName } from "../enums";
 
 /**
  * Implementation of EncryptionKeyResolver that uses Azure Key Vault for customer managed keys.
@@ -17,6 +18,11 @@ export class AzureKeyVaultEncryptionKeyResolver implements EncryptionKeyResolver
     this.credentials = credentials;
   }
   /**
+   * Name of the resolver to use for client side encryption.
+   * Currently only AzureKeyVault implementation is supported.
+   */
+  public encryptionKeyResolverName = EncryptionKeyResolverName.AzureKeyVault;
+  /**
    * wraps the given key using the specified key encryption key path and algorithm.
    * @param encryptionKeyId - path to the customer managed key to be used for wrapping. For Azure Key Vault, this is url of the key in the vault.
    * @param algorithm - algorithm to be used for wrapping.
@@ -26,8 +32,8 @@ export class AzureKeyVaultEncryptionKeyResolver implements EncryptionKeyResolver
   public async wrapKey(
     encryptionKeyId: string,
     algorithm: string,
-    unwrappedKey: Buffer,
-  ): Promise<Buffer> {
+    unwrappedKey: Uint8Array,
+  ): Promise<Uint8Array> {
     try {
       const origin = this.getOrigin(encryptionKeyId);
       const keyClient = new KeyClient(origin, this.credentials);
@@ -39,7 +45,7 @@ export class AzureKeyVaultEncryptionKeyResolver implements EncryptionKeyResolver
       if (!res || !res.result) {
         throw new ErrorResponse(`Failed to wrap key: ${res}`);
       }
-      return Buffer.from(res.result);
+      return res.result;
     } catch (e) {
       throw new ErrorResponse(`Failed to wrap key: ${e.message}`);
     }
@@ -54,20 +60,20 @@ export class AzureKeyVaultEncryptionKeyResolver implements EncryptionKeyResolver
   public async unwrapKey(
     encryptionKeyId: string,
     algorithm: string,
-    wrappedKey: Buffer,
-  ): Promise<Buffer> {
+    wrappedKey: Uint8Array,
+  ): Promise<Uint8Array> {
     try {
       const origin = this.getOrigin(encryptionKeyId);
       const keyClient = new KeyClient(origin, this.credentials);
       const [keyName, keyVersion] = this.getKeyDetails(encryptionKeyId);
       const cryptographyClient = keyClient.getCryptographyClient(keyName, {
-        keyVersion: keyVersion ? keyVersion : "",
+        keyVersion: keyVersion,
       });
       const res = await cryptographyClient.unwrapKey(algorithm as KeyWrapAlgorithm, wrappedKey);
       if (!res || !res.result) {
         throw new ErrorResponse(`Failed to wrap key: ${res}`);
       }
-      return Buffer.from(res.result);
+      return res.result;
     } catch (e) {
       throw new ErrorResponse(`Failed to unwrap key: ${e.message}`);
     }
@@ -78,13 +84,10 @@ export class AzureKeyVaultEncryptionKeyResolver implements EncryptionKeyResolver
     try {
       url = new URL(encryptionKeyId);
       const parts = url.pathname.split("/");
-      if (parts.length < 3 || parts.length > 5) {
+      if (parts.length < 4 || parts.length > 5) {
         throw new ErrorResponse(
           `Invalid key url: ${encryptionKeyId}. Key url must be in the format https://<vault>.vault.azure.net/keys/<key-name>/<key-version>`,
         );
-      }
-      if (parts.length === 3) {
-        return [parts[2], undefined];
       }
       if (parts.length === 4 || parts.length === 5) {
         return [parts[2], parts[3]];

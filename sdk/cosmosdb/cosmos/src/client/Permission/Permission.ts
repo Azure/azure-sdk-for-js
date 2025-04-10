@@ -41,6 +41,18 @@ export class Permission {
 
   /**
    * Read the {@link PermissionDefinition} of the given {@link Permission}.
+   * @example
+   * ```ts snippet:PermissionRead
+   * import { CosmosClient } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   * const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+   * const user = database.user("<user-id>");
+   *
+   * const { resource: permission } = await user.permission("<permission-id>").read();
+   * ```
    */
   public async read(options?: RequestOptions): Promise<PermissionResponse> {
     return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
@@ -67,6 +79,20 @@ export class Permission {
   /**
    * Replace the given {@link Permission} with the specified {@link PermissionDefinition}.
    * @param body - The specified {@link PermissionDefinition}.
+   * @example
+   * ```ts snippet:PermissionReplace
+   * import { CosmosClient } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   * const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+   * const user = database.user("<user-id>");
+   * const { resource: permission } = await user.permission("<permission-id>").read();
+   * permission.resource = "<new-resource-url>";
+   *
+   * await user.permission("<permission-id>").replace(permission);
+   * ```
    */
   public async replace(
     body: PermissionDefinition,
@@ -100,6 +126,18 @@ export class Permission {
 
   /**
    * Delete the given {@link Permission}.
+   * @example
+   * ```ts snippet:PermissionDelete
+   * import { CosmosClient } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   * const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+   * const user = database.user("<user-id>");
+   *
+   * await user.permission("<permission-id>").delete();
+   * ```
    */
   public async delete(options?: RequestOptions): Promise<PermissionResponse> {
     return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {

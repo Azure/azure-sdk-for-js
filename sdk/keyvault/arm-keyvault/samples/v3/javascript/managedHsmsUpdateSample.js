@@ -10,13 +10,13 @@
 // Licensed under the MIT License.
 const { KeyVaultManagementClient } = require("@azure/arm-keyvault");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Update a managed HSM Pool in the specified subscription.
  *
  * @summary Update a managed HSM Pool in the specified subscription.
- * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2023-07-01/examples/ManagedHsm_Update.json
+ * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2024-11-01/examples/ManagedHsm_Update.json
  */
 async function updateAnExistingManagedHsmPool() {
   const subscriptionId =
@@ -33,7 +33,7 @@ async function updateAnExistingManagedHsmPool() {
 }
 
 async function main() {
-  updateAnExistingManagedHsmPool();
+  await updateAnExistingManagedHsmPool();
 }
 
 main().catch(console.error);

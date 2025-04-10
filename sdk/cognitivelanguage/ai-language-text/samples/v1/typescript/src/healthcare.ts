@@ -9,19 +9,15 @@
  * @summary detects healthcare entities in a piece of text
  */
 
-import {
-  AnalyzeBatchAction,
-  AzureKeyCredential,
-  TextAnalysisClient,
-} from "@azure/ai-language-text";
+import type { AnalyzeBatchAction } from "@azure/ai-language-text";
+import { TextAnalysisClient } from "@azure/ai-language-text";
+import { DefaultAzureCredential } from "@azure/identity";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
 // You will need to set these environment variables or edit the following values
-const endpoint = process.env["ENDPOINT"] || "<cognitive language service endpoint>";
-const apiKey = process.env["LANGUAGE_API_KEY"] || "<api key>";
+const endpoint = process.env["LANGUAGE_ENDPOINT"] || "<cognitive language service endpoint>";
 
 const documents = [
   "The patient is a 54-year-old gentleman with a history of progressive angina over the past several months.",
@@ -29,10 +25,10 @@ const documents = [
   "Patient does not suffer from high blood pressure.",
 ];
 
-export async function main() {
+export async function main(): Promise<void> {
   console.log("== Healthcare Sample ==");
 
-  const client = new TextAnalysisClient(endpoint, new AzureKeyCredential(apiKey));
+  const client = new TextAnalysisClient(endpoint, new DefaultAzureCredential());
   const actions: AnalyzeBatchAction[] = [
     {
       kind: "Healthcare",
@@ -42,7 +38,7 @@ export async function main() {
 
   poller.onProgress(() => {
     console.log(
-      `Last time the operation was updated was on: ${poller.getOperationState().modifiedOn}`
+      `Last time the operation was updated was on: ${poller.getOperationState().modifiedOn}`,
     );
   });
   console.log(`The operation was created on ${poller.getOperationState().createdOn}`);
@@ -78,7 +74,7 @@ export async function main() {
         console.log(`\tRecognized relations between entities:`);
         for (const relation of result.entityRelations) {
           console.log(
-            `\t\t- Relation of type ${relation.relationType} found between the following entities:`
+            `\t\t- Relation of type ${relation.relationType} found between the following entities:`,
           );
           for (const role of relation.roles) {
             console.log(`\t\t\t- "${role.entity.text}" with the role ${role.name}`);

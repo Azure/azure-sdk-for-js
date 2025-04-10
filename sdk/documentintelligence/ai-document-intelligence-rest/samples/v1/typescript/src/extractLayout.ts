@@ -9,18 +9,18 @@
  * @summary use the prebuilt layout model to extract basic document elements only
  */
 
+import type { AnalyzeOperationOutput } from "@azure-rest/ai-document-intelligence";
 import DocumentIntelligence, {
-  AnalyzeOperationOutput,
   getLongRunningPoller,
   isUnexpected,
 } from "@azure-rest/ai-document-intelligence";
-
+import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
 async function main(): Promise<void> {
   const client = DocumentIntelligence(
     process.env["DOCUMENT_INTELLIGENCE_ENDPOINT"] || "<cognitive services endpoint>",
-    { key: process.env["DOCUMENT_INTELLIGENCE_API_KEY"] || "<api key>" },
+    new DefaultAzureCredential(),
   );
 
   const initialResponse = await client

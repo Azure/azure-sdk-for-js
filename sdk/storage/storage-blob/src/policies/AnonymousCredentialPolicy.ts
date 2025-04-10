@@ -5,7 +5,7 @@ import type {
   RequestPolicy,
   RequestPolicyOptionsLike as RequestPolicyOptions,
 } from "@azure/core-http-compat";
-import { CredentialPolicy } from "./CredentialPolicy";
+import { CredentialPolicy } from "./CredentialPolicy.js";
 
 /**
  * AnonymousCredentialPolicy is used with HTTP(S) requests that read public resources

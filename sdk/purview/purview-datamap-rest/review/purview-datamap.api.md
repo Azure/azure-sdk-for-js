@@ -6,10 +6,6 @@
 
 import type { Client } from '@azure-rest/core-client';
 import type { ClientOptions } from '@azure-rest/core-client';
-import { createFile } from '@azure/core-rest-pipeline';
-import { createFileFromStream } from '@azure/core-rest-pipeline';
-import { CreateFileFromStreamOptions } from '@azure/core-rest-pipeline';
-import { CreateFileOptions } from '@azure/core-rest-pipeline';
 import type { HttpResponse } from '@azure-rest/core-client';
 import type { RawHttpHeaders } from '@azure/core-rest-pipeline';
 import type { RequestParameters } from '@azure-rest/core-client';
@@ -1011,9 +1007,6 @@ export interface AutoCompleteResultValueOutput {
     text?: string;
 }
 
-// @public (undocumented)
-export function buildMultiCollection(items: string[], parameterName: string): string;
-
 // @public
 export interface BulkImportResultOutput {
     failedImportInfoList?: Array<ImportInfoOutput>;
@@ -1072,14 +1065,6 @@ export interface ContactSearchResultValueOutput {
 // @public
 function createClient(endpointParam: string, credentials: TokenCredential, options?: PurviewDataMapClientOptions): PurviewDataMapClient;
 export default createClient;
-
-export { createFile }
-
-export { createFileFromStream }
-
-export { CreateFileFromStreamOptions }
-
-export { CreateFileOptions }
 
 // @public
 export interface DateFormat {
@@ -4033,7 +4018,7 @@ export interface SearchResultValueOutput {
     contact?: Array<ContactSearchResultValueOutput>;
     createTime?: number;
     description?: string;
-    endorsement?: string;
+    endorsement?: string[];
     entityType?: string;
     glossary?: string;
     glossaryType?: string;
@@ -4089,7 +4074,7 @@ export interface SuggestResultValueOutput {
     contact?: Array<ContactSearchResultValueOutput>;
     createTime?: number;
     description?: string;
-    endorsement?: string;
+    endorsement?: string[];
     entityType?: string;
     glossary?: string;
     glossaryType?: string;

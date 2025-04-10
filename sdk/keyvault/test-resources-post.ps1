@@ -15,6 +15,22 @@ param (
     [Parameter()]
     [hashtable] $DeploymentOutputs,
 
+    [Parameter()]
+    [string] $SubscriptionId,
+
+    [Parameter()]
+    [string] $TenantId,
+
+    [Parameter()]
+    [ValidatePattern('^[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}$')]
+    [string] $TestApplicationId,
+
+    [Parameter()]
+    [string] $Environment,
+
+    [Parameter()]
+    [switch] $CI = ($null -ne $env:SYSTEM_TEAMPROJECTID),
+
     # Captures any arguments from eng/New-TestResources.ps1 not declared here (no parameter errors).
     [Parameter(ValueFromRemainingArguments = $true)]
     $RemainingArguments
@@ -93,6 +109,19 @@ $sdPath = Join-Path -Path $PSScriptRoot -ChildPath "$hsmName-security-domain.key
 if (Test-Path $sdpath) {
     Log "Deleting old security domain: $sdPath"
     Remove-Item $sdPath -Force
+}
+
+if ($CI) {
+    Log "Logging in to service principal"
+
+    Connect-AzAccount -ServicePrincipal `
+                      -TenantId $TenantId `
+                      -ApplicationId $TestApplicationId `
+                      -FederatedToken $env:ARM_OIDC_TOKEN
+
+    Select-AzSubscription -Subscription $SubscriptionId
+
+    Log "Successfully logged in to service principal"
 }
 
 Export-AzKeyVaultSecurityDomain -Name $hsmName -Quorum 2 -Certificates $wrappingFiles -OutputPath $sdPath -ErrorAction SilentlyContinue -Verbose

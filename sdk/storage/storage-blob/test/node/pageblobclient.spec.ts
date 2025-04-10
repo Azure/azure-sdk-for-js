@@ -1,8 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import { assert } from "chai";
-
 import {
   getBSU,
   getConnectionStringFromEnvironment,
@@ -13,13 +10,13 @@ import {
   getUniqueName,
   configureBlobStorageClient,
   SimpleTokenCredential,
-} from "../utils";
+} from "../utils/index.js";
 import type {
   StorageSharedKeyCredential,
   ContainerClient,
   BlobClient,
   BlobServiceClient,
-} from "../../src";
+} from "../../src/index.js";
 import {
   newPipeline,
   PageBlobClient,
@@ -27,13 +24,13 @@ import {
   BlobSASPermissions,
   StorageBlobAudience,
   getBlobServiceAccountAudience,
-} from "../../src";
+} from "../../src/index.js";
 import type { TokenCredential } from "@azure/core-auth";
-import { assertClientUsesTokenCredential } from "../utils/assert";
+import { assertClientUsesTokenCredential } from "../utils/assert.js";
 import { delay, Recorder, isLiveMode } from "@azure-tools/test-recorder";
-import { Test_CPK_INFO } from "../utils/fakeTestSecrets";
-import type { Context } from "mocha";
+import { Test_CPK_INFO } from "../utils/fakeTestSecrets.js";
 import { createTestCredential } from "@azure-tools/test-credential";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("PageBlobClient Node.js only", () => {
   let containerName: string;
@@ -45,8 +42,8 @@ describe("PageBlobClient Node.js only", () => {
   let recorder: Recorder;
 
   let blobServiceClient: BlobServiceClient;
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async (ctx) => {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderEnvSetup);
     await recorder.addSanitizers(
       {
@@ -69,7 +66,7 @@ describe("PageBlobClient Node.js only", () => {
     pageBlobClient = blobClient.getPageBlobClient();
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await containerClient.delete();
     await recorder.stop();
   });
@@ -131,9 +128,9 @@ describe("PageBlobClient Node.js only", () => {
     assert.equal(exist, true);
   });
 
-  it("fetch a blob for disk with challenge Bearer token", async function (this: Context): Promise<void> {
+  it("fetch a blob for disk with challenge Bearer token", async function (ctx): Promise<void> {
     if (isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
     const diskBlobClient = new PageBlobClient(
       "https://md-hdd-jxsm54fzq3jc.z8.blob.storage.azure.net/g15jvgx5jcgz/abcd?sv=2018-03-28&sr=b&si=76fa4842-d48b-45a8-ae15-a5bee9d8c5de&sig=***",
@@ -146,9 +143,9 @@ describe("PageBlobClient Node.js only", () => {
   });
 
   // needs special setup to record
-  it.skip("fetch a blob for disk with Bearer token", async function (this: Context): Promise<void> {
+  it.skip("fetch a blob for disk with Bearer token", async function (ctx): Promise<void> {
     if (isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
     const diskBlobClient = new PageBlobClient(
       "https://md-hdd-jxsm54fzq3jc.z8.blob.storage.azure.net/wmkmgnjxxnjt/abcd?sv=2018-03-28&sr=b&si=9a01f5e5-ae40-4251-917d-66ac35cda429&sig=***",
@@ -162,7 +159,7 @@ describe("PageBlobClient Node.js only", () => {
     assert.ok(result.contentLength);
   });
 
-  it("startCopyIncremental", async function () {
+  it("startCopyIncremental", async () => {
     await pageBlobClient.create(1024, {
       metadata: {
         sourcemeta: "val",
@@ -244,7 +241,7 @@ describe("PageBlobClient Node.js only", () => {
     assert.equal(pageBlobProperties.metadata!.sourcemeta, "val");
   });
 
-  it("uploadPagesFromURL", async function () {
+  it("uploadPagesFromURL", async () => {
     await pageBlobClient.create(1024);
 
     const result = await blobClient.download(0);
@@ -279,7 +276,7 @@ describe("PageBlobClient Node.js only", () => {
     assert.equal(await bodyToString(page2, 512), "b".repeat(512));
   });
 
-  it("uploadPagesFromURL - source SAS and destination bearer token", async function (this: Context) {
+  it("uploadPagesFromURL - source SAS and destination bearer token", async () => {
     await pageBlobClient.create(1024);
 
     const result = await blobClient.download(0);
@@ -319,7 +316,7 @@ describe("PageBlobClient Node.js only", () => {
     assert.equal(await bodyToString(page2, 512), "b".repeat(512));
   });
 
-  it("uploadPagesFromURL - source bear token and destination account key", async function (this: Context) {
+  it("uploadPagesFromURL - source bear token and destination account key", async () => {
     await pageBlobClient.create(1024);
 
     const result = await blobClient.download(0);
@@ -354,7 +351,7 @@ describe("PageBlobClient Node.js only", () => {
     assert.equal(await bodyToString(page2, 512), "b".repeat(512));
   });
 
-  it("uploadPagesFromURL - destination bearer token", async function (this: Context) {
+  it("uploadPagesFromURL - destination bearer token", async () => {
     await pageBlobClient.create(1024);
 
     const result = await blobClient.download(0);
@@ -408,7 +405,7 @@ describe("PageBlobClient Node.js only", () => {
     }
   });
 
-  it("can be created with a url and a credential", async function () {
+  it("can be created with a url and a credential", async () => {
     const credential = (pageBlobClient as any).credential as StorageSharedKeyCredential;
     const newClient = new PageBlobClient(pageBlobClient.url, credential);
     configureBlobStorageClient(recorder, newClient);
@@ -418,7 +415,7 @@ describe("PageBlobClient Node.js only", () => {
     assert.deepStrictEqual(await bodyToString(result, 512), "\u0000".repeat(512));
   });
 
-  it("can be created with a url and a credential and an option bag", async function () {
+  it("can be created with a url and a credential and an option bag", async () => {
     const credential = (pageBlobClient as any).credential as StorageSharedKeyCredential;
     const newClient = new PageBlobClient(pageBlobClient.url, credential, {
       retryOptions: {
@@ -432,7 +429,7 @@ describe("PageBlobClient Node.js only", () => {
     assert.deepStrictEqual(await bodyToString(result, 512), "\u0000".repeat(512));
   });
 
-  it("can be created with a url and a TokenCredential", async function () {
+  it("can be created with a url and a TokenCredential", async () => {
     const tokenCredential: TokenCredential = {
       getToken: () =>
         Promise.resolve({
@@ -444,7 +441,7 @@ describe("PageBlobClient Node.js only", () => {
     assertClientUsesTokenCredential(newClient);
   });
 
-  it("can be created with a url and a pipeline", async function () {
+  it("can be created with a url and a pipeline", async () => {
     const credential = (pageBlobClient as any).credential as StorageSharedKeyCredential;
     const pipeline = newPipeline(credential);
     const newClient = new PageBlobClient(pageBlobClient.url, pipeline);
@@ -455,7 +452,7 @@ describe("PageBlobClient Node.js only", () => {
     assert.deepStrictEqual(await bodyToString(result, 512), "\u0000".repeat(512));
   });
 
-  it("can be created with a connection string", async function () {
+  it("can be created with a connection string", async () => {
     const newClient = new PageBlobClient(
       getConnectionStringFromEnvironment(),
       containerName,
@@ -468,7 +465,7 @@ describe("PageBlobClient Node.js only", () => {
     assert.deepStrictEqual(await bodyToString(result, 512), "\u0000".repeat(512));
   });
 
-  it("can be created with a connection string and an option bag", async function () {
+  it("can be created with a connection string and an option bag", async () => {
     const newClient = new PageBlobClient(
       getConnectionStringFromEnvironment(),
       containerName,
@@ -584,7 +581,7 @@ describe("PageBlobClient Node.js only", () => {
     const tagConditionMet = { tagConditions: "tag1 = 'val1'" };
     const tagConditionUnmet = { tagConditions: "tag1 = 'val2'" };
 
-    beforeEach(async function () {
+    beforeEach(async () => {
       await pageBlobClient.create(1024, { tags });
     });
 
@@ -636,7 +633,7 @@ describe("PageBlobClient Node.js only", () => {
       await destPageBlobClient.startCopyIncremental(copySource1, { conditions: tagConditionMet });
     });
 
-    it("uploadPagesFromURL with conditional tags for destination blob", async function () {
+    it("uploadPagesFromURL with conditional tags for destination blob", async () => {
       const result = await blobClient.download(0);
       assert.equal(await bodyToString(result, 1024), "\u0000".repeat(1024));
 

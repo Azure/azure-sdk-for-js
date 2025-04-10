@@ -9,29 +9,29 @@ import type {
   Reporter,
   Suite,
 } from "@playwright/test/reporter";
-import { reporterLogger } from "../common/logger";
+import { reporterLogger } from "../common/logger.js";
 import {
   Constants,
   InternalEnvironmentVariables,
   TestResultErrorConstants,
-} from "../common/constants";
-import { EnvironmentVariables } from "../common/environmentVariables";
-import { MultiMap } from "../common/multimap";
-import type { EntraTokenDetails } from "../model/entraTokenDetails";
-import type { MPTTokenDetails } from "../model/mptTokenDetails";
-import { TokenType } from "../model/mptTokenDetails";
-import type { Shard, UploadMetadata } from "../model/shard";
-import type { StorageUri } from "../model/storageUri";
-import type { TestResult as MPTTestResult, RawTestResult } from "../model/testResult";
-import type { TestRun } from "../model/testRun";
-import type { CIInfo } from "../utils/cIInfoProvider";
-import { CIInfoProvider } from "../utils/cIInfoProvider";
-import ReporterUtils from "../utils/reporterUtils";
-import { ServiceClient } from "../utils/serviceClient";
-import { StorageClient } from "../utils/storageClient";
-import type { ReporterConfiguration } from "../common/types";
-import { ServiceErrorMessageConstants } from "../common/messages";
-import { validateMptPAT, populateValuesFromServiceUrl } from "../utils/utils";
+} from "../common/constants.js";
+import { EnvironmentVariables } from "../common/environmentVariables.js";
+import { MultiMap } from "../common/multimap.js";
+import type { EntraTokenDetails } from "../model/entraTokenDetails.js";
+import type { MPTTokenDetails } from "../model/mptTokenDetails.js";
+import { TokenType } from "../model/mptTokenDetails.js";
+import type { Shard, UploadMetadata } from "../model/shard.js";
+import type { StorageUri } from "../model/storageUri.js";
+import type { TestResult as MPTTestResult, RawTestResult } from "../model/testResult.js";
+import type { TestRun } from "../model/testRun.js";
+import type { CIInfo } from "../utils/cIInfoProvider.js";
+import { CIInfoProvider } from "../utils/cIInfoProvider.js";
+import ReporterUtils from "../utils/reporterUtils.js";
+import { ServiceClient } from "../utils/serviceClient.js";
+import { StorageClient } from "../utils/storageClient.js";
+import type { ReporterConfiguration } from "../common/types.js";
+import { ServiceErrorMessageConstants } from "../common/messages.js";
+import { validateMptPAT, populateValuesFromServiceUrl } from "../utils/utils.js";
 
 /**
  * @public

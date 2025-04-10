@@ -17,7 +17,7 @@ const {
   SimpleSpanProcessor,
 } = require("@opentelemetry/sdk-trace-node");
 
-require("dotenv").config();
+require("dotenv/config");
 
 const provider = new NodeTracerProvider();
 provider.addSpanProcessor(new SimpleSpanProcessor(new ConsoleSpanExporter()));

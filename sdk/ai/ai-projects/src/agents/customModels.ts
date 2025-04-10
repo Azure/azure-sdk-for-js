@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 import type { OperationOptions, RequestParameters } from "@azure-rest/core-client";
-import type { AbortSignalLike } from "@azure/abort-controller";
 import type { ThreadRunOutput } from "../customization/outputModels.js";
 import type { AgentEventMessageStream } from "./streamingModels.js";
 import type {
@@ -66,11 +65,6 @@ export interface PollingOptions {
    * The interval, in milliseconds, to wait between polling attempts. If not specified, a default interval of 1000ms will be used.
    */
   sleepIntervalInMs?: number;
-
-  /**
-   * An AbortSignalLike object (as defined by \@azure/abort-controller) that can be used to cancel the polling operation.
-   */
-  abortSignal?: AbortSignalLike;
 }
 
 /**
@@ -194,13 +188,9 @@ export interface ListMessagesOptionalParams
 /**
  * Optional parameters creating vector store.
  */
-export interface CreateVectorStoreOptionalParams extends VectorStoreOptions, OperationOptions {}
-
-/**
- * Optional parameters for creating vector store with polling.
- */
-export interface CreateVectorStoreWithPollingOptionalParams
-  extends CreateVectorStoreOptionalParams,
+export interface CreateVectorStoreOptionalParams
+  extends VectorStoreOptions,
+    OperationOptions,
     PollingOptionsParams {}
 
 /**
@@ -235,7 +225,8 @@ export interface ListVectorStoreFilesOptionalParams extends ListQueryParameters,
  */
 export interface CreateVectorStoreFileOptionalParams
   extends CreateVectorStoreFileOptions,
-    OperationOptions {}
+    OperationOptions,
+    PollingOptionsParams {}
 
 /**
  * Optional parameters for getting a vector store file.
@@ -246,14 +237,6 @@ export interface GetVectorStoreFileOptionalParams extends OperationOptions {}
  * Optional parameters for deleting a vector store file.
  */
 export interface DeleteVectorStoreFileOptionalParams extends OperationOptions {}
-
-/**
- * Optional parameters for creating a vector store file with polling.
- */
-export interface CreateVectorStoreFileWithPollingOptionalParams
-  extends CreateVectorStoreFileOptions,
-    PollingOptionsParams,
-    OperationOptions {}
 
 /**
  * Optional parameters for listing vector store file batches.
@@ -280,13 +263,7 @@ export interface CancelVectorStoreFileBatchOptionalParams extends OperationOptio
  */
 export interface CreateVectorStoreFileBatchOptionalParams
   extends CreateVectorStoreFileBatchOptions,
-    OperationOptions {}
-
-/**
- * Optional parameters for creating a vector store file batch with polling.
- */
-export interface CreateVectorStoreFileBatchWithPollingOptionalParams
-  extends CreateVectorStoreFileBatchOptionalParams,
+    OperationOptions,
     PollingOptionsParams {}
 
 /**
@@ -339,14 +316,7 @@ export interface GetFileContentOptionalParams extends OperationOptions {}
 /**
  * Optional parameters for uploading a file.
  */
-export interface UploadFileOptionalParams extends OperationOptions {
+export interface UploadFileOptionalParams extends OperationOptions, PollingOptionsParams {
   /** The name of the file. */
   fileName?: string;
 }
-
-/**
- * Optional parameters for uploading a file with polling.
- */
-export interface UploadFileWithPollingOptionalParams
-  extends UploadFileOptionalParams,
-    PollingOptionsParams {}

@@ -7,22 +7,19 @@
  */
 
 const { TableClient } = require("@azure/data-tables");
-
-// Load the .env file if it exists
-const dotenv = require("dotenv");
-dotenv.config();
+const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv/config");
 
 const tablesUrl = process.env["TABLES_URL"] || "";
-const sasToken = process.env["SAS_TOKEN"] || "";
 
-async function updateAndUpsertEntities() {
+async function updateAndUpsertEntities(credential) {
   console.log("== Update and Upsert entities Sample ==");
 
   // Note that this sample assumes that a table with tableName exists
   const tableName = `updateAndUpsertEntitiesTable`;
 
   // See authenticationMethods sample for other options of creating a new client
-  const client = new TableClient(`${tablesUrl}${sasToken}`, tableName);
+  const client = new TableClient(tablesUrl, tableName, credential);
 
   // Create the table
   await client.createTable();
@@ -32,7 +29,7 @@ async function updateAndUpsertEntities() {
     rowKey: "A1",
     name: "Marker Set",
     price: 5.0,
-    brand: "myCompany"
+    brand: "myCompany",
   };
 
   // Entity doesn't exist in table, so calling upsertEntity will simply insert the entity.
@@ -47,9 +44,9 @@ async function updateAndUpsertEntities() {
       name: "Marker Set",
       price: 5.0,
       // Replace with the same entity but without a brand
-      brand: undefined
+      brand: undefined,
     },
-    "Replace"
+    "Replace",
   );
 
   // Getting the entity we just created should give us an entity similar to the one that we first inserted
@@ -62,7 +59,7 @@ async function updateAndUpsertEntities() {
   await client.updateEntity({
     partitionKey: noBrandEntity.partitionKey,
     rowKey: noBrandEntity.rowKey,
-    price: 7.0
+    price: 7.0,
   });
 
   // Getting the entity should gice us an entity like the original, but without a brand and with a price of 7
@@ -75,9 +72,12 @@ async function updateAndUpsertEntities() {
 }
 
 async function main() {
-  await updateAndUpsertEntities();
+  const credential = new DefaultAzureCredential();
+  await updateAndUpsertEntities(credential);
 }
 
 main().catch((err) => {
   console.error("The sample encountered an error:", err);
 });
+
+module.exports = { main };

@@ -10,6 +10,7 @@ import type {
 import { isUnexpected } from "../../src/index.js";
 import { createDocumentTranslationClient, startRecorder } from "./utils/recordedClient.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
+import { createRestError } from "@azure-rest/core-client";
 
 describe("SingleDocumentTranslate tests", () => {
   let recorder: Recorder;
@@ -25,7 +26,7 @@ describe("SingleDocumentTranslate tests", () => {
   });
 
   it("document translate", async () => {
-    const options = {
+    const response = await client.path("/document:translate").post({
       queryParameters: {
         targetLanguage: "hi",
       },
@@ -38,13 +39,9 @@ describe("SingleDocumentTranslate tests", () => {
           contentType: "text/html",
         },
       ],
-    };
-
-    const response = await client
-      .path("/document:translate")
-      .post(options as DocumentTranslateParameters);
+    });
     if (isUnexpected(response)) {
-      throw response.body;
+      throw createRestError(response);
     }
   });
 

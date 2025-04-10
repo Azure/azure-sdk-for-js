@@ -6,14 +6,12 @@
  * @azsdk-weight 0
  */
 
-import * as fs from "fs";
+import * as fs from "node:fs";
 
 import { AnonymousCredential, BlobServiceClient, newPipeline } from "@azure/storage-blob";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
-
+import "dotenv/config";
 // Enabling logging may help uncover useful information about failures.
 // In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`.
 // Alternatively, logging can be enabled at runtime by calling `setLogLevel("info");`
@@ -21,7 +19,7 @@ dotenv.config();
 import { setLogLevel } from "@azure/logger";
 setLogLevel("info");
 
-async function main() {
+async function main(): Promise<void> {
   // Fill in following settings before running this sample
   const account = process.env.ACCOUNT_NAME || "<account name>";
   const accountSas = process.env.ACCOUNT_SAS || "";

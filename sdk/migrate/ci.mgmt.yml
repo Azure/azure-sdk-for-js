@@ -10,6 +10,7 @@ trigger:
     include:
       - sdk/migrate/ci.mgmt.yml
       - sdk/migrate/arm-migrate
+      - sdk/migrate/arm-migrationassessment
 pr:
   branches:
     include:
@@ -23,6 +24,7 @@ pr:
     include:
       - sdk/migrate/ci.mgmt.yml
       - sdk/migrate/arm-migrate
+      - sdk/migrate/arm-migrationassessment
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
@@ -30,3 +32,5 @@ extends:
     Artifacts:
       - name: azure-arm-migrate
         safeName: azurearmmigrate
+      - name: azure-arm-migrationassessment
+        safeName: azurearmmigrationassessment

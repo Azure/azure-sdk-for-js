@@ -16,7 +16,7 @@ import "dotenv/config";
  * This sample demonstrates how to Gets the private link resources supported for the key vault.
  *
  * @summary Gets the private link resources supported for the key vault.
- * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2023-07-01/examples/listPrivateLinkResources.json
+ * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2024-11-01/examples/listPrivateLinkResources.json
  */
 async function keyVaultListPrivateLinkResources(): Promise<void> {
   const subscriptionId =
@@ -29,13 +29,13 @@ async function keyVaultListPrivateLinkResources(): Promise<void> {
   const client = new KeyVaultManagementClient(credential, subscriptionId);
   const result = await client.privateLinkResources.listByVault(
     resourceGroupName,
-    vaultName
+    vaultName,
   );
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  keyVaultListPrivateLinkResources();
+  await keyVaultListPrivateLinkResources();
 }
 
 main().catch(console.error);

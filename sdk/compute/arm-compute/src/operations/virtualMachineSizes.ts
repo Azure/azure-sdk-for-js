@@ -33,7 +33,7 @@ export class VirtualMachineSizesImpl implements VirtualMachineSizes {
 
   /**
    * This API is deprecated. Use [Resources
-   * Skus](https://learn.microsoft.com/rest/api/compute/resourceskus/list)
+   * Skus](https://docs.microsoft.com/rest/api/compute/resourceskus/list)
    * @param location The location upon which virtual-machine-sizes is queried.
    * @param options The options parameters.
    */
@@ -79,7 +79,7 @@ export class VirtualMachineSizesImpl implements VirtualMachineSizes {
 
   /**
    * This API is deprecated. Use [Resources
-   * Skus](https://learn.microsoft.com/rest/api/compute/resourceskus/list)
+   * Skus](https://docs.microsoft.com/rest/api/compute/resourceskus/list)
    * @param location The location upon which virtual-machine-sizes is queried.
    * @param options The options parameters.
    */

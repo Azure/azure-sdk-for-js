@@ -14,7 +14,7 @@ import "dotenv/config";
  * This sample demonstrates how to Lists managed clusters in the specified subscription and resource group.
  *
  * @summary Lists managed clusters in the specified subscription and resource group.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2024-10-01/examples/ManagedClustersListByResourceGroup.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2025-01-01/examples/ManagedClustersListByResourceGroup.json
  */
 async function getManagedClustersByResourceGroup(): Promise<void> {
   const subscriptionId =
@@ -25,7 +25,7 @@ async function getManagedClustersByResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ContainerServiceClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.managedClusters.listByResourceGroup(
+  for await (const item of client.managedClusters.listByResourceGroup(
     resourceGroupName,
   )) {
     resArray.push(item);

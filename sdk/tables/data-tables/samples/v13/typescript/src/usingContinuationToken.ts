@@ -6,22 +6,21 @@
  * @summary queries entities in a table by page manually handling continuation tokens
  */
 
-import { TableClient, AzureSASCredential, TransactionAction } from "@azure/data-tables";
-
-// Load the .env file if it exists
+import type { TransactionAction } from "@azure/data-tables";
+import { TableClient } from "@azure/data-tables";
+import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
+
 const tablesUrl = process.env["TABLES_URL"] || "";
-const sasToken = process.env["SAS_TOKEN"] || "";
 
 async function usingContinuationToken(): Promise<void> {
   const tableName = `manualListByPage`;
 
-  // See authenticationMethods sample for other options of creating a new client
-  const client = new TableClient(tablesUrl, tableName, new AzureSASCredential(sasToken));
+  const client = new TableClient(tablesUrl, tableName, new DefaultAzureCredential());
   // Create the table
   await client.createTable();
 
-  let actions: TransactionAction[] = [];
+  const actions: TransactionAction[] = [];
 
   // Create 100 entities
   for (let i = 0; i < 100; i++) {
@@ -30,7 +29,7 @@ async function usingContinuationToken(): Promise<void> {
   await client.submitTransaction(actions);
 
   // Limit the size to 2 entities by page
-  let iterator = client.listEntities().byPage({ maxPageSize: 2 });
+  const iterator = client.listEntities().byPage({ maxPageSize: 2 });
 
   // Iterating the pages to find the page that contains row key 50
   let interestingPage: string | undefined;

@@ -3,19 +3,19 @@
 
 import type { TokenCredential } from "@azure/identity";
 import { DefaultAzureCredential } from "@azure/identity";
-import { coreLogger } from "./logger";
+import { coreLogger } from "./logger.js";
 import {
   EntraIdAccessTokenConstants,
   InternalEnvironmentVariables,
   ServiceEnvironmentVariable,
-} from "./constants";
-import type { AccessTokenClaims } from "./types";
-import { parseJwt } from "../utils/utils";
-import { ServiceErrorMessageConstants } from "./messages";
+} from "./constants.js";
+import type { AccessTokenClaims } from "./types.js";
+import { parseJwt } from "../utils/parseJwt.js";
+import { ServiceErrorMessageConstants } from "./messages.js";
 
-class EntraIdAccessToken {
+export class EntraIdAccessToken {
   public token?: string;
-  private _expiryTimestamp?: number; // in milli seconds
+  private _expiryTimestamp?: number; // in milliseconds
   private _credential?: TokenCredential;
 
   constructor(credential?: TokenCredential) {
@@ -86,4 +86,6 @@ class EntraIdAccessToken {
   };
 }
 
-export { EntraIdAccessToken };
+export function createEntraIdAccessToken(credential?: TokenCredential): EntraIdAccessToken {
+  return new EntraIdAccessToken(credential);
+}

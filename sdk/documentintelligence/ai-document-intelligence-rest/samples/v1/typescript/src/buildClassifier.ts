@@ -13,18 +13,18 @@
  * @summary build a classifier from a training data set
  */
 
+import type { DocumentClassifierBuildOperationDetailsOutput } from "@azure-rest/ai-document-intelligence";
 import DocumentIntelligence, {
-  DocumentClassifierBuildOperationDetailsOutput,
   getLongRunningPoller,
   isUnexpected,
 } from "@azure-rest/ai-document-intelligence";
-
+import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
 async function main(): Promise<void> {
   const client = DocumentIntelligence(
     process.env["DOCUMENT_INTELLIGENCE_ENDPOINT"] || "<cognitive services endpoint>",
-    { key: process.env["DOCUMENT_INTELLIGENCE_API_KEY"] || "<api key>" },
+    new DefaultAzureCredential(),
   );
 
   const random = Date.now().toString();

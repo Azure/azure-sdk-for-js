@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   VaultPatchParameters,
-  KeyVaultManagementClient
+  KeyVaultManagementClient,
 } from "@azure/arm-keyvault";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -19,7 +19,7 @@ import "dotenv/config";
  * This sample demonstrates how to Update a key vault in the specified subscription.
  *
  * @summary Update a key vault in the specified subscription.
- * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2023-07-01/examples/updateVault.json
+ * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2024-11-01/examples/updateVault.json
  */
 async function updateAnExistingVault(): Promise<void> {
   const subscriptionId =
@@ -48,7 +48,7 @@ async function updateAnExistingVault(): Promise<void> {
               "deleteissuers",
               "manageissuers",
               "recover",
-              "purge"
+              "purge",
             ],
             keys: [
               "encrypt",
@@ -66,7 +66,7 @@ async function updateAnExistingVault(): Promise<void> {
               "backup",
               "restore",
               "recover",
-              "purge"
+              "purge",
             ],
             secrets: [
               "get",
@@ -76,32 +76,32 @@ async function updateAnExistingVault(): Promise<void> {
               "backup",
               "restore",
               "recover",
-              "purge"
-            ]
+              "purge",
+            ],
           },
-          tenantId: "00000000-0000-0000-0000-000000000000"
-        }
+          tenantId: "00000000-0000-0000-0000-000000000000",
+        },
       ],
       enabledForDeployment: true,
       enabledForDiskEncryption: true,
       enabledForTemplateDeployment: true,
       publicNetworkAccess: "Enabled",
       sku: { name: "standard", family: "A" },
-      tenantId: "00000000-0000-0000-0000-000000000000"
-    }
+      tenantId: "00000000-0000-0000-0000-000000000000",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new KeyVaultManagementClient(credential, subscriptionId);
   const result = await client.vaults.update(
     resourceGroupName,
     vaultName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  updateAnExistingVault();
+  await updateAnExistingVault();
 }
 
 main().catch(console.error);

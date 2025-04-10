@@ -9,19 +9,16 @@
  */
 
 const { ConversationAnalysisClient } = require("@azure/ai-language-conversations");
-const { AzureKeyCredential } = require("@azure/core-auth");
-require("dotenv").config();
+const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv/config");
 
-//Get secrets
-//You will have to set these environment variables for the sample to work
 const cluEndpoint =
-  process.env.AZURE_CONVERSATIONS_ENDPOINT || "https://dummyendpoint.cognitiveservices.azure.com";
-const cluKey = process.env.AZURE_CONVERSATIONS_KEY || "<api-key>";
+  process.env.LANGUAGE_ENDPOINT || "https://dummyendpoint.cognitiveservices.azure.com";
 const projectName = process.env.AZURE_CONVERSATIONS_WORKFLOW_PROJECT_NAME || "<project-name>";
 const deploymentName =
   process.env.AZURE_CONVERSATIONS_WORKFLOW_DEPLOYMENT_NAME || "<deployment-name>";
 
-const service = new ConversationAnalysisClient(cluEndpoint, new AzureKeyCredential(cluKey));
+const service = new ConversationAnalysisClient(cluEndpoint, new DefaultAzureCredential());
 
 const query = "How are you?";
 const qnaApp = "ChitChat-QnA";
@@ -54,7 +51,7 @@ const body = {
 };
 
 async function main() {
-  //Analyze query
+  // Analyze query
   const { result } = await service.analyzeConversation(body);
   console.log("query: ", result.query);
   console.log("project kind: ", result.prediction.projectKind);
@@ -63,12 +60,12 @@ async function main() {
   console.log("\ntop intent: ", topIntent);
 
   const prediction = result.prediction;
-  if (prediction.projectKind == "Orchestration") {
+  if (prediction.projectKind === "Orchestration") {
     const topIntentObject = prediction.intents[topIntent];
     console.log("confidence score: ", topIntentObject.confidence);
     console.log("project kind: ", topIntentObject.targetProjectKind);
 
-    if (topIntentObject.targetProjectKind == "QuestionAnswering") {
+    if (topIntentObject.targetProjectKind === "QuestionAnswering") {
       console.log("\nqna response:");
 
       const qnaResponse = topIntentObject.result;

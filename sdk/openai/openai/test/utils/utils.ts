@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { assert } from "vitest";
+import { assert, test, describe } from "vitest";
 import {
   type PipelineRequest,
   type PipelineResponse,
@@ -13,9 +13,10 @@ import {
 } from "@azure/core-rest-pipeline";
 import type { Run } from "openai/resources/beta/threads/runs/runs.mjs";
 import type { AzureChatExtensionConfiguration } from "../../src/types/index.js";
-import { getAzureSearchEndpoint, getAzureSearchIndex } from "./injectables.js";
+import { getSearchInfo } from "./injectables.js";
 import type {
   ClientsAndDeploymentsInfo,
+  DeploymentInfo,
   ModelCapabilities,
   ModelInfo,
   ResourceInfo,
@@ -24,14 +25,23 @@ import { logger } from "./logger.js";
 import type { OpenAI } from "openai";
 import type { Sku } from "@azure/arm-cognitiveservices";
 
+export type SkippableErrors = {
+  messageSubstring: string[];
+};
+
+const GlobalSkippableErrors: SkippableErrors = {
+  messageSubstring: ["Rate limit is exceeded", "400 Unsupported Model"],
+};
+
 export const maxRetriesOption = { maxRetries: 0 };
 
 export enum APIVersion {
-  Preview = "2025-01-01-preview",
+  Preview = "2025-03-01-preview",
   Stable = "2024-10-21",
   OpenAI = "OpenAI",
   "2024_10_01_preview" = "2024-10-01-preview",
 }
+
 export const APIMatrix = [APIVersion.Preview, APIVersion.Stable];
 
 function toString(error: any): string {
@@ -50,16 +60,16 @@ export async function withDeployments<T>(
   let i = 0;
   for (const { client, deployments } of clientsAndDeployments) {
     for (const deployment of deployments) {
-      try {
+      logger.info(
+        `[${++i}/${count}] testing with deployment: ${deployment.deploymentName} (${deployment.model.name}: ${deployment.model.version})`,
+      );
+      if (modelsListToSkip && isModelInList(deployment.model, modelsListToSkip)) {
         logger.info(
-          `[${++i}/${count}] testing with deployment: ${deployment.deploymentName} (${deployment.model.name}: ${deployment.model.version})`,
+          `Skipping deployment ${deployment.deploymentName} (${deployment.model.name}: ${deployment.model.version})`,
         );
-        if (modelsListToSkip && isModelInList(deployment.model, modelsListToSkip)) {
-          logger.info(
-            `Skipping deployment ${deployment.deploymentName} (${deployment.model.name}: ${deployment.model.version})`,
-          );
-          continue;
-        }
+        continue;
+      }
+      try {
         const res = await run(client, deployment.deploymentName);
         validate?.(res);
         succeeded.push(deployment);
@@ -75,18 +85,24 @@ export async function withDeployments<T>(
             "ModelDeprecated",
             "429",
             "UserError",
-            400,
           ].includes(error.code) ||
           error.type === "invalid_request_error" ||
           error.name === "AbortError" ||
           errorStr.includes("Connection error") ||
           errorStr.includes("toolCalls") ||
-          error.status === 404
+          [
+            "ManagedIdentityIsNotEnabled",
+            "Rate limit is exceeded",
+            "Invalid AzureCognitiveSearch configuration detected",
+            "Unsupported Model",
+            "does not support 'system' with this model",
+            "Cannot cancel run with status 'completed'",
+          ].some((match) => error.message.includes(match))
         ) {
-          logger.info("Handled error: ", error);
+          logger.warning("WARNING: Handled error: ", error.message);
           continue;
         }
-        logger.info(`Error in deployment ${deployment.deploymentName}: `, error);
+        logger.error(`Error in deployment ${deployment.deploymentName}: `, error);
         errors.push(e);
       }
     }
@@ -99,22 +115,77 @@ export async function withDeployments<T>(
   );
 }
 
-export function filterDeployments(
-  resourcesInfo: ResourceInfo[],
+export type DeploymentTestingParameters<T> = {
+  clientsAndDeploymentsInfo: ClientsAndDeploymentsInfo;
+  run: (client: OpenAI, model: string) => Promise<T>;
+  validate?: (result: T) => void;
+  modelsListToSkip?: Partial<ModelInfo>[];
+  acceptableErrors?: SkippableErrors;
+};
+
+/**
+ * Test with deployments invokes `test` call, so it should be inside of `describe` and not `it`.
+ * @param clientsAndDeployments -
+ * @param run -
+ * @param validate -
+ * @param modelsListToSkip -
+ * @param acceptableErrors -
+ */
+export async function testWithDeployments<T>({
+  clientsAndDeploymentsInfo,
+  run,
+  validate,
+  modelsListToSkip,
+  acceptableErrors,
+}: DeploymentTestingParameters<T>): Promise<void> {
+  assert.isNotEmpty(clientsAndDeploymentsInfo.clientsAndDeployments, "No deployments found");
+  describe.concurrent.each(clientsAndDeploymentsInfo.clientsAndDeployments)(
+    "$client.baseURL",
+    async function ({ client, deployments }) {
+      for (const deployment of deployments) {
+        test.concurrent(`${deployment.model.name} (${deployment.model.version})`, async (done) => {
+          if (modelsListToSkip && isModelInList(deployment.model, modelsListToSkip)) {
+            done.skip(`Skipping ${deployment.model.name} : ${deployment.model.version}`);
+          }
+
+          let result;
+          try {
+            result = await run(client, deployment.deploymentName);
+          } catch (e) {
+            const error = e as any;
+            if (acceptableErrors?.messageSubstring.some((match) => error.message.includes(match))) {
+              done.skip(`Skipping due to acceptable error: ${error}`);
+            }
+            if (
+              GlobalSkippableErrors.messageSubstring.some((match) => error.message.includes(match))
+            ) {
+              done.skip(`Skipping due to global acceptable error: ${error}`);
+            }
+            throw e;
+          }
+          validate?.(result);
+          return;
+        });
+      }
+    },
+  );
+}
+
+export function filterDeployments<DeploymentsT extends Pick<ResourceInfo, "deployments">>(
+  resourcesInfo: DeploymentsT[],
   filters: {
     capabilities?: ModelCapabilities;
     sku?: Partial<Sku>;
     deploymentsToSkip?: string[];
     modelsToSkip?: Partial<ModelInfo>[];
   },
-): ResourceInfo[] {
-  const filtered: ResourceInfo[] = [];
+): { resourcesInfo: DeploymentsT[]; count: number } {
+  const filtered: DeploymentsT[] = [];
   const { capabilities = {}, sku = {}, deploymentsToSkip = [], modelsToSkip = [] } = filters;
   const deploymentsToSkipSet = new Set(deploymentsToSkip);
   const modelsAndVersionsToSkipSet = new Set<string>();
   const modelsToSkipSet = new Set<string>();
 
-  // Build sets of models (or model:version) to skip
   for (const { name, version } of modelsToSkip) {
     if (name && version) {
       modelsAndVersionsToSkipSet.add(`${name}:${version}`);
@@ -125,27 +196,24 @@ export function filterDeployments(
     }
   }
 
-  // Set to track duplicate model names
-  const seenModelNames = new Set<string>();
+  const globalBestDeployments = new Map<string, DeploymentInfo>();
 
-  for (const { deployments, endpoint } of resourcesInfo) {
-    const filteredDeployments = deployments.filter((deployment) => {
-      // Ignore all custom models, longest standard model name so far is gpt-4o-realtime-preview
+  for (const resourceInfo of resourcesInfo) {
+    for (const deployment of resourceInfo.deployments) {
+      // Ignore custom models (assuming standard model names are <= 25 characters)
       if (deployment.model.name.length > 25) {
-        return false;
+        continue;
       }
+      const modelAndVersion = `${deployment.model.name}:${deployment.model.version}`;
 
-      if (seenModelNames.has(`${deployment.model.name}:${deployment.model.version}`)) {
-        return false;
-      }
       if (deploymentsToSkipSet.has(deployment.deploymentName)) {
-        return false;
+        continue;
       }
       if (modelsToSkipSet.has(deployment.model.name)) {
-        return false;
+        continue;
       }
-      if (modelsAndVersionsToSkipSet.has(`${deployment.model.name}:${deployment.model.version}`)) {
-        return false;
+      if (modelsAndVersionsToSkipSet.has(modelAndVersion)) {
+        continue;
       }
       if (
         !(Object.keys(capabilities) as (keyof ModelCapabilities)[]).every(
@@ -153,26 +221,38 @@ export function filterDeployments(
             capabilities[key] === undefined || deployment.capabilities[key] === capabilities[key],
         )
       ) {
-        return false;
+        continue;
       }
       if (
         !(Object.keys(sku) as (keyof Sku)[]).every(
           (key) => sku[key] === undefined || deployment.sku[key] === sku[key],
         )
       ) {
-        return false;
+        continue;
       }
-
-      seenModelNames.add(`${deployment.model.name}:${deployment.model.version}`);
-      return true;
-    });
-
-    if (filteredDeployments.length > 0) {
-      filtered.push({ deployments: filteredDeployments, endpoint });
+      const current = globalBestDeployments.get(modelAndVersion);
+      const currentCapacity = current?.sku.capacity ?? 0;
+      const newCapacity = deployment.sku.capacity ?? 0;
+      if (!current || newCapacity > currentCapacity) {
+        globalBestDeployments.set(modelAndVersion, deployment);
+      }
     }
   }
 
-  return filtered;
+  let count = 0;
+  for (const resourceInfo of resourcesInfo) {
+    const filteredDeployments = resourceInfo.deployments.filter(
+      (deployment) =>
+        globalBestDeployments.get(`${deployment.model.name}:${deployment.model.version}`) ===
+        deployment,
+    );
+    if (filteredDeployments.length > 0) {
+      count += filteredDeployments.length;
+      filtered.push({ ...resourceInfo, deployments: filteredDeployments });
+    }
+  }
+
+  return { resourcesInfo: filtered, count };
 }
 
 export async function sendRequest(request: PipelineRequest): Promise<PipelineResponse> {
@@ -188,7 +268,7 @@ function isModelInList(
   for (const model of modelsList) {
     if (
       expectedModel.name === model.name &&
-      (!expectedModel.version || expectedModel.version === model.version)
+      (!expectedModel.version || !model.version || expectedModel.version === model.version)
     ) {
       return true;
     }
@@ -214,17 +294,23 @@ export async function get(url: string): Promise<PipelineResponse> {
   return sendRequest(request);
 }
 
-export function createAzureSearchExtension(): AzureChatExtensionConfiguration {
-  return {
-    type: "azure_search",
-    parameters: {
-      endpoint: getAzureSearchEndpoint(),
-      index_name: getAzureSearchIndex(),
-      authentication: {
-        type: "system_assigned_managed_identity",
-      },
-    },
-  };
+export function createAzureSearchExtensions(): Array<AzureChatExtensionConfiguration> {
+  const output = [];
+  for (const { endpoint, indexes } of getSearchInfo().resources) {
+    for (const index_name of indexes) {
+      output.push({
+        type: "azure_search",
+        parameters: {
+          endpoint,
+          index_name,
+          authentication: {
+            type: "system_assigned_managed_identity",
+          },
+        },
+      });
+    }
+  }
+  return output;
 }
 
 export function isRateLimitRun(run: Run): boolean {

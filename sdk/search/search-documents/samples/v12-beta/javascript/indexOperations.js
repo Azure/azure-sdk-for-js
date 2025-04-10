@@ -7,11 +7,10 @@
 
 const { DefaultAzureCredential } = require("@azure/identity");
 const { SearchIndexClient } = require("@azure/search-documents");
-
-require("dotenv").config();
+require("dotenv/config");
 
 const endpoint = process.env.ENDPOINT || "";
-const TEST_INDEX_NAME = "example-index-sample-1";
+const INDEX_NAME = "example-index-sample-1";
 
 async function createIndex(indexName, client) {
   console.log(`Creating Index Operation`);
@@ -139,13 +138,13 @@ async function main() {
   }
   const client = new SearchIndexClient(endpoint, new DefaultAzureCredential());
   try {
-    await createIndex(TEST_INDEX_NAME, client);
-    await getAndUpdateIndex(TEST_INDEX_NAME, client);
-    await getIndexStatistics(TEST_INDEX_NAME, client);
+    await createIndex(INDEX_NAME, client);
+    await getAndUpdateIndex(INDEX_NAME, client);
+    await getIndexStatistics(INDEX_NAME, client);
     await getServiceStatistics(client);
     await listIndexes(client);
   } finally {
-    await deleteIndex(TEST_INDEX_NAME, client);
+    await deleteIndex(INDEX_NAME, client);
   }
 }
 

@@ -8,17 +8,16 @@
  * @azsdk-weight 50
  */
 
-import { AzureKeyCredential } from "@azure/core-auth";
 import { ConversationAnalysisClient } from "@azure/ai-language-conversations";
+import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
 const cluEndpoint =
-  process.env.AZURE_CONVERSATIONS_ENDPOINT || "https://dummyendpoint.cognitiveservices.azure.com";
-const cluKey = process.env.AZURE_CONVERSATIONS_KEY || "<api-key>";
+  process.env.LANGUAGE_ENDPOINT || "https://dummyendpoint.cognitiveservices.azure.com";
 
 const service: ConversationAnalysisClient = new ConversationAnalysisClient(
   cluEndpoint,
-  new AzureKeyCredential(cluKey),
+  new DefaultAzureCredential(),
 );
 
 export async function main(): Promise<void> {

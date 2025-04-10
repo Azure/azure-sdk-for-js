@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-const { OpenAIClient, AzureKeyCredential } = require("@azure/openai");
-const { createWriteStream } = require("fs");
-const dotenv = require("dotenv");
+import { OpenAIClient, AzureKeyCredential } from "@azure/openai";
+import { createWriteStream } from "fs";
+import "dotenv/config";
 
 const outputPath = "samples-dev/vectors.ts";
 
@@ -25,7 +25,7 @@ const inputs = [
   },
 ];
 
-async function main() {
+async function main(): Promise<void> {
   const client = new OpenAIClient(
     process.env.AZURE_OPENAI_ENDPOINT!,
     new AzureKeyCredential(process.env.AZURE_OPENAI_KEY!),

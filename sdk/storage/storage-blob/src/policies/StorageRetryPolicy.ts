@@ -3,7 +3,6 @@
 
 import type { AbortSignalLike } from "@azure/abort-controller";
 import { AbortError } from "@azure/abort-controller";
-
 import type {
   RequestPolicy,
   RequestPolicyOptionsLike as RequestPolicyOptions,
@@ -11,13 +10,13 @@ import type {
   WebResourceLike as WebResource,
   CompatResponse as HttpOperationResponse,
 } from "@azure/core-http-compat";
-import { BaseRequestPolicy } from "./RequestPolicy";
+import { BaseRequestPolicy } from "./RequestPolicy.js";
 import type { RestError } from "@azure/core-rest-pipeline";
-
-import type { StorageRetryOptions } from "../StorageRetryPolicyFactory";
-import { URLConstants } from "../utils/constants";
-import { delay, setURLHost, setURLParameter } from "../utils/utils.common";
-import { logger } from "../log";
+import { type StorageRetryOptions } from "../StorageRetryPolicyFactory.js";
+import { URLConstants } from "../utils/constants.js";
+import { delay, setURLHost, setURLParameter } from "../utils/utils.common.js";
+import { logger } from "../log.js";
+import { StorageRetryPolicyType } from "./StorageRetryPolicyType.js";
 
 /**
  * A factory method used to generated a RetryPolicy factory.
@@ -30,20 +29,6 @@ export function NewRetryPolicyFactory(retryOptions?: StorageRetryOptions): Reque
       return new StorageRetryPolicy(nextPolicy, options, retryOptions);
     },
   };
-}
-
-/**
- * RetryPolicy types.
- */
-export enum StorageRetryPolicyType {
-  /**
-   * Exponential retry. Retry time delay grows exponentially.
-   */
-  EXPONENTIAL,
-  /**
-   * Linear retry. Retry time delay grows linearly.
-   */
-  FIXED,
 }
 
 // Default values of StorageRetryOptions
@@ -281,7 +266,11 @@ export class StorageRetryPolicy extends BaseRequestPolicy {
    * @param attempt -
    * @param abortSignal -
    */
-  private async delay(isPrimaryRetry: boolean, attempt: number, abortSignal?: AbortSignalLike) {
+  private async delay(
+    isPrimaryRetry: boolean,
+    attempt: number,
+    abortSignal?: AbortSignalLike,
+  ): Promise<void> {
     let delayTimeInMs: number = 0;
 
     if (isPrimaryRetry) {

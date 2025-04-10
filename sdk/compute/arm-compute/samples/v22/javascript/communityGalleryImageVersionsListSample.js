@@ -26,7 +26,7 @@ async function listCommunityGalleryImageVersions() {
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.communityGalleryImageVersions.list(
+  for await (const item of client.communityGalleryImageVersions.list(
     location,
     publicGalleryName,
     galleryImageName,
@@ -37,7 +37,7 @@ async function listCommunityGalleryImageVersions() {
 }
 
 async function main() {
-  listCommunityGalleryImageVersions();
+  await listCommunityGalleryImageVersions();
 }
 
 main().catch(console.error);

@@ -17,7 +17,7 @@ import {
   QueryRequest as QueryRequestMapper,
   BlobTags as BlobTagsMapper,
   BlockLookupList as BlockLookupListMapper,
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const contentType: OperationParameter = {
   parameterPath: ["options", "contentType"],
@@ -102,7 +102,7 @@ export const timeoutInSeconds: OperationQueryParameter = {
 export const version: OperationParameter = {
   parameterPath: "version",
   mapper: {
-    defaultValue: "2025-01-05",
+    defaultValue: "2025-05-05",
     isConstant: true,
     serializedName: "x-ms-version",
     type: {

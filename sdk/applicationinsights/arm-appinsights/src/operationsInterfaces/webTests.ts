@@ -19,27 +19,27 @@ import {
   TagsResource,
   WebTestsUpdateTagsOptionalParams,
   WebTestsUpdateTagsResponse,
-  WebTestsDeleteOptionalParams
+  WebTestsDeleteOptionalParams,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a WebTests. */
 export interface WebTests {
   /**
-   * Get all Application Insights web tests defined within a specified resource group.
+   * Get all Application Insights web tests defined for the specified resource group.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: WebTestsListByResourceGroupOptionalParams
+    options?: WebTestsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<WebTest>;
   /**
-   * Get all Application Insights web test alerts definitions within a subscription.
+   * Get all Application Insights web test definitions for the specified subscription.
    * @param options The options parameters.
    */
   list(
-    options?: WebTestsListOptionalParams
+    options?: WebTestsListOptionalParams,
   ): PagedAsyncIterableIterator<WebTest>;
   /**
    * Get all Application Insights web tests defined for the specified component.
@@ -50,23 +50,23 @@ export interface WebTests {
   listByComponent(
     componentName: string,
     resourceGroupName: string,
-    options?: WebTestsListByComponentOptionalParams
+    options?: WebTestsListByComponentOptionalParams,
   ): PagedAsyncIterableIterator<WebTest>;
   /**
    * Get a specific Application Insights web test definition.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param webTestName The name of the Application Insights webtest resource.
+   * @param webTestName The name of the Application Insights WebTest resource.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     webTestName: string,
-    options?: WebTestsGetOptionalParams
+    options?: WebTestsGetOptionalParams,
   ): Promise<WebTestsGetResponse>;
   /**
    * Creates or updates an Application Insights web test definition.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param webTestName The name of the Application Insights webtest resource.
+   * @param webTestName The name of the Application Insights WebTest resource.
    * @param webTestDefinition Properties that need to be specified to create or update an Application
    *                          Insights web test definition.
    * @param options The options parameters.
@@ -75,30 +75,30 @@ export interface WebTests {
     resourceGroupName: string,
     webTestName: string,
     webTestDefinition: WebTest,
-    options?: WebTestsCreateOrUpdateOptionalParams
+    options?: WebTestsCreateOrUpdateOptionalParams,
   ): Promise<WebTestsCreateOrUpdateResponse>;
   /**
-   * Creates or updates an Application Insights web test definition.
+   * Updates the tags associated with an Application Insights web test.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param webTestName The name of the Application Insights webtest resource.
-   * @param webTestTags Updated tag information to set into the web test instance.
+   * @param webTestName The name of the Application Insights WebTest resource.
+   * @param webTestTags Updated tag information to associate with the web test resource.
    * @param options The options parameters.
    */
   updateTags(
     resourceGroupName: string,
     webTestName: string,
     webTestTags: TagsResource,
-    options?: WebTestsUpdateTagsOptionalParams
+    options?: WebTestsUpdateTagsOptionalParams,
   ): Promise<WebTestsUpdateTagsResponse>;
   /**
    * Deletes an Application Insights web test.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param webTestName The name of the Application Insights webtest resource.
+   * @param webTestName The name of the Application Insights WebTest resource.
    * @param options The options parameters.
    */
   delete(
     resourceGroupName: string,
     webTestName: string,
-    options?: WebTestsDeleteOptionalParams
+    options?: WebTestsDeleteOptionalParams,
   ): Promise<void>;
 }

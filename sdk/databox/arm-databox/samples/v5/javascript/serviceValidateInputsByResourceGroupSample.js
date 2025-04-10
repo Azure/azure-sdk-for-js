@@ -10,13 +10,13 @@
 // Licensed under the MIT License.
 const { DataBoxManagementClient } = require("@azure/arm-databox");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to This method does all necessary pre-job creation validation under resource group.
  *
  * @summary This method does all necessary pre-job creation validation under resource group.
- * x-ms-original-file: specification/databox/resource-manager/Microsoft.DataBox/stable/2022-12-01/examples/ValidateInputsByResourceGroup.json
+ * x-ms-original-file: specification/databox/resource-manager/Microsoft.DataBox/stable/2025-02-01/examples/ValidateInputsByResourceGroup.json
  */
 async function validateInputsByResourceGroup() {
   const subscriptionId = process.env["DATABOX_SUBSCRIPTION_ID"] || "YourSubscriptionId";
@@ -35,11 +35,13 @@ async function validateInputsByResourceGroup() {
           },
         ],
         deviceType: "DataBox",
+        model: "DataBox",
         transferType: "ImportToAzure",
         validationType: "ValidateDataTransferDetails",
       },
       {
         deviceType: "DataBox",
+        model: "DataBox",
         shippingAddress: {
           addressType: "Commercial",
           city: "XXXX XXXX",
@@ -58,12 +60,18 @@ async function validateInputsByResourceGroup() {
         country: "XX",
         deviceType: "DataBox",
         location: "westus",
+        model: "DataBox",
         transferType: "ImportToAzure",
         validationType: "ValidateSkuAvailability",
       },
-      { deviceType: "DataBox", validationType: "ValidateCreateOrderLimit" },
       {
         deviceType: "DataBox",
+        model: "DataBox",
+        validationType: "ValidateCreateOrderLimit",
+      },
+      {
+        deviceType: "DataBox",
+        model: "DataBox",
         preference: {
           transportPreferences: { preferredShipmentType: "MicrosoftManaged" },
         },
@@ -77,13 +85,13 @@ async function validateInputsByResourceGroup() {
   const result = await client.service.validateInputsByResourceGroup(
     resourceGroupName,
     location,
-    validationRequest
+    validationRequest,
   );
   console.log(result);
 }
 
 async function main() {
-  validateInputsByResourceGroup();
+  await validateInputsByResourceGroup();
 }
 
 main().catch(console.error);

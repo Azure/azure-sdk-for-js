@@ -67,7 +67,7 @@ describe("Search test", () => {
         credentialScopes: "https://management.azure.com/.default",
       }),
     );
-    location = "eastus2euap";
+    location = "eastus";
     resourceGroup = "myjstest";
     searchServiceName = "myjssearchservicexxx";
     keyname = "testjskey";

@@ -6,8 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import type { DiskUpdate } from "@azure/arm-compute";
-import { ComputeManagementClient } from "@azure/arm-compute";
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+import { DiskUpdate, ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -18,13 +19,19 @@ import "dotenv/config";
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2024-03-02/examples/diskExamples/Disk_CreateOrUpdate_BurstingEnabled.json
  */
 async function createOrUpdateABurstingEnabledManagedDisk(): Promise<void> {
-  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const diskName = "myDisk";
   const disk: DiskUpdate = { burstingEnabled: true, diskSizeGB: 1024 };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.disks.beginUpdateAndWait(resourceGroupName, diskName, disk);
+  const result = await client.disks.beginUpdateAndWait(
+    resourceGroupName,
+    diskName,
+    disk,
+  );
   console.log(result);
 }
 
@@ -35,15 +42,21 @@ async function createOrUpdateABurstingEnabledManagedDisk(): Promise<void> {
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2024-03-02/examples/diskExamples/Disk_Update_AddAcceleratedNetworking.json
  */
 async function updateAManagedDiskToAddAcceleratedNetworking(): Promise<void> {
-  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const diskName = "myDisk";
   const disk: DiskUpdate = {
     supportedCapabilities: { acceleratedNetwork: false },
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.disks.beginUpdateAndWait(resourceGroupName, diskName, disk);
+  const result = await client.disks.beginUpdateAndWait(
+    resourceGroupName,
+    diskName,
+    disk,
+  );
   console.log(result);
 }
 
@@ -54,13 +67,19 @@ async function updateAManagedDiskToAddAcceleratedNetworking(): Promise<void> {
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2024-03-02/examples/diskExamples/Disk_Update_ToAddArchitecture.json
  */
 async function updateAManagedDiskToAddArchitecture(): Promise<void> {
-  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const diskName = "myDisk";
   const disk: DiskUpdate = { supportedCapabilities: { architecture: "Arm64" } };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.disks.beginUpdateAndWait(resourceGroupName, diskName, disk);
+  const result = await client.disks.beginUpdateAndWait(
+    resourceGroupName,
+    diskName,
+    disk,
+  );
   console.log(result);
 }
 
@@ -71,8 +90,10 @@ async function updateAManagedDiskToAddArchitecture(): Promise<void> {
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2024-03-02/examples/diskExamples/Disk_Update_AddPurchasePlan.json
  */
 async function updateAManagedDiskToAddPurchasePlan(): Promise<void> {
-  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const diskName = "myDisk";
   const disk: DiskUpdate = {
     purchasePlan: {
@@ -84,7 +105,11 @@ async function updateAManagedDiskToAddPurchasePlan(): Promise<void> {
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.disks.beginUpdateAndWait(resourceGroupName, diskName, disk);
+  const result = await client.disks.beginUpdateAndWait(
+    resourceGroupName,
+    diskName,
+    disk,
+  );
   console.log(result);
 }
 
@@ -95,13 +120,19 @@ async function updateAManagedDiskToAddPurchasePlan(): Promise<void> {
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2024-03-02/examples/diskExamples/Disk_Update_AddSupportsHibernation.json
  */
 async function updateAManagedDiskToAddSupportsHibernation(): Promise<void> {
-  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const diskName = "myDisk";
   const disk: DiskUpdate = { supportsHibernation: true };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.disks.beginUpdateAndWait(resourceGroupName, diskName, disk);
+  const result = await client.disks.beginUpdateAndWait(
+    resourceGroupName,
+    diskName,
+    disk,
+  );
   console.log(result);
 }
 
@@ -112,13 +143,19 @@ async function updateAManagedDiskToAddSupportsHibernation(): Promise<void> {
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2024-03-02/examples/diskExamples/Disk_Update_ChangeTier.json
  */
 async function updateAManagedDiskToChangeTier(): Promise<void> {
-  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const diskName = "myDisk";
   const disk: DiskUpdate = { tier: "P30" };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.disks.beginUpdateAndWait(resourceGroupName, diskName, disk);
+  const result = await client.disks.beginUpdateAndWait(
+    resourceGroupName,
+    diskName,
+    disk,
+  );
   console.log(result);
 }
 
@@ -129,13 +166,19 @@ async function updateAManagedDiskToChangeTier(): Promise<void> {
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2024-03-02/examples/diskExamples/Disk_Update_DisableBursting.json
  */
 async function updateAManagedDiskToDisableBursting(): Promise<void> {
-  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const diskName = "myDisk";
   const disk: DiskUpdate = { burstingEnabled: false };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.disks.beginUpdateAndWait(resourceGroupName, diskName, disk);
+  const result = await client.disks.beginUpdateAndWait(
+    resourceGroupName,
+    diskName,
+    disk,
+  );
   console.log(result);
 }
 
@@ -146,13 +189,19 @@ async function updateAManagedDiskToDisableBursting(): Promise<void> {
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2024-03-02/examples/diskExamples/Disk_Update_DisableOptimizedForFrequentAttach.json
  */
 async function updateAManagedDiskToDisableOptimizedForFrequentAttach(): Promise<void> {
-  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const diskName = "myDisk";
   const disk: DiskUpdate = { optimizedForFrequentAttach: false };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.disks.beginUpdateAndWait(resourceGroupName, diskName, disk);
+  const result = await client.disks.beginUpdateAndWait(
+    resourceGroupName,
+    diskName,
+    disk,
+  );
   console.log(result);
 }
 
@@ -163,15 +212,21 @@ async function updateAManagedDiskToDisableOptimizedForFrequentAttach(): Promise<
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2024-03-02/examples/diskExamples/Disk_Update_AddDiskControllerTypes.json
  */
 async function updateAManagedDiskWithDiskControllerTypes(): Promise<void> {
-  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const diskName = "myDisk";
   const disk: DiskUpdate = {
     supportedCapabilities: { diskControllerTypes: "SCSI" },
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.disks.beginUpdateAndWait(resourceGroupName, diskName, disk);
+  const result = await client.disks.beginUpdateAndWait(
+    resourceGroupName,
+    diskName,
+    disk,
+  );
   console.log(result);
 }
 
@@ -182,13 +237,19 @@ async function updateAManagedDiskWithDiskControllerTypes(): Promise<void> {
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2024-03-02/examples/diskExamples/Disk_Update_RemoveDiskAccess.json
  */
 async function updateManagedDiskToRemoveDiskAccessResourceAssociation(): Promise<void> {
-  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const diskName = "myDisk";
   const disk: DiskUpdate = { networkAccessPolicy: "AllowAll" };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.disks.beginUpdateAndWait(resourceGroupName, diskName, disk);
+  const result = await client.disks.beginUpdateAndWait(
+    resourceGroupName,
+    diskName,
+    disk,
+  );
   console.log(result);
 }
 

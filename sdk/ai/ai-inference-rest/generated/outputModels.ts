@@ -39,28 +39,14 @@ export interface ChatCompletionsOutput {
   created: number;
   /** The model used for the chat completion. */
   model: string;
-  /** Usage information for tokens processed and generated as part of this completions operation. */
-  usage: CompletionsUsageOutput;
   /**
    * The collection of completions choices associated with this completions response.
    * Generally, `n` choices are generated per provided prompt with a default value of 1.
    * Token limits and other settings may limit the number of choices generated.
    */
   choices: Array<ChatChoiceOutput>;
-}
-
-/**
- * Representation of the token counts processed for a completions request.
- * Counts consider all tokens across prompts, choices, choice alternates, best_of generations, and
- * other consumers.
- */
-export interface CompletionsUsageOutput {
-  /** The number of tokens generated across all completions emissions. */
-  completion_tokens: number;
-  /** The number of tokens in the provided prompts for the completions request. */
-  prompt_tokens: number;
-  /** The total number of tokens processed for the completions request and response. */
-  total_tokens: number;
+  /** Usage information for tokens processed and generated as part of this completions operation. */
+  usage: CompletionsUsageOutput;
 }
 
 /**
@@ -82,7 +68,7 @@ export interface ChatResponseMessageOutput {
   /**
    * The chat role associated with the message.
    *
-   * Possible values: "system", "user", "assistant", "tool"
+   * Possible values: "system", "user", "assistant", "tool", "developer"
    */
   role: ChatRoleOutput;
   /** The content of the message. */
@@ -92,6 +78,20 @@ export interface ChatResponseMessageOutput {
    * completions request to resolve as configured.
    */
   tool_calls?: Array<ChatCompletionsToolCallOutput>;
+}
+
+/**
+ * Representation of the token counts processed for a completions request.
+ * Counts consider all tokens across prompts, choices, choice alternates, best_of generations, and
+ * other consumers.
+ */
+export interface CompletionsUsageOutput {
+  /** The number of tokens generated across all completions emissions. */
+  completion_tokens: number;
+  /** The number of tokens in the provided prompts for the completions request. */
+  prompt_tokens: number;
+  /** The total number of tokens processed for the completions request and response. */
+  total_tokens: number;
 }
 
 /** Represents some basic information about the AI model. */

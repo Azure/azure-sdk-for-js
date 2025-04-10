@@ -4,11 +4,11 @@
 
 ```ts
 
-import * as coreAuth from '@azure/core-auth';
+import type * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
-import { OperationState } from '@azure/core-lro';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { SimplePollerLike } from '@azure/core-lro';
+import type { OperationState } from '@azure/core-lro';
+import type { PagedAsyncIterableIterator } from '@azure/core-paging';
+import type { SimplePollerLike } from '@azure/core-lro';
 
 // @public
 export type AadAuthFailureMode = "http403" | "http401WithBearerChallenge";
@@ -77,6 +77,12 @@ export interface CloudErrorBody {
 }
 
 // @public
+export type ComputeType = string;
+
+// @public
+export type CreatedByType = string;
+
+// @public
 export interface DataPlaneAadOrApiKeyAuthOption {
     aadAuthFailureMode?: AadAuthFailureMode;
 }
@@ -91,6 +97,14 @@ export interface DataPlaneAuthOptions {
 export interface EncryptionWithCmk {
     readonly encryptionComplianceStatus?: SearchEncryptionComplianceStatus;
     enforcement?: SearchEncryptionWithCmk;
+}
+
+// @public
+export type FeatureName = string;
+
+// @public (undocumented)
+export interface FeatureOffering {
+    name?: FeatureName;
 }
 
 // @public
@@ -115,6 +129,33 @@ export type IdentityType = string;
 // @public
 export interface IpRule {
     value?: string;
+}
+
+// @public
+export enum KnownComputeType {
+    Confidential = "confidential",
+    Default = "default"
+}
+
+// @public
+export enum KnownCreatedByType {
+    Application = "Application",
+    Key = "Key",
+    ManagedIdentity = "ManagedIdentity",
+    User = "User"
+}
+
+// @public
+export enum KnownFeatureName {
+    AvailabilityZones = "AvailabilityZones",
+    DocumentIntelligence = "DocumentIntelligence",
+    Grok = "Grok",
+    ImageVectorization = "ImageVectorization",
+    MegaStore = "MegaStore",
+    QueryRewrite = "QueryRewrite",
+    S3 = "S3",
+    SemanticSearch = "SemanticSearch",
+    StorageOptimized = "StorageOptimized"
 }
 
 // @public
@@ -351,6 +392,31 @@ export interface NSPProvisioningIssueProperties {
     suggestedAccessRules?: string[];
     // (undocumented)
     suggestedResourceIds?: string[];
+}
+
+// @public
+export interface Offerings {
+    list(options?: OfferingsListOptionalParams): PagedAsyncIterableIterator<OfferingsByRegion>;
+}
+
+// @public (undocumented)
+export interface OfferingsByRegion {
+    features?: FeatureOffering[];
+    regionName?: string;
+    skus?: SkuOffering[];
+}
+
+// @public
+export interface OfferingsListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type OfferingsListResponse = OfferingsListResult;
+
+// @public
+export interface OfferingsListResult {
+    readonly nextLink?: string;
+    value?: OfferingsByRegion[];
 }
 
 // @public
@@ -642,12 +708,15 @@ export class SearchManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     $host: string;
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: SearchManagementClientOptionalParams);
+    constructor(credentials: coreAuth.TokenCredential, options?: SearchManagementClientOptionalParams);
     // (undocumented)
     adminKeys: AdminKeys;
     // (undocumented)
     apiVersion: string;
     // (undocumented)
     networkSecurityPerimeterConfigurations: NetworkSecurityPerimeterConfigurations;
+    // (undocumented)
+    offerings: Offerings;
     // (undocumented)
     operations: Operations;
     // (undocumented)
@@ -661,7 +730,7 @@ export class SearchManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     sharedPrivateLinkResources: SharedPrivateLinkResources;
     // (undocumented)
-    subscriptionId: string;
+    subscriptionId?: string;
     usageBySubscriptionSku(location: string, skuName: string, options?: UsageBySubscriptionSkuOptionalParams): Promise<UsageBySubscriptionSkuResponse>;
     // (undocumented)
     usages: Usages;
@@ -685,9 +754,11 @@ export type SearchSemanticSearch = string;
 // @public
 export interface SearchService extends TrackedResource {
     authOptions?: DataPlaneAuthOptions;
+    computeType?: ComputeType;
     disabledDataExfiltrationOptions?: SearchDisabledDataExfiltrationOption[];
     disableLocalAuth?: boolean;
     encryptionWithCmk?: EncryptionWithCmk;
+    endpoint?: string;
     readonly eTag?: string;
     hostingMode?: HostingMode;
     identity?: Identity;
@@ -698,10 +769,13 @@ export interface SearchService extends TrackedResource {
     publicNetworkAccess?: PublicNetworkAccess;
     replicaCount?: number;
     semanticSearch?: SearchSemanticSearch;
+    readonly serviceUpgradeDate?: Date;
     readonly sharedPrivateLinkResources?: SharedPrivateLinkResource[];
     sku?: Sku;
     readonly status?: SearchServiceStatus;
     readonly statusDetails?: string;
+    readonly systemData?: SystemData;
+    readonly upgradeAvailable?: boolean;
 }
 
 // @public
@@ -716,9 +790,11 @@ export type SearchServiceStatus = "running" | "provisioning" | "deleting" | "deg
 // @public
 export interface SearchServiceUpdate extends Resource {
     authOptions?: DataPlaneAuthOptions;
+    computeType?: ComputeType;
     disabledDataExfiltrationOptions?: SearchDisabledDataExfiltrationOption[];
     disableLocalAuth?: boolean;
     encryptionWithCmk?: EncryptionWithCmk;
+    endpoint?: string;
     readonly eTag?: string;
     hostingMode?: HostingMode;
     identity?: Identity;
@@ -730,19 +806,24 @@ export interface SearchServiceUpdate extends Resource {
     publicNetworkAccess?: PublicNetworkAccess;
     replicaCount?: number;
     semanticSearch?: SearchSemanticSearch;
+    readonly serviceUpgradeDate?: Date;
     readonly sharedPrivateLinkResources?: SharedPrivateLinkResource[];
     sku?: Sku;
     readonly status?: SearchServiceStatus;
     readonly statusDetails?: string;
+    readonly systemData?: SystemData;
     tags?: {
         [propertyName: string]: string;
     };
+    readonly upgradeAvailable?: boolean;
 }
 
 // @public
 export interface Services {
     beginCreateOrUpdate(resourceGroupName: string, searchServiceName: string, service: SearchService, options?: ServicesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ServicesCreateOrUpdateResponse>, ServicesCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, searchServiceName: string, service: SearchService, options?: ServicesCreateOrUpdateOptionalParams): Promise<ServicesCreateOrUpdateResponse>;
+    beginUpgrade(resourceGroupName: string, searchServiceName: string, options?: ServicesUpgradeOptionalParams): Promise<SimplePollerLike<OperationState<ServicesUpgradeResponse>, ServicesUpgradeResponse>>;
+    beginUpgradeAndWait(resourceGroupName: string, searchServiceName: string, options?: ServicesUpgradeOptionalParams): Promise<ServicesUpgradeResponse>;
     checkNameAvailability(name: string, options?: ServicesCheckNameAvailabilityOptionalParams): Promise<ServicesCheckNameAvailabilityResponse>;
     delete(resourceGroupName: string, searchServiceName: string, options?: ServicesDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, searchServiceName: string, options?: ServicesGetOptionalParams): Promise<ServicesGetResponse>;
@@ -821,6 +902,21 @@ export interface ServicesUpdateOptionalParams extends coreClient.OperationOption
 
 // @public
 export type ServicesUpdateResponse = SearchService;
+
+// @public
+export interface ServicesUpgradeHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface ServicesUpgradeOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ServicesUpgradeResponse = SearchService;
 
 // @public
 export interface ShareablePrivateLinkResourceProperties {
@@ -923,6 +1019,33 @@ export interface Sku {
 
 // @public
 export type SkuName = string;
+
+// @public (undocumented)
+export interface SkuOffering {
+    limits?: SkuOfferingLimits;
+    sku?: Sku;
+}
+
+// @public
+export interface SkuOfferingLimits {
+    indexers?: number;
+    indexes?: number;
+    partitions?: number;
+    partitionStorageInGigabytes?: number;
+    partitionVectorStorageInGigabytes?: number;
+    replicas?: number;
+    searchUnits?: number;
+}
+
+// @public
+export interface SystemData {
+    createdAt?: Date;
+    createdBy?: string;
+    createdByType?: CreatedByType;
+    lastModifiedAt?: Date;
+    lastModifiedBy?: string;
+    lastModifiedByType?: CreatedByType;
+}
 
 // @public
 export interface TrackedResource extends Resource {

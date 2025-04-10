@@ -29,7 +29,7 @@ async function deleteASnapshot() {
 }
 
 async function main() {
-  deleteASnapshot();
+  await deleteASnapshot();
 }
 
 main().catch(console.error);

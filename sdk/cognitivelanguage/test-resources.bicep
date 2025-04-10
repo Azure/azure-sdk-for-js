@@ -1,14 +1,15 @@
 param baseName string = resourceGroup().name
 param location string = resourceGroup().location
 param testApplicationOid string
-param enableVersioning bool = false
+param supportsSafeSecretStandard bool = false
 
 var taRoleId = 'a97b65f3-24c7-4388-baec-2e87135dc908'
 var cognitiveAccountName = 'textanalytics-${baseName}'
-var cognitiveApiVersion = '2024-04-01-preview'
 var storageAccountName = baseName
 var blobDataContributorRoleId = 'ba92f5b4-2d11-453d-a403-e96b0029c9fe'
 var blobDataOwnerRoleId = 'b7e6dc6d-f1e8-4753-8033-0f276bb0955b'
+var contributorRoleId = 'b24988ac-6180-42a0-ab88-20f7382dd24c'
+
 var encryption = {
   services: {
     file: {
@@ -40,11 +41,13 @@ resource storageAccount 'Microsoft.Storage/storageAccounts@2023-05-01' = {
     supportsHttpsTrafficOnly: true
     encryption: encryption
     accessTier: 'Hot'
+    allowSharedKeyAccess: !supportsSafeSecretStandard
+    publicNetworkAccess: 'Enabled'
   }
   resource blobService 'blobServices' = {
     name: 'default'
     properties: {
-      isVersioningEnabled: enableVersioning
+      isVersioningEnabled: false
       cors: {
         corsRules: [
           {
@@ -85,7 +88,29 @@ resource storageAccount 'Microsoft.Storage/storageAccounts@2023-05-01' = {
   }
 }
 
-resource cognitiveAccount 'Microsoft.CognitiveServices/accounts@2024-04-01-preview' = {
+resource searchService 'Microsoft.Search/searchServices@2024-06-01-Preview' = {
+  name: baseName
+  location: resourceGroup().location
+  sku: {
+    name: 'standard'
+  }
+  properties: {
+    replicaCount: 1
+    partitionCount: 1
+    hostingMode: 'default'
+    semanticSearch: 'disabled'
+  }
+}
+
+resource adminRoleAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
+  name: guid(searchService.id, 'adminRoleAssignment')
+  properties: {
+    roleDefinitionId: subscriptionResourceId('Microsoft.Authorization/roleDefinitions', 'b24988ac-6180-42a0-ab88-20f7382dd24c')
+    principalId: testApplicationOid
+  }
+}
+
+resource cognitiveAccount 'Microsoft.CognitiveServices/accounts@2024-10-01' = {
   name: cognitiveAccountName
   location: location
   sku: {
@@ -93,7 +118,13 @@ resource cognitiveAccount 'Microsoft.CognitiveServices/accounts@2024-04-01-previ
   }
   kind: 'TextAnalytics'
   properties: {
+    publicNetworkAccess: 'Enabled'
+    disableLocalAuth: supportsSafeSecretStandard
     customSubDomainName: cognitiveAccountName
+    apiProperties: {
+      qnaAzureSearchEndpointId: searchService.id
+      qnaAzureSearchEndpointKey: searchService.listAdminKeys().primaryKey
+    }
     userOwnedStorage: [
       {
         resourceId: storageAccount.id
@@ -105,23 +136,24 @@ resource cognitiveAccount 'Microsoft.CognitiveServices/accounts@2024-04-01-previ
   }
 }
 
+resource roleAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
+  name: guid(resourceGroup().id, contributorRoleId, searchService.name)
+  properties: {
+    roleDefinitionId: resourceId('Microsoft.Authorization/roleDefinitions', contributorRoleId)
+    principalId: cognitiveAccount.identity.principalId
+  }
+}
+
 resource storageRoleAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
-  name: guid(resourceGroup().id, blobDataOwnerRoleId, baseName)
-  dependsOn: [
-    storageAccount
-  ]
+  name: guid(resourceGroup().id, blobDataOwnerRoleId, cognitiveAccount.name)
   properties: {
     roleDefinitionId: resourceId('Microsoft.Authorization/roleDefinitions', blobDataOwnerRoleId)
     principalId: cognitiveAccount.identity.principalId
-    principalType: 'ServicePrincipal'
   }
 }
 
 resource blobDataContributorRoleAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
-  name: guid('blobDataContributorRoleId', storageAccountName)
-  dependsOn: [
-    storageAccount
-  ]
+  name: guid('blobDataContributorRoleId', storageAccount.name)
   properties: {
     roleDefinitionId: resourceId('Microsoft.Authorization/roleDefinitions', blobDataContributorRoleId)
     principalId: testApplicationOid
@@ -129,10 +161,7 @@ resource blobDataContributorRoleAssignment 'Microsoft.Authorization/roleAssignme
 }
 
 resource blobDataOwnerRoleAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
-  name: guid('blobDataOwnerRoleId', storageAccountName)
-  dependsOn: [
-    storageAccount
-  ]
+  name: guid('blobDataOwnerRoleId', storageAccount.name)
   properties: {
     roleDefinitionId: resourceId('Microsoft.Authorization/roleDefinitions', blobDataOwnerRoleId)
     principalId: testApplicationOid
@@ -140,17 +169,15 @@ resource blobDataOwnerRoleAssignment 'Microsoft.Authorization/roleAssignments@20
 }
 
 resource cognitiveRoleAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
-  name: guid('taRoleId', cognitiveAccountName)
-  dependsOn: [
-    cognitiveAccount
-  ]
+  name: guid('taRoleId', cognitiveAccount.name)
   properties: {
     roleDefinitionId: resourceId('Microsoft.Authorization/roleDefinitions', taRoleId)
     principalId: testApplicationOid
   }
 }
 
-output LANGUAGE_API_KEY string = listKeys(cognitiveAccount.id, cognitiveApiVersion).key1
-output LANGUAGE_API_KEY_ALT string = listKeys(cognitiveAccount.id, cognitiveApiVersion).key2
-output ENDPOINT string = cognitiveAccount.properties.endpoint
+output SUBSCRIPTION_ID string = subscription().subscriptionId
+output RESOURCE_GROUP string = resourceGroup().name
+output COGNITIVE_ACCOUNT_NAME string = cognitiveAccount.name
+output LANGUAGE_ENDPOINT string = cognitiveAccount.properties.endpoint
 output STORAGE_ENDPOINT string = storageAccount.properties.primaryEndpoints.blob
