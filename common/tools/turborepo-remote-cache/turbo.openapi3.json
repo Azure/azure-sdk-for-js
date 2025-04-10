@@ -5,9 +5,7 @@
     "description": "Turborepo is an intelligent build system optimized for JavaScript and TypeScript codebases.",
     "version": "8.0.0"
   },
-  "servers": [
-    { "url": "https://api.vercel.com", "description": "Production API" }
-  ],
+  "servers": [{ "url": "https://api.vercel.com", "description": "Production API" }],
   "paths": {
     "/v8/artifacts/events": {
       "post": {

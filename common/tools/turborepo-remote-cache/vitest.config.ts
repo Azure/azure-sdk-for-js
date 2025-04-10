@@ -23,7 +23,7 @@ export default defineConfig({
     },
     typecheck: {
       enabled: true,
-      tsconfig: "tsconfig.json"
+      tsconfig: "tsconfig.json",
     },
   },
 });
