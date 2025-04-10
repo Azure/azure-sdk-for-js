@@ -8,7 +8,6 @@ parameters:
 jobs:
 - deployment: PublishPackage
   variables:
-    - template: /eng/pipelines/templates/variables/image.yml
     - ${{ each var in parameters.VarDependencies }}:
       - name: ${{ var.key }}
         value: ${{ var.value }}
@@ -23,8 +22,8 @@ jobs:
       artifactName: packages
       targetPath: $(Pipeline.Workspace)/packages
   pool:
-    name: $(LINUXPOOL)
-    image: $(LINUXVMIMAGE)
+    name: azsdk-pool-mms-ubuntu-2004-general
+    image: azsdk-pool-mms-ubuntu-2004-1espt
     os: linux
   displayName: 'Publish ${{parameters.Artifact.name}} to ${{parameters.Registry}}'
   strategy:
