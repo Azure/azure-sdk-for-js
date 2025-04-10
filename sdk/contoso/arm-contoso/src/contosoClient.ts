@@ -1,19 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  _getEmployeesOperations,
-  EmployeesOperations,
-} from "./classic/employees/index.js";
-import {
-  _getOperationsOperations,
-  OperationsOperations,
-} from "./classic/operations/index.js";
-import {
-  createContoso,
-  ContosoContext,
-  ContosoClientOptionalParams,
-} from "./api/index.js";
+import { _getEmployeesOperations, EmployeesOperations } from "./classic/employees/index.js";
+import { _getOperationsOperations, OperationsOperations } from "./classic/operations/index.js";
+import { createContoso, ContosoContext, ContosoClientOptionalParams } from "./api/index.js";
 import { Pipeline } from "@azure/core-rest-pipeline";
 import { TokenCredential } from "@azure/core-auth";
 
