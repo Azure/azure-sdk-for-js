@@ -1,12 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import assert from "assert";
-import { validateOffer } from "../../../../src/utils/offers";
-import type { ContainerRequest } from "../../../../src";
 
-describe("Offer utils", function () {
-  describe("validateOffer", function () {
-    it("fails with maxThroughput and throughput specified", function () {
+import { validateOffer } from "../../../../src/utils/offers.js";
+import type { ContainerRequest } from "../../../../src/index.js";
+import { describe, it, assert } from "vitest";
+
+describe("Offer utils", () => {
+  describe("validateOffer", () => {
+    it("fails with maxThroughput and throughput specified", () => {
       const body: ContainerRequest = {
         throughput: 400,
         autoUpgradePolicy: {
@@ -17,7 +18,8 @@ describe("Offer utils", function () {
       };
       assert.throws(() => validateOffer(body));
     });
-    it("fails with throughput and autoUpgradePolicy specified", function () {
+
+    it("fails with throughput and autoUpgradePolicy specified", () => {
       const body: ContainerRequest = {
         throughput: 400,
         autoUpgradePolicy: {
@@ -28,7 +30,8 @@ describe("Offer utils", function () {
       };
       assert.throws(() => validateOffer(body));
     });
-    it("passes with autoscale params", function () {
+
+    it("passes with autoscale params", () => {
       const body: ContainerRequest = {
         maxThroughput: 50000,
         autoUpgradePolicy: {
@@ -39,7 +42,8 @@ describe("Offer utils", function () {
       };
       assert.equal(validateOffer(body), undefined);
     });
-    it("passes with throughput", function () {
+
+    it("passes with throughput", () => {
       const body: ContainerRequest = {
         throughput: 400,
       };

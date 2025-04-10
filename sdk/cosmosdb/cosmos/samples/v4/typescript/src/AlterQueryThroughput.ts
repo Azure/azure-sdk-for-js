@@ -1,14 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * @summary Updates a container offer to change query throughput.
- */
-
-import * as dotenv from "dotenv";
-dotenv.config();
-
-import { finish, handleError, logStep, logSampleHeader } from "./Shared/handleError";
+import "dotenv/config";
+import { finish, handleError, logStep, logSampleHeader } from "./Shared/handleError.js";
 import {
   CosmosClient,
   OfferDefinition,

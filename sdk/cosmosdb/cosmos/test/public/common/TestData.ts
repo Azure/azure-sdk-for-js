@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 export class TestData {
   public numberOfDocuments: number;
   public field: string;

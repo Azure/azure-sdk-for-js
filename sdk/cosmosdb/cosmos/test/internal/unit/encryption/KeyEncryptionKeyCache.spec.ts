@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import assert from "assert";
-import { KeyEncryptionKeyCache } from "../../../../src/encryption/Cache/KeyEncryptionKeyCache";
+import { KeyEncryptionKeyCache } from "../../../../src/encryption/Cache/KeyEncryptionKeyCache.js";
+import { describe, it, assert } from "vitest";
 
-describe("KeyEncryptionKeyCache", function () {
-  it("should create and cache a new KeyEncryptionKey if not exists", function () {
+describe("KeyEncryptionKeyCache", () => {
+  it("should create and cache a new KeyEncryptionKey if not exists", () => {
     const name = "metadataName";
     const path = "metadataPath";
     const keyStoreProvider = {} as any;
@@ -20,7 +20,7 @@ describe("KeyEncryptionKeyCache", function () {
     assert.equal(keyEncryptionKeyCache.cache.get(JSON.stringify([name, path])), keyEncryptionKey);
   });
 
-  it("should get the existing KeyEncryptionKey from cache", function () {
+  it("should get the existing KeyEncryptionKey from cache", () => {
     const name = "metadataName";
     const path = "metadataPath";
     const keyStoreProvider = {} as any;

@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import type { TokenCredential } from "@azure/core-auth";
-import type { TokenProvider } from "./auth";
-import type { PermissionDefinition } from "./client";
-import type { ConnectionPolicy, ConsistencyLevel } from "./documents";
-import type { PluginConfig } from "./plugins/Plugin";
-import type { CosmosHeaders } from "./queryExecutionContext/CosmosHeaders";
-import type { CosmosDbDiagnosticLevel } from "./diagnostics/CosmosDbDiagnosticLevel";
+import type { TokenProvider } from "./auth.js";
+import type { PermissionDefinition } from "./client/index.js";
+import type { ConnectionPolicy, ConsistencyLevel } from "./documents/index.js";
+import type { PluginConfig } from "./plugins/Plugin.js";
+import type { CosmosHeaders } from "./queryExecutionContext/CosmosHeaders.js";
+import type { CosmosDbDiagnosticLevel } from "./diagnostics/CosmosDbDiagnosticLevel.js";
 import type { HttpClient } from "@azure/core-rest-pipeline";
-import type { ClientEncryptionOptions } from "./encryption/ClientEncryptionOptions";
+import type { ClientEncryptionOptions } from "./encryption/ClientEncryptionOptions.js";
 
 // We expose our own Agent interface to avoid taking a dependency on and leaking node types. This interface should mirror the node Agent interface
 export interface Agent {

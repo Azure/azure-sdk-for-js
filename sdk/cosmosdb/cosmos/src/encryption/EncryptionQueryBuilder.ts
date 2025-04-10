@@ -7,9 +7,9 @@ import {
   JSONArray,
   JSONObject,
   JSONValue,
-} from "../queryExecutionContext";
-import { TypeMarker } from "./enums/TypeMarker";
-import { CosmosEncryptedNumber, CosmosEncryptedNumberType } from "./CosmosEncryptedNumber";
+} from "../queryExecutionContext/index.js";
+import { TypeMarker } from "./enums/TypeMarker.js";
+import { CosmosEncryptedNumber, CosmosEncryptedNumberType } from "./CosmosEncryptedNumber.js";
 
 export interface EncryptionSqlParameter extends SqlParameter {
   type?: TypeMarker;

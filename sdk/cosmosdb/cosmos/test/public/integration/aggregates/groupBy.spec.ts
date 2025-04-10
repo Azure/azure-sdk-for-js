@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { Container, ContainerDefinition, FeedOptions } from "../../../../src";
-import { bulkInsertItems, getTestContainer, removeAllDatabases } from "../../common/TestHelpers";
-import assert from "assert";
-import groupBySnapshot from "./groupBy.snapshot";
-import type { Context } from "mocha";
+
+import type { Container, ContainerDefinition, FeedOptions } from "../../../../src/index.js";
+import { bulkInsertItems, getTestContainer, removeAllDatabases } from "../../common/TestHelpers.js";
+import groupBySnapshot from "./groupBy.snapshot.js";
+import { describe, it, assert, beforeEach, beforeAll, TestContext } from "vitest";
 
 const items = [
   {
@@ -531,7 +531,7 @@ describe("Cross partition GROUP BY", () => {
   };
   const containerOptions = { offerThroughput: 25100 };
 
-  before(async () => {
+  beforeAll(async () => {
     await removeAllDatabases();
     container = await getTestContainer(
       "GROUP BY Query",
@@ -562,8 +562,21 @@ function runCrosspartitionGROUPBYTests(options: FeedOptions): void {
     assert.deepStrictEqual(actual, groupBySnapshot[`${currentTestTitle} ${snapshotNumber++}`]);
   };
 
-  beforeEach(function (this: Context) {
-    currentTestTitle = this.currentTest.fullTitle();
+  function getFullTitle(context: TestContext): string {
+    function buildTitle(suite: any): string {
+      if (!suite) {
+        return "";
+      }
+      const parentTitle = buildTitle(suite.suite);
+      return parentTitle ? `${parentTitle} > ${suite.name}` : suite.name;
+    }
+
+    const suiteTitle = buildTitle(context.task.suite);
+    return suiteTitle ? `${suiteTitle} > ${context.task.name}` : context.task.name;
+  }
+
+  beforeEach(async (ctx) => {
+    currentTestTitle = getFullTitle(ctx);
     snapshotNumber = 1;
   });
 
