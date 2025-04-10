@@ -26,7 +26,12 @@ import type {
   CancelAddParticipantOperationOptions,
   TransferCallToParticipantOptions,
 } from "../../src/index.js";
-import { CALL_TARGET_ID, CALL_TARGET_ID_2, PHONE_TARGET_ID, PHONE_TARGET_ID_2 } from "../utils/connectionUtils.js";
+import {
+  CALL_TARGET_ID,
+  CALL_TARGET_ID_2,
+  PHONE_TARGET_ID,
+  PHONE_TARGET_ID_2,
+} from "../utils/connectionUtils.js";
 import {
   createRecorder,
   createTestUser,
@@ -81,24 +86,24 @@ describe("CallConnection Unit Tests", () => {
     phoneTarget = {
       targetParticipant: { phoneNumber: PHONE_TARGET_ID },
       customCallingContext: [
-          {
-              kind: "sipx",
-              key: "TestKey",
-              value: "TestValue",
-              sipHeaderPrefix: SipHeaderPrefix.XMSCustom
-          }
+        {
+          kind: "sipx",
+          key: "TestKey",
+          value: "TestValue",
+          sipHeaderPrefix: SipHeaderPrefix.XMSCustom,
+        },
       ],
     };
 
     phoneTarget2 = {
       targetParticipant: { phoneNumber: PHONE_TARGET_ID_2 },
       customCallingContext: [
-          {
-              kind: "sipx",
-              key: "TestKey2",
-              value: "TestValue2",
-              sipHeaderPrefix: SipHeaderPrefix.X
-          }
+        {
+          kind: "sipx",
+          key: "TestKey2",
+          value: "TestValue2",
+          sipHeaderPrefix: SipHeaderPrefix.X,
+        },
       ],
     };
 
@@ -243,7 +248,7 @@ describe("CallConnection Unit Tests", () => {
   });
 
   // X-MS-Custom Header Transfer Call Participant Test (Need to validate)
-  it("TransferCallToParticipantPTSN_XMSCustomHeader", async () => {
+  it("TransferCallToParticipantPSTNXMSCustomHeader", async () => {
     // mocks
     const transferCallResultMock: TransferCallResult = {
       waitForEventProcessor: async () => {
@@ -257,21 +262,27 @@ describe("CallConnection Unit Tests", () => {
     );
 
     const options: TransferCallToParticipantOptions = {
-    customCallingContext: phoneTarget.customCallingContext,
-    sourceCallIdNumber: { phoneNumber: PHONE_TARGET_ID },
+      customCallingContext: phoneTarget.customCallingContext,
+      sourceCallIdNumber: { phoneNumber: PHONE_TARGET_ID },
     };
 
-    const promiseResult = callConnection.transferCallToParticipant(phoneTarget.targetParticipant, options);
+    const promiseResult = callConnection.transferCallToParticipant(
+      phoneTarget.targetParticipant,
+      options,
+    );
 
     // asserts
     const result = await promiseResult;
     assert.isNotNull(result);
-    expect(callConnection.transferCallToParticipant).toHaveBeenCalledWith(phoneTarget.targetParticipant, options);
+    expect(callConnection.transferCallToParticipant).toHaveBeenCalledWith(
+      phoneTarget.targetParticipant,
+      options,
+    );
     assert.equal(result, transferCallResultMock);
   });
 
   // X Header Transfer Call Participant Test (Need to validate)
-  it("TransferCallToParticipantPTSN_XHeader", async () => {
+  it("TransferCallToParticipantPSTNXHeader", async () => {
     // mocks
     const transferCallResultMock: TransferCallResult = {
       waitForEventProcessor: async () => {
@@ -285,16 +296,22 @@ describe("CallConnection Unit Tests", () => {
     );
 
     const options: TransferCallToParticipantOptions = {
-    customCallingContext: phoneTarget2.customCallingContext,
-    sourceCallIdNumber: { phoneNumber: PHONE_TARGET_ID_2 },
+      customCallingContext: phoneTarget2.customCallingContext,
+      sourceCallIdNumber: { phoneNumber: PHONE_TARGET_ID_2 },
     };
 
-    const promiseResult = callConnection.transferCallToParticipant(phoneTarget2.targetParticipant, options);
+    const promiseResult = callConnection.transferCallToParticipant(
+      phoneTarget2.targetParticipant,
+      options,
+    );
 
     // asserts
     const result = await promiseResult;
     assert.isNotNull(result);
-    expect(callConnection.transferCallToParticipant).toHaveBeenCalledWith(phoneTarget2.targetParticipant, options);
+    expect(callConnection.transferCallToParticipant).toHaveBeenCalledWith(
+      phoneTarget2.targetParticipant,
+      options,
+    );
     assert.equal(result, transferCallResultMock);
   });
 
@@ -327,8 +344,7 @@ describe("CallConnection Unit Tests", () => {
     assert.equal(result, transferCallResultMock);
   });
 
-  //X-MS-Custom Header Transfer Call Participant With Transferee Test (Need to validate)
-  it("TransferCallToParticipantWithTransfereePTSN_XMSHeader", async () => {
+  it("TransferCallToParticipantWithTransfereePSTNXMSHeader", async () => {
     // mocks
     const transferCallResultMock: TransferCallResult = {
       waitForEventProcessor: async () => {
@@ -344,11 +360,14 @@ describe("CallConnection Unit Tests", () => {
     const transferee = { communicationUserId: CALL_TARGET_ID };
 
     const options: TransferCallToParticipantOptions = {
-    customCallingContext: phoneTarget.customCallingContext,
-    sourceCallIdNumber: { phoneNumber: PHONE_TARGET_ID },
-    transferee: transferee,
+      customCallingContext: phoneTarget.customCallingContext,
+      sourceCallIdNumber: { phoneNumber: PHONE_TARGET_ID },
+      transferee: transferee,
     };
-    const promiseResult = callConnection.transferCallToParticipant(phoneTarget.targetParticipant, options);
+    const promiseResult = callConnection.transferCallToParticipant(
+      phoneTarget.targetParticipant,
+      options,
+    );
 
     // asserts
     const result = await promiseResult;
@@ -360,8 +379,7 @@ describe("CallConnection Unit Tests", () => {
     assert.equal(result, transferCallResultMock);
   });
 
-  //X-Header Transfer Call Participant With Transferee Test (Need to validate)
-  it("TransferCallToParticipantWithTransfereePTSN_XMSHeader", async () => {
+  it("TransferCallToParticipantWithTransfereePSTNXHeader", async () => {
     // mocks
     const transferCallResultMock: TransferCallResult = {
       waitForEventProcessor: async () => {
@@ -377,11 +395,14 @@ describe("CallConnection Unit Tests", () => {
     const transferee = { communicationUserId: CALL_TARGET_ID };
 
     const options: TransferCallToParticipantOptions = {
-    customCallingContext: phoneTarget2.customCallingContext,
-    sourceCallIdNumber: { phoneNumber: PHONE_TARGET_ID_2 },
-    transferee: transferee,
+      customCallingContext: phoneTarget2.customCallingContext,
+      sourceCallIdNumber: { phoneNumber: PHONE_TARGET_ID_2 },
+      transferee: transferee,
     };
-    const promiseResult = callConnection.transferCallToParticipant(phoneTarget2.targetParticipant, options);
+    const promiseResult = callConnection.transferCallToParticipant(
+      phoneTarget2.targetParticipant,
+      options,
+    );
 
     // asserts
     const result = await promiseResult;

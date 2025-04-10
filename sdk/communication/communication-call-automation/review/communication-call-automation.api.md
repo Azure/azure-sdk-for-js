@@ -1100,6 +1100,14 @@ export interface SendDtmfTonesResult {
 export interface SipCustomHeader extends CustomCallingContextHeader {
     // (undocumented)
     kind: "sipx";
+    // (undocumented)
+    sipHeaderPrefix?: SipHeaderPrefix;
+}
+
+// @public
+export enum SipHeaderPrefix {
+    X = "X-",
+    XMSCustom = "X-Ms-Custom-"
 }
 
 // @public
