@@ -45,7 +45,7 @@ if (logLevelFromEnv) {
     setLogLevel(logLevelFromEnv);
   } else {
     console.error(
-      `AZURE_LOG_LEVEL set to unknown log level '${logLevelFromEnv}'; logging is not enabled. Acceptable values: ${CACHE_LOG_LEVELS.join(
+      `CACHE_LOG_LEVEL set to unknown log level '${logLevelFromEnv}'; logging is not enabled. Acceptable values: ${CACHE_LOG_LEVELS.join(
         ", ",
       )}.`,
     );
@@ -121,7 +121,7 @@ export interface CacheLogger {
 }
 
 /**
- * Creates a logger for use by the Azure SDKs that inherits from `CacheLogger`.
+ * Creates a logger for use by the Turbo Cache that inherits from `CacheLogger`.
  * @param namespace - The name of the SDK package.
  * @hidden
  */
