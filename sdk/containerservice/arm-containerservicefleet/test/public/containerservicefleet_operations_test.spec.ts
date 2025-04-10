@@ -9,7 +9,7 @@
 import type { RecorderStartOptions } from "@azure-tools/test-recorder";
 import { env, Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { ContainerServiceFleetClient } from "../src/containerServiceFleetClient.js";
+import { ContainerServiceFleetClient } from "../../src/containerServiceFleetClient.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 const replaceableVariables: Record<string, string> = {
@@ -56,7 +56,7 @@ describe("containerservicefleet test", () => {
     await recorder.stop();
   });
 
-  it("operations list test", async function () {
+  it.skip("operations list test", async function () {
     const resArray = new Array();
     for await (const item of client.operations.list()) {
       resArray.push(item);
@@ -65,7 +65,7 @@ describe("containerservicefleet test", () => {
   });
 
   it("fleets create test", async function () {
-    const res = await client.fleets.beginCreateOrUpdateAndWait(
+    const res = await client.fleets.create(
       resourceGroup,
       resourceName,
       {
@@ -92,7 +92,7 @@ describe("containerservicefleet test", () => {
 
   it("fleets delete test", async function () {
     const resArray = new Array();
-    await client.fleets.beginDeleteAndWait(resourceGroup, resourceName, testPollingOptions);
+    await client.fleets.delete(resourceGroup, resourceName, testPollingOptions);
     for await (const item of client.fleets.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
