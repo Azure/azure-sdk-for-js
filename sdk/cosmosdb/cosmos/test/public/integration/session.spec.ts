@@ -104,12 +104,7 @@ describe("Integrated Cache Staleness", async () => {
               `${context.headers["x-ms-consistency-level"]} = EVENTUAL or SESSION`,
             );
             if (context.headers["x-ms-dedicatedgateway-bypass-cache"] !== undefined) {
-              console.log(
-                "pppppp",
-                context.headers["x-ms-dedicatedgateway-bypass-cache"],
-                typeof context.headers["x-ms-dedicatedgateway-bypass-cache"],
-              );
-              assert.ok(typeof context.headers["x-ms-dedicatedgateway-bypass-cache"] === "boolean");
+              assert.ok(typeof context.headers["x-ms-dedicatedgateway-bypass-cache"] === "string");
               assert.ok(context.headers["x-ms-dedicatedgateway-bypass-cache"] === true);
             }
             if (context.headers["x-ms-dedicatedgateway-max-age"] === "null") {
