@@ -1,5 +1,5 @@
 # NOTE: Please refer to https://aka.ms/azsdk/engsys/ci-yaml before editing this file.
-
+                
 trigger:
   branches:
     include:
@@ -36,3 +36,5 @@ extends:
     Artifacts:
       - name: azure-search-documents
         safeName: azuresearchdocuments
+      - name: azure-rest-azure-search-documents-rest
+        safeName: azurerestazuresearchdocumentsrest

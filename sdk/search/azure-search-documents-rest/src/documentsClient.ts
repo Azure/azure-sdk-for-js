@@ -25,7 +25,7 @@ export default function createClient(
   { apiVersion = "2025-03-01-preview", ...options }: DocumentsClientOptions = {},
 ): DocumentsClient {
   const endpointUrl = options.endpoint ?? options.baseUrl ?? `${endpointParam}`;
-  const userAgentInfo = `azsdk-js-azure-search-documents-rest/1.0.0-beta.1`;
+  const userAgentInfo = `azsdk-js-@azure-rest/azure-search-documents-rest/1.0.0-beta.1`;
   const userAgentPrefix =
     options.userAgentOptions && options.userAgentOptions.userAgentPrefix
       ? `${options.userAgentOptions.userAgentPrefix} ${userAgentInfo}`
