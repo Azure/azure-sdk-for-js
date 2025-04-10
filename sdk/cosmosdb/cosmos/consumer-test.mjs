@@ -1,5 +1,5 @@
-const execa = require("execa");
-let tsVersionsToCheckCompatibility = ["4.2"];
+import {execa} from "execa";
+const tsVersionsToCheckCompatibility = ["4.2"];
 
 if (!process.env.SKIP_LATEST) {
   tsVersionsToCheckCompatibility.push("latest");
