@@ -2,8 +2,6 @@ parameters:
   Artifact: {}
   Registry: ''
   PathToArtifacts: ''
-  Tag: ''
-  AdditionalTag: ''
   DependsOn: []
   VarDependencies: {}
 
@@ -25,8 +23,8 @@ jobs:
       artifactName: packages
       targetPath: $(Pipeline.Workspace)/packages
   pool:
-    name: azsdk-pool-mms-ubuntu-2004-general
-    image: azsdk-pool-mms-ubuntu-2004-1espt
+    name: $(LINUXPOOL)
+    image: $(LINUXVMIMAGE)
     os: linux
   displayName: 'Publish ${{parameters.Artifact.name}} to ${{parameters.Registry}}'
   strategy:
@@ -38,16 +36,11 @@ jobs:
         - ${{ if eq(parameters.Registry, 'https://registry.npmjs.org/') }}:
           - pwsh: |
               $tarFile = (Get-ChildItem -Path "${{parameters.PathToArtifacts}}/*.tgz").FullName
-              write-host "Tar file: $tarFile"
-
               $tempDir = "$(System.DefaultWorkingDirectory)/temp_decompress"
               New-Item -ItemType Directory -Force -Path $tempDir
               tar -xzf $tarFile -C $tempDir
               $packageJsonDir = "$tempDir/package/package.json"
               $pkg = Get-Content -Raw "$packageJsonDir" | ConvertFrom-Json
-
-              write-host $pkg
-
               $packageName = $pkg.Name
               $packageVersion = $pkg.Version
               $packageProps = npm view $packageName -json -silent | ConvertFrom-Json
@@ -62,11 +55,7 @@ jobs:
               else {
                 $originalTags = $packageProps.'dist-tags' | ConvertTo-Json -Compress
               }
-
-              write-host "Package name: $packageName"
-              write-host "Package version: $packageVersion"
-              write-host "Original tags: $originalTags"
-
+              
               echo "##vso[task.setvariable variable=PackageName;isOutput=true]$packageName"
               echo "##vso[task.setvariable variable=OriginalTags;isOutput=true]$originalTags"
               echo "##vso[task.setvariable variable=IntendedTagVersion;isOutput=true]$packageVersion"
@@ -120,8 +109,8 @@ jobs:
           value: ${{ var.value }}
     displayName: 'Verify package tags'
     pool:
-      name: azsdk-pool-mms-ubuntu-2004-general
-      image: azsdk-pool-mms-ubuntu-2004-1espt
+      name: $(LINUXPOOL)
+      image: $(LINUXVMIMAGE)
       os: linux
     steps:
     - checkout: self
