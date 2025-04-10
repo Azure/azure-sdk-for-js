@@ -115,6 +115,10 @@ describe("Integrated Cache Staleness", async () => {
             }
             if (context.headers["x-ms-dedicatedgateway-max-age"] !== undefined) {
               assert.ok(typeof context.headers["x-ms-dedicatedgateway-max-age"] !== "undefined");
+              console.log("ppppppppppppp");
+              console.log(context.headers["x-ms-dedicatedgateway-max-age"]);
+              console.log(`"${dedicatedGatewayMaxAge}"`);
+              console.log("ppppppppppppppppp");
               assert.ok(
                 typeof context.headers["x-ms-dedicatedgateway-max-age"] === "string",
                 `${context.headers["x-ms-dedicatedgateway-max-age"]} = string`,
