@@ -11,6 +11,7 @@
 ### Other Changes
 
 - Marked `VisualStudioCodeCredential`, `VisualStudioCodeCredentialOptions` and `VSCodeCredentialFinder` as deprecated.
+- Upgraded version of `@azure/msal-node` to v3.5.0 that has [a bug fix](https://github.com/AzureAD/microsoft-authentication-library-for-js/pull/7631) for Azure Machine Learning Managed Identity.
 
 ## 4.8.0 (2025-03-11)
 

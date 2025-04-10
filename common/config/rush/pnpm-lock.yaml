@@ -1442,6 +1442,10 @@ packages:
     resolution: {integrity: sha512-reeIUDXt6Xc+FpCBDEbUFQWvJ6SjE0JwsGYIfa3ZCR6Tpzjc9J1v+/InQgfCeJzfTRd7PDJVxI6TSzOmOd7+Ag==}
     engines: {node: '>=0.8.0'}
 
+  '@azure/msal-common@15.5.0':
+    resolution: {integrity: sha512-u97AJ6m4PB24/Plms9e9iydRcOaxxrHWkan1px5GeWGJfakY1D/r1DmY1+Typ8zWC/5JbNzH1GYpXrorPymz5g==}
+    engines: {node: '>=0.8.0'}
+
   '@azure/msal-node-extensions@1.5.9':
     resolution: {integrity: sha512-q9uWwdJxQTOtVQQHO1KHUaGxRasrv9aDEE4WxVe4eQu+AdhfpyyPiBLwn7M5I8zaW7rkTgeIYgyq70WnuuD09w==}
     engines: {node: '>=16'}
@@ -1457,8 +1461,8 @@ packages:
     resolution: {integrity: sha512-ulsT3EHF1RQ29X55cxBLgKsIKWni9JdbUqG7sipGVP4uhWcBpmm/vhKOMH340+27Acm9+kHGnN/5XmQ5LrIDgA==}
     engines: {node: '>=16'}
 
-  '@azure/msal-node@3.4.0':
-    resolution: {integrity: sha512-b4wBaPV68i+g61wFOfl5zh1lQ9UylgCQpI2638pJHV0SINneO78hOFdnX8WCoGw5OOc4Eewth9pYOg7gaiyUYw==}
+  '@azure/msal-node@3.5.0':
+    resolution: {integrity: sha512-9cLUmcOZ5FODz3uAhS2C9A1U7xDUTCHVcaNQBYpOd5qCKdKM6ft/ydAfw27vEntuaDgnh5jytOAKsEzEbtoQ1Q==}
     engines: {node: '>=16'}
 
   '@azure/openai@1.0.0-beta.12':
@@ -3684,7 +3688,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/identity@file:projects/identity.tgz':
-    resolution: {integrity: sha512-w7T4OpqAckSnTbjjjfrNi3Iaw+JfRew4R5rGh4eYsfSRtWigUImFvN+ib+2otfq8DR3mb7lgl2Ff8b1ZkMTG7A==, tarball: file:projects/identity.tgz}
+    resolution: {integrity: sha512-NhbUWmId8QCrT/em9j6a6igpABh2JhVZz+xxDWjY8mybp0QNU///+FdEeeb+ub08/Uqqd1uptmfOfnm/w9abDg==, tarball: file:projects/identity.tgz}
     version: 0.0.0
 
   '@rush-temp/iot-device-update@file:projects/iot-device-update.tgz':
@@ -7719,6 +7723,8 @@ snapshots:
 
   '@azure/msal-common@15.4.0': {}
 
+  '@azure/msal-common@15.5.0': {}
+
   '@azure/msal-node-extensions@1.5.9':
     dependencies:
       '@azure/msal-common': 15.4.0
@@ -7739,9 +7745,9 @@ snapshots:
       jsonwebtoken: 9.0.2
       uuid: 8.3.2
 
-  '@azure/msal-node@3.4.0':
+  '@azure/msal-node@3.5.0':
     dependencies:
-      '@azure/msal-common': 15.3.0
+      '@azure/msal-common': 15.5.0
       jsonwebtoken: 9.0.2
       uuid: 8.3.2
 
@@ -20336,7 +20342,7 @@ snapshots:
     dependencies:
       '@azure/keyvault-keys': 4.9.0
       '@azure/msal-browser': 4.8.0
-      '@azure/msal-node': 3.4.0
+      '@azure/msal-node': 3.5.0
       '@types/jsonwebtoken': 9.0.9
       '@types/ms': 2.1.0
       '@types/node': 18.19.86
