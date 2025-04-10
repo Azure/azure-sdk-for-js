@@ -336,7 +336,7 @@ export class PhoneNumbersReservation implements PhoneNumberReservationParams {
     readonly phoneNumbers: {
         [propertyName: string]: AvailablePhoneNumber | null;
     };
-    removePhoneNumber(phoneNumber: AvailablePhoneNumber): void;
+    removePhoneNumber(phoneNumberId: string): void;
 }
 
 // @public

@@ -123,10 +123,10 @@ export class PhoneNumbersReservation implements PhoneNumberReservationParams {
   /**
    * Removes phone numbers from the reservation.
    */
-  removePhoneNumber(phoneNumber: AvailablePhoneNumber): void {
+  removePhoneNumber(phoneNumberId: string): void {
     // Implementation for removing a phone numbers from the reservation
-    if (phoneNumber.id) {
-      this.phoneNumbers[phoneNumber.id] = null;
+    if (phoneNumberId) {
+      this.phoneNumbers[phoneNumberId] = null;
     }
   }
 }

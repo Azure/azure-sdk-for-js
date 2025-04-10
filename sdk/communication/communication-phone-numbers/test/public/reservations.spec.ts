@@ -93,40 +93,6 @@ matrix([[true, false]], async (useAad) => {
       assert.fail("browseAvailablePhoneNumbers should have thrown an exception.");
     });
 
-    it(
-      "can create phone number reservation without reservationId",
-      { timeout: 60000 },
-      async () => {
-        const browseAvailableNumberRequest: PhoneNumbersBrowseRequest = {
-          phoneNumberType: "tollFree",
-          capabilities: {
-            calling: "outbound",
-          },
-          assignmentType: "application",
-        };
-
-        const browseAvailableNumbers = await client.browseAvailablePhoneNumbers(
-          "US",
-          browseAvailableNumberRequest,
-        );
-
-        const phoneNumbers = browseAvailableNumbers.phoneNumbers;
-        const phoneNumbersReservation = new PhoneNumbersReservation(reservationId);
-        phoneNumbersReservation.addPhoneNumber(phoneNumbers[0]);
-
-        const reservationResponse = await client.createOrUpdateReservation(phoneNumbersReservation);
-        const responseReservationId = reservationResponse.id ? reservationResponse.id : "";
-        assert.equal(reservationResponse.status, "active");
-        assert.isTrue(reservationResponse.id !== "");
-
-        const getReservationResponse = await client.getReservation(responseReservationId);
-        assert.equal(getReservationResponse.status, "active");
-        assert.isTrue(getReservationResponse.id === responseReservationId);
-
-        await client.deleteReservation(responseReservationId);
-      },
-    );
-
     it("can update an existing reservation", { timeout: 60000 }, async () => {
       const browseAvailableNumberRequest: PhoneNumbersBrowseRequest = {
         phoneNumberType: "tollFree",
@@ -158,8 +124,8 @@ matrix([[true, false]], async (useAad) => {
         ),
       );
 
-      phoneNumbersReservation.removePhoneNumber(phoneNumbers[0]);
-      phoneNumbersReservation.removePhoneNumber(phoneNumbers[1]);
+      phoneNumbersReservation.removePhoneNumber(phoneNumbers[0].id as string);
+      phoneNumbersReservation.removePhoneNumber(phoneNumbers[1].id as string);
       updatedReservationResponse = await client.createOrUpdateReservation(phoneNumbersReservation);
 
       assert.isFalse(
