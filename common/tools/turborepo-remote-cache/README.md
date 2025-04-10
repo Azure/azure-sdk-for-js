@@ -12,7 +12,7 @@ The cache is implemented using Azure Blob Storage, and it uses the `@azure/stora
 - Azure Storage account
 - Azure Storage connection string
 
-### Building the Package
+### Running the Cache Locally
 
 To build the package, run the following command:
 
@@ -40,6 +40,33 @@ The server can be started by running the following command with watch mode:
 
 ```bash
 pnpm dev
+```
+
+### Running the Cache in Docker
+
+To run the cache in Docker, you can use the following command in the `common/tools/turborepo-remote-cache` directory:
+
+```bash
+docker build -t azure-turborepo-remote-cache .
+```
+
+Using an `.env` file is supported so you can run the container with the following command:
+
+```bash
+docker run -p 3000:3000 azure-turborepo-remote-cache
+```
+
+You can also pass the environment variables directly in the command line. For example, to run the cache with a specific Azure Storage connection string and container name, you can use the following command:
+
+```bash
+docker run -p 3000:3000 \
+  -e AZURE_CACHE_PORT=3000 \
+  -e PACKAGE_VERSION=1.0.0 \
+  -e CACHE_LOG_LEVEL=info \
+  -e TURBO_TOKEN=token1,token2 \
+  -e AZURE_STORAGE_CONNECTION_STRING=DefaultEndpointsProtocol=https;AccountName=your_account_name;AccountKey=your_account_key;EndpointSuffix=core.windows.net \
+  -e AZURE_STORAGE_CONTAINER_NAME=your_container_name \
+  azure-turborepo-remote-cache
 ```
 
 ### Configuring TurboRepo
