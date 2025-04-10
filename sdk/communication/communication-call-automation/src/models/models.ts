@@ -182,10 +182,10 @@ export enum RecognizeInputType {
 export interface CallInvite {
   /** The Target's PhoneNumberIdentifier, CommunicationUserIdentifier, MicrosoftTeamsUserIdentifier or MicrosoftTeamsAppIdentifier. */
   readonly targetParticipant:
-    | PhoneNumberIdentifier
-    | CommunicationUserIdentifier
-    | MicrosoftTeamsUserIdentifier
-    | MicrosoftTeamsAppIdentifier;
+  | PhoneNumberIdentifier
+  | CommunicationUserIdentifier
+  | MicrosoftTeamsUserIdentifier
+  | MicrosoftTeamsAppIdentifier;
   /** Caller's phone number identifier. */
   readonly sourceCallIdNumber?: PhoneNumberIdentifier;
   sourceDisplayName?: string;
@@ -253,9 +253,13 @@ export interface SipCustomHeader extends CustomCallingContextHeader {
 
 /** The type of the Sip header prefix. */
 export enum SipHeaderPrefix {
-  /** Choices */
+  /**
+   * Use the legacy "X-MS-Custom" prefix.
+   */
   XMSCustom = "X-Ms-Custom-",
-  /** Dtmf */
+  /**
+   * Use the generic "X-" prefix.
+   */
   X = "X-",
 }
 
