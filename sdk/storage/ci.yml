@@ -38,6 +38,8 @@ extends:
     Artifacts:
       - name: azure-storage-common
         safeName: azurestoragecommon
+      - name: azure-storage-internal-avro
+        safeName: azurestorageinternalavro
       - name: azure-storage-blob
         safeName: azurestorageblob
         triggeringPaths:
