@@ -1418,10 +1418,6 @@ packages:
     resolution: {integrity: sha512-PB9GlnfojcQ4nf9WXdQvWeAk7gm8P74o+Z5IHz5YLK/W+3vrNrmVVVuFpGOvCPrLjag50UinaZsMBtPtxoiobg==}
     engines: {node: '>=14.0.0'}
 
-  '@azure/monitor-opentelemetry-exporter@1.0.0-beta.28':
-    resolution: {integrity: sha512-WowcSkuUcgZoOOIdai5c9Ypm21GKhmYF/7X1epEg3JY9pKlWKP0+aiKykVrYsgrKEuScIQ2MC3F0oe8yRFeqCw==}
-    engines: {node: '>=18.0.0'}
-
   '@azure/msal-browser@3.28.1':
     resolution: {integrity: sha512-OHHEWMB5+Zrix8yKvLVzU3rKDFvh7SOzAzXfICD7YgUXLxfHpTPX2pzOotrri1kskwhHqIj4a5LvhZlIqE7C7g==}
     engines: {node: '>=0.8.0'}
@@ -2396,7 +2392,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/ai-inference@file:projects/ai-inference.tgz':
-    resolution: {integrity: sha512-gwQ7bX397EzFF+oCmKr0zWD550cOrgNeTPCRc5/KOu/Y3Hd5aY9a7DEe7BQmHcclChSTzeIieMqNwDzmfvC1Yg==, tarball: file:projects/ai-inference.tgz}
+    resolution: {integrity: sha512-aQ6qV+QuFeI3+m2eAWZXEyDl9nq3Ua/1sAObUXkydQHbiiBIS0tZdYiAz5/Zlv73N2MHIsxpwqcyQLViJlgcRQ==, tarball: file:projects/ai-inference.tgz}
     version: 0.0.0
 
   '@rush-temp/ai-language-conversations@file:projects/ai-language-conversations.tgz':
@@ -2412,7 +2408,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/ai-projects@file:projects/ai-projects.tgz':
-    resolution: {integrity: sha512-CubMG3yKEhJqaN1sGjeABgDb0N9bXZkt3RGtNURESlkssBrNbR9vqF5a8nOF8x9ig+zcfs1D1zc4VCRwrRJEag==, tarball: file:projects/ai-projects.tgz}
+    resolution: {integrity: sha512-TMZ5sJJc5tTLVgAjNS+13PJg2yAK56FnDZPst0bcLbd4lIipuTfP6lv0D3Kkg81j/Q0hI8o9NRVct4wHjtUWrw==, tarball: file:projects/ai-projects.tgz}
     version: 0.0.0
 
   '@rush-temp/ai-text-analytics@file:projects/ai-text-analytics.tgz':
@@ -3628,7 +3624,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/event-hubs@file:projects/event-hubs.tgz':
-    resolution: {integrity: sha512-/mk9WNJE/VvEDkofF5/f/wpPReR3JNnVR6ixOeoJHtB0xOuuyuB/e3nxxXA4JRKD/ZAOWvFodP+u8LFMENff0Q==, tarball: file:projects/event-hubs.tgz}
+    resolution: {integrity: sha512-g60UO35ULVBdhDgQvyg+zvPfljxNViniiDie7kIKPeZZpvA1FJp1K0uGggxlnlwsRbsmwec8Jf5awWgfHDquww==, tarball: file:projects/event-hubs.tgz}
     version: 0.0.0
 
   '@rush-temp/eventgrid-namespaces@file:projects/eventgrid-namespaces.tgz':
@@ -3772,11 +3768,11 @@ packages:
     version: 0.0.0
 
   '@rush-temp/monitor-opentelemetry@file:projects/monitor-opentelemetry.tgz':
-    resolution: {integrity: sha512-21W5HJrsgh9fxFz7UMR3Y8rWYJmgj7iTIe91DwIJbgmQMXZuwpBEjf/SqFyxzOYiVn4LJ2I7V+j+IKk//JWWGQ==, tarball: file:projects/monitor-opentelemetry.tgz}
+    resolution: {integrity: sha512-Sm1vEDljQVzVy44Wn9+7e0MeRrbAErcj5CWDwlOg8Y4um17bAAySG4CvtCSGNbrb36zI0OU87BIgeHs04PgK0Q==, tarball: file:projects/monitor-opentelemetry.tgz}
     version: 0.0.0
 
   '@rush-temp/monitor-query@file:projects/monitor-query.tgz':
-    resolution: {integrity: sha512-d/czN1OZ5e35Nogw3VWmB5h+C3aUJXEh/mb/jarYppyF3T9A4rbI703lYosqGeg/cQo+Kz5YE/wy15dptYxgOA==, tarball: file:projects/monitor-query.tgz}
+    resolution: {integrity: sha512-gfPx8/W5N3//hjGxhPlNyti2TFu23bO9jUEdfKqWQ6JO1ttZgeC9xQDYz0SXb7UL6xql1L7RSz91O9hQ7SfsMQ==, tarball: file:projects/monitor-query.tgz}
     version: 0.0.0
 
   '@rush-temp/notification-hubs@file:projects/notification-hubs.tgz':
@@ -3852,7 +3848,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/perf-monitor-opentelemetry@file:projects/perf-monitor-opentelemetry.tgz':
-    resolution: {integrity: sha512-nwr+4PRhn/YqxelVMEVgPig2prXSLCU+EP/ryFZQqwIQNPZiV/KNeCz2oDKA/WUZPiO/JDKIDufcDaLgpy17DA==, tarball: file:projects/perf-monitor-opentelemetry.tgz}
+    resolution: {integrity: sha512-Wp/W1huU1sjsxIJt1/c5O8G1jKc3lzLQWyXQyjYxWlF3v+lpGbIaqCxevnIh8AGcu1VLAmPN86oNm4VnOXKozA==, tarball: file:projects/perf-monitor-opentelemetry.tgz}
     version: 0.0.0
 
   '@rush-temp/perf-monitor-query@file:projects/perf-monitor-query.tgz':
@@ -3928,7 +3924,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/service-bus@file:projects/service-bus.tgz':
-    resolution: {integrity: sha512-oBbZDILeZf6XaoBJBDR5ixQNLVjkEXqLKF3VpHr+5oW5W+QpGEclRiZ/aBJ3P3jfZ01pCmv4zHu5Fs/u3kHODg==, tarball: file:projects/service-bus.tgz}
+    resolution: {integrity: sha512-XXejbcfm3D3w8eZFbeL58pg9z9Z3MJwtVLkTnH1dleNIp8KhiQkLzYtC0LHg+eGNr5gVGZJUfJxFeX/vbsU41A==, tarball: file:projects/service-bus.tgz}
     version: 0.0.0
 
   '@rush-temp/storage-blob-changefeed@file:projects/storage-blob-changefeed.tgz':
@@ -4020,11 +4016,11 @@ packages:
     version: 0.0.0
 
   '@rush-temp/web-pubsub-client-protobuf@file:projects/web-pubsub-client-protobuf.tgz':
-    resolution: {integrity: sha512-eiN3y81gOBuEkViahOxZgQbdEPSt7rm2huDRz+6ayvMfDokwO3cfjdU/rQaE6lThNJtC2XN6NPh2iIasoM7oow==, tarball: file:projects/web-pubsub-client-protobuf.tgz}
+    resolution: {integrity: sha512-l2NH0Q0zgnpiPgEwoCiQokmBWRBSL52lhtmxnF/BhyrfiKRLKNtuIRoWdYOkbsqneJYR/w/XPTNiOdyFG5AebQ==, tarball: file:projects/web-pubsub-client-protobuf.tgz}
     version: 0.0.0
 
   '@rush-temp/web-pubsub-client@file:projects/web-pubsub-client.tgz':
-    resolution: {integrity: sha512-K47jeI/YjUr1ZIIaq2alK+sCaZyg58cV5X5YFVuxf518HNq/9R/0lTuND3H7r2uOYySyoL4RVVUF48sAJQWtyw==, tarball: file:projects/web-pubsub-client.tgz}
+    resolution: {integrity: sha512-yM/Bzv4JVGoZsTlwHL5+b6jfaYgyNoi9Q00oYdfgJU5xmuLpk5J+hMZwhpBFVDIQo88904D6PA++buwbKhbNLQ==, tarball: file:projects/web-pubsub-client.tgz}
     version: 0.0.0
 
   '@rush-temp/web-pubsub-express@file:projects/web-pubsub-express.tgz':
@@ -4032,7 +4028,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/web-pubsub@file:projects/web-pubsub.tgz':
-    resolution: {integrity: sha512-6MfAL30oL9DNLegz/P11mskSS7gGcTU2+7euALfKZA8XIE4SaPx4Vr9sYtaUKvvw+kOj79dNd6VH0GfYkp4bcg==, tarball: file:projects/web-pubsub.tgz}
+    resolution: {integrity: sha512-AhIFcZWDdYBGrBiHlTrz4pEeZjnvXjxLRWKntK4JIZaGtgfJI9Gx+dFAzUjKzpEzIEMZOUgDnSrqFsfbEfZPXQ==, tarball: file:projects/web-pubsub.tgz}
     version: 0.0.0
 
   '@rushstack/node-core-library@5.13.0':
@@ -7701,23 +7697,6 @@ snapshots:
       '@azure/core-client': 1.9.3
       '@azure/core-lro': 2.7.2
       '@azure/core-rest-pipeline': 1.19.1
-    transitivePeerDependencies:
-      - supports-color
-
-  '@azure/monitor-opentelemetry-exporter@1.0.0-beta.28':
-    dependencies:
-      '@azure/core-auth': 1.9.0
-      '@azure/core-client': 1.9.3
-      '@azure/core-rest-pipeline': 1.19.1
-      '@opentelemetry/api': 1.9.0
-      '@opentelemetry/api-logs': 0.57.2
-      '@opentelemetry/core': 1.30.1(@opentelemetry/api@1.9.0)
-      '@opentelemetry/resources': 1.30.1(@opentelemetry/api@1.9.0)
-      '@opentelemetry/sdk-logs': 0.57.2(@opentelemetry/api@1.9.0)
-      '@opentelemetry/sdk-metrics': 1.30.1(@opentelemetry/api@1.9.0)
-      '@opentelemetry/sdk-trace-base': 1.30.1(@opentelemetry/api@1.9.0)
-      '@opentelemetry/semantic-conventions': 1.30.0
-      tslib: 2.8.1
     transitivePeerDependencies:
       - supports-color
 
@@ -19839,6 +19818,7 @@ snapshots:
       rhea-promise: 3.0.3
       tslib: 2.8.1
       typescript: 5.8.2
+      util: 0.12.5
       vitest: 3.1.1(@types/debug@4.1.12)(@types/node@18.19.86)(@vitest/browser@3.1.1)(tsx@4.19.3)(yaml@2.7.1)
       ws: 8.18.1
     transitivePeerDependencies:
@@ -21159,7 +21139,6 @@ snapshots:
     dependencies:
       '@azure/functions': 4.7.0
       '@azure/functions-old': '@azure/functions@3.5.1'
-      '@azure/monitor-opentelemetry-exporter': 1.0.0-beta.28
       '@microsoft/applicationinsights-web-snippet': 1.2.1
       '@opentelemetry/api': 1.9.0
       '@opentelemetry/api-logs': 0.57.2
@@ -22042,6 +22021,7 @@ snapshots:
       rhea-promise: 3.0.3
       tslib: 2.8.1
       typescript: 5.8.2
+      util: 0.12.5
       vitest: 3.1.1(@types/debug@4.1.12)(@types/node@18.19.86)(@vitest/browser@3.1.1)(tsx@4.19.3)(yaml@2.7.1)
       ws: 8.18.1
     transitivePeerDependencies:

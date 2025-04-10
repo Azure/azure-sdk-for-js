@@ -164,6 +164,9 @@ directive:
   - rename-model:
       from: HoldFailed
       to: RestHoldFailed
+  - rename-model:
+      from: IncomingCall
+      to: RestIncomingCall
 ```
 
 ```yaml
