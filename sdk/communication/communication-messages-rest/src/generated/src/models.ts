@@ -40,7 +40,7 @@ export interface ImageNotificationContent extends NotificationContentParent {
 
 /** A request to send a document notification. */
 export interface DocumentNotificationContent extends NotificationContentParent {
-  /** Message notification type is image. */
+  /** Message notification type is document. */
   kind: "document";
   /** Optional text content. */
   caption?: string;
@@ -52,7 +52,7 @@ export interface DocumentNotificationContent extends NotificationContentParent {
 
 /** A request to send a video notification. */
 export interface VideoNotificationContent extends NotificationContentParent {
-  /** Message notification type is image. */
+  /** Message notification type is video. */
   kind: "video";
   /** Optional text content. */
   caption?: string;
@@ -360,6 +360,180 @@ export interface WhatsAppMessageTemplateBindingsButton {
   refValue: string;
 }
 
+/** Request payload for adding participants to a conversation. */
+export interface AddParticipantsOptions {
+  /** List of participants to add. */
+  participants: Array<ConversationParticipant>;
+}
+
+/** Advanced Messaging conversation participant. */
+export interface ConversationParticipantParent {
+  /** Participant display name. */
+  displayName?: string;
+  kind: ParticipantKind;
+}
+
+/** Internal conversation participant. */
+export interface InternalConversationParticipant
+  extends ConversationParticipantParent {
+  /** Participant type is internal. */
+  kind: "internal";
+  /** The internal platform identifiers for the participant. */
+  contact: Contact;
+}
+
+/** Details of an external platform contact. */
+export interface ContactParent {
+  /** External platform identifier. */
+  id: string;
+  kind: MessagePlatformKind;
+}
+
+/** Communication Contact. */
+export interface CommunicationContact extends ContactParent {
+  /** Contact type is communication. */
+  kind: "communication";
+}
+
+/** Bot Contact. */
+export interface BotContact extends ContactParent {
+  /** Contact type is bot. */
+  kind: "bot";
+  /** Bot App Id of the Bot Contact. */
+  botAppId: string;
+}
+
+/** WhatsApp Contact. */
+export interface WhatsAppContact extends ContactParent {
+  /** Contact type is whatsApp. */
+  kind: "whatsApp";
+}
+
+/** External conversation participant. */
+export interface ExternalConversationParticipant
+  extends ConversationParticipantParent {
+  /** Participant type is external. */
+  kind: "external";
+  /** List of external platform identifiers for the participant. */
+  contacts: Array<Contact>;
+}
+
+/** Request payload for removing participants from a conversation. */
+export interface RemoveParticipantsOptions {
+  /** The participant IDs to remove. */
+  participantIds: string[];
+}
+
+/** A conversation. */
+export interface Conversation {
+  /** The conversation topic. */
+  topic?: string;
+  /** List of delivery channel IDs. */
+  deliveryChannelIds?: string[];
+  /**
+   * Outbound delivery strategy for the conversation.
+   *
+   * Possible values: "internalOnly", "allParticipants"
+   */
+  outboundDeliveryStrategy?: OutboundDeliveryStrategyKind;
+  /** List of participants involved in the conversation. */
+  participants?: Array<ConversationParticipant>;
+}
+
+/** Details of the conversation message content. */
+export interface ConversationMessageContentParent {
+  kind: CommunicationMessageKind;
+}
+
+/** A request to send a text conversation message. */
+export interface TextConversationMessageContent
+  extends ConversationMessageContentParent {
+  /** Message notification type is text. */
+  kind: "text";
+  /** Message content. */
+  content: string;
+}
+
+/** A request to send an image conversation message. */
+export interface ImageConversationMessageContent
+  extends ConversationMessageContentParent {
+  /** Message notification type is image. */
+  kind: "image";
+  /** Optional text content. */
+  caption?: string;
+  /** A media url for the file. Required if the type is one of the supported media types, e.g. image */
+  mediaUri: string;
+}
+
+/** A request to send a document conversation message. */
+export interface DocumentConversationMessageContent
+  extends ConversationMessageContentParent {
+  /** Message notification type is document. */
+  kind: "document";
+  /** Optional text content. */
+  caption?: string;
+  /** Optional name for the file. */
+  fileName?: string;
+  /** A media url for the file. Required if the type is one of the supported media types, e.g. image */
+  mediaUri: string;
+}
+
+/** A request to send a video conversation message. */
+export interface VideoConversationMessageContent
+  extends ConversationMessageContentParent {
+  /** Message notification type is video. */
+  kind: "video";
+  /** Optional text content. */
+  caption?: string;
+  /** A media url for the file. Required if the type is one of the supported media types, e.g. image */
+  mediaUri: string;
+}
+
+/** A request to send an audio conversation message. */
+export interface AudioConversationMessageContent
+  extends ConversationMessageContentParent {
+  /** Message notification type is audio. */
+  kind: "audio";
+  /** A media url for the file. Required if the type is one of the supported media types, e.g. image */
+  mediaUri: string;
+}
+
+/** A request to send a template conversation message. */
+export interface TemplateConversationMessageContent
+  extends ConversationMessageContentParent {
+  /** Message notification type is template. */
+  kind: "template";
+  /** The template object used to create templates. */
+  template: MessageTemplate;
+}
+
+/** Request payload for sending a conversation message. */
+export interface SendConversationMessageOptions {
+  /** Details of a send conversation message request. */
+  request: ConversationMessageContent;
+  /**
+   * The options of the outbound delivery strategy for messages sent by participants in a conversation.
+   * Supports internalOnly, allChannels.
+   *
+   * Possible values: "internalOnly", "allParticipants"
+   */
+  outboundDeliveryStrategy?: OutboundDeliveryStrategyKind;
+}
+
+/** Request payload for creating a conversation. */
+export interface CreateConversationRequest {
+  /** The conversation details. */
+  conversation: Conversation;
+  /** An intial message within the conversation. */
+  initialMessage?: Message;
+}
+
+/** Details of a message. */
+export interface Message {
+  /** Content of the message. */
+  content: string;
+}
+
 /** Details of the message to send. */
 export type NotificationContent =
   | NotificationContentParent
@@ -402,6 +576,26 @@ export type MessageTemplateValue =
 export type MessageTemplateBindings =
   | MessageTemplateBindingsParent
   | WhatsAppMessageTemplateBindings;
+/** Advanced Messaging conversation participant. */
+export type ConversationParticipant =
+  | ConversationParticipantParent
+  | InternalConversationParticipant
+  | ExternalConversationParticipant;
+/** Details of an external platform contact. */
+export type Contact =
+  | ContactParent
+  | CommunicationContact
+  | BotContact
+  | WhatsAppContact;
+/** Details of the conversation message content. */
+export type ConversationMessageContent =
+  | ConversationMessageContentParent
+  | TextConversationMessageContent
+  | ImageConversationMessageContent
+  | DocumentConversationMessageContent
+  | VideoConversationMessageContent
+  | AudioConversationMessageContent
+  | TemplateConversationMessageContent;
 /** Alias for CommunicationMessageKind */
 export type CommunicationMessageKind = string;
 /** Alias for MessageContentKind */
@@ -414,3 +608,9 @@ export type MessageTemplateValueKind = string;
 export type MessageTemplateBindingsKind = string;
 /** Alias for WhatsAppMessageButtonSubType */
 export type WhatsAppMessageButtonSubType = string;
+/** Alias for ParticipantKind */
+export type ParticipantKind = string;
+/** Alias for MessagePlatformKind */
+export type MessagePlatformKind = string;
+/** Alias for OutboundDeliveryStrategyKind */
+export type OutboundDeliveryStrategyKind = string;
