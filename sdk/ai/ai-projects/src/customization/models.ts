@@ -197,6 +197,31 @@ export interface OpenApiManagedSecurityScheme {
   audience: string;
 }
 
+/** The input definition information for a Bing custom search tool as used to configure an agent. */
+export interface BingCustomSearchToolDefinition extends ToolDefinitionParent {
+  /** The object type, which is always 'bing_custom_search'. */
+  type: "bing_custom_search";
+  /** The list of search configurations used by the bing custom search tool. */
+  bing_custom_search: SearchConfigurationList;
+}
+
+/** A list of search configurations currently used by the `bing_custom_search` tool. */
+export interface SearchConfigurationList {
+  /**
+   * The connections attached to this tool. There can be a maximum of 1 connection
+   * resource attached to the tool.
+   */
+  search_configurations: Array<SearchConfiguration>;
+}
+
+/** A custom search configuration. */
+export interface SearchConfiguration {
+  /** A connection in a ToolConnectionList attached to this tool. */
+  connection_id: string;
+  /** Name of the custom configuration instance given to config. */
+  instance_name: string;
+}
+
 /** The input definition information for a azure function tool as used to configure an agent. */
 export interface AzureFunctionToolDefinition extends ToolDefinitionParent {
   /** The object type, which is always 'azure_function'. */
@@ -430,11 +455,64 @@ export interface ThreadMessageOptions {
    * The textual content of the initial message. Currently, robust input including images and annotated text may only be provided via
    * a separate call to the create message API.
    */
-  content: string;
+  content: CreateMessageContent;
   /** A list of files attached to the message, and the tools they should be added to. */
   attachments?: Array<MessageAttachment> | null;
   /** A set of up to 16 key/value pairs that can be attached to an object, used for storing additional information about that object in a structured format. Keys may be up to 64 characters in length and values may be up to 512 characters in length. */
   metadata?: Record<string, string> | null;
+}
+
+/** An abstract base for creation-time 'blocks' that can be text or images. We use @discriminator('type') but make 'type' an open union. */
+export interface MessageContentBlockInputParent {
+  type: MessageBlockType;
+}
+
+/** Creation-time text block. */
+export interface MessageTextBlockInput extends MessageContentBlockInputParent {
+  /** Always 'text'. */
+  type: "text";
+  /** The text content. */
+  text: string;
+}
+
+/** Creation-time image-file block. */
+export interface MessageImageFileBlockInput extends MessageContentBlockInputParent {
+  /** Always 'image_file'. */
+  type: "image_file";
+  /** References an uploaded image by file ID. */
+  image_file: MessageImageFileParam;
+}
+
+/** Parameter for an image file (by ID) at creation time. */
+export interface MessageImageFileParam {
+  /** File ID for the uploaded image. */
+  fileId: string;
+  /**
+   * Specifies the requested detail level for the image.
+   *
+   * Possible values: "auto", "low", "high"
+   */
+  detail?: ImageDetailLevel;
+}
+
+/** Creation-time image-URL block. */
+export interface MessageImageUrlBlockInput extends MessageContentBlockInputParent {
+  /** Always 'image_url'. */
+  type: "image_url";
+  /** References an external image by URL. */
+  image_url: MessageImageUrlParam;
+}
+
+/** Parameter for an external image URL at creation time. */
+export interface MessageImageUrlParam {
+  /** The externally accessible image URL. */
+  url: string;
+  /**
+   * Specifies the requested detail level for the image. Default is 'auto'.
+   *
+   * Possible values: "auto", "low", "high"
+   */
+  detail?: ImageDetailLevel;
 }
 
 /** This describes to which tools a file has been attached. */
@@ -757,6 +835,39 @@ export interface Dataset extends InputDataParent {
   id: string;
 }
 
+/** Target for the evaluation process. */
+export interface EvaluationTarget {
+  /** System message related to the evaluation target. */
+  systemMessage: string;
+  /** Model configuration for the evaluation. */
+  modelConfig: TargetModelConfig;
+  /** A dictionary of parameters for the model. */
+  modelParams?: Record<string, unknown>;
+}
+
+/** Abstract class for model configuration. */
+export interface TargetModelConfigParent {
+  type: string;
+}
+
+/** Azure OpenAI model configuration. The API version would be selected by the service for querying the model. */
+export interface AoaiModelConfig extends TargetModelConfigParent {
+  /** Endpoint targetURI for AOAI model. */
+  azureEndpoint: string;
+  /** API Key for AOAI model. */
+  apiKey: string;
+  /** Deployment name for AOAI model. */
+  azureDeployment: string;
+}
+
+/** MaaS model configuration. The API version would be selected by the service for querying the model. */
+export interface MaasModelConfig extends TargetModelConfigParent {
+  /** Endpoint targetURI for MAAS model. */
+  azureEndpoint: string;
+  /** API Key for MAAS model. */
+  apiKey: string;
+}
+
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {}
 
@@ -834,6 +945,7 @@ export type ToolDefinition =
   | SharepointToolDefinition
   | AzureAISearchToolDefinition
   | OpenApiToolDefinition
+  | BingCustomSearchToolDefinition
   | AzureFunctionToolDefinition;
 /** authentication details for OpenApiFunctionDefinition */
 export type OpenApiAuthDetails =
@@ -841,6 +953,12 @@ export type OpenApiAuthDetails =
   | OpenApiAnonymousAuthDetails
   | OpenApiConnectionAuthDetails
   | OpenApiManagedAuthDetails;
+/** An abstract base for creation-time 'blocks' that can be text or images. We use @discriminator('type') but make 'type' an open union. */
+export type MessageContentBlockInput =
+  | MessageContentBlockInputParent
+  | MessageTextBlockInput
+  | MessageImageFileBlockInput
+  | MessageImageUrlBlockInput;
 /** An abstract representation of a vector store chunking strategy configuration. */
 export type VectorStoreChunkingStrategyRequest =
   | VectorStoreChunkingStrategyRequestParent
@@ -848,12 +966,16 @@ export type VectorStoreChunkingStrategyRequest =
   | VectorStoreStaticChunkingStrategyRequest;
 /** Abstract data class for input data configuration. */
 export type InputData = InputDataParent | ApplicationInsightsConfiguration | Dataset;
+/** Abstract class for model configuration. */
+export type TargetModelConfig = TargetModelConfigParent | AoaiModelConfig | MaasModelConfig;
 /** Abstract data class for input data configuration. */
 export type Trigger = TriggerParent | RecurrenceTrigger | CronTrigger;
 /** Alias for OpenApiAuthType */
 export type OpenApiAuthType = string;
 /** Alias for VectorStoreDataSourceAssetType */
 export type VectorStoreDataSourceAssetType = string;
+/** Alias for AzureAISearchQueryType */
+export type AzureAISearchQueryType = string;
 /** Alias for AgentsApiResponseFormatMode */
 export type AgentsApiResponseFormatMode = string;
 /** Alias for ResponseFormat */
@@ -868,10 +990,18 @@ export type AgentsApiResponseFormatOption =
 export type ListSortOrder = string;
 /** Alias for MessageRole */
 export type MessageRole = string;
+/** Alias for MessageBlockType */
+export type MessageBlockType = string;
+/** Alias for ImageDetailLevel */
+export type ImageDetailLevel = string;
+/** Alias for CreateMessageContent */
+export type CreateMessageContent = string | Array<MessageContentBlockInput>;
 /** Alias for MessageAttachmentToolDefinition */
 export type MessageAttachmentToolDefinition =
   | CodeInterpreterToolDefinition
   | FileSearchToolDefinition;
+/** Alias for RunAdditionalFieldList */
+export type RunAdditionalFieldList = string;
 /** Alias for TruncationStrategy */
 export type TruncationStrategy = string;
 /** Alias for AgentsApiToolChoiceOptionMode */
@@ -891,13 +1021,8 @@ export type VectorStoreExpirationPolicyAnchor = string;
 export type VectorStoreChunkingStrategyRequestType = string;
 /** Alias for VectorStoreFileStatusFilter */
 export type VectorStoreFileStatusFilter = string;
-/** The Type (or category) of the connection */
-export type ConnectionType =
-  | "AzureOpenAI"
-  | "Serverless"
-  | "AzureBlob"
-  | "AIServices"
-  | "CognitiveSearch";
+/** Alias for ConnectionType */
+export type ConnectionType = string;
 /** Alias for Frequency */
 export type Frequency = string;
 /** Alias for WeekDays */

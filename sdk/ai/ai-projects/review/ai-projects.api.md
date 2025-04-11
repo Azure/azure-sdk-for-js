@@ -315,7 +315,7 @@ export enum connectionToolType {
 }
 
 // @public
-export type ConnectionType = "AzureOpenAI" | "Serverless" | "AzureBlob" | "AIServices" | "CognitiveSearch";
+export type ConnectionType = string;
 
 // @public
 export type ConnectionTypeOutput = "AzureOpenAI" | "Serverless" | "AzureBlob" | "AIServices" | "CognitiveSearch";
@@ -1584,7 +1584,8 @@ export interface ThreadDeletionStatusOutput {
 // @public
 export interface ThreadMessageOptions {
     attachments?: Array<MessageAttachment> | null;
-    content: string;
+    // Warning: (ae-forgotten-export) The symbol "CreateMessageContent" needs to be exported by the entry point index.d.ts
+    content: CreateMessageContent;
     metadata?: Record<string, string> | null;
     role: MessageRole;
 }
@@ -1664,8 +1665,10 @@ export interface ToolConnectionOutput {
     connectionId: string;
 }
 
+// Warning: (ae-forgotten-export) The symbol "BingCustomSearchToolDefinition" needs to be exported by the entry point index.d.ts
+//
 // @public
-export type ToolDefinition = ToolDefinitionParent | CodeInterpreterToolDefinition | FileSearchToolDefinition | FunctionToolDefinition | BingGroundingToolDefinition | MicrosoftFabricToolDefinition | SharepointToolDefinition | AzureAISearchToolDefinition | OpenApiToolDefinition | AzureFunctionToolDefinition;
+export type ToolDefinition = ToolDefinitionParent | CodeInterpreterToolDefinition | FileSearchToolDefinition | FunctionToolDefinition | BingGroundingToolDefinition | MicrosoftFabricToolDefinition | SharepointToolDefinition | AzureAISearchToolDefinition | OpenApiToolDefinition | BingCustomSearchToolDefinition | AzureFunctionToolDefinition;
 
 // @public
 export type ToolDefinitionOutput = ToolDefinitionOutputParent | CodeInterpreterToolDefinitionOutput | FileSearchToolDefinitionOutput | FunctionToolDefinitionOutput | BingGroundingToolDefinitionOutput | MicrosoftFabricToolDefinitionOutput | SharepointToolDefinitionOutput | AzureAISearchToolDefinitionOutput | OpenApiToolDefinitionOutput | AzureFunctionToolDefinitionOutput;

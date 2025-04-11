@@ -156,6 +156,8 @@ export interface OpenApiFunctionDefinition {
   spec: unknown;
   /** Open API authentication details */
   auth: OpenApiAuthDetails;
+  /** List of OpenAPI spec parameters that will use user-provided defaults */
+  default_params?: string[];
 }
 
 /** authentication details for OpenApiFunctionDefinition */
@@ -195,6 +197,31 @@ export interface OpenApiManagedAuthDetails extends OpenApiAuthDetailsParent {
 export interface OpenApiManagedSecurityScheme {
   /** Authentication scope for managed_identity auth type */
   audience: string;
+}
+
+/** The input definition information for a Bing custom search tool as used to configure an agent. */
+export interface BingCustomSearchToolDefinition extends ToolDefinitionParent {
+  /** The object type, which is always 'bing_custom_search'. */
+  type: "bing_custom_search";
+  /** The list of search configurations used by the bing custom search tool. */
+  bing_custom_search: SearchConfigurationList;
+}
+
+/** A list of search configurations currently used by the `bing_custom_search` tool. */
+export interface SearchConfigurationList {
+  /**
+   * The connections attached to this tool. There can be a maximum of 1 connection
+   * resource attached to the tool.
+   */
+  search_configurations: Array<SearchConfiguration>;
+}
+
+/** A custom search configuration. */
+export interface SearchConfiguration {
+  /** A connection in a ToolConnectionList attached to this tool. */
+  connection_id: string;
+  /** Name of the custom configuration instance given to config. */
+  instance_name: string;
 }
 
 /** The input definition information for a azure function tool as used to configure an agent. */
@@ -424,14 +451,70 @@ export interface ThreadMessageOptions {
    */
   role: MessageRole;
   /**
-   * The textual content of the initial message. Currently, robust input including images and annotated text may only be provided via
-   * a separate call to the create message API.
+   * The content of the initial message. This may be:
+   * - A basic string, if you only need text, or
+   * - An array of typed content blocks (text, image_file, image_url, etc.)
    */
-  content: string;
+  content: CreateMessageContent;
   /** A list of files attached to the message, and the tools they should be added to. */
   attachments?: Array<MessageAttachment> | null;
   /** A set of up to 16 key/value pairs that can be attached to an object, used for storing additional information about that object in a structured format. Keys may be up to 64 characters in length and values may be up to 512 characters in length. */
   metadata?: Record<string, string> | null;
+}
+
+/** Defines a single content block when creating a message. The 'type' field determines whether it is text, an image file, or an external image URL, etc. */
+export interface MessageContentBlockInputParent {
+  type: MessageBlockType;
+}
+
+/** A text block in a new message, containing plain text content. */
+export interface MessageTextBlockInput extends MessageContentBlockInputParent {
+  /** Must be 'text' for a text block. */
+  type: "text";
+  /** The plain text content for this block. */
+  text: string;
+}
+
+/** An image-file block in a new message, referencing an internally uploaded image by file ID. */
+export interface MessageImageFileBlockInput
+  extends MessageContentBlockInputParent {
+  /** Must be 'image_file' for an internally uploaded image block. */
+  type: "image_file";
+  /** Information about the referenced image file, including file ID and optional detail level. */
+  image_file: MessageImageFileParam;
+}
+
+/** Defines how an internally uploaded image file is referenced when creating an image-file block. */
+export interface MessageImageFileParam {
+  /** The ID of the previously uploaded image file. */
+  fileId: string;
+  /**
+   * Optional detail level for the image (auto, low, or high).
+   *
+   * Possible values: "auto", "low", "high"
+   */
+  detail?: ImageDetailLevel;
+}
+
+/** An image-URL block in a new message, referencing an external image by URL. */
+export interface MessageImageUrlBlockInput
+  extends MessageContentBlockInputParent {
+  /** Must be 'image_url' for an externally hosted image block. */
+  type: "image_url";
+  /** Information about the external image URL, including the URL and optional detail level. */
+  image_url: MessageImageUrlParam;
+}
+
+/** Defines how an external image URL is referenced when creating an image-URL block. */
+export interface MessageImageUrlParam {
+  /** The publicly accessible URL of the external image. */
+  url: string;
+  /**
+   * Optional detail level for the image (auto, low, or high). Defaults to 'auto' if not specified.
+   *
+   * Possible values: "auto", "low", "high"
+   */
+  detail?: ImageDetailLevel;
 }
 
 /** This describes to which tools a file has been attached. */
@@ -537,7 +620,7 @@ export interface AgentsNamedToolChoice {
   /**
    * the type of tool. If type is `function`, the function name must be set.
    *
-   * Possible values: "function", "code_interpreter", "file_search", "bing_grounding", "fabric_dataagent", "sharepoint_grounding", "azure_ai_search"
+   * Possible values: "function", "code_interpreter", "file_search", "bing_grounding", "fabric_dataagent", "sharepoint_grounding", "azure_ai_search", "bing_custom_search"
    */
   type: AgentsNamedToolChoiceType;
   /** The name of the function to call */
@@ -642,12 +725,6 @@ export interface CreateAndRunThreadOptions {
   /** A set of up to 16 key/value pairs that can be attached to an object, used for storing additional information about that object in a structured format. Keys may be up to 64 characters in length and values may be up to 512 characters in length. */
   metadata?: Record<string, string> | null;
 }
-
-export interface HttpPartFile {}
-
-export interface HttpPartFilePurpose {}
-
-export interface HttpPartString {}
 
 /** The expiration policy for a vector store. */
 export interface VectorStoreExpirationPolicy {
@@ -777,7 +854,7 @@ export interface TargetModelConfigParent {
 
 /** Azure OpenAI model configuration. The API version would be selected by the service for querying the model. */
 export interface AoaiModelConfig extends TargetModelConfigParent {
-  /** Endpoint URL for AOAI model. */
+  /** Endpoint targetURI for AOAI model. */
   azureEndpoint: string;
   /** API Key for AOAI model. */
   apiKey: string;
@@ -787,7 +864,7 @@ export interface AoaiModelConfig extends TargetModelConfigParent {
 
 /** MaaS model configuration. The API version would be selected by the service for querying the model. */
 export interface MaasModelConfig extends TargetModelConfigParent {
-  /** Endpoint URL for MAAS model. */
+  /** Endpoint targetURI for MAAS model. */
   azureEndpoint: string;
   /** API Key for MAAS model. */
   apiKey: string;
@@ -870,6 +947,7 @@ export type ToolDefinition =
   | SharepointToolDefinition
   | AzureAISearchToolDefinition
   | OpenApiToolDefinition
+  | BingCustomSearchToolDefinition
   | AzureFunctionToolDefinition;
 /** authentication details for OpenApiFunctionDefinition */
 export type OpenApiAuthDetails =
@@ -877,6 +955,12 @@ export type OpenApiAuthDetails =
   | OpenApiAnonymousAuthDetails
   | OpenApiConnectionAuthDetails
   | OpenApiManagedAuthDetails;
+/** Defines a single content block when creating a message. The 'type' field determines whether it is text, an image file, or an external image URL, etc. */
+export type MessageContentBlockInput =
+  | MessageContentBlockInputParent
+  | MessageTextBlockInput
+  | MessageImageFileBlockInput
+  | MessageImageUrlBlockInput;
 /** An abstract representation of a vector store chunking strategy configuration. */
 export type VectorStoreChunkingStrategyRequest =
   | VectorStoreChunkingStrategyRequestParent
@@ -914,6 +998,12 @@ export type AgentsApiResponseFormatOption =
 export type ListSortOrder = string;
 /** Alias for MessageRole */
 export type MessageRole = string;
+/** Alias for MessageBlockType */
+export type MessageBlockType = string;
+/** Alias for ImageDetailLevel */
+export type ImageDetailLevel = string;
+/** Alias for CreateMessageContent */
+export type CreateMessageContent = string | Array<MessageContentBlockInput>;
 /** Alias for MessageAttachmentToolDefinition */
 export type MessageAttachmentToolDefinition =
   | CodeInterpreterToolDefinition
