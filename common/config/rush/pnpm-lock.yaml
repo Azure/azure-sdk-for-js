@@ -10,9 +10,6 @@ importers:
 
   .:
     dependencies:
-      '@azure/msal-node':
-        specifier: 3.3.0
-        version: 3.3.0
       '@rush-temp/abort-controller':
         specifier: file:./projects/abort-controller.tgz
         version: file:projects/abort-controller.tgz(@types/debug@4.1.12)(tsx@4.19.3)(vite@6.2.6(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(yaml@2.7.1)
@@ -3571,7 +3568,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/core-util@file:projects/core-util.tgz':
-    resolution: {integrity: sha512-PfVQ8uRgK0bQkG5oMjYLgMFpNuNTb2pN5jJelthVnqwGeT7mpFI9EHoxNUdJpgNxOAfSl8SaVvYTX9vI1bZp2g==, tarball: file:projects/core-util.tgz}
+    resolution: {integrity: sha512-lR66vzUOf7ap31GfD1cm5aUIJo8HL+kD3rUYZdjr3x8cuiH1iMCYVhJK8hesmqCP7fqll/aIFj06qbObHRrnhQ==, tarball: file:projects/core-util.tgz}
     version: 0.0.0
 
   '@rush-temp/core-xml@file:projects/core-xml.tgz':
@@ -3983,7 +3980,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/test-utils@file:projects/test-utils.tgz':
-    resolution: {integrity: sha512-NcYwGngj0cm1d0kXOSR+F1FZAB9dtAmX4+0tpDVUE1IV7uoWnM6GcgYSoXL2lgDe1dCMCZklp+mlfc7fSAmFjg==, tarball: file:projects/test-utils.tgz}
+    resolution: {integrity: sha512-zPz4UVG4Huj8p0o+zGJZYaGjdFBgTr6PopuofuqjKUbiXg1Hq5lSyOw7g17LBXXcB/3qhhK7smHRCbgWGwUA2Q==, tarball: file:projects/test-utils.tgz}
     version: 0.0.0
 
   '@rush-temp/ts-http-runtime@file:projects/ts-http-runtime.tgz':
@@ -4171,6 +4168,9 @@ packages:
 
   '@types/minimist@1.2.5':
     resolution: {integrity: sha512-hov8bUuiLiyFPGyFPE1lwWhmzYbirOXQNNo40+y3zow8aFVTeyn3VWL0VFFfdNddA8S4Vf0Tc062rzyNr7Paag==}
+
+  '@types/mocha@10.0.10':
+    resolution: {integrity: sha512-xPyYSz1cMPnJQhl0CLMH68j3gprKZaTjG3s5Vi+fDgx+uhG9NOXwbVt52eFS8ECyXhyKcjDLCBEqBExKuiZb7Q==}
 
   '@types/ms@2.1.0':
     resolution: {integrity: sha512-GsCCIZDE/p3i96vtEqx+7dBUGXrc7zeSK3wwPHIaRThS+9OhWIXRqzs4d6k1SVU8g91DrNRWxWUGhp5KXQb2VA==}
@@ -22585,6 +22585,7 @@ snapshots:
       '@opentelemetry/api': 1.9.0
       '@types/chai': 4.3.20
       '@types/chai-as-promised': 7.1.8
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.86
       '@types/sinon': 17.0.4
       chai: 4.5.0
@@ -23009,6 +23010,8 @@ snapshots:
   '@types/minimatch@5.1.2': {}
 
   '@types/minimist@1.2.5': {}
+
+  '@types/mocha@10.0.10': {}
 
   '@types/ms@2.1.0': {}
 
