@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Constants } from "./constants";
+import { Constants } from "./constants.js";
 
 /**
  * @hidden

@@ -1,25 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import assert from "assert";
-import type { Suite } from "mocha";
-import { Agent } from "http";
-import { CosmosClient } from "../../../src";
-import { endpoint } from "../common/_testConfig";
-import { masterKey } from "../common/_fakeTestSecrets";
+
+import { Agent } from "node:http";
+import { CosmosClient } from "../../../src/index.js";
+import { endpoint } from "../common/_testConfig.js";
+import { masterKey } from "../common/_fakeTestSecrets.js";
 import {
   getTestDatabase,
   getTestContainer,
   generateDocuments,
   bulkInsertItems,
-} from "../common/TestHelpers";
+} from "../common/TestHelpers.js";
 import { UsernamePasswordCredential } from "@azure/identity";
-import { defaultConnectionPolicy } from "../../../src/documents";
+import { defaultConnectionPolicy } from "../../../src/documents/index.js";
+import { describe, it, assert } from "vitest";
 
-describe("Client Tests", function (this: Suite) {
-  this.timeout(process.env.MOCHA_TIMEOUT || 200000);
-
-  describe("Validate client request timeout", function () {
-    xit("timeout occurs within expected timeframe", async function () {
+describe("Client Tests", { timeout: 200000 }, () => {
+  describe("Validate client request timeout", () => {
+    it.skip("timeout occurs within expected timeframe", async () => {
       // making timeout 1 ms to make sure it will throw
       // (create database request takes 10ms-15ms to finish on emulator)
       const client = new CosmosClient({
@@ -42,8 +40,8 @@ describe("Client Tests", function (this: Suite) {
     });
   });
 
-  describe("Constructor", function () {
-    it("Accepts node Agent", function () {
+  describe("Constructor", () => {
+    it("Accepts node Agent", () => {
       const client = new CosmosClient({
         endpoint: "https://faaaaaake.com",
         agent: new Agent(),
@@ -51,18 +49,18 @@ describe("Client Tests", function (this: Suite) {
       });
       assert.ok(client !== undefined, "client shouldn't be undefined if it succeeded");
     });
-    it("Accepts a connection string", function () {
+    it("Accepts a connection string", () => {
       const client = new CosmosClient(`AccountEndpoint=${endpoint};AccountKey=${masterKey};`);
       assert.ok(client !== undefined, "client shouldn't be undefined if it succeeded");
       client.dispose();
     });
-    it("throws on a bad connection string", function () {
+    it("throws on a bad connection string", () => {
       assert.throws(() => new CosmosClient(`bad;Connection=string;`));
     });
-    it("throws on a bad endpoint", function () {
+    it("throws on a bad endpoint", () => {
       assert.throws(() => new CosmosClient({ endpoint: "asda=asda;asada;" }));
     });
-    it("fails to read databases with bad AAD authentication", async function () {
+    it("fails to read databases with bad AAD authentication", async () => {
       try {
         const credentials = new UsernamePasswordCredential(
           "fake-tenant-id",
@@ -81,8 +79,8 @@ describe("Client Tests", function (this: Suite) {
       }
     });
   });
-  describe.skip("Validate user passed AbortController.signal", function () {
-    it("should throw exception if aborted during the request", async function () {
+  describe.skip("Validate user passed AbortController.signal", () => {
+    it("should throw exception if aborted during the request", async () => {
       const client = new CosmosClient({ endpoint, key: masterKey });
       try {
         const controller = new AbortController();
@@ -95,7 +93,7 @@ describe("Client Tests", function (this: Suite) {
       }
       client.dispose();
     });
-    it("should throw exception if passed an already aborted signal", async function () {
+    it("should throw exception if passed an already aborted signal", async () => {
       const client = new CosmosClient({ endpoint, key: masterKey });
       try {
         const controller = new AbortController();
@@ -108,7 +106,7 @@ describe("Client Tests", function (this: Suite) {
       }
       client.dispose();
     });
-    it("should abort a query", async function () {
+    it("should abort a query", async () => {
       const container = await getTestContainer("abort query");
       await bulkInsertItems(container, generateDocuments(20));
       try {
@@ -124,7 +122,7 @@ describe("Client Tests", function (this: Suite) {
         assert.equal(err.name, "AbortError", "client should throw exception");
       }
     });
-    it("should not abort if abort signal is never called", async function () {
+    it("should not abort if abort signal is never called", async () => {
       // Testing the happy path to prevent this bug https://github.com/Azure/azure-sdk-for-js/issues/9510
       const client = new CosmosClient({ endpoint, key: masterKey });
       try {
@@ -137,9 +135,9 @@ describe("Client Tests", function (this: Suite) {
       client.dispose();
     });
   });
-  describe("Background refresher", async function () {
+  describe("Background refresher", async () => {
     // not async to leverage done() callback inside setTimeout
-    it("should fetch new endpoints", function (done) {
+    it("should fetch new endpoints", async () => {
       // set refresh rate to 700ms
       const client = new CosmosClient({
         endpoint,
@@ -152,23 +150,15 @@ describe("Client Tests", function (this: Suite) {
       });
 
       // then timeout 1.2s so that we first fetch no endpoints, then after it refreshes we see them
-      client
-        .getReadEndpoints()
-        .then((firstEndpoints) => {
-          assert.equal(firstEndpoints.length, 0);
-          setTimeout(() => {
-            client
-              .getReadEndpoints()
-              .then((endpoints) => {
-                assert.notEqual(firstEndpoints, endpoints);
-                done();
-                return;
-              })
-              .catch(console.warn);
-          }, 1200);
-          return;
-        })
-        .catch(console.warn);
+      const firstEndpoints = await client.getReadEndpoints();
+      assert.equal(firstEndpoints.length, 0);
+
+      const sleep = (ms: number): Promise<void> =>
+        new Promise((resolve) => setTimeout(resolve, ms));
+      await sleep(1200);
+
+      const endpoints = await client.getReadEndpoints();
+      assert.notEqual(firstEndpoints, endpoints);
     });
   });
 });

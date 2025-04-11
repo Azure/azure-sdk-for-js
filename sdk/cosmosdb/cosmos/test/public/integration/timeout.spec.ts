@@ -1,20 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-/* eslint-disable no-unused-expressions */
-import assert from "assert";
-import type { Container } from "../../../src";
-import { CosmosClient } from "../../../src";
-import { addEntropy, removeAllDatabases } from "../common/TestHelpers";
-import { endpoint } from "../common/_testConfig";
-import { masterKey } from "../common/_fakeTestSecrets";
-import { expect } from "chai";
 
-describe("Timeout", function () {
-  beforeEach(async function () {
+import type { Container } from "../../../src/index.js";
+import { CosmosClient } from "../../../src/index.js";
+import { addEntropy, removeAllDatabases } from "../common/TestHelpers.js";
+import { endpoint } from "../common/_testConfig.js";
+import { masterKey } from "../common/_fakeTestSecrets.js";
+import { describe, it, assert, beforeEach } from "vitest";
+
+describe("Timeout", () => {
+  beforeEach(async () => {
     await removeAllDatabases();
   });
 
-  it("successfully exits queries after a timeout duration", async function () {
+  it("successfully exits queries after a timeout duration", async () => {
     const clientA = new CosmosClient({
       endpoint,
       key: masterKey,
@@ -31,7 +30,7 @@ describe("Timeout", function () {
         {
           on: "request",
           plugin: async (context, diagNode, next) => {
-            expect(diagNode, "DiagnosticsNode should not be undefined or null").to.exist;
+            assert.isDefined(diagNode, "DiagnosticsNode should not be undefined or null");
             // Simulate a request longer than our timeout duration
             await new Promise<void>((resolve) => {
               setTimeout(() => {
@@ -65,7 +64,7 @@ describe("Timeout", function () {
   });
 });
 
-async function createItem(container: Container) {
+async function createItem(container: Container): Promise<string> {
   const {
     resource: { id },
   } = await container.items.create({

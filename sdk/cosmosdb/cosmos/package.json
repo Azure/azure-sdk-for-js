@@ -15,23 +15,12 @@
     "azure"
   ],
   "author": "Microsoft Corporation",
-  "main": "./dist/index.js",
-  "module": "./dist-esm/src/index.js",
-  "react-native": "./dist-esm/src/index.js",
-  "browser": {
-    "./dist-esm/src/request/defaultAgent.js": "./dist-esm/src/request/defaultAgent.browser.js",
-    "./dist-esm/src/utils/atob.js": "./dist-esm/src/utils/atob.browser.js",
-    "./dist-esm/src/utils/digest.js": "./dist-esm/src/utils/digest.browser.js",
-    "./dist-esm/src/utils/hmac.js": "./dist-esm/src/utils/hmac.browser.js",
-    "./dist-esm/src/utils/envUtils.js": "./dist-esm/src/utils/envUtils.browser.js",
-    "./dist-esm/src/encryption/Cache/ProtectedDataEncryptionKeyCache.js": "./dist-esm/src/encryption/Cache/ProtectedDataEncryptionKeyCache.browser.js",
-    "./dist-esm/src/encryption/EncryptionKey/DataEncryptionKey.js": "./dist-esm/src/encryption/EncryptionKey/DataEncryptionKey.browser.js",
-    "./dist-esm/src/encryption/AeadAes256CbcHmacSha256Algorithm/AeadAes256CbcHmacSha256Algorithm.js": "./dist-esm/src/encryption/AeadAes256CbcHmacSha256Algorithm/AeadAes256CbcHmacSha256Algorithm.browser.js"
-  },
+  "main": "./dist/commonjs/index.js",
+  "module": "./dist/esm/index.js",
+  "react-native": "./dist/react-native/index.js",
+  "browser": "./dist/browser/index.js",
   "files": [
-    "changelog.md",
     "dist/",
-    "dist-esm/src/",
     "README.md",
     "LICENSE"
   ],
@@ -45,37 +34,31 @@
       }
     ]
   },
-  "types": "./dist/types/latest/cosmos.d.ts",
+  "types": "./dist/commonjs/index.d.ts",
   "engines": {
     "node": ">=18.0.0"
   },
   "scripts": {
-    "build": "npm run clean && npm run extract-api && npm run bundle",
+    "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
     "build:samples": "echo Obsolete.",
-    "build:src": "echo Using TypeScript && tsc --version && tsc -b --pretty",
-    "build:test": "tsc",
-    "bundle": "dev-tool run bundle",
-    "bundle-types": "node bundle-types.js",
+    "build:test": "echo Obsolete.",
     "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"samples-dev/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
-    "check:src:strict": "tsc --pretty --project tsconfig.strict.json",
     "clean": "dev-tool run vendored rimraf --glob dist dist-esm temp types *.tgz *.html *.log *.tsbuildinfo test/**/*.{js,js.map,d.ts}",
     "execute:samples": "dev-tool samples run samples-dev",
-    "extract-api": "npm run check:src:strict && npm run build:src && dev-tool run extract-api",
+    "extract-api": "npm run build && dev-tool run extract-api",
     "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"samples-dev/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "integration-test:browser": "echo skipped",
-    "integration-test:node": "dev-tool run vendored cross-env NODE_OPTIONS='--dns-result-order=ipv4first' mocha -r test/mocha.env.ts -r ts-node/register -r dotenv/config -r ./test/public/common/setup.ts --reporter ../../../common/tools/mocha-multi-reporter.js --reporter-option output=test-results.xml \"./test/internal/**/*.spec.ts\" \"./test/public/**/*.spec.ts\"  --timeout 100000",
-    "lint": "eslint package.json api-extractor.json src test",
-    "lint:fix": "eslint package.json api-extractor.json src test --fix --fix-type [problem,suggestion]",
+    "integration-test:node": "dev-tool run vendored cross-env NODE_OPTIONS='--dns-result-order=ipv4first' dev-tool run test:vitest --no-test-proxy -- -c vitest.int.config.ts",
+    "lint": "dev-tool run vendored eslint package.json api-extractor.json src test",
+    "lint:fix": "dev-tool run vendored eslint package.json api-extractor.json src test --fix --fix-type [problem,suggestion]",
     "pack": "npm pack 2>&1",
     "test": "npm run unit-test && npm run integration-test",
-    "test-consumer": "dev-tool run vendored rimraf consumer-test/node_modules consumer-test/package-lock.json && node consumer-test.js 2>&1",
     "test:browser": "npm run unit-test:browser && npm run integration-test:browser",
     "test:node": "npm run build:test && npm run unit-test:node && npm run integration-test:node",
-    "test:signoff": "npm run integration-test:node -- --fgrep \"nosignoff\" --invert",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
     "unit-test:browser": "echo skipped",
-    "unit-test:node": "dev-tool run test:node-ts-input -- --timeout 100000 './test/internal/unit/**/*.spec.ts'",
+    "unit-test:node": "dev-tool run vendored cross-env NODE_OPTIONS='--dns-result-order=ipv4first' dev-tool run test:vitest --no-test-proxy -- -c vitest.unit.config.ts",
     "update-snippets": "dev-tool run update-snippets"
   },
   "repository": "github:Azure/azure-sdk-for-js",
@@ -87,44 +70,35 @@
     "tsdocFlavor": "AEDoc"
   },
   "dependencies": {
-    "@azure/abort-controller": "^2.0.0",
-    "@azure/core-auth": "^1.7.1",
-    "@azure/core-rest-pipeline": "^1.15.1",
-    "@azure/core-tracing": "^1.1.1",
-    "@azure/core-util": "^1.8.1",
+    "@azure/abort-controller": "^2.1.2",
+    "@azure/core-auth": "^1.9.0",
+    "@azure/core-rest-pipeline": "^1.19.1",
+    "@azure/core-tracing": "^1.2.0",
+    "@azure/core-util": "^1.11.0",
+    "@azure/keyvault-keys": "^4.9.0",
     "fast-json-stable-stringify": "^2.1.0",
-    "jsbi": "^4.3.0",
     "priorityqueuejs": "^2.0.0",
     "semaphore": "^1.1.0",
-    "tslib": "^2.6.2",
-    "@azure/keyvault-keys": "^4.8.0"
+    "tslib": "^2.8.1"
   },
   "devDependencies": {
+    "@azure-tools/test-utils-vitest": "^1.0.0",
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
-    "@azure/identity": "^4.0.1",
-    "@azure/logger": "^1.0.0",
-    "@sinonjs/fake-timers": "^11.0.0",
-    "@types/chai": "~4.3.6",
+    "@azure/identity": "^4.8.0",
+    "@azure/logger": "^1.1.4",
     "@types/debug": "^4.1.4",
-    "@types/mocha": "^10.0.0",
     "@types/node": "^18.0.0",
     "@types/priorityqueuejs": "^1.0.1",
     "@types/semaphore": "^1.1.0",
-    "@types/sinon": "^17.0.0",
-    "@types/sinonjs__fake-timers": "~8.1.2",
-    "@types/underscore": "^1.8.8",
-    "chai": "~4.3.8",
+    "@vitest/browser": "^3.0.9",
+    "@vitest/coverage-istanbul": "^3.0.9",
     "dotenv": "^16.0.0",
     "eslint": "^9.9.0",
-    "execa": "^5.0.0",
-    "mocha": "^11.0.2",
     "nock": "^13.5.4",
-    "requirejs": "^2.3.5",
-    "sinon": "^17.0.0",
-    "source-map-support": "^0.5.9",
-    "ts-node": "^10.0.0",
-    "typescript": "~5.8.2"
+    "playwright": "^1.51.1",
+    "typescript": "~5.8.2",
+    "vitest": "^3.0.9"
   },
   "//sampleConfiguration": {
     "skip": [
@@ -161,6 +135,44 @@
         "typescript/src/Data/Families.json",
         "javascript/Data/Families.json"
       ]
+    }
+  },
+  "type": "module",
+  "tshy": {
+    "project": "./tsconfig.src.json",
+    "exports": {
+      "./package.json": "./package.json",
+      ".": "./src/index.ts"
+    },
+    "dialects": [
+      "esm",
+      "commonjs"
+    ],
+    "esmDialects": [
+      "browser",
+      "react-native"
+    ],
+    "selfLink": false
+  },
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "browser": {
+        "types": "./dist/browser/index.d.ts",
+        "default": "./dist/browser/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/index.d.ts",
+        "default": "./dist/react-native/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/index.d.ts",
+        "default": "./dist/esm/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/index.d.ts",
+        "default": "./dist/commonjs/index.js"
+      }
     }
   }
 }
