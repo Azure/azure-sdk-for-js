@@ -2338,6 +2338,11 @@
       "packageName": "@azure/arm-weightsandbiases",
       "projectFolder": "sdk/liftrweightsandbiases/arm-weightsandbiases",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure-rest/analytics-onlineexperimentation",
+      "projectFolder": "sdk/onlineexperimentation/analytics-onlineexperimentation-rest",
+      "versionPolicyName": "client"
     }
   ]
 }
