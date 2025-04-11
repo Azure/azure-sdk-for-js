@@ -1,8 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * @summary Demonstrates query throughput scenarios.
+ */
+
 import "dotenv/config";
-import { Container, FeedOptions, SqlQuerySpec, CosmosClient } from "@azure/cosmos";
+import type { Container, FeedOptions, SqlQuerySpec } from "@azure/cosmos";
+import { CosmosClient } from "@azure/cosmos";
 const key = process.env.COSMOS_KEY || "<cosmos key>";
 const endpoint = process.env.COSMOS_ENDPOINT || "<cosmos endpoint>";
 const containerId = process.env.COSMOS_CONTAINER || "<cosmos container>";

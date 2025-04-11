@@ -1,6 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * @summary Uses Entra Auth credentials to authenticate with the CosmosClient.
+ */
+
 import "dotenv/config";
 import { DefaultAzureCredential } from "@azure/identity";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment

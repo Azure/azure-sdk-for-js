@@ -1,12 +1,16 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * @summary Demonstrates item creation, read, delete and reading all items belonging to a container.
+ */
+
 import "dotenv/config";
 import { logSampleHeader, handleError, finish, logStep } from "./Shared/handleError.js";
 import type { PatchOperation } from "@azure/cosmos";
 import { CosmosClient, PriorityLevel } from "@azure/cosmos";
-
-import { Families } from "./Data/Families.json.js" with { type: "json" };
+import FamiliesJSON from "./Data/Families.json" with { type: "json" };
+const Families = FamiliesJSON.Families;
 
 const key = process.env.COSMOS_KEY || "<cosmos key>";
 const endpoint = process.env.COSMOS_ENDPOINT || "<cosmos endpoint>";

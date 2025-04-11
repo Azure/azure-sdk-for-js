@@ -1,6 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * @summary Demonstrates using a ChangeFeed in LatestVersion mode for entire container, a partition key, and an epk range
+ */
+
 import "dotenv/config";
 import { finish, handleError, logSampleHeader, logStep } from "../Shared/handleError.js";
 import type {

@@ -1,6 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * @summary Demonstrates usage of CosmosDiagnostic Object.
+ */
+
 import "dotenv/config";
 import { handleError, logSampleHeader, finish } from "./Shared/handleError.js";
 import type { OperationInput, Container, GatewayStatistics, Database } from "@azure/cosmos";
@@ -26,10 +30,10 @@ async function run(): Promise<void> {
 }
 
 async function accessingDiagnosticForDatabaseOperations(
-  databaseId: string,
+  localDatabaseId: string,
 ): Promise<{ database: Database }> {
   const { database, diagnostics: databaseCreateDiagnostic } =
-    await client.databases.createIfNotExists({ id: databaseId });
+    await client.databases.createIfNotExists({ id: localDatabaseId });
   console.log("    ## Database with id " + database.id + " created.");
   displayCosmosDiagnosticsObject(databaseCreateDiagnostic, "database create");
   return {
@@ -134,8 +138,8 @@ function displayCosmosDiagnosticsObject(diagnostics: any, target: string): void 
 
   const gatewayStatistics = diagnostics.clientSideRequestStatistics.gatewayStatistics;
   console.log(`    ## gatewayStatistics during during operation - ${gatewayStatistics.length}`);
-  metadataLookups.forEach((gatewayStatistics: GatewayStatistics, index: number) => {
-    console.log(`    #### gatewayStatistics ${index} : ${JSON.stringify(gatewayStatistics)}`);
+  metadataLookups.forEach((statistics: GatewayStatistics, index: number) => {
+    console.log(`    #### gatewayStatistics ${index} : ${JSON.stringify(statistics)}`);
   });
   console.log("######################################################################");
 }

@@ -1,16 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * @summary Demonstrates usage of CosmosDiagnostic Object.
+ */
+
 import "dotenv/config";
 import { handleError, logSampleHeader, finish } from "./Shared/handleError.js";
-import {
-  CosmosClient,
-  BulkOperationType,
-  OperationInput,
-  Container,
-  PatchOperationType,
-  GatewayStatistics,
-} from "@azure/cosmos";
+import type { OperationInput, Container, GatewayStatistics, Database } from "@azure/cosmos";
+import { CosmosClient, BulkOperationType, PatchOperationType } from "@azure/cosmos";
 
 const key = process.env.COSMOS_KEY || "<cosmos key>";
 const endpoint = process.env.COSMOS_ENDPOINT || "<cosmos endpoint>";
@@ -31,9 +29,11 @@ async function run(): Promise<void> {
   await finish();
 }
 
-async function accessingDiagnosticForDatabaseOperations(databaseId: string): Promise<void> {
+async function accessingDiagnosticForDatabaseOperations(
+  localDatabaseId: string,
+): Promise<{ database: Database }> {
   const { database, diagnostics: databaseCreateDiagnostic } =
-    await client.databases.createIfNotExists({ id: databaseId });
+    await client.databases.createIfNotExists({ id: localDatabaseId });
   console.log("    ## Database with id " + database.id + " created.");
   displayCosmosDiagnosticsObject(databaseCreateDiagnostic, "database create");
   return {
@@ -41,8 +41,8 @@ async function accessingDiagnosticForDatabaseOperations(databaseId: string): Pro
   };
 }
 async function accessingDiagnosticForContainerOperations(
-  database: any,
-): Promise<{ container: any }> {
+  database: Database,
+): Promise<{ container: Container }> {
   const { container, diagnostics: containerCreateDiagnostic } =
     await database.containers.createIfNotExists({
       id: containerId,
@@ -56,7 +56,10 @@ async function accessingDiagnosticForContainerOperations(
   };
 }
 
-async function accessingDiagnosticForItemOperations(itemId: string, container: Container): Promise<void> {
+async function accessingDiagnosticForItemOperations(
+  itemId: string,
+  container: Container,
+): Promise<void> {
   const { diagnostics } = await container.items.create({
     id: itemId,
     key1: "A",
@@ -99,7 +102,7 @@ async function accessingDiagnosticForBatchOperations(container: Container): Prom
   displayCosmosDiagnosticsObject(response.diagnostics, "batch");
 }
 
-function displayCosmosDiagnosticsObject(diagnostics: any, target: string) {
+function displayCosmosDiagnosticsObject(diagnostics: any, target: string): void {
   console.log(
     `######################## Printing diagnostic for ${target} ##############################`,
   );
@@ -135,8 +138,8 @@ function displayCosmosDiagnosticsObject(diagnostics: any, target: string) {
 
   const gatewayStatistics = diagnostics.clientSideRequestStatistics.gatewayStatistics;
   console.log(`    ## gatewayStatistics during during operation - ${gatewayStatistics.length}`);
-  metadataLookups.forEach((gatewayStatistics: GatewayStatistics, index: number) => {
-    console.log(`    #### gatewayStatistics ${index} : ${JSON.stringify(gatewayStatistics)}`);
+  metadataLookups.forEach((statistics: GatewayStatistics, index: number) => {
+    console.log(`    #### gatewayStatistics ${index} : ${JSON.stringify(statistics)}`);
   });
   console.log("######################################################################");
 }

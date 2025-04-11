@@ -1,17 +1,20 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * @summary Demonstrates container create, read, delete and reading all containers belonging to a database.
+ */
+
 import "dotenv/config";
 import { finish, handleError, logStep, logSampleHeader } from "./Shared/handleError.js";
+import type { ContainerDefinition, IndexingPolicy, SpatialIndex } from "@azure/cosmos";
 import {
-  ContainerDefinition,
   CosmosClient,
-  IndexingPolicy,
-  SpatialIndex,
   VectorEmbeddingDataType,
   VectorEmbeddingDistanceFunction,
   VectorIndexType,
 } from "@azure/cosmos";
+
 const key = process.env.COSMOS_KEY || "<cosmos key>";
 const endpoint = process.env.COSMOS_ENDPOINT || "<cosmos endpoint>";
 const databaseId = process.env.COSMOS_DATABASE || "<cosmos database>";

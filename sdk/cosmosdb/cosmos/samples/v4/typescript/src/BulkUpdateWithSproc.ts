@@ -1,12 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * @summary Bulk Updates documents with a Stored Procedure. Prefer `container.items().bulk()` to this behavior.
+ */
+
 import "dotenv/config";
 import { logSampleHeader, handleError, finish, logStep } from "./Shared/handleError.js";
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
 import { CosmosClient } from "@azure/cosmos";
 import { randomUUID } from "@azure/core-util";
+
 const key = process.env.COSMOS_KEY || "<cosmos key>";
 const endpoint = process.env.COSMOS_ENDPOINT || "<cosmos endpoint>";
 const databaseId = process.env.COSMOS_DATABASE || "<cosmos database>";

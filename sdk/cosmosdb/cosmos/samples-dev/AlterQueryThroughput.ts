@@ -1,6 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * @summary Updates a container offer to change query throughput.
+ */
+
 import "dotenv/config";
 import { finish, handleError, logStep, logSampleHeader } from "./Shared/handleError.js";
 import type {

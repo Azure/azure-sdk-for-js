@@ -1,16 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * @summary Shows a simple bulk call with each BulkOperation type.
+ */
+
 import "dotenv/config";
 import { handleError, finish, logStep } from "./Shared/handleError.js";
-import {
-  BulkOperationType,
-  CosmosClient,
-  OperationInput,
-  PatchOperationType,
-} from "@azure/cosmos";
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
+import type { OperationInput } from "@azure/cosmos";
+import { BulkOperationType, CosmosClient, PatchOperationType } from "@azure/cosmos";
+
 const key = process.env.COSMOS_KEY || "<cosmos key>";
 const endpoint = process.env.COSMOS_ENDPOINT || "<cosmos endpoint>";
 function addEntropy(name: string): string {

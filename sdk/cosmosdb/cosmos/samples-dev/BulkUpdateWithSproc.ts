@@ -1,6 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * @summary Bulk Updates documents with a Stored Procedure. Prefer `container.items().bulk()` to this behavior.
+ */
+
 import "dotenv/config";
 import { logSampleHeader, handleError, finish, logStep } from "./Shared/handleError.js";
 import { CosmosClient } from "@azure/cosmos";

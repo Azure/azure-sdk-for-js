@@ -1,6 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * @summary Demonstrates using stored procedures for server side run functions
+ */
+
 import "dotenv/config";
 import { logSampleHeader, logStep, finish, handleError } from "./Shared/handleError.js";
 import type { ErrorResponse, FeedOptions, Item, Resource } from "@azure/cosmos";

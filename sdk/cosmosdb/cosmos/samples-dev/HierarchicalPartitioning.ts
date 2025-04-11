@@ -1,6 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * @summary Shows various operations on containers with Hierarchical Partitioning.
+ */
+
 import "dotenv/config";
 import { handleError, logSampleHeader, finish } from "./Shared/handleError.js";
 import type { PatchOperation, OperationInput } from "@azure/cosmos";

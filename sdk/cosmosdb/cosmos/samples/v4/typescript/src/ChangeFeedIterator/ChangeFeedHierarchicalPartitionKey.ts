@@ -1,15 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * @summary Demonstrates using a ChangeFeed for a partition key
+ */
+
 import "dotenv/config";
 import { finish, handleError, logSampleHeader } from "../Shared/handleError.js";
+import type { Container, ChangeFeedIteratorOptions } from "@azure/cosmos";
 import {
   CosmosClient,
   PartitionKeyDefinitionVersion,
   PartitionKeyKind,
-  Container,
   StatusCodes,
-  ChangeFeedIteratorOptions,
   ChangeFeedStartFrom,
 } from "@azure/cosmos";
 

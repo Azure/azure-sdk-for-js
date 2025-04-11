@@ -1,6 +1,10 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * @summary Demonstrates database create, read, delete and reading all databases.
+ */
+
 import "dotenv/config";
 import { handleError, logStep, logSampleHeader, finish } from "./Shared/handleError.js";
 import { CosmosClient } from "@azure/cosmos";

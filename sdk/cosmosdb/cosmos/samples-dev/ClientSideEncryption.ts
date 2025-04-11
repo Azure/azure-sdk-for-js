@@ -1,6 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * @summary Client-Side Encryption
+ */
+
 import "dotenv/config";
 import { ClientSecretCredential } from "@azure/identity";
 import type {

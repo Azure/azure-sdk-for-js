@@ -1,6 +1,10 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * @summary Demonstrates using a ChangeFeed.
+ */
+
 import "dotenv/config";
 import { finish, handleError, logSampleHeader } from "./Shared/handleError.js";
 import { CosmosClient } from "@azure/cosmos";

@@ -1,6 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * @summary Demonstrates using SasTokens for granting scoped access to Cosmos resources. *Private feature*
+ */
+
 import "dotenv/config";
 import type { SasTokenProperties } from "@azure/cosmos";
 import { CosmosClient, createAuthorizationSasToken, SasTokenPermissionKind } from "@azure/cosmos";

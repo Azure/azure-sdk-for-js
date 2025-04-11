@@ -1,17 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * @summary Demonstrates using a ChangeFeed in AllVersionsAndDeletes mode for entire container, a partition key, and an epk range
+ */
+
 import "dotenv/config";
 import { finish, handleError, logSampleHeader, logStep } from "../Shared/handleError.js";
+import type {
+  Container,
+  ChangeFeedIteratorOptions,
+  ChangeFeedPullModelIterator,
+} from "@azure/cosmos";
 import {
   CosmosClient,
   PartitionKeyDefinitionVersion,
-  Container,
   StatusCodes,
-  ChangeFeedIteratorOptions,
   ChangeFeedStartFrom,
   ChangeFeedMode,
-  ChangeFeedPullModelIterator,
 } from "@azure/cosmos";
 
 const key = process.env.COSMOS_KEY || "<cosmos key>";
@@ -91,7 +97,11 @@ async function ingestData(container: Container, initialize: number, end: number)
   console.log(`ingested items with id - item${initialize} and id - item${end}`);
 }
 
-async function insertAndModifyData(container: Container, initialize: number, end: number): Promise<void> {
+async function insertAndModifyData(
+  container: Container,
+  initialize: number,
+  end: number,
+): Promise<void> {
   await ingestData(container, initialize, end);
   await container.items.upsert({ id: `item${initialize}`, name: `sample1`, key: initialize + 1 });
   console.log(`upserted item with id - item${initialize} and partition key - sample1`);
@@ -105,7 +115,7 @@ async function iterateChangeFeedFromNow(
   initialize: number,
   end: number,
 ): Promise<string> {
-  let iterator = container.items.getChangeFeedIterator(options);
+  const iterator = container.items.getChangeFeedIterator(options);
   console.log("running the iterator to start fetching changes from now.");
   await iterator.readNext();
   // ingest, upsert, and delete some data to introduce changes to container

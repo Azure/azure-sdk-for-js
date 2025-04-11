@@ -1,6 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * @summary Shows a simple bulk call with each BulkOperation type.
+ */
+
 import "dotenv/config";
 import { handleError, finish, logStep } from "./Shared/handleError.js";
 import type { OperationInput } from "@azure/cosmos";

@@ -1,6 +1,10 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * @summary Demonstrates container create, read, delete and reading all containers belonging to a database.
+ */
+
 import "dotenv/config";
 import { finish, handleError, logStep, logSampleHeader } from "./Shared/handleError.js";
 import type { ContainerDefinition, IndexingPolicy, SpatialIndex } from "@azure/cosmos";

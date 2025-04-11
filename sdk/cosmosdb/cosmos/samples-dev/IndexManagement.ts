@@ -1,6 +1,10 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * @summary Shows various ways to manage indexing items or changing container index policies.
+ */
+
 import "dotenv/config";
 import { logSampleHeader, handleError, finish, logStep } from "./Shared/handleError.js";
 import type { ContainerDefinition } from "@azure/cosmos";

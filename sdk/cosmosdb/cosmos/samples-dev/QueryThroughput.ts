@@ -1,6 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * @summary Demonstrates query throughput scenarios.
+ */
+
 import "dotenv/config";
 import type { Container, FeedOptions, SqlQuerySpec } from "@azure/cosmos";
 import { CosmosClient } from "@azure/cosmos";

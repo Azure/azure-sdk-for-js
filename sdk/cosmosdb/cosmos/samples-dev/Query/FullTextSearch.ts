@@ -1,6 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * @summary Demonstrates full text search queries.
+ */
+
 import "dotenv/config";
 import { finish, handleError, logSampleHeader } from "./../Shared/handleError.js";
 import type { IndexingPolicy } from "@azure/cosmos";
