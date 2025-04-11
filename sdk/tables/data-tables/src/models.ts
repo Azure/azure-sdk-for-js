@@ -31,6 +31,12 @@ export type TransactionAction = CreateDeleteEntityAction | UpdateEntityAction;
 export type TableServiceClientOptions = CommonClientOptions & {
   endpoint?: string;
   version?: string;
+  /**
+   * Audience URL used to obtain an access token for the Azure Active Directory authentication.
+   * If not provided, the default scopes will be used (`https://storage.azure.com/.default` for storage endpoints
+   * or `https://cosmos.azure.com/.default` for cosmos endpoints).
+   */
+  audience?: string;
 };
 
 /**

@@ -252,7 +252,7 @@ export class TableClient {
     }
 
     if (isTokenCredential(credential)) {
-      const scope = isCosmos ? COSMOS_SCOPE : STORAGE_SCOPE;
+      const scope = this.clientOptions.audience ?? (isCosmos ? COSMOS_SCOPE : STORAGE_SCOPE);
       setTokenChallengeAuthenticationPolicy(generatedClient.pipeline, credential, scope);
     }
 
