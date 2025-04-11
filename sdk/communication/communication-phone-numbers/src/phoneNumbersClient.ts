@@ -47,10 +47,9 @@ import type {
   PurchasePhoneNumbersResult,
   ReleasePhoneNumberResult,
   SearchAvailablePhoneNumbersRequest,
-  SearchOperatorInformationOptions} from "./models.js";
-import {
-  PhoneNumbersReservation
+  SearchOperatorInformationOptions,
 } from "./models.js";
+import { PhoneNumbersReservation } from "./models.js";
 import type {
   BeginPurchasePhoneNumbersOptions,
   BeginReleasePhoneNumberOptions,
@@ -242,11 +241,11 @@ export class PhoneNumbersClient {
               response.id,
               response.phoneNumbers,
               response.expiresAt,
-              response.status
+              response.status,
             );
             return reservation;
           });
-      }
+      },
     );
   }
 
@@ -929,7 +928,7 @@ export class PhoneNumbersClient {
         this.client.phoneNumbers.listReservations({
           ...updatedOptions,
         }),
-        updatedOptions.maxPageSize ? updatedOptions.maxPageSize : 100
+        updatedOptions.maxPageSize ? updatedOptions.maxPageSize : 100,
       );
     } catch (e: any) {
       span.setStatus({
@@ -983,7 +982,7 @@ export class PhoneNumbersClient {
    */
   private async *mapPagedAsyncIterableIterator<T, U>(
     iterator: PagedAsyncIterableIterator<T>,
-    mapFn: (item: T) => U
+    mapFn: (item: T) => U,
   ): AsyncIterableIterator<U> {
     for await (const page of iterator.byPage()) {
       for (const item of page) {
@@ -994,7 +993,7 @@ export class PhoneNumbersClient {
 
   private toPagedAsyncIterableIterator<T>(
     asyncIterator: AsyncIterableIterator<T>,
-    pageSize: number
+    pageSize: number,
   ): PagedAsyncIterableIterator<T> {
     async function* byPage(): AsyncIterableIterator<T[]> {
       let page: T[] = [];
@@ -1022,15 +1021,15 @@ export class PhoneNumbersClient {
 
   private mapToPagedPhoneNumbersReservaion(
     listReservations: PagedAsyncIterableIterator<PhoneNumbersReservationInternal>,
-    pageSize: number = 100
-  ) : PagedAsyncIterableIterator<PhoneNumbersReservation>{
+    pageSize: number = 100,
+  ): PagedAsyncIterableIterator<PhoneNumbersReservation> {
     return this.toPagedAsyncIterableIterator(
       this.mapPagedAsyncIterableIterator(
         listReservations,
         (item) =>
-          new PhoneNumbersReservation(item.id, item.phoneNumbers, item.expiresAt, item.status)
+          new PhoneNumbersReservation(item.id, item.phoneNumbers, item.expiresAt, item.status),
       ),
-      pageSize
+      pageSize,
     );
   }
 }

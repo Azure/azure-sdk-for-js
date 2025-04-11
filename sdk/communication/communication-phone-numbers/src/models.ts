@@ -103,9 +103,8 @@ export interface PhoneNumberReservationParams extends PhoneNumbersReservationInt
 }
 
 export class PhoneNumbersReservation implements PhoneNumberReservationParams {
-
   id: string;
-  phoneNumbers: { [propertyName: string]: AvailablePhoneNumber | null; };
+  phoneNumbers: { [propertyName: string]: AvailablePhoneNumber | null };
   expiresAt?: Date;
   status?: ReservationStatus;
 
@@ -120,7 +119,7 @@ export class PhoneNumbersReservation implements PhoneNumberReservationParams {
     id?: string,
     phoneNumbers: { [propertyName: string]: AvailablePhoneNumber | null } = {},
     expiresAt?: Date,
-    status?: ReservationStatus
+    status?: ReservationStatus,
   ) {
     this.id = id ? id : generateGUID();
     this.phoneNumbers = phoneNumbers;
