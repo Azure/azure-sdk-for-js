@@ -524,7 +524,7 @@ export interface SendConversationMessageOptions {
 export interface CreateConversationRequest {
   /** The conversation details. */
   conversation: Conversation;
-  /** An intial message within the conversation. */
+  /** An initial message within the conversation. */
   initialMessage?: Message;
 }
 
