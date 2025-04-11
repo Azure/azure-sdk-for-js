@@ -6,16 +6,16 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { ActivityRuns } from "../operationsInterfaces/index.js";
+import { ActivityRuns } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers.js";
-import * as Parameters from "../models/parameters.js";
-import { DataFactoryManagementClient } from "../dataFactoryManagementClient.js";
+import * as Mappers from "../models/mappers";
+import * as Parameters from "../models/parameters";
+import { DataFactoryManagementClient } from "../dataFactoryManagementClient";
 import {
   RunFilterParameters,
   ActivityRunsQueryByPipelineRunOptionalParams,
   ActivityRunsQueryByPipelineRunResponse,
-} from "../models/index.js";
+} from "../models";
 
 /** Class containing ActivityRuns operations. */
 export class ActivityRunsImpl implements ActivityRuns {

@@ -22,7 +22,7 @@ import {
   DataFlowDebugCommandRequest,
   DataFlowDebugSessionExecuteCommandOptionalParams,
   DataFlowDebugSessionExecuteCommandResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a DataFlowDebugSession. */

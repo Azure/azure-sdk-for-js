@@ -13,7 +13,7 @@ import {
   PipelineRunsGetOptionalParams,
   PipelineRunsGetResponse,
   PipelineRunsCancelOptionalParams,
-} from "../models/index.js";
+} from "../models";
 
 /** Interface representing a PipelineRuns. */
 export interface PipelineRuns {

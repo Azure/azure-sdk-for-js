@@ -28,7 +28,7 @@ import {
   UserAccessPolicy,
   FactoriesGetDataPlaneAccessOptionalParams,
   FactoriesGetDataPlaneAccessResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Factories. */

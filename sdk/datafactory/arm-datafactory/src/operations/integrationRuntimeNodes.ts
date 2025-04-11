@@ -6,11 +6,11 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { IntegrationRuntimeNodes } from "../operationsInterfaces/index.js";
+import { IntegrationRuntimeNodes } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers.js";
-import * as Parameters from "../models/parameters.js";
-import { DataFactoryManagementClient } from "../dataFactoryManagementClient.js";
+import * as Mappers from "../models/mappers";
+import * as Parameters from "../models/parameters";
+import { DataFactoryManagementClient } from "../dataFactoryManagementClient";
 import {
   IntegrationRuntimeNodesGetOptionalParams,
   IntegrationRuntimeNodesGetResponse,
@@ -20,7 +20,7 @@ import {
   IntegrationRuntimeNodesUpdateResponse,
   IntegrationRuntimeNodesGetIpAddressOptionalParams,
   IntegrationRuntimeNodesGetIpAddressResponse,
-} from "../models/index.js";
+} from "../models";
 
 /** Class containing IntegrationRuntimeNodes operations. */
 export class IntegrationRuntimeNodesImpl implements IntegrationRuntimeNodes {

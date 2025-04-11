@@ -15,7 +15,7 @@ import {
   IntegrationRuntimeNodesUpdateResponse,
   IntegrationRuntimeNodesGetIpAddressOptionalParams,
   IntegrationRuntimeNodesGetIpAddressResponse,
-} from "../models/index.js";
+} from "../models";
 
 /** Interface representing a IntegrationRuntimeNodes. */
 export interface IntegrationRuntimeNodes {
