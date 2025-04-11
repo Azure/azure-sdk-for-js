@@ -466,7 +466,7 @@ export interface ThreadMessageOptions {
   metadata?: Record<string, string> | null;
 }
 
-/** An abstract base for creation-time 'blocks' that can be text or images. We use @discriminator('type') but make 'type' an open union. */
+/** Defines a single content block when creating a message. The 'type' field determines whether it is text, an image file, or an external image URL, etc. */
 export interface MessageContentBlockInputParent {
   type: MessageBlockType;
 }
@@ -957,7 +957,7 @@ export type OpenApiAuthDetails =
   | OpenApiAnonymousAuthDetails
   | OpenApiConnectionAuthDetails
   | OpenApiManagedAuthDetails;
-/** An abstract base for creation-time 'blocks' that can be text or images. We use @discriminator('type') but make 'type' an open union. */
+/** Defines a single content block when creating a message. The 'type' field determines whether it is text, an image file, or an external image URL, etc. */
 export type MessageContentBlockInput =
   | MessageContentBlockInputParent
   | MessageTextBlockInput
