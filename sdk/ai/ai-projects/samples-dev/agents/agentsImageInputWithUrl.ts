@@ -83,11 +83,11 @@ export async function main(): Promise<void> {
   console.log(`Deleted agent, agent ID: ${agent.id}`);
 
   // List messages
-  const messages = await client.agents.listMessages(thread.id);
+  const messages = await client.agents.listMessages(thread.id, {
+    order: "asc",
+  });
 
-  // The messages are following in the reverse order,
-  // we will iterate them and output only text contents.
-  for (const dataPoint of messages.data.reverse()) {
+  for (const dataPoint of messages.data) {
     const textContent = dataPoint.content.find((item) => item.type === "text");
     if (textContent && "text" in textContent) {
       console.log(`${dataPoint.role}: ${textContent.text.value}`);
