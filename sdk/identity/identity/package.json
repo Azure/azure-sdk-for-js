@@ -102,6 +102,7 @@
     "@types/node": "^18.0.0",
     "@vitest/browser": "^3.0.9",
     "@vitest/coverage-istanbul": "^3.0.9",
+    "assertion-error": "^2.0.1",
     "dotenv": "^16.0.0",
     "eslint": "^9.9.0",
     "jsonwebtoken": "^9.0.0",
