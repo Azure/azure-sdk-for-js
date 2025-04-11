@@ -12,6 +12,7 @@
 - Filter OpenTelemetry semantic attributes from being double recorded as custom dimensions.
 - Add support for detecting the Application Insights shim on internal verison.
 - Do not filter out `_MS.ProcessedByMetricExtractors` value on envelopes.
+- Hide iKey in debug logs.
 
 ## 1.0.0-beta.29 (2025-03-04)
 
