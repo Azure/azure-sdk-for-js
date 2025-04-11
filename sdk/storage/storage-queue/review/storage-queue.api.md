@@ -5,14 +5,14 @@
 ```ts
 
 import type { AbortSignalLike } from '@azure/abort-controller';
-import { AnonymousCredential } from '@azure/storage-blob';
-import { AnonymousCredentialPolicy } from '@azure/storage-blob';
+import { AnonymousCredential } from '@azure/storage-common';
+import { AnonymousCredentialPolicy } from '@azure/storage-common';
 import { AzureLogger } from '@azure/logger';
-import { BaseRequestPolicy } from '@azure/storage-blob';
+import { BaseRequestPolicy } from '@azure/storage-common';
 import * as coreClient from '@azure/core-client';
 import * as coreHttpCompat from '@azure/core-http-compat';
-import { Credential as Credential_2 } from '@azure/storage-blob';
-import { CredentialPolicy } from '@azure/storage-blob';
+import { Credential as Credential_2 } from '@azure/storage-common';
+import { CredentialPolicy } from '@azure/storage-common';
 import { HttpHeadersLike as HttpHeaders } from '@azure/core-http-compat';
 import { CompatResponse as HttpOperationResponse } from '@azure/core-http-compat';
 import { RequestBodyType as HttpRequestBody } from '@azure/core-rest-pipeline';
@@ -24,11 +24,13 @@ import { RequestPolicy } from '@azure/core-http-compat';
 import { RequestPolicyFactory } from '@azure/core-http-compat';
 import { RequestPolicyOptionsLike as RequestPolicyOptions } from '@azure/core-http-compat';
 import { RestError } from '@azure/core-rest-pipeline';
-import { StorageBrowserPolicyFactory } from '@azure/storage-blob';
-import type { StorageRetryOptions } from '@azure/storage-blob';
-import { StorageRetryPolicyFactory } from '@azure/storage-blob';
-import { StorageSharedKeyCredential } from '@azure/storage-blob';
-import { StorageSharedKeyCredentialPolicy } from '@azure/storage-blob';
+import { StorageBrowserPolicyFactory } from '@azure/storage-common';
+import { StorageRetryOptions } from '@azure/storage-common';
+import { StorageRetryPolicy } from '@azure/storage-common';
+import { StorageRetryPolicyFactory } from '@azure/storage-common';
+import { StorageRetryPolicyType } from '@azure/storage-common';
+import { StorageSharedKeyCredential } from '@azure/storage-common';
+import { StorageSharedKeyCredentialPolicy } from '@azure/storage-common';
 import type { TokenCredential } from '@azure/core-auth';
 import type { UserAgentPolicyOptions } from '@azure/core-rest-pipeline';
 import { WebResourceLike as WebResource } from '@azure/core-http-compat';
@@ -793,7 +795,13 @@ export enum StorageQueueAudience {
     StorageOAuthScopes = "https://storage.azure.com/.default"
 }
 
+export { StorageRetryOptions }
+
+export { StorageRetryPolicy }
+
 export { StorageRetryPolicyFactory }
+
+export { StorageRetryPolicyType }
 
 export { StorageSharedKeyCredential }
 
