@@ -50,6 +50,18 @@ describe("EnvironmentCredential", function () {
 
   const scope = "https://vault.azure.net/.default";
 
+  it("throws an CredentialUnavailable without required environment variables", () => {
+    let error: Error | undefined;
+    try {
+      new EnvironmentCredential(recorder.configureClientOptions({}));
+    }
+    catch (e: any) {
+      error = e;
+    }
+
+    assert.equal(error?.name, "CredentialUnavailableError");
+  });
+
   it("authenticates with a client secret on the environment variables", async function () {
     // The following environment variables must be set for this to work.
     // On TEST_MODE="playback", the recorder automatically fills them with stubbed values.
@@ -168,17 +180,6 @@ describe("EnvironmentCredential", function () {
         // We will focus our test on making sure the underlying getToken was called.
       }
     }).toSupportTracing(["EnvironmentCredential.getToken"]);
-  });
-
-  it("throws an CredentialUnavailable when getToken is called and no credential was configured", async () => {
-    const credential = new EnvironmentCredential(recorder.configureClientOptions({}));
-    const error = await getError(credential.getToken(scope));
-    assert.equal(error.name, "CredentialUnavailableError");
-    assert.ok(
-      error.message.indexOf(
-        "EnvironmentCredential is unavailable. No underlying credential could be used.",
-      ) > -1,
-    );
   });
 
   it("throws an AuthenticationError when getToken is called and EnvironmentCredential authentication failed", async () => {
