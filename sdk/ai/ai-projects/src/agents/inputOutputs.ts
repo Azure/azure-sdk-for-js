@@ -157,6 +157,7 @@ export type {
   AzureFunctionStorageQueueOutput,
   OpenApiConnectionSecuritySchemeOutput,
   OpenApiManagedSecuritySchemeOutput,
+  OpenAIPageableListOfAgentThreadOutput,
 } from "../customization/outputModels.js";
 export {
   ListMessagesQueryParamProperties,
@@ -206,6 +207,7 @@ export type {
   PollingOptionsParams,
   CancelVectorStoreFileBatchOptionalParams,
   DeleteAgentOptionalParams,
+  ListAgentThreadOptionalParams,
 } from "./customModels.js";
 
 export {

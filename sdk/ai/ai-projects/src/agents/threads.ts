@@ -8,6 +8,7 @@ import * as ConverterToWire from "../customization/convertModelsToWrite.js";
 import * as ConverterFromWire from "../customization/convertOutputModelsFromWire.js";
 import type {
   AgentThreadOutput,
+  OpenAIPageableListOfAgentThreadOutput,
   ThreadDeletionStatusOutput,
 } from "../customization/outputModels.js";
 import { TracingUtility } from "../tracing.js";
@@ -23,6 +24,7 @@ import type {
   CreateAgentThreadOptionalParams,
   DeleteAgentThreadOptionalParams,
   GetAgentThreadOptionalParams,
+  ListAgentThreadOptionalParams,
   UpdateAgentThreadOptionalParams,
 } from "./customModels.js";
 import { convertThreadDeletionStatusOutput } from "../customization/convertOutputModelsFromWire.js";
@@ -156,6 +158,43 @@ export async function deleteThread(
   return convertThreadDeletionStatusOutput(response);
 }
 
+/** Gets a list of threads that were previously created. */
+export async function listThreads(
+  context: Client,
+  options: ListAgentThreadOptionalParams = {},
+): Promise<OpenAIPageableListOfAgentThreadOutput> {
+  const listThreadsOptions: GeneratedParameters.ListThreadsParameters = {
+    ...operationOptionsToRequestParameters(options),
+    queryParameters: {
+      ...(options.limit && { limit: options.limit }),
+      ...(options.order && { order: options.order }),
+      ...(options.after && { after: options.after }),
+      ...(options.before && { before: options.before }),
+    },
+  };
+
+  validateListThreadsParameters(listThreadsOptions);
+  const output = await TracingUtility.withSpan(
+    "ListThreads",
+    listThreadsOptions,
+    async (updatedOptions) => {
+      const result = await context.path("/threads").get(updatedOptions);
+      if (!expectedStatuses.includes(result.status)) {
+        throw createOpenAIError(result);
+      }
+      return result.body;
+    },
+    (span, updatedOptions) =>
+      traceStartAgentGeneric(span, {
+        ...updatedOptions,
+        tracingAttributeOptions: {},
+      }),
+  );
+
+  return ConverterFromWire.convertOpenAIPageableListOfAgentThreadOutput(output);
+
+}
+
 function validateCreateThreadParameters(
   options?: GeneratedParameters.CreateThreadParameters,
 ): void {
@@ -180,5 +219,17 @@ function validateUpdateThreadParameters(
   }
   if (options?.body.metadata) {
     validateMetadata(options.body.metadata);
+  }
+}
+
+function validateListThreadsParameters(options?: GeneratedParameters.ListThreadsParameters): void {
+  if (
+    options?.queryParameters?.limit &&
+    (options.queryParameters.limit < 1 || options.queryParameters.limit > 100)
+  ) {
+    throw new Error("Limit must be between 1 and 100");
+  }
+  if (options?.queryParameters?.order && !["asc", "desc"].includes(options.queryParameters.order)) {
+    throw new Error("Order must be either 'asc' or 'desc'");
   }
 }

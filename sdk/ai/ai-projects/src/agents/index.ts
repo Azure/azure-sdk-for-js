@@ -26,6 +26,7 @@ import type {
   AgentDeletionStatusOutput,
   AgentOutput,
   OpenAIPageableListOfAgentOutput,
+  OpenAIPageableListOfAgentThreadOutput,
 } from "../customization/outputModels.js";
 import { createAgent, deleteAgent, getAgent, listAgents, updateAgent } from "./assistants.js";
 import {
@@ -36,7 +37,7 @@ import {
   uploadFile,
   uploadFileAndPoll,
 } from "./files.js";
-import { createThread, deleteThread, getThread, updateThread } from "./threads.js";
+import { createThread, deleteThread, getThread, listThreads, updateThread } from "./threads.js";
 import {
   cancelRun,
   createRun,
@@ -112,6 +113,7 @@ import type {
   UploadFileOptionalParams,
   CancelVectorStoreFileBatchOptionalParams,
   DeleteAgentOptionalParams,
+  ListAgentThreadOptionalParams,
 } from "./customModels.js";
 import type { ThreadMessageOptions, ToolOutput } from "../customization/models.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
@@ -152,6 +154,10 @@ export interface AgentsOperations {
     threadId: string,
     options?: DeleteAgentThreadOptionalParams,
   ) => Promise<ThreadDeletionStatusOutput>;
+  /** Gets a list of threads that were previously created. */
+  listThreads: (
+    options?: ListAgentThreadOptionalParams,
+  ) => Promise<OpenAIPageableListOfAgentThreadOutput>;
 
   /** Creates and starts a new run of the specified thread using the specified agent. */
   createRun: (
@@ -366,6 +372,8 @@ function getAgents(context: Client): AgentsOperations {
       updateThread(context, threadId, options),
     deleteThread: (threadId: string, options?: DeleteAgentThreadOptionalParams) =>
       deleteThread(context, threadId, options),
+    listThreads: (options?: ListAgentThreadOptionalParams) =>
+      listThreads(context, options),
 
     createRun: (threadId: string, assistantId: string, options?: CreateRunOptionalParams) =>
       createRun(context, threadId, assistantId, options ?? {}),

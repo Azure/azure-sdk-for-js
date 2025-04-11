@@ -139,6 +139,7 @@ export interface AgentsOperations {
     listMessages: (threadId: string, options?: ListMessagesOptionalParams) => Promise<OpenAIPageableListOfThreadMessageOutput>;
     listRuns: (threadId: string, options?: ListRunQueryOptionalParams) => Promise<OpenAIPageableListOfThreadRunOutput>;
     listRunSteps: (threadId: string, runId: string, options?: ListRunQueryOptionalParams) => Promise<OpenAIPageableListOfRunStepOutput>;
+    listThreads: (options?: ListAgentThreadOptionalParams) => Promise<OpenAIPageableListOfAgentThreadOutput>;
     listVectorStoreFileBatchFiles: (vectorStoreId: string, batchId: string, options?: ListVectorStoreFileBatchFilesOptionalParams) => Promise<OpenAIPageableListOfVectorStoreFileOutput>;
     listVectorStoreFiles: (vectorStoreId: string, options?: ListVectorStoreFilesOptionalParams) => Promise<OpenAIPageableListOfVectorStoreFileOutput>;
     listVectorStores: (options?: DeleteVectorStoreOptionalParams) => Promise<OpenAIPageableListOfVectorStoreOutput>;
@@ -688,6 +689,12 @@ export function isOutputOfType<T extends {
 export interface ListAgentsOptionalParams extends ListQueryParameters, OperationOptions {
 }
 
+// Warning: (ae-forgotten-export) The symbol "ListThreadsQueryParamProperties" needs to be exported by the entry point index.d.ts
+//
+// @public
+export interface ListAgentThreadOptionalParams extends ListThreadsQueryParamProperties, OperationOptions {
+}
+
 // @public
 export interface ListConnectionsOptionalParams extends ListConnectionsQueryParamProperties, OperationOptions {
 }
@@ -984,6 +991,15 @@ export interface OpenAIFileOutput {
 // @public
 export interface OpenAIPageableListOfAgentOutput {
     data: Array<AgentOutput>;
+    firstId: string;
+    hasMore: boolean;
+    lastId: string;
+    object: "list";
+}
+
+// @public
+export interface OpenAIPageableListOfAgentThreadOutput {
+    data: Array<AgentThreadOutput>;
     firstId: string;
     hasMore: boolean;
     lastId: string;
