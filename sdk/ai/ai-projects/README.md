@@ -379,6 +379,38 @@ const agent = await client.agents.createAgent("gpt-4o", {
 console.log(`Created agent, agent ID: ${agent.id}`);
 ```
 
+#### Create Agent With OpenAPI
+
+OpenAPI specifications describe REST operations against a specific endpoint. Agents SDK can read an OpenAPI spec, create a function from it, and call that function against the REST endpoint without additional client-side execution.
+Here is an example creating an OpenAPI tool (using anonymous authentication):
+
+```ts snippet:createAgentWithOpenApi
+import { ToolUtility } from "@azure/ai-projects";
+
+// Read in OpenApi spec
+const filePath = "./data/weatherOpenApi.json";
+const openApiSpec = JSON.parse(fs.readFileSync(filePath, "utf-8"));
+// Define OpenApi function
+const openApiFunction = {
+  name: "getWeather",
+  spec: openApiSpec,
+  description: "Retrieve weather information for a location",
+  auth: {
+    type: "anonymous",
+  },
+  default_params: ["format"], // optional
+};
+// Create OpenApi tool
+const openApiTool = ToolUtility.createOpenApiTool(openApiFunction);
+// Create agent with OpenApi tool
+const agent = await client.agents.createAgent("gpt-4o-mini", {
+  name: "myAgent",
+  instructions: "You are a helpful agent",
+  tools: [openApiTool.definition],
+});
+console.log(`Created agent, agent ID: ${agent.id}`);
+```
+
 #### Create an Agent with Fabric
 
 To enable your Agent to answer queries using Fabric data, use `FabricTool` along with a connection to the Fabric resource.
