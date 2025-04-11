@@ -53,6 +53,7 @@ import {
   getUrl,
   hrTimeToDate,
   isSqlDB,
+  isSyntheticSource,
   serializeAttribute,
 } from "./common.js";
 import type { Tags, Properties, MSLink, Measurements } from "../types.js";
@@ -94,6 +95,9 @@ function createTagsFromSpan(span: ReadableSpan): Tags {
   if (httpUserAgent) {
     // TODO: Not exposed in Swagger, need to update def
     tags["ai.user.userAgent"] = String(httpUserAgent);
+  }
+  if (isSyntheticSource(span.attributes)) {
+    tags[KnownContextTagKeys.AiOperationSyntheticSource] = "True";
   }
   if (span.kind === SpanKind.SERVER) {
     const httpMethod = getHttpMethod(span.attributes);

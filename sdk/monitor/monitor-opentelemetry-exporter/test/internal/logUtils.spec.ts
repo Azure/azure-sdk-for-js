@@ -16,7 +16,7 @@ import {
   SEMATTRS_HTTP_CLIENT_IP,
 } from "@opentelemetry/semantic-conventions";
 import type { Tags, Properties, Measurements } from "../../src/types.js";
-import { MaxPropertyLengths } from "../../src/types.js";
+import { experimentalOpenTelemetryValues, MaxPropertyLengths } from "../../src/types.js";
 import { getInstance } from "../../src/platform/index.js";
 import type {
   AvailabilityData,
@@ -73,6 +73,7 @@ function assertEnvelope(
   assert.deepStrictEqual(envelope?.tags, {
     ...context.tags,
     ...expectedServiceTags,
+    [KnownContextTagKeys.AiOperationSyntheticSource]: "True",
   });
   assert.deepStrictEqual((envelope?.data?.baseData as any).properties, expectedProperties);
   assert.deepStrictEqual((envelope?.data?.baseData as any).measurements, expectedMeasurements);
@@ -98,6 +99,7 @@ describe("logUtils.ts", () => {
     attributes: {
       "some-attribute": "some attribute value",
       [ATTR_CLIENT_ADDRESS]: "127.0.0.1",
+      [experimentalOpenTelemetryValues.SYNTHETIC_TYPE]: "bot",
     },
     severityNumber: SeverityNumber.INFO,
     severityText: "Information",
@@ -118,6 +120,7 @@ describe("logUtils.ts", () => {
         "extra.attribute": "foo",
         [SEMATTRS_MESSAGE_TYPE]: "test message type",
         [ATTR_NETWORK_PEER_ADDRESS]: "127.0.0.1",
+        [experimentalOpenTelemetryValues.SYNTHETIC_TYPE]: "test",
       };
       const expectedProperties = {
         "extra.attribute": "foo",
@@ -155,6 +158,7 @@ describe("logUtils.ts", () => {
         [SEMATTRS_EXCEPTION_MESSAGE]: "test exception message",
         [SEMATTRS_EXCEPTION_STACKTRACE]: "test exception stack",
         [SEMATTRS_NET_PEER_IP]: "127.0.0.1",
+        [experimentalOpenTelemetryValues.SYNTHETIC_TYPE]: "bot",
       };
       const expectedProperties = {
         "extra.attribute": "foo",
@@ -201,6 +205,7 @@ describe("logUtils.ts", () => {
         "extra.attribute": "foo",
         [SEMATTRS_MESSAGE_TYPE]: "test message type",
         [ATTR_CLIENT_ADDRESS]: "127.0.0.1",
+        [experimentalOpenTelemetryValues.SYNTHETIC_TYPE]: "bot",
       };
       testLogRecord.body = data;
 
@@ -245,6 +250,7 @@ describe("logUtils.ts", () => {
         "extra.attribute": "foo",
         [SEMATTRS_MESSAGE_TYPE]: "test message type",
         [ATTR_CLIENT_ADDRESS]: "127.0.0.1",
+        [experimentalOpenTelemetryValues.SYNTHETIC_TYPE]: "bot",
       };
       testLogRecord.body = data;
 
@@ -295,6 +301,7 @@ describe("logUtils.ts", () => {
         "extra.attribute": "foo",
         [SEMATTRS_MESSAGE_TYPE]: "test message type",
         [SEMATTRS_HTTP_CLIENT_IP]: "127.0.0.1",
+        [experimentalOpenTelemetryValues.SYNTHETIC_TYPE]: "bot",
       };
       testLogRecord.body = data;
       const expectedTime = hrTimeToDate(testLogRecord.hrTime);
@@ -345,6 +352,7 @@ describe("logUtils.ts", () => {
         "extra.attribute": "foo",
         [SEMATTRS_MESSAGE_TYPE]: "test message type",
         [SEMATTRS_HTTP_CLIENT_IP]: "127.0.0.1",
+        [experimentalOpenTelemetryValues.SYNTHETIC_TYPE]: "bot",
       };
       testLogRecord.body = data;
       const expectedTime = hrTimeToDate(testLogRecord.hrTime);
@@ -391,6 +399,7 @@ describe("logUtils.ts", () => {
         "extra.attribute": "foo",
         [SEMATTRS_MESSAGE_TYPE]: "test message type",
         [SEMATTRS_HTTP_CLIENT_IP]: "127.0.0.1",
+        [experimentalOpenTelemetryValues.SYNTHETIC_TYPE]: "bot",
       };
       testLogRecord.body = data;
       const expectedTime = hrTimeToDate(testLogRecord.hrTime);
@@ -432,6 +441,7 @@ describe("logUtils.ts", () => {
         "extra.attribute": "foo",
         [SEMATTRS_MESSAGE_TYPE]: "test message type",
         [SEMATTRS_HTTP_CLIENT_IP]: "127.0.0.1",
+        [experimentalOpenTelemetryValues.SYNTHETIC_TYPE]: "bot",
       };
       testLogRecord.body = data;
       const expectedTime = hrTimeToDate(testLogRecord.hrTime);
@@ -464,6 +474,7 @@ describe("logUtils.ts", () => {
         "microsoft.custom_event.name": "testing name",
         "extra.attribute": "foo",
         [ATTR_CLIENT_ADDRESS]: "127.0.0.1",
+        [experimentalOpenTelemetryValues.SYNTHETIC_TYPE]: "bot",
       };
       const expectedTime = hrTimeToDate(testLogRecord.hrTime);
       const expectedProperties = {
@@ -496,6 +507,7 @@ describe("logUtils.ts", () => {
       "extra.attribute": "foo",
       [SEMATTRS_MESSAGE_TYPE]: "test message type",
       [SEMATTRS_HTTP_CLIENT_IP]: "127.0.0.1",
+      [experimentalOpenTelemetryValues.SYNTHETIC_TYPE]: "bot",
     };
     testLogRecord.body = {
       message: { nested: { nested2: { test: "test" } } },
