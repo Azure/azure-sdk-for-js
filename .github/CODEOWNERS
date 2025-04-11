@@ -248,6 +248,11 @@
 # ServiceLabel: %Cognitive - Language
 /sdk/cognitivelanguage/ @quentinRobinson
 
+# ServiceLabel: %Online Experimentation
+
+# PRLabel: %Online Experimentation
+/sdk/onlineexperimentation/ @Azure/azure-sdk-write-onlineexperimentation
+
 # ServiceLabel: %OpenAI
 # ServiceOwners: @trrwilson
 
