@@ -48,8 +48,8 @@ export async function main(): Promise<void> {
   // Create an agent
   console.log(`Creating agent with model ${modelDeployment}...`);
   const agent = await client.agents.createAgent(modelDeployment, {
-    name: "my-assistant",
-    instructions: "You are helpful assistant",
+    name: "my-agent",
+    instructions: "You are helpful agent",
   });
   console.log(`Created agent, agent ID: ${agent.id}`);
 
@@ -102,7 +102,7 @@ export async function main(): Promise<void> {
   }
   console.log(`Run complete with status: ${run.status}`);
 
-  // Delete the assistant
+  // Delete the agent
   await client.agents.deleteAgent(agent.id);
   console.log(`Deleted agent, agent ID: ${agent.id}`);
 
