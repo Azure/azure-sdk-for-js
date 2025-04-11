@@ -3475,7 +3475,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/communication-email@file:projects/communication-email.tgz':
-    resolution: {integrity: sha512-dr9s08PwdJMuyg09r75WfJddri4i7iyYeZ7xM9qsH42NlwNRpZnOzOAd6nhBv0+QOk1vtLIrchB9x+OFH5BySQ==, tarball: file:projects/communication-email.tgz}
+    resolution: {integrity: sha512-5FTv0qLqjdh3DQFAXu8jkUb7F1qwm8xp3J0ol6Ol5gs+DTgBb18YbpzvKgLTI/+DrRgD9BDX4h2s9gcHaD4FUQ==, tarball: file:projects/communication-email.tgz}
     version: 0.0.0
 
   '@rush-temp/communication-identity@file:projects/communication-identity.tgz':
