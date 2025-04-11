@@ -76,10 +76,10 @@ export async function listMessages(
     ...operationOptionsToRequestParameters(options),
     queryParameters: {
       ...(options.runId && { run_id: options.runId }),
-      ...(options.limit && { run_id: options.limit }),
-      ...(options.order && { run_id: options.order }),
-      ...(options.after && { run_id: options.after }),
-      ...(options.before && { run_id: options.before }),
+      ...(options.limit && { limit: options.limit }),
+      ...(options.order && { order: options.order }),
+      ...(options.after && { after: options.after }),
+      ...(options.before && { before: options.before }),
     },
   };
 
