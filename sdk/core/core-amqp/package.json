@@ -103,7 +103,6 @@
     "playwright": "^1.43.1",
     "typescript": "~5.8.2",
     "vitest": "^3.0.9",
-    "util": "0.12.5",
     "ws": "^8.17.0"
   },
   "//metadata": {
