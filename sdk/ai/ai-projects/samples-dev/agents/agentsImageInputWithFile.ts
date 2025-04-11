@@ -42,7 +42,7 @@ export async function main(): Promise<void> {
   // Upload an image file
   console.log("Uploading image file...");
   const fileStream = fs.createReadStream(imagePath);
-  const imageFile = await client.agents.uploadFile(fileStream, "agents", {
+  const imageFile = await client.agents.uploadFile(fileStream, "assistants", {
     fileName: "image_file.png",
   });
   console.log(`Uploaded file, file ID: ${imageFile.id}`);
