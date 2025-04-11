@@ -252,7 +252,11 @@ export class TableClient {
     }
 
     if (isTokenCredential(credential)) {
-      const scope = this.clientOptions.audience ?? (isCosmos ? COSMOS_SCOPE : STORAGE_SCOPE);
+      let scope = this.clientOptions.audience ?? (isCosmos ? COSMOS_SCOPE : STORAGE_SCOPE);
+      // Ensure the audience ends with "/.default" if provided by customer
+      if (this.clientOptions.audience && !this.clientOptions.audience.endsWith("/.default")) {
+        scope = `${this.clientOptions.audience}/.default`;
+      }
       setTokenChallengeAuthenticationPolicy(generatedClient.pipeline, credential, scope);
     }
 
