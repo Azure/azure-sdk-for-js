@@ -61,6 +61,9 @@ importers:
       '@rush-temp/ai-vision-image-analysis':
         specifier: file:./projects/ai-vision-image-analysis.tgz
         version: file:projects/ai-vision-image-analysis.tgz(@types/debug@4.1.12)(tsx@4.19.3)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(yaml@2.7.1)
+      '@rush-temp/analytics-onlineexperimentation':
+        specifier: file:./projects/analytics-onlineexperimentation.tgz
+        version: file:projects/analytics-onlineexperimentation.tgz(@types/debug@4.1.12)(tsx@4.19.3)(vite@6.2.6(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(yaml@2.7.1)
       '@rush-temp/api-management-custom-widgets-scaffolder':
         specifier: file:./projects/api-management-custom-widgets-scaffolder.tgz
         version: file:projects/api-management-custom-widgets-scaffolder.tgz(@types/debug@4.1.12)(@vitest/browser@3.1.2)(tsx@4.19.3)(yaml@2.7.1)
@@ -2359,6 +2362,10 @@ packages:
 
   '@rush-temp/ai-vision-image-analysis@file:projects/ai-vision-image-analysis.tgz':
     resolution: {integrity: sha512-VYiN77BzAHEkljp4r1Y9y6j3gxGNxC4tx4+ti1/VYrROS4KT6TYI1/e4NhbsalKLA0toCMHTrEI/WI3ygTAxjQ==, tarball: file:projects/ai-vision-image-analysis.tgz}
+    version: 0.0.0
+
+  '@rush-temp/analytics-onlineexperimentation@file:projects/analytics-onlineexperimentation.tgz':
+    resolution: {integrity: sha512-sOnktulkfSUSQBMqVnhyLi2fZpZdUf7O3rUBCjJgtCqxmZnWJ1+0tTArKp2xOSjQ6kqOYDHWd66GOjmPgwOarA==, tarball: file:projects/analytics-onlineexperimentation.tgz}
     version: 0.0.0
 
   '@rush-temp/api-management-custom-widgets-scaffolder@file:projects/api-management-custom-widgets-scaffolder.tgz':
@@ -9096,6 +9103,41 @@ snapshots:
       tslib: 2.8.1
       typescript: 5.8.3
       vitest: 3.1.2(@types/debug@4.1.12)(@types/node@18.19.86)(@vitest/browser@3.1.2)(tsx@4.19.3)(yaml@2.7.1)
+    transitivePeerDependencies:
+      - '@edge-runtime/vm'
+      - '@types/debug'
+      - '@vitest/ui'
+      - bufferutil
+      - happy-dom
+      - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
+      - supports-color
+      - terser
+      - tsx
+      - utf-8-validate
+      - vite
+      - webdriverio
+      - yaml
+
+  '@rush-temp/analytics-onlineexperimentation@file:projects/analytics-onlineexperimentation.tgz(@types/debug@4.1.12)(tsx@4.19.3)(vite@6.2.6(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(yaml@2.7.1)':
+    dependencies:
+      '@types/node': 18.19.86
+      '@vitest/browser': 3.1.1(playwright@1.51.1)(vite@6.2.6(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.1)
+      '@vitest/coverage-istanbul': 3.1.1(vitest@3.1.1)
+      dotenv: 16.4.7
+      eslint: 9.24.0
+      playwright: 1.51.1
+      tslib: 2.8.1
+      typescript: 5.8.3
+      vitest: 3.1.1(@types/debug@4.1.12)(@types/node@18.19.86)(@vitest/browser@3.1.1)(tsx@4.19.3)(yaml@2.7.1)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@types/debug'
@@ -22771,7 +22813,7 @@ snapshots:
 
   '@types/node-fetch@2.6.12':
     dependencies:
-      '@types/node': 18.19.86
+      '@types/node': 22.7.9
       form-data: 4.0.2
 
   '@types/node@18.19.86':
