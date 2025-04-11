@@ -3,11 +3,15 @@
 
 import type { OperationOptions } from "@azure/core-client";
 import type {
+  AvailablePhoneNumber,
   PhoneNumberAssignmentType,
   PhoneNumberSearchRequest,
   PhoneNumbersListAreaCodesOptionalParams,
+  PhoneNumbersReservationInternal,
   PhoneNumberType,
+  ReservationStatus,
 } from "./generated/src/models/index.js";
+import { generateGUID } from "./utils/helpers.js";
 
 /**
  * The result of the phone numbers purchase operation.
@@ -91,20 +95,94 @@ export interface ListOfferingsOptions extends OperationOptions {
   assignmentType?: PhoneNumberAssignmentType;
 }
 
+export interface PhoneNumberReservationParams extends PhoneNumbersReservationInternal {
+  id?: string;
+  phoneNumbers?: { [propertyName: string]: AvailablePhoneNumber | null };
+  readonly expiresAt?: Date;
+  readonly status?: ReservationStatus;
+}
+
+export class PhoneNumbersReservation implements PhoneNumberReservationParams {
+  id: string;
+  phoneNumbers: { [propertyName: string]: AvailablePhoneNumber | null };
+  expiresAt?: Date;
+  status?: ReservationStatus;
+
+  /**
+   * Creates an instance of PhoneNumbersReservation.
+   * @param id - The reservation ID.
+   * @param phoneNumbers - The phone numbers associated with the reservation.
+   * @param expiresAt - The expiration date of the reservation.
+   * @param status - The status of the reservation.
+   */
+  constructor(
+    id?: string,
+    phoneNumbers: { [propertyName: string]: AvailablePhoneNumber | null } = {},
+    expiresAt?: Date,
+    status?: ReservationStatus,
+  ) {
+    this.id = id ? id : generateGUID();
+    this.phoneNumbers = phoneNumbers;
+    this.phoneNumbers = phoneNumbers;
+    this.expiresAt = expiresAt;
+    this.status = status;
+  }
+
+  /**
+   * Adds phone numbers to the reservation.
+   */
+  addPhoneNumber(phoneNumber: AvailablePhoneNumber): void {
+    // Implementation for adding phone numbers to the reservation
+    if (phoneNumber.id) {
+      this.phoneNumbers[phoneNumber.id] = phoneNumber;
+    }
+  }
+
+  /**
+   * Removes phone numbers from the reservation.
+   */
+  removePhoneNumber(phoneNumberId: string): void {
+    // Implementation for removing a phone numbers from the reservation
+    if (phoneNumberId) {
+      this.phoneNumbers[phoneNumberId] = null;
+    }
+  }
+}
+
+export type PhoneNumbersGetReservationResponse = PhoneNumbersReservation;
+
 export {
+  AvailablePhoneNumber,
+  AvailablePhoneNumberCost,
+  AvailablePhoneNumberError,
+  AvailablePhoneNumberStatus,
   PhoneNumberAdministrativeDivision,
   PhoneNumberAssignmentType,
   PhoneNumberAreaCode,
+  PhoneNumbersBrowseAvailableNumbersOptionalParams,
+  PhoneNumbersBrowseAvailableNumbersResponse,
+  PhoneNumberBrowseCapabilitiesRequest,
+  PhoneNumbersBrowseRequest,
+  PhoneNumbersBrowseResult,
   PhoneNumberCapabilities,
   PhoneNumberCapabilitiesRequest,
   PhoneNumberCapabilityType,
   PhoneNumberCost,
   PhoneNumberCountry,
+  PhoneNumbersCreateOrUpdateReservationResponse,
+  PhoneNumbersDeleteReservationOptionalParams,
+  PhoneNumbersGetReservationOptionalParams,
+  PhoneNumbersListReservationsOptionalParams,
   PhoneNumbersListAreaCodesOptionalParams,
   PhoneNumberLocality,
   PhoneNumberOffering,
   PhoneNumberSearchRequest,
   PhoneNumberSearchResult,
+  PhoneNumberSearchResultError,
+  PhoneNumbersPurchaseReservationHeaders,
+  PhoneNumbersPurchaseReservationOptionalParams,
+  PhoneNumbersPurchaseReservationResponse,
+  PhoneNumbersReservationInternal,
   PhoneNumberType,
   PurchasedPhoneNumber,
   OperatorDetails,
@@ -112,6 +190,7 @@ export {
   OperatorInformationOptions,
   OperatorInformationResult,
   OperatorNumberType,
+  ReservationStatus,
 } from "./generated/src/models/index.js";
 
 export { SipRoutingError, SipTrunkRoute } from "./generated/src/siprouting/models/index.js";
