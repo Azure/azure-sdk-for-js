@@ -8,6 +8,12 @@ import type {
   PhoneNumbersListAreaCodesOptionalParams,
   PhoneNumberType,
 } from "./generated/src/models/index.js";
+import type {
+  TrunkHealth,
+  SipTrunkRoute,
+  IpAddressVersion,
+  PrivacyHeader,
+} from "./generated/src/siprouting/models/index.js";
 
 /**
  * The result of the phone numbers purchase operation.
@@ -79,9 +85,34 @@ export interface SearchOperatorInformationOptions extends OperationOptions {
 export interface ListSipRoutesOptions extends OperationOptions {}
 
 /**
+ * Additional options that can be passed to list SIP domains.
+ */
+export interface ListSipDomainsOptions extends OperationOptions {}
+
+/**
  * Additional options that can be passed to list SIP trunks.
  */
-export interface ListSipTrunksOptions extends OperationOptions {}
+export interface ListSipTrunksOptions extends OperationOptions {
+  /**
+   * Include SIP trunk health in response.
+   */
+  includeHealth?: boolean;
+}
+
+/**
+ * Additional options that can be passed to get SIP trunks.
+ */
+export interface GetSipTrunksOptions extends OperationOptions {
+  /**
+   * Include SIP trunk health in response.
+   */
+  includeHealth?: boolean;
+}
+
+/**
+ * Additional options that can be passed to get SIP domains.
+ */
+export interface GetSipDomainsOptions extends OperationOptions {}
 
 /**
  * Additional options that can be passed to the available offerings request.
@@ -114,7 +145,20 @@ export {
   OperatorNumberType,
 } from "./generated/src/models/index.js";
 
-export { SipRoutingError, SipTrunkRoute } from "./generated/src/siprouting/models/index.js";
+export {
+  SipRoutingError,
+  SipTrunkRoute,
+  TrunkHealth,
+  TlsHealth,
+  PingHealth,
+  OverallHealth,
+  TlsStatus,
+  PingStatus,
+  OverallHealthStatus,
+  UnhealthyStatusReason,
+  PrivacyHeader,
+  IpAddressVersion,
+} from "./generated/src/siprouting/models/index.js";
 
 /**
  * Represents a SIP trunk for routing calls. See RFC 4904.
@@ -128,4 +172,48 @@ export interface SipTrunk {
    * Gets or sets SIP signaling port of the trunk.
    */
   sipSignalingPort: number;
+  /**
+   * Enabled flag
+   */
+  enabled?: boolean;
+  /**
+   * Represents health state of a SIP trunk for routing calls.
+   */
+  health?: TrunkHealth;
+  /**
+   * When enabled, removes Azure Communication Services from the signaling path on call transfer and sets the SIP Refer-To header to the trunk's FQDN. By default false.
+   */
+  directTransfer?: boolean;
+  /**
+   * SIP Privacy header. Default value is id.
+   */
+  privacyHeader?: PrivacyHeader;
+  /**
+   * IP address version used by the trunk. The default value is ipv4.
+   */
+  ipAddressVersion?: IpAddressVersion;
+}
+
+/**
+ * Represents a DNS domain for SIP trunk.
+ */
+export interface SipDomain {
+  /**
+   * Gets or sets FQDN of the domain.
+   */
+  fqdn: string;
+  /**
+   * Enabled flag
+   */
+  enabled?: boolean;
+}
+
+/**
+ * Test Routes with number operation result.
+ */
+export interface TestRoutesWithNumberResult {
+  /**
+   * The list of routes whose number patterns are matched by the target number. The routes are displayed and applied in the same order as in SipConfiguration.
+   */
+  matchingRoutes?: SipTrunkRoute[]
 }
