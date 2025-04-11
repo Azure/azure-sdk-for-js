@@ -173,6 +173,32 @@ export interface OpenApiManagedSecuritySchemeOutput {
   audience: string;
 }
 
+/** The input definition information for a Bing custom search tool as used to configure an agent. */
+export interface BingCustomSearchToolDefinitionOutput
+  extends ToolDefinitionOutputParent {
+  /** The object type, which is always 'bing_custom_search'. */
+  type: "bing_custom_search";
+  /** The list of search configurations used by the bing custom search tool. */
+  bing_custom_search: SearchConfigurationListOutput;
+}
+
+/** A list of search configurations currently used by the `bing_custom_search` tool. */
+export interface SearchConfigurationListOutput {
+  /**
+   * The connections attached to this tool. There can be a maximum of 1 connection
+   * resource attached to the tool.
+   */
+  search_configurations: Array<SearchConfigurationOutput>;
+}
+
+/** A custom search configuration. */
+export interface SearchConfigurationOutput {
+  /** A connection in a ToolConnectionList attached to this tool. */
+  connection_id: string;
+  /** Name of the custom configuration instance given to config. */
+  instance_name: string;
+}
+
 /** The input definition information for a azure function tool as used to configure an agent. */
 export interface AzureFunctionToolDefinitionOutput
   extends ToolDefinitionOutputParent {
@@ -634,7 +660,7 @@ export interface AgentsNamedToolChoiceOutput {
   /**
    * the type of tool. If type is `function`, the function name must be set.
    *
-   * Possible values: "function", "code_interpreter", "file_search", "bing_grounding", "fabric_dataagent", "sharepoint_grounding", "azure_ai_search"
+   * Possible values: "function", "code_interpreter", "file_search", "bing_grounding", "fabric_dataagent", "sharepoint_grounding", "azure_ai_search", "bing_custom_search"
    */
   type: AgentsNamedToolChoiceTypeOutput;
   /** The name of the function to call */
@@ -1043,6 +1069,18 @@ export interface RunStepMicrosoftFabricToolCallOutput
   type: "fabric_dataagent";
   /** Reserved for future use. */
   fabric_dataagent: Record<string, string>;
+}
+
+/**
+ * A record of a call to a bing custom search tool, issued by the model in evaluation of a defined tool, that represents
+ * executed search with bing custom search.
+ */
+export interface RunStepCustomSearchToolCallOutput
+  extends RunStepToolCallOutputParent {
+  /** The object type, which is always 'bing_custom_search'. */
+  type: "bing_custom_search";
+  /** Reserved for future use. */
+  bing_custom_search: Record<string, string>;
 }
 
 /**
@@ -1653,6 +1691,7 @@ export type ToolDefinitionOutput =
   | SharepointToolDefinitionOutput
   | AzureAISearchToolDefinitionOutput
   | OpenApiToolDefinitionOutput
+  | BingCustomSearchToolDefinitionOutput
   | AzureFunctionToolDefinitionOutput;
 /** authentication details for OpenApiFunctionDefinition */
 export type OpenApiAuthDetailsOutput =
@@ -1693,6 +1732,7 @@ export type RunStepToolCallOutput =
   | RunStepAzureAISearchToolCallOutput
   | RunStepSharepointToolCallOutput
   | RunStepMicrosoftFabricToolCallOutput
+  | RunStepCustomSearchToolCallOutput
   | RunStepFunctionToolCallOutput;
 /** An abstract representation of an emitted output from a code interpreter tool. */
 export type RunStepCodeInterpreterToolCallOutputOutput =
