@@ -25,7 +25,7 @@ extends:
             parameters:
               Artifacts: ${{parameters.Artifacts}}
               ServiceDirectory: ${{ parameters.ServiceDirectory }}
-              RunUnitTests: false
+              RunUnitTests: ${{ parameters.RunUnitTests }}
               MatrixConfigs:
                 - Name: Javascript_ci_test_base
                   Path: eng/pipelines/templates/stages/platform-matrix.json
