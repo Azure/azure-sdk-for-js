@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-/* eslint-disable no-unused-expressions */
-import assert from "assert";
+
 import type {
   ClientConfigDiagnostic,
   Container,
@@ -20,7 +19,7 @@ import type {
   RequestOptions,
   Response,
   UserDefinition,
-} from "../../../src";
+} from "../../../src/index.js";
 import {
   ClientContext,
   ConnectionMode,
@@ -30,30 +29,29 @@ import {
   CosmosDbDiagnosticLevel,
   GlobalEndpointManager,
   MetadataLookUpType,
-} from "../../../src";
+} from "../../../src/index.js";
 import type {
   ItemDefinition,
   ItemResponse,
   PermissionResponse,
   Resource,
   User,
-} from "../../../src";
-import type { UserResponse } from "../../../src";
-import { endpoint } from "../common/_testConfig";
-import { masterKey } from "../common/_fakeTestSecrets";
-import type { DatabaseRequest } from "../../../src";
-import type { ContainerRequest } from "../../../src";
-import { AssertionError, expect } from "chai";
+} from "../../../src/index.js";
+import type { UserResponse } from "../../../src/index.js";
+import { endpoint } from "../common/_testConfig.js";
+import { masterKey } from "../common/_fakeTestSecrets.js";
+import type { DatabaseRequest } from "../../../src/index.js";
+import type { ContainerRequest } from "../../../src/index.js";
 import {
   DiagnosticNodeInternal,
   DiagnosticNodeType,
-} from "../../../src/diagnostics/DiagnosticNodeInternal";
-import type { ExtractPromise } from "../../../src/utils/diagnostics";
-import { getCurrentTimestampInMs } from "../../../src/utils/time";
-import { extractPartitionKeys } from "../../../src/extractPartitionKey";
-import fs from "fs";
-import path from "path";
-import sinon from "sinon";
+} from "../../../src/diagnostics/DiagnosticNodeInternal.js";
+import type { ExtractPromise } from "../../../src/utils/diagnostics.js";
+import { getCurrentTimestampInMs } from "../../../src/utils/time.js";
+import { extractPartitionKeys } from "../../../src/extractPartitionKey.js";
+import fs from "node:fs";
+import path from "node:path";
+import { assert, expect, vi, chai } from "vitest";
 
 const defaultRoutingGatewayPort: string = ":8081";
 const defaultComputeGatewayPort: string = ":8903";
@@ -149,24 +147,24 @@ export async function testForDiagnostics<Callback extends () => Promise<any>>(
       spec.requestDurationInMsUpperLimit =
         getCurrentTimestampInMs() - spec.requestStartTimeUTCInMsLowerLimit;
     }
-    expect(
+    assert.isDefined(
       response.diagnostics,
       "Diagnostics object should not be undefined or null, in Response object",
-    ).to.exist;
+    );
     validateDiagnostics(response.diagnostics, spec, parallelExecutions);
     return response;
   } catch (ex) {
-    if (ex instanceof AssertionError) {
+    if (ex instanceof chai.AssertionError) {
       throw ex;
     }
     if (!spec.requestDurationInMsUpperLimit) {
       spec.requestDurationInMsUpperLimit =
         getCurrentTimestampInMs() - spec.requestStartTimeUTCInMsLowerLimit;
     }
-    expect(
+    assert.isDefined(
       ex.diagnostics,
       "Diagnostics object should not be undefined or null, in Exception objection",
-    ).to.exist;
+    );
     validateDiagnostics(ex.diagnostics, spec, parallelExecutions);
     throw ex;
   }
@@ -183,7 +181,7 @@ export function validateDiagnostics(
   spec: CosmosDiagnosticsTestSpec,
   parallelExecutions: boolean,
 ): void {
-  expect(diagnostics, "Diagnostics object should not be undefined or null").to.exist;
+  assert.isDefined(diagnostics, "Diagnostics object should not be undefined or null");
 
   validateRequestStartTimeForDiagnostics(spec, diagnostics);
 
@@ -230,12 +228,15 @@ function validateGatewayStatisticsForDiagnostics(
 ): void {
   const gatewayStatistics = diagnostics.clientSideRequestStatistics.gatewayStatistics;
   if (spec.gatewayStatisticsTestSpec !== undefined) {
-    expect(gatewayStatistics, "In CosmosDiagnostics, gatewayStatistics should have existed.").to
-      .exist;
-    expect(
+    assert.isDefined(
+      gatewayStatistics,
+      "In CosmosDiagnostics, gatewayStatistics should have existed.",
+    );
+    assert.equal(
       gatewayStatistics.length,
+      spec.gatewayStatisticsTestSpec.length,
       "In CosmosDiagnostics, Number of gatewayStatistics should match the spec.",
-    ).to.be.equal(spec.gatewayStatisticsTestSpec.length);
+    );
 
     for (let i = 0; i < spec.gatewayStatisticsTestSpec.length; i++) {
       const gatewayStatisticsSpec: Partial<GatewayStatistics> = spec.gatewayStatisticsTestSpec[i];
@@ -287,7 +288,7 @@ function compareObjects(test: any, target: any, message: string): void {
     const errorMessage = `${message} Properties [${mismatchedProperties.join(
       ", ",
     )}] did not match.`;
-    throw new AssertionError(errorMessage);
+    throw new chai.AssertionError(errorMessage);
   }
 }
 
@@ -510,8 +511,8 @@ export async function bulkReplaceItems(
     documents.map(async (document) => {
       const partitionKey = extractPartitionKeys(document, partitionKeyDef);
       const { resource: doc } = await container.item(document.id, partitionKey).replace(document);
-      const { _etag: _1, _ts: _2, ...expectedModifiedDocument } = document; // eslint-disable-line @typescript-eslint/no-unused-vars
-      const { _etag: _4, _ts: _3, ...actualModifiedDocument } = doc; // eslint-disable-line @typescript-eslint/no-unused-vars
+      const { _etag: _1, _ts: _2, ...expectedModifiedDocument } = document;
+      const { _etag: _4, _ts: _3, ...actualModifiedDocument } = doc;
       assert.deepStrictEqual(expectedModifiedDocument, actualModifiedDocument);
       return doc;
     }),
@@ -669,9 +670,7 @@ export async function assertThrowsAsync(test: () => Promise<any>, error?: any): 
   } catch (e: any) {
     if (!error || e instanceof error) return "everything is fine";
   }
-  throw new assert.AssertionError({
-    message: "Missing rejection" + (error ? " with " + error.name : ""),
-  });
+  throw new chai.AssertionError(`Missing rejection ${error} with ${error.name || ""}`);
 }
 
 // helper functions for testing change feed allVersionsAndDeletes mode
@@ -754,12 +753,12 @@ export function initializeMockPartitionKeyRanges(
     createMockPartitionKeyRange(index.toString(), range[0], range[1]),
   );
 
-  const fetchAllInternalStub = sinon.stub().resolves({
+  const fetchAllInternalStub = vi.fn().mockResolvedValue({
     resources: partitionKeyRanges,
     headers: { "x-ms-request-charge": "1.23" },
     code: 200,
   });
-  sinon.stub(clientContext, "queryPartitionKeyRanges").returns({
+  vi.spyOn(clientContext, "queryPartitionKeyRanges").mockReturnValue({
     fetchAllInternal: fetchAllInternalStub, // Add fetchAllInternal to mimic expected structure
   } as unknown as QueryIterator<PartitionKeyRange>);
 }

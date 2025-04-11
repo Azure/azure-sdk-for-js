@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { ClientSideMetrics } from "./clientSideMetrics";
-import QueryMetricsConstants from "./queryMetricsConstants";
-import { parseDelimitedString, timeSpanFromMetrics } from "./queryMetricsUtils";
-import { QueryPreparationTimes } from "./queryPreparationTime";
-import { RuntimeExecutionTimes } from "./runtimeExecutionTimes";
-import { TimeSpan } from "./timeSpan";
+import { ClientSideMetrics } from "./clientSideMetrics.js";
+import QueryMetricsConstants from "./queryMetricsConstants.js";
+import { parseDelimitedString, timeSpanFromMetrics } from "./queryMetricsUtils.js";
+import { QueryPreparationTimes } from "./queryPreparationTime.js";
+import { RuntimeExecutionTimes } from "./runtimeExecutionTimes.js";
+import { TimeSpan } from "./timeSpan.js";
 
 export class QueryMetrics {
   constructor(

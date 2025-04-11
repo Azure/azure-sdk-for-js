@@ -1,17 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { ClientContext } from "../../ClientContext";
-import type { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
-import { getIdFromLink, getPathFromLink, isResourceValid, ResourceType } from "../../common";
-import type { SqlQuerySpec } from "../../queryExecutionContext";
-import { QueryIterator } from "../../queryIterator";
-import type { FeedOptions, RequestOptions } from "../../request";
-import type { Container } from "../Container";
-import type { Resource } from "../Resource";
-import { UserDefinedFunction } from "./UserDefinedFunction";
-import type { UserDefinedFunctionDefinition } from "./UserDefinedFunctionDefinition";
-import { UserDefinedFunctionResponse } from "./UserDefinedFunctionResponse";
-import { getEmptyCosmosDiagnostics, withDiagnostics } from "../../utils/diagnostics";
+import type { ClientContext } from "../../ClientContext.js";
+import type { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal.js";
+import {
+  getIdFromLink,
+  getPathFromLink,
+  isResourceValid,
+  ResourceType,
+} from "../../common/index.js";
+import type { SqlQuerySpec } from "../../queryExecutionContext/index.js";
+import { QueryIterator } from "../../queryIterator.js";
+import type { FeedOptions, RequestOptions } from "../../request/index.js";
+import type { Container } from "../Container/index.js";
+import type { Resource } from "../Resource.js";
+import { UserDefinedFunction } from "./UserDefinedFunction.js";
+import type { UserDefinedFunctionDefinition } from "./UserDefinedFunctionDefinition.js";
+import { UserDefinedFunctionResponse } from "./UserDefinedFunctionResponse.js";
+import { getEmptyCosmosDiagnostics, withDiagnostics } from "../../utils/diagnostics.js";
 
 /**
  * Used to create, upsert, query, or read all User Defined Functions.

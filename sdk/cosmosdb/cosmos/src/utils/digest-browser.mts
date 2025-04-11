@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { encodeUTF8 } from "./encode";
-import { globalCrypto } from "./globalCrypto";
+import { encodeUTF8 } from "./encode.js";
+import { globalCrypto } from "./globalCrypto.js";
 
 export async function digest(str: string): Promise<string> {
   const data = encodeUTF8(str);
