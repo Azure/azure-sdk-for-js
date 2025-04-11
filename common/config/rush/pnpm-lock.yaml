@@ -1444,6 +1444,10 @@ packages:
     resolution: {integrity: sha512-ulsT3EHF1RQ29X55cxBLgKsIKWni9JdbUqG7sipGVP4uhWcBpmm/vhKOMH340+27Acm9+kHGnN/5XmQ5LrIDgA==}
     engines: {node: '>=16'}
 
+  '@azure/msal-node@3.5.0':
+    resolution: {integrity: sha512-9cLUmcOZ5FODz3uAhS2C9A1U7xDUTCHVcaNQBYpOd5qCKdKM6ft/ydAfw27vEntuaDgnh5jytOAKsEzEbtoQ1Q==}
+    engines: {node: '>=16'}
+
   '@azure/openai@1.0.0-beta.12':
     resolution: {integrity: sha512-qKblxr6oVa8GsyNzY+/Ub9VmEsPYKhBrUrPaNEQiM+qrxnBPVm9kaeqGFFb/U78Q2zOabmhF9ctYt3xBW0nWnQ==}
     engines: {node: '>=18.0.0'}
@@ -3527,7 +3531,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/core-amqp@file:projects/core-amqp.tgz':
-    resolution: {integrity: sha512-RTu5/bU3psfv+ddDd9NuchUkuus5zhXrW00gN7tT6iARihBF73K5yO/pf/S+f2ze05NBPX9svrhept5/Vc9Ndw==, tarball: file:projects/core-amqp.tgz}
+    resolution: {integrity: sha512-eOM7tW3KINmw2eWEbwoyeFSiKlEQsFbCOmIsHNVmGdMi1cWfgcq03aSJNmglNWYtLv179AxVbQhvw1fB7qfGJA==, tarball: file:projects/core-amqp.tgz}
     version: 0.0.0
 
   '@rush-temp/core-auth@file:projects/core-auth.tgz':
@@ -3663,7 +3667,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/identity@file:projects/identity.tgz':
-    resolution: {integrity: sha512-U7pThslmDVIkMRkW6NNZG2/TPBecihxsQ7oshyV0q0cVweIndZNVx4wJzs0ij2fUM8XszkKAhOwIrIbx+glaXA==, tarball: file:projects/identity.tgz}
+    resolution: {integrity: sha512-uAEqQUUsT5KhRw+4GLK7zmH1v5431f5kA7DOKfr4MHjSxEGI4E4Q4EDSTGCkUHeZAzpD+0CnZWm0bFo4FPfU0w==, tarball: file:projects/identity.tgz}
     version: 0.0.0
 
   '@rush-temp/iot-device-update@file:projects/iot-device-update.tgz':
@@ -7706,6 +7710,12 @@ snapshots:
   '@azure/msal-node@3.3.0':
     dependencies:
       '@azure/msal-common': 15.2.1
+      jsonwebtoken: 9.0.2
+      uuid: 8.3.2
+
+  '@azure/msal-node@3.5.0':
+    dependencies:
+      '@azure/msal-common': 15.5.0
       jsonwebtoken: 9.0.2
       uuid: 8.3.2
 
@@ -20276,7 +20286,7 @@ snapshots:
     dependencies:
       '@azure/keyvault-keys': 4.9.0
       '@azure/msal-browser': 4.10.0
-      '@azure/msal-node': 3.3.0
+      '@azure/msal-node': 3.5.0
       '@types/jsonwebtoken': 9.0.9
       '@types/ms': 2.1.0
       '@types/node': 18.19.86
