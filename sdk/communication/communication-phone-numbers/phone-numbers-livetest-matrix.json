@@ -4,12 +4,12 @@
   },
   "matrix": {
     "Agent": {
-      "windows-2022": {
+      "windows": {
         "OSVmImage": "env:WINDOWSVMIMAGE",
         "Pool": "env:WINDOWSPOOL",
         "SKIP_UPDATE_CAPABILITIES_LIVE_TESTS": "true"
       },
-      "ubuntu-20.04": {
+      "ubuntu": {
         "OSVmImage": "env:LINUXVMIMAGE",
         "Pool": "env:LINUXPOOL",
         "AZURE_TEST_AGENT": "UBUNTU_2004_NODE14",
@@ -21,18 +21,19 @@
         "SKIP_UPDATE_CAPABILITIES_LIVE_TESTS": "true"
       }
     },
-    "NodeTestVersion": ["18.x", "20.x"],
+    "NodeTestVersion": ["env:NODE_VERSION_LTS_MAINTENANCE", "env:NODE_VERSION_LTS_ACTIVE"],
     "TestType": "node",
     "TestResultsFiles": "**/test-results.xml"
   },
   "include": [
     {
       "Agent": {
-        "windows-2022": {
+        "windows": {
           "OSVmImage": "env:WINDOWSVMIMAGE",
           "Pool": "env:WINDOWSPOOL"
         }
       },
+      "NodeTestVersion": "env:NODE_VERSION_LTS_MAINTENANCE",
       "Scenario": {
         "coverage": {
           "TestType": "node",
@@ -52,18 +53,17 @@
           "AZURE_TEST_AGENT": "WINDOWS_2019_BROWSER",
           "SKIP_UPDATE_CAPABILITIES_LIVE_TESTS": "false"
         }
-      },
-      "NodeTestVersion": "18.x"
+      }
     },
     {
       "Agent": {
-        "ubuntu-20.04": {
+        "ubuntu": {
           "OSVmImage": "env:LINUXVMIMAGE",
           "Pool": "env:LINUXPOOL"
         }
       },
+      "NodeTestVersion": "env:NODE_VERSION_LTS_MAINTENANCE",
       "TestType": "node",
-      "NodeTestVersion": "18.x",
       "DependencyVersion": ["max", "min"],
       "TestResultsFiles": "**/test-results.xml",
       "SKIP_UPDATE_CAPABILITIES_LIVE_TESTS": "true"
