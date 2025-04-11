@@ -192,11 +192,15 @@ export interface PhoneNumberOffering {
 // @public (undocumented)
 export interface PhoneNumberReservationParams extends PhoneNumbersReservationInternal {
     // (undocumented)
-    id: string;
+    readonly expiresAt?: Date;
     // (undocumented)
-    readonly phoneNumbers: {
+    id?: string;
+    // (undocumented)
+    phoneNumbers?: {
         [propertyName: string]: AvailablePhoneNumber | null;
     };
+    // (undocumented)
+    readonly status?: ReservationStatus;
 }
 
 // @public
@@ -243,7 +247,7 @@ export class PhoneNumbersClient {
     listAvailableOfferings(countryCode: string, options?: ListOfferingsOptions): PagedAsyncIterableIterator<PhoneNumberOffering>;
     listAvailableTollFreeAreaCodes(countryCode: string, options?: ListTollFreeAreaCodesOptions): PagedAsyncIterableIterator<PhoneNumberAreaCode>;
     listPurchasedPhoneNumbers(options?: ListPurchasedPhoneNumbersOptions): PagedAsyncIterableIterator<PurchasedPhoneNumber>;
-    listReservations(options?: PhoneNumbersListReservationsOptionalParams): PagedAsyncIterableIterator<PhoneNumbersReservationInternal>;
+    listReservations(options?: PhoneNumbersListReservationsOptionalParams): PagedAsyncIterableIterator<PhoneNumbersReservation>;
     searchOperatorInformation(phoneNumbers: string[], options?: SearchOperatorInformationOptions): Promise<OperatorInformationResult>;
 }
 
@@ -289,8 +293,8 @@ export type PhoneNumberSearchResultError = "NoError" | "UnknownErrorCode" | "Out
 export interface PhoneNumbersGetReservationOptionalParams extends coreClient.OperationOptions {
 }
 
-// @public
-export type PhoneNumbersGetReservationResponse = PhoneNumbersReservationInternal;
+// @public (undocumented)
+export type PhoneNumbersGetReservationResponse = PhoneNumbersReservation;
 
 // @public
 export interface PhoneNumbersListAreaCodesOptionalParams extends coreClient.OperationOptions {
@@ -326,17 +330,21 @@ export type PhoneNumbersPurchaseReservationResponse = PhoneNumbersPurchaseReserv
 
 // @public (undocumented)
 export class PhoneNumbersReservation implements PhoneNumberReservationParams {
-    constructor(id: string, phoneNumbers?: {
+    constructor(id?: string, phoneNumbers?: {
         [propertyName: string]: AvailablePhoneNumber | null;
-    });
+    }, expiresAt?: Date, status?: ReservationStatus);
     addPhoneNumber(phoneNumber: AvailablePhoneNumber): void;
+    // (undocumented)
+    expiresAt?: Date;
     // (undocumented)
     id: string;
     // (undocumented)
-    readonly phoneNumbers: {
+    phoneNumbers: {
         [propertyName: string]: AvailablePhoneNumber | null;
     };
     removePhoneNumber(phoneNumberId: string): void;
+    // (undocumented)
+    status?: ReservationStatus;
 }
 
 // @public

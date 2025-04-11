@@ -9,7 +9,9 @@ import type {
   PhoneNumbersListAreaCodesOptionalParams,
   PhoneNumbersReservationInternal,
   PhoneNumberType,
+  ReservationStatus,
 } from "./generated/src/models/index.js";
+import { generateGUID } from "./utils/helpers.js";
 
 /**
  * The result of the phone numbers purchase operation.
@@ -94,20 +96,37 @@ export interface ListOfferingsOptions extends OperationOptions {
 }
 
 export interface PhoneNumberReservationParams extends PhoneNumbersReservationInternal {
-  id: string;
-  readonly phoneNumbers: { [propertyName: string]: AvailablePhoneNumber | null };
+  id?: string;
+  phoneNumbers?: { [propertyName: string]: AvailablePhoneNumber | null };
+  readonly expiresAt?: Date;
+  readonly status?: ReservationStatus;
 }
 
 export class PhoneNumbersReservation implements PhoneNumberReservationParams {
-  id: string;
-  readonly phoneNumbers: { [propertyName: string]: AvailablePhoneNumber | null } = {};
 
+  id: string;
+  phoneNumbers: { [propertyName: string]: AvailablePhoneNumber | null; };
+  expiresAt?: Date;
+  status?: ReservationStatus;
+
+  /**
+   * Creates an instance of PhoneNumbersReservation.
+   * @param id - The reservation ID.
+   * @param phoneNumbers - The phone numbers associated with the reservation.
+   * @param expiresAt - The expiration date of the reservation.
+   * @param status - The status of the reservation.
+   */
   constructor(
-    id: string,
+    id?: string,
     phoneNumbers: { [propertyName: string]: AvailablePhoneNumber | null } = {},
+    expiresAt?: Date,
+    status?: ReservationStatus
   ) {
-    this.id = id;
+    this.id = id ? id : generateGUID();
     this.phoneNumbers = phoneNumbers;
+    this.phoneNumbers = phoneNumbers;
+    this.expiresAt = expiresAt;
+    this.status = status;
   }
 
   /**
@@ -131,6 +150,8 @@ export class PhoneNumbersReservation implements PhoneNumberReservationParams {
   }
 }
 
+export type PhoneNumbersGetReservationResponse = PhoneNumbersReservation;
+
 export {
   AvailablePhoneNumber,
   AvailablePhoneNumberCost,
@@ -153,7 +174,6 @@ export {
   PhoneNumbersDeleteReservationOptionalParams,
   PhoneNumbersGetReservationOptionalParams,
   PhoneNumbersListReservationsOptionalParams,
-  PhoneNumbersGetReservationResponse,
   PhoneNumbersListAreaCodesOptionalParams,
   PhoneNumberLocality,
   PhoneNumberOffering,
