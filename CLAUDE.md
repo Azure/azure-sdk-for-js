@@ -7,7 +7,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - Build: `rush build` (all), `rush build -t <packagename>` (single), `rushx build` (current)
 - Lint: `rushx lint` (check), `rushx lint:fix` (fix), `rushx format` (prettier)
 - Test: `rushx test` (all), `rushx test:node`, `rushx test:browser`
-- Single test: `rushx test:vitest -- -t "test name pattern"`
+- Single test: `rushx unit-test:node -- -t "test name pattern"`
 - Test modes: `TEST_MODE=playback|record|live rushx test`
 
 ## Code Style Guidelines
