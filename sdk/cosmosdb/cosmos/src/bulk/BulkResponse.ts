@@ -5,8 +5,9 @@ import { Constants, StatusCodes, SubStatusCodes } from "../common";
 import type { CosmosDiagnostics } from "../CosmosDiagnostics";
 import type { CosmosHeaders } from "../queryExecutionContext";
 import type { StatusCode, SubStatusCode, Response } from "../request";
+import { ErrorResponse } from "../request";
 import type { ExtendedOperationResponse } from "../utils/batch";
-import { isSuccessStatusCode } from "../utils/batch";
+import { isErrorResponse, isSuccessStatusCode } from "../utils/batch";
 import type { ItemBulkOperation } from "./ItemBulkOperation";
 
 /**
@@ -19,7 +20,7 @@ export class BulkResponse {
   subStatusCode: SubStatusCode;
   headers: CosmosHeaders;
   operations: ItemBulkOperation[];
-  results: ExtendedOperationResponse[] = [];
+  results: (ExtendedOperationResponse | ErrorResponse)[] = [];
   diagnostics: CosmosDiagnostics;
 
   constructor(
@@ -80,7 +81,6 @@ export class BulkResponse {
 
       bulkResponse.createAndPopulateResults(operations, retryAfterMilliseconds);
     }
-
     return bulkResponse;
   }
 
@@ -88,25 +88,36 @@ export class BulkResponse {
     responseMessage: Response<any>,
     operations: ItemBulkOperation[],
   ): BulkResponse {
-    const results: ExtendedOperationResponse[] = [];
+    const results: (ExtendedOperationResponse | ErrorResponse)[] = [];
 
     if (responseMessage.result) {
       for (let i = 0; i < operations.length; i++) {
         const itemResponse = responseMessage.result[i];
-        const result: ExtendedOperationResponse = {
-          statusCode: itemResponse?.statusCode,
-          subStatusCode: itemResponse?.subStatusCode ?? SubStatusCodes.Unknown,
-          eTag: itemResponse?.eTag,
-          retryAfter: itemResponse.retryAfterMilliseconds ?? 0,
-          activityId: responseMessage.headers?.[Constants.HttpHeaders.ActivityId],
-          sessionToken: responseMessage.headers?.[Constants.HttpHeaders.SessionToken],
-          requestCharge: itemResponse?.requestCharge,
-          resourceBody: itemResponse?.resourceBody,
-          // diagnostics will be filled in BulkBatcher dispatch to capture the complete diagnostics(e.g. decryption)
-          diagnostics: null,
-          headers: responseMessage.headers,
-        };
-        results.push(result);
+
+        if (isSuccessStatusCode(itemResponse?.statusCode)) {
+          const result: ExtendedOperationResponse = {
+            statusCode: itemResponse?.statusCode,
+            eTag: itemResponse?.eTag,
+            activityId: responseMessage.headers?.[Constants.HttpHeaders.ActivityId],
+            sessionToken: responseMessage.headers?.[Constants.HttpHeaders.SessionToken],
+            requestCharge: itemResponse?.requestCharge,
+            resourceBody: itemResponse?.resourceBody,
+            // diagnostics will be filled in BulkBatcher dispatch to capture the complete diagnostics(e.g. decryption)
+            diagnostics: null,
+            headers: responseMessage.headers,
+          };
+          results.push(result);
+        } else {
+          const error: ErrorResponse = new ErrorResponse();
+          error.code = itemResponse?.statusCode;
+          error.substatus = itemResponse?.subStatusCode;
+          error.body = itemResponse?.resourceBody;
+          error.headers = responseMessage.headers;
+          error.activityId = responseMessage.headers?.[Constants.HttpHeaders.ActivityId];
+          error.retryAfterInMs = itemResponse?.retryAfter;
+          error.diagnostics = responseMessage.diagnostics;
+          results.push(error);
+        }
       }
     }
     let statusCode = responseMessage.code;
@@ -115,11 +126,12 @@ export class BulkResponse {
     if (responseMessage.code === StatusCodes.MultiStatus) {
       for (const result of results) {
         if (
+          isErrorResponse(result) &&
           result.statusCode !== StatusCodes.FailedDependency &&
           result.statusCode >= StatusCodes.BadRequest
         ) {
-          statusCode = result.statusCode;
-          subStatusCode = result.subStatusCode;
+          statusCode = typeof result.code === "number" ? result.code : Number(result.code);
+          subStatusCode = result.substatus;
           break;
         }
       }
@@ -136,20 +148,16 @@ export class BulkResponse {
   }
 
   private createAndPopulateResults(operations: ItemBulkOperation[], retryAfterInMs: number): void {
-    this.results = operations.map(
-      (): ExtendedOperationResponse => ({
-        statusCode: this.statusCode,
-        subStatusCode: this.subStatusCode,
-        eTag: this.headers?.[Constants.HttpHeaders.ETag],
-        retryAfter: retryAfterInMs,
-        activityId: this.headers?.[Constants.HttpHeaders.ActivityId],
-        sessionToken: this.headers?.[Constants.HttpHeaders.SessionToken],
-        requestCharge: this.headers?.[Constants.HttpHeaders.RequestCharge],
-        resourceBody: undefined,
-        // to be filled later in BulkBatcher dispatch
-        diagnostics: null,
-        headers: this.headers,
-      }),
-    );
+    this.results = operations.map(() => {
+      const errorResponse = new ErrorResponse();
+      errorResponse.code = this.statusCode;
+      errorResponse.substatus = this.subStatusCode;
+      errorResponse.retryAfterInMs = retryAfterInMs;
+      errorResponse.activityId = this.headers?.[Constants.HttpHeaders.ActivityId];
+      errorResponse.body = undefined;
+      errorResponse.diagnostics = null;
+      errorResponse.headers = this.headers;
+      return errorResponse;
+    });
   }
 }

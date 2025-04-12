@@ -30,7 +30,7 @@ import type {
   BulkOptions,
   BulkOperationResponse,
   Operation,
-  CosmosBulkResponse,
+  CosmosBulkOperationResult,
 } from "../../utils/batch";
 import {
   isKeyInRange,
@@ -732,10 +732,10 @@ export class Items {
     }, this.clientContext);
   }
 
- 
-  public async executeBulkOperations(operations: OperationInput[], options: RequestOptions = {}): Promise<CosmosBulkResponse> {
+
+  public async executeBulkOperations(operations: OperationInput[], options: RequestOptions = {}): Promise<CosmosBulkOperationResult[]> {
     const bulkHelper = new BulkHelper(this.container, this.clientContext, this.partitionKeyRangeCache, options);
-    return bulkHelper.execute(operations); 
+    return bulkHelper.execute(operations);
   };
 
   /**
@@ -923,7 +923,7 @@ export class Items {
           } else {
             throw new Error(
               "Partition key error. An operation has an unsupported partitionKey type" +
-                err.message,
+              err.message,
             );
           }
         } else {

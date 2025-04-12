@@ -37,13 +37,6 @@ export interface Batch {
 
 export type BulkOperationResponse = OperationResponse[] & { diagnostics: CosmosDiagnostics };
 
-export interface CosmosBulkResponse {
-  /** list of operation results corresponding to each operation */
-  operations: CosmosBulkOperationResult[];
-  /** boolean to represent if all the operations have succeeded. value is false if even a single operation failed */
-  isSuccess: boolean;
-}
-
 export interface CosmosBulkOperationResult {
   /** the original operation input passed */
   operationInput: OperationInput;
@@ -57,26 +50,20 @@ export interface CosmosBulkOperationResult {
  * response for a specific operation in streamed bulk operation
  */
 export interface ExtendedOperationResponse extends OperationResponse {
-  /**
-   * details of status of an operation
-   */
-  subStatusCode?: number;
-  /**
-   * activity id related to the operation
-   */
+  /** activity id related to the operation */
   activityId?: string;
-  /**
-   * session Token assigned to the result
-   */
+  /** session Token assigned to the result */
   sessionToken?: string;
-  /**
-   * in case the operation is rate limited, indicates the time post which a retry can be attempted.
-   */
-  retryAfter?: number;
   /** headers associated with the operation */
   headers?: CosmosHeaders;
   /** diagnostic details associated with operation */
   diagnostics: CosmosDiagnostics;
+}
+
+export function isErrorResponse(
+  result: ExtendedOperationResponse | ErrorResponse
+): result is ErrorResponse {
+  return !isSuccessStatusCode(result.statusCode);
 }
 
 export interface OperationResponse {
@@ -389,7 +376,7 @@ export class TaskCompletionSource<T> {
 export async function encryptOperationInput(
   operation: OperationInput,
   totalPropertiesEncryptedCount: number,
-): Promise< {operation: OperationInput, totalPropertiesEncryptedCount: number}> {
+): Promise<{ operation: OperationInput, totalPropertiesEncryptedCount: number }> {
   if (Object.prototype.hasOwnProperty.call(operation, "partitionKey")) {
     const partitionKeyInternal = convertToInternalPartitionKey(operation.partitionKey);
     const { partitionKeyList, encryptedCount } =

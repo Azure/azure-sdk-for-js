@@ -34,8 +34,7 @@ export class BulkHelperPerPartition {
   private queuedBatches: BulkBatcher[] = [];
   private readonly dispatchLimiter: LimiterQueue;
   private initialConcurrency: number = 1;
-  private operationsCountRef: { processedOperationCount: number, failedOperationCount: number } = { processedOperationCount: 0, failedOperationCount: 0 };
-
+  private processedOperationCountRef: { count: number };
 
   constructor(
     executor: ExecuteCallback,
@@ -44,8 +43,7 @@ export class BulkHelperPerPartition {
     encryptionEnabled: boolean,
     clientConfig: ClientConfigDiagnostic,
     encryptionProcessor: EncryptionProcessor,
-    operationsCountRef: { processedOperationCount: number, failedOperationCount: number } = { processedOperationCount: 0, failedOperationCount: 0 }
-
+    processedOperationCountRef: { count: number }
   ) {
     this.executor = executor;
     this.retrier = retrier;
@@ -55,7 +53,7 @@ export class BulkHelperPerPartition {
     this.clientConfigDiagnostics = clientConfig;
     this.oldPartitionMetric = new BulkPartitionMetric();
     this.partitionMetric = new BulkPartitionMetric();
-    this.operationsCountRef = operationsCountRef;
+    this.processedOperationCountRef = processedOperationCountRef;
     this.currentBatcher = this.createBulkBatcher();
     this.lock = semaphore(1);
     this.dispatchLimiter = new LimiterQueue(this.initialConcurrency, this.partitionMetric, this.retrier);
@@ -86,8 +84,7 @@ export class BulkHelperPerPartition {
           resolve();
         } catch (err) {
           operation.operationContext.fail(err);
-          this.operationsCountRef.failedOperationCount++;
-          this.operationsCountRef.processedOperationCount++;
+          this.processedOperationCountRef.count++;
           reject(err);
         } finally {
           this.lock.leave();
@@ -134,7 +131,7 @@ export class BulkHelperPerPartition {
       this.encryptionEnabled,
       this.clientConfigDiagnostics,
       this.encryptionProcessor,
-      this.operationsCountRef,
+      this.processedOperationCountRef,
     );
   }
 

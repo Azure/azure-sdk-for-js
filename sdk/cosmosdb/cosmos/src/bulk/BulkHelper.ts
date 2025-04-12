@@ -8,7 +8,7 @@ import { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal";
 import { DiagnosticNodeType } from "../diagnostics/DiagnosticNodeInternal";
 import { ErrorResponse, type RequestOptions } from "../request";
 import type { PartitionKeyRangeCache } from "../routing";
-import type { CosmosBulkOperationResult, CosmosBulkResponse, Operation, OperationInput } from "../utils/batch";
+import type { CosmosBulkOperationResult, Operation, OperationInput } from "../utils/batch";
 import { encryptOperationInput, isKeyInRange } from "../utils/batch";
 import { hashPartitionKey } from "../utils/hashing/hash";
 import { ResourceThrottleRetryPolicy } from "../retry";
@@ -40,8 +40,7 @@ export class BulkHelper {
   private partitionKeyDefinition: PartitionKeyDefinition;
   private partitionKeyDefinitionPromise: Promise<PartitionKeyDefinition>;
   private isCancelled: boolean;
-  private operationsCountRef: { processedOperationCount: number, failedOperationCount: number } = { processedOperationCount: 0, failedOperationCount: 0 };
-
+  private processedOperationCountRef: { count: number } = { count: 0 };
   private operationPromisesList: Promise<CosmosBulkOperationResult>[] = [];
   private congestionControlTimer: NodeJS.Timeout;
   private readonly congestionControlDelayInMs: number = 1000;
@@ -70,7 +69,7 @@ export class BulkHelper {
    * adds operation(s) to the helper
    * @param operationInput - bulk operation or list of bulk operations
    */
-  async execute(operationInput: OperationInput[]): Promise<CosmosBulkResponse> {
+  async execute(operationInput: OperationInput[]): Promise<CosmosBulkOperationResult[]> {
     if (this.isCancelled) {
       throw new ErrorResponse("Bulk execution cancelled due to a previous error.");
     }
@@ -82,28 +81,24 @@ export class BulkHelper {
       addOperationPromises.push(this.addOperation(operationInput[i]));
     }
     await Promise.allSettled(addOperationPromises);
-    while (this.operationsCountRef.processedOperationCount < operationInput.length) {
+    while (this.processedOperationCountRef.count < operationInput.length) {
       // wait for all operations to be fulfilled
       this.helpersByPartitionKeyRangeId.forEach((helper) => {
         helper.dispatchUnfilledBatch();
       });
       await sleep(1000);
     }
-    const operationResults = await Promise.allSettled(this.operationPromisesList);
-    const bulkResponse = {
-      operations: operationResults.map((operationResult) => {
-        if (operationResult.status === "fulfilled") {
-          return operationResult.value;
-        } else {
-          return operationResult.reason;
-        }
-      }),
-      isSuccess: this.operationsCountRef.failedOperationCount ? false : true,
-    }
     if (this.congestionControlTimer) {
       clearInterval(this.congestionControlTimer);
     }
-    return bulkResponse;
+    const operationResults = await Promise.allSettled(this.operationPromisesList);
+    // TODO: check for error  response structure. response should be serialize for every case (e.g. context.fail)
+    return operationResults.map((result) => {
+      if (result.status === "fulfilled") {
+        return result.value;
+      }
+      return result.reason;
+    });
   }
 
 
@@ -179,8 +174,7 @@ export class BulkHelper {
     this.operationPromisesList.push(context.operationPromise);
     // if there was an error during encryption or resolving pkRangeId, reject the operation
     if (operationError) {
-      this.operationsCountRef.failedOperationCount++;
-      this.operationsCountRef.processedOperationCount++;
+      this.processedOperationCountRef.count++;
       context.fail(operationError);
       return Promise.reject();
     }
@@ -308,7 +302,7 @@ export class BulkHelper {
       this.clientContext.enableEncryption,
       this.clientContext.getClientConfig(),
       this.container.encryptionProcessor,
-      this.operationsCountRef
+      this.processedOperationCountRef,
     );
     this.helpersByPartitionKeyRangeId.set(pkRangeId, newhelper);
     return newhelper;
