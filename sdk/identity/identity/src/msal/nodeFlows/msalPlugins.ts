@@ -12,6 +12,7 @@ import {
 import type { MsalClientOptions } from "./msalClient.js";
 import type { NativeBrokerPluginControl } from "../../plugins/provider.js";
 import type { TokenCachePersistenceOptions } from "./tokenCachePersistenceOptions.js";
+import { nativeBrokerPlugin } from "../../broker/brokerPlugin.js";
 
 /**
  * Configuration for the plugins used by the MSAL node client.
@@ -111,54 +112,22 @@ export const msalNodeFlowNativeBrokerControl: NativeBrokerPluginControl = {
  * @param options - options for creating the MSAL client
  * @returns plugin configuration
  */
-function generatePluginConfiguration(options: MsalClientOptions): PluginConfiguration {
-  const config: PluginConfiguration = {
-    cache: {},
+export function generatePluginConfiguration(options: MsalClientOptions): PluginConfiguration {
+  const pluginConfiguration: PluginConfiguration = {
+    cache: {
+      cachePlugin: options.tokenCachePersistenceOptions?.cachePlugin,
+      cachePluginCae: options.tokenCachePersistenceOptions?.cachePluginCae,
+    },
     broker: {
       isEnabled: options.brokerOptions?.enabled ?? false,
       enableMsaPassthrough: options.brokerOptions?.legacyEnableMsaPassthrough ?? false,
       parentWindowHandle: options.brokerOptions?.parentWindowHandle,
+      useDefaultBrokerAccount: options.brokerOptions?.useDefaultBrokerAccount ?? false,
+      nativeBrokerPlugin, // Include the nativeBrokerPlugin here
     },
   };
 
-  if (options.tokenCachePersistenceOptions?.enabled) {
-    if (persistenceProvider === undefined) {
-      throw new Error(
-        [
-          "Persistent token caching was requested, but no persistence provider was configured.",
-          "You must install the identity-cache-persistence plugin package (`npm install --save @azure/identity-cache-persistence`)",
-          "and enable it by importing `useIdentityPlugin` from `@azure/identity` and calling",
-          "`useIdentityPlugin(cachePersistencePlugin)` before using `tokenCachePersistenceOptions`.",
-        ].join(" "),
-      );
-    }
-
-    const cacheBaseName = options.tokenCachePersistenceOptions.name || DEFAULT_TOKEN_CACHE_NAME;
-    config.cache.cachePlugin = persistenceProvider({
-      name: `${cacheBaseName}.${CACHE_NON_CAE_SUFFIX}`,
-      ...options.tokenCachePersistenceOptions,
-    });
-    config.cache.cachePluginCae = persistenceProvider({
-      name: `${cacheBaseName}.${CACHE_CAE_SUFFIX}`,
-      ...options.tokenCachePersistenceOptions,
-    });
-  }
-
-  if (options.brokerOptions?.enabled) {
-    if (nativeBrokerInfo === undefined) {
-      throw new Error(
-        [
-          "Broker for WAM was requested to be enabled, but no native broker was configured.",
-          "You must install the identity-broker plugin package (`npm install --save @azure/identity-broker`)",
-          "and enable it by importing `useIdentityPlugin` from `@azure/identity` and calling",
-          "`useIdentityPlugin(createNativeBrokerPlugin())` before using `enableBroker`.",
-        ].join(" "),
-      );
-    }
-    config.broker.nativeBrokerPlugin = nativeBrokerInfo!.broker;
-  }
-
-  return config;
+  return pluginConfiguration;
 }
 
 /**
