@@ -14,7 +14,14 @@ import { hashPartitionKey } from "../utils/hashing/hash";
 import { ResourceThrottleRetryPolicy } from "../retry";
 import { BulkHelperPerPartition } from "./BulkHelperPerPartition";
 import { ItemBulkOperationContext } from "./ItemBulkOperationContext";
-import { Constants, copyObject, getPathFromLink, ResourceType, sleep } from "../common";
+import {
+  Constants,
+  copyObject,
+  getPathFromLink,
+  ResourceType,
+  sleep,
+  StatusCodes,
+} from "../common";
 import { BulkResponse } from "./BulkResponse";
 import type { ItemBulkOperation } from "./ItemBulkOperation";
 import { addDiagnosticChild } from "../utils/diagnostics";
@@ -78,7 +85,7 @@ export class BulkHelper {
       if (i % 100 === 0) {
         await sleep(0);
       }
-      addOperationPromises.push(this.addOperation(operationInput[i]));
+      addOperationPromises.push(this.addOperation(operationInput[i], i));
     }
     await Promise.allSettled(addOperationPromises);
     while (this.processedOperationCountRef.count < operationInput.length) {
@@ -93,6 +100,7 @@ export class BulkHelper {
     }
     const operationResults = await Promise.allSettled(this.operationPromisesList);
     // TODO: check for error  response structure. response should be serialize for every case (e.g. context.fail)
+    // check if we need to remove stack details from error.
     return operationResults.map((result) => {
       if (result.status === "fulfilled") {
         return result.value;
@@ -100,7 +108,6 @@ export class BulkHelper {
       return result.reason;
     });
   }
-
 
   public shouldSleep(): boolean {
     for (const helper of this.helpersByPartitionKeyRangeId.values()) {
@@ -111,59 +118,102 @@ export class BulkHelper {
     return false;
   }
 
-  private async addOperation(operation: OperationInput): Promise<void> {
-    // TODO: return error in case of missing id, pk
+  private async addOperation(operation: OperationInput, idx: number): Promise<void> {
     if (this.isCancelled) {
       throw new ErrorResponse("Bulk execution cancelled due to a previous error.");
     }
     if (!operation) {
-      throw new ErrorResponse("Operation is required.");
+      this.operationPromisesList[idx] = Promise.resolve({
+        operationInput: operation,
+        error: Object.assign(new ErrorResponse("Operation cannot be null or undefined."), {
+          code: StatusCodes.InternalServerError,
+        }),
+      });
+      this.processedOperationCountRef.count++;
+      return;
     }
-    const diagnosticNode = new DiagnosticNodeInternal(
-      this.clientContext.diagnosticLevel,
-      DiagnosticNodeType.CLIENT_REQUEST_NODE,
-      null,
-    );
-    if (!this.partitionKeyDefinition) {
-      if (!this.partitionKeyDefinitionPromise) {
-        this.partitionKeyDefinitionPromise = (async () => {
-          try {
-            const partitionKeyDefinition = await readPartitionKeyDefinition(
-              diagnosticNode,
-              this.container,
-            );
-            this.partitionKeyDefinition = partitionKeyDefinition;
-            return partitionKeyDefinition;
-          } finally {
-            this.partitionKeyDefinitionPromise = null;
-          }
-        })();
+
+    if (operation.operationType === "Create" || operation.operationType === "Upsert") {
+      if (!operation.resourceBody.id) {
+        this.operationPromisesList[idx] = Promise.resolve({
+          operationInput: operation,
+          error: Object.assign(
+            new ErrorResponse(
+              `Operation resource body must have an 'id' for ${operation.operationType} operations.`,
+            ),
+            { code: StatusCodes.InternalServerError },
+          ),
+        });
+        this.processedOperationCountRef.count++;
+        return;
       }
-      await this.partitionKeyDefinitionPromise;
+    } else {
+      if (operation.partitionKey === undefined || operation.partitionKey === null) {
+        this.operationPromisesList[idx] = Promise.resolve({
+          operationInput: operation,
+          error: Object.assign(
+            new ErrorResponse(
+              `PartitionKey is required for ${operation.operationType} operations.`,
+            ),
+            { code: StatusCodes.InternalServerError },
+          ),
+        });
+        this.processedOperationCountRef.count++;
+        return;
+      }
     }
-    const plainTextOperation = copyObject(operation);
-    // encrypt operations if encryption is enabled
-    let operationError: Error;
+
+    let operationError: Error | undefined;
+    let diagnosticNode: DiagnosticNodeInternal;
+    let plainTextOperation: OperationInput;
     let partitionKeyRangeId: string;
     try {
+      diagnosticNode = new DiagnosticNodeInternal(
+        this.clientContext.diagnosticLevel,
+        DiagnosticNodeType.CLIENT_REQUEST_NODE,
+        null,
+      );
+      // Ensure partition key definition is available.
+      if (!this.partitionKeyDefinition) {
+        if (!this.partitionKeyDefinitionPromise) {
+          this.partitionKeyDefinitionPromise = (async () => {
+            try {
+              const partitionKeyDefinition = await readPartitionKeyDefinition(
+                diagnosticNode,
+                this.container,
+              );
+              this.partitionKeyDefinition = partitionKeyDefinition;
+              return partitionKeyDefinition;
+            } finally {
+              this.partitionKeyDefinitionPromise = null;
+            }
+          })();
+        }
+        await this.partitionKeyDefinitionPromise;
+      }
+      // Copy for diagnostics.
+      plainTextOperation = copyObject(operation);
+      // Resolve the partition key range id.
+      partitionKeyRangeId = await this.resolvePartitionKeyRangeId(operation, diagnosticNode);
+      // If encryption is enabled, encrypt the operation input.
       if (this.clientContext.enableEncryption) {
         operation = copyObject(operation);
         await this.container.checkAndInitializeEncryption();
-        diagnosticNode.beginEncryptionDiagnostics(Constants.Encryption.DiagnosticsEncryptOperation)
+        diagnosticNode.beginEncryptionDiagnostics(Constants.Encryption.DiagnosticsEncryptOperation);
         const { operation: encryptedOp, totalPropertiesEncryptedCount } =
           await encryptOperationInput(operation, 0);
         operation = encryptedOp;
         diagnosticNode.endEncryptionDiagnostics(
           Constants.Encryption.DiagnosticsDecryptOperation,
           totalPropertiesEncryptedCount,
-        )
+        );
       }
-      partitionKeyRangeId = await this.resolvePartitionKeyRangeId(operation, diagnosticNode);
     } catch (error) {
       operationError = error;
     }
+
+    // Get helper & context.
     const helperForPartition = this.gethelperForPKRange(partitionKeyRangeId);
-    // TODO: change implementation to add just retry context instead of retry policy in operation context
     const retryPolicy = this.getRetryPolicy();
     const context = new ItemBulkOperationContext(partitionKeyRangeId, retryPolicy, diagnosticNode);
     const itemOperation: ItemBulkOperation = {
@@ -171,13 +221,23 @@ export class BulkHelper {
       operationInput: operation,
       operationContext: context,
     };
-    this.operationPromisesList.push(context.operationPromise);
-    // if there was an error during encryption or resolving pkRangeId, reject the operation
+
+    // Assign the promise (ensuring position matches input order)
+    this.operationPromisesList[idx] = context.operationPromise;
+
     if (operationError) {
       this.processedOperationCountRef.count++;
-      context.fail(operationError);
-      return Promise.reject();
+      const response: CosmosBulkOperationResult = {
+        operationInput: plainTextOperation,
+        error: Object.assign(new ErrorResponse(operationError.message), {
+          code: StatusCodes.InternalServerError,
+          diagnostics: diagnosticNode?.toDiagnostic(this.clientContext.getClientConfig()),
+        }),
+      };
+      context.fail(response);
+      return;
     }
+    // Process the operation normally.
     return helperForPartition.add(itemOperation);
   }
 

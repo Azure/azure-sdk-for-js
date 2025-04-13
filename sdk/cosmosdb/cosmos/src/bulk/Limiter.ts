@@ -72,7 +72,6 @@ function scheduleCallback(fn: () => void): void {
   } else if (typeof setImmediate === "function") {
     setImmediate(fn);
   } else {
-
     // eslint-disable-next-line promise/catch-or-return
     Promise.resolve().then(fn);
   }
@@ -101,7 +100,6 @@ export class LimiterQueue {
   private processing = false;
   private retrier: RetryCallback;
   private partitionMetric: BulkPartitionMetric;
-
 
   /**
    * Creates a new HighPerformanceQueue.
@@ -157,8 +155,8 @@ export class LimiterQueue {
   }
 
   /**
- * Processes tasks up to the concurrency limit.
- */
+   * Processes tasks up to the concurrency limit.
+   */
   private process(): void {
     if (this.terminated) return;
     this.processing = true;
@@ -222,4 +220,3 @@ export class LimiterQueue {
     return this.tasks.length > 0;
   }
 }
-

@@ -158,4 +158,4 @@ export {
   CosmosEncryptedNumber,
   CosmosEncryptedNumberType,
 } from "./encryption";
-export { BulkHelper } from "./bulk";
+export { BulkOperations, OperationInputOptions } from "./bulk";

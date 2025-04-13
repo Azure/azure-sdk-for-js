@@ -40,7 +40,8 @@ export class ItemBulkOperationContext {
     this.taskCompletionSource.setResult(result);
   }
 
-  fail(error: Error): void {
-    this.taskCompletionSource.setException(error);
+  fail(error: CosmosBulkOperationResult): void {
+    const errorObject = new Error(`Bulk operation failed: ${JSON.stringify(error)}`);
+    this.taskCompletionSource.setException(errorObject);
   }
 }

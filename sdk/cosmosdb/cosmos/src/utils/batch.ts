@@ -3,7 +3,13 @@
 
 import type { JSONObject } from "../queryExecutionContext";
 import { extractPartitionKeys, undefinedPartitionKey } from "../extractPartitionKey";
-import type { CosmosDiagnostics, DiagnosticNodeInternal, ErrorResponse, RequestOptions, StatusCode } from "..";
+import type {
+  CosmosDiagnostics,
+  DiagnosticNodeInternal,
+  ErrorResponse,
+  RequestOptions,
+  StatusCode,
+} from "..";
 import type {
   PartitionKey,
   PartitionKeyDefinition,
@@ -34,7 +40,6 @@ export interface Batch {
   operations: Operation[];
 }
 
-
 export type BulkOperationResponse = OperationResponse[] & { diagnostics: CosmosDiagnostics };
 
 export interface CosmosBulkOperationResult {
@@ -61,7 +66,7 @@ export interface ExtendedOperationResponse extends OperationResponse {
 }
 
 export function isErrorResponse(
-  result: ExtendedOperationResponse | ErrorResponse
+  result: ExtendedOperationResponse | ErrorResponse,
 ): result is ErrorResponse {
   return !isSuccessStatusCode(result.statusCode);
 }
@@ -376,21 +381,20 @@ export class TaskCompletionSource<T> {
 export async function encryptOperationInput(
   operation: OperationInput,
   totalPropertiesEncryptedCount: number,
-): Promise<{ operation: OperationInput, totalPropertiesEncryptedCount: number }> {
+): Promise<{ operation: OperationInput; totalPropertiesEncryptedCount: number }> {
   if (Object.prototype.hasOwnProperty.call(operation, "partitionKey")) {
     const partitionKeyInternal = convertToInternalPartitionKey(operation.partitionKey);
     const { partitionKeyList, encryptedCount } =
-      await this.container.encryptionProcessor.getEncryptedPartitionKeyValue(
-        partitionKeyInternal,
-      );
+      await this.container.encryptionProcessor.getEncryptedPartitionKeyValue(partitionKeyInternal);
     operation.partitionKey = partitionKeyList;
     totalPropertiesEncryptedCount += encryptedCount;
   }
   switch (operation.operationType) {
     case BulkOperationType.Create:
     case BulkOperationType.Upsert: {
-      const { body, propertiesEncryptedCount } =
-        await this.container.encryptionProcessor.encrypt(operation.resourceBody);
+      const { body, propertiesEncryptedCount } = await this.container.encryptionProcessor.encrypt(
+        operation.resourceBody,
+      );
       operation.resourceBody = body;
       totalPropertiesEncryptedCount += propertiesEncryptedCount;
       break;
@@ -407,8 +411,9 @@ export async function encryptOperationInput(
         operation.id = await this.container.encryptionProcessor.getEncryptedId(operation.id);
         totalPropertiesEncryptedCount++;
       }
-      const { body, propertiesEncryptedCount } =
-        await this.container.encryptionProcessor.encrypt(operation.resourceBody);
+      const { body, propertiesEncryptedCount } = await this.container.encryptionProcessor.encrypt(
+        operation.resourceBody,
+      );
       operation.resourceBody = body;
       totalPropertiesEncryptedCount += propertiesEncryptedCount;
       break;
@@ -436,4 +441,3 @@ export async function encryptOperationInput(
   }
   return { operation, totalPropertiesEncryptedCount };
 }
-

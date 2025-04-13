@@ -732,11 +732,18 @@ export class Items {
     }, this.clientContext);
   }
 
-
-  public async executeBulkOperations(operations: OperationInput[], options: RequestOptions = {}): Promise<CosmosBulkOperationResult[]> {
-    const bulkHelper = new BulkHelper(this.container, this.clientContext, this.partitionKeyRangeCache, options);
+  public async executeBulkOperations(
+    operations: OperationInput[],
+    options: RequestOptions = {},
+  ): Promise<CosmosBulkOperationResult[]> {
+    const bulkHelper = new BulkHelper(
+      this.container,
+      this.clientContext,
+      this.partitionKeyRangeCache,
+      options,
+    );
     return bulkHelper.execute(operations);
-  };
+  }
 
   /**
    * Execute bulk operations on items.
@@ -923,7 +930,7 @@ export class Items {
           } else {
             throw new Error(
               "Partition key error. An operation has an unsupported partitionKey type" +
-              err.message,
+                err.message,
             );
           }
         } else {

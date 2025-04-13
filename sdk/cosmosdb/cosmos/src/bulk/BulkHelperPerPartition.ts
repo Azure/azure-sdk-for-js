@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ExecuteCallback, RetryCallback } from "../utils/batch";
+import type { CosmosBulkOperationResult, ExecuteCallback, RetryCallback } from "../utils/batch";
 import { BulkBatcher } from "./BulkBatcher";
 import semaphore from "semaphore";
 import type { ItemBulkOperation } from "./ItemBulkOperation";
@@ -11,6 +11,7 @@ import type { ClientConfigDiagnostic } from "../CosmosDiagnostics";
 import type { CosmosDbDiagnosticLevel } from "../diagnostics/CosmosDbDiagnosticLevel";
 import { LimiterQueue } from "./Limiter";
 import { BulkCongestionAlgorithm } from "./BulkCongestionAlgorithm";
+import { StatusCodes } from "../common";
 
 /**
  * Handles operation queueing and dispatching. Fills batches efficiently and maintains a timer for early dispatching in case of partially-filled batches and to optimize for throughput.
@@ -43,7 +44,7 @@ export class BulkHelperPerPartition {
     encryptionEnabled: boolean,
     clientConfig: ClientConfigDiagnostic,
     encryptionProcessor: EncryptionProcessor,
-    processedOperationCountRef: { count: number }
+    processedOperationCountRef: { count: number },
   ) {
     this.executor = executor;
     this.retrier = retrier;
@@ -56,7 +57,11 @@ export class BulkHelperPerPartition {
     this.processedOperationCountRef = processedOperationCountRef;
     this.currentBatcher = this.createBulkBatcher();
     this.lock = semaphore(1);
-    this.dispatchLimiter = new LimiterQueue(this.initialConcurrency, this.partitionMetric, this.retrier);
+    this.dispatchLimiter = new LimiterQueue(
+      this.initialConcurrency,
+      this.partitionMetric,
+      this.retrier,
+    );
     this.congestionControlAlgorithm = new BulkCongestionAlgorithm(
       this.dispatchLimiter,
       this.partitionMetric,
@@ -83,7 +88,16 @@ export class BulkHelperPerPartition {
           // At this point the operation was added.
           resolve();
         } catch (err) {
-          operation.operationContext.fail(err);
+          const response: CosmosBulkOperationResult = {
+            operationInput: operation.operationInput,
+            error: Object.assign(new Error(err.message), {
+              code: StatusCodes.InternalServerError,
+              diagnostics: operation.operationContext.diagnosticNode.toDiagnostic(
+                this.clientConfigDiagnostics,
+              ),
+            }),
+          };
+          operation.operationContext.fail(response);
           this.processedOperationCountRef.count++;
           reject(err);
         } finally {

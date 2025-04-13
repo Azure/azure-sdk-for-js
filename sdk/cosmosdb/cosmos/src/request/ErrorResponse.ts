@@ -101,5 +101,3 @@ export class ErrorResponse extends Error {
   [key: string]: any;
   diagnostics?: CosmosDiagnostics;
 }
-
-
