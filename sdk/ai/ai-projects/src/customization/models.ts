@@ -325,12 +325,40 @@ export interface AzureAISearchResource {
   indexes?: Array<IndexResource>;
 }
 
+/** the query type for the Azure AI Search tool */
+export type AzureAISearchQueryType =
+  | "simple"
+  | "semantic"
+  | "vector"
+  | "vector_simple_hybrid"
+  | "vector_semantic_hybrid";
+
+/** the optional parameters for the Azure AI Search tool */
+export interface CreateAzureAISearchToolOptions {
+  /** the query type of azure ai search. */
+  queryType?: AzureAISearchQueryType;
+  /** the topK number of documents to retrieve from azure ai search. */
+  topK?: number;
+  /** the filter used for azure ai search. */
+  filter?: string;
+}
+
 /** A Index resource. */
 export interface IndexResource {
   /** An index connection id in an IndexResource attached to this agent. */
   indexConnectionId: string;
   /** The name of an index in an IndexResource attached to this agent. */
   indexName: string;
+  /**
+   * Type of query in an AIIndexResource attached to this agent.
+   *
+   * Possible values: "simple", "semantic", "vector", "vector_simple_hybrid", "vector_semantic_hybrid"
+   */
+  queryType?: AzureAISearchQueryType;
+  /** Number of documents to retrieve from search and present to the model. */
+  topK?: number;
+  /** Odata filter string for search resource. */
+  filter?: string;
 }
 
 /**

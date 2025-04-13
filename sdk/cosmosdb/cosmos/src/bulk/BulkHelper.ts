@@ -1,33 +1,29 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { readPartitionKeyDefinition } from "../client/ClientUtils";
-import type { Container } from "../client/Container";
-import type { ClientContext } from "../ClientContext";
-import { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal";
-import { DiagnosticNodeType } from "../diagnostics/DiagnosticNodeInternal";
-import { ErrorResponse, type RequestOptions } from "../request";
-import type { PartitionKeyRangeCache } from "../routing";
-import type { CosmosBulkOperationResult, Operation, OperationInput } from "../utils/batch";
-import { encryptOperationInput, isKeyInRange } from "../utils/batch";
-import { hashPartitionKey } from "../utils/hashing/hash";
-import { ResourceThrottleRetryPolicy } from "../retry";
-import { BulkHelperPerPartition } from "./BulkHelperPerPartition";
-import { ItemBulkOperationContext } from "./ItemBulkOperationContext";
-import {
-  Constants,
-  copyObject,
-  getPathFromLink,
-  ResourceType,
-  sleep,
-  StatusCodes,
-} from "../common";
-import { BulkResponse } from "./BulkResponse";
-import type { ItemBulkOperation } from "./ItemBulkOperation";
-import { addDiagnosticChild } from "../utils/diagnostics";
-import { BulkExecutionRetryPolicy } from "../retry/bulkExecutionRetryPolicy";
-import type { RetryPolicy } from "../retry/RetryPolicy";
-import { convertToInternalPartitionKey, type PartitionKeyDefinition } from "../documents";
+import type { RequestOptions } from "../request/RequestOptions.js";
+import { readPartitionKeyDefinition } from "../client/ClientUtils.js";
+import type { Container } from "../client/index.js";
+import type { ClientContext } from "../ClientContext.js";
+import { Constants, ResourceType } from "../common/constants.js";
+import { sleep, copyObject, getPathFromLink } from "../common/helper.js";
+import { StatusCodes } from "../common/statusCodes.js";
+import { DiagnosticNodeInternal, DiagnosticNodeType } from "../diagnostics/DiagnosticNodeInternal.js";
+import type { PartitionKeyDefinition } from "../documents/PartitionKeyDefinition.js";
+import { convertToInternalPartitionKey } from "../documents/PartitionKeyInternal.js";
+import { ErrorResponse } from "../index.js";
+import { BulkExecutionRetryPolicy } from "../retry/bulkExecutionRetryPolicy.js";
+import { ResourceThrottleRetryPolicy } from "../retry/resourceThrottleRetryPolicy.js";
+import type { RetryPolicy } from "../retry/RetryPolicy.js";
+import type { PartitionKeyRangeCache } from "../routing/partitionKeyRangeCache.js";
+import type { CosmosBulkOperationResult, OperationInput, Operation } from "../utils/batch.js";
+import { encryptOperationInput, isKeyInRange } from "../utils/batch.js";
+import { addDiagnosticChild } from "../utils/diagnostics.js";
+import { hashPartitionKey } from "../utils/hashing/hash.js";
+import { BulkHelperPerPartition } from "./BulkHelperPerPartition.js";
+import type { ItemBulkOperation } from "./index.js";
+import { ItemBulkOperationContext, BulkResponse } from "./index.js";
+
 
 /**
  * BulkHelper for bulk operations in a container.

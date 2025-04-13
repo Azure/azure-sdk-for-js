@@ -1,28 +1,29 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { JSONObject } from "../queryExecutionContext";
-import { extractPartitionKeys, undefinedPartitionKey } from "../extractPartitionKey";
+import type { JSONObject } from "../queryExecutionContext/index.js";
+import { extractPartitionKeys, undefinedPartitionKey } from "../extractPartitionKey.js";
 import type {
   CosmosDiagnostics,
+  CosmosHeaders,
   DiagnosticNodeInternal,
   ErrorResponse,
   RequestOptions,
   StatusCode,
-} from "..";
+} from "../index.js";
 import type {
   PartitionKey,
   PartitionKeyDefinition,
   PrimitivePartitionKeyValue,
-} from "../documents";
-import { NonePartitionKeyLiteral, convertToInternalPartitionKey } from "../documents";
-import type { PatchRequestBody } from "./patch";
-import { assertNotUndefined } from "./typeChecks";
-import { bodyFromData } from "../request/request";
-import { Constants } from "../common/constants";
+} from "../documents/index.js";
+import { NonePartitionKeyLiteral, convertToInternalPartitionKey } from "../documents/index.js";
+import type { PatchRequestBody } from "./patch.js";
+import { assertNotUndefined } from "./typeChecks.js";
+import { bodyFromData } from "../request/request.js";
+import { Constants } from "../common/constants.js";
 import { randomUUID } from "@azure/core-util";
-import type { BulkResponse, ItemBulkOperation } from "../bulk";
-import type { CosmosHeaders } from "../queryExecutionContext/CosmosHeaders";
+import type { ItemBulkOperation } from "../bulk/ItemBulkOperation.js";
+import type { BulkResponse } from "../bulk/index.js";
 
 export type Operation =
   | CreateOperation

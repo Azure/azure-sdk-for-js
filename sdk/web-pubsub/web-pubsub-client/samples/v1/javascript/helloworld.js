@@ -7,23 +7,26 @@
 
 const { WebPubSubClient } = require("@azure/web-pubsub-client");
 const { WebPubSubServiceClient } = require("@azure/web-pubsub");
-
-require("dotenv").config();
-
-const hubName = "sample_chat";
-const groupName = "testGroup";
-const serviceClient = new WebPubSubServiceClient(process.env.WPS_CONNECTION_STRING, hubName);
-
-const fetchClientAccessUrl = async (_) => {
-  return (
-    await serviceClient.getClientAccessToken({
-      roles: [`webpubsub.joinLeaveGroup.${groupName}`, `webpubsub.sendToGroup.${groupName}`],
-    })
-  ).url;
-};
+const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv/config");
 
 async function main() {
-  let client = new WebPubSubClient({
+  const hubName = "sample_chat";
+  const groupName = "testGroup";
+  const serviceClient = new WebPubSubServiceClient(
+    process.env.WPS_ENDPOINT,
+    new DefaultAzureCredential(),
+    hubName,
+  );
+
+  const fetchClientAccessUrl = async (_) => {
+    return (
+      await serviceClient.getClientAccessToken({
+        roles: [`webpubsub.joinLeaveGroup.${groupName}`, `webpubsub.sendToGroup.${groupName}`],
+      })
+    ).url;
+  };
+  const client = new WebPubSubClient({
     getClientAccessUrl: fetchClientAccessUrl,
   });
 
@@ -61,14 +64,14 @@ async function main() {
   });
   await client.sendToGroup(groupName, { a: 12, b: "hello" }, "json");
   await client.sendToGroup(groupName, "hello json", "json");
-  var buf = Buffer.from("aGVsbG9w", "base64");
+  const buf = Buffer.from("aGVsbG9w", "base64");
   await client.sendToGroup(
     groupName,
     buf.buffer.slice(buf.byteOffset, buf.byteOffset + buf.byteLength),
     "binary",
   );
   await delay(1000);
-  await client.stop();
+  client.stop();
 }
 
 main().catch((e) => {

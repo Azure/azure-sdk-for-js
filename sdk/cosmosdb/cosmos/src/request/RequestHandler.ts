@@ -3,23 +3,23 @@
 
 import type { PipelineResponse } from "@azure/core-rest-pipeline";
 import { createPipelineRequest, createHttpHeaders } from "@azure/core-rest-pipeline";
-import { prepareURL } from "../common";
-import { Constants } from "../common/constants";
-import { executePlugins, PluginOn } from "../plugins/Plugin";
-import * as RetryUtility from "../retry/retryUtility";
-import { defaultHttpAgent, defaultHttpsAgent } from "./defaultAgent";
-import { ErrorResponse } from "./ErrorResponse";
-import { bodyFromData } from "./request";
-import type { RequestContext } from "./RequestContext";
-import type { Response as CosmosResponse } from "./Response";
-import { TimeoutError } from "./TimeoutError";
-import { getCachedDefaultHttpClient } from "../utils/cachedClient";
+import { prepareURL } from "../common/index.js";
+import { Constants } from "../common/constants.js";
+import { executePlugins, PluginOn } from "../plugins/Plugin.js";
+import * as RetryUtility from "../retry/retryUtility.js";
+import { defaultHttpAgent, defaultHttpsAgent } from "./defaultAgent.js";
+import { ErrorResponse } from "./ErrorResponse.js";
+import { bodyFromData } from "./request.js";
+import type { RequestContext } from "./RequestContext.js";
+import type { Response as CosmosResponse } from "./Response.js";
+import { TimeoutError } from "./TimeoutError.js";
+import { getCachedDefaultHttpClient } from "../utils/cachedClient.js";
 import type { AzureLogger } from "@azure/logger";
 import { createClientLogger } from "@azure/logger";
-import type { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal";
-import { DiagnosticNodeType } from "../diagnostics/DiagnosticNodeInternal";
-import { addDiagnosticChild } from "../utils/diagnostics";
-import { getCurrentTimestampInMs } from "../utils/time";
+import type { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal.js";
+import { DiagnosticNodeType } from "../diagnostics/DiagnosticNodeInternal.js";
+import { addDiagnosticChild } from "../utils/diagnostics.js";
+import { getCurrentTimestampInMs } from "../utils/time.js";
 
 const logger: AzureLogger = createClientLogger("RequestHandler");
 
@@ -130,12 +130,12 @@ async function httpRequest(
     const errorResponse: ErrorResponse = new ErrorResponse(result.message);
     logger.warning(
       response.status +
-        " " +
-        requestContext.endpoint +
-        " " +
-        requestContext.path +
-        " " +
-        result.message,
+      " " +
+      requestContext.endpoint +
+      " " +
+      requestContext.path +
+      " " +
+      result.message,
     );
 
     errorResponse.code = response.status;

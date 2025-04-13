@@ -145,10 +145,16 @@ export enum PerformanceCounter {
   // CPU
   PROCESSOR_TIME = "\\Processor(_Total)\\% Processor Time",
   PROCESS_TIME = "\\Process(??APP_WIN32_PROC??)\\% Processor Time",
+  PROCESS_TIME_NORMALIZED = "\\Process(??APP_WIN32_PROC??)\\% Processor Time Normalized",
 
   // Requests
   REQUEST_RATE = "\\ASP.NET Applications(??APP_W3SVC_PROC??)\\Requests/Sec",
   REQUEST_DURATION = "\\ASP.NET Applications(??APP_W3SVC_PROC??)\\Request Execution Time",
+
+  // Exception
+  EXCEPTION_RATE = "\\.NET CLR Exceptions(??APP_CLR_PROC??)\\# of Exceps Thrown / sec",
+  // I/O
+  IO_RATE = "\\Process(??APP_WIN32_PROC??)\\IO Data Bytes/sec",
 }
 
 /**

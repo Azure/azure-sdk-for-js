@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { type DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal";
-import type { RetryPolicy } from "../retry/RetryPolicy";
-import type { CosmosBulkOperationResult } from "../utils/batch";
-import { TaskCompletionSource } from "../utils/batch";
+import { type DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal.js";
+import type { RetryPolicy } from "../retry/RetryPolicy.js";
+import type { CosmosBulkOperationResult } from "../utils/batch.js";
+import { TaskCompletionSource } from "../utils/batch.js";
 
 /**
  * Context for a particular @see {@link ItemBulkOperation}.

@@ -2,17 +2,12 @@
 
 # Release History
 
-## 2.1.0-beta.1 (Unreleased)
+## 2.1.0-beta.1 (2025-04-02)
 
 ### Features Added
 
 - Adds support for `ungrounded_material` in `ContentFilterResultsForChoiceOutput`.
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+- Adds support for `user_security_context` in `ChatCompletionCreateParamsNonStreaming` and `ChatCompletionCreateParamsStreaming`.
 
 ## 2.0.0 (2024-11-18)
 

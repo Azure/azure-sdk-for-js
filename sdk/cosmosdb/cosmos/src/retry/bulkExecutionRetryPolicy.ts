@@ -1,11 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { Container } from "../client";
-import { sleep, StatusCodes, SubStatusCodes } from "../common";
-import type { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal";
-import type { ErrorResponse } from "../request";
-import type { PartitionKeyRangeCache } from "../routing";
-import type { RetryPolicy } from "./RetryPolicy";
+
+import type { Container } from "../client/index.js";
+import { sleep } from "../common/helper.js";
+import { StatusCodes, SubStatusCodes } from "../common/statusCodes.js";
+import type { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal.js";
+import type { ErrorResponse } from "../index.js";
+import type { PartitionKeyRangeCache } from "../routing/partitionKeyRangeCache.js";
+import type { RetryPolicy } from "./RetryPolicy.js";
 
 /**
  * This class implements the retry policy for bulk operations.

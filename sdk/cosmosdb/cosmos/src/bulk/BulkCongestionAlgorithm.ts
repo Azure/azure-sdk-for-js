@@ -1,8 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { Constants } from "../common";
-import type { BulkPartitionMetric } from "./BulkPartitionMetric";
-import type { LimiterQueue } from "./Limiter";
+
+import { Constants } from "../common/constants.js";
+import type { BulkPartitionMetric } from "./BulkPartitionMetric.js";
+import type { LimiterQueue } from "./Limiter.js";
+
 /**
  * This class implements a congestion control algorithm which dynamically adjusts the degree
  * of concurrency based on the throttling and number of processed items.

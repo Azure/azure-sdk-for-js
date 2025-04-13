@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { RetryCallback } from "../utils/batch";
-import type { BulkBatcher } from "./BulkBatcher";
-import type { BulkPartitionMetric } from "./BulkPartitionMetric";
+import type { RetryCallback } from "../utils/batch.js";
+import type { BulkBatcher } from "./BulkBatcher.js";
+import type { BulkPartitionMetric } from "./BulkPartitionMetric.js";
 
 export type Task<T = any> = () => Promise<T>;
 

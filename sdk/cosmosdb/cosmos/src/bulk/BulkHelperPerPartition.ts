@@ -1,17 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CosmosBulkOperationResult, ExecuteCallback, RetryCallback } from "../utils/batch";
-import { BulkBatcher } from "./BulkBatcher";
 import semaphore from "semaphore";
-import type { ItemBulkOperation } from "./ItemBulkOperation";
-import { BulkPartitionMetric } from "./BulkPartitionMetric";
-import type { EncryptionProcessor } from "../encryption";
-import type { ClientConfigDiagnostic } from "../CosmosDiagnostics";
-import type { CosmosDbDiagnosticLevel } from "../diagnostics/CosmosDbDiagnosticLevel";
-import { LimiterQueue } from "./Limiter";
-import { BulkCongestionAlgorithm } from "./BulkCongestionAlgorithm";
-import { StatusCodes } from "../common";
+import { StatusCodes } from "../common/statusCodes.js";
+import type { CosmosDbDiagnosticLevel } from "../diagnostics/CosmosDbDiagnosticLevel.js";
+import type { EncryptionProcessor } from "../encryption/EncryptionProcessor.js";
+import type { ClientConfigDiagnostic } from "../index.js";
+import type { ExecuteCallback, RetryCallback, CosmosBulkOperationResult } from "../utils/batch.js";
+import { BulkBatcher } from "./BulkBatcher.js";
+import { BulkCongestionAlgorithm } from "./BulkCongestionAlgorithm.js";
+import { BulkPartitionMetric } from "./BulkPartitionMetric.js";
+import type { ItemBulkOperation } from "./index.js";
+import { LimiterQueue } from "./Limiter.js";
+
+
 
 /**
  * Handles operation queueing and dispatching. Fills batches efficiently and maintains a timer for early dispatching in case of partially-filled batches and to optimize for throughput.

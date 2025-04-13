@@ -13,7 +13,7 @@ These sample programs show how to use the TypeScript client libraries for Azure 
 
 | **File Name**                                   | **Description**                                                                                     |
 | ----------------------------------------------- | --------------------------------------------------------------------------------------------------- |
-| [AADAuth.ts][aadauth]                           | Uses AAD credentials to authenticate with the CosmosClient.                                         |
+| [EntraAuth.ts][entraauth]                       | Uses Entra Auth credentials to authenticate with the CosmosClient.                                  |
 | [AlterQueryThroughput.ts][alterquerythroughput] | Updates a container offer to change query throughput.                                               |
 | [Bulk.ts][bulk]                                 | Shows a simple bulk call with each BulkOperation type.                                              |
 | [BulkUpdateWithSproc.ts][bulkupdatewithsproc]   | Bulk Updates documents with a Stored Procedure. Prefer `container.items().bulk()` to this behavior. |
@@ -65,20 +65,20 @@ npm run build
 4. Run whichever samples you like (note that some samples may require additional setup, see the table above):
 
 ```bash
-node dist/AADAuth.js
+node dist/EntraAuth.js
 ```
 
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx dev-tool run vendored cross-env COSMOS_KEY="<cosmos key>" COSMOS_ENDPOINT="<cosmos endpoint>" COSMOS_CONTAINER="<cosmos container>" node dist/AADAuth.js
+npx dev-tool run vendored cross-env COSMOS_KEY="<cosmos key>" COSMOS_ENDPOINT="<cosmos endpoint>" COSMOS_CONTAINER="<cosmos container>" node dist/EntraAuth.js
 ```
 
 ## Next Steps
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[aadauth]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v3/typescript/src/AADAuth.ts
+[entraauth]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v3/typescript/src/EntraAuth.ts
 [alterquerythroughput]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v3/typescript/src/AlterQueryThroughput.ts
 [bulk]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v3/typescript/src/Bulk.ts
 [bulkupdatewithsproc]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v3/typescript/src/BulkUpdateWithSproc.ts

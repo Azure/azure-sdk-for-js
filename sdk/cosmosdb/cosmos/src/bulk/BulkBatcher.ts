@@ -1,18 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DiagnosticNodeInternal, DiagnosticNodeType } from "../diagnostics/DiagnosticNodeInternal";
-import { ErrorResponse } from "../request";
-import { Constants, StatusCodes } from "../common";
-import type { CosmosBulkOperationResult, ExecuteCallback, RetryCallback } from "../utils/batch";
-import { calculateObjectSizeInBytes, isErrorResponse, isSuccessStatusCode } from "../utils/batch";
-import type { ItemBulkOperation } from "./ItemBulkOperation";
-import type { BulkPartitionMetric } from "./BulkPartitionMetric";
-import { getCurrentTimestampInMs } from "../utils/time";
-import type { LimiterQueue } from "./Limiter";
-import type { CosmosDbDiagnosticLevel } from "../diagnostics/CosmosDbDiagnosticLevel";
-import type { EncryptionProcessor } from "../encryption/EncryptionProcessor";
-import type { ClientConfigDiagnostic } from "../CosmosDiagnostics";
+import { Constants } from "../common/constants.js";
+import { StatusCodes } from "../common/statusCodes.js";
+import type { CosmosDbDiagnosticLevel } from "../diagnostics/CosmosDbDiagnosticLevel.js";
+import { DiagnosticNodeInternal, DiagnosticNodeType } from "../diagnostics/DiagnosticNodeInternal.js";
+import type { EncryptionProcessor } from "../encryption/EncryptionProcessor.js";
+import type { ClientConfigDiagnostic } from "../index.js";
+import { ErrorResponse } from "../index.js";
+import type { ExecuteCallback, RetryCallback, CosmosBulkOperationResult } from "../utils/batch.js";
+import { calculateObjectSizeInBytes, isSuccessStatusCode, isErrorResponse } from "../utils/batch.js";
+import { getCurrentTimestampInMs } from "../utils/time.js";
+import type { BulkPartitionMetric } from "./BulkPartitionMetric.js";
+import type { ItemBulkOperation } from "./index.js";
+import type { LimiterQueue } from "./Limiter.js";
+
+
 
 /**
  * Maintains a batch of operations and dispatches it as a unit of work.
@@ -106,11 +109,13 @@ export class BulkBatcher {
       const hasThrottles = 1;
       const noThrottle = 0;
       const numThrottle = response.results.some(
-        (result) => result.statusCode === StatusCodes.TooManyRequests,
+        (result) => "statusCode" in result && result.statusCode === StatusCodes.TooManyRequests,
       )
         ? hasThrottles
         : noThrottle;
-      const splitOrMerge = response.results.some((result) => result.statusCode === StatusCodes.Gone)
+      const splitOrMerge = response.results.some(
+        (result) => "statusCode" in result && result.statusCode === StatusCodes.Gone
+      )
         ? true
         : false;
       if (splitOrMerge) {

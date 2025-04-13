@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { ClientContext } from "../../ClientContext";
+import type { ClientContext } from "../../ClientContext.js";
 import {
   Constants,
   getIdFromLink,
@@ -9,22 +9,22 @@ import {
   ResourceType,
   StatusCodes,
   validateClientEncryptionPolicy,
-} from "../../common";
-import { DEFAULT_PARTITION_KEY_PATH } from "../../common/partitionKeys";
-import type { SqlQuerySpec } from "../../queryExecutionContext";
-import { mergeHeaders } from "../../queryExecutionContext";
-import { QueryIterator } from "../../queryIterator";
-import { ErrorResponse, type FeedOptions, type RequestOptions } from "../../request";
-import type { Database } from "../Database";
-import type { Resource } from "../Resource";
-import { Container } from "./Container";
-import type { ContainerDefinition } from "./ContainerDefinition";
-import type { ContainerRequest } from "./ContainerRequest";
-import { ContainerResponse } from "./ContainerResponse";
-import { validateOffer } from "../../utils/offers";
-import type { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
-import { getEmptyCosmosDiagnostics, withDiagnostics } from "../../utils/diagnostics";
-import type { EncryptionManager } from "../../encryption/EncryptionManager";
+} from "../../common/index.js";
+import { DEFAULT_PARTITION_KEY_PATH } from "../../common/partitionKeys.js";
+import type { SqlQuerySpec } from "../../queryExecutionContext/index.js";
+import { mergeHeaders } from "../../queryExecutionContext/index.js";
+import { QueryIterator } from "../../queryIterator.js";
+import { ErrorResponse, type FeedOptions, type RequestOptions } from "../../request/index.js";
+import type { Database } from "../Database/index.js";
+import type { Resource } from "../Resource.js";
+import { Container } from "./Container.js";
+import type { ContainerDefinition } from "./ContainerDefinition.js";
+import type { ContainerRequest } from "./ContainerRequest.js";
+import { ContainerResponse } from "./ContainerResponse.js";
+import { validateOffer } from "../../utils/offers.js";
+import type { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal.js";
+import { getEmptyCosmosDiagnostics, withDiagnostics } from "../../utils/diagnostics.js";
+import type { EncryptionManager } from "../../encryption/EncryptionManager.js";
 
 /**
  * Operations for creating new containers, and reading/querying all containers
@@ -45,7 +45,7 @@ export class Containers {
     public readonly database: Database,
     private readonly clientContext: ClientContext,
     private encryptionManager?: EncryptionManager,
-  ) {}
+  ) { }
 
   /**
    * Queries all containers.

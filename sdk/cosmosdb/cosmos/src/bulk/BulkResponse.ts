@@ -1,14 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Constants, StatusCodes, SubStatusCodes } from "../common";
-import type { CosmosDiagnostics } from "../CosmosDiagnostics";
-import type { CosmosHeaders } from "../queryExecutionContext";
-import type { StatusCode, SubStatusCode, Response } from "../request";
-import { ErrorResponse } from "../request";
-import type { ExtendedOperationResponse } from "../utils/batch";
-import { isErrorResponse, isSuccessStatusCode } from "../utils/batch";
-import type { ItemBulkOperation } from "./ItemBulkOperation";
+import { Constants } from "../common/constants.js";
+import { StatusCodes, SubStatusCodes } from "../common/statusCodes.js";
+import type { CosmosDiagnostics, Response } from "../index.js";
+import { ErrorResponse } from "../index.js";
+import type { CosmosHeaders } from "../queryExecutionContext/headerUtils.js";
+import type { StatusCode, SubStatusCode } from "../request/StatusCodes.js";
+import type { ExtendedOperationResponse } from "../utils/batch.js";
+import { isSuccessStatusCode, isErrorResponse } from "../utils/batch.js";
+import type { ItemBulkOperation } from "./index.js";
+
+
 
 /**
  * Represents a batch response for bulk request.
@@ -85,6 +88,7 @@ export class BulkResponse {
   }
 
   private static populateFromResponse(
+    // eslint-disable-next-line n/no-unsupported-features/node-builtins
     responseMessage: Response<any>,
     operations: ItemBulkOperation[],
   ): BulkResponse {

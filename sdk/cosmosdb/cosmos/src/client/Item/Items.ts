@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ChangeFeedIterator } from "../../ChangeFeedIterator";
-import type { ChangeFeedOptions } from "../../ChangeFeedOptions";
-import type { ClientContext } from "../../ClientContext";
+import { ChangeFeedIterator } from "../../ChangeFeedIterator.js";
+import type { ChangeFeedOptions } from "../../ChangeFeedOptions.js";
+import type { ClientContext } from "../../ClientContext.js";
 import {
   Constants,
   copyObject,
@@ -13,16 +13,15 @@ import {
   ResourceType,
   StatusCodes,
   SubStatusCodes,
-} from "../../common";
-import { extractPartitionKeys, setPartitionKeyIfUndefined } from "../../extractPartitionKey";
-import type { FetchFunctionCallback, SqlQuerySpec } from "../../queryExecutionContext";
-import { QueryIterator } from "../../queryIterator";
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-import type { FeedOptions, RequestOptions, Response } from "../../request";
-import type { Container, PartitionKeyRange } from "../Container";
-import { Item } from "./Item";
-import type { ItemDefinition } from "./ItemDefinition";
-import { ItemResponse } from "./ItemResponse";
+} from "../../common/index.js";
+import { extractPartitionKeys, setPartitionKeyIfUndefined } from "../../extractPartitionKey.js";
+import type { FetchFunctionCallback, SqlQuerySpec } from "../../queryExecutionContext/index.js";
+import { QueryIterator } from "../../queryIterator.js";
+import type { FeedOptions, RequestOptions, Response } from "../../request/index.js";
+import type { Container, PartitionKeyRange } from "../Container/index.js";
+import { Item } from "./Item.js";
+import type { ItemDefinition } from "./ItemDefinition.js";
+import { ItemResponse } from "./ItemResponse.js";
 import type {
   Batch,
   OperationResponse,
@@ -31,41 +30,41 @@ import type {
   BulkOperationResponse,
   Operation,
   CosmosBulkOperationResult,
-} from "../../utils/batch";
+} from "../../utils/batch.js";
 import {
   isKeyInRange,
   prepareOperations,
   decorateBatchOperation,
   splitBatchBasedOnBodySize,
   encryptOperationInput,
-} from "../../utils/batch";
-import { assertNotUndefined, isPrimitivePartitionKeyValue } from "../../utils/typeChecks";
-import { hashPartitionKey } from "../../utils/hashing/hash";
-import { PartitionKeyRangeCache, QueryRange } from "../../routing";
-import type { PartitionKey, PartitionKeyDefinition } from "../../documents";
-import { convertToInternalPartitionKey } from "../../documents";
+} from "../../utils/batch.js";
+import { assertNotUndefined, isPrimitivePartitionKeyValue } from "../../utils/typeChecks.js";
+import { hashPartitionKey } from "../../utils/hashing/hash.js";
+import { PartitionKeyRangeCache, QueryRange } from "../../routing/index.js";
+import type { PartitionKey, PartitionKeyDefinition } from "../../documents/index.js";
+import { convertToInternalPartitionKey } from "../../documents/index.js";
 import type {
   ChangeFeedPullModelIterator,
   ChangeFeedIteratorOptions,
-} from "../../client/ChangeFeed";
-import { validateChangeFeedIteratorOptions } from "../../client/ChangeFeed/changeFeedUtils";
-import type { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
-import { DiagnosticNodeType } from "../../diagnostics/DiagnosticNodeInternal";
+} from "../../client/ChangeFeed/index.js";
+import { validateChangeFeedIteratorOptions } from "../../client/ChangeFeed/changeFeedUtils.js";
+import type { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal.js";
+import { DiagnosticNodeType } from "../../diagnostics/DiagnosticNodeInternal.js";
 import {
   getEmptyCosmosDiagnostics,
   withDiagnostics,
   addDiagnosticChild,
-} from "../../utils/diagnostics";
+} from "../../utils/diagnostics.js";
 import { randomUUID } from "@azure/core-util";
-import { readPartitionKeyDefinition } from "../ClientUtils";
-import { ChangeFeedIteratorBuilder } from "../ChangeFeed/ChangeFeedIteratorBuilder";
-import type { EncryptionQueryBuilder } from "../../encryption";
-import type { EncryptionSqlParameter } from "../../encryption/EncryptionQueryBuilder";
-import type { Resource } from "../Resource";
-import { TypeMarker } from "../../encryption/enums/TypeMarker";
-import { EncryptionItemQueryIterator } from "../../encryption/EncryptionItemQueryIterator";
-import { ErrorResponse } from "../../request";
-import { BulkHelper } from "../../bulk/BulkHelper";
+import { readPartitionKeyDefinition } from "../ClientUtils.js";
+import { ChangeFeedIteratorBuilder } from "../ChangeFeed/ChangeFeedIteratorBuilder.js";
+import type { EncryptionQueryBuilder } from "../../encryption/index.js";
+import type { EncryptionSqlParameter } from "../../encryption/EncryptionQueryBuilder.js";
+import type { Resource } from "../Resource.js";
+import { TypeMarker } from "../../encryption/enums/TypeMarker.js";
+import { EncryptionItemQueryIterator } from "../../encryption/EncryptionItemQueryIterator.js";
+import { ErrorResponse } from "../../request/index.js";
+import { BulkHelper } from "../../bulk/BulkHelper.js";
 
 /**
  * @hidden
@@ -930,7 +929,7 @@ export class Items {
           } else {
             throw new Error(
               "Partition key error. An operation has an unsupported partitionKey type" +
-                err.message,
+              err.message,
             );
           }
         } else {
