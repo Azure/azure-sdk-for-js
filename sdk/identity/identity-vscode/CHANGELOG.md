@@ -1,10 +1,12 @@
 # Release History
 
-## 1.0.1 (2025-04-08)
+## 1.0.1 (2025-04-14)
+
+This package is deprecated. See Readme for more details
 
 ### Other Changes
 
-- Update Readme with the deprecation notice.
+- Update Readme with the deprecation notice. 
 
 ## 1.0.0 (2021-10-15)
 
