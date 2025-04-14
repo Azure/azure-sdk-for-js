@@ -110,6 +110,9 @@
     "typescript": "~5.8.2",
     "vitest": "^3.0.9"
   },
+  "optionalDependencies": {
+    "@azure/msal-node-extensions": "^1.5.10"
+  },
   "type": "module",
   "tshy": {
     "project": "./tsconfig.src.json",
