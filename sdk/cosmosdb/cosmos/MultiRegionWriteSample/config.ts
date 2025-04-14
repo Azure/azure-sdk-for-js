@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 const endpoint = process.env["endpoint"];
 const key = process.env["key"];
 
@@ -8,7 +9,7 @@ if (!endpoint || !key) {
   process.exit(1);
 }
 
-const regions = process.env["regions"].split(";");
+const regions = process.env["regions"]!.split(";");
 
 const databaseName = process.env["databaseName"] || "js-mww-test";
 const manualCollectionName = process.env["manualCollectionName"] || "manualCollection";
@@ -24,5 +25,5 @@ export default {
   manualCollectionName,
   lwwCollectionName,
   udpCollectionName,
-  basicCollectionName
+  basicCollectionName,
 };

@@ -4,7 +4,7 @@
 
 This guide is intended to assist in the migration to `@azure/data-tables` from the legacy `azure-storage` package. It will focus on side-by-side comparisons for similar operations between the two packages.
 
-We assume that you are familiar with `azure-storage`. If you are new to the Azure Tables client library for JavaScript, please refer to the [README](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/tables/data-tables/README.md) and [samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/tables/data-tables/samples/v12) rather than this guide.
+We assume that you are familiar with `azure-storage`. If you are new to the Azure Tables client library for JavaScript, please refer to the [README](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/tables/data-tables/README.md) and [samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/tables/data-tables/samples/v13) rather than this guide.
 
 ## Table of contents
 
@@ -478,4 +478,4 @@ await tableClient.createEntity({ partitionKey: "p2", rowKey: "r2", foo: "baz" })
 
 ## Additional samples
 
-More samples can be found [here](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/tables/data-tables/samples/v12)
+More samples can be found [here](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/tables/data-tables/samples/v13)

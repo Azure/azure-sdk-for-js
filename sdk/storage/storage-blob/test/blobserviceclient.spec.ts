@@ -1,9 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import { assert } from "chai";
-
-import { BlobServiceClient } from "../src";
+import { BlobServiceClient } from "../src/index.js";
 import {
   configureBlobStorageClient,
   getAlternateBSU,
@@ -14,26 +11,26 @@ import {
   getUniqueName,
   recorderEnvSetup,
   uriSanitizers,
-} from "./utils";
+} from "./utils/index.js";
 import { delay, Recorder, isLiveMode } from "@azure-tools/test-recorder";
-import { getYieldedValue } from "@azure-tools/test-utils";
-import type { Tags } from "../src/models";
-import type { Context } from "mocha";
+import { getYieldedValue } from "@azure-tools/test-utils-vitest";
+import type { Tags } from "../src/models.js";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("BlobServiceClient", () => {
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async (ctx) => {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderEnvSetup);
     await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
-  it("ListContainers with default parameters", async function () {
+  it("ListContainers with default parameters", async () => {
     const blobServiceClient = getBSU(recorder);
     const result = (await blobServiceClient.listContainers().byPage().next()).value;
     assert.ok(typeof result.requestId);
@@ -55,10 +52,10 @@ describe("BlobServiceClient", () => {
   });
 
   // needs feature enabled to record test
-  it.skip("ListContainers including system containers", async function (this: Context) {
+  it.skip("ListContainers including system containers", async function (ctx) {
     if (isLiveMode()) {
       // Skip the test case until the feature is enabled in production.
-      this.skip();
+      ctx.skip();
     }
     const blobServiceClient = getBSU(recorder);
     const result = (await blobServiceClient.listContainers({ includeSystem: true }).byPage().next())
@@ -90,7 +87,7 @@ describe("BlobServiceClient", () => {
     }
   });
 
-  it("ListContainers with all parameters configured", async function () {
+  it("ListContainers with all parameters configured", async () => {
     const blobServiceClient = getBSU(recorder);
 
     const containerNamePrefix = recorder.variable("container", getUniqueName("container"));
@@ -147,7 +144,7 @@ describe("BlobServiceClient", () => {
     await containerClient2.delete();
   });
 
-  it("Verify PagedAsyncIterableIterator for ListContainers", async function () {
+  it("Verify PagedAsyncIterableIterator for ListContainers", async () => {
     const containerClients = [];
     const blobServiceClient = getBSU(recorder);
 
@@ -312,7 +309,7 @@ describe("BlobServiceClient", () => {
     }
   });
 
-  it("GetProperties", async function () {
+  it("GetProperties", async () => {
     const blobServiceClient = getBSU(recorder);
     const result = await blobServiceClient.getProperties();
 
@@ -332,7 +329,7 @@ describe("BlobServiceClient", () => {
     }
   });
 
-  it("SetProperties", async function () {
+  it("SetProperties", async () => {
     const blobServiceClient = getBSU(recorder);
 
     const serviceProperties = await blobServiceClient.getProperties();
@@ -399,26 +396,19 @@ describe("BlobServiceClient", () => {
     assert.deepEqual(result.hourMetrics, serviceProperties.hourMetrics);
   });
 
-  it("getStatistics", (done) => {
+  it("getStatistics", async () => {
     let blobServiceClient: BlobServiceClient | undefined;
     try {
       blobServiceClient = getAlternateBSU(recorder);
     } catch (err: any) {
-      done();
       return;
     }
 
-    blobServiceClient!
-      .getStatistics()
-      .then((result) => {
-        assert.ok(result.geoReplication!.lastSyncOn);
-        done();
-        return;
-      })
-      .catch(done);
+    const result = await blobServiceClient!.getStatistics();
+    assert.ok(result.geoReplication!.lastSyncOn);
   });
 
-  it("getAccountInfo", async function () {
+  it("getAccountInfo", async () => {
     const blobServiceClient = getBSU(recorder);
 
     const accountInfo = await blobServiceClient.getAccountInfo();
@@ -427,7 +417,7 @@ describe("BlobServiceClient", () => {
     assert.deepStrictEqual(accountInfo.isHierarchicalNamespaceEnabled, false);
   });
 
-  it("createContainer and deleteContainer", async function () {
+  it("createContainer and deleteContainer", async () => {
     const blobServiceClient = getBSU(recorder);
     const containerName = recorder.variable("container", getUniqueName("container"));
     const access = "container";
@@ -452,7 +442,7 @@ describe("BlobServiceClient", () => {
     }
   });
 
-  it("can be created from a sas connection string", async function () {
+  it("can be created from a sas connection string", async () => {
     const newClient = BlobServiceClient.fromConnectionString(
       getSASConnectionStringFromEnvironment(recorder),
     );
@@ -464,7 +454,7 @@ describe("BlobServiceClient", () => {
     assert.ok(result.requestId!.length > 0);
   });
 
-  it("getUserDelegationKey should work", async function (this: Context) {
+  it("getUserDelegationKey should work", async function (ctx) {
     // Try to get serviceURL object with TokenCredential
     // when ACCOUNT_TOKEN environment variable is set
     let serviceURLWithToken: BlobServiceClient;
@@ -473,7 +463,8 @@ describe("BlobServiceClient", () => {
     } catch {
       // Requires bearer token for this case which cannot be generated in the runtime
       // Make sure this case passed in sanity test
-      this.skip();
+      ctx.skip();
+      return;
     }
     const now = new Date(recorder.variable("now", new Date().toISOString()));
     now.setHours(now.getHours() + 1);
@@ -489,7 +480,7 @@ describe("BlobServiceClient", () => {
     assert.notDeepEqual(response.signedExpiresOn, undefined);
   });
 
-  it("Find blob by tags should work", async function () {
+  it("Find blob by tags should work", async () => {
     const blobServiceClient = getBSU(recorder);
 
     const containerName = recorder.variable("container1", getUniqueName("container1"));
@@ -567,12 +558,12 @@ describe("BlobServiceClient", () => {
     await containerClient.delete();
   });
 
-  it("verify custom endpoint without valid accountName", async function () {
+  it("verify custom endpoint without valid accountName", async () => {
     const newClient = new BlobServiceClient(`https://customdomain.com`);
     assert.equal(newClient.accountName, "", "Account name is not the same as expected.");
   });
 
-  it("setProperties for static website", async function () {
+  it("setProperties for static website", async () => {
     const errorDocument404Path = "error/404.html";
     const defaultIndexDocumentPath = "index.html";
 
@@ -591,12 +582,13 @@ describe("BlobServiceClient", () => {
     assert.equal(staticWebsite?.defaultIndexDocumentPath, defaultIndexDocumentPath);
   });
 
-  it("restore container", async function (this: Context) {
+  it("restore container", async function (ctx) {
     let blobServiceClient: BlobServiceClient;
     try {
       blobServiceClient = getGenericBSU(recorder, "SOFT_DELETE_");
     } catch (err: any) {
-      this.skip();
+      ctx.skip();
+      return;
     }
 
     const containerName = recorder.variable("container", getUniqueName("container"));
@@ -629,10 +621,10 @@ describe("BlobServiceClient", () => {
   });
 
   // need feature to record test
-  it.skip("rename container", async function (this: Context) {
+  it.skip("rename container", async function (ctx) {
     if (isLiveMode()) {
       // Turn on this case when the Container Rename feature is ready in the service side.
-      this.skip();
+      ctx.skip();
     }
 
     const blobServiceClient = getBSU(recorder);
@@ -643,6 +635,7 @@ describe("BlobServiceClient", () => {
 
     const newContainerName = recorder.variable("newcontainer", getUniqueName("newcontainer"));
     // const renameRes = await blobServiceClient.renameContainer(containerName, newContainerName);
+    // @ts-expect-error private member
     const renameRes = await blobServiceClient["renameContainer"](containerName, newContainerName);
 
     const newContainerClient = blobServiceClient.getContainerClient(newContainerName);
@@ -654,10 +647,10 @@ describe("BlobServiceClient", () => {
   });
 
   // need feature to record test
-  it.skip("rename container should work with source lease", async function (this: Context) {
+  it.skip("rename container should work with source lease", async function (ctx) {
     if (isLiveMode()) {
       // Turn on this case when the Container Rename feature is ready in the service side.
-      this.skip();
+      ctx.skip();
     }
 
     const blobServiceClient = getBSU(recorder);
@@ -672,6 +665,7 @@ describe("BlobServiceClient", () => {
     const newContainerName = recorder.variable("newcontainer", getUniqueName("newcontainer"));
 
     // const renameRes = await blobServiceClient.renameContainer(containerName, newContainerName, {
+    // @ts-expect-error private member
     const renameRes = await blobServiceClient["renameContainer"](containerName, newContainerName, {
       sourceCondition: { leaseId: leaseClient.leaseId },
     });

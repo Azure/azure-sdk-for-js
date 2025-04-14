@@ -22,7 +22,11 @@ describe("snippets", () => {
   });
 
   it("ReadmeSampleGetClientAccessToken", async () => {
-    const serviceClient = new WebPubSubServiceClient("<ConnectionString>", "<hubName>");
+    const serviceClient = new WebPubSubServiceClient(
+      "<Endpoint>",
+      new DefaultAzureCredential(),
+      "<hubName>",
+    );
     // @ts-preserve-whitespace
     // Get the access token for the WebSocket client connection to use
     let token = await serviceClient.getClientAccessToken();
@@ -37,7 +41,11 @@ describe("snippets", () => {
   });
 
   it("ReadmeSampleSendToAll", async () => {
-    const serviceClient = new WebPubSubServiceClient("<ConnectionString>", "<hubName>");
+    const serviceClient = new WebPubSubServiceClient(
+      "<Endpoint>",
+      new DefaultAzureCredential(),
+      "<hubName>",
+    );
     // @ts-preserve-whitespace
     // Send a JSON message
     await serviceClient.sendToAll({ message: "Hello world!" });
@@ -51,7 +59,11 @@ describe("snippets", () => {
   });
 
   it("ReadmeSampleSendToAllWithFilter", async () => {
-    const serviceClient = new WebPubSubServiceClient("<ConnectionString>", "<hubName>");
+    const serviceClient = new WebPubSubServiceClient(
+      "<Endpoint>",
+      new DefaultAzureCredential(),
+      "<hubName>",
+    );
     // @ts-preserve-whitespace
     // Send a JSON message to anonymous connections
     await serviceClient.sendToAll({ message: "Hello world!" }, { filter: "userId eq null" });
@@ -68,7 +80,11 @@ describe("snippets", () => {
   });
 
   it("ReadmeSampleSendToGroup", async () => {
-    const serviceClient = new WebPubSubServiceClient("<ConnectionString>", "<hubName>");
+    const serviceClient = new WebPubSubServiceClient(
+      "<Endpoint>",
+      new DefaultAzureCredential(),
+      "<hubName>",
+    );
     // @ts-preserve-whitespace
     const groupClient = serviceClient.group("<groupName>");
     // @ts-preserve-whitespace
@@ -87,7 +103,11 @@ describe("snippets", () => {
   });
 
   it("ReadmeSampleSendToUser", async () => {
-    const serviceClient = new WebPubSubServiceClient("<ConnectionString>", "<hubName>");
+    const serviceClient = new WebPubSubServiceClient(
+      "<Endpoint>",
+      new DefaultAzureCredential(),
+      "<hubName>",
+    );
     // @ts-preserve-whitespace
     // Send a JSON message
     await serviceClient.sendToUser("user1", { message: "Hello world!" });
@@ -101,7 +121,11 @@ describe("snippets", () => {
   });
 
   it("ReadmeSampleCheckGroup", async () => {
-    const serviceClient = new WebPubSubServiceClient("<ConnectionString>", "<hubName>");
+    const serviceClient = new WebPubSubServiceClient(
+      "<Endpoint>",
+      new DefaultAzureCredential(),
+      "<hubName>",
+    );
     // @ts-preserve-whitespace
     const groupClient = serviceClient.group("<groupName>");
     // @ts-preserve-whitespace
@@ -113,7 +137,11 @@ describe("snippets", () => {
   });
 
   it("ReadmeSampleRawResponse", async () => {
-    const serviceClient = new WebPubSubServiceClient("<ConnectionString>", "<hubName>");
+    const serviceClient = new WebPubSubServiceClient(
+      "<Endpoint>",
+      new DefaultAzureCredential(),
+      "<hubName>",
+    );
     // @ts-preserve-whitespace
     function onResponse(rawResponse) {
       console.log(rawResponse);
