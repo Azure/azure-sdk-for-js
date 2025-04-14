@@ -1,9 +1,9 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { Constants } from "../common/constants";
-import type { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal";
-import type { ErrorResponse } from "../request";
-import type { RetryOptions } from "./retryOptions";
+import { Constants } from "../common/constants.js";
+import type { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal.js";
+import type { ErrorResponse } from "../request/index.js";
+import type { RetryOptions } from "./retryOptions.js";
 
 /**
  * This class implements the resource throttle retry policy for requests.

@@ -86,7 +86,7 @@
     "@azure/core-tracing": "^1.0.0",
     "@azure/core-util": "^1.11.0",
     "@azure/logger": "^1.0.0",
-    "@azure/msal-node": "^3.2.3",
+    "@azure/msal-node": "^3.5.0",
     "@azure/msal-browser": "^4.2.0",
     "open": "^10.1.0",
     "tslib": "^2.2.0"
@@ -102,6 +102,7 @@
     "@types/node": "^18.0.0",
     "@vitest/browser": "^3.0.9",
     "@vitest/coverage-istanbul": "^3.0.9",
+    "assertion-error": "^2.0.1",
     "dotenv": "^16.0.0",
     "eslint": "^9.9.0",
     "jsonwebtoken": "^9.0.0",
