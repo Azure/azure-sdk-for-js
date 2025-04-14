@@ -11,8 +11,6 @@ import type { ExtendedOperationResponse } from "../utils/batch.js";
 import { isSuccessStatusCode, isErrorResponse } from "../utils/batch.js";
 import type { ItemBulkOperation } from "./index.js";
 
-
-
 /**
  * Represents a batch response for bulk request.
  * @hidden

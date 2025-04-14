@@ -4,18 +4,23 @@
 import { Constants } from "../common/constants.js";
 import { StatusCodes } from "../common/statusCodes.js";
 import type { CosmosDbDiagnosticLevel } from "../diagnostics/CosmosDbDiagnosticLevel.js";
-import { DiagnosticNodeInternal, DiagnosticNodeType } from "../diagnostics/DiagnosticNodeInternal.js";
+import {
+  DiagnosticNodeInternal,
+  DiagnosticNodeType,
+} from "../diagnostics/DiagnosticNodeInternal.js";
 import type { EncryptionProcessor } from "../encryption/EncryptionProcessor.js";
 import type { ClientConfigDiagnostic } from "../index.js";
 import { ErrorResponse } from "../index.js";
 import type { ExecuteCallback, RetryCallback, CosmosBulkOperationResult } from "../utils/batch.js";
-import { calculateObjectSizeInBytes, isSuccessStatusCode, isErrorResponse } from "../utils/batch.js";
+import {
+  calculateObjectSizeInBytes,
+  isSuccessStatusCode,
+  isErrorResponse,
+} from "../utils/batch.js";
 import { getCurrentTimestampInMs } from "../utils/time.js";
 import type { BulkPartitionMetric } from "./BulkPartitionMetric.js";
 import type { ItemBulkOperation } from "./index.js";
 import type { LimiterQueue } from "./Limiter.js";
-
-
 
 /**
  * Maintains a batch of operations and dispatches it as a unit of work.
@@ -114,7 +119,7 @@ export class BulkBatcher {
         ? hasThrottles
         : noThrottle;
       const splitOrMerge = response.results.some(
-        (result) => "statusCode" in result && result.statusCode === StatusCodes.Gone
+        (result) => "statusCode" in result && result.statusCode === StatusCodes.Gone,
       )
         ? true
         : false;

@@ -8,7 +8,10 @@ import type { ClientContext } from "../ClientContext.js";
 import { Constants, ResourceType } from "../common/constants.js";
 import { sleep, copyObject, getPathFromLink } from "../common/helper.js";
 import { StatusCodes } from "../common/statusCodes.js";
-import { DiagnosticNodeInternal, DiagnosticNodeType } from "../diagnostics/DiagnosticNodeInternal.js";
+import {
+  DiagnosticNodeInternal,
+  DiagnosticNodeType,
+} from "../diagnostics/DiagnosticNodeInternal.js";
 import type { PartitionKeyDefinition } from "../documents/PartitionKeyDefinition.js";
 import { convertToInternalPartitionKey } from "../documents/PartitionKeyInternal.js";
 import { ErrorResponse } from "../index.js";
@@ -23,7 +26,6 @@ import { hashPartitionKey } from "../utils/hashing/hash.js";
 import { BulkHelperPerPartition } from "./BulkHelperPerPartition.js";
 import type { ItemBulkOperation } from "./index.js";
 import { ItemBulkOperationContext, BulkResponse } from "./index.js";
-
 
 /**
  * BulkHelper for bulk operations in a container.
@@ -103,15 +105,6 @@ export class BulkHelper {
       }
       return result.reason;
     });
-  }
-
-  public shouldSleep(): boolean {
-    for (const helper of this.helpersByPartitionKeyRangeId.values()) {
-      if (helper.shouldSleep()) {
-        return true;
-      }
-    }
-    return false;
   }
 
   private async addOperation(operation: OperationInput, idx: number): Promise<void> {

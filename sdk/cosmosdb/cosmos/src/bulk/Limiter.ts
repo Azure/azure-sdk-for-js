@@ -215,8 +215,4 @@ export class LimiterQueue {
       // scheduleCallback(() => this.process());
     }
   }
-
-  public hasQueuedBatches(): boolean {
-    return this.tasks.length > 0;
-  }
 }

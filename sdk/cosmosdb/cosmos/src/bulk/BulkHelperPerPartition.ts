@@ -13,8 +13,6 @@ import { BulkPartitionMetric } from "./BulkPartitionMetric.js";
 import type { ItemBulkOperation } from "./index.js";
 import { LimiterQueue } from "./Limiter.js";
 
-
-
 /**
  * Handles operation queueing and dispatching. Fills batches efficiently and maintains a timer for early dispatching in case of partially-filled batches and to optimize for throughput.
  * There is always one batch at a time being filled. Locking is in place to avoid concurrent threads trying to Add operations while the timer might be Dispatching the current batch.
@@ -153,9 +151,5 @@ export class BulkHelperPerPartition {
 
   public runCongestionAlgorithm(): void {
     this.congestionControlAlgorithm.run();
-  }
-
-  public shouldSleep(): boolean {
-    return this.dispatchLimiter.hasQueuedBatches();
   }
 }
