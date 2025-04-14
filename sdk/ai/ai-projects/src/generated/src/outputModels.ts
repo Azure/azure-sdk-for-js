@@ -131,8 +131,6 @@ export interface OpenApiFunctionDefinitionOutput {
   auth: OpenApiAuthDetailsOutput;
   /** List of OpenAPI spec parameters that will use user-provided defaults */
   default_params?: string[];
-  /** List of functions returned in response */
-  functions?: Array<FunctionDefinitionOutput>;
 }
 
 /** authentication details for OpenApiFunctionDefinition */
@@ -469,6 +467,20 @@ export interface ThreadDeletionStatusOutput {
   deleted: boolean;
   /** The object type, which is always 'thread.deleted'. */
   object: "thread.deleted";
+}
+
+/** The response data for a requested list of items. */
+export interface OpenAIPageableListOfAgentThreadOutput {
+  /** The object type, which is always list. */
+  object: "list";
+  /** The requested list of items. */
+  data: Array<AgentThreadOutput>;
+  /** The first ID represented in this list. */
+  first_id: string;
+  /** The last ID represented in this list. */
+  last_id: string;
+  /** A value indicating whether there are additional values available not captured in this list. */
+  has_more: boolean;
 }
 
 /** A single, existing message within an agent thread. */
@@ -1578,7 +1590,7 @@ export interface TargetModelConfigOutputParent {
 /** Azure OpenAI model configuration. The API version would be selected by the service for querying the model. */
 export interface AoaiModelConfigOutput extends TargetModelConfigOutputParent {
   readonly type: "AOAI";
-  /** Endpoint URL for AOAI model. */
+  /** Endpoint targetURI for AOAI model. */
   azureEndpoint: string;
   /** API Key for AOAI model. */
   apiKey: string;
@@ -1589,7 +1601,7 @@ export interface AoaiModelConfigOutput extends TargetModelConfigOutputParent {
 /** MaaS model configuration. The API version would be selected by the service for querying the model. */
 export interface MaasModelConfigOutput extends TargetModelConfigOutputParent {
   readonly type: "MAAS";
-  /** Endpoint URL for MAAS model. */
+  /** Endpoint targetURI for MAAS model. */
   azureEndpoint: string;
   /** API Key for MAAS model. */
   apiKey: string;

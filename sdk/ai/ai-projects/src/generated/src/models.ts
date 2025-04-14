@@ -158,8 +158,6 @@ export interface OpenApiFunctionDefinition {
   auth: OpenApiAuthDetails;
   /** List of OpenAPI spec parameters that will use user-provided defaults */
   default_params?: string[];
-  /** List of functions returned in response */
-  functions?: Array<FunctionDefinition>;
 }
 
 /** authentication details for OpenApiFunctionDefinition */
@@ -806,7 +804,7 @@ export interface TargetModelConfigParent {
 
 /** Azure OpenAI model configuration. The API version would be selected by the service for querying the model. */
 export interface AoaiModelConfig extends TargetModelConfigParent {
-  /** Endpoint URL for AOAI model. */
+  /** Endpoint targetURI for AOAI model. */
   azureEndpoint: string;
   /** API Key for AOAI model. */
   apiKey: string;
@@ -816,7 +814,7 @@ export interface AoaiModelConfig extends TargetModelConfigParent {
 
 /** MaaS model configuration. The API version would be selected by the service for querying the model. */
 export interface MaasModelConfig extends TargetModelConfigParent {
-  /** Endpoint URL for MAAS model. */
+  /** Endpoint targetURI for MAAS model. */
   azureEndpoint: string;
   /** API Key for MAAS model. */
   apiKey: string;
