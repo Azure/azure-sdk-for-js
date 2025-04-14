@@ -6,6 +6,7 @@ import viteConfig from "../../../vitest.shared.config.js";
 import { fileURLToPath } from "url";
 import { dirname, resolve } from "path";
 import MatrixReporter from "./test/utils/matrixReporter.js"
+import MatrixURLReporter from "./test/utils/matrixURLReporter.js"
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -18,7 +19,7 @@ export default mergeConfig(
       hookTimeout: 25000,
       fileParallelism: false,
       globalSetup: [resolve(__dirname, "test/utils/setup.ts")],
-      reporters: [new MatrixReporter()]
+      reporters: [new MatrixReporter(), new MatrixURLReporter()],
     },
   }),
 );

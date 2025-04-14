@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import { AzureOpenAI } from "openai";
+
 import { getBearerTokenProvider } from "@azure/identity";
 import { APIVersion, filterDeployments } from "./utils.js";
 import { createLiveCredential } from "@azure-tools/test-credential";
@@ -12,8 +13,28 @@ import type {
   FilterDeploymentOptions,
   ModelCapabilities,
 } from "./types.js";
+import { URLReport } from "./matrixURLReporter.js"
 
 const scope = "https://cognitiveservices.azure.com/.default";
+
+class TestAzureOpenAI extends AzureOpenAI {
+
+  override buildRequest(...args: any[]) {
+    // @ts-ignore
+    let buildRequest = super.buildRequest(...args)
+    let model = this.deploymentName || args[0].body?.['model'] || args[0].__metadata?.['model']
+    if (!model) {
+      throw new Error("Model not found in request");
+    }
+    URLReport.add({
+      path: args[0].path as string,
+      apiVersion: this.apiVersion,
+      model,
+    })
+    return buildRequest;
+  }
+
+}
 
 export function createClientsAndDeployments(
   apiVersion: APIVersion,
@@ -35,7 +56,7 @@ export function createClientsAndDeployments(
         modelsToSkip,
       });
       const clientsAndDeployments = filtered.map(({ deployments, endpoint }) => ({
-        client: new AzureOpenAI({
+        client: new TestAzureOpenAI({
           azureADTokenProvider,
           apiVersion,
           endpoint,
@@ -46,7 +67,7 @@ export function createClientsAndDeployments(
       return { clientsAndDeployments, count };
     }
     default: {
-      throw Error(`Unsupported service API version: ${apiVersion}`);
+      throw Error(`Unsupported service API version: ${ apiVersion }`);
     }
   }
 }

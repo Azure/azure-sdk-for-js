@@ -12,7 +12,6 @@ import {
   bufferAsyncIterable,
   createAzureSearchExtensions,
   testWithDeployments,
-  withDeployments,
 } from "../utils/utils.js";
 import {
   assertChatCompletions,
@@ -27,6 +26,7 @@ import "../../src/types/index.js";
 import { assertMathResponseOutput, type MathResponse } from "../utils/structuredOutputUtils.js";
 
 describe.shuffle.each(APIMatrix)("Chat Completions [%s]", (apiVersion: APIVersion) => {
+  console.log("🛜 Chat Completions test suite -> constructor");
   const clientsAndDeploymentsInfo = createClientsAndDeployments(
     apiVersion,
     { chatCompletion: "true" },
@@ -79,21 +79,21 @@ describe.shuffle.each(APIMatrix)("Chat Completions [%s]", (apiVersion: APIVersio
 
   describe("chat.completions.create non-streaming", () => {
     it("returns completions across all models", async () => {
-      await withDeployments(
+      await testWithDeployments({
         clientsAndDeploymentsInfo,
-        (client, deploymentName) =>
+        run: (client, deploymentName) =>
           client.chat.completions.create({
             model: deploymentName,
             messages: pirateMessages,
           }),
-        assertChatCompletions,
-      );
+        validate: assertChatCompletions,
+      });
     });
 
     it("calls functions", async () => {
-      await withDeployments(
+      await testWithDeployments({
         clientsAndDeploymentsInfo,
-        async (client, deploymentName) => {
+        run: async (client, deploymentName) => {
           const weatherMessages: ChatCompletionMessageParam[] = [
             { role: "user", content: "What's the weather like in Boston?" },
           ];
@@ -124,32 +124,32 @@ describe.shuffle.each(APIMatrix)("Chat Completions [%s]", (apiVersion: APIVersio
             messages: weatherMessages,
           });
         },
-        (result) => assertChatCompletions(result, { functions: true }),
-        functionCallModelsToSkip,
-      );
+        validate: (result) => assertChatCompletions(result, { functions: true }),
+        modelsListToSkip: functionCallModelsToSkip,
+      });
     });
 
     it("doesn't call tools if toolChoice is set to none", async () => {
-      await withDeployments(
+      await testWithDeployments({
         clientsAndDeploymentsInfo,
-        (client, deploymentName) =>
+        run: (client, deploymentName) =>
           client.chat.completions.create({
             model: deploymentName,
             messages: [{ role: "user", content: "What's the weather like in Boston?" }],
             tool_choice: "none",
             tools: [{ type: "function", function: getCurrentWeather }],
           }),
-        (res) => {
+        validate: (res) => {
           assertChatCompletions(res, { functions: false });
           assert.isUndefined(res.choices[0].message?.tool_calls);
         },
-      );
+      });
     });
 
     it("calls a specific tool if its name is specified", async () => {
-      await withDeployments(
+      await testWithDeployments({
         clientsAndDeploymentsInfo,
-        (client, deploymentName) =>
+        run: (client, deploymentName) =>
           client.chat.completions.create({
             model: deploymentName,
             messages: [{ role: "user", content: "What's the weather like in Boston?" }],
@@ -183,7 +183,7 @@ describe.shuffle.each(APIMatrix)("Chat Completions [%s]", (apiVersion: APIVersio
               },
             ],
           }),
-        (res) => {
+        validate: (res) => {
           assertChatCompletions(res, { functions: true });
           const toolCalls = res.choices[0].message?.tool_calls;
           if (!toolCalls) {
@@ -192,7 +192,7 @@ describe.shuffle.each(APIMatrix)("Chat Completions [%s]", (apiVersion: APIVersio
           assert.equal(toolCalls[0].function.name, getCurrentWeather.name);
           assert.isUndefined(res.choices[0].message?.function_call);
         },
-      );
+      });
     });
 
     it("ensures schema name is not transformed with snake case", async () => {
@@ -210,15 +210,15 @@ describe.shuffle.each(APIMatrix)("Chat Completions [%s]", (apiVersion: APIVersio
           required: ["assetName"],
         },
       };
-      await withDeployments(
+      await testWithDeployments({
         clientsAndDeploymentsInfo,
-        (client, deploymentName) =>
+        run: (client, deploymentName) =>
           client.chat.completions.create({
             model: deploymentName,
             messages: [{ role: "user", content: "Give me information about Asset No1" }],
             tools: [{ type: "function", function: getAssetInfo }],
           }),
-        (res) => {
+        validate: (res) => {
           assertChatCompletions(res, { functions: true });
           const toolCalls = res.choices[0].message?.tool_calls;
           if (!toolCalls) {
@@ -227,16 +227,16 @@ describe.shuffle.each(APIMatrix)("Chat Completions [%s]", (apiVersion: APIVersio
           const argument = toolCalls[0].function.arguments;
           assert.isTrue(argument?.includes("assetName"));
         },
-        functionCallModelsToSkip,
-      );
+        modelsListToSkip: functionCallModelsToSkip,
+      });
     });
 
     it("respects json_object responseFormat", async () => {
-      await withDeployments(
-        filterClientsAndDeployments(clientsAndDeploymentsInfo, {
+      await testWithDeployments({
+        clientsAndDeploymentsInfo: filterClientsAndDeployments(clientsAndDeploymentsInfo, {
           jsonObjectResponse: "true",
         }),
-        (client, deploymentName) =>
+        run: (client, deploymentName) =>
           client.chat.completions.create({
             model: deploymentName,
             messages: [
@@ -248,17 +248,17 @@ describe.shuffle.each(APIMatrix)("Chat Completions [%s]", (apiVersion: APIVersio
             ],
             response_format: { type: "json_object" },
           }),
-        (res) => {
+        validate: (res) => {
           assertChatCompletions(res, { functions: false });
           const content = res.choices[0].message?.content;
           if (!content) assert.fail("Undefined content");
           try {
             JSON.parse(content);
           } catch {
-            assert.fail(`Invalid JSON: ${content}`);
+            assert.fail(`Invalid JSON: ${ content }`);
           }
         },
-      );
+      });
     });
 
     describe.concurrent.each(createAzureSearchExtensions())(
@@ -327,9 +327,9 @@ describe.shuffle.each(APIMatrix)("Chat Completions [%s]", (apiVersion: APIVersio
 
   describe("chat.completions.create stream", () => {
     it("returns completions across all models", async () => {
-      await withDeployments(
+      await testWithDeployments({
         clientsAndDeploymentsInfo,
-        async (client, deploymentName) =>
+        run: async (client, deploymentName) =>
           bufferAsyncIterable(
             await client.chat.completions.create({
               model: deploymentName,
@@ -337,7 +337,7 @@ describe.shuffle.each(APIMatrix)("Chat Completions [%s]", (apiVersion: APIVersio
               stream: true,
             }),
           ),
-        (res) =>
+        validate: (res) =>
           assertChatCompletionsList(res, {
             // The API returns an empty choice in the first event for some
             // reason. This should be fixed in the API.
@@ -346,13 +346,13 @@ describe.shuffle.each(APIMatrix)("Chat Completions [%s]", (apiVersion: APIVersio
             // reason. This should be fixed in the API.
             allowEmptyId: true,
           }),
-      );
+      });
     });
 
     it("calls functions", async () => {
-      await withDeployments(
+      await testWithDeployments({
         clientsAndDeploymentsInfo,
-        async (client, deploymentName) =>
+        run: async (client, deploymentName) =>
           bufferAsyncIterable(
             await client.chat.completions.create({
               model: deploymentName,
@@ -361,20 +361,20 @@ describe.shuffle.each(APIMatrix)("Chat Completions [%s]", (apiVersion: APIVersio
               functions: [getCurrentWeather],
             }),
           ),
-        (res) =>
+        validate: (res) =>
           assertChatCompletionsList(res, {
             functions: true,
             // The API returns an empty choice in the first event for some
             // reason. This should be fixed in the API.
             allowEmptyChoices: true,
           }),
-      );
+      });
     });
 
     it("calls toolCalls", async () => {
-      await withDeployments(
+      await testWithDeployments({
         clientsAndDeploymentsInfo,
-        async (client, deploymentName) =>
+        run: async (client, deploymentName) =>
           bufferAsyncIterable(
             await client.chat.completions.create({
               model: deploymentName,
@@ -383,14 +383,14 @@ describe.shuffle.each(APIMatrix)("Chat Completions [%s]", (apiVersion: APIVersio
               tools: [{ type: "function", function: getCurrentWeather }],
             }),
           ),
-        (res) =>
+        validate: (res) =>
           assertChatCompletionsList(res, {
             functions: true,
             // The API returns an empty choice in the first event for some
             // reason. This should be fixed in the API.
             allowEmptyChoices: true,
           }),
-      );
+      });
     });
 
     describe.concurrent.each(createAzureSearchExtensions())(
