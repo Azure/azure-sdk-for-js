@@ -1,19 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { CosmosClientOptions } from "../CosmosClientOptions";
-import { PartitionKeyDefinition } from "../documents";
-import { ClientEncryptionPolicy } from "../encryption/ClientEncryptionPolicy";
+import { CosmosClientOptions } from "../CosmosClientOptions.js";
+import { PartitionKeyDefinition } from "../documents/index.js";
+import { ClientEncryptionPolicy } from "../encryption/ClientEncryptionPolicy.js";
 import {
   Serializer,
   NumberSerializer,
   FloatSerializer,
   StringSerializer,
   BooleanSerializer,
-} from "../encryption/Serializers";
-import { EncryptionType } from "../encryption/enums/EncryptionType";
-import { TypeMarker } from "../encryption/enums/TypeMarker";
-import { ErrorResponse } from "../request/ErrorResponse";
-import { OperationType, ResourceType } from "./constants";
+} from "../encryption/Serializers/index.js";
+import { EncryptionType } from "../encryption/enums/EncryptionType.js";
+import { TypeMarker } from "../encryption/enums/TypeMarker.js";
+import { ErrorResponse } from "../request/ErrorResponse.js";
+import { OperationType, ResourceType } from "./constants.js";
 
 const trimLeftSlashes = new RegExp("^[/]+");
 const trimRightSlashes = new RegExp("[/]+$");

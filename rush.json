@@ -820,11 +820,6 @@
       "versionPolicyName": "utility"
     },
     {
-      "packageName": "@azure-tools/test-utils",
-      "projectFolder": "sdk/test-utils/test-utils",
-      "versionPolicyName": "utility"
-    },
-    {
       "packageName": "@azure-tools/test-utils-vitest",
       "projectFolder": "sdk/test-utils/test-utils-vitest",
       "versionPolicyName": "utility"
@@ -905,11 +900,6 @@
       "versionPolicyName": "test"
     },
     {
-      "packageName": "@azure/mixed-reality-authentication",
-      "projectFolder": "sdk/mixedreality/mixed-reality-authentication",
-      "versionPolicyName": "client"
-    },
-    {
       "packageName": "@azure/web-pubsub",
       "projectFolder": "sdk/web-pubsub/web-pubsub",
       "versionPolicyName": "client"
@@ -963,11 +953,6 @@
       "packageName": "@azure-tests/perf-schema-registry-avro",
       "projectFolder": "sdk/schemaregistry/schema-registry-avro-perf-tests",
       "versionPolicyName": "test"
-    },
-    {
-      "packageName": "@azure/mixed-reality-remote-rendering",
-      "projectFolder": "sdk/remoterendering/mixed-reality-remote-rendering",
-      "versionPolicyName": "client"
     },
     {
       "packageName": "@azure/arm-network",
@@ -1547,11 +1532,6 @@
     {
       "packageName": "@azure/arm-migrate",
       "projectFolder": "sdk/migrate/arm-migrate",
-      "versionPolicyName": "management"
-    },
-    {
-      "packageName": "@azure/arm-mixedreality",
-      "projectFolder": "sdk/mixedreality/arm-mixedreality",
       "versionPolicyName": "management"
     },
     {

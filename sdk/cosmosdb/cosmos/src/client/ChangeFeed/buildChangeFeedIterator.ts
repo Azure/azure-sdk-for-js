@@ -1,30 +1,30 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { ClientContext } from "../../ClientContext";
-import type { PartitionKey } from "../../documents";
-import type { PartitionKeyRangeCache } from "../../routing";
-import { QueryRange } from "../../routing";
-import type { ChangeFeedIteratorOptions } from "./ChangeFeedIteratorOptions";
-import { ChangeFeedStartFrom } from "./ChangeFeedStartFrom";
-import { ChangeFeedStartFromBeginning } from "./ChangeFeedStartFromBeginning";
-import { ChangeFeedStartFromContinuation } from "./ChangeFeedStartFromContinuation";
-import { ChangeFeedStartFromNow } from "./ChangeFeedStartFromNow";
-import { ChangeFeedStartFromTime } from "./ChangeFeedStartFromTime";
-import { ChangeFeedResourceType } from "./ChangeFeedEnums";
-import { ChangeFeedForPartitionKey } from "./ChangeFeedForPartitionKey";
-import { ErrorResponse } from "../../request";
-import { ChangeFeedForEpkRange } from "./ChangeFeedForEpkRange";
-import { getIdFromLink, getPathFromLink, ResourceType, Constants } from "../../common";
+import type { ClientContext } from "../../ClientContext.js";
+import type { PartitionKey } from "../../documents/index.js";
+import type { PartitionKeyRangeCache } from "../../routing/index.js";
+import { QueryRange } from "../../routing/index.js";
+import type { ChangeFeedIteratorOptions } from "./ChangeFeedIteratorOptions.js";
+import { ChangeFeedStartFrom } from "./ChangeFeedStartFrom.js";
+import { ChangeFeedStartFromBeginning } from "./ChangeFeedStartFromBeginning.js";
+import { ChangeFeedStartFromContinuation } from "./ChangeFeedStartFromContinuation.js";
+import { ChangeFeedStartFromNow } from "./ChangeFeedStartFromNow.js";
+import { ChangeFeedStartFromTime } from "./ChangeFeedStartFromTime.js";
+import { ChangeFeedResourceType } from "./ChangeFeedEnums.js";
+import { ChangeFeedForPartitionKey } from "./ChangeFeedForPartitionKey.js";
+import { ErrorResponse } from "../../request/index.js";
+import { ChangeFeedForEpkRange } from "./ChangeFeedForEpkRange.js";
+import { getIdFromLink, getPathFromLink, ResourceType, Constants } from "../../common/index.js";
 import {
   buildInternalChangeFeedOptions,
   fetchStartTime,
   isEpkRange,
   getEPKRangeForPrefixPartitionKey,
-} from "./changeFeedUtils";
-import { isPrefixPartitionKey, isPartitionKey } from "../../utils/typeChecks";
-import type { Container } from "../Container";
-import type { FeedRangeInternal } from "./FeedRange";
-import { PartitionKeyInternal } from "../../documents/PartitionKeyInternal";
+} from "./changeFeedUtils.js";
+import { isPrefixPartitionKey, isPartitionKey } from "../../utils/typeChecks.js";
+import type { Container } from "../Container/index.js";
+import type { FeedRangeInternal } from "./FeedRange.js";
+import { PartitionKeyInternal } from "../../documents/PartitionKeyInternal.js";
 
 export async function buildChangeFeedIterator(
   cfOptions: ChangeFeedIteratorOptions,

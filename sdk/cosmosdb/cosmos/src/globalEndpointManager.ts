@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { OperationType, ResourceType, isReadRequest } from "./common";
-import type { CosmosClientOptions } from "./CosmosClientOptions";
-import type { Location, DatabaseAccount } from "./documents";
-import type { RequestOptions } from "./index";
-import { Constants } from "./common/constants";
-import type { ResourceResponse } from "./request";
-import { MetadataLookUpType } from "./CosmosDiagnostics";
-import type { DiagnosticNodeInternal } from "./diagnostics/DiagnosticNodeInternal";
-import { withMetadataDiagnostics } from "./utils/diagnostics";
+import { OperationType, ResourceType, isReadRequest } from "./common/index.js";
+import type { CosmosClientOptions } from "./CosmosClientOptions.js";
+import type { Location, DatabaseAccount } from "./documents/index.js";
+import type { RequestOptions } from "./index.js";
+import { Constants } from "./common/constants.js";
+import type { ResourceResponse } from "./request/index.js";
+import { MetadataLookUpType } from "./CosmosDiagnostics.js";
+import type { DiagnosticNodeInternal } from "./diagnostics/DiagnosticNodeInternal.js";
+import { withMetadataDiagnostics } from "./utils/diagnostics.js";
 
 /**
  * @hidden
