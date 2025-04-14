@@ -689,8 +689,6 @@ export function isOutputOfType<T extends {
 export interface ListAgentsOptionalParams extends ListQueryParameters, OperationOptions {
 }
 
-// Warning: (ae-forgotten-export) The symbol "ListThreadsQueryParamProperties" needs to be exported by the entry point index.d.ts
-//
 // @public
 export interface ListAgentThreadOptionalParams extends ListThreadsQueryParamProperties, OperationOptions {
 }
@@ -746,6 +744,14 @@ export interface ListRunStepsOptionalParams extends ListQueryParameters, Operati
 
 // @public
 export type ListSortOrder = string;
+
+// @public (undocumented)
+export interface ListThreadsQueryParamProperties {
+    after?: string;
+    before?: string;
+    limit?: number;
+    order?: ListSortOrder;
+}
 
 // @public
 export interface ListVectorStoreFileBatchFilesOptionalParams extends ListQueryParameters, OperationOptions {
