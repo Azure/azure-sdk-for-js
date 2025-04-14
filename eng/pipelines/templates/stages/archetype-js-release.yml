@@ -105,8 +105,10 @@ stages:
                 - job: PostPublishPackage
                   dependsOn:
                     - 'PrePublishPackage'
-                    - "PublishPackage_${{ replace(artifact.name, '-', '_') }}"
-                    - "PublishDevPackage_${{ replace(artifact.name, '-', '_') }}"
+                    - ${{ if eq(parameters.Registry, 'https://registry.npmjs.org/') }}:
+                      - "PublishPackage_${{ replace(artifact.name, '-', '_') }}"
+                    - ${{ else }}:
+                      - "PublishDevPackage_${{ replace(artifact.name, '-', '_') }}"
                   variables:
                     - name: Package.Archive
                       value: $[dependencies.PrePublishPackage.outputs['SetPackageArchive.Package.Archive']]
