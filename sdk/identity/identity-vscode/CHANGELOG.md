@@ -2,7 +2,7 @@
 
 ## 1.0.1 (2025-04-14)
 
-This package is deprecated. See Readme for more details
+This package is deprecated. See [Readme](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity-vscode/README.md) for more details
 
 ### Other Changes
 
