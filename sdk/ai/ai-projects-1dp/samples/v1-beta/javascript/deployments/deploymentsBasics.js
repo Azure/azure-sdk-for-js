@@ -22,18 +22,25 @@ async function main() {
   // List all deployments
   console.log("List all deployments:");
   const deployments = [];
+  const properties = [];
+
   for await (const deployment of project.deployments.list()) {
     deployments.push(deployment);
-    console.log(deployment);
+    properties.push({
+      name: deployment.name,
+      modelPublisher: deployment.modelPublisher,
+      modelName: deployment.modelName,
+    });
   }
-  console.log(`Retrieved ${deployments.length} deployments`);
+  console.log(`Retrieved deployments: ${JSON.stringify(properties, null, 2)}`);
 
   // List all deployments by a specific model publisher (assuming we have one from the list)
   console.log(`List all deployments by the model publisher '${modelPublisher}':`);
   const filteredDeployments = [];
-  for await (const deployment of project.deployments.list({ modelPublisher })) {
+  for await (const deployment of project.deployments.list({
+    modelPublisher,
+  })) {
     filteredDeployments.push(deployment);
-    console.log(deployment);
   }
   console.log(
     `Retrieved ${filteredDeployments.length} deployments from model publisher '${modelPublisher}'`,
@@ -44,7 +51,7 @@ async function main() {
     const deploymentName = deployments[0].name;
     console.log(`Get a single deployment named '${deploymentName}':`);
     const singleDeployment = await project.deployments.get(deploymentName);
-    console.log(singleDeployment);
+    console.log(`Retrieved deployment: ${JSON.stringify(singleDeployment, null, 2)}`);
   }
 }
 

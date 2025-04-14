@@ -5,10 +5,14 @@
 ```ts
 
 import { ClientOptions } from '@azure-rest/core-client';
-import { KeyCredential } from '@azure/core-auth';
+import type { GetChatCompletions } from '@azure-rest/ai-inference';
+import type { GetEmbeddings } from '@azure-rest/ai-inference';
+import type { GetImageEmbeddings } from '@azure-rest/ai-inference';
+import type { KeyCredential } from '@azure/core-auth';
+import type { ModelClientOptions } from '@azure-rest/ai-inference';
 import { OperationOptions } from '@azure-rest/core-client';
-import { Pipeline } from '@azure/core-rest-pipeline';
-import { TokenCredential } from '@azure/core-auth';
+import type { Pipeline } from '@azure/core-rest-pipeline';
+import type { TokenCredential } from '@azure/core-auth';
 
 // @public (undocumented)
 export class AIProjectClient {
@@ -19,7 +23,11 @@ export class AIProjectClient {
     readonly evaluationResults: EvaluationResultsOperations;
     readonly evaluations: EvaluationsOperations;
     static fromEndpoint(endpoint: string, credential: KeyCredential | TokenCredential, options?: AIProjectClientOptionalParams): AIProjectClient;
+    getCredential(): KeyCredential | TokenCredential;
+    getEndpointUrl(): string;
     readonly indexes: IndexesOperations;
+    // Warning: (ae-forgotten-export) The symbol "InferenceOperations" needs to be exported by the entry point index.d.ts
+    readonly inference: InferenceOperations;
     readonly pipeline: Pipeline;
     readonly redTeams: RedTeamsOperations;
 }
