@@ -8,17 +8,15 @@ import { describe, it } from "vitest";
 
 describe("snippets", () => {
   it("ReadmeSampleCreateClient_Node", async () => {
-    const subscriptionId = "00000000-0000-0000-0000-000000000000";
-    const client = new PortalServicesClient(new DefaultAzureCredential(), subscriptionId);
+    const client = new PortalServicesClient(new DefaultAzureCredential());
   });
 
   it("ReadmeSampleCreateClient_Browser", async () => {
-    const subscriptionId = "00000000-0000-0000-0000-000000000000";
     const credential = new InteractiveBrowserCredential({
       tenantId: "<YOUR_TENANT_ID>",
       clientId: "<YOUR_CLIENT_ID>",
     });
-    const client = new PortalServicesClient(credential, subscriptionId);
+    const client = new PortalServicesClient(credential);
   });
 
   it("SetLogLevel", async () => {

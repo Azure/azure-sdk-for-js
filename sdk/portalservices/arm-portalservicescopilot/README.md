@@ -55,8 +55,7 @@ Using Node.js and Node-like environments, you can use the `DefaultAzureCredentia
 import { PortalServicesClient } from "@azure/arm-portalservicescopilot";
 import { DefaultAzureCredential } from "@azure/identity";
 
-const subscriptionId = "00000000-0000-0000-0000-000000000000";
-const client = new PortalServicesClient(new DefaultAzureCredential(), subscriptionId);
+const client = new PortalServicesClient(new DefaultAzureCredential());
 ```
 
 For browser environments, use the `InteractiveBrowserCredential` from the `@azure/identity` package to authenticate.
@@ -69,7 +68,7 @@ const credential = new InteractiveBrowserCredential({
   tenantId: "<YOUR_TENANT_ID>",
   clientId: "<YOUR_CLIENT_ID>"
  });
-const client = new PortalServicesClient(credential, subscriptionId);
+const client = new PortalServicesClient(credential);
 ```
 
 

@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { PortalServicesClient } from "@azure/arm-portalservicescopilot";
-import { DefaultAzureCredential } from "@azure/identity";
+const { PortalServicesClient } = require("@azure/arm-portalservicescopilot");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to get a CopilotSettingsResource
@@ -10,14 +10,14 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary get a CopilotSettingsResource
  * x-ms-original-file: 2024-04-01-preview/CopilotSettings_Get.json
  */
-async function getCopilotSettings(): Promise<void> {
+async function getCopilotSettings() {
   const credential = new DefaultAzureCredential();
   const client = new PortalServicesClient(credential);
   const result = await client.copilotSettings.get();
   console.log(result);
 }
 
-async function main(): Promise<void> {
+async function main() {
   await getCopilotSettings();
 }
 

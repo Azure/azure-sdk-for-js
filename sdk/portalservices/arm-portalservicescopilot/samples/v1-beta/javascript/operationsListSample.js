@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { PortalServicesClient } from "@azure/arm-portalservicescopilot";
-import { DefaultAzureCredential } from "@azure/identity";
+const { PortalServicesClient } = require("@azure/arm-portalservicescopilot");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to list the operations for the provider
@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary list the operations for the provider
  * x-ms-original-file: 2024-04-01-preview/Operations_List.json
  */
-async function listTheOperationsForTheMicrosoftPortalServicesProvider(): Promise<void> {
+async function listTheOperationsForTheMicrosoftPortalServicesProvider() {
   const credential = new DefaultAzureCredential();
   const client = new PortalServicesClient(credential);
   const resArray = new Array();
@@ -21,7 +21,7 @@ async function listTheOperationsForTheMicrosoftPortalServicesProvider(): Promise
   console.log(resArray);
 }
 
-async function main(): Promise<void> {
+async function main() {
   await listTheOperationsForTheMicrosoftPortalServicesProvider();
 }
 

@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { PortalServicesClient } from "@azure/arm-portalservicescopilot";
-import { DefaultAzureCredential } from "@azure/identity";
+const { PortalServicesClient } = require("@azure/arm-portalservicescopilot");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to delete a CopilotSettingsResource
@@ -10,13 +10,13 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary delete a CopilotSettingsResource
  * x-ms-original-file: 2024-04-01-preview/CopilotSettings_Delete.json
  */
-async function deleteCopilotSettings(): Promise<void> {
+async function deleteCopilotSettings() {
   const credential = new DefaultAzureCredential();
   const client = new PortalServicesClient(credential);
   await client.copilotSettings.delete();
 }
 
-async function main(): Promise<void> {
+async function main() {
   await deleteCopilotSettings();
 }
 
