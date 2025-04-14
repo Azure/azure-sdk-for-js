@@ -162,7 +162,7 @@ export type {
 export {
   ListMessagesQueryParamProperties,
   ListFilesQueryParamProperties,
-  ListThreadsQueryParamProperties
+  ListThreadsQueryParamProperties,
 } from "../customization/parameters.js";
 export type {
   AgentRunResponse,
