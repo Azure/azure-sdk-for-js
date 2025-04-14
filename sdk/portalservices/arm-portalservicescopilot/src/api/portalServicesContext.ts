@@ -25,8 +25,7 @@ export function createPortalServices(
   credential: TokenCredential,
   options: PortalServicesClientOptionalParams = {},
 ): PortalServicesContext {
-  const endpointUrl =
-    options.endpoint ?? options.baseUrl ?? "https://management.azure.com";
+  const endpointUrl = options.endpoint ?? options.baseUrl ?? "https://management.azure.com";
   const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
   const userAgentInfo = `azsdk-js-arm-portalservicescopilot/1.0.0-beta.1`;
   const userAgentPrefix = prefixFromOptions

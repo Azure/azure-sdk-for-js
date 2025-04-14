@@ -2,22 +2,14 @@
 // Licensed under the MIT License.
 
 import { PortalServicesContext } from "../../api/portalServicesContext.js";
-import {
-  CopilotSettingsResource,
-  CopilotSettingsResourceUpdate,
-} from "../../models/models.js";
+import { CopilotSettingsResource, CopilotSettingsResourceUpdate } from "../../models/models.js";
 import {
   CopilotSettingsDeleteOptionalParams,
   CopilotSettingsUpdateOptionalParams,
   CopilotSettingsCreateOrUpdateOptionalParams,
   CopilotSettingsGetOptionalParams,
 } from "../../api/copilotSettings/options.js";
-import {
-  $delete,
-  update,
-  createOrUpdate,
-  get,
-} from "../../api/copilotSettings/operations.js";
+import { $delete, update, createOrUpdate, get } from "../../api/copilotSettings/operations.js";
 
 /** Interface representing a CopilotSettings operations. */
 export interface CopilotSettingsOperations {
@@ -39,15 +31,12 @@ export interface CopilotSettingsOperations {
     options?: CopilotSettingsCreateOrUpdateOptionalParams,
   ) => Promise<CopilotSettingsResource>;
   /** Get a CopilotSettingsResource */
-  get: (
-    options?: CopilotSettingsGetOptionalParams,
-  ) => Promise<CopilotSettingsResource>;
+  get: (options?: CopilotSettingsGetOptionalParams) => Promise<CopilotSettingsResource>;
 }
 
 function _getCopilotSettings(context: PortalServicesContext) {
   return {
-    delete: (options?: CopilotSettingsDeleteOptionalParams) =>
-      $delete(context, options),
+    delete: (options?: CopilotSettingsDeleteOptionalParams) => $delete(context, options),
     update: (
       properties: CopilotSettingsResourceUpdate,
       options?: CopilotSettingsUpdateOptionalParams,

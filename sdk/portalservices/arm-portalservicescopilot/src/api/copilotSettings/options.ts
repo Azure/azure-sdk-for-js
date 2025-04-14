@@ -10,8 +10,7 @@ export interface CopilotSettingsDeleteOptionalParams extends OperationOptions {}
 export interface CopilotSettingsUpdateOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface CopilotSettingsCreateOrUpdateOptionalParams
-  extends OperationOptions {}
+export interface CopilotSettingsCreateOrUpdateOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface CopilotSettingsGetOptionalParams extends OperationOptions {}
