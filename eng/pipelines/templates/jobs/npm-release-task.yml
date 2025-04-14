@@ -6,7 +6,7 @@ parameters:
   VarDependencies: {}
 
 jobs:
-- deployment: PublishPackage
+- deployment: PublishPackage_${{ parameters.Artifact.name }}
   variables:
     - ${{ each var in parameters.VarDependencies }}:
       - name: ${{ var.key }}
@@ -89,7 +89,7 @@ jobs:
             condition: succeeded()
 
 - ${{ if eq(parameters.Registry, 'https://registry.npmjs.org/') }}:
-  - job: VerifyPackageTags
+  - job: VerifyPackageTags_${{ parameters.Artifact.name }}
     dependsOn:
       - PublishPackage
       - ${{ each dep in parameters.DependsOn }}:

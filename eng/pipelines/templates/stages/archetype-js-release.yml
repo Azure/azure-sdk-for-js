@@ -235,7 +235,7 @@ stages:
     jobs:
       - ${{ each artifact in parameters.Artifacts }}:
           - ${{if and(ne(artifact.skipPublishDevFeed, 'true'), or(eq(variables['SetDevVersion'], 'true'), and(eq(variables['Build.Reason'],'Schedule'), eq(variables['System.TeamProject'], 'internal'))))}}:
-            - job: DetectPackageArchive__${{artifact.name}}
+            - job: DetectPackageArchive_${{artifact.name}}
               variables:
                 - template: /eng/pipelines/templates/variables/image.yml
               pool:
@@ -274,7 +274,7 @@ stages:
                 DependsOn:
                   - 'DetectPackageArchive'
 
-      - job: PublishDocsToNightlyBranch__${{artifact.name}}
+      - job: PublishDocsToNightlyBranch
         variables:
           - template: /eng/pipelines/templates/variables/image.yml
         condition: and(succeeded(), or(eq(variables['SetDevVersion'], 'true'), and(eq(variables['Build.Reason'],'Schedule'), eq(variables['System.TeamProject'], 'internal'),  ne(variables['Skip.PublishDocs'], 'true'))))
