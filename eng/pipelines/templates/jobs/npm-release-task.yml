@@ -91,7 +91,7 @@ jobs:
 - ${{ if eq(parameters.Registry, 'https://registry.npmjs.org/') }}:
   - job: VerifyPackageTags_${{ replace(parameters.Artifact.name, '-', '_') }}
     dependsOn:
-      - PublishPackage
+      - PublishPackage_${{ replace(parameters.Artifact.name, '-', '_') }}
       - ${{ each dep in parameters.DependsOn }}:
         - ${{ dep }}
     condition: succeeded()
