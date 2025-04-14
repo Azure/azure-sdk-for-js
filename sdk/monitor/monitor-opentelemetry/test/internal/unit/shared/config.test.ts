@@ -1,179 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import * as assert from "assert";
-import * as path from "path";
-import * as sinon from "sinon";
-import nock from "nock";
+import * as path from "node:path";
 
-import { InternalConfig } from "../../../../src/shared";
-import { JsonConfig } from "../../../../src/shared/jsonConfig";
+import { InternalConfig } from "../../../../src/shared/index.js";
+import { JsonConfig } from "../../../../src/shared/jsonConfig.js";
 import { Resource } from "@opentelemetry/resources";
 import {
   CloudPlatformValues,
   SemanticResourceAttributes,
 } from "@opentelemetry/semantic-conventions";
-import type { AzureMonitorOpenTelemetryOptions } from "../../../../src/types";
+import type { AzureMonitorOpenTelemetryOptions } from "../../../../src/types.js";
+import type { MockInstance } from "vitest";
+import { assert, expect, afterEach, describe, it, vi, beforeEach } from "vitest";
+import { azureVmDetector } from "@opentelemetry/resource-detector-azure";
 
-const vmTestResponse = {
-  additionalCapabilities: {
-    hibernationEnabled: "false",
-  },
-  azEnvironment: "AzurePublicCloud",
-  customData: "",
-  evictionPolicy: "",
-  extendedLocation: {
-    name: "",
-    type: "",
-  },
-  host: {
-    id: "",
-  },
-  hostGroup: {
-    id: "",
-  },
-  isHostCompatibilityLayerVm: "true",
-  licenseType: "Windows_Client",
-  location: "westus",
-  name: "examplevmname",
-  offer: "WindowsServer",
-  osProfile: {
-    adminUsername: "azureuser",
-    computerName: "examplevmname",
-    disablePasswordAuthentication: "true",
-  },
-  osType: "Windows",
-  placementGroupId: "",
-  plan: {
-    name: "",
-    product: "",
-    publisher: "",
-  },
-  platformFaultDomain: "0",
-  platformSubFaultDomain: "",
-  platformUpdateDomain: "0",
-  priority: "",
-  provider: "Microsoft.Compute",
-  publicKeys: [
-    {
-      keyData: "ssh-rsa 0",
-      path: "/home/user/.ssh/authorized_keys0",
-    },
-    {
-      keyData: "ssh-rsa 1",
-      path: "/home/user/.ssh/authorized_keys1",
-    },
-  ],
-  publisher: "RDFE-Test-Microsoft-Windows-Server-Group",
-  resourceGroupName: "macikgo-test-may-23",
-  resourceId:
-    "/subscriptions/xxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxx/resourceGroups/macikgo-test-may-23/providers/Microsoft.Compute/virtualMachines/examplevmname",
-  securityProfile: {
-    encryptionAtHost: "false",
-    secureBootEnabled: "true",
-    securityType: "TrustedLaunch",
-    virtualTpmEnabled: "true",
-  },
-  sku: "2019-Datacenter",
-  storageProfile: {
-    dataDisks: [
-      {
-        bytesPerSecondThrottle: "979202048",
-        caching: "None",
-        createOption: "Empty",
-        diskCapacityBytes: "274877906944",
-        diskSizeGB: "1024",
-        image: {
-          uri: "",
-        },
-        isSharedDisk: "false",
-        isUltraDisk: "true",
-        lun: "0",
-        managedDisk: {
-          id: "/subscriptions/xxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxx/resourceGroups/macikgo-test-may-23/providers/Microsoft.Compute/disks/exampledatadiskname",
-          storageAccountType: "StandardSSD_LRS",
-        },
-        name: "exampledatadiskname",
-        opsPerSecondThrottle: "65280",
-        vhd: {
-          uri: "",
-        },
-        writeAcceleratorEnabled: "false",
-      },
-    ],
-    imageReference: {
-      id: "",
-      offer: "WindowsServer",
-      publisher: "MicrosoftWindowsServer",
-      sku: "2019-Datacenter",
-      version: "latest",
-    },
-    osDisk: {
-      caching: "ReadWrite",
-      createOption: "FromImage",
-      diffDiskSettings: {
-        option: "",
-      },
-      diskSizeGB: "30",
-      encryptionSettings: {
-        enabled: "false",
-        diskEncryptionKey: {
-          sourceVault: {
-            id: "/subscriptions/test-source-guid/resourceGroups/testrg/providers/Microsoft.KeyVault/vaults/test-kv",
-          },
-          secretUrl:
-            "https://test-disk.vault.azure.net/secrets/xxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxx/xxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxx",
-        },
-        keyEncryptionKey: {
-          sourceVault: {
-            id: "/subscriptions/test-key-guid/resourceGroups/testrg/providers/Microsoft.KeyVault/vaults/test-kv",
-          },
-          keyUrl:
-            "https://test-key.vault.azure.net/secrets/xxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxx/xxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxx",
-        },
-      },
-      image: {
-        uri: "",
-      },
-      managedDisk: {
-        id: "/subscriptions/xxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxx/resourceGroups/macikgo-test-may-23/providers/Microsoft.Compute/disks/exampleosdiskname",
-        storageAccountType: "StandardSSD_LRS",
-      },
-      name: "exampledatadiskname",
-      osType: "Windows",
-      vhd: {
-        uri: "",
-      },
-      writeAcceleratorEnabled: "false",
-    },
-    resourceDisk: {
-      size: "16384",
-    },
-  },
-  subscriptionId: "xxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxx",
-  tags: "azsecpack:nonprod;platformsettings.host_environment.service.platform_optedin_for_rootcerts:true",
-  userData: "Zm9vYmFy",
-  tagsList: [
-    {
-      name: "azsecpack",
-      value: "nonprod",
-    },
-    {
-      name: "platformsettings.host_environment.service.platform_optedin_for_rootcerts",
-      value: "true",
-    },
-  ],
-  version: "20.04.202307240",
-  virtualMachineScaleSet: {
-    id: "/subscriptions/xxxxxxxx-xxxxx-xxx-xxx-xxxx/resourceGroups/resource-group-name/providers/Microsoft.Compute/virtualMachineScaleSets/virtual-machine-scale-set-name",
-  },
-  vmId: "02aab8a4-74ef-476e-8182-f6d2ba4166a6",
-  vmScaleSetName: "crpteste9vflji9",
-  vmSize: "Standard_A3",
-  zone: "1",
-};
-
-const testAttributes: any = {
+const testAttributes: Record<string, string> = {
   "azure.vm.scaleset.name": "crpteste9vflji9",
   "azure.vm.sku": "2019-Datacenter",
   "cloud.platform": "azure_vm",
@@ -187,34 +29,24 @@ const testAttributes: any = {
   "os.type": "Windows",
   "os.version": "20.04.202307240",
   "service.instance.id": "02aab8a4-74ef-476e-8182-f6d2ba4166a6",
-  "service.name": "unknown_service:node",
+  "service.name": `unknown_service:${process.argv0}`, // Match OTel's default
   "telemetry.sdk.language": "nodejs",
   "telemetry.sdk.name": "opentelemetry",
   "telemetry.sdk.version": "1.30.1",
 };
 
 describe("Library/Config", () => {
-  let originalEnv: NodeJS.ProcessEnv;
-  let sandbox: sinon.SinonSandbox;
-
-  beforeEach(() => {
-    originalEnv = process.env;
-    sandbox = sinon.createSandbox();
-  });
-
   afterEach(() => {
-    process.env = originalEnv;
-    sandbox.restore();
+    vi.unstubAllEnvs();
+    vi.restoreAllMocks();
     (JsonConfig["_instance"] as any) = undefined;
   });
 
   describe("#constructor", () => {
     it("merge JSON config", () => {
       (JsonConfig["_instance"] as any) = undefined;
-      const env = <{ [id: string]: string }>{};
       const customConfigJSONPath = path.resolve(__dirname, "config.json");
-      env["APPLICATIONINSIGHTS_CONFIGURATION_FILE"] = customConfigJSONPath; // Load JSON config
-      process.env = env;
+      vi.stubEnv("APPLICATIONINSIGHTS_CONFIGURATION_FILE", customConfigJSONPath);
       const config = new InternalConfig();
       assert.deepStrictEqual(
         config.azureMonitorExporterOptions.connectionString,
@@ -248,8 +80,6 @@ describe("Library/Config", () => {
     });
 
     it("JSON config values take precedence over others", () => {
-      const env = <{ [id: string]: string }>{};
-
       const jsonOptions = {
         azureMonitorExporterOptions: {
           connectionString: "testConnString",
@@ -267,8 +97,7 @@ describe("Library/Config", () => {
           redis4: { enabled: true },
         },
       };
-      env["APPLICATIONINSIGHTS_CONFIGURATION_CONTENT"] = JSON.stringify(jsonOptions);
-      process.env = env;
+      vi.stubEnv("APPLICATIONINSIGHTS_CONFIGURATION_CONTENT", JSON.stringify(jsonOptions));
 
       const options: AzureMonitorOpenTelemetryOptions = {
         azureMonitorExporterOptions: {
@@ -426,6 +255,11 @@ describe("Library/Config", () => {
   });
 
   describe("constructor", () => {
+    let warnStub: MockInstance;
+    beforeEach(() => {
+      warnStub = vi.spyOn(console, "warn");
+    });
+
     it("should initialize valid values", () => {
       const config = new InternalConfig();
       config.azureMonitorExporterOptions.connectionString =
@@ -441,40 +275,39 @@ describe("Library/Config", () => {
     });
 
     it("instrumentation key validation-valid key passed", () => {
-      const warnStub = sandbox.stub(console, "warn");
-      const config = new InternalConfig();
-      config.azureMonitorExporterOptions.connectionString =
-        "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333";
-      assert.ok(warnStub.notCalled, "warning was not raised");
+      new InternalConfig({
+        azureMonitorExporterOptions: {
+          connectionString: "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333",
+        },
+      });
+      expect(warnStub).not.toHaveBeenCalled();
     });
 
-    it("instrumentation key validation-invalid key passed", () => {
-      const warnStub = sandbox.stub(console, "warn");
-      const config = new InternalConfig();
-      config.azureMonitorExporterOptions.connectionString =
-        "InstrumentationKey=1aa11111bbbb1ccc8dddeeeeffff3333";
-      assert.ok(warnStub.calledOn, "warning was raised");
+    // TODO: these tests are incorrect on main
+    // as they call `assert.ok(warnStub.calledOn)`
+    // and since `calledOn` is a function, it is always truthy.
+    // When changed to `assert.ok(warnStub.calledOnce) it fails on main
+    it.todo("instrumentation key validation-invalid key passed", () => {
+      new InternalConfig({
+        azureMonitorExporterOptions: {
+          connectionString: "InstrumentationKey=1aa11111bbbb1ccc8dddeeeeffff3333",
+        },
+      });
+      expect(warnStub).toHaveBeenCalled();
     });
 
-    it("instrumentation key validation-invalid key passed", () => {
-      const warnStub = sandbox.stub(console, "warn");
-      const config = new InternalConfig();
-      config.azureMonitorExporterOptions.connectionString = "abc";
-      assert.ok(warnStub.calledOn, "warning was raised");
+    it.todo("instrumentation key validation-invalid key passed", () => {
+      new InternalConfig({
+        azureMonitorExporterOptions: {
+          connectionString: "abc",
+        },
+      });
+      expect(warnStub).toHaveBeenCalled();
     });
   });
 });
 
 describe("OpenTelemetry Resource", () => {
-  beforeEach(() => {
-    nock.disableNetConnect();
-    nock.cleanAll();
-  });
-
-  afterEach(() => {
-    nock.enableNetConnect();
-  });
-
   it("should allow custom resource to be configured", () => {
     const customAttributes: any = {};
     customAttributes[SemanticResourceAttributes.SERVICE_NAME] = "testServiceName";
@@ -597,46 +430,37 @@ describe("OpenTelemetry Resource", () => {
   });
 
   it("Azure VM resource attributes", async () => {
-    const scope = nock("http://169.254.169.254")
-      .get("/metadata/instance/compute?api-version=2021-12-13&format=json")
-      .reply(200, vmTestResponse);
-
+    vi.spyOn(azureVmDetector, "detect").mockResolvedValue(new Resource(testAttributes));
     const config = new InternalConfig();
     assert.ok(config);
 
-    // Wait for the async VM resource detector to finish
-    await new Promise<void>((resolve) => {
-      setTimeout(() => {
-        for (let i = 0; i < Object.keys(config.resource.attributes).length; i++) {
-          const key = Object.keys(config.resource.attributes)[i];
-          assert.strictEqual(config.resource.attributes[key], testAttributes[key]);
-        }
-        assert.strictEqual(
-          config.resource.attributes[SemanticResourceAttributes.CLOUD_PROVIDER],
-          "azure",
-        );
-        assert.strictEqual(
-          config.resource.attributes[SemanticResourceAttributes.CLOUD_REGION],
-          "westus",
-        );
-        assert.strictEqual(
-          config.resource.attributes[SemanticResourceAttributes.CLOUD_PLATFORM],
-          CloudPlatformValues.AZURE_VM,
-        );
-        resolve();
-      }, 150);
-    });
-    scope.done();
+    // Wait for the async VM resource detector to finish (ensure detect is called)
+    await new Promise((resolve) => setTimeout(resolve, 0));
+    for (let i = 0; i < Object.keys(config.resource.attributes).length; i++) {
+      const key = Object.keys(config.resource.attributes)[i];
+      assert.strictEqual(config.resource.attributes[key], testAttributes[key]);
+    }
+    assert.strictEqual(
+      config.resource.attributes[SemanticResourceAttributes.CLOUD_PROVIDER],
+      "azure",
+    );
+    assert.strictEqual(
+      config.resource.attributes[SemanticResourceAttributes.CLOUD_REGION],
+      "westus",
+    );
+    assert.strictEqual(
+      config.resource.attributes[SemanticResourceAttributes.CLOUD_PLATFORM],
+      CloudPlatformValues.AZURE_VM,
+    );
   });
 
   it("OTEL_RESOURCE_ATTRIBUTES", () => {
-    const env = <{ [id: string]: string }>{};
-    const originalEnv = process.env;
-    env.OTEL_RESOURCE_ATTRIBUTES =
-      "service.name=testServiceName,service.instance.id=testServiceInstance,k8s.cluster.name=testClusterName,k8s.node.name=testNodeName";
-    process.env = env;
+    vi.stubEnv(
+      "OTEL_RESOURCE_ATTRIBUTES",
+      "service.name=testServiceName,service.instance.id=testServiceInstance,k8s.cluster.name=testClusterName,k8s.node.name=testNodeName",
+    );
+
     const config = new InternalConfig();
-    process.env = originalEnv;
     assert.deepStrictEqual(
       config.resource.attributes[SemanticResourceAttributes.SERVICE_NAME],
       "testServiceName",

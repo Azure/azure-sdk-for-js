@@ -24,7 +24,6 @@ These sample programs show how to use the TypeScript client libraries for Azure 
 | [analyzeSentimentWithOpinionMining.ts][analyzesentimentwithopinionmining] | analyzes the sentiment of a piece of text and mine opinions about different targets     |
 | [beginAnalyzeHealthcareEntities.ts][beginanalyzehealthcareentities]       | detects healthcare entities in a piece of text                                          |
 | [alternativeDocumentInput.ts][alternativedocumentinput]                   | uses objects with attached metadata instead of simple strings as inputs for flexibility |
-| [authenticationMethods.ts][authenticationmethods]                         | authenticates a service client using both Azure Active Directory and an API key         |
 | [beginAnalyzeActions.ts][beginanalyzeactions]                             | applies multiple Text Analytics actions per document                                    |
 
 ## Prerequisites
@@ -72,7 +71,7 @@ node dist/analyzeSentiment.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx dev-tool run vendored cross-env ENDPOINT="<endpoint>" TEXT_ANALYTICS_API_KEY="<text analytics api key>" node dist/analyzeSentiment.js
+npx dev-tool run vendored cross-env LANGUAGE_ENDPOINT="<language endpoint>" node dist/analyzeSentiment.js
 ```
 
 ## Next Steps
@@ -88,7 +87,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [analyzesentimentwithopinionmining]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/textanalytics/ai-text-analytics/samples/v5/typescript/src/analyzeSentimentWithOpinionMining.ts
 [beginanalyzehealthcareentities]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/textanalytics/ai-text-analytics/samples/v5/typescript/src/beginAnalyzeHealthcareEntities.ts
 [alternativedocumentinput]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/textanalytics/ai-text-analytics/samples/v5/typescript/src/alternativeDocumentInput.ts
-[authenticationmethods]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/textanalytics/ai-text-analytics/samples/v5/typescript/src/authenticationMethods.ts
 [beginanalyzeactions]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/textanalytics/ai-text-analytics/samples/v5/typescript/src/beginAnalyzeActions.ts
 [apiref]: https://learn.microsoft.com/javascript/api/@azure/ai-text-analytics
 [freesub]: https://azure.microsoft.com/free/

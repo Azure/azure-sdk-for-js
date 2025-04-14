@@ -16,7 +16,7 @@ import "dotenv/config";
  * This sample demonstrates how to Gets the deleted Azure key vault.
  *
  * @summary Gets the deleted Azure key vault.
- * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2023-07-01/examples/getDeletedVault.json
+ * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2024-11-01/examples/getDeletedVault.json
  */
 async function retrieveADeletedVault(): Promise<void> {
   const subscriptionId =
@@ -31,7 +31,7 @@ async function retrieveADeletedVault(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  retrieveADeletedVault();
+  await retrieveADeletedVault();
 }
 
 main().catch(console.error);

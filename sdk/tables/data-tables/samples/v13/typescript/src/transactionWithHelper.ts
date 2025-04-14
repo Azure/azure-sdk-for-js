@@ -8,10 +8,11 @@
  */
 
 import { TableClient, TableTransaction } from "@azure/data-tables";
-
-// Load the .env file if it exists
+import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
-const connectionString = process.env["ACCOUNT_CONNECTION_STRING"] || "";
+
+const endpoint = process.env.TABLES_URL || "";
+
 async function batchOperations(): Promise<void> {
   console.log("== TableTransaction Sample ==");
 
@@ -19,7 +20,7 @@ async function batchOperations(): Promise<void> {
   const tableName = `transactionHelper`;
 
   // See authenticationMethods sample for other options of creating a new client
-  const client = TableClient.fromConnectionString(connectionString, tableName);
+  const client = new TableClient(endpoint, tableName, new DefaultAzureCredential());
 
   // Create the table
   await client.createTable();
@@ -29,26 +30,26 @@ async function batchOperations(): Promise<void> {
   const transaction = new TableTransaction();
 
   // Add actions to the transaction
-  transaction.createEntity({
+  await transaction.createEntity({
     partitionKey,
     rowKey: "A1",
     name: "Marker Set",
     price: 5.0,
-    quantity: 21
+    quantity: 21,
   });
-  transaction.createEntity({
+  await transaction.createEntity({
     partitionKey,
     rowKey: "A2",
     name: "Pen Set",
     price: 2.0,
-    quantity: 6
+    quantity: 6,
   });
-  transaction.createEntity({
+  await transaction.createEntity({
     partitionKey,
     rowKey: "A3",
     name: "Pencil",
     price: 1.5,
-    quantity: 100
+    quantity: 100,
   });
 
   // Submit the transaction using the actions list built by the helper

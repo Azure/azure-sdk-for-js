@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { TimeSpan } from "./timeSpan";
+import { TimeSpan } from "./timeSpan.js";
 
 /**
  * @hidden

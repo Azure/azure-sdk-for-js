@@ -14,7 +14,7 @@ require("dotenv/config");
  * This sample demonstrates how to List supported trusted access roles.
  *
  * @summary List supported trusted access roles.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2024-10-01/examples/TrustedAccessRoles_List.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2025-01-01/examples/TrustedAccessRoles_List.json
  */
 async function listTrustedAccessRoles() {
   const subscriptionId =
@@ -23,7 +23,7 @@ async function listTrustedAccessRoles() {
   const credential = new DefaultAzureCredential();
   const client = new ContainerServiceClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.trustedAccessRoles.list(location)) {
+  for await (const item of client.trustedAccessRoles.list(location)) {
     resArray.push(item);
   }
   console.log(resArray);

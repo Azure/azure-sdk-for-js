@@ -13,3 +13,4 @@ export * from "./tracing/testTracerProvider.js";
 export * from "./tracing/spanGraphModel.js";
 export * from "./fakeTestSecrets.js";
 export { createMockTracingContext } from "./tracing/mockContext.js";
+export { createXhrHttpClient } from "./xhrHttpClient.js";

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DocumentSpan } from "@azure/ai-form-recognizer";
+import type { DocumentSpan } from "@azure/ai-form-recognizer";
 
 /**
  * Gets the text slices that a set of spans refer to from a document's content.

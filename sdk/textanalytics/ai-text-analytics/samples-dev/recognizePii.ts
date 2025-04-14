@@ -12,8 +12,8 @@
  * @azsdk-weight 100
  */
 
-import { TextAnalyticsClient, AzureKeyCredential, PiiEntityDomain } from "@azure/ai-text-analytics";
-import { assert } from "console";
+import { TextAnalyticsClient, PiiEntityDomain } from "@azure/ai-text-analytics";
+import { DefaultAzureCredential } from "@azure/identity";
 
 // Load the .env file if it exists
 import "dotenv/config";
@@ -22,10 +22,9 @@ export async function main(): Promise<void> {
   console.log(`Running recognizePii sample`);
 
   // You will need to set these environment variables or edit the following values
-  const endpoint = process.env["ENDPOINT"] || "<cognitive services endpoint>";
-  const apiKey = process.env["TEXT_ANALYTICS_API_KEY"] || "<api key>";
+  const endpoint = process.env["LANGUAGE_ENDPOINT"] || "<endpoint>";
 
-  const client = new TextAnalyticsClient(endpoint, new AzureKeyCredential(apiKey));
+  const client = new TextAnalyticsClient(endpoint, new DefaultAzureCredential());
 
   const textOnePii = "My phone number is 555-5555";
   const textNoPHI = "His EU passport number is X65097105";
@@ -48,7 +47,6 @@ export async function main(): Promise<void> {
   });
   if (!resultWithPHI.error) {
     console.log(`Also there is nothing to redact: "${resultWithPHI.redactedText}"`);
-    assert(resultWithPHI.entities.length === 0, "did not expect any entities but got some");
   }
 
   console.log(`But there are other PII entities in that text:`);
@@ -67,7 +65,6 @@ export async function main(): Promise<void> {
     );
     for (const entity of resultWithSSNPII.entities) {
       console.log(`\t- "${entity.text}"`);
-      assert(entity.category === "USSocialSecurityNumber");
     }
   }
 }

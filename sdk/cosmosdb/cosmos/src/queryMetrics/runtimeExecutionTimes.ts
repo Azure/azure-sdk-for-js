@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import QueryMetricsConstants from "./queryMetricsConstants";
-import { parseDelimitedString, timeSpanFromMetrics } from "./queryMetricsUtils";
-import { TimeSpan } from "./timeSpan";
+import QueryMetricsConstants from "./queryMetricsConstants.js";
+import { parseDelimitedString, timeSpanFromMetrics } from "./queryMetricsUtils.js";
+import { TimeSpan } from "./timeSpan.js";
 
 export class RuntimeExecutionTimes {
   constructor(

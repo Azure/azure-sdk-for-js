@@ -37,7 +37,9 @@
   "files": [
     "dist/",
     "README.md",
-    "LICENSE"
+    "LICENSE",
+    "review/",
+    "CHANGELOG.md"
   ],
   "sdk-type": "client",
   "repository": "github:Azure/azure-sdk-for-js",
@@ -97,7 +99,7 @@
     "lint:fix": "eslint package.json api-extractor.json src test --fix --fix-type [problem,suggestion]",
     "minify": "dev-tool run vendored uglifyjs -c -m --comments --source-map \"content='./dist/index.js.map'\" -o ./dist/index.min.js ./dist/index.js",
     "pack": "npm pack 2>&1",
-    "test": "npm run clean && dev-tool run build-package && npm run unit-test:node && dev-tool run bundle && npm run unit-test:browser && npm run integration-test",
+    "test": "npm run clean && dev-tool run build-package && npm run unit-test:node && npm run unit-test:browser && npm run integration-test",
     "test:browser": "npm run clean && npm run build:test && npm run unit-test:browser && npm run integration-test:browser",
     "test:node": "npm run clean && dev-tool run build-package && npm run unit-test:node && npm run integration-test:node",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
@@ -131,22 +133,18 @@
     "./package.json": "./package.json",
     ".": {
       "browser": {
-        "source": "./src/index.ts",
         "types": "./dist/browser/index.d.ts",
         "default": "./dist/browser/index.js"
       },
       "react-native": {
-        "source": "./src/index.ts",
         "types": "./dist/react-native/index.d.ts",
         "default": "./dist/react-native/index.js"
       },
       "import": {
-        "source": "./src/index.ts",
         "types": "./dist/esm/index.d.ts",
         "default": "./dist/esm/index.js"
       },
       "require": {
-        "source": "./src/index.ts",
         "types": "./dist/commonjs/index.d.ts",
         "default": "./dist/commonjs/index.js"
       }

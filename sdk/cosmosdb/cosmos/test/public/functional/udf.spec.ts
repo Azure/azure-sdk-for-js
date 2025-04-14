@@ -1,34 +1,34 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import assert from "assert";
-import type { Suite } from "mocha";
-import type { UserDefinedFunctionDefinition, Container } from "../../../src";
-import { removeAllDatabases, getTestContainer } from "../common/TestHelpers";
 
-describe("User Defined Function", function (this: Suite) {
-  this.timeout(process.env.MOCHA_TIMEOUT || 10000);
+import type { UserDefinedFunctionDefinition, Container } from "../../../src/index.js";
+import { removeAllDatabases, getTestContainer } from "../common/TestHelpers.js";
+import { describe, it, assert, beforeEach } from "vitest";
+
+describe("User Defined Function", { timeout: 10000 }, () => {
   let container: Container;
 
-  beforeEach(async function () {
+  beforeEach(async () => {
     await removeAllDatabases();
     // get container
     container = await getTestContainer("UDFTests");
   });
-  it("nativeApi Should do UDF CRUD operations successfully", async function () {
+
+  it("nativeApi Should do UDF CRUD operations successfully", async () => {
     const { resources: udfs } = await container.scripts.userDefinedFunctions.readAll().fetchAll();
 
     // create a udf
     const beforeCreateUdfsCount = udfs.length;
     const udfDefinition: UserDefinedFunctionDefinition = {
       id: "sample udf",
-      body: "function () { const x = 10; }",
+      body: "() => { const x = 10; }",
     };
 
     // TODO also handle upsert case
     const { resource: udf } = await container.scripts.userDefinedFunctions.create(udfDefinition);
 
     assert.equal(udf.id, udfDefinition.id);
-    assert.equal(udf.body, "function () { const x = 10; }");
+    assert.equal(udf.body, "() => { const x = 10; }");
 
     // read udfs after creation
     const { resources: udfsAfterCreate } = await container.scripts.userDefinedFunctions
@@ -56,13 +56,13 @@ describe("User Defined Function", function (this: Suite) {
     assert(results.length > 0, "number of results for the query should be > 0");
 
     // replace udf
-    udfDefinition.body = "function () { const x = 10; }";
+    udfDefinition.body = "() => { const x = 10; }";
     const { resource: replacedUdf } = await container.scripts
       .userDefinedFunction(udfDefinition.id)
       .replace(udfDefinition);
 
     assert.equal(replacedUdf.id, udfDefinition.id);
-    assert.equal(replacedUdf.body, "function () { const x = 10; }");
+    assert.equal(replacedUdf.body, "() => { const x = 10; }");
 
     // read udf
     const { resource: udfAfterReplace } = await container.scripts

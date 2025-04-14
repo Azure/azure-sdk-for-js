@@ -2,38 +2,41 @@
 // Licensed under the MIT License.
 
 /// <reference lib="esnext.asynciterable" />
-import type { ClientContext } from "./ClientContext";
-import { DiagnosticNodeInternal, DiagnosticNodeType } from "./diagnostics/DiagnosticNodeInternal";
-import { getPathFromLink, ResourceType, StatusCodes } from "./common";
+import type { ClientContext } from "./ClientContext.js";
+import {
+  DiagnosticNodeInternal,
+  DiagnosticNodeType,
+} from "./diagnostics/DiagnosticNodeInternal.js";
+import { getPathFromLink, ResourceType, StatusCodes } from "./common/index.js";
 import type {
   CosmosHeaders,
   ExecutionContext,
   FetchFunctionCallback,
   SqlQuerySpec,
-} from "./queryExecutionContext";
+} from "./queryExecutionContext/index.js";
 import {
   DefaultQueryExecutionContext,
   getInitialHeader,
   mergeHeaders,
   PipelinedQueryExecutionContext,
-} from "./queryExecutionContext";
-import type { Response } from "./request";
+} from "./queryExecutionContext/index.js";
+import type { Response } from "./request/index.js";
 import type {
   ErrorResponse,
   PartitionedQueryExecutionInfo,
   QueryRange,
-} from "./request/ErrorResponse";
-import type { FeedOptions } from "./request/FeedOptions";
-import { FeedResponse } from "./request/FeedResponse";
+} from "./request/ErrorResponse.js";
+import type { FeedOptions } from "./request/FeedOptions.js";
+import { FeedResponse } from "./request/FeedResponse.js";
 import {
   getEmptyCosmosDiagnostics,
   withDiagnostics,
   withMetadataDiagnostics,
-} from "./utils/diagnostics";
-import { MetadataLookUpType } from "./CosmosDiagnostics";
+} from "./utils/diagnostics.js";
+import { MetadataLookUpType } from "./CosmosDiagnostics.js";
 import { randomUUID } from "@azure/core-util";
-import { HybridQueryExecutionContext } from "./queryExecutionContext/hybridQueryExecutionContext";
-import { PartitionKeyRangeCache } from "./routing";
+import { HybridQueryExecutionContext } from "./queryExecutionContext/hybridQueryExecutionContext.js";
+import { PartitionKeyRangeCache } from "./routing/index.js";
 
 /**
  * Represents a QueryIterator Object, an implementation of feed or query response that enables
@@ -78,15 +81,21 @@ export class QueryIterator<T> {
    * If you're using TypeScript, you can use the following polyfill as long
    * as you target ES6 or higher and are running on Node 6 or higher.
    *
-   * ```typescript
+   * ```ts snippet:ignore
    * if (!Symbol || !Symbol.asyncIterator) {
    *   (Symbol as any).asyncIterator = Symbol.for("Symbol.asyncIterator");
    * }
    * ```
    *
    * @example Iterate over all databases
-   * ```typescript
-   * for await(const { resources: db } of client.databases.readAll().getAsyncIterator()) {
+   * ```ts snippet:QueryIteratorIterateDatabases
+   * import { CosmosClient } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   *
+   * for await (const { resources: db } of client.databases.readAll().getAsyncIterator()) {
    *   console.log(`Got ${db} from AsyncIterator`);
    * }
    * ```
