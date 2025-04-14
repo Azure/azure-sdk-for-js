@@ -4,6 +4,8 @@
 import { randomUUID } from "@azure/core-util";
 import { EncryptionAlgorithm } from "../../../src/index.js";
 import type {
+  Database,
+  Container,
   ContainerDefinition,
   OperationInput,
   PatchOperation,
@@ -51,17 +53,17 @@ import type { CosmosEncryptedNumber } from "../../../src/encryption/CosmosEncryp
 import { CosmosEncryptedNumberType } from "../../../src/encryption/CosmosEncryptedNumber.js";
 import { describe, it, assert, beforeEach, beforeAll, afterAll } from "vitest";
 
-// let encryptionClient: CosmosClient;
-// let metadata1: EncryptionKeyWrapMetadata;
-// let metadata2: EncryptionKeyWrapMetadata;
-// let database: Database;
-// let encryptionContainer: Container;
-// let encryptionContainerForChangeFeed: Container;
-// let testKeyEncryptionKeyResolver: MockKeyVaultEncryptionKeyResolver;
-// let containerDefinition: ContainerDefinition;
-// let clientEncryptionPolicy: ClientEncryptionPolicy;
+let encryptionClient: CosmosClient;
+let metadata1: EncryptionKeyWrapMetadata;
+let metadata2: EncryptionKeyWrapMetadata;
+let database: Database;
+let encryptionContainer: Container;
+let encryptionContainerForChangeFeed: Container;
+let testKeyEncryptionKeyResolver: MockKeyVaultEncryptionKeyResolver;
+let containerDefinition: ContainerDefinition;
+let clientEncryptionPolicy: ClientEncryptionPolicy;
 
-// const testKeyVault = "TESTKEYSTORE_VAULT" as EncryptionKeyResolverName;
+const testKeyVault = "TESTKEYSTORE_VAULT" as EncryptionKeyResolverName;
 
 describe("ClientSideEncryption", () => {
   beforeAll(async () => {
