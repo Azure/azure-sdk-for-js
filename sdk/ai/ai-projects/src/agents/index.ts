@@ -372,8 +372,7 @@ function getAgents(context: Client): AgentsOperations {
       updateThread(context, threadId, options),
     deleteThread: (threadId: string, options?: DeleteAgentThreadOptionalParams) =>
       deleteThread(context, threadId, options),
-    listThreads: (options?: ListAgentThreadOptionalParams) =>
-      listThreads(context, options),
+    listThreads: (options?: ListAgentThreadOptionalParams) => listThreads(context, options),
 
     createRun: (threadId: string, assistantId: string, options?: CreateRunOptionalParams) =>
       createRun(context, threadId, assistantId, options ?? {}),

@@ -357,6 +357,10 @@ describe("snippets", function () {
     const thread = await client.agents.createThread({ toolResources: fileSearchTool.resources });
   });
 
+  it("listThreads", async function () {
+    const threads = client.agents.listThreads();
+  });
+
   it("createMessage", async function () {
     const message = await client.agents.createMessage(thread.id, {
       role: "user",

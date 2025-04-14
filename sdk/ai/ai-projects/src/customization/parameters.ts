@@ -94,7 +94,6 @@ export interface ListThreadsQueryParam {
 
 export type ListThreadsParameters = ListThreadsQueryParam & RequestParameters;
 
-
 export interface CreateMessageBodyParam {
   body: ThreadMessageOptions;
 }

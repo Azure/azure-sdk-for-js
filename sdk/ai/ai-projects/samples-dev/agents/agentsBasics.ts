@@ -67,7 +67,6 @@ export async function main(): Promise<void> {
   }
   console.log(`Run status: ${run.status}`);
 
-
   await client.agents.deleteAgent(agent.id);
 
   console.log(`Deleted agent, agent ID: ${agent.id}`);

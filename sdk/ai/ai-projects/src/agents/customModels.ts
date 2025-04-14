@@ -159,7 +159,9 @@ export interface DeleteAgentThreadOptionalParams extends OperationOptions {}
 /**
  * Optional parameters for deleting an agent thread.
  */
-export interface ListAgentThreadOptionalParams extends ListThreadsQueryParamProperties, OperationOptions {}
+export interface ListAgentThreadOptionalParams
+  extends ListThreadsQueryParamProperties,
+    OperationOptions {}
 /**
  * Optional parameters for getting an run step.
  */

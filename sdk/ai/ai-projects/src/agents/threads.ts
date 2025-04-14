@@ -192,7 +192,6 @@ export async function listThreads(
   );
 
   return ConverterFromWire.convertOpenAIPageableListOfAgentThreadOutput(output);
-
 }
 
 function validateCreateThreadParameters(
