@@ -1981,18 +1981,15 @@ index 0000000..6cdd9e5
 +  type CreateLoggerContextOptions,
 +  type LoggerContext,
 +} from "./logger.js";
-diff --git a/src/client/dom.d.ts b/src/logger/log-browser.mts
-similarity index 66%
-rename from src/client/dom.d.ts
-rename to src/logger/log-browser.mts
-index eabe718..6cc3fc5 100644
---- a/src/client/dom.d.ts
+diff --git a/src/logger/log-browser.mts b/src/logger/log-browser.mts
+new file mode 100644
+index 0000000..6cc3fc5
+--- /dev/null
 +++ b/src/logger/log-browser.mts
-@@ -1,4 +1,4 @@
- // Copyright (c) Microsoft Corporation.
- // Licensed under the MIT License.
- 
--/// <reference lib="dom" />
+@@ -0,0 +1,4 @@
++// Copyright (c) Microsoft Corporation.
++// Licensed under the MIT License.
++
 +export { log } from "./log.common.js";
 diff --git a/src/logger/log-react-native.mts b/src/logger/log-react-native.mts
 new file mode 100644
