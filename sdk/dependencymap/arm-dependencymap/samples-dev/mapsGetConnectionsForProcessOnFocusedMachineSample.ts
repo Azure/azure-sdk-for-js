@@ -14,24 +14,20 @@ async function mapsGetConnectionsForProcessOnFocusedMachineGeneratedByMaximumSet
   const credential = new DefaultAzureCredential();
   const subscriptionId = "D6E58BDB-45F1-41EC-A884-1FC945058848";
   const client = new DependencyMapClient(credential, subscriptionId);
-  await client.maps.getConnectionsForProcessOnFocusedMachine(
-    "rgdependencyMap",
-    "mapsTest1",
-    {
-      focusedMachineId: "abjy",
-      processIdOnFocusedMachine: "yzldgsfupsfvzlztqoqpiv",
-      filters: {
-        dateTime: {
-          startDateTimeUtc: new Date("2024-03-29T07:35:15.336Z"),
-          endDateTimeUtc: new Date("2024-03-29T07:35:15.336Z"),
-        },
-        processNameFilter: {
-          operator: "contains",
-          processNames: ["mnqtvduwzemjcvvmnnoqvcuemwhnz"],
-        },
+  await client.maps.getConnectionsForProcessOnFocusedMachine("rgdependencyMap", "mapsTest1", {
+    focusedMachineId: "abjy",
+    processIdOnFocusedMachine: "yzldgsfupsfvzlztqoqpiv",
+    filters: {
+      dateTime: {
+        startDateTimeUtc: new Date("2024-03-29T07:35:15.336Z"),
+        endDateTimeUtc: new Date("2024-03-29T07:35:15.336Z"),
+      },
+      processNameFilter: {
+        operator: "contains",
+        processNames: ["mnqtvduwzemjcvvmnnoqvcuemwhnz"],
       },
     },
-  );
+  });
 }
 
 async function main(): Promise<void> {
